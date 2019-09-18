@@ -1,7 +1,6 @@
 <template>
   <div class="Accounts">
-    <button @click="loadKeyring()">Load testing accounts</button>
-    <button @click="mapAccounts()">Map Accounts</button>
+    <button @click="loadKeyring()">Load Testing Accounts</button>
     <select v-model="theme">
       <option selected>polkadot</option>
       <option>substrate</option>
@@ -40,11 +39,6 @@ import { u8aToHex } from '@polkadot/util';
 })
 export default class Accounts extends Vue {
   public keys: any = '';
-  public tmpAcc: object = {
-    alice: 'SXYSytZ7wxpQHbRo5FzUFA9wjTfWvTQgYzhVEybWRQvBrvMS',
-    bob: 'SVyHhpNypEpW8awHeL2XVpEydcedTv1M4AZABcTqMRzx61Ja',
-    charlie: 'SW1wmzX29Ei8mCLxB7crVUhGTkL1TDtCUwpVickwdqBUNunM',
-   };
   public theme: string = 'polkadot';
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
@@ -58,8 +52,9 @@ export default class Accounts extends Vue {
     keyring.loadAll({
       ss58Format: 42, type: 'sr25519',
       isDevelopment: true });
-    // console.log(keyring.getPairs());
+
     this.keys = keyring;
+    this.mapAccounts();
   }
   public mapAccounts(): void {
     this.keyringAccounts = keyring.getPairs();

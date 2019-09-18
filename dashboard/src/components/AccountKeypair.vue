@@ -11,13 +11,13 @@
         {{meta}}
       </div>
       <div>
-        {{address}}
+        {{address.slice(0, 6)}}…{{address.slice(-6)}}
       </div>
       <div>
-        {{publicKey}}
+        publicKey {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}}
       </div>
       <div>
-        {{type}}
+        type: {{type}}
       </div>
   </div>
 </template>
