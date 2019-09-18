@@ -6,6 +6,13 @@
       <option>substrate</option>
       <option>beachball</option>
     </select>
+    <div>
+      Password <input v-model="password">
+    </div>
+    <div>Restore 
+      <Restore 
+        :password="password" />
+    </div>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -19,6 +26,9 @@
           :type="acc.type"
         />
         <button @click="forgetAccount(acc.address)">Forget</button>
+        <Backup 
+          :address="acc.address"
+          :password="password" />
       </li>
     </ul>
   </div>
@@ -29,6 +39,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import AccountKeypair from './accounts/AccountKeypair.vue';
 import Backup from './accounts/Backup.vue';
+import Restore from './accounts/Restore.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
@@ -36,11 +47,13 @@ import { u8aToHex } from '@polkadot/util';
   components: {
     AccountKeypair,
     Backup,
+    Restore,
   },
 })
 export default class Accounts extends Vue {
   public keys: any = '';
   public theme: string = 'polkadot';
+  public password: string = '0000';
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
   ];

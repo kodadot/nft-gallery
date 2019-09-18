@@ -10,9 +10,11 @@
   "dependencies": {
     "@polkadot/util": "^1.4.1",
     "@polkadot/wasm-crypto": "^0.14.1",
+    "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-identicon": "^0.0.5",
     "@vue-polkadot/vue-keyring": "^0.0.1",
     "core-js": "^2.6.5",
+    "file-saver": "^2.0.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
