@@ -9,10 +9,11 @@
     <div>
       Password <input v-model="password">
     </div>
-    <div>Restore 
+    <div> 
       <Restore 
         :password="password" />
     </div>
+    <button @click="mapAccounts()">refresh</button>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -26,7 +27,7 @@
           :type="acc.type"
         />
         <button @click="forgetAccount(acc.address)">Forget</button>
-        <Backup 
+        <Backup v-if="!acc.meta.isTesting"
           :address="acc.address"
           :password="password" />
       </li>
@@ -75,6 +76,7 @@ export default class Accounts extends Vue {
     this.keys = keyring;
     this.mapAccounts();
   }
+
   public mapAccounts(): void {
     this.keyringAccounts = keyring.getPairs();
   }

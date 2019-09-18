@@ -10,7 +10,7 @@ import FileSaver from 'file-saver';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({})
-export default class Keypair extends Vue {
+export default class Backup extends Vue {
   @Prop(String) public address!: string;
   @Prop(String) public password!: string;
 

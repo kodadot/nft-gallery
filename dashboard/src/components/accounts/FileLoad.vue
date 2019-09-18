@@ -5,9 +5,9 @@
         <input class="file-input" type="file" name="account" @change="onFileChange" />
         <span class="file-cta">
           <span class="file-icon">📂</span>
-          <span class="file-label">Choose an Account</span>
+          <!-- <span class="file-label">Choose an Account</span> -->
         </span>
-        <span class="file-name">{{account}}</span>
+        <!-- <span class="file-name">{{account}}</span> -->
       </label>
     </div>
   </div>
@@ -17,7 +17,7 @@
 import { Vue, Component, Prop, Emit, PropSync } from 'vue-property-decorator';
 
 @Component
-export default class SubkeyFileLoad extends Vue {
+export default class FileLoad extends Vue {
   @PropSync('accountToImport') private account!: any;
 
   public onFileChange(e: any): void {
