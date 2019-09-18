@@ -26,16 +26,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
-import AccountKeypair from './AccountKeypair.vue';
+import AccountKeypair from './accounts/AccountKeypair.vue';
+import Backup from './accounts/Backup.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
-    Identicon,
     AccountKeypair,
+    Backup,
   },
 })
 export default class Accounts extends Vue {

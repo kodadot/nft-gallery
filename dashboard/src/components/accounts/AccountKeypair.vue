@@ -37,7 +37,7 @@ import Identicon from '@vue-polkadot/vue-identicon';
 })
 export default class Keypair extends Vue {
   @Prop(String) public address!: string;
-  @Prop() public publicKey!: any;
+  @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
   @Prop({ default: 'no-meta'}) public meta!: string;
   @Prop({ default: 'polkadot'}) public theme!: string;
