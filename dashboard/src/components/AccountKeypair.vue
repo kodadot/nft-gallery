@@ -8,7 +8,8 @@
         />
       </div>
       <div>
-        {{meta}}
+        {{meta.name}}
+        {{meta.tags}}
       </div>
       <div>
         {{address.slice(0, 6)}}…{{address.slice(-6)}}
@@ -18,6 +19,9 @@
       </div>
       <div>
         type: {{type}}
+      </div>
+      <div>
+        {{meta}}
       </div>
   </div>
 </template>

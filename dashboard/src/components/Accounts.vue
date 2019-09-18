@@ -18,6 +18,7 @@
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
         />
+        <button @click="forgetAccount(acc.address)">Forget</button>
       </li>
     </ul>
   </div>
@@ -48,6 +49,11 @@ export default class Accounts extends Vue {
     return u8aToHex(publicKey);
   }
 
+  public forgetAccount(address: string): void {
+    keyring.forgetAccount(address);
+    this.keyringAccounts = keyring.getPairs();
+  }
+
   public loadKeyring(): void {
     keyring.loadAll({
       ss58Format: 42, type: 'sr25519',
@@ -58,7 +64,6 @@ export default class Accounts extends Vue {
   }
   public mapAccounts(): void {
     this.keyringAccounts = keyring.getPairs();
-    // this.keyringAccounts = Object.keys(importAccounts).forEach(a.publicKey => u8aToHex(a.publicKey));
   }
 
   public async mountWasmCrypto(): Promise<void> {
