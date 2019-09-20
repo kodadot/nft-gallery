@@ -69,7 +69,7 @@ export default class Accounts extends Vue {
   public keys: any = '';
   public theme: string = 'polkadot';
   public password: string = 'password';
-  public switchStyle: object = { isOutlined: true, isRounded: true, size: 'is-medium' };
+  public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-large' };
   public hideTestingAccounts: boolean = false;
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },

@@ -8,7 +8,7 @@ import { faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faTrash, faKey, faSync, faRedo, 
+library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
