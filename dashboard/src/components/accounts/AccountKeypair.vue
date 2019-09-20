@@ -9,19 +9,22 @@
       </div>
       <div>
         {{meta.name}}
-        {{meta.tags}}
+        <p 
+          v-for="t in meta.tags"
+          v-bind:key="t">
+          <b-tag v-if="meta.tags">{{t}}</b-tag>  
+        </p>
+        <b-tag type="is-dark" 
+          v-if="meta.isTesting">testing account</b-tag>
       </div>
       <div>
         {{address.slice(0, 6)}}…{{address.slice(-6)}}
       </div>
       <div>
-        publicKey {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}}
+        {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}}
       </div>
       <div>
-        type: {{type}}
-      </div>
-      <div>
-        {{meta}}
+        {{type}}
       </div>
   </div>
 </template>

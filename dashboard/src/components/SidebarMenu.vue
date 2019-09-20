@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class SidebarMenu extends Vue {}
@@ -33,6 +33,6 @@ export default class SidebarMenu extends Vue {}
 
 <style scoped>
 .menu {
-  background-color: #efefef;
+  /* background-color: #efefef; */
 }
 </style>

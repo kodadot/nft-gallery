@@ -670,6 +670,30 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@fortawesome/fontawesome-common-types@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.24.tgz#e7be36e18b2af0d56cd2211b05b7b17a0fbfa6b7"
+  integrity sha512-IPBT/1LdUVQpHcqdrh8uI2/86Fbu7933hkA/HweiCmP5QgF/8PecFM00gYvykxf0RZud8bg8zu+YfggDFUc1Kw==
+
+"@fortawesome/fontawesome-svg-core@^1.2.24":
+  version "1.2.24"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.24.tgz#327fe1fbf1fb1fb440c2b0156398b305c713349b"
+  integrity sha512-9uVGOEZwviZKbkOVX8nn8cErVqOHBAd1Fqd2OH7Iwu0vxGWdb3fFOMhaAyMXUHZpq1u5C9/HClCV49ci4WmJAg==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.24"
+
+"@fortawesome/free-solid-svg-icons@^5.11.1":
+  version "5.11.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.11.1.tgz#1290696252b2f8af75d32d7416d8181df2ba50e3"
+  integrity sha512-bB3hXON1K6mVOetTTg5VXZ4CAHg866p7MqenDkJ/eVcbWbGQRE45ojHEwkf37tWx3E8z6lcEameRwU9r5tGwjg==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.24"
+
+"@fortawesome/vue-fontawesome@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.7.tgz#121867297cafd141af78c67d92ab9f1ad4b7328b"
+  integrity sha512-YCw2Q2m4fxzyFsPOH3uDYMoJztTD+pT+AAyse4LFpbdrBg+r8ueaVT8BFnXEjrGwMDJJeXrwJ5AOC6q/JWBI4w==
+
 "@hapi/address@2.x.x":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.1.tgz#61395b5ed94c4cb19c2dc4c85969cff3d40d583f"
@@ -935,15 +959,15 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
 
-"@vue-polkadot/vue-keyring@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-keyring/-/vue-keyring-0.0.1.tgz#6a3a3df5706d03d4d223dbd9ea1ce9c860ee4d0c"
-  integrity sha512-p/jx2iuO+F+6gK/NxI5t/BHyRUxeA0lZSB1UgmJNZ4sZV8wXeuiaxjVSY2F4ip24udu3ZHsjNUMdY+sWKm5F9g==
+"@vue-polkadot/vue-keyring@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-keyring/-/vue-keyring-0.0.2.tgz#a2ccdd9c4715258eec2b00116c9010dcabb88c8d"
+  integrity sha512-v1GU8MwnTOQkinStGye3ikZOCplkKBYR8iMYtqF6aicm8FTVg3FrPMELO1u3otpCIZ9IYkrZox0rjycOpJiVIg==
   dependencies:
     "@polkadot/keyring" "^1.4.1"
     "@polkadot/types" "^0.90.1"
-    "@polkadot/util" "^1.1.1"
-    "@polkadot/util-crypto" "^1.1.1"
+    "@polkadot/util" "^1.4.1"
+    "@polkadot/util-crypto" "^1.4.1"
     "@types/store" "^2.0.2"
     "@vue-polkadot/vue-identicon" "^0.0.5"
     core-js "^2.6.5"
@@ -953,7 +977,6 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
     vue-styled-components "^1.4.9"
-    vuex "^3.1.1"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"
@@ -1879,10 +1902,10 @@ bs58@^4.0.1:
   dependencies:
     base-x "^3.0.2"
 
-buefy@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.8.3.tgz#d8eefe6c3368dde5bc80abfa33cb42736de92604"
-  integrity sha512-01aHoCy4LAD08MmUahXC8mVqtGK/kzJ45ysXskwLWILAhyLMqkZ5fvdMKD9Ky6iDsMttPHdwUe2csmdnIx9caw==
+buefy@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.8.4.tgz#0c62d559e63aee8a18876ff90056f9a8b90f686f"
+  integrity sha512-hDUUKbKxQmtYlo/IPH9H+ewEN6KulpDxfNFIPvO5z3ukYqEG29psW6oFbJGisZDEIYGxqE2jMPcBOOjm8LxJVQ==
   dependencies:
     bulma "0.7.5"
 
@@ -7967,7 +7990,7 @@ vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-vuex@^3.0.1, vuex@^3.1.1:
+vuex@^3.0.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.1.1.tgz#0c264bfe30cdbccf96ab9db3177d211828a5910e"
   integrity sha512-ER5moSbLZuNSMBFnEBVGhQ1uCBNJslH9W/Dw2W7GZN23UQA69uapP5GTT9Vm8Trc0PzBSVt6LzF3hGjmv41xcg==

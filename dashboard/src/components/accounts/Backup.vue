@@ -1,6 +1,8 @@
 <template>
   <div id="Backup">
-      <button @click="makeBackup(address, password)">Backup</button>
+      <b-button type="is-light" @click="makeBackup(address, password)">
+        <font-awesome-icon icon="cloud-download-alt"/>
+        Backup</b-button>
   </div>
 </template>
 

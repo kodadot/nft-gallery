@@ -45,4 +45,8 @@ export default class Dashboard extends Vue {}
   .friendly-view #routerview {
     flex: 10;
   }
+
+  .friendly-view {
+    height: 100vh;
+  }
 </style>
