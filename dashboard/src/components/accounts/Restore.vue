@@ -1,9 +1,9 @@
 <template>
   <div id="Restore">
       <FileLoad :accountToImport.sync="accountToImport" />
-      <button @click="OnRestore()">
+      <b-button type="is-light" @click="OnRestore()">
         <font-awesome-icon icon="sync"/>
-        Restore</button>
+        Restore Account</b-button>
   </div>
 </template>
 

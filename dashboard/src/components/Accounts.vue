@@ -1,40 +1,46 @@
 <template>
   <div class="Accounts">
-    <button @click="loadKeyring()">
+    <b-button type="is-primary" @click="loadKeyring()">
       <font-awesome-icon icon="play"/>
-      Load Testing Accounts</button>
-    <select v-model="theme">
+      Load Testing Accounts</b-button>
+      <b-switch v-model="hideTestingAccounts"
+        :outlined="switchStyle.isOutlined"
+        :rounded="switchStyle.isRounded"
+        :size="switchStyle.size"> Hide Testing Acc
+      </b-switch>
+    <b-select v-model="theme">
       <option selected>polkadot</option>
       <option>substrate</option>
       <option>beachball</option>
-    </select>
+    </b-select>
     <div>
-      <font-awesome-icon icon="key"/> 
-      Password 
-      <input v-model="password">
+      <font-awesome-icon icon="key"/> Password 
+      <b-input type="passowrd" v-model="password" 
+        password-reveal></b-input>
     </div>
     <div> 
       <Restore 
         :password="password" />
     </div>
-    <button @click="mapAccounts()">
+    <b-button type="is-light" @click="mapAccounts()">
       <font-awesome-icon icon="redo"/>
-      refresh</button>
+      Refresh Accounts</b-button>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
-      >
-        <AccountKeypair
+      > 
+        <AccountKeypair v-if="hideTestingAccounts == !acc.meta.isTesting"
           :address="acc.address"
           :theme="theme"
           :meta="acc.meta"
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
         />
-        <button @click="forgetAccount(acc.address)">
+        <b-button v-if="hideTestingAccounts == !acc.meta.isTesting"
+          type="is-warning" @click="forgetAccount(acc.address)">
           <font-awesome-icon icon="trash"/>  
-          Forget</button>
+          Forget Account</b-button>
         <Backup v-if="!acc.meta.isTesting"
           :address="acc.address"
           :password="password" />
@@ -63,6 +69,8 @@ export default class Accounts extends Vue {
   public keys: any = '';
   public theme: string = 'polkadot';
   public password: string = 'password';
+  public switchStyle: object = { isOutlined: true, isRounded: true, size: 'is-medium' };
+  public hideTestingAccounts: boolean = false;
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
   ];

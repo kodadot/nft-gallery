@@ -3,11 +3,12 @@
     <div class="file is-info has-name is-fullwidth is-right">
       <label class="file-label">
         <input class="file-input" type="file" name="account" @change="onFileChange" />
-        <span class="file-cta">
-          <span class="file-icon">📂</span>
-          <!-- <span class="file-label">Choose an Account</span> -->
-        </span>
-        <!-- <span class="file-name">{{account}}</span> -->
+        <a class="button is-primary">
+          <span>
+            <font-awesome-icon icon="folder-open"/>
+            Choose an Account</span>
+        </a>
+        <span class="file-name">{{account}}</span>
       </label>
     </div>
   </div>

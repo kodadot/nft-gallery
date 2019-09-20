@@ -9,7 +9,9 @@
       </div>
       <div>
         {{meta.name}}
-        {{meta.tags}}
+        <b-tag v-if="meta.tags">{{meta.tags}}</b-tag>
+        <b-tag type="is-dark" 
+          v-if="meta.isTesting">testing account</b-tag>
       </div>
       <div>
         {{address.slice(0, 6)}}…{{address.slice(-6)}}
@@ -19,8 +21,6 @@
       </div>
       <div>
         type: {{type}}
-      </div>
-      <div>
         {{meta}}
       </div>
   </div>

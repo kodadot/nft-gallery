@@ -5,11 +5,11 @@ import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash, faKey, faSync, faRedo,
-  faCloudDownloadAlt, faPlay } from '@fortawesome/free-solid-svg-icons';
+  faCloudDownloadAlt, faPlay, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faTrash, faKey, faSync, faRedo, 
-  faCloudDownloadAlt, faPlay);
+  faCloudDownloadAlt, faPlay, faFolderOpen );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
