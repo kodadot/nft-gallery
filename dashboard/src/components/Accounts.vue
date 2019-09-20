@@ -1,19 +1,25 @@
 <template>
   <div class="Accounts">
-    <button @click="loadKeyring()">Load Testing Accounts</button>
+    <button @click="loadKeyring()">
+      <font-awesome-icon icon="play"/>
+      Load Testing Accounts</button>
     <select v-model="theme">
       <option selected>polkadot</option>
       <option>substrate</option>
       <option>beachball</option>
     </select>
     <div>
-      Password <input v-model="password">
+      <font-awesome-icon icon="key"/> 
+      Password 
+      <input v-model="password">
     </div>
     <div> 
       <Restore 
         :password="password" />
     </div>
-    <button @click="mapAccounts()">refresh</button>
+    <button @click="mapAccounts()">
+      <font-awesome-icon icon="redo"/>
+      refresh</button>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -26,7 +32,9 @@
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
         />
-        <button @click="forgetAccount(acc.address)">Forget</button>
+        <button @click="forgetAccount(acc.address)">
+          <font-awesome-icon icon="trash"/>  
+          Forget</button>
         <Backup v-if="!acc.meta.isTesting"
           :address="acc.address"
           :password="password" />
@@ -54,7 +62,7 @@ import { u8aToHex } from '@polkadot/util';
 export default class Accounts extends Vue {
   public keys: any = '';
   public theme: string = 'polkadot';
-  public password: string = '0000';
+  public password: string = 'password';
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
   ];
@@ -65,7 +73,7 @@ export default class Accounts extends Vue {
 
   public forgetAccount(address: string): void {
     keyring.forgetAccount(address);
-    this.keyringAccounts = keyring.getPairs();
+    this.mapAccounts();
   }
 
   public loadKeyring(): void {

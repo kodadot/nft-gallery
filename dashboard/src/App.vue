@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    <img height="200px" src="./assets/vue-polkadot.png">
+    <img height="100px" src="./assets/vue-polkadot.png">
     <Accounts/>
   </div>
 </template>
