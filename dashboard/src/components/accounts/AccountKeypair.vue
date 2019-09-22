@@ -26,12 +26,20 @@
       <div>
         {{type}}
       </div>
+      <div>
+        <b-button
+          type="is-info" @click="forgetAccount(address)">
+          <font-awesome-icon icon="trash"/>  
+          Forget Account
+        </b-button>
+      </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
+import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
@@ -45,5 +53,9 @@ export default class Keypair extends Vue {
   @Prop({ default: 'no-meta'}) public meta!: string;
   @Prop({ default: 'polkadot'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
+
+  public forgetAccount(address: string): void {
+    keyring.forgetAccount(address);
+  }
 }
 </script>
