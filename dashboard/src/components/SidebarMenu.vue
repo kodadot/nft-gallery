@@ -8,17 +8,16 @@
         alt="Lightweight UI components for Vue.js based on Bulma"
       />
     </figure>
-    Polkadash
+    dashboard
     </div>
     <b-menu>
       <b-menu-list>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-        <b-menu-item icon="information-outline" label="Info"></b-menu-item>
+        <b-menu-item icon="users" label="acc"></b-menu-item>
+        <b-menu-item icon="address-book" label="adrbk" disabled></b-menu-item>
+        <b-menu-item icon="calendar-check" label="dmcrcy" disabled></b-menu-item>
+        <b-menu-item icon="sync" label="xtrnscs" disabled></b-menu-item>
+        <b-menu-item icon="paper-plane" label="trnsfr" disabled></b-menu-item>
+        <b-menu-item icon="cogs" label="sttngs" disabled></b-menu-item>
       </b-menu-list>
     </b-menu>
   </div>

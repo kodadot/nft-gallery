@@ -3,7 +3,9 @@ import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash, faKey, faSync, faRedo,
-  faCloudDownloadAlt, faPlay, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+  faCloudDownloadAlt, faPlay, faFolderOpen,
+  faUsers, faAddressBook, faPaperPlane,
+  faCalendarCheck, faCogs, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import App from './App.vue';
@@ -11,11 +13,16 @@ import store from './store';
 import router from './router';
 
 library.add(faTrash, faKey, faSync, faRedo,
-  faCloudDownloadAlt, faPlay, faFolderOpen );
+  faCloudDownloadAlt, faPlay, faFolderOpen,
+  faUsers, faAddressBook, faPaperPlane,
+  faCalendarCheck, faCogs, faEye, faEyeSlash );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconPack: 'fas',
+  defaultIconComponent: 'font-awesome-icon',
+});
 Vue.config.productionTip = false;
 
 new Vue({
