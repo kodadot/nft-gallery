@@ -2,17 +2,20 @@
   <div id="createAccount">
     <section>
       <div>
-        identicon
+        <Identicon 
+          :value="newAccount.address" />
         {{newAccount.name.toUpperCase()}}
-        ss58address
+        {{newAccount.address.slice(0,6)}}...{{newAccount.address.slice(-6)}}
       </div>
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
       </b-field>
       <b-field label="mnemonic seed">
-        <b-input v-model="newAccount.mnemonicSeed"></b-input>
+        <b-input v-model="newAccount.mnemonicSeed"
+          :expanded='true'>
+        </b-input>
         <p class="control">
-          <button class="button is-primary">
+          <button class="button is-primary" @click="generateSeed(); addressFromSeed()">
             <font-awesome-icon icon="sync"/>
              Mnemonic
           </button>
@@ -35,13 +38,19 @@
       </b-field>
     </section>
     <div>
-      
+      <b-button 
+        type="is-primary"
+        @click="onCreate">Create
+      </b-button>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
+import { keyExtractSuri, mnemonicGenerate,
+  mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 @Component({
   components: {
@@ -49,7 +58,7 @@ import Identicon from '@vue-polkadot/vue-identicon';
   },
 })
 export default class Create extends Vue {
-  public keypairType: object = {
+  public keypairType: any = {
     selected: 'sr25519',
     options: [
       { text: 'Schnorrkel (sr25519)', value: 'sr25519' },
@@ -58,12 +67,40 @@ export default class Create extends Vue {
   };
 
   public createPassword: string = '';
-  public newAccount: object = {
-    password: '',
+  public newAccount: any = {
+    password: '0000',
     name: 'new account',
-    mnemonicSeed: '',
+    tags: ['x'],
+    mnemonicSeed: 'states imitate exhibit age urban pet silver behave erase salute slogan office',
     keypairType: this.keypairType,
     derivationPath: '',
+    address: '',
   };
+
+  public generateSeed(): string {
+    return this.newAccount.mnemonicSeed = mnemonicGenerate();
+  }
+
+  public onCreate(): void {
+    try {
+      const meta = {
+        name: this.newAccount.name,
+        tags: this.newAccount.tags,
+        whenCreated: Date.now() };
+      const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+        this.newAccount.password, meta, this.keypairType.selected);
+      this.$emit('refreshAccounts');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  public addressFromSeed(): any {
+    return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
+      {}, this.keypairType.selected).address;
+  }
+  public mounted(): void {
+    this.generateSeed();
+  }
 }
 </script>

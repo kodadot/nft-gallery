@@ -26,7 +26,8 @@
     <b-button type="is-light" @click="mapAccounts()">
       <font-awesome-icon icon="redo"/>
       Refresh Accounts</b-button>
-    <Create/>
+    <Create
+      @refreshAccounts="mapAccounts" />
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -85,7 +86,6 @@ export default class Accounts extends Vue {
     keyring.loadAll({
       ss58Format: 42, type: 'sr25519',
       isDevelopment: true });
-
     this.keys = keyring;
     this.mapAccounts();
   }

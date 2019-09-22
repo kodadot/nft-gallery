@@ -1,14 +1,9 @@
 <template>
   <div id="dashboard">
-    
     <div class="friendly-view" >
     <SidebarMenu class="happy-menu" />
     <router-view id='routerview'/>
     </div>
-    
-    <!-- <img height="200px" src="./assets/vue-polkadot.png"> -->
-    <!-- <Accounts/> -->
-
   </div>
 </template>
 
