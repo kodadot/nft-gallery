@@ -8,7 +8,7 @@
             <font-awesome-icon icon="folder-open"/>
             Choose an Account</span>
         </a>
-        <span class="file-name">{{account}}</span>
+        <span class="file-name">{{account.slice(12, 25)}}...</span>
       </label>
     </div>
   </div>
