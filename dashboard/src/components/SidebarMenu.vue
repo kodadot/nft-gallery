@@ -1,7 +1,7 @@
 <template>
   <div>
       <div>
-    <figure class="image is-48x48">
+        <figure class="image is-52x52">
       <img
         class="is-rounded"
         src="../assets/vue-polkadot.png"
@@ -12,7 +12,7 @@
     </div>
     <b-menu>
       <b-menu-list>
-        <b-menu-item icon="users" label="acc"></b-menu-item>
+        <b-menu-item icon="users" label="accnt"></b-menu-item>
         <b-menu-item icon="address-book" label="adrbk" disabled></b-menu-item>
         <b-menu-item icon="calendar-check" label="dmcrcy" disabled></b-menu-item>
         <b-menu-item icon="sync" label="xtrnscs" disabled></b-menu-item>
