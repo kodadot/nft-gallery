@@ -27,6 +27,7 @@ export default class Restore extends Vue {
     try {
       const json = JSON.parse(this.accountToImport);
       const pair = keyring.restoreAccount(json, this.password);
+      this.$emit('refreshAccounts');
     } catch (error) {
       console.error(error);
     }

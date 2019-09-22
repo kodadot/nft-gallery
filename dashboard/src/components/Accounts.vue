@@ -20,7 +20,8 @@
     </div>
     <div> 
       <Restore 
-        :password="password" />
+        :password="password"
+        @refreshAccounts="mapAccounts" />
     </div>
     <b-button type="is-light" @click="mapAccounts()">
       <font-awesome-icon icon="redo"/>
@@ -36,14 +37,9 @@
           :meta="acc.meta"
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
+          @refreshAccounts="mapAccounts"
+          :password="password"
         />
-        <b-button v-if="hideTestingAccounts == !acc.meta.isTesting"
-          type="is-warning" @click="forgetAccount(acc.address)">
-          <font-awesome-icon icon="trash"/>  
-          Forget Account</b-button>
-        <Backup v-if="!acc.meta.isTesting"
-          :address="acc.address"
-          :password="password" />
       </li>
     </ul>
   </div>
@@ -53,7 +49,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import AccountKeypair from './accounts/AccountKeypair.vue';
-import Backup from './accounts/Backup.vue';
 import Restore from './accounts/Restore.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
@@ -61,7 +56,6 @@ import { u8aToHex } from '@polkadot/util';
 @Component({
   components: {
     AccountKeypair,
-    Backup,
     Restore,
   },
 })
@@ -99,12 +93,12 @@ export default class Accounts extends Vue {
 
   public async mountWasmCrypto(): Promise<void> {
     await waitReady();
-    console.log('loaded');
-    // console.log(keyring.encodeAddress('0x6674a2958bf589aca9056d57b26f758c50d5aa95aa36dcfbb8659a8bdf7eef6d'));
+    console.log('wasmCrypto loaded');
   }
 
   public mounted(): void {
     this.mountWasmCrypto();
+
   }
 }
 </script>

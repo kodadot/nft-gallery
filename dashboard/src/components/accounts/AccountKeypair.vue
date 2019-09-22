@@ -14,7 +14,7 @@
           v-bind:key="t">
           <b-tag v-if="meta.tags">{{t}}</b-tag>  
         </p>
-        <b-tag type="is-dark" 
+        <b-tag type="is-light" 
           v-if="meta.isTesting">testing account</b-tag>
       </div>
       <div>
@@ -28,10 +28,15 @@
       </div>
       <div>
         <b-button
-          type="is-info" @click="forgetAccount(address)">
+          type="is-warning" @click="forgetAccount(address)">
           <font-awesome-icon icon="trash"/>  
           Forget Account
         </b-button>
+      </div>
+      <div>
+        <Backup v-if="!meta.isTesting"
+          :address="address"
+          :password="password" />
       </div>
   </div>
 </template>
@@ -39,10 +44,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
+import Backup from './Backup.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
+    Backup,
     Identicon,
   },
 })
@@ -53,9 +60,12 @@ export default class Keypair extends Vue {
   @Prop({ default: 'no-meta'}) public meta!: string;
   @Prop({ default: 'polkadot'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
+  // temporary prop
+  @Prop(String) public password!: string;
 
   public forgetAccount(address: string): void {
     keyring.forgetAccount(address);
+    this.$emit('refreshAccounts');
   }
 }
 </script>
