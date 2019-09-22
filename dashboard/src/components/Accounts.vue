@@ -15,7 +15,7 @@
     </b-select>
     <div>
       <font-awesome-icon icon="key"/> Password 
-      <b-input type="passowrd" v-model="password" 
+      <b-input type="password" v-model="password" 
         password-reveal></b-input>
     </div>
     <div> 
@@ -26,6 +26,7 @@
     <b-button type="is-light" @click="mapAccounts()">
       <font-awesome-icon icon="redo"/>
       Refresh Accounts</b-button>
+    <Create/>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -50,12 +51,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import AccountKeypair from './accounts/AccountKeypair.vue';
 import Restore from './accounts/Restore.vue';
+import Create from './accounts/Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
     AccountKeypair,
+    Create,
     Restore,
   },
 })

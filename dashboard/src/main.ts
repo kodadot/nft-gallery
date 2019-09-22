@@ -22,6 +22,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
   defaultIconComponent: 'font-awesome-icon',
+  defaultFieldLabelPosition: 'inside',
   customIconPacks: {
     fas: {
       sizes: {
