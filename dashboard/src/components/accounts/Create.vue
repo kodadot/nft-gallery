@@ -2,10 +2,17 @@
   <div id="createAccount">
     <section>
       <div>
-        <Identicon 
-          :value="newAccount.address" />
-        {{newAccount.name.toUpperCase()}}
-        {{newAccount.address.slice(0,6)}}...{{newAccount.address.slice(-6)}}
+        <b-field grouped>
+          <b-field>
+            <Identicon 
+              :value="newAccount.address"
+              size="64" />
+          </b-field>
+          <b-field>
+            {{newAccount.name.toUpperCase()}}<br>
+            {{newAccount.address.slice(0,6)}}...{{newAccount.address.slice(-6)}}
+          </b-field>
+        </b-field>
       </div>
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
@@ -24,15 +31,21 @@
       <b-field label="password">
         <b-input v-model="newAccount.password" password-reveal></b-input>
       </b-field>
-      <b-field label="keypair crypto type">
-        <b-select v-model="keypairType.selected">
-          <option v-for="opt in keypairType.options"
-            v-bind:key="opt.value"
-            v-bind:value="opt.value">
-            {{ opt.text }}
-          </option>
-        </b-select>
+      <b-field grouped>
+        <b-field label="keypair crypto type">
+          <b-select v-model="keypairType.selected">
+            <option v-for="opt in keypairType.options"
+              v-bind:key="opt.value"
+              v-bind:value="opt.value">
+              {{ opt.text }}
+            </option>
+          </b-select>
+        </b-field>
+        <b-field label="tags">
+          <b-input v-model="newAccount.tags"></b-input>
+        </b-field>
       </b-field>
+      
       <b-field label="secret derivation path">
         <b-input v-model="newAccount.derivationPath"></b-input>
       </b-field>
@@ -70,7 +83,7 @@ export default class Create extends Vue {
   public newAccount: any = {
     password: '0000',
     name: 'new account',
-    tags: ['x'],
+    tags: '',
     mnemonicSeed: 'states imitate exhibit age urban pet silver behave erase salute slogan office',
     keypairType: this.keypairType,
     derivationPath: '',
@@ -85,7 +98,7 @@ export default class Create extends Vue {
     try {
       const meta = {
         name: this.newAccount.name,
-        tags: this.newAccount.tags,
+        tags: this.newAccount.tags.split(','),
         whenCreated: Date.now() };
       const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
         this.newAccount.password, meta, this.keypairType.selected);

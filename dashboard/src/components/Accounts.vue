@@ -9,23 +9,24 @@
         :size="switchStyle.size"> Hide Testing Acc
       </b-switch>
     <b-select v-model="theme">
-      <option selected>polkadot</option>
-      <option>substrate</option>
+      <option selected>substrate</option>
+      <option>polkadot</option>
       <option>beachball</option>
     </b-select>
     <div>
-      <font-awesome-icon icon="key"/> Password 
-      <b-input type="password" v-model="password" 
-        password-reveal></b-input>
+      <b-field label="password">
+        <b-input type="password" v-model="password" 
+          password-reveal></b-input>
+      </b-field>
     </div>
     <div> 
       <Restore 
         :password="password"
         @refreshAccounts="mapAccounts" />
+      <b-button type="is-light" @click="mapAccounts()">
+        <font-awesome-icon icon="redo"/>
+        Refresh Accounts</b-button>
     </div>
-    <b-button type="is-light" @click="mapAccounts()">
-      <font-awesome-icon icon="redo"/>
-      Refresh Accounts</b-button>
     <Create
       @refreshAccounts="mapAccounts" />
     <ul>
@@ -65,7 +66,7 @@ import { u8aToHex } from '@polkadot/util';
 })
 export default class Accounts extends Vue {
   public keys: any = '';
-  public theme: string = 'polkadot';
+  public theme: string = 'substrate';
   public password: string = 'password';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-large' };
   public hideTestingAccounts: boolean = false;
