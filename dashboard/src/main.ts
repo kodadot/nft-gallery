@@ -22,7 +22,18 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
   defaultIconComponent: 'font-awesome-icon',
+  customIconPacks: {
+    fas: {
+      sizes: {
+        'default': 'lg',
+        'is-small': '1x',
+        'is-medium': '2x',
+        'is-large': '3x',
+      },
+    },
+  },
 });
+
 Vue.config.productionTip = false;
 
 new Vue({
