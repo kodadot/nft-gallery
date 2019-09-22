@@ -28,6 +28,7 @@
         Refresh Accounts</b-button>
     </div>
     <Create
+      :theme="theme"
       @refreshAccounts="mapAccounts" />
     <ul>
       <li 

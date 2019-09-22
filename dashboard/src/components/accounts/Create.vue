@@ -6,6 +6,7 @@
           <b-field>
             <Identicon 
               :value="newAccount.address"
+              :theme="theme"
               size="64" />
           </b-field>
           <b-field>
@@ -71,6 +72,8 @@ import { keyExtractSuri, mnemonicGenerate,
   },
 })
 export default class Create extends Vue {
+  @Prop(String) public theme!: string;
+
   public keypairType: any = {
     selected: 'sr25519',
     options: [
