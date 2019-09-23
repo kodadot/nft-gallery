@@ -27,7 +27,7 @@
           <button class="button is-primary" 
             @click="generateSeed(); addressFromSeed(); validateMnemonic()">
             <font-awesome-icon icon="sync"/>
-             Mnemonic
+              Mnemonic
           </button>
         </p>
       </b-field>

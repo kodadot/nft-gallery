@@ -1,18 +1,21 @@
 <template>
   <div class="Accounts">
-    <b-button type="is-primary" @click="loadKeyring()">
-      <font-awesome-icon icon="play"/>
-      Load Testing Accounts</b-button>
+    <b-field grouped group-multiline>
+      <!-- <b-button type="is-primary" @click="loadKeyring()">
+        <font-awesome-icon icon="play"/>
+        Load Testing Accounts
+      </b-button> -->
+      <b-select v-model="theme">
+        <option selected>substrate</option>
+        <option>polkadot</option>
+        <option>beachball</option>
+      </b-select>
       <b-switch v-model="hideTestingAccounts"
         :outlined="switchStyle.isOutlined"
         :rounded="switchStyle.isRounded"
         :size="switchStyle.size"> Hide Testing Acc
       </b-switch>
-    <b-select v-model="theme">
-      <option selected>substrate</option>
-      <option>polkadot</option>
-      <option>beachball</option>
-    </b-select>
+    </b-field>
     <div>
       <b-field label="password">
         <b-input type="password" v-model="password" 
@@ -71,8 +74,8 @@ export default class Accounts extends Vue {
   public keys: any = '';
   public theme: string = 'substrate';
   public password: string = 'password';
-  public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-large' };
-  public hideTestingAccounts: boolean = false;
+  public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
+  public hideTestingAccounts: boolean = true;
   public modal: object = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [

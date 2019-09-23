@@ -1,42 +1,41 @@
 <template>
   <div id="AccountKeypair">
       <div>
-        <Identicon
-          :value="address"
-          :theme="theme"
-          :size="size"
-        />
+        <b-field grouped>
+          <b-field>
+            <Identicon
+              :value="address"
+              :theme="theme"
+              :size="size" />
+          </b-field>
+          <b-field grouped multiline>
+            {{meta.name}} <br>
+            {{address.slice(0, 6)}}…{{address.slice(-6)}}<br>
+            {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} || {{type}}
+            <p v-if="meta.tags">
+            <b-tag 
+              v-for="t in meta.tags"
+              v-bind:key="t"
+              >{{t}}
+            </b-tag>
+            <b-tag type="is-light" 
+              v-if="meta.isTesting">testing account
+            </b-tag>  
+            </p>
+          </b-field>
+        </b-field>
       </div>
       <div>
-        {{meta.name}}
-        <p 
-          v-for="t in meta.tags"
-          v-bind:key="t">
-          <b-tag v-if="meta.tags">{{t}}</b-tag>  
-        </p>
-        <b-tag type="is-light" 
-          v-if="meta.isTesting">testing account</b-tag>
-      </div>
-      <div>
-        {{address.slice(0, 6)}}…{{address.slice(-6)}}
-      </div>
-      <div>
-        {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}}
-      </div>
-      <div>
-        {{type}}
-      </div>
-      <div>
-        <b-button
-          type="is-warning" @click="forgetAccount(address)">
-          <font-awesome-icon icon="trash"/>  
-          Forget Account
-        </b-button>
-      </div>
-      <div>
-        <Backup v-if="!meta.isTesting"
-          :address="address"
-          :password="password" />
+        <b-field grouped multiline>
+          <b-button
+            type="is-warning" @click="forgetAccount(address)">
+            <font-awesome-icon icon="trash"/>  
+            Forget Account
+          </b-button>
+          <Backup v-if="!meta.isTesting"
+            :address="address"
+            :password="password" />
+        </b-field>
       </div>
   </div>
 </template>
