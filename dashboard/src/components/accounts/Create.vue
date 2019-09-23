@@ -31,8 +31,10 @@
           </button>
         </p>
       </b-field>
-      <b-field label="password">
-        <b-input v-model="newAccount.password" password-reveal></b-input>
+      <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
+        <b-input v-model="newAccount.password"
+         @input="validatePassword(newAccount.password)"
+         password-reveal></b-input>
       </b-field>
       <b-field grouped>
         <b-field label="keypair crypto type">
@@ -48,7 +50,6 @@
           <b-input v-model="newAccount.tags"></b-input>
         </b-field>
       </b-field>
-      
       <b-field label="secret derivation path">
         <b-input v-model="newAccount.derivationPath"></b-input>
       </b-field>
@@ -84,10 +85,10 @@ export default class Create extends Vue {
     ],
   };
 
-
   public isValidMnemonic: boolean = false;
+  public isPassValid: boolean = false;
   public newAccount: any = {
-    password: '0000',
+    password: '',
     name: 'new account',
     tags: '',
     mnemonicSeed: 'states imitate exhibit age urban pet silver behave erase salute slogan office',
@@ -96,10 +97,13 @@ export default class Create extends Vue {
     address: '',
   };
 
-  public validateMnemonic(): void {
-    this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
+  public validateMnemonic(): boolean {
+    return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
   }
 
+  public validatePassword(password: string): boolean {
+    return this.isPassValid = keyring.isPassValid(password);
+  }
   public generateSeed(): string {
     return this.newAccount.mnemonicSeed = mnemonicGenerate();
   }
