@@ -1,40 +1,55 @@
 <template>
   <div class="field">
-    <div class="file is-info has-name is-fullwidth is-right">
-      <label class="file-label">
-        <input class="file-input" type="file" name="account" @change="onFileChange" />
-        <a class="button is-primary">
-          <span>
-            <font-awesome-icon icon="folder-open"/>
-            Choose an Account</span>
-        </a>
-        <span class="file-name">{{account.slice(12, 25)}}...</span>
-      </label>
-    </div>
+    <b-field>
+      <b-upload v-model="toImport" 
+        name="account"
+        native
+        drag-drop>
+        <section class="section">
+            <div class="content has-text-centered">
+                <p>
+                    <b-icon
+                        icon="upload"
+                        size="is-large">
+                    </b-icon>
+                </p>
+                <p>Drop your account here or click to upload</p>
+                <div class="tags">
+                  <span>
+                  {{account.slice(12, 30)}}
+                  </span>
+                </div>
+            </div>
+        </section>
+      </b-upload>
+    </b-field>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit, PropSync } from 'vue-property-decorator';
+import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator';
 
 @Component
 export default class FileLoad extends Vue {
-  @PropSync('accountToImport') private account!: any;
+  public toImport: any = null;
+  @PropSync('accountToImport', { type: String }) private account!: any;
 
-  public onFileChange(e: any): void {
-    const files = e.target.files;
-    if (!files.length) {
-      return;
-    }
-    this.createInput(files[0]);
-  }
+  // public onFileChange(e: any): void {
+  //   const files = e.target.files;
+  //   if (!files.length) {
+  //     return;
+  //   }
+  //   this.createInput(files[0]);
+  // }
 
-  private createInput(file: any): void {
+  @Watch('toImport')
+  public createInput(file: any): void {
     const reader = new FileReader();
     reader.onload = () => {
       this.account = reader.result;
     };
     reader.readAsText(file);
   }
+
 }
 </script>

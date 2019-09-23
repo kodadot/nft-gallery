@@ -6,7 +6,7 @@ import { faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+  faExclamationCircle, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import App from './App.vue';
@@ -17,7 +17,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle );
+  faExclamationCircle, faUpload );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

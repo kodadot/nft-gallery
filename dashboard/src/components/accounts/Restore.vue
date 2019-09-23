@@ -1,6 +1,7 @@
 <template>
   <div id="Restore">
       <FileLoad :accountToImport.sync="accountToImport" />
+      
       <b-button type="is-light" @click="OnRestore()">
         <font-awesome-icon icon="sync"/>
         Restore Account</b-button>
@@ -21,9 +22,10 @@ import FileLoad from './FileLoad.vue';
 export default class Restore extends Vue {
   @Prop(String) public password!: string;
 
-  public accountToImport: any = '';
+  public accountToImport: string = '';
 
   public OnRestore(): void {
+    // console.log(this.accountToImport);
     try {
       const json = JSON.parse(this.accountToImport);
       const pair = keyring.restoreAccount(json, this.password);

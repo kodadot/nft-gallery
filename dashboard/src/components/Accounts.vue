@@ -73,7 +73,7 @@ export default class Accounts extends Vue {
   public keyringLoaded: boolean = false;
   public keys: any = '';
   public theme: string = 'substrate';
-  public password: string = 'password';
+  public password: string = '';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
   public hideTestingAccounts: boolean = true;
   public modal: object = {
