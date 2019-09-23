@@ -18,12 +18,14 @@
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
       </b-field>
-      <b-field label="mnemonic seed">
+      <b-field label="mnemonic seed" v-bind:type="{ 'is-danger': !isValidMnemonic }">
         <b-input v-model="newAccount.mnemonicSeed"
+          @input="validateMnemonic()"
           :expanded='true'>
         </b-input>
         <p class="control">
-          <button class="button is-primary" @click="generateSeed(); addressFromSeed()">
+          <button class="button is-primary" 
+            @click="generateSeed(); addressFromSeed(); validateMnemonic()">
             <font-awesome-icon icon="sync"/>
              Mnemonic
           </button>
@@ -73,7 +75,7 @@ import { keyExtractSuri, mnemonicGenerate,
 })
 export default class Create extends Vue {
   @Prop(String) public theme!: string;
-
+  // will be replaced by uiSettings
   public keypairType: any = {
     selected: 'sr25519',
     options: [
@@ -82,7 +84,8 @@ export default class Create extends Vue {
     ],
   };
 
-  public createPassword: string = '';
+
+  public isValidMnemonic: boolean = false;
   public newAccount: any = {
     password: '0000',
     name: 'new account',
@@ -92,6 +95,10 @@ export default class Create extends Vue {
     derivationPath: '',
     address: '',
   };
+
+  public validateMnemonic(): void {
+    this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
+  }
 
   public generateSeed(): string {
     return this.newAccount.mnemonicSeed = mnemonicGenerate();

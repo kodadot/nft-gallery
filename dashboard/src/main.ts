@@ -5,7 +5,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
-  faCalendarCheck, faCogs, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+  faCalendarCheck, faCogs, faEye, faEyeSlash,
+  faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import App from './App.vue';
@@ -15,7 +16,8 @@ import router from './router';
 library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
-  faCalendarCheck, faCogs, faEye, faEyeSlash );
+  faCalendarCheck, faCogs, faEye, faEyeSlash,
+  faExclamationCircle );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
