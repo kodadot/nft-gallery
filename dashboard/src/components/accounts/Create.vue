@@ -91,7 +91,7 @@ export default class Create extends Vue {
     password: '',
     name: 'new account',
     tags: '',
-    mnemonicSeed: 'states imitate exhibit age urban pet silver behave erase salute slogan office',
+    mnemonicSeed: '',
     keypairType: this.keypairType,
     derivationPath: '',
     address: '',
@@ -104,6 +104,7 @@ export default class Create extends Vue {
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);
   }
+
   public generateSeed(): string {
     return this.newAccount.mnemonicSeed = mnemonicGenerate();
   }
@@ -126,8 +127,15 @@ export default class Create extends Vue {
     return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
       {}, this.keypairType.selected).address;
   }
-  public mounted(): void {
+
+  public coldStart(): void {
     this.generateSeed();
+    this.addressFromSeed();
+    this.validateMnemonic();
   }
+  public mounted(): void {
+    this.coldStart();
+  }
+
 }
 </script>

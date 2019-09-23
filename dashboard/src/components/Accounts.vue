@@ -28,6 +28,7 @@
         Refresh Accounts</b-button>
     </div>
     <Create
+      v-if="keyringLoaded"
       :theme="theme"
       @refreshAccounts="mapAccounts" />
     <ul>
@@ -66,6 +67,7 @@ import { u8aToHex } from '@polkadot/util';
   },
 })
 export default class Accounts extends Vue {
+  public keyringLoaded: boolean = false;
   public keys: any = '';
   public theme: string = 'substrate';
   public password: string = 'password';
@@ -90,6 +92,7 @@ export default class Accounts extends Vue {
     keyring.loadAll({
       ss58Format: 42, type: 'sr25519',
       isDevelopment: true });
+    this.keyringLoaded = true;
     this.keys = keyring;
     this.mapAccounts();
   }
@@ -101,6 +104,8 @@ export default class Accounts extends Vue {
   public async mountWasmCrypto(): Promise<void> {
     await waitReady();
     console.log('wasmCrypto loaded');
+    this.loadKeyring();
+    console.log('keyring init');
   }
 
   public mounted(): void {
