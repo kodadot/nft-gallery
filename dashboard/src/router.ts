@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import FourZeroFour from './components/FourZeroFour.vue';
 import Accounts from './components/accounts/Accounts.vue';
 import Addressbook from './components/addressbook/Addressbook.vue';
 import Transfer from './components/transfer/Transfer.vue';
@@ -32,6 +33,11 @@ export default new Router({
       path: '/democracy',
       name: 'democracy',
       component: Democracy,
+    },
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
     },
     // {
     //   path: '/chat',

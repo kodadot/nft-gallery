@@ -1,5 +1,5 @@
 <template>
-  <div id="AccountKeypair">
+  <div id="AddressBookKeypair">
       <div>
         <b-field grouped>
           <b-field>
@@ -36,8 +36,7 @@
             :address="address"
             :password="password" />
         </b-field>
-          <ChangePass v-if="address && !meta.isTesting"
-            :address="address" />
+
       </div>
   </div>
 </template>
@@ -45,14 +44,10 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
-import Backup from './Backup.vue';
-import ChangePass from './ChangePasss.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
-    Backup,
-    ChangePass,
     Identicon,
   },
 })
@@ -63,8 +58,6 @@ export default class Keypair extends Vue {
   @Prop({ default: 'no-meta'}) public meta!: string;
   @Prop({ default: 'polkadot'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
-  // temporary prop
-  @Prop(String) public password!: string;
 
   @Emit()
   public forgetAccount(address: string): void {

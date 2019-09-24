@@ -25,7 +25,7 @@
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-        <AccountKeypair v-if="hideTestingAccounts == !acc.meta.isTesting"
+        <Keypair v-if="hideTestingAccounts == !acc.meta.isTesting"
           :address="acc.address"
           :theme="theme"
           :meta="acc.meta"
@@ -41,7 +41,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
-import AccountKeypair from './AccountKeypair.vue';
+import Keypair from './Keypair.vue';
 import Restore from './Restore.vue';
 import Create from './Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
@@ -49,7 +49,7 @@ import { u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
-    AccountKeypair,
+    Keypair,
     Create,
     Restore,
   },
