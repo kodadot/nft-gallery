@@ -63,7 +63,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
@@ -109,6 +109,7 @@ export default class Create extends Vue {
     return this.newAccount.mnemonicSeed = mnemonicGenerate();
   }
 
+  @Emit()
   public onCreate(): void {
     try {
       const meta = {
@@ -117,7 +118,6 @@ export default class Create extends Vue {
         whenCreated: Date.now() };
       const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
         this.newAccount.password, meta, this.keypairType.selected);
-      this.$emit('refreshAccounts');
     } catch (error) {
       console.error(error);
     }

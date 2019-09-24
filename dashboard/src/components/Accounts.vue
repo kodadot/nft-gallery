@@ -25,15 +25,15 @@
     <div> 
       <Restore 
         :password="password"
-        @refreshAccounts="mapAccounts" />
-      <b-button type="is-light" @click="mapAccounts()">
+        @on-restore="mapAccounts" />
+      <!-- <b-button type="is-light" @click="mapAccounts()">
         <font-awesome-icon icon="redo"/>
-        Refresh Accounts</b-button>
+        Refresh Accounts</b-button> -->
     </div>
     <Create
       v-if="keyringLoaded"
       :theme="theme"
-      @refreshAccounts="mapAccounts" />
+      @on-create="mapAccounts" />
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -45,7 +45,7 @@
           :meta="acc.meta"
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
-          @refreshAccounts="mapAccounts"
+          @forget-account="mapAccounts"
           :password="password"
         />
       </li>

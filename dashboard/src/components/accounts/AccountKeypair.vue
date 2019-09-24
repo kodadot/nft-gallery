@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import Backup from './Backup.vue';
 import ChangePass from './ChangePasss.vue'
@@ -66,9 +66,9 @@ export default class Keypair extends Vue {
   // temporary prop
   @Prop(String) public password!: string;
 
+  @Emit()
   public forgetAccount(address: string): void {
     keyring.forgetAccount(address);
-    this.$emit('refreshAccounts');
   }
 }
 </script>

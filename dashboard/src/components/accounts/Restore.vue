@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { u8aToString } from '@polkadot/util';
 import keyring from '@vue-polkadot/vue-keyring';
 import FileLoad from './FileLoad.vue';
@@ -24,12 +24,11 @@ export default class Restore extends Vue {
 
   public accountToImport: string = '';
 
+  @Emit()
   public OnRestore(): void {
-    // console.log(this.accountToImport);
     try {
       const json = JSON.parse(this.accountToImport);
       const pair = keyring.restoreAccount(json, this.password);
-      this.$emit('refreshAccounts');
     } catch (error) {
       console.error(error);
     }
