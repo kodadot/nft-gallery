@@ -11,7 +11,7 @@
           <b-field grouped multiline>
             {{meta.name}} <br>
             {{address.slice(0, 6)}}…{{address.slice(-6)}}<br>
-            {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} || {{type}}
+            <!-- {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} || {{type}} -->
             <p v-if="meta.tags">
             <b-tag 
               v-for="t in meta.tags"
@@ -32,11 +32,7 @@
             <font-awesome-icon icon="trash"/>  
             Forget Account
           </b-button>
-          <Backup v-if="!meta.isTesting"
-            :address="address"
-            :password="password" />
         </b-field>
-
       </div>
   </div>
 </template>
@@ -53,10 +49,8 @@ import keyring from '@vue-polkadot/vue-keyring';
 })
 export default class Keypair extends Vue {
   @Prop(String) public address!: string;
-  @Prop(String) public publicKey!: string;
-  @Prop(String) public type!: string;
   @Prop({ default: 'no-meta'}) public meta!: string;
-  @Prop({ default: 'polkadot'}) public theme!: string;
+  @Prop({ default: 'substrate'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
 
   @Emit()

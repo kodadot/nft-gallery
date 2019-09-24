@@ -25,7 +25,7 @@
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-        <Keypair v-if="hideTestingAccounts == !acc.meta.isTesting"
+        <Keypair v-if="!acc.meta.isExternal && hideTestingAccounts == !acc.meta.isTesting"
           :address="acc.address"
           :theme="theme"
           :meta="acc.meta"
@@ -75,29 +75,19 @@ export default class Accounts extends Vue {
     this.mapAccounts();
   }
 
-  public loadKeyring(): void {
-    keyring.loadAll({
-      ss58Format: 42, type: 'sr25519',
-      isDevelopment: true });
-    this.keyringLoaded = true;
-    this.keys = keyring;
-    this.mapAccounts();
-  }
-
   public mapAccounts(): void {
-    this.keyringAccounts = keyring.getPairs();
+    if (this.keyringLoaded) {
+      this.keyringAccounts = keyring.getPairs();
+    }
   }
 
-  public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
-    console.log('wasmCrypto loaded');
-    this.loadKeyring();
-    console.log('keyring init');
+  public isKeyringLoaded() {
+    return this.keyringLoaded = this.$store.state.keyringLoaded;
   }
 
   public mounted(): void {
-    this.mountWasmCrypto();
-
+    this.isKeyringLoaded();
+    this.mapAccounts();
   }
 }
 </script>
