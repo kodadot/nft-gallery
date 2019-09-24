@@ -35,9 +35,9 @@
           <Backup v-if="!meta.isTesting"
             :address="address"
             :password="password" />
+        </b-field>
           <ChangePass v-if="address && !meta.isTesting"
             :address="address" />
-        </b-field>
       </div>
   </div>
 </template>
