@@ -35,6 +35,8 @@
           <Backup v-if="!meta.isTesting"
             :address="address"
             :password="password" />
+          <ChangePass v-if="address && !meta.isTesting"
+            :address="address" />
         </b-field>
       </div>
   </div>
@@ -44,11 +46,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import Backup from './Backup.vue';
+import ChangePass from './ChangePasss.vue'
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
     Backup,
+    ChangePass,
     Identicon,
   },
 })
