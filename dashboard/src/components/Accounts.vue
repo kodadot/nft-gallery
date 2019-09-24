@@ -16,15 +16,8 @@
         :size="switchStyle.size"> Hide Testing Acc
       </b-switch>
     </b-field>
-    <div>
-      <b-field label="password">
-        <b-input type="password" v-model="password" 
-          password-reveal></b-input>
-      </b-field>
-    </div>
     <div> 
       <Restore 
-        :password="password"
         @on-restore="mapAccounts" />
       <!-- <b-button type="is-light" @click="mapAccounts()">
         <font-awesome-icon icon="redo"/>
@@ -46,7 +39,6 @@
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
           @forget-account="mapAccounts"
-          :password="password"
         />
       </li>
     </ul>
@@ -73,7 +65,6 @@ export default class Accounts extends Vue {
   public keyringLoaded: boolean = false;
   public keys: any = '';
   public theme: string = 'substrate';
-  public password: string = '';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
   public hideTestingAccounts: boolean = true;
   public modal: object = {

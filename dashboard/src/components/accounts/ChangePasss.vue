@@ -10,11 +10,15 @@
         @input="validatePassword(change.oldPass)"
         password-reveal></b-input>
     </b-field>
-    <b-field label="your newpassword" v-bind:type="{ 'is-danger': !isPassValid }">
+    <b-field label="your new password" v-bind:type="{ 'is-danger': !isPassValid }">
       <b-input v-model="change.newPass"
         @input="validatePassword(change.newPass)"
         password-reveal></b-input>
     </b-field>
+    <b-button @click="doChangePassword()"
+      type="is-primary">
+      Change Passowrd
+    </b-button>
   </div>
 </template>
 <script lang="ts">
@@ -34,11 +38,43 @@ export default class ChangePass extends Vue {
   @Prop({ default: 64 }) public size!: number;
 
   public isPassValid: boolean = false;
-  public change: object = {
+  public change: any = {
     oldPass: null,
     newPass: null };
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);
+  }
+
+  @Emit()
+  public doChangePassword(): void {
+    try {
+      const account = this.address && keyring.getPair(this.address)
+
+      if (!account) {
+        return;
+      }
+
+      try {
+        if (!account.isLocked) {
+          account.lock();
+        }
+
+        account.decodePkcs8(this.change.oldPass);
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+
+      try {
+        keyring.encryptAccount(account, this.change.newPass);
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      return;
+    }
   }
 }
 </script>

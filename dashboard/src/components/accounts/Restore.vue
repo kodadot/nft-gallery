@@ -1,8 +1,12 @@
 <template>
   <div id="Restore">
       <FileLoad :accountToImport.sync="accountToImport" />
-      
-      <b-button type="is-light" @click="OnRestore()">
+      <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
+        <b-input v-model="password"
+          @input="validatePassword(password)"
+          password-reveal></b-input>
+      </b-field>   
+      <b-button type="is-primary" @click="OnRestore()">
         <font-awesome-icon icon="sync"/>
         Restore Account</b-button>
   </div>
@@ -20,10 +24,12 @@ import FileLoad from './FileLoad.vue';
   },
 })
 export default class Restore extends Vue {
-  @Prop(String) public password!: string;
-
   public accountToImport: string = '';
-
+  public password: string = null;
+  public isPassValid: boolean = false;
+  public validatePassword(password: string): boolean {
+    return this.isPassValid = keyring.isPassValid(password);
+  }
   @Emit()
   public OnRestore(): void {
     try {

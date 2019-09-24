@@ -46,7 +46,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import Backup from './Backup.vue';
-import ChangePass from './ChangePasss.vue'
+import ChangePass from './ChangePasss.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
