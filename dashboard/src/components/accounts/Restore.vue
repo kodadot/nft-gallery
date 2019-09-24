@@ -25,7 +25,7 @@ import FileLoad from './FileLoad.vue';
 })
 export default class Restore extends Vue {
   public accountToImport: string = '';
-  public password: string = null;
+  public password: string = '';
   public isPassValid: boolean = false;
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);

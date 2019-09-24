@@ -1,22 +1,18 @@
 <template>
   <div id="dashboard">
     <div class="friendly-view" >
-    <SidebarMenu class="happy-menu" />
-    <router-view id='routerview'/>
+      <SidebarMenu class="happy-menu" />
+      <router-view id='routerview'/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Accounts from './components/Accounts.vue';
-import Navbar from './components/Navbar.vue';
 import SidebarMenu from './components/SidebarMenu.vue';
 
 @Component({
   components: {
-    Accounts,
-    Navbar,
     SidebarMenu,
   },
 })

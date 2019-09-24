@@ -48,7 +48,7 @@ export default class ChangePass extends Vue {
   @Emit()
   public doChangePassword(): void {
     try {
-      const account = this.address && keyring.getPair(this.address)
+      const account = this.address && keyring.getPair(this.address);
 
       if (!account) {
         return;

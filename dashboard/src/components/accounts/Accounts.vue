@@ -1,10 +1,6 @@
 <template>
   <div class="Accounts">
     <b-field grouped group-multiline>
-      <!-- <b-button type="is-primary" @click="loadKeyring()">
-        <font-awesome-icon icon="play"/>
-        Load Testing Accounts
-      </b-button> -->
       <b-select v-model="theme">
         <option selected>substrate</option>
         <option>polkadot</option>
@@ -19,9 +15,6 @@
     <div> 
       <Restore 
         @on-restore="mapAccounts" />
-      <!-- <b-button type="is-light" @click="mapAccounts()">
-        <font-awesome-icon icon="redo"/>
-        Refresh Accounts</b-button> -->
     </div>
     <Create
       v-if="keyringLoaded"
@@ -48,9 +41,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
-import AccountKeypair from './accounts/AccountKeypair.vue';
-import Restore from './accounts/Restore.vue';
-import Create from './accounts/Create.vue';
+import AccountKeypair from './AccountKeypair.vue';
+import Restore from './Restore.vue';
+import Create from './Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 

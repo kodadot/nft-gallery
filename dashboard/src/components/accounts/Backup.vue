@@ -21,7 +21,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
 
-  public password: string = null;
+  public password: string = '';
   public isPassValid: boolean = false;
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);
