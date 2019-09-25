@@ -27,11 +27,12 @@
       </div>
       <div>
         <b-field grouped multiline>
-          <b-button
-            type="is-warning" @click="forgetAccount(address)">
-            <font-awesome-icon icon="trash"/>  
-            Forget Account
+          <b-button type="is-warning" icon-left="trash" 
+            @click="forgetAccount(address)">
           </b-button>
+          <b-button type="is-light" icon-left="cloud-download-alt"></b-button>
+          <b-button type="is-light" icon-left="key"></b-button>
+          <b-button type="is-light" icon-left="paper-plane">Send</b-button>
         </b-field>
         <Backup v-if="!meta.isTesting"
           :address="address"

@@ -12,6 +12,7 @@
         :size="switchStyle.size"> Hide Testing Acc
       </b-switch> -->
     </b-field>
+    <p>My accounts</p>
     <div> 
       <Restore 
         @on-restore="mapAccounts" />

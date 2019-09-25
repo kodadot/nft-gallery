@@ -1,10 +1,8 @@
 <template>
   <div id="addressbook">
-    <p>Address book soon 🌱</p>
-    <p>5CPjD48eo47mRR5J1MvahXsaTAD1x2m7fGNmsvVb1ynrT2z3</p>
-    <p>5CigBWKMkumrHoJ6CHComH43LAWBh192sXZpm4Xrzqe9umz1</p>
-    <b-button @click="isKeyringLoaded">isKeyring</b-button>
-    <b-button @click="mapAccounts">map</b-button>
+    <p>My contacts</p>
+    <b-tag>5CPjD48eo47mRR5J1MvahXsaTAD1x2m7fGNmsvVb1ynrT2z3</b-tag>
+    <b-tag>5CigBWKMkumrHoJ6CHComH43LAWBh192sXZpm4Xrzqe9umz1</b-tag>
     <Create v-if="isKeyringLoaded"
       @on-create="mapAccounts" />
     <ul>
