@@ -17,7 +17,7 @@
         @on-restore="mapAccounts" />
     </div>
     <Create
-      v-if="keyringLoaded"
+      v-if="isKeyringLoaded"
       :theme="theme"
       @on-create="mapAccounts" />
     <ul>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from './Keypair.vue';
 import Restore from './Restore.vue';
@@ -70,19 +70,15 @@ export default class Accounts extends Vue {
     return u8aToHex(publicKey);
   }
 
-  public forgetAccount(address: string): void {
-    keyring.forgetAccount(address);
-    this.mapAccounts();
-  }
-
+  @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    if (this.keyringLoaded) {
+    if (this.isKeyringLoaded()) {
       this.keyringAccounts = keyring.getPairs();
     }
   }
 
   public isKeyringLoaded() {
-    return this.keyringLoaded = this.$store.state.keyringLoaded;
+    return this.$store.state.keyringLoaded;
   }
 
   public mounted(): void {
