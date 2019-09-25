@@ -6,11 +6,11 @@
         <option>polkadot</option>
         <option>beachball</option>
       </b-select>
-      <b-switch v-model="hideTestingAccounts"
+      <!-- <b-switch v-model="hideTestingAccounts"
         :outlined="switchStyle.isOutlined"
         :rounded="switchStyle.isRounded"
         :size="switchStyle.size"> Hide Testing Acc
-      </b-switch>
+      </b-switch> -->
     </b-field>
     <div> 
       <Restore 

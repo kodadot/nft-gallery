@@ -1,5 +1,9 @@
 <template>
   <div id="Backup">
+    <Identicon
+      :value="address"
+      size="64" />
+      {{address.slice(0, 6)}}…{{address.slice(-6)}}
     <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
       <b-input v-model="password"
         @input="validatePassword(password)"
@@ -14,8 +18,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import FileSaver from 'file-saver';
+import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
+import FileSaver from 'file-saver';
+
 
 @Component({})
 export default class Backup extends Vue {

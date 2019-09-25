@@ -32,12 +32,12 @@
             <font-awesome-icon icon="trash"/>  
             Forget Account
           </b-button>
-          <Backup v-if="!meta.isTesting"
-            :address="address"
-            :password="password" />
         </b-field>
-          <ChangePass v-if="address && !meta.isTesting"
-            :address="address" />
+        <Backup v-if="!meta.isTesting"
+          :address="address"
+          :password="password" />
+        <ChangePass v-if="address && !meta.isTesting"
+          :address="address" />
       </div>
   </div>
 </template>

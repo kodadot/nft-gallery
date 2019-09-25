@@ -6,20 +6,20 @@
         native
         drag-drop>
         <section class="section">
-            <div class="content has-text-centered">
-                <p>
-                    <b-icon
-                        icon="upload"
-                        size="is-large">
-                    </b-icon>
-                </p>
-                <p>Drop your account here or click to upload</p>
-                <div class="tags">
-                  <span>
-                  {{account.slice(12, 30)}}
-                  </span>
-                </div>
+          <div class="has-text-centered ">
+            <p>
+              <b-icon
+                  icon="upload"
+                  size="is-large">
+              </b-icon>
+            </p>
+            <p>Drop your account here or click to upload</p>
+            <div class="tags">
+              <span>
+              {{account.slice(12, 30)}}
+              </span>
             </div>
+          </div>
         </section>
       </b-upload>
     </b-field>

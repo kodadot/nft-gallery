@@ -2,6 +2,7 @@
   <div id="addressbook">
     <p>Address book soon 🌱</p>
     <p>5CPjD48eo47mRR5J1MvahXsaTAD1x2m7fGNmsvVb1ynrT2z3</p>
+    <p>5CigBWKMkumrHoJ6CHComH43LAWBh192sXZpm4Xrzqe9umz1</p>
     <Create v-if="keyringLoaded"
       @on-create="mapAccounts" />
     <ul>
