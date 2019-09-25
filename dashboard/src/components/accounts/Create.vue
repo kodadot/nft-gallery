@@ -36,6 +36,9 @@
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
       </b-field>
+      <b-field label="tags">
+          <b-input v-model="newAccount.tags"></b-input>
+        </b-field>
       <b-field grouped>
         <b-field label="keypair crypto type">
           <b-select v-model="keypairType.selected">
@@ -45,9 +48,6 @@
               {{ opt.text }}
             </option>
           </b-select>
-        </b-field>
-        <b-field label="tags">
-          <b-input v-model="newAccount.tags"></b-input>
         </b-field>
       </b-field>
       <b-field label="secret derivation path">
@@ -63,7 +63,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
@@ -122,20 +122,26 @@ export default class Create extends Vue {
       console.error(error);
     }
   }
-
+  
+  @Watch('$store.state.keyringLoaded')
   public addressFromSeed(): any {
     return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
       {}, this.keypairType.selected).address;
   }
 
+  public isKeyringLoaded() {
+    return this.$store.state.keyringLoaded;
+  }
+
   public coldStart(): void {
     this.generateSeed();
-    this.addressFromSeed();
     this.validateMnemonic();
+    if (this.isKeyringLoaded()) {
+      this.addressFromSeed();
+    }
   }
   public mounted(): void {
     this.coldStart();
   }
-
 }
 </script>
