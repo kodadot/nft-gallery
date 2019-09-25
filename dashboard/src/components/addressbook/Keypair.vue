@@ -11,7 +11,6 @@
           <b-field grouped multiline>
             {{meta.name}} <br>
             {{address.slice(0, 6)}}…{{address.slice(-6)}}<br>
-            <!-- {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} || {{type}} -->
             <p v-if="meta.tags">
             <b-tag 
               v-for="t in meta.tags"

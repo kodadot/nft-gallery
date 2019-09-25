@@ -48,7 +48,6 @@ export default class SidebarMenu extends Vue {
       icon: 'paper-plane',
       to: 'transfer',
       tag: 'router-link',
-      disabled: true,
     },
     {
       name: 'democracy',

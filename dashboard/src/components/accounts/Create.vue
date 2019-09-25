@@ -57,7 +57,8 @@
     <div>
       <b-button 
         type="is-primary"
-        @click="onCreate">Create
+        @click="onCreate">
+        Create
       </b-button>
     </div>
   </div>

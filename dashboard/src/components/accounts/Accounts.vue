@@ -38,7 +38,6 @@
     </ul>
   </div>
 </template>
-
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
@@ -56,7 +55,6 @@ import { u8aToHex } from '@polkadot/util';
   },
 })
 export default class Accounts extends Vue {
-  public keyringLoaded: boolean = false;
   public keys: any = '';
   public theme: string = 'substrate';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
