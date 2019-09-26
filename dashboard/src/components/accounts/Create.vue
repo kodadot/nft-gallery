@@ -123,7 +123,7 @@ export default class Create extends Vue {
       console.error(error);
     }
   }
-  
+
   @Watch('$store.state.keyringLoaded')
   public addressFromSeed(): any {
     return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,

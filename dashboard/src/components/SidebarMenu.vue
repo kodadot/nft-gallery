@@ -50,6 +50,12 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
+      name: 'explorer',
+      icon: 'dice-d20',
+      to: 'explorer',
+      tag: 'router-link',
+    },
+    {
       name: 'democracy',
       icon: 'calendar-check',
       to: 'democracy',

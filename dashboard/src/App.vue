@@ -21,7 +21,8 @@ import SidebarMenu from './components/SidebarMenu.vue';
 export default class Dashboard extends Vue {
   public loadKeyring(): void {
     keyring.loadAll({
-      ss58Format: 42, type: 'sr25519',
+      ss58Format: 42,
+      type: 'sr25519',
       isDevelopment: false });
   }
 

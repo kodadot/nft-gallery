@@ -5,6 +5,7 @@ import Accounts from './components/accounts/Accounts.vue';
 import Addressbook from './components/addressbook/Addressbook.vue';
 import Transfer from './components/transfer/Transfer.vue';
 import Democracy from './components/democracy/Democracy.vue';
+import Explorer from './components/explorer/Explorer.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -33,6 +34,11 @@ export default new Router({
       path: '/democracy',
       name: 'democracy',
       component: Democracy,
+    },
+    {
+      path: '/explorer',
+      name: 'explorer',
+      component: Explorer,
     },
     {
       path: '*',
