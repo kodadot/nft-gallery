@@ -24,6 +24,9 @@ export default class Explorer extends Vue {
     const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
     this.api = await ApiPromise.create({provider: wsprovider});
 
+    this.api.rpc.chain.subscribeNewHeads((header: any) => {
+      this.conn.header = header;
+    });
   }
 
   public mounted(): void {

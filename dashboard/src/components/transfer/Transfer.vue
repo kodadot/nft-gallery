@@ -93,10 +93,9 @@ export default class Transfer extends Vue {
     const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
     this.api = await ApiPromise.create({provider: wsprovider});
 
-    // this.api.rpc.chain.subscribeNewHeads((header: any) => {
-    //   console.log(`Chain is at #${header.number}`);
-    //   this.conn.header = header;
-    // });
+    this.api.rpc.chain.subscribeNewHeads((header: any) => {
+      this.conn.header = header;
+    });
 
     console.log(this.api.genesisHash.toHex());
     // console.log(await this.api.rpc.system.chain());
