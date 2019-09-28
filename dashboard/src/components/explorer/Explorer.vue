@@ -2,13 +2,10 @@
   <div id="explorer">
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
-
       </b-tab-item>
       <b-tab-item label="Block Details">
       </b-tab-item>
       <b-tab-item label="Node Info">
-        
-        
         Total Peers {{nodeInfo.health.peers}}<br>
         Syncing {{nodeInfo.health.isSyncing}}<br>
         Our best 
@@ -68,7 +65,6 @@ export default class Explorer extends Vue {
   //     this.NodeInfoData();
   //     }, 9000);
   // }
-  @Watch('nodeInfo')
   public sortBestPeerBlock() {
     // // console.log(peers)
     // if (this.nodeInfo.peers) {
@@ -89,20 +85,15 @@ export default class Explorer extends Vue {
     // api.rpc.chain.subscribeNewHeads().subscribe((header: any) => {
     //   this.conn.header = header;
     // });
-    try {
-      [this.nodeInfo.blockNumber, this.nodeInfo.health,
-      this.nodeInfo.peers, this.nodeInfo.extrinsics] = await Promise.all([
-        api.derive.chain.bestNumber(),
-        api.rpc.system.health(),
-        api.rpc.system.peers(),
-        api.rpc.author.pendingExtrinsics(),
-      ]);
-      this.sortBestPeerBlock();
-      // return {};
-    } catch (error) {
-      console.error(error);
-      return;
-    }
+
+    [this.nodeInfo.blockNumber, this.nodeInfo.health,
+    this.nodeInfo.peers, this.nodeInfo.extrinsics] = await Promise.all([
+      api.derive.chain.bestNumber(),
+      api.rpc.system.health(),
+      api.rpc.system.peers(),
+      api.rpc.author.pendingExtrinsics(),
+    ]);
+    this.sortBestPeerBlock();
   }
 
   public mounted(): void {
