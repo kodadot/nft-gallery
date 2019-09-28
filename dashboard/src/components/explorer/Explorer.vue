@@ -1,9 +1,23 @@
 <template>
   <div id="explorer">
+    <b-tabs v-model="activeTab">
+      <b-tab-item label="Chain Info">
+
+      </b-tab-item>
+      <b-tab-item label="Block Details">
+      </b-tab-item>
+      <b-tab-item label="Node Info">
+        <b-button @click="NodeInfoData">NodeInfoData
+        </b-button>
+        Blocknumber {{nodeInfo.blockNumber}}
+      </b-tab-item>
+    </b-tabs>
+    
     <p>Recent Block {{conn.header.number}}</p>
     <p>Genesis Hash {{api.genesisHash}}</p>
     <p>RuntimeVersion {{api.runtimeVersion}}</p>
     <p>Library Info {{api.libraryInfo}}</p>
+
   </div>
 </template>
 <script lang="ts">
@@ -13,6 +27,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 
 @Component({})
 export default class Explorer extends Vue {
+  public activeTab: number = 2;
   public wsProviders: object = [
     {name: 'poc3-rpc.polkadot', value: 'wss://poc3-rpc.polkadot.io/'},
     {name: 'alex.unfrastructure', value: 'wss://alex.unfrastructure.io/public/ws'},
@@ -20,6 +35,25 @@ export default class Explorer extends Vue {
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
 
   public api: any = '';
+  public nodeInfo: any = {
+    blockNumber: '', health: '', peers: '', extrinsics: '',
+  };
+
+  public async NodeInfoData() {
+    try {
+      [this.nodeInfo.blockNumber, this.nodeInfo.health,
+      this.nodeInfo.peers, this.nodeInfo.extrinsics] = await Promise.all([
+        this.api.derive.chain.bestNumber(),
+        this.api.rpc.system.health(),
+        this.api.rpc.system.peers(),
+        this.api.rpc.author.pendingExtrinsics(),
+      ]);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  }
+
   public async apiInit(): Promise<void> {
     const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
     this.api = await ApiPromise.create({provider: wsprovider});
