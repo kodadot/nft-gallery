@@ -7,25 +7,24 @@
       <b-tab-item label="Block Details">
       </b-tab-item>
       <b-tab-item label="Node Info">
-        <b-button @click="NodeInfoData">NodeInfoData
-        </b-button>
+        <!-- <b-button @click="NodeInfoData">NodeInfoData
+        </b-button> -->
         Blocknumber {{nodeInfo.blockNumber}}
       </b-tab-item>
     </b-tabs>
     
     <p>Recent Block {{conn.header.number}}</p>
     <p>Genesis Hash {{api.genesisHash}}</p>
-    <p>RuntimeVersion {{api.runtimeVersion}}</p>
-    <p>Library Info {{api.libraryInfo}}</p>
+    <!-- <p>RuntimeVersion {{api.runtimeVersion}}</p>
+    <p>Library Info {{api.libraryInfo}}</p> -->
 
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-// import { SubmittableExtrinsic, QueryableStorageEntry } from '@polkadot/api/promise/types';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, ApiRx, WsProvider } from '@polkadot/api';
 
-@Component({})
+@Component
 export default class Explorer extends Vue {
   public activeTab: number = 2;
   public wsProviders: object = [
@@ -34,31 +33,35 @@ export default class Explorer extends Vue {
     {name: 'localhost:9444', value: 'ws://127.0.0.1:9944'}];
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
 
-  public api: any = '';
+  public api: any = {
+    genesisHash: '',
+  };
   public nodeInfo: any = {
     blockNumber: '', health: '', peers: '', extrinsics: '',
   };
 
-  public async NodeInfoData() {
-    try {
-      [this.nodeInfo.blockNumber, this.nodeInfo.health,
-      this.nodeInfo.peers, this.nodeInfo.extrinsics] = await Promise.all([
-        this.api.derive.chain.bestNumber(),
-        this.api.rpc.system.health(),
-        this.api.rpc.system.peers(),
-        this.api.rpc.author.pendingExtrinsics(),
-      ]);
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-  }
+  // public async NodeInfoData() {
+  //   try {
+  //     [this.nodeInfo.blockNumber, this.nodeInfo.health,
+  //     this.nodeInfo.peers, this.nodeInfo.extrinsics] = await Promise.all([
+  //       this.api.derive.chain.bestNumber(),
+  //       this.api.rpc.system.health(),
+  //       this.api.rpc.system.peers(),
+  //       this.api.rpc.author.pendingExtrinsics(),
+  //     ]);
+  //   } catch (error) {
+  //     console.error(error);
+  //     return;
+  //   }
+  // }
 
   public async apiInit(): Promise<void> {
-    const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
-    this.api = await ApiPromise.create({provider: wsprovider});
-
-    this.api.rpc.chain.subscribeNewHeads((header: any) => {
+    const provider = new WsProvider('wss://poc3-rpc.polkadot.io/');
+    // this line causes error Default via asOptional
+    // this.api = await ApiPromise.create({provider});
+    const api = await ApiRx.create({provider}).toPromise();
+    this.api.genesisHash = api.genesisHash;
+    api.rpc.chain.subscribeNewHeads().subscribe((header: any) => {
       this.conn.header = header;
     });
   }
