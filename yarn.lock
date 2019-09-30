@@ -53,6 +53,11 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
 
+"@vue-polkadot/vue-settings@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.3.tgz#d94804ae860150a664f01e3c6866efd569edecba"
+  integrity sha512-KipJ5VPSUWCoVwo9WyUG4zxD39tPV5jy1CtCJrHKW1L38ST0rwzEPJWvGugIg5G0F5Yj08deMWiMK0yFRtGE/w==
+
 canvas-renderer@~2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.1.1.tgz#d91fe9511ab48056ff9fa8a04514bede76535f55"

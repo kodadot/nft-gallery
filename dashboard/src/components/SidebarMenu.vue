@@ -12,12 +12,12 @@
     </div>
     <b-menu>
       <b-menu-list>
-        <b-menu-item icon="users" label="accnt"></b-menu-item>
+        <b-menu-item tag="router-link" to="/" icon="users" label="accnt"></b-menu-item>
         <b-menu-item icon="address-book" label="adrbk" disabled></b-menu-item>
         <b-menu-item icon="calendar-check" label="dmcrcy" disabled></b-menu-item>
         <b-menu-item icon="sync" label="xtrnscs" disabled></b-menu-item>
         <b-menu-item icon="paper-plane" label="trnsfr" disabled></b-menu-item>
-        <b-menu-item icon="cogs" label="sttngs" disabled></b-menu-item>
+        <b-menu-item tag="router-link" to="settings" icon="cogs" label="sttngs"></b-menu-item>
       </b-menu-list>
     </b-menu>
   </div>
