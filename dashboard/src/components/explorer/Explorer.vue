@@ -68,7 +68,7 @@ export default class Explorer extends Vue {
   public sortBestPeerBlock() {
     // // console.log(peers)
     // if (this.nodeInfo.peers) {
-      this.bestPeer = this.nodeInfo.peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
+      this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
       // this.bestPeerBlock = this.bestPeer.bestNumber
     // }
     // return;
