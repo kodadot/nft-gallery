@@ -29,11 +29,11 @@ export default class SettingChooser extends Vue {
   }
 
   get selected() {
-    return this.$store.getters.getSettings[this.defaultValue]
+    return this.$store.getters.getSettings[this.defaultValue];
   }
 
   set selected(value) {
-    this.$store.dispatch(this.setter, value)
+    this.$store.dispatch(this.setter, value);
   }
 
 }

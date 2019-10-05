@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import store from './store';
 import router from './router';
+import S from '@vue-polkadot/vue-api';
 
 library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
@@ -20,6 +21,8 @@ library.add(faTrash, faKey, faSync, faRedo,
   faExclamationCircle, faUpload );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+S.createInstance();
+Vue.prototype.$http = S.getInstance();
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

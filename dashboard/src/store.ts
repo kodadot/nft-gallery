@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 // import VuexPersist from 'vuex-persist';
 // import * as localForage from "localforage";
 import SettingModule from '@vue-polkadot/vue-settings';
+import S from '@vue-polkadot/vue-api';
 
 
 
@@ -15,6 +16,15 @@ import SettingModule from '@vue-polkadot/vue-settings';
 //   // filter: mutation => (true)
 // })
 
+const myPlugin = (store: any) => {
+  // called when the store is initialized
+  store.subscribe(({ type, payload }: any, state: any) => {
+    if (type === 'setSettings' && payload.apiUrl) {
+      S.getInstance().changeApiUrl(payload.apiUrl);
+    }
+  });
+};
+
 
 Vue.use(Vuex);
 
@@ -22,4 +32,5 @@ export default new Vuex.Store({
   modules: {
     setting: SettingModule,
   },
+  plugins: [myPlugin],
 });
