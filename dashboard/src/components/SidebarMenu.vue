@@ -15,7 +15,7 @@
         <b-menu-item tag="router-link" to="/" icon="users" label="accnt"></b-menu-item>
         <b-menu-item icon="address-book" label="adrbk" :disabled="hasBasicMode"></b-menu-item>
         <b-menu-item icon="calendar-check" label="dmcrcy" :disabled="hasBasicMode"></b-menu-item>
-        <b-menu-item icon="sync" label="xtrnscs" :disabled="hasBasicMode"></b-menu-item>
+        <b-menu-item icon="sync" label="extrinsics" tag="router-link" to="extrinsics" :disabled="hasBasicMode"></b-menu-item>
         <b-menu-item icon="paper-plane" label="trnsfr" :disabled="hasBasicMode"></b-menu-item>
         <b-menu-item label="xplrr" tag="router-link" to="explorer"></b-menu-item>
         <b-menu-item tag="router-link" to="settings" icon="cogs" label="sttngs"></b-menu-item>
@@ -31,7 +31,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class SidebarMenu extends Vue {
 
   get hasBasicMode() {
-    return this.$store.getters.getSettings.uiMode === 'light'
+    return this.$store.getters.getSettings.uiMode === 'light';
   }
 }
 </script>
