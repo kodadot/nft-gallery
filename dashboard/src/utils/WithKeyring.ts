@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import { KeyringPair } from '@polkadot/keyring/types';
@@ -7,9 +7,9 @@ import { u8aToHex } from '@polkadot/util';
 
 @Component
 export default class WithKeyring extends Vue {
-  private keyringLoaded: boolean = false;
-  private keyringAccounts: KeyringPair[] = [];
-  private keys: any = '';
+  protected keyringLoaded: boolean = false;
+  protected keyringAccounts: KeyringPair[] = [];
+  protected keys: any = '';
 
   public async mountWasmCrypto(): Promise<void> {
     await waitReady();
@@ -27,7 +27,7 @@ export default class WithKeyring extends Vue {
   public mapAccounts(): void {
     this.keyringAccounts = keyring.getPairs();
   }
-  
+
   public mounted(): void {
     this.mountWasmCrypto();
 
@@ -36,6 +36,6 @@ export default class WithKeyring extends Vue {
   public vueU8aToHex(publicKey: Uint8Array): string {
     return u8aToHex(publicKey);
   }
-  
+
 
 }

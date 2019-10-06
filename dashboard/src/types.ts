@@ -3,8 +3,8 @@ export interface KeyringPair$Meta {
 }
 
 export interface KeyringAccount {
-  address: string,
-  meta: KeyringPair$Meta,
-  publicKey: string, 
-  type: string
+  address: string;
+  meta: KeyringPair$Meta;
+  publicKey: string;
+  type: string;
 }

@@ -19,22 +19,22 @@
 
 <script lang="ts">
 import { Prop } from 'vue-property-decorator';
-import WithKeyring from '@/utils/WithKeyring'
-import Component from 'vue-class-component'
+import WithKeyring from '@/utils/WithKeyring';
+import Component from 'vue-class-component';
 import Balance from './Balance.vue';
 import Vue, { VueConstructor } from 'vue';
 
 @Component({
   components: {
-    Balance
-  }
+    Balance,
+  },
 })
 class Selection extends WithKeyring {
-  private label = 'Accounts'
+  private label = 'Accounts';
   private selectedAccount = null;
 
-  get accounts() {    
-    return this.keyringAccounts.filter(acc => !acc.meta.isTesting)
+  get accounts() {
+    return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
   }
 
   get selected() {
@@ -47,5 +47,5 @@ class Selection extends WithKeyring {
 }
 
 // Explicit casting because it would shout in other components
-export default (Selection as VueConstructor<Vue>)
+export default (Selection as VueConstructor<Vue>);
 </script>

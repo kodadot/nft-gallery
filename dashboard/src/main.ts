@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
+import Vue from 'vue';
+import Buefy from 'buefy';
+import 'buefy/dist/buefy.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faTrash,
   faKey,
@@ -19,14 +19,14 @@ import {
   faEyeSlash,
   faExclamationCircle,
   faUpload,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import keyring from '@vue-polkadot/vue-keyring'
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import keyring from '@vue-polkadot/vue-keyring';
 
-import App from './App.vue'
-import store from './store'
-import router from './router'
-import S from '@vue-polkadot/vue-api'
+import App from './App.vue';
+import store from './store';
+import router from './router';
+import S from '@vue-polkadot/vue-api';
 
 library.add(
   faTrash,
@@ -44,18 +44,18 @@ library.add(
   faEye,
   faEyeSlash,
   faExclamationCircle,
-  faUpload
-)
+  faUpload,
+);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 keyring.loadAll({
   ss58Format: 42,
   type: 'sr25519',
   isDevelopment: true,
-})
-S.createInstance()
-Vue.prototype.$http = S.getInstance()
+});
+S.createInstance();
+Vue.prototype.$http = S.getInstance();
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
@@ -64,19 +64,19 @@ Vue.use(Buefy, {
   customIconPacks: {
     fas: {
       sizes: {
-        default: 'lg',
+        'default': 'lg',
         'is-small': '1x',
         'is-medium': '2x',
         'is-large': '3x',
       },
     },
   },
-})
+});
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: h => h(App),
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');
