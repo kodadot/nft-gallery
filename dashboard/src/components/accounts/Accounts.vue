@@ -1,79 +1,62 @@
 <template>
   <div class="Accounts">
     <b-field grouped group-multiline>
-      <!-- <b-button type="is-primary" @click="loadKeyring()">
-        <font-awesome-icon icon="play"/>
-        Load Testing Accounts
-      </b-button> -->
       <b-select v-model="theme">
         <option selected>substrate</option>
         <option>polkadot</option>
         <option>beachball</option>
       </b-select>
-      <b-switch v-model="hideTestingAccounts"
+      <!-- <b-switch v-model="hideTestingAccounts"
         :outlined="switchStyle.isOutlined"
         :rounded="switchStyle.isRounded"
         :size="switchStyle.size"> Hide Testing Acc
-      </b-switch>
+      </b-switch> -->
     </b-field>
-    <div>
-      <b-field label="password">
-        <b-input type="password" v-model="password" 
-          password-reveal></b-input>
-      </b-field>
-    </div>
+    <p>My accounts</p>
     <div> 
       <Restore 
-        :password="password"
-        @refreshAccounts="mapAccounts" />
-      <b-button type="is-light" @click="mapAccounts()">
-        <font-awesome-icon icon="redo"/>
-        Refresh Accounts</b-button>
+        @on-restore="mapAccounts" />
     </div>
     <Create
-      v-if="keyringLoaded"
+      v-if="isKeyringLoaded"
       :theme="theme"
-      @refreshAccounts="mapAccounts" />
+      @on-create="mapAccounts" />
     <ul>
       <li 
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-        <AccountKeypair v-if="hideTestingAccounts == !acc.meta.isTesting"
+        <Keypair v-if="!acc.meta.isExternal && hideTestingAccounts == !acc.meta.isTesting"
           :address="acc.address"
           :theme="theme"
           :meta="acc.meta"
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
-          @refreshAccounts="mapAccounts"
-          :password="password"
+          @forget-account="mapAccounts"
         />
       </li>
     </ul>
   </div>
 </template>
-
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
-import AccountKeypair from './accounts/AccountKeypair.vue';
-import Restore from './accounts/Restore.vue';
-import Create from './accounts/Create.vue';
+import Keypair from './Keypair.vue';
+import Restore from './Restore.vue';
+import Create from './Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
-    AccountKeypair,
+    Keypair,
     Create,
     Restore,
   },
 })
 export default class Accounts extends Vue {
-  public keyringLoaded: boolean = false;
   public keys: any = '';
   public theme: string = 'substrate';
-  public password: string = '';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
   public hideTestingAccounts: boolean = true;
   public modal: object = {
@@ -86,34 +69,20 @@ export default class Accounts extends Vue {
     return u8aToHex(publicKey);
   }
 
-  public forgetAccount(address: string): void {
-    keyring.forgetAccount(address);
-    this.mapAccounts();
-  }
-
-  public loadKeyring(): void {
-    keyring.loadAll({
-      ss58Format: 42, type: 'sr25519',
-      isDevelopment: true });
-    this.keyringLoaded = true;
-    this.keys = keyring;
-    this.mapAccounts();
-  }
-
+  @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    this.keyringAccounts = keyring.getPairs();
+    if (this.isKeyringLoaded()) {
+      this.keyringAccounts = keyring.getPairs();
+    }
   }
 
-  public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
-    console.log('wasmCrypto loaded');
-    this.loadKeyring();
-    console.log('keyring init');
+  public isKeyringLoaded() {
+    return this.$store.state.keyringLoaded;
   }
 
   public mounted(): void {
-    this.mountWasmCrypto();
-
+    this.isKeyringLoaded();
+    this.mapAccounts();
   }
 }
 </script>

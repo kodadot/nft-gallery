@@ -6,6 +6,7 @@ import SettingModule from '@vue-polkadot/vue-settings';
 import S from '@vue-polkadot/vue-api';
 
 
+<<<<<<< HEAD
 
 // const vuexLocalStorage = new VuexPersist({
 //   key: 'vuex', // The key to store the state on in the storage provider.
@@ -24,6 +25,18 @@ const myPlugin = (store: any) => {
     }
   });
 };
+=======
+export default new Vuex.Store({
+  state: {
+    keyringLoaded: false,
+  },
+  mutations: {
+    keyringLoaded(state) {
+      state.keyringLoaded = true;
+    },
+  },
+  actions: {
+>>>>>>> origin/develop
 
 
 Vue.use(Vuex);

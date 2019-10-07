@@ -1,7 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './components/Accounts.vue';
-
+import FourZeroFour from './components/FourZeroFour.vue';
+import Accounts from './components/accounts/Accounts.vue';
+import Addressbook from './components/addressbook/Addressbook.vue';
+import Transfer from './components/transfer/Transfer.vue';
+import Democracy from './components/democracy/Democracy.vue';
+import Explorer from './components/explorer/Explorer.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -9,7 +13,37 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Accounts,
+    },
+    {
+      path: '/accounts',
+      name: 'accounts',
+      component: Accounts,
+    },
+    {
+      path: '/addressbook',
+      name: 'addressbook',
+      component: Addressbook,
+    },
+    {
+      path: '/transfer',
+      name: 'transfer',
+      component: Transfer,
+    },
+    {
+      path: '/democracy',
+      name: 'democracy',
+      component: Democracy,
+    },
+    {
+      path: '/explorer',
+      name: 'explorer',
+      component: Explorer,
+    },
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
     },
     {
       path: '/settings',

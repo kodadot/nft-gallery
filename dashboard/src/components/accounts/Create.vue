@@ -36,6 +36,9 @@
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
       </b-field>
+      <b-field label="tags">
+          <b-input v-model="newAccount.tags"></b-input>
+        </b-field>
       <b-field grouped>
         <b-field label="keypair crypto type">
           <b-select v-model="keypairType.selected">
@@ -46,9 +49,6 @@
             </option>
           </b-select>
         </b-field>
-        <b-field label="tags">
-          <b-input v-model="newAccount.tags"></b-input>
-        </b-field>
       </b-field>
       <b-field label="secret derivation path">
         <b-input v-model="newAccount.derivationPath"></b-input>
@@ -57,13 +57,14 @@
     <div>
       <b-button 
         type="is-primary"
-        @click="onCreate">Create
+        @click="onCreate">
+        Create
       </b-button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
@@ -109,6 +110,7 @@ export default class Create extends Vue {
     return this.newAccount.mnemonicSeed = mnemonicGenerate();
   }
 
+  @Emit()
   public onCreate(): void {
     try {
       const meta = {
@@ -117,25 +119,30 @@ export default class Create extends Vue {
         whenCreated: Date.now() };
       const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
         this.newAccount.password, meta, this.keypairType.selected);
-      this.$emit('refreshAccounts');
     } catch (error) {
       console.error(error);
     }
   }
 
+  @Watch('$store.state.keyringLoaded')
   public addressFromSeed(): any {
     return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
       {}, this.keypairType.selected).address;
   }
 
+  public isKeyringLoaded() {
+    return this.$store.state.keyringLoaded;
+  }
+
   public coldStart(): void {
     this.generateSeed();
-    this.addressFromSeed();
     this.validateMnemonic();
+    if (this.isKeyringLoaded()) {
+      this.addressFromSeed();
+    }
   }
   public mounted(): void {
     this.coldStart();
   }
-
 }
 </script>

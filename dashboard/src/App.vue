@@ -1,26 +1,44 @@
 <template>
   <div id="dashboard">
     <div class="friendly-view" >
-    <SidebarMenu class="happy-menu" />
-    <router-view id='routerview'/>
+      <SidebarMenu class="happy-menu" />
+      <router-view id='routerview'/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Accounts from './components/Accounts.vue';
-import Navbar from './components/Navbar.vue';
+import { waitReady } from '@polkadot/wasm-crypto';
+import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
 
 @Component({
   components: {
-    Accounts,
-    Navbar,
     SidebarMenu,
   },
 })
-export default class Dashboard extends Vue {}
+export default class Dashboard extends Vue {
+  public loadKeyring(): void {
+    keyring.loadAll({
+      ss58Format: 42,
+      type: 'sr25519',
+      isDevelopment: false });
+  }
+
+  public async mountWasmCrypto(): Promise<void> {
+    await waitReady();
+    console.log('wasmCrypto loaded');
+    this.loadKeyring();
+    console.log('keyring init');
+    this.$store.commit('keyringLoaded');
+    console.log('keyring loaded');
+  }
+
+  public mounted(): void {
+    this.mountWasmCrypto();
+  }
+}
 </script>
 
 <style>

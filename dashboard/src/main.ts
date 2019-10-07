@@ -2,50 +2,24 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faTrash,
-  faKey,
-  faSync,
-  faRedo,
-  faCloudDownloadAlt,
-  faPlay,
-  faFolderOpen,
-  faUsers,
-  faAddressBook,
-  faPaperPlane,
-  faCalendarCheck,
-  faCogs,
-  faEye,
-  faEyeSlash,
-  faExclamationCircle,
-  faUpload,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faKey, faSync, faRedo,
+  faCloudDownloadAlt, faPlay, faFolderOpen,
+  faUsers, faAddressBook, faPaperPlane,
+  faCalendarCheck, faCogs, faEye, faEyeSlash,
+  faExclamationCircle, faUpload, faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
 import store from './store';
 import router from './router';
-import S from '@vue-polkadot/vue-api';
+import Connector from '@vue-polkadot/vue-api';
 
-library.add(
-  faTrash,
-  faKey,
-  faSync,
-  faRedo,
-  faCloudDownloadAlt,
-  faPlay,
-  faFolderOpen,
-  faUsers,
-  faAddressBook,
-  faPaperPlane,
-  faCalendarCheck,
-  faCogs,
-  faEye,
-  faEyeSlash,
-  faExclamationCircle,
-  faUpload,
-);
+library.add(faTrash, faKey, faSync, faRedo,
+  faCloudDownloadAlt, faPlay, faFolderOpen,
+  faUsers, faAddressBook, faPaperPlane,
+  faCalendarCheck, faCogs, faEye, faEyeSlash,
+  faExclamationCircle, faUpload, faDiceD20 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
@@ -54,8 +28,9 @@ keyring.loadAll({
   type: 'sr25519',
   isDevelopment: true,
 });
-S.createInstance();
-Vue.prototype.$http = S.getInstance();
+
+Connector.createInstance();
+Vue.prototype.$http = Connector.getInstance();
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

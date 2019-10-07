@@ -1,24 +1,25 @@
 <template>
   <div>
-      <div>
-        <figure class="image is-52x52">
-      <img
-        class="is-rounded"
-        src="../assets/vue-polkadot.png"
-        alt="Lightweight UI components for Vue.js based on Bulma"
-      />
+    <div>
+      <figure class="image is-52x52">
+    <img
+      class="is-rounded"
+      src="../assets/vue-polkadot.png"
+      alt="Lightweight UI components for Vue.js based on Bulma" />
     </figure>
-    dashboard
     </div>
     <b-menu>
-      <b-menu-list>
-        <b-menu-item tag="router-link" to="/" icon="users" label="accnt"></b-menu-item>
-        <b-menu-item icon="address-book" label="adrbk" :disabled="hasBasicMode"></b-menu-item>
-        <b-menu-item icon="calendar-check" label="dmcrcy" :disabled="hasBasicMode"></b-menu-item>
-        <b-menu-item icon="sync" label="extrinsics" tag="router-link" to="extrinsics" :disabled="hasBasicMode"></b-menu-item>
-        <b-menu-item icon="paper-plane" label="trnsfr" :disabled="hasBasicMode"></b-menu-item>
-        <b-menu-item label="xplrr" tag="router-link" to="explorer"></b-menu-item>
-        <b-menu-item tag="router-link" to="settings" icon="cogs" label="sttngs"></b-menu-item>
+      <b-menu-list
+        v-for="row in sidebar"
+        v-bind:key="row.name"
+        @click="currentRow = row">
+        <b-menu-item 
+          :icon="row.icon" 
+          :label="row.name"
+          :tag="row.tag"
+          :to="row.to"
+          :disabled="row.disabled">
+        </b-menu-item> 
       </b-menu-list>
     </b-menu>
   </div>
@@ -27,10 +28,58 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+@Component({})
 export default class SidebarMenu extends Vue {
+  public sidebar: any = [
+    {
+      name: 'accounts',
+      icon: 'users',
+      to: 'accounts',
+      tag: 'router-link',
+    },
+    {
+      name: 'address book',
+      icon: 'address-book',
+      to: 'addressbook',
+      tag: 'router-link',
+    },
+    {
+      name: 'transfer',
+      icon: 'paper-plane',
+      to: 'transfer',
+      tag: 'router-link',
+    },
+    {
+      name: 'explorer',
+      icon: 'dice-d20',
+      to: 'explorer',
+      tag: 'router-link',
+    },
+    {
+      name: 'democracy',
+      icon: 'calendar-check',
+      to: 'democracy',
+      tag: 'router-link',
+      disabled: true,
+    },
+    {
+      name: 'extrinsics',
+      icon: 'sync',
+      to: 'democracy',
+      tag: 'router-link',
+      disabled: true,
+    },
+    {
+      name: 'settings',
+      icon: 'cogs',
+      to: 'settings',
+      tag: 'router-link',
+      disabled: true,
+    },
+  ];
+  public currentRow: any = this.sidebar[0];
 
-  get hasBasicMode() {
+   get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
 }
