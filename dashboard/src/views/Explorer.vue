@@ -1,7 +1,7 @@
 <template>
 <div>
   Expolorer
-    <div v-if="xx"> You are connected to chain {{xx.toString()}} </div>
+    <div v-if="chainName"> You are connected to chain {{chainName.toString()}} </div>
   </div>
 </template>
 
@@ -10,20 +10,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Explorer extends Vue {
-  public xx: any = '';
-
-  get chain() {
-      return this.xx;
-  }
+  public chainName: any = '';
 
   public async mounted() {
-    // console.log(await (this as any).$http.changeApiUrl('wss://poc3-rpc.polkadot.io/'));
     if ((this as any).$http.api) {
-      const x = await (this as any).$http.api.rpc.system.chain();
-      console.log(x);
-      this.xx = await x.toString();
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.chainName = await apiResponse.toString();
     }
-    // (this as any).$http.api && console.log(await (this as any).$http.api.rpc.system.chain());
   }
 }
 </script>
