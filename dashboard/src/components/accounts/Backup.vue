@@ -1,21 +1,37 @@
 <template>
   <div id="Backup">
-      <b-button type="is-light" @click="makeBackup(address, password)">
-        <font-awesome-icon icon="cloud-download-alt"/>
-        Backup</b-button>
+    <Identicon
+      :value="address"
+      size="64" />
+      {{address.slice(0, 6)}}…{{address.slice(-6)}}
+    <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
+      <b-input v-model="password"
+        @input="validatePassword(password)"
+        password-reveal></b-input>
+    </b-field>      
+    <b-button type="is-primary" @click="makeBackup(address, password)">
+      <font-awesome-icon icon="cloud-download-alt"/>
+      Backup
+    </b-button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import FileSaver from 'file-saver';
+import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
+import FileSaver from 'file-saver';
+
 
 @Component({})
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
-  @Prop(String) public password!: string;
 
+  public password: string = '';
+  public isPassValid: boolean = false;
+  public validatePassword(password: string): boolean {
+    return this.isPassValid = keyring.isPassValid(password);
+  }
   public makeBackup(address: string, password: string): void {
     if (!address) {
       return;
