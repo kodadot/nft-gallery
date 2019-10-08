@@ -21,9 +21,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Executor extends Vue {
-  private label = 'submit the following extrinsic';
-  private selectedMethod = null;
-  @Prop() methods!: string[];
 
   get selected() {
     return this.selectedMethod;
@@ -32,6 +29,9 @@ export default class Executor extends Vue {
   set selected(value) {
     this.$emit('selected', value);
   }
+  @Prop() public methods!: string[];
+  private label = 'submit the following extrinsic';
+  private selectedMethod = null;
 
 }
 </script>

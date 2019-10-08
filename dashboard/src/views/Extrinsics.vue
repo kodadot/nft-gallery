@@ -56,13 +56,13 @@ export default class Extrinsics extends Vue {
     return this.fnSection ? Object.keys((this as any).$http.api.tx[this.fnSection]) : [];
   }
 
-  handleSectionSelection(value: string) {
+  public handleSectionSelection(value: string) {
 
-    this.fnSection = value
+    this.fnSection = value;
   }
 
-  handleMethodSelection(value: string) {
-    console.log((this as any).$http.api.tx[this.fnSection][value].meta['args']);
+  public handleMethodSelection(value: string) {
+    console.log((this as any).$http.api.tx[this.fnSection][value].meta.args);
     this.fnMethod = value;
   }
 
