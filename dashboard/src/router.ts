@@ -45,13 +45,20 @@ export default new Router({
       name: 'FourZeroFour',
       component: FourZeroFour,
     },
-    // {
-    //   path: '/chat',
-    //   name: 'chat',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/ChatRoom.vue'),
-    // },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/Settings.vue'),
+    },
+    {
+      path: '/explorer',
+      name: 'explorer',
+      component: () => import('./views/Explorer.vue'),
+    },
+    {
+      path: '/extrinsics',
+      name: 'extrinsics',
+      component: () => import('./views/Extrinsics.vue'),
+    },
   ],
 });

@@ -8,10 +8,12 @@ import { faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
 import store from './store';
 import router from './router';
+import Connector from '@vue-polkadot/vue-api';
 
 library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
@@ -20,6 +22,15 @@ library.add(faTrash, faKey, faSync, faRedo,
   faExclamationCircle, faUpload, faDiceD20 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+keyring.loadAll({
+  ss58Format: 42,
+  type: 'sr25519',
+  isDevelopment: true,
+});
+
+Connector.createInstance();
+Vue.prototype.$http = Connector.getInstance();
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

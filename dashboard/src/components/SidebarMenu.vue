@@ -65,19 +65,21 @@ export default class SidebarMenu extends Vue {
     {
       name: 'extrinsics',
       icon: 'sync',
-      to: 'democracy',
+      to: 'extrinsics',
       tag: 'router-link',
-      disabled: true,
     },
     {
       name: 'settings',
       icon: 'cogs',
       to: 'settings',
       tag: 'router-link',
-      disabled: true,
     },
   ];
   public currentRow: any = this.sidebar[0];
+
+   get hasBasicMode() {
+    return this.$store.getters.getSettings.uiMode === 'light';
+  }
 }
 </script>
 
