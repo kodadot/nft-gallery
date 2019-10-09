@@ -12,10 +12,10 @@
       />
       <Executor :methods="methods" @selected="handleMethodSelection" label="method" />
     </div>
-    <Argurments :args="args" />
+    <Argurments :args="args" @selected="handleSelectedArguments" />
     <div class="transaction buttons">
       <b-button type="is-danger" outlined disabled>Submit unsigned</b-button>
-      <b-button type="is-primary">Submit Transaction</b-button>
+      <b-button type="is-primary" @click="submitTx">Submit Transaction</b-button>
     </div>
   </div>
 </template>
@@ -51,12 +51,12 @@ export default class Extrinsics extends Vue {
   private isValid: boolean = false;
   private isValidUnsigned: boolean = false;
   private method = null;
-  private extrinsic = null;
   // private apiDefaultTxSudo = apiDefaultTxSudo;
   // private methods =
   private fnSection = "";
   private fnMethod = "";
   private args: any[] = [];
+  private selectedArguments = {}
 
   get sections() {
     return Object.keys((this as any).$http.api.tx);
@@ -77,17 +77,36 @@ export default class Extrinsics extends Vue {
     this.args = (this as any).$http.api.tx[this.fnSection][value].meta.args;
   }
 
-  private getExtrinsic() {
-    const { api } = (this as any).$http;
-    const { method } = this;
-
-    if (method) {
-      // @ts-ignore: Method has always value
-      const fn = api.findCall(method.callIndex);
-      // @ts-ignore: Method has always value
-      this.extrinsic = api.tx[fn.section][fn.method](...method.args);
+  handleSelectedArguments(value) {
+    this.selectedArguments = {
+      ...this.selectedArguments,
+      ...value
     }
   }
+
+// TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
+  public async submitTx() {
+      const { api } = (this as any).$http;
+      console.log('here', api && this.fnMethod && this.fnSection)
+      if (api && this.fnMethod && this.fnSection) {
+        const args = this.args.map(arg => this.selectedArguments[arg.name.toString()])
+        console.log(args);
+        const ad = api.tx[this.fnSection][this.fnMethod](...args)
+        console.log(ad)
+      }
+  }
+
+  // private getExtrinsic() {
+  //   const { api } = (this as any).$http;
+  //   const { method } = this;
+
+  //   if (method) {
+  //     // @ts-ignore: Method has always value
+  //     const fn = api.findCall(method.callIndex);
+  //     // @ts-ignore: Method has always value
+  //     this.extrinsic = api.tx[fn.section][fn.method](...method.args);
+  //   }
+  // }
 }
 </script>
 

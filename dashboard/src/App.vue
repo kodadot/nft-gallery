@@ -2,13 +2,13 @@
   <div id="dashboard">
     <div class="friendly-view" >
       <SidebarMenu class="happy-menu" />
-      <router-view id='routerview'/>
+     <router-view id='routerview'/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';

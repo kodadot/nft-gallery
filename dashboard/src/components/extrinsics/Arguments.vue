@@ -1,21 +1,27 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field
-      v-for="(arg) in args"
-      v-bind:key="arg.name.toString()"
-      :label="`${arg.name}: ${arg.type}`"
-    >
-      <b-input   />
-    </b-field>
+    <ArgumentHandler v-for="(arg) in args" :argument="arg" v-bind:key="arg.name.toString()" @selected="selected" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import ArgumentHandler from './ArgumentHandler.vue';
 
-@Component
+@Component({
+  components: {
+    ArgumentHandler
+  }
+})
 export default class Arguments extends Vue {
   @Prop() args!: any[];
+
+  @Emit('selected')
+  private selected(value) {
+    console.log('Arguments', value);
+    
+    return value
+  }
 
 }
 </script>

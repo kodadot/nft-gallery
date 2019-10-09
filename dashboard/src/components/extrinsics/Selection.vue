@@ -13,12 +13,12 @@
       >{{ acc.meta.name }} - {{ acc.address }} </option>
     </b-select>
   </b-field>
-  <Balance />
+  <Balance :account="selectedAccount"/>
 </div >
 </template>
 
 <script lang="ts">
-import { Prop } from 'vue-property-decorator';
+import { Prop, Emit } from 'vue-property-decorator';
 import WithKeyring from '@/utils/WithKeyring';
 import Component from 'vue-class-component';
 import Balance from './Balance.vue';
@@ -43,6 +43,7 @@ class Selection extends WithKeyring {
 
   set selected(value) {
     console.log('selected', value);
+    this.selectedAccount = value;
   }
 }
 
