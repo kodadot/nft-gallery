@@ -23,11 +23,12 @@ library.add(faTrash, faKey, faSync, faRedo,
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-keyring.loadAll({
-  ss58Format: 42,
-  type: 'sr25519',
-  isDevelopment: true,
-});
+// later will be removed
+// keyring.loadAll({
+//   ss58Format: 42,
+//   type: 'sr25519',
+//   isDevelopment: true,
+// });
 
 Connector.createInstance();
 Vue.prototype.$http = Connector.getInstance();
