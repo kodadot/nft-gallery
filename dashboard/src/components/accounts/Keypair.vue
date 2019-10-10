@@ -10,7 +10,12 @@
           </b-field>
           <b-field grouped multiline>
             {{meta.name}} <br>
-            {{address.slice(0, 6)}}…{{address.slice(-6)}}<br>
+            {{address.slice(0, 6)}}…{{address.slice(-6)}}
+              <b-button 
+              icon-left="copy" 
+              v-clipboard:copy="address"
+              @click="toast('Address copied to clipboard')">
+              </b-button><br>
             {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} || {{type}}
             <p v-if="meta.tags">
             <b-tag 
@@ -70,6 +75,10 @@ export default class Keypair extends Vue {
   @Emit()
   public forgetAccount(address: string): void {
     keyring.forgetAccount(address);
+  }
+
+  public toast(message: string): void {
+    this.$buefy.toast.open(message);
   }
 }
 </script>

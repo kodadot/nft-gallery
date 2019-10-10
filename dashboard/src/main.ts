@@ -6,8 +6,10 @@ import { faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle, faUpload, faDiceD20 } from '@fortawesome/free-solid-svg-icons';
+  faExclamationCircle, faUpload, faDiceD20,
+  faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import VueClipboard from 'vue-clipboard2';
 import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
@@ -19,7 +21,8 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle, faUpload, faDiceD20 );
+  faExclamationCircle, faUpload, faDiceD20,
+  faCopy );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
@@ -48,6 +51,9 @@ Vue.use(Buefy, {
     },
   },
 });
+
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;
 
