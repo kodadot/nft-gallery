@@ -52,7 +52,6 @@ Vue.use(Buefy, {
   },
 });
 
-VueClipboard.config.autoSetContainer = true;
 Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;

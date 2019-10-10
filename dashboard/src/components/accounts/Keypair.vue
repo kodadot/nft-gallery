@@ -11,7 +11,8 @@
           <b-field grouped multiline>
             {{meta.name}} <br>
             {{address.slice(0, 6)}}…{{address.slice(-6)}}
-              <b-button 
+              <b-button
+              size="is-small" 
               icon-left="copy" 
               v-clipboard:copy="address"
               @click="toast('Address copied to clipboard')">
