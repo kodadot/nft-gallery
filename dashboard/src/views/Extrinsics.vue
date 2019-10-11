@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import Selection from "../components/extrinsics/Selection.vue";
-import Executor from "../components/extrinsics/Executor.vue";
-import Argurments from "../components/extrinsics/Arguments.vue";
-import { Prop, Vue, Component } from "vue-property-decorator";
+import Selection from '../components/extrinsics/Selection.vue';
+import Executor from '../components/extrinsics/Executor.vue';
+import Argurments from '../components/extrinsics/Arguments.vue';
+import { Prop, Vue, Component } from 'vue-property-decorator';
 
 // import Connector from '@vue-polkadot/vue-api'
 //
@@ -44,8 +44,8 @@ import { Prop, Vue, Component } from "vue-property-decorator";
   components: {
     Selection,
     Executor,
-    Argurments
-  }
+    Argurments,
+  },
 })
 export default class Extrinsics extends Vue {
   private isValid: boolean = false;
@@ -53,10 +53,10 @@ export default class Extrinsics extends Vue {
   private method = null;
   // private apiDefaultTxSudo = apiDefaultTxSudo;
   // private methods =
-  private fnSection = "";
-  private fnMethod = "";
+  private fnSection = '';
+  private fnMethod = '';
   private args: any[] = [];
-  private selectedArguments = {}
+  private selectedArguments = {};
 
   get sections() {
     return Object.keys((this as any).$http.api.tx);
@@ -77,22 +77,22 @@ export default class Extrinsics extends Vue {
     this.args = (this as any).$http.api.tx[this.fnSection][value].meta.args;
   }
 
-  handleSelectedArguments(value) {
+  public handleSelectedArguments(value) {
     this.selectedArguments = {
       ...this.selectedArguments,
-      ...value
-    }
+      ...value,
+    };
   }
 
 // TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
   public async submitTx() {
       const { api } = (this as any).$http;
-      console.log('here', api && this.fnMethod && this.fnSection)
+      console.log('here', api && this.fnMethod && this.fnSection);
       if (api && this.fnMethod && this.fnSection) {
-        const args = this.args.map(arg => this.selectedArguments[arg.name.toString()])
+        const args = this.args.map((arg) => this.selectedArguments[arg.name.toString()]);
         console.log(args);
-        const ad = api.tx[this.fnSection][this.fnMethod](...args)
-        console.log(ad)
+        const ad = api.tx[this.fnSection][this.fnMethod](...args);
+        console.log(ad);
       }
   }
 

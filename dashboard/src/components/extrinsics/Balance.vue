@@ -3,11 +3,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class Balance extends Vue {
-  @Prop() account!: string;
+  @Prop() public account!: string;
 
   private currentBalance = null;
 
@@ -16,8 +16,8 @@ export default class Balance extends Vue {
   }
 
   @Watch('account')
-  async onAccountChange(value: string) {
-  
+  public async onAccountChange(value: string) {
+
     if (value && (this as any).$http) {
       const { api } = (this as any).$http;
       this.currentBalance = await api.query.balances.freeBalance(value);

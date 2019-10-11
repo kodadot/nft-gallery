@@ -22,7 +22,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class Executor extends Vue {
   @Prop() public methods!: string[];
-  @Prop() label!: string; 
+  @Prop() public label!: string;
 
   get selected() {
     return this.selectedMethod;
@@ -31,7 +31,7 @@ export default class Executor extends Vue {
   set selected(value) {
     this.$emit('selected', value);
   }
-  
+
   private selectedMethod = null;
 
 }

@@ -5,22 +5,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import ArgumentHandler from './ArgumentHandler.vue';
 
 @Component({
   components: {
-    ArgumentHandler
-  }
+    ArgumentHandler,
+  },
 })
 export default class Arguments extends Vue {
-  @Prop() args!: any[];
+  @Prop() public args!: any[];
 
   @Emit('selected')
   private selected(value) {
     console.log('Arguments', value);
-    
-    return value
+
+    return value;
   }
 
 }
