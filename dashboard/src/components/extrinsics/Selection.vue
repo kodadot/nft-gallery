@@ -41,10 +41,16 @@ class Selection extends WithKeyring {
     return this.selectedAccount;
   }
 
-  set selected(value) {
-    console.log('selected', value);
-    this.selectedAccount = value;
+  set selected(address: string) {
+    console.log('selected', address);
+    this.selectedAccount = address;
   }
+
+  @Emit('selected')
+  onSelectedAccount(address: string) {
+    return this.getPair(address)
+  }
+
 }
 
 // Explicit casting because it would shout in other components

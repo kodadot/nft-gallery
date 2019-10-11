@@ -33,6 +33,10 @@ export default class WithKeyring extends Vue {
 
   }
 
+  public getPair(address: string): KeyringPair {
+    return keyring.getPair(address)
+  }
+
   public vueU8aToHex(publicKey: Uint8Array): string {
     return u8aToHex(publicKey);
   }

@@ -3,7 +3,7 @@
     <b-tabs>
       <b-tab-item label="Extrinsic submission"></b-tab-item>
     </b-tabs>
-    <Selection />
+    <Selection @selected="handleAccountSelection"/>
     <div class="executor-wrapper">
       <Executor
         :methods="sections"
@@ -57,6 +57,7 @@ export default class Extrinsics extends Vue {
   private fnMethod = '';
   private args: any[] = [];
   private selectedArguments = {};
+  private account = null;
 
   get sections() {
     return Object.keys((this as any).$http.api.tx);
@@ -77,22 +78,27 @@ export default class Extrinsics extends Vue {
     this.args = (this as any).$http.api.tx[this.fnSection][value].meta.args;
   }
 
-  public handleSelectedArguments(value) {
+  public handleSelectedArguments(value: any) {
     this.selectedArguments = {
       ...this.selectedArguments,
       ...value,
     };
   }
 
+  handleAccountSelection(account) {
+    this.account = account
+  }
+
 // TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
   public async submitTx() {
       const { api } = (this as any).$http;
-      console.log('here', api && this.fnMethod && this.fnSection);
-      if (api && this.fnMethod && this.fnSection) {
-        const args = this.args.map((arg) => this.selectedArguments[arg.name.toString()]);
+      console.log('here', (api && this.account && this.fnMethod && this.fnSection));
+      if (api && this.account && this.fnMethod && this.fnSection) {
+        const args = this.args.map((arg: any) => this.selectedArguments[arg.name.toString()]);
         console.log(args);
-        const ad = api.tx[this.fnSection][this.fnMethod](...args);
-        console.log(ad);
+        const func = api.tx[this.fnSection][this.fnMethod](...args);
+        const hash = await func.signAndSend(this.account);
+        console.log('Transfer sent with hash', hash.toHex());
       }
   }
 

@@ -17,7 +17,7 @@ export default class Arguments extends Vue {
   @Prop() public args!: any[];
 
   @Emit('selected')
-  private selected(value) {
+  private selected(value: any) {
     console.log('Arguments', value);
 
     return value;
