@@ -51,8 +51,8 @@ export default new Router({
       component: () => import('./views/Settings.vue'),
     },
     {
-      path: '/explorer',
-      name: 'explorer',
+      path: '/explorer2',
+      name: 'explorer2',
       component: () => import('./views/Explorer.vue'),
     },
     {
