@@ -25,6 +25,7 @@ import Selection from '../components/extrinsics/Selection.vue';
 import Executor from '../components/extrinsics/Executor.vue';
 import Argurments from '../components/extrinsics/Arguments.vue';
 import { Prop, Vue, Component } from 'vue-property-decorator';
+import { KeyringPair } from '@polkadot/keyring/types';
 
 // import Connector from '@vue-polkadot/vue-api'
 //
@@ -48,16 +49,6 @@ import { Prop, Vue, Component } from 'vue-property-decorator';
   },
 })
 export default class Extrinsics extends Vue {
-  private isValid: boolean = false;
-  private isValidUnsigned: boolean = false;
-  private method = null;
-  // private apiDefaultTxSudo = apiDefaultTxSudo;
-  // private methods =
-  private fnSection = '';
-  private fnMethod = '';
-  private args: any[] = [];
-  private selectedArguments = {};
-  private account = null;
 
   get sections() {
     return Object.keys((this as any).$http.api.tx);
@@ -68,6 +59,16 @@ export default class Extrinsics extends Vue {
       ? Object.keys((this as any).$http.api.tx[this.fnSection])
       : [];
   }
+  private isValid: boolean = false;
+  private isValidUnsigned: boolean = false;
+  private method = null;
+  // private apiDefaultTxSudo = apiDefaultTxSudo;
+  // private methods =
+  private fnSection = '';
+  private fnMethod = '';
+  private args: any[] = [];
+  private selectedArguments = {};
+  private account: any;
 
   public handleSectionSelection(value: string) {
     this.fnSection = value;
@@ -85,8 +86,8 @@ export default class Extrinsics extends Vue {
     };
   }
 
-  handleAccountSelection(account) {
-    this.account = account
+  public handleAccountSelection(account: KeyringPair) {
+    this.account = account;
   }
 
 // TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
@@ -94,12 +95,18 @@ export default class Extrinsics extends Vue {
       const { api } = (this as any).$http;
       console.log('here', (api && this.account && this.fnMethod && this.fnSection));
       if (api && this.account && this.fnMethod && this.fnSection) {
-        const args = this.args.map((arg: any) => this.selectedArguments[arg.name.toString()]);
+        const args = this.args.map(this.argMapper);
         console.log(args);
         const func = api.tx[this.fnSection][this.fnMethod](...args);
         const hash = await func.signAndSend(this.account);
         console.log('Transfer sent with hash', hash.toHex());
       }
+  }
+
+  private argMapper(arg: any): any {
+    const accessor: string = arg.name.toString();
+    // @ts-ignore: Method has always value
+    return this.selectedArguments[accessor];
   }
 
   // private getExtrinsic() {

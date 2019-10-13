@@ -31,7 +31,7 @@ import Vue, { VueConstructor } from 'vue';
 })
 class Selection extends WithKeyring {
   private label = 'Accounts';
-  private selectedAccount = null;
+  private selectedAccount: string = '';
 
   get accounts() {
     return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
@@ -47,8 +47,8 @@ class Selection extends WithKeyring {
   }
 
   @Emit('selected')
-  onSelectedAccount(address: string) {
-    return this.getPair(address)
+  public onSelectedAccount(address: string) {
+    return this.getPair(address);
   }
 
 }
