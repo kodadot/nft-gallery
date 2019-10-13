@@ -44,6 +44,7 @@ class Selection extends WithKeyring {
   set selected(address: string) {
     console.log('selected', address);
     this.selectedAccount = address;
+    this.onSelectedAccount(address);
   }
 
   @Emit('selected')

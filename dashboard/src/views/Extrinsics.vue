@@ -87,6 +87,8 @@ export default class Extrinsics extends Vue {
   }
 
   public handleAccountSelection(account: KeyringPair) {
+    console.log('account', account);
+
     this.account = account;
   }
 
@@ -98,8 +100,15 @@ export default class Extrinsics extends Vue {
         const args = this.args.map(this.argMapper);
         console.log(args);
         const func = api.tx[this.fnSection][this.fnMethod](...args);
-        const hash = await func.signAndSend(this.account);
-        console.log('Transfer sent with hash', hash.toHex());
+        try {
+          console.log('func is ', func);
+          const hash = await func.signAndSend(this.account);
+          console.log('Transfer sent with hash', hash.toHex());
+        } catch (e) {
+          console.warn('Err occ', e);
+
+        }
+
       }
   }
 
