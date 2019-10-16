@@ -1161,10 +1161,10 @@
     vue-property-decorator "^8.1.0"
     vue-styled-components "^1.4.9"
 
-"@vue-polkadot/vue-settings@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.5.tgz#014c6e545d079edf70bdddc3cf9baecdf6ae2004"
-  integrity sha512-FpQz4Z5VQtHV3Nq/L+9Y7jn91G7f/+HeMDPRZmPXSCfhaRrEb6sMj8VUkfB5GyXPkY//jbhEiJDkwVGp8Lb/MA==
+"@vue-polkadot/vue-settings@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.8.tgz#0bee947e7735efeac13c5cf9fa088841055203f3"
+  integrity sha512-Hr2oCYpUl22YH/7tzaYMpDDTj1I9IXPARmcUAoFTtfZvG44JWiolT704W8nfT9l1F/uwBdN9IQp0GRoc1lUbPQ==
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"

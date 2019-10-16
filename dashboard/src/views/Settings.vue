@@ -3,9 +3,11 @@
      <b-tabs>
         <b-tab-item label="General"></b-tab-item>
     </b-tabs>
-    <SettingChooser label="Remote Node" selector="availableNodes" setter="setApiUrl" defaultValue="apiUrl" />
+    <SettingChooser label="Remote Node" selector="availableNodes" setter="setApiUrl" defaultValue="apiUrl" addOption="local" addMethod="addNode" />
     <SettingChooser label="Address Prefix" selector="availablePrefixes" setter="setPrefix" defaultValue="prefix"  />
     <SettingChooser label="Interface Operation Mode" selector="availableUiModes" setter="setUiMode"  defaultValue="uiMode" />
+    <SettingChooser label="Default Icon Theme" selector="availableIcons" setter="setIcon"  defaultValue="icon" />
+    <!-- <SettingChooser label="Interface Operation Mode" selector="availableLocking" setter="setLocking"  defaultValue="locking" /> -->
   </div>
 </template>
 
