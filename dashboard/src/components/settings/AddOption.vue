@@ -25,7 +25,7 @@ export default class AddOption extends Vue {
   @Emit('add')
   public onAddedOption() {
     const { text, value } = this;
-    return { text, value };
+    return { text: `${text} (${value})`, value };
   }
 }
 </script>
