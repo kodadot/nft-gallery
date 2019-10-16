@@ -40,10 +40,6 @@ class Selection extends WithKeyring {
   get selected() {
     return this.selectedAccount;
   }
-
-  set selected(value) {
-    console.log('selected', value);
-  }
 }
 
 // Explicit casting because it would shout in other components

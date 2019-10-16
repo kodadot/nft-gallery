@@ -12,21 +12,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Emit, Prop } from "vue-property-decorator";
+import { Component, Vue, Provide, Emit, Prop } from 'vue-property-decorator';
 
 @Component
 export default class AddOption extends Vue {
-  @Provide()
-  private value: string = "";
-  @Provide()
-  private text: string = "";
   @Prop() public label!: string;
+  @Provide()
+  private value: string = '';
+  @Provide()
+  private text: string = '';
 
-  @Emit("add")
+  @Emit('add')
   public onAddedOption() {
     const { text, value } = this;
-    console.log("here");
-
     return { text, value };
   }
 }
