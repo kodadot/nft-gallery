@@ -25,6 +25,7 @@
       <Identicon
         :value="transfer.to"
         :size="64" />
+      <b-button @click="fetchAmount">fetchAmount</b-button>
       <b-field label="send to address">
         <b-select v-model="transfer.to">
           <optgroup v-for="acc in keyringAccounts"
@@ -116,6 +117,11 @@ export default class Transfer extends Vue {
     // });
 
     // console.log(this.conn);
+  }
+
+  public async fetchAmount(): Promise<void> {
+    console.log('fetchAmount');
+    this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
   }
 
   @Watch('$store.state.keyringLoaded')
