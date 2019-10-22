@@ -7,7 +7,7 @@ import { faTrash, faKey, faSync, faRedo,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
-  faCopy } from '@fortawesome/free-solid-svg-icons';
+  faCopy, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
 import keyring from '@vue-polkadot/vue-keyring';
@@ -22,7 +22,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
-  faCopy );
+  faCopy, faChevronLeft );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

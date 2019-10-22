@@ -124,8 +124,9 @@ export default class Transfer extends Vue {
     this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
   }
 
-  @Watch('$store.state.keyringLoaded')
+  // @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
+    console.log(this.$store.state.keyringLoaded);
     if (this.isKeyringLoaded()) {
       this.keyringAccounts = keyring.getPairs();
     }

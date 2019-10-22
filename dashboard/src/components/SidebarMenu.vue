@@ -80,6 +80,12 @@ export default class SidebarMenu extends Vue {
       to: 'settings',
       tag: 'router-link',
     },
+    {
+      name: 'foldme',
+      icon: 'chevron-left',
+      to: '',
+      tag: 'router-link',
+    },
   ];
   public currentRow: any = this.sidebar[0];
 
