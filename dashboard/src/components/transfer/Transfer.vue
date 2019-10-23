@@ -52,7 +52,6 @@ import TxPicker from './TxPicker.vue';
 })
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
-  public address: string = null;
   public transfer: any = {
     from: null,
     fromBalance: null,
