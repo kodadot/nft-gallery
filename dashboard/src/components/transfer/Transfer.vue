@@ -5,56 +5,19 @@
     </b-field>
     <TxPicker
       label="send from account"
-      :address="transfer.from"
+      :address.sync="transfer.from"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
       :balance="transfer.fromBalance"
     />
     <TxPicker
       label="send to address"
-      :address="transfer.to"
+      :address.sync="transfer.to"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
       :balance="transfer.toBalance"
     />
-    <b-field group multiline>
-      <Identicon 
-        :value="transfer.from"
-        :theme="theme"
-        :size="64" />
-      Available Amount {{transfer.fromBalance}}
-      <b-field label="send from account">
-        <b-select v-model="transfer.from">
-          <optgroup v-for="acc in keyringAccounts"
-            v-bind:key="acc.name"
-            v-bind:value="acc.address"
-            :label="acc.address.slice(0,20)">
-            <option :value="acc.address">
-              {{acc.meta.name}}
-            </option>
-          </optgroup>
-        </b-select>
-      </b-field>
-    </b-field>
-    <b-field group multiline>
-      <Identicon
-        :value="transfer.to"
-        :theme="theme"
-        :size="64" />
-      <b-button @click="fetchAmount">fetchAmount</b-button>
-      <b-field label="send to address">
-        <b-select v-model="transfer.to">
-          <optgroup v-for="acc in keyringAccounts"
-            v-bind:key="acc.name"
-            v-bind:value="acc.address"
-            :label="acc.address.slice(0,20)">
-            <option :value="acc.address">
-              {{acc.meta.name}}
-            </option>
-          </optgroup>
-        </b-select>
-      </b-field>
-    </b-field>
+    <b-button @click="fetchAmount">fetchAmount</b-button>
     <b-field label="amount">
       <b-input v-model="transfer.amount"
       type="number">
@@ -104,10 +67,6 @@ export default class Transfer extends Vue {
     {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
   ];
   public keyringAccounts: any = [];
-  public wsProviders: object = [
-    {name: 'poc3-rpc.polkadot', value: 'wss://poc3-rpc.polkadot.io/'},
-    {name: 'alex.unfrastructure', value: 'wss://alex.unfrastructure.io/public/ws'},
-    {name: 'localhost:9444', value: 'ws://127.0.0.1:9944'}];
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public api: any = '';
   public async apiInit(): Promise<void> {
@@ -141,13 +100,18 @@ export default class Transfer extends Vue {
 
   public async fetchAmount(): Promise<void> {
     console.log('fetchAmount');
-    this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
-    this.transfer.toBalance = await this.api.query.balances.freeBalance(this.transfer.to);
+    if ((this as any).$http.api) {
+      const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
+      this.transfer.fromBalance = await fromBalance;
+      const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
+      this.transfer.toBalance = await toBalance;
+    }
+
   }
 
-  // @Watch('$store.state.keyringLoaded')
+  @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    console.log(this.$store.state.keyringLoaded);
+    // console.log(this.$store.state.keyringLoaded);
     if (this.isKeyringLoaded()) {
       this.keyringAccounts = keyring.getPairs();
     }
@@ -165,7 +129,7 @@ export default class Transfer extends Vue {
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
-    this.apiInit();
+    // this.apiInit();
   }
 }
 </script>

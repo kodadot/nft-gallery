@@ -66,7 +66,7 @@ export default class Explorer extends Vue {
     }
   }
 
-  public async mounted(): Promise<void> {
+  public async loadExternalInfo() {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
@@ -80,6 +80,10 @@ export default class Explorer extends Vue {
       // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
       // this.sortBestPeerBlock();
     }
+  }
+
+  public async mounted(): Promise<void> {
+    this.loadExternalInfo();
   }
 }
 </script>
