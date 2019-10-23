@@ -4,8 +4,9 @@
       Recent block {{conn.header.number}}
     </b-field>
     <b-field group multiline>
-      <Identicon
+      <Identicon 
         :value="transfer.from"
+        :theme="theme"
         :size="64" />
       Available Amount {{transfer.fromBalance}}
       <b-field label="send from account">
@@ -24,6 +25,7 @@
     <b-field group multiline>
       <Identicon
         :value="transfer.to"
+        :theme="theme"
         :size="64" />
       <b-button @click="fetchAmount">fetchAmount</b-button>
       <b-field label="send to address">
@@ -70,6 +72,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
   },
 })
 export default class Transfer extends Vue {
+  public theme: string = 'substrate';
   public transfer: any = {
     from: '5FWhigNPRJAdvvdJWZKcFsAHV9jm4K6bZs84TAQ3eVmqf8Hj',
     to: '', amount: '', fromBalance: '' };
@@ -136,9 +139,14 @@ export default class Transfer extends Vue {
     return this.$store.state.keyringLoaded;
   }
 
+  public getIconTheme() {
+    this.theme = this.$store.state.setting.icon;
+  }
+
   public mounted(): void {
     this.isKeyringLoaded();
     this.mapAccounts();
+    this.getIconTheme();
     this.apiInit();
   }
 }
