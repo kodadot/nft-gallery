@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <figure class="image is-52x52">
+      <figure class="image is-48x48">
     <img
       class="is-rounded"
       src="../assets/vue-polkadot.png"
@@ -81,7 +81,7 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
-      name: 'foldme',
+      name: '',
       icon: 'chevron-left',
       to: '',
       tag: 'router-link',
@@ -95,8 +95,14 @@ export default class SidebarMenu extends Vue {
 }
 </script>
 
-<style scoped>
-.menu {
-  /* background-color: #efefef; */
+<style>
+.menu-list a {
+  color: #dbdbdb;
+}
+.menu-list a.is-active {
+  background-color: #40b883e0;
+}
+.happy-menu {
+  background-color: #000000bd;
 }
 </style>
