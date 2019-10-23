@@ -36,8 +36,8 @@ import Identicon from '@vue-polkadot/vue-identicon';
 export default class TxPicker extends Vue {
   @Prop(String) public label!: string;
   @Prop(String) public theme!: string;
-  @Prop(Object) public keyringAccounts!: any;
-  @Prop(Object) public balance!: any;
+  @Prop() public keyringAccounts!: any;
+  @Prop() public balance!: any;
   @PropSync('address', { type: String }) public pickedAddress!: string;
 }
 </script>

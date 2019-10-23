@@ -31,7 +31,10 @@
         </b-select>
       </p>
     </b-field>
-    <b-button icon-left="paper-plane">Make Transfer
+    <b-button 
+      type="is-primary" 
+      icon-left="paper-plane">
+      Make Transfer
     </b-button>
   </div>  
 </template>
@@ -40,8 +43,6 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import TxPicker from './TxPicker.vue';
-// import { SubmittableExtrinsic, QueryableStorageEntry } from '@polkadot/api/promise/types';
-import { ApiPromise, WsProvider } from '@polkadot/api';
 
 @Component({
   components: {
@@ -53,11 +54,11 @@ export default class Transfer extends Vue {
   public theme: string = 'substrate';
   public address: string = null;
   public transfer: any = {
-    from: '5FWhigNPRJAdvvdJWZKcFsAHV9jm4K6bZs84TAQ3eVmqf8Hj',
+    from: null,
     fromBalance: null,
-    to: '',
+    to: null,
     toBalance: null,
-    amount: '' };
+    amount: null };
   public unitsSelected: any = 1;
   public units: any = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
@@ -71,46 +72,18 @@ export default class Transfer extends Vue {
   public keyringAccounts: any = [];
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public api: any = '';
-  public async apiInit(): Promise<void> {
-    const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
-    this.api = await ApiPromise.create({provider: wsprovider});
 
-    this.api.rpc.chain.subscribeNewHeads((header: any) => {
-      this.conn.header = header;
-    });
-
-    console.log(this.api.genesisHash.toHex());
-    // console.log(await this.api.rpc.system.chain());
-    this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
-    // this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
-    // [this.conn.chain, this.conn.nodeName, this.conn.nodeVersion] = await Promise.all([
-    //   this.api.rpc.system.chain(),
-    //   this.api.rpc.system.name(),
-    //   this.api.rpc.system.version(),
-    // ]);
-
-    // this.api.combineLatest([
-    //   this.api.rpc.chain.subscribeNewHeads,
-    //   [this.api.query.balances.freeBalance, this.transfer.from],
-    //   (cb) => this.api.query.system.accountNonce(this.transfer.from, cb),
-    // ], ([head, balance, nonce]) => {
-    //   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
-    // });
-
-    // console.log(this.conn);
-  }
   @Watch('transfer.from')
   @Watch('transfer.to')
   public async fetchAmount(): Promise<void> {
-    console.log('fetchAmount');
     if ((this as any).$http.api) {
       if (this.transfer.from) {
         const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
-        this.transfer.fromBalance = await fromBalance;
+        this.transfer.fromBalance = await fromBalance.toString();
       }
       if (this.transfer.to) {
         const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
-        this.transfer.toBalance = await toBalance;
+        this.transfer.toBalance = await toBalance.toString();
       }
     }
   }
@@ -135,7 +108,6 @@ export default class Transfer extends Vue {
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
-    // this.apiInit();
   }
 }
 </script>
