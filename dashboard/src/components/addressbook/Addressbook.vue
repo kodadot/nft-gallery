@@ -19,7 +19,6 @@
         @forget-account="mapAccounts" />
       </li>
     </ul>
-
   </div>  
 </template>
 <script lang="ts">
@@ -41,7 +40,6 @@ import { mapState } from 'vuex';
 
 export default class AddressBook extends Vue {
   public keyringAccounts: any = [];
-  public keys: any = '';
   public theme: string = 'substrate';
 
   @Watch('$store.state.keyringLoaded')

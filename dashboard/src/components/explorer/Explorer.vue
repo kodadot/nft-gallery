@@ -44,15 +44,10 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { ApiPromise, ApiRx, WsProvider } from '@polkadot/api';
 
 @Component
 export default class Explorer extends Vue {
   public activeTab: number = 2;
-  public wsProviders: object = [
-    {name: 'poc3-rpc.polkadot', value: 'wss://poc3-rpc.polkadot.io/'},
-    {name: 'alex.unfrastructure', value: 'wss://alex.unfrastructure.io/public/ws'},
-    {name: 'localhost:9444', value: 'ws://127.0.0.1:9944'}];
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public bestPeer: any = null;
   public bestPeerBlock: any = null;
@@ -60,7 +55,6 @@ export default class Explorer extends Vue {
   public nodeInfo: any = {
     blockNumber: '', health: '', peers: '', extrinsics: '',
   };
-  public nodeInfoPeers: any = null;
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   @Watch('nodeInfo.peers')
@@ -72,7 +66,7 @@ export default class Explorer extends Vue {
     }
   }
 
-    public async mounted(): Promise<void> {
+  public async mounted(): Promise<void> {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
@@ -86,8 +80,6 @@ export default class Explorer extends Vue {
       // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
       // this.sortBestPeerBlock();
     }
-    // this.apiInit();
-    // this.timerNodeInfo();
   }
 }
 </script>

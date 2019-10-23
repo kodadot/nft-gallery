@@ -3,6 +3,20 @@
     <b-field group multiline>
       Recent block {{conn.header.number}}
     </b-field>
+    <TxPicker
+      label="send from account"
+      :address="transfer.from"
+      :theme="theme"
+      :keyringAccounts="keyringAccounts"
+      :balance="transfer.fromBalance"
+    />
+    <TxPicker
+      label="send to address"
+      :address="transfer.to"
+      :theme="theme"
+      :keyringAccounts="keyringAccounts"
+      :balance="transfer.toBalance"
+    />
     <b-field group multiline>
       <Identicon 
         :value="transfer.from"
@@ -63,19 +77,22 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
+import TxPicker from './TxPicker.vue';
 // import { SubmittableExtrinsic, QueryableStorageEntry } from '@polkadot/api/promise/types';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 @Component({
   components: {
     Identicon,
+    TxPicker,
   },
 })
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
   public transfer: any = {
     from: '5FWhigNPRJAdvvdJWZKcFsAHV9jm4K6bZs84TAQ3eVmqf8Hj',
-    to: '', amount: '', fromBalance: '' };
+    to: '', amount: '', fromBalance: '',
+    toBalance: '' };
   public unitsSelected: any = 1;
   public units: any = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
@@ -125,6 +142,7 @@ export default class Transfer extends Vue {
   public async fetchAmount(): Promise<void> {
     console.log('fetchAmount');
     this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
+    this.transfer.toBalance = await this.api.query.balances.freeBalance(this.transfer.to);
   }
 
   // @Watch('$store.state.keyringLoaded')
