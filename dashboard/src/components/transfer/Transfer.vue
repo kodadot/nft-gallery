@@ -17,7 +17,6 @@
       :keyringAccounts="keyringAccounts"
       :balance="transfer.toBalance"
     />
-    <b-button @click="fetchAmount">fetchAmount</b-button>
     <b-field label="amount">
       <b-input v-model="transfer.amount"
       type="number">
@@ -52,10 +51,13 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 })
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
+  public address: string = null;
   public transfer: any = {
     from: '5FWhigNPRJAdvvdJWZKcFsAHV9jm4K6bZs84TAQ3eVmqf8Hj',
-    to: '', amount: '', fromBalance: '',
-    toBalance: '' };
+    fromBalance: null,
+    to: '',
+    toBalance: null,
+    amount: '' };
   public unitsSelected: any = 1;
   public units: any = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
@@ -97,16 +99,20 @@ export default class Transfer extends Vue {
 
     // console.log(this.conn);
   }
-
+  @Watch('transfer.from')
+  @Watch('transfer.to')
   public async fetchAmount(): Promise<void> {
     console.log('fetchAmount');
     if ((this as any).$http.api) {
-      const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
-      this.transfer.fromBalance = await fromBalance;
-      const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
-      this.transfer.toBalance = await toBalance;
+      if (this.transfer.from) {
+        const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
+        this.transfer.fromBalance = await fromBalance;
+      }
+      if (this.transfer.to) {
+        const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
+        this.transfer.toBalance = await toBalance;
+      }
     }
-
   }
 
   @Watch('$store.state.keyringLoaded')

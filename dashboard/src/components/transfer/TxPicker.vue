@@ -8,7 +8,7 @@
             :size="56" />
         </p>
         <b-field :label="label">
-          <b-select v-model="address">
+          <b-select v-model="pickedAddress">
             <optgroup v-for="acc in keyringAccounts"
               v-bind:key="acc.name"
               v-bind:value="acc.address"
@@ -26,7 +26,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, PropSync, Vue, Watch, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 @Component({
   components: {
@@ -35,11 +35,9 @@ import Identicon from '@vue-polkadot/vue-identicon';
 })
 export default class TxPicker extends Vue {
   @Prop(String) public label!: string;
-  // @Prop(String) public address!: string;
   @Prop(String) public theme!: string;
-  @Prop(Array) public keyringAccounts!: any;
-  @Prop({default: 0}) public balance!: string;
-
-  @PropSync('address', {type: String }) private pickedAddress!: string;
+  @Prop(Object) public keyringAccounts!: any;
+  @Prop(Object) public balance!: any;
+  @PropSync('address', { type: String }) public pickedAddress!: string;
 }
 </script>
