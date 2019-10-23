@@ -18,7 +18,7 @@
       :balance="transfer.toBalance"
     />
     <b-field label="amount">
-      <b-input v-model="transfer.amount"
+      <b-input v-model="transfer.amountVisible"
       type="number">
       </b-input>
       <p class="control">
@@ -33,9 +33,15 @@
     </b-field>
     <b-button 
       type="is-primary" 
-      icon-left="paper-plane">
+      icon-left="paper-plane"
+      @click="shipIt">
       Make Transfer
     </b-button>
+    <!-- <b-field label="put magic here">
+      <b-input v-model="password" password-reveal>
+      </b-input>
+    </b-field> -->
+    <br>last tx {{tx}}
   </div>  
 </template>
 <script lang="ts">
@@ -52,11 +58,14 @@ import TxPicker from './TxPicker.vue';
 })
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
+  public tx: string = '';
+  public password: string = '';
   public transfer: any = {
     from: null,
     fromBalance: null,
     to: null,
     toBalance: null,
+    amountVisible: null,
     amount: null };
   public unitsSelected: any = 1;
   public units: any = [
@@ -84,6 +93,22 @@ export default class Transfer extends Vue {
         const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
         this.transfer.toBalance = await toBalance.toString();
       }
+    }
+  }
+
+  public async shipIt(): Promise<void> {
+
+    if ((this as any).$http.api) {
+      const transfer =
+        await (this as any).$http.api.tx.balances.transfer(this.transfer.to,
+          this.transfer.amountVisible * this.unitsSelected);
+      const nonce = await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
+      const alicePair = keyring.getPair(this.transfer.from);
+      console.log(nonce);
+      // console.log(alice.decodePkcs8(this.password));
+      const hash = await transfer.signAndSend(alicePair);
+      this.tx = hash.toHex();
+      console.log('tx', hash.toHex());
     }
   }
 
