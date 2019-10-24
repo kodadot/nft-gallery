@@ -73,7 +73,7 @@ export default class Explorer extends Vue {
       const apiPeers = await (this as any).$http.api.rpc.system.peers();
       this.nodeInfo.peers = await apiPeers;
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
-      this.nodeInfo.blockNumber = await apiBestNumber;
+      this.nodeInfo.blockNumber = await apiBestNumber.toString();
       const apiHealth = await (this as any).$http.api.rpc.system.health();
       this.nodeInfo.health = await apiHealth;
       // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();

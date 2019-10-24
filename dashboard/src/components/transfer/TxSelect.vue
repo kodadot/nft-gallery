@@ -8,7 +8,7 @@
             :size="56" />
         </p>
         <b-field :label="label">
-          <b-select v-model="pickedAddress">
+          <b-select :placeholder="placeholder" v-model="pickedAddress">
             <optgroup v-for="acc in keyringAccounts"
               v-bind:key="acc.name"
               v-bind:value="acc.address"
@@ -35,6 +35,7 @@ import Identicon from '@vue-polkadot/vue-identicon';
 })
 export default class TxPicker extends Vue {
   @Prop(String) public label!: string;
+  @Prop(String) public placeholder!: string;
   @Prop(String) public theme!: string;
   @Prop() public keyringAccounts!: any;
   @Prop() public balance!: any;

@@ -1,17 +1,19 @@
 <template>
   <div id="transfer">
-    <b-field group multiline>
-      Recent block {{conn.header.number}}
+    <b-field>
+      Recent block #{{conn.blockNumber}}
     </b-field>
-    <TxPicker
+    <TxSelect
       label="send from account"
+      placeholder="Select a sender"
       :address.sync="transfer.from"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
       :balance="transfer.fromBalance"
     />
-    <TxPicker
+    <TxSelect
       label="send to address"
+      placeholder="Select destination"
       :address.sync="transfer.to"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
@@ -31,34 +33,40 @@
         </b-select>
       </p>
     </b-field>
+    <b-field label="put magic spell here - password">
+      <b-input v-model="password" type="password" password-reveal>
+      </b-input>
+    </b-field>
     <b-button 
       type="is-primary" 
       icon-left="paper-plane"
       @click="shipIt">
       Make Transfer
     </b-button>
-    <!-- <b-field label="put magic here">
-      <b-input v-model="password" password-reveal>
-      </b-input>
-    </b-field> -->
-    <br>last tx {{tx}}
+    <br>
+    <a :href="explorer+tx">
+      <b-button>
+        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      </b-button>
+    </a>
   </div>  
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
-import TxPicker from './TxPicker.vue';
+import TxSelect from './TxSelect.vue';
 
 @Component({
   components: {
     Identicon,
-    TxPicker,
+    TxSelect,
   },
 })
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
   public tx: string = '';
+  public explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
   public password: string = '';
   public transfer: any = {
     from: null,
@@ -67,7 +75,7 @@ export default class Transfer extends Vue {
     toBalance: null,
     amountVisible: null,
     amount: null };
-  public unitsSelected: any = 1;
+  public unitsSelected: any = 1e-3;
   public units: any = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
     {name: 'nano', value: 1e-9}, {name: 'micro', value: 1e-6},
@@ -78,8 +86,7 @@ export default class Transfer extends Vue {
     {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
   ];
   public keyringAccounts: any = [];
-  public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
-  public api: any = '';
+  public conn: any = { blockNumber: '', chain: '', nodeName: '', nodeVersion: '', header: {}};
 
   @Watch('transfer.from')
   @Watch('transfer.to')
@@ -97,25 +104,26 @@ export default class Transfer extends Vue {
   }
 
   public async shipIt(): Promise<void> {
-
     if ((this as any).$http.api) {
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.conn.chainName = await apiResponse.toString();
       const transfer =
         await (this as any).$http.api.tx.balances.transfer(this.transfer.to,
           this.transfer.amountVisible * this.unitsSelected);
       const nonce = await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
       const alicePair = keyring.getPair(this.transfer.from);
-      console.log(nonce);
-      // console.log(alice.decodePkcs8(this.password));
+      alicePair.decodePkcs8(this.password);
+      console.log(await nonce.toString());
       const hash = await transfer.signAndSend(alicePair);
-      this.tx = hash.toHex();
       console.log('tx', hash.toHex());
+      this.tx = hash.toHex();
     }
   }
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
     // console.log(this.$store.state.keyringLoaded);
-    if (this.isKeyringLoaded()) {
+    if (this.isKeyringLoaded() === true) {
       this.keyringAccounts = keyring.getPairs();
     }
   }
@@ -128,10 +136,17 @@ export default class Transfer extends Vue {
     this.theme = this.$store.state.setting.icon;
   }
 
+  public async loadExternalInfo() {
+    if ((this as any).$http.api) {
+      const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
+      this.conn.blockNumber = await apiBestNumber.toString();
+    }
+  }
+
   public mounted(): void {
-    this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
+    this.loadExternalInfo();
   }
 }
 </script>
