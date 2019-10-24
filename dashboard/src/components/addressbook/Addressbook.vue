@@ -3,7 +3,9 @@
     <p>My contacts</p>
     <b-tag>5CPjD48eo47mRR5J1MvahXsaTAD1x2m7fGNmsvVb1ynrT2z3</b-tag>
     <b-tag>5CigBWKMkumrHoJ6CHComH43LAWBh192sXZpm4Xrzqe9umz1</b-tag>
-    <Create v-if="isKeyringLoaded"
+    <Create 
+      v-if="isKeyringLoaded"
+      :theme="theme"
       @on-create="mapAccounts" />
     <ul>
       <li
@@ -12,11 +14,11 @@
       > 
       <Keypair v-if="isKeyringLoaded && acc.meta.isExternal"
         :address="acc.address"
+        :theme="theme"
         :meta="acc.meta"
         @forget-account="mapAccounts" />
       </li>
     </ul>
-
   </div>  
 </template>
 <script lang="ts">
@@ -35,9 +37,10 @@ import { mapState } from 'vuex';
     Create,
   },
 })
+
 export default class AddressBook extends Vue {
   public keyringAccounts: any = [];
-  public keys: any = '';
+  public theme: string = 'substrate';
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
@@ -50,9 +53,14 @@ export default class AddressBook extends Vue {
     return this.$store.state.keyringLoaded;
   }
 
+  public getIconTheme() {
+    this.theme = this.$store.state.setting.icon;
+  }
+
   public mounted(): void {
     this.isKeyringLoaded();
     this.mapAccounts();
+    this.getIconTheme();
   }
 
 }

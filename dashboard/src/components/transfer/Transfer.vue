@@ -1,45 +1,26 @@
 <template>
   <div id="transfer">
-    <b-field group multiline>
-      Recent block {{conn.header.number}}
+    <b-field>
+      Recent block #{{conn.blockNumber}}
     </b-field>
-    <b-field group multiline>
-      <Identicon
-        :value="transfer.from"
-        :size="64" />
-      Available Amount {{transfer.fromBalance}}
-      <b-field label="send from account">
-        <b-select v-model="transfer.from">
-          <optgroup v-for="acc in keyringAccounts"
-            v-bind:key="acc.name"
-            v-bind:value="acc.address"
-            :label="acc.address.slice(0,20)">
-            <option :value="acc.address">
-              {{acc.meta.name}}
-            </option>
-          </optgroup>
-        </b-select>
-      </b-field>
-    </b-field>
-    <b-field group multiline>
-      <Identicon
-        :value="transfer.to"
-        :size="64" />
-      <b-field label="send to address">
-        <b-select v-model="transfer.to">
-          <optgroup v-for="acc in keyringAccounts"
-            v-bind:key="acc.name"
-            v-bind:value="acc.address"
-            :label="acc.address.slice(0,20)">
-            <option :value="acc.address">
-              {{acc.meta.name}}
-            </option>
-          </optgroup>
-        </b-select>
-      </b-field>
-    </b-field>
+    <TxSelect
+      label="send from account"
+      placeholder="Select a sender"
+      :address.sync="transfer.from"
+      :theme="theme"
+      :keyringAccounts="keyringAccounts"
+      :balance="transfer.fromBalance"
+    />
+    <TxSelect
+      label="send to address"
+      placeholder="Select destination"
+      :address.sync="transfer.to"
+      :theme="theme"
+      :keyringAccounts="keyringAccounts"
+      :balance="transfer.toBalance"
+    />
     <b-field label="amount">
-      <b-input v-model="transfer.amount"
+      <b-input v-model="transfer.amountVisible"
       type="number">
       </b-input>
       <p class="control">
@@ -52,27 +33,49 @@
         </b-select>
       </p>
     </b-field>
-    <b-button icon-left="paper-plane">Make Transfer
+    <b-field label="put magic spell here - password">
+      <b-input v-model="password" type="password" password-reveal>
+      </b-input>
+    </b-field>
+    <b-button 
+      type="is-primary" 
+      icon-left="paper-plane"
+      @click="shipIt">
+      Make Transfer
     </b-button>
+    <br>
+    <a :href="explorer+tx">
+      <b-button>
+        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      </b-button>
+    </a>
   </div>  
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
-// import { SubmittableExtrinsic, QueryableStorageEntry } from '@polkadot/api/promise/types';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import TxSelect from './TxSelect.vue';
 
 @Component({
   components: {
     Identicon,
+    TxSelect,
   },
 })
 export default class Transfer extends Vue {
+  public theme: string = 'substrate';
+  public tx: string = '';
+  public explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
+  public password: string = '';
   public transfer: any = {
-    from: '5FWhigNPRJAdvvdJWZKcFsAHV9jm4K6bZs84TAQ3eVmqf8Hj',
-    to: '', amount: '', fromBalance: '' };
-  public unitsSelected: any = 1;
+    from: null,
+    fromBalance: null,
+    to: null,
+    toBalance: null,
+    amountVisible: null,
+    amount: null };
+  public unitsSelected: any = 1e-3;
   public units: any = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
     {name: 'nano', value: 1e-9}, {name: 'micro', value: 1e-6},
@@ -83,44 +86,44 @@ export default class Transfer extends Vue {
     {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
   ];
   public keyringAccounts: any = [];
-  public wsProviders: object = [
-    {name: 'poc3-rpc.polkadot', value: 'wss://poc3-rpc.polkadot.io/'},
-    {name: 'alex.unfrastructure', value: 'wss://alex.unfrastructure.io/public/ws'},
-    {name: 'localhost:9444', value: 'ws://127.0.0.1:9944'}];
-  public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
-  public api: any = '';
-  public async apiInit(): Promise<void> {
-    const wsprovider = new WsProvider('wss://poc3-rpc.polkadot.io/');
-    this.api = await ApiPromise.create({provider: wsprovider});
+  public conn: any = { blockNumber: '', chain: '', nodeName: '', nodeVersion: '', header: {}};
 
-    this.api.rpc.chain.subscribeNewHeads((header: any) => {
-      this.conn.header = header;
-    });
+  @Watch('transfer.from')
+  @Watch('transfer.to')
+  public async fetchAmount(): Promise<void> {
+    if ((this as any).$http.api) {
+      if (this.transfer.from) {
+        const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
+        this.transfer.fromBalance = await fromBalance.toString();
+      }
+      if (this.transfer.to) {
+        const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
+        this.transfer.toBalance = await toBalance.toString();
+      }
+    }
+  }
 
-    console.log(this.api.genesisHash.toHex());
-    // console.log(await this.api.rpc.system.chain());
-    this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
-    // this.transfer.fromBalance = await this.api.query.balances.freeBalance(this.transfer.from);
-    // [this.conn.chain, this.conn.nodeName, this.conn.nodeVersion] = await Promise.all([
-    //   this.api.rpc.system.chain(),
-    //   this.api.rpc.system.name(),
-    //   this.api.rpc.system.version(),
-    // ]);
-
-    // this.api.combineLatest([
-    //   this.api.rpc.chain.subscribeNewHeads,
-    //   [this.api.query.balances.freeBalance, this.transfer.from],
-    //   (cb) => this.api.query.system.accountNonce(this.transfer.from, cb),
-    // ], ([head, balance, nonce]) => {
-    //   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
-    // });
-
-    // console.log(this.conn);
+  public async shipIt(): Promise<void> {
+    if ((this as any).$http.api) {
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.conn.chainName = await apiResponse.toString();
+      const transfer =
+        await (this as any).$http.api.tx.balances.transfer(this.transfer.to,
+          this.transfer.amountVisible * this.unitsSelected);
+      const nonce = await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
+      const alicePair = keyring.getPair(this.transfer.from);
+      alicePair.decodePkcs8(this.password);
+      console.log(await nonce.toString());
+      const hash = await transfer.signAndSend(alicePair);
+      console.log('tx', hash.toHex());
+      this.tx = hash.toHex();
+    }
   }
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    if (this.isKeyringLoaded()) {
+    // console.log(this.$store.state.keyringLoaded);
+    if (this.isKeyringLoaded() === true) {
       this.keyringAccounts = keyring.getPairs();
     }
   }
@@ -129,10 +132,21 @@ export default class Transfer extends Vue {
     return this.$store.state.keyringLoaded;
   }
 
+  public getIconTheme() {
+    this.theme = this.$store.state.setting.icon;
+  }
+
+  public async loadExternalInfo() {
+    if ((this as any).$http.api) {
+      const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
+      this.conn.blockNumber = await apiBestNumber.toString();
+    }
+  }
+
   public mounted(): void {
-    this.isKeyringLoaded();
     this.mapAccounts();
-    this.apiInit();
+    this.getIconTheme();
+    this.loadExternalInfo();
   }
 }
 </script>
