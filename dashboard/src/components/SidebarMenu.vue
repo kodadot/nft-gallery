@@ -66,7 +66,6 @@ export default class SidebarMenu extends Vue {
       icon: 'calendar-check',
       to: 'democracy',
       tag: 'router-link',
-      disabled: true,
     },
     {
       name: 'extrinsics',
