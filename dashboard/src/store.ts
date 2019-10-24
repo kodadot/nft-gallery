@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import VuexPersist from 'vuex-persist';
-// import * as localForage from "localforage";
+import VuexPersist from 'vuex-persist';
 import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
+
+const vuexLocalStorage = new VuexPersist({
+  key: 'vuex',
+  storage: window.sessionStorage,
+});
 
 
 const myPlugin = (store: any) => {
@@ -22,12 +26,12 @@ export default new Vuex.Store({
     keyringLoaded: false,
   },
   mutations: {
-    keyringLoaded(state) {
+    keyringLoaded(state: any) {
       state.keyringLoaded = true;
     },
   },
   modules: {
     setting: SettingModule,
   },
-  plugins: [myPlugin],
+  plugins: [myPlugin, vuexLocalStorage.plugin ],
 });

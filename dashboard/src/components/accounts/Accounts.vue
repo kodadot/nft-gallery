@@ -1,21 +1,8 @@
 <template>
   <div class="Accounts">
-    <b-field grouped group-multiline>
-      <b-select v-model="theme">
-        <option selected>substrate</option>
-        <option>polkadot</option>
-        <option>beachball</option>
-      </b-select>
-      <!-- <b-switch v-model="hideTestingAccounts"
-        :outlined="switchStyle.isOutlined"
-        :rounded="switchStyle.isRounded"
-        :size="switchStyle.size"> Hide Testing Acc
-      </b-switch> -->
-    </b-field>
     <p>My accounts</p>
     <div> 
-      <Restore 
-        @on-restore="mapAccounts" />
+      <Restore @on-restore="mapAccounts" />
     </div>
     <Create
       v-if="isKeyringLoaded"
@@ -80,9 +67,14 @@ export default class Accounts extends Vue {
     return this.$store.state.keyringLoaded;
   }
 
+  public getIconTheme() {
+    this.theme = this.$store.state.setting.icon;
+  }
+
   public mounted(): void {
     this.isKeyringLoaded();
     this.mapAccounts();
+    this.getIconTheme();
   }
 }
 </script>
