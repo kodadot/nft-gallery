@@ -86,17 +86,17 @@ export default class SidebarMenu extends Vue {
       icon: 'cogs',
       to: 'settings',
       tag: 'router-link',
-    }
+    },
   ];
   public currentRow: any = this.sidebar[0];
-  public isSidebarClosed = false
+  public isSidebarClosed = false;
 
    get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
 
-  toggleSidebar() {
-    this.isSidebarClosed = !this.isSidebarClosed
+  public toggleSidebar() {
+    this.isSidebarClosed = !this.isSidebarClosed;
   }
 }
 </script>
