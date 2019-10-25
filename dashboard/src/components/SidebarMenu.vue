@@ -29,6 +29,14 @@
         </b-menu-item> 
       </b-menu-list>
     </b-menu>
+    <b-button v-if="!isSidebarClosed"
+      icon-left="angle-double-left"
+      @click="toggleSidebar" rounded>
+    </b-button>
+    <b-button v-if="isSidebarClosed"
+      icon-left="angle-double-right"
+      @click="toggleSidebar" rounded>
+    </b-button>
   </div>
 </template>
 
