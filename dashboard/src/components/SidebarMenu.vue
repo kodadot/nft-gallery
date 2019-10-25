@@ -1,21 +1,28 @@
 <template>
-  <div>
-    <div>
-      <figure class="image is-48x48">
+  <div class="column happy-menu is-one-fifth" v-bind:class="{closed: isSidebarClosed }">
+    
+  <figure class="image is-48x48 logo" @click="toggleSidebar">
     <img
       class="is-rounded"
       src="../assets/vue-polkadot.png"
       alt="Lightweight UI components for Vue.js based on Bulma" />
     </figure>
-    </div>
+
+    
     <b-menu>
       <b-menu-list
         v-for="row in sidebar"
         v-bind:key="row.name"
         @click="currentRow = row">
-        <b-menu-item 
+        <b-menu-item v-if="!isSidebarClosed"
           :icon="row.icon" 
           :label="row.name"
+          :tag="row.tag"
+          :to="row.to"
+          :disabled="row.disabled">
+        </b-menu-item>
+        <b-menu-item v-if="isSidebarClosed"
+          :icon="row.icon" 
           :tag="row.tag"
           :to="row.to"
           :disabled="row.disabled">
@@ -80,17 +87,16 @@ export default class SidebarMenu extends Vue {
       to: 'settings',
       tag: 'router-link',
     },
-    {
-      name: '',
-      icon: 'chevron-left',
-      to: '',
-      tag: 'router-link',
-    },
   ];
   public currentRow: any = this.sidebar[0];
+  public isSidebarClosed = false;
 
    get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
+  }
+
+  public toggleSidebar() {
+    this.isSidebarClosed = !this.isSidebarClosed;
   }
 }
 </script>
@@ -105,4 +111,17 @@ export default class SidebarMenu extends Vue {
 .happy-menu {
   background-color: #000000bd;
 }
+
+.menu-button {
+  color: white;
+}
+
+.happy-menu.closed {
+  width: 4.5rem !important;
+}
+
+.image.is-48x48.logo {
+  margin-bottom: 1rem;
+}
+
 </style>

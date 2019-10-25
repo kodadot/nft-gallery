@@ -1,8 +1,8 @@
 <template>
-  <div id="dashboard">
-    <div class="friendly-view" >
-      <SidebarMenu class="happy-menu" />
-      <router-view id='routerview'/>
+  <div id="dashboard" class="columns">
+    <SidebarMenu />
+    <div class="column">
+      <router-view id="routerview" />
     </div>
   </div>
 </template>
@@ -23,7 +23,8 @@ export default class Dashboard extends Vue {
     keyring.loadAll({
       ss58Format: 42,
       type: 'sr25519',
-      isDevelopment: false });
+      isDevelopment: false,
+    });
   }
 
   public async mountWasmCrypto(): Promise<void> {
@@ -42,24 +43,24 @@ export default class Dashboard extends Vue {
 </script>
 
 <style>
-  #routerview {
-    padding: 1em;
-  }
+#routerview {
+  padding: 1em;
+}
 
-  .friendly-view {
-    display: flex;
-    flex-direction: row;
-  }
+.friendly-view {
+  display: flex;
+  flex-direction: row;
+}
 
-  .friendly-view > .happy-menu {
-    flex: 2
-  }
+.friendly-view > .happy-menu {
+  flex: 2;
+}
 
-  .friendly-view #routerview {
-    flex: 10;
-  }
+.friendly-view #routerview {
+  flex: 10;
+}
 
-  .friendly-view {
-    height: 100vh;
-  }
+.friendly-view {
+  height: 100vh;
+}
 </style>
