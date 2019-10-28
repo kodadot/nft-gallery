@@ -14,6 +14,7 @@
         v-bind:key="acc.address"
       > 
       <Keypair v-if="isKeyringLoaded && acc.meta.isExternal"
+        mode="addressbook"
         :address="acc.address"
         :theme="theme"
         :meta="acc.meta"

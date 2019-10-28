@@ -38,15 +38,18 @@
       </b-input>
     </b-field>
     <b-button 
-      type="is-primary" 
+      type="is-dark" 
       icon-left="paper-plane"
-      @click="shipIt">
+      @click="shipIt"
+      outlined>
       Make Transfer
     </b-button>
     <br>
     <a :href="explorer+tx">
-      <b-button>
-        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      <b-button 
+      icon-left="binoculars"
+      type='is-dark' outlined>
+        View on PolkaScan {{tx.slice(0,20)}}
       </b-button>
     </a>
   </div>  

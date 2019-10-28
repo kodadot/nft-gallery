@@ -31,17 +31,30 @@
         </b-field>
       </div>
       <div>
-        <b-field grouped multiline>
-          <b-button type="is-dark" icon-left="trash" 
-            @click="forgetAccount(address)" outlined>
-          </b-button>
-          <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
-          <b-button type="is-dark" icon-left="key" outlined></b-button>
-          <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
-          <a :href="explorer+address">
-            <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
-          </a>
-        </b-field>
+        <div v-if="mode === 'accounts'">
+          <b-field grouped multiline>
+            <b-button type="is-dark" icon-left="trash" 
+              @click="forgetAccount(address)" outlined>
+            </b-button>
+            <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
+            <b-button type="is-dark" icon-left="key" outlined></b-button>
+            <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
+            <a :href="explorer+address">
+              <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
+            </a>
+          </b-field>
+        </div>
+        <div v-if="mode === 'addressbook'">
+          <b-field grouped multiline>
+            <b-button type="is-dark" icon-left="trash" 
+              @click="forgetAccount(address)" outlined>
+            </b-button>
+            <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
+            <a :href="explorer+address">
+              <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
+            </a>
+          </b-field>
+        </div>
         <!-- will go to the modals -->
         <!-- <Backup v-if="!meta.isTesting"
           :address="address"
@@ -71,6 +84,7 @@ export default class Keypair extends Vue {
   public balanceAvailable: number = 0;
   public explorer: string = 'https://polkascan.io/pre/alexander/account/';
 
+  @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
   @Prop(String) public address!: string;
