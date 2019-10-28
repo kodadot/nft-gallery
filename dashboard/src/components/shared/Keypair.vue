@@ -7,14 +7,14 @@
             :theme="theme"
             :size="size" />
           {{meta.name}}
-            {{address.slice(0, 6)}}…{{address.slice(-6)}}
+            {{shortAddress(address)}}
               <b-button
               size="is-small" 
               icon-left="copy" 
               v-clipboard:copy="address"
               @click="toast('Address copied to clipboard')">
               </b-button>
-            {{publicKey.slice(0, 6)}}..{{publicKey.slice(-6)}} 
+            {{shortAddress(publicKey)}}  
             type {{type}}
             <p v-if="meta.tags">
             <b-tag 
@@ -83,6 +83,13 @@ export default class Keypair extends Vue {
   @Emit()
   public forgetAccount(address: string): void {
     keyring.forgetAccount(address);
+  }
+
+  public shortAddress(address: string): string {
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    }
+    return '';
   }
 
   public toast(message: string): void {

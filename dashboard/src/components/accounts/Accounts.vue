@@ -31,9 +31,9 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
-import Keypair from './Keypair.vue';
-import Restore from './Restore.vue';
-import Create from './Create.vue';
+import Keypair from '../shared/Keypair.vue';
+import Restore from '../shared/Restore.vue';
+import Create from '../shared/Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
