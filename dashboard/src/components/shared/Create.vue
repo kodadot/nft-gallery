@@ -11,31 +11,33 @@
           </b-field>
           <b-field>
             {{newAccount.name.toUpperCase()}}<br>
-            {{newAccount.address.slice(0,6)}}...{{newAccount.address.slice(-6)}}
+            {{shortAddress(newAccount.address)}}
           </b-field>
         </b-field>
       </div>
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
       </b-field>
+      <div v-if="mode === 'account'">
       <b-field label="mnemonic seed" v-bind:type="{ 'is-danger': !isValidMnemonic }">
         <b-input v-model="newAccount.mnemonicSeed"
           @input="validateMnemonic()"
           :expanded='true'>
         </b-input>
         <p class="control">
-          <button class="button is-primary" 
-            @click="generateSeed(); addressFromSeed(); validateMnemonic()">
-            <font-awesome-icon icon="sync"/>
+          <b-button class="button is-dark" icon-left="sync"
+            @click="generateSeed(); addressFromSeed(); validateMnemonic()"
+            outlined>
               Mnemonic
-          </button>
+          </b-button>
         </p>
       </b-field>
       <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
-        <b-input v-model="newAccount.password"
+        <b-input v-model="newAccount.password" type="password"
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
       </b-field>
+      
       <b-field label="tags">
           <b-input v-model="newAccount.tags"></b-input>
         </b-field>
@@ -53,13 +55,26 @@
       <b-field label="secret derivation path">
         <b-input v-model="newAccount.derivationPath"></b-input>
       </b-field>
+      </div>
     </section>
     <div>
-      <b-button 
-        type="is-primary"
-        @click="onCreate">
-        Create
-      </b-button>
+      <router-link to="/accounts">
+        <b-button 
+          type="is-dark"
+          icon-left="plus"
+          @click="onCreate" 
+          outlined>
+          Create
+        </b-button>
+      </router-link>
+      <router-link to="/accounts">
+        <b-button 
+          type="is-warning"
+          icon-left="times"
+          outlined>
+          Cancel
+        </b-button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -77,6 +92,7 @@ import { keyExtractSuri, mnemonicGenerate,
 })
 export default class Create extends Vue {
   @Prop(String) public theme!: string;
+  @Prop(String) public mode!: string;
   // will be replaced by uiSettings
   public keypairType: any = {
     selected: 'sr25519',
@@ -97,6 +113,13 @@ export default class Create extends Vue {
     derivationPath: '',
     address: '',
   };
+
+  public shortAddress(address: string): string {
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    }
+    return '';
+  }
 
   public validateMnemonic(): boolean {
     return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);

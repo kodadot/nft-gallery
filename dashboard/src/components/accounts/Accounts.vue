@@ -1,5 +1,11 @@
 <template>
   <div class="Accounts">
+    <b-field grouped multiline>
+      <router-link to="accounts/create">
+        <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
+      </router-link>
+      <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+    </b-field>
     <!-- will go to the modals -->
     <!-- <p>My accounts</p> -->
     <!-- <div> 

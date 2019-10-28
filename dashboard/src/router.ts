@@ -5,7 +5,6 @@ import Accounts from './components/accounts/Accounts.vue';
 import Addressbook from './components/addressbook/Addressbook.vue';
 import Transfer from './components/transfer/Transfer.vue';
 import Democracy from './components/democracy/Democracy.vue';
-import Explorer from './components/explorer/Explorer.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -19,6 +18,11 @@ export default new Router({
       path: '/accounts',
       name: 'accounts',
       component: Accounts,
+    },
+    {
+      path: '/accounts/create',
+      name: 'create',
+      component: () => import('./views/AccountsCreate.vue'),
     },
     {
       path: '/addressbook',
@@ -36,11 +40,6 @@ export default new Router({
       component: Democracy,
     },
     {
-      path: '/explorer',
-      name: 'explorer',
-      component: Explorer,
-    },
-    {
       path: '*',
       name: 'FourZeroFour',
       component: FourZeroFour,
@@ -51,9 +50,9 @@ export default new Router({
       component: () => import('./views/Settings.vue'),
     },
     {
-      path: '/explorer2',
-      name: 'explorer2',
-      component: () => import('./views/Explorer.vue'),
+      path: '/explorer',
+      name: 'explorer',
+      component: () => import('./components/explorer/Explorer.vue'),
     },
     {
       path: '/extrinsics',
