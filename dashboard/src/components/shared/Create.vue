@@ -42,7 +42,6 @@
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
       </b-field>
-      
       <b-field label="tags">
           <b-input v-model="newAccount.tags"></b-input>
         </b-field>
@@ -138,7 +137,7 @@ export default class Create extends Vue {
     if (this.mode === 'accounts') {
       return this.newAccount.mnemonicSeed = mnemonicGenerate();
     }
-    return;
+    return '';
   }
 
   @Emit()
@@ -161,12 +160,12 @@ export default class Create extends Vue {
   }
 
   @Watch('$store.state.keyringLoaded')
-  public addressFromSeed(): any {
+  public addressFromSeed(): string {
     if (this.mode === 'accounts') {
       return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
         {}, this.keypairType.selected).address;
     }
-    return;
+    return '';
   }
 
   public isKeyringLoaded() {
