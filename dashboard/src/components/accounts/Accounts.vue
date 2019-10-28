@@ -1,13 +1,16 @@
 <template>
   <div class="Accounts">
-    <p>My accounts</p>
-    <div> 
+    <!-- will go to the modals -->
+    <!-- <p>My accounts</p> -->
+    <!-- <div> 
       <Restore @on-restore="mapAccounts" />
-    </div>
-    <Create
-      v-if="isKeyringLoaded"
-      :theme="theme"
-      @on-create="mapAccounts" />
+    </div> -->
+    <!-- <div>
+      <Create
+        v-if="isKeyringLoaded"
+        :theme="theme"
+        @on-create="mapAccounts" />
+    </div> -->
     <ul>
       <li 
         v-for="acc in keyringAccounts"
