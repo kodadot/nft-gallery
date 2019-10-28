@@ -1,14 +1,11 @@
 <template>
   <div class="column happy-menu is-one-fifth" v-bind:class="{closed: isSidebarClosed }">
-    
   <figure class="image is-48x48 logo" @click="toggleSidebar">
     <img
       class="is-rounded"
       src="../assets/vue-polkadot.png"
       alt="Lightweight UI components for Vue.js based on Bulma" />
     </figure>
-
-    
     <b-menu>
       <b-menu-list
         v-for="row in sidebar"
@@ -68,12 +65,6 @@ export default class SidebarMenu extends Vue {
       name: 'explorer',
       icon: 'dice-d20',
       to: 'explorer',
-      tag: 'router-link',
-    },
-    {
-      name: 'explorer2',
-      icon: 'dice-d20',
-      to: 'explorer2',
       tag: 'router-link',
     },
     {
