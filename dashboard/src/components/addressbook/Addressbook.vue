@@ -3,10 +3,11 @@
     <p>My contacts</p>
     <b-tag>5CPjD48eo47mRR5J1MvahXsaTAD1x2m7fGNmsvVb1ynrT2z3</b-tag>
     <b-tag>5CigBWKMkumrHoJ6CHComH43LAWBh192sXZpm4Xrzqe9umz1</b-tag>
-    <Create 
-      v-if="isKeyringLoaded"
-      :theme="theme"
-      @on-create="mapAccounts" />
+    <b-field grouped multiline>
+      <router-link to="addressbook/create">
+        <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
+      </router-link>
+    </b-field>
     <ul>
       <li
         v-for="acc in keyringAccounts"
@@ -27,14 +28,12 @@ import { waitReady } from '@polkadot/wasm-crypto';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from '../shared/Keypair.vue';
-import Create from './Create.vue';
 import { mapState } from 'vuex';
 
 @Component({
   components: {
     Identicon,
     Keypair,
-    Create,
   },
 })
 

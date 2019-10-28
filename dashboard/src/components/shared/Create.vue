@@ -18,7 +18,12 @@
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
       </b-field>
-      <div v-if="mode === 'account'">
+      <div v-if="mode === 'addressbook'">
+        <b-field label="address">
+          <b-input v-model="newAccount.address"></b-input>
+        </b-field>
+      </div>
+      <div v-if="mode === 'accounts'">
       <b-field label="mnemonic seed" v-bind:type="{ 'is-danger': !isValidMnemonic }">
         <b-input v-model="newAccount.mnemonicSeed"
           @input="validateMnemonic()"
@@ -58,7 +63,7 @@
       </div>
     </section>
     <div>
-      <router-link to="/accounts">
+      <router-link :to="'/'+mode">
         <b-button 
           type="is-dark"
           icon-left="plus"
@@ -67,7 +72,7 @@
           Create
         </b-button>
       </router-link>
-      <router-link to="/accounts">
+      <router-link :to="'/'+mode">
         <b-button 
           type="is-warning"
           icon-left="times"
@@ -130,7 +135,10 @@ export default class Create extends Vue {
   }
 
   public generateSeed(): string {
-    return this.newAccount.mnemonicSeed = mnemonicGenerate();
+    if (this.mode === 'accounts') {
+      return this.newAccount.mnemonicSeed = mnemonicGenerate();
+    }
+    return;
   }
 
   @Emit()
@@ -140,8 +148,13 @@ export default class Create extends Vue {
         name: this.newAccount.name,
         tags: this.newAccount.tags.split(','),
         whenCreated: Date.now() };
-      const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
-        this.newAccount.password, meta, this.keypairType.selected);
+      if (this.mode === 'accounts') {
+        const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+          this.newAccount.password, meta, this.keypairType.selected);
+      }
+      if (this.mode === 'addressbook') {
+        const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -149,8 +162,11 @@ export default class Create extends Vue {
 
   @Watch('$store.state.keyringLoaded')
   public addressFromSeed(): any {
-    return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
-      {}, this.keypairType.selected).address;
+    if (this.mode === 'accounts') {
+      return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
+        {}, this.keypairType.selected).address;
+    }
+    return;
   }
 
   public isKeyringLoaded() {

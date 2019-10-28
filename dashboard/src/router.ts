@@ -21,13 +21,18 @@ export default new Router({
     },
     {
       path: '/accounts/create',
-      name: 'create',
+      name: 'accountsCreate',
       component: () => import('./views/AccountsCreate.vue'),
     },
     {
       path: '/addressbook',
       name: 'addressbook',
       component: Addressbook,
+    },
+    {
+      path: '/addressbook/create',
+      name: 'addressbookCreate',
+      component: () => import('./views/AddressbookCreate.vue'),
     },
     {
       path: '/transfer',

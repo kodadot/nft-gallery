@@ -1,7 +1,7 @@
 <template>
-<div id="AccountsCreate">
+<div id="AddressbookCreate">
   <Create 
-    mode="accounts"
+    mode="addressbook"
     :theme="theme"
   />
 </div>
@@ -15,7 +15,7 @@ import Create from '../components/shared/Create.vue';
     Create,
   },
 })
-export default class AccountsCreate extends Vue {
+export default class AddressbookCreate extends Vue {
   public theme: string = 'substrate';
 
   public getIconTheme() {
