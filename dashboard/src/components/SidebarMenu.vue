@@ -1,5 +1,5 @@
 <template>
-  <div class="column happy-menu is-one-fifth" v-bind:class="{closed: isSidebarClosed }">
+  <div class="column happy-menu is-one-fifth is-one-third-mobile is-one-fifth-tablet " v-bind:class="{closed: isSidebarClosed }">
   <figure class="image is-48x48 logo" @click="toggleSidebar">
     <img
       class="is-rounded"

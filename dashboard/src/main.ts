@@ -7,7 +7,7 @@ import { faTrash, faKey, faSync, faRedo,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
-  faCopy, faAngleDoubleLeft, faAngleDoubleRight, 
+  faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faBinoculars, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';

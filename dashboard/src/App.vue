@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard" class="columns">
     <SidebarMenu />
-    <div class="column">
+    <div class="column router-view">
       <router-view id="routerview" />
     </div>
   </div>
@@ -63,4 +63,15 @@ export default class Dashboard extends Vue {
 .friendly-view {
   height: 100vh;
 }
+
+.column.router-view {
+  padding: 0;
+}
+
+@media screen and (max-width: 992px) {
+  .columns {
+    display: flex;
+  }
+}
+
 </style>
