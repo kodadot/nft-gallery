@@ -25,78 +25,78 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import Identicon from "@vue-polkadot/vue-identicon";
-import keyring from "@vue-polkadot/vue-keyring";
-import TxSelect from "../transfer/TxSelect.vue";
-import Executor from "@/components/extrinsics/Executor.vue";
-import Argurments from "@/components/extrinsics/Arguments.vue";
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Identicon from '@vue-polkadot/vue-identicon';
+import keyring from '@vue-polkadot/vue-keyring';
+import TxSelect from '../transfer/TxSelect.vue';
+import Executor from '@/components/extrinsics/Executor.vue';
+import Argurments from '@/components/extrinsics/Arguments.vue';
 
 @Component({
   components: {
     Identicon,
     TxSelect,
     Executor,
-    Argurments
-  }
+    Argurments,
+  },
 })
 export default class Democracy extends Vue {
-  public theme: string = "substrate";
-  public tx: string = "";
-  public explorer: string = "https://polkascan.io/pre/alexander/transaction/";
-  public password: string = "";
+
+  get methods() {
+    return Object.keys((this as any).$http.api.tx.democracy);
+  }
+  public theme: string = 'substrate';
+  public tx: string = '';
+  public explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
+  public password: string = '';
   public transfer: any = {
     from: null,
     fromBalance: null,
     to: null,
     toBalance: null,
     amountVisible: null,
-    amount: null
+    amount: null,
   };
   public unitsSelected: any = 1e-3;
   public units: any = [
-    { name: "femto", value: 1e-15 },
-    { name: "pico", value: 1e-12 },
-    { name: "nano", value: 1e-9 },
-    { name: "micro", value: 1e-6 },
-    { name: "mili", value: 1e-3 },
-    { name: "DOT", value: 1 },
-    { name: "Kilo", value: 1e3 },
-    { name: "Mega", value: 1e6 },
-    { name: "Giga", value: 1e9 },
-    { name: "Tera", value: 1e12 },
-    { name: "Peta", value: 1e15 },
-    { name: "Exa", value: 1e18 },
-    { name: "Zeta", value: 1e21 },
-    { name: "Yotta", value: 1e24 }
+    { name: 'femto', value: 1e-15 },
+    { name: 'pico', value: 1e-12 },
+    { name: 'nano', value: 1e-9 },
+    { name: 'micro', value: 1e-6 },
+    { name: 'mili', value: 1e-3 },
+    { name: 'DOT', value: 1 },
+    { name: 'Kilo', value: 1e3 },
+    { name: 'Mega', value: 1e6 },
+    { name: 'Giga', value: 1e9 },
+    { name: 'Tera', value: 1e12 },
+    { name: 'Peta', value: 1e15 },
+    { name: 'Exa', value: 1e18 },
+    { name: 'Zeta', value: 1e21 },
+    { name: 'Yotta', value: 1e24 },
   ];
   public keyringAccounts: any = [];
   public conn: any = {
-    blockNumber: "",
-    chain: "",
-    nodeName: "",
-    nodeVersion: "",
-    header: {}
+    blockNumber: '',
+    chain: '',
+    nodeName: '',
+    nodeVersion: '',
+    header: {},
   };
-  public fnMethod = "";
+  public fnMethod = '';
   private args: any[] = [];
   private selectedArguments = {};
 
-  @Watch("transfer.from")
-  @Watch("transfer.to")
+  @Watch('transfer.from')
+  @Watch('transfer.to')
   public async fetchAmount(): Promise<void> {
     if ((this as any).$http.api) {
       if (this.transfer.from) {
         const fromBalance = await (this as any).$http.api.query.balances.freeBalance(
-          this.transfer.from
+          this.transfer.from,
         );
         this.transfer.fromBalance = await fromBalance.toString();
       }
     }
-  }
-
-  get methods() {
-    return Object.keys((this as any).$http.api.tx.democracy);
   }
 
   public async shipIt(): Promise<void> {
@@ -105,21 +105,21 @@ export default class Democracy extends Vue {
       this.conn.chainName = await apiResponse.toString();
       const transfer = await (this as any).$http.api.tx.balances.transfer(
         this.transfer.to,
-        this.transfer.amountVisible * this.unitsSelected
+        this.transfer.amountVisible * this.unitsSelected,
       );
       const nonce = await (this as any).$http.api.query.system.accountNonce(
-        this.transfer.from
+        this.transfer.from,
       );
       const alicePair = keyring.getPair(this.transfer.from);
       alicePair.decodePkcs8(this.password);
       console.log(await nonce.toString());
       const hash = await transfer.signAndSend(alicePair);
-      console.log("tx", hash.toHex());
+      console.log('tx', hash.toHex());
       this.tx = hash.toHex();
     }
   }
 
-  @Watch("$store.state.keyringLoaded")
+  @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
     // console.log(this.$store.state.keyringLoaded);
     if (this.isKeyringLoaded() === true) {
@@ -150,20 +150,20 @@ export default class Democracy extends Vue {
   public handleSelectedArguments(value: any) {
     this.selectedArguments = {
       ...this.selectedArguments,
-      ...value
+      ...value,
     };
-  }
-
-  private argMapper(arg: any): any {
-    const accessor: string = arg.name.toString();
-    // @ts-ignore: Method has always value
-    return this.selectedArguments[accessor];
   }
 
   public mounted(): void {
     this.mapAccounts();
     this.getIconTheme();
     this.loadExternalInfo();
+  }
+
+  private argMapper(arg: any): any {
+    const accessor: string = arg.name.toString();
+    // @ts-ignore: Method has always value
+    return this.selectedArguments[accessor];
   }
 }
 </script>
