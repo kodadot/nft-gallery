@@ -42,59 +42,59 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class SidebarMenu extends Vue {
   public sidebar: any = [
     {
-      name: "accounts",
-      icon: "users",
-      to: "/accounts",
-      tag: "router-link"
+      name: 'accounts',
+      icon: 'users',
+      to: '/accounts',
+      tag: 'router-link',
     },
     {
-      name: "address book",
-      icon: "address-book",
-      to: "/addressbook",
-      tag: "router-link"
+      name: 'address book',
+      icon: 'address-book',
+      to: '/addressbook',
+      tag: 'router-link',
     },
     {
-      name: "transfer",
-      icon: "paper-plane",
-      to: "/transfer",
-      tag: "router-link"
+      name: 'transfer',
+      icon: 'paper-plane',
+      to: '/transfer',
+      tag: 'router-link',
     },
     {
-      name: "explorer",
-      icon: "dice-d20",
-      to: "/explorer",
-      tag: "router-link"
+      name: 'explorer',
+      icon: 'dice-d20',
+      to: '/explorer',
+      tag: 'router-link',
     },
     {
-      name: "democracy",
-      icon: "calendar-check",
-      to: "/democracy",
-      tag: "router-link"
+      name: 'democracy',
+      icon: 'calendar-check',
+      to: '/democracy',
+      tag: 'router-link',
     },
     {
-      name: "extrinsics",
-      icon: "sync",
-      to: "/extrinsics",
-      tag: "router-link"
+      name: 'extrinsics',
+      icon: 'sync',
+      to: '/extrinsics',
+      tag: 'router-link',
     },
     {
-      name: "settings",
-      icon: "cogs",
-      to: "/settings",
-      tag: "router-link"
-    }
+      name: 'settings',
+      icon: 'cogs',
+      to: '/settings',
+      tag: 'router-link',
+    },
   ];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = false;
 
   get hasBasicMode() {
-    return this.$store.getters.getSettings.uiMode === "light";
+    return this.$store.getters.getSettings.uiMode === 'light';
   }
 
   public toggleSidebar() {
