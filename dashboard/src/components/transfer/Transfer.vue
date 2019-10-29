@@ -38,17 +38,23 @@
       </b-input>
     </b-field>
     <b-button 
-      type="is-primary" 
+      type="is-dark" 
       icon-left="paper-plane"
-      @click="shipIt">
+      @click="shipIt"
+      outlined>
       Make Transfer
     </b-button>
     <br>
     <a :href="explorer+tx">
-      <b-button>
-        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      <b-button 
+      icon-left="binoculars"
+      type='is-dark' outlined>
+        View on PolkaScan {{tx.slice(0,20)}}
       </b-button>
     </a>
+    from {{$route.params.from}}
+    to {{$route.params.to}}
+    amount {{$route.params.amount}}
   </div>  
 </template>
 <script lang="ts">
@@ -77,12 +83,10 @@ export default class Transfer extends Vue {
     amount: null };
   public unitsSelected: any = 1e-3;
   public units: any = [
-    {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12},
-    {name: 'nano', value: 1e-9}, {name: 'micro', value: 1e-6},
-    {name: 'mili', value: 1e-3}, {name: 'DOT', value: 1},
-    {name: 'Kilo', value: 1e3}, {name: 'Mega', value: 1e6},
-    {name: 'Giga', value: 1e9}, {name: 'Tera', value: 1e12},
-    {name: 'Peta', value: 1e15}, {name: 'Exa', value: 1e18},
+    {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12}, {name: 'nano', value: 1e-9},
+    {name: 'micro', value: 1e-6}, {name: 'mili', value: 1e-3}, {name: 'DOT', value: 1},
+    {name: 'Kilo', value: 1e3}, {name: 'Mega', value: 1e6}, {name: 'Giga', value: 1e9},
+    {name: 'Tera', value: 1e12}, {name: 'Peta', value: 1e15}, {name: 'Exa', value: 1e18},
     {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
   ];
   public keyringAccounts: any = [];
@@ -143,10 +147,17 @@ export default class Transfer extends Vue {
     }
   }
 
+  public externalURI() {
+    if (this.$route.params.from) {
+      this.transfer.from = this.$route.params.from;
+    }
+  }
+
   public mounted(): void {
     this.mapAccounts();
     this.getIconTheme();
     this.loadExternalInfo();
+    this.externalURI();
   }
 }
 </script>
