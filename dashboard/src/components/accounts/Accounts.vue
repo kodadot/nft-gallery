@@ -4,7 +4,9 @@
       <router-link to="accounts/create">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+      <router-link to="accounts/restore">
+        <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+      </router-link>
     </b-field>
     <!-- will go to the modals -->
     <!-- <p>My accounts</p> -->

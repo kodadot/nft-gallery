@@ -2,13 +2,21 @@
   <div id="Restore">
       <FileLoad :accountToImport.sync="accountToImport" />
       <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
-        <b-input v-model="password"
+        <b-input v-model="password" type="password"
           @input="validatePassword(password)"
           password-reveal></b-input>
-      </b-field>   
-      <b-button type="is-primary" @click="OnRestore()">
-        <font-awesome-icon icon="sync"/>
-        Restore Account</b-button>
+      </b-field>  
+      <router-link to="/accounts">
+        <b-button icon-left="sync" type="is-dark"
+          @click="OnRestore()" outlined>
+          Restore Account
+        </b-button>
+      </router-link>
+      <router-link to="/accounts">
+        <b-button icon-left="times" type="is-warning" outlined>
+          Cancel
+        </b-button>
+      </router-link>
   </div>
 </template>
 

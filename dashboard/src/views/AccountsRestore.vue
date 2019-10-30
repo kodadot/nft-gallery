@@ -1,18 +1,17 @@
 <template>
 <div id="AccountsCreate">
-  <Create 
-    mode="accounts"
-    :theme="theme"
-  />
+  <div> 
+    <Restore />
+  </div>
 </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Create from '../components/shared/Create.vue';
+import Restore from '../components/shared/Restore.vue';
 
 @Component({
   components: {
-    Create,
+    Restore,
   },
 })
 export default class AccountsCreate extends Vue {

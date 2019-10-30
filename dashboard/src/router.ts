@@ -25,6 +25,11 @@ export default new Router({
       component: () => import('./views/AccountsCreate.vue'),
     },
     {
+      path: '/accounts/restore',
+      name: 'accountsRestore',
+      component: () => import('./views/AccountsRestore.vue'),
+    },
+    {
       path: '/addressbook',
       name: 'addressbook',
       component: Addressbook,
