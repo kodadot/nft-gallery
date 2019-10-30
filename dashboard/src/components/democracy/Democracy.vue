@@ -103,9 +103,8 @@ export default class Democracy extends Vue {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
-      const transfer = await (this as any).$http.api.tx.balances.transfer(
-        this.transfer.to,
-        this.transfer.amountVisible * this.unitsSelected,
+      const transfer = await (this as any).$http.api.tx.democracy[this.fnMethod](
+        ...this.args,
       );
       const nonce = await (this as any).$http.api.query.system.accountNonce(
         this.transfer.from,
