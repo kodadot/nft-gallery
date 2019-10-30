@@ -40,7 +40,13 @@ export default new Router({
       component: Transfer,
     },
     {
-      path: '/transfer/:from',
+      path: '/transfer/from/:from',
+      name: 'transfer',
+      component: Transfer,
+    },
+    {
+      path: '/transfer/to/:to',
+      name: 'transfer',
       component: Transfer,
     },
     {
@@ -48,11 +54,11 @@ export default new Router({
       name: 'democracy',
       component: Democracy,
     },
-    // {
-    //   path: '*',
-    //   name: 'FourZeroFour',
-    //   component: FourZeroFour,
-    // },
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
+    },
     {
       path: '/settings',
       name: 'settings',

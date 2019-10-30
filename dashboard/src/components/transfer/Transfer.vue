@@ -151,6 +151,9 @@ export default class Transfer extends Vue {
     if (this.$route.params.from) {
       this.transfer.from = this.$route.params.from;
     }
+    if (this.$route.params.to) {
+      this.transfer.to = this.$route.params.to;
+    }
   }
 
   public mounted(): void {
