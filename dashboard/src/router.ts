@@ -46,12 +46,12 @@ export default new Router({
     },
     {
       path: '/transfer/from/:from',
-      name: 'transfer',
+      name: 'transferFrom',
       component: Transfer,
     },
     {
       path: '/transfer/to/:to',
-      name: 'transfer',
+      name: 'transferTo',
       component: Transfer,
     },
     {
