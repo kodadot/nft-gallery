@@ -4,21 +4,28 @@
       :value="address"
       :theme="theme"
       :size="size" />
-    {{address.slice(0, 6)}}…{{address.slice(-6)}}
+    {{shortAddress(address)}} 
     <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.oldPass"
+      <b-input v-model="change.oldPass" type="password"
         @input="validatePassword(change.oldPass)"
         password-reveal></b-input>
     </b-field>
     <b-field label="your new password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.newPass"
+      <b-input v-model="change.newPass" type="password"
         @input="validatePassword(change.newPass)"
         password-reveal></b-input>
     </b-field>
-    <b-button @click="doChangePassword()"
-      type="is-primary">
-      Change Passowrd
-    </b-button>
+    <router-link to="/accounts">
+      <b-button @click="doChangePassword()"
+        type="is-dark" icon-left="key" outlined>
+        Change Passowrd
+      </b-button>
+    </router-link>
+    <router-link to="/accounts">
+      <b-button icon-left="times" type="is-warning" outlined>
+        Cancel
+      </b-button>
+    </router-link>
   </div>
 </template>
 <script lang="ts">
@@ -43,6 +50,13 @@ export default class ChangePass extends Vue {
     newPass: null };
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);
+  }
+
+  public shortAddress(address: string): string {
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    }
+    return '';
   }
 
   @Emit()

@@ -39,7 +39,9 @@
             <router-link :to="'/accounts/backup/'+address">
               <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
             </router-link>
-            <b-button type="is-dark" icon-left="key" outlined></b-button>
+            <router-link :to="'/accounts/changepassword/'+address">
+              <b-button type="is-dark" icon-left="key" outlined></b-button>
+            </router-link>
             <router-link :to="'/transfer/from/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
@@ -61,12 +63,6 @@
             </a>
           </b-field>
         </div>
-        <!-- will go to the modals -->
-        <!-- <Backup v-if="!meta.isTesting"
-          :address="address"
-          :password="password" />
-        <ChangePass v-if="address && !meta.isTesting"
-          :address="address" /> -->
       </div>
   </div>
 </template>
@@ -74,14 +70,10 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
-import Backup from './Backup.vue';
-import ChangePass from './ChangePasss.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
-    Backup,
-    ChangePass,
     Identicon,
   },
 })
