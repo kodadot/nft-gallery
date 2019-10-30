@@ -24,6 +24,11 @@
         Backup
       </b-button>
     </router-link>
+    <router-link to="/accounts">
+      <b-button icon-left="times" type="is-warning" outlined>
+        Cancel
+      </b-button>
+    </router-link>
   </div>
 </template>
 

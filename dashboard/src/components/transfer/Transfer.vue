@@ -52,9 +52,6 @@
         View on PolkaScan {{tx.slice(0,20)}}
       </b-button>
     </a>
-    from {{$route.params.from}}
-    to {{$route.params.to}}
-    amount {{$route.params.amount}}
   </div>  
 </template>
 <script lang="ts">

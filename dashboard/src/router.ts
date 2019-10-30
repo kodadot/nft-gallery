@@ -30,6 +30,11 @@ export default new Router({
       component: () => import('./views/AccountsBackup.vue'),
     },
     {
+      path: '/accounts/changepassword/:address',
+      name: 'accountsChangePassword',
+      component: () => import('./views/AccountsChangePassword.vue'),
+    },
+    {
       path: '/accounts/restore',
       name: 'accountsRestore',
       component: () => import('./views/AccountsRestore.vue'),
