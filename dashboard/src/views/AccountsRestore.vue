@@ -1,5 +1,5 @@
 <template>
-<div id="AccountsCreate">
+<div id="AccountsRestore">
   <div> 
     <Restore />
   </div>
@@ -14,7 +14,7 @@ import Restore from '../components/shared/Restore.vue';
     Restore,
   },
 })
-export default class AccountsCreate extends Vue {
+export default class AccountsRestore extends Vue {
   public theme: string = 'substrate';
 
   public getIconTheme() {
