@@ -4,7 +4,9 @@
       <b-upload v-model="toImport" 
         name="account"
         native
-        drag-drop>
+        drag-drop
+        accept="application/json, text/plain"
+        >
         <section class="section">
           <div class="has-text-centered ">
             <p>
