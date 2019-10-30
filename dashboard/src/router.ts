@@ -25,6 +25,16 @@ export default new Router({
       component: () => import('./views/AccountsCreate.vue'),
     },
     {
+      path: '/accounts/backup/:address',
+      name: 'accountsBackup',
+      component: () => import('./views/AccountsBackup.vue'),
+    },
+    {
+      path: '/accounts/restore',
+      name: 'accountsRestore',
+      component: () => import('./views/AccountsRestore.vue'),
+    },
+    {
       path: '/addressbook',
       name: 'addressbook',
       component: Addressbook,
@@ -40,7 +50,13 @@ export default new Router({
       component: Transfer,
     },
     {
-      path: '/transfer/:from',
+      path: '/transfer/from/:from',
+      name: 'transferFrom',
+      component: Transfer,
+    },
+    {
+      path: '/transfer/to/:to',
+      name: 'transferTo',
       component: Transfer,
     },
     {
@@ -48,11 +64,11 @@ export default new Router({
       name: 'democracy',
       component: Democracy,
     },
-    // {
-    //   path: '*',
-    //   name: 'FourZeroFour',
-    //   component: FourZeroFour,
-    // },
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
+    },
     {
       path: '/settings',
       name: 'settings',

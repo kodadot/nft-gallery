@@ -21,5 +21,9 @@ export default class AddressbookCreate extends Vue {
   public getIconTheme() {
     this.theme = this.$store.state.setting.icon;
   }
+
+  public mounted(): void {
+    this.getIconTheme();
+  }
 }
 </script>

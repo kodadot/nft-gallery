@@ -36,9 +36,13 @@
             <b-button type="is-dark" icon-left="trash" 
               @click="forgetAccount(address)" outlined>
             </b-button>
-            <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
+            <router-link :to="'/accounts/backup/'+address">
+              <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
+            </router-link>
             <b-button type="is-dark" icon-left="key" outlined></b-button>
-            <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
+            <router-link :to="'/transfer/from/'+address">
+              <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
+            </router-link>
             <a :href="explorer+address">
               <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
             </a>
@@ -49,7 +53,9 @@
             <b-button type="is-dark" icon-left="trash" 
               @click="forgetAccount(address)" outlined>
             </b-button>
-            <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
+            <router-link :to="'/transfer/to/'+address">
+              <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
+            </router-link>
             <a :href="explorer+address">
               <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
             </a>

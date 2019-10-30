@@ -4,19 +4,10 @@
       <router-link to="accounts/create">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+      <router-link to="accounts/restore">
+        <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+      </router-link>
     </b-field>
-    <!-- will go to the modals -->
-    <!-- <p>My accounts</p> -->
-    <!-- <div> 
-      <Restore @on-restore="mapAccounts" />
-    </div> -->
-    <!-- <div>
-      <Create
-        v-if="isKeyringLoaded"
-        :theme="theme"
-        @on-create="mapAccounts" />
-    </div> -->
     <ul>
       <li 
         v-for="acc in keyringAccounts"
@@ -39,16 +30,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from '../shared/Keypair.vue';
-import Restore from '../shared/Restore.vue';
-import Create from '../shared/Create.vue';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
     Keypair,
-    Create,
-    Restore,
   },
 })
 export default class Accounts extends Vue {
