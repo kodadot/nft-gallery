@@ -21,7 +21,7 @@
         [extrinsics]<br>
         [events]<br>
         [logs]<br> -->
-      </b-tab-item>
+      </b-tab-item>      
       <b-tab-item label="Node Info">
         Total Peers {{nodeInfo.health.peers}}<br>
         Syncing {{nodeInfo.health.isSyncing}}<br>
@@ -44,10 +44,11 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Router from 'vue-router';
 
 @Component
 export default class Explorer extends Vue {
-  public activeTab: number = 2;
+  public activeTab: any = 0;
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public bestPeer: any = null;
   public bestPeerBlock: any = null;
@@ -64,6 +65,14 @@ export default class Explorer extends Vue {
     if (this.nodeInfo.peers.length) {
       this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
       this.bestPeerBlock = this.bestPeer.bestNumber;
+    }
+  }
+
+  @Watch('activeTab')
+  public async updateLocation() {
+    console.log(typeof this.activeTab);
+    if (typeof this.activeTab === 'number') {
+      this.$router.replace('/explorer/' + this.activeTab);
     }
   }
 
@@ -88,8 +97,15 @@ export default class Explorer extends Vue {
     }
   }
 
+  public async switchTab() {
+    if (typeof this.$route.params.tab === 'number') {
+      this.activeTab = Number(this.$route.params.tab);
+    }
+  }
+
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
+    this.switchTab();
   }
 }
 </script>
