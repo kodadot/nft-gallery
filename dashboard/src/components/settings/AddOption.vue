@@ -1,11 +1,13 @@
 <template>
 <div>
   <label><b>Add {{label}}</b></label>
-  <b-field class="add-option-wrapper">
-    <b-input placeholder="Text" v-model="text"></b-input>
-    <b-input placeholder="Value" v-model="value"></b-input>
+  <b-field class="add-option-wrapper" >
+    <b-input placeholder="Name" v-model="text"></b-input>
+    <b-input placeholder="wss://kusama-rpc.polkadot.io/" v-model="value" expanded></b-input>
     <p class="control">
-      <button :disabled="!text || !value" class="button is-primary" @click="onAddedOption">Add</button>
+      <b-button :disabled="!text || !value" type="is-dark" 
+        @click="onAddedOption; toast('Address has been added to the list')" 
+        outlined>Add</b-button>
     </p>
   </b-field>
   </div>
@@ -17,15 +19,17 @@ import { Component, Vue, Provide, Emit, Prop } from 'vue-property-decorator';
 @Component
 export default class AddOption extends Vue {
   @Prop() public label!: string;
-  @Provide()
-  private value: string = '';
-  @Provide()
-  private text: string = '';
+  @Provide() private value: string = '';
+  @Provide() private text: string = '';
 
   @Emit('add')
   public onAddedOption() {
     const { text, value } = this;
     return { text: `${text} (${value})`, value };
+  }
+
+  public toast(message: string): void {
+    this.$buefy.toast.open(message);
   }
 }
 </script>
