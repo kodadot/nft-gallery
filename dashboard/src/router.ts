@@ -85,6 +85,11 @@ export default new Router({
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
+      path: '/explorer/:tab',
+      name: 'explorer',
+      component: () => import('./components/explorer/Explorer.vue'),
+    },
+    {
       path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
