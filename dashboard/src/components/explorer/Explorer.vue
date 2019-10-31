@@ -61,7 +61,7 @@ export default class Explorer extends Vue {
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   @Watch('nodeInfo.peers')
   public async sortBestPeerBlock() {
-    console.log(this.nodeInfo.peers.length);
+    // console.log(this.nodeInfo.peers.length);
     if (this.nodeInfo.peers.length) {
       this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
       this.bestPeerBlock = this.bestPeer.bestNumber;
@@ -70,7 +70,7 @@ export default class Explorer extends Vue {
 
   @Watch('activeTab')
   public async updateLocation() {
-    console.log(typeof this.activeTab);
+    // console.log(typeof this.activeTab);
     if (typeof this.activeTab === 'number') {
       this.$router.replace('/explorer/' + this.activeTab);
     }
@@ -98,9 +98,11 @@ export default class Explorer extends Vue {
   }
 
   public async switchTab() {
-    if (typeof this.$route.params.tab === 'number') {
-      this.activeTab = Number(this.$route.params.tab);
-    }
+    console.log(this.$route.params.tab);
+    console.log(typeof Number(this.$route.params.tab));
+    // if (typeof this.$route.params.tab === number) {
+    this.activeTab = Number(this.$route.params.tab);
+    // }
   }
 
   public async mounted(): Promise<void> {
