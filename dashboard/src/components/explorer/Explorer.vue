@@ -2,22 +2,25 @@
   <div id="explorer">
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
-        Last Block -><br>
-        target -> 6s<br>
-        total issuance<br>
-        finalized<br>
+        <b-field>
+          Chain name - {{conn.chainName}}
+          Last Block {{nodeInfo.blockNumber}}
+          <!-- target -> 6s -->
+          total issuance {{nodeInfo.totalIssuance}}
+          <p>Session {{nodeInfo.session.length}}</p>
+          finalized {{nodeInfo.finalized}}
+        </b-field>
         best<br>
-        Chain name - {{conn.chainName}}<br>
-        [recent blocks]<br>
+        <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
         BlockNumber <p>{{nodeInfo.blockNumber}}</p>
-        parentHash -><br>
+        <!-- parentHash -><br>
         extrinsicsRoot -><br>
         StateRoot -><br>
         [extrinsics]<br>
         [events]<br>
-        [logs]<br>
+        [logs]<br> -->
       </b-tab-item>
       <b-tab-item label="Node Info">
         Total Peers {{nodeInfo.health.peers}}<br>
@@ -25,14 +28,11 @@
         Our best 
         <p>{{nodeInfo.blockNumber}}</p>
         Peer best 
-        <!-- <b-button @click="sortBestPeerBlock">sort</b-button> -->
-        <p v-if="bestPeer"
-        > {{bestPeer.bestNumber}}</p>
-        [[connected peers]]
+        <p v-if="bestPeer"> {{bestPeer.bestNumber}}</p>
+        <p>Queued tx {{nodeInfo.extrinsics.length}}</p>
+        <!-- [[connected peers]] -->
         <!-- should be separate component -->
         <!-- <p>Peers {{nodeInfo.peers}}</p> -->
-        <p>Pending Extrinsics </p>
-        <!-- {{nodeInfo.extrinsics}} -->
       </b-tab-item>
     </b-tabs>
     <!-- <p>Recent Block {{conn.header.number}}</p> -->
@@ -53,7 +53,8 @@ export default class Explorer extends Vue {
   public bestPeerBlock: any = null;
   public api: any = null;
   public nodeInfo: any = {
-    blockNumber: '', health: '', peers: '', extrinsics: '',
+    blockNumber: '', health: '', peers: '', extrinsics: '', session: '',
+    totalIssuance: '', finalized: '', era: '',
   };
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
@@ -76,9 +77,14 @@ export default class Explorer extends Vue {
       this.nodeInfo.blockNumber = await apiBestNumber.toString();
       const apiHealth = await (this as any).$http.api.rpc.system.health();
       this.nodeInfo.health = await apiHealth;
-      // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
-      // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
-      // this.sortBestPeerBlock();
+      const apiSession = await (this as any).$http.api.query.session.validators();
+      this.nodeInfo.session = await apiSession;
+      const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
+      this.nodeInfo.extrinsics = await apiPendingExtrinsics;
+      const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
+      this.nodeInfo.totalIssuance = await apiTotalIssuance;
+      const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
+      this.nodeInfo.finalized = await apiFinalized;
     }
   }
 
