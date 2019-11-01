@@ -3,6 +3,7 @@
     <b-tabs>
       <b-tab-item label="Democracy"></b-tab-item>
     </b-tabs>
+    <Identicon :value="transfer.from" size="64" />
     <b-field>Recent block #{{conn.blockNumber}}</b-field>
     <TxSelect
       label="send from account"
@@ -31,6 +32,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 import TxSelect from '../transfer/TxSelect.vue';
 import Executor from '@/components/extrinsics/Executor.vue';
 import Argurments from '@/components/extrinsics/Arguments.vue';
+
 
 @Component({
   components: {
@@ -103,8 +105,9 @@ export default class Democracy extends Vue {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
+      const args = this.args.map(this.argMapper);
       const transfer = await (this as any).$http.api.tx.democracy[this.fnMethod](
-        ...this.args,
+        ...args,
       );
       const nonce = await (this as any).$http.api.query.system.accountNonce(
         this.transfer.from,

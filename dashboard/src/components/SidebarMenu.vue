@@ -91,7 +91,7 @@ export default class SidebarMenu extends Vue {
     },
   ];
   public currentRow: any = this.sidebar[0];
-  public isSidebarClosed = false;
+  public isSidebarClosed = true;
 
   get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
