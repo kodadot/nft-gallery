@@ -6,7 +6,7 @@
     <b-input placeholder="wss://kusama-rpc.polkadot.io/" v-model="value" expanded></b-input>
     <p class="control">
       <b-button :disabled="!text || !value" type="is-dark" 
-        @click="onAddedOption; toast('Address has been added to the list')" 
+        @click="onAddedOption" 
         outlined>Add</b-button>
     </p>
   </b-field>
@@ -21,10 +21,12 @@ export default class AddOption extends Vue {
   @Prop() public label!: string;
   @Provide() private value: string = '';
   @Provide() private text: string = '';
+  private toastMessage: string = 'Address has been added to the list';
 
   @Emit('add')
   public onAddedOption() {
     const { text, value } = this;
+    this.toast(this.toastMessage);
     return { text: `${text} (${value})`, value };
   }
 
