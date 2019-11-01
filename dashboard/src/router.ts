@@ -86,7 +86,7 @@ export default new Router({
     },
     {
       path: '/explorer/:tab',
-      name: 'explorer',
+      name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
