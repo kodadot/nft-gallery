@@ -930,7 +930,7 @@
     "@types/memoizee" "^0.4.3"
     memoizee "^0.4.14"
 
-"@polkadot/ui-shared@^0.42.0-beta.31":
+"@polkadot/ui-shared@^0.42.0-beta.31", "@polkadot/ui-shared@^0.42.1":
   version "0.42.1"
   resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-0.42.1.tgz#e62024b9db3c17786c2a4cde8264c676fd2db297"
   integrity sha512-Aik/9F0zy+HQlshduMcIO+0ypPtHq0oDhX7f+yc/sYO/x9yCFOcLByxAZqp3NfuzUSYugPH2As061qbScfmwlQ==
@@ -1137,6 +1137,17 @@
   integrity sha512-OwAV7L4BEm96MfhELYzUfdnPls+FjUyGttzNEguqSfQmtyOizZYNXpsU5Ol1OKoIJdsJpu/fYSjAKq5zbTaOlg==
   dependencies:
     "@polkadot/ui-shared" "^0.42.0-beta.31"
+    jdenticon "2.2.0"
+    vue "^2.6.10"
+    vue-class-component "^7.0.2"
+    vue-property-decorator "^8.1.0"
+
+"@vue-polkadot/vue-identicon@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-identicon/-/vue-identicon-0.0.8.tgz#664a466f6ae3bd95f50f0d0fe864b023526cd5e1"
+  integrity sha512-E770roYVjpyyIZWdNRZ+cyHnlHziJnrvThjiF7YZpzxzRKcQ/ClzHBEtS8ENn0NvKHFzk9tnLFwqNcLN4fq4JA==
+  dependencies:
+    "@polkadot/ui-shared" "^0.42.1"
     jdenticon "2.2.0"
     vue "^2.6.10"
     vue-class-component "^7.0.2"
