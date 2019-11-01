@@ -1142,17 +1142,10 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
 
-<<<<<<< HEAD
 "@vue-polkadot/vue-identicon@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-identicon/-/vue-identicon-0.0.8.tgz#664a466f6ae3bd95f50f0d0fe864b023526cd5e1"
   integrity sha512-E770roYVjpyyIZWdNRZ+cyHnlHziJnrvThjiF7YZpzxzRKcQ/ClzHBEtS8ENn0NvKHFzk9tnLFwqNcLN4fq4JA==
-=======
-"@vue-polkadot/vue-identicon@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-identicon/-/vue-identicon-0.0.7.tgz#39dc4d73a6768793965959bfed26fd5010ec0bc7"
-  integrity sha512-vUl8MMJDDnDSgBGBfZRreUA3ZT5Gifc0mFYMSHjoexm1NK/9ER5GwPZBZumZUgOax0wyBdqYDDmELlihKWW+4Q==
->>>>>>> 659a9c990ac3c36fc90486d0590c527acd2e0af7
   dependencies:
     "@polkadot/ui-shared" "^0.42.1"
     jdenticon "2.2.0"
