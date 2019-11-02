@@ -38,16 +38,16 @@ export default class Dashboard extends Vue {
     console.log('keyring loaded');
   }
 
-  private connectApi(): void {
-    console.log((this as any).$http);
-    if ((this as any).$http) {
-      (this as any).$http.changeApiUrl(this.$store.getters.getSettings.apiUrl)
-    }
-  }
-
   public mounted(): void {
     this.mountWasmCrypto();
     this.connectApi();
+  }
+
+  private connectApi(): void {
+    console.log((this as any).$http);
+    if ((this as any).$http) {
+      (this as any).$http.changeApiUrl(this.$store.getters.getSettings.apiUrl);
+    }
   }
 }
 </script>
