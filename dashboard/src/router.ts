@@ -5,7 +5,6 @@ import Accounts from './components/accounts/Accounts.vue';
 import Addressbook from './components/addressbook/Addressbook.vue';
 import Transfer from './components/transfer/Transfer.vue';
 import Democracy from './components/democracy/Democracy.vue';
-import Explorer from './components/explorer/Explorer.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -21,9 +20,34 @@ export default new Router({
       component: Accounts,
     },
     {
+      path: '/accounts/create',
+      name: 'accountsCreate',
+      component: () => import('./views/AccountsCreate.vue'),
+    },
+    {
+      path: '/accounts/backup/:address',
+      name: 'accountsBackup',
+      component: () => import('./views/AccountsBackup.vue'),
+    },
+    {
+      path: '/accounts/changepassword/:address',
+      name: 'accountsChangePassword',
+      component: () => import('./views/AccountsChangePassword.vue'),
+    },
+    {
+      path: '/accounts/restore',
+      name: 'accountsRestore',
+      component: () => import('./views/AccountsRestore.vue'),
+    },
+    {
       path: '/addressbook',
       name: 'addressbook',
       component: Addressbook,
+    },
+    {
+      path: '/addressbook/create',
+      name: 'addressbookCreate',
+      component: () => import('./views/AddressbookCreate.vue'),
     },
     {
       path: '/transfer',
@@ -31,14 +55,19 @@ export default new Router({
       component: Transfer,
     },
     {
+      path: '/transfer/from/:from',
+      name: 'transferFrom',
+      component: Transfer,
+    },
+    {
+      path: '/transfer/to/:to',
+      name: 'transferTo',
+      component: Transfer,
+    },
+    {
       path: '/democracy',
       name: 'democracy',
       component: Democracy,
-    },
-    {
-      path: '/explorer',
-      name: 'explorer',
-      component: Explorer,
     },
     {
       path: '*',
@@ -51,9 +80,14 @@ export default new Router({
       component: () => import('./views/Settings.vue'),
     },
     {
-      path: '/explorer2',
-      name: 'explorer2',
-      component: () => import('./views/Explorer.vue'),
+      path: '/explorer',
+      name: 'explorer',
+      component: () => import('./components/explorer/Explorer.vue'),
+    },
+    {
+      path: '/explorer/:tab',
+      name: 'explorerByTab',
+      component: () => import('./components/explorer/Explorer.vue'),
     },
     {
       path: '/extrinsics',

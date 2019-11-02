@@ -1,27 +1,43 @@
 <template>
-  <div>
-    <div>
-      <figure class="image is-48x48">
-    <img
-      class="is-rounded"
-      src="../assets/vue-polkadot.png"
-      alt="Lightweight UI components for Vue.js based on Bulma" />
+  <div
+    class="column happy-menu is-one-fifth is-one-third-mobile is-one-fifth-tablet"
+    v-bind:class="{closed: isSidebarClosed }"
+  >
+    <figure class="image is-48x48 logo" @click="toggleSidebar">
+      <img
+        class="is-rounded"
+        src="../assets/vue-polkadot.png"
+        alt="Lightweight UI components for Vue.js based on Bulma"
+      />
     </figure>
-    </div>
     <b-menu>
-      <b-menu-list
-        v-for="row in sidebar"
-        v-bind:key="row.name"
-        @click="currentRow = row">
-        <b-menu-item 
-          :icon="row.icon" 
+      <b-menu-list v-if="!isSidebarClosed">
+        <b-menu-item
+          class="menu-item"
+          v-for="row in sidebar"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
           :label="row.name"
           :tag="row.tag"
           :to="row.to"
-          :disabled="row.disabled">
-        </b-menu-item> 
+          :disabled="row.disabled"
+        ></b-menu-item>
+      </b-menu-list>
+      <b-menu-list v-if="isSidebarClosed">
+        <b-menu-item
+          v-for="row in sidebar"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
+          :tag="row.tag"
+          :to="row.to"
+          :disabled="row.disabled"
+        ></b-menu-item>
       </b-menu-list>
     </b-menu>
+    <b-button v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
+    <b-button v-if="isSidebarClosed" icon-left="angle-double-right" @click="toggleSidebar" rounded></b-button>
   </div>
 </template>
 
@@ -34,63 +50,55 @@ export default class SidebarMenu extends Vue {
     {
       name: 'accounts',
       icon: 'users',
-      to: 'accounts',
+      to: '/accounts',
       tag: 'router-link',
     },
     {
       name: 'address book',
       icon: 'address-book',
-      to: 'addressbook',
+      to: '/addressbook',
       tag: 'router-link',
     },
     {
       name: 'transfer',
       icon: 'paper-plane',
-      to: 'transfer',
+      to: '/transfer',
       tag: 'router-link',
     },
     {
       name: 'explorer',
       icon: 'dice-d20',
-      to: 'explorer',
-      tag: 'router-link',
-    },
-    {
-      name: 'explorer2',
-      icon: 'dice-d20',
-      to: 'explorer2',
+      to: '/explorer',
       tag: 'router-link',
     },
     {
       name: 'democracy',
       icon: 'calendar-check',
-      to: 'democracy',
+      to: '/democracy',
       tag: 'router-link',
-      disabled: true,
     },
     {
       name: 'extrinsics',
       icon: 'sync',
-      to: 'extrinsics',
+      to: '/extrinsics',
       tag: 'router-link',
     },
     {
       name: 'settings',
       icon: 'cogs',
-      to: 'settings',
-      tag: 'router-link',
-    },
-    {
-      name: '',
-      icon: 'chevron-left',
-      to: '',
+      to: '/settings',
       tag: 'router-link',
     },
   ];
   public currentRow: any = this.sidebar[0];
+  public isSidebarClosed = true;
 
-   get hasBasicMode() {
+  get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
+  }
+
+  public toggleSidebar() {
+    this.isSidebarClosed = !this.isSidebarClosed;
   }
 }
 </script>
@@ -104,5 +112,21 @@ export default class SidebarMenu extends Vue {
 }
 .happy-menu {
   background-color: #000000bd;
+}
+
+.menu-button {
+  color: white;
+}
+
+.happy-menu.closed {
+  width: 4.5rem !important;
+}
+
+.image.is-48x48.logo {
+  margin-bottom: 1rem;
+}
+
+.menu-item > a > span + span {
+  vertical-align: super;
 }
 </style>

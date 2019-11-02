@@ -11,28 +11,34 @@
           </b-field>
           <b-field>
             {{newAccount.name.toUpperCase()}}<br>
-            {{newAccount.address.slice(0,6)}}...{{newAccount.address.slice(-6)}}
+            {{shortAddress(newAccount.address)}}
           </b-field>
         </b-field>
       </div>
       <b-field label="name">
         <b-input v-model="newAccount.name"></b-input>
       </b-field>
+      <div v-if="mode === 'addressbook'">
+        <b-field label="address">
+          <b-input v-model="newAccount.address"></b-input>
+        </b-field>
+      </div>
+      <div v-if="mode === 'accounts'">
       <b-field label="mnemonic seed" v-bind:type="{ 'is-danger': !isValidMnemonic }">
         <b-input v-model="newAccount.mnemonicSeed"
           @input="validateMnemonic()"
           :expanded='true'>
         </b-input>
         <p class="control">
-          <button class="button is-primary" 
-            @click="generateSeed(); addressFromSeed(); validateMnemonic()">
-            <font-awesome-icon icon="sync"/>
+          <b-button class="button is-dark" icon-left="sync"
+            @click="generateSeed(); addressFromSeed(); validateMnemonic()"
+            outlined>
               Mnemonic
-          </button>
+          </b-button>
         </p>
       </b-field>
       <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
-        <b-input v-model="newAccount.password"
+        <b-input v-model="newAccount.password" type="password"
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
       </b-field>
@@ -53,13 +59,26 @@
       <b-field label="secret derivation path">
         <b-input v-model="newAccount.derivationPath"></b-input>
       </b-field>
+      </div>
     </section>
     <div>
-      <b-button 
-        type="is-primary"
-        @click="onCreate">
-        Create
-      </b-button>
+      <router-link :to="'/'+mode">
+        <b-button 
+          type="is-dark"
+          icon-left="plus"
+          @click="onCreate" 
+          outlined>
+          Create
+        </b-button>
+      </router-link>
+      <router-link :to="'/'+mode">
+        <b-button 
+          type="is-warning"
+          icon-left="times"
+          outlined>
+          Cancel
+        </b-button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -77,6 +96,7 @@ import { keyExtractSuri, mnemonicGenerate,
 })
 export default class Create extends Vue {
   @Prop(String) public theme!: string;
+  @Prop(String) public mode!: string;
   // will be replaced by uiSettings
   public keypairType: any = {
     selected: 'sr25519',
@@ -98,6 +118,13 @@ export default class Create extends Vue {
     address: '',
   };
 
+  public shortAddress(address: string): string {
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    }
+    return '';
+  }
+
   public validateMnemonic(): boolean {
     return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
   }
@@ -107,7 +134,10 @@ export default class Create extends Vue {
   }
 
   public generateSeed(): string {
-    return this.newAccount.mnemonicSeed = mnemonicGenerate();
+    if (this.mode === 'accounts') {
+      return this.newAccount.mnemonicSeed = mnemonicGenerate();
+    }
+    return '';
   }
 
   @Emit()
@@ -117,17 +147,25 @@ export default class Create extends Vue {
         name: this.newAccount.name,
         tags: this.newAccount.tags.split(','),
         whenCreated: Date.now() };
-      const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
-        this.newAccount.password, meta, this.keypairType.selected);
+      if (this.mode === 'accounts') {
+        const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+          this.newAccount.password, meta, this.keypairType.selected);
+      }
+      if (this.mode === 'addressbook') {
+        const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
   @Watch('$store.state.keyringLoaded')
-  public addressFromSeed(): any {
-    return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
-      {}, this.keypairType.selected).address;
+  public addressFromSeed(): string {
+    if (this.mode === 'accounts') {
+      return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
+        {}, this.keypairType.selected).address;
+    }
+    return '';
   }
 
   public isKeyringLoaded() {
