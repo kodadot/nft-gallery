@@ -12,6 +12,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
+import Connector from '@vue-polkadot/vue-api';
+import { log } from 'util';
 
 @Component({
   components: {
@@ -38,6 +40,14 @@ export default class Dashboard extends Vue {
 
   public mounted(): void {
     this.mountWasmCrypto();
+    this.connectApi();
+  }
+
+  private connectApi(): void {
+    console.log((this as any).$http);
+    if ((this as any).$http) {
+      (this as any).$http.changeApiUrl(this.$store.getters.getSettings.apiUrl);
+    }
   }
 }
 </script>
