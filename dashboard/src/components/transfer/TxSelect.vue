@@ -12,8 +12,13 @@
             <optgroup v-for="acc in keyringAccounts"
               v-bind:key="acc.name"
               v-bind:value="acc.address"
-              :label="acc.address.slice(0,20)">
-              <option :value="acc.address">
+              :label="shortAddress(acc.address)">
+              <option v-if="direction === 'to'" 
+                :value="acc.address">
+                {{acc.meta.name}}
+              </option>
+              <option v-if="direction === 'from' && !acc.meta.isExternal" 
+                :value="acc.address">
                 {{acc.meta.name}}
               </option>
             </optgroup>
@@ -37,8 +42,16 @@ export default class TxPicker extends Vue {
   @Prop(String) public label!: string;
   @Prop(String) public placeholder!: string;
   @Prop(String) public theme!: string;
+  @Prop(String) public direction!: string;
   @Prop() public keyringAccounts!: any;
   @Prop() public balance!: any;
   @PropSync('address', { type: String }) public pickedAddress!: string;
+
+  public shortAddress(address: string): string {
+    if (address) {
+      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    }
+    return '';
+  }
 }
 </script>

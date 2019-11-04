@@ -6,6 +6,7 @@
     <TxSelect
       label="send from account"
       placeholder="Select a sender"
+      direction="from"
       :address.sync="transfer.from"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
@@ -14,6 +15,7 @@
     <TxSelect
       label="send to address"
       placeholder="Select destination"
+      direction="to"
       :address.sync="transfer.to"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
@@ -33,7 +35,7 @@
         </b-select>
       </p>
     </b-field>
-    <b-field label="put magic spell here - password">
+    <b-field label="password 🤫 magic spell">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
