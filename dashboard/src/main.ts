@@ -11,7 +11,7 @@ import { faTrash, faKey, faSync, faRedo,
   faBinoculars, faPlus, faTimes, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
-import keyring from '@vue-polkadot/vue-keyring';
+// import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
 import store from './store';
