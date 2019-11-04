@@ -39,7 +39,6 @@ import { u8aToHex } from '@polkadot/util';
   },
 })
 export default class Accounts extends Vue {
-  public keys: any = '';
   public theme: string = 'substrate';
   public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
   public hideTestingAccounts: boolean = true;

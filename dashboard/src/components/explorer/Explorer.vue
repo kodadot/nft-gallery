@@ -4,7 +4,7 @@
       <b-tab-item label="Chain Info">
         <b-field>
           chain name - {{conn.chainName}}
-          last Block {{nodeInfo.blockNumber}}
+          last block {{nodeInfo.blockNumber}}
           <!-- target -> 6s -->
           total issuance {{nodeInfo.totalIssuance}}
           session {{nodeInfo.session.length}} / {{nodeInfo.sessionLength}}
@@ -24,7 +24,7 @@
         [logs]<br> -->
       </b-tab-item>      
       <b-tab-item label="Node Info">
-        total Peers {{nodeInfo.health.peers}}<br>
+        total peers {{nodeInfo.health.peers}}<br>
         syncing {{nodeInfo.health.isSyncing}}<br>
         our best {{nodeInfo.blockNumber}}
         peer best 
@@ -96,6 +96,7 @@ export default class Explorer extends Vue {
       this.nodeInfo.totalIssuance = await apiTotalIssuance;
       const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
       this.nodeInfo.finalized = await apiFinalized;
+
       // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
       // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
     }
