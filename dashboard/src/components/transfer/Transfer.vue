@@ -144,8 +144,8 @@ export default class Transfer extends Vue {
     if ((this as any).$http.api) {
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
       this.conn.blockNumber = await apiBestNumber.toString();
-      const apiVersion = await (this as any).$http.api.consts.balances;
-      console.log(await apiVersion);
+      // const apiVersion = await (this as any).$http.api.consts.balances;
+      // console.log(await apiVersion);
     }
   }
 
