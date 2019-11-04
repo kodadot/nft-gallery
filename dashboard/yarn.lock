@@ -1124,10 +1124,10 @@
   dependencies:
     "@types/node" "*"
 
-"@vue-polkadot/vue-api@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.2.tgz#e4350af7e7e1bb8095a8e00f135238b4918d8d97"
-  integrity sha512-2oiYh/g87+5dYFPJNNossuIqRdSq/XKLE5+bOu+CYfPeij/RIMS246h23TIPQjzao8ELgr+PAqCd5opT8j3rZQ==
+"@vue-polkadot/vue-api@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.6.tgz#919aca098ebe9f35421baef983ff30376aba22af"
+  integrity sha512-mucjxfs8UyMaaTua0anJjhQsBJoecwMaik8bS+x/LSzUI7EM3qiY711EPPrCnU/48w1yeeITqRV+o9QZmz1j9g==
   dependencies:
     "@polkadot/api" "^0.93.1"
 

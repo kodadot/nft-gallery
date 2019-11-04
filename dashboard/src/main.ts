@@ -35,7 +35,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 //   isDevelopment: true,
 // });
 
-// Connector.createInstance();
+console.log('here');
+Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance();
 
 Vue.use(Buefy, {
