@@ -109,7 +109,7 @@ export default class Keypair extends Vue {
   }
 
   public async loadExternalInfo() {
-    if ((this as any).$http.api && this.address) {  
+    if ((this as any).$http.api && this.address) {
       const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.address);
       this.balanceAvailable = await fromBalance.toString();
       const nonce = await (this as any).$http.api.query.system.accountNonce(this.address);
