@@ -92,7 +92,6 @@ import Identicon from '@vue-polkadot/vue-identicon';
   },
 })
 export default class TxPicker extends Vue {
-  
   @Prop(String) public label!: string;
   @Prop(String) public placeholder!: string;
   @Prop(String) public theme!: string;
