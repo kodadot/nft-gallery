@@ -3,18 +3,19 @@
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
         <b-field>
-          Chain name - {{conn.chainName}}
-          Last Block {{nodeInfo.blockNumber}}
+          chain name - {{conn.chainName}}
+          last block {{nodeInfo.blockNumber}}
           <!-- target -> 6s -->
           total issuance {{nodeInfo.totalIssuance}}
-          <p>Session {{nodeInfo.session.length}}</p>
+          session {{nodeInfo.session.length}} / {{nodeInfo.sessionLength}}
+          <!-- era {{nodeInfo.sessionsPerEra}} -->
           finalized {{nodeInfo.finalized}}
         </b-field>
         best<br>
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-        BlockNumber <p>{{nodeInfo.blockNumber}}</p>
+        blockNumber <p>{{nodeInfo.blockNumber}}</p>
         <!-- parentHash -><br>
         extrinsicsRoot -><br>
         StateRoot -><br>
@@ -23,13 +24,12 @@
         [logs]<br> -->
       </b-tab-item>      
       <b-tab-item label="Node Info">
-        Total Peers {{nodeInfo.health.peers}}<br>
-        Syncing {{nodeInfo.health.isSyncing}}<br>
-        Our best 
-        <p>{{nodeInfo.blockNumber}}</p>
-        Peer best 
+        total peers {{nodeInfo.health.peers}}<br>
+        syncing {{nodeInfo.health.isSyncing}}<br>
+        our best {{nodeInfo.blockNumber}}
+        peer best 
         <p v-if="bestPeer"> {{bestPeer.bestNumber}}</p>
-        <p>Queued tx {{nodeInfo.extrinsics.length}}</p>
+        Queued tx {{nodeInfo.extrinsics.length}}
         <!-- [[connected peers]] -->
         <!-- should be separate component -->
         <!-- <p>Peers {{nodeInfo.peers}}</p> -->
@@ -55,7 +55,7 @@ export default class Explorer extends Vue {
   public api: any = null;
   public nodeInfo: any = {
     blockNumber: '', health: '', peers: '', extrinsics: '', session: '',
-    totalIssuance: '', finalized: '', era: '',
+    totalIssuance: '', finalized: '', era: '', sessionsPerEra: '',
   };
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
@@ -68,13 +68,13 @@ export default class Explorer extends Vue {
     }
   }
 
-  @Watch('activeTab')
-  public async updateLocation() {
-    // console.log(typeof this.activeTab);
-    if (typeof this.activeTab === 'number') {
-      this.$router.replace('/explorer/' + this.activeTab);
-    }
-  }
+  // @Watch('activeTab')
+  // public async updateLocation() {
+  //   // console.log(typeof this.activeTab);
+  //   if (typeof this.activeTab === 'number') {
+  //     this.$router.replace('/explorer/' + this.activeTab);
+  //   }
+  // }
 
   public async loadExternalInfo() {
     if ((this as any).$http.api) {
@@ -88,26 +88,27 @@ export default class Explorer extends Vue {
       this.nodeInfo.health = await apiHealth;
       const apiSession = await (this as any).$http.api.query.session.validators();
       this.nodeInfo.session = await apiSession;
+      const apiSessionLength = await (this as any).$http.api.query.session.sessionLength();
+      this.nodeInfo.sessionLength = await apiSessionLength;
       const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
       this.nodeInfo.extrinsics = await apiPendingExtrinsics;
       const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
       this.nodeInfo.totalIssuance = await apiTotalIssuance;
       const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
       this.nodeInfo.finalized = await apiFinalized;
+
+      // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
+      // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
     }
   }
 
-  public async switchTab() {
-    console.log(this.$route.params.tab);
-    console.log(typeof Number(this.$route.params.tab));
-    // if (typeof this.$route.params.tab === number) {
-    this.activeTab = Number(this.$route.params.tab);
-    // }
-  }
+  // public async switchTab() {
+  //   this.activeTab = Number(this.$route.params.tab);
+  // }
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
-    this.switchTab();
+    // th is.switchTab();
   }
 }
 </script>

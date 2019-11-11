@@ -12,6 +12,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {

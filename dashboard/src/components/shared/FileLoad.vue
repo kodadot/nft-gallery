@@ -15,10 +15,10 @@
                   size="is-large">
               </b-icon>
             </p>
-            <p>Drop your account here or click to upload</p>
+            <p v-show="!account">Drop your account here or click to upload</p>
             <div class="tags">
               <span>
-              {{account.slice(12, 30)}}
+              {{readAccount(account)}}
               </span>
             </div>
           </div>
@@ -34,15 +34,17 @@ import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator';
 @Component
 export default class FileLoad extends Vue {
   public toImport: any = null;
+  public uiReader: any = null;
   @PropSync('accountToImport', { type: String }) private account!: any;
 
-  // public onFileChange(e: any): void {
-  //   const files = e.target.files;
-  //   if (!files.length) {
-  //     return;
-  //   }
-  //   this.createInput(files[0]);
-  // }
+  public readAccount(address: string): string {
+    if (address) {
+      this.uiReader = JSON.parse(address);
+      return `${this.uiReader.address.slice(0, 6)}...${this.uiReader.address.slice(-6)}
+        ${this.uiReader.meta.name}`;
+    }
+    return '';
+  }
 
   @Watch('toImport')
   public createInput(file: any): void {

@@ -6,6 +6,7 @@
     <TxSelect
       label="send from account"
       placeholder="Select a sender"
+      direction="from"
       :address.sync="transfer.from"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
@@ -14,6 +15,7 @@
     <TxSelect
       label="send to address"
       placeholder="Select destination"
+      direction="to"
       :address.sync="transfer.to"
       :theme="theme"
       :keyringAccounts="keyringAccounts"
@@ -33,7 +35,7 @@
         </b-select>
       </p>
     </b-field>
-    <b-field label="put magic spell here - password">
+    <b-field label="password 🤫 magic spell">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
@@ -111,7 +113,8 @@ export default class Transfer extends Vue {
       const transfer =
         await (this as any).$http.api.tx.balances.transfer(this.transfer.to,
           this.transfer.amountVisible * this.unitsSelected);
-      const nonce = await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
+      const nonce =
+        await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
       const alicePair = keyring.getPair(this.transfer.from);
       alicePair.decodePkcs8(this.password);
       console.log(await nonce.toString());
@@ -141,6 +144,8 @@ export default class Transfer extends Vue {
     if ((this as any).$http.api) {
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
       this.conn.blockNumber = await apiBestNumber.toString();
+      // const apiVersion = await (this as any).$http.api.consts.balances;
+      // console.log(await apiVersion);
     }
   }
 
