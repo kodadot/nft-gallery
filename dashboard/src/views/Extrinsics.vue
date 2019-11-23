@@ -11,6 +11,7 @@
         label="submit the following extrinsic"
       />
       <Executor :methods="methods" @selected="handleMethodSelection" label="method" />
+      <!-- <InputFile /> -->
     </div>
     <Argurments :args="args" @selected="handleSelectedArguments" />
     <div class="transaction buttons">
@@ -26,6 +27,7 @@ import Executor from '../components/extrinsics/Executor.vue';
 import Argurments from '../components/extrinsics/Arguments.vue';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
+import InputFile from '../components/extrinsics/components/InputFile.vue';
 
 // import Connector from '@vue-polkadot/vue-api'
 //
@@ -46,6 +48,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
     Selection,
     Executor,
     Argurments,
+    InputFile
   },
 })
 export default class Extrinsics extends Vue {

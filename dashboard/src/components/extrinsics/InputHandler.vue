@@ -1,16 +1,15 @@
 <template>
   <div class="arguments-wrapper">
-    
-      <label><b>{{argument.name}}: {{argument.type}}</b></label>
-    
-      <component :is="selected(argument)" />
-    
+    <b-field
+      :label="`${argument.name}: ${argument.type}`"
+    >
+      <b-input v-model="arg" />
+    </b-field>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import findComponent from '@/params/components/findComponent'
 
 @Component
 export default class ArgumentHandler extends Vue {
@@ -24,11 +23,6 @@ export default class ArgumentHandler extends Vue {
 
   get arg() {
     return '';
-  }
-
-  selected(argument: any) {
-    console.log(typeof argument, argument);
-    return findComponent(argument)
   }
 
 
