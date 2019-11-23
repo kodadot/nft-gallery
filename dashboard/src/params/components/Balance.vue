@@ -22,10 +22,22 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Unit } from '../types'
+import { Unit } from '../types';
 
 @Component
 export default class Balance extends Vue {
+
+  set arg(value: number) {
+    console.log('Balance', { [this.argument.name.toString()]: value * this.unitsSelected });
+
+    this.$emit('selected', { [this.argument.name.toString()]: value * this.unitsSelected });
+  }
+
+  get arg() {
+    return 0;
+  }
+
+  @Prop() public argument!: any;
     private unitsSelected: number = 1e-3;
     private units: Unit[] = [
     {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12}, {name: 'nano', value: 1e-9},
@@ -34,18 +46,6 @@ export default class Balance extends Vue {
     {name: 'Tera', value: 1e12}, {name: 'Peta', value: 1e15}, {name: 'Exa', value: 1e18},
     {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
   ];
-
-  @Prop() public argument!: any;
-
-  set arg(value) {
-    console.log('Balance', { [this.argument.name.toString()]: value * this.unitsSelected });
-
-    this.$emit('selected', { [this.argument.name.toString()]: value * this.unitsSelected });
-  }
-
-  get arg() {
-    return '';
-  }
 }
 </script>
 

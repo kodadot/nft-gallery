@@ -9,7 +9,7 @@ import { TypeDef } from '@polkadot/types/types';
 // params returning types extending Base (i.e. anything from api-codec)
 export type RawParamValue = any | undefined;
 
-export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
+export type RawParamValueArray = Array<RawParamValue | RawParamValue[]>;
 
 export type RawParamValues = RawParamValue | RawParamValueArray;
 
@@ -47,9 +47,9 @@ export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = Record<string, Vue.Component>;
 
-export type Unit = {
-  name: string
-  value: number
+export interface Unit {
+  name: string;
+  value: number;
 }
 
 export interface ParamDef {

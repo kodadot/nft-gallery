@@ -8,7 +8,7 @@ import { faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+  faBinoculars, faPlus, faTimes, faCaretDown, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
 // import keyring from '@vue-polkadot/vue-keyring';
@@ -24,7 +24,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes, faCaretDown );
+  faBinoculars, faPlus, faTimes, faCaretDown, faMinus );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

@@ -26,12 +26,12 @@ export default class ArgumentHandler extends Vue {
     return '';
   }
 
-  public enhanceTypeDef(argument) {
-    return { ...getTypeDef(createType(argument.type).toRawType()), ...argument }
+  public enhanceTypeDef(argument: any) {
+    return { ...getTypeDef(createType(argument.type).toRawType()), ...argument };
   }
 
   public selected(argument: any) {
-    const component = findComponent(argument)
+    const component = findComponent(argument);
     console.log(component, argument, getTypeDef(createType(argument.type).toRawType()));
     return component;
   }

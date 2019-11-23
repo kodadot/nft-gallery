@@ -33,7 +33,7 @@ export default class Executor extends Vue {
     this.$emit('selected', value);
   }
 
-  
+
 
 }
 </script>
