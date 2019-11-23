@@ -61,7 +61,7 @@ const components: ComponentMap = ([
   { c: Vector, t: ['Vec'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
-  { c: Unknown, t: ['Unknown'] }
+  { c: Unknown, t: ['Unknown'] },
 ] as TypeToComponent[]).reduce((components, { c, t }): ComponentMap => {
   t.forEach((type): void => {
     components[type] = c;
@@ -74,7 +74,7 @@ const getType = (({ displayName, info, sub, type }: any): string => {
   if (displayName) {
     return displayName;
   }
-  
+
   switch (info) {
     case TypeDefInfo.Compact:
       return (sub as TypeDef).type;
@@ -102,11 +102,11 @@ const getType = (({ displayName, info, sub, type }: any): string => {
     default:
       return type;
   }
-}); 
+});
 
-export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
+export default function findComponent(def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
   console.log(def.toString());
-  
+
   const findOne = (type: string): Vue.Component | null => overrides[type] || components[type];
   const type = getType(def);
 
@@ -116,7 +116,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     try {
       const instance = createType(type as any);
       const raw = getTypeDef(instance.toRawType());
-      
+
       Component = findOne(getType(raw));
       if (Component) {
         return Component;

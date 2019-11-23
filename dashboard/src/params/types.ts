@@ -45,7 +45,12 @@ export type RawParams = RawParam[];
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
-export type ComponentMap = Record<string, React.ComponentType<Props>>;
+export type ComponentMap = Record<string, Vue.Component>;
+
+export type Unit = {
+  name: string
+  value: number
+}
 
 export interface ParamDef {
   name?: string;

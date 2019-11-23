@@ -48,7 +48,7 @@ import InputFile from '../components/extrinsics/components/InputFile.vue';
     Selection,
     Executor,
     Argurments,
-    InputFile
+    InputFile,
   },
 })
 export default class Extrinsics extends Vue {

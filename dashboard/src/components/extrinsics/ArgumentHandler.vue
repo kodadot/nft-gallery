@@ -1,16 +1,16 @@
 <template>
   <div class="arguments-wrapper">
     
-      <label><b>{{argument.name}}: {{argument.type}}</b></label>
-    
-      <component :is="selected(argument)" />
+      <label><b>{{argument.name}}: {{argument.type}}</b></label>  
+      <component :is="selected(argument)" :argument="enhanceTypeDef(argument)" />
     
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import findComponent from '@/params/components/findComponent'
+import findComponent from '@/params/components/findComponent';
+import { createType, getTypeDef } from '@polkadot/types';
 
 @Component
 export default class ArgumentHandler extends Vue {
@@ -26,9 +26,14 @@ export default class ArgumentHandler extends Vue {
     return '';
   }
 
-  selected(argument: any) {
-    console.log(typeof argument, argument);
-    return findComponent(argument)
+  public enhanceTypeDef(argument) {
+    return { ...getTypeDef(createType(argument.type).toRawType()), ...argument }
+  }
+
+  public selected(argument: any) {
+    const component = findComponent(argument)
+    console.log(component, argument, getTypeDef(createType(argument.type).toRawType()));
+    return component;
   }
 
 
