@@ -70,43 +70,45 @@ const components: ComponentMap = ([
   return components;
 }, {} as unknown as ComponentMap);
 
+const getType = (({ displayName, info, sub, type }: any): string => {
+  if (displayName) {
+    return displayName;
+  }
+  
+  switch (info) {
+    case TypeDefInfo.Compact:
+      return (sub as TypeDef).type;
+
+    case TypeDefInfo.Option:
+      return 'Option';
+
+    case TypeDefInfo.Enum:
+      return 'Enum';
+
+    case TypeDefInfo.Struct:
+      return 'Struct';
+
+    case TypeDefInfo.Tuple:
+      if (components[type] === Account) {
+        return type;
+      }
+      return 'Tuple';
+
+    case TypeDefInfo.Vec:
+      return ['Vec<KeyValue>'].includes(type)
+        ? 'Vec<KeyValue>'
+        : 'Vec';
+
+    default:
+      return type;
+  }
+}); 
+
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
   console.log(def.toString());
   
   const findOne = (type: string): Vue.Component | null => overrides[type] || components[type];
-  const type = (({ displayName, info, sub, type }: any): string => {
-    if (displayName) {
-      return displayName;
-    }
-
-    switch (info) {
-      case TypeDefInfo.Compact:
-        return (sub as TypeDef).type;
-
-      case TypeDefInfo.Option:
-        return 'Option';
-
-      case TypeDefInfo.Enum:
-        return 'Enum';
-
-      case TypeDefInfo.Struct:
-        return 'Struct';
-
-      case TypeDefInfo.Tuple:
-        if (components[type] === Account) {
-          return type;
-        }
-        return 'Tuple';
-
-      case TypeDefInfo.Vec:
-        return ['Vec<KeyValue>'].includes(type)
-          ? 'Vec<KeyValue>'
-          : 'Vec';
-
-      default:
-        return type;
-    }
-  })(def);
+  const type = getType(def);
 
   let Component = findOne(type);
 
@@ -114,9 +116,8 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     try {
       const instance = createType(type as any);
       const raw = getTypeDef(instance.toRawType());
-
-      Component = findOne(raw.type);
-
+      
+      Component = findOne(getType(raw));
       if (Component) {
         return Component;
       } else if (instance instanceof BN) {
