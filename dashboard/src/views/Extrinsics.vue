@@ -14,9 +14,22 @@
       <!-- <InputFile /> -->
     </div>
     <Argurments :args="args" @selected="handleSelectedArguments" />
+    <b-field v-if="account" class="password-wrapper" label="put magic spell here - password">
+      <b-input v-model="password" type="password" password-reveal></b-input>
+    </b-field>
     <div class="transaction buttons">
-      <b-button type="is-danger" outlined disabled>Submit unsigned</b-button>
-      <b-button type="is-primary" @click="submitTx">Submit Transaction</b-button>
+      <!-- <b-button type="is-danger" outlined disabled>Submit unsigned</b-button> -->
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        :disabled="!account || !password"
+        @click="shipIt"
+      >
+        Submit Transaction
+      </b-button>
+      <b-button v-if="tx" tag="a" :href="explorer+tx">
+        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      </b-button>
     </div>
   </div>
 </template>
@@ -28,20 +41,7 @@ import Argurments from '../components/extrinsics/Arguments.vue';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
 import InputFile from '../components/extrinsics/components/InputFile.vue';
-
-// import Connector from '@vue-polkadot/vue-api'
-//
-// const api = Connector.getInstance().api;
-//
-// if (api) {
-//   const defaultSection = Object.keys(api.tx)[0];
-// const defaultMethod = Object.keys(api.tx[defaultSection])[0];
-// const apiDefaultTx = api.tx[defaultSection][defaultMethod];
-// const apiDefaultTxSudo =
-//         (api.tx.system && api.tx.system.setCode) || // 2.x
-//         (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
-//         apiDefaultTx; // other
-// }
+import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
@@ -71,7 +71,17 @@ export default class Extrinsics extends Vue {
   private fnMethod = '';
   private args: any[] = [];
   private selectedArguments = {};
-  private account: any;
+  private account: any = null;
+  private password: string = '';
+  private explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
+  private tx: string = '';
+  private conn: any = {
+    blockNumber: '',
+    chain: '',
+    nodeName: '',
+    nodeVersion: '',
+    header: {},
+  };
 
   public handleSectionSelection(value: string) {
     this.fnSection = value;
@@ -115,6 +125,26 @@ export default class Extrinsics extends Vue {
       }
   }
 
+    public async shipIt(): Promise<void> {
+    if ((this as any).$http.api) {
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.conn.chainName = await apiResponse.toString();
+      const args = this.args.map(this.argMapper);
+      const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
+        ...args,
+      );
+      const nonce = await (this as any).$http.api.query.system.accountNonce(
+        this.account.address,
+      );
+      const alicePair = keyring.getPair(this.account.address);
+      alicePair.decodePkcs8(this.password);
+      console.log(await nonce.toString());
+      const hash = await transfer.signAndSend(alicePair);
+      console.log('tx', hash.toHex());
+      this.tx = hash.toHex();
+    }
+  }
+
   private argMapper(arg: any): any {
     const accessor: string = arg.name.toString();
     // @ts-ignore: Method has always value
@@ -147,5 +177,9 @@ export default class Extrinsics extends Vue {
 .transaction.buttons {
   margin-top: 1em;
   float: right;
+}
+
+.password-wrapper {
+  margin-top: 1em;
 }
 </style>

@@ -22,7 +22,7 @@
     <br />
     <a :href="explorer+tx">
       <b-button>View on PolkaScan 👀 {{tx.slice(0,20)}}</b-button>
-    </a>
+    </a> 
   </div>
 </template>
 <script lang="ts">
