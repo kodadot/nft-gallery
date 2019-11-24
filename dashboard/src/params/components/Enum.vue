@@ -1,27 +1,27 @@
 <template>
-<div class="executor-select">
-  {{ JSON.stringify(argument.sub) }}
-  <b-field :label="`${argument.name}: ${argument.type}`">
-    <b-select
-            v-model="selected"
-            :placeholder="`${argument.name}: ${argument.type}`"
-            expanded
-    >
-      <option
-              v-for="method in argument.sub"
-              v-bind:key="method.name"
-              :value="method.name"
-      >{{ method.name }} </option>
-    </b-select>
-  </b-field>
-</div>
+  <div class="executor-select">
+    <b-field :label="`${argument.name}: ${argument.type}`">
+      <b-select
+        v-model="selected"
+        :placeholder="`${argument.name}: ${argument.type}`"
+        expanded
+      >
+        <option
+          v-for="method in argument.sub"
+          v-bind:key="method.name"
+          :value="method.name"
+          >{{ method.name }}
+        </option>
+      </b-select>
+    </b-field>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Executor extends Vue {
+export default class Enum extends Vue {
   @Prop() public argument!: any;
   private selectedMethod = null;
 
@@ -30,10 +30,7 @@ export default class Executor extends Vue {
   }
 
   set selected(value) {
-    this.$emit('selected', value);
+    this.$emit("selected", { [this.argument.name.toString()]: value });
   }
-
-
-
 }
 </script>

@@ -36,7 +36,7 @@ export default class Bool extends Vue {
   }
 
   set selected(value: any) {
-    this.$emit('selected', value);
+    this.$emit('selected', { [this.argument.name.toString()]: value });
   }
 
 }

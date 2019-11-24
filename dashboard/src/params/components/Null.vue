@@ -1,5 +1,4 @@
 <template>
-  <div>Null works!</div>
 </template>
 
 <script lang="ts">

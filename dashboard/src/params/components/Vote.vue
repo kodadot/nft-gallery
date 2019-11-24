@@ -1,19 +1,20 @@
 <template>
-<div class="executor-select">
-  <b-field :label="`${argument.name}: ${argument.type}`">
-    <b-select
-            v-model="selected"
-            :placeholder="`${argument.name}: ${argument.type}`"
-            expanded
-    >
-      <option
-              v-for="option in options"
-              v-bind:key="option.text"
-              :value="option.value"
-      >{{ option.text }} </option>
-    </b-select>
-  </b-field>
-</div>
+  <div class="executor-select">
+    <b-field :label="`${argument.name}: ${argument.type}`">
+      <b-select
+        v-model="selected"
+        :placeholder="`${argument.name}: ${argument.type}`"
+        expanded
+      >
+        <option
+          v-for="option in options"
+          v-bind:key="option.text"
+          :value="option.value"
+          >{{ option.text }}
+        </option>
+      </b-select>
+    </b-field>
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,14 +29,14 @@ export default class Vote extends Vue {
   ];
 
   @Prop() public argument!: any;
-  
+
 
   get selected() {
     return '';
   }
 
   set selected(value: any) {
-    this.$emit('selected', value);
+    this.$emit('selected', { [this.argument.name.toString()]: value });
   }
 
 }
