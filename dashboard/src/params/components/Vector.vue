@@ -21,6 +21,7 @@ import findComponent from '@/params/components/findComponent';
 import ArgumentHandler from '@/components/extrinsics/ArgumentHandler.vue';
 
 @Component({
+  name: 'Vector',
   components: {
     ArgumentHandler,
   },
