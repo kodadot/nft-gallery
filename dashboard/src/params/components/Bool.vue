@@ -18,18 +18,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Unit } from '../types'
+import { Unit } from '../types';
 
 @Component
 export default class Bool extends Vue {
-  const options = [
-  { text: 'No', value: false },
-  { text: 'Yes', value: true }
-];
+  @Prop() private argument!: any;
 
-
-  @Prop() public argument!: any;
-  
+  private options = [
+    { text: 'No', value: false },
+    { text: 'Yes', value: true },
+  ];
 
   get selected() {
     return '';

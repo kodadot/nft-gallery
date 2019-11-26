@@ -29,8 +29,8 @@ import findComponent from '@/params/components/findComponent';
   },
 })
 export default class Vector extends Vue {
-  @Prop() public argument!: any
-  private fields: any[] = []
+  @Prop() public argument!: any;
+  private fields: any[] = [];
   private results: any[] = [];
 
   public enhanceTypeDef(argument: any, index: number) {
@@ -38,7 +38,7 @@ export default class Vector extends Vue {
       ...getTypeDef(createType(argument.type).toRawType()),
       ...argument,
       name: index,
-    }
+    };
   }
 
   @Emit('selected')

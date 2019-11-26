@@ -10,33 +10,33 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import findComponent from "@/params/components/findComponent";
-import { createType, getTypeDef } from "@polkadot/types";
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import findComponent from '@/params/components/findComponent';
+import { createType, getTypeDef } from '@polkadot/types';
 
 @Component({
-  name: "ArgumentHandler"
+  name: 'ArgumentHandler',
 })
 export default class ArgumentHandler extends Vue {
   @Prop() public argument!: any;
-
-  @Emit("selected")
-  private handleSelected(value: any) {
-    console.log("ArgumentHandler", value);
-    return value;
-  }
 
   public enhanceTypeDef(argument: any) {
     // return { ...argument }
     return {
       ...getTypeDef(createType(argument.type).toRawType()),
-      ...argument
+      ...argument,
     };
   }
 
   public selected(argument: any) {
     const component = findComponent(argument);
     return component;
+  }
+
+  @Emit('selected')
+  private handleSelected(value: any) {
+    console.log('ArgumentHandler', value);
+    return value;
   }
 }
 </script>

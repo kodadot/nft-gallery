@@ -28,11 +28,11 @@ export default class FileUpload extends Vue {
     reader.readAsText(file);
   }
 
-  
+
   get file(): any {
     return this.bytes;
   }
-  
+
 }
 </script>
 

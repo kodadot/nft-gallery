@@ -20,8 +20,8 @@ export default class Struct extends Vue {
    @Prop() public argument!: any;
 
   get fields(): any[] {
-    return this.argument && this.argument.sub || []
-  } 
+    return this.argument && this.argument.sub || [];
+  }
 
   set arg(value) {
     console.log('ArgumentHandler', { [this.argument.name.toString()]: value });

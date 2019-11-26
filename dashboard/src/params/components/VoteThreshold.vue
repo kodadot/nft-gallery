@@ -22,7 +22,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class VoteThreshold extends Vue {
   @Prop() public argument!: any;
-  
+
 
   get selected() {
     return '';

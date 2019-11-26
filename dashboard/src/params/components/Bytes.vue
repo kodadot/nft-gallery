@@ -18,31 +18,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import FileUpload from "./FileUpload.vue";
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import FileUpload from './FileUpload.vue';
 
 @Component({
-  name: "Bytes",
+  name: 'Bytes',
   components: {
-    FileUpload
-  }
+    FileUpload,
+  },
 })
 export default class Bytes extends Vue {
   @Prop() public argument!: any;
   private uploadEnabled: boolean = false;
 
+
+  get arg() {
+    return '0x';
+  }
+
   set arg(value) {
-    console.log("ArgumentHandler", { [this.argument.name.toString()]: value });
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
     this.selected(value);
   }
 
-  @Emit("selected")
-  selected(value: any) {
+  @Emit('selected')
+  public selected(value: any) {
     return { [this.argument.name.toString()]: value };
-  }
-
-  get arg() {
-    return "0x";
   }
 
   private enableUpload() {

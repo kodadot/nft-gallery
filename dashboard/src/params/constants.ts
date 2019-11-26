@@ -1,4 +1,4 @@
-import { Unit } from './types'
+import { Unit } from './types';
 
 // TODO: use this in cleanup
 export const units: Unit[] = [

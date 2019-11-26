@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Enum extends Vue {
@@ -30,7 +30,7 @@ export default class Enum extends Vue {
   }
 
   set selected(value) {
-    this.$emit("selected", { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value });
   }
 }
 </script>

@@ -19,16 +19,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Unit } from '../types'
+import { Unit } from '../types';
 
 @Component
 export default class Vote extends Vue {
-  private options: any[] = [
-    { text: 'Nay', value: 0 },
-    { text: 'Aye', value: -1 }
-  ];
-
-  @Prop() public argument!: any;
 
 
   get selected() {
@@ -38,6 +32,12 @@ export default class Vote extends Vue {
   set selected(value: any) {
     this.$emit('selected', { [this.argument.name.toString()]: value });
   }
+
+  @Prop() public argument!: any;
+  private options: any[] = [
+    { text: 'Nay', value: 0 },
+    { text: 'Aye', value: -1 },
+  ];
 
 }
 </script>

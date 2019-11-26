@@ -14,34 +14,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
-import { Unit } from '../types'
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { Unit } from '../types';
 
 @Component
 export default class Balance extends Vue {
-  private value = 0
 
   set arg(value: number) {
-    this.value = value
-    this.handleSelected()
+    this.value = value;
+    this.handleSelected();
   }
 
   get arg() {
-    return this.value
+    return this.value;
   }
 
-  @Watch('unitsSelected')
-  private function() {
-    this.handleSelected()
-  }
-
-  @Emit('selected')
-  private handleSelected() {
-    return { [this.argument.name.toString()]: this.arg * this.unitsSelected }
-  }
-
-  @Prop() public argument!: any
-  private unitsSelected: number = 1e-3
+  @Prop() public argument!: any;
+  private value = 0;
+  private unitsSelected: number = 1e-3;
   private units: Unit[] = [
     { name: 'femto', value: 1e-15 },
     { name: 'pico', value: 1e-12 },
@@ -57,7 +47,17 @@ export default class Balance extends Vue {
     { name: 'Exa', value: 1e18 },
     { name: 'Zeta', value: 1e21 },
     { name: 'Yotta', value: 1e24 },
-  ]
+  ];
+
+  @Watch('unitsSelected')
+  private function() {
+    this.handleSelected();
+  }
+
+  @Emit('selected')
+  private handleSelected() {
+    return { [this.argument.name.toString()]: this.arg * this.unitsSelected };
+  }
 }
 </script>
 
