@@ -112,6 +112,7 @@ export default class SidebarMenu extends Vue {
 }
 .happy-menu {
   background-color: #000000bd;
+  min-height: 100%;
 }
 
 .menu-button {

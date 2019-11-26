@@ -5,7 +5,6 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { ComponentMap } from '../types';
 
-
 import BN from 'bn.js';
 import { createType, getTypeDef } from '@polkadot/types';
 
@@ -26,7 +25,7 @@ import KeyValueArray from './KeyValueArray.vue';
 import Null from './Null.vue';
 import Option from './Option.vue';
 import Struct from './Struct.vue';
-import Text from './Text.vue';
+import TextField from './TextField.vue';
 import Tuple from './Tuple.vue';
 import Unknown from './Unknown.vue';
 import Vector from './Vector.vue';
@@ -55,7 +54,7 @@ const components: ComponentMap = ([
   { c: Null, t: ['Null'] },
   { c: Option, t: ['Option'] },
   { c: Proposal, t: ['Proposal'] },
-  { c: Text, t: ['String', 'Text'] },
+  { c: TextField, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
   { c: Vector, t: ['Vec'] },

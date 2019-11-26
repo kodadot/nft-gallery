@@ -46,6 +46,7 @@ export default class Dashboard extends Vue {
 <style>
 #routerview {
   padding: 1em;
+  min-height: inherit;
 }
 
 .friendly-view {
@@ -62,7 +63,7 @@ export default class Dashboard extends Vue {
 }
 
 .friendly-view {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .column.router-view {

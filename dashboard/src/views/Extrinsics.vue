@@ -139,7 +139,7 @@ export default class Extrinsics extends Vue {
       const alicePair = keyring.getPair(this.account.address);
       alicePair.decodePkcs8(this.password);
       console.log(await nonce.toString());
-      const hash = await transfer.signAndSend(alicePair);
+      const hash = await transfer.signAndSend(alicePair, { nonce });
       console.log('tx', hash.toHex());
       this.tx = hash.toHex();
     }
