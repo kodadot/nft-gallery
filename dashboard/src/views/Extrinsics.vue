@@ -94,19 +94,17 @@ export default class Extrinsics extends Vue {
     success: {
       type: 'is-success',
       actionText: 'View',
-      onAction: () => window.open(this.explorer+this.tx, '_blank')
+      onAction: () => window.open(this.explorer + this.tx, '_blank'),
     },
     info: {
       type: 'is-info',
       actionText: 'OK',
-      onAction: () => {}
     },
     danger: {
       type: 'is-danger',
       actionText: 'Oh no!',
-      onAction: () => {}
-    }
-  }
+    },
+  };
 
   public handleSectionSelection(value: string) {
     this.fnSection = value;
@@ -160,20 +158,20 @@ export default class Extrinsics extends Vue {
         const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
         ...args,
       );
-      const nonce = await (this as any).$http.api.query.system.accountNonce(
+        const nonce = await (this as any).$http.api.query.system.accountNonce(
         this.account.address,
       );
-      const alicePair = keyring.getPair(this.account.address);
-      alicePair.decodePkcs8(this.password);
-      console.log(await nonce.toString());
-      const hash = await transfer.signAndSend(alicePair, { nonce });
-      this.showNotification(hash.toHex(), this.snackbarTypes.success);
-      console.log('tx', hash.toHex());
-      this.tx = hash.toHex();
+        const alicePair = keyring.getPair(this.account.address);
+        alicePair.decodePkcs8(this.password);
+        console.log(await nonce.toString());
+        const hash = await transfer.signAndSend(alicePair, { nonce });
+        this.showNotification(hash.toHex(), this.snackbarTypes.success);
+        console.log('tx', hash.toHex());
+        this.tx = hash.toHex();
       } catch (e) {
         this.showNotification(e, this.snackbarTypes.danger);
       }
-      
+
     }
   }
 
@@ -191,8 +189,8 @@ export default class Extrinsics extends Vue {
       position: 'is-top-right',
       actionText: 'OK',
       queue: false,
-      ...params
-    })
+      ...params,
+    });
   }
 
   // private getExtrinsic() {
