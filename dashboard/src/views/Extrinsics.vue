@@ -3,18 +3,26 @@
     <b-tabs>
       <b-tab-item label="Extrinsic submission"></b-tab-item>
     </b-tabs>
-    <Selection @selected="handleAccountSelection"/>
+    <Selection @selected="handleAccountSelection" />
     <div class="executor-wrapper">
       <Executor
         :methods="sections"
         @selected="handleSectionSelection"
         label="submit the following extrinsic"
       />
-      <Executor :methods="methods" @selected="handleMethodSelection" label="method" />
+      <Executor
+        :methods="methods"
+        @selected="handleMethodSelection"
+        label="method"
+      />
       <!-- <InputFile /> -->
     </div>
     <Argurments :args="args" @selected="handleSelectedArguments" />
-    <b-field v-if="account" class="password-wrapper" label="put magic spell here - password">
+    <b-field
+      v-if="account"
+      class="password-wrapper"
+      label="put magic spell here - password"
+    >
       <b-input v-model="password" type="password" password-reveal></b-input>
     </b-field>
     <div class="transaction buttons">
@@ -27,8 +35,8 @@
       >
         Submit Transaction
       </b-button>
-      <b-button v-if="tx" tag="a" :href="explorer+tx">
-        View on PolkaScan 👀 {{tx.slice(0,20)}}
+      <b-button v-if="tx" tag="a" :href="explorer + tx">
+        View on PolkaScan 👀 {{ tx.slice(0, 20) }}
       </b-button>
     </div>
   </div>
@@ -82,6 +90,23 @@ export default class Extrinsics extends Vue {
     nodeVersion: '',
     header: {},
   };
+  private snackbarTypes = {
+    success: {
+      type: 'is-success',
+      actionText: 'View',
+      onAction: () => window.open(this.explorer+this.tx, '_blank')
+    },
+    info: {
+      type: 'is-info',
+      actionText: 'OK',
+      onAction: () => {}
+    },
+    danger: {
+      type: 'is-danger',
+      actionText: 'Oh no!',
+      onAction: () => {}
+    }
+  }
 
   public handleSectionSelection(value: string) {
     this.fnSection = value;
@@ -105,32 +130,34 @@ export default class Extrinsics extends Vue {
     this.account = account;
   }
 
-// TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
+  // TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
   public async submitTx() {
-      const { api } = (this as any).$http;
-      console.log('here', (api && this.account && this.fnMethod && this.fnSection));
-      if (api && this.account && this.fnMethod && this.fnSection) {
-        const args = this.args.map(this.argMapper);
-        console.log(args);
-        const func = api.tx[this.fnSection][this.fnMethod](...args);
-        try {
-          console.log('func is ', func);
-          const hash = await func.signAndSend(this.account);
-          console.log('Transfer sent with hash', hash.toHex());
-        } catch (e) {
-          console.warn('Err occ', e);
-
-        }
+    const { api } = (this as any).$http;
+    console.log('here', (api && this.account && this.fnMethod && this.fnSection));
+    if (api && this.account && this.fnMethod && this.fnSection) {
+      const args = this.args.map(this.argMapper);
+      console.log(args);
+      const func = api.tx[this.fnSection][this.fnMethod](...args);
+      try {
+        console.log('func is ', func);
+        const hash = await func.signAndSend(this.account);
+        console.log('Transfer sent with hash', hash.toHex());
+      } catch (e) {
+        console.warn('Err occ', e);
 
       }
+
+    }
   }
 
-    public async shipIt(): Promise<void> {
+  public async shipIt(): Promise<void> {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
       const args = this.args.map(this.argMapper);
-      const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
+      try {
+        this.showNotification('Dispatched');
+        const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
         ...args,
       );
       const nonce = await (this as any).$http.api.query.system.accountNonce(
@@ -140,8 +167,13 @@ export default class Extrinsics extends Vue {
       alicePair.decodePkcs8(this.password);
       console.log(await nonce.toString());
       const hash = await transfer.signAndSend(alicePair, { nonce });
+      this.showNotification(hash.toHex(), this.snackbarTypes.success);
       console.log('tx', hash.toHex());
       this.tx = hash.toHex();
+      } catch (e) {
+        this.showNotification(e, this.snackbarTypes.danger);
+      }
+      
     }
   }
 
@@ -149,6 +181,18 @@ export default class Extrinsics extends Vue {
     const accessor: string = arg.name.toString();
     // @ts-ignore: Method has always value
     return this.selectedArguments[accessor];
+  }
+
+  private showNotification(message: string | null, params = this.snackbarTypes.info) {
+    this.$buefy.snackbar.open({
+      duration: 15000,
+      message: `${this.fnSection}:${this.fnMethod}<br>${message}`,
+      type: 'is-success',
+      position: 'is-top-right',
+      actionText: 'OK',
+      queue: false,
+      ...params
+    })
   }
 
   // private getExtrinsic() {
