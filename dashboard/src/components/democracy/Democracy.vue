@@ -3,16 +3,8 @@
     <b-tabs>
       <b-tab-item label="Democracy"></b-tab-item>
     </b-tabs>
-    <Identicon :value="transfer.from" size="64" />
     <b-field>Recent block #{{conn.blockNumber}}</b-field>
-    <TxSelect
-      label="send from account"
-      placeholder="Select a sender"
-      :address.sync="transfer.from"
-      :theme="theme"
-      :keyringAccounts="keyringAccounts"
-      :balance="transfer.fromBalance"
-    />
+    <Selection @selected="handleAccountSelection" />
     <Executor :methods="methods" @selected="handleMethodSelection" />
     <Argurments :args="args" @selected="handleSelectedArguments" />
     <b-field label="put magic spell here - password">
@@ -32,6 +24,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 import TxSelect from '../transfer/TxSelect.vue';
 import Executor from '@/components/extrinsics/Executor.vue';
 import Argurments from '@/components/extrinsics/Arguments.vue';
+import Selection from '@/components/extrinsics/Selection.vue';
 
 
 @Component({
@@ -40,6 +33,7 @@ import Argurments from '@/components/extrinsics/Arguments.vue';
     TxSelect,
     Executor,
     Argurments,
+    Selection
   },
 })
 export default class Democracy extends Vue {
@@ -84,6 +78,7 @@ export default class Democracy extends Vue {
     nodeVersion: '',
     header: {},
   };
+  private account: any = null;
   public fnMethod = '';
   private args: any[] = [];
   private selectedArguments = {};
@@ -99,6 +94,13 @@ export default class Democracy extends Vue {
         this.transfer.fromBalance = await fromBalance.toString();
       }
     }
+  }
+
+
+  public handleAccountSelection(account: any) {
+    console.log('account', account);
+
+    this.account = account;
   }
 
   public async shipIt(): Promise<void> {

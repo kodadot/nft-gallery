@@ -38,13 +38,19 @@
     </b-menu>
     <b-button v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
     <b-button v-if="isSidebarClosed" icon-left="angle-double-right" @click="toggleSidebar" rounded></b-button>
+    <SettingInfo v-if="!isSidebarClosed" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import SettingInfo from '@/components/shared/SettingInfo.vue'
 
-@Component({})
+@Component({
+  components: {
+    SettingInfo
+  }
+})
 export default class SidebarMenu extends Vue {
   public sidebar: any = [
     {

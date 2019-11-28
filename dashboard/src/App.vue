@@ -67,7 +67,8 @@ export default class Dashboard extends Vue {
 }
 
 .column.router-view {
-  padding: 0;
+  background-color: rgb(252, 252, 252);
+  padding: 0; 
 }
 
 @media screen and (max-width: 992px) {
