@@ -183,7 +183,7 @@ export default class Extrinsics extends Vue {
 
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
     this.$buefy.snackbar.open({
-      duration: 15000,
+      duration: 5000,
       message: `${this.fnSection}:${this.fnMethod}<br>${message}`,
       type: 'is-success',
       position: 'is-top-right',

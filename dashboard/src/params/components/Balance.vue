@@ -69,4 +69,8 @@ export default class Balance extends Vue {
 .arguments-wrapper > .balance > .control.is-clearfix {
   flex: 1;
 }
+
+.arguments-wrapper {
+   margin: 1em 0em 0em 1em;
+ }
 </style>

@@ -16,7 +16,7 @@ export default class Account extends Vue {
   @Prop() public argument!: any;
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+    console.log('Account', { [this.argument.name.toString()]: value });
 
     this.$emit('selected', { [this.argument.name.toString()]: value });
   }
