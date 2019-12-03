@@ -1,6 +1,6 @@
 <template>
   <div class="arguments-wrapper">
-    <label><b>{{ argument.name }}: {{ argument.type }}</b></label>
+    <!-- <label><b>{{ argument.name }}: {{ argument.type }}</b></label> -->
     <component
       :is="selected(argument)"
       :argument="enhanceTypeDef(argument)"
