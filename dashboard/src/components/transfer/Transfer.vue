@@ -32,8 +32,8 @@ import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import TxSelect from './TxSelect.vue';
 import Selection from '@/components/extrinsics/Selection.vue';
-import Balance from '@/params/components/Balance.vue'
-import Account from '@/params/components/Account.vue'
+import Balance from '@/params/components/Balance.vue';
+import Account from '@/params/components/Account.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 @Component({
@@ -57,11 +57,27 @@ export default class Transfer extends Vue {
     toBalance: null,
     amountVisible: null,
     amount: null };
-  private to = '';
-  private balance = 0;
   public keyringAccounts: any = [];
   public conn: any = { blockNumber: '', chain: '', nodeName: '', nodeVersion: '', header: {}};
+  private to = '';
+  private balance = 0;
   private account: any = null;
+
+  private snackbarTypes = {
+    success: {
+      type: 'is-success',
+      actionText: 'View',
+      onAction: () => window.open(this.explorer + this.tx, '_blank'),
+    },
+    info: {
+      type: 'is-info',
+      actionText: 'OK',
+    },
+    danger: {
+      type: 'is-danger',
+      actionText: 'Oh no!',
+    },
+  };
 
   @Watch('transfer.from')
   @Watch('transfer.to')
@@ -84,50 +100,22 @@ export default class Transfer extends Vue {
       this.conn.chainName = await apiResponse.toString();
       try {
         this.showNotification('Dispatched');
-      const transfer =
+        const transfer =
         await (this as any).$http.api.tx.balances.transfer(this.to,
           this.balance);
-      const nonce =
+        const nonce =
         await (this as any).$http.api.query.system.accountNonce(this.account.address);
-      const alicePair = keyring.getPair(this.account.address);
-      alicePair.decodePkcs8(this.password);
-      console.log(await nonce.toString());
-      const hash = await transfer.signAndSend(alicePair);
-      this.showNotification(hash.toHex(), this.snackbarTypes.success);
-      console.log('tx', hash.toHex());
-      this.tx = hash.toHex();
+        const alicePair = keyring.getPair(this.account.address);
+        alicePair.decodePkcs8(this.password);
+        console.log(await nonce.toString());
+        const hash = await transfer.signAndSend(alicePair);
+        this.showNotification(hash.toHex(), this.snackbarTypes.success);
+        console.log('tx', hash.toHex());
+        this.tx = hash.toHex();
       } catch (e) {
         this.showNotification(e, this.snackbarTypes.danger);
       }
     }
-  }
-
-  private snackbarTypes = {
-    success: {
-      type: 'is-success',
-      actionText: 'View',
-      onAction: () => window.open(this.explorer + this.tx, '_blank'),
-    },
-    info: {
-      type: 'is-info',
-      actionText: 'OK',
-    },
-    danger: {
-      type: 'is-danger',
-      actionText: 'Oh no!',
-    },
-  };
-
-  private showNotification(message: string | null, params = this.snackbarTypes.info) {
-    this.$buefy.snackbar.open({
-      duration: 5000,
-      message: `${this.account.address} -> ${this.to}<br>${message}`,
-      type: 'is-success',
-      position: 'is-top-right',
-      actionText: 'OK',
-      queue: false,
-      ...params,
-    });
   }
 
   @Watch('$store.state.keyringLoaded')
@@ -158,11 +146,11 @@ export default class Transfer extends Vue {
   public handleAccountSelection(account: KeyringPair) {
     this.account = account;
   }
-  
+
   public handleValue(value: any) {
-    Object.keys(value).map(item => {
-      (this as any)[item] = value[item]
-    })
+    Object.keys(value).map((item) => {
+      (this as any)[item] = value[item];
+    });
   }
 
   public externalURI() {
@@ -179,6 +167,18 @@ export default class Transfer extends Vue {
     this.getIconTheme();
     this.loadExternalInfo();
     this.externalURI();
+  }
+
+  private showNotification(message: string | null, params = this.snackbarTypes.info) {
+    this.$buefy.snackbar.open({
+      duration: 5000,
+      message: `${this.account.address} -> ${this.to}<br>${message}`,
+      type: 'is-success',
+      position: 'is-top-right',
+      actionText: 'OK',
+      queue: false,
+      ...params,
+    });
   }
 }
 </script>

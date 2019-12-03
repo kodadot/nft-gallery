@@ -77,6 +77,8 @@ export default class Democracy extends Vue {
     nodeVersion: '',
     header: {},
   };
+  private keyringAccounts: any = [];
+  private theme: string = 'substrate';
   private snackbarTypes = {
     success: {
       type: 'is-success',
@@ -127,18 +129,6 @@ export default class Democracy extends Vue {
     }
   }
 
-    private showNotification(message: string | null, params = this.snackbarTypes.info) {
-    this.$buefy.snackbar.open({
-      duration: 15000,
-      message: `${this.fnSection}:${this.fnMethod}<br>${message}`,
-      type: 'is-success',
-      position: 'is-top-right',
-      actionText: 'OK',
-      queue: false,
-      ...params,
-    });
-  }
-
   public isKeyringLoaded() {
     return this.$store.state.keyringLoaded;
   }
@@ -166,6 +156,29 @@ export default class Democracy extends Vue {
     this.mapAccounts();
     this.getIconTheme();
     this.loadExternalInfo();
+  }
+
+  @Watch('$store.state.keyringLoaded')
+  public mapAccounts(): void {
+    if (this.isKeyringLoaded()) {
+      this.keyringAccounts = keyring.getPairs();
+    }
+  }
+
+  public getIconTheme() {
+    this.theme = this.$store.state.setting.icon;
+  }
+
+    private showNotification(message: string | null, params = this.snackbarTypes.info) {
+    this.$buefy.snackbar.open({
+      duration: 15000,
+      message: `${this.fnSection}:${this.fnMethod}<br>${message}`,
+      type: 'is-success',
+      position: 'is-top-right',
+      actionText: 'OK',
+      queue: false,
+      ...params,
+    });
   }
 
   private argMapper(arg: any): any {

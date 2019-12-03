@@ -44,12 +44,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import SettingInfo from '@/components/shared/SettingInfo.vue'
+import SettingInfo from '@/components/shared/SettingInfo.vue';
 
 @Component({
   components: {
-    SettingInfo
-  }
+    SettingInfo,
+  },
 })
 export default class SidebarMenu extends Vue {
   public sidebar: any = [
