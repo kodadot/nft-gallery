@@ -1,21 +1,23 @@
 <template>
-  <div id="Keypair">
-      <div>
+  <div id="Keypair" class="keypair-card__wrapper card">
+      <div class="card-content">
         <b-field grouped multiline>
           <Identicon
             :value="address"
             :theme="theme"
             :size="size" />
-          {{meta.name}}
-            {{shortAddress(address)}}
+            <div class="keypair-info__wrapper">
+          <div>{{meta.name}}</div>
+            <div>{{shortAddress(address)}}
               <b-button
               size="is-small" 
               icon-left="copy" 
               v-clipboard:copy="address"
               @click="toast('Address copied to clipboard')">
               </b-button>
-            {{shortAddress(publicKey)}}  
-            type {{type}}
+              </div>
+            <div>{{shortAddress(publicKey)}}</div>
+            <div>type {{type}}</div>
             <p v-if="meta.tags">
             <b-tag 
               v-for="t in meta.tags"
@@ -26,8 +28,9 @@
               v-if="meta.isTesting">testing account
             </b-tag>
             </p>
-            transactions {{nonce}}
-            available {{balanceAvailable}}
+            <div>transactions {{nonce}}</div>
+            <div>available {{balanceAvailable}}</div>
+            </div>
         </b-field>
       </div>
       <div>
@@ -122,3 +125,14 @@ export default class Keypair extends Vue {
   }
 }
 </script>
+
+<style scoped>
+  .keypair-card__wrapper {
+    margin-bottom: 1em;
+  }
+
+  .keypair-info__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

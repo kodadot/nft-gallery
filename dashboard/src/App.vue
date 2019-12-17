@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
@@ -46,6 +46,7 @@ export default class Dashboard extends Vue {
 <style>
 #routerview {
   padding: 1em;
+  min-height: inherit;
 }
 
 .friendly-view {
@@ -62,11 +63,12 @@ export default class Dashboard extends Vue {
 }
 
 .friendly-view {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .column.router-view {
-  padding: 0;
+  background-color: rgb(252, 252, 252);
+  padding: 0; 
 }
 
 @media screen and (max-width: 992px) {

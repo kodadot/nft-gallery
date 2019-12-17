@@ -13,12 +13,12 @@
       >{{ acc.meta.name }} - {{ acc.address }} </option>
     </b-select>
   </b-field>
-  <Balance />
+  <Balance :account="selectedAccount"/>
 </div >
 </template>
 
 <script lang="ts">
-import { Prop } from 'vue-property-decorator';
+import { Prop, Emit } from 'vue-property-decorator';
 import WithKeyring from '@/utils/WithKeyring';
 import Component from 'vue-class-component';
 import Balance from './Balance.vue';
@@ -31,7 +31,7 @@ import Vue, { VueConstructor } from 'vue';
 })
 class Selection extends WithKeyring {
   private label = 'Accounts';
-  private selectedAccount = null;
+  private selectedAccount: string = '';
 
   get accounts() {
     return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
@@ -40,6 +40,18 @@ class Selection extends WithKeyring {
   get selected() {
     return this.selectedAccount;
   }
+
+  set selected(address: string) {
+    console.log('selected', address);
+    this.selectedAccount = address;
+    this.onSelectedAccount(address);
+  }
+
+  @Emit('selected')
+  public onSelectedAccount(address: string) {
+    return this.getPair(address);
+  }
+
 }
 
 // Explicit casting because it would shout in other components
