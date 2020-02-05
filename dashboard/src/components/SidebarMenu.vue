@@ -35,10 +35,13 @@
           :disabled="row.disabled"
         ></b-menu-item>
       </b-menu-list>
-    </b-menu>
-    <b-button v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
+    <b-button class="closeSideBarBtn" v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
     <b-button v-if="isSidebarClosed" icon-left="angle-double-right" @click="toggleSidebar" rounded></b-button>
-    <SettingInfo v-if="!isSidebarClosed" />
+    </b-menu>
+    <b-switch v-if="!isSidebarClosed" v-model="showVerbose" class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
+    
+
+    <SettingInfo v-if="!isSidebarClosed && showVerbose" />
   </div>
 </template>
 
@@ -98,6 +101,7 @@ export default class SidebarMenu extends Vue {
   ];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
+  public showVerbose = false;
 
   get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
@@ -135,5 +139,11 @@ export default class SidebarMenu extends Vue {
 
 .menu-item > a > span + span {
   vertical-align: super;
+}
+.closeSideBarBtn {
+  margin-top: 0.7rem;
+}
+.switchVerbose {
+  margin-top: 0.7rem;
 }
 </style>
