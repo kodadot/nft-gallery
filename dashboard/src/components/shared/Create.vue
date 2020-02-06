@@ -40,12 +40,31 @@
           @input="validateMnemonic()"
           :expanded='true'>
         </b-input>
-        <p class="control">
+        <!-- <p class="control">
           <b-button class="button is-dark" icon-left="sync"
             @click="generateSeed(); addressFromSeed(); validateMnemonic()"
             outlined>
               Mnemonic
           </b-button>
+        </p> -->
+        <p class="control">
+          <b-dropdown v-model="seedType" position="is-bottom-left" aria-role="list">
+            <button class="button is-dark" type="button" slot="trigger">
+              <template v-if="seedType === 'mnemonic'">
+                <span>Mnemonic</span>
+              </template>
+              <template v-if="seedType === 'raw'">
+                <span>Raw Seed</span>
+              </template>
+              <b-icon icon="caret-down"></b-icon>
+            </button>
+
+            <b-dropdown-item value="raw">Raw Seed</b-dropdown-item>
+            <b-dropdown-item value="mnemonic" 
+              @click="generateSeed(); addressFromSeed(); validateMnemonic()">
+              Mnemonic
+            </b-dropdown-item>
+          </b-dropdown>
         </p>
       </b-field>
       <b-field label="password" 
@@ -103,6 +122,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { isHex } from '@polkadot/util';
 
 @Component({
   components: {
@@ -125,11 +145,15 @@ export default class Create extends Vue {
   public uniqueAddress: boolean = true;
   public isAddressValid: boolean = false;
   public isNameValid: boolean = false;
-  public keyringAccounts: any = [
-    { address: '', meta: { name: ''}, publicKey: '', type: '' },
-  ];
   public isValidMnemonic: boolean = false;
   public isPassValid: boolean = false;
+  public seedType: string = 'mnemonic';
+  public keyringAccounts: any = [{
+    address: '',
+    meta: { name: ''},
+    publicKey: '',
+    type: '',
+  }];
   public newAccount: any = {
     password: '',
     name: '',
@@ -139,6 +163,10 @@ export default class Create extends Vue {
     derivationPath: '',
     address: '',
   };
+
+  public checkAccountName(): boolean {
+    return this.isNameValid = this.newAccount.name.length > 0;
+  }
 
   public shortAddress(address: string): string {
     if (address) {
@@ -162,8 +190,12 @@ export default class Create extends Vue {
     return '';
   }
 
-  public checkAccountName(): boolean {
-    return this.isNameValid = this.newAccount.name.length > 0;
+  public isHexSeed(seed: string): boolean {
+    return isHex(seed) && seed.length === 66;
+  }
+
+  public validateRawSeed (seed: string): boolean {
+    return ((seed.length > 0) && (seed.length <= 32)) || this.isHexSeed(seed);
   }
 
   public validateAddress(address: string): void {
@@ -221,8 +253,16 @@ export default class Create extends Vue {
         tags: this.newAccount.tags.split(','),
         whenCreated: Date.now() };
       if (this.mode === 'accounts') {
-        const { json, pair } = keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
-          this.newAccount.password, meta, this.keypairType.selected);
+        if (this.seedType === 'mnemonic') {
+          const { json, pair } =
+            keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+            this.newAccount.password, meta, this.keypairType.selected);
+        }
+        if (this.seedType === 'raw') {
+          const { json, pair } =
+            keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+            this.newAccount.password, meta, this.keypairType.selected);
+        }
       }
       if (this.mode === 'addressbook') {
         const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
@@ -235,7 +275,8 @@ export default class Create extends Vue {
   @Watch('$store.state.keyringLoaded')
   public addressFromSeed(): string {
     if (this.mode === 'accounts') {
-      return this.newAccount.address = keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
+      return this.newAccount.address =
+      keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
         {}, this.keypairType.selected).address;
     }
     return '';
