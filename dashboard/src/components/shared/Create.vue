@@ -18,14 +18,18 @@
       <b-field label="name" 
         v-bind:type="{ 'is-danger': !isNameValid }" >
         <b-input v-model="newAccount.name"
-          @input="checkAccountName()"
+          @input="checkAccountName(); validateSave()"
           placeholder="new account">
         </b-input>
       </b-field>
       <div v-if="mode === 'addressbook'">
-        <b-field label="address">
+        <b-field label="address"
+          v-bind:type="{ 'is-danger': !newAccount.address.length > 0 
+          || !isAddressValid || !uniqueAddress }">
           <b-input v-model="newAccount.address"
-            @input="checkAlreadyPresentAddress(newAccount.address)">
+            @input="validateAddress(newAccount.address); 
+              checkAlreadyPresentAddress(newAccount.address); 
+              validateSave()">
           </b-input>
         </b-field>
       </div>
@@ -45,9 +49,9 @@
         </p>
       </b-field>
       <b-field label="password" 
-        v-bind:type="{ 'is-danger': !validatePassword(newAccount.password) }">
+        v-bind:type="{ 'is-danger': !isPassValid }">
         <b-input v-model="newAccount.password" type="password"
-         @input="validatePassword(newAccount.password)"
+         @input="validatePassword(newAccount.password); validateSave()"
          password-reveal></b-input>
       </b-field>
       <b-field label="tags">
@@ -78,11 +82,8 @@
           icon-left="plus"
           @click="onCreate" 
           outlined
-          :disabled="duplicateAddress
-            || !(newAccount.address.length > 0) 
-            || validatePassword(newAccount.password) 
-            || !checkAccountName()">
-          Create
+          :disabled="!canSave">
+          Save
         </b-button>
       </router-link>
       <router-link :to="'/'+mode">
@@ -120,7 +121,9 @@ export default class Create extends Vue {
     ],
   };
 
-  public duplicateAddress: boolean = false;
+  public canSave: boolean = false;
+  public uniqueAddress: boolean = true;
+  public isAddressValid: boolean = false;
   public isNameValid: boolean = false;
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
@@ -149,7 +152,7 @@ export default class Create extends Vue {
   }
 
   public validatePassword(password: string): boolean {
-    return this.newAccount.password.length > 0 && keyring.isPassValid(password);
+    return this.isPassValid = this.newAccount.password.length > 0 && keyring.isPassValid(password);
   }
 
   public generateSeed(): string {
@@ -163,17 +166,37 @@ export default class Create extends Vue {
     return this.isNameValid = this.newAccount.name.length > 0;
   }
 
+  public validateAddress(address: string): void {
+    try {
+      const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address));
+      this.isAddressValid = keyring.isAvailable(keyringmagic);
+    } catch (error) {
+      this.isAddressValid = false;
+    }
+  }
+
   public checkAlreadyPresentAddress(address: string): void {
     if (this.mode === 'addressbook') {
       const keyringAddrs = Object.values(keyring.getAccounts());
       const alreadyExists = keyringAddrs.find((acc) => acc.address === address);
       if (alreadyExists) {
         this.toast('Already have same address in Keyring');
-        this.duplicateAddress = true;
+        this.uniqueAddress = false;
       }
       if (!alreadyExists) {
-        this.duplicateAddress = false;
+        this.uniqueAddress = true;
       }
+    }
+  }
+
+  public validateSave(): void {
+    if (this.mode === 'addressbook') {
+      this.canSave = this.newAccount.address.length > 0 && this.isAddressValid
+        && this.uniqueAddress && this.isNameValid;
+    }
+
+    if (this.mode === 'accounts') {
+      this.canSave = this.isNameValid && this.isPassValid;
     }
   }
 

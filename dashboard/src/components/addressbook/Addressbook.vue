@@ -1,7 +1,8 @@
 <template>
   <div id="addressbook">
-    <p>My contacts</p>
-    <b-tag>5DFwZivYX7hEjBsVH7KGYZYCJMtb75t2aBoeJnzLSLZGPLFn</b-tag>
+    <p>My contacts
+      <b-tag>5DFwZivYX7hEjBsVH7KGYZYCJMtb75t2aBoeJnzLSLZGPLFn</b-tag>
+    </p>
     <b-field grouped multiline>
       <router-link to="addressbook/create">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
