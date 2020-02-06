@@ -20,7 +20,9 @@
       </b-field>
       <div v-if="mode === 'addressbook'">
         <b-field label="address">
-          <b-input v-model="newAccount.address"></b-input>
+          <b-input v-model="newAccount.address"
+            @input="checkAlreadyPresentAddress(newAccount.address)">
+          </b-input>
         </b-field>
       </div>
       <div v-if="mode === 'accounts'">
@@ -67,7 +69,8 @@
           type="is-dark"
           icon-left="plus"
           @click="onCreate" 
-          outlined>
+          outlined
+          :disabled="duplicateAddress">
           Create
         </b-button>
       </router-link>
@@ -106,6 +109,10 @@ export default class Create extends Vue {
     ],
   };
 
+  public duplicateAddress: boolean = false;
+  public keyringAccounts: any = [
+    { address: '', meta: { name: ''}, publicKey: '', type: '' },
+  ];
   public isValidMnemonic: boolean = false;
   public isPassValid: boolean = false;
   public newAccount: any = {
@@ -138,6 +145,33 @@ export default class Create extends Vue {
       return this.newAccount.mnemonicSeed = mnemonicGenerate();
     }
     return '';
+  }
+
+  public checkAlreadyPresentAddress(address: string): void {
+    if (this.mode === 'addressbook') {
+      const keyringAddrs = Object.values(keyring.getAccounts());
+      const alreadyExists = keyringAddrs.find((acc) => acc.address === address);
+      if (alreadyExists) {
+        this.toast('Already have same address in Keyring');
+        this.duplicateAddress = true;
+      }
+      if (!alreadyExists) {
+        this.duplicateAddress = false;
+      }
+    }
+  }
+
+  public toast(message: string): void {
+    this.$buefy.toast.open({
+      message,
+      type: 'is-warning'});
+  }
+
+  @Watch('$store.state.keyringLoaded')
+  public mapAccounts(): void {
+    if (this.isKeyringLoaded()) {
+      this.keyringAccounts = keyring.getPairs();
+    }
   }
 
   @Emit()
@@ -181,6 +215,7 @@ export default class Create extends Vue {
   }
   public mounted(): void {
     this.coldStart();
+    this.mapAccounts();
   }
 }
 </script>
