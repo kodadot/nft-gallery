@@ -15,8 +15,12 @@
           </b-field>
         </b-field>
       </div>
-      <b-field label="name">
-        <b-input v-model="newAccount.name"></b-input>
+      <b-field label="name" 
+        v-bind:type="{ 'is-danger': !isNameValid }" >
+        <b-input v-model="newAccount.name"
+          @input="checkAccountName()"
+          placeholder="new account">
+        </b-input>
       </b-field>
       <div v-if="mode === 'addressbook'">
         <b-field label="address">
@@ -26,7 +30,8 @@
         </b-field>
       </div>
       <div v-if="mode === 'accounts'">
-      <b-field label="mnemonic seed" v-bind:type="{ 'is-danger': !isValidMnemonic }">
+      <b-field label="mnemonic seed" 
+        v-bind:type="{ 'is-danger': !isValidMnemonic }">
         <b-input v-model="newAccount.mnemonicSeed"
           @input="validateMnemonic()"
           :expanded='true'>
@@ -39,7 +44,8 @@
           </b-button>
         </p>
       </b-field>
-      <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
+      <b-field label="password" 
+        v-bind:type="{ 'is-danger': !validatePassword(newAccount.password) }">
         <b-input v-model="newAccount.password" type="password"
          @input="validatePassword(newAccount.password)"
          password-reveal></b-input>
@@ -59,7 +65,9 @@
         </b-field>
       </b-field>
       <b-field label="secret derivation path">
-        <b-input v-model="newAccount.derivationPath"></b-input>
+        <b-input v-model="newAccount.derivationPath"
+          placeholder="//hard/soft///password">
+        </b-input>
       </b-field>
       </div>
     </section>
@@ -70,7 +78,10 @@
           icon-left="plus"
           @click="onCreate" 
           outlined
-          :disabled="duplicateAddress">
+          :disabled="duplicateAddress
+            || !(newAccount.address.length > 0) 
+            || validatePassword(newAccount.password) 
+            || !checkAccountName()">
           Create
         </b-button>
       </router-link>
@@ -110,6 +121,7 @@ export default class Create extends Vue {
   };
 
   public duplicateAddress: boolean = false;
+  public isNameValid: boolean = false;
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
   ];
@@ -117,7 +129,7 @@ export default class Create extends Vue {
   public isPassValid: boolean = false;
   public newAccount: any = {
     password: '',
-    name: 'new account',
+    name: '',
     tags: '',
     mnemonicSeed: '',
     keypairType: this.keypairType,
@@ -137,7 +149,7 @@ export default class Create extends Vue {
   }
 
   public validatePassword(password: string): boolean {
-    return this.isPassValid = keyring.isPassValid(password);
+    return this.newAccount.password.length > 0 && keyring.isPassValid(password);
   }
 
   public generateSeed(): string {
@@ -145,6 +157,10 @@ export default class Create extends Vue {
       return this.newAccount.mnemonicSeed = mnemonicGenerate();
     }
     return '';
+  }
+
+  public checkAccountName(): boolean {
+    return this.isNameValid = this.newAccount.name.length > 0;
   }
 
   public checkAlreadyPresentAddress(address: string): void {
