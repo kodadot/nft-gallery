@@ -35,18 +35,15 @@
       </div>
       <div v-if="mode === 'accounts'">
       <b-field label="mnemonic seed" 
-        v-bind:type="{ 'is-danger': !isValidMnemonic }">
-        <b-input v-model="newAccount.mnemonicSeed"
-          @input="validateMnemonic()"
+        v-bind:type="{ 'is-danger': !isSeedValid }">
+        <b-input v-if="seedType === 'mnemonic'" v-model="newAccount.mnemonicSeed"
+          @input="validateMnemonic(); addressFromSeed('mnemonic'); validateSeed()"
           :expanded='true'>
         </b-input>
-        <!-- <p class="control">
-          <b-button class="button is-dark" icon-left="sync"
-            @click="generateSeed(); addressFromSeed(); validateMnemonic()"
-            outlined>
-              Mnemonic
-          </b-button>
-        </p> -->
+        <b-input v-if="seedType === 'raw'" v-model="newAccount.rawSeed"
+          @input="validateRawSeed(); addressFromSeed('raw'); validateSeed()"
+          :expanded='true'>
+        </b-input>
         <p class="control">
           <b-dropdown v-model="seedType" position="is-bottom-left" aria-role="list">
             <button class="button is-dark" type="button" slot="trigger">
@@ -58,14 +55,18 @@
               </template>
               <b-icon icon="caret-down"></b-icon>
             </button>
-            <b-dropdown-item value="raw">Raw Seed</b-dropdown-item>
             <b-dropdown-item value="mnemonic" 
-              @click="generateSeed(); addressFromSeed(); validateMnemonic()">
+              @click="generateSeed('mnemonic'); addressFromSeed('mnemonic'); validateMnemonic(); validateSeed()">
               Mnemonic
+            </b-dropdown-item>
+            <b-dropdown-item value="raw" 
+              @click="generateSeed('raw'); addressFromSeed('raw'); validateRawSeed(); validateSeed()">
+              Raw Seed
             </b-dropdown-item>
           </b-dropdown>
         </p>
       </b-field>
+      
       <b-field label="password" 
         v-bind:type="{ 'is-danger': !isPassValid }">
         <b-input v-model="newAccount.password" type="password"
@@ -121,7 +122,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { isHex } from '@polkadot/util';
+import { isHex, u8aToHex } from '@polkadot/util';
 
 @Component({
   components: {
@@ -145,6 +146,8 @@ export default class Create extends Vue {
   public isAddressValid: boolean = false;
   public isNameValid: boolean = false;
   public isValidMnemonic: boolean = false;
+  public isValidRawSeed: boolean = false;
+  public isSeedValid: boolean = false;
   public isPassValid: boolean = false;
   public seedType: string = 'mnemonic';
   public keyringAccounts: any = [{
@@ -175,6 +178,10 @@ export default class Create extends Vue {
     return '';
   }
 
+  public validateSeed(): boolean {
+    return this.isSeedValid = this.validateMnemonic() && this.validateRawSeed();
+  }
+
   public validateMnemonic(): boolean {
     return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
   }
@@ -183,9 +190,14 @@ export default class Create extends Vue {
     return this.isPassValid = this.newAccount.password.length > 0 && keyring.isPassValid(password);
   }
 
-  public generateSeed(): string {
+  public generateSeed(type: string): string {
     if (this.mode === 'accounts') {
-      return this.newAccount.mnemonicSeed = mnemonicGenerate();
+      if (type === 'mnemonic') {
+        return this.newAccount.mnemonicSeed = mnemonicGenerate();
+      }
+      if (type === 'raw') {
+        return this.newAccount.rawSeed = u8aToHex(randomAsU8a());
+      }
     }
     return '';
   }
@@ -194,8 +206,9 @@ export default class Create extends Vue {
     return isHex(seed) && seed.length === 66;
   }
 
-  public validateRawSeed(seed: string): boolean {
-    return ((seed.length > 0) && (seed.length <= 32)) || this.isHexSeed(seed);
+  public validateRawSeed(): boolean {
+    return this.isValidRawSeed = ((this.newAccount.rawSeed.length > 0) 
+      && (this.newAccount.rawSeed.length <= 32)) || this.isHexSeed(this.newAccount.rawSeed);
   }
 
   public validateAddress(address: string): void {
@@ -260,7 +273,7 @@ export default class Create extends Vue {
         }
         if (this.seedType === 'raw') {
           const { json, pair } =
-            keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
+            keyring.addUri(`${this.newAccount.rawSeed}${this.newAccount.derivationPath}`,
             this.newAccount.password, meta, this.keypairType.selected);
         }
       }
@@ -273,11 +286,18 @@ export default class Create extends Vue {
   }
 
   @Watch('$store.state.keyringLoaded')
-  public addressFromSeed(): string {
+  public addressFromSeed(type: string): string {
     if (this.mode === 'accounts') {
-      return this.newAccount.address =
-      keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
-        {}, this.keypairType.selected).address;
+      if (type === 'mnemonic') {
+        return this.newAccount.address =
+        keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
+          {}, this.keypairType.selected).address;
+      }
+      if (type === 'raw') {
+        return this.newAccount.address =
+        keyring.createFromUri(`${this.newAccount.rawSeed.trim()}${this.newAccount.derivationPath}`,
+          {}, this.keypairType.selected).address;
+      }
     }
     return '';
   }
@@ -287,10 +307,13 @@ export default class Create extends Vue {
   }
 
   public coldStart(): void {
-    this.generateSeed();
+    this.generateSeed('raw');
+    this.generateSeed('mnemonic');
     this.validateMnemonic();
+    this.validateSeed();
     if (this.isKeyringLoaded()) {
-      this.addressFromSeed();
+      this.addressFromSeed('raw');
+      this.addressFromSeed('mnemonic');
     }
   }
   public mounted(): void {
