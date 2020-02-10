@@ -9,7 +9,7 @@ import { faTrash, faKey, faSync, faRedo,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faBinoculars, faPlus, faTimes, faCaretDown, faMinus,
-  faFile, faBook, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
+  faFile, faBook, faCodeBranch, faSearch } from '@fortawesome/free-solid-svg-icons';
 // import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
@@ -27,7 +27,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faBinoculars, faPlus, faTimes, faCaretDown, faMinus,
-  faFile, faBook, faCodeBranch );
+  faFile, faBook, faCodeBranch, faSearch );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 

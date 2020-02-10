@@ -110,6 +110,11 @@ export default class Keypair extends Vue {
 
   public editTags(): void {
     this.isEditingTags = true;
+
+    if (this.newTags[0] === '') {
+      this.newTags = null;
+    }
+
     if (this.newTags != null) {
       this.newTags = this.meta.tags.join(', ');
     }
@@ -128,13 +133,17 @@ export default class Keypair extends Vue {
   public saveTags(): void {
     if (this.newTags != null) {
       this.newTags = this.newTags.split(',').map((item: string) => item.trim());
-
-      const meta = { tags: this.newTags,
-        whenEdited: Date.now() };
-
-      const currentKeyring = keyring.getPair(this.address);
-      keyring.saveAccountMeta(currentKeyring, meta);
     }
+
+    if (this.newTags[0] === '') {
+      this.newTags = null;
+    }
+
+    const meta = { tags: this.newTags,
+      whenEdited: Date.now() };
+
+    const currentKeyring = keyring.getPair(this.address);
+    keyring.saveAccountMeta(currentKeyring, meta);
     this.isEditingTags = false;
   }
 

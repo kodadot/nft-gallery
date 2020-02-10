@@ -7,7 +7,8 @@
       </router-link>
     </b-field>
     <b-field label="filter by name or tags">
-      <b-input v-model="searchInput" @input="filterByName(searchInput)">
+      <b-input v-model="searchInput" icon="search"
+        placeholder="search..." @input="filterByName(searchInput)">
       </b-input>
     </b-field>
     <ul>
@@ -55,7 +56,7 @@ export default class AddressBook extends Vue {
         acc.visible = true;
       }
       if (acc.meta.name.toLowerCase().includes(filter)
-        || acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
+        || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
           return result || tag.toLowerCase().includes(filter); }) ) {
         acc.visible = true;
       } else {
