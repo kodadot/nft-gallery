@@ -58,7 +58,6 @@
               </template>
               <b-icon icon="caret-down"></b-icon>
             </button>
-
             <b-dropdown-item value="raw">Raw Seed</b-dropdown-item>
             <b-dropdown-item value="mnemonic" 
               @click="generateSeed(); addressFromSeed(); validateMnemonic()">
@@ -159,6 +158,7 @@ export default class Create extends Vue {
     name: '',
     tags: '',
     mnemonicSeed: '',
+    rawSeed: '',
     keypairType: this.keypairType,
     derivationPath: '',
     address: '',
@@ -194,7 +194,7 @@ export default class Create extends Vue {
     return isHex(seed) && seed.length === 66;
   }
 
-  public validateRawSeed (seed: string): boolean {
+  public validateRawSeed(seed: string): boolean {
     return ((seed.length > 0) && (seed.length <= 32)) || this.isHexSeed(seed);
   }
 

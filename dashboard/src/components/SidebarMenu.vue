@@ -7,11 +7,11 @@
       <img
         class="is-rounded"
         src="../assets/vue-polkadot.png"
-        alt="Lightweight UI components for Vue.js based on Bulma"
+        alt="vue-polkadot.js.org dashboard for Polkadot/Substrate chains"
       />
     </figure>
     <b-menu>
-      <b-menu-list v-if="!isSidebarClosed">
+      <b-menu-list v-if="!isSidebarClosed" label="apiUrl" icon-pack="fa">
         <b-menu-item
           class="menu-item"
           v-for="row in sidebar"
@@ -21,27 +21,34 @@
           :label="row.name"
           :tag="row.tag"
           :to="row.to"
-          :disabled="row.disabled"
+          :href="row.to"
         ></b-menu-item>
       </b-menu-list>
       <b-menu-list v-if="isSidebarClosed">
         <b-menu-item
+          class="menu-item"
           v-for="row in sidebar"
           v-bind:key="row.name"
           @click="currentRow = row"
           :icon="row.icon"
           :tag="row.tag"
           :to="row.to"
-          :disabled="row.disabled"
+          :href="row.to"
         ></b-menu-item>
       </b-menu-list>
-    <b-button class="closeSideBarBtn" v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
-    <b-button v-if="isSidebarClosed" icon-left="angle-double-right" @click="toggleSidebar" rounded></b-button>
     </b-menu>
-    <b-switch v-if="!isSidebarClosed" v-model="showVerbose" class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
-    
-
+    <b-switch v-if="!isSidebarClosed" v-model="showVerbose" 
+      class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
     <SettingInfo v-if="!isSidebarClosed && showVerbose" />
+
+    <div class="toggleSidebar">
+      <b-button class="closeSideBarBtn" v-if="!isSidebarClosed" 
+        icon-left="angle-double-left" @click="toggleSidebar" rounded>
+      </b-button>
+      <b-button v-if="isSidebarClosed" icon-left="angle-double-right" 
+        @click="toggleSidebar" rounded>
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -57,52 +64,64 @@ import SettingInfo from '@/components/shared/SettingInfo.vue';
 export default class SidebarMenu extends Vue {
   public sidebar: any = [
     {
-      name: 'accounts',
-      icon: 'users',
-      to: '/accounts',
-      tag: 'router-link',
-    },
-    {
-      name: 'address book',
-      icon: 'address-book',
-      to: '/addressbook',
-      tag: 'router-link',
-    },
-    {
-      name: 'transfer',
-      icon: 'paper-plane',
-      to: '/transfer',
-      tag: 'router-link',
-    },
-    {
-      name: 'explorer',
+      name: 'Explorer',
       icon: 'dice-d20',
       to: '/explorer',
       tag: 'router-link',
     },
     {
-      name: 'democracy',
+      name: 'Accounts',
+      icon: 'users',
+      to: '/accounts',
+      tag: 'router-link',
+    },
+    {
+      name: 'Address book',
+      icon: 'address-book',
+      to: '/addressbook',
+      tag: 'router-link',
+    },
+    {
+      name: 'Transfer',
+      icon: 'paper-plane',
+      to: '/transfer',
+      tag: 'router-link',
+    },
+    {
+      name: 'Democracy',
       icon: 'calendar-check',
       to: '/democracy',
       tag: 'router-link',
     },
     {
-      name: 'extrinsics',
+      name: 'Extrinsics',
       icon: 'sync',
       to: '/extrinsics',
       tag: 'router-link',
     },
     {
-      name: 'settings',
+      name: 'Settings',
       icon: 'cogs',
       to: '/settings',
       tag: 'router-link',
+    },
+    {
+      name: 'Github',
+      icon: 'code-branch',
+      to: 'https://github.com/vue-polkadot/apps',
+      tag: 'a',
+    },
+    {
+      name: 'Wiki',
+      icon: 'book',
+      to: 'https://wiki.polkadot.network/',
+      tag: 'a',
     },
   ];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
   public showVerbose = false;
-
+  public isActive = true;
   get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
@@ -139,11 +158,18 @@ export default class SidebarMenu extends Vue {
 
 .menu-item > a > span + span {
   vertical-align: super;
+  padding-left: 0.5rem;
 }
 .closeSideBarBtn {
   margin-top: 0.7rem;
 }
 .switchVerbose {
   margin-top: 0.7rem;
+}
+.toggleSidebar {
+  bottom: 10px;
+  left: 15px;
+  position: absolute;
+  width: 100%;
 }
 </style>

@@ -9,7 +9,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-common-types": "^0.2.27",
     "@fortawesome/fontawesome-svg-core": "^1.2.24",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/vue-fontawesome": "^0.1.7",
     "@polkadot/api": "^0.92.1",
