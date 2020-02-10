@@ -20,6 +20,7 @@
             </div>
           <div>{{shortAddress(publicKey)}}</div>
           <div v-if="mode === 'accounts'">type {{type}}</div>
+          <p v-if="!meta.tags && !isEditingTags" @click="editTags()">add tags</p>
           <b-input v-if="isEditingTags" v-model="newTags" @blur="saveTags()">
           </b-input>
           <p @click="editTags()" v-if="!isEditingTags && meta.tags">
@@ -91,7 +92,7 @@ export default class Keypair extends Vue {
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
   public newName: string = '';
-  public newTags: any = '';
+  public newTags: any = null;
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
@@ -109,7 +110,9 @@ export default class Keypair extends Vue {
 
   public editTags(): void {
     this.isEditingTags = true;
-    this.newTags = this.meta.tags.join(', ');
+    if (this.newTags != null) {
+      this.newTags = this.meta.tags.join(', ');
+    }
   }
 
   @Emit()
@@ -123,13 +126,15 @@ export default class Keypair extends Vue {
 
   @Emit()
   public saveTags(): void {
-    this.newTags = this.newTags.split(',').map((item: string) => item.trim());
+    if (this.newTags != null) {
+      this.newTags = this.newTags.split(',').map((item: string) => item.trim());
 
-    const meta = { tags: this.newTags,
-      whenEdited: Date.now() };
+      const meta = { tags: this.newTags,
+        whenEdited: Date.now() };
 
-    const currentKeyring = keyring.getPair(this.address);
-    keyring.saveAccountMeta(currentKeyring, meta);
+      const currentKeyring = keyring.getPair(this.address);
+      keyring.saveAccountMeta(currentKeyring, meta);
+    }
     this.isEditingTags = false;
   }
 

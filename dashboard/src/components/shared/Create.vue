@@ -160,7 +160,7 @@ export default class Create extends Vue {
   public newAccount: any = {
     password: '',
     name: '',
-    tags: '',
+    tags: null,
     mnemonicSeed: '',
     rawSeed: '',
     keypairType: this.keypairType,
@@ -277,9 +277,12 @@ export default class Create extends Vue {
   @Emit()
   public onCreate(): void {
     try {
+      if (this.newAccount.tags != null) {
+        this.newAccount.tags.split(',').map((item: string) => item.trim());
+      }
       const meta = {
         name: this.newAccount.name,
-        tags: this.newAccount.tags.split(',').map((item: string) => item.trim()),
+        tags: this.newAccount.tags,
         whenCreated: Date.now() };
       if (this.mode === 'accounts') {
         if (this.seedType === 'mnemonic') {
