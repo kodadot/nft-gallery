@@ -74,7 +74,7 @@
          password-reveal></b-input>
       </b-field>
       <b-field label="tags">
-          <b-input v-model="newAccount.tags"></b-input>
+          <b-input v-model="newAccount.tags" placeholder="comma separated values"></b-input>
         </b-field>
       <b-field grouped>
         <b-field label="keypair crypto type">
@@ -204,6 +204,7 @@ export default class Create extends Vue {
       this.validateSeed();
     }
   }
+
   public generateSeed(type: string): string {
     if (this.mode === 'accounts') {
       if (type === 'mnemonic') {
@@ -277,7 +278,7 @@ export default class Create extends Vue {
     try {
       const meta = {
         name: this.newAccount.name,
-        tags: this.newAccount.tags.split(','),
+        tags: this.newAccount.tags.split(',').map((item: string) => item.trim()),
         whenCreated: Date.now() };
       if (this.mode === 'accounts') {
         if (this.seedType === 'mnemonic') {

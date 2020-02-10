@@ -8,12 +8,17 @@
         <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
       </router-link>
     </b-field>
+    <b-field label="filter by name or tags">
+      <b-input v-model="searchInput" @input="filterByName(searchInput)">
+      </b-input>
+    </b-field>
     <ul>
       <li 
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-        <Keypair v-if="!acc.meta.isExternal && hideTestingAccounts == !acc.meta.isTesting"
+        <Keypair v-if="!acc.meta.isExternal 
+          && hideTestingAccounts == !acc.meta.isTesting && acc.visible"
           mode="accounts"
           :address="acc.address"
           :theme="theme"
@@ -39,12 +44,15 @@ import { u8aToHex } from '@polkadot/util';
   },
 })
 export default class Accounts extends Vue {
+  public searchInput: string = ''.toLowerCase();
   public theme: string = 'substrate';
-  public switchStyle: object = { isOutlined: true, isRounded: false, size: 'is-medium' };
   public hideTestingAccounts: boolean = true;
   public modal: object = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [
+    { address: '', meta: { name: ''}, publicKey: '', type: '' },
+  ];
+  public keyringAccountsFilter: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
   ];
 
@@ -52,10 +60,23 @@ export default class Accounts extends Vue {
     return u8aToHex(publicKey);
   }
 
+  public filterByName(filter: string): void {
+    for (const acc of this.keyringAccounts) {
+      if (acc.meta.name.toLowerCase().includes(filter)
+        || acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
+          return result || tag.toLowerCase().includes(filter); }) ) {
+        acc.visible = true;
+      } else {
+        acc.visible = false;
+      }
+    }
+  }
+
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
     if (this.isKeyringLoaded()) {
       this.keyringAccounts = keyring.getPairs();
+      this.keyringAccountsFilter = keyring.getPairs();
     }
   }
 
