@@ -110,6 +110,11 @@ export default class Keypair extends Vue {
 
   public editTags(): void {
     this.isEditingTags = true;
+
+    if (this.newTags[0] === '') {
+      this.newTags = null;
+    }
+
     if (this.newTags != null) {
       this.newTags = this.meta.tags.join(', ');
     }

@@ -10,7 +10,7 @@
     </b-field>
     <b-field label="filter by name or tags">
       <b-input v-model="searchInput" icon="search"
-        placeholder="search" @input="filterByName(searchInput)">
+        placeholder="search..." @input="filterByName(searchInput)">
       </b-input>
     </b-field>
     <ul>
