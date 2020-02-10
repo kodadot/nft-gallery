@@ -66,16 +66,12 @@
           </b-dropdown>
         </p>
       </b-field>
-      
       <b-field label="password" 
         v-bind:type="{ 'is-danger': !isPassValid }">
         <b-input v-model="newAccount.password" type="password"
          @input="validatePassword(newAccount.password); validateSave()"
          password-reveal></b-input>
       </b-field>
-      <b-field label="tags">
-          <b-input v-model="newAccount.tags" placeholder="comma separated values"></b-input>
-        </b-field>
       <b-field grouped>
         <b-field label="keypair crypto type">
           <b-select v-model="keypairType.selected">
@@ -93,6 +89,11 @@
         </b-input>
       </b-field>
       </div>
+      <b-field></b-field>
+      <b-field label="tags">
+        <b-input v-model="newAccount.tags" placeholder="comma separated values"></b-input>
+      </b-field>
+      <b-field></b-field>
     </section>
     <div>
       <router-link :to="'/'+mode">

@@ -62,6 +62,9 @@ export default class Accounts extends Vue {
 
   public filterByName(filter: string): void {
     for (const acc of this.keyringAccounts) {
+      if (filter.length === 0) {
+        acc.visible = true;
+      }
       if (acc.meta.name.toLowerCase().includes(filter)
         || acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
           return result || tag.toLowerCase().includes(filter); }) ) {
@@ -92,6 +95,7 @@ export default class Accounts extends Vue {
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
+    this.filterByName(this.searchInput);
   }
 }
 </script>

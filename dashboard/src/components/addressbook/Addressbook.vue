@@ -6,12 +6,16 @@
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
     </b-field>
+    <b-field label="filter by name or tags">
+      <b-input v-model="searchInput" @input="filterByName(searchInput)">
+      </b-input>
+    </b-field>
     <ul>
       <li
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-      <Keypair v-if="isKeyringLoaded && acc.meta.isExternal"
+      <Keypair v-if="isKeyringLoaded && acc.meta.isExternal && acc.visible"
         mode="addressbook"
         :address="acc.address"
         :theme="theme"
@@ -37,8 +41,24 @@ import { mapState } from 'vuex';
 })
 
 export default class AddressBook extends Vue {
+  public searchInput: string = ''.toLowerCase();
   public keyringAccounts: any = [];
   public theme: string = 'substrate';
+
+  public filterByName(filter: string): void {
+    for (const acc of this.keyringAccounts) {
+      if (filter.length === 0) {
+        acc.visible = true;
+      }
+      if (acc.meta.name.toLowerCase().includes(filter)
+        || acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
+          return result || tag.toLowerCase().includes(filter); }) ) {
+        acc.visible = true;
+      } else {
+        acc.visible = false;
+      }
+    }
+  }
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
@@ -59,6 +79,7 @@ export default class AddressBook extends Vue {
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
+    this.filterByName(this.searchInput);
   }
 
 }
