@@ -1,10 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import FourZeroFour from './components/FourZeroFour.vue';
-import Accounts from './components/accounts/Accounts.vue';
-import Addressbook from './components/addressbook/Addressbook.vue';
-import Transfer from './components/transfer/Transfer.vue';
-import Democracy from './components/democracy/Democracy.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -12,12 +7,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Accounts,
+      component: () => import('./components/accounts/Accounts.vue'),
     },
     {
       path: '/accounts',
       name: 'accounts',
-      component: Accounts,
+      component: () => import('./components/accounts/Accounts.vue'),
     },
     {
       path: '/accounts/create',
@@ -42,7 +37,7 @@ export default new Router({
     {
       path: '/addressbook',
       name: 'addressbook',
-      component: Addressbook,
+      component: () => import('./components/addressbook/Addressbook.vue'),
     },
     {
       path: '/addressbook/create',
@@ -52,27 +47,27 @@ export default new Router({
     {
       path: '/transfer',
       name: 'transfer',
-      component: Transfer,
+      component: () => import('./components/transfer/Transfer.vue'),
     },
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
-      component: Transfer,
+      component: () => import('./components/transfer/Transfer.vue'),
     },
     {
       path: '/transfer/to/:to',
       name: 'transferTo',
-      component: Transfer,
+      component: () => import('./components/transfer/Transfer.vue'),
     },
     {
       path: '/democracy',
       name: 'democracy',
-      component: Democracy,
+      component: () => import('./components/democracy/Democracy.vue'),
     },
     {
       path: '*',
       name: 'FourZeroFour',
-      component: FourZeroFour,
+      component: () => import('./components/FourZeroFour.vue'),
     },
     {
       path: '/settings',
