@@ -56,11 +56,11 @@
               <b-icon icon="caret-down"></b-icon>
             </button>
             <b-dropdown-item value="mnemonic" 
-              @click="generateSeed('mnemonic'); addressFromSeed('mnemonic'); validateMnemonic(); validateSeed()">
+              @click="dropdownClick('mnemonic')">
               Mnemonic
             </b-dropdown-item>
             <b-dropdown-item value="raw" 
-              @click="generateSeed('raw'); addressFromSeed('raw'); validateRawSeed(); validateSeed()">
+              @click="dropdownClick('raw')">
               Raw Seed
             </b-dropdown-item>
           </b-dropdown>
@@ -190,6 +190,20 @@ export default class Create extends Vue {
     return this.isPassValid = this.newAccount.password.length > 0 && keyring.isPassValid(password);
   }
 
+  public dropdownClick(type: string): void {
+    if (type === 'raw') {
+      this.generateSeed('raw');
+      this.addressFromSeed('raw');
+      this.validateRawSeed();
+      this.validateSeed();
+    }
+    if (type === 'mnemonic') {
+      this.generateSeed('mnemonic');
+      this.addressFromSeed('mnemonic');
+      this.validateMnemonic();
+      this.validateSeed();
+    }
+  }
   public generateSeed(type: string): string {
     if (this.mode === 'accounts') {
       if (type === 'mnemonic') {
