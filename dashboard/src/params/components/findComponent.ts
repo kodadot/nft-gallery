@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @vue-polkadot authors & @polkadot original authors.
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,6 +7,7 @@ import { ComponentMap } from '../types';
 
 import BN from 'bn.js';
 import { createType, getTypeDef } from '@polkadot/types';
+import registry from './typeRegistry';
 
 import Account from './Account.vue';
 import Amount from './Amount.vue';
@@ -61,12 +62,12 @@ const components: ComponentMap = ([
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] },
-] as TypeToComponent[]).reduce((components, { c, t }): ComponentMap => {
+] as TypeToComponent[]).reduce((componentList, { c, t }): ComponentMap => {
   t.forEach((type): void => {
-    components[type] = c;
+    componentList[type] = c;
   });
 
-  return components;
+  return componentList;
 }, {} as unknown as ComponentMap);
 
 const getType = (({ displayName, info, sub, type }: any): string => {
@@ -106,14 +107,17 @@ const getType = (({ displayName, info, sub, type }: any): string => {
 export default function findComponent(def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
   console.log(def.toString());
 
-  const findOne = (type: string): Vue.Component | null => overrides[type] || components[type];
+  const findOne = (componentType: string): Vue.Component | null => {
+    return overrides[componentType] || components[componentType];
+  };
+   
   const type = getType(def);
 
   let Component = findOne(type);
 
   if (!Component) {
     try {
-      const instance = createType(type as any);
+      const instance = createType(registry, type as any);
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(getType(raw));

@@ -13,6 +13,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import findComponent from '@/params/components/findComponent';
 import { createType, getTypeDef } from '@polkadot/types';
+import registry from '@/params/components/typeRegistry';
 
 @Component({
   name: 'ArgumentHandler',
@@ -23,7 +24,7 @@ export default class ArgumentHandler extends Vue {
   public enhanceTypeDef(argument: any) {
     // return { ...argument }
     return {
-      ...getTypeDef(createType(argument.type).toRawType()),
+      ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
     };
   }

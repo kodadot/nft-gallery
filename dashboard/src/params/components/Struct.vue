@@ -9,6 +9,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArgumentHandler from '@/components/extrinsics/ArgumentHandler.vue';
 import { createType, getTypeDef } from '@polkadot/types';
 import findComponent from '@/params/components/findComponent';
+import registry from '@/params/components/typeRegistry';
 
 @Component({
   name: 'Struct',
@@ -34,7 +35,7 @@ export default class Struct extends Vue {
   }
 
   public enhanceTypeDef(argument: any, index: number) {
-    return { ...getTypeDef(createType(argument.type).toRawType()), ...argument, name: index };
+    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: index };
   }
 
   public selected(argument: any) {

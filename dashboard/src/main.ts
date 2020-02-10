@@ -38,9 +38,10 @@ Vue.component('vue-fontawesome', FontAwesomeIcon);
 //   isDevelopment: true,
 // });
 
-console.log('here');
-Connector.createInstance(store.state.setting.apiUrl);
-Vue.prototype.$http = Connector.getInstance();
+console.log('here', store.state.setting.apiUrl);
+(window as any).C = Connector; 
+// Connector.createInstance(store.state.setting.apiUrl);
+// Vue.prototype.$http = Connector.getInstance();
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
