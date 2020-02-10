@@ -26,6 +26,8 @@
           :publicKey="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
           @forget-account="mapAccounts"
+          @save-name="mapAccounts"
+          @save-tags="mapAccounts"
         />
       </li>
     </ul>

@@ -20,7 +20,10 @@
         :address="acc.address"
         :theme="theme"
         :meta="acc.meta"
-        @forget-account="mapAccounts" />
+        @forget-account="mapAccounts"
+        @save-name="mapAccounts"
+        @save-tags="mapAccounts" 
+      />
       </li>
     </ul>
   </div>  
@@ -42,6 +45,7 @@ import { mapState } from 'vuex';
 
 export default class AddressBook extends Vue {
   public searchInput: string = ''.toLowerCase();
+  public newName: string = '';
   public keyringAccounts: any = [];
   public theme: string = 'substrate';
 
