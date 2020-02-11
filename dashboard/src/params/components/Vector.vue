@@ -21,6 +21,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { createType, getTypeDef } from '@polkadot/types';
 import findComponent from '@/params/components/findComponent';
+import registry from '@/params/components/typeRegistry';
 
 @Component({
   name: 'Vector',
@@ -35,7 +36,7 @@ export default class Vector extends Vue {
 
   public enhanceTypeDef(argument: any, index: number) {
     return {
-      ...getTypeDef(createType(argument.type).toRawType()),
+      ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
       name: index,
     };
