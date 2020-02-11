@@ -12,7 +12,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
-import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -20,26 +19,26 @@ import Connector from '@vue-polkadot/vue-api';
   },
 })
 export default class Dashboard extends Vue {
-  public loadKeyring(): void {
-    keyring.loadAll({
-      ss58Format: 42,
-      type: 'sr25519',
-      isDevelopment: false,
-    });
-  }
+  // public loadKeyring(): void {
+  //   keyring.loadAll({
+  //     ss58Format: 42,
+  //     type: 'sr25519',
+  //     isDevelopment: false,
+  //   });
+  // }
 
-  public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
-    console.log('wasmCrypto loaded');
-    this.loadKeyring();
-    console.log('keyring init');
-    this.$store.commit('keyringLoaded');
-    console.log('keyring loaded');
-  }
+  // public async mountWasmCrypto(): Promise<void> {
+  //   await waitReady();
+  //   console.log('wasmCrypto loaded');
+  //   this.loadKeyring();
+  //   console.log('keyring init');
+  //   this.$store.commit('keyringLoaded');
+  //   console.log('keyring loaded');
+  // }
 
-  public mounted(): void {
-    this.mountWasmCrypto();
-  }
+  // public mounted(): void {
+  //   this.mountWasmCrypto();
+  // }
 }
 </script>
 
