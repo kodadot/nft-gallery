@@ -7,7 +7,9 @@
           last block {{nodeInfo.blockNumber}}
           <!-- target -> 6s -->
           total issuance {{nodeInfo.totalIssuance}}
-          session {{nodeInfo.session.length}} / {{nodeInfo.sessionLength}}
+          session 
+          <!-- {{nodeInfo.session.length}} /  -->
+          <!-- {{nodeInfo.sessionLength}} -->
           <!-- era {{nodeInfo.sessionsPerEra}} -->
           finalized {{nodeInfo.finalized}}
         </b-field>
@@ -15,7 +17,15 @@
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-        blockNumber <p>{{nodeInfo.blockNumber}}</p>
+        <p>BlockNumber {{nodeInfo.blockNumber}}</p>
+        
+        <p><h1>Extrinsics</h1></p>
+        <Card nature='timestamp.set (#0)'
+          natureDesc="Set the current time. This call should be invoked exactly once per block. It will panic at the finalization phase, if this call hasn't been invoked by that time. The timestamp should be greater than the previous one by the amount specified by `MinimumPeriod`. The dispatch origin for this call must be `Inherent`."
+          type="1581518316000"
+          extrinsicHash="0x00781baf5287f2bc103dc76ced4ef768516730881afcd5e39605827afd868b88"
+          lifetime="lifetime"
+        />
         <!-- parentHash -><br>
         extrinsicsRoot -><br>
         StateRoot -><br>
@@ -45,10 +55,15 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
+import Card from '../shared/Card.vue';
 
-@Component
+@Component({
+  components: {
+    Card,
+  }
+})
 export default class Explorer extends Vue {
-  public activeTab: any = 0;
+  public activeTab: number = 1;
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public bestPeer: any = null;
   public bestPeerBlock: any = null;
