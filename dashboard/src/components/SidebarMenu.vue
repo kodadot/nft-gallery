@@ -105,18 +105,18 @@ export default class SidebarMenu extends Vue {
       to: '/settings',
       tag: 'router-link',
     },
-    {
-      name: 'Github',
-      icon: 'code-branch',
-      to: 'https://github.com/vue-polkadot/apps',
-      tag: 'a',
-    },
-    {
-      name: 'Wiki',
-      icon: 'book',
-      to: 'https://wiki.polkadot.network/',
-      tag: 'a',
-    },
+    // {
+    //   name: 'Github',
+    //   icon: 'code-branch',
+    //   to: 'https://github.com/vue-polkadot/apps',
+    //   tag: 'a',
+    // },
+    // {
+    //   name: 'Wiki',
+    //   icon: 'book',
+    //   to: 'https://wiki.polkadot.network/',
+    //   tag: 'a',
+    // },
   ];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
