@@ -31,7 +31,6 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
-import { waitReady } from '@polkadot/wasm-crypto';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from '../shared/Keypair.vue';

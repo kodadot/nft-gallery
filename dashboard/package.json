@@ -17,7 +17,6 @@
     "@polkadot/types": "^1.1.1",
     "@polkadot/util": "^2.2.1",
     "@polkadot/util-crypto": "^2.2.1",
-    "@polkadot/wasm-crypto": "^0.20.1",
     "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-api": "0.0.12-beta.7",
     "@vue-polkadot/vue-identicon": "^0.0.8",

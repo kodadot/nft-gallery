@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { waitReady } from '@polkadot/wasm-crypto';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
 
@@ -28,7 +28,7 @@ export default class Dashboard extends Vue {
   }
 
   public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
+    await cryptoWaitReady();
     console.log('wasmCrypto loaded');
     this.loadKeyring();
     console.log('keyring init');

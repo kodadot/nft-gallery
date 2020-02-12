@@ -38,7 +38,6 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from '../shared/Keypair.vue';
-import { waitReady } from '@polkadot/wasm-crypto';
 import { u8aToHex } from '@polkadot/util';
 
 @Component({
