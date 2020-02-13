@@ -67,6 +67,7 @@ export default class Dashboard extends Vue {
 
 .column.router-view {
   background-color: rgb(252, 252, 252);
+  overflow-y: scroll;
   padding: 0; 
 }
 
