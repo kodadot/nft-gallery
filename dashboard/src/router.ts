@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
+import { apiEnabled } from './routeGuard';
 
 export default new Router({
   routes: [
@@ -63,6 +64,7 @@ export default new Router({
       path: '/democracy',
       name: 'democracy',
       component: () => import('./components/democracy/Democracy.vue'),
+      beforeEnter: apiEnabled,
     },
     {
       path: '*',
@@ -88,6 +90,7 @@ export default new Router({
       path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
+      beforeEnter: apiEnabled,
     },
   ],
 });
