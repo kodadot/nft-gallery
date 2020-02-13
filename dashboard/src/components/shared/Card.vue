@@ -34,14 +34,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import keyring from '@vue-polkadot/vue-keyring';
 
-@Component({})
+
+@Component
 export default class Card extends Vue {
-  @Prop(String) public nature: string;
-  @Prop(String) public natureDesc: string;
-  @Prop(String) public type: string;
-  @Prop(String) public extrinsicHash: string;
-  @Prop(String) public lifetime: string;
+  @Prop(String) public nature: string = '';
+  @Prop(String) public natureDesc: string = '';
+  @Prop(String) public type: string = '';
+  @Prop(String) public extrinsicHash: string = '';
+  @Prop(String) public lifetime: string = '';
+
+  private isPassValid: boolean = true;
 
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);

@@ -60,7 +60,7 @@ import Card from '../shared/Card.vue';
 @Component({
   components: {
     Card,
-  }
+  },
 })
 export default class Explorer extends Vue {
   public activeTab: number = 1;
