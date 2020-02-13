@@ -6,15 +6,22 @@
     :placeholder="label"
     expanded
     >
-      <option
+      <option v-if="mode === 'all'"
         v-for="acc in accounts"
         v-bind:key="acc.address"
         :value="acc.address"
-      >{{ acc.meta.name }} - {{ acc.address }} </option>
+      >{{ acc.meta.name }} - {{ acc.address }} 
+      </option>
+      <option v-if="mode === 'accounts' && !acc.meta.isExternal"
+        v-for="acc in accounts"
+        v-bind:key="acc.address"
+        :value="acc.address"
+      >{{ acc.meta.name }} - {{ acc.address }} 
+      </option>
     </b-select>
   </b-field>
   <Balance :account="selectedAccount"/>
-</div >
+</div>
 </template>
 
 <script lang="ts">
@@ -30,7 +37,9 @@ import Vue, { VueConstructor } from 'vue';
   },
 })
 class Selection extends WithKeyring {
-  private label = 'Accounts';
+  @Prop({ default: 'all' }) public mode!: string;
+
+  private label = 'To Contacts';
   private selectedAccount: string = '';
 
   get accounts() {
@@ -52,6 +61,16 @@ class Selection extends WithKeyring {
     return this.getPair(address);
   }
 
+
+  public mounted(): void {
+    this.gotKeys(this.mode);
+  }
+
+  private gotKeys(mode: string): void {
+    if (mode === 'accounts') {
+      this.label = 'From Accounts';
+    }
+  } 
 }
 
 // Explicit casting because it would shout in other components

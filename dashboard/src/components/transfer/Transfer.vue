@@ -3,8 +3,9 @@
     <b-field>
       Recent block #{{conn.blockNumber}}
     </b-field>
+    <Selection mode='accounts' @selected="handleAccountSelection" />
     <Selection @selected="handleAccountSelection" />
-    <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" />
+    <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
     <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
@@ -15,10 +16,11 @@
       <b-button
         type="is-primary"
         icon-left="paper-plane"
+        outlined
         :disabled="!account || !password"
         @click="shipIt"
       >
-        Submit Transaction
+        Make Transfer
       </b-button>
       <b-button v-if="tx" tag="a" :href="explorer + tx">
         View on PolkaScan 👀 {{ tx.slice(0, 20) }}
