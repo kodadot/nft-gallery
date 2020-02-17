@@ -2,10 +2,10 @@
   <div id="Keypair" class="keypair-card__wrapper card">
       <div class="card-content">
         <b-field grouped multiline>
-          <Identicon
+          <!-- <Identicon
             :value="address"
             :theme="theme"
-            :size="size" />
+            :size="size" /> -->
             <div class="keypair-info__wrapper">
           <div v-if="!isEditingName" @click="editName()">{{meta.name}}</div>
           <b-input v-if="isEditingName" v-model="newName" @blur="saveName()">
@@ -77,12 +77,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
+// import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
-    Identicon,
+    // Identicon,
   },
 })
 export default class Keypair extends Vue {
