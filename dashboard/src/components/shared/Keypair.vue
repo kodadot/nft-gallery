@@ -20,8 +20,14 @@
             </div>
           <div>{{shortAddress(publicKey)}}</div>
           <div v-if="mode === 'accounts'">type {{type}}</div>
-          <p v-if="!meta.tags && !isEditingTags" @click="editTags()">add tags</p>
-          <b-input v-if="isEditingTags" v-model="newTags" @blur="saveTags()">
+          <p v-if="!meta.tags && !isEditingTags 
+            || meta.tags === null && !isEditingTags
+            || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
+            @click="editTags()">add tags</p>
+          <b-input v-if="isEditingTags" 
+            v-model="newTags" 
+            @blur="saveTags()" 
+            @keyup.native.enter="$event.target.blur()">
           </b-input>
           <p @click="editTags()" v-if="!isEditingTags && meta.tags">
           <b-tag
@@ -97,7 +103,7 @@ export default class Keypair extends Vue {
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
   @Prop(String) public address!: string;
-  @Prop({ default: 'no-meta'}) public meta!: any;
+  @Prop({ default: null}) public meta!: any;
   @Prop({ default: 'polkadot'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
   // temporary prop
@@ -111,11 +117,11 @@ export default class Keypair extends Vue {
   public editTags(): void {
     this.isEditingTags = true;
 
-    if (this.newTags[0] === '') {
-      this.newTags = null;
+    if (this.meta.tags && this.meta.tags.length === 0) {
+      this.newTags = [];
     }
 
-    if (this.newTags != null) {
+    if (this.meta.tags !== null) {
       this.newTags = this.meta.tags.join(', ');
     }
   }
@@ -131,12 +137,14 @@ export default class Keypair extends Vue {
 
   @Emit()
   public saveTags(): void {
-    if (this.newTags != null) {
-      this.newTags = this.newTags.split(',').map((item: string) => item.trim());
+    if (this.newTags !== null) {
+      this.newTags = this.newTags.split(',')
+      .map((item: string) => item.trim())
+      .filter((item: string) => item);
     }
 
-    if (this.newTags[0] === '') {
-      this.newTags = null;
+    if (this.newTags && this.newTags.length === 0) {
+      this.newTags = [];
     }
 
     const meta = { tags: this.newTags,
