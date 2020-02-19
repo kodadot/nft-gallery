@@ -1,14 +1,22 @@
 <template>
   <div id="transfer">
-    <b-field>
+    <b-field v-if="conn.blockNumber">
       Recent block #{{conn.blockNumber}}
     </b-field>
-    <Dropdown mode='accounts' @selected="keyringAccounts" />
+		<b-field v-else>
+			<p class="has-text-danger">You are not connected, 
+				<router-link :to="{ name: 'settings' }">
+				go to settings and pick node</router-link>
+			</p>
+		</b-field>
+    <Dropdown mode='accounts'
+			@selected="handleAccountSelection" />
     <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
-		<Dropdown @selected="keyringAccounts" />
+		<Dropdown
+			@selected="handleAccountSelection" />
     <!-- <Selection @selected="handleAccountSelection" /> -->
     <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
-    <Balance :argument="{ name: 'Amount', type: 'balance' }" @selected="handleValue"  />
+    <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
@@ -20,9 +28,8 @@
         icon-left="paper-plane"
         outlined
         :disabled="!account || !password"
-        @click="shipIt"
-      >
-        Make Transfer
+        @click="shipIt">
+				Make Transfer
       </b-button>
       <b-button v-if="tx" tag="a" :href="explorer + tx">
         View on PolkaScan 👀 {{ tx.slice(0, 20) }}
@@ -34,7 +41,6 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
-import TxSelect from './TxSelect.vue';
 import Selection from '@/components/extrinsics/Selection.vue';
 import Balance from '@/params/components/Balance.vue';
 import Account from '@/params/components/Account.vue';
@@ -44,7 +50,6 @@ import Dropdown from '@/components/shared/Dropdown.vue';
 @Component({
   components: {
     Identicon,
-    TxSelect,
     Selection,
     Balance,
     Account,

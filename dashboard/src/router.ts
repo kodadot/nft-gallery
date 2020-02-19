@@ -67,30 +67,30 @@ export default new Router({
       beforeEnter: apiEnabled,
     },
     {
-      path: '*',
-      name: 'FourZeroFour',
-      component: () => import('./components/FourZeroFour.vue'),
-    },
-    {
-      path: '/settings',
+			path: '/settings',
       name: 'settings',
       component: () => import('./views/Settings.vue'),
     },
     {
-      path: '/explorer',
+			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
-      path: '/explorer/:tab',
+			path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
-      path: '/extrinsics',
+			path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
       beforeEnter: apiEnabled,
     },
+		{
+			path: '*',
+			name: 'FourZeroFour',
+			component: () => import('./components/FourZeroFour.vue'),
+		},
   ],
 });

@@ -14,12 +14,12 @@
 			</template>
 		</b-field>
 		<b-field>
-			<b-dropdown v-model="selectedAccount" 
+			<b-dropdown v-model="selected" 
 				:mobile-modal="false" aria-role="list">
 				<button class="button is-primary" type="button" slot="trigger">
-					<template v-if="selectedAccount">
+					<template v-if="selected">
 						<b-icon icon="users"></b-icon>
-						<span>{{selectedAccount}}</span>
+						<span>{{selected}}</span>
 					</template>
 					<template v-else>
 						<b-icon icon="users"></b-icon>
@@ -67,7 +67,7 @@ export default class Dropdown extends WithKeyring {
 	private tooltip: string = 'Select a contact you want to send funds to.';
 
 	get accounts() {
-    return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
+		return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
 	}
 	
   get selected() {
@@ -75,6 +75,7 @@ export default class Dropdown extends WithKeyring {
 	}
 
 	set selected(address: string) {
+		this.selectedAccount = address;
 		this.onSelectedAccount(address);
 	}
 

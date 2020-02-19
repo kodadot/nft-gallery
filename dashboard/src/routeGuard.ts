@@ -8,7 +8,7 @@ export const apiEnabled = (to: any, from: any, next: any) => {
   } else {
     Notification.open({
       duration: 7000,
-      message: `API not loaded please try later!`,
+      message: `API not loaded, please try later!`,
       queue: false,
       type: 'is-danger',
       position: 'is-top-right',
