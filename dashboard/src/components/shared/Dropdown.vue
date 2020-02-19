@@ -7,7 +7,7 @@
 			horizontal>
 			<template slot="label">
 				{{label}}
-				<b-tooltip type="is-dark" label="The account you will send funds from">
+				<b-tooltip type="is-dark" :label="tooltip">
 				<b-icon size="is-small" icon="question-circle">
 				</b-icon>
 				</b-tooltip>
@@ -58,13 +58,13 @@ import Balance from './Balance.vue';
 	},
 })
 export default class Dropdown extends WithKeyring {
-	@Prop(Array) public accounts!: object;
+	// @Prop(Array) public accounts!: object;
 	@Prop({ default: 'all' }) public mode!: string;
 
 	private position: string = 'is-left';
   private selectedAccount: string = '';
-	private label = 'To Contacts';
-	private tooltip = 'Select a contact you want to send funds to.';
+	private label: string = 'To Contacts';
+	private tooltip: string = 'Select a contact you want to send funds to.';
 
 	get accounts() {
     return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
