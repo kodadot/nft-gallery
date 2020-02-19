@@ -49,7 +49,12 @@ export default new Router({
       path: '/transfer',
       name: 'transfer',
       component: () => import('./components/transfer/Transfer.vue'),
-    },
+		},
+		{
+			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
+			name: 'transferSignSubmit',
+			component: () => import('./components/transfer/Transfer.vue'),
+		},
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
