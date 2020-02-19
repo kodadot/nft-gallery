@@ -1,17 +1,13 @@
 <template>
 	<div id="Dropdown">
 		<section>
-		<b-field
-			position="is-centered"
-			custom-class="is-medium"
-			horizontal>
-			<template slot="label">
-				{{label}}
+		<b-field>
+			<p>{{label}}
 				<b-tooltip type="is-dark" :label="tooltip">
-				<b-icon size="is-small" icon="question-circle">
-				</b-icon>
+					<b-icon size="is-small" icon="question-circle">
+					</b-icon>
 				</b-tooltip>
-			</template>
+			</p>
 		</b-field>
 		<b-field>
 			<b-dropdown v-model="selected" 
@@ -28,6 +24,7 @@
 					<b-icon icon="caret-down"></b-icon>
 				</button>
 				<b-dropdown-item aria-role="listitem"
+					v-if="accounts"
 					v-for="acc in accounts"
 					v-bind:key="acc.address"
 					v-bind:value="acc.address">
