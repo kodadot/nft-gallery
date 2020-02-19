@@ -9,7 +9,7 @@
     ]
   },
   "rules": {
-    "indent": [true, "spaces", 2],
+    "indent": [true, "tab", 1],
     "interface-name": false,
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,

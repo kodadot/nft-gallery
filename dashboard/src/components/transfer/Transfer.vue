@@ -3,10 +3,12 @@
     <b-field>
       Recent block #{{conn.blockNumber}}
     </b-field>
-    <Selection mode='accounts' @selected="handleAccountSelection" />
-    <Selection @selected="handleAccountSelection" />
+    <Dropdown mode='accounts' @selected="keyringAccounts" />
+    <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
+		<Dropdown @selected="keyringAccounts" />
+    <!-- <Selection @selected="handleAccountSelection" /> -->
     <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
-    <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
+    <Balance :argument="{ name: 'Amount', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
@@ -37,6 +39,7 @@ import Selection from '@/components/extrinsics/Selection.vue';
 import Balance from '@/params/components/Balance.vue';
 import Account from '@/params/components/Account.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
+import Dropdown from '@/components/shared/Dropdown.vue';
 
 @Component({
   components: {
@@ -45,6 +48,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
     Selection,
     Balance,
     Account,
+    Dropdown,
   },
 })
 export default class Transfer extends Vue {

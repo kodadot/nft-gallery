@@ -61,7 +61,6 @@ class Selection extends WithKeyring {
     return this.getPair(address);
   }
 
-
   public mounted(): void {
     this.gotKeys(this.mode);
   }
