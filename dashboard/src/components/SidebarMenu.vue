@@ -21,7 +21,6 @@
           :label="row.name"
           :tag="row.tag"
           :to="row.to"
-          :href="row.to"
         ></b-menu-item>
       </b-menu-list>
       <b-menu-list v-if="isSidebarClosed">
@@ -33,7 +32,6 @@
           :icon="row.icon"
           :tag="row.tag"
           :to="row.to"
-          :href="row.to"
         ></b-menu-item>
       </b-menu-list>
     </b-menu>
@@ -107,13 +105,14 @@ export default class SidebarMenu extends Vue {
     },
     {
       name: 'Github',
-      icon: 'code-branch',
+			icon: 'code-branch',
       to: 'https://github.com/vue-polkadot/apps',
     },
     {
       name: 'Wiki',
-      icon: 'book',
+			icon: 'book',
       to: 'https://wiki.polkadot.network/',
+			tag: 'a',
     },
   ];
   public currentRow: any = this.sidebar[0];
