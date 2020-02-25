@@ -22,9 +22,18 @@
           :tag="row.tag"
           :to="row.to"
         ></b-menu-item>
+				<b-menu-item 
+          class="menu-item"
+          v-for="row in externalLinks"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
+					:label="row.name"
+          :href="row.href"
+        ></b-menu-item>
       </b-menu-list>
       <b-menu-list v-if="isSidebarClosed">
-        <b-menu-item
+        <b-menu-item 
           class="menu-item"
           v-for="row in sidebar"
           v-bind:key="row.name"
@@ -32,6 +41,14 @@
           :icon="row.icon"
           :tag="row.tag"
           :to="row.to"
+        ></b-menu-item>
+				<b-menu-item 
+          class="menu-item"
+          v-for="row in externalLinks"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
+          :href="row.href"
         ></b-menu-item>
       </b-menu-list>
     </b-menu>
@@ -103,18 +120,19 @@ export default class SidebarMenu extends Vue {
       to: { name: 'settings' },
       tag: 'router-link',
     },
-    {
+	];
+	public externalLinks: any = [
+		{
       name: 'Github',
 			icon: 'code-branch',
-      to: 'https://github.com/vue-polkadot/apps',
+			href: 'https://github.com/vue-polkadot/apps',
     },
     {
       name: 'Wiki',
 			icon: 'book',
-      to: 'https://wiki.polkadot.network/',
-			tag: 'a',
-    },
-  ];
+			href: 'https://wiki.polkadot.network/',
+		},
+	];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
   public showVerbose = false;
