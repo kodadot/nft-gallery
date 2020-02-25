@@ -23,8 +23,8 @@
 					</template>
 					<b-icon icon="caret-down"></b-icon>
 				</button>
+				<template v-if="accounts">
 				<b-dropdown-item aria-role="listitem"
-					v-if="accounts"
 					v-for="acc in accounts"
 					v-bind:key="acc.address"
 					v-bind:value="acc.address">
@@ -37,6 +37,7 @@
 						</div>
 					</div>
 				</b-dropdown-item>
+				</template>
 			</b-dropdown>
 		</b-field>
 		<Balance :account="selectedAccount"/>

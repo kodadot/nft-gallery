@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="buttons">
+    <div v-if="!disabled" class="buttons">
       <b-button @click="add" type="is-primary" icon-left="plus">
         Add
       </b-button>
@@ -12,7 +12,9 @@
       v-for="(arg, index) in fields"
       :argument="enhanceTypeDef(arg, index)"
       v-bind:key="index"
+      :disabled="disabled"
       @selected="selected"
+      :defaultValue="getDefaultValue(index)"
     />
   </div>
 </template>
@@ -31,6 +33,9 @@ import registry from '@/params/components/typeRegistry';
 })
 export default class Vector extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any[];
+
   private fields: any[] = [];
   private results: any[] = [];
 
@@ -45,7 +50,17 @@ export default class Vector extends Vue {
   @Emit('selected')
   public selected(argument: any) {
     Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg]);
-    return { [this.argument.name.toString()]: this.results } ;
+    return { [this.argument.name.toString()]: this.results };
+  }
+
+  public mounted() {
+    if (this.defaultValue) {
+      this.defaultValue.map((val) => this.add());
+    }
+  }
+
+  public getDefaultValue(index: number) {
+    return this.defaultValue && this.defaultValue[index];
   }
 
   private add() {

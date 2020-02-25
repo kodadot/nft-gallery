@@ -4,8 +4,8 @@
       :label="`${argument.name}: ${argument.type}`"
       v-if="!uploadEnabled"
     >
-      <b-input v-model="arg" />
-      <p class="control">
+      <b-input v-model="arg" :disabled="disabled" />
+      <p v-if="!disabled" class="control">
         <b-button
           @click="enableUpload"
           class="button is-primary"
@@ -13,7 +13,7 @@
         />
       </p>
     </b-field>
-    <FileUpload v-else @uploaded="selected" />
+    <FileUpload v-if="uploadEnabled" @uploaded="selected" />
   </div>
 </template>
 
@@ -29,11 +29,14 @@ import FileUpload from './FileUpload.vue';
 })
 export default class Bytes extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
+
   private uploadEnabled: boolean = false;
 
 
   get arg() {
-    return '0x';
+    return this.defaultValue ? this.defaultValue : '0x';
   }
 
   set arg(value) {

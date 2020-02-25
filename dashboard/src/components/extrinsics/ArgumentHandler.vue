@@ -4,7 +4,9 @@
     <component
       :is="selected(argument)"
       :argument="enhanceTypeDef(argument)"
+      :disabled="disabled"
       @selected="handleSelected"
+      :defaultValue="defaultValue"
     />
   </div>
 </template>
@@ -20,6 +22,8 @@ import registry from '@/params/components/typeRegistry';
 })
 export default class ArgumentHandler extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: boolean;
 
   public enhanceTypeDef(argument: any) {
     // return { ...argument }

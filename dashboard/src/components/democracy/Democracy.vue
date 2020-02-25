@@ -1,8 +1,5 @@
 <template>
   <div id="transfer">
-    <b-tabs>
-      <b-tab-item label="Democracy"></b-tab-item>
-    </b-tabs>
     <b-field>Recent block #{{conn.blockNumber}}</b-field>
     <Selection @selected="handleAccountSelection" />
        <Executor
@@ -51,7 +48,6 @@ import Selection from '@/components/extrinsics/Selection.vue';
   },
 })
 export default class Democracy extends Vue {
-
   get methods() {
     return this.fnSection
       ? Object.keys((this as any).$http.api.tx[this.fnSection])

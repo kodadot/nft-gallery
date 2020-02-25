@@ -3,7 +3,7 @@
     <b-field
       :label="`${argument.name}: ${argument.type}`"
     >
-      <b-input v-model="arg" type="number"
+      <b-input v-model="arg" type="number" :disabled="disabled"
        />
     </b-field>
   </div>
@@ -15,6 +15,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class Amount extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
     console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
@@ -23,7 +25,7 @@ export default class Amount extends Vue {
   }
 
   get arg() {
-    return '';
+    return this.defaultValue ? this.defaultValue : '';
   }
 
 

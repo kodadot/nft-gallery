@@ -1,7 +1,7 @@
 <template>
   <!-- // TODO denomination and set asset by network -->
 	<b-tag class="balance-tag" 
-		type="is-primary" size="is-medium">
+		type="is-dark" size="is-medium">
 		Transferable: {{ balance }} KSM
 	</b-tag>
 </template>
