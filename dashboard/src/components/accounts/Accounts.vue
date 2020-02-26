@@ -5,7 +5,7 @@
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
       <router-link to="accounts/restore">
-        <b-button type="is-dark" icon-left="sync" outlined>Restore</b-button>
+        <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
       </router-link>
     </b-field>
     <b-field label="filter by name or tags">
