@@ -1,6 +1,7 @@
 <template>
     <b-tabs v-model="activeTab">
       <b-tab-item label="Democracy">
+				<Summary />
         <Democracy/>
       </b-tab-item>
       <b-tab-item label="Referendums"><Referendums/></b-tab-item>
@@ -13,12 +14,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import Democracy from './Democracy.vue';
 import Referendums from './Referendums.vue';
 import Proposals from './Proposals.vue';
+import Summary from './Summary.vue';
 
 @Component({
   components: {
     Democracy,
     Referendums,
-    Proposals,
+		Proposals,
+		Summary,
   },
 })
 export default class DemocracyWrapper extends Vue {
