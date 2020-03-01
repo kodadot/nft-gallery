@@ -34,6 +34,7 @@
           Preimage
         </b-button>
       </div>
+			<SecondModal />
       <Seconds :accounts="proposal.seconds" />
     </div>
     <div v-if="isArgsVisible">
@@ -56,17 +57,19 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import Seconds from './Seconds.vue';
+import SecondModal from '@/components/shared/modals/Second.vue';
 
 @Component({
   components: {
     Argurments,
-    Seconds,
+		Seconds,
+		SecondModal,
   },
 })
 export default class Proposal extends Vue {
   @Prop() public proposal: any;
 
-  private isArgsVisible: boolean = true;
+  private isArgsVisible: boolean = false;
 
   public toggleArgsVisible() {
     this.isArgsVisible = !this.isArgsVisible;

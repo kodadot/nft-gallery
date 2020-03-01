@@ -1,10 +1,23 @@
 <template>
   <div>
-    <button class="button is-primary" @click="isModalActive = true">
+    <b-button
+      class="button is-primary"
+      :icon-left="icon"
+      @click="isModalActive = true"
+    >
       {{ label }}
-    </button>
+    </b-button>
     <b-modal :active.sync="isModalActive">
-      <slot></slot>
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            {{ label }}
+          </p>
+        </header>
+        <div class="card-content">
+          <slot></slot>
+        </div>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -16,6 +29,7 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export default class ModalWrapper extends Vue {
 
   @Prop() public label!: string;
+  @Prop() public icon!: string;
   private isModalActive: boolean = false;
 
 }
