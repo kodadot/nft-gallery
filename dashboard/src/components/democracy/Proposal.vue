@@ -34,7 +34,7 @@
           Preimage
         </b-button>
       </div>
-			<SecondModal />
+			<SecondModal :referendumId="proposal.index" />
       <Seconds :accounts="proposal.seconds" />
     </div>
     <div v-if="isArgsVisible">

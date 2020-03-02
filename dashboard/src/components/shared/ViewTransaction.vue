@@ -1,6 +1,6 @@
 <template>
   <a :href="explorer + tx">
-    <b-button type="is-text">View Transaction on PolkaScan</b-button>
+    <b-button type="is-text">View Transaction on PolkaScan {{ tx }}</b-button>
   </a>
 </template>
 
