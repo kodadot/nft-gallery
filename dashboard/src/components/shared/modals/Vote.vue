@@ -34,7 +34,7 @@ import Conviction from '@/components/democracy/Conviction.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
-import ViewTransaction from '../ViewTransaction.vue'
+import ViewTransaction from '../ViewTransaction.vue';
 
 
 @Component({
@@ -57,10 +57,6 @@ export default class Vote extends Vue {
 		aye: null,
 		conviction: null,
 	};
-
-	private isVoteEmpty() {
-		return !this.vote.aye || this.vote.conviction === null
-	}
 
   public handleAccountSelection(account: KeyringPair) {
 		this.account = account;
@@ -89,6 +85,10 @@ export default class Vote extends Vue {
 			showNotification(e, notificationTypes.danger);
 		}
 
+	}
+
+	private isVoteEmpty() {
+		return !this.vote.aye || this.vote.conviction === null;
 	}
   
 }

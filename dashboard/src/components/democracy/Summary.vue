@@ -62,9 +62,10 @@ export default class Summary extends Vue {
 .summary-content {
 	display: flex;
 	justify-content: space-between;
+	flex-flow: wrap;
 }
 
 .summary-progressbar {
-	min-width: 20em;
+	flex-basis: 20em;
 }
 </style>

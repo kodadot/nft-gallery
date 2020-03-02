@@ -29,7 +29,7 @@ import Dropdown from '@/components/shared/Dropdown.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
-import ViewTransaction from '../ViewTransaction.vue'
+import ViewTransaction from '../ViewTransaction.vue';
 
 @Component({
 	components: {
@@ -75,7 +75,7 @@ export default class Second extends Vue {
 	}
 
 	public onAction() {
-		return () => window.open(this.explorer + this.tx, '_blank')
+		return () => window.open(this.explorer + this.tx, '_blank');
 	}
   
 }

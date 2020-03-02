@@ -636,7 +636,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.3":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4":
   version "7.8.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.4.tgz#d79f5a2040f7caa24d53e563aad49cbc05581308"
   integrity sha512-neAp3zt80trRVBI1x0azq6c57aNBqYZH8KhMm3TaB7wEI5Q4A2SHfBHE8w9gOhI/lrqxtEbXZgQIrHP+wvSGwQ==
@@ -856,6 +856,14 @@
     "@types/color" "^3.0.0"
     color "^3.1.2"
 
+"@polkadot/ui-shared@^0.51.1":
+  version "0.51.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-0.51.1.tgz#c746f7fe6d0db233cd1423dbe1e26d8ed1f981b4"
+  integrity sha512-MoLjQX727BVkDdvsn8etEYRnhTOwk5w0A3pv3rY1zUvXUq+YXkbFz6uPUb5RriI/+ivYAkgR3H+lUyjE1Y0hmg==
+  dependencies:
+    "@babel/runtime" "^7.8.4"
+    color "^3.1.2"
+
 "@polkadot/util-crypto@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.2.1.tgz#a6129dc54f7da611ddd52bede4aa1918f8d19918"
@@ -889,6 +897,15 @@
     chalk "^3.0.0"
     ip-regex "^4.1.0"
     moment "^2.24.0"
+
+"@polkadot/vue-identicon@^0.51.1":
+  version "0.51.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/vue-identicon/-/vue-identicon-0.51.1.tgz#24961ed7d10887a6939057a24bc0162d3879007c"
+  integrity sha512-zudIK0u6bwOu2H3m2gA9HDqWGh3IBf5YYMK51YZVcjYNdjPiYOrG+q9W0TJQPgKKcvxLM2J5jYPwMEuCx5xBIg==
+  dependencies:
+    "@babel/runtime" "^7.8.4"
+    "@polkadot/ui-shared" "^0.51.1"
+    jdenticon "2.2.0"
 
 "@polkadot/wasm-crypto@^0.20.1":
   version "0.20.1"

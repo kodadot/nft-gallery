@@ -3,15 +3,18 @@
     <div class="card-content proposal-content">
       <div class="proposal-index">{{ proposal.index.toString() }}</div>
       <div class="proposal-proposer">
-        <div>Indenticon Here</div>
-        <div>{{ proposal.proposer.toString() }}</div>
+				<Identicon :value="proposal.proposer.toString()" />
+				<div>
+				<div><b>Address: </b></div>
+        <div>{{ address }}</div>
+				</div>
       </div>
       <div class="proposal-balance">
         <div><b>Locked: </b></div>
         <div>{{ proposal.balance }}</div>
       </div>
       <div
-        class="proposal-proposal"
+        class="proposal-proposal proposal-magic"
         @click="toggleArgsVisible"
         v-if="proposal.proposal"
       >
@@ -29,13 +32,15 @@
           {{ doc }}
         </div>
       </div>
-      <div v-else>
+      <div v-else class="proposal-magic">
         <b-button type="is-dark" icon-left="plus" disabled>
           Preimage
         </b-button>
       </div>
+			<div class="proposal-buttons">
 			<SecondModal :referendumId="proposal.index" />
       <Seconds :accounts="proposal.seconds" />
+			</div>
     </div>
     <div v-if="isArgsVisible">
       <Argurments
@@ -58,18 +63,25 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import Seconds from './Seconds.vue';
 import SecondModal from '@/components/shared/modals/Second.vue';
+import Identicon from '@polkadot/vue-identicon';
+import shortAddress from '@/utils/shortAddress';
 
 @Component({
   components: {
     Argurments,
 		Seconds,
 		SecondModal,
+		Identicon,
   },
 })
 export default class Proposal extends Vue {
   @Prop() public proposal: any;
 
   private isArgsVisible: boolean = false;
+
+	get address() {
+		return shortAddress(this.proposal.proposer.toString());
+	}
 
   public toggleArgsVisible() {
     this.isArgsVisible = !this.isArgsVisible;
@@ -100,6 +112,9 @@ export default class Proposal extends Vue {
 .proposal-proposer {
   overflow: hidden;
   text-overflow: ellipsis;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
 }
 
 .proposal-proposal {
@@ -112,5 +127,13 @@ export default class Proposal extends Vue {
 
 .proposal-hash {
   margin-top: 1em;
+}
+
+.proposal-buttons {
+	display: flex;
+}
+
+.proposal-magic {
+	flex-basis: 32em;
 }
 </style>

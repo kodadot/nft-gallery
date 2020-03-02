@@ -110,6 +110,7 @@ export default class Referendum extends Vue {
     display: flex;
     flex-grow: 1;
 		flex-flow: row wrap;
+		justify-content: space-evenly;
 }
 
 .proposal-meta div {
