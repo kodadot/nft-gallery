@@ -1,23 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import FourZeroFour from './components/FourZeroFour.vue';
-import Accounts from './components/accounts/Accounts.vue';
-import Addressbook from './components/addressbook/Addressbook.vue';
-import Transfer from './components/transfer/Transfer.vue';
-import Democracy from './components/democracy/Democracy.vue';
 Vue.use(Router);
+import { apiEnabled } from './routeGuard';
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Accounts,
+      component: () => import('./components/accounts/Accounts.vue'),
     },
     {
       path: '/accounts',
       name: 'accounts',
-      component: Accounts,
+      component: () => import('./components/accounts/Accounts.vue'),
     },
     {
       path: '/accounts/create',
@@ -42,7 +38,7 @@ export default new Router({
     {
       path: '/addressbook',
       name: 'addressbook',
-      component: Addressbook,
+      component: () => import('./components/addressbook/Addressbook.vue'),
     },
     {
       path: '/addressbook/create',
@@ -52,47 +48,54 @@ export default new Router({
     {
       path: '/transfer',
       name: 'transfer',
-      component: Transfer,
-    },
+      component: () => import('./components/transfer/Transfer.vue'),
+		},
+		{
+			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
+			name: 'transferSignSubmit',
+			component: () => import('./components/transfer/Transfer.vue'),
+		},
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
-      component: Transfer,
+      component: () => import('./components/transfer/Transfer.vue'),
     },
     {
       path: '/transfer/to/:to',
       name: 'transferTo',
-      component: Transfer,
+      component: () => import('./components/transfer/Transfer.vue'),
     },
     {
       path: '/democracy',
       name: 'democracy',
-      component: Democracy,
+      component: () => import('./components/democracy/DemocracyWrapper.vue'),
+      beforeEnter: apiEnabled,
     },
     {
-      path: '*',
-      name: 'FourZeroFour',
-      component: FourZeroFour,
-    },
-    {
-      path: '/settings',
+			path: '/settings',
       name: 'settings',
       component: () => import('./views/Settings.vue'),
     },
     {
-      path: '/explorer',
+			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
-      path: '/explorer/:tab',
+			path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
     },
     {
-      path: '/extrinsics',
+			path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
+      beforeEnter: apiEnabled,
     },
+		{
+			path: '*',
+			name: 'FourZeroFour',
+			component: () => import('./components/FourZeroFour.vue'),
+		},
   ],
 });

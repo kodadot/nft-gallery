@@ -7,11 +7,11 @@
       <img
         class="is-rounded"
         src="../assets/vue-polkadot.png"
-        alt="Lightweight UI components for Vue.js based on Bulma"
+        alt="vue-polkadot.js.org dashboard for Polkadot/Substrate chains"
       />
     </figure>
     <b-menu>
-      <b-menu-list v-if="!isSidebarClosed">
+      <b-menu-list v-if="!isSidebarClosed" label="apiUrl" icon-pack="fa">
         <b-menu-item
           class="menu-item"
           v-for="row in sidebar"
@@ -21,78 +21,122 @@
           :label="row.name"
           :tag="row.tag"
           :to="row.to"
-          :disabled="row.disabled"
+        ></b-menu-item>
+				<b-menu-item 
+          class="menu-item"
+          v-for="row in externalLinks"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
+					:label="row.name"
+          :href="row.href"
         ></b-menu-item>
       </b-menu-list>
       <b-menu-list v-if="isSidebarClosed">
-        <b-menu-item
+        <b-menu-item 
+          class="menu-item"
           v-for="row in sidebar"
           v-bind:key="row.name"
           @click="currentRow = row"
           :icon="row.icon"
           :tag="row.tag"
           :to="row.to"
-          :disabled="row.disabled"
+        ></b-menu-item>
+				<b-menu-item 
+          class="menu-item"
+          v-for="row in externalLinks"
+          v-bind:key="row.name"
+          @click="currentRow = row"
+          :icon="row.icon"
+          :href="row.href"
         ></b-menu-item>
       </b-menu-list>
     </b-menu>
-    <b-button v-if="!isSidebarClosed" icon-left="angle-double-left" @click="toggleSidebar" rounded></b-button>
-    <b-button v-if="isSidebarClosed" icon-left="angle-double-right" @click="toggleSidebar" rounded></b-button>
+    <b-switch v-if="!isSidebarClosed" v-model="showVerbose" 
+      class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
+    <SettingInfo v-if="!isSidebarClosed && showVerbose" />
+
+    <div class="toggleSidebar">
+      <b-button class="closeSideBarBtn" v-if="!isSidebarClosed" 
+        icon-left="angle-double-left" @click="toggleSidebar" rounded>
+      </b-button>
+      <b-button v-if="isSidebarClosed" icon-left="angle-double-right" 
+        @click="toggleSidebar" rounded>
+      </b-button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import SettingInfo from '@/components/shared/SettingInfo.vue';
 
-@Component({})
+@Component({
+  components: {
+    SettingInfo,
+  },
+})
 export default class SidebarMenu extends Vue {
   public sidebar: any = [
     {
-      name: 'accounts',
-      icon: 'users',
-      to: '/accounts',
-      tag: 'router-link',
-    },
-    {
-      name: 'address book',
-      icon: 'address-book',
-      to: '/addressbook',
-      tag: 'router-link',
-    },
-    {
-      name: 'transfer',
-      icon: 'paper-plane',
-      to: '/transfer',
-      tag: 'router-link',
-    },
-    {
-      name: 'explorer',
+      name: 'Explorer',
       icon: 'dice-d20',
-      to: '/explorer',
+      to: { name: 'explorer' },
       tag: 'router-link',
     },
     {
-      name: 'democracy',
+      name: 'Accounts',
+      icon: 'users',
+			to: { name: 'accounts'},
+      tag: 'router-link',
+    },
+    {
+      name: 'Address book',
+      icon: 'address-book',
+      to: { name: 'addressbook' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Transfer',
+      icon: 'paper-plane',
+      to: { name: 'transfer' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Democracy',
       icon: 'calendar-check',
-      to: '/democracy',
+      to: { name: 'democracy' },
       tag: 'router-link',
     },
     {
-      name: 'extrinsics',
+      name: 'Extrinsics',
       icon: 'sync',
-      to: '/extrinsics',
+      to: { name: 'extrinsics' },
       tag: 'router-link',
     },
     {
-      name: 'settings',
+      name: 'Settings',
       icon: 'cogs',
-      to: '/settings',
+      to: { name: 'settings' },
       tag: 'router-link',
     },
-  ];
+	];
+	public externalLinks: any = [
+		{
+      name: 'Github',
+			icon: 'code-branch',
+			href: 'https://github.com/vue-polkadot/apps',
+    },
+    {
+      name: 'Wiki',
+			icon: 'book',
+			href: 'https://wiki.polkadot.network/',
+		},
+	];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
-
+  public showVerbose = false;
+  public isActive = true;
   get hasBasicMode() {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
@@ -112,6 +156,7 @@ export default class SidebarMenu extends Vue {
 }
 .happy-menu {
   background-color: #000000bd;
+  min-height: 100%;
 }
 
 .menu-button {
@@ -128,5 +173,18 @@ export default class SidebarMenu extends Vue {
 
 .menu-item > a > span + span {
   vertical-align: super;
+  padding-left: 0.5rem;
+}
+.closeSideBarBtn {
+  margin-top: 0.7rem;
+}
+.switchVerbose {
+  margin-top: 0.7rem;
+}
+.toggleSidebar {
+  bottom: 10px;
+  left: 15px;
+  position: absolute;
+  width: 100%;
 }
 </style>

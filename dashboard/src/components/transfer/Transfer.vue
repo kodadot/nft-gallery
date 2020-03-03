@@ -1,69 +1,59 @@
 <template>
   <div id="transfer">
-    <b-field>
+    <b-field v-if="conn.blockNumber">
       Recent block #{{conn.blockNumber}}
     </b-field>
-    <TxSelect
-      label="send from account"
-      placeholder="Select a sender"
-      :address.sync="transfer.from"
-      :theme="theme"
-      :keyringAccounts="keyringAccounts"
-      :balance="transfer.fromBalance"
-    />
-    <TxSelect
-      label="send to address"
-      placeholder="Select destination"
-      :address.sync="transfer.to"
-      :theme="theme"
-      :keyringAccounts="keyringAccounts"
-      :balance="transfer.toBalance"
-    />
-    <b-field label="amount">
-      <b-input v-model="transfer.amountVisible"
-      type="number">
-      </b-input>
-      <p class="control">
-        <b-select v-model="unitsSelected">
-          <option v-for="u in units"
-            v-bind:key="u.name"
-            v-bind:value="u.value">
-            {{u.name}}
-          </option>
-        </b-select>
-      </p>
-    </b-field>
-    <b-field label="put magic spell here - password">
+		<b-field v-else>
+			<p class="has-text-danger">You are not connected, 
+				<router-link :to="{ name: 'settings' }">
+				go to settings and pick node</router-link>
+			</p>
+		</b-field>
+    <Dropdown mode='accounts'
+			@selected="handleAccountSelection" />
+    <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
+		<Dropdown
+			@selected="handleAccountSelection" />
+    <!-- <Selection @selected="handleAccountSelection" /> -->
+    <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
+    <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
+    <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
-    <b-button 
-      type="is-dark" 
-      icon-left="paper-plane"
-      @click="shipIt"
-      outlined>
-      Make Transfer
-    </b-button>
-    <br>
-    <a :href="explorer+tx">
-      <b-button 
-      icon-left="binoculars"
-      type='is-dark' outlined>
-        View on PolkaScan {{tx.slice(0,20)}}
+      <div class="transaction buttons">
+      <!-- <b-button type="is-danger" outlined disabled>Submit unsigned</b-button> -->
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        outlined
+        :disabled="!account || !password"
+        @click="shipIt">
+				Make Transfer
       </b-button>
-    </a>
+      <b-button v-if="tx" tag="a" :href="explorer + tx">
+        View on PolkaScan 👀 {{ tx.slice(0, 20) }}
+      </b-button>
+    </div>
   </div>  
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
-import TxSelect from './TxSelect.vue';
+import Selection from '@/components/extrinsics/Selection.vue';
+import Balance from '@/params/components/Balance.vue';
+import Account from '@/params/components/Account.vue';
+import { KeyringPair } from '@polkadot/keyring/types';
+import Dropdown from '@/components/shared/Dropdown.vue';
 
 @Component({
   components: {
     Identicon,
-    TxSelect,
+    Selection,
+    Balance,
+    Account,
+    Dropdown,
   },
 })
 export default class Transfer extends Vue {
@@ -78,16 +68,27 @@ export default class Transfer extends Vue {
     toBalance: null,
     amountVisible: null,
     amount: null };
-  public unitsSelected: any = 1e-3;
-  public units: any = [
-    {name: 'femto', value: 1e-15}, {name: 'pico', value: 1e-12}, {name: 'nano', value: 1e-9},
-    {name: 'micro', value: 1e-6}, {name: 'mili', value: 1e-3}, {name: 'DOT', value: 1},
-    {name: 'Kilo', value: 1e3}, {name: 'Mega', value: 1e6}, {name: 'Giga', value: 1e9},
-    {name: 'Tera', value: 1e12}, {name: 'Peta', value: 1e15}, {name: 'Exa', value: 1e18},
-    {name: 'Zeta', value: 1e21}, {name: 'Yotta', value: 1e24},
-  ];
   public keyringAccounts: any = [];
   public conn: any = { blockNumber: '', chain: '', nodeName: '', nodeVersion: '', header: {}};
+  private to = '';
+  private balance = 0;
+  private account: any = null;
+
+  private snackbarTypes = {
+    success: {
+      type: 'is-success',
+      actionText: 'View',
+      onAction: () => window.open(this.explorer + this.tx, '_blank'),
+    },
+    info: {
+      type: 'is-info',
+      actionText: 'OK',
+    },
+    danger: {
+      type: 'is-danger',
+      actionText: 'Oh no!',
+    },
+  };
 
   @Watch('transfer.from')
   @Watch('transfer.to')
@@ -108,16 +109,23 @@ export default class Transfer extends Vue {
     if ((this as any).$http.api) {
       const apiResponse = await (this as any).$http.api.rpc.system.chain();
       this.conn.chainName = await apiResponse.toString();
-      const transfer =
-        await (this as any).$http.api.tx.balances.transfer(this.transfer.to,
-          this.transfer.amountVisible * this.unitsSelected);
-      const nonce = await (this as any).$http.api.query.system.accountNonce(this.transfer.from);
-      const alicePair = keyring.getPair(this.transfer.from);
-      alicePair.decodePkcs8(this.password);
-      console.log(await nonce.toString());
-      const hash = await transfer.signAndSend(alicePair);
-      console.log('tx', hash.toHex());
-      this.tx = hash.toHex();
+      try {
+        this.showNotification('Dispatched');
+        const transfer =
+        await (this as any).$http.api.tx.balances.transfer(this.to,
+          this.balance);
+        const nonce =
+        await (this as any).$http.api.query.system.accountNonce(this.account.address);
+        const alicePair = keyring.getPair(this.account.address);
+        alicePair.decodePkcs8(this.password);
+        console.log(await nonce.toString());
+        const hash = await transfer.signAndSend(alicePair);
+        this.showNotification(hash.toHex(), this.snackbarTypes.success);
+        console.log('tx', hash.toHex());
+        this.tx = hash.toHex();
+      } catch (e) {
+        this.showNotification(e, this.snackbarTypes.danger);
+      }
     }
   }
 
@@ -141,7 +149,19 @@ export default class Transfer extends Vue {
     if ((this as any).$http.api) {
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
       this.conn.blockNumber = await apiBestNumber.toString();
+      // const apiVersion = await (this as any).$http.api.consts.balances;
+      // console.log(await apiVersion);
     }
+  }
+
+  public handleAccountSelection(account: KeyringPair) {
+    this.account = account;
+  }
+
+  public handleValue(value: any) {
+    Object.keys(value).map((item) => {
+      (this as any)[item] = value[item];
+    });
   }
 
   public externalURI() {
@@ -159,5 +179,28 @@ export default class Transfer extends Vue {
     this.loadExternalInfo();
     this.externalURI();
   }
+
+  private showNotification(message: string | null, params = this.snackbarTypes.info) {
+    this.$buefy.snackbar.open({
+      duration: 5000,
+      message: `${this.account.address} -> ${this.to}<br>${message}`,
+      type: 'is-success',
+      position: 'is-top-right',
+      actionText: 'OK',
+      queue: false,
+      ...params,
+    });
+  }
 }
 </script>
+
+<style scoped>
+.transaction.buttons {
+  margin-top: 1em;
+  float: right;
+}
+
+.password-wrapper {
+  margin-top: 1em;
+}
+</style>

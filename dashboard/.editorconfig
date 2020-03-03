@@ -1,0 +1,26 @@
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{js,py}]
+charset = utf-8
+
+# Indentation override for all JS
+[**.js]
+indent_style = tab
+indent_size = 2
+
+# Indentation override for all VUE
+[**.vue]
+indent_style = tab
+indent_size = 2
+
+# Indentation override for all TS
+[**.ts]
+indent_style = tab
+indent_size = 2

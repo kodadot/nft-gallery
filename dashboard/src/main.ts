@@ -8,10 +8,12 @@ import { faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+  faBinoculars, faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
+  faFile, faBook, faCodeBranch, faSearch, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+// import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
-import keyring from '@vue-polkadot/vue-keyring';
+// import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
 import store from './store';
@@ -24,9 +26,10 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes );
+  faBinoculars, faPlus, faTimes, faCaretDown, faCaretUp,
+  faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle );
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('vue-fontawesome', FontAwesomeIcon);
 
 // later will be removed
 // keyring.loadAll({
@@ -35,17 +38,20 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 //   isDevelopment: true,
 // });
 
-// Connector.createInstance();
-Vue.prototype.$http = Connector.getInstance();
+console.log('here', store.state.setting.apiUrl);
+(window as any).C = Connector; 
+Connector.createInstance(store.state.setting.apiUrl);
+Vue.prototype.$http = Connector.getInstance(); 
+
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
-  defaultIconComponent: 'font-awesome-icon',
+  defaultIconComponent: 'vue-fontawesome',
   defaultFieldLabelPosition: 'inside',
   customIconPacks: {
     fas: {
       sizes: {
-        'default': 'lg',
+        'default': null,
         'is-small': '1x',
         'is-medium': '2x',
         'is-large': '3x',

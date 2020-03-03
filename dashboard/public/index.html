@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>Dashboard</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>Polkadot/Substrate Portal - VueJs</title>
     <style>
       html,
       body,
@@ -15,13 +15,48 @@
         margin: 0;
         width: 100%;
       }
+
+      .preloader-container {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-color: #fefefe;
+        z-index: 1001;
+        font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      }
+
+      .preloader {
+        display: block;
+        margin: calc((100vh / 2) - (90px / 2)) 3em;
+      }
+
+      .preloader::after {
+        content: ' _';
+        animation: blink 0.3s infinite;
+      }
+
+      @keyframes blink {
+        from {
+          color: black;
+        }
+        to {
+          color: #fefefe;
+        }
+      }
     </style>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but dashboard doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but dashboard doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="preloader-container">
+        <h1 class="preloader">$ Loading Dashboard</h1>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

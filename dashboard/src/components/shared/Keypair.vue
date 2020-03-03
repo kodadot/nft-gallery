@@ -1,33 +1,47 @@
 <template>
-  <div id="Keypair">
-      <div>
+  <div id="Keypair" class="keypair-card__wrapper card">
+      <div class="card-content">
         <b-field grouped multiline>
-          <Identicon
+          <!-- <Identicon
             :value="address"
             :theme="theme"
-            :size="size" />
-          {{meta.name}}
-            {{shortAddress(address)}}
-              <b-button
-              size="is-small" 
-              icon-left="copy" 
-              v-clipboard:copy="address"
-              @click="toast('Address copied to clipboard')">
-              </b-button>
-            {{shortAddress(publicKey)}}  
-            type {{type}}
-            <p v-if="meta.tags">
-            <b-tag 
-              v-for="t in meta.tags"
-              v-bind:key="t"
-              >{{t}}
-            </b-tag>
-            <b-tag type="is-light" 
-              v-if="meta.isTesting">testing account
-            </b-tag>
-            </p>
-            transactions {{nonce}}
-            available {{balanceAvailable}}
+            :size="size" /> -->
+            <div class="keypair-info__wrapper">
+          <div v-if="!isEditingName" @click="editName()">{{meta.name}}</div>
+          <b-input v-if="isEditingName" v-model="newName" @blur="saveName()">
+          </b-input> 
+          <div>{{shortAddress(address)}}
+            <b-button
+            size="is-small" 
+            icon-left="copy" 
+            v-clipboard:copy="address"
+            @click="toast('Address copied to clipboard')">
+            </b-button>
+            </div>
+          <div>{{shortAddress(publicKey)}}</div>
+          <div v-if="mode === 'accounts'">type {{type}}</div>
+          <p v-if="!meta.tags && !isEditingTags 
+            || meta.tags === null && !isEditingTags
+            || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
+            @click="editTags()">add tags</p>
+          <b-input v-if="isEditingTags" 
+            v-model="newTags" 
+            @blur="saveTags()" 
+            @keyup.native.enter="$event.target.blur()">
+          </b-input>
+          <p @click="editTags()" v-if="!isEditingTags && meta.tags">
+          <b-tag
+            v-for="t in meta.tags"
+            v-bind:key="t">
+            {{t}}
+          </b-tag>
+          <b-tag type="is-light" 
+            v-if="meta.isTesting">testing account
+          </b-tag>
+          </p>
+          <div>transactions {{nonce}}</div>
+          <div>available {{balanceAvailable}}</div>
+          </div>
         </b-field>
       </div>
       <div>
@@ -69,28 +83,77 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
+// import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 
 @Component({
   components: {
-    Identicon,
+    // Identicon,
   },
 })
 export default class Keypair extends Vue {
   public nonce: number = 0;
   public balanceAvailable: number = 0;
   public explorer: string = 'https://polkascan.io/pre/alexander/account/';
-
+  public isEditingName: boolean = false;
+  public isEditingTags: boolean = false;
+  public newName: string = '';
+  public newTags: any = null;
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
   @Prop(String) public address!: string;
-  @Prop({ default: 'no-meta'}) public meta!: string;
+  @Prop({ default: null}) public meta!: any;
   @Prop({ default: 'polkadot'}) public theme!: string;
   @Prop({ default: 64 }) public size!: number;
   // temporary prop
   @Prop(String) public password!: string;
+
+  public editName(): void {
+    this.isEditingName = true;
+    this.newName = this.meta.name;
+  }
+
+  public editTags(): void {
+    this.isEditingTags = true;
+
+    if (this.meta.tags && this.meta.tags.length === 0) {
+      this.newTags = [];
+    }
+
+    if (this.meta.tags !== null) {
+      this.newTags = this.meta.tags.join(', ');
+    }
+  }
+
+  @Emit()
+  public saveName(): void {
+    const meta = { name: this.newName, whenEdited: Date.now() };
+
+    const currentKeyring = keyring.getPair(this.address);
+    keyring.saveAccountMeta(currentKeyring, meta);
+    this.isEditingName = false;
+  }
+
+  @Emit()
+  public saveTags(): void {
+    if (this.newTags !== null) {
+      this.newTags = this.newTags.split(',')
+      .map((item: string) => item.trim())
+      .filter((item: string) => item);
+    }
+
+    if (this.newTags && this.newTags.length === 0) {
+      this.newTags = [];
+    }
+
+    const meta = { tags: this.newTags,
+      whenEdited: Date.now() };
+
+    const currentKeyring = keyring.getPair(this.address);
+    keyring.saveAccountMeta(currentKeyring, meta);
+    this.isEditingTags = false;
+  }
 
   @Emit()
   public forgetAccount(address: string): void {
@@ -122,3 +185,14 @@ export default class Keypair extends Vue {
   }
 }
 </script>
+
+<style scoped>
+  .keypair-card__wrapper {
+    margin-bottom: 1em;
+  }
+
+  .keypair-info__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

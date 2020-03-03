@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { waitReady } from '@polkadot/wasm-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';
 
@@ -12,10 +12,10 @@ export default class WithKeyring extends Vue {
   protected keys: any = '';
 
   public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
-    console.log('wasmCrypto loaded');
+    await cryptoWaitReady();
+    console.log('wasmCrypto loadedX');
     this.loadKeyring();
-    console.log('keyring init');
+    console.log('keyring initX');
   }
 
   public loadKeyring(): void {
@@ -31,6 +31,10 @@ export default class WithKeyring extends Vue {
   public mounted(): void {
     this.mountWasmCrypto();
 
+  }
+
+  public getPair(address: string): KeyringPair {
+    return keyring.getPair(address);
   }
 
   public vueU8aToHex(publicKey: Uint8Array): string {

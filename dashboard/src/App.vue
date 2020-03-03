@@ -8,12 +8,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { waitReady } from '@polkadot/wasm-crypto';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
-import Connector from '@vue-polkadot/vue-api';
-import { log } from 'util';
 
 @Component({
   components: {
@@ -30,7 +28,7 @@ export default class Dashboard extends Vue {
   }
 
   public async mountWasmCrypto(): Promise<void> {
-    await waitReady();
+    await cryptoWaitReady();
     console.log('wasmCrypto loaded');
     this.loadKeyring();
     console.log('keyring init');
@@ -40,14 +38,6 @@ export default class Dashboard extends Vue {
 
   public mounted(): void {
     this.mountWasmCrypto();
-    this.connectApi();
-  }
-
-  private connectApi(): void {
-    console.log((this as any).$http);
-    if ((this as any).$http) {
-      (this as any).$http.changeApiUrl(this.$store.getters.getSettings.apiUrl);
-    }
   }
 }
 </script>
@@ -55,6 +45,7 @@ export default class Dashboard extends Vue {
 <style>
 #routerview {
   padding: 1em;
+  min-height: inherit;
 }
 
 .friendly-view {
@@ -71,11 +62,13 @@ export default class Dashboard extends Vue {
 }
 
 .friendly-view {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .column.router-view {
-  padding: 0;
+  background-color: rgb(252, 252, 252);
+  overflow-y: scroll;
+  padding: 0; 
 }
 
 @media screen and (max-width: 992px) {

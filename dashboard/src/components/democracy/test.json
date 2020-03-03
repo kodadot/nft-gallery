@@ -1,0 +1,21 @@
+{
+  "balance": 10000000000000,
+  "hash": "0x90a1b2f648fc4eaff4f236b9af9ead77c89ecac953225c5fafb069d27b7131b7",
+  "index": 9,
+  "preimage": {
+    "at": 844839,
+    "balance": 3400000000,
+    "proposer": "CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp"
+  },
+  "proposal": {
+    "callIndex": "0x1900",
+    "args": { "account": "E4x8NJPyoNsx1EAgoUKGo1a8FcZpw6Y2XZKNQuqAuZUqjjA" }
+  },
+  "proposer": "CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp",
+  "seconds": [
+    "CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp",
+    "GcBoDaTtuWx88sL1th8BPWjoAdjiVzwMvv7ojbbJvEzP6uJ",
+    "H9eSvWe34vQDJAWckeTHWSqSChRat8bgKHG39GC1fjvEm7y",
+    "CmD9vaMYoiKe7HiFnfkftwvhKbxN9bhyjcDrfFRGbifJEG8"
+  ]
+}

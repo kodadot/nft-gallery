@@ -9,12 +9,13 @@
     ]
   },
   "rules": {
-    "indent": [true, "spaces", 2],
+    "indent": [true, "tab", 1],
     "interface-name": false,
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "quotemark": [true, "single"],
-    "no-console": false
+    "no-console": false,
+    "no-trailing-whitespace": false
   }
 }
