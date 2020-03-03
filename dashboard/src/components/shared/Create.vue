@@ -5,9 +5,8 @@
         <b-field grouped>
           <b-field>
             <Identicon 
-              :value="newAccount.address"
-              :theme="theme"
-              size="64" />
+              :value="newAccount.address.toString()"
+             />
           </b-field>
           <b-field>
             {{newAccount.name.toUpperCase()}}<br>
@@ -120,7 +119,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
-import Identicon from '@vue-polkadot/vue-identicon';
+import Identicon from '@polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 import { isHex, u8aToHex } from '@polkadot/util';
