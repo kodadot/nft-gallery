@@ -1064,11 +1064,6 @@
     vue-property-decorator "^8.1.0"
     vue-styled-components "^1.4.9"
 
-"@vue-polkadot/vue-settings@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.10.tgz#22aaa9f502f0d20f99a55d2e3df4d4c7653180d5"
-  integrity sha512-9PsOaPW59V5Ka2aEf1lXKsKRIGKh6OjaFbInSZJYkBJGQYtqhMD8f8yiFNi7HzfQHtHL0ZqCl/AZTi8E7Fw40A==
-
 "@vue-polkadot/vue-settings@0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.11.tgz#97ae211e6f1055c626acaded99658f72fc91c416"

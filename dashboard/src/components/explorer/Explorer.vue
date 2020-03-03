@@ -2,36 +2,28 @@
   <div id="explorer">
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
-        <b-field>
-          chain name - {{conn.chainName}}
-          last block {{nodeInfo.blockNumber}}
+        <b-field label="Chain">
+					<b-input :value="conn.chainName" disabled></b-input>
+        </b-field>
+				<b-field label="Last block">
+					<b-input :value="nodeInfo.blockNumber" disabled></b-input>
+        </b-field>
+					
+          <!-- Chain name - {{conn.chainName}}
+          last block {{nodeInfo.blockNumber}} -->
           <!-- target -> 6s -->
-          total issuance {{nodeInfo.totalIssuance}}
-          session 
+          <!-- total issuance {{nodeInfo.totalIssuance}} -->
+          <!-- session  -->
           <!-- {{nodeInfo.session.length}} /  -->
           <!-- {{nodeInfo.sessionLength}} -->
           <!-- era {{nodeInfo.sessionsPerEra}} -->
-          finalized {{nodeInfo.finalized}}
+          <!-- finalized {{nodeInfo.finalized}} -->
         </b-field>
-        best<br>
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-        <p>BlockNumber {{nodeInfo.blockNumber}}</p>
-        
-        <p><h1>Extrinsics</h1></p>
-        <Card nature='timestamp.set (#0)'
-          natureDesc="Set the current time. This call should be invoked exactly once per block. It will panic at the finalization phase, if this call hasn't been invoked by that time. The timestamp should be greater than the previous one by the amount specified by `MinimumPeriod`. The dispatch origin for this call must be `Inherent`."
-          type="1581518316000"
-          extrinsicHash="0x00781baf5287f2bc103dc76ced4ef768516730881afcd5e39605827afd868b88"
-          lifetime="lifetime"
-        />
-        <!-- parentHash -><br>
-        extrinsicsRoot -><br>
-        StateRoot -><br>
-        [extrinsics]<br>
-        [events]<br>
-        [logs]<br> -->
+				<BlockDetails :chainName="conn.chainName"
+					:lastBlock="nodeInfo.blockNumber" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
         total peers {{nodeInfo.health.peers}}<br>
@@ -56,10 +48,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Card from '../shared/Card.vue';
+import BlockDetails from './BlockDetails.vue';
 
 @Component({
   components: {
-    Card,
+		Card,
+		BlockDetails,
   },
 })
 export default class Explorer extends Vue {
@@ -74,14 +68,14 @@ export default class Explorer extends Vue {
   };
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
-  @Watch('nodeInfo.peers')
-  public async sortBestPeerBlock() {
-    // console.log(this.nodeInfo.peers.length);
-    if (this.nodeInfo.peers.length) {
-      this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
-      this.bestPeerBlock = this.bestPeer.bestNumber;
-    }
-  }
+  // @Watch('nodeInfo.peers')
+  // public async sortBestPeerBlock() {
+  //   // console.log(this.nodeInfo.peers.length);
+  //   if (this.nodeInfo.peers.length) {
+  //     this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
+  //     this.bestPeerBlock = this.bestPeer.bestNumber;
+  //   }
+  // }
 
   // @Watch('activeTab')
   // public async updateLocation() {
