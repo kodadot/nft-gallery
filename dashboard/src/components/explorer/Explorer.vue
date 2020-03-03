@@ -26,15 +26,11 @@
 					:lastBlock="nodeInfo.blockNumber" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
-        total peers {{nodeInfo.health.peers}}<br>
-        syncing {{nodeInfo.health.isSyncing}}<br>
-        our best {{nodeInfo.blockNumber}}
-        peer best 
-        <p v-if="bestPeer"> {{bestPeer.bestNumber}}</p>
-        Queued tx {{nodeInfo.extrinsics.length}}
-        <!-- [[connected peers]] -->
-        <!-- should be separate component -->
-        <!-- <p>Peers {{nodeInfo.peers}}</p> -->
+        <NodeDetails :totalPeers="nodeInfo.health.peers"
+        :isSyncing="nodeInfo.health.isSyncing"
+        :ourBest="nodeInfo.blockNumber"
+
+         />
       </b-tab-item>
     </b-tabs>
     <!-- <p>Recent Block {{conn.header.number}}</p> -->
@@ -49,11 +45,13 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Card from '../shared/Card.vue';
 import BlockDetails from './BlockDetails.vue';
+import NodeDetails from './NodeDetails.vue';
 
 @Component({
   components: {
 		Card,
-		BlockDetails,
+    BlockDetails,
+    NodeDetails,
   },
 })
 export default class Explorer extends Vue {

@@ -1,7 +1,7 @@
 <template>
   <div id="Card">
     <section>
-        <b-collapse class="card" aria-id="contentIdForA11y3">
+        <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
             <div
                 slot="trigger" 
                 slot-scope="props"
@@ -39,6 +39,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 
 @Component
 export default class Card extends Vue {
+  @Prop({ default: false}) public open!: boolean;
   @Prop(String) public nature!: string;
   @Prop(String) public natureDesc!: string;
   @Prop(String) public type!: string;

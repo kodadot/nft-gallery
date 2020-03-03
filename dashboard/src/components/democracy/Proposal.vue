@@ -63,7 +63,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import Seconds from './Seconds.vue';
 import SecondModal from '@/components/shared/modals/Second.vue';
-import Identicon from '@polkadot/vue-identicon';
+import Identicon from '@vue-polkadot/vue-identicon';
 import shortAddress from '@/utils/shortAddress';
 
 @Component({
