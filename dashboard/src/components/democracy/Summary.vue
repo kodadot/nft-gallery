@@ -51,8 +51,6 @@ export default class Summary extends Vue {
     this.referendumCount = await api.query.democracy.referendumCount();
     this.launchPeriod = api.consts.democracy.launchPeriod.toNumber();
     this.actualReferendums = this.referendumCount && this.nextActive ? this.referendumCount.sub(this.nextActive) : ZERO;
-
-    console.log(this.bestNumber);
   }
 
   public beforeDestroy() {

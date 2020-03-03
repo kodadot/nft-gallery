@@ -14,7 +14,7 @@ const defaultState = {
 const referendumState = async (index: number) => {
 	if (Connector.getInstance()) {
 		const votesFor = await Connector.getInstance().api.derive.democracy.referendumVotesFor(index);
-		console.log('referendumState: votesFor', votesFor.length);
+		// console.log('referendumState: votesFor', votesFor.length);
 		const newState = votesFor.reduce((state: any, { balance, vote }: { balance: any, vote: any }) => {
 			const isDefault = vote.conviction.index === 0;
 			const counted = balance

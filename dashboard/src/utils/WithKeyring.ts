@@ -13,9 +13,9 @@ export default class WithKeyring extends Vue {
 
   public async mountWasmCrypto(): Promise<void> {
     await cryptoWaitReady();
-    console.log('wasmCrypto loadedX');
+    // console.log('wasmCrypto loadedX');
     this.loadKeyring();
-    console.log('keyring initX');
+    // console.log('keyring initX');
   }
 
   public loadKeyring(): void {

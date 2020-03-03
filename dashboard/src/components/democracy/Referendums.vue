@@ -16,8 +16,6 @@ import Referendum from './Referendum.vue';
 export default class Referendums extends Vue {
   private referendums: any[] = [];
 
-
-
   public mounted() {
     this.loadReferendas();
   }
@@ -25,14 +23,10 @@ export default class Referendums extends Vue {
   public async loadReferendas() {
     if ((this as any).$http.api) {
       const referendums = await (this as any).$http.api.derive.democracy.referendums();
-      console.log('referendas', referendums);
       this.referendums = referendums;
       
     }
-  }
-
-  
-  
+  }  
 
 }
 </script>
