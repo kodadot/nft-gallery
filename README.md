@@ -4,12 +4,12 @@ A Portal into the Polkadot and Substrate networks. Provides a view and interacti
 This repository will be reimplementing React components from https://github.com/polkadot-js/apps into Vue.js
 
 ### Stage one
-* Accounts (app-accounts)
-* Address book (app-address-book)
-* Democracy (app-democracy)
-* Extrinsics (app-extrinsics)
-* Transfer (app-transfer)
-* Settings (app-settings)
+* [Accounts](https://vue-polkadot.netlify.com/#/accounts) (app-accounts)
+* [Address book](https://vue-polkadot.netlify.com/#/addressbook) (app-address-book)
+* [Democracy](https://vue-polkadot.netlify.com/#/democracy) (app-democracy)
+* [Extrinsics](https://vue-polkadot.netlify.com/#/extrinsics) (app-extrinsics)
+* [Transfer](https://vue-polkadot.netlify.com/#/transfer) (app-transfer)
+* [Settings](https://vue-polkadot.netlify.com/#/settings) (app-settings)
 
 ### Stage two
 * Staking (app-staking)
@@ -18,3 +18,10 @@ This repository will be reimplementing React components from https://github.com/
 * Explorer (app-explorer)
 * ToolBox (app-toolbox)
 * Treasury (app-treasury)
+
+### Build
+
+```shell
+cd dashboard;yarn
+yarn serve
+```
