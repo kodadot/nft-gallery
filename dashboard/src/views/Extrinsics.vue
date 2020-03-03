@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-tabs>
+    <!-- <b-tabs>
       <b-tab-item label="Extrinsic submission"></b-tab-item>
-    </b-tabs>
-    <Selection @selected="handleAccountSelection" />
+    </b-tabs> -->
+    <Dropdown mode="accounts" @selected="handleAccountSelection" />
     <div class="executor-wrapper">
       <Executor
         :methods="sections"
@@ -30,10 +30,11 @@
       <b-button
         type="is-primary"
         icon-left="paper-plane"
+        outlined
         :disabled="!account || !password"
         @click="shipIt"
       >
-        Submit Transaction
+        Submit
       </b-button>
       <b-button v-if="tx" tag="a" :href="explorer + tx">
         View on PolkaScan 👀 {{ tx.slice(0, 20) }}
@@ -50,13 +51,15 @@ import { Prop, Vue, Component } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
 import InputFile from '../components/extrinsics/components/InputFile.vue';
 import keyring from '@vue-polkadot/vue-keyring';
+import Dropdown from '@/components/shared/Dropdown.vue';
 
 @Component({
   components: {
     Selection,
     Executor,
     Argurments,
-    InputFile,
+		InputFile,
+		Dropdown,
   },
 })
 export default class Extrinsics extends Vue {

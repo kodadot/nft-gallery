@@ -16,6 +16,7 @@
         <div><b>Aye ({{state.voteCountAye}}): </b><div>{{state.votedAye}} KSM</div></div>
         <div><b>Nay ({{state.voteCountNay}}): </b><div>{{state.votedNay}} KSM</div></div>
       </div>
+			<Vote :referendumId="referendum.index" />
     </div>
     <div v-if="isArgsVisible">
       <Argurments
@@ -36,17 +37,19 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import referendumState from './referendumState';
 import Connector from '@vue-polkadot/vue-api';
+import Vote from '@/components/shared/modals/Vote.vue';
 
 @Component({
   components: {
     Argurments,
+		Vote,
   },
 })
 export default class Referendum extends Vue {
   @Prop() public referendum: any;
 
 	private shouldRender: boolean = true;
-  private isArgsVisible: boolean = true;
+  private isArgsVisible: boolean = false;
 	private state: any = {};
 	private bestNumber: any = {};
 	private enactBlock: any = {};
@@ -107,6 +110,7 @@ export default class Referendum extends Vue {
     display: flex;
     flex-grow: 1;
 		flex-flow: row wrap;
+		justify-content: space-evenly;
 }
 
 .proposal-meta div {
