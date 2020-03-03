@@ -1,9 +1,9 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="`${argument.name}: ${argument.type}`" class="balance">
-      <b-input v-model="arg" type="number" />
+      <b-input v-model="arg" type="number" :disabled="disabled" />
       <p class="control balance">
-        <b-select v-model="unitsSelected">
+        <b-select v-model="unitsSelected" :disabled="disabled">
           <option v-for="u in units" v-bind:key="u.name" v-bind:value="u.value">
             {{ u.name }}
           </option>
@@ -26,10 +26,13 @@ export default class Balance extends Vue {
   }
 
   get arg() {
-    return this.value;
+    return this.defaultValue || this.value;
   }
 
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
+
   private value = 0;
   private unitsSelected: number = 1e-3;
   private units: Unit[] = [

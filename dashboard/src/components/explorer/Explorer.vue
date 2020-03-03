@@ -66,6 +66,7 @@ export default class Explorer extends Vue {
     blockNumber: '', health: '', peers: '', extrinsics: '', session: '',
     totalIssuance: '', finalized: '', era: '', sessionsPerEra: '',
   };
+  private subs: any[] = [];
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   // @Watch('nodeInfo.peers')
@@ -92,12 +93,15 @@ export default class Explorer extends Vue {
       const apiPeers = await (this as any).$http.api.rpc.system.peers();
       this.nodeInfo.peers = await apiPeers;
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
-      this.nodeInfo.blockNumber = await apiBestNumber.toString();
+      this.subs.push(await (this as any).$http.api.derive.chain.bestNumber((val: any) => {
+        this.nodeInfo.blockNumber = val.toString();
+      }));
+      // this.nodeInfo.blockNumber = await apiBestNumber.toString();
       const apiHealth = await (this as any).$http.api.rpc.system.health();
       this.nodeInfo.health = await apiHealth;
       const apiSession = await (this as any).$http.api.query.session.validators();
       this.nodeInfo.session = await apiSession;
-      const apiSessionLength = await (this as any).$http.api.query.session.sessionLength();
+      const apiSessionLength = await (this as any).$http.api.query.session.currentIndex();
       this.nodeInfo.sessionLength = await apiSessionLength;
       const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
       this.nodeInfo.extrinsics = await apiPendingExtrinsics;
@@ -118,6 +122,10 @@ export default class Explorer extends Vue {
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
     // th is.switchTab();
+  }
+
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
   }
 }
 </script>

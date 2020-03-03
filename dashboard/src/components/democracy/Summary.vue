@@ -39,20 +39,28 @@ export default class Summary extends Vue {
 	private launchPeriod: any = 0;
 	private actualPeriod: any = 0;
   private actualReferendums: any = {};
+  private subs: any[] = [];
 
 
   public async mounted() {
     const { api } = Connector.getInstance();
     this.activeProposals = await api.derive.democracy.proposals();
-    this.bestNumber = await api.derive.chain.bestNumber();
+    this.subs.push(await api.derive.chain.bestNumber(this.updateBar));
     this.nextActive = await api.query.democracy.lowestUnbaked();
     this.publicPropCount = await api.query.democracy.publicPropCount();
     this.referendumCount = await api.query.democracy.referendumCount();
     this.launchPeriod = api.consts.democracy.launchPeriod.toNumber();
-		  this.actualPeriod = this.bestNumber.mod(api.consts.democracy.launchPeriod).addn(1).toNumber();
     this.actualReferendums = this.referendumCount && this.nextActive ? this.referendumCount.sub(this.nextActive) : ZERO;
+  }
 
-    console.log(this.bestNumber);
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
+  }
+
+  private updateBar(value: any) {
+    const { api } = Connector.getInstance();
+    this.bestNumber = value;
+    this.actualPeriod = this.bestNumber.mod(api.consts.democracy.launchPeriod).addn(1).toNumber();
   }
 
 }

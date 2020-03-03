@@ -25,7 +25,6 @@ export default class Proposals extends Vue {
   public async loadProposals() {
     if ((this as any).$http.api) {
       const newProposals = await (this as any).$http.api.derive.democracy.proposals();
-      console.log('newProposals', newProposals);
       this.proposals = newProposals;
       
     }
