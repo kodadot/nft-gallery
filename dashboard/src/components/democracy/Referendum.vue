@@ -2,13 +2,18 @@
   <div class="card proposal-card" v-if="shouldRender">
     <div class="card-content proposal-content">
       <div class="proposal-index">{{ referendum.index.toString() }}</div>
-      <div class="proposal-proposal" @click="toggleArgsVisible">
+      <div class="proposal-proposal" @click="toggleArgsVisible" v-if="referendum.proposal">
         <div><b>
           {{ referendum.proposal.sectionName }}.{{
             referendum.proposal.methodName
           }}
         </b></div>
         <div>{{ referendum.proposal.meta["documentation"].join('') }}</div>
+      </div>
+           <div v-else class="proposal-magic">
+        <b-button type="is-dark" icon-left="plus" disabled>
+          Preimage
+        </b-button>
       </div>
       <div class="proposal-meta">
         <div><b>Remaining: </b><div>{{remaining}} </div></div>
