@@ -41,7 +41,7 @@ import FileSaver from 'file-saver';
 @Component({
   components: {
     Identicon,
-  }
+  },
 })
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
