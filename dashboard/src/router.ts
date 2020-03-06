@@ -80,11 +80,13 @@ export default new Router({
 			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
+      beforeEnter: apiEnabled,
     },
     {
 			path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
+      beforeEnter: apiEnabled,
     },
     {
 			path: '/extrinsics',

@@ -2,13 +2,17 @@
   <div id="explorer">
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
-        <b-field label="Chain">
-					<b-input :value="conn.chainName" disabled></b-input>
+        <Summary />
+				<!-- <b-field label="Total Issuance">
+					<b-input :value="nodeInfo.totalIssuance" disabled></b-input>
         </b-field>
-				<b-field label="Last block">
-					<b-input :value="nodeInfo.blockNumber" disabled></b-input>
+				<b-field label="Finalized">
+					<b-input :value="nodeInfo.finalized" disabled></b-input>
         </b-field>
-					
+				<b-field label="Length">
+					<b-input :value="nodeInfo.session.eraLength" disabled></b-input>
+        </b-field> --> 
+        <!-- </b-field> -->
           <!-- Chain name - {{conn.chainName}}
           last block {{nodeInfo.blockNumber}} -->
           <!-- target -> 6s -->
@@ -18,7 +22,7 @@
           <!-- {{nodeInfo.sessionLength}} -->
           <!-- era {{nodeInfo.sessionsPerEra}} -->
           <!-- finalized {{nodeInfo.finalized}} -->
-        </b-field>
+
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
@@ -26,11 +30,10 @@
 					:lastBlock="nodeInfo.blockNumber" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
-        <NodeDetails :totalPeers="nodeInfo.health.peers"
+        <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
         :isSyncing="nodeInfo.health.isSyncing"
         :ourBest="nodeInfo.blockNumber"
-
-         />
+         /> -->
       </b-tab-item>
     </b-tabs>
     <!-- <p>Recent Block {{conn.header.number}}</p> -->
@@ -46,22 +49,24 @@ import Router from 'vue-router';
 import Card from '../shared/Card.vue';
 import BlockDetails from './BlockDetails.vue';
 import NodeDetails from './NodeDetails.vue';
+import Summary from './Summary.vue';
 
 @Component({
   components: {
 		Card,
     BlockDetails,
     NodeDetails,
+    Summary,
   },
 })
 export default class Explorer extends Vue {
-  public activeTab: number = 1;
+  public activeTab: number = 0;
   public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
   public bestPeer: any = null;
   public bestPeerBlock: any = null;
   public api: any = null;
   public nodeInfo: any = {
-    blockNumber: '', health: '', peers: '', extrinsics: '', session: '',
+    blockNumber: '', health: '', peers: '', extrinsics: '', session: {},
     totalIssuance: '', finalized: '', era: '', sessionsPerEra: '',
   };
   private subs: any[] = [];
@@ -86,27 +91,40 @@ export default class Explorer extends Vue {
 
   public async loadExternalInfo() {
     if ((this as any).$http.api) {
-      const apiResponse = await (this as any).$http.api.rpc.system.chain();
-      this.conn.chainName = await apiResponse.toString();
-      const apiPeers = await (this as any).$http.api.rpc.system.peers();
-      this.nodeInfo.peers = await apiPeers;
+      // const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      // this.conn.chainName = await apiResponse.toString();
+      // const apiPeers = await (this as any).$http.api.rpc.system.peers();
+      // this.nodeInfo.peers = await apiPeers;
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
       this.subs.push(await (this as any).$http.api.derive.chain.bestNumber((val: any) => {
         this.nodeInfo.blockNumber = val.toString();
       }));
+      // const apiHealth = await (this as any).$http.api.rpc.system.health();
+      // this.nodeInfo.health = await apiHealth;
+
       // this.nodeInfo.blockNumber = await apiBestNumber.toString();
-      const apiHealth = await (this as any).$http.api.rpc.system.health();
-      this.nodeInfo.health = await apiHealth;
-      const apiSession = await (this as any).$http.api.query.session.validators();
-      this.nodeInfo.session = await apiSession;
-      const apiSessionLength = await (this as any).$http.api.query.session.currentIndex();
-      this.nodeInfo.sessionLength = await apiSessionLength;
-      const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
-      this.nodeInfo.extrinsics = await apiPendingExtrinsics;
-      const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
-      this.nodeInfo.totalIssuance = await apiTotalIssuance;
-      const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
-      this.nodeInfo.finalized = await apiFinalized;
+      // const apiSession = await (this as any).$http.api.query.session.validators();
+      // this.nodeInfo.session = await apiSession;
+      // const apiSessionLength = await (this as any).$http.api.query.session.sessionLength();
+      // this.nodeInfo.session.length = await apiSessionLength;
+      // const apiSessionProgress = await (this as any).$http.api.derive.session.sessionProgress();
+      // this.nodeInfo.session.progress = await apiSessionProgress;
+      // const apiSessionCurrentIndex = await (this as any).$http.api.derive.session.currentIndex;
+      // this.nodeInfo.session.currentIndex = await apiSessionCurrentIndex;
+      // const apiSessionEraLength = await (this as any).$http.api.derive.session.eraLength;
+      // this.nodeInfo.session.eraLength = await apiSessionEraLength;
+      // const apiSessionEraProgress = await (this as any).$http.api.derive.session.eraProgress;
+      // this.nodeInfo.session.eraProgress = await apiSessionEraProgress;
+      // const apiSessionActiveEra = await (this as any).$http.api.derive.session.activeEra;
+      // this.nodeInfo.session.activeEra = await apiSessionActiveEra;
+      // const apiSessionInfo = await (this as any).$http.api.derive.session.info;
+      // this.nodeInfo.session.info = await apiSessionInfo;
+      // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
+      // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
+      // const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
+      // this.nodeInfo.totalIssuance = await apiTotalIssuance;
+      // const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
+      // this.nodeInfo.finalized = await apiFinalized;
 
       // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
       // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
