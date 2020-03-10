@@ -1,7 +1,17 @@
-# vue-apps-polkadot
+# Koda Dot
 A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
 
 This repository will be reimplementing React components from https://github.com/polkadot-js/apps into Vue.js
+
+🐦[Follow us on Twitter](https://twitter.com/KodaDot)
+
+### Build
+
+```shell
+cd dashboard;yarn
+yarn serve
+open http://localhost:8080
+```
 
 ### Stage one
 * [Accounts](https://vue-polkadot.netlify.com/#/accounts) (app-accounts)
@@ -19,9 +29,3 @@ This repository will be reimplementing React components from https://github.com/
 * ToolBox (app-toolbox)
 * Treasury (app-treasury)
 
-### Build
-
-```shell
-cd dashboard;yarn
-yarn serve
-```
