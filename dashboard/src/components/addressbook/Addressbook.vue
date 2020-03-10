@@ -7,8 +7,8 @@
       </router-link>
     </b-field>
     <b-field label="filter by name or tags">
-      <b-input v-model="searchInput" icon="search"
-        placeholder="search..." @input="filterByName(searchInput)">
+      <b-input v-model="searchFilter" icon="search"
+        placeholder="search..." @input="filterByName(searchFilter)">
       </b-input>
     </b-field>
     <ul>
@@ -16,7 +16,11 @@
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
       > 
-      <Keypair v-if="isKeyringLoaded && acc.meta.isExternal && acc.visible"
+      <Keypair 
+        v-if="
+        isKeyringLoaded 
+        && acc.meta.isExternal 
+        && acc.visible"
         mode="addressbook"
         :address="acc.address"
         :theme="theme"
@@ -44,19 +48,20 @@ import { mapState } from 'vuex';
 })
 
 export default class AddressBook extends Vue {
-  public searchInput: string = ''.toLowerCase();
+  public searchFilter: string = ''.toLowerCase();
   public newName: string = '';
   public keyringAccounts: any = [];
   public theme: string = 'substrate';
 
-  public filterByName(filter: string): void {
+  public filterByName(searchFilter: string): void {
     for (const acc of this.keyringAccounts) {
-      if (filter.length === 0) {
+      if (searchFilter.length === 0) {
         acc.visible = true;
       }
-      if (acc.meta.name.toLowerCase().includes(filter)
+      
+      if (acc.meta.name.toLowerCase().includes(searchFilter)
         || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
-          return result || tag.toLowerCase().includes(filter); }) ) {
+          return result || tag.toLowerCase().includes(searchFilter); }) ) {
         acc.visible = true;
       } else {
         acc.visible = false;
@@ -83,7 +88,7 @@ export default class AddressBook extends Vue {
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
-    this.filterByName(this.searchInput);
+    this.filterByName(this.searchFilter);
   }
 
 }

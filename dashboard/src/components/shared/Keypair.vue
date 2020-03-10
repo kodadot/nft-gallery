@@ -181,7 +181,8 @@ export default class Keypair extends Vue {
   }
 
   public mounted(): void {
-    this.loadExternalInfo();
+    // FIX ME, KUSAMA INTRODUCED NEW TYPES
+    // this.loadExternalInfo();
   }
 }
 </script>
