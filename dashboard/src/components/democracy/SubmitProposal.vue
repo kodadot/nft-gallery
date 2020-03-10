@@ -2,7 +2,7 @@
   <div>
     <Dropdown mode="accounts" @selected="handleAccountSelection" />
 		<b-field label="preimage hash">
-      <b-input v-model="preimageHash" > </b-input>
+      <b-input v-model="hash" > </b-input>
     </b-field>
     <Balance
       :argument="{ name: 'balance', type: 'balance' }"
@@ -31,6 +31,8 @@ import Dropdown from '@/components/shared/Dropdown.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@vue-polkadot/vue-keyring';
 import Balance from '@/params/components/Balance.vue';
+import { notificationTypes,  showNotification } from '@/utils/notification';
+import exec from '@/utils/transactionExecutor';
 
 @Component({
   components: {
@@ -41,69 +43,40 @@ import Balance from '@/params/components/Balance.vue';
 export default class SubmitProposal extends Vue {
 	private account: any = {};
 	private password: string = '';
-	private preimageHash: string = '';
-	
-	  private snackbarTypes = {
-    success: {
-      type: 'is-success',
-      actionText: 'Hooray!',
-      // onAction: () => window.open(this.explorer + this.tx, '_blank'),
-    },
-    info: {
-      type: 'is-info',
-      actionText: 'OK',
-    },
-    danger: {
-      type: 'is-danger',
-      actionText: 'Oh no!',
-    },
-  };
+	private hash: string = '';
+  private tx: string = '';
+  private balance: number = 0;
 
   public handleAccountSelection(account: KeyringPair) {
 		this.account = account;
 		
 	}
 
-	  public async shipIt(): Promise<void> {
-    // if ((this as any).$http.api) {
-    //   const apiResponse = await (this as any).$http.api.rpc.system.chain();
-    //   this.conn.chainName = await apiResponse.toString();
-    //   try {
-    //     this.showNotification('Dispatched');
-    //     const transfer =
-    //     await (this as any).$http.api.tx.balances.transfer(this.to,
-    //       this.balance);
-    //     const nonce =
-    //     await (this as any).$http.api.query.system.accountNonce(this.account.address);
-    //     const alicePair = keyring.getPair(this.account.address);
-    //     alicePair.decodePkcs8(this.password);
-    //     console.log(await nonce.toString());
-    //     const hash = await transfer.signAndSend(alicePair);
-    //     this.showNotification(hash.toHex(), this.snackbarTypes.success);
-    //     console.log('tx', hash.toHex());
-    //     this.tx = hash.toHex();
-    //   } catch (e) {
-    //     this.showNotification(e, this.snackbarTypes.danger);
-    //   }
-    // }
-  }
+	public async shipIt() {
+		const { api } = (this as any).$http;
+
+		if (!api) {
+			return;
+		}
+		
+		try {
+			showNotification('Dispatched');
+			const { hash, balance } = this;
+			this.tx = await exec(this.account, this.password, api.tx.democracy.propose, [hash, balance]);
+			showNotification(this.tx, notificationTypes.success);
+		} catch (e) {
+			showNotification(e, notificationTypes.danger);
+		}
+
+	}
 	
 	public handleValue(value: any) {
+    console.log(value);
+    
     Object.keys(value).map((item) => {
       (this as any)[item] = value[item];
     });
 	}
 	
-	 private showNotification(message: string | null, params = this.snackbarTypes.info) {
-    this.$buefy.snackbar.open({
-      duration: 5000,
-      message: `${this.account.address} -> Proposal<br>${message}`,
-      type: 'is-success',
-      position: 'is-top-right',
-      actionText: 'OK',
-      queue: false,
-      ...params,
-    });
-	}
 }
 </script>
