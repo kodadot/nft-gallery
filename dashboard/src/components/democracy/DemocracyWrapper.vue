@@ -4,7 +4,7 @@
 				<Summary />
 				<b-tabs v-model="democracyTab">
 					<b-tab-item label="Submit Proposal"><SubmitProposal /></b-tab-item>
-					<b-tab-item label="Submit Preimage"><Extrinsics/></b-tab-item>
+					<b-tab-item label="Submit Preimage"><Preimage/></b-tab-item>
 				</b-tabs>
      
       </b-tab-item>
@@ -21,6 +21,7 @@ import Proposals from './Proposals.vue';
 import Summary from './Summary.vue';
 import SubmitProposal from './SubmitProposal.vue';
 import Extrinsics from '@/views/Extrinsics.vue';
+import Preimage from './Preimage.vue';
 
 @Component({
   components: {
@@ -29,7 +30,8 @@ import Extrinsics from '@/views/Extrinsics.vue';
     Proposals,
     Summary,
 		SubmitProposal,
-		Extrinsics,
+    Extrinsics,
+    Preimage,
   },
 })
 export default class DemocracyWrapper extends Vue {
