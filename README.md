@@ -1,31 +1,33 @@
-# Koda Dot
-A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
+# 📱 Apps
 
-This repository will be reimplementing React components from https://github.com/polkadot-js/apps into Vue.js
+Apps are core components of [KodaDot wallet](https://twitter.com/KodaDot).
 
 🐦[Follow us on Twitter](https://twitter.com/KodaDot)
 
-### Build
+## ▶️ Demo versions
+* 👩‍✈️[Stable release - could be used for production](https://vue-polkadot.netlify.com)
+* [🚧👷‍♀️ Development preview release - may not work everytime](https://dev-vue-polkadot.netlify.com/)
+
+## 🏗 Build
 
 ```shell
 cd dashboard;yarn
 yarn serve
-open http://localhost:8080
+open http://localhost:8080/
 ```
 
-### Stage one
-* [Accounts](https://vue-polkadot.netlify.com/#/accounts) (app-accounts)
-* [Address book](https://vue-polkadot.netlify.com/#/addressbook) (app-address-book)
-* [Democracy](https://vue-polkadot.netlify.com/#/democracy) (app-democracy)
-* [Extrinsics](https://vue-polkadot.netlify.com/#/extrinsics) (app-extrinsics)
-* [Transfer](https://vue-polkadot.netlify.com/#/transfer) (app-transfer)
-* [Settings](https://vue-polkadot.netlify.com/#/settings) (app-settings)
+## 🏦 Stage One
+* [Accounts](https://vue-polkadot.netlify.com/#/accounts)
+* [Address book](https://vue-polkadot.netlify.com/#/addressbook)
+* [Democracy](https://vue-polkadot.netlify.com/#/democracy)
+* [Extrinsics](https://vue-polkadot.netlify.com/#/extrinsics)
+* [Transfer](https://vue-polkadot.netlify.com/#/transfer)
+* [Settings](https://vue-polkadot.netlify.com/#/settings)
 
-### Stage two
-* Staking (app-staking)
-* Storage (app-storage)
-* ToolBox (app-toolbox)
-* Explorer (app-explorer)
-* ToolBox (app-toolbox)
-* Treasury (app-treasury)
-
+## 🏯 Stage Two
+* 🏗 Staking 
+* 🏗 Storage 
+* 🏗 ToolBox 
+* 🏗 [Explorer](https://vue-polkadot.netlify.com/#/explorer)
+* 🏗 ToolBox 
+* 🏗 Treasury 
