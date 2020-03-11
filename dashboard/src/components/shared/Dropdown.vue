@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
+import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
 import WithKeyring from '@/utils/WithKeyring';
 import Balance from './Balance.vue';
 
@@ -58,6 +58,7 @@ import Balance from './Balance.vue';
 export default class Dropdown extends WithKeyring {
 	// @Prop(Array) public accounts!: object;
 	@Prop({ default: 'all' }) public mode!: string;
+  @Prop() public externalAddress!: string;
 
 	private position: string = 'is-left';
   private selectedAccount: string = '';
@@ -82,8 +83,16 @@ export default class Dropdown extends WithKeyring {
 		return this.getPair(address);
 	}
 
+  @Watch('externalAddress')
+  public loadAddress(): void {
+    this.selectedAccount = this.externalAddress;
+  }
+
 	public mounted(): void {
-  	this.gotKeys(this.mode);
+    this.gotKeys(this.mode);
+    if (this.externalAddress) {
+      this.selectedAccount = this.externalAddress;
+    }
   }
 
   private gotKeys(mode: string): void {

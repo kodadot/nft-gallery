@@ -1,18 +1,19 @@
 <template>
   <div id="transfer">
-    <b-field v-if="conn.blockNumber">
-      Recent block #{{conn.blockNumber}}
-    </b-field>
+    <DisabledInput v-if="conn.chainName" 
+      label="Chain" :value="conn.chainName" />
+    <DisabledInput v-if="conn.blockNumber"
+      label="Best Block" :value="conn.blockNumber" />
 		<b-field v-else>
 			<p class="has-text-danger">You are not connected, 
 				<router-link :to="{ name: 'settings' }">
 				go to settings and pick node</router-link>
 			</p>
 		</b-field>
-    <Dropdown mode='accounts'
+    <Dropdown mode='accounts' :externalAddress="transfer.from"
 			@selected="handleAccountSelection" />
     <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
-		<Dropdown
+		<Dropdown :externalAddress="transfer.to"
 			@selected="handleAccountSelection" />
     <!-- <Selection @selected="handleAccountSelection" /> -->
     <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
@@ -46,6 +47,7 @@ import Balance from '@/params/components/Balance.vue';
 import Account from '@/params/components/Account.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Dropdown from '@/components/shared/Dropdown.vue';
+import DisabledInput from '@/components/shared/DisabledInput.vue';
 
 @Component({
   components: {
@@ -54,6 +56,7 @@ import Dropdown from '@/components/shared/Dropdown.vue';
     Balance,
     Account,
     Dropdown,
+    DisabledInput,
   },
 })
 export default class Transfer extends Vue {
@@ -69,7 +72,7 @@ export default class Transfer extends Vue {
     amountVisible: null,
     amount: null };
   public keyringAccounts: any = [];
-  public conn: any = { blockNumber: '', chain: '', nodeName: '', nodeVersion: '', header: {}};
+  public conn: any = { blockNumber: '', chainName: '', nodeName: '', nodeVersion: '', header: {}};
   private to = '';
   private balance = 0;
   private account: any = null;
@@ -89,9 +92,10 @@ export default class Transfer extends Vue {
       actionText: 'Oh no!',
     },
   };
-
-  @Watch('transfer.from')
-  @Watch('transfer.to')
+  
+  // disabled till new API
+  // @Watch('transfer.from')
+  // @Watch('transfer.to')
   public async fetchAmount(): Promise<void> {
     if ((this as any).$http.api) {
       if (this.transfer.from) {
@@ -107,8 +111,6 @@ export default class Transfer extends Vue {
 
   public async shipIt(): Promise<void> {
     if ((this as any).$http.api) {
-      const apiResponse = await (this as any).$http.api.rpc.system.chain();
-      this.conn.chainName = await apiResponse.toString();
       try {
         this.showNotification('Dispatched');
         const transfer =
@@ -131,7 +133,6 @@ export default class Transfer extends Vue {
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    // console.log(this.$store.state.keyringLoaded);
     if (this.isKeyringLoaded() === true) {
       this.keyringAccounts = keyring.getPairs();
     }
@@ -149,8 +150,8 @@ export default class Transfer extends Vue {
     if ((this as any).$http.api) {
       const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
       this.conn.blockNumber = await apiBestNumber.toString();
-      // const apiVersion = await (this as any).$http.api.consts.balances;
-      // console.log(await apiVersion);
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.conn.chainName = await apiResponse.toString();
     }
   }
 
