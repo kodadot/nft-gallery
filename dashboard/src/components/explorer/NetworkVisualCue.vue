@@ -20,7 +20,7 @@ export default class NetworkVisualCue extends Vue {
   private subs: any[] = [];
   private currentBlock: any = {};
   private chainName: any = {};
-  private hyphenCustom: any[] = []
+  private hyphenCustom: any[] = [];
 
   @Watch('$store.getters.getSettings')
   public hyphenation(): void {

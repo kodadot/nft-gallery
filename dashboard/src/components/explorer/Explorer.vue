@@ -26,7 +26,8 @@
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-				<BlockDetails :chainName="chainName"
+				<BlockDetails v-if="typeof chainName === 'string'" 
+          :chainName="chainName"
 					:lastBlock="currentBlock" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
@@ -145,7 +146,6 @@ export default class Explorer extends Vue {
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
-    // th is.switchTab();
   }
 
   public beforeDestroy() {

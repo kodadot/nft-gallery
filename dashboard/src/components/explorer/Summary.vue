@@ -1,9 +1,13 @@
 <template>
   <div id="summary">
-    <DisabledInput label="Chain" :value="chainName" />
-    <DisabledInput label="Best Block" :value="currentBlock" />
-    <DisabledInput label="Total Issuance" :value="totalIssuance" />
-    <DisabledInput label="Finalized" :value="finalized" />
+    <DisabledInput v-if="typeof chainName === 'string'" 
+      label="Chain" :value="chainName" />
+    <DisabledInput v-if="typeof currentBlock === 'string'" 
+      label="Best Block" :value="currentBlock" />
+    <DisabledInput v-if="typeof totalIssuance === 'string'" 
+      label="Total Issuance" :value="totalIssuance" />
+    <DisabledInput v-if="typeof finalized === 'string'"
+      label="Finalized" :value="finalized" />
     <!-- <b-field label="EraProgress">
       <b-input :value="eraProgress" disabled></b-input>
     </b-field>

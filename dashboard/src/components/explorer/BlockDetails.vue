@@ -1,7 +1,9 @@
 <template>
   <div id="blockdetails">
-    <DisabledInput label="Chain" :value="chainName" />
-    <DisabledInput label="Best Block" :value="lastBlock" />
+    <DisabledInput v-if="typeof chainName === 'string'" 
+      label="Chain" :value="chainName" />
+    <DisabledInput v-if="typeof lastBlock === 'string'" 
+      label="Best Block" :value="lastBlock" />
 		<div class="columns">
 			<div class="column is-6">
 				extrinsics
