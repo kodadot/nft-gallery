@@ -43,11 +43,8 @@ export default class Summary extends Vue {
   public async mounted() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
-
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
-
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value.toString()));
-        
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.finalized = value.toString()));
     // this.subs.push(await api.derive.session.info((value: any) => this.info = value));
     // this.subs.push(await api.derive.session.eraLength((value: any) => this.eraLength = value));
