@@ -26,9 +26,9 @@
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-				<BlockDetails v-if="typeof chainName === 'string'" 
-          :chainName="chainName"
-					:lastBlock="currentBlock" />
+				<BlockDetails 
+          :chainName="chainName.toString()"
+					:lastBlock="currentBlock.toString()" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
         <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
