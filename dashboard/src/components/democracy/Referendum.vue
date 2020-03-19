@@ -1,8 +1,8 @@
 <template>
   <div class="card proposal-card" v-if="shouldRender">
     <div class="card-content proposal-content">
-      <div class="proposal-index">{{ referendum.index.toString() }}</div>
-      <div class="proposal-proposal" @click="toggleArgsVisible" v-if="referendum.proposal">
+      <div class="proposal-index" @click="toggleArgsVisible">{{ referendum.index.toString() }}</div>
+      <div class="proposal-proposal"  v-if="referendum.proposal">
         <div><b>
           {{ referendum.proposal.sectionName }}.{{
             referendum.proposal.methodName
@@ -54,7 +54,7 @@ export default class Referendum extends Vue {
   @Prop() public referendum: any;
 
 	private shouldRender: boolean = true;
-  private isArgsVisible: boolean = false;
+  private isArgsVisible: boolean = true;
 	private state: any = {};
 	private bestNumber: any = {};
 	private enactBlock: any = {};
