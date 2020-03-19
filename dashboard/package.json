@@ -19,9 +19,9 @@
     "@polkadot/util-crypto": "^2.2.1",
     "@polkadot/vue-identicon": "^0.51.1",
     "@types/file-saver": "^2.0.1",
-    "@vue-polkadot/vue-api": "0.0.12-beta.7",
+    "@vue-polkadot/vue-api": "0.0.13-beta.4",
     "@vue-polkadot/vue-identicon": "^0.0.8",
-    "@vue-polkadot/vue-keyring": "2.0.1",
+    "@vue-polkadot/vue-keyring": "2.0.2",
     "@vue-polkadot/vue-settings": "0.0.11",
     "buefy": "^0.8.10",
     "core-js": "^2.6.5",
@@ -39,7 +39,7 @@
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-typescript": "4.2.3",
     "@vue/cli-service": "^3.11.0",
-    "typescript": "^3.4.3",
+    "typescript": "3.8.3",
     "vue-template-compiler": "2.6.10"
   }
 }
