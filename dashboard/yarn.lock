@@ -784,7 +784,7 @@
     memoizee "^0.4.14"
     rxjs "^6.5.4"
 
-"@polkadot/api@1.7.1", "@polkadot/api@^1.6.2":
+"@polkadot/api@1.7.1", "@polkadot/api@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-1.7.1.tgz#89470ca40bc64e355d691e75940f92f6e444aa1b"
   integrity sha512-axrsxpXbM1K3H6FzSWYQKaVlKyqXheZVId1grOKwX3ZA/DB/mSr1YFXqZt8UNgzJDf8LH3VOyWHOOcmxWyi7nw==
@@ -831,16 +831,6 @@
     "@polkadot/util-crypto" "^2.6.2"
     bn.js "^5.1.1"
 
-"@polkadot/metadata@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/metadata/-/metadata-1.1.1.tgz#1c7d2e026791d5e3453304065646711da74a0025"
-  integrity sha512-NjBngIHy5JsrMI6iyDT8qMx25pSwXaNnRrgHiP3oNaoMadoCfqRRSsC3JCqIhHQva6WZ/JfFxorRyH1sTAKbZg==
-  dependencies:
-    "@babel/runtime" "^7.8.3"
-    "@polkadot/types" "^1.1.1"
-    "@polkadot/util" "^2.2.1"
-    "@polkadot/util-crypto" "^2.2.1"
-
 "@polkadot/rpc-core@1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-1.7.1.tgz#ad90b330b9edef34035cd3ba755da2e0f6dc512d"
@@ -884,18 +874,6 @@
     bn.js "^5.1.1"
     memoizee "^0.4.14"
     rxjs "^6.5.4"
-
-"@polkadot/types@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-1.1.1.tgz#43f43c08ee0edba2c22f19e28132964dcbbe55f6"
-  integrity sha512-TeSXwMNNjgkLwDhOd1Ah9KH09sILIdotp9oEjOP8qK8sWNBkbZkYFdStAHMOH2fLjnSKpsArG3oBTHhdLHePnQ==
-  dependencies:
-    "@babel/runtime" "^7.8.3"
-    "@polkadot/metadata" "^1.1.1"
-    "@polkadot/util" "^2.2.1"
-    "@polkadot/util-crypto" "^2.2.1"
-    memoizee "^0.4.14"
-    yargs "^15.1.0"
 
 "@polkadot/ui-shared@^0.42.1":
   version "0.42.1"
@@ -1115,12 +1093,12 @@
   dependencies:
     "@types/node" "*"
 
-"@vue-polkadot/vue-api@0.0.13-beta.4":
-  version "0.0.13-beta.4"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.13-beta.4.tgz#56324beb8fb6f622fe488657c813fdf360b96b40"
-  integrity sha512-bh7U8yV892nQrm2OIFnm5hKuY8dK0YLhupXcKpTL98Ay5ec8emmEcIeTSK3kt/gaqgbdj3nQ5aDrWhjMMYL7pw==
+"@vue-polkadot/vue-api@0.0.13-beta.5":
+  version "0.0.13-beta.5"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.13-beta.5.tgz#f0399c4c81f8949308f692905022b5a733c08cf2"
+  integrity sha512-t6aqczc4HArlvasrQjyGpnIyRaJdPttlgZeCuCR28CNJPdUjx1x/nSO9j4VOSp4bey6zAwx10B8qzeMRjScIRg==
   dependencies:
-    "@polkadot/api" "^1.6.2"
+    "@polkadot/api" "^1.7.1"
     edgeware-node-types "^1.2.0"
 
 "@vue-polkadot/vue-identicon@^0.0.8":
@@ -8683,7 +8661,7 @@ yargs@12.0.5:
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
 
-yargs@^15.0.0, yargs@^15.1.0:
+yargs@^15.0.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.1.0.tgz#e111381f5830e863a89550bd4b136bb6a5f37219"
   integrity sha512-T39FNN1b6hCW4SOIk1XyTOWxtXdcen0t+XYrysQmChzSipvhBO8Bj0nK1ozAasdk24dNWuMZvr4k24nz+8HHLg==
