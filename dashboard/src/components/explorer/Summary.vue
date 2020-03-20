@@ -1,9 +1,13 @@
 <template>
   <div id="summary">
-    <DisabledInput label="Chain" :value="chainName" />
-    <DisabledInput label="Best Block" :value="currentBlock" />
-    <DisabledInput label="Total Issuance" :value="totalIssuance" />
-    <DisabledInput label="Finalized" :value="finalized" />
+    <DisabledInput
+      label="Chain" :value="chainName.toString()" />
+    <DisabledInput
+      label="Best Block" :value="currentBlock.toString()" />
+    <DisabledInput 
+      label="Total Issuance" :value="totalIssuance.toString()" />
+    <DisabledInput
+      label="Finalized" :value="finalized.toString()" />
     <!-- <b-field label="EraProgress">
       <b-input :value="eraProgress" disabled></b-input>
     </b-field>
@@ -42,15 +46,12 @@ export default class Summary extends Vue {
   
   public async mounted() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
-
-    this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
-
-    this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value.toString()));
-        
-    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.finalized = value.toString()));
+    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
+    this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
+    this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
+    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.finalized = value));
     // this.subs.push(await api.derive.session.info((value: any) => this.info = value));
-    // this.subs.push(await api.derive.session.eraLength((value: any) => this.eraLength = value));
+    // this.subs.push(await api.derive.session.eraLength((value: any) => ``this.eraLength = value));
     // this.subs.push(await api.derive.session.eraProgress((value: any) => this.eraProgress = value));
     // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
 }

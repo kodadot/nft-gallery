@@ -9,9 +9,14 @@
         src="../assets/vue-polkadot.png"
         alt="vue-polkadot.js.org dashboard for Polkadot/Substrate chains"
       />
+      
     </figure>
+    <figure>
+      <NetworkVisualCue />
+    </figure>
+    
     <b-menu>
-      <b-menu-list v-if="!isSidebarClosed" label="apiUrl" icon-pack="fa">
+      <b-menu-list v-if="!isSidebarClosed" label="" icon-pack="fa">
         <b-menu-item
           class="menu-item"
           v-for="row in sidebar"
@@ -70,10 +75,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import SettingInfo from '@/components/shared/SettingInfo.vue';
+import NetworkVisualCue from '@/components/explorer/NetworkVisualCue.vue';
 
 @Component({
   components: {
     SettingInfo,
+    NetworkVisualCue,
   },
 })
 export default class SidebarMenu extends Vue {

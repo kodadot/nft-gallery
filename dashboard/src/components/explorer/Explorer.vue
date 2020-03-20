@@ -26,8 +26,9 @@
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-				<BlockDetails :chainName="chainName"
-					:lastBlock="currentBlock" />
+				<BlockDetails 
+          :chainName="chainName.toString()"
+					:lastBlock="currentBlock.toString()" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
         <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
@@ -145,7 +146,6 @@ export default class Explorer extends Vue {
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
-    // th is.switchTab();
   }
 
   public beforeDestroy() {
