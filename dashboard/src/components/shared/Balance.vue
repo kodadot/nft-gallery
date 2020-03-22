@@ -6,7 +6,7 @@
     <span v-if='balance !== null'>{{ balance }}</span> 
     <span v-else> - </span>
     <span v-if='chainProperties'>{{ chainProperties.tokenSymbol }}</span>
-    <span v-else>-</span>
+    <span v-else> - </span>
 	</b-tag>
 </template>
 
@@ -37,7 +37,7 @@ export default class Balance extends Vue {
     }
   }
 
-  public async mounted(): Promise<void> {
+  private async mounted(): Promise<void> {
     const { api } = (this as any).$http;
     this.chainProperties = await api.registry.getChainProperties();
   }

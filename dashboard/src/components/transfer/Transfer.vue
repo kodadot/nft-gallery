@@ -1,9 +1,11 @@
 <template>
   <div id="transfer">
+    <b-field grouped v-if="conn.chainName">
     <DisabledInput v-if="conn.chainName" 
       label="Chain" :value="conn.chainName" />
     <DisabledInput v-if="conn.blockNumber"
       label="Best Block" :value="conn.blockNumber" />
+    </b-field>
 		<b-field v-else>
 			<p class="has-text-danger">You are not connected, 
 				<router-link :to="{ name: 'settings' }">
@@ -12,18 +14,14 @@
 		</b-field>
     <Dropdown mode='accounts' :externalAddress="transfer.from"
 			@selected="handleAccountSelection" />
-    <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
 		<Dropdown :externalAddress="transfer.to"
 			@selected="handleAccountSelection" />
-    <!-- <Selection @selected="handleAccountSelection" /> -->
-    <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
     <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
       <div class="transaction buttons">
-      <!-- <b-button type="is-danger" outlined disabled>Submit unsigned</b-button> -->
       <b-button
         type="is-primary"
         icon-left="paper-plane"
@@ -62,7 +60,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
   public tx: string = '';
-  public explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
+  public explorer: string = 'https://polkascan.io/pre/kusama/transaction/';
   public password: string = '';
   public transfer: any = {
     from: null,
