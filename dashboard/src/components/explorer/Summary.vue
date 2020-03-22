@@ -8,6 +8,8 @@
       label="Total Issuance" :value="totalIssuance.toString()" />
     <DisabledInput
       label="Finalized" :value="finalized.toString()" />
+    
+    <ChainProperties />
     <!-- <b-field label="EraProgress">
       <b-input :value="eraProgress" disabled></b-input>
     </b-field>
@@ -28,9 +30,11 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
+import ChainProperties from '@/components/shared/ChainProperties.vue';
 @Component({
   components: {
     DisabledInput,
+    ChainProperties,
   },
 })
 export default class Summary extends Vue {
