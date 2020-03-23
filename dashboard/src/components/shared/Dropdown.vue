@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
-import WithKeyring from '@/utils/WithKeyring';
+import WithKeyring from '../../utils/WithKeyring';
 import Balance from './Balance.vue';
 
 @Component({
@@ -56,7 +56,6 @@ import Balance from './Balance.vue';
 	},
 })
 export default class Dropdown extends WithKeyring {
-	// @Prop(Array) public accounts!: object;
 	@Prop({ default: 'all' }) public mode!: string;
   @Prop() public externalAddress!: string;
 

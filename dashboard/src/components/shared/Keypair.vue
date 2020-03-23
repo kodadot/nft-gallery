@@ -73,7 +73,7 @@
             <router-link :to="'/transfer/from/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
-            <a :href="explorerAccount+address">
+            <a :href="explorerAccount+address" target="_blank">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
@@ -86,7 +86,7 @@
             <router-link :to="'/transfer/to/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
             </router-link>
-            <a :href="explorerAccount+address">
+            <a :href="explorerAccount+address" target="_blank">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
@@ -209,9 +209,4 @@ export default class Keypair extends Vue {
   .keypair-card__wrapper {
     margin-bottom: 1em;
   }
-
-  /* .keypair-info__wrapper {
-    display: flex;
-    flex-direction: column;
-  } */
 </style>

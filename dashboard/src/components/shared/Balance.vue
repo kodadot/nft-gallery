@@ -5,13 +5,14 @@
 		Transferable: 
     <span v-if='balance !== null'>{{ balance }}</span> 
     <span v-else> - </span>
-    <span v-if='chainProperties'>{{ chainProperties.tokenSymbol }}</span>
+    <span v-if='chainProperties'> {{ chainProperties.tokenSymbol }}</span>
     <span v-else> - </span>
 	</b-tag>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component
 export default class Balance extends Vue {
@@ -31,10 +32,14 @@ export default class Balance extends Vue {
   @Watch('account')
   public async onAccountChange(value: string) {
 
-    if (value && (this as any).$http) {
-      const { api } = (this as any).$http;
-      this.currentBalance = await api.query.balances.freeBalance(value);
-    }
+    // if (value && (this as any).$http) {
+    //   const { api } = (this as any).$http;
+    //   this.currentBalance = await api.query.balances.freeBalance(value);
+    // }
+
+    const { api } = Connector.getInstance();
+    const { nonce, data: balance } = await api.query.system.account(value);
+    this.currentBalance = balance.free.toString();
   }
 
   private async mounted(): Promise<void> {

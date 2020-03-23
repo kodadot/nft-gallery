@@ -13,9 +13,9 @@
 			</p>
 		</b-field>
     <Dropdown mode='accounts' :externalAddress="transfer.from"
-			@selected="handleAccountSelection" />
+			@selected="handleAccountSelectionFrom" />
 		<Dropdown :externalAddress="transfer.to"
-			@selected="handleAccountSelection" />
+			@selected="handleAccountSelectionTo" />
     <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
@@ -26,12 +26,13 @@
         type="is-primary"
         icon-left="paper-plane"
         outlined
-        :disabled="!account || !password"
+        :disabled="!accountFrom || !password"
         @click="shipIt">
 				Make Transfer
       </b-button>
-      <b-button v-if="tx" tag="a" :href="explorer + tx">
-        View on PolkaScan 👀 {{ tx.slice(0, 20) }}
+      <b-button v-if="tx" tag="a" :href="explorer + tx"
+        icon-left="external-link-alt">
+        View on PolkaScan  {{ tx.slice(0, 10) }}
       </b-button>
     </div>
   </div>  
@@ -46,6 +47,7 @@ import Account from '@/params/components/Account.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -70,10 +72,10 @@ export default class Transfer extends Vue {
     amountVisible: null,
     amount: null };
   public keyringAccounts: any = [];
-  public conn: any = { blockNumber: '', chainName: '', nodeName: '', nodeVersion: '', header: {}};
-  private to = '';
+  public conn: any = { blockNumber: '', chainName: ''};
   private balance = 0;
-  private account: any = null;
+  private accountFrom: any = null;
+  private accountTo: any = null;
 
   private snackbarTypes = {
     success: {
@@ -90,43 +92,20 @@ export default class Transfer extends Vue {
       actionText: 'Oh no!',
     },
   };
-  
-  // disabled till new API
-  // @Watch('transfer.from')
-  // @Watch('transfer.to')
-  public async fetchAmount(): Promise<void> {
-    if ((this as any).$http.api) {
-      if (this.transfer.from) {
-        const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.from);
-        this.transfer.fromBalance = await fromBalance.toString();
-      }
-      if (this.transfer.to) {
-        const toBalance = await (this as any).$http.api.query.balances.freeBalance(this.transfer.to);
-        this.transfer.toBalance = await toBalance.toString();
-      }
-    }
-  }
 
   public async shipIt(): Promise<void> {
-    if ((this as any).$http.api) {
+    const { api } = Connector.getInstance();
       try {
         this.showNotification('Dispatched');
-        const transfer =
-        await (this as any).$http.api.tx.balances.transfer(this.to,
-          this.balance);
-        const nonce =
-        await (this as any).$http.api.query.system.accountNonce(this.account.address);
-        const alicePair = keyring.getPair(this.account.address);
+        const alicePair = keyring.getPair(this.accountFrom.address);
         alicePair.decodePkcs8(this.password);
-        console.log(await nonce.toString());
-        const hash = await transfer.signAndSend(alicePair);
-        this.showNotification(hash.toHex(), this.snackbarTypes.success);
-        console.log('tx', hash.toHex());
-        this.tx = hash.toHex();
+        const txHash = await api.tx.balances.transfer(this.accountTo.address, this.balance).signAndSend(alicePair)
+        this.showNotification(txHash.toHex(), this.snackbarTypes.success);
+        console.log('tx', txHash.toHex());
+        this.tx = txHash.toHex();
       } catch (e) {
         this.showNotification(e, this.snackbarTypes.danger);
       }
-    }
   }
 
   @Watch('$store.state.keyringLoaded')
@@ -153,8 +132,12 @@ export default class Transfer extends Vue {
     }
   }
 
-  public handleAccountSelection(account: KeyringPair) {
-    this.account = account;
+  public handleAccountSelectionFrom(account: KeyringPair) {
+    this.accountFrom = account;
+  }
+
+  public handleAccountSelectionTo(account: KeyringPair) {
+    this.accountTo = account;
   }
 
   public handleValue(value: any) {
@@ -182,7 +165,7 @@ export default class Transfer extends Vue {
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
     this.$buefy.snackbar.open({
       duration: 5000,
-      message: `${this.account.address} -> ${this.to}<br>${message}`,
+      message: `${this.accountFrom.address} -> ${this.accountTo.address}<br>${message}`,
       type: 'is-success',
       position: 'is-top-right',
       actionText: 'OK',
