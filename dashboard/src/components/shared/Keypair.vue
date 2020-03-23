@@ -1,55 +1,62 @@
 <template>
   <div id="Keypair" class="keypair-card__wrapper card">
       <div class="card-content">
-        <b-field grouped multiline>
-          <div v-clipboard:copy="address"
+        <div class="columns">
+          <div class="column">  
+          <b-field grouped multiline>
+            <div class="keypair-info__wrapper">
+            <div v-if="!isEditingName" @click="editName()"><b>🧢{{meta.name}}</b>
+            </div>
+            <b-input v-if="isEditingName" v-model="newName" 
+              @blur="saveName()"
+              @keyup.native.enter="$event.target.blur()">
+            </b-input> 
+            <div>📇{{shortAddress(address)}}
+              <b-button
+              size="is-small" 
+              icon-left="copy" 
+              v-clipboard:copy="address"
+              @click="toast('Address copied to clipboard')">
+              </b-button>
+              </div>
+            <div v-if="mode === 'accounts'">🔑{{shortAddress(publicKey)}}</div>
+            <div v-if="mode === 'accounts'">🆎type {{type}}</div>
+            <p v-if="!meta.tags && !isEditingTags 
+              || meta.tags === null && !isEditingTags
+              || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
+              @click="editTags()">🏷 add tags</p>
+            <b-input v-if="isEditingTags" 
+              v-model="newTags" 
+              @blur="saveTags()" 
+              @keyup.native.enter="$event.target.blur()">
+            </b-input>
+            <p @click="editTags()" v-if="!isEditingTags && meta.tags">
+            🏷<b-tag
+              v-for="t in meta.tags"
+              v-bind:key="t">
+              {{t}}
+            </b-tag>
+            <b-tag type="is-light" 
+              v-if="meta.isTesting">testing account
+            </b-tag>
+            </p>
+            <div>🧾 transactions <b>{{nonce}}</b></div>
+            <div>🏦 available <b>{{balanceAvailable}}</b></div>
+            </div>
+          </b-field>
+        </div>
+        <div class="column">
+            <div
+            v-clipboard:copy="address"
             @click="toast('Address copied to clipboard')">
             <Identicon
               :value="address"
               :theme="theme"
               :size="size"
             />
-          </div>
-          <div class="keypair-info__wrapper">
-          <div v-if="!isEditingName" @click="editName()"><b>🧢{{meta.name}}</b>
-          </div>
-          <b-input v-if="isEditingName" v-model="newName" 
-            @blur="saveName()"
-            @keyup.native.enter="$event.target.blur()">
-          </b-input> 
-          <div>📇{{shortAddress(address)}}
-            <b-button
-            size="is-small" 
-            icon-left="copy" 
-            v-clipboard:copy="address"
-            @click="toast('Address copied to clipboard')">
-            </b-button>
             </div>
-          <div v-if="mode === 'accounts'">🔑{{shortAddress(publicKey)}}</div>
-          <div v-if="mode === 'accounts'">🆎type {{type}}</div>
-          <p v-if="!meta.tags && !isEditingTags 
-            || meta.tags === null && !isEditingTags
-            || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
-            @click="editTags()">🏷 add tags</p>
-          <b-input v-if="isEditingTags" 
-            v-model="newTags" 
-            @blur="saveTags()" 
-            @keyup.native.enter="$event.target.blur()">
-          </b-input>
-          <p @click="editTags()" v-if="!isEditingTags && meta.tags">
-          🏷<b-tag
-            v-for="t in meta.tags"
-            v-bind:key="t">
-            {{t}}
-          </b-tag>
-          <b-tag type="is-light" 
-            v-if="meta.isTesting">testing account
-          </b-tag>
-          </p>
-          <div>🧾 transactions <b>{{nonce}}</b></div>
-          <div>🏦 available <b>{{balanceAvailable}}</b></div>
           </div>
-        </b-field>
+        </div>
       </div>
       <div>
         <div v-if="mode === 'accounts'">
@@ -183,21 +190,9 @@ export default class Keypair extends Vue {
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
     const { nonce, data: balance } = await api.query.system.account(this.address);
-    console.log('account', nonce.toString(), balance.free.toString());
-
     this.balanceAvailable = balance.free.toString();
     this.nonce = nonce.toString();
-    // const fromBalance = await api.query.balances.freeBalance(this.address);
-    // this.subs.push(await api.query.balances.fromBalance((value: this.address) => this.balanceAvailable = value));
-    // const nonce = await api.query.system.accountNonce(this.address);
-    
-    
-    // if ((this as any).$http.api && this.address) {
-    //   const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.address);
-    //   this.balanceAvailable = await fromBalance.toString();
-    //   const nonce = await (this as any).$http.api.query.system.accountNonce(this.address);
-    //   this.nonce = await nonce;
-    // }
+    console.log(this.balanceAvailable);
   }
 
   public mounted(): void {
@@ -215,8 +210,8 @@ export default class Keypair extends Vue {
     margin-bottom: 1em;
   }
 
-  .keypair-info__wrapper {
+  /* .keypair-info__wrapper {
     display: flex;
     flex-direction: column;
-  }
+  } */
 </style>
