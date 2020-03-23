@@ -6,8 +6,8 @@
     <figure class="image is-48x48 logo" @click="toggleSidebar">
       <img
         class="is-rounded"
-        src="../assets/vue-polkadot.png"
-        alt="vue-polkadot.js.org dashboard for Polkadot/Substrate chains"
+        src="../assets/koda_logo_843x843.png"
+        alt="KodaDot logo"
       />
       
     </figure>
