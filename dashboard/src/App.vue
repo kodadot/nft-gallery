@@ -29,7 +29,6 @@ export default class Dashboard extends Vue {
     // this.chainProperties = await api.registry.getChainProperties();
     this.chainS58FormatSettings = Object.entries(this.$store.getters.getSettings)[6][1];
     this.chainS58Format = this.chainS58FormatSettings;
-    console.log('ss58format', this.chainS58Format);
     console.log('ss58format - settings', this.chainS58FormatSettings);
   }
 

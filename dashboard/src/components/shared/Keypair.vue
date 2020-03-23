@@ -2,10 +2,14 @@
   <div id="Keypair" class="keypair-card__wrapper card">
       <div class="card-content">
         <b-field grouped multiline>
-          <Identicon
-            :value="address"
-            :theme="theme"
-            :size="size" />
+          <div v-clipboard:copy="address"
+            @click="toast('Address copied to clipboard')">
+            <Identicon
+              :value="address"
+              :theme="theme"
+              :size="size"
+            />
+          </div>
           <div class="keypair-info__wrapper">
           <div v-if="!isEditingName" @click="editName()">{{meta.name}}
           </div>
