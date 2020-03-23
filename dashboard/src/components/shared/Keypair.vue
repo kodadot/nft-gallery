@@ -6,8 +6,9 @@
             :value="address"
             :theme="theme"
             :size="size" />
-            <div class="keypair-info__wrapper">
-          <div v-if="!isEditingName" @click="editName()">{{meta.name}}</div>
+          <div class="keypair-info__wrapper">
+          <div v-if="!isEditingName" @click="editName()">{{meta.name}}
+          </div>
           <b-input v-if="isEditingName" v-model="newName" @blur="saveName()">
           </b-input> 
           <div>{{shortAddress(address)}}
@@ -59,8 +60,8 @@
             <router-link :to="'/transfer/from/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
-            <a :href="explorer+address">
-              <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
+            <a :href="explorerAccount+address">
+              <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
         </div>
@@ -72,8 +73,8 @@
             <router-link :to="'/transfer/to/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
             </router-link>
-            <a :href="explorer+address">
-              <b-button type="is-dark" icon-left="binoculars" outlined>View</b-button>
+            <a :href="explorerAccount+address">
+              <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
         </div>
@@ -94,7 +95,7 @@ import keyring from '@vue-polkadot/vue-keyring';
 export default class Keypair extends Vue {
   public nonce: number = 0;
   public balanceAvailable: number = 0;
-  public explorer: string = 'https://polkascan.io/pre/alexander/account/';
+  public explorerAccount: string = 'https://polkascan.io/pre/kusama/account/';
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
   public newName: string = '';

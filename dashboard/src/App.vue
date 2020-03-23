@@ -12,6 +12,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
+// import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -19,9 +20,23 @@ import SidebarMenu from './components/SidebarMenu.vue';
   },
 })
 export default class Dashboard extends Vue {
-  public loadKeyring(): void {
+  private chainProperties: any;
+  private chainS58Format: number = 42;
+  private chainS58FormatSettings: any = -1;
+
+  public async getChainProperties(): Promise<void> {
+    // const { api } = Connector.getInstance();
+    // this.chainProperties = await api.registry.getChainProperties();
+    this.chainS58FormatSettings = Object.entries(this.$store.getters.getSettings)[6][1];
+    this.chainS58Format = this.chainS58FormatSettings;
+    console.log('ss58format', this.chainS58Format);
+    console.log('ss58format - settings', this.chainS58FormatSettings);
+  }
+
+  public async loadKeyring(): Promise<void> {
+    this.getChainProperties();
     keyring.loadAll({
-      ss58Format: 42,
+      ss58Format: this.chainS58Format,
       type: 'sr25519',
       isDevelopment: false,
     });
