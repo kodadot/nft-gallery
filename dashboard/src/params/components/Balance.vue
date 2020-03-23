@@ -4,7 +4,7 @@
       <b-input v-model="arg" type="number" :disabled="disabled" />
       <p class="control balance">
         <b-select v-model="unitsSelected" :disabled="disabled">
-          <option v-for="u in units" v-bind:key="u.name" v-bind:value="u.value">
+          <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
             {{ u.name }}
           </option>
         </b-select>
@@ -56,12 +56,12 @@ export default class Balance extends Vue {
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
 
-  private chainProperties = null;
+  private chainProperties: any = '-';
   private value = 0;
   private unitsSelected: number = 1e-3;
   
   private getTokenSymbol(): string {
-    if (this.chainProperties) {
+    if (this.chainProperties !== '-') {
       return this.chainProperties.tokenSymbol;
     }
     return '-';

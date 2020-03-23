@@ -49,21 +49,25 @@ export default new Router({
       path: '/transfer',
       name: 'transfer',
       component: () => import('./components/transfer/Transfer.vue'),
+      beforeEnter: apiEnabled,
 		},
 		{
 			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
 			name: 'transferSignSubmit',
-			component: () => import('./components/transfer/Transfer.vue'),
+      component: () => import('./components/transfer/Transfer.vue'),
+      beforeEnter: apiEnabled,
 		},
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
       component: () => import('./components/transfer/Transfer.vue'),
+      beforeEnter: apiEnabled,
     },
     {
       path: '/transfer/to/:to',
       name: 'transferTo',
       component: () => import('./components/transfer/Transfer.vue'),
+      beforeEnter: apiEnabled,
     },
     {
       path: '/democracy',
