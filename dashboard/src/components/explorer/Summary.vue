@@ -54,7 +54,7 @@ export default class Summary extends Vue {
     // this.subs.push(await api.derive.session.eraLength((value: any) => ``this.eraLength = value));
     // this.subs.push(await api.derive.session.eraProgress((value: any) => this.eraProgress = value));
     // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
-}
+  }
 
   // Unsubscribe before destroying component
   public beforeDestroy() {

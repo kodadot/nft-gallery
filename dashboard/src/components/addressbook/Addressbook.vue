@@ -1,9 +1,8 @@
 <template>
   <div id="addressbook">
-    <p>My contacts</p>
     <b-field grouped multiline>
       <router-link to="addressbook/create">
-        <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
+        <b-button type="is-dark" icon-left="plus" outlined>Add Contact</b-button>
       </router-link>
     </b-field>
     <b-field label="filter by name or tags">

@@ -13,7 +13,9 @@
           <div class="keypair-info__wrapper">
           <div v-if="!isEditingName" @click="editName()"><b>🧢{{meta.name}}</b>
           </div>
-          <b-input v-if="isEditingName" v-model="newName" @blur="saveName()">
+          <b-input v-if="isEditingName" v-model="newName" 
+            @blur="saveName()"
+            @keyup.native.enter="$event.target.blur()">
           </b-input> 
           <div>📇{{shortAddress(address)}}
             <b-button
@@ -23,7 +25,7 @@
             @click="toast('Address copied to clipboard')">
             </b-button>
             </div>
-          <div>🔑{{shortAddress(publicKey)}}</div>
+          <div v-if="mode === 'accounts'">🔑{{shortAddress(publicKey)}}</div>
           <div v-if="mode === 'accounts'">🆎type {{type}}</div>
           <p v-if="!meta.tags && !isEditingTags 
             || meta.tags === null && !isEditingTags
@@ -44,8 +46,8 @@
             v-if="meta.isTesting">testing account
           </b-tag>
           </p>
-          <div>🧾 transactions {{nonce}}</div>
-          <div>🏦 available {{balanceAvailable}}</div>
+          <div>🧾 transactions <b>{{nonce}}</b></div>
+          <div>🏦 available <b>{{balanceAvailable}}</b></div>
           </div>
         </b-field>
       </div>
@@ -90,6 +92,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -98,12 +101,13 @@ import keyring from '@vue-polkadot/vue-keyring';
 })
 export default class Keypair extends Vue {
   public nonce: number = 0;
-  public balanceAvailable: number = 0;
+  public balanceAvailable: any = 0;
   public explorerAccount: string = 'https://polkascan.io/pre/kusama/account/';
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
   public newName: string = '';
   public newTags: any = null;
+  private subs: any[] = [];
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
@@ -177,17 +181,31 @@ export default class Keypair extends Vue {
   }
 
   public async loadExternalInfo() {
-    if ((this as any).$http.api && this.address) {
-      const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.address);
-      this.balanceAvailable = await fromBalance.toString();
-      const nonce = await (this as any).$http.api.query.system.accountNonce(this.address);
-      this.nonce = await nonce;
-    }
+    const { api } = Connector.getInstance();
+    const { nonce, data: balance } = await api.query.system.account(this.address);
+    console.log('account', nonce.toString(), balance.free.toString());
+
+    this.balanceAvailable = balance.free.toString();
+    this.nonce = nonce.toString();
+    // const fromBalance = await api.query.balances.freeBalance(this.address);
+    // this.subs.push(await api.query.balances.fromBalance((value: this.address) => this.balanceAvailable = value));
+    // const nonce = await api.query.system.accountNonce(this.address);
+    
+    
+    // if ((this as any).$http.api && this.address) {
+    //   const fromBalance = await (this as any).$http.api.query.balances.freeBalance(this.address);
+    //   this.balanceAvailable = await fromBalance.toString();
+    //   const nonce = await (this as any).$http.api.query.system.accountNonce(this.address);
+    //   this.nonce = await nonce;
+    // }
   }
 
   public mounted(): void {
-    // FIX ME, KUSAMA INTRODUCED NEW TYPES
-    // this.loadExternalInfo();
+    this.loadExternalInfo();
+  }
+
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
   }
 }
 </script>
