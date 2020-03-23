@@ -8,7 +8,7 @@ export interface ConvictionOption {
 const messageTransfer = (value: any, lock: any, period: any) =>
 	`${value}x voting balance, locked for ${lock}x enactment (${period} days)`;
 
-const CONVICTIONS: Array<[number, number]> = [
+const CONVICTIONS: [number, number][] = [
 	1,
 	2,
 	4,
