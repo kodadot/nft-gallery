@@ -11,11 +11,11 @@
             />
           </div>
           <div class="keypair-info__wrapper">
-          <div v-if="!isEditingName" @click="editName()">{{meta.name}}
+          <div v-if="!isEditingName" @click="editName()"><b>🧢{{meta.name}}</b>
           </div>
           <b-input v-if="isEditingName" v-model="newName" @blur="saveName()">
           </b-input> 
-          <div>{{shortAddress(address)}}
+          <div>📇{{shortAddress(address)}}
             <b-button
             size="is-small" 
             icon-left="copy" 
@@ -23,19 +23,19 @@
             @click="toast('Address copied to clipboard')">
             </b-button>
             </div>
-          <div>{{shortAddress(publicKey)}}</div>
-          <div v-if="mode === 'accounts'">type {{type}}</div>
+          <div>🔑{{shortAddress(publicKey)}}</div>
+          <div v-if="mode === 'accounts'">🆎type {{type}}</div>
           <p v-if="!meta.tags && !isEditingTags 
             || meta.tags === null && !isEditingTags
             || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
-            @click="editTags()">add tags</p>
+            @click="editTags()">🏷 add tags</p>
           <b-input v-if="isEditingTags" 
             v-model="newTags" 
             @blur="saveTags()" 
             @keyup.native.enter="$event.target.blur()">
           </b-input>
           <p @click="editTags()" v-if="!isEditingTags && meta.tags">
-          <b-tag
+          🏷<b-tag
             v-for="t in meta.tags"
             v-bind:key="t">
             {{t}}
@@ -44,8 +44,8 @@
             v-if="meta.isTesting">testing account
           </b-tag>
           </p>
-          <div>transactions {{nonce}}</div>
-          <div>available {{balanceAvailable}}</div>
+          <div>🧾 transactions {{nonce}}</div>
+          <div>🏦 available {{balanceAvailable}}</div>
           </div>
         </b-field>
       </div>
