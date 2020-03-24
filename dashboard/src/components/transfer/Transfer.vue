@@ -164,7 +164,7 @@ export default class Transfer extends Vue {
 
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
     this.$buefy.snackbar.open({
-      duration: 5000,
+      duration: 7000,
       message: `${this.accountFrom.address} -> ${this.accountTo.address}<br>${message}`,
       type: 'is-success',
       position: 'is-top-right',

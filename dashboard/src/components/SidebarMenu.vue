@@ -5,16 +5,13 @@
   >
     <figure class="image is-48x48 logo" @click="toggleSidebar">
       <img
-        class="is-rounded"
         src="../assets/koda_logo_843x843.png"
         alt="KodaDot logo"
       />
-      
     </figure>
     <figure>
       <NetworkVisualCue />
     </figure>
-    
     <b-menu>
       <b-menu-list v-if="!isSidebarClosed" label="" icon-pack="fa">
         <b-menu-item
@@ -171,7 +168,7 @@ export default class SidebarMenu extends Vue {
 }
 
 .happy-menu.closed {
-  width: 4.5rem !important;
+  width: 4em !important;
 }
 
 .image.is-48x48.logo {
