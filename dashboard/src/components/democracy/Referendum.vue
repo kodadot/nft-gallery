@@ -61,7 +61,7 @@ export default class Referendum extends Vue {
 	private remaining: any = {};
 
 	public async mounted() {
-		this.state = await referendumState(this.referendum.index);
+		this.state = await referendumState(this.referendum);
 		this.bestNumber = await Connector.getInstance().api.derive.chain.bestNumber();
 		this.enactBlock = this.referendum.info.end.add(this.referendum.info.delay);
 		this.remaining = this.referendum.info.end.sub(this.bestNumber).subn(1);
