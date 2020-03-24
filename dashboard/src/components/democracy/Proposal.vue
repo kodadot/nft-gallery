@@ -1,7 +1,7 @@
 <template>
   <div class="card proposal-card">
     <div class="card-content proposal-content">
-      <div class="proposal-index">{{ proposal.index.toString() }}</div>
+      <div class="proposal-index" @click="toggleArgsVisible">{{ proposal.index.toString() }}</div>
       <div class="proposal-proposer">
 				<Identicon :value="proposal.proposer.toString()" />
 				<div>
@@ -15,7 +15,6 @@
       </div>
       <div
         class="proposal-proposal proposal-magic"
-        @click="toggleArgsVisible"
         v-if="proposal.proposal"
       >
         <div>
@@ -117,12 +116,9 @@ export default class Proposal extends Vue {
 	justify-content: space-between;
 }
 
-.proposal-proposal {
-	cursor: pointer;
-}
-
 .proposal-index {
   font-size: 2em;
+  cursor: pointer;
 }
 
 .proposal-hash {

@@ -1,8 +1,8 @@
 <template>
   <div class="card proposal-card" v-if="shouldRender">
     <div class="card-content proposal-content">
-      <div class="proposal-index">{{ referendum.index.toString() }}</div>
-      <div class="proposal-proposal" @click="toggleArgsVisible" v-if="referendum.proposal">
+      <div class="proposal-index" @click="toggleArgsVisible">{{ referendum.index.toString() }}</div>
+      <div class="proposal-proposal"  v-if="referendum.proposal">
         <div><b>
           {{ referendum.proposal.sectionName }}.{{
             referendum.proposal.methodName
@@ -61,12 +61,12 @@ export default class Referendum extends Vue {
 	private remaining: any = {};
 
 	public async mounted() {
-		this.state = await referendumState(this.referendum.index);
+		this.state = await referendumState(this.referendum);
 		this.bestNumber = await Connector.getInstance().api.derive.chain.bestNumber();
-		this.enactBlock = this.referendum.info.end.add(this.referendum.info.delay);
-		this.remaining = this.referendum.info.end.sub(this.bestNumber).subn(1);
+		this.enactBlock = this.referendum.status.end.add(this.referendum.status.delay);
+		this.remaining = this.referendum.status.end.sub(this.bestNumber).subn(1);
 
-		if (!this.bestNumber || this.referendum.info.end.sub(this.bestNumber).lten(0)) {
+		if (!this.bestNumber || this.referendum.status.end.sub(this.bestNumber).lten(0)) {
     	this.shouldRender = false;
   	}
 	}
@@ -102,10 +102,10 @@ export default class Referendum extends Vue {
 .proposal-index {
   font-size: 2em;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .proposal-proposal {
-  cursor: pointer;
   flex-grow: 1;
 	padding: 0 0.5em;
 	max-width: 50em;
