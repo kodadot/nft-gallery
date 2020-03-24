@@ -1,11 +1,9 @@
 <template>
   <div id="blockdetails">
-		<b-field label="Chain">
-			<b-input :value="chainName" disabled></b-input>
-		</b-field>
-		<b-field label="Last block">
-			<b-input :value="lastBlock" disabled></b-input>
-		</b-field>
+    <DisabledInput v-if="typeof chainName === 'string'" 
+      label="Chain" :value="chainName" />
+    <DisabledInput v-if="typeof lastBlock === 'string'" 
+      label="Best Block" :value="lastBlock" />
 		<div class="columns">
 			<div class="column is-6">
 				extrinsics
@@ -71,10 +69,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Card from '../shared/Card.vue';
+import DisabledInput from '@/components/shared/DisabledInput.vue';
 
 @Component({
   components: {
     Card,
+    DisabledInput,
   },
 })
 export default class BlockDetails extends Vue {

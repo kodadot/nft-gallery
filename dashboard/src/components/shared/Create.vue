@@ -277,7 +277,9 @@ export default class Create extends Vue {
   public onCreate(): void {
     try {
       if (this.newAccount.tags != null) {
-        this.newAccount.tags.split(',').map((item: string) => item.trim());
+        this.newAccount.tags = this.newAccount.tags.split(',')
+        .map((item: string) => item.trim())
+        .filter((item: string) => item);
       }
       const meta = {
         name: this.newAccount.name,

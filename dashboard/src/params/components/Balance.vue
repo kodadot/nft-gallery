@@ -4,7 +4,7 @@
       <b-input v-model="arg" type="number" :disabled="disabled" />
       <p class="control balance">
         <b-select v-model="unitsSelected" :disabled="disabled">
-          <option v-for="u in units" v-bind:key="u.name" v-bind:value="u.value">
+          <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
             {{ u.name }}
           </option>
         </b-select>
@@ -19,7 +19,7 @@ import { Unit } from '../types';
 
 @Component
 export default class Balance extends Vue {
-
+  
   set arg(value: number) {
     this.value = value;
     this.handleSelected();
@@ -29,28 +29,43 @@ export default class Balance extends Vue {
     return this.defaultValue || this.value;
   }
 
+  get chainProps() {
+    return this.chainProperties;
+  }
+
+  get units() { 
+    return [
+      { name: 'femto', value: 1e-15 },
+      { name: 'pico', value: 1e-12 },
+      { name: 'nano', value: 1e-9 },
+      { name: 'micro', value: 1e-6 },
+      { name: 'mili', value: 1e-3 },
+      { name: this.getTokenSymbol(), value: 1 },
+      { name: 'Kilo', value: 1e3 },
+      { name: 'Mega', value: 1e6 },
+      { name: 'Giga', value: 1e9 },
+      { name: 'Tera', value: 1e12 },
+      { name: 'Peta', value: 1e15 },
+      { name: 'Exa', value: 1e18 },
+      { name: 'Zeta', value: 1e21 },
+      { name: 'Yotta', value: 1e24 },
+    ];
+  }
+
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
 
+  private chainProperties: any = '-';
   private value = 0;
   private unitsSelected: number = 1e-3;
-  private units: Unit[] = [
-    { name: 'femto', value: 1e-15 },
-    { name: 'pico', value: 1e-12 },
-    { name: 'nano', value: 1e-9 },
-    { name: 'micro', value: 1e-6 },
-    { name: 'mili', value: 1e-3 },
-    { name: 'DOT', value: 1 },
-    { name: 'Kilo', value: 1e3 },
-    { name: 'Mega', value: 1e6 },
-    { name: 'Giga', value: 1e9 },
-    { name: 'Tera', value: 1e12 },
-    { name: 'Peta', value: 1e15 },
-    { name: 'Exa', value: 1e18 },
-    { name: 'Zeta', value: 1e21 },
-    { name: 'Yotta', value: 1e24 },
-  ];
+  
+  private getTokenSymbol(): string {
+    if (this.chainProperties !== '-') {
+      return this.chainProperties.tokenSymbol;
+    }
+    return '-';
+  }
 
   @Watch('unitsSelected')
   private function() {
@@ -60,6 +75,11 @@ export default class Balance extends Vue {
   @Emit('selected')
   private handleSelected() {
     return { [this.argument.name.toString()]: this.arg * this.unitsSelected };
+  }
+
+  private async mounted(): Promise<void> {
+    const { api } = (this as any).$http;
+    this.chainProperties = await api.registry.getChainProperties();
   }
 }
 </script>

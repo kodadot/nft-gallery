@@ -26,8 +26,9 @@
         <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
-				<BlockDetails :chainName="conn.chainName"
-					:lastBlock="nodeInfo.blockNumber" />
+				<BlockDetails 
+          :chainName="chainName.toString()"
+					:lastBlock="currentBlock.toString()" />
       </b-tab-item>      
       <b-tab-item label="Node Info">
         <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
@@ -46,6 +47,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
+import Connector from '@vue-polkadot/vue-api';
 import Card from '../shared/Card.vue';
 import BlockDetails from './BlockDetails.vue';
 import NodeDetails from './NodeDetails.vue';
@@ -70,6 +72,8 @@ export default class Explorer extends Vue {
     totalIssuance: '', finalized: '', era: '', sessionsPerEra: '',
   };
   private subs: any[] = [];
+  private currentBlock: any = {};
+  private chainName: any = {};
 
   // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   // @Watch('nodeInfo.peers')
@@ -90,15 +94,20 @@ export default class Explorer extends Vue {
   // }
 
   public async loadExternalInfo() {
-    if ((this as any).$http.api) {
+    const { api } = Connector.getInstance();
+    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
+
+    this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
+    
+    // if ((this as any).$http.api) {
       // const apiResponse = await (this as any).$http.api.rpc.system.chain();
       // this.conn.chainName = await apiResponse.toString();
       // const apiPeers = await (this as any).$http.api.rpc.system.peers();
       // this.nodeInfo.peers = await apiPeers;
-      const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
-      this.subs.push(await (this as any).$http.api.derive.chain.bestNumber((val: any) => {
-        this.nodeInfo.blockNumber = val.toString();
-      }));
+      // const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
+      // this.subs.push(await (this as any).$http.api.derive.chain.bestNumber((val: any) => {
+      //   this.nodeInfo.blockNumber = val.toString();
+      // }));
       // const apiHealth = await (this as any).$http.api.rpc.system.health();
       // this.nodeInfo.health = await apiHealth;
 
@@ -128,7 +137,7 @@ export default class Explorer extends Vue {
 
       // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
       // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
-    }
+    // }
   }
 
   // public async switchTab() {
@@ -137,7 +146,6 @@ export default class Explorer extends Vue {
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
-    // th is.switchTab();
   }
 
   public beforeDestroy() {

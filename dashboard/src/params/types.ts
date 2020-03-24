@@ -9,7 +9,7 @@ import { TypeDef } from '@polkadot/types/types';
 // params returning types extending Base (i.e. anything from api-codec)
 export type RawParamValue = any | undefined;
 
-export type RawParamValueArray = Array<RawParamValue | RawParamValue[]>;
+export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
 
 export type RawParamValues = RawParamValue | RawParamValueArray;
 

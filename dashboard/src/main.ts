@@ -8,8 +8,10 @@ import { faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
-  faFile, faBook, faCodeBranch, faSearch, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+  faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
+  faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
+  faExternalLinkAlt
+ } from '@fortawesome/free-solid-svg-icons';
 // import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
@@ -26,23 +28,15 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
   faExclamationCircle, faUpload, faDiceD20,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-  faBinoculars, faPlus, faTimes, faCaretDown, faCaretUp,
-  faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle );
+  faPlus, faTimes, faCaretDown, faCaretUp,
+  faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
+  faExternalLinkAlt );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 
-// later will be removed
-// keyring.loadAll({
-//   ss58Format: 42,
-//   type: 'sr25519',
-//   isDevelopment: true,
-// });
-
-console.log('here', store.state.setting.apiUrl);
 (window as any).C = Connector; 
 Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
-
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

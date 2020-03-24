@@ -14,16 +14,16 @@
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "@polkadot/types": "^1.1.1",
-    "@polkadot/util": "^2.2.1",
-    "@polkadot/util-crypto": "^2.2.1",
+    "@polkadot/types": "1.7.1",
+    "@polkadot/util": "2.6.2",
+    "@polkadot/util-crypto": "2.6.2",
     "@polkadot/vue-identicon": "^0.51.1",
     "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-api": "0.0.13-beta.5",
     "@vue-polkadot/vue-identicon": "^0.0.8",
-    "@vue-polkadot/vue-keyring": "2.0.1",
+    "@vue-polkadot/vue-keyring": "2.0.2",
     "@vue-polkadot/vue-settings": "0.0.11",
-    "buefy": "^0.8.10",
+    "buefy": "0.8.13",
     "core-js": "^2.6.5",
     "file-saver": "^2.0.2",
     "serialize-javascript": "^2.1.1",
@@ -36,10 +36,11 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-typescript": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "typescript": "^3.4.3",
+    "@vue/cli-plugin-babel": "^3.12.1",
+    "@vue/cli-plugin-typescript": "^4.2.3",
+    "@vue/cli-service": "^4.2.3",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3",
     "vue-template-compiler": "2.6.10"
   }
 }

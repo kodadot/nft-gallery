@@ -1,17 +1,25 @@
 <template>
   <div id="summary">
-    <b-field label="Chain">
-      <b-input :value="chainName" disabled></b-input>
+    <DisabledInput
+      label="Chain" :value="chainName.toString()" />
+    <DisabledInput
+      label="Best Block" :value="currentBlock.toString()" />
+    <DisabledInput 
+      label="Total Issuance" :value="totalIssuance.toString()" />
+    <DisabledInput
+      label="Finalized" :value="finalized.toString()" />
+    <!-- <b-field label="EraProgress">
+      <b-input :value="eraProgress" disabled></b-input>
     </b-field>
-    <b-field label="Best Block">
-      <b-input :value="currentBlock" disabled></b-input>
-    </b-field>
-    <b-field label="Total Issuance">
-      <b-input :value="totalIssuance" disabled></b-input>
-    </b-field>
-    <b-field label="Finalized">
-      <b-input :value="finalized" disabled></b-input>
+    <b-field label="EraLength">
+      <b-input :value="eraLength" disabled></b-input>
     </b-field> 
+    <b-field label="info">
+      <b-input :value="info" disabled></b-input>
+    </b-field> 
+    <b-field label="sessionProgress">
+      <b-input :value="sessionProgress" disabled></b-input>
+    </b-field>  -->
   </div>
 </template>
 
@@ -19,25 +27,34 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
-
-@Component({})
+import DisabledInput from '@/components/shared/DisabledInput.vue';
+@Component({
+  components: {
+    DisabledInput,
+  },
+})
 export default class Summary extends Vue {
   private currentBlock: any = {};
   private chainName: any = {};
   private totalIssuance: any = {};
   private finalized: any = {};
+  private eraLength: any = {};
+  private eraProgress: any = {};
+  private info: any = {};
+  private sessionProgress: any = {};
   private subs: any[] = [];
   
   public async mounted() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
-
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
-
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
-        
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.finalized = value));
-}
+    // this.subs.push(await api.derive.session.info((value: any) => this.info = value));
+    // this.subs.push(await api.derive.session.eraLength((value: any) => ``this.eraLength = value));
+    // this.subs.push(await api.derive.session.eraProgress((value: any) => this.eraProgress = value));
+    // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
+  }
 
   // Unsubscribe before destroying component
   public beforeDestroy() {
