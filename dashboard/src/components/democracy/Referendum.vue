@@ -54,7 +54,7 @@ export default class Referendum extends Vue {
   @Prop() public referendum: any;
 
 	private shouldRender: boolean = true;
-  private isArgsVisible: boolean = true;
+  private isArgsVisible: boolean = false;
 	private state: any = {};
 	private bestNumber: any = {};
 	private enactBlock: any = {};
@@ -63,10 +63,10 @@ export default class Referendum extends Vue {
 	public async mounted() {
 		this.state = await referendumState(this.referendum);
 		this.bestNumber = await Connector.getInstance().api.derive.chain.bestNumber();
-		this.enactBlock = this.referendum.info.end.add(this.referendum.info.delay);
-		this.remaining = this.referendum.info.end.sub(this.bestNumber).subn(1);
+		this.enactBlock = this.referendum.status.end.add(this.referendum.status.delay);
+		this.remaining = this.referendum.status.end.sub(this.bestNumber).subn(1);
 
-		if (!this.bestNumber || this.referendum.info.end.sub(this.bestNumber).lten(0)) {
+		if (!this.bestNumber || this.referendum.status.end.sub(this.bestNumber).lten(0)) {
     	this.shouldRender = false;
   	}
 	}
@@ -102,10 +102,10 @@ export default class Referendum extends Vue {
 .proposal-index {
   font-size: 2em;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .proposal-proposal {
-  cursor: pointer;
   flex-grow: 1;
 	padding: 0 0.5em;
 	max-width: 50em;

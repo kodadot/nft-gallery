@@ -89,7 +89,7 @@ function calcState (tally: Tally, votes: DerivedReferendumVote[] = []): State {
 }
 
 
-const referendumState = async (referendum: DerivedReferendum): Promise<State> => {
+const referendumState = async (referendum: any): Promise<State> => {
 	if (Connector.getInstance()) {
 		const votes = await Connector.getInstance().api.derive.democracy.referendumVotes(referendum.index);
 		if (isCurrentStatus(referendum.status)) {

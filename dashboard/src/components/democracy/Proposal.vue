@@ -116,12 +116,9 @@ export default class Proposal extends Vue {
 	justify-content: space-between;
 }
 
-.proposal-proposal {
-	cursor: pointer;
-}
-
 .proposal-index {
   font-size: 2em;
+  cursor: pointer;
 }
 
 .proposal-hash {
