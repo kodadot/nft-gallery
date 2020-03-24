@@ -1,10 +1,10 @@
 <template>
-  <div id="summary">
+  <div>
     <DisabledInput
       label="Chain" :value="chainName.toString()" />
     <DisabledInput
       label="Best Block" :value="currentBlock.toString()" />
-    <DisabledInput 
+    <DisabledInput
       label="Total Issuance" :value="formattedTotalIssuance" />
     <DisabledInput
       label="Finalized" :value="finalized.toString()" />
@@ -36,23 +36,26 @@ import formatBalance from '../../utils/formatBalance';
   },
 })
 export default class Summary extends Vue {
+  private totalIssuance: any = '';
   private currentBlock: any = {};
   private chainName: any = {};
-  private totalIssuance: any = {};
   private finalized: any = {};
   private eraLength: any = {};
   private eraProgress: any = {};
   private info: any = {};
   private sessionProgress: any = {};
   private subs: any[] = [];
+  private chainProperties: any;
   private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
 
   get formattedTotalIssuance() {
-    return formatBalance(this.totalIssuance.toString(), this.tokenSymbol, false);
+    const totalIssuance = this.totalIssuance.toString();
+    return formatBalance(totalIssuance, this.tokenSymbol, false);
   }
 
   public async mounted() {
     const { api } = Connector.getInstance();
+    this.setChainProperties()
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
@@ -61,6 +64,13 @@ export default class Summary extends Vue {
     // this.subs.push(await api.derive.session.eraLength((value: any) => ``this.eraLength = value));
     // this.subs.push(await api.derive.session.eraProgress((value: any) => this.eraProgress = value));
     // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
+  }
+
+  private async setChainProperties(): Promise<void> {
+    const { api } = Connector.getInstance();
+    this.chainProperties = await api.registry.getChainProperties();
+    this.$store.commit('setChainProperties', this.chainProperties)
+    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 
   // Unsubscribe before destroying component
