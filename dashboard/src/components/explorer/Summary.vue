@@ -5,7 +5,7 @@
     <DisabledInput
       label="Best Block" :value="currentBlock.toString()" />
     <DisabledInput 
-      label="Total Issuance" :value="totalIssuance.toString()" />
+      label="Total Issuance" :value="formattedTotalIssuance" />
     <DisabledInput
       label="Finalized" :value="finalized.toString()" />
     <!-- <b-field label="EraProgress">
@@ -28,6 +28,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
+import formatBalance from '../../utils/formatBalance';
+
 @Component({
   components: {
     DisabledInput,
@@ -43,7 +45,12 @@ export default class Summary extends Vue {
   private info: any = {};
   private sessionProgress: any = {};
   private subs: any[] = [];
-  
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
+
+  get formattedTotalIssuance() {
+    return formatBalance(this.totalIssuance.toString(), this.tokenSymbol, false);
+  }
+
   public async mounted() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));

@@ -24,11 +24,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     keyringLoaded: false,
+    chainProperties: {},
   },
   mutations: {
     keyringLoaded(state: any) {
       state.keyringLoaded = true;
     },
+    setChainProperties(state: any, data) {
+      state.chainProperties = Object.assign({}, data)
+    }
   },
   modules: {
     setting: SettingModule,

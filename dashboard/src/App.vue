@@ -12,7 +12,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
-// import Connector from '@vue-polkadot/vue-api';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -27,6 +27,7 @@ export default class Dashboard extends Vue {
   public async getChainProperties(): Promise<void> {
     // const { api } = Connector.getInstance();
     // this.chainProperties = await api.registry.getChainProperties();
+    // this.$store.commit('chainProperties');
     this.chainS58FormatSettings = Object.entries(this.$store.getters.getSettings)[6][1];
     this.chainS58Format = this.chainS58FormatSettings;
     console.log('ss58format - settings', this.chainS58FormatSettings);

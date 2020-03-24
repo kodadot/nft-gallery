@@ -30,12 +30,12 @@
           :chainName="chainName.toString()"
 					:lastBlock="currentBlock.toString()" />
       </b-tab-item>      
-      <b-tab-item label="Node Info">
+      <!-- <b-tab-item label="Node Info"> -->
         <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
         :isSyncing="nodeInfo.health.isSyncing"
         :ourBest="nodeInfo.blockNumber"
          /> -->
-      </b-tab-item>
+      <!-- </b-tab-item> -->
     </b-tabs>
     <!-- <p>Recent Block {{conn.header.number}}</p> -->
     <!-- <p>Genesis Hash {{api.genesisHash}}</p> -->

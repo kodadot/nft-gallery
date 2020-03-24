@@ -41,7 +41,7 @@
             </b-tag>
             </p>
             <div>🧾 transactions <b>{{nonce}}</b></div>
-            <div>🏦 available <b>{{balanceAvailable}}</b></div>
+            <div>🏦 available <b>{{balance}}</b></div>
             </div>
           </b-field>
         </div>
@@ -100,6 +100,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import Connector from '@vue-polkadot/vue-api';
+import formatBalance from '../../utils/formatBalance';
 
 @Component({
   components: {
@@ -108,13 +109,15 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class Keypair extends Vue {
   public nonce: number = 0;
-  public balanceAvailable: any = 0;
+  public balanceAvailable: string = '';
   public explorerAccount: string = 'https://polkascan.io/pre/kusama/account/';
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
   public newName: string = '';
   public newTags: any = null;
   private subs: any[] = [];
+  private chainProperties: any;
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
@@ -124,6 +127,10 @@ export default class Keypair extends Vue {
   @Prop({ default: 64 }) public size!: number;
   // temporary prop
   @Prop(String) public password!: string;
+
+  get balance() {
+    return formatBalance(this.balanceAvailable, this.tokenSymbol, false);
+  }
 
   public editName(): void {
     this.isEditingName = true;
@@ -192,7 +199,15 @@ export default class Keypair extends Vue {
     const { nonce, data: balance } = await api.query.system.account(this.address);
     this.balanceAvailable = balance.free.toString();
     this.nonce = nonce.toString();
+    this.chainProperties = await api.registry.getChainProperties();
     console.log(this.balanceAvailable);
+  }
+
+  private async setChainProperties(): Promise<void> {
+    const { api } = Connector.getInstance();
+    this.chainProperties = await api.registry.getChainProperties();
+    this.$store.commit('setChainProperties', this.chainProperties)
+    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 
   public mounted(): void {
