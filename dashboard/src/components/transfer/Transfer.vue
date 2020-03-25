@@ -1,15 +1,13 @@
 <template>
   <div id="transfer">
-    <b-field grouped v-if="conn.chainName">
     <DisabledInput v-if="conn.chainName" 
       label="Chain" :value="conn.chainName" />
     <DisabledInput v-if="conn.blockNumber"
       label="Best Block" :value="conn.blockNumber" />
-    </b-field>
 		<b-field v-else>
-			<p class="has-text-danger">You are not connected, 
+			<p class="has-text-danger">You are not connected. 
 				<router-link :to="{ name: 'settings' }">
-				go to settings and pick node</router-link>
+				Go to settings and pick node</router-link>
 			</p>
 		</b-field>
     <Dropdown mode='accounts' :externalAddress="transfer.from"
@@ -101,7 +99,7 @@ export default class Transfer extends Vue {
         alicePair.decodePkcs8(this.password);
         const txHash = await api.tx.balances.transfer(this.accountTo.address, this.balance).signAndSend(alicePair)
         this.showNotification(txHash.toHex(), this.snackbarTypes.success);
-        console.log('tx', txHash.toHex());
+        
         this.tx = txHash.toHex();
       } catch (e) {
         this.showNotification(e, this.snackbarTypes.danger);

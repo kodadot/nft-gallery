@@ -1,7 +1,5 @@
 <template>
   <div class="NetworkVisualCue">
-    <!-- #{{ currentBlock }}
-    {{ chainName }} -->
     <span v-for="n in hyphenCustom" :key="n">
       <span>{{n}}<br></span>
     </span>
@@ -13,7 +11,6 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 
-
 @Component({})
 export default class NetworkVisualCue extends Vue {
   @Prop(String) public value!: string;
@@ -23,20 +20,18 @@ export default class NetworkVisualCue extends Vue {
   private hyphenCustom: any[] = [];
 
   @Watch('$store.getters.getSettings')
-  public hyphenation(): void {
-    this.hyphenCustom = Object.entries(this.$store.getters.getSettings);
-    this.hyphenCustom = this.hyphenCustom[0][1].slice(6).split('.');
+  private hyphenation(): any {
+    const destination: any = Object.entries(this.$store.getters.getSettings);
+    const hyphenCheck = destination[0][1].slice(6)
+  
+    if (hyphenCheck === '27.0.0.1:9944/' ) {
+      return this.hyphenCustom = ['l','o','c','a','1']
+    }
+    this.hyphenCustom = hyphenCheck.split('.');
   }
   public async mounted() {
     this.hyphenation();
-  //   const { api } = Connector.getInstance();
-  //   this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
-  //   this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
   }
-
-  // public beforeDestroy() {
-  //   this.subs.forEach((sub) => sub());
-  // }
 }
 </script>
 

@@ -1,13 +1,14 @@
 <template>
   <div>
     <DisabledInput
-      label="Chain" :value="chainName.toString()" />
+      label="Chain name" :value="chainName.toString()" />
     <DisabledInput
       label="Best Block" :value="currentBlock.toString()" />
     <DisabledInput
-      label="Total Issuance" :value="formattedTotalIssuance" />
-    <DisabledInput
       label="Finalized" :value="finalized.toString()" />
+    <DisabledInput
+      label="Total Issuance" :value="formattedTotalIssuance" />
+    <SummarySession />
     <!-- <b-field label="EraProgress">
       <b-input :value="eraProgress" disabled></b-input>
     </b-field>
@@ -29,10 +30,12 @@ import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import formatBalance from '../../utils/formatBalance';
+import SummarySession from './SummarySession.vue';
 
 @Component({
   components: {
     DisabledInput,
+    SummarySession,
   },
 })
 export default class Summary extends Vue {

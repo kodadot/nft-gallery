@@ -1,5 +1,5 @@
 <template>
-  <div id="transfer">
+  <div>
     <b-field>Recent block #{{conn.blockNumber}}</b-field>
     <Selection @selected="handleAccountSelection" />
        <Executor
