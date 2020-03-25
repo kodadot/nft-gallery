@@ -4,21 +4,23 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            Welcome to KodaDot 🏛 governance dashboard
-          </h1>
+            👋  Welcome to KodaDot<br>
+            🏛 Governance dashboard
+          </h1><br>
           <h2 class="subtitle">
-            <a href="https://twitter.com/KodaDot">🐦 Feel free follow us on Twitter @KodaDot</a>
+            <a href="https://twitter.com/KodaDot" target="_blank">🐦 Feel free follow us on Twitter @KodaDot</a>
           </h2>
 
-          You can <router-link :to="{ name: 'accounts' }">
+          ➕You can <router-link :to="{ name: 'accounts' }">
           create and manage your accounts</router-link>, 
-          <router-link :to="{ name: 'addressbook' }">add contacts</router-link>.
+          <router-link :to="{ name: 'addressbook' }">
+          add contacts</router-link>.<br>
 
-          Then you can <router-link :to="{ name: 'transfer' }">do transfers between accounts</router-link>.<br>
+          ➕You can <router-link :to="{ name: 'transfer' }">do transfers between accounts</router-link>.<br>
 
-          <router-link :to="{ name: 'democracy' }">Vote and submit proposals</router-link> on your favourite chain.<br>
+          <router-link :to="{ name: 'democracy' }">🗳 Vote and submit proposals</router-link> on your favourite chain.<br>
 
-          More features will come later as they are being 👩‍🍳cooked.
+          🔍More features will come later as they are being 👩‍🍳cooked.
         </div>
       </div>
     </section>
