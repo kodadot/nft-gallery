@@ -11,16 +11,16 @@
             <a href="https://twitter.com/KodaDot" target="_blank">🐦 Feel free follow us on Twitter @KodaDot</a>
           </h2>
 
-          ➕You can <router-link :to="{ name: 'accounts' }">
+          ➕ You can <router-link :to="{ name: 'accounts' }">
           create and manage your accounts</router-link>, 
           <router-link :to="{ name: 'addressbook' }">
           add contacts</router-link>.<br>
 
-          ➕You can <router-link :to="{ name: 'transfer' }">do transfers between accounts</router-link>.<br>
+          ➕ You can <router-link :to="{ name: 'transfer' }">do transfers between accounts</router-link>.<br>
 
-          <router-link :to="{ name: 'democracy' }">🗳 Vote and submit proposals</router-link> on your favourite chain.<br>
+          🗳 You can <router-link :to="{ name: 'democracy' }"> vote and submit proposals</router-link> on your favourite chain.<br>
 
-          🔍More features will come later as they are being 👩‍🍳cooked.
+          🔍 More features will come later as they are being 👩‍🍳cooked.
         </div>
       </div>
     </section>
@@ -31,19 +31,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class Landing extends Vue {
-  
-  @Watch('$store.state.keyringLoaded')
-  public operationsAvailable(): void {
-    console.log('yup')
-  }
 
-  public isKeyringLoaded() {
-    return this.$store.state.keyringLoaded;
-  }
-
-  public mounted(): void {
-    this.isKeyringLoaded();
-  }
 }
 </script>
 

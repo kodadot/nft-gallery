@@ -3,27 +3,6 @@
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
         <Summary />
-				<!-- <b-field label="Total Issuance">
-					<b-input :value="nodeInfo.totalIssuance" disabled></b-input>
-        </b-field>
-				<b-field label="Finalized">
-					<b-input :value="nodeInfo.finalized" disabled></b-input>
-        </b-field>
-				<b-field label="Length">
-					<b-input :value="nodeInfo.session.eraLength" disabled></b-input>
-        </b-field> --> 
-        <!-- </b-field> -->
-          <!-- Chain name - {{conn.chainName}}
-          last block {{nodeInfo.blockNumber}} -->
-          <!-- target -> 6s -->
-          <!-- total issuance {{nodeInfo.totalIssuance}} -->
-          <!-- session  -->
-          <!-- {{nodeInfo.session.length}} /  -->
-          <!-- {{nodeInfo.sessionLength}} -->
-          <!-- era {{nodeInfo.sessionsPerEra}} -->
-          <!-- finalized {{nodeInfo.finalized}} -->
-
-        <!-- [recent blocks] -->
       </b-tab-item>
       <b-tab-item label="Block Details">
 				<BlockDetails 

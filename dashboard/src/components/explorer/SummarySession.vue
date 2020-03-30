@@ -1,8 +1,9 @@
 <template>
   <div>
-    <!-- <b-progress :value="sessionData.sessionLength"></b-progress> -->
-    <!-- {{ fetchSessionInfo(sessionLength) }} -->
-    a
+    <div v-if="sessionResolved" v-for="n in sessionResolved">
+      <DisabledInput
+        :label="n[0]" :value="n[1]" /> 
+    </div>
   </div>
 </template>
 <script lang="ts" >
@@ -16,8 +17,8 @@ import Connector from '@vue-polkadot/vue-api';
   }
 })
 export default class SummarySession extends Vue {
-  private sessionData: any = '';
-  private ses
+  private sessionData: any = {};
+  private sessionResolved: any = [];
   private sessionInfo = 'api.derive.session?.info'
   private subs: any[] = [];
   @Prop() public value!: any;
@@ -34,19 +35,29 @@ export default class SummarySession extends Vue {
   // private async getSessionData(value: any) {
   //   const { api } = Connector.getInstance();
   //   if (api && this.sessionData) {
-  //     this.subs.push(await `${api.derive.session.info}${value}`(value: any) => this.)
-  //   }
 
-  //   return result.toString()
+  //   }
+  //   // return result.toString()
   // }
+
+  @Watch('sessionData')
+  private resolve(): void {
+    for (const [key, value] of Object.entries(this.sessionData.info)) {
+      this.sessionResolved.push([key, value.toString()]);
+    }
+  }
   
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.session.info((value: any) => this.sessionData = value))
-  }
+    this.subs.push(await api.derive.session.info((value: any) => this.sessionData.info = value))
+    // this.subs.push(await api.derive.session.sessionLength((value: any) => this.sessionData.Length = value))
+    // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionData.Progress = value))
+    // this.subs.push(await api.derive.session.currentIndex((value: any) => this.sessionData.currentIndex = value))
+}
   
   public async mounted() {
     this.fetchSessionInfo();
+    this.resolve();
   }
 
   // Unsubscribe before destroying component
