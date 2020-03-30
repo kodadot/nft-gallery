@@ -43,7 +43,7 @@ export default class SummarySession extends Vue {
   @Watch('sessionData')
   private resolve(): void {
     for (const [key, value] of Object.entries(this.sessionData.info)) {
-      this.sessionResolved.push([key, value.toString()]);
+      this.sessionResolved.push([key, (value as any).toString()]);
     }
   }
   
