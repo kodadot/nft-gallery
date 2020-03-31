@@ -1,32 +1,42 @@
 <template>
   <div>
+    <div v-if="entries">
+      <DisabledInput
+        label="Validators" :value="entries.validatorCount" /> 
+
+      Epoch
+      <progressbar :value="parseInt(entries.sessionProgress)" :max="parseInt(entries.sessionLength)" show-value></progressbar>
+      
+      Era
+      <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
+    </div>
     <div v-if="sessionResolved" v-for="n in sessionResolved">
       <DisabledInput
         :label="n[0]" :value="n[1]" /> 
-    </div>
-    <div v-if="sessionResolved">
-      <!-- <b-progress :value="sessionResolved.sessionProgress" :max="sessionResolved.sessionLength" show-value></b-progress> -->
     </div>
   </div>
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
+import Progressbar from '@/components/shared/ProgressBar.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
     DisabledInput,
+    Progressbar,
   }
 })
 export default class SummarySession extends Vue {
   private sessionData: any = {};
   private sessionResolved: any = {};
+  private entries: any = {};
   private subs: any[] = [];
   @Prop() public value!: any;
   
 
-  @Watch('sessionData')
+  @Watch('this.sessionData.info')
   private resolve(): void {
     const arr = Object.entries(this.sessionData.info)
   
@@ -36,8 +46,11 @@ export default class SummarySession extends Vue {
     }
 
     const m = new Map(a)    
-    console.log('SummarySession -> resolve -> m', m);
+    const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key]: val }), {});
+    
     this.sessionResolved = m
+    this.entries = obj
+    console.log('trigg')
   }
   
   private async fetchSessionInfo() {
