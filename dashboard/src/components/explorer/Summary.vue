@@ -9,18 +9,7 @@
     <DisabledInput
       label="Total Issuance" :value="formattedTotalIssuance" />
     <SummarySession :currentBlock="currentBlock" />
-    <!-- <b-field label="EraProgress">
-      <b-input :value="eraProgress" disabled></b-input>
-    </b-field>
-    <b-field label="EraLength">
-      <b-input :value="eraLength" disabled></b-input>
-    </b-field> 
-    <b-field label="info">
-      <b-input :value="info" disabled></b-input>
-    </b-field> 
-    <b-field label="sessionProgress">
-      <b-input :value="sessionProgress" disabled></b-input>
-    </b-field>  -->
+    <!-- <RecentBlocks /> -->
   </div>
 </template>
 
@@ -31,11 +20,13 @@ import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import formatBalance from '../../utils/formatBalance';
 import SummarySession from './SummarySession.vue';
+// import RecentBlocks from './RecentBlocks.vue';
 
 @Component({
   components: {
     DisabledInput,
     SummarySession,
+    // RecentBlocks,
   },
 })
 export default class Summary extends Vue {
@@ -62,11 +53,7 @@ export default class Summary extends Vue {
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
-    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.finalized = value));
-    // this.subs.push(await api.derive.session.info((value: any) => this.info = value));
-    // this.subs.push(await api.derive.session.eraLength((value: any) => ``this.eraLength = value));
-    // this.subs.push(await api.derive.session.eraProgress((value: any) => this.eraProgress = value));
-    // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
+    this.subs.push(await api.derive.chain.bestNumberFinalized((value: any) => this.finalized = value));
   }
 
   private async setChainProperties(): Promise<void> {

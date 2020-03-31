@@ -80,7 +80,6 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 export default class BlockDetails extends Vue {
 	@Prop(String) public lastBlock!: string;
 	@Prop(String) public chainName!: string;
-	public activeTab: number = 1;
 	
 }
 </script>
