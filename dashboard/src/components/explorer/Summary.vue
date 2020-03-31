@@ -8,7 +8,7 @@
       label="Finalized" :value="finalized.toString()" />
     <DisabledInput
       label="Total Issuance" :value="formattedTotalIssuance" />
-    <SummarySession />
+    <SummarySession :currentBlock="currentBlock" />
     <!-- <b-field label="EraProgress">
       <b-input :value="eraProgress" disabled></b-input>
     </b-field>

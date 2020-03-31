@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="entries">
+    <div v-if="entries && entries.validatorCount">
       <DisabledInput
         label="Validators" :value="entries.validatorCount" /> 
 
@@ -10,10 +10,11 @@
       Era
       <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
     </div>
-    <div v-if="sessionResolved" v-for="n in sessionResolved">
+    <Collapse :open="false" title="Verbose 👇" :content="sessionResolved" />
+    <!-- <div v-if="sessionResolved" v-for="n in sessionResolved">
       <DisabledInput
         :label="n[0]" :value="n[1]" /> 
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts" >
@@ -21,11 +22,13 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Progressbar from '@/components/shared/ProgressBar.vue';
 import Connector from '@vue-polkadot/vue-api';
+import Collapse from '@/components/shared/Collapse.vue';
 
 @Component({
   components: {
     DisabledInput,
     Progressbar,
+    Collapse,
   }
 })
 export default class SummarySession extends Vue {
@@ -33,24 +36,24 @@ export default class SummarySession extends Vue {
   private sessionResolved: any = {};
   private entries: any = {};
   private subs: any[] = [];
-  @Prop() public value!: any;
+  @Prop({default: 0}) public currentBlock!: number;
   
-
-  @Watch('this.sessionData.info')
+  @Watch('currentBlock')
   private resolve(): void {
-    const arr = Object.entries(this.sessionData.info)
-  
-    const a = []
-    for (const [key, value] of arr) {
-      a.push([key, (value as any).toString()]);
-    }
-
-    const m = new Map(a)    
-    const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key]: val }), {});
+    if (this.sessionData && this.sessionData.info) {
+      const arr = Object.entries(this.sessionData.info)
     
-    this.sessionResolved = m
-    this.entries = obj
-    console.log('trigg')
+      const a = []
+      for (const [key, value] of arr) {
+        a.push([key, (value as any).toString()]);
+      }
+
+      const m = new Map(a)    
+      const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key]: val }), {});
+      
+      this.sessionResolved = m
+      this.entries = obj
+    }
   }
   
   private async fetchSessionInfo() {
@@ -60,7 +63,7 @@ export default class SummarySession extends Vue {
   
   public async mounted() {
     this.fetchSessionInfo();
-    this.resolve();
+    // this.resolve();
   }
 
   // Unsubscribe before destroying component
