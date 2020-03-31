@@ -4,10 +4,11 @@
       <DisabledInput
         label="Validators" :value="entries.validatorCount" /> 
 
-      Epoch
+      <label><b>Epoch</b></label>
       <progressbar :value="parseInt(entries.sessionProgress)" :max="parseInt(entries.sessionLength)" show-value></progressbar>
       
-      Era
+      
+      <label><b>Era</b></label>
       <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
     </div>
     <Collapse :open="false" title="Verbose 👇" :content="sessionResolved" />
@@ -43,13 +44,13 @@ export default class SummarySession extends Vue {
     if (this.sessionData && this.sessionData.info) {
       const arr = Object.entries(this.sessionData.info)
     
-      const a = []
+      const a: any[] = []
       for (const [key, value] of arr) {
         a.push([key, (value as any).toString()]);
       }
 
       const m = new Map(a)    
-      const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key]: val }), {});
+      const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key as string]: val }), {});
       
       this.sessionResolved = m
       this.entries = obj
