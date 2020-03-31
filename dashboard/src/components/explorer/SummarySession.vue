@@ -4,6 +4,9 @@
       <DisabledInput
         :label="n[0]" :value="n[1]" /> 
     </div>
+    <div v-if="sessionResolved">
+      <!-- <b-progress :value="sessionResolved.sessionProgress" :max="sessionResolved.sessionLength" show-value></b-progress> -->
+    </div>
   </div>
 </template>
 <script lang="ts" >
@@ -18,41 +21,28 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class SummarySession extends Vue {
   private sessionData: any = {};
-  private sessionResolved: any = [];
-  private sessionInfo = 'api.derive.session?.info'
+  private sessionResolved: any = {};
   private subs: any[] = [];
   @Prop() public value!: any;
   
-  // get session() {
-    
-  //   return (value: any) => { 
-      
-  //     console.log('SummarySession -> getsession -> this.sessionData[value]', this.sessionData[value]);
-  //     return this.sessionData[value]
-  //   };
-  // }
-
-  // private async getSessionData(value: any) {
-  //   const { api } = Connector.getInstance();
-  //   if (api && this.sessionData) {
-
-  //   }
-  //   // return result.toString()
-  // }
 
   @Watch('sessionData')
   private resolve(): void {
-    for (const [key, value] of Object.entries(this.sessionData.info)) {
-      this.sessionResolved.push([key, (value as any).toString()]);
+    const arr = Object.entries(this.sessionData.info)
+  
+    const a = []
+    for (const [key, value] of arr) {
+      a.push([key, (value as any).toString()]);
     }
+
+    const m = new Map(a)    
+    console.log('SummarySession -> resolve -> m', m);
+    this.sessionResolved = m
   }
   
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.session.info((value: any) => this.sessionData.info = value))
-    // this.subs.push(await api.derive.session.sessionLength((value: any) => this.sessionData.Length = value))
-    // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionData.Progress = value))
-    // this.subs.push(await api.derive.session.currentIndex((value: any) => this.sessionData.currentIndex = value))
 }
   
   public async mounted() {
