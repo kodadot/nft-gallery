@@ -1,14 +1,18 @@
 <template>
-	<ModalWrapper label="Vote" icon="plus">
-		<div>
-		<h3>#{{referendumId.toString()}}</h3>
-		<Dropdown mode="accounts" @selected="handleAccountSelection" />
-		<VoteDropdown @selected="handler" />
-		<Conviction @selected="handler" />
-		<b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal> </b-input>
-    </b-field>
-    
+  <ModalWrapper label="Vote" icon="plus">
+    <div>
+      <h3>#{{ referendumId.toString() }}</h3>
+      <Dropdown mode="accounts" @selected="handleAccountSelection" />
+      <VoteDropdown @selected="handler" />
+      <Conviction @selected="handler" />
+      <Balance
+        :argument="{ name: 'balance', type: 'balance' }"
+        @selected="handleValue"
+      />
+      <b-field label="password 🤫 magic spell" class="password-wrapper">
+        <b-input v-model="password" type="password" password-reveal> </b-input>
+      </b-field>
+
       <b-button
         type="is-primary"
         icon-left="paper-plane"
@@ -18,10 +22,16 @@
       >
         Submit
       </b-button>
-			<ViewTransaction v-if="tx" :tx="tx"/>
+      <b-button
+        v-if="tx"
+        tag="a"
+        :href="explorer + tx"
+        icon-left="external-link-alt"
+      >
+        View on PolkaScan {{ tx.slice(0, 10) }}
+      </b-button>
     </div>
-		
-	</ModalWrapper>
+  </ModalWrapper>
 </template>
 
 <script lang="ts">
@@ -32,64 +42,76 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import VoteDropdown from '@/components/democracy/VoteDropdown.vue';
 import Conviction from '@/components/democracy/Conviction.vue';
 import keyring from '@vue-polkadot/vue-keyring';
-import { notificationTypes,  showNotification } from '@/utils/notification';
+import { notificationTypes, showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
 import ViewTransaction from '../ViewTransaction.vue';
+import Notif from '@/utils/vueNotification';
+import Balance from '@/params/components/Balance.vue';
 
 
 @Component({
-	components: {
-		ModalWrapper,
-		Dropdown,
-		VoteDropdown,
-		Conviction,
-		ViewTransaction,
-	},
+  components: {
+    ModalWrapper,
+    Dropdown,
+    VoteDropdown,
+    Conviction,
+    ViewTransaction,
+    Balance
+  },
 })
 export default class Vote extends Vue {
-	
-	@Prop() public referendumId!: any;
-	private account: any = {};
-	private password: string = '';
-	private tx: string = '';
-	
-	private vote: any = {
-		aye: null,
-		conviction: null,
-	};
+
+  @Prop() public referendumId!: any;
+  private account: any = {};
+  private password: string = '';
+  private tx: string = '';
+  public explorer: string = 'https://polkascan.io/pre/kusama/transaction/';
+  private balance = 0;
+
+  private vote: any = {
+    aye: null,
+    conviction: null,
+  };
 
   public handleAccountSelection(account: KeyringPair) {
-		this.account = account;
-	}
+    this.account = account;
+  }
 
-	public handler(vote: any) {
-		this.vote = {...this.vote, ...vote};
-		console.warn(this.vote);
-		
-	}
+  public handler(vote: any) {
+    this.vote = { ...this.vote, ...vote };
+    console.warn(this.vote);
 
-	public async shipIt() {
-		const { api } = (this as any).$http;
+  }
 
-		if (!api) {
-			return;
-		}
-		
-		try {
-			showNotification('Dispatched');
-			const { referendumId, vote } = this;
-			const { aye, conviction } = vote;
-			this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
-			showNotification(this.tx, notificationTypes.success);
-		} catch (e) {
-			showNotification(e, notificationTypes.danger);
-		}
+  public async shipIt() {
+    const { api } = (this as any).$http;
 
-	}
+    if (!api) {
+      return;
+    }
 
-	private isVoteEmpty() {
-		return !this.vote.aye || this.vote.conviction === null;
-	}
-  
+    try {
+      Notif.info('Dispatched vote');
+      const { referendumId, vote, balance } = this;
+      const { aye, conviction } = vote;
+      this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { Standard: { balance, vote: { aye, conviction } } }]);
+      Notif.success(`Success TX: ${this.tx}`, notificationTypes.success);
+    } catch (e) {
+      console.error(e)
+      Notif.error(e, notificationTypes.danger);
+    }
+
+  }
+
+  private isVoteEmpty() {
+    return this.vote.aye === null || this.vote.conviction === null;
+  }
+
+  private handleValue(value: any) {
+    Object.keys(value).map((item) => {
+      (this as any)[item] = value[item];
+    });
+  }
+
 }
 </script>
