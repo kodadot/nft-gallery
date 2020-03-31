@@ -25,16 +25,23 @@ class NotificationService extends Vue {
     },
   };
 
-  private success(message: string | null, params?: any) {
+  public success(message: string | null, params?: any) {
     this.showNotification(message, { ...this.snackbarTypes.success, ...params })
   }
 
-  private info(message: string | null, params?: any) {
+  public info(message: string | null, params?: any) {
     this.showNotification(message, { ...this.snackbarTypes.info, ...params })
   }
 
-  private danger(message: string | null, params?: any) {
+  public danger(message: string | null, params?: any) {
     this.showNotification(message, { ...this.snackbarTypes.danger, ...params })
+  }
+
+/**
+ * Show error message
+ */
+  public error(message: string | null, params?: any) {
+    this.danger(message, params);
   }
 
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
