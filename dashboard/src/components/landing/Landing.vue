@@ -8,7 +8,7 @@
             🏛 Governance dashboard
           </h1><br>
           <h2 class="subtitle">
-            <a href="https://twitter.com/KodaDot" target="_blank">🐦 Feel free follow us on Twitter @KodaDot</a>
+            <a href="https://twitter.com/KodaDot" target="_blank">🐦 Feel free to follow us on Twitter @KodaDot</a>
           </h2>
 
           📇 You can <router-link :to="{ name: 'accounts' }">

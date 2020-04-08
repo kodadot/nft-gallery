@@ -4,9 +4,11 @@
       label="Chain" :value="chainName" />
     <DisabledInput v-if="typeof lastBlock === 'string'" 
       label="Best Block" :value="lastBlock" />
-		<div class="columns">
+		<SingleBlockDetail />
+    
+    <div class="columns">
 			<div class="column is-6">
-				extrinsics
+				<b-field label="extrinsics"></b-field>
 				<Card nature='timestamp.set (#0)'
           natureDesc="Set the current time. This call should be invoked exactly once per block. It will panic at the finalization phase, if this call hasn't been invoked by that time. The timestamp should be greater than the previous one by the amount specified by `MinimumPeriod`. The dispatch origin for this call must be `Inherent`."
           type="1581518316000"
@@ -26,8 +28,10 @@
           lifetime="immortal"
         />
 			</div>
-			<div class="column is-6">
-				<h1>events</h1>
+		</div>
+    <div class="columns">
+      <div class="column is-6">
+				<b-field label="events"></b-field>
 				<Card nature='system.ExtrinsicSuccess (#0)'
           natureDesc="An extrinsic completed successfully."
           type='"{"weight":10000,"class":"Operational","paysFee":true}"'
@@ -40,18 +44,11 @@
           natureDesc="An extrinsic completed successfully."
           type='"{"weight":1000000,"class":"Normal","paysFee":true}"'
         />
-				
-				<!-- parentHash -><br>
-        extrinsicsRoot -><br>
-        StateRoot -><br>
-        [extrinsics]<br>
-        [events]<br>
-        [logs]<br> -->
 			</div>
-		</div>
+    </div>
 		<div class="columns">
 			<div class="column is-6">
-				<h1>logs</h1>
+        <b-field label="logs"></b-field>
 				<Card nature='PreRuntime'
           type="u32 / BABE"
           extrinsicHash="0x02190000002c62ba0f00000000"
@@ -62,7 +59,6 @@
         />
 			</div>
 		</div>
-
   </div>
 </template>
 <script lang="ts">
@@ -70,11 +66,13 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Card from '../shared/Card.vue';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
+import SingleBlockDetail from './SingleBlockDetail.vue';
 
 @Component({
   components: {
     Card,
     DisabledInput,
+    SingleBlockDetail,
   },
 })
 export default class BlockDetails extends Vue {

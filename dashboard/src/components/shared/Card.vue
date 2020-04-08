@@ -8,7 +8,7 @@
                 class="card-header"
                 role="button"
                 aria-controls="contentIdForA11y3">
-                <p class="card-header-title">
+                <p class="card-header-title truncate">
                     {{nature}}
                 </p>
                 <a class="card-header-icon">
@@ -18,14 +18,26 @@
                 </a>
             </div>
             <div class="card-content">
-                <div class="content">
-                    {{natureDesc}}
+                <div class="content truncate">
+                    <a :href="blockExplorerPrefix + natureDesc">{{natureDesc}}</a>
                 </div>
             </div>
             <footer class="card-footer">
-                <a class="card-footer-item">{{type}}</a>
-                <a class="card-footer-item">{{extrinsicHash}}</a>
-                <a class="card-footer-item">{{lifetime}}</a>
+                <a class="card-footer-item">
+                  <div class="truncate-bottom-slot">
+                    {{type}}
+                  </div>
+                </a>
+                <a class="card-footer-item truncate">
+                  <div class="truncate-bottom-slot">
+                    {{extrinsicHash}}
+                  </div>
+                </a>
+                <a class="card-footer-item truncate">
+                  <div class="truncate-bottom-slot">
+                  {{lifetime}}
+                  </div>
+                </a>
             </footer>
         </b-collapse>
     </section>
@@ -47,9 +59,26 @@ export default class Card extends Vue {
   @Prop(String) public lifetime!: string;
 
   private isPassValid: boolean = true;
+  private blockExplorerPrefix: string = 'https://polkascan.io/pre/kusama/block/'
 
   public validatePassword(password: string): boolean {
     return this.isPassValid = keyring.isPassValid(password);
   }
 }
 </script>
+<style scoped>
+.truncate {
+  /* width: 100px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-bottom-slot {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+</style>
