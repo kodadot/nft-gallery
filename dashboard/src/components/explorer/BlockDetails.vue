@@ -4,7 +4,12 @@
       label="Chain" :value="chainName" />
     <DisabledInput v-if="typeof lastBlock === 'string'" 
       label="Best Block" :value="lastBlock" />
-		<SingleBlockDetail />
+		<!-- <div class="columns">
+      <div class="column"> -->
+        
+        <SingleBlockDetail />
+      <!-- </div>
+		</div> -->
     
     <div class="columns">
 			<div class="column is-6">
