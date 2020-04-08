@@ -11,7 +11,9 @@
       <label><b>Era</b></label>
       <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
     </div>
+    <br>
     <Collapse :open="false" title="Verbose 👇" :content="sessionResolved" />
+
     <!-- <div v-if="sessionResolved" v-for="n in sessionResolved">
       <DisabledInput
         :label="n[0]" :value="n[1]" /> 
