@@ -1,12 +1,12 @@
 <template>
   <div>
 <!-- {{ fetchedBlock }} -->
-    <Card v-if="fetchedBlock && fetchedBlock.block && fetchedBlock.block.header"
-      :nature="`🧊${fetchedBlock.block.header.number.toString()}`"
+    <Card v-if="fetchedBlock && fetchedBlock.stateRoot"
+      :nature="`🧊${fetchedBlock.number.toString()}`"
       :natureDesc="blockHash && blockHash.toString()"
-      :type="fetchedBlock.block.header.parentHash.toString()"
-      :extrinsicHash="fetchedBlock.block.header.extrinsicsRoot.toString()"
-      :lifetime="fetchedBlock.block.header.stateRoot.toString()"
+      :type="fetchedBlock.parentHash.toString()"
+      :extrinsicHash="fetchedBlock.extrinsicsRoot.toString()"
+      :lifetime="fetchedBlock.stateRoot.toString()"
       :open="open"
     />
   </div>
@@ -34,8 +34,8 @@ export default class SingleBlockDetail extends Vue {
   public async loadExternalInfoByHash(hash: any) {
     const { api } = Connector.getInstance();
     if (hash) {
-      this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock(this.hash));
-      this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((this.fetchedBlock.block.header.number)));
+      this.subs.push(this.fetchedBlock = await api.rpc.chain.getHeader(this.hash));
+      this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((this.fetchedBlock.number)));
     }
   }
 
@@ -43,13 +43,13 @@ export default class SingleBlockDetail extends Vue {
     const { api } = Connector.getInstance();
     if (blockNumber) {
       this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((blockNumber)));
-      this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock(this.blockHash));    
+      this.subs.push(this.fetchedBlock = await api.rpc.chain.getHeader(this.blockHash));    
     }
   }
 
   public async loadExternalInfoDefault() {
     const { api } = Connector.getInstance();
-    this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock());
+    this.subs.push(this.fetchedBlock = await api.rpc.chain.getHeader());
     this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash());
   }
 

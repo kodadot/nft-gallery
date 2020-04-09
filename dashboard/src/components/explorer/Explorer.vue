@@ -1,9 +1,9 @@
 <template>
-  <div id="explorer">
+  <div>
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
         <Summary />
-        <!-- MINEFIELD -->
+        <!-- MINEFIELD UWAGA-->
         <!-- <router-link :to="{ name: 'explorerByTabHash',
           params: { tab: 1, hash: '0x470330a6551cded58d5131e243b988354bbe9c5385723207aadc49fe13e7d929' }}">
           Take me to 0x470330a6551cded
@@ -11,27 +11,23 @@
         <!-- <router-link :to="{ name: 'explorerByTab', 
           params: { tab: 1 }}">
           Take me to 0xb9877a09d99927
-        </router-link> 
-        <router-link :to="{ path: '/explorer/1' }"> path /1</router-link>
-        <a href="#/explorer/1">take me to /1</a> -->
+        </router-link> -->
+        <!-- <router-link :to="{ path: '/explorer/1/0x901622909bbf892e5de8979211a6fb2361161a0b5276e328eecfd4b268bc64b1' }"> path /1</router-link>  -->
+        <!-- <a href="#/explorer/1/0x901622909bbf892e5de8979211a6fb2361161a0b5276e328eecfd4b268bc64b1">take me to /1</a> -->
       </b-tab-item>
       <b-tab-item label="Block Details">
 				<BlockDetails 
           :chainName="chainName.toString()"
 					:lastBlock="currentBlock.toString()" />
       </b-tab-item>      
-      <!-- <b-tab-item label="Node Info"> -->
         <!-- <NodeDetails :totalPeers="nodeInfo.health.peers"
         :isSyncing="nodeInfo.health.isSyncing"
         :ourBest="nodeInfo.blockNumber"
          /> -->
-      <!-- </b-tab-item> -->
     </b-tabs>
-    <!-- <p>Recent Block {{conn.header.number}}</p> -->
     <!-- <p>Genesis Hash {{api.genesisHash}}</p> -->
     <!-- <p>RuntimeVersion {{api.runtimeVersion}}</p>
     <p>Library Info {{api.libraryInfo}}</p> -->
-
   </div>
 </template>
 <script lang="ts">
@@ -105,9 +101,8 @@ export default class Explorer extends Vue {
   //     this.activeTab = Number(this.$route.params.tab);
   //   // }
   // }
-
-// CAN DELETE THIS WISE KNOWLEDGE LATER
-    // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
+  // CAN DELETE THIS WISE KNOWLEDGE LATER
+  // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   // @Watch('nodeInfo.peers')
   // public async sortBestPeerBlock() {
   //   // console.log(this.nodeInfo.peers.length);
@@ -116,44 +111,14 @@ export default class Explorer extends Vue {
   //     this.bestPeerBlock = this.bestPeer.bestNumber;
   //   }
   // }
-    // if ((this as any).$http.api) {
-      // const apiResponse = await (this as any).$http.api.rpc.system.chain();
-      // this.conn.chainName = await apiResponse.toString();
-      // const apiPeers = await (this as any).$http.api.rpc.system.peers();
-      // this.nodeInfo.peers = await apiPeers;
-      // const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
-      // this.subs.push(await (this as any).$http.api.derive.chain.bestNumber((val: any) => {
-      //   this.nodeInfo.blockNumber = val.toString();
-      // }));
-      // const apiHealth = await (this as any).$http.api.rpc.system.health();
-      // this.nodeInfo.health = await apiHealth;
-
-      // this.nodeInfo.blockNumber = await apiBestNumber.toString();
-      // const apiSession = await (this as any).$http.api.query.session.validators();
-      // this.nodeInfo.session = await apiSession;
-      // const apiSessionLength = await (this as any).$http.api.query.session.sessionLength();
-      // this.nodeInfo.session.length = await apiSessionLength;
-      // const apiSessionProgress = await (this as any).$http.api.derive.session.sessionProgress();
-      // this.nodeInfo.session.progress = await apiSessionProgress;
-      // const apiSessionCurrentIndex = await (this as any).$http.api.derive.session.currentIndex;
-      // this.nodeInfo.session.currentIndex = await apiSessionCurrentIndex;
-      // const apiSessionEraLength = await (this as any).$http.api.derive.session.eraLength;
-      // this.nodeInfo.session.eraLength = await apiSessionEraLength;
-      // const apiSessionEraProgress = await (this as any).$http.api.derive.session.eraProgress;
-      // this.nodeInfo.session.eraProgress = await apiSessionEraProgress;
-      // const apiSessionActiveEra = await (this as any).$http.api.derive.session.activeEra;
-      // this.nodeInfo.session.activeEra = await apiSessionActiveEra;
-      // const apiSessionInfo = await (this as any).$http.api.derive.session.info;
-      // this.nodeInfo.session.info = await apiSessionInfo;
-      // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
-      // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
-      // const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
-      // this.nodeInfo.totalIssuance = await apiTotalIssuance;
-      // const apiFinalized = await (this as any).$http.api.derive.chain.bestNumberFinalized();
-      // this.nodeInfo.finalized = await apiFinalized;
-
-      // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
-      // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
-    // }
+  // if ((this as any).$http.api) {
+  // const apiPeers = await (this as any).$http.api.rpc.system.peers();
+  // this.nodeInfo.peers = await apiPeers;
+  // const apiHealth = await (this as any).$http.api.rpc.system.health();
+  // this.nodeInfo.health = await apiHealth;
+  // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
+  // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
+  // const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
+  // this.nodeInfo.totalIssuance = await apiTotalIssuance;
 }
 </script>

@@ -96,14 +96,12 @@ export default new Router({
     {
 			path: '/explorer/:tab',
       name: 'explorerByTab',
-      props: true,
       component: () => import('./components/explorer/Explorer.vue'),
       beforeEnter: apiEnabled,
     },
     {
       path: '/explorer/:tab/:hash',
       name: 'explorerByTabHash',
-      props: true,
       component: () => import('./components/explorer/Explorer.vue'),
       beforeEnter: apiEnabled,
     },

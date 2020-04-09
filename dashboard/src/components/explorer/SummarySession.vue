@@ -11,7 +11,7 @@
       <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
     </div>
     <br>
-    <Collapse :open="false" title="Verbose 👇" :content="sessionResolved" />
+    <Collapse :open="false" title="Feel Cute 💝👇" :content="sessionResolved" />
   </div>
 </template>
 <script lang="ts" >
@@ -46,7 +46,9 @@ export default class SummarySession extends Vue {
       }
 
       const m = new Map(a)    
-      const obj = Array.from(m).reduce((acc, [ key, val ]) => Object.assign(acc, { [key as string]: val }), {});
+      const obj = Array.from(m)
+        .reduce((acc, [ key, val ]) => Object
+        .assign(acc, { [key as string]: val }), {});
       
       this.sessionResolved = m
       this.entries = obj
