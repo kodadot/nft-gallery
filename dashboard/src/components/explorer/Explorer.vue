@@ -3,6 +3,17 @@
     <b-tabs v-model="activeTab">
       <b-tab-item label="Chain Info">
         <Summary />
+        <!-- MINEFIELD -->
+        <!-- <router-link :to="{ name: 'explorerByTabHash', 
+          params: { tab: 1, hash: '0xb9877a09d99927abcdca4031eb443b5ca1346124b59545a36d26f2bf9bb17ce7' }}">
+          Take me to 0xb9877a09d99927
+        </router-link>
+        <router-link :to="{ name: 'explorerByTab', 
+          params: { tab: 1 }}">
+          Take me to 0xb9877a09d99927
+        </router-link> 
+        <router-link :to="{ path: '/explorer/1' }"> path /1</router-link>
+        <a href="#/explorer/1">take me to /1</a> -->
       </b-tab-item>
       <b-tab-item label="Block Details">
 				<BlockDetails 
@@ -54,7 +65,47 @@ export default class Explorer extends Vue {
   private currentBlock: any = {};
   private chainName: any = {};
 
-  // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
+  public async loadExternalInfo() {
+    const { api } = Connector.getInstance();
+    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
+    this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
+  }
+  
+  // @Watch('activeTab')
+  // @Watch('$route.params.hash')
+  // @Watch('$route.params.tab')
+  // public async updateHash() {
+  //   // if (typeof this.$route.params.hash) {
+  //   //   this.$router.replace(`/explorer/${this.$route.params.tab}/${this.$route.params.hash}`)
+  //   // } else {
+  //     this.$router.replace(`/explorer/${this.$route.params.tab}`)
+  //     this.activeTab = Number(this.$route.params.tab);
+  //   // }
+  // }
+
+  @Watch('$route.params.tab')
+  public async reflect() {
+    this.activeTab = Number(this.$route.params.tab);
+  }
+
+  @Watch('activeTab')
+  public async updateLocation() {
+    if (typeof this.activeTab === 'number') {
+      this.$router.replace('/explorer/' + this.activeTab);
+    }
+  }
+
+  public async mounted(): Promise<void> {
+    this.reflect();
+    this.loadExternalInfo();
+  }
+
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
+  }
+
+// CAN DELETE THIS WISE KNOWLEDGE LATER
+    // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
   // @Watch('nodeInfo.peers')
   // public async sortBestPeerBlock() {
   //   // console.log(this.nodeInfo.peers.length);
@@ -63,21 +114,6 @@ export default class Explorer extends Vue {
   //     this.bestPeerBlock = this.bestPeer.bestNumber;
   //   }
   // }
-
-  // @Watch('activeTab')
-  // public async updateLocation() {
-  //   // console.log(typeof this.activeTab);
-  //   if (typeof this.activeTab === 'number') {
-  //     this.$router.replace('/explorer/' + this.activeTab);
-  //   }
-  // }
-
-  public async loadExternalInfo() {
-    const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value.toString()));
-
-    this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
-    
     // if ((this as any).$http.api) {
       // const apiResponse = await (this as any).$http.api.rpc.system.chain();
       // this.conn.chainName = await apiResponse.toString();
@@ -117,18 +153,5 @@ export default class Explorer extends Vue {
       // const apiSessionsPerEra = await (this as any).$http.api.consts.staking.sessionsPerEra();
       // this.nodeInfo.sessionsPerEra = await apiSessionsPerEra;
     // }
-  }
-
-  // public async switchTab() {
-  //   this.activeTab = Number(this.$route.params.tab);
-  // }
-
-  public async mounted(): Promise<void> {
-    this.loadExternalInfo();
-  }
-
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
 }
 </script>

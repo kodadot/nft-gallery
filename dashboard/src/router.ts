@@ -100,6 +100,12 @@ export default new Router({
       beforeEnter: apiEnabled,
     },
     {
+      path: '/explorer/:tab/:hash',
+      name: 'explorerByTabHash',
+      component: () => import('./components/explorer/Explorer.vue'),
+      beforeEnter: apiEnabled,
+    },
+    {
 			path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),

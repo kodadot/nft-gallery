@@ -4,12 +4,8 @@
       label="Chain" :value="chainName" />
     <DisabledInput v-if="typeof lastBlock === 'string'" 
       label="Best Block" :value="lastBlock" />
-		<!-- <div class="columns">
-      <div class="column"> -->
-        
-        <SingleBlockDetail />
-      <!-- </div>
-		</div> -->
+
+    <SingleBlockDetail :hash="hash" />
     
     <div class="columns">
 			<div class="column is-6">
@@ -82,7 +78,9 @@ import SingleBlockDetail from './SingleBlockDetail.vue';
 })
 export default class BlockDetails extends Vue {
 	@Prop(String) public lastBlock!: string;
-	@Prop(String) public chainName!: string;
+  @Prop(String) public chainName!: string;
+  
+  private hash: string = '';
 	
 }
 </script>
