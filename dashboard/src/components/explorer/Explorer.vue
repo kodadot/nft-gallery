@@ -4,11 +4,11 @@
       <b-tab-item label="Chain Info">
         <Summary />
         <!-- MINEFIELD -->
-        <!-- <router-link :to="{ name: 'explorerByTabHash', 
-          params: { tab: 1, hash: '0xb9877a09d99927abcdca4031eb443b5ca1346124b59545a36d26f2bf9bb17ce7' }}">
-          Take me to 0xb9877a09d99927
-        </router-link>
-        <router-link :to="{ name: 'explorerByTab', 
+        <!-- <router-link :to="{ name: 'explorerByTabHash',
+          params: { tab: 1, hash: '0x470330a6551cded58d5131e243b988354bbe9c5385723207aadc49fe13e7d929' }}">
+          Take me to 0x470330a6551cded
+        </router-link> -->
+        <!-- <router-link :to="{ name: 'explorerByTab', 
           params: { tab: 1 }}">
           Take me to 0xb9877a09d99927
         </router-link> 
@@ -71,21 +71,11 @@ export default class Explorer extends Vue {
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value.toString()));
   }
   
-  // @Watch('activeTab')
-  // @Watch('$route.params.hash')
-  // @Watch('$route.params.tab')
-  // public async updateHash() {
-  //   // if (typeof this.$route.params.hash) {
-  //   //   this.$router.replace(`/explorer/${this.$route.params.tab}/${this.$route.params.hash}`)
-  //   // } else {
-  //     this.$router.replace(`/explorer/${this.$route.params.tab}`)
-  //     this.activeTab = Number(this.$route.params.tab);
-  //   // }
-  // }
-
   @Watch('$route.params.tab')
   public async reflect() {
-    this.activeTab = Number(this.$route.params.tab);
+    if (typeof this.$route.params.tab === 'number') {
+      this.activeTab = Number(this.$route.params.tab);
+    }
   }
 
   @Watch('activeTab')
@@ -103,6 +93,18 @@ export default class Explorer extends Vue {
   public beforeDestroy() {
     this.subs.forEach((sub) => sub());
   }
+
+  // @Watch('activeTab')
+  // @Watch('$route.params.hash')
+  // @Watch('$route.params.tab')
+  // public async updateHash() {
+  //   // if (typeof this.$route.params.hash) {
+  //   //   this.$router.replace(`/explorer/${this.$route.params.tab}/${this.$route.params.hash}`)
+  //   // } else {
+  //     this.$router.replace(`/explorer/${this.$route.params.tab}`)
+  //     this.activeTab = Number(this.$route.params.tab);
+  //   // }
+  // }
 
 // CAN DELETE THIS WISE KNOWLEDGE LATER
     // You may have an infinite update loop in watcher with expression "nodeInfo.peers"

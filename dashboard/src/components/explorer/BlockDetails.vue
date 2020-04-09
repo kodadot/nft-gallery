@@ -5,7 +5,9 @@
     <DisabledInput v-if="typeof lastBlock === 'string'" 
       label="Best Block" :value="lastBlock" />
 
-    <SingleBlockDetail :hash="$route.params.hash" />
+    <SingleBlockDetail 
+      :hash="$route.params.hash" 
+      :open="true" />
     
     <div class="columns">
 			<div class="column is-6">

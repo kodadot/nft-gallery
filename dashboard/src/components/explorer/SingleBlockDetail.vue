@@ -7,7 +7,7 @@
       :type="fetchedBlock.block.header.parentHash.toString()"
       :extrinsicHash="fetchedBlock.block.header.extrinsicsRoot.toString()"
       :lifetime="fetchedBlock.block.header.stateRoot.toString()"
-      :open="true"
+      :open="open"
     />
   </div>
 </template>
@@ -27,21 +27,41 @@ export default class SingleBlockDetail extends Vue {
   private blockHash: any = '';
   private subs: any[] = [];
   @Prop() public hash!: any;
+  @Prop() public blockNumber!: any;
+  @Prop({ default: false}) public open!: boolean;
 
   @Watch('$route.params.hash')
-  public async loadExternalInfo(hash: any) {
+  public async loadExternalInfoByHash(hash: any) {
     const { api } = Connector.getInstance();
     if (hash) {
       this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock(this.hash));
       this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((this.fetchedBlock.block.header.number)));
-    } else {
-      this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock());
-      this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash());
     }
   }
 
+  public async loadExternalInfoByBlockNumber(blockNumber: any) {
+    const { api } = Connector.getInstance();
+    if (blockNumber) {
+      this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((blockNumber)));
+      this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock(this.blockHash));    
+    }
+  }
+
+  public async loadExternalInfoDefault() {
+    const { api } = Connector.getInstance();
+    this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock());
+    this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash());
+  }
+
   public async mounted(): Promise<void> {
-    this.loadExternalInfo(this.hash);
+    if (this.hash) {
+      this.loadExternalInfoByHash(this.hash);
+    }
+    if (this.blockNumber) {
+      this.loadExternalInfoByBlockNumber(this.blockNumber);
+    } else {
+      this.loadExternalInfoDefault();
+    }
   }
 }
 </script>

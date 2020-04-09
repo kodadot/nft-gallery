@@ -9,7 +9,8 @@
     <DisabledInput
       label="Total Issuance" :value="formattedTotalIssuance" />
     <SummarySession :currentBlock="currentBlock" />
-    <!-- <RecentBlocks /> -->
+    <br>
+    <RecentBlocks />
   </div>
 </template>
 
@@ -20,13 +21,13 @@ import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import formatBalance from '../../utils/formatBalance';
 import SummarySession from './SummarySession.vue';
-// import RecentBlocks from './RecentBlocks.vue';
+import RecentBlocks from './RecentBlocks.vue';
 
 @Component({
   components: {
     DisabledInput,
     SummarySession,
-    // RecentBlocks,
+    RecentBlocks,
   },
 })
 export default class Summary extends Vue {
@@ -68,5 +69,4 @@ export default class Summary extends Vue {
     this.subs.forEach((sub) => sub());
   }
 }
-
 </script>
