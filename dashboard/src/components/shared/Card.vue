@@ -23,12 +23,13 @@
             </div>
         </div>
         <footer class="card-footer">
-          <a :href="blockExplorerPrefix + type" class="card-footer-item">
+          <router-link :to="{ name: 'explorerByTabHash', 
+            params: { tab: 1, hash: type }}" class="card-footer-item">
             <div class="truncate-bottom-slot">
               <i>parent</i><br>
               {{type}}
             </div>
-          </a>
+          </router-link>
           <div class="card-footer-item truncate">
             <div class="truncate-bottom-slot">
               <i>extrinsics</i><br>

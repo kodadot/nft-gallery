@@ -28,9 +28,10 @@ export default class SingleBlockDetail extends Vue {
   private subs: any[] = [];
   @Prop() public hash!: any;
 
-  public async loadExternalInfo() {
+  @Watch('$route.params.hash')
+  public async loadExternalInfo(hash: any) {
     const { api } = Connector.getInstance();
-    if (this.hash) {
+    if (hash) {
       this.subs.push(this.fetchedBlock = await api.rpc.chain.getBlock(this.hash));
       this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((this.fetchedBlock.block.header.number)));
     } else {
@@ -40,7 +41,7 @@ export default class SingleBlockDetail extends Vue {
   }
 
   public async mounted(): Promise<void> {
-    this.loadExternalInfo();
+    this.loadExternalInfo(this.hash);
   }
 }
 </script>
