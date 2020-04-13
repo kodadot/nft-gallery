@@ -9,7 +9,7 @@
           role="button"
           aria-controls="contentIdForA11y3">
           <p class="card-header-title"> 
-              <a :href="blockExplorerPrefix + natureDesc">{{nature}}</a>
+              <a :href="getExplorerUrl(nature)">🧊 {{nature}}</a>
           </p>
           <a class="card-header-icon">
             <b-icon
@@ -19,7 +19,7 @@
         </div>
         <div class="card-content">
             <div class="content truncate">
-                <a :href="blockExplorerPrefix + natureDesc">{{natureDesc}}</a>
+                <a :href="getExplorerUrl(natureDesc)">{{natureDesc}}</a>
             </div>
         </div>
         <footer class="card-footer">
@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import urlBuilder from '@/utils/explorerGuide';
 
 @Component
 export default class Card extends Vue {
@@ -59,9 +60,12 @@ export default class Card extends Vue {
   @Prop(String) public type!: string;
   @Prop(String) public extrinsicHash!: string;
   @Prop(String) public lifetime!: string;
-
-  private blockExplorerPrefix: string = 'https://polkascan.io/pre/kusama/block/'
-
+  
+  getExplorerUrl(value: string) {
+    return urlBuilder(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  } 
 }
 </script>
 <style scoped>

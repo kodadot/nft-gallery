@@ -3,7 +3,7 @@
     <DisabledInput v-if="typeof chainName === 'string'" 
       label="Chain" :value="chainName" />
     <DisabledInput v-if="typeof lastBlock === 'string'" 
-      label="Best Block" :value="lastBlock" />
+      label="Finalized Block" :value="lastBlock" />
 
     <SingleBlockDetail 
       :hash="$route.params.hash" 

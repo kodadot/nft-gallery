@@ -24,7 +24,9 @@
 
           ⚙️ <router-link :to="{ name: 'settings' }">Change your node and appearence</router-link>.<br> 
 
-          🔍 More features will come later as they are being 👩‍🍳cooked.
+          🔍 More features will come later as they are being 👩‍🍳cooked.<br>
+
+          📣 Do you have feedback or question? <a href="https://github.com/vue-polkadot/apps/issues/new">Submit issue, we'd be happy to discuss.</a>
         </div>
       </div>
     </section>
@@ -34,7 +36,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
-export default class Landing extends Vue {}
+export default class Landing extends Vue {
+
+  public async mounted() {
+    this.$store.commit('setExplorer',{provider: 'subscan', chain: 'kusama'})
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

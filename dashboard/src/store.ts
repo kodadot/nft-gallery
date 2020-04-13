@@ -25,6 +25,7 @@ export default new Vuex.Store({
   state: {
     keyringLoaded: false,
     chainProperties: {},
+    explorer: {},
   },
   mutations: {
     keyringLoaded(state: any) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setChainProperties(state: any, data) {
       state.chainProperties = Object.assign({}, data)
+    },
+    setExplorer(state: any, data) {
+      state.explorer = Object.assign({}, data)
     }
   },
   modules: {

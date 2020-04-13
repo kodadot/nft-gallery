@@ -15,11 +15,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
-import formatBalance from '../../utils/formatBalance';
+import formatBalance from '@/utils/formatBalance';
 import SummarySession from './SummarySession.vue';
 import RecentBlocks from './RecentBlocks.vue';
 
@@ -47,7 +47,8 @@ export default class Summary extends Vue {
     const totalIssuance = this.totalIssuance.toString();
     return formatBalance(totalIssuance, this.tokenSymbol, false);
   }
-
+  
+  @Emit('loaded')
   public async mounted() {
     const { api } = Connector.getInstance();
     this.setChainProperties()

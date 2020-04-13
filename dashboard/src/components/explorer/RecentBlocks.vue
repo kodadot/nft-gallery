@@ -24,7 +24,7 @@ export default class RecentBlocks extends Vue {
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
+    this.subs.push(await api.rpc.chain.subscribeFinalizedHeads((value: any) => {
       this.newHeads.unshift(value)
       if (this.newHeads.length > 20) {
         this.newHeads.pop()

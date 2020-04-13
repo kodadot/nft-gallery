@@ -2,7 +2,7 @@
   <div>
 <!-- {{ fetchedBlock }} -->
     <Card v-if="fetchedBlock && fetchedBlock.stateRoot"
-      :nature="`🧊${fetchedBlock.number.toString()}`"
+      :nature="fetchedBlock.number.toString()"
       :natureDesc="blockHash && blockHash.toString()"
       :type="fetchedBlock.parentHash.toString()"
       :extrinsicHash="fetchedBlock.extrinsicsRoot.toString()"
