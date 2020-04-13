@@ -9,22 +9,24 @@ const urlBuilderBlockNumber = (value: string, chain: string, provider: string): 
   }  
 }
 
-const providerDomain = (provider: string, chain: string) => {
-  const map = {
-    polkascan: { domain: 'polkascan.io/' },
-    subscan: { domain: 'subscan.io/',}
+const urlBuilderAccount = (value: string, chain: string, provider: string): any => {
+  if (provider === 'subscan') {
+    return `https://${chain}.${provider}.io/account/${value}`
   }
 
-  switch (provider) {
-    case 'polkascan':
-      return `${map.polkascan.domain}`
-      break;
-    
-    case 'subscan':
-      return `${map.subscan.domain}`
-    default:
-      break;
+  if (provider === 'polkascan') {
+    return `https://${provider}.io/pre/${chain}/account/${value}`
+  }  
+}
+
+const urlBuilderTransaction = (value: string, chain: string, provider: string): any => {
+  if (provider === 'subscan') {
+    return `https://${chain}.${provider}.io/transaction/${value}`
+  }
+
+  if (provider === 'polkascan') {
+    return `https://${provider}.io/pre/${chain}/transaction/${value}`
   }
 }
 
-export default urlBuilderBlockNumber
+export { urlBuilderAccount, urlBuilderBlockNumber, urlBuilderTransaction }

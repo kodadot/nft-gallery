@@ -36,8 +36,9 @@
       >
         Submit
       </b-button>
-      <b-button v-if="tx" tag="a" :href="explorer + tx">
-        View on PolkaScan 👀 {{ tx.slice(0, 20) }}
+      <b-button v-if="tx" tag="a" :href="getExplorerUrl(tx)"
+        icon-left="external-link-alt">
+        View {{ tx.slice(0, 20) }}
       </b-button>
     </div>
   </div>
@@ -52,6 +53,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import InputFile from '../components/extrinsics/components/InputFile.vue';
 import keyring from '@vue-polkadot/vue-keyring';
 import Dropdown from '@/components/shared/Dropdown.vue';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -84,7 +86,6 @@ export default class Extrinsics extends Vue {
   private selectedArguments = {};
   private account: any = null;
   private password: string = '';
-  private explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
   private tx: string = '';
   private conn: any = {
     blockNumber: '',
@@ -97,7 +98,7 @@ export default class Extrinsics extends Vue {
     success: {
       type: 'is-success',
       actionText: 'View',
-      onAction: () => window.open(this.explorer + this.tx, '_blank'),
+      onAction: () => window.open(this.getExplorerUrl(this.tx), '_blank'),
     },
     info: {
       type: 'is-info',
@@ -108,6 +109,12 @@ export default class Extrinsics extends Vue {
       actionText: 'Oh no!',
     },
   };
+
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   public handleSectionSelection(value: string) {
     this.fnSection = value;

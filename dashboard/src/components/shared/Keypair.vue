@@ -73,7 +73,7 @@
             <router-link :to="'/transfer/from/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
-            <a :href="explorerAccount+address" target="_blank">
+            <a :href="getExplorerUrl(address)" target="_blank">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
@@ -86,7 +86,7 @@
             <router-link :to="'/transfer/to/'+address">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
             </router-link>
-            <a :href="explorerAccount+address" target="_blank">
+            <a :href="getExplorerUrl(address)" target="_blank">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
@@ -101,6 +101,7 @@ import Identicon from '@polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import Connector from '@vue-polkadot/vue-api';
 import formatBalance from '../../utils/formatBalance';
+import { urlBuilderAccount } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -110,7 +111,6 @@ import formatBalance from '../../utils/formatBalance';
 export default class Keypair extends Vue {
   public nonce: number = 0;
   public balanceAvailable: string = '';
-  public explorerAccount: string = 'https://polkascan.io/pre/kusama/account/';
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
   public newName: string = '';
@@ -127,6 +127,12 @@ export default class Keypair extends Vue {
   @Prop({ default: 64 }) public size!: number;
   // temporary prop
   @Prop(String) public password!: string;
+
+  getExplorerUrl(value: string) {
+    return urlBuilderAccount(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   get balance() {
     return formatBalance(this.balanceAvailable, this.tokenSymbol, false);

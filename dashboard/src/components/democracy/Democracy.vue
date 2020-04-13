@@ -24,8 +24,8 @@
       >
         Submit Transaction
       </b-button>
-      <b-button v-if="tx" tag="a" :href="explorer + tx">
-        View on PolkaScan 👀 {{ tx.slice(0, 20) }}
+      <b-button v-if="tx" tag="a" :href="getExplorerUrl(tx)">
+        View {{ tx.slice(0, 20) }}
       </b-button>
     </div>
   </div>
@@ -38,7 +38,7 @@ import TxSelect from '../transfer/TxSelect.vue';
 import Executor from '@/components/extrinsics/Executor.vue';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import Selection from '@/components/extrinsics/Selection.vue';
-
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -64,7 +64,6 @@ export default class Democracy extends Vue {
   private selectedArguments = {};
   private account: any = null;
   private password: string = '';
-  private explorer: string = 'https://polkascan.io/pre/alexander/transaction/';
   private tx: string = '';
   private conn: any = {
     blockNumber: '',
@@ -79,7 +78,7 @@ export default class Democracy extends Vue {
     success: {
       type: 'is-success',
       actionText: 'View',
-      onAction: () => window.open(this.explorer + this.tx, '_blank'),
+      onAction: () => window.open(this.getExplorerUrl(this.tx), '_blank'),
     },
     info: {
       type: 'is-info',
@@ -91,6 +90,11 @@ export default class Democracy extends Vue {
     },
   };
 
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   public handleAccountSelection(account: any) {
     console.log('account', account);

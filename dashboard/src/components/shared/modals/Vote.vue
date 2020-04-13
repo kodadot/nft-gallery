@@ -25,10 +25,10 @@
       <b-button
         v-if="tx"
         tag="a"
-        :href="explorer + tx"
+        :href="getExplorerUrl(tx)"
         icon-left="external-link-alt"
       >
-        View on PolkaScan {{ tx.slice(0, 10) }}
+        View {{ tx.slice(0, 10) }}
       </b-button>
     </div>
   </ModalWrapper>
@@ -47,7 +47,7 @@ import exec from '@/utils/transactionExecutor';
 import ViewTransaction from '../ViewTransaction.vue';
 import Notif from '@/utils/vueNotification';
 import Balance from '@/params/components/Balance.vue';
-
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -65,13 +65,18 @@ export default class Vote extends Vue {
   private account: any = {};
   private password: string = '';
   private tx: string = '';
-  public explorer: string = 'https://polkascan.io/pre/kusama/transaction/';
   private balance = 0;
 
   private vote: any = {
     aye: null,
     conviction: null,
   };
+
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   public handleAccountSelection(account: KeyringPair) {
     this.account = account;

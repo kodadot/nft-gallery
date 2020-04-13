@@ -28,9 +28,9 @@
         @click="shipIt">
 				Make Transfer
       </b-button>
-      <b-button v-if="tx" tag="a" :href="explorer + tx"
+      <b-button v-if="tx" tag="a" :href="getExplorerUrl(tx)"
         icon-left="external-link-alt">
-        View on PolkaScan  {{ tx.slice(0, 10) }}
+        View {{ tx.slice(0, 10) }}
       </b-button>
     </div>
   </div>  
@@ -46,6 +46,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Connector from '@vue-polkadot/vue-api';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -60,7 +61,6 @@ import Connector from '@vue-polkadot/vue-api';
 export default class Transfer extends Vue {
   public theme: string = 'substrate';
   public tx: string = '';
-  public explorer: string = 'https://polkascan.io/pre/kusama/transaction/';
   public password: string = '';
   public transfer: any = {
     from: null,
@@ -79,7 +79,7 @@ export default class Transfer extends Vue {
     success: {
       type: 'is-success',
       actionText: 'View',
-      onAction: () => window.open(this.explorer + this.tx, '_blank'),
+      onAction: () => window.open(this.getExplorerUrl(this.tx), '_blank'),
     },
     info: {
       type: 'is-info',
@@ -90,6 +90,12 @@ export default class Transfer extends Vue {
       actionText: 'Oh no!',
     },
   };
+
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   public async shipIt(): Promise<void> {
     const { api } = Connector.getInstance();

@@ -60,6 +60,7 @@ export default class Summary extends Vue {
 
   private async setChainProperties(): Promise<void> {
     const { api } = Connector.getInstance();
+    // settings prefix hotfix
     this.chainProperties = await api.registry.getChainProperties();
     this.$store.commit('setChainProperties', this.chainProperties)
     this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];

@@ -43,6 +43,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@vue-polkadot/vue-keyring';
 import Keypair from '../shared/Keypair.vue';
 import { u8aToHex } from '@polkadot/util';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -50,6 +51,8 @@ import { u8aToHex } from '@polkadot/util';
   },
 })
 export default class Accounts extends Vue {
+  private chainProperties: any;
+
   public searchFilter: string = ''.toLowerCase();
   public theme: string = 'substrate';
   public hideTestingAccounts: boolean = true;
@@ -98,7 +101,12 @@ export default class Accounts extends Vue {
     this.theme = this.$store.state.setting.icon;
   }
 
-  public mounted(): void {
+  public async mounted(): Promise<void> {
+    // settings prefix hotfix
+    const { api } = Connector.getInstance();
+    this.chainProperties = await api.registry.getChainProperties();
+    this.$store.commit('setChainProperties', this.chainProperties)
+
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();

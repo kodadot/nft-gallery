@@ -30,6 +30,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
 import ViewTransaction from '../ViewTransaction.vue';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
 	components: {
@@ -45,8 +46,12 @@ export default class Second extends Vue {
 	private password: string = '';
 	private vote: any = null;
 	private tx: string = '';
-	private explorer: string = 'https://polkascan.io/pre/kusama/transaction/';
 	
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value, 
+      this.$store.state.explorer.chain, 
+      this.$store.state.explorer.provider)
+  }
 
   public handleAccountSelection(account: KeyringPair) {
 		this.account = account;
@@ -75,7 +80,7 @@ export default class Second extends Vue {
 	}
 
 	public onAction() {
-		return () => window.open(this.explorer + this.tx, '_blank');
+		return () => window.open(this.getExplorerUrl(this.tx), '_blank');
 	}
   
 }
