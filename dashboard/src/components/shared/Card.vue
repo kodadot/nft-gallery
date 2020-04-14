@@ -9,7 +9,8 @@
           role="button"
           aria-controls="contentIdForA11y3">
           <p class="card-header-title"> 
-              <a :href="getExplorerUrl(nature)">🧊 {{nature}}</a>
+              <a :href="getExplorerUrl(nature)"  target="_blank">
+                🧊 {{nature}}</a>
           </p>
           <a class="card-header-icon">
             <b-icon
@@ -19,7 +20,8 @@
         </div>
         <div class="card-content">
             <div class="content truncate">
-                <a :href="getExplorerUrl(natureDesc)">{{natureDesc}}</a>
+                <a :href="getExplorerUrl(natureDesc)" target="_blank">
+                  {{natureDesc}}</a>
             </div>
         </div>
         <footer class="card-footer">
