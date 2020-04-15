@@ -4,14 +4,20 @@
       <DisabledInput
         label="Validators" :value="entries.validatorCount" /> 
 
-      <label><b>Epoch</b></label>
-      <progressbar :value="parseInt(entries.sessionProgress)" :max="parseInt(entries.sessionLength)" show-value></progressbar>
-      
-      <label><b>Era</b></label>
-      <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
+      <div class="columns">
+        <div class="column">
+          <center><label><b>Epoch</b></label></center>
+          <progressbar :value="parseInt(entries.sessionProgress)" :max="parseInt(entries.sessionLength)" show-value></progressbar>
+        </div>
+        <div class="column">
+          <center><label><b>Era</b></label></center>
+          <progressbar :value="parseInt(entries.eraProgress)" :max="parseInt(entries.eraLength)" show-value></progressbar>      
+        </div>
+      </div>
     </div>
     <br>
-    <Collapse :open="false" title="Feel Cute 💝👇" :content="sessionResolved" />
+    <!-- verbose session informations -->
+    <!-- <Collapse :open="false" title="Feel Cute 💝👇" :content="sessionResolved" /> -->
   </div>
 </template>
 <script lang="ts" >

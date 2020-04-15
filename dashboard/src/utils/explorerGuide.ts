@@ -21,7 +21,7 @@ const urlBuilderAccount = (value: string, chain: string, provider: string): any 
 
 const urlBuilderTransaction = (value: string, chain: string, provider: string): any => {
   if (provider === 'subscan') {
-    return `https://${chain}.${provider}.io/transaction/${value}`
+    return `https://${chain}.${provider}.io/extrinsic/${value}`
   }
 
   if (provider === 'polkascan') {

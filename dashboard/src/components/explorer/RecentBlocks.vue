@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>recent blocks</h1>
-    <!-- {{newHeads}} -->
+    <h1>recent finalized blocks</h1>
     <div v-for="header in newHeads" :key="header.stateRoot.toString()">
       <SingleBlockDetail :blockNumber="header.number" />
     </div>

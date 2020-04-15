@@ -1,5 +1,5 @@
 <template>
-  <b-progress :value="value" :max="max" size="is-medium" type="is-primary" show-value>
+  <b-progress :value="value" :max="max" size="is-large" type="is-primary" show-value>
     {{value}} / {{max}}
   </b-progress>
 </template>
