@@ -20,13 +20,15 @@
 
           🗳 You can <router-link :to="{ name: 'democracy' }"> vote and submit proposals</router-link> on your favourite chain.<br>
 
-          👩‍🔬 You can <router-link :to="{ name: 'extrinsics' }">submit various type of extrinsics</router-link>.<br>
+          🦠 You can <router-link :to="{ name: 'extrinsics' }">submit various type of extrinsics</router-link>.<br>
 
           ⚙️ <router-link :to="{ name: 'settings' }">Change your node and appearence</router-link>.<br> 
 
           🔍 More features will come later as they are being 👩‍🍳cooked.<br>
 
-          📣 Do you have feedback or question? <a href="https://github.com/vue-polkadot/apps/issues/new">Submit issue, we'd be happy to discuss.</a>
+          📣 Do you have feedback or question? <a href="https://github.com/vue-polkadot/apps/issues/new">Submit issue, we'd be happy to discuss.</a><br>
+          
+          👩‍🔬 Do you have parachain and you want custom module? <a href="https://t.me/yangwao">👋 Reach us on Telegram.</a>
         </div>
       </div>
     </section>
