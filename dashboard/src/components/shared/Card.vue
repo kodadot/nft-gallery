@@ -9,20 +9,20 @@
           role="button"
           aria-controls="contentIdForA11y3">
           <p class="card-header-title"> 
-              <a :href="getExplorerUrl(nature)"  target="_blank">
-                🧊 {{nature}}</a>
+            <a :href="getExplorerUrl(nature)"  target="_blank">
+              🧊 {{nature}}</a>
           </p>
           <a class="card-header-icon">
             <b-icon
-                :icon="props.open ? 'caret-down' : 'caret-up'">
+              :icon="props.open ? 'caret-down' : 'caret-up'">
             </b-icon>
           </a>
         </div>
         <div class="card-content">
-            <div class="content truncate">
-                <a :href="getExplorerUrl(natureDesc)" target="_blank">
-                  {{natureDesc}}</a>
-            </div>
+          <div class="content truncate">
+            <a :href="getExplorerUrl(natureDesc)" target="_blank">
+              {{natureDesc}}</a>
+          </div>
         </div>
         <footer class="card-footer">
           <router-link :to="{ name: 'explorerByTabHash', 

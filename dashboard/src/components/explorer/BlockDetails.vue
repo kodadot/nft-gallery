@@ -35,18 +35,9 @@
     <div class="columns">
       <div class="column is-6">
 				<b-field label="events"></b-field>
-				<Card nature='system.ExtrinsicSuccess (#0)'
-          natureDesc="An extrinsic completed successfully."
-          type='"{"weight":10000,"class":"Operational","paysFee":true}"'
-        />
-				<Card nature='system.ExtrinsicSuccess (#1)'
-          natureDesc="An extrinsic completed successfully."
-          type='"{"weight":10000,"class":"Normal","paysFee":true}"'
-        />
-				<Card nature='system.ExtrinsicSuccess (#2)'
-          natureDesc="An extrinsic completed successfully."
-          type='"{"weight":1000000,"class":"Normal","paysFee":true}"'
-        />
+				<SingleBlockEventDetail 
+          :hash="queryBlock"
+          :open="true" />
 			</div>
     </div>
 		<div class="columns">
@@ -70,12 +61,14 @@ import Router from 'vue-router';
 import Card from '../shared/Card.vue';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import SingleBlockDetail from './SingleBlockDetail.vue';
+import SingleBlockEventDetail from './SingleBlockEventDetail.vue';
 
 @Component({
   components: {
     Card,
     DisabledInput,
     SingleBlockDetail,
+    SingleBlockEventDetail,
   },
 })
 export default class BlockDetails extends Vue {

@@ -1,0 +1,61 @@
+<template>
+  <div>
+    <!-- {{ events }}
+    {{ payload }} -->
+    
+    <div v-for="event in events" :key="event.phase.ApplyExtrinsic">
+      <CardEvents 
+        header="system.ExtrinsicSuccess" 
+        :content="event.event.data[0]"
+        :open="open"
+      />
+    </div>
+  </div>
+</template>
+<script lang="ts" >
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Connector from '@vue-polkadot/vue-api';
+import CardEvents from '@/components/shared/CardEvents.vue'
+
+@Component({
+  components: {
+    CardEvents,
+  }
+})
+export default class SingleBlockEventDetail extends Vue {
+  
+  private payload: any = {};
+  private events: any = [];
+  private subs: any[] = [];
+  @Prop() public hash!: string;
+  @Prop({ default: false}) public open!: boolean;
+
+  @Watch('$route.params.hash')
+  public async loadExternalInfoByHash(hash: string) {
+    console.log('SingleBlockEventDetail -> loadExternalInfoByHash -> hash', hash);
+    const { api } = Connector.getInstance()
+    this.subs.push(this.events = await api.query.system.events.at(this.hash));
+  }
+
+  @Watch('events')
+  private resolve(): void { 
+    const arr = Object.entries(this.events)
+
+    const a: any[] = []
+      for (const [key, value] of arr) {
+        a.push([key, (value as any).toString()]);
+      }
+
+      const m = new Map(a)    
+      const obj = Array.from(m)
+        .reduce((acc, [ key, val ]) => Object
+        .assign(acc, { [key as string]: val }), {});
+
+    this.payload = obj
+  }
+
+  public async mounted(): Promise<void> {
+    this.loadExternalInfoByHash(this.hash);
+  }
+}
+</script>
