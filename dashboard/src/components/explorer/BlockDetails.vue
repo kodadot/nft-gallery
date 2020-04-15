@@ -6,7 +6,7 @@
       label="Finalized Block" :value="lastBlock" />
 
     <SingleBlockDetail 
-      :hash="$route.params.hash" 
+      :hash="queryBlock" 
       :open="true" />
     
     <div class="columns">
@@ -81,8 +81,6 @@ import SingleBlockDetail from './SingleBlockDetail.vue';
 export default class BlockDetails extends Vue {
 	@Prop(String) public lastBlock!: string;
   @Prop(String) public chainName!: string;
-  
-  private hash: string = '';
-	
+  @Prop() public queryBlock!: string;
 }
 </script>

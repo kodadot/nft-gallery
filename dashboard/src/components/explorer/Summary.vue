@@ -8,7 +8,9 @@
       label="Finalized" :value="finalized.toString()" />
     <DisabledInput
       label="Total Issuance" :value="formattedTotalIssuance" />
-    <SummarySession :currentBlock="currentBlock" />
+    <b-progress v-if="!SummarySessionLoaded"
+      size="is-large" type="is-primary" show-value>Fetching data</b-progress>
+    <SummarySession :currentBlock="currentBlock" @loadedSession="sessionIsLoaded" />
     <br>
     <RecentBlocks />
   </div>
@@ -31,6 +33,7 @@ import RecentBlocks from './RecentBlocks.vue';
   },
 })
 export default class Summary extends Vue {
+  private SummarySessionLoaded: boolean = false;
   private totalIssuance: any = '';
   private currentBlock: any = {};
   private chainName: any = {};
@@ -45,7 +48,12 @@ export default class Summary extends Vue {
 
   get formattedTotalIssuance() {
     const totalIssuance = this.totalIssuance.toString();
+    
     return formatBalance(totalIssuance, this.tokenSymbol, false);
+  }
+  
+  public sessionIsLoaded() {
+    this.SummarySessionLoaded = true
   }
   
   @Emit('loaded')

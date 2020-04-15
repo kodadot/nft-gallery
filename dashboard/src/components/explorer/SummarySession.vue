@@ -21,7 +21,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Progressbar from '@/components/shared/ProgressBar.vue';
 import Connector from '@vue-polkadot/vue-api';
@@ -36,6 +36,7 @@ import Collapse from '@/components/shared/Collapse.vue';
 })
 export default class SummarySession extends Vue {
   private sessionData: any = {};
+  private emitedLoaded: boolean = false;
   private sessionResolved: any = {};
   private entries: any = {};
   private subs: any[] = [];
@@ -58,17 +59,20 @@ export default class SummarySession extends Vue {
       
       this.sessionResolved = m
       this.entries = obj
+      if (!this.emitedLoaded) {
+        this.$emit('loadedSession')
+        this.emitedLoaded = true
+      }
     }
   }
   
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.session.info((value: any) => this.sessionData.info = value))
-}
-  
+  }
+
   public async mounted() {
     this.fetchSessionInfo();
-    // this.resolve();
   }
 
   // Unsubscribe before destroying component
