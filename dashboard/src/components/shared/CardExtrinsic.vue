@@ -9,7 +9,7 @@
           role="button"
           aria-controls="contentIdForA11y3">
           <p class="card-header-title"> 
-              {{header}}
+            {{header}}
           </p>
           <a class="card-header-icon">
             <b-icon
@@ -19,9 +19,29 @@
         </div>
         <div class="card-content">
           <div class="content truncate">
-              {{content}}
+            {{content}}
           </div>
         </div>
+        <footer class="card-footer">
+          <div class="card-footer-item">
+            <div class="truncate-bottom-slot">
+              <i>hint</i><br>
+              {{item1}}
+            </div>
+          </div>
+          <div class="card-footer-item truncate">
+            <div class="truncate-bottom-slot">
+              <i>extrinsic hash</i><br>
+              {{item2}}
+            </div>
+          </div>
+          <div class="card-footer-item truncate">
+            <div class="truncate-bottom-slot">
+            <i>lifetime</i><br>
+            {{item3}}
+            </div>
+          </div>
+        </footer>
       </b-collapse>
     </section>
   </div>
@@ -29,14 +49,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
 
 @Component
-export default class CardEvents extends Vue {
+export default class CardExtrinsic extends Vue {
   @Prop({ default: false}) public open!: boolean;
   @Prop() public header!: any;
   @Prop() public content!: any;
-  
+  @Prop() public item1!: any;
+  @Prop() public item2!: any;
+  @Prop() public item3!: any;
 }
 </script>
 <style scoped>

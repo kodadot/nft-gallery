@@ -11,33 +11,17 @@
     
     <div class="columns">
 			<div class="column is-6">
-				<b-field label="extrinsics"></b-field>
-				<Card nature='timestamp.set (#0)'
-          natureDesc="Set the current time. This call should be invoked exactly once per block. It will panic at the finalization phase, if this call hasn't been invoked by that time. The timestamp should be greater than the previous one by the amount specified by `MinimumPeriod`. The dispatch origin for this call must be `Inherent`."
-          type="1581518316000"
-          extrinsicHash="0x00781baf5287f2bc103dc76ced4ef768516730881afcd5e39605827afd868b88"
-          lifetime="lifetime"
-        />
-        <Card nature='finalityTracker.finalHint (#1)'
-          natureDesc="Hint that the author of this block thinks the best finalized block is the given number."
-          type="1,290,492"
-          extrinsicHash="0x0b69f087f6897616b50de535d3500e5bd7a4592b0a5a69e3019faf62bb49a769"
-          lifetime="lifetime"
-        />
-        <Card nature='parachains.setHeads (#2)'
-          natureDesc="Provide candidate receipts for parachains, in ascending order by id."
-          type="1,290,492"
-          extrinsicHash="0xcf52705d1ade64fc0b05859ac28358c0770a217dd76b75e586ae848c56ae810d"
-          lifetime="immortal"
-        />
+				<b-field label="extrinsics"></b-field> 
+        <SingleBlockExtrinsicsDetail 
+          :hash="queryBlock"
+          :open="true" />
 			</div>
 		</div>
     <div class="columns">
       <div class="column is-6">
 				<b-field label="events"></b-field>
 				<SingleBlockEventDetail 
-          :hash="queryBlock"
-          :open="true" />
+          :hash="queryBlock" />
 			</div>
     </div>
 		<div class="columns">
@@ -62,6 +46,7 @@ import Card from '../shared/Card.vue';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import SingleBlockDetail from './SingleBlockDetail.vue';
 import SingleBlockEventDetail from './SingleBlockEventDetail.vue';
+import SingleBlockExtrinsicsDetail from './SingleBlockExtrinsicsDetail.vue';
 
 @Component({
   components: {
@@ -69,6 +54,7 @@ import SingleBlockEventDetail from './SingleBlockEventDetail.vue';
     DisabledInput,
     SingleBlockDetail,
     SingleBlockEventDetail,
+    SingleBlockExtrinsicsDetail
   },
 })
 export default class BlockDetails extends Vue {
