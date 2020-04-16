@@ -29,13 +29,19 @@ export default class SingleBlockDetail extends Vue {
   @Prop() public blockNumber!: any;
   @Prop({ default: false}) public open!: boolean;
 
+  @Watch('$route.params.hash')
+  public async singleMode(hash: any) {
+    if (this.$parent.$options.name !== 'RecentBlocks') {
+      this.loadExternalInfoByHash(hash);
+    }
+  }
+
   public async loadExternalInfoByBlockNumber(blockNumber: any) {
     const { api } = Connector.getInstance();
     this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((blockNumber)));
     this.subs.push(this.fetchedBlock = await api.rpc.chain.getHeader(this.blockHash));    
   }
 
-  @Watch('$route.params.hash')
   public async loadExternalInfoByHash(hash: any) {
     const { api } = Connector.getInstance();
     this.subs.push(this.fetchedBlock = await api.rpc.chain.getHeader(this.hash));

@@ -32,7 +32,6 @@ export default class SingleBlockEventDetail extends Vue {
 
   @Watch('$route.params.hash')
   public async loadExternalInfoByHash(hash: string) {
-    console.log('SingleBlockEventDetail -> loadExternalInfoByHash -> hash', hash);
     const { api } = Connector.getInstance()
     this.subs.push(this.events = await api.query.system.events.at(this.hash));
   }

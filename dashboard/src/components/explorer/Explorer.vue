@@ -1,9 +1,11 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab" @input="$router.replace(`/explorer/${activeTab}`)">
+    <b-tabs v-model="activeTab" @input="tabClick">
       <b-tab-item label="Chain Info">
         <b-progress v-if="!loadedSummary"
-        size="is-large" show-value>Fetching data</b-progress>
+        size="is-large" 
+        type="is-primary" 
+        show-value>Fetching data</b-progress>
         <Summary @loaded="summaryIsLoaded" />
       </b-tab-item>
       <b-tab-item label="Block Details">
@@ -36,17 +38,10 @@ import Summary from './Summary.vue';
 export default class Explorer extends Vue {
   public loadedSummary: boolean = false;
   public activeTab: number = 0;
-  public conn: any = { chain: '', nodeName: '', nodeVersion: '', header: {}};
-  public bestPeer: any = null;
-  public bestPeerBlock: any = null;
-  public api: any = null;
-  public nodeInfo: any = {
-    blockNumber: '', health: '', peers: '', extrinsics: '', session: {},
-    totalIssuance: '', finalized: '', era: '', sessionsPerEra: '',
-  };
   private subs: any[] = [];
   private currentBlock: any = {};
   private chainName: any = {};
+  private blockHash: any = ''
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
@@ -65,6 +60,15 @@ export default class Explorer extends Vue {
     this.loadedSummary = true;
   }
 
+  public async tabClick(): Promise<void> {
+    this.$router.replace(`/explorer/${this.activeTab}`)
+    if (this.activeTab === 1) {
+      const { api } = Connector.getInstance();
+      this.subs.push(this.blockHash = await api.rpc.chain.getBlockHash((this.currentBlock)));
+      this.$router.replace(`/explorer/${this.activeTab}/${this.blockHash}`)
+    }
+  }
+
   public async mounted(): Promise<void> {
     this.reflect();
     this.loadExternalInfo();
@@ -73,25 +77,5 @@ export default class Explorer extends Vue {
   public beforeDestroy() {
     this.subs.forEach((sub) => sub());
   }
-
-  // CAN DELETE THIS WISE KNOWLEDGE LATER
-  // You may have an infinite update loop in watcher with expression "nodeInfo.peers"
-  // @Watch('nodeInfo.peers')
-  // public async sortBestPeerBlock() {
-  //   // console.log(this.nodeInfo.peers.length);
-  //   if (this.nodeInfo.peers.length) {
-  //     this.bestPeer = this.nodeInfo.peers.sort((a: any, b: any): number => b.bestNumber.cmp(a.bestNumber))[0];
-  //     this.bestPeerBlock = this.bestPeer.bestNumber;
-  //   }
-  // }
-  // if ((this as any).$http.api) {
-  // const apiPeers = await (this as any).$http.api.rpc.system.peers();
-  // this.nodeInfo.peers = await apiPeers;
-  // const apiHealth = await (this as any).$http.api.rpc.system.health();
-  // this.nodeInfo.health = await apiHealth;
-  // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
-  // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
-  // const apiTotalIssuance = await (this as any).$http.api.query.balances.totalIssuance();
-  // this.nodeInfo.totalIssuance = await apiTotalIssuance;
 }
 </script>

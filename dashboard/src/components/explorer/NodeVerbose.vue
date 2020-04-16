@@ -43,5 +43,11 @@ export default class  extends Vue {
   // <!-- <p>Genesis Hash {{api.genesisHash}}</p> -->
   // <!-- <p>RuntimeVersion {{api.runtimeVersion}}</p>
   // <p>Library Info {{api.libraryInfo}}</p> -->
+  // const apiPeers = await (this as any).$http.api.rpc.system.peers();
+  // this.nodeInfo.peers = await apiPeers;
+  // const apiHealth = await (this as any).$http.api.rpc.system.health();
+  // this.nodeInfo.health = await apiHealth;
+  // const apiPendingExtrinsics = await (this as any).$http.api.rpc.author.pendingExtrinsics();
+  // this.nodeInfo.extrinsics = await apiPendingExtrinsics;
 }
 </script>
