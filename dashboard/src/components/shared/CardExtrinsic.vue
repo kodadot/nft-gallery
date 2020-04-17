@@ -25,19 +25,19 @@
         <footer class="card-footer">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>hint</i><br>
+              <i>{{item1header}}</i><br>
               {{item1}}
             </div>
           </div>
-          <div class="card-footer-item truncate">
+          <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>extrinsic hash</i><br>
+              <i>{{item2header}}</i><br>
               {{item2}}
             </div>
           </div>
-          <div class="card-footer-item truncate">
+          <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-            <i>lifetime</i><br>
+            <i>{{item3header}}</i><br>
             {{item3}}
             </div>
           </div>
@@ -56,8 +56,11 @@ export default class CardExtrinsic extends Vue {
   @Prop() public header!: any;
   @Prop() public content!: any;
   @Prop() public item1!: any;
+  @Prop() public item1header!: any;
   @Prop() public item2!: any;
+  @Prop() public item2header!: any;
   @Prop() public item3!: any;
+  @Prop() public item3header!: any;
 }
 </script>
 <style scoped>

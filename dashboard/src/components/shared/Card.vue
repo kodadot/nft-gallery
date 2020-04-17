@@ -1,5 +1,5 @@
 <template>
-  <div id="Card">
+  <div>
     <section>
       <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
         <div
@@ -25,20 +25,22 @@
           </div>
         </div>
         <footer class="card-footer">
-          <router-link :to="{ name: 'explorerByTabHash', 
-            params: { tab: 1, hash: type }}" class="card-footer-item">
+          <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>parent</i><br>
-              {{type}}
+              <router-link :to="{ name: 'explorerByTabHash', 
+                params: { tab: 1, hash: type }}">
+                <i>parent</i><br>
+                {{type}}
+              </router-link>
             </div>
-          </router-link>
-          <div class="card-footer-item truncate">
+          </div>
+          <div class="card-footer-item">
             <div class="truncate-bottom-slot">
               <i>extrinsics</i><br>
               {{extrinsicHash}}
             </div>
           </div>
-          <div class="card-footer-item truncate">
+          <div class="card-footer-item">
             <div class="truncate-bottom-slot">
             <i>state</i><br>
             {{lifetime}}

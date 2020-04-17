@@ -9,9 +9,6 @@
         alt="KodaDot logo"
       />
     </figure>
-    <figure>
-      <NetworkVisualCue />
-    </figure>
     <b-menu>
       <b-menu-list v-if="!isSidebarClosed" label="" icon-pack="fa">
         <b-menu-item
@@ -54,6 +51,9 @@
         ></b-menu-item>
       </b-menu-list>
     </b-menu>
+    <figure>
+      <NetworkVisualCue />
+    </figure>
     <b-switch v-if="!isSidebarClosed" v-model="showVerbose" 
       class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
     <SettingInfo v-if="!isSidebarClosed && showVerbose" />

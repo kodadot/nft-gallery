@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- {{ events }}
-    {{ payload }} -->
-    
     <div v-for="event in events" :key="event.phase.ApplyExtrinsic">
       <CardEvents 
         header="system.ExtrinsicSuccess" 
@@ -34,23 +31,6 @@ export default class SingleBlockEventDetail extends Vue {
   public async loadExternalInfoByHash(hash: string) {
     const { api } = Connector.getInstance()
     this.subs.push(this.events = await api.query.system.events.at(this.hash));
-  }
-
-  @Watch('events')
-  private resolve(): void { 
-    const arr = Object.entries(this.events)
-
-    const a: any[] = []
-      for (const [key, value] of arr) {
-        a.push([key, (value as any).toString()]);
-      }
-
-      const m = new Map(a)    
-      const obj = Array.from(m)
-        .reduce((acc, [ key, val ]) => Object
-        .assign(acc, { [key as string]: val }), {});
-
-    this.payload = obj
   }
 
   public async mounted(): Promise<void> {
