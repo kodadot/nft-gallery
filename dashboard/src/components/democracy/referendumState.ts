@@ -1,12 +1,12 @@
 import BN from 'bn.js';
 import Connector from '@vue-polkadot/vue-api';
 
-import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
+import { DeriveReferendumVote, DeriveReferendum } from '@polkadot/api-derive/types';
 import { ReferendumInfoTo239, ReferendumStatus, Tally } from '@polkadot/types/interfaces';
 
 interface State {
-  allAye: DerivedReferendumVote[];
-  allNay: DerivedReferendumVote[];
+  allAye: DeriveReferendumVote[];
+  allNay: DeriveReferendumVote[];
   voteCount: number;
   voteCountAye: number;
   voteCountNay: number;
@@ -30,8 +30,8 @@ function isCurrentStatus (status: ReferendumStatus | ReferendumInfoTo239): statu
   return !!(status as ReferendumStatus).tally;
 }
 
-function calcStateOld (votesFor: DerivedReferendumVote[]): State {
-  return votesFor.reduce((state: State, derived): State => {
+function calcStateOld (votesFor: any): State {
+  return votesFor.reduce((state: State, derived: any): State => {
     const { balance, vote } = derived;
     const isDefault = vote.conviction.index === 0;
     const counted = balance
@@ -64,11 +64,11 @@ function calcStateOld (votesFor: DerivedReferendumVote[]): State {
   });
 }
 
-function calcState (tally: Tally, votes: DerivedReferendumVote[] = []): State {
-  const allAye: DerivedReferendumVote[] = [];
-  const allNay: DerivedReferendumVote[] = [];
+function calcState (tally: Tally, votes: any = []): State {
+  const allAye: DeriveReferendumVote[] = [];
+  const allNay: DeriveReferendumVote[] = [];
 
-  votes.forEach((derived): void => {
+  votes.forEach((derived: any): void => {
     if (derived.vote.isAye) {
       allAye.push(derived);
     } else {
@@ -91,7 +91,7 @@ function calcState (tally: Tally, votes: DerivedReferendumVote[] = []): State {
 
 const referendumState = async (referendum: any): Promise<State> => {
 	if (Connector.getInstance()) {
-		const votes = await Connector.getInstance().api.derive.democracy.referendumVotes(referendum.index);
+		const votes = await Connector.getInstance().api.derive.democracy._referendumVotes(referendum.index);
 		if (isCurrentStatus(referendum.status)) {
       return calcState(referendum.status.tally, votes);
     } else if (votes) {

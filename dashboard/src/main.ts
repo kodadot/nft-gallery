@@ -35,7 +35,7 @@ library.add(faTrash, faKey, faSync, faRedo,
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 
 (window as any).C = Connector; 
-Connector.createInstance(store.state.setting.apiUrl);
+// Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
 
 Vue.use(Buefy, {

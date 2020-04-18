@@ -9,24 +9,58 @@ const vuexLocalStorage = new VuexPersist({
   storage: window.sessionStorage,
 });
 
+interface ChangeUrlAction {
+  type: string;
+  payload: string;
+}
+
+const apiPlugin = (store: any) => {
+  const { getInstance: Api } = Connector
+  Api().on('connect', async (api: any) => {
+    const { chainSS58, chainDecimals, chainToken  } = api.registry
+    console.log('[API] Connect to <3', store.state.setting.apiUrl, { chainDecimals, chainToken});
+    store.commit('setChainProperties', {
+      ss58Format: chainSS58 || 42,
+      tokenDecimals: chainDecimals || 12,
+      tokenSymbol: chainToken || 'Unit'
+    })
+    
+  })
+  Api().on('error', async (error: Error) => {
+    store.commit('setError', error);
+    console.warn('[API] error', error);
+  })
+}
 
 const myPlugin = (store: any) => {
-  // called when the store is initialized
-  store.subscribe(({ type, payload }: any, state: any) => {
-    if (type === 'setSettings' && payload.apiUrl) {
-      Connector.getInstance().changeApiUrl(payload.apiUrl);
+  const { getInstance: Api } = Connector
+  Api().connect(store.state.setting.apiUrl)
+
+
+  store.subscribeAction(({type, payload}: ChangeUrlAction, _: any) => {
+    if (type === 'setApiUrl' && payload) {
+      store.commit('setLoading', true)
+      Api().connect(payload)
     }
-  });
+  })
+  // // called when the store is initialized
+  // store.subscribe(({ type, payload }: any, state: any) => {
+  //   if (type === 'setSettings' && payload.apiUrl) {
+  //     Connector.getInstance().changeApiUrl(payload.apiUrl);
+  //   }
+  // });
 };
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    loading: false,
     keyringLoaded: false,
     chainProperties: {},
     explorer: {},
     explorerOptions: {},
+    error: null,
   },
   mutations: {
     keyringLoaded(state: any) {
@@ -40,10 +74,17 @@ export default new Vuex.Store({
     },
     setExplorerOptions(state: any, data) {
       state.explorerOptions = Object.assign({}, data)
+    },
+    setLoading(state: any, toggleTo: boolean) {
+      state.loading = toggleTo;
+    },
+    setError(state: any, error: Error) {
+      state.loading = false;
+      state.error = error.message;
     }
   },
   modules: {
     setting: SettingModule,
   },
-  plugins: [myPlugin, vuexLocalStorage.plugin ],
+  plugins: [vuexLocalStorage.plugin, apiPlugin, myPlugin ],
 });
