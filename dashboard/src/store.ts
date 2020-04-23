@@ -18,7 +18,8 @@ const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
   Api().on('connect', async (api: any) => {
     const { chainSS58, chainDecimals, chainToken  } = api.registry
-    console.log('[API] Connect to <3', store.state.setting.apiUrl, { chainDecimals, chainToken});
+    console.log('[API] Connect to <3', store.state.setting.apiUrl, 
+      { chainSS58, chainDecimals, chainToken});
     store.commit('setChainProperties', {
       ss58Format: chainSS58 || 42,
       tokenDecimals: chainDecimals || 12,

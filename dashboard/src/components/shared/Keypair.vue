@@ -109,7 +109,7 @@ import { urlBuilderAccount } from '@/utils/explorerGuide';
   },
 })
 export default class Keypair extends Vue {
-  public nonce: number = 0;
+  public nonce: string = '-';
   public balanceAvailable: string = '';
   public isEditingName: boolean = false;
   public isEditingTags: boolean = false;
