@@ -28,7 +28,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import CardExtrinsic from '@/components/shared/CardExtrinsic.vue';
 import CardEvents from '@/components/shared/CardEvents.vue';
 import Connector from '@vue-polkadot/vue-api';
-import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
+// import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
 
 @Component({
   components: {

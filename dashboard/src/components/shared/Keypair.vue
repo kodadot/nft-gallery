@@ -117,7 +117,7 @@ export default class Keypair extends Vue {
   public newTags: any = null;
   private subs: any[] = [];
   private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[2][1]
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
@@ -205,15 +205,7 @@ export default class Keypair extends Vue {
     const { nonce, data: balance } = await api.query.system.account(this.address);
     this.balanceAvailable = balance.free.toString();
     this.nonce = nonce.toString();
-    this.chainProperties = await api.registry.getChainProperties();
     console.log(this.balanceAvailable);
-  }
-
-  private async setChainProperties(): Promise<void> {
-    const { api } = Connector.getInstance();
-    this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
-    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 
   public mounted(): void {

@@ -44,7 +44,7 @@ export default class Summary extends Vue {
   private sessionProgress: any = {};
   private subs: any[] = [];
   private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[2][1]
 
   get formattedTotalIssuance() {
     const totalIssuance = this.totalIssuance.toString();
@@ -59,19 +59,10 @@ export default class Summary extends Vue {
   @Emit('loaded')
   public async mounted() {
     const { api } = Connector.getInstance();
-    this.setChainProperties()
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
     this.subs.push(await api.derive.chain.bestNumberFinalized((value: any) => this.finalized = value));
-  }
-
-  private async setChainProperties(): Promise<void> {
-    const { api } = Connector.getInstance();
-    // settings prefix hotfix
-    this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
-    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 
   // Unsubscribe before destroying component

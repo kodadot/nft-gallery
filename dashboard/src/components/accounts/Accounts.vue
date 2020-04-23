@@ -102,11 +102,6 @@ export default class Accounts extends Vue {
   }
 
   public async mounted(): Promise<void> {
-    // settings prefix hotfix
-    const { api } = Connector.getInstance();
-    this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
-
     this.isKeyringLoaded();
     this.mapAccounts();
     this.getIconTheme();
