@@ -21,22 +21,17 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class Dashboard extends Vue {
   private chainProperties: any;
-  private chainS58Format: number = 42;
-  private chainS58FormatSettings: any = -1;
+  private ss58Format: any = 42;
 
   public async getChainProperties(): Promise<void> {
-    // const { api } = Connector.getInstance();
-    // this.chainProperties = await api.registry.getChainProperties();
-    // this.$store.commit('chainProperties');
-    this.chainS58FormatSettings = Object.entries(this.$store.getters.getSettings)[6][1];
-    this.chainS58Format = this.chainS58FormatSettings;
-    console.log('ss58format - settings', this.chainS58FormatSettings);
+    this.ss58Format = Object.entries(this.$store.state.chainProperties)[0][1];
+    console.log('ss58format - settings', this.ss58Format);
   }
 
   public async loadKeyring(): Promise<void> {
     this.getChainProperties();
     keyring.loadAll({
-      ss58Format: this.chainS58Format,
+      ss58Format: this.ss58Format,
       type: 'sr25519',
       isDevelopment: false,
     });
