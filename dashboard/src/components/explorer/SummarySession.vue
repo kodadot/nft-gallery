@@ -16,6 +16,7 @@
       </div>
     </div>
     <br>
+    {{ sessionData.info }}
     <!-- verbose session informations -->
     <!-- <Collapse :open="false" title="Feel Cute 💝👇" :content="sessionResolved" /> -->
   </div>

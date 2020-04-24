@@ -8,7 +8,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class DisabledInput extends Vue {
-  @Prop(String) public label!: any;
-  @Prop(String) public value!: any;
+  @Prop() public label!: any;
+  @Prop() public value!: any;
 }
 </script>
