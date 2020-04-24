@@ -74,7 +74,7 @@ export default class Card extends Vue {
 </script>
 <style scoped>
 .truncate {
-  max-width: 600px;
+  max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

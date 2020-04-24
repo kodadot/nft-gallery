@@ -19,7 +19,7 @@
     "@polkadot/util-crypto": "^2.6.2",
     "@polkadot/vue-identicon": "^0.51.1",
     "@types/file-saver": "^2.0.1",
-    "@vue-polkadot/vue-api": "0.0.14",
+    "@vue-polkadot/vue-api": "0.0.16",
     "@vue-polkadot/vue-identicon": "^0.0.8",
     "@vue-polkadot/vue-keyring": "2.1.0",
     "@vue-polkadot/vue-settings": "0.0.12-beta.1",
