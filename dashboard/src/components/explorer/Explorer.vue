@@ -1,20 +1,23 @@
 <template>
   <div>
     <b-tabs v-model="activeTab" @input="tabClick">
-      <b-tab-item label="Chain Info">
+      <b-tab-item label="⛓ Chain">
         <b-progress v-if="!loadedSummary"
         size="is-large" 
         type="is-primary" 
         show-value>Fetching data</b-progress>
         <Summary @loaded="summaryIsLoaded" />
       </b-tab-item>
-      <b-tab-item label="Block Details">
+      <b-tab-item label="🔍 Block">
 				<BlockDetails 
           :chainName="chainName.toString()"
 					:lastBlock="currentBlock.toString()"
           :queryBlock="$route.params.hash" />
       </b-tab-item>
-      <b-tab-item label="Verbose">
+      <b-tab-item label="👁 Node">
+        <NodeDetails />
+      </b-tab-item>
+      <b-tab-item label="🔬 Verbose">
         <NodeVerbose />
       </b-tab-item>
     </b-tabs>
@@ -26,11 +29,13 @@ import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import BlockDetails from './BlockDetails.vue';
 import Summary from './Summary.vue';
+import NodeDetails from './NodeDetails.vue';
 import NodeVerbose from './NodeVerbose.vue';
 
 @Component({
   components: {
     BlockDetails,
+    NodeDetails,
     Summary,
     NodeVerbose,
   },
