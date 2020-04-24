@@ -12,17 +12,10 @@
 		<b-field label="Peer Best Block">
 			<b-input :value="ourBest" disabled></b-input>
 		</b-field>
-		
-    <!-- peer best 
-    <p v-if="bestPeer"> {{bestPeer.bestNumber}}</p>
-    Queued tx {{nodeInfo.extrinsics.length}} -->
-    <!-- [[connected peers]] -->
-    <!-- should be separate component -->
-    <!-- <p>Peers {{nodeInfo.peers}}</p> -->
     <!-- {{ peers }} -->
     <!-- <div class="columns">
       <div class="column is-full-mobile"> -->
-        <Table :data="peers" :columns="cols" />
+    <Table :data="peers" :columns="cols" />
   </div>
 </template>
 <script lang="ts">
@@ -68,7 +61,6 @@ export default class NodeDetails extends Vue {
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
     this.peers = await api.rpc.system.peers(); 
-    console.log('NodeDetails -> loadExternalInfo -> await api.rpc.system.peers()', await api.rpc.system.peers());
   }
 
   public async mounted(): Promise<void> {
