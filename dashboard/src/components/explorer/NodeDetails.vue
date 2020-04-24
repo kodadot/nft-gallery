@@ -1,5 +1,5 @@
 <template>
-  <div id="blockdetails">
+  <div>
 		<b-field label="Total Peers">
 			<b-input :value="totalPeers" disabled></b-input>
 		</b-field>
@@ -31,12 +31,11 @@ import Card from '../shared/Card.vue';
     Card,
   },
 })
-export default class BlockDetails extends Vue {
-	@Prop(String) public totalPeers!: string;
-  @Prop(String) public isSyncing!: string;
-  @Prop(String) public ourBest!: string;
-  @Prop(String) public peerBest!: string;
-	public activeTab: number = 1;
+export default class NodeDetails extends Vue {
+	@Prop() public totalPeers!: string;
+  @Prop() public isSyncing!: string;
+  @Prop() public ourBest!: string;
+  @Prop() public peerBest!: string;
 	
 }
 </script>
