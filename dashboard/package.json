@@ -14,7 +14,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "@polkadot/types": "^1.9.0-beta.0",
+    "@polkadot/types": "1.11.2",
     "@polkadot/util": "^2.6.2",
     "@polkadot/util-crypto": "^2.6.2",
     "@polkadot/vue-identicon": "^0.51.1",
