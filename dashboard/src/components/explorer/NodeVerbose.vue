@@ -1,7 +1,7 @@
 <template>
   <div>
     <DisabledInput 
-      label="Version" :value="version" />
+      label="version" :value="version" />
     <DisabledInput 
       label="runtimeVersion" :value="runtimeVersion.toString()" />
     <DisabledInput 
@@ -24,7 +24,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
     DisabledInput,
   }
 })
-export default class  extends Vue {
+export default class NodeVerbose extends Vue {
   private subs: any[] = [];
   private chainType: any = '';
   private health: any = '';
@@ -34,7 +34,6 @@ export default class  extends Vue {
   private metadata: any = '';
   private libraryInfo: any = '';
   private genesisHash: any = '';
-  @Prop() public value!: any;
 
   public async mounted() {
   const { api } = Connector.getInstance();

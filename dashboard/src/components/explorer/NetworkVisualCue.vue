@@ -1,8 +1,8 @@
 <template>
   <div class="NetworkVisualCue">
-    <span v-for="n in hyphenCustom" :key="n">
+    <router-link :to="{name: 'settings'}"><span v-for="n in hyphenCustom" :key="n">
       <span>{{n}}<br></span>
-    </span>
+    </span></router-link>
   </div>
 </template>
 
@@ -41,5 +41,13 @@ export default class NetworkVisualCue extends Vue {
   font-size: 0.6em;
   hyphens: auto;
   padding-bottom: 1em;
+}
+
+.NetworkVisualCue a { 
+  color: white;
+}
+
+.NetworkVisualCue a:hover {
+  color: hotpink;
 }
 </style>

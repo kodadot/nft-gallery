@@ -3,7 +3,7 @@
     class="column happy-menu is-one-fifth is-one-third-mobile is-one-fifth-tablet"
     v-bind:class="{closed: isSidebarClosed }"
   >
-    <figure class="image is-48x48 logo" @click="toggleSidebar">
+    <figure class="image is-48x48 logo circle" @click="toggleSidebar">
       <img
         src="../assets/koda_logo_843x843.png"
         alt="KodaDot logo"
@@ -190,5 +190,12 @@ export default class SidebarMenu extends Vue {
   left: 15px;
   position: absolute;
   width: 100%;
+}
+
+.circle { 
+   background: white; 
+   -moz-border-radius: 70px; 
+   -webkit-border-radius: 70px; 
+   border-radius: 70px;
 }
 </style>

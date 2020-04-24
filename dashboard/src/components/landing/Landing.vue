@@ -21,10 +21,12 @@
           🗳<router-link :to="{ name: 'democracy' }">Vote and submit proposals</router-link> on your favourite chain.<br>
 
           🦠<router-link :to="{ name: 'extrinsics' }">Submit various type of extrinsics</router-link>.<br>
+          
+          🔍 <router-link :to="{ name: 'explorer' }">Explore blocks 🕵️‍♀️</router-link><br>
+          
+          ⚙️ <router-link :to="{ name: 'settings' }">Change your endpoint node and external explorer preference</router-link>.<br> 
 
-          ⚙️ <router-link :to="{ name: 'settings' }">Change your node and appearence</router-link>.<br> 
-
-          🔍 More features will come later as they are being 👩‍🍳cooked.<br>
+          👩‍🍳 More features will come later as they are being cooked.<br>
 
           📣 Feedback or Question? <a href="https://github.com/vue-polkadot/apps/issues/new">Submit issue, we'd be happy to discuss.</a><br>
           
