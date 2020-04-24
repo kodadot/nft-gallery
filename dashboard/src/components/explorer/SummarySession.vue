@@ -16,7 +16,6 @@
       </div>
     </div>
     <br>
-    {{ sessionData.info }}
     <!-- verbose session informations -->
     <!-- <Collapse :open="false" title="Feel Cute 💝👇" :content="sessionResolved" /> -->
   </div>
@@ -69,7 +68,7 @@ export default class SummarySession extends Vue {
   
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.session.info((value: any) => this.sessionData.info = value))
+    this.subs.push(await api.derive.session.progress((value: any) => this.sessionData.info = value))
   }
 
   public async mounted() {
