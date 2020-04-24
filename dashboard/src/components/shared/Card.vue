@@ -24,7 +24,7 @@
               {{natureDesc}}</a>
           </div>
         </div>
-        <footer class="card-footer">
+        <footer class="card-footer card-footer__block">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
               <router-link :to="{ name: 'explorerByTabHash', 
@@ -85,6 +85,16 @@ export default class Card extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-footer__block {
+    flex-direction: column;
+  }
+
+  .truncate-bottom-slot {
+    width: auto;
+  }
 }
 
 </style>
