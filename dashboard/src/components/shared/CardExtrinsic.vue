@@ -22,7 +22,7 @@
             {{content}}
           </div>
         </div>
-        <footer class="card-footer">
+        <footer class="card-footer card-footer__extrincis">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
               <i>{{item1header}}</i><br>
@@ -76,6 +76,16 @@ export default class CardExtrinsic extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-footer__extrincis {
+    flex-direction: column;
+  }
+
+  .truncate-bottom-slot {
+    width: auto;
+  }
 }
 
 </style>
