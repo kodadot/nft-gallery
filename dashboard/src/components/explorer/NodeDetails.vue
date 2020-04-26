@@ -1,16 +1,13 @@
 <template>
-  <div>
+  <div v-if="health && ourBestBlock">
 		<b-field label="Total Peers">
 			<b-input :value="peers.length" disabled></b-input>
 		</b-field>
-		<b-field label="is Syncing">
-			<b-input :value="isSyncing" disabled></b-input>
+		<b-field label="Syncing">
+			<b-input :value="health.isSyncing.toString()" disabled></b-input>
 		</b-field>
 		<b-field label="Our Best Block">
-			<b-input :value="ourBest" disabled></b-input>
-		</b-field>
-		<b-field label="Peer Best Block">
-			<b-input :value="ourBest" disabled></b-input>
+			<b-input :value="ourBestBlock.toString()" disabled></b-input>
 		</b-field>
     <!-- {{ peers }} -->
     <!-- <div class="columns">
@@ -31,13 +28,11 @@ import Table from '@/components/shared/Table.vue';
     Table,
   },
 })
-export default class NodeDetails extends Vue {
-	@Prop() public totalPeers!: string;
-  @Prop() public isSyncing!: string;
-  @Prop() public ourBest!: string;
-  @Prop() public peerBest!: string;
-  
+export default class NodeDetails extends Vue {  
+  private health: any = '';
   private peers: any[] = [];
+  private subs: any[] = [];
+  private ourBestBlock: any = '';
   private cols: any = [
     { 
       field: 'peerId',
@@ -60,11 +55,18 @@ export default class NodeDetails extends Vue {
   
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
-    this.peers = await api.rpc.system.peers(); 
+    this.peers = await api.rpc.system.peers();
+    this.health = await api.rpc.system.health() 
+    this.subs.push(await api.derive.chain.bestNumber((value: any) => this.ourBestBlock = value));
   }
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
+  }
+
+  // Unsubscribe before destroying component
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
   }
 }
 </script>

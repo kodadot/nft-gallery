@@ -29,6 +29,7 @@
           :icon="row.icon"
 					:label="row.name"
           :href="row.href"
+          :target="row.target"
         ></b-menu-item>
       </b-menu-list>
       <b-menu-list v-if="isSidebarClosed">
@@ -48,6 +49,7 @@
           @click="currentRow = row"
           :icon="row.icon"
           :href="row.href"
+          :target="row.target"
         ></b-menu-item>
       </b-menu-list>
     </b-menu>
@@ -129,12 +131,14 @@ export default class SidebarMenu extends Vue {
 		{
       name: 'Github',
 			icon: 'code-branch',
-			href: 'https://github.com/vue-polkadot/apps',
+      href: 'https://github.com/vue-polkadot/apps',
+      target: '_blank'
     },
     {
       name: 'Wiki',
 			icon: 'book',
-			href: 'https://wiki.polkadot.network/',
+      href: 'https://wiki.polkadot.network/',
+      target: '_blank'
 		},
 	];
   public currentRow: any = this.sidebar[0];
