@@ -12,6 +12,7 @@
     <!-- {{ peers }} -->
     <!-- <div class="columns">
       <div class="column is-full-mobile"> -->
+    <b-button @click="refreshPeers" icon-left="sync">Refresh</b-button>
     <Table :data="peers" :columns="cols" />
   </div>
 </template>
@@ -58,6 +59,11 @@ export default class NodeDetails extends Vue {
     this.peers = await api.rpc.system.peers();
     this.health = await api.rpc.system.health() 
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.ourBestBlock = value));
+  }
+
+  public async refreshPeers() {
+    const { api } = Connector.getInstance();
+    this.peers = await api.rpc.system.peers();
   }
 
   public async mounted(): Promise<void> {

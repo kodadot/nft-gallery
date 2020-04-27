@@ -6,13 +6,13 @@ import { faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle, faUpload, faDiceD20,
+  faExclamationCircle, faUpload, 
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
   faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt
+  faExternalLinkAlt,
  } from '@fortawesome/free-solid-svg-icons';
-// import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
 // import keyring from '@vue-polkadot/vue-keyring';
@@ -26,11 +26,11 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
-  faExclamationCircle, faUpload, faDiceD20,
+  faExclamationCircle, faUpload, 
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp,
   faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt );
+  faExternalLinkAlt, faTwitter );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 

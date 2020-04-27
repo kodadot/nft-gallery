@@ -48,6 +48,7 @@
           v-bind:key="row.name"
           @click="currentRow = row"
           :icon="row.icon"
+          :icon-pack="row.pack"
           :href="row.href"
           :target="row.target"
         ></b-menu-item>
@@ -86,7 +87,7 @@ export default class SidebarMenu extends Vue {
   public sidebar: any = [
     {
       name: 'Explorer',
-      icon: 'dice-d20',
+      icon: 'search',
       to: { name: 'explorer' },
       tag: 'router-link',
     },
@@ -138,6 +139,13 @@ export default class SidebarMenu extends Vue {
       name: 'Wiki',
 			icon: 'book',
       href: 'https://wiki.polkadot.network/',
+      target: '_blank'
+    },
+    {
+      name: '@KodaDot',
+      icon: 'twitter',
+      pack: 'fab',
+      href: 'https://twitter.com/KodaDot',
       target: '_blank'
 		},
 	];
