@@ -9,10 +9,9 @@
 		<b-field label="Our Best Block">
 			<b-input :value="ourBestBlock.toString()" disabled></b-input>
 		</b-field>
-    <!-- {{ peers }} -->
-    <!-- <div class="columns">
-      <div class="column is-full-mobile"> -->
     <b-button @click="refreshPeers" icon-left="sync">Refresh</b-button>
+    {{ peersAdjusted }}
+
     <Table :data="peers" :columns="cols" />
   </div>
 </template>
@@ -32,6 +31,7 @@ import Table from '@/components/shared/Table.vue';
 export default class NodeDetails extends Vue {  
   private health: any = '';
   private peers: any[] = [];
+  private peersAdjusted: any[] = [];
   private subs: any[] = [];
   private ourBestBlock: any = '';
   private cols: any = [
@@ -64,6 +64,21 @@ export default class NodeDetails extends Vue {
   public async refreshPeers() {
     const { api } = Connector.getInstance();
     this.peers = await api.rpc.system.peers();
+    const arr = Object.entries(this.peers)
+
+    const a: any[] = []
+    for (const [key, value] of arr) {    
+      a.push([key, (value as any)])
+    }
+
+    const m = new Map(a)
+    
+    for (const o of m) {
+      this.peersAdjusted.push(o[1])
+    }
+    // console.log('NodeDetails -> refreshPeers -> a', a);
+
+    
   }
 
   public async mounted(): Promise<void> {

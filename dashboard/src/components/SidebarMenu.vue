@@ -3,12 +3,14 @@
     class="column happy-menu is-one-fifth is-one-third-mobile is-one-fifth-tablet"
     v-bind:class="{closed: isSidebarClosed }"
   >
-    <figure class="image is-48x48 logo circle" @click="toggleSidebar">
-      <img
-        src="../assets/koda_logo_843x843.png"
-        alt="KodaDot logo"
-      />
-    </figure>
+    <router-link :to="{ name: 'settings' }">
+      <figure class="image is-48x48 logo circle">
+        <img
+          src="../assets/koda_logo_843x843.png"
+          alt="KodaDot logo"
+        />
+      </figure>
+    </router-link
     <b-menu>
       <b-menu-list v-if="!isSidebarClosed" label="" icon-pack="fa">
         <b-menu-item
@@ -27,6 +29,7 @@
           v-bind:key="row.name"
           @click="currentRow = row"
           :icon="row.icon"
+          :icon-pack="row.pack"
 					:label="row.name"
           :href="row.href"
           :target="row.target"
