@@ -12,29 +12,30 @@
     <b-button @click="refreshPeers" icon-left="sync">Refresh</b-button>
     <!-- {{ peersAdjusted }} -->
     <b-field grouped group-multiline>
-            <div v-for="(column, index) in columns" 
-                :key="index"
-                class="control">
-                <b-checkbox v-model="column.visible">
-                    {{ column.label }}
-                </b-checkbox>
-            </div>
+      <div v-for="(column, index) in columns" 
+        :key="index"
+        class="control">
+        <b-checkbox v-model="column.visible">
+          {{ column.label }}
+        </b-checkbox>
+      </div>
     </b-field>  
     <b-table 
       :data="peers"
+      :striped="true"
       default-sort="peers.roles">
       <template slot-scope="props">
-        <b-table-column field="peerId" label="peerId" width="40" sortable>
-            {{ props.row.peerId }}
+        <b-table-column field="peerId" label="peerID" sortable :visible="columns.peerId.visible">
+          {{ props.row.peerId }}
         </b-table-column>
-        <b-table-column field="roles" label="roles" sortable>
-            {{ props.row.roles }}
+        <b-table-column field="roles" label="roles" sortable :visible="columns.roles.visible">
+          {{ props.row.roles }}
         </b-table-column>
-        <b-table-column field="bestNumber" label="best #" sortable>
-            {{ props.row.bestNumber }}
+        <b-table-column field="bestNumber" label="b #" sortable :visible="columns.bestBlock.visible">
+          {{ props.row.bestNumber }}
         </b-table-column>
-        <b-table-column field="bestHash" label="best hash" sortable :visible="false">
-            {{ props.row.bestHash }}
+        <b-table-column field="bestHash" label="best hash" sortable :visible="columns.beshHash.visible">
+          {{ props.row.bestHash }}
         </b-table-column>
       </template>
     </b-table>
@@ -59,31 +60,13 @@ export default class NodeDetails extends Vue {
   private peersAdjusted: any[] = [];
   private subs: any[] = [];
   private ourBestBlock: any = '';
-  private columns: any = [
-    { 
-      field: 'peerId',
-      label: 'peerId',
-      visible: true,
-      width: '10',
-    },
-    { 
-      field: 'roles',
-      label: 'role',
-      width: '10',
-      visible: true
-    },
-    { 
-      field: 'bestNumber',
-      label: 'best #',
-      visible: true,
-    },
-    { 
-      field: 'bestHash',
-      label: 'best hash',
-      width: '10',
-      visible: false
-    }
-  ]
+  private columns: any = {
+    peerId: { label: 'peerId', visible: true},
+    roles: { label: 'roles', visible: true},
+    bestBlock: { label: 'best block', visible: true},
+    beshHash: { label: 'best hash', visible: false},
+  }
+  
   
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
