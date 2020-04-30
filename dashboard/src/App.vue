@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard" class="columns">
     <SidebarMenu />
-    <div class="column router-view">
+    <div class="router-view">
       <router-view id="routerview" />
     </div>
   </div>
@@ -11,7 +11,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
-import SidebarMenu from './components/SidebarMenu.vue';
+import SidebarMenu from './components/NewSidebarMenu.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
@@ -55,7 +55,7 @@ export default class Dashboard extends Vue {
 <style>
 #routerview {
   padding: 1em;
-  min-height: inherit;
+  height: inherit;
 }
 
 .friendly-view {
