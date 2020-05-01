@@ -111,6 +111,11 @@ export default new Router({
       component: () => import('./views/Extrinsics.vue'),
       beforeEnter: apiEnabled,
     },
+    {
+			path: '/treasury',
+      name: 'treasury',
+      component: () => import('./components/treasury/TreasuryWrapper.vue')
+    },
 		{
 			path: '*',
 			name: 'FourZeroFour',

@@ -10,11 +10,12 @@ import { faTrash, faKey, faSync, faRedo,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
   faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt, faArrowUp
+  faExternalLinkAlt, faArrowUp, faGem
  } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
+import formatBalance from '@/utils/formatBalance'
 // import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
@@ -30,7 +31,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp,
   faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt, faTwitter, faArrowUp );
+  faExternalLinkAlt, faTwitter, faArrowUp, faGem );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 
@@ -53,6 +54,8 @@ Vue.use(Buefy, {
     },
   },
 });
+
+Vue.filter('formatBalance', formatBalance)
 
 Vue.use(VueClipboard);
 

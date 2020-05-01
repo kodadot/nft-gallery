@@ -125,6 +125,12 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
+      name: 'Treasury',
+      icon: 'gem',
+      to: { name: 'treasury' },
+      tag: 'router-link',
+    },
+    {
       name: 'Settings',
       icon: 'cogs',
       to: { name: 'settings' },
