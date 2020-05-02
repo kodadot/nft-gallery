@@ -1,17 +1,30 @@
 <template>
-  <Summary :approvalCount="info.approvals.length" :proposalCount="info.proposals.length" />
+  <div>
+    <Summary
+      :approvalCount="approvalsLength"
+      :proposalCount="proposalsLength"
+    />
+    <div>
+    <SectionTitle title="Proposals" />
+    </div>
+    <Proposals :proposals="info.proposals" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 import Summary from './Summary.vue'
+import Proposals from './Proposals.vue'
+import SectionTitle from '@/components/shared/SectionTitle.vue'
 
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
-    Summary
+    Summary,
+    Proposals,
+    SectionTitle
   }
 })
 export default class Treasury extends Vue {
@@ -21,11 +34,20 @@ export default class Treasury extends Vue {
   public async mounted() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.treasury.proposals((val: any) => this.info = val));
-    
+  }
+
+  private lenghtOf(array: any[]) {
+    return (array && array.length) || 0;
 
   }
 
+  get approvalsLength() {
+    return this.lenghtOf(this.info.approvals);
+  }
 
+  get proposalsLength() {
+    return this.lenghtOf(this.info.proposals);
+  }
 
   public beforeDestroy() {
     this.subs.forEach((sub) => sub());
@@ -34,8 +56,3 @@ export default class Treasury extends Vue {
 }
 </script>
 
-<style scoped>
-.summary-progressbar {
-  flex-basis: 20em;
-}
-</style>

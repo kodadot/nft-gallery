@@ -20,12 +20,9 @@ import WithLabel from '@/components/shared/format/WithLabel.vue'
 import { formatNumber, stringToU8a } from '@polkadot/util';
 import Connector from '@vue-polkadot/vue-api';
 import BN from 'bn.js';
-import { toNumber } from '@/utils/formats'
 
 const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 const ZERO = new BN(0);
-
-(window as any).B = new BN(0);
 
 @Component({
   components: {

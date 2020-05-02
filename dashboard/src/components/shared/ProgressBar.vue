@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { toNumber } from '@/utils/formats'
+import { toNumber } from '@/utils/filters'
 
 @Component
 export default class ProgressBar extends Vue {

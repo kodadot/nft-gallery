@@ -16,6 +16,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
+import { toString, toNumber } from '@/utils/filters'
 // import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
@@ -56,6 +57,8 @@ Vue.use(Buefy, {
 });
 
 Vue.filter('formatBalance', formatBalance)
+Vue.filter('toString', toString)
+Vue.filter('toNumber', toNumber)
 
 Vue.use(VueClipboard);
 
