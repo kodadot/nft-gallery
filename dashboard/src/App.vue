@@ -9,7 +9,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@vue-polkadot/vue-keyring';
-import SidebarMenu from './components/NewSidebarMenu.vue';
+import SidebarMenu from './components/SidebarMenu.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
