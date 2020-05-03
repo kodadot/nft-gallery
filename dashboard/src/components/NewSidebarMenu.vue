@@ -1,28 +1,22 @@
 <template>
-  <b-sidebar mobile="reduce" position="fixed" :reduce="reduce" type="is-light" open fullheight>
+  <b-sidebar :mobile="mobileView" position="fixed" :reduce="reduce" type="is-light" open fullheight>
     <div class="p-1">
       <div class="block">
         <img
-          src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-          alt="Lightweight UI components for Vue.js based on Bulma"
+          src="../assets/koda_logo_843x843.png"
+          alt="KodaDot logo"
         />
       </div>
       <b-menu class="is-custom-mobile">
         <b-menu-list label="Apps" icon-pack="fa">
-          <b-menu-item icon="book" label="Info"></b-menu-item>
-          <b-menu-item icon="book" label="Users"></b-menu-item>
-          <b-menu-item icon="book" label="Devices"></b-menu-item>
           <b-menu-item
-            icon="cash-multiple"
-            label="Payments"
-            disabled
-          ></b-menu-item>
-          <b-menu-item
+            class="sidebar-menu__item"
             v-for="row in sidebar"
             v-bind:key="row.name"
             @click="currentRow = row"
             :icon="row.icon"
             :label="row.name"
+            :tag="row.tag"
             :to="row.to"
           ></b-menu-item>
 
@@ -40,13 +34,15 @@
           </b-menu-list>
         </b-menu-list>
       </b-menu>
-      <b-switch v-model="reduce">Reduced</b-switch>
+      <b-button :icon-left="toggleIcon" 
+        @click="toggleSidebar" rounded>
+      </b-button>
     </div>
   </b-sidebar>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import SettingInfo from '@/components/shared/SettingInfo.vue';
 import NetworkVisualCue from '@/components/explorer/NetworkVisualCue.vue';
 
@@ -131,13 +127,34 @@ export default class SidebarMenu extends Vue {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
 
+  @Emit('toggle')
   public toggleSidebar() {
-    this.isSidebarClosed = !this.isSidebarClosed;
+    this.reduce = !this.reduce;
+    return this.reduce;
   }
+
+  get toggleIcon() {
+    return this.reduce ? 'angle-double-right' : 'angle-double-left'
+  }
+
+  get mobileView() {
+    return this.reduce ? 'reduce' : ''
+  }
+
 }
 </script>
 
 <style lang="scss">
+.menu-list a.router-link-active {
+  background-color: #7957d5;
+  color: white;
+  // background-color: #40b883e0;
+}
+
+.menu-list li.sidebar-menu__item a:not(.router-link-active):hover {
+  background-color: #dbdbdb;
+}
+
 .p-1 {
   padding: 1em;
 }
