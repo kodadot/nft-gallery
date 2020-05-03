@@ -1,9 +1,9 @@
 <template>
-  <div id="dashboard" class="columns">
-    <SidebarMenu />
-    <div class="router-view">
+  <div id="dashboard">
+    <SidebarMenu class="should-be-sidebar" />
+    
       <router-view id="routerview" />
-    </div>
+    
   </div>
 </template>
 
@@ -53,38 +53,18 @@ export default class Dashboard extends Vue {
 </script>
 
 <style>
+
+
+.should-be-sidebar {
+  width: 5em;
+  height: 100%;
+  float: left;
+  height: 100%;
+  position: fixed;
+}
+
 #routerview {
-  padding: 1em;
-  height: inherit;
-}
-
-.friendly-view {
-  display: flex;
-  flex-direction: row;
-}
-
-.friendly-view > .happy-menu {
-  flex: 2;
-}
-
-.friendly-view #routerview {
-  flex: 10;
-}
-
-.friendly-view {
-  min-height: 100vh;
-}
-
-.column.router-view {
-  background-color: rgb(252, 252, 252);
-  overflow-y: scroll;
-  padding: 0; 
-}
-
-@media screen and (max-width: 992px) {
-  .columns {
-    display: flex;
-  }
+  margin-left: 5em;
 }
 
 </style>

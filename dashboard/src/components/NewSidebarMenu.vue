@@ -1,5 +1,5 @@
 <template>
-  <b-sidebar mobile="reduce" position="static" :reduce="reduce" type="is-light" open fullheight>
+  <b-sidebar mobile="reduce" position="fixed" :reduce="reduce" type="is-light" open fullheight>
     <div class="p-1">
       <div class="block">
         <img
