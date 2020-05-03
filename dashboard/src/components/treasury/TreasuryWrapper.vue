@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Treasury from './Treasury.vue'
+import Tips from './Tips.vue'
 
 @Component({
   components: {
@@ -18,6 +19,6 @@ import Treasury from './Treasury.vue'
 export default class TreasuryWrapper extends Vue {
   public activeTab: number = 0;
 
-  public components: string[] = ['Treasury']
+  public components: string[] = ['Treasury', 'Tips']
 }
 </script>

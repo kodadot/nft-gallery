@@ -1,17 +1,6 @@
 <template>
   <div>
-    <Summary
-      :approvalCount="approvalsLength"
-      :proposalCount="proposalsLength"
-    />
-    <div>
-    <SectionTitle title="Proposals" />
-    </div>
-    <Proposals :proposals="info.proposals" />
-    <div>
-    <SectionTitle title="Approvals" />
-    </div>
-    <Proposals :proposals="info.approvals" />
+    Tips works!
   </div>
 </template>
 
@@ -31,7 +20,7 @@ import Connector from '@vue-polkadot/vue-api';
     SectionTitle
   }
 })
-export default class Treasury extends Vue {
+export default class Tips extends Vue {
   private subs: any[] = [];
   private info?: any = {};
 
@@ -45,12 +34,8 @@ export default class Treasury extends Vue {
 
   }
 
-  get approvalsLength() {
-    return this.lenghtOf(this.info.approvals);
-  }
-
-  get proposalsLength() {
-    return this.lenghtOf(this.info.proposals);
+  private async subscribe(fn: any, args: any, callback: any) {
+    this.subs.push(await fn(...args, callback))
   }
 
   public beforeDestroy() {
