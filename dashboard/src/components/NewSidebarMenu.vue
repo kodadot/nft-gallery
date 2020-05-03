@@ -1,10 +1,18 @@
 <template>
-  <b-sidebar :mobile="mobileView" position="fixed" :reduce="reduce" type="is-light" open fullheight>
+  <b-sidebar
+    :mobile="mobileView"
+    position="fixed"
+    :reduce="reduce"
+    type="is-light"
+    open
+    fullheight
+  >
     <div class="p-1">
       <div class="block">
         <img
           src="../assets/koda_logo_843x843.png"
           alt="KodaDot logo"
+          class="sidebar-menu__icon"
         />
       </div>
       <b-menu class="is-custom-mobile">
@@ -34,8 +42,7 @@
           </b-menu-list>
         </b-menu-list>
       </b-menu>
-      <b-button :icon-left="toggleIcon" 
-        @click="toggleSidebar" rounded>
+      <b-button :icon-left="toggleIcon" @click="toggleSidebar" rounded>
       </b-button>
     </div>
   </b-sidebar>
@@ -145,6 +152,10 @@ export default class SidebarMenu extends Vue {
 </script>
 
 <style lang="scss">
+.sidebar-menu__icon {
+  width: 48px;
+}
+
 .menu-list a.router-link-active {
   background-color: #7957d5;
   color: white;
@@ -153,6 +164,17 @@ export default class SidebarMenu extends Vue {
 
 .menu-list li.sidebar-menu__item a:not(.router-link-active):hover {
   background-color: #dbdbdb;
+}
+
+.menu-list {
+  li {
+    a {      
+      span:nth-child(2) {
+        vertical-align: super;
+        padding-left: 0.3em;
+      }
+    }
+  }
 }
 
 .p-1 {
