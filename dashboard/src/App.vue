@@ -1,9 +1,7 @@
 <template>
-  <div id="dashboard" class="columns">
-    <SidebarMenu />
-    <div class="column router-view">
-      <router-view id="routerview" />
-    </div>
+  <div id="dashboard">
+    <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
+    <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
   </div>
 </template>
 
@@ -22,6 +20,11 @@ import Connector from '@vue-polkadot/vue-api';
 export default class Dashboard extends Vue {
   private chainProperties: any;
   private ss58Format: any = 42;
+  private sidebarClosed: boolean = true;
+
+  private toggleSidebar(val: boolean) {
+    this.sidebarClosed = val;
+  }
 
   public async getChainProperties(): Promise<void> {
     this.ss58Format = Object.entries(this.$store.state.chainProperties)[0][1];
@@ -53,38 +56,20 @@ export default class Dashboard extends Vue {
 </script>
 
 <style>
+.should-be-sidebar {
+  width: 5em;
+  height: 100%;
+  float: left;
+  height: 100%;
+  position: fixed;
+}
+
 #routerview {
-  padding: 1em;
-  min-height: inherit;
+  margin-left: 5em;
+  padding: 0 0.6em;
 }
 
-.friendly-view {
-  display: flex;
-  flex-direction: row;
+#routerview.sidebar__active {
+  margin-left: 16.5em;
 }
-
-.friendly-view > .happy-menu {
-  flex: 2;
-}
-
-.friendly-view #routerview {
-  flex: 10;
-}
-
-.friendly-view {
-  min-height: 100vh;
-}
-
-.column.router-view {
-  background-color: rgb(252, 252, 252);
-  overflow-y: scroll;
-  padding: 0; 
-}
-
-@media screen and (max-width: 992px) {
-  .columns {
-    display: flex;
-  }
-}
-
 </style>
