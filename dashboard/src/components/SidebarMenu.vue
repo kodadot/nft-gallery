@@ -9,11 +9,13 @@
   >
     <div class="p-1">
       <div class="block">
-        <img
-          src="../assets/koda_logo_843x843.png"
-          alt="KodaDot logo"
-          class="sidebar-menu__icon"
-        />
+        <figure class="image is-48x48 logo circle">
+          <img
+            src="../assets/koda_logo_843x843.png"
+            alt="KodaDot logo"
+            class="sidebar-menu__icon"
+          />
+        </figure>
       </div>
       <b-menu class="is-custom-mobile">
         <b-menu-list label="Apps" icon-pack="fa">
@@ -29,20 +31,25 @@
           ></b-menu-item>
         </b-menu-list>
         <b-menu-list label="Links" icon-pack="fa">
-            <b-menu-item
-              v-for="row in externalLinks"
-              v-bind:key="row.name"
-              @click="currentRow = row"
-              :icon="row.icon"
-              :icon-pack="row.pack"
-              :label="row.name"
-              :href="row.href"
-              :target="row.target"
-            ></b-menu-item>
+          <b-menu-item
+            v-for="row in externalLinks"
+            v-bind:key="row.name"
+            @click="currentRow = row"
+            :icon="row.icon"
+            :icon-pack="row.pack"
+            :label="row.name"
+            :href="row.href"
+            :target="row.target"
+          ></b-menu-item>
         </b-menu-list>
       </b-menu>
       <NetworkVisualCue />
-      <b-button :icon-left="toggleIcon" @click="toggleSidebar" rounded>
+      <b-button
+        class="toggle-button"
+        :icon-left="toggleIcon"
+        @click="toggleSidebar"
+        rounded
+      >
       </b-button>
     </div>
   </b-sidebar>
@@ -152,23 +159,24 @@ export default class SidebarMenu extends Vue {
 </script>
 
 <style lang="scss">
+@import "@/colors";
 .sidebar-menu__icon {
   width: 48px;
 }
 
-.menu-list a.router-link-active {
-  background-color: #7957d5;
-  color: white;
-  // background-color: #40b883e0;
+.circle {
+  background: #fff;
+  border-radius: 70px;
 }
 
-.menu-list li.sidebar-menu__item a:not(.router-link-active):hover {
-  background-color: #dbdbdb;
+button.toggle-button.is-rounded {
+  bottom: 1em;
+  position: fixed;
 }
 
 .menu-list {
   li {
-    a {      
+    a {
       span:nth-child(2) {
         vertical-align: super;
         padding-left: 0.3em;
@@ -177,8 +185,40 @@ export default class SidebarMenu extends Vue {
   }
 }
 
+.b-sidebar {
+  .sidebar-content.is-dark {
+    .menu-list {
+      li {
+        a {
+          span {
+            color: $less-white;
+          }
+
+          &.router-link-active {
+            background-color: $primary;
+            color: $less-white;
+          }
+
+          &:not(.router-link-active):hover {
+            background-color: #dbdbdb;
+
+            span.icon {
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+p.menu-label {
+  color: $less-white;
+}
+
 .p-1 {
   padding: 1em;
+  height: 100%;
 }
 .sidebar-page {
   display: flex;
