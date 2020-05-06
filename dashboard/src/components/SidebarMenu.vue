@@ -3,7 +3,7 @@
     :mobile="mobileView"
     position="fixed"
     :reduce="reduce"
-    type="is-light"
+    type="is-dark"
     open
     fullheight
   >
@@ -27,8 +27,8 @@
             :tag="row.tag"
             :to="row.to"
           ></b-menu-item>
-
-          <b-menu-list label="Links" icon-pack="fa">
+        </b-menu-list>
+        <b-menu-list label="Links" icon-pack="fa">
             <b-menu-item
               v-for="row in externalLinks"
               v-bind:key="row.name"
@@ -39,9 +39,9 @@
               :href="row.href"
               :target="row.target"
             ></b-menu-item>
-          </b-menu-list>
         </b-menu-list>
       </b-menu>
+      <NetworkVisualCue />
       <b-button :icon-left="toggleIcon" @click="toggleSidebar" rounded>
       </b-button>
     </div>
