@@ -111,6 +111,12 @@ export default class SidebarMenu extends Vue {
       to: { name: 'settings' },
       tag: 'router-link',
     },
+    {
+      name: 'Toolbox',
+      icon: 'tools',
+      to: { name: 'toolbox' },
+      tag: 'router-link'
+    }
   ];
   public externalLinks: any = [
     {

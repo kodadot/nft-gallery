@@ -40,7 +40,7 @@
 				</template>
 			</b-dropdown>
 		</b-field>
-		<Balance :account="selectedAccount"/>
+		<Balance v-if="!nobalance" :account="selectedAccount"/>
 		</section>
 	</div>
 </template>
@@ -52,12 +52,15 @@ import Balance from './Balance.vue';
 
 @Component({
 	components: {
-		Balance,
+    Balance,
+    Dropdown,
 	},
 })
 export default class Dropdown extends WithKeyring {
-	@Prop({ default: 'all' }) public mode!: string;
+  @Prop() private nobalance!: boolean; 
+  @Prop({ default: 'all' }) public mode!: string;
   @Prop() public externalAddress!: string;
+  
 
 	private position: string = 'is-left';
   private selectedAccount: string = '';
