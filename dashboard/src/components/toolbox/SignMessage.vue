@@ -14,20 +14,16 @@
     <b-button icon-left="key" @click="signData()">Sign Message</b-button>
     <br>
     <br>
-    <b-field>
-      <!-- <DisabledInput label="signature" :value="signature" /> -->
-      <b-field label="signature">
-        <b-input :value="signature" expanded disabled/>
-        <b-button
-          size="is-large"
-          icon-left="copy" 
-          v-clipboard:copy="signature"
-          @click="toast('Signature has been copied')">
-        </b-button>
-      </b-field>
-      
-    </b-field>
     <DisabledInput label="hex input data" :value="inputDataCheck" />
+    <b-field label="signature">
+      <b-input :value="signature" expanded disabled/>
+      <b-button
+        size="is-large"
+        icon-left="copy" 
+        v-clipboard:copy="signature"
+        @click="toast('Signature has been copied')">
+      </b-button>
+    </b-field>
   </div>
 </template>
 <script lang="ts" >

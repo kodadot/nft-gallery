@@ -20,13 +20,13 @@ export default new Router({
       path: '/accounts/create',
       name: 'accountsCreate',
       component: () => import('./views/AccountsCreate.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/backup/:address',
       name: 'accountsBackup',
       component: () => import('./views/AccountsBackup.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/changepassword/:address',

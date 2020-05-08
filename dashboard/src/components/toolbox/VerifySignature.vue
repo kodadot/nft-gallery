@@ -1,16 +1,19 @@
-<vue-<template>
+<template>
   <div>
     <Dropdown nobalance="true" :externalAddress="address"
       @selected="handleAccountSelectionFrom" />
       <br>
     <b-field label="using the following data">
-      <b-input v-model="data" @input="isHexData();verifySignature()"></b-input>
+      <b-input v-model="data" @input="isHexData();complexVerifySignature()"></b-input>
     </b-field>
     <b-field label="the supplied signature" 
       v-bind:type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
-      <b-input v-model="signature" @input="verifySignature"></b-input>
+      <b-input v-model="signature" @input="complexVerifySignature()"></b-input>
     </b-field>
-    <DisabledInput label="hex input data" :value="inputDataCheck" />
+    <b-field grouped>
+      <DisabledInput label="hex input data" :expanded="true" :value="inputDataCheck" />
+      <DisabledInput label="signature crypto type" :expanded="true" :value="cryptoType" />
+    </b-field>
   </div>
 </template>
 <script lang="ts" >
@@ -20,7 +23,7 @@ import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/u
 import keyring from '@vue-polkadot/vue-keyring';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Dropdown from '@/components/shared/Dropdown.vue';
-import { schnorrkelVerify } from '@polkadot/util-crypto';
+import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
 
 @Component({
   components: {
@@ -35,20 +38,48 @@ export default class VerifySignature extends Vue {
   private address: any = '';
   private accountFrom: any = null;
   private validSignature: boolean = false;
+  private isValidSignature: boolean = false;
   private keyringPubKey: any = '';
-  
+  private cryptoType: string = 'unknown'
+
   private isHexData(): void {
     this.inputDataCheck = isHex(this.data)
       ? 'Yes'
       : 'No';
   }
 
-  private verifySignature(): void {
-    this.isHexData();
-    this.keyringPubKey = u8aToHex(this.accountFrom.publicKey)
-    if (isHex(this.signature)) {
-      this.validSignature = schnorrkelVerify(
-        this.data, this.signature, this.keyringPubKey)
+  // yet we think this is sub-optimal, but it works!
+  private complexVerifySignature(): void {
+      this.keyringPubKey = u8aToHex(this.accountFrom.publicKey)
+      this.isValidSignature = isHex(this.signature) && this.signature.length === 130
+      this.validSignature = false
+      if (this.isValidSignature && this.keyringPubKey) {
+        let isValidSr = false;
+        let isValidEd = false;
+        
+        try {
+          isValidEd = naclVerify(this.data, this.signature, this.keyringPubKey);
+          this.validSignature = true
+        } catch (error) {
+          console.log(error)
+        }
+
+        if (isValidEd) {
+          this.cryptoType = 'ed25519';
+        } else {
+          try {
+            isValidSr = schnorrkelVerify(this.data, this.signature, this.keyringPubKey);
+            this.validSignature = true
+          } catch (error) {
+            console.log(error)
+          }
+
+          if (isValidSr) {
+            this.cryptoType = 'sr25519';
+          } else {
+            this.validSignature = false
+          }
+      }
     }
   }
 
