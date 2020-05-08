@@ -8,7 +8,7 @@
         <SignMessage />
       </b-tab-item>
       <b-tab-item label="Verify signature">
-
+        <VerifySignature />
       </b-tab-item>
     </b-tabs>
   </div>
@@ -16,10 +16,11 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import SignMessage from './SignMessage.vue';
-
+import VerifySignature from './VerifySignature.vue';
 @Component({
   components: {
-    SignMessage
+    SignMessage,
+    VerifySignature,
   }
 })
 export default class ToolBox extends Vue {

@@ -2,16 +2,19 @@
   <div>
     <Dropdown nobalance="true" mode='accounts' :externalAddress="address"
       @selected="handleAccountSelectionFrom" />
+      <br>
     <b-field label="sign the following data">
-      <b-input v-model="input"></b-input>
+      <b-input v-model="input" @input="isHexData()"></b-input>
     </b-field>
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
-    <b-button @click="signData()">Sign Message</b-button>
+    <b-button icon-left="key" @click="signData()">Sign Message</b-button>
+    <br>
+    <br>
     <DisabledInput label="signature" :value="signature" />
-    <DisabledInput label="hex input data" :value="isHexData" />
+    <DisabledInput label="hex input data" :value="inputDataCheck" />
   </div>
 </template>
 <script lang="ts" >
@@ -33,19 +36,18 @@ export default class SignMessage extends Vue {
   private address: any = '';
   private input: string = '';
   private signature: any = '';
-  private isHexData: any = '';
+  private inputDataCheck: any = '';
   private accountFrom: any = null;
   private currentPair: any = null;
-  @Prop() public value!: any;
 
-  private isHexSignData(): void {
-    this.isHexData = isHex(this.input)
+  private isHexData(): void {
+    this.inputDataCheck = isHex(this.input)
       ? 'Yes'
       : 'No';
   }
 
   private signData(): void {
-    this.isHexSignData();
+    this.isHexData();
     this.accountFrom.decodePkcs8(this.password)
     this.signature = u8aToHex(
       this.accountFrom.sign(
