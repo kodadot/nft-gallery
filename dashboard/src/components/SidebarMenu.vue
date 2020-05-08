@@ -9,13 +9,15 @@
   >
     <div class="p-1">
       <div class="block">
-        <figure class="image is-48x48 logo circle">
-          <img
-            src="../assets/koda_logo_843x843.png"
-            alt="KodaDot logo"
-            class="sidebar-menu__icon"
-          />
-        </figure>
+        <router-link :to="{name: 'settings'}">
+          <figure class="image is-48x48 logo circle">
+            <img
+              src="../assets/koda_logo_843x843.png"
+              alt="KodaDot logo"
+              class="sidebar-menu__icon"
+            />
+          </figure>
+        </router-link>
       </div>
       <b-menu class="is-custom-mobile">
         <b-menu-list label="Apps" icon-pack="fa">
@@ -111,6 +113,12 @@ export default class SidebarMenu extends Vue {
       to: { name: 'settings' },
       tag: 'router-link',
     },
+    {
+      name: 'Toolbox',
+      icon: 'tools',
+      to: { name: 'toolbox' },
+      tag: 'router-link'
+    }
   ];
   public externalLinks: any = [
     {
