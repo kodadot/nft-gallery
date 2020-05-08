@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-tabs v-model="activeTab">
-      <!-- <b-tab-item label="Hash data">
-
-      </b-tab-item> -->
+      <b-tab-item label="Hash data">
+        <HashData />
+      </b-tab-item>
       <b-tab-item label="Sign message">
         <SignMessage />
       </b-tab-item>
@@ -17,10 +17,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import SignMessage from './SignMessage.vue';
 import VerifySignature from './VerifySignature.vue';
+import HashData from './HashData.vue';
 @Component({
   components: {
     SignMessage,
     VerifySignature,
+    HashData,
   }
 })
 export default class ToolBox extends Vue {

@@ -4,14 +4,13 @@
       @selected="handleAccountSelectionFrom" />
       <br>
     <b-field label="using the following data">
-      <b-input v-model="data" @input="isHexData()"></b-input>
+      <b-input v-model="data" @input="isHexData();verifySignature()"></b-input>
     </b-field>
-    <b-field label="the supplied signature">
-      <b-input v-model="signature" @input="verifySignature()"></b-input>
+    <b-field label="the supplied signature" 
+      v-bind:type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
+      <b-input v-model="signature" @input="verifySignature"></b-input>
     </b-field>
-    <!-- <b-button icon-left="key" @click="signData()">Sign Message</b-button> -->
     <DisabledInput label="hex input data" :value="inputDataCheck" />
-    <DisabledInput label="valid signature" :value="validSignature" />
   </div>
 </template>
 <script lang="ts" >
@@ -32,7 +31,7 @@ import { schnorrkelVerify } from '@polkadot/util-crypto';
 export default class VerifySignature extends Vue {
   private data: any = '';
   private signature: string = '';
-  private inputDataCheck: any = '';
+  private inputDataCheck: string = 'No';
   private address: any = '';
   private accountFrom: any = null;
   private validSignature: boolean = false;

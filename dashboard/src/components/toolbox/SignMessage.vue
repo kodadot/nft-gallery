@@ -10,10 +10,23 @@
       <b-input v-model="password" type="password" password-reveal>
       </b-input>
     </b-field>
+    
     <b-button icon-left="key" @click="signData()">Sign Message</b-button>
     <br>
     <br>
-    <DisabledInput label="signature" :value="signature" />
+    <b-field>
+      <!-- <DisabledInput label="signature" :value="signature" /> -->
+      <b-field label="signature">
+        <b-input :value="signature" expanded disabled/>
+        <b-button
+          size="is-large"
+          icon-left="copy" 
+          v-clipboard:copy="signature"
+          @click="toast('Signature has been copied')">
+        </b-button>
+      </b-field>
+      
+    </b-field>
     <DisabledInput label="hex input data" :value="inputDataCheck" />
   </div>
 </template>
@@ -36,7 +49,7 @@ export default class SignMessage extends Vue {
   private address: any = '';
   private input: string = '';
   private signature: any = '';
-  private inputDataCheck: any = '';
+  private inputDataCheck: string = 'No';
   private accountFrom: any = null;
   private currentPair: any = null;
 
@@ -60,6 +73,10 @@ export default class SignMessage extends Vue {
 
   private handleAccountSelectionFrom(account: KeyringPair) {
     this.accountFrom = account;
+  }
+
+  private toast(message: string): void {
+    this.$buefy.toast.open(message);
   }
 }
 </script>
