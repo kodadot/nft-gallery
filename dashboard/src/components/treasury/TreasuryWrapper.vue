@@ -13,7 +13,8 @@ import Tips from './Tips.vue'
 
 @Component({
   components: {
-    Treasury
+    Treasury,
+    Tips
   }
 })
 export default class TreasuryWrapper extends Vue {

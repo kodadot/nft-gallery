@@ -66,7 +66,6 @@ export default class Treasury extends Vue {
 <style>
 .treasury-button__submit {
   margin-top: 1em;
-  float: right;
 }
 </style>
 

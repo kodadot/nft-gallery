@@ -1,45 +1,36 @@
 <template>
-  <div>
-    Tips works!
-  </div>
+  <EmptyGuard :array="hashes" label="Tips">
+    <Tip v-for="hash in hashes" :key="hash" :hash="hash" />
+  </EmptyGuard>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
-import Summary from './Summary.vue'
-import Proposals from './Proposals.vue'
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
 import SectionTitle from '@/components/shared/SectionTitle.vue'
+import Subscribe from '@/utils/mixins/subscribeMixin'
+import Tip from './Tip.vue'
+import EmptyGuard from '@/components/shared/wrapper/EmptyGuard.vue'
 
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
-    Summary,
-    Proposals,
-    SectionTitle
+    SectionTitle,
+    Tip,
+    EmptyGuard
   }
 })
-export default class Tips extends Vue {
-  private subs: any[] = [];
+export default class Tips extends Mixins(Subscribe) {
   private info?: any = {};
+  private hashes: any[] = [];
 
   public async mounted() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.treasury.proposals((val: any) => this.info = val));
+    this.subscribe(api.query.treasury.tips.keys, [], this.hashMapper)
   }
 
-  private lenghtOf(array: any[]) {
-    return (array && array.length) || 0;
-
-  }
-
-  private async subscribe(fn: any, args: any, callback: any) {
-    this.subs.push(await fn(...args, callback))
-  }
-
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+  private hashMapper(keys: any[]) {
+    this.hashes = keys.map((key) => key.args[0].toHex())
   }
 
 }
