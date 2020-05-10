@@ -4,12 +4,15 @@
       :approvalCount="approvalsLength"
       :proposalCount="proposalsLength"
     />
+    <b-button type="is-primary" icon-left="plus" class="treasury-button__submit"
+      >Submit Proposal</b-button
+    >
     <div>
-    <SectionTitle title="Proposals" />
+      <SectionTitle title="Proposals" />
     </div>
     <Proposals :proposals="info.proposals" />
     <div>
-    <SectionTitle title="Approvals" />
+      <SectionTitle title="Approvals" />
     </div>
     <Proposals :proposals="info.approvals" />
   </div>
@@ -59,4 +62,11 @@ export default class Treasury extends Vue {
 
 }
 </script>
+
+<style>
+.treasury-button__submit {
+  margin-top: 1em;
+  float: right;
+}
+</style>
 

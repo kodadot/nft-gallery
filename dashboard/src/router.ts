@@ -14,19 +14,19 @@ export default new Router({
       path: '/accounts',
       name: 'accounts',
       component: () => import('./components/accounts/Accounts.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/create',
       name: 'accountsCreate',
       component: () => import('./views/AccountsCreate.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/backup/:address',
       name: 'accountsBackup',
       component: () => import('./views/AccountsBackup.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/changepassword/:address',
@@ -38,13 +38,13 @@ export default new Router({
       path: '/accounts/restore',
       name: 'accountsRestore',
       component: () => import('./views/AccountsRestore.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook',
       name: 'addressbook',
       component: () => import('./components/addressbook/Addressbook.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook/create',
@@ -56,7 +56,7 @@ export default new Router({
       path: '/transfer',
       name: 'transfer',
       component: () => import('./components/transfer/Transfer.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
 		},
 		{
 			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
@@ -86,6 +86,11 @@ export default new Router({
 			path: '/settings',
       name: 'settings',
       component: () => import('./views/Settings.vue'),
+    },
+    {
+      path: '/toolbox',
+      name: 'toolbox',
+      component: () => import('./components/toolbox/Toolbox.vue')
     },
     {
 			path: '/explorer',

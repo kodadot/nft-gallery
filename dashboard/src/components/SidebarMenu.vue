@@ -1,82 +1,64 @@
 <template>
-  <div
-    class="column happy-menu is-one-fifth is-one-third-mobile is-one-fifth-tablet"
-    v-bind:class="{closed: isSidebarClosed }"
+  <b-sidebar
+    :mobile="mobileView"
+    position="fixed"
+    :reduce="reduce"
+    type="is-dark"
+    open
+    fullheight
   >
-    <router-link :to="{ name: 'settings' }">
-      <figure class="image is-48x48 logo circle">
-        <img
-          src="../assets/koda_logo_843x843.png"
-          alt="KodaDot logo"
-        />
-      </figure>
-    </router-link
-    <b-menu>
-      <b-menu-list v-if="!isSidebarClosed" label="" icon-pack="fa">
-        <b-menu-item
-          class="menu-item"
-          v-for="row in sidebar"
-          v-bind:key="row.name"
-          @click="currentRow = row"
-          :icon="row.icon"
-          :label="row.name"
-          :tag="row.tag"
-          :to="row.to"
-        ></b-menu-item>
-				<b-menu-item 
-          class="menu-item"
-          v-for="row in externalLinks"
-          v-bind:key="row.name"
-          @click="currentRow = row"
-          :icon="row.icon"
-          :icon-pack="row.pack"
-					:label="row.name"
-          :href="row.href"
-          :target="row.target"
-        ></b-menu-item>
-      </b-menu-list>
-      <b-menu-list v-if="isSidebarClosed">
-        <b-menu-item 
-          class="menu-item"
-          v-for="row in sidebar"
-          v-bind:key="row.name"
-          @click="currentRow = row"
-          :icon="row.icon"
-          :tag="row.tag"
-          :to="row.to"
-        ></b-menu-item>
-				<b-menu-item 
-          class="menu-item"
-          v-for="row in externalLinks"
-          v-bind:key="row.name"
-          @click="currentRow = row"
-          :icon="row.icon"
-          :icon-pack="row.pack"
-          :href="row.href"
-          :target="row.target"
-        ></b-menu-item>
-      </b-menu-list>
-    </b-menu>
-    <figure>
+    <div class="p-1">
+      <div class="block">
+        <router-link :to="{name: 'settings'}">
+          <figure class="image is-48x48 logo circle">
+            <img
+              src="../assets/koda_logo_843x843.png"
+              alt="KodaDot logo"
+              class="sidebar-menu__icon"
+            />
+          </figure>
+        </router-link>
+      </div>
+      <b-menu class="is-custom-mobile">
+        <b-menu-list label="Apps" icon-pack="fa">
+          <b-menu-item
+            class="sidebar-menu__item"
+            v-for="row in sidebar"
+            v-bind:key="row.name"
+            @click="currentRow = row"
+            :icon="row.icon"
+            :label="row.name"
+            :tag="row.tag"
+            :to="row.to"
+          ></b-menu-item>
+        </b-menu-list>
+        <b-menu-list label="Links" icon-pack="fa">
+          <b-menu-item
+            v-for="row in externalLinks"
+            v-bind:key="row.name"
+            @click="currentRow = row"
+            :icon="row.icon"
+            :icon-pack="row.pack"
+            :label="row.name"
+            :href="row.href"
+            :target="row.target"
+          ></b-menu-item>
+        </b-menu-list>
+      </b-menu>
       <NetworkVisualCue />
-    </figure>
-    <b-switch v-if="!isSidebarClosed" v-model="showVerbose" 
-      class="switchVerbose" type="is-danger">🕵️‍♂️</b-switch>
-    <SettingInfo v-if="!isSidebarClosed && showVerbose" />
-
-    <div class="toggleSidebar">
-      <b-button class="closeSideBarBtn" v-if="!isSidebarClosed" 
-        icon-left="angle-double-left" @click="toggleSidebar" rounded>
-      </b-button>
-      <b-button v-if="isSidebarClosed" icon-left="angle-double-right" 
-        @click="toggleSidebar" rounded>
+      <b-button
+        class="toggle-button"
+        :icon-left="toggleIcon"
+        @click="toggleSidebar"
+        rounded
+      >
       </b-button>
     </div>
-  </div>
+  </b-sidebar>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import SettingInfo from '@/components/shared/SettingInfo.vue';
 import NetworkVisualCue from '@/components/explorer/NetworkVisualCue.vue';
 
@@ -87,6 +69,7 @@ import NetworkVisualCue from '@/components/explorer/NetworkVisualCue.vue';
   },
 })
 export default class SidebarMenu extends Vue {
+  public reduce = true;
   public sidebar: any = [
     {
       name: 'Explorer',
@@ -97,7 +80,7 @@ export default class SidebarMenu extends Vue {
     {
       name: 'Accounts',
       icon: 'users',
-			to: { name: 'accounts'},
+      to: { name: 'accounts' },
       tag: 'router-link',
     },
     {
@@ -136,17 +119,23 @@ export default class SidebarMenu extends Vue {
       to: { name: 'settings' },
       tag: 'router-link',
     },
-	];
-	public externalLinks: any = [
-		{
+    {
+      name: 'Toolbox',
+      icon: 'tools',
+      to: { name: 'toolbox' },
+      tag: 'router-link'
+    }
+  ];
+  public externalLinks: any = [
+    {
       name: 'Github',
-			icon: 'code-branch',
+      icon: 'code-branch',
       href: 'https://github.com/vue-polkadot/apps',
       target: '_blank'
     },
     {
       name: 'Wiki',
-			icon: 'book',
+      icon: 'book',
       href: 'https://wiki.polkadot.network/',
       target: '_blank'
     },
@@ -156,8 +145,8 @@ export default class SidebarMenu extends Vue {
       pack: 'fab',
       href: 'https://twitter.com/KodaDot',
       target: '_blank'
-		},
-	];
+    },
+  ];
   public currentRow: any = this.sidebar[0];
   public isSidebarClosed = true;
   public showVerbose = false;
@@ -166,57 +155,156 @@ export default class SidebarMenu extends Vue {
     return this.$store.getters.getSettings.uiMode === 'light';
   }
 
+  @Emit('toggle')
   public toggleSidebar() {
-    this.isSidebarClosed = !this.isSidebarClosed;
+    this.reduce = !this.reduce;
+    return this.reduce;
   }
+
+  get toggleIcon() {
+    return this.reduce ? 'angle-double-right' : 'angle-double-left'
+  }
+
+  get mobileView() {
+    return this.reduce ? 'reduce' : ''
+  }
+
 }
 </script>
 
-<style>
-.menu-list a {
-  color: #dbdbdb;
-}
-.menu-list a.is-active {
-  background-color: #40b883e0;
-}
-.happy-menu {
-  background-color: #000000bd;
-  min-height: 100%;
+<style lang="scss">
+@import "@/colors";
+.sidebar-menu__icon {
+  width: 48px;
 }
 
-.menu-button {
-  color: white;
+.circle {
+  background: #fff;
+  border-radius: 70px;
 }
 
-.happy-menu.closed {
-  width: 4em !important;
+button.toggle-button.is-rounded {
+  bottom: 1em;
+  position: fixed;
 }
 
-.image.is-48x48.logo {
-  margin-bottom: 1rem;
+.menu-list {
+  li {
+    a {
+      span:nth-child(2) {
+        vertical-align: super;
+        padding-left: 0.3em;
+      }
+    }
+  }
 }
 
-.menu-item > a > span + span {
-  vertical-align: super;
-  padding-left: 0.5rem;
+.b-sidebar {
+  .sidebar-content.is-dark {
+    .menu-list {
+      li {
+        a {
+          span {
+            color: $less-white;
+          }
+
+          &.router-link-active {
+            background-color: $primary;
+            color: $less-white;
+          }
+
+          &:not(.router-link-active):hover {
+            background-color: #dbdbdb;
+
+            span.icon {
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
 }
-.closeSideBarBtn {
-  margin-top: 0.7rem;
+
+p.menu-label {
+  color: $less-white;
 }
-.switchVerbose {
-  margin-top: 0.7rem;
+
+.p-1 {
+  padding: 1em;
+  height: 100%;
 }
-.toggleSidebar {
-  bottom: 10px;
-  left: 15px;
-  position: absolute;
+.sidebar-page {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-height: 100%;
+  .sidebar-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+  }
 }
-
-.circle { 
-   background: white; 
-   -moz-border-radius: 70px; 
-   -webkit-border-radius: 70px; 
-   border-radius: 70px;
+@media screen and (max-width: 1023px) {
+  .b-sidebar {
+    .sidebar-content {
+      &.is-mini-mobile {
+        &:not(.is-mini-expand),
+        &.is-mini-expand:not(:hover) {
+          .menu-list {
+            li {
+              a {
+                span:nth-child(2) {
+                  display: none;
+                }
+              }
+              ul {
+                padding-left: 0;
+                li {
+                  a {
+                    display: inline-block;
+                  }
+                }
+              }
+            }
+          }
+          .menu-label:not(:last-child) {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 1024px) {
+  .b-sidebar {
+    .sidebar-content {
+      &.is-mini {
+        &:not(.is-mini-expand),
+        &.is-mini-expand:not(:hover) {
+          .menu-list {
+            li {
+              a {
+                span:nth-child(2) {
+                  display: none;
+                }
+              }
+              ul {
+                padding-left: 0;
+                li {
+                  a {
+                    display: inline-block;
+                  }
+                }
+              }
+            }
+          }
+          .menu-label:not(:last-child) {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

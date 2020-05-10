@@ -1,6 +1,6 @@
 <template>
   <ItemCard>
-    <div class="column is-1 proposal-index__main">
+    <div class="column is-0 proposal-index__main">
       {{ proposal.id | toNumber }}
     </div>
     <div class="column is-4 proposal-adress__overflow">
@@ -17,7 +17,7 @@
     <div class="column is-1">
       <WithLabel label="Bond"><Money :value="100000000000000" /></WithLabel>
     </div>
-    <div class="column is-1 ">
+    <div class="column is-2 ">
       <b-button class="proposal-button__action" is-primary disabled
         >To Council</b-button
       >
@@ -52,11 +52,12 @@ export default class Proposal extends Vue {
 <style scoped>
 .proposal-index__main {
   font-size: 2em;
+  width: 2em;
 }
 
-.proposal-button__action {
+/* .proposal-button__action {
   float: right;
-}
+} */
 
 .proposal-adress__overflow {
   white-space: nowrap;

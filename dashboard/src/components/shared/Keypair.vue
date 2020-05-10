@@ -20,7 +20,7 @@
               </b-button>
               </div>
             <div v-if="mode === 'accounts'">🔑{{shortAddress(publicKey)}}</div>
-            <div v-if="mode === 'accounts'">🆎type {{type}}</div>
+            <div v-if="mode === 'accounts'">🆎{{type}}</div>
             <p v-if="!meta.tags && !isEditingTags 
               || meta.tags === null && !isEditingTags
               || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 

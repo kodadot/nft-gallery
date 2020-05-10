@@ -10,7 +10,7 @@ import { faTrash, faKey, faSync, faRedo,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
   faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt, faArrowUp, faGem
+  faExternalLinkAlt, faArrowUp, faTools, faCheck, faGem
  } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -32,7 +32,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp,
   faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt, faTwitter, faArrowUp, faGem );
+  faExternalLinkAlt, faTwitter, faArrowUp, faTools, faCheck, faGem );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 
