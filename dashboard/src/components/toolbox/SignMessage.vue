@@ -11,7 +11,8 @@
       </b-input>
     </b-field>
     
-    <b-button icon-left="key" @click="signData()">Sign Message</b-button>
+    <b-button icon-left="key" @click="signData()" 
+      :disabled="!accountFrom">Sign Message</b-button>
     <br>
     <br>
     <DisabledInput label="hex input data" :value="inputDataCheck" />
