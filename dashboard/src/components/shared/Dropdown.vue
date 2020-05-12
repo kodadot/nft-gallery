@@ -71,13 +71,13 @@ export default class Dropdown extends WithKeyring {
 	get accounts() {
 		return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
 	}
-	
-  get selected() {
-		return this.selectedAccount;
-  }
   
   get showSelected() {
     return shortAddress(this.selectedAccount, 10, -10)
+  }
+  
+  get selected() {
+		return this.selectedAccount;
   }
 
 	set selected(address: string) {
