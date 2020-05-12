@@ -13,7 +13,7 @@ export default new Router({
     {
       path: '/accounts',
       name: 'accounts',
-      component: () => import('./components/accounts/Accounts.vue'),
+      component: () => import('./views/Accounts.vue'),
       // beforeEnter: apiEnabled,
     },
     {
@@ -102,13 +102,13 @@ export default new Router({
 			path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
       path: '/explorer/:tab/:hash',
       name: 'explorerByTabHash',
       component: () => import('./components/explorer/Explorer.vue'),
-      beforeEnter: apiEnabled,
+      // beforeEnter: apiEnabled,
     },
     {
 			path: '/extrinsics',
