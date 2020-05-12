@@ -15,7 +15,7 @@
 				<button class="button is-primary" type="button" slot="trigger">
 					<template v-if="selected">
 						<b-icon icon="users"></b-icon>
-						<span>{{selected}}</span>
+						<span>{{selected.slice(0,20)}}</span>
 					</template>
 					<template v-else>
 						<b-icon icon="users"></b-icon>
