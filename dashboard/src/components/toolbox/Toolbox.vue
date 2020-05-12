@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab" :multiline="true">
+    <b-tabs v-model="activeTab" multiline >
       <b-tab-item label="Hash data">
         <HashData />
       </b-tab-item>
