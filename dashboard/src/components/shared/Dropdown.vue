@@ -15,7 +15,7 @@
 				<button class="button is-primary" type="button" slot="trigger">
 					<template v-if="selected">
 						<b-icon icon="users"></b-icon>
-						<span>{{selected | shortAddress )}}</span>
+						<span>{{ showSelected }}</span>
 					</template>
 					<template v-else>
 						<b-icon icon="users"></b-icon>
@@ -49,6 +49,7 @@
 import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
 import WithKeyring from '../../utils/WithKeyring';
 import Balance from './Balance.vue';
+import shortAddress from '@/utils/shortAddress';
 
 @Component({
 	components: {
@@ -73,7 +74,11 @@ export default class Dropdown extends WithKeyring {
 	
   get selected() {
 		return this.selectedAccount;
-	}
+  }
+  
+  get showSelected() {
+    return shortAddress(this.selectedAccount, 10, -10)
+  }
 
 	set selected(address: string) {
 		this.selectedAccount = address;
