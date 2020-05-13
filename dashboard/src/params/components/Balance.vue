@@ -61,6 +61,7 @@ export default class Balance extends Vue {
   private unitsSelected: number = 1e-3;
   
   private getTokenSymbol(): string {
+    this.chainProperties = this.$store.state.chainProperties;
     if (this.chainProperties !== '-') {
       return this.chainProperties.tokenSymbol;
     }
@@ -75,11 +76,6 @@ export default class Balance extends Vue {
   @Emit('selected')
   private handleSelected() {
     return { [this.argument.name.toString()]: this.arg * this.unitsSelected };
-  }
-
-  private async mounted(): Promise<void> {
-    const { api } = (this as any).$http;
-    this.chainProperties = await api.registry.getChainProperties();
   }
 }
 </script>
