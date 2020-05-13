@@ -1,7 +1,19 @@
 <template>
-  <EmptyGuard :array="hashes" label="Tips">
-    <Tip v-for="hash in hashes" :key="hash" :hash="hash" />
-  </EmptyGuard>
+  <div>
+    <b-button
+      type="is-primary"
+      icon-left="plus"
+      class="treasury-button__submit"
+    >
+      New Tip
+    </b-button>
+    <div>
+      <SectionTitle title="Tips" />
+    </div>
+    <EmptyGuard :array="hashes" label="Tips">
+      <Tip v-for="hash in hashes" :key="hash" :hash="hash" />
+    </EmptyGuard>
+  </div>
 </template>
 
 <script lang="ts">

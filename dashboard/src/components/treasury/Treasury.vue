@@ -4,17 +4,21 @@
       :approvalCount="approvalsLength"
       :proposalCount="proposalsLength"
     />
-    <b-button type="is-primary" icon-left="plus" class="treasury-button__submit"
-      >Submit Proposal</b-button
-    >
+    <b-button type="is-primary" icon-left="plus" class="treasury-button__submit">
+      Submit Proposal
+    </b-button>
     <div>
       <SectionTitle title="Proposals" />
     </div>
-    <Proposals :proposals="info.proposals" />
+    <EmptyGuard :array="info.proposals" label="Proposals">
+      <Proposals :proposals="info.proposals" />
+    </EmptyGuard>
     <div>
       <SectionTitle title="Approvals" />
     </div>
-    <Proposals :proposals="info.approvals" />
+    <EmptyGuard :array="info.approvals" label="Approvals">
+      <Proposals :proposals="info.approvals" />
+    </EmptyGuard>
   </div>
 </template>
 
@@ -24,6 +28,7 @@ import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 import Summary from './Summary.vue'
 import Proposals from './Proposals.vue'
 import SectionTitle from '@/components/shared/SectionTitle.vue'
+import EmptyGuard from '@/components/shared/wrapper/EmptyGuard.vue'
 
 import Connector from '@vue-polkadot/vue-api';
 
@@ -31,7 +36,8 @@ import Connector from '@vue-polkadot/vue-api';
   components: {
     Summary,
     Proposals,
-    SectionTitle
+    SectionTitle,
+    EmptyGuard
   }
 })
 export default class Treasury extends Vue {

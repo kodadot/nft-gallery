@@ -33,7 +33,7 @@
 						</b-icon>
 						<div class="media-content">
 							<h3>{{ acc.meta.name }}</h3>
-							<small>{{ acc.address }}</small>
+							<small>{{ acc.address | toWao }}</small>
 						</div>
 					</div>
 				</b-dropdown-item>
