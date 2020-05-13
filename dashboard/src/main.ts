@@ -14,6 +14,7 @@ import { faTrash, faKey, faSync, faRedo,
  } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 // import keyring from '@vue-polkadot/vue-keyring';
 
@@ -21,6 +22,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
+// import shortAddress from './utils/shortAddress';
 
 library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
@@ -31,8 +33,9 @@ library.add(faTrash, faKey, faSync, faRedo,
   faPlus, faTimes, faCaretDown, faCaretUp,
   faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
   faExternalLinkAlt, faTwitter, faArrowUp, faTools, faCheck );
-
-Vue.component('vue-fontawesome', FontAwesomeIcon);
+  
+Vue.component('vue-fontawesome', FontAwesomeIcon);  
+Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
 // Connector.createInstance(store.state.setting.apiUrl);
@@ -53,6 +56,7 @@ Vue.use(Buefy, {
     },
   },
 });
+    
 
 Vue.use(VueClipboard);
 
