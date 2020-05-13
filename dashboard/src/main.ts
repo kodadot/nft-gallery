@@ -3,40 +3,14 @@ import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import './icons';
 
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faTrash, faKey, faSync, faRedo,
-//   faCloudDownloadAlt, faPlay, faFolderOpen,
-//   faUsers, faAddressBook, faPaperPlane,
-//   faCalendarCheck, faCogs, faEye, faEyeSlash,
-//   faExclamationCircle, faUpload, 
-//   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-//   faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
-//   faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-//   faExternalLinkAlt, faArrowUp, faTools, faCheck, faSeedling
-//  } from '@fortawesome/free-solid-svg-icons';
-// import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
-// import keyring from '@vue-polkadot/vue-keyring';
 
 import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
-// import shortAddress from './utils/shortAddress';
 
-// library.add(faTrash, faKey, faSync, faRedo,
-//   faCloudDownloadAlt, faPlay, faFolderOpen,
-//   faUsers, faAddressBook, faPaperPlane,
-//   faCalendarCheck, faCogs, faEye, faEyeSlash,
-//   faExclamationCircle, faUpload, 
-//   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
-//   faPlus, faTimes, faCaretDown, faCaretUp,
-//   faMinus, faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-//   faExternalLinkAlt, faTwitter, faArrowUp, faTools, faCheck, faSeedling );
-  
-// Vue.component('vue-fontawesome', FontAwesomeIcon);  
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
@@ -59,7 +33,6 @@ Vue.use(Buefy, {
   },
 });
     
-
 Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;
