@@ -44,7 +44,7 @@ export default class Staking extends Vue {
   public async mounted() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
-    this.validators = this.stakingOverview.validators.map((a) => a.toString());
+    this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
   }
 
   private beforeDestroy() {
