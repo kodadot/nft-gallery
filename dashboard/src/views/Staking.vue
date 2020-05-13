@@ -28,6 +28,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Overview from '@/components/staking/Overview.vue';
+import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
@@ -36,5 +37,18 @@ import Overview from '@/components/staking/Overview.vue';
 })
 export default class Staking extends Vue {
   private activeTab: number = 0;
+  private stakingOverview: any = [];
+  private validators: any = [];
+  private subs: any[] = [];
+
+  public async mounted() {
+    const { api } = Connector.getInstance();
+    this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
+    this.validators = this.stakingOverview.validators.map((a) => a.toString());
+  }
+
+  private beforeDestroy() {
+    this.subs.forEach((sub) => sub());
+  }
 }
 </script>
