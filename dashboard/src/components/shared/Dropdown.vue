@@ -33,7 +33,6 @@
 						</b-icon>
 						<div class="media-content">
 							<h3>{{ acc.meta.name }}</h3>
-							<!-- <small>{{ acc.address | shortAddress(acc.address, 10, -10) }}</small> -->
               <small>{{ acc.address | shortAddress(10, -10) }}</small>
 						</div>
 					</div>
