@@ -2,7 +2,7 @@
   <div>
     <b-tabs v-model="activeTab" multiline >
       <b-tab-item label="Overview">
-        
+        <Overview />
       </b-tab-item>
       <!-- <b-tab-item label="Account actions">
         
@@ -27,8 +27,13 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Overview from '@/components/staking/Overview.vue';
 
-@Component({})
+@Component({
+  components: {
+    Overview,
+  }
+})
 export default class Staking extends Vue {
   private activeTab: number = 0;
 }

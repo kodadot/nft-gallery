@@ -7,8 +7,8 @@ Basic usage is to interact from browser with Polkadot and Substrate based networ
 ## 🐦 [Follow us on Twitter @KodaDot](https://twitter.com/KodaDot)
 
 ## ▶️ Demo versions
-* 👩‍✈️[Stable release - could be used for production](https://vue-polkadot.netlify.com)
-* [🚧👷‍♀️ Development preview release - may not work everytime](https://dev-vue-polkadot.netlify.com/)
+* 👩‍✈️[Stable release - could be used for production](https://kodadot.netlify.app/)
+* [🚧👷‍♀️ Development preview release - may not work everytime](https://dev-kodadot.netlify.app/)
 
 ## 🕹 Play
 
@@ -20,24 +20,23 @@ open http://localhost:8080/
 ```
 
 ## 🏦 Stage One
-* [Accounts](https://vue-polkadot.netlify.com/#/accounts) - It offers basic management functionality to work with Accounts
-* [Address book](https://vue-polkadot.netlify.com/#/addressbook) - It offers basic management functionality to work with Addresses
-* [Democracy](https://vue-polkadot.netlify.com/#/democracy) - It offers basic voting app, allowing votes on activate proposals and referenda.
-* [Extrinsics](https://vue-polkadot.netlify.com/#/extrinsics) - Extrinsics page is enviroment where user is able to execute every available transaction on the selected node.
-* [Transfer](https://vue-polkadot.netlify.com/#/transfer) - Transfer function is abstraction on top of extrinsics for transfering various assets of network.
-* [Settings](https://vue-polkadot.netlify.com/#/settings) - It provide seamless integration of vue-settings and vue-api inside Vuex, allowing choice of language, node to connect to, and theme.
+* [Accounts](https://kodadot.netlify.app//#/accounts) - It offers basic management functionality to work with Accounts
+* [Address book](https://kodadot.netlify.app//#/addressbook) - It offers basic management functionality to work with Addresses
+* [Democracy](https://kodadot.netlify.app//#/democracy) - It offers basic voting app, allowing votes on activate proposals and referenda.
+* [Extrinsics](https://kodadot.netlify.app//#/extrinsics) - Extrinsics page is enviroment where user is able to execute every available transaction on the selected node.
+* [Transfer](https://kodadot.netlify.app//#/transfer) - Transfer function is abstraction on top of extrinsics for transfering various assets of network.
+* [Settings](https://kodadot.netlify.app//#/settings) - It provide seamless integration of vue-settings and vue-api inside Vuex, allowing choice of language, node to connect to, and theme.
 
 ## 🏯 Stage Two
-* 🏗 Staking 
-* 🏗 Storage 
-* 🏗 ToolBox 
-* 🏗 [Explorer](https://vue-polkadot.netlify.com/#/explorer)
-* 🏗 ToolBox 
+* 🏗 [Staking](https://kodadot.netlify.app/#/staking)
+* 🏗 Chain state  
+* 🏗 [Explorer](https://kodadot.netlify.app/#/explorer)
+* 🏗 [ToolBox](https://kodadot.netlify.app/#/toolbox)
 * 🏗 Treasury 
 
 ## 🏗 Development
 
-Contribution are welcome!
+Contribution is welcome!
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
