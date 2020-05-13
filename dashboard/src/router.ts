@@ -93,6 +93,11 @@ export default new Router({
       component: () => import('./components/toolbox/Toolbox.vue')
     },
     {
+      path: '/staking',
+      name: 'staking',
+      component: () => import('./views/Staking.vue')
+    },
+    {
 			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
