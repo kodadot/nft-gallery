@@ -15,7 +15,7 @@
 				<button class="button is-primary" type="button" slot="trigger">
 					<template v-if="selected">
 						<b-icon icon="users"></b-icon>
-						<span>{{ showSelected }}</span>
+						<span>{{ selected | shortAddress(10, -10) }}</span>
 					</template>
 					<template v-else>
 						<b-icon icon="users"></b-icon>
@@ -33,7 +33,8 @@
 						</b-icon>
 						<div class="media-content">
 							<h3>{{ acc.meta.name }}</h3>
-							<small>{{ acc.address }}</small>
+							<!-- <small>{{ acc.address | shortAddress(acc.address, 10, -10) }}</small> -->
+              <small>{{ acc.address | shortAddress(10, -10) }}</small>
 						</div>
 					</div>
 				</b-dropdown-item>
@@ -49,7 +50,6 @@
 import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
 import WithKeyring from '../../utils/WithKeyring';
 import Balance from './Balance.vue';
-import shortAddress from '@/utils/shortAddress';
 
 @Component({
 	components: {
@@ -71,10 +71,6 @@ export default class Dropdown extends WithKeyring {
 	get accounts() {
 		return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
 	}
-  
-  get showSelected() {
-    return shortAddress(this.selectedAccount, 10, -10)
-  }
   
   get selected() {
 		return this.selectedAccount;
