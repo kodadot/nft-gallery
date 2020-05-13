@@ -15,7 +15,7 @@
 				<button class="button is-primary" type="button" slot="trigger">
 					<template v-if="selected">
 						<b-icon icon="users"></b-icon>
-						<span>{{ showSelected }}</span>
+						<span>{{ selected | shortAddress(10, -10) }}</span>
 					</template>
 					<template v-else>
 						<b-icon icon="users"></b-icon>
@@ -32,15 +32,18 @@
 						<b-icon class="media-left" icon="users">
 						</b-icon>
 						<div class="media-content">
-							<h3>{{ acc.meta.name }}</h3>
-							<small>{{ acc.address }}</small>
+							<h3>{{ acc.meta.name }}</h3> 
+              <small>{{ acc.address | shortAddress(10, -10) }}</small>
 						</div>
 					</div>
 				</b-dropdown-item>
 				</template>
 			</b-dropdown>
 		</b-field>
-		<Balance v-if="!nobalance" :account="selectedAccount"/>
+    <b-field>
+      <AccountNameTag :metaName="selectedMetaName"/>
+      <Balance v-if="!nobalance" :account="selectedAccount"/>
+    </b-field>
 		</section>
 	</div>
 </template>
@@ -49,12 +52,13 @@
 import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
 import WithKeyring from '../../utils/WithKeyring';
 import Balance from './Balance.vue';
-import shortAddress from '@/utils/shortAddress';
+import AccountNameTag from './AccountNameTag.vue';
 
 @Component({
 	components: {
     Balance,
     Dropdown,
+    AccountNameTag,
 	},
 })
 export default class Dropdown extends WithKeyring {
@@ -62,8 +66,8 @@ export default class Dropdown extends WithKeyring {
   @Prop({ default: 'all' }) public mode!: string;
   @Prop() public externalAddress!: string;
   
-
 	private position: string = 'is-left';
+  private selectedMetaName: string = '';
   private selectedAccount: string = '';
 	private label: string = 'To Contacts';
 	private tooltip: string = 'Select a contact you want to send funds to.';
@@ -71,10 +75,6 @@ export default class Dropdown extends WithKeyring {
 	get accounts() {
 		return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
 	}
-  
-  get showSelected() {
-    return shortAddress(this.selectedAccount, 10, -10)
-  }
   
   get selected() {
 		return this.selectedAccount;
@@ -88,6 +88,7 @@ export default class Dropdown extends WithKeyring {
 	@Emit('selected')
 	public onSelectedAccount(address: string) {
     const acc = this.getPair(address);
+    this.selectedMetaName = acc.meta.name;
     (window as any).acc = acc;
 		return this.getPair(address);
 	}
