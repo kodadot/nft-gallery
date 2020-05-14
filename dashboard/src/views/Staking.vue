@@ -2,7 +2,7 @@
   <div>
     <b-tabs v-model="activeTab" multiline >
       <b-tab-item label="Overview">
-        <Overview />
+        <Overview :next="next"/>
       </b-tab-item>
       <!-- <b-tab-item label="Account actions">
         
@@ -40,6 +40,7 @@ export default class Staking extends Vue {
   private stakingOverview: any = [];
   private stashIds: any = [];
   private validators: any = [];
+  private next: any = [];
   private subs: any[] = [];
 
   public async mounted() {
@@ -49,6 +50,7 @@ export default class Staking extends Vue {
     this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
     this.stashIds = stashes.map((accountId: any) => accountId.toString())
     this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
+    this.next = this.stashIds.filter((address) => !this.stakingOverview.validators.includes(address as any))
   }
 
   private beforeDestroy() {
