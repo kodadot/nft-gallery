@@ -98,6 +98,11 @@ export default new Router({
       component: () => import('./views/Staking.vue')
     },
     {
+      path: '/debug',
+      name: 'debug',
+      component: () => import('./views/Debug.vue')
+    },
+    {
 			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
