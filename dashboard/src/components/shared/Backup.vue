@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
+import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@vue-polkadot/vue-keyring';
 import FileSaver from 'file-saver';
 
