@@ -3,7 +3,7 @@
     <b-field
       :label="`${argument.name}: ${argument.type}`"
     >
-      <b-input v-model="arg" type="number" :disabled="disabled"
+      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001"
        />
     </b-field>
   </div>
