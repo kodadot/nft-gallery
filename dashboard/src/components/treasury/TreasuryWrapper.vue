@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Treasury from './Treasury.vue'
-import Tips from './Tips.vue'
+const Treasury = () => import('./Treasury.vue')
+const Tips = () => import('./Tips.vue')
 
 @Component({
   components: {
