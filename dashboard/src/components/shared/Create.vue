@@ -6,6 +6,7 @@
           <b-field>
             <Identicon 
               :value="newAccount.address.toString()"
+              :size="size"
              />
           </b-field>
           <b-field>
@@ -132,6 +133,8 @@ import { isHex, u8aToHex } from '@polkadot/util';
 export default class Create extends Vue {
   @Prop(String) public theme!: string;
   @Prop(String) public mode!: string;
+  @Prop({ default: 64 }) public size!: number;
+
   // will be replaced by uiSettings
   public keypairType: any = {
     selected: 'sr25519',

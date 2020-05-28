@@ -3,7 +3,9 @@
     <div class="card-content proposal-content">
       <div class="proposal-index" @click="toggleArgsVisible">{{ proposal.index.toString() }}</div>
       <div class="proposal-proposer">
-				<Identicon :value="proposal.proposer.toString()" />
+				<Identicon 
+          :value="proposal.proposer.toString()"
+          :size="size"/>
 				<div>
 				<div><b>Address: </b></div>
         <div>{{ address }}</div>
@@ -75,6 +77,8 @@ import shortAddress from '@/utils/shortAddress';
 })
 export default class Proposal extends Vue {
   @Prop() public proposal: any;
+  @Prop({ default: 64 }) public size!: number;
+
 
   private isArgsVisible: boolean = false;
 

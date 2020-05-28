@@ -2,6 +2,7 @@
   <div class="changepass">
     <Identicon
       :value="address.toString()"
+      :size="size"
       />
     {{shortAddress(address)}} 
     <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">

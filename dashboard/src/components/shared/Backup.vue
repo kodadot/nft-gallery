@@ -3,6 +3,7 @@
     <b-field grouped multiline>
       <Identicon
         :value="address.toString()"
+        :size="size"
       />
       {{shortAddress(address)}}
       <b-button
@@ -46,6 +47,8 @@ import FileSaver from 'file-saver';
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
   @Prop(String) public theme!: string;
+  @Prop({ default: 64 }) public size!: number;
+
 
   public password: string = '';
   public isPassValid: boolean = false;
