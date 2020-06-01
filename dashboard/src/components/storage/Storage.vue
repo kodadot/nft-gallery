@@ -4,11 +4,11 @@
       <Executor
         :methods="sections"
         @selected="handleSectionSelection"
-        label="submit the following extrinsic"
+        label="select the following query"
       />
       <Executor
         :methods="methods"
-        @selected="handleMethodSelection"
+        @selected="handleMethod"
         label="method"
       />
       <b-button class="chainstate-button" type="is-dark" icon-left="plus" />
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator';
 import Selection from '@/components/extrinsics/Selection.vue';
 import Executor from '@/components/extrinsics/Executor.vue';
 import Argurments from '@/components/extrinsics/Arguments.vue';
@@ -41,14 +41,20 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     this.setSection(api.query)
   }
 
-  protected handleMethodSelection(value: string) {
-    super.handleMethodSelection(value)
-    // TODO: do something with args
-    const params = extractParams(<StorageEntryPromise>this.getSection())
-  console.log('params',params);
+  protected handleMethod(value: string) {
+    this.handleMethodSelection(value)
+    // // TODO: do something with args
+    const params = extractParams(this.getSection() as StorageEntryPromise)
+    console.log('params',params);
   
     this.setArgs(params)
   }
+
+  @Emit('click')
+  public handleClick() {
+    return { method: this.getSection(), args: this.mapArgs() }
+  }
+  
 
 }
 </script>

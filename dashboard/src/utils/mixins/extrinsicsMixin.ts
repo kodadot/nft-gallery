@@ -57,4 +57,8 @@ export default class ExtrinsicMixin extends Vue {
     // @ts-ignore: Method has always value
     return this.selectedArguments[accessor];
   }
+
+  protected mapArgs(): any[] {
+    return this.args.map(this.argMapper);
+  }
 }
