@@ -11,7 +11,7 @@
         @selected="handleMethod"
         label="method"
       />
-      <b-button class="chainstate-button" type="is-dark" icon-left="plus" />
+      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" />
     </div>
     <Argurments :args="args" @selected="handleSelectedArguments" />
   </div>
@@ -52,7 +52,8 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
 
   @Emit('click')
   public handleClick() {
-    return { method: this.getSection(), args: this.mapArgs() }
+    const { fnMethod, fnSection } = this.getFnMethodAndSection();
+    return { key: `${fnSection}::${fnMethod}`, method: this.getSection(), args: this.mapArgs() }
   }
   
 

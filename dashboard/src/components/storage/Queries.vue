@@ -1,17 +1,18 @@
 <template>
   <div>
-  
+    <Query v-for="(value, index) in values" :key="index" :value="value" />
   </div>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
+import Query from './Query.vue'
 
+const components = { Query }
 
-@Component
+@Component({ components })
 export default class Queries extends Vue {
-  private activeTab: number = 0;
-  private values: any[] = [];
+  @Prop() public values!: any[];
 
 }
 </script>

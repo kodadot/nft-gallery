@@ -61,4 +61,9 @@ export default class ExtrinsicMixin extends Vue {
   protected mapArgs(): any[] {
     return this.args.map(this.argMapper);
   }
+
+  protected getFnMethodAndSection() {
+    const { fnMethod, fnSection } = this;
+    return { fnMethod, fnSection };
+  }
 }

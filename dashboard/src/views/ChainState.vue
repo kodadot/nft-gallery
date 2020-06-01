@@ -2,31 +2,59 @@
   <div>
     <b-tabs v-model="activeTab">
       <b-tab-item v-for="x in components" :key="x" :label="x">
-        <component v-bind:is="x"></component>
+        <component v-bind:is="x" @click="handleWatch"></component>
       </b-tab-item>
     </b-tabs>
+    <Queries :values="mapValues" />
   </div>
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import Storage from '@/components/storage/Storage.vue'
+import Queries from '@/components/storage/Queries.vue'
 
 const components = {
   Storage,
+  Queries
 }
 
 @Component({ components })
 export default class ChainState extends Mixins(SubscribeMixin) {
   private activeTab: number = 0;
-  private values: any[] = [];
-  public components: string[] = ['Storage']
+  private values: any = {};
+  private list: any[] = [];
+  private components: string[] = ['Storage']
 
+  get mapValues() {
+    return this.list
+  }
 
-  private addToValue(callback: any) {
-    this.values.push(callback)
+  private entryMapper([label, value]: [string, any]) {
+    return { label, value }
+  }
 
-    return callback
+  private magic(key: any) {
+    if (key in this.values) {
+      throw EvalError(`${key} already subscribed`)
+    }
+    
+    return (value: any) => {
+      console.log(key, value)
+      this.values[key] = value;
+      this.list = Object.entries(this.values).map(this.entryMapper)
+    };
+  }
+
+  private async useCall(callback: any, params: any) {
+    const tx = await callback(...params);
+    console.log('tx', tx, tx.toHuman());
+  }
+
+  private handleWatch({ key, method, args }: any) {
+    console.log('handleWatch', this.activeTab);
+    this.subscribe(method, args, this.magic(key));
+
   }
 }
 </script>
