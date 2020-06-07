@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^0.2.27",
@@ -26,6 +26,7 @@
     "buefy": "^0.8.17",
     "core-js": "^2.6.5",
     "file-saver": "^2.0.2",
+    "register-service-worker": "^1.7.1",
     "serialize-javascript": "^2.1.1",
     "vue": "2.6.10",
     "vue-class-component": "^7.2.2",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
+    "@vue/cli-plugin-pwa": "~4.4.0",
     "@vue/cli-plugin-typescript": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "sass": "^1.26.5",
