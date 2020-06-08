@@ -5,12 +5,12 @@
         <Overview :next="next" :stakingOverview="stakingOverview"
           :validators="validators" />
       </b-tab-item>
-      <b-tab-item label="Accounts">
+      <!-- <b-tab-item label="Accounts">
         <AccountsInfo />
       </b-tab-item>
       <b-tab-item label="Staking">
         <StakerInfo />
-      </b-tab-item>
+      </b-tab-item> -->
       <!-- <b-tab-item label="Payouts">
         
       </b-tab-item>
@@ -33,14 +33,10 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Overview from '@/components/staking/Overview.vue';
 import Connector from '@vue-polkadot/vue-api';
-import AccountsInfo from '@/components/staking/AccountsInfo.vue';
-import StakerInfo from '@/components/staking/StakerInfo.vue';
 
 @Component({
   components: {
     Overview,
-    AccountsInfo,
-    StakerInfo,
   }
 })
 export default class Staking extends Vue {

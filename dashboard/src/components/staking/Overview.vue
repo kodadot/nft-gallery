@@ -35,9 +35,9 @@ export default class Overview extends Vue {
   private subs: any[] = [];
 
   @Prop() private next!: any[];
-  @Prop({default: '-'}) private nominators: string = '';
-  @Prop() private stakingOverview: any;
-  @Prop() private validators: any;
+  @Prop({default: '-'}) private nominators!: string;
+  @Prop() private stakingOverview!: any;
+  @Prop() private validators!: any;
 
   private sessionIsLoaded() {
     this.SummarySessionLoaded = true
