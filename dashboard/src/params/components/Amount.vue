@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { isHex, hexToBn } from '@polkadot/util';
 
 @Component
 export default class Amount extends Vue {
@@ -25,7 +26,15 @@ export default class Amount extends Vue {
   }
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : '';
+    const defaultValue = isHex(this.defaultValue)
+     ? hexToBn(this.defaultValue as string).toString()
+     : this.defaultValue;
+
+
+    console.log(this.defaultValue, isHex(this.defaultValue));
+    
+
+    return defaultValue ? defaultValue : 0;
   }
 
 

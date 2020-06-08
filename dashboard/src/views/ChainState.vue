@@ -5,6 +5,7 @@
         <component v-bind:is="x" @click="handleWatch"></component>
       </b-tab-item>
     </b-tabs>
+    <Argurments :args="random" disabled :defaultValues="defaultValues" />
     <Queries :values="mapValues" />
   </div>
 </template>
@@ -13,10 +14,12 @@ import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import Storage from '@/components/storage/Storage.vue'
 import Queries from '@/components/storage/Queries.vue'
+import Argurments from '@/components/extrinsics/Arguments.vue';
 
 const components = {
   Storage,
-  Queries
+  Queries,
+  Argurments
 }
 
 @Component({ components })
@@ -25,6 +28,8 @@ export default class ChainState extends Mixins(SubscribeMixin) {
   private values: any = {};
   private list: any[] = [];
   private components: string[] = ['Storage']
+  private random: any[] = [];
+  private defaultValues: any[] = []
 
   get mapValues() {
     return this.list
@@ -51,9 +56,14 @@ export default class ChainState extends Mixins(SubscribeMixin) {
     console.log('tx', tx, tx.toHuman());
   }
 
-  private handleWatch({ key, method, args }: any) {
+  private async handleWatch({ key, method, args }: any) {
     console.log('handleWatch', this.activeTab);
-    this.subscribe(method, args, this.magic(key));
+    this.random = [...this.random, key]
+    const value = await method(...args);
+    console.warn('[DEBUG] Chainstate got Value', value)
+    this.defaultValues = [...this.defaultValues, value]
+    // this.subscribe(method, args, this.magic(key));
+    
 
   }
 }

@@ -1,9 +1,10 @@
 <template>
-<div class="executor-select">
+<div class="arguments-wrapper">
   <b-field :label="`${argument.name}: ${argument.type}`">
     <b-select
             v-model="selected"
             :placeholder="`${argument.name}: ${argument.type}`"
+            :disabled="disabled"
             expanded
     >
       <option
@@ -20,9 +21,12 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Unit } from '../types';
 
+
 @Component
 export default class Bool extends Vue {
   @Prop() private argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
 
   private options = [
     { text: 'No', value: false },
@@ -30,7 +34,8 @@ export default class Bool extends Vue {
   ];
 
   get selected() {
-    return '';
+    // TODO: Bool default value goes brrr
+    return this.defaultValue ? this.defaultValue : '';
   }
 
   set selected(value: any) {
@@ -39,3 +44,9 @@ export default class Bool extends Vue {
 
 }
 </script>
+
+<style scoped>
+ .arguments-wrapper {
+   margin: 1em 0em 0em 1em;
+ }
+</style>

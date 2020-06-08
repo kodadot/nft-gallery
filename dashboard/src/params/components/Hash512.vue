@@ -3,17 +3,20 @@
     <b-field
       :label="`${argument.name}: ${argument.type}`"
     >
-      <b-input v-model="arg" />
+      <b-input v-model="arg" :disabled="disabled" />
     </b-field>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+const DEFAULT = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 @Component
 export default class Hash512 extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
     console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
@@ -21,8 +24,8 @@ export default class Hash512 extends Vue {
     this.$emit('selected', { [this.argument.name.toString()]: value });
   }
 
-  get arg() {
-    return '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+   get arg() {
+    return this.defaultValue ? this.defaultValue : DEFAULT;
   }
 
 

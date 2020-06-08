@@ -25,6 +25,8 @@ import Argurments from '@/components/extrinsics/Arguments.vue';
 import ExtrinsicMixin from '@/utils/mixins/extrinsicsMixin'
 import Connector from '@vue-polkadot/vue-api';
 import extractParams, {StorageEntryPromise} from './extractParams'
+import { getTypeDef } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
 
 
 const components = {
@@ -52,8 +54,14 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
 
   @Emit('click')
   public handleClick() {
+    // TODO: send Map<> with name (key) and type (meta.type.asPlain)
     const { fnMethod, fnSection } = this.getFnMethodAndSection();
-    return { key: `${fnSection}::${fnMethod}`, method: this.getSection(), args: this.mapArgs() }
+    const storageEntryPromise: StorageEntryPromise = this.getSection() as StorageEntryPromise;
+    let key: TypeDef = getTypeDef(storageEntryPromise.creator.meta.type.asPlain.toString());
+    key.name = `${fnSection}::${fnMethod}`;
+    console.log(key);
+    
+    return { key, method: this.getSection(), args: this.mapArgs() }
   }
   
 
