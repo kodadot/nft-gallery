@@ -14,7 +14,7 @@ export default class ExtrinsicMixin extends Vue {
   private section = {}
 
   get sections() {
-    return Object.keys(this.section);
+    return Object.keys(this.section).sort();
   }
 
   protected setSection(section: any) {
@@ -24,7 +24,7 @@ export default class ExtrinsicMixin extends Vue {
   get methods() {
     return this.fnSection
     // @ts-ignore: Method has always value
-      ? Object.keys(this.section[this.fnSection])
+      ? Object.keys(this.section[this.fnSection]).sort()
       : [];
   }
 
@@ -45,6 +45,10 @@ export default class ExtrinsicMixin extends Vue {
       ...this.selectedArguments,
       ...value,
     };
+  }
+
+  protected hasArgs(): boolean {
+    return this.args && this.args.length > 0;
   }
 
   protected getSection(): any {

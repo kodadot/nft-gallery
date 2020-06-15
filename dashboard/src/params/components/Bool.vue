@@ -35,7 +35,7 @@ export default class Bool extends Vue {
 
   get selected() {
     // TODO: Bool default value goes brrr
-    return this.defaultValue ? this.defaultValue : '';
+    return this.defaultValue || false
   }
 
   set selected(value: any) {

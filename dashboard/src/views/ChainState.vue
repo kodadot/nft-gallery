@@ -58,10 +58,13 @@ export default class ChainState extends Mixins(SubscribeMixin) {
 
   private async handleWatch({ key, method, args }: any) {
     console.log('handleWatch', this.activeTab);
-    this.random = [...this.random, key]
     const value = await method(...args);
     console.warn('[DEBUG] Chainstate got Value', value)
-    this.defaultValues = [...this.defaultValues, value]
+    this.defaultValues = [...this.defaultValues, value];
+    (window as any).value = value;
+    this.random = [...this.random, key];
+  
+    
     // this.subscribe(method, args, this.magic(key));
     
 

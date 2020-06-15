@@ -11,9 +11,8 @@
         @selected="handleMethod"
         label="method"
       />
-      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" />
+      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="hasArgs()"  />
     </div>
-    <Argurments :args="args" @selected="handleSelectedArguments" />
   </div>
 </template>
 
@@ -45,7 +44,7 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
 
   protected handleMethod(value: string) {
     this.handleMethodSelection(value)
-    // // TODO: do something with args
+
     const params = extractParams(this.getSection() as StorageEntryPromise)
     console.log('params',params);
   
@@ -57,8 +56,7 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     // TODO: send Map<> with name (key) and type (meta.type.asPlain)
     const { fnMethod, fnSection } = this.getFnMethodAndSection();
     const storageEntryPromise: StorageEntryPromise = this.getSection() as StorageEntryPromise;
-    let key: TypeDef = getTypeDef(storageEntryPromise.creator.meta.type.asPlain.toString());
-    key.name = `${fnSection}::${fnMethod}`;
+    const key: TypeDef = { ...getTypeDef(storageEntryPromise.creator.meta.type.asPlain.toString()), name: `${fnSection}::${fnMethod}` };
     console.log(key);
     
     return { key, method: this.getSection(), args: this.mapArgs() }

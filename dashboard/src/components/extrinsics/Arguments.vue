@@ -26,7 +26,13 @@ export default class Arguments extends Vue {
   @Prop({ default: null }) public readonly defaultValues!: any[];
 
   public getDefaultValue(index: number) {
-    return this.defaultValues && this.defaultValues[index].toJSON();
+    if (this.defaultValues) {
+      try {
+        return this.defaultValues[index].toJSON();
+      } catch (e) {
+        return this.defaultValues[index];
+      }
+    }
   }
 
   @Emit('selected')
