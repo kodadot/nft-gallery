@@ -1,7 +1,7 @@
 <template>
   <div id="addressbook">
     <b-field grouped multiline>
-      <router-link to="addressbook/create">
+      <router-link to="/addressbook/create">
         <b-button type="is-dark" icon-left="plus" outlined>Add Contact</b-button>
       </router-link>
     </b-field>
