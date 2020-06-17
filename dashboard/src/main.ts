@@ -5,7 +5,8 @@ import './icons';
 
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
-
+// import keyring from '@vue-polkadot/vue-keyring';
+import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
 import router from './router';
