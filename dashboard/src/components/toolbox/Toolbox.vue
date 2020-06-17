@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab">
+    <b-tabs v-model="activeTab" multiline >
       <b-tab-item label="Hash data">
         <HashData />
       </b-tab-item>
@@ -26,9 +26,6 @@ import HashData from './HashData.vue';
   }
 })
 export default class ToolBox extends Vue {
-
   private activeTab: number = 0;
-  private value2: any;
-  @Prop() public value!: any;
 }
 </script>

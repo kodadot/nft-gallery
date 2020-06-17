@@ -1,10 +1,10 @@
 <template>
   <div class="Accounts">
     <b-field grouped multiline>
-      <router-link to="accounts/create">
+      <router-link to="/accounts/create">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <router-link to="accounts/restore">
+      <router-link to="/accounts/restore">
         <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
       </router-link>
     </b-field>

@@ -23,7 +23,7 @@
     "@vue-polkadot/vue-identicon": "^0.0.8",
     "@vue-polkadot/vue-keyring": "2.2.0",
     "@vue-polkadot/vue-settings": "0.0.12-beta.1",
-    "buefy": "^0.8.17",
+    "buefy": "^0.8.18",
     "core-js": "^2.6.5",
     "file-saver": "^2.0.2",
     "serialize-javascript": "^2.1.1",
