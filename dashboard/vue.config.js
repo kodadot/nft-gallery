@@ -4,9 +4,14 @@ module.exports = {
   // https://webpack.js.org/configuration/dev-server/
   // https://cli.vuejs.org/config/#devserver
   devServer: {
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     port: 9090,
     hot: true,
     disableHostCheck: true,
   }, 
+  chainWebpack: config => {
+    config.externals({
+      AFRAME: 'AFRAME',
+    })
+  },
 }

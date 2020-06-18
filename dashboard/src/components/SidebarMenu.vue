@@ -27,6 +27,7 @@
             v-bind:key="row.name"
             @click="currentRow = row"
             :icon="row.icon"
+            :icon-pack="row.pack"
             :label="row.name"
             :tag="row.tag"
             :to="row.to"
@@ -117,6 +118,13 @@ export default class SidebarMenu extends Vue {
       name: 'Toolbox',
       icon: 'tools',
       to: { name: 'toolbox' },
+      tag: 'router-link'
+    },
+    {
+      name: 'Galactic',
+      icon: 'galactic-senate',
+      pack: 'fab',
+      to: { name: 'galactic' },
       tag: 'router-link'
     }
   ];

@@ -98,6 +98,23 @@ export default new Router({
       component: () => import('./views/Staking.vue')
     },
     {
+      path: '/galactic',
+      name: 'galactic',
+      component: () => import('./components/galacticSenate/Explorer.vue'),
+    },
+    {
+      path: '/galactic/:tab',
+      name: 'galacticByTab',
+      component: () => import('./components/galacticSenate/Explorer.vue'),
+      // beforeEnter: apiEnabled,
+    },
+    {
+      path: '/galactic/:tab/:hash',
+      name: 'galacticByTabHash',
+      component: () => import('./components/galacticSenate/Explorer.vue'),
+      // beforeEnter: apiEnabled,
+    },
+    {
 			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
