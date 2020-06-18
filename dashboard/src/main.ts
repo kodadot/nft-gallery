@@ -11,6 +11,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
+import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
 
