@@ -1075,7 +1075,7 @@
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.15.1.tgz#c8e84705e08eed430b5e15b39c65b0944e4d1422"
   integrity sha512-eWN5ElDTeBc5lRDh95SqA8x18D0ll2pWudU3uWiyfsRmIZcmUXpEsxPU+7+BsdCrO2vfLRC629u/MmjbmF+2tA==
 
-"@vue-polkadot/vue-api@0.0.20":
+"@vue-polkadot/vue-api@^0.0.20":
   version "0.0.20"
   resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.20.tgz#ba5df896d477112f3500b0955d925b7f405b13c9"
   integrity sha512-MYadYz3ZgZSYiNux1tKR8Cf3G2NOOVh/yotuzj9m7ySGpJWv0zyBe8yhv17xz4OvFKULNJ5Z0Ob+YHjCNRFkPA==
@@ -1094,7 +1094,7 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
 
-"@vue-polkadot/vue-keyring@2.4.1":
+"@vue-polkadot/vue-keyring@^2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-keyring/-/vue-keyring-2.4.1.tgz#ed61d415b635abd503254a784bbe4fbaa60cc225"
   integrity sha512-9SZHeWoxCYwOLf+eLcqUhCXFP+3YYcWX55fktGtZmMa0rct+1C6DPOUozoCyrj+gzZtrgoLYw5RQvNBZbPKSQA==
