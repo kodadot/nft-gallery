@@ -783,7 +783,7 @@
     memoizee "^0.4.14"
     rxjs "^6.5.5"
 
-"@polkadot/api@1.19.1", "@polkadot/api@^1.16.1":
+"@polkadot/api@1.19.1", "@polkadot/api@^1.19.1":
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-1.19.1.tgz#98e97477ffd67637fb6e132e5d87b7fa557f9631"
   integrity sha512-sRi59z9T2OuF7k5NX3HH1zCpukFS+jS7DjRJa8tcKWBw6sdNx5j9wgv4aqqM0AcjoDnD8sZJ1tcXCOjyuSr0QA==
