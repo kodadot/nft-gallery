@@ -11,10 +11,10 @@
         <!-- ${b.number.substring(8,9) - 4} -->
         <!-- :key="b.stateRoot.toString()" -->
         <a-box 
-          v-for="b in blocks" 
-          :key="b.number"
+          v-for="b in newHeads" 
+          :key="b.stateRoot.toString()"
           :position="`0 0 ${defaultYBlock - b.number.toString()}`" color="#e6007a" depth="0.5" height="0.5" width="0.5">
-          <a-text position="0.5 0 0" :value="b.hash"></a-text>
+          <a-text position="0.5 0 0" :value="b.parentHash"></a-text>
           <a-text position="-1.5 0 0" :value="b.number"></a-text>
         </a-box>
         <!-- <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere> -->
@@ -55,17 +55,17 @@ export default class Galactic extends Vue {
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
-    // this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
-    // console.log('Galactic -> loadExternalInfo -> value', value);
-    // if (!this.defaultYBlock) {
-    //   this.defaultYBlock = value.number.toString()
-    // }
-    // console.log('Galactic -> loadExternalInfo -> value.number.toString()', value.number.toString());
-    //   this.newHeads.unshift(value)
-    //   if (this.newHeads.length > 25) {
-    //     this.newHeads.pop()
-    //   }
-    // }));
+    this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
+    console.log('Galactic -> loadExternalInfo -> value', value);
+    if (!this.defaultYBlock) {
+      this.defaultYBlock = value.number.toString()
+    }
+    console.log('Galactic -> loadExternalInfo -> value.number.toString()', value.number.toString());
+      this.newHeads.unshift(value)
+      if (this.newHeads.length > 25) {
+        this.newHeads.pop()
+      }
+    }));
   }
 
   public async mounted(): Promise<void> {
