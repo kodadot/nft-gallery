@@ -9,11 +9,12 @@
         <a-box position="0 0 -2" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <a-box position="0 0 -1" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <!-- ${b.number.substring(8,9) - 4} -->
+        <!-- :key="b.stateRoot.toString()" -->
         <a-box 
-          v-for="b in newHeads" 
-          :key="b.stateRoot.toString()"
+          v-for="b in blocks" 
+          :key="b.number"
           :position="`0 0 ${defaultYBlock - b.number.toString()}`" color="#e6007a" depth="0.5" height="0.5" width="0.5">
-          <a-text position="0.5 0 0" :value="b.parentHash"></a-text>
+          <a-text position="0.5 0 0" :value="b.hash"></a-text>
           <a-text position="-1.5 0 0" :value="b.number"></a-text>
         </a-box>
         <!-- <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere> -->
@@ -50,21 +51,21 @@ export default class Galactic extends Vue {
   private chainName: any = {};
   private blockHash: any = '';
   private newHeads: any = [];
-  private defaultYBlock: any;
+  private defaultYBlock: any = '2804623'
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
-    console.log('Galactic -> loadExternalInfo -> value', value);
-    if (!this.defaultYBlock) {
-      this.defaultYBlock = value.number.toString()
-    }
-    console.log('Galactic -> loadExternalInfo -> value.number.toString()', value.number.toString());
-      this.newHeads.unshift(value)
-      if (this.newHeads.length > 25) {
-        this.newHeads.pop()
-      }
-    }));
+    // this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
+    // console.log('Galactic -> loadExternalInfo -> value', value);
+    // if (!this.defaultYBlock) {
+    //   this.defaultYBlock = value.number.toString()
+    // }
+    // console.log('Galactic -> loadExternalInfo -> value.number.toString()', value.number.toString());
+    //   this.newHeads.unshift(value)
+    //   if (this.newHeads.length > 25) {
+    //     this.newHeads.pop()
+    //   }
+    // }));
   }
 
   public async mounted(): Promise<void> {
@@ -72,29 +73,65 @@ export default class Galactic extends Vue {
   }
   public blocks: any = [
     {
-      number: '2,801,234',
-      hash: '0xc8ffd8686820a51208032e806f7a2cdb5789190958dbfd003928a4bfbd071411',
+      number: '2804637',
+      hash: '0x1308a1d8402be3e7d2f29eb82da3a668094c4166daa1fd50285960f67d5057c8',
     },
     {
-      number: '2,801,235',
-      hash: '0xfc2389cb7fb3b31dda110f571777b54a01e6406b3ad5c9594a54c3b56d6c6ec4',
+      number: '2804636',
+      hash: '0x074a3be3fe7e96d78d23370a8b3e1feaf8bb7e921f7178662c2aea7bf4498939',
     },
     {
-      number: '2,801,236',
-      hash: '0x409876dc416b95f0fc7dc4f361338179e281915e2d931de3805d50f2118df4fe',
+      number: '2804635',
+      hash: '0x6bceacbd1a4e23c1887f4d8482ef33b25cf0c312e7fa1101471ee4de0f3f1b8d',
     },
     {
-      number: '2,801,237',
-      hash: '0xfdd12038b84b147f7180e48ee98de74e9911008232513dccb43f587b7a17dcb3',
+      number: '2804634',
+      hash: '0x42cbae25ed025514eac5c0ffb44e30d8af0cebb522bed5fb1d40c4f71e888387',
     },
     {
-      number: '2,801,238',
-      hash: '0x645796b1606713b1f5cdf4fc30c1f023b72c7194c83f7a4379ce334ce7192d46',
+      number: '2804633',
+      hash: '0x873604e9a67027812c4d05170cffb7e83733f015c93eec339791121e6b92ed34',
     },
     {
-      number: '2,801,239',
-      hash: '0x244d6b42efa00e9ef4384629695c7a7387ca2b4713973990c84cb1368c619d85',
-    }
+      number: '2804632',
+      hash: '0x4234c40bec30637a3f9b51e7cbe2464760f37d73b6f0b0a2703504db978807cb',
+    },
+    {
+      number: '2804631',
+      hash: '0x8ba5ca20b894091df0caeef6a0fb40196ee6f3d0275f0723f2fc8d16aba4e1a4',
+    },
+    {
+      number: '2804630',
+      hash: '0x9ec2bc049d94126b807ed211d9ac40360f17376e4d9b7b149de44f017837b106',
+    },
+    {
+      number: '2804629',
+      hash: '0xdf9ecb43aeabec193e336cd14d6097a360d8cbd1c4fc850d265b83d7db13c8f2',
+    },
+    {
+      number: '2804628',
+      hash: '0xf174637530d3152426cacd15daf349c9b7ce885722b2cfd6edad9fd2c25a9d80',
+    },
+    {
+      number: '2804627',
+      hash: '0xa55456157d5bfd783fb1a34941c01031d3dc22bdea4b996074f42259cc0499b0',
+    },
+    {
+      number: '2804626',
+      hash: '0xf0a74abd37616477520c66cbb811b0403b4d349d32781b1f56e45a7eb141dd04',
+    },
+    {
+      number: '2804625',
+      hash: '0x64e142971480abc628850d5a773692eaf295394c24c6ab6eeb792d35039e3199',
+    },
+    {
+      number: '2804624',
+      hash: '0xe43909ac996444c0599a3917e4cb8daafd1f2a828de03e121ffa4ef2ee121ef7',
+    },
+    {
+      number: '2804623',
+      hash: '0x923f189f02f3bfecb0f93d4bc811527277fdc0a7b0486314fdec9082fce7c6c4',
+    },
   ]
 }
 </script>
