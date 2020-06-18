@@ -6,6 +6,8 @@
         vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton">
         
         <a-box position="0 0 -3" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
+        <a-box position="0 0 -2" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
+        <a-box position="0 0 -1" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <!-- ${b.number.substring(8,9) - 4} -->
         <a-box 
           v-for="b in newHeads" 
@@ -23,7 +25,7 @@
         <a-entity camera look-controls wasd-controls="acceleration:100; fly:true" position="0 1 0"></a-entity>
 
         <!-- sky should be disabled while in AR mode -->
-        <a-sky color="#707070"></a-sky>
+        <!-- <a-sky color="#707070"></a-sky> -->
         
         <b-button class="enterButton" size="large" id="myEnterVRButton" href="#">VR</b-button>
         <b-button class="enterButton" size="large" id="myEnterARButton" href="#">AR</b-button>        
