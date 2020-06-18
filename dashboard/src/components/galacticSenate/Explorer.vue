@@ -5,7 +5,7 @@
         renderer="colorManagement: true;"
         vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton">
         
-        <!-- <a-box position="-1 0.9 -3" rotation="0 45 0" color="#4CC3D9"></a-box> -->
+        <a-box position="0 0 -3" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <!-- ${b.number.substring(8,9) - 4} -->
         <a-box 
           v-for="b in newHeads" 
