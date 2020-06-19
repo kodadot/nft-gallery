@@ -51,7 +51,7 @@ export default class Galactic extends Vue {
   private chainName: any = {};
   private blockHash: any = '';
   private newHeads: any = [];
-  private defaultYBlock: any = '2804623'
+  private defaultYBlock: any;
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
