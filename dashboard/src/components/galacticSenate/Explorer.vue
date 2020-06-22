@@ -8,14 +8,20 @@
         <a-box position="0 0 -3" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <a-box position="0 0 -2" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
         <a-box position="0 0 -1" depth="0.5" height="0.5" width="0.5" color="#e6007a"></a-box>
-        <!-- ${b.number.substring(8,9) - 4} -->
-        <!-- :key="b.stateRoot.toString()" -->
-        <a-box 
+        <a-entity id="box" 
+          position="1 1 -3" cursor-listener geometry="primitive: box" material="color: blue">
+        </a-entity>
+
+        <!-- snap this to camera, like HUD -->
+        <a-text position="-1 1 -10" :value="`Best Block ${blockNumber}`"></a-text>  
+        
+        <a-box
           v-for="b in newHeads" 
           :key="b.stateRoot.toString()"
           :position="`0 0 ${defaultYBlock - b.number.toString()}`" color="#e6007a" depth="0.5" height="0.5" width="0.5">
-          <a-text position="0.5 0 0" :value="b.parentHash"></a-text>
+          <a-text position="0.5 0 0" :value="b.parentHash.toString()"></a-text>
           <a-text position="-1.5 0 0" :value="b.number"></a-text>
+          <a-text position="0 0.5 0" :value="b.extrinsicsRoot.toString()"></a-text>
         </a-box>
         <!-- <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere> -->
         <!-- <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> -->
@@ -23,10 +29,16 @@
         <!-- <a-plane position="0 1 -4" rotation="0 0 0" width="3" height="3" color="#7BC8A4"></a-plane> -->
         <!-- <a-entity position="0 2 -4" text="value: 0x84ac5959d475099861cc0e286cc7f323f6e5cda92d492a5773e128af9b5f0952;"></a-entity> -->
         <!-- <a-entity geometry="primitive: box; width: 1; height: 1; depth: 1" text="value: 0x84ac5959d475099861cc0e286cc7f323f6e5cda92d492a5773e128af9b5f0952;"></a-entity> -->
-        <a-entity camera look-controls wasd-controls="acceleration:100; fly:true" position="0 1 0"></a-entity>
+        <a-entity camera look-controls wasd-controls="acceleration:100; fly:true" position="0 1 0">
+          <a-entity cursor="fuse: true; fuseTimeout: 500"
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: black; shader: flat">
+          </a-entity>
+        </a-entity>
 
         <!-- sky should be disabled while in AR mode -->
-        <!-- <a-sky color="#707070"></a-sky> -->
+        <a-sky color="#707070"></a-sky>
         
         <b-button class="enterButton" size="large" id="myEnterVRButton" href="#">VR</b-button>
         <b-button class="enterButton" size="large" id="myEnterARButton" href="#">AR</b-button>        
@@ -52,24 +64,42 @@ export default class Galactic extends Vue {
   private blockHash: any = '';
   private newHeads: any = [];
   private defaultYBlock: any;
+  private blockNumber: any;
 
   public async loadExternalInfo() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.chain.subscribeNewHeads((value: any) => {
     console.log('Galactic -> loadExternalInfo -> value', value);
+    this.blockNumber = value.number.toString();
     if (!this.defaultYBlock) {
-      this.defaultYBlock = value.number.toString()
+      this.defaultYBlock = value.number.toString();
     }
     console.log('Galactic -> loadExternalInfo -> value.number.toString()', value.number.toString());
       this.newHeads.unshift(value)
-      if (this.newHeads.length > 25) {
-        this.newHeads.pop()
-      }
+      // if (this.newHeads.length > 25) {
+      //   this.newHeads.pop()
+      // }
     }));
+  }
+
+  public async registerClick() {
+    AFRAME.registerComponent('cursor-listener', {
+      init() {
+        let lastIndex = -1;
+        const COLORS = ['red', 'green', 'blue'];
+        this.el.addEventListener('click', function (evt) {
+          lastIndex = (lastIndex + 1) % COLORS.length;
+          this.setAttribute('material', 'color', COLORS[lastIndex]);
+          console.log('I was clicked at: ', evt.detail.intersection.point);
+        });
+      }
+    });
   }
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
+    this.registerClick()
+
   }
   public blocks: any = [
     {
