@@ -82,23 +82,23 @@ export default class Galactic extends Vue {
     }));
   }
 
-  public async registerClick() {
-    AFRAME.registerComponent('cursor-listener', {
-      init() {
-        let lastIndex = -1;
-        const COLORS = ['red', 'green', 'blue'];
-        this.el.addEventListener('click', function (evt) {
-          lastIndex = (lastIndex + 1) % COLORS.length;
-          this.setAttribute('material', 'color', COLORS[lastIndex]);
-          console.log('I was clicked at: ', evt.detail.intersection.point);
-        });
-      }
-    });
-  }
+  // public async registerClick() {
+  //   AFRAME.registerComponent('cursor-listener', {
+  //     init() {
+  //       let lastIndex = -1;
+  //       const COLORS = ['red', 'green', 'blue'];
+  //       this.el.addEventListener('click', function (evt) {
+  //         lastIndex = (lastIndex + 1) % COLORS.length;
+  //         this.setAttribute('material', 'color', COLORS[lastIndex]);
+  //         console.log('I was clicked at: ', evt.detail.intersection.point);
+  //       });
+  //     }
+  //   });
+  // }
 
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
-    this.registerClick()
+    // this.registerClick()
 
   }
   public blocks: any = [
