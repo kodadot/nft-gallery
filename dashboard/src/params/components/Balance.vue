@@ -1,7 +1,7 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="`${argument.name}: ${argument.type}`" class="balance">
-      <b-input v-model="arg" type="number" :disabled="disabled" />
+      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001" min="0"/>
       <p class="control balance">
         <b-select v-model="unitsSelected" :disabled="disabled">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
