@@ -112,7 +112,11 @@ export default new Router({
       path: '/galactic/:tab/:hash',
       name: 'galacticByTabHash',
       component: () => import('./components/galacticSenate/Explorer.vue'),
-      // beforeEnter: apiEnabled,
+    },
+    {
+      path: '/chainstate',
+      name: 'chainstate',
+      component: () => import('./views/ChainState.vue')
     },
     {
 			path: '/explorer',
@@ -137,6 +141,11 @@ export default new Router({
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
       beforeEnter: apiEnabled,
+    },
+    {
+			path: '/treasury',
+      name: 'treasury',
+      component: () => import('./components/treasury/TreasuryWrapper.vue')
     },
 		{
 			path: '*',

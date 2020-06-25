@@ -5,7 +5,9 @@ import './icons';
 
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
-
+import formatBalance from '@/utils/formatBalance'
+import { toString, toNumber } from '@/utils/filters'
+// import keyring from '@vue-polkadot/vue-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
@@ -49,7 +51,11 @@ Vue.use(Buefy, {
     },
   },
 });
-    
+
+Vue.filter('formatBalance', formatBalance)
+Vue.filter('toString', toString)
+Vue.filter('toNumber', toNumber)
+
 Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;

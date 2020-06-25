@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { isHex, hexToString, hexToBn, hexToNumber } from '@polkadot/util';
 import { Unit } from '../types';
 
 @Component
@@ -25,8 +26,12 @@ export default class Balance extends Vue {
     this.handleSelected();
   }
 
-  get arg() {
-    return this.defaultValue || this.value;
+  get arg() {    
+    const defaultValue = this.defaultValue && isHex(this.defaultValue)
+     ? hexToBn(this.defaultValue as string).toString()
+     : this.defaultValue;
+    
+    return defaultValue || this.value;
   }
 
   get chainProps() {
@@ -55,6 +60,7 @@ export default class Balance extends Vue {
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
+  
 
   private chainProperties: any = '-';
   private value = 0;
