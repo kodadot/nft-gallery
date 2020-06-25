@@ -4,11 +4,14 @@
       @selected="handleAccountSelectionFrom" />
       <br>
     <b-field label="using the following data">
-      <b-input v-model="data" @input="isHexData();complexVerifySignature()"></b-input>
+      <b-input v-model="data" 
+      @input="isHexData();complexVerifySignature()"
+      :disabled="!accountFrom"></b-input>
     </b-field>
     <b-field label="the supplied signature" 
       v-bind:type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
-      <b-input v-model="signature" @input="complexVerifySignature()"></b-input>
+      <b-input v-model="signature" @input="complexVerifySignature()" 
+      :disabled="!accountFrom"></b-input>
     </b-field>
     <b-field grouped>
       <DisabledInput label="hex input data" :expanded="true" :value="inputDataCheck" />

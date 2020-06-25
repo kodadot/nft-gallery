@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab" @input="tabClick">
+    <b-tabs v-model="activeTab" @input="tabClick" :multiline="true">
       <b-tab-item label="⛓ Chain">
         <b-progress v-if="!loadedSummary"
         size="is-large" 

@@ -1,7 +1,7 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="`${argument.name}: ${argument.type}`" class="balance">
-      <b-input v-model="arg" type="number" :disabled="disabled" />
+      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001" min="0"/>
       <p class="control balance">
         <b-select v-model="unitsSelected" :disabled="disabled">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
@@ -61,6 +61,7 @@ export default class Balance extends Vue {
   private unitsSelected: number = 1e-3;
   
   private getTokenSymbol(): string {
+    this.chainProperties = this.$store.state.chainProperties;
     if (this.chainProperties !== '-') {
       return this.chainProperties.tokenSymbol;
     }
@@ -75,11 +76,6 @@ export default class Balance extends Vue {
   @Emit('selected')
   private handleSelected() {
     return { [this.argument.name.toString()]: this.arg * this.unitsSelected };
-  }
-
-  private async mounted(): Promise<void> {
-    const { api } = (this as any).$http;
-    this.chainProperties = await api.registry.getChainProperties();
   }
 }
 </script>

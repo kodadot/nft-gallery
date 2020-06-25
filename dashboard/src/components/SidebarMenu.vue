@@ -9,7 +9,7 @@
   >
     <div class="p-1">
       <div class="block">
-        <router-link :to="{name: 'settings'}">
+        <router-link :to="{ name: 'settings' }">
           <figure class="image is-48x48 logo circle">
             <img
               src="../assets/koda_logo_843x843.png"
@@ -20,7 +20,7 @@
         </router-link>
       </div>
       <b-menu class="is-custom-mobile">
-        <b-menu-list label="Apps" icon-pack="fa">
+        <b-menu-list icon-pack="fa">
           <b-menu-item
             class="sidebar-menu__item"
             v-for="row in sidebar"
@@ -32,7 +32,7 @@
             :to="row.to"
           ></b-menu-item>
         </b-menu-list>
-        <b-menu-list label="Links" icon-pack="fa">
+        <b-menu-list icon-pack="fa">
           <b-menu-item
             v-for="row in externalLinks"
             v-bind:key="row.name"
@@ -84,12 +84,6 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
-      name: 'Address book',
-      icon: 'address-book',
-      to: { name: 'addressbook' },
-      tag: 'router-link',
-    },
-    {
       name: 'Transfer',
       icon: 'paper-plane',
       to: { name: 'transfer' },
@@ -106,6 +100,12 @@ export default class SidebarMenu extends Vue {
       icon: 'sync',
       to: { name: 'extrinsics' },
       tag: 'router-link',
+    },
+    {
+      name: 'Staking',
+      icon: 'seedling',
+      to: { name: 'staking' },
+      tag: 'router-link'
     },
     {
       name: 'Treasury',
