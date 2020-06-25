@@ -5,8 +5,13 @@
         <component v-bind:is="x" @click="handleWatch"></component>
       </b-tab-item>
     </b-tabs>
-    <Argurments :args="random" disabled :defaultValues="defaultValues" />
-    <Queries :values="mapValues" />
+    <Argurments
+      :args="random"
+      disabled
+      :defaultValues="defaultValues"
+      :actionVisible="true"
+      @action="handleDeleteKey"
+    />
   </div>
 </template>
 <script lang="ts" >
@@ -26,15 +31,11 @@ const components = {
 export default class ChainState extends Vue {
   private activeTab: number = 0;
   private values: any = {};
-  private list: any[] = [];
+  private keys: any = {};
   private components: string[] = ['Storage']
   private random: any[] = [];
   private defaultValues: any[] = [];
   private subs: any = {};
-
-  get mapValues() {
-    return this.list
-  }
 
   private entryMapper([label, value]: [string, any]) {
     return { label, value }
@@ -44,7 +45,7 @@ export default class ChainState extends Vue {
     if (key in this.values) {
       throw EvalError(`${key} already subscribed`)
     }
-    
+
     return (value: any) => {
       console.log(key, value)
       this.$set(this.defaultValues, length, value);
@@ -63,17 +64,28 @@ export default class ChainState extends Vue {
     this.defaultValues = [...this.defaultValues, value];
     (window as any).value = value;
     this.random = [...this.random, key];
-  
-    
-    this.subscribe(method, args, this.magic(key.name, this.defaultValues.length - 1), key.name);
+    this.keys[key.name] = this.defaultValues.length - 1;
+    this.subscribe(method, args, this.magic(key.name, this.keys[key.name]), key.name);
   }
 
-   public async subscribe(fn: any, args: any, callback: any, key: any) {
+  public async subscribe(fn: any, args: any, callback: any, key: any) {
     this.subs[key] = await fn(...args, callback);
   }
 
   public beforeDestroy() {
     Object.values(this.subs).forEach((sub: any) => sub());
+  }
+
+  public handleDeleteKey(key: any) {
+    const index = this.keys[key];
+    this.$delete(this.random, index);
+    this.$delete(this.defaultValues, index);
+    if (this.subs[key]) {
+      this.subs[key]();
+    }
+    this.$delete(this.subs, key);
+    this.$delete(this.keys, key);
+    this.keys = Object.fromEntries(Object.entries(this.keys).map(([keyIndex, value]: [string, any]) => [keyIndex, value > index ? value - 1 : value]))
   }
 }
 </script>
