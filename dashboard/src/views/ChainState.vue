@@ -23,13 +23,14 @@ const components = {
 }
 
 @Component({ components })
-export default class ChainState extends Mixins(SubscribeMixin) {
+export default class ChainState extends Vue {
   private activeTab: number = 0;
   private values: any = {};
   private list: any[] = [];
   private components: string[] = ['Storage']
   private random: any[] = [];
-  private defaultValues: any[] = []
+  private defaultValues: any[] = [];
+  private subs: any = {};
 
   get mapValues() {
     return this.list
@@ -39,15 +40,14 @@ export default class ChainState extends Mixins(SubscribeMixin) {
     return { label, value }
   }
 
-  private magic(key: any) {
+  private magic(key: any, length: number) {
     if (key in this.values) {
       throw EvalError(`${key} already subscribed`)
     }
     
     return (value: any) => {
       console.log(key, value)
-      this.values[key] = value;
-      this.list = Object.entries(this.values).map(this.entryMapper)
+      this.$set(this.defaultValues, length, value);
     };
   }
 
@@ -65,9 +65,15 @@ export default class ChainState extends Mixins(SubscribeMixin) {
     this.random = [...this.random, key];
   
     
-    // this.subscribe(method, args, this.magic(key));
-    
+    this.subscribe(method, args, this.magic(key.name, this.defaultValues.length - 1), key.name);
+  }
 
+   public async subscribe(fn: any, args: any, callback: any, key: any) {
+    this.subs[key] = await fn(...args, callback);
+  }
+
+  public beforeDestroy() {
+    Object.values(this.subs).forEach((sub: any) => sub());
   }
 }
 </script>
