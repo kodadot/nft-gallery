@@ -107,6 +107,12 @@ export default class SidebarMenu extends Vue {
       to: { name: 'staking' },
       tag: 'router-link'
     },
+       {
+      name: 'Chain State',
+      icon: 'database',
+      to: { name: 'chainstate' },
+      tag: 'router-link'
+    },
     {
       name: 'Treasury',
       icon: 'gem',
