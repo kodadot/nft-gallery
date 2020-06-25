@@ -7,6 +7,8 @@
       v-bind:key="arg.name.toString()"
       @selected="selected"
       :defaultValue="getDefaultValue(index)"
+      :actionVisible="actionVisible"
+      @action="action"
     />
   </div>
 </template>
@@ -24,9 +26,16 @@ export default class Arguments extends Vue {
   @Prop() public args!: any[];
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValues!: any[];
+  @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public getDefaultValue(index: number) {
-    return this.defaultValues && this.defaultValues[index].toJSON();
+    if (this.defaultValues) {
+      try {
+        return this.defaultValues[index].toJSON();
+      } catch (e) {
+        return this.defaultValues[index];
+      }
+    }
   }
 
   @Emit('selected')
@@ -35,6 +44,12 @@ export default class Arguments extends Vue {
 
     return value;
   }
+
+  @Emit('action')
+  private action(value: any) {
+    console.log('action', value);
+    return value;
+  } 
 
 }
 </script>

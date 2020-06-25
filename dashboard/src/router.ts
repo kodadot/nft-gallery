@@ -98,6 +98,11 @@ export default new Router({
       component: () => import('./views/Staking.vue')
     },
     {
+      path: '/chainstate',
+      name: 'chainstate',
+      component: () => import('./views/ChainState.vue')
+    },
+    {
 			path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),

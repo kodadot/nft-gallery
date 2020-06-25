@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div v-if="!disabled" class="buttons">
+  <div :class="{ 'vector-argument-wrapper': !disabled  }">
+    <strong v-if="!disabled">
+      {{argument.name}}: {{argument.type}}
+    </strong>
+    <div v-else class="buttons">
       <b-button @click="add" type="is-primary" icon-left="plus">
         Add
       </b-button>
@@ -8,6 +11,7 @@
         Delete
       </b-button>
     </div>
+    <div v-if="fields.length === 0 && !disabled">{{argument.name}} is empty!</div>
     <ArgumentHandler
       v-for="(arg, index) in fields"
       :argument="enhanceTypeDef(arg, index)"
@@ -74,3 +78,9 @@ export default class Vector extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.vector-argument-wrapper {
+  margin-left: 1em;
+}
+</style>
