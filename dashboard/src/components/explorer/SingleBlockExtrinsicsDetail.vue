@@ -68,8 +68,7 @@ export default class SingleBlockExtrinsicsDetail extends Vue {
     && this.block.block.header 
     && this.block.block.header.digest.logs) {
       const logs = this.block.block.header.digest.logs
-      console.log('SingleBlockExtrinsicsDetail -> logs', logs);
-      
+      // console.log('SingleBlockExtrinsicsDetail -> logs', logs);
       // const decode = Object.keys(this.block.block.header.digest.logs)
       // console.log('SingleBlockExtrinsicsDetail -> decode', decode);
     }

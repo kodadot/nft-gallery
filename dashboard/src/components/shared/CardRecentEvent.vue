@@ -9,8 +9,7 @@
           role="button"
           aria-controls="contentIdForA11y3">
           <p class="card-header-title"> 
-            <a :href="getExplorerUrl(nature)"  target="_blank">
-              🧊 {{nature}}</a>
+            {{header}}
           </p>
           <a class="card-header-icon">
             <b-icon
@@ -20,31 +19,26 @@
         </div>
         <div class="card-content">
           <div class="content truncate">
-            <a :href="getExplorerUrl(natureDesc)" target="_blank">
-              {{natureDesc}}</a>
+            {{content}}
           </div>
         </div>
-        <footer class="card-footer card-footer__block">
+        <footer class="card-footer card-footer__extrincis">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <router-link 
-                :to="{ name: 'explorerByTabHash', 
-                params: { tab: 1, hash: type }}">
-                <i>parent</i><br>
-                {{type}}
-              </router-link>
+              <i>{{item1header}}</i><br>
+              {{item1}}
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>extrinsics</i><br>
-              {{extrinsicHash}}
+              <i>{{item2header}}</i><br>
+              {{item2}}
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-            <i>state</i><br>
-            {{lifetime}}
+            <i>{{item3header}}</i><br>
+            {{item3}}
             </div>
           </div>
         </footer>
@@ -55,27 +49,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
 
 @Component
-export default class Card extends Vue {
+export default class CardExtrinsic extends Vue {
   @Prop({ default: false}) public open!: boolean;
-  @Prop(String) public nature!: string;
-  @Prop(String) public natureDesc!: string;
-  @Prop(String) public type!: string;
-  @Prop(String) public extrinsicHash!: string;
-  @Prop(String) public lifetime!: string;
-  
-  getExplorerUrl(value: string) {
-    return urlBuilderBlockNumber(value, 
-      this.$store.state.explorer.chain, 
-      this.$store.state.explorer.provider)
-  } 
+  @Prop() public header!: any;
+  @Prop() public content!: any;
+  @Prop() public item1!: any;
+  @Prop() public item1header!: any;
+  @Prop() public item2!: any;
+  @Prop() public item2header!: any;
+  @Prop() public item3!: any;
+  @Prop() public item3header!: any;
 }
 </script>
 <style scoped>
 .truncate {
-  max-width: 200px;
+  max-width: 600px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -89,7 +79,7 @@ export default class Card extends Vue {
 }
 
 @media only screen and (max-width: 768px) {
-  .card-footer__block {
+  .card-footer__extrincis {
     flex-direction: column;
   }
 

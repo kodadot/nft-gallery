@@ -12,7 +12,14 @@
       size="is-large" type="is-primary" show-value>Fetching data</b-progress>
     <SummarySession :currentBlock="currentBlock" @loadedSession="sessionIsLoaded" />
     <br>
-    <RecentBlocks />
+    <div class="columns">
+      <div class="column">
+        <RecentBlocks />
+      </div>
+      <div class="column">
+        <RecentEvents />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,12 +31,14 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 import formatBalance from '@/utils/formatBalance';
 import SummarySession from './SummarySession.vue';
 import RecentBlocks from './RecentBlocks.vue';
+import RecentEvents from './RecentEvents.vue';
 
 @Component({
   components: {
     DisabledInput,
     SummarySession,
     RecentBlocks,
+    RecentEvents
   },
 })
 export default class Summary extends Vue {
