@@ -98,7 +98,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import Connector from '@vue-polkadot/vue-api';
 import formatBalance from '../../utils/formatBalance';
 import { urlBuilderAccount } from '@/utils/explorerGuide';

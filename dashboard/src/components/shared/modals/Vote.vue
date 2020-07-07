@@ -41,7 +41,7 @@ import Dropdown from '@/components/shared/Dropdown.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import VoteDropdown from '@/components/democracy/VoteDropdown.vue';
 import Conviction from '@/components/democracy/Conviction.vue';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
 import ViewTransaction from '../ViewTransaction.vue';

@@ -23,7 +23,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';

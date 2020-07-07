@@ -1,4 +1,4 @@
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 
 const exec = async (account: any, password: any, callback: any, params: any) => {
 	try {

@@ -51,7 +51,7 @@ import Argurments from '../components/extrinsics/Arguments.vue';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
 import InputFile from '../components/extrinsics/components/InputFile.vue';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
