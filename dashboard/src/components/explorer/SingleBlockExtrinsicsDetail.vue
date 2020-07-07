@@ -2,7 +2,7 @@
   <div>
     <div v-if="block && block.block && block.block.extrinsics">
       <div v-if="decodedData">
-        <div v-for="e in decodedData">
+        <div v-for="(e, index) in decodedData" :key="index">
           <CardExtrinsic
             :header="`${e.section}.${e.method}`"
             :content="`${e.meta.documentation[0]}`"

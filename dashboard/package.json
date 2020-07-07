@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+  "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^0.2.27",
