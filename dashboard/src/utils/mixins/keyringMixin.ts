@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';

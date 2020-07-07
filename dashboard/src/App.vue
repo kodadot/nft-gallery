@@ -14,7 +14,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import Offline from './components/offline/Offline.vue'
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
 import Connector from '@vue-polkadot/vue-api';
 
