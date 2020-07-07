@@ -19,6 +19,7 @@ import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import Storage from '@/components/storage/Storage.vue'
 import Constants from '@/components/storage/Constants.vue'
+import Raw from '@/components/storage/Raw.vue'
 import Queries from '@/components/storage/Queries.vue'
 import Argurments from '@/components/extrinsics/Arguments.vue';
 
@@ -28,7 +29,8 @@ const components = {
   Storage,
   Queries,
   Argurments,
-  Constants
+  Constants,
+  Raw
 }
 
 @Component({ components })
@@ -36,7 +38,7 @@ export default class ChainState extends Vue {
   private activeTab: number = 0;
   private values: any = {};
   private keys: any = {};
-  private components: string[] = ['Storage', 'Constants']
+  private components: string[] = ['Storage', 'Constants', 'Raw']
   private random: any[] = [];
   private defaultValues: any[] = [];
   private subs: any = {};
@@ -45,14 +47,15 @@ export default class ChainState extends Vue {
     return { label, value }
   }
 
-  private magic(key: any, length: number) {
+  private magic(key: any, length: number, unwrap: any) {
     if (key in this.values) {
       throw EvalError(`${key} already subscribed`)
     }
 
     return (value: any) => {
+      const val = unwrap ? unwrap(value) : value
       console.log(key, value)
-      this.$set(this.defaultValues, length, value);
+      this.$set(this.defaultValues, length, val);
     };
   }
 
@@ -61,15 +64,35 @@ export default class ChainState extends Vue {
     console.log('tx', tx, tx.toHuman());
   }
 
-  private async handleWatch({ key, method, args, isConst }: any) {
+  private async extractValue({ method, args, isConst, unwrap, valueMethod }: any) {
+    if (isConst) {
+      return method;
+    }
+
+    if (valueMethod) {
+      if (unwrap) {
+        return await valueMethod(...args).then(unwrap)
+      }
+
+      return await valueMethod(...args)
+    }
+
+    if (unwrap) {
+      return await method(...args).then(unwrap)
+    }
+
+    return await method(...args)
+  }
+
+  private async handleWatch({ key, method, args, isConst, unwrap, valueMethod }: any) {
     console.log('handleWatch', this.activeTab);
-    const value = isConst ? method : await method(...args);
+    const value = await this.extractValue({ key, method, args, isConst, unwrap, valueMethod });
     console.warn('[DEBUG] Chainstate got Value', value)
     this.defaultValues = [...this.defaultValues, value];
     (window as any).value = value;
     this.random = [...this.random, key];
     this.keys[key.name] = this.defaultValues.length - 1;
-    this.subscribe(method, key.name, args, this.magic(key.name, this.keys[key.name]), isConst);
+    this.subscribe(method, key.name, args, this.magic(key.name, this.keys[key.name], unwrap), isConst);
   }
 
   public async subscribe(fn: any, key: any, args: any, callback: any, isConst?: boolean) {

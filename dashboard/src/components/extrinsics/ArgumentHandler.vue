@@ -9,7 +9,7 @@
       :defaultValue="defaultValue"
       v-bind:class="{ big: actionVisible }"
     />
-    <b-button class="argument-handler__delete-button" type="is-dark" icon-left="times" outlined @click="handleAction" />
+    <b-button v-if="actionVisible" class="argument-handler__delete-button" type="is-dark" icon-left="times" outlined @click="handleAction" />
   </div>
 </template>
 

@@ -56,6 +56,11 @@ export default class ExtrinsicMixin extends Vue {
     return this.section[this.fnSection][this.fnMethod]
   }
 
+  protected getFnSection(): any {
+    // @ts-ignore: Method has always value
+    return this.section[this.fnSection]
+  }
+
   protected argMapper(arg: any): any {
     const accessor: string = arg.name.toString();
     // @ts-ignore: Method has always value

@@ -14,17 +14,19 @@ import Amount from './Amount.vue';
 import Balance from './Balance.vue';
 import Bool from './Bool.vue';
 import Bytes from './Bytes.vue';
+import Call from './Call.vue';
 import Code from './Code.vue';
-import Data from './Data.vue';
+import DispatchError from './DispatchError.vue';
 import Enum from './Enum.vue';
 import Hash256 from './Hash256.vue';
 import Hash512 from './Hash512.vue';
-import Moment from './Moment.vue';
-import Proposal from './Proposal.vue';
 import KeyValue from './KeyValue.vue';
 import KeyValueArray from './KeyValueArray.vue';
+import Moment from './Moment.vue';
 import Null from './Null.vue';
+import OpaqueCall from './OpaqueCall.vue';
 import Option from './Option.vue';
+import Raw from './Raw.vue';
 import Struct from './Struct.vue';
 import TextField from './TextField.vue';
 import Tuple from './Tuple.vue';
@@ -39,22 +41,24 @@ interface TypeToComponent {
 }
 
 const components: ComponentMap = ([
-  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'SessionKey', 'ValidatorId'] },
+  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
   { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
+  { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
-  { c: Data, t: ['Data', 'Keys'] },
+  { c: DispatchError, t: ['DispatchError'] },
+  { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash256, t: ['CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
+  { c: OpaqueCall, t: ['OpaqueCall'] },
   { c: Option, t: ['Option'] },
-  { c: Proposal, t: ['Proposal'] },
   { c: TextField, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
