@@ -5,9 +5,6 @@
     <div v-for="(record, index) in completeEvents" :key="index">
       <SingleEventDetail :record="record" />
     </div>
-    <!-- <div v-for="(r, i) in completeEvents" :key="i">
-      {{ r }}
-    </div> -->
   </div>
 </template>
 <script lang="ts" >
@@ -42,9 +39,10 @@ export default class RecentEvents extends Mixins(Subscribe) {
       .map((record, index) => ({ index, record }))
       .filter(({ record: { event: { section }}}) => section !== 'system')
       .filter(({ record: { event: { method, section }}}) => !!method && !!section);
+    // console.log('RecentEvents -> queEvents -> newEvents', newEvents);
     
     const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
-
+    
     if (newEventHash !== prevEventHash && newEvents.length) {
       prevEventHash = newEventHash
       
@@ -52,11 +50,8 @@ export default class RecentEvents extends Mixins(Subscribe) {
       const blockNumber = header.number.unwrap();
       const blockHash = header.hash.toHex();
       
-
       if (blockHash !== prevBlockHash) {
         prevBlockHash = blockHash
-
-        // const { meta, method, section } = await api.registry.findMetaCall(records.callIndex) 
 
         this.completeEvents = [...newEvents.map(({ index, record }) => ({
           blockHash,
@@ -66,7 +61,7 @@ export default class RecentEvents extends Mixins(Subscribe) {
           record,
         })), 
         ...this.completeEvents].slice(0, this.numberOfShowedEvents)
-        console.log('RecentEvents -> queEvents -> this.completeEvents', this.completeEvents);
+        // console.log('RecentEvents -> queEvents -> this.completeEvents', this.completeEvents);
       }
     }
   }

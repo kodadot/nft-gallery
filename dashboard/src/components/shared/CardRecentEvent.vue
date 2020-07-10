@@ -20,28 +20,13 @@
         <div class="card-content">
           <div class="content truncate">
             {{content}}
+            <b-message type="is-info" has-icon v-for="e in event" :key="e.index">
+              <span v-for="line in e" :key="line.index">
+                {{line}}<br>
+              </span>
+            </b-message>
           </div>
-        </div>
-        <footer class="card-footer card-footer__extrincis">
-          <div class="card-footer-item">
-            <div class="truncate-bottom-slot">
-              <i>{{item1header}}</i><br>
-              {{item1}}
-            </div>
-          </div>
-          <div class="card-footer-item">
-            <div class="truncate-bottom-slot">
-              <i>{{item2header}}</i><br>
-              {{item2}}
-            </div>
-          </div>
-          <div class="card-footer-item">
-            <div class="truncate-bottom-slot">
-            <i>{{item3header}}</i><br>
-            {{item3}}
-            </div>
-          </div>
-        </footer>
+        </div>    
       </b-collapse>
     </section>
   </div>
@@ -51,16 +36,11 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class CardExtrinsic extends Vue {
+export default class CardRecentEvent extends Vue {
   @Prop({ default: false}) public open!: boolean;
   @Prop() public header!: any;
   @Prop() public content!: any;
-  @Prop() public item1!: any;
-  @Prop() public item1header!: any;
-  @Prop() public item2!: any;
-  @Prop() public item2header!: any;
-  @Prop() public item3!: any;
-  @Prop() public item3header!: any;
+  @Prop() public event!: any;
 }
 </script>
 <style scoped>
