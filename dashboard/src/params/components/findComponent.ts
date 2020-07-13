@@ -109,7 +109,7 @@ const getType = (({ displayName, info, sub, type }: any): string => {
 });
 
 export default function findComponent(def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
-  console.log(def.toString());
+  console.log(def);
 
   const findOne = (componentType: string): Vue.Component | null => {
     return overrides[componentType] || components[componentType];

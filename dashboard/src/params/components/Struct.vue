@@ -1,12 +1,17 @@
 <template>
-<div>
-  <ArgumentHandler v-for="(arg, index) in fields" :argument="enhanceTypeDef(arg, index)" v-bind:key="index" @selected="selected" />
-</div>
+  <div>
+    <ArgumentHandler
+      v-for="(arg, index) in fields"
+      :argument="enhanceTypeDef(arg, index)"
+      v-bind:key="index"
+      @selected="selected"
+      :disabled="disabled"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ArgumentHandler from '@/components/extrinsics/ArgumentHandler.vue';
 import { createType, getTypeDef } from '@polkadot/types';
 import findComponent from '@/params/components/findComponent';
 import registry from '@/params/components/typeRegistry';
@@ -14,11 +19,13 @@ import registry from '@/params/components/typeRegistry';
 @Component({
   name: 'Struct',
   components: {
-    ArgumentHandler,
+    ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue')
   },
 })
 export default class Struct extends Vue {
-   @Prop() public argument!: any;
+  @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any[];
 
   get fields(): any[] {
     return this.argument && this.argument.sub || [];

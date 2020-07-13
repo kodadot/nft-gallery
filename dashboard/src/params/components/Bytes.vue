@@ -5,11 +5,12 @@
       v-if="!uploadEnabled"
     >
       <b-input v-model="arg" :disabled="disabled" />
-      <p v-if="!disabled" class="control">
+      <p class="control">
         <b-button
           @click="enableUpload"
           class="button is-primary"
           icon-left="file"
+          :disabled="disabled" 
         />
       </p>
     </b-field>

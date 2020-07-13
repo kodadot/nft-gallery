@@ -23,7 +23,7 @@ import Raw from '@/components/storage/Raw.vue'
 import Queries from '@/components/storage/Queries.vue'
 import Argurments from '@/components/extrinsics/Arguments.vue';
 
-const isFunction = (fn: any) => fn === 'function';
+const isFunction = (fn: any) => typeof fn === 'function';
 
 const components = {
   Storage,
@@ -112,6 +112,8 @@ export default class ChainState extends Vue {
     const index = this.keys[key];
     this.$delete(this.random, index);
     this.$delete(this.defaultValues, index);
+    console.log('this.subs[key] && isFunction(this.subs[key])', this.subs[key], isFunction(this.subs[key]));
+    
     if (this.subs[key] && isFunction(this.subs[key])) {
       this.subs[key]();
     }
