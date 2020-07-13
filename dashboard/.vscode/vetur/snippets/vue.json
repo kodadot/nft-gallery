@@ -1,0 +1,23 @@
+{
+  "vue typescript w decorator": {
+    "prefix": "<template Typescript 🙌😁",
+    "body": [
+      "<template>"
+			"	<div>"
+			"\n"
+			"	</div>"
+			"</template>"
+			"<script lang=\"ts\" >"
+			 "import { Component, Prop, Vue, Watch } from 'vue-property-decorator';"
+			 "\n"
+			 "@Component({})"
+			 "export default class $1 extends Vue {"
+			 "$2"
+			 "	private value2: any;"
+			 "	@Prop() public value!: any;"
+			 "}"
+			 "</script>"
+    ],
+    "description": "vue template w decorator component"
+  }
+}

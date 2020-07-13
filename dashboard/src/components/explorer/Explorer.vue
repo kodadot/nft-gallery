@@ -14,9 +14,9 @@
 					:lastBlock="currentBlock.toString()"
           :queryBlock="$route.params.hash" />
       </b-tab-item>
-      <b-tab-item label="👁 Node">
+      <!-- <b-tab-item label="👁 Node">
         <NodeDetails />
-      </b-tab-item>
+      </b-tab-item> -->
       <b-tab-item label="🔬 Verbose">
         <NodeVerbose />
       </b-tab-item>
@@ -29,13 +29,13 @@ import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 import BlockDetails from './BlockDetails.vue';
 import Summary from './Summary.vue';
-import NodeDetails from './NodeDetails.vue';
+// import NodeDetails from './NodeDetails.vue';
 import NodeVerbose from './NodeVerbose.vue';
 
 @Component({
   components: {
     BlockDetails,
-    NodeDetails,
+    // NodeDetails,
     Summary,
     NodeVerbose,
   },

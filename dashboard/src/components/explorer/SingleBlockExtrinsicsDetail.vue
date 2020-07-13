@@ -2,7 +2,7 @@
   <div>
     <div v-if="block && block.block && block.block.extrinsics">
       <div v-if="decodedData">
-        <div v-for="e in decodedData">
+        <div v-for="(e, index) in decodedData" :key="index">
           <CardExtrinsic
             :header="`${e.section}.${e.method}`"
             :content="`${e.meta.documentation[0]}`"
@@ -68,8 +68,7 @@ export default class SingleBlockExtrinsicsDetail extends Vue {
     && this.block.block.header 
     && this.block.block.header.digest.logs) {
       const logs = this.block.block.header.digest.logs
-      console.log('SingleBlockExtrinsicsDetail -> logs', logs);
-      
+      // console.log('SingleBlockExtrinsicsDetail -> logs', logs);
       // const decode = Object.keys(this.block.block.header.digest.logs)
       // console.log('SingleBlockExtrinsicsDetail -> decode', decode);
     }

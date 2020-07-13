@@ -119,7 +119,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import Identicon from '@vue-polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
