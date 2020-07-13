@@ -1,19 +1,21 @@
 <template>
-<div class="executor-select">
-  <b-field :label="`${argument.name}: ${argument.type}`">
-    <b-select
-            v-model="selected"
-            :placeholder="`${argument.name}: ${argument.type}`"
-            expanded
-    >
-      <option
-              v-for="method in argument.sub"
-              v-bind:key="method.name"
-              :value="method.name"
-      >{{ method.name }} </option>
-    </b-select>
-  </b-field>
-</div>
+  <div class="arguments-wrapper">
+    <b-field :label="`${argument.name}: ${argument.type}`">
+      <b-select
+        v-model="selected"
+        :placeholder="`${argument.name}: ${argument.type}`"
+        :disabled="disabled"
+        expanded
+      >
+        <option
+          v-for="method in argument.sub"
+          v-bind:key="method.name"
+          :value="method.name"
+          >{{ method.name }}
+        </option>
+      </b-select>
+    </b-field>
+  </div>
 </template>
 
 <script lang="ts">
@@ -22,10 +24,21 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class VoteThreshold extends Vue {
   @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
+
+  public mounted() {
+  }
+
+  private extractDefaultValue() {
+    Object.entries(this.defaultValue)
+  }
 
 
   get selected() {
-    return '';
+    console.log(this.defaultValue);
+    
+    return (this.defaultValue && this.defaultValue.type) || '';
   }
 
   set selected(value) {
@@ -36,3 +49,9 @@ export default class VoteThreshold extends Vue {
 
 }
 </script>
+
+<style scoped>
+ .arguments-wrapper {
+   margin: 1em 0em 0em 1em;
+ }
+</style>
