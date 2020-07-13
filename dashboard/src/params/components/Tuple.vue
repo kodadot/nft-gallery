@@ -1,5 +1,10 @@
 <template>
-<div class='tuple-argument-wrapper'>
+<div :class="{ 'vector-argument-wrapper': !titleVisible  }">
+  <strong v-if="titleVisible">
+      {{argument.name}}: {{argument.type}}
+    </strong>
+<div class='tuple-argument-wrapper' >
+  
   <ArgumentHandler
       class='tuple-argument-item'
       v-for="(arg, index) in fields"
@@ -9,6 +14,7 @@
       @selected="selected"
       :defaultValue="getDefaultValue(index)"
     />
+    </div>
     </div>
 </template>
 
@@ -33,9 +39,7 @@ export default class Tuple extends Vue {
   private fields: any[] = [];
   private results: any[] = [];
 
-    public unwrapTuple(argument: any): any {
-      console.log(argument);
-      
+    public unwrapTuple(argument: any): any {      
       return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
     }
 
@@ -47,6 +51,10 @@ export default class Tuple extends Vue {
       ...argument,
       name: index,
     };
+  }
+
+  get titleVisible() {
+    return !this.disabled && isNaN(Number(this.argument.name))
   }
 
   @Emit('selected')
@@ -79,5 +87,8 @@ export default class Tuple extends Vue {
   margin-left: 0.1em;
 }
 
+.vector-argument-wrapper {
+  margin-left: 1em;
+}
 
 </style>

@@ -24,6 +24,11 @@ export default class Account extends Vue {
   }
 
   get arg() {
+    
+    if (this.defaultValue && typeof this.defaultValue === 'object') {
+      return this.defaultValue.toString()
+    }
+    
     return this.defaultValue || '';
   }
 

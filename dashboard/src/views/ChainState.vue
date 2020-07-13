@@ -48,10 +48,6 @@ export default class ChainState extends Vue {
   }
 
   private magic(key: any, length: number, unwrap: any) {
-    if (key in this.values) {
-      throw EvalError(`${key} already subscribed`)
-    }
-
     return (value: any) => {
       const val = unwrap ? unwrap(value) : value
       console.log(key, value)
@@ -85,14 +81,18 @@ export default class ChainState extends Vue {
   }
 
   private async handleWatch({ key, method, args, isConst, unwrap, valueMethod }: any) {
-    console.log('handleWatch', this.activeTab);
+    try {
+     if (key.name in this.keys) {
+      throw EvalError(`${key.name} already subscribed`)
+    }
     const value = await this.extractValue({ key, method, args, isConst, unwrap, valueMethod });
-    console.warn('[DEBUG] Chainstate got Value', value)
     this.defaultValues = [...this.defaultValues, value];
-    (window as any).value = value;
     this.random = [...this.random, key];
     this.keys[key.name] = this.defaultValues.length - 1;
     this.subscribe(method, key.name, args, this.magic(key.name, this.keys[key.name], unwrap), isConst);
+    } catch (e) {
+      console.warn(e.message)
+    }
   }
 
   public async subscribe(fn: any, key: any, args: any, callback: any, isConst?: boolean) {
@@ -112,7 +112,6 @@ export default class ChainState extends Vue {
     const index = this.keys[key];
     this.$delete(this.random, index);
     this.$delete(this.defaultValues, index);
-    console.log('this.subs[key] && isFunction(this.subs[key])', this.subs[key], isFunction(this.subs[key]));
     
     if (this.subs[key] && isFunction(this.subs[key])) {
       this.subs[key]();

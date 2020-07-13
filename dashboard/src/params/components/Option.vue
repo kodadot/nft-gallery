@@ -23,11 +23,5 @@ export default class Option extends Vue {
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any[];
 
-  public mounted() {
-  console.log("Option -> mounted -> argument", this.argument)
-  console.log("Option -> mounted -> defaultValue", this.defaultValue)
-
-    
-  }
 }
 </script>

@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div :class="{ 'vector-argument-wrapper': !disabled  }">
+    <strong v-if="!disabled">
+      {{argument.name}}: {{argument.type}}
+    </strong>
     <ArgumentHandler
       v-for="(arg, index) in fields"
       :argument="enhanceTypeDef(arg, index)"
       v-bind:key="index"
       @selected="selected"
       :disabled="disabled"
+      :defaultValue="getDefaultValue(index)"
     />
   </div>
 </template>
@@ -25,7 +29,7 @@ import registry from '@/params/components/typeRegistry';
 export default class Struct extends Vue {
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
-  @Prop({ default: null }) public readonly defaultValue!: any[];
+  @Prop({ default: null }) public readonly defaultValue!: any;
 
   get fields(): any[] {
     return this.argument && this.argument.sub || [];
@@ -41,8 +45,17 @@ export default class Struct extends Vue {
     return '';
   }
 
+  public getDefaultName(index: number) {
+    return Object.keys(this.defaultValue || {})[index] || index;
+  }
+
+  public getDefaultValue(index: number) {
+    return Object.values(this.defaultValue || {})[index] || index;
+  }
+
   public enhanceTypeDef(argument: any, index: number) {
-    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: index };
+    console.log(this.defaultValue)
+    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: this.getDefaultName(index) };
   }
 
   public selected(argument: any) {
@@ -51,3 +64,9 @@ export default class Struct extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.vector-argument-wrapper {
+  margin-left: 1em;
+}
+</style>
