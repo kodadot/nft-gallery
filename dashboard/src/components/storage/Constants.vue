@@ -81,4 +81,16 @@ export default class Constants extends Mixins(ExtrinsicMixin) {
   height: inherit;
   margin-left: 0.3em;
 }
+
+@media only screen and (max-width: 425px) {
+  .executor-wrapper {
+    flex-direction: column;
+  }
+  
+  .chainstate-button {
+    max-width: inherit;
+    margin-left: 0;
+    margin-top: 1em;
+  }
+}
 </style>

@@ -71,4 +71,15 @@ export default class ArgumentHandler extends Vue {
 .actionable {
   display: flex;
 }
+
+@media only screen and (max-width: 425px) {
+  .actionable {
+    flex-direction: column-reverse;
+  }
+
+  .argument-handler__delete-button {
+    width: 4em;
+    align-self: flex-end;
+  }
+}
 </style>
