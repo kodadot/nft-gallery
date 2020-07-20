@@ -11,8 +11,9 @@
         @selected="handleMethod"
         label="method"
       />
-      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="hasArgs()"  />
+      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="disabled"  />
     </div>
+    <!-- <Argurments v-if="params.length" :args="params" @selected="handleSelectedArguments" /> -->
   </div>
 </template>
 
@@ -46,18 +47,46 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     this.handleMethodSelection(value)
 
     const params = extractParams(this.getSection() as StorageEntryPromise)
+    console.log(params);
+    
   
-    this.setArgs(params)
+    this.setArgs(params.map(({type}) =>  ({ ...type, name: '' })))
+    console.log(this.mapArgs());
+    
+  }
+
+  get disabled() {
+    return this.hasArgs() && !this.mapArgs().filter(v => !!v).length 
   }
 
   @Emit('click')
   public handleClick() {
-    // TODO: send Map<> with name (key) and type (meta.type.asPlain)
     const { fnMethod, fnSection } = this.getFnMethodAndSection();
     const storageEntryPromise: StorageEntryPromise = this.getSection() as StorageEntryPromise;
-    const key: TypeDef = { ...getTypeDef(storageEntryPromise.creator.meta.type.asPlain.toString()), name: `${fnSection}::${fnMethod}` };
+    const key: TypeDef = { ...getTypeDef(this.handleType(storageEntryPromise)), name: `${fnSection}::${fnMethod}` };
     
     return { key, method: this.getSection(), args: this.mapArgs() }
+  }
+
+
+  private handleType(storageEntryPromise: StorageEntryPromise): string {
+    const { type } = storageEntryPromise.creator.meta;
+    const { isPlain, isMap, isDoubleMap } = type;  
+
+    if (isPlain) {
+      return type.asPlain.toString();
+    }
+
+    if (isMap) {
+      return type.asMap.key.toString()
+    }
+
+    // TODO: not so correct
+    if (isDoubleMap) {
+      return type.asDoubleMap.key1.toString()
+    }
+
+    return ''
   }
   
 

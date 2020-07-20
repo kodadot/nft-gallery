@@ -4,7 +4,7 @@
       v-for="(arg, index) in args"
       :argument="arg"
       :disabled="disabled"
-      v-bind:key="arg.name.toString()"
+      v-bind:key="index"
       @selected="selected"
       :defaultValue="getDefaultValue(index)"
       :actionVisible="actionVisible"

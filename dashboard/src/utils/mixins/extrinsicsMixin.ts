@@ -28,6 +28,11 @@ export default class ExtrinsicMixin extends Vue {
       : [];
   }
 
+  get params() {
+    console.log(this.args)
+    return this.args
+  }
+
   protected handleSectionSelection(value: string) {
     this.fnSection = value;
   }
