@@ -91,4 +91,14 @@ export default class Tuple extends Vue {
   margin-left: 1em;
 }
 
+@media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+
+  .vector-argument-wrapper {
+    margin-left: 0;
+  }
+}
+
 </style>

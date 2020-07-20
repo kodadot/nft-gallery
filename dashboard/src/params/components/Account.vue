@@ -40,4 +40,10 @@ export default class Account extends Vue {
  .arguments-wrapper {
    margin: 1em 0em 0em 1em;
  }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

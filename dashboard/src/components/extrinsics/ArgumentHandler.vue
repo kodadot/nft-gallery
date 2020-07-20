@@ -81,5 +81,9 @@ export default class ArgumentHandler extends Vue {
     width: 4em;
     align-self: flex-end;
   }
+
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
 }
 </style>

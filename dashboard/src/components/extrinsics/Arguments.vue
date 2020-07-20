@@ -40,14 +40,11 @@ export default class Arguments extends Vue {
 
   @Emit('selected')
   private selected(value: any) {
-    console.log('Arguments', value);
-
     return value;
   }
 
   @Emit('action')
   private action(value: any) {
-    console.log('action', value);
     return value;
   } 
 

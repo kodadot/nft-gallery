@@ -64,4 +64,10 @@ export default class Bytes extends Vue {
 .arguments-wrapper.bytes .control.is-clearfix {
   flex: 1;
 }
+
+@media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

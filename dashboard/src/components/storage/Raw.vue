@@ -60,7 +60,6 @@ export default class Raw extends Mixins(ExtrinsicMixin) {
     // const constantCodecPromise: ConstantCodec = this.getSection() as ConstantCodec;
     const key: TypeDef = { type: 'Raw', name: this.value, info: 6 };
     const unwrap = (val: any[]) => val[0]
-    console.log(this.u8a);
     
     return { key, method: this.getSection(), args: [[this.value]], unwrap: (val: any[]) => val[0], valueMethod: this.getFnSection().queryStorageAt  }
   }

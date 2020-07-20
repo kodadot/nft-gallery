@@ -42,4 +42,10 @@ export default class Raw extends Vue {
   text-overflow: ellipsis !important;
   width: 95% !important;
 }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

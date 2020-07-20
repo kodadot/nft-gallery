@@ -1,8 +1,6 @@
 <template>
-  <div :class="{ 'vector-argument-wrapper': !disabled  }">
-    <strong v-if="!disabled">
-      {{argument.name}}: {{argument.type}}
-    </strong>
+  <div :class="{ 'vector-argument-wrapper': !disabled }">
+    <strong v-if="!disabled"> {{ argument.name }}: {{ argument.type }} </strong>
     <ArgumentHandler
       v-for="(arg, index) in fields"
       :argument="enhanceTypeDef(arg, index)"
@@ -68,5 +66,11 @@ export default class Struct extends Vue {
 <style scoped>
 .vector-argument-wrapper {
   margin-left: 1em;
+}
+
+@media only screen and (max-width: 425px) {
+  .vector-argument-wrapper {
+    margin-left: 0;
+  }
 }
 </style>

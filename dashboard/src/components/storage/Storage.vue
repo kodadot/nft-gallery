@@ -46,7 +46,6 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     this.handleMethodSelection(value)
 
     const params = extractParams(this.getSection() as StorageEntryPromise)
-    console.log('params',params);
   
     this.setArgs(params)
   }
@@ -57,7 +56,6 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     const { fnMethod, fnSection } = this.getFnMethodAndSection();
     const storageEntryPromise: StorageEntryPromise = this.getSection() as StorageEntryPromise;
     const key: TypeDef = { ...getTypeDef(storageEntryPromise.creator.meta.type.asPlain.toString()), name: `${fnSection}::${fnMethod}` };
-    console.log(key);
     
     return { key, method: this.getSection(), args: this.mapArgs() }
   }
