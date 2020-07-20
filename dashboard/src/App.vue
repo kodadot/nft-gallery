@@ -4,9 +4,9 @@
     <!-- <div id="dashboard" v-if="online"> -->
       <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
     <!-- </div> -->
-    <!-- <div v-else>
-      <Offline />
-    </div> -->
+    <!-- <div v-else> -->
+      <!-- <Offline /> -->
+    <!-- </div> -->
   </div>
 </template>
 
