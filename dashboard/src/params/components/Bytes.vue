@@ -5,11 +5,12 @@
       v-if="!uploadEnabled"
     >
       <b-input v-model="arg" :disabled="disabled" />
-      <p v-if="!disabled" class="control">
+      <p class="control">
         <b-button
           @click="enableUpload"
           class="button is-primary"
           icon-left="file"
+          :disabled="disabled" 
         />
       </p>
     </b-field>
@@ -62,5 +63,11 @@ export default class Bytes extends Vue {
 
 .arguments-wrapper.bytes .control.is-clearfix {
   flex: 1;
+}
+
+@media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
 }
 </style>

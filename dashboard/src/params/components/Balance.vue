@@ -30,6 +30,10 @@ export default class Balance extends Vue {
     const defaultValue = this.defaultValue && isHex(this.defaultValue)
      ? hexToBn(this.defaultValue as string).toString()
      : this.defaultValue;
+
+    if (typeof defaultValue === 'object') {
+      return defaultValue.toString()
+    }
     
     return defaultValue || this.value;
   }
@@ -98,4 +102,10 @@ export default class Balance extends Vue {
 .arguments-wrapper {
    margin: 1em 0em 0em 1em;
  }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

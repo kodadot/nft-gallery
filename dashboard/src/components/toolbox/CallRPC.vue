@@ -11,9 +11,8 @@
         @selected="handleMethod"
         label="method"
       />
-      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="disabled"  />
+      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="hasArgs()"  />
     </div>
-    <!-- <Argurments v-if="params.length" :args="params" @selected="handleSelectedArguments" /> -->
   </div>
 </template>
 
@@ -24,7 +23,7 @@ import Executor from '@/components/extrinsics/Executor.vue';
 import Argurments from '@/components/extrinsics/Arguments.vue';
 import ExtrinsicMixin from '@/utils/mixins/extrinsicsMixin'
 import Connector from '@vue-polkadot/vue-api';
-import extractParams, {StorageEntryPromise} from './extractParams'
+import extractParams from '@/components/storage/extractParams'
 import { getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
@@ -36,57 +35,30 @@ const components = {
 }
 
 @Component({ components })
-export default class Storage extends Mixins(ExtrinsicMixin) {
+export default class Constants extends Mixins(ExtrinsicMixin) {
 
   public mounted(): void {
     const { api } = Connector.getInstance()
-    this.setSection(api.query)
+    this.setSection(api.rpc)
   }
 
   protected handleMethod(value: string) {
     this.handleMethodSelection(value)
 
-    const params = extractParams(this.getSection() as StorageEntryPromise)
-    console.log(params);
-    
+    const params: any[] = []
+    console.log('params',[]);
   
-    this.setArgs(params.map(({type}) =>  ({ ...type, name: '' })))
-    console.log(this.mapArgs());
-    
-  }
-
-  get disabled() {
-    return this.hasArgs() && !this.mapArgs().filter(v => !!v).length 
+    this.setArgs(params)
   }
 
   @Emit('click')
   public handleClick() {
+    // TODO: send Map<> with name (key) and type (meta.type.asPlain)
     const { fnMethod, fnSection } = this.getFnMethodAndSection();
-    const storageEntryPromise: StorageEntryPromise = this.getSection() as StorageEntryPromise;
-    const key: TypeDef = { ...getTypeDef(this.handleType(storageEntryPromise)), name: `${fnSection}::${fnMethod}` };
+    const constantCodecPromise = this.getSection();
+    const key = { name: `${fnSection}::${fnMethod}`, type: 'any' };
     
     return { key, method: this.getSection(), args: this.mapArgs() }
-  }
-
-
-  private handleType(storageEntryPromise: StorageEntryPromise): string {
-    const { type } = storageEntryPromise.creator.meta;
-    const { isPlain, isMap, isDoubleMap } = type;  
-
-    if (isPlain) {
-      return type.asPlain.toString();
-    }
-
-    if (isMap) {
-      return type.asMap.key.toString()
-    }
-
-    // TODO: not so correct
-    if (isDoubleMap) {
-      return type.asDoubleMap.key1.toString()
-    }
-
-    return ''
   }
   
 
