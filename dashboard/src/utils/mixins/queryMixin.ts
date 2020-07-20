@@ -1,53 +1,20 @@
-<template>
-  <div>
-    <b-tabs v-model="activeTab">
-      <b-tab-item v-for="x in components" :key="x" :label="x">
-        <component v-bind:is="x" @click="handleWatch"></component>
-      </b-tab-item>
-    </b-tabs>
-    <Argurments
-      :args="random"
-      disabled
-      :defaultValues="defaultValues"
-      :actionVisible="true"
-      @action="handleDeleteKey"
-    />
-  </div>
-</template>
-
-<script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import Storage from '@/components/storage/Storage.vue'
-import Constants from '@/components/storage/Constants.vue'
-import Raw from '@/components/storage/Raw.vue'
-import Queries from '@/components/storage/Queries.vue'
-import Argurments from '@/components/extrinsics/Arguments.vue';
+import { Component, Vue } from 'vue-property-decorator';
 import isFunction from '@/utils/isFunction'
+// declare type UnsubscribePromise = Promise<Unsubscribe>;
 
-const components = {
-  Storage,
-  Queries,
-  Argurments,
-  Constants,
-  Raw
-}
+/*
+* refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
+* usage import Component, { mixins } from 'vue-class-component';
+* class ExtendedClass extends mixins(SubscribeMixin) {
+*/
+@Component
+export default class QueryMixin extends Vue {
+  protected keys: any = {};
+  protected random: any[] = [];
+  protected defaultValues: any[] = [];
+  protected subs: any = {};
 
-@Component({ components })
-export default class ChainState extends Vue {
-  private activeTab: number = 0;
-  private values: any = {};
-  private keys: any = {};
-  private components: string[] = ['Storage', 'Constants', 'Raw']
-  private random: any[] = [];
-  private defaultValues: any[] = [];
-  private subs: any = {};
-
-  private entryMapper([label, value]: [string, any]) {
-    return { label, value }
-  }
-
-  private magic(key: any, length: number, unwrap: any) {
+  protected magic(key: any, length: number, unwrap: any) {
     return (value: any) => {
       const val = unwrap ? unwrap(value) : value
       console.log(key, value)
@@ -55,12 +22,7 @@ export default class ChainState extends Vue {
     };
   }
 
-  private async useCall(callback: any, params: any) {
-    const tx = await callback(...params);
-    console.log('tx', tx, tx.toHuman());
-  }
-
-  private async extractValue({ method, args, isConst, unwrap, valueMethod }: any) {
+  protected async extractValue({ method, args, isConst, unwrap, valueMethod }: any) {
     if (isConst) {
       return method;
     }
@@ -80,7 +42,7 @@ export default class ChainState extends Vue {
     return await method(...args)
   }
 
-  private async handleWatch({ key, method, args, isConst, unwrap, valueMethod }: any) {
+  protected async handleWatch({ key, method, args, isConst, unwrap, valueMethod }: any) {
     try {
      if (key.name in this.keys) {
       throw EvalError(`${key.name} already subscribed`)
@@ -120,5 +82,6 @@ export default class ChainState extends Vue {
     this.$delete(this.keys, key);
     this.keys = Object.fromEntries(Object.entries(this.keys).map(([keyIndex, value]: [string, any]) => [keyIndex, value > index ? value - 1 : value]))
   }
+
+
 }
-</script>
