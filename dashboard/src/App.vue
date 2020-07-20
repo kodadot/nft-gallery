@@ -1,12 +1,12 @@
 <template>
   <div>
     <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
-    <div id="dashboard" v-if="online">
+    <!-- <div id="dashboard" v-if="online"> -->
       <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
-    </div>
-    <div v-else>
-      <Offline />
-    </div>
+    <!-- </div> -->
+    <!-- <div v-else> -->
+      <!-- <Offline /> -->
+    <!-- </div> -->
   </div>
 </template>
 

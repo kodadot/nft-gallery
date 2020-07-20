@@ -28,6 +28,11 @@ export default class ExtrinsicMixin extends Vue {
       : [];
   }
 
+  get params() {
+    console.log(this.args)
+    return this.args
+  }
+
   protected handleSectionSelection(value: string) {
     this.fnSection = value;
   }
@@ -54,6 +59,11 @@ export default class ExtrinsicMixin extends Vue {
   protected getSection(): any {
     // @ts-ignore: Method has always value
     return this.section[this.fnSection][this.fnMethod]
+  }
+
+  protected getFnSection(): any {
+    // @ts-ignore: Method has always value
+    return this.section[this.fnSection]
   }
 
   protected argMapper(arg: any): any {

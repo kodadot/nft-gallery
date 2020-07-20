@@ -10,6 +10,9 @@
       <b-tab-item label="Verify signature">
         <VerifySignature />
       </b-tab-item>
+      <b-tab-item label="RPC Calls">
+        <RPC />
+      </b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -18,11 +21,14 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import SignMessage from './SignMessage.vue';
 import VerifySignature from './VerifySignature.vue';
 import HashData from './HashData.vue';
+import RPC from './RPC.vue'
+
 @Component({
   components: {
     SignMessage,
     VerifySignature,
     HashData,
+    RPC
   }
 })
 export default class ToolBox extends Vue {

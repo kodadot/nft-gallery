@@ -1,20 +1,18 @@
 <template>
-  <div class="arguments-wrapper">
-    <b-field
-      :label="`${argument.name}: ${argument.type}`"
-    >
-      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001" min="0"
-       />
+  <div class="arguments-wrapper raw-label">
+    <b-field :label="`${argument.name}: ${argument.type}`" class="raw-field">
+      <b-input v-model="arg" :disabled="disabled" />
     </b-field>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { isHex, hexToBn } from '@polkadot/util';
+
+const DEFAULT = '0x';
 
 @Component
-export default class Amount extends Vue {
+export default class Raw extends Vue {
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
@@ -26,25 +24,24 @@ export default class Amount extends Vue {
   }
 
   get arg() {
-    const defaultValue = isHex(this.defaultValue)
-     ? hexToBn(this.defaultValue as string).toString()
-     : this.defaultValue;
-
-
-    console.log(this.defaultValue, isHex(this.defaultValue));
-    
-
-    return defaultValue ? defaultValue : 0;
+    return this.defaultValue ? this.defaultValue : DEFAULT;
   }
-
 
 }
 </script>
 
 <style scoped>
- .arguments-wrapper {
-   margin: 1em 0em 0em 1em;
- }
+.arguments-wrapper {
+  margin: 1em 0em 0em 1em;
+}
+
+.field.raw-field.is-floating-in-label .label {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  width: 95% !important;
+}
 
  @media only screen and (max-width: 425px) {
   .arguments-wrapper {

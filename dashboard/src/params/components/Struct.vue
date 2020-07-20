@@ -1,12 +1,19 @@
 <template>
-<div>
-  <ArgumentHandler v-for="(arg, index) in fields" :argument="enhanceTypeDef(arg, index)" v-bind:key="index" @selected="selected" />
-</div>
+  <div :class="{ 'vector-argument-wrapper': !disabled }">
+    <strong v-if="!disabled"> {{ argument.name }}: {{ argument.type }} </strong>
+    <ArgumentHandler
+      v-for="(arg, index) in fields"
+      :argument="enhanceTypeDef(arg, index)"
+      v-bind:key="index"
+      @selected="selected"
+      :disabled="disabled"
+      :defaultValue="getDefaultValue(index)"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ArgumentHandler from '@/components/extrinsics/ArgumentHandler.vue';
 import { createType, getTypeDef } from '@polkadot/types';
 import findComponent from '@/params/components/findComponent';
 import registry from '@/params/components/typeRegistry';
@@ -14,11 +21,13 @@ import registry from '@/params/components/typeRegistry';
 @Component({
   name: 'Struct',
   components: {
-    ArgumentHandler,
+    ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue')
   },
 })
 export default class Struct extends Vue {
-   @Prop() public argument!: any;
+  @Prop() public argument!: any;
+  @Prop({ default: false }) public readonly disabled!: boolean;
+  @Prop({ default: null }) public readonly defaultValue!: any;
 
   get fields(): any[] {
     return this.argument && this.argument.sub || [];
@@ -34,8 +43,17 @@ export default class Struct extends Vue {
     return '';
   }
 
+  public getDefaultName(index: number) {
+    return Object.keys(this.defaultValue || {})[index] || index;
+  }
+
+  public getDefaultValue(index: number) {
+    return Object.values(this.defaultValue || {})[index] || index;
+  }
+
   public enhanceTypeDef(argument: any, index: number) {
-    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: index };
+    console.log(this.defaultValue)
+    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: this.getDefaultName(index) };
   }
 
   public selected(argument: any) {
@@ -44,3 +62,15 @@ export default class Struct extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.vector-argument-wrapper {
+  margin-left: 1em;
+}
+
+@media only screen and (max-width: 425px) {
+  .vector-argument-wrapper {
+    margin-left: 0;
+  }
+}
+</style>
