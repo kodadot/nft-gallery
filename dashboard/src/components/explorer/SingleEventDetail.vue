@@ -1,7 +1,7 @@
 <template>
   <div>
     <CardRecentEvent 
-      :header="`🎟 ${record.blockNumber}-${record.index} - ${record.record.event.section}.${record.record.event.method}`"
+      :header="`🎟 ${addCommas(record.blockNumber)}-${record.index} - ${record.record.event.section}.${record.record.event.method}`"
       :content="`${record.record.event.meta.documentation[0]}`"
       :event="processedData"
     />
@@ -23,14 +23,17 @@ export default class SingleEventDetail extends Vue {
   private processedData: any[] = [];
   @Prop() private record!: any;
 
+  private addCommas(num: any) {
+     return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   private async mounted(): Promise<void> {
     this.sanitizedEvent = this.record && this.record
     // this.processRecord(this.record)
   }
 
   @Watch('record')
-  private async processRecord(record: any) {
-    // const { api } = Connector.getInstance();    
+  private async processRecord(record: any) {    
     // console.log('SingleEventDetail -> processRecord -> record', record.record);
     // console.log('SingleEventDetail -> processRecord -> X', record.record.event.typeDef);
     const types = record.record.event.typeDef

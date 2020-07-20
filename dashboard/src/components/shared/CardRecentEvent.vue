@@ -20,22 +20,31 @@
         <div class="card-content">
           <div class="content truncate">
             {{content}}
-            <b-message class="has-identicon" v-for="e in event" :key="e.index">
-              <div class="columns" v-for="line in e" :key="line.index">
-                <div class="column is-1"
-                  v-if="validateAddress(line)"
-                  v-clipboard:copy="open"
-                  @click="toast('Address copied to clipboard')"> 
-                  <Identicon
-                    :value="line"
-                    :theme="theme"
-                    :size="size" />
+            <div v-for="e in event" :key="e.index">
+              <b-message :closable="false" class="has-identicon" >
+                <div v-for="(line) in e" :key="line.index">
+                  <div class="column is-2"
+                    v-if="validateAddress(line)"
+                    v-clipboard:copy="open"
+                    @click="toast('Address copied to clipboard')"> 
+                    <div class="columns">
+                      <div class="column">
+                      <Identicon
+                        :value="line"
+                        :theme="theme"
+                        :size="size" />
+                      </div>
+                      <div class="column">
+                        {{line}}
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="!validateAddress(line)" class="column">
+                    {{line}}
+                  </div>
                 </div>
-                <div class="column">
-                  {{line}}
-                </div>
-              </div>
-            </b-message>
+              </b-message>
+            </div>
           </div>
         </div>    
       </b-collapse>
@@ -47,6 +56,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Identicon from '@polkadot/vue-identicon';
 import keyring from '@polkadot/ui-keyring';
+import { u8aToString } from '@polkadot/util';
 
 @Component({
   components: {
