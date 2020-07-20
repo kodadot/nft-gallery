@@ -40,7 +40,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring
+import keyring from '@polkadot/ui-keyring'
 import Selection from '@/components/extrinsics/Selection.vue';
 import Balance from '@/params/components/Balance.vue';
 import Account from '@/params/components/Account.vue';

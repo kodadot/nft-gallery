@@ -1,20 +1,21 @@
 <template>
-<div class="arguments-wrapper">
-  <b-field :label="`${argument.name}: ${argument.type}`">
-    <b-select
-            v-model="selected"
-            :placeholder="`${argument.name}: ${argument.type}`"
-            :disabled="disabled"
-            expanded
-    >
-      <option
-              v-for="option in options"
-              v-bind:key="option.text"
-              :value="option.value"
-      >{{ option.text }} </option>
-    </b-select>
-  </b-field>
-</div>
+  <div class="arguments-wrapper">
+    <b-field :label="`${argument.name}: ${argument.type}`">
+      <b-select
+        v-model="selected"
+        :placeholder="`${argument.name}: ${argument.type}`"
+        :disabled="disabled"
+        expanded
+      >
+        <option
+          v-for="option in options"
+          v-bind:key="option.text"
+          :value="option.value"
+          >{{ option.text }}
+        </option>
+      </b-select>
+    </b-field>
+  </div>
 </template>
 
 <script lang="ts">
@@ -46,7 +47,13 @@ export default class Bool extends Vue {
 </script>
 
 <style scoped>
- .arguments-wrapper {
-   margin: 1em 0em 0em 1em;
- }
+.arguments-wrapper {
+  margin: 1em 0em 0em 1em;
+}
+
+@media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>
