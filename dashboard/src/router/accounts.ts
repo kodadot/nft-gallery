@@ -1,11 +1,11 @@
 import { apiEnabled } from '@/routeGuard';
 
-const Accounts = () => import(/* webpackChunkName:'accounts' */ '@/views/Accounts.vue');
-const AccountsCreate = () => import(/* webpackChunkName:'accounts' */ '@/views/AccountsCreate.vue');
-const AccountsBackup = () => import(/* webpackChunkName:'accounts' */ '@/views/AccountsBackup.vue');
-const AccountsChangePassword = () => import(/* webpackChunkName:'accounts' */ '@/views/AccountsChangePassword.vue');
-const AccountsRestore = () => import(/* webpackChunkName:'accounts' */ '@/views/AccountsRestore.vue');
-const AddressbookCreate = () => import(/* webpackChunkName:'accounts' */ '@/views/AddressbookCreate.vue');
+const Accounts = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/Accounts.vue');
+const AccountsCreate = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AccountsCreate.vue');
+const AccountsBackup = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AccountsBackup.vue');
+const AccountsChangePassword = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AccountsChangePassword.vue');
+const AccountsRestore = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AccountsRestore.vue');
+const AddressbookCreate = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AddressbookCreate.vue');
 
 
 export default [
