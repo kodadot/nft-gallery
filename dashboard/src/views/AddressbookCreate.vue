@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Create from '../components/shared/Create.vue';
+import Create from '../components/shared/accounts/Create.vue';
 import ModalView from '@/components/shared/modals/ModalView.vue';
 
 @Component({
