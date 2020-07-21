@@ -1,10 +1,11 @@
 <template>
+
   <div class="Accounts">
     <b-field grouped multiline>
-      <router-link to="/accounts/create">
+      <router-link :to="{ name: 'accountsCreate' }">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <router-link to="/accounts/restore">
+      <router-link :to="{name: 'accountsRestore'}">
         <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
       </router-link>
     </b-field>
@@ -36,6 +37,10 @@
         />
       </li>
     </ul>
+    <router-view 
+    @on-create="mapAndFilter" 
+    @on-restore="mapAndFilter">
+    </router-view>
   </div>
 </template>
 <script lang="ts">
@@ -83,6 +88,11 @@ export default class Accounts extends Vue {
         acc.visible = false;
       }
     }
+  }
+
+  private mapAndFilter(): void {
+    this.mapAccounts();
+    this.filterByName(this.searchFilter);
   }
 
   @Watch('$store.state.keyringLoaded')

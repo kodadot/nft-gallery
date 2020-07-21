@@ -6,13 +6,13 @@
           @input="validatePassword(password)"
           password-reveal></b-input>
       </b-field>  
-      <router-link to="/accounts">
+      <router-link :to="{name: 'accounts'}">
         <b-button icon-left="sync" type="is-dark"
           @click="OnRestore()" outlined>
           Restore Account
         </b-button>
       </router-link>
-      <router-link to="/accounts">
+      <router-link :to="{name: 'accounts'}">
         <b-button icon-left="times" type="is-warning" outlined>
           Cancel
         </b-button>

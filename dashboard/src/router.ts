@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 import { apiEnabled } from './routeGuard';
+import Accounts from '@/router/accounts';
 
 export default new Router({
   routes: [
@@ -10,48 +11,9 @@ export default new Router({
       name: 'landing',
       component: () => import('./components/landing/Landing.vue'),
     },
-    {
-      path: '/accounts',
-      name: 'accounts',
-      component: () => import('./views/Accounts.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/create',
-      name: 'accountsCreate',
-      component: () => import('./views/AccountsCreate.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/backup/:address',
-      name: 'accountsBackup',
-      component: () => import('./views/AccountsBackup.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/changepassword/:address',
-      name: 'accountsChangePassword',
-      component: () => import('./views/AccountsChangePassword.vue'),
-      beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/restore',
-      name: 'accountsRestore',
-      component: () => import('./views/AccountsRestore.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/addressbook',
-      name: 'addressbook',
-      component: () => import('./components/addressbook/Addressbook.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/addressbook/create',
-      name: 'addressbookCreate',
-      component: () => import('./views/AddressbookCreate.vue'),
-      beforeEnter: apiEnabled,
-    },
+    
+    ...Accounts, 
+
     {
       path: '/transfer',
       name: 'transfer',
@@ -109,7 +71,7 @@ export default new Router({
       component: () => import('./views/ChainState.vue')
     },
     {
-			path: '/explorer',
+      path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
       beforeEnter: apiEnabled,

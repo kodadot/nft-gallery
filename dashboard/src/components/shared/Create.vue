@@ -96,7 +96,7 @@
       <b-field></b-field>
     </section>
     <div>
-      <router-link :to="'/'+mode">
+      <router-link :to="{ name: mode }">
         <b-button 
           type="is-dark"
           icon-left="plus"
@@ -106,7 +106,7 @@
           Save
         </b-button>
       </router-link>
-      <router-link :to="'/'+mode">
+      <router-link :to="{ name: mode }">
         <b-button 
           type="is-warning"
           icon-left="times"
@@ -303,6 +303,7 @@ export default class Create extends Vue {
       if (this.mode === 'addressbook') {
         const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
       }
+      
     } catch (error) {
       console.error(error);
     }

@@ -1,4 +1,5 @@
 <template>
+<ModalView>
 <div id="AccountsBackup">
   <div> 
     <Backup
@@ -7,14 +8,17 @@
     />
   </div>
 </div>
+</ModalView>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Backup from '../components/shared/Backup.vue';
+import ModalView from '@/components/shared/modals/ModalView.vue';
 
 @Component({
   components: {
     Backup,
+    ModalView,
   },
 })
 export default class AccountsBackup extends Vue {

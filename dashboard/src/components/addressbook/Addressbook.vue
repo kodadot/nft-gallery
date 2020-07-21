@@ -1,7 +1,7 @@
 <template>
   <div id="addressbook">
     <b-field grouped multiline>
-      <router-link to="/addressbook/create">
+      <router-link :to="{ name: 'addressbookCreate'}">
         <b-button type="is-dark" icon-left="plus" outlined>Add Contact</b-button>
       </router-link>
     </b-field>
@@ -27,9 +27,11 @@
         @forget-account="mapAccounts"
         @save-name="mapAccounts"
         @save-tags="mapAccounts" 
+      
       />
       </li>
     </ul>
+    <router-view @on-create="mapAndFilter"></router-view>
   </div>  
 </template>
 <script lang="ts">
@@ -66,6 +68,11 @@ export default class AddressBook extends Vue {
         acc.visible = false;
       }
     }
+  }
+
+  private mapAndFilter(): void {
+    this.mapAccounts();
+    this.filterByName(this.searchFilter);
   }
 
   @Watch('$store.state.keyringLoaded')

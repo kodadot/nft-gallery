@@ -64,13 +64,13 @@
             <b-button type="is-dark" icon-left="trash" 
               @click="forgetAccount(address)" outlined>
             </b-button>
-            <router-link :to="'/accounts/backup/'+address">
+            <router-link :to="{name:'accountsBackup', params:{ address: address}}">
               <b-button type="is-dark" icon-left="cloud-download-alt" outlined></b-button>
             </router-link>
-            <router-link :to="'/accounts/changepassword/'+address">
+            <router-link :to="{name:'accountsChangePassword', params:{ address: address}}">
               <b-button type="is-dark" icon-left="key" outlined></b-button>
             </router-link>
-            <router-link :to="'/transfer/from/'+address">
+            <router-link :to="{name:'transferFrom', params:{ from: address}}">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
             <a :href="getExplorerUrl(address)" target="_blank">
@@ -83,7 +83,7 @@
             <b-button type="is-dark" icon-left="trash" 
               @click="forgetAccount(address)" outlined>
             </b-button>
-            <router-link :to="'/transfer/to/'+address">
+            <router-link :to="{name:'transferTo', params:{ to: address}}">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
             </router-link>
             <a :href="getExplorerUrl(address)" target="_blank">
