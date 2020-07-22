@@ -24,7 +24,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
-import FileLoad from './FileLoad.vue';
+import FileLoad from '../FileLoad.vue';
 
 @Component({
   components: {
