@@ -29,11 +29,21 @@ export default class ArgumentHandler extends Vue {
   @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public enhanceTypeDef(argument: any) {
-    console.log(argument.type, registry);
-    
-    // return { ...argument }
+    console.log(argument.type);
+
+    try {
+      const type = createType(registry, argument.type).toRawType()
+      return this.typeDefOf(argument, type);
+    } catch (error) {
+      console.warn(error)
+      return this.typeDefOf(argument, argument.type)
+    }
+
+  }
+
+  private typeDefOf(argument: any, type: any) {
     return {
-      ...getTypeDef(createType(registry, argument.type).toRawType()),
+      ...getTypeDef(type),
       ...argument,
     };
   }
