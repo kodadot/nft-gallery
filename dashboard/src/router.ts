@@ -93,6 +93,12 @@ export default new Router({
       component: () => import('./components/toolbox/Toolbox.vue')
     },
     {
+      path: '/rpc',
+      name: 'rpc',
+      component: () => import('./components/rpc/RPC.vue'),
+      beforeEnter: apiEnabled,
+    },
+    {
       path: '/staking',
       name: 'staking',
       component: () => import('./views/Staking.vue')

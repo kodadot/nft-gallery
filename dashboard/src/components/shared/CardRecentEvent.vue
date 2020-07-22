@@ -78,7 +78,6 @@ export default class CardRecentEvent extends Vue {
   private validateAddress(address: string): boolean {
     try {
       const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address));
-      console.log('CardRecentEvent -> validateAddress -> keyringmagic', keyringmagic);
       return true;
     } catch (error) {
       return false;
