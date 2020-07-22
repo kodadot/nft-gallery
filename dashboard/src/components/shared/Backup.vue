@@ -3,6 +3,7 @@
     <b-field grouped multiline>
       <Identicon
         :value="address.toString()"
+        :size="size"
       />
       {{shortAddress(address)}}
       <b-button
@@ -33,8 +34,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@vue-polkadot/vue-keyring';
+import Identicon from '@vue-polkadot/vue-identicon';
+import keyring from '@polkadot/ui-keyring';
 import FileSaver from 'file-saver';
 
 
@@ -46,6 +47,8 @@ import FileSaver from 'file-saver';
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
   @Prop(String) public theme!: string;
+  @Prop({ default: 64 }) public size!: number;
+
 
   public password: string = '';
   public isPassValid: boolean = false;

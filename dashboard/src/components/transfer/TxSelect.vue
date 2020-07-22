@@ -5,7 +5,7 @@
           <Identicon
             :value="address"
             :theme="theme"
-            :size="56" />
+            :size="size" />
         </p>
         <b-field :label="label">
           <b-select :placeholder="placeholder" v-model="pickedAddress">
@@ -33,7 +33,7 @@
   <Identicon
     :value="address"
     :theme="theme"
-    :size="56" />
+    :size="size" />
   </p>
   <b-dropdown v-model="pickedAddress" aria-role="list">
         <button class="button is-large is-light" slot="trigger"> 
@@ -98,6 +98,8 @@ export default class TxPicker extends Vue {
   @Prop(String) public direction!: string;
   @Prop() public keyringAccounts!: any;
   @Prop() public balance!: any;
+  @Prop({ default: 56 }) public size!: number;
+
   @PropSync('address', { type: String }) public pickedAddress!: string;
   private pickedMetaName: string = '';
   public shortAddress(address: string): string {

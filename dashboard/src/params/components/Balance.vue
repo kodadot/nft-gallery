@@ -1,7 +1,7 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="`${argument.name}: ${argument.type}`" class="balance">
-      <b-input v-model="arg" type="number" :disabled="disabled" />
+      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001" min="0"/>
       <p class="control balance">
         <b-select v-model="unitsSelected" :disabled="disabled">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { isHex, hexToString, hexToBn, hexToNumber } from '@polkadot/util';
 import { Unit } from '../types';
 
 @Component
@@ -25,8 +26,16 @@ export default class Balance extends Vue {
     this.handleSelected();
   }
 
-  get arg() {
-    return this.defaultValue || this.value;
+  get arg() {    
+    const defaultValue = this.defaultValue && isHex(this.defaultValue)
+     ? hexToBn(this.defaultValue as string).toString()
+     : this.defaultValue;
+
+    if (typeof defaultValue === 'object') {
+      return defaultValue.toString()
+    }
+    
+    return defaultValue || this.value;
   }
 
   get chainProps() {
@@ -55,6 +64,7 @@ export default class Balance extends Vue {
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
+  
 
   private chainProperties: any = '-';
   private value = 0;
@@ -92,4 +102,10 @@ export default class Balance extends Vue {
 .arguments-wrapper {
    margin: 1em 0em 0em 1em;
  }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

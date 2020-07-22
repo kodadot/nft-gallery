@@ -5,11 +5,15 @@ import './icons';
 
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
-
+import formatBalance from '@/utils/formatBalance'
+import { toString, toNumber } from '@/utils/filters'
+// import keyring from '@polkadot/ui-keyring';
+import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
+import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -32,7 +36,11 @@ Vue.use(Buefy, {
     },
   },
 });
-    
+
+Vue.filter('formatBalance', formatBalance)
+Vue.filter('toString', toString)
+Vue.filter('toNumber', toNumber)
+
 Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;

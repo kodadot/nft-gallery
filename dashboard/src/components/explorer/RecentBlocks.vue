@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>recent finalized blocks</h1>
+    <h1>recent finalized blocks ({{newHeads.length}})</h1>
     <div v-for="header in newHeads" :key="header.stateRoot.toString()">
       <SingleBlockDetail :blockNumber="header.number" />
     </div>
@@ -16,7 +16,7 @@ import SingleBlockDetail from './SingleBlockDetail.vue';
   }
 })
 export default class RecentBlocks extends Vue {
-
+  private numberofShowedblocks: number = 20
   private newHeads: any = [];
   private subs: any[] = [];
   @Prop() public value!: any;
@@ -25,7 +25,7 @@ export default class RecentBlocks extends Vue {
     const { api } = Connector.getInstance();
     this.subs.push(await api.rpc.chain.subscribeFinalizedHeads((value: any) => {
       this.newHeads.unshift(value)
-      if (this.newHeads.length > 20) {
+      if (this.newHeads.length > this.numberofShowedblocks) {
         this.newHeads.pop()
       }
     }));

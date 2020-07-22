@@ -27,7 +27,8 @@
         <footer class="card-footer card-footer__block">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <router-link :to="{ name: 'explorerByTabHash', 
+              <router-link 
+                :to="{ name: 'explorerByTabHash', 
                 params: { tab: 1, hash: type }}">
                 <i>parent</i><br>
                 {{type}}

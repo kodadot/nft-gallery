@@ -9,7 +9,7 @@
   >
     <div class="p-1">
       <div class="block">
-        <router-link :to="{name: 'settings'}">
+        <router-link :to="{ name: 'settings' }">
           <figure class="image is-48x48 logo circle">
             <img
               src="../assets/koda_logo_843x843.png"
@@ -96,16 +96,28 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
-      name: 'Extrinsics',
-      icon: 'sync',
-      to: { name: 'extrinsics' },
-      tag: 'router-link',
-    },
-    {
       name: 'Staking',
       icon: 'seedling',
       to: { name: 'staking' },
       tag: 'router-link'
+    },
+    {
+      name: 'Treasury',
+      icon: 'gem',
+      to: { name: 'treasury' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Chain State',
+      icon: 'database',
+      to: { name: 'chainstate' },
+      tag: 'router-link'
+    },
+    {
+      name: 'Extrinsics',
+      icon: 'sync',
+      to: { name: 'extrinsics' },
+      tag: 'router-link',
     },
     {
       name: 'Settings',
@@ -123,6 +135,11 @@ export default class SidebarMenu extends Vue {
       name: 'Debug',
       icon: 'bug',
       to: { name: 'debug' },
+    },
+    {
+      name: 'RPC',
+      icon: 'hand-point-up',
+      to: { name: 'rpc' },
       tag: 'router-link'
     }
   ];

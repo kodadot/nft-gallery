@@ -93,6 +93,12 @@ export default new Router({
       component: () => import('./components/toolbox/Toolbox.vue')
     },
     {
+      path: '/rpc',
+      name: 'rpc',
+      component: () => import('./components/rpc/RPC.vue'),
+      beforeEnter: apiEnabled,
+    },
+    {
       path: '/staking',
       name: 'staking',
       component: () => import('./views/Staking.vue')
@@ -101,6 +107,11 @@ export default new Router({
       path: '/debug',
       name: 'debug',
       component: () => import('./views/Debug.vue')
+    },
+    {
+      path: '/chainstate',
+      name: 'chainstate',
+      component: () => import('./views/ChainState.vue')
     },
     {
 			path: '/explorer',
@@ -112,19 +123,24 @@ export default new Router({
 			path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
-      // beforeEnter: apiEnabled,
+      beforeEnter: apiEnabled,
     },
     {
       path: '/explorer/:tab/:hash',
       name: 'explorerByTabHash',
       component: () => import('./components/explorer/Explorer.vue'),
-      // beforeEnter: apiEnabled,
+      beforeEnter: apiEnabled,
     },
     {
 			path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
       beforeEnter: apiEnabled,
+    },
+    {
+			path: '/treasury',
+      name: 'treasury',
+      component: () => import('./components/treasury/TreasuryWrapper.vue')
     },
 		{
 			path: '*',

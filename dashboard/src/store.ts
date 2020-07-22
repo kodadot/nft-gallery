@@ -84,6 +84,9 @@ export default new Vuex.Store({
       state.error = error.message;
     }
   },
+  getters: {
+    getChainProperties: ({chainProperties}) => chainProperties
+  },
   modules: {
     setting: SettingModule,
   },

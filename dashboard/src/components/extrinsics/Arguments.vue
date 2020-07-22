@@ -4,9 +4,11 @@
       v-for="(arg, index) in args"
       :argument="arg"
       :disabled="disabled"
-      v-bind:key="arg.name.toString()"
+      v-bind:key="index"
       @selected="selected"
       :defaultValue="getDefaultValue(index)"
+      :actionVisible="actionVisible"
+      @action="action"
     />
   </div>
 </template>
@@ -24,17 +26,27 @@ export default class Arguments extends Vue {
   @Prop() public args!: any[];
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValues!: any[];
+  @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public getDefaultValue(index: number) {
-    return this.defaultValues && this.defaultValues[index].toJSON();
+    if (this.defaultValues) {
+      try {
+        return this.defaultValues[index].toJSON();
+      } catch (e) {
+        return this.defaultValues[index];
+      }
+    }
   }
 
   @Emit('selected')
   private selected(value: any) {
-    console.log('Arguments', value);
-
     return value;
   }
+
+  @Emit('action')
+  private action(value: any) {
+    return value;
+  } 
 
 }
 </script>
@@ -42,5 +54,11 @@ export default class Arguments extends Vue {
 <style scoped>
 .arguments-wrapper {
   margin: 1em 0em 0em 1em;
+}
+
+@media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
 }
 </style>

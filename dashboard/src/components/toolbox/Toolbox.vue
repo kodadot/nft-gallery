@@ -18,11 +18,12 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import SignMessage from './SignMessage.vue';
 import VerifySignature from './VerifySignature.vue';
 import HashData from './HashData.vue';
+
 @Component({
   components: {
     SignMessage,
     VerifySignature,
-    HashData,
+    HashData
   }
 })
 export default class ToolBox extends Vue {

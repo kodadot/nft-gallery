@@ -29,7 +29,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import Balance from '@/params/components/Balance.vue';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';

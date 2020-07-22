@@ -88,7 +88,7 @@ export default class Dropdown extends WithKeyring {
 	@Emit('selected')
 	public onSelectedAccount(address: string) {
     const acc = this.getPair(address);
-    this.selectedMetaName = acc.meta.name;
+    this.selectedMetaName = (acc.meta.name as string);
     (window as any).acc = acc;
 		return this.getPair(address);
 	}

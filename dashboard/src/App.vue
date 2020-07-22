@@ -1,26 +1,34 @@
 <template>
-  <div id="dashboard">
+  <div>
     <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
-    <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
+    <!-- <div id="dashboard" v-if="online"> -->
+      <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
+    <!-- </div> -->
+    <!-- <div v-else> -->
+      <!-- <Offline /> -->
+    <!-- </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import Offline from './components/offline/Offline.vue'
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
     SidebarMenu,
+    Offline,
   },
 })
 export default class Dashboard extends Vue {
   private chainProperties: any;
   private ss58Format: any = 42;
   private sidebarClosed: boolean = true;
+  private online: boolean = false;
 
   private toggleSidebar(val: boolean) {
     this.sidebarClosed = val;
@@ -51,6 +59,9 @@ export default class Dashboard extends Vue {
 
   public mounted(): void {
     this.mountWasmCrypto();
+    this.online = navigator.onLine
+    window.addEventListener('online', () => this.online = true)
+    window.addEventListener('offline', () => this.online = false)
   }
 }
 </script>

@@ -2,6 +2,7 @@
   <div class="changepass">
     <Identicon
       :value="address.toString()"
+      :size="size"
       />
     {{shortAddress(address)}} 
     <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">
@@ -29,8 +30,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@vue-polkadot/vue-keyring';
+import Identicon from '@vue-polkadot/vue-identicon';
+import keyring from '@polkadot/ui-keyring';
 
 @Component({
   components:

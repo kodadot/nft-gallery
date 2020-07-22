@@ -3,7 +3,7 @@
     <b-field
       :label="`${argument.name}: ${argument.type}`"
     >
-      <b-input v-model="arg" type="number" :disabled="disabled"
+      <b-input v-model="arg" type="number" :disabled="disabled" step="0.001" min="0"
        />
     </b-field>
   </div>
@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { isHex, hexToBn } from '@polkadot/util';
 
 @Component
 export default class Amount extends Vue {
@@ -25,7 +26,15 @@ export default class Amount extends Vue {
   }
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : '';
+    const defaultValue = isHex(this.defaultValue)
+     ? hexToBn(this.defaultValue as string).toString()
+     : this.defaultValue;
+
+
+    console.log(this.defaultValue, isHex(this.defaultValue));
+    
+
+    return defaultValue ? defaultValue : 0;
   }
 
 
@@ -36,4 +45,10 @@ export default class Amount extends Vue {
  .arguments-wrapper {
    margin: 1em 0em 0em 1em;
  }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>
