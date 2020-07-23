@@ -279,14 +279,14 @@ export default class Create extends Vue {
   @Emit()
   public onCreate(): void {
     try {
-      if (this.newAccount.tags != null) {
-        this.newAccount.tags = this.newAccount.tags.split(',')
-        .map((item: string) => item.trim())
-        .filter((item: string) => item);
-      }
+      
+      
       const meta = {
         name: this.newAccount.name,
-        tags: this.newAccount.tags,
+        tags: (this.newAccount.tags != null)? 
+          this.newAccount.tags.split(',')
+          .map((item: string) => item.trim())
+          .filter((item: string) => item) : null,
         whenCreated: Date.now() };
       if (this.mode === 'accounts') {
         if (this.seedType === 'mnemonic') {
