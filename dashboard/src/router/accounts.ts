@@ -7,14 +7,23 @@ const AccountsChangePassword = () => import(/* webpackChunkName:'accounts' */ '@
 const AccountsRestore = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AccountsRestore.vue');
 const AddressbookCreate = () => import(/* webpackChunkName:'accounts' */ '@/views/accounts/AddressbookCreate.vue');
 
+const AccountsDefault = () => import(/* webpackChunkName:'accounts' */ '@/components/accounts/Accounts.vue');
+const AddressbookDefault = () => import(/* webpackChunkName:'accounts' */ '@/components/addressbook/Addressbook.vue');
+
 
 export default [
   {
     path: '/accounts/0',
-    name: 'accounts',
+
     component: Accounts,
     // beforeEnter: apiEnabled,
     children: [
+      {
+        path: '',
+        name: 'accounts',
+        component: AccountsDefault,
+        // beforeEnter: apiEnabled,
+      },
       {
         path: 'create',
         name: 'accountsCreate',
@@ -43,10 +52,16 @@ export default [
   },
   {
     path: '/accounts/1',
-    name: 'addressbook',
+   
     component: Accounts,
     // beforeEnter: apiEnabled,
     children: [
+      {
+        path: '',
+        name: 'addressbook',
+        component: AddressbookDefault,
+        // beforeEnter: apiEnabled,
+      },
       {
         path: 'create',
         name: 'addressbookCreate',

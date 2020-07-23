@@ -2,12 +2,16 @@
   <div>
     <b-tabs v-model="activeTab" @input="tabClick">
       <b-tab-item label="Accounts">
-        <Accounts />
+        
       </b-tab-item>
       <b-tab-item label="Contacts">
-        <Addressbook />
+        
       </b-tab-item>
     </b-tabs>
+    <router-view 
+    
+    >
+    </router-view>
   </div>
 </template>
 <script lang="ts" >

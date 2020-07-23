@@ -1,5 +1,4 @@
 <template>
-<ModalView>
 <div id="AccountsCreate">
   <Create 
     mode="accounts"
@@ -7,17 +6,14 @@
     @on-create="$emit('on-create')"
   />
 </div>
-</ModalView>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Create from '@/components/shared/accounts/Create.vue';
-import ModalView from '@/components/shared/modals/ModalView.vue';
 
 @Component({
   components: {
-    ModalView,
-    Create,
+    Create
   },
 })
 export default class AccountsCreate extends Vue {

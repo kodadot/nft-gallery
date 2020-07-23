@@ -31,7 +31,7 @@
       />
       </li>
     </ul>
-    <router-view @on-create="mapAndFilter"></router-view>
+    
   </div>  
 </template>
 <script lang="ts">
@@ -70,10 +70,7 @@ export default class AddressBook extends Vue {
     }
   }
 
-  private mapAndFilter(): void {
-    this.mapAccounts();
-    this.filterByName(this.searchFilter);
-  }
+ 
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
