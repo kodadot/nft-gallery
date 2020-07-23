@@ -47,9 +47,9 @@ export default class TableOverview extends Vue {
 
   private async getStakerInfo(address: string) {
     const { api } = Connector.getInstance();
-    let query = await api.derive.staking.query(address);
+    const query = await api.derive.staking.query(address);
     // const totalHex = query.exposure.total.unwrap()
-    console.log('TableOverview -> getStakerInfo -> query.exposure.total', query.exposure.total.unwrap());
+    // console.log('TableOverview -> getStakerInfo -> query.exposure.total', query.exposure.total.unwrap());
     // console.log('TableOverview -> getStakerInfo -> totalHex', totalHex);
     return { query }
   }

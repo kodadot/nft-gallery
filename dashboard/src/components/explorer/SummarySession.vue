@@ -2,7 +2,7 @@
   <div>
     <div v-if="entries && entries.validatorCount">
       <!-- <DisabledInput label="Validators" :value="entries.validatorCount" />  -->
-      <DisabledInput label="Validators" :value="`${validators.length} / ${entries.validatorCount}`" /> 
+      <DisabledInput label="Validators" :value="`${validators.length} / ${entries.validatorCount.toString()}`" /> 
       <div class="columns">
         <div class="column">
           <center><label><b>Epoch</b></label></center>
