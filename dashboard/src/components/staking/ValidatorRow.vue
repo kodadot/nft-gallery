@@ -7,7 +7,7 @@
         </div></WithLabel
       >
     </div>
-     <div class="column is-2">
+     <div class="column is-2" @click="handleNominatorsVisibility">
       <WithLabel label="Stake Other"
         ><Money :value="stakingInfo.stakeOther"
       /></WithLabel>
@@ -27,6 +27,9 @@
         ><div class="proposal-tip__reason">0</div></WithLabel
       >
     </div>
+    <template v-if="nominatorsVisible" v-slot:additional>
+      <Nominators :nominators="stakingInfo.nominators" />
+    </template>
   </ItemCard>
 </template>
 
@@ -39,16 +42,19 @@ import WithLabel from '@/components/shared/format/WithLabel.vue'
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
 import { StakingState, expandInfo } from './utils'
+import Nominators from './Nominators.vue'
 
 const components = {
   ItemCard,
   Money,
-  WithLabel
+  WithLabel,
+  Nominators
 }
 
 @Component({ components })
 export default class ValidatorRow extends Vue {
   @Prop() public validatorId!: AccountId;
+  private nominatorsVisible = false;
   private loading: boolean = false;
   private stakingInfo: StakingState = {
     nominators: []
@@ -67,8 +73,10 @@ export default class ValidatorRow extends Vue {
     } finally {
       this.loading = false;
     }
+  }
 
-
+  private handleNominatorsVisibility() {
+    this.nominatorsVisible = !this.nominatorsVisible;
   }
 }
 </script>
