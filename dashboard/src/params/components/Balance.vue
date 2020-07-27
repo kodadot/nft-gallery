@@ -20,7 +20,7 @@ import { Unit } from '../types';
 
 @Component
 export default class Balance extends Vue {
-  
+
   set arg(value: number) {
     this.value = value;
     this.handleSelected();
@@ -31,7 +31,7 @@ export default class Balance extends Vue {
      ? hexToBn(this.defaultValue as string).toString()
      : this.defaultValue;
 
-    if (typeof defaultValue === 'object') {
+    if (defaultValue !== null && typeof defaultValue === 'object') {
       return defaultValue.toString()
     }
     

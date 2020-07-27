@@ -1,13 +1,21 @@
 <template>
   <b-field label="password 🤫 magic spell" class="password-wrapper">
-    <b-input v-model="password" type="password" password-reveal> </b-input>
+    <b-input v-model="password" type="password" password-reveal />
   </b-field>
 </template>
 
 <script lang="ts">
-import { Component, Vue, PropSync } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 export default class Password extends Vue {
-  @PropSync('password', { type: String }) public password!: string;
+  @Prop() public value!: string;
+
+  get password() {
+    return this.value;
+  }
+
+  set password(value: string) {
+    this.$emit('input', value)
+  }
 }
 </script>

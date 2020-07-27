@@ -1,12 +1,6 @@
 <template>
   <div>
-    <b-button
-      type="is-primary"
-      icon-left="plus"
-      class="treasury-button__submit"
-    >
-      New Tip
-    </b-button>
+    <TipModal />
     <div>
       <SectionTitle title="Tips" />
     </div>
@@ -22,6 +16,7 @@ import SectionTitle from '@/components/shared/SectionTitle.vue'
 import Subscribe from '@/utils/mixins/subscribeMixin'
 import Tip from './Tip.vue'
 import EmptyGuard from '@/components/shared/wrapper/EmptyGuard.vue'
+import TipModal from '@/components/shared/modals/Tip.vue'
 
 import Connector from '@vue-polkadot/vue-api';
 
@@ -29,7 +24,8 @@ import Connector from '@vue-polkadot/vue-api';
   components: {
     SectionTitle,
     Tip,
-    EmptyGuard
+    EmptyGuard,
+    TipModal
   }
 })
 export default class Tips extends Mixins(Subscribe) {
