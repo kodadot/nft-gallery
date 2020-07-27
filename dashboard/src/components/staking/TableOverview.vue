@@ -1,23 +1,10 @@
 <template>
   <div>
-    {{ validators[0] }}
-    {{ resolved }}
-    <!-- <b-table 
-      :data="richValidators"
-      :striped="true"
-      default-sort-direction="desc"
-      default-sort="bestNumber">
-      <template slot-scope="props">
-        <b-table-column v-for="(col, index) in columns"
-          :key="index"
-          :field="col.field"
-          :label="col.label"
-          :visible="col.visible"
-          sortable>
-          {{ props.row[col.field]}}
-        </b-table-column>
-      </template>
-    </b-table> -->
+    <!-- {{ validators[0] }}
+    {{ resolved }} -->
+    <EmptyGuard :array="validators" label="Validators">
+      <ValidatorRow v-for="(validator, index) in validators" :key="index" :validatorId="validator" />
+    </EmptyGuard>
   </div>
 </template>
 <script lang="ts" >
@@ -25,22 +12,19 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import { hexToNumber, hexToString } from '@polkadot/util';
 import { AccountId } from '@polkadot/types/interfaces';
+import EmptyGuard from '@/components/shared/wrapper/EmptyGuard.vue'
+import ValidatorRow from './ValidatorRow.vue'
 
-@Component({})
+const components = {
+  EmptyGuard,
+  ValidatorRow
+}
+
+@Component({ components })
 export default class TableOverview extends Vue {
   @Prop() private validators!: AccountId[];
 
   private resolved: any = '';
-  private richValidators: any = '';
-  private columns: any = [
-    {
-      field: 'peerId',
-      label: 'peerId',
-      visible: true,
-      width: '10',
-    }
-  ]
-  
 
   private async getAddressInsight(address: any) {
     const stakerInfo = await this.getStakerInfo(address)

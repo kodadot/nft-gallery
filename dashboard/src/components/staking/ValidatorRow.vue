@@ -1,41 +1,44 @@
-<template >
-  <div>
-    <b-table-column field="address" label="Address" width="40" numeric>
-      {{ props.row.id }}
-    </b-table-column>
-
-
-
-    <b-table-column field="otherStake" label="Other Stake" >
-      {{ props.row.user.last_name }}
-    </b-table-column>
-
-    <b-table-column field="ownStake" label="Own Stake" >
-      {{ props.row.user.last_name }}
-    </b-table-column>
-
-    <b-table-column field="commission" label="Commision" >
-      {{ props.row.user.last_name }}
-    </b-table-column>
-
-      <b-table-column field="points" label="Points" >
-      {{ props.row.user.last_name }}
-    </b-table-column>
-
-      <b-table-column field="last" label="Last #" >
-      {{ props.row.user.last_name }}
-    </b-table-column>
-
-
-  </div>
+<template>
+  <ItemCard>
+    {{ validatorId }}  
+  </ItemCard>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import Connector from '@vue-polkadot/vue-api';
+import ItemCard from '@/components/shared/wrapper/ItemCard.vue'
+import Money from '@/components/shared/format/Money.vue'
+import WithLabel from '@/components/shared/format/WithLabel.vue'
+import { AccountId } from '@polkadot/types/interfaces';
+import { DeriveStakingQuery } from '@polkadot/api-derive/types';
 
+const components = {
+  ItemCard,
+  Money,
+  WithLabel
+}
 
-@Component({})
+@Component({ components })
 export default class ValidatorRow extends Vue {
-  @Prop() public props!: any;
+  @Prop() public validatorId!: AccountId;
+  private loading: boolean = false;
+  private validatorInfo: DeriveStakingQuery | any = {};
+
+  public async mounted() {
+    const { validatorId } = this;
+    const { api } = Connector.getInstance()
+
+    try {
+     this.loading = true;
+     this.validatorInfo =  await api.derive.staking.query(validatorId);
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      this.loading = false;
+    }
+
+    
+  }
 }
 </script>

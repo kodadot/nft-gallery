@@ -1,6 +1,9 @@
 <template>
   <div>
     <Summary :overview="stakingOverview" />
+     <div>
+      <SectionTitle title="Validators" />
+    </div>
     <TableOverview :validators="validators" />
   </div>
 </template>
@@ -14,13 +17,15 @@ import Subscribe from '@/utils/mixins/subscribeMixin'
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import Summary from './Summary.vue'
+import SectionTitle from '@/components/shared/SectionTitle.vue'
 
 @Component({
   components: {
     SummarySession,
     DisabledInput,
     TableOverview,
-    Summary
+    Summary,
+    SectionTitle
   }
 })
 
