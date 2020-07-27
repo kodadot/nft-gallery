@@ -1,10 +1,10 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab" multiline >
-      <b-tab-item label="Overview">
-        <Overview :next="next" :stakingOverview="stakingOverview"
-          :validators="validators" />
+    <b-tabs v-model="activeTab">
+      <b-tab-item v-for="x in components" :key="x" :label="x">
+        <component v-bind:is="x" @click="handleWatch"></component>
       </b-tab-item>
+    </b-tabs>
       <!-- <b-tab-item label="Accounts">
         <AccountsInfo />
       </b-tab-item>
@@ -36,24 +36,25 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class Staking extends Vue {
   private activeTab: number = 0;
-  private stakingOverview: any = [];
-  private stashIds: any = [];
-  private validators: any = [];
-  private next: any = [];
-  private subs: any[] = [];
+  private components: string[] = ['Overview']
+  // private stakingOverview: any = [];
+  // private stashIds: any = [];
+  // private validators: any = [];
+  // private next: any = [];
+  // private subs: any[] = [];
 
-  public async mounted() {
-    const { api } = Connector.getInstance();
-    let stashes: any;
-    this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
-    this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
-    // this.stashIds = stashes.map((accountId: any) => accountId.toString())
-    // this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
-    this.next = this.stashIds.filter((address: any) => !this.stakingOverview.validators.includes(address as any))
-  }
+  // public async mounted() {
+  //   const { api } = Connector.getInstance();
+  //   let stashes: any;
+  //   this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
+  //   this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
+  //   // this.stashIds = stashes.map((accountId: any) => accountId.toString())
+  //   // this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
+  //   this.next = this.stashIds.filter((address: any) => !this.stakingOverview.validators.includes(address as any))
+  // }
 
-  private beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
+  // private beforeDestroy() {
+  //   this.subs.forEach((sub) => sub());
+  // }
 }
 </script>

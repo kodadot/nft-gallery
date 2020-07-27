@@ -24,9 +24,12 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import { hexToNumber, hexToString } from '@polkadot/util';
+import { AccountId } from '@polkadot/types/interfaces';
 
 @Component({})
 export default class TableOverview extends Vue {
+  @Prop() private validators!: AccountId[];
+
   private resolved: any = '';
   private richValidators: any = '';
   private columns: any = [
@@ -37,9 +40,9 @@ export default class TableOverview extends Vue {
       width: '10',
     }
   ]
-  @Prop() private validators!: any;
+  
 
-  private async getAddressInsight(address: string) {
+  private async getAddressInsight(address: any) {
     const stakerInfo = await this.getStakerInfo(address)
     const accountInfo = await this.getAccountsInfo(address)
     return { stakerInfo, accountInfo }
