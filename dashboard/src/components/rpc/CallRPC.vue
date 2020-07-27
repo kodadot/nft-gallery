@@ -11,8 +11,9 @@
         @selected="handleMethod"
         label="method"
       />
-      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="hasArgs()"  />
+      <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="disabled"  />
     </div>
+    <Argurments v-if="params.length" :args="params" @selected="handleSelectedArguments" />
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import Connector from '@vue-polkadot/vue-api';
 import extractParams from '@/components/storage/extractParams'
 import { getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 
 const components = {
@@ -43,10 +45,11 @@ export default class Constants extends Mixins(ExtrinsicMixin) {
   }
 
   protected handleMethod(value: string) {
+    const { fnSection } = this.getFnMethodAndSection();
     this.handleMethodSelection(value)
 
-    const params: any[] = []
-    console.log('params',[]);
+    const params: any[] = jsonrpc[fnSection][value].params;
+    console.log('params',params);
   
     this.setArgs(params)
   }
@@ -59,6 +62,10 @@ export default class Constants extends Mixins(ExtrinsicMixin) {
     const key = { name: `${fnSection}::${fnMethod}`, type: 'any' };
     
     return { key, method: this.getSection(), args: this.mapArgs() }
+  }
+
+    get disabled() {
+    return this.hasArgs() && !this.mapArgs().filter(v => !!v).length 
   }
   
 

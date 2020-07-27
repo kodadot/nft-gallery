@@ -77,7 +77,7 @@ export default class Dashboard extends Vue {
 
 #routerview {
   margin-left: 5em;
-  padding: 0 0.6em;
+  padding: 0.6em;
 }
 
 #routerview.sidebar__active {

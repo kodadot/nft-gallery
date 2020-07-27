@@ -138,7 +138,7 @@ export default class SidebarMenu extends Vue {
     },
     {
       name: 'RPC',
-      icon: 'hand-point-up',
+      icon: 'exchange-alt',
       to: { name: 'rpc' },
       tag: 'router-link'
     }
