@@ -1,6 +1,32 @@
 <template>
   <ItemCard>
-    {{ validatorId }}  
+    <div class="column is-5">
+      <WithLabel label="Validator"
+        ><div class="proposal-tip__reason">
+          {{ validatorId | toString }}
+        </div></WithLabel
+      >
+    </div>
+     <div class="column is-2">
+      <WithLabel label="Stake Other"
+        ><Money :value="stakingInfo.stakeOther"
+      /></WithLabel>
+    </div>
+    <div class="column is-2">
+      <WithLabel label="Stake Own"
+        ><Money :value="stakingInfo.stakeOwn"
+      /></WithLabel>
+    </div>
+    <div class="column is-2">
+      <WithLabel label="Commission"
+        ><div class="proposal-tip__reason">{{ stakingInfo.commission }}</div></WithLabel
+      >
+    </div>
+    <div class="column is-1">
+      <WithLabel label="Last #"
+        ><div class="proposal-tip__reason">0</div></WithLabel
+      >
+    </div>
   </ItemCard>
 </template>
 
@@ -12,6 +38,7 @@ import Money from '@/components/shared/format/Money.vue'
 import WithLabel from '@/components/shared/format/WithLabel.vue'
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
+import { StakingState, expandInfo } from './utils'
 
 const components = {
   ItemCard,
@@ -23,22 +50,25 @@ const components = {
 export default class ValidatorRow extends Vue {
   @Prop() public validatorId!: AccountId;
   private loading: boolean = false;
-  private validatorInfo: DeriveStakingQuery | any = {};
+  private stakingInfo: StakingState = {
+    nominators: []
+  };
 
   public async mounted() {
     const { validatorId } = this;
     const { api } = Connector.getInstance()
 
     try {
-     this.loading = true;
-     this.validatorInfo =  await api.derive.staking.query(validatorId);
+      this.loading = true;
+      const stakingInfo = await api.derive.staking.query(validatorId);
+      this.stakingInfo = expandInfo(stakingInfo)
     } catch (e) {
       console.warn(e);
     } finally {
       this.loading = false;
     }
 
-    
+
   }
 }
 </script>

@@ -21,7 +21,6 @@
       </b-tab-item>
       <b-tab-item label="Validator stats">
       </b-tab-item> -->
-    </b-tabs>
   </div>
 </template>
 <script lang="ts" >
