@@ -1,20 +1,24 @@
 <template>
-<div id="AccountsRestore">
-  <div> 
-    <Restore />
-  </div>
+<div id="AddressbookCreate">
+  <Create 
+    mode="addressbook"
+    :theme="theme"
+    @on-create="$emit('on-create')"
+  />
 </div>
 </template>
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Restore from '../components/shared/Restore.vue';
+import Create from '@/components/shared/accounts/Create.vue';
 
 @Component({
   components: {
-    Restore,
+    Create
   },
 })
-export default class AccountsRestore extends Vue {
+
+export default class AddressbookCreate extends Vue {
   public theme: string = 'substrate';
 
   public getIconTheme() {

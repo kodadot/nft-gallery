@@ -1,10 +1,11 @@
 <template>
+
   <div class="Accounts">
     <b-field grouped multiline>
-      <router-link to="/accounts/create">
+      <router-link :to="{ name: 'accountsCreate' }">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <router-link to="/accounts/restore">
+      <router-link :to="{name: 'accountsRestore'}">
         <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
       </router-link>
     </b-field>
@@ -36,12 +37,13 @@
         />
       </li>
     </ul>
+    
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@polkadot/ui-keyring';
-import Keypair from '../shared/Keypair.vue';
+import Keypair from '../shared/accounts/Keypair.vue';
 import { u8aToHex } from '@polkadot/util';
 import Connector from '@vue-polkadot/vue-api';
 
@@ -84,6 +86,8 @@ export default class Accounts extends Vue {
       }
     }
   }
+
+  
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
