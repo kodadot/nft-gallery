@@ -36,7 +36,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
+import Identicon from '@polkadot/vue-identicon';
 import keyring from '@polkadot/ui-keyring';
 import Keypair from '../shared/accounts/Keypair.vue';
 import { mapState } from 'vuex';
