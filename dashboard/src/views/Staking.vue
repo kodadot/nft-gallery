@@ -25,19 +25,21 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-// import Overview from '@/components/staking/Overview.vue';
-import Targets from '@/components/staking/Targets/Targets.vue';
+import Overview from '@/components/staking/Overview.vue';
+// import Targets from '@/components/staking/Targets/Targets.vue';
+// import Waiting from '@/components/staking/Waiting/Waiting.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
-    // Overview,
-    Targets
+    Overview,
+    // Targets,
+    // Waiting
   }
 })
 export default class Staking extends Vue {
   private activeTab: number = 0;
-  private components: string[] = ['Targets']
+  private components: string[] = ['Waiting']
   // private stakingOverview: any = [];
   // private stashIds: any = [];
   // private validators: any = [];
