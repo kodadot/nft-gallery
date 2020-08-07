@@ -47,7 +47,7 @@ export default class Targets extends Mixins(Subscribe) {
   private waitingInfo = emptyObject<DeriveStakingWaiting>();
   private lastEra = BN_ZERO;
   private lastReward = BN_ZERO;
-  private targets: SortedTargets = emptyObject<SortedTargets>();
+  private targets = emptyObject<Partial<SortedTargets>>();
   private loading: boolean = false;
   
 
@@ -83,7 +83,7 @@ export default class Targets extends Mixins(Subscribe) {
     }
   }
 
-  private isEmpty(obj: Object): boolean {
+  private isEmpty(obj: object): boolean {
     return Object.keys(obj).length === 0
   }
 

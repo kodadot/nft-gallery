@@ -1,12 +1,15 @@
-import { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
+import { DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 
-import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import registry from './registry'
 import { ValidatorInfo, TargetSortBy } from '../types'
 
 import BN from 'bn.js';
-import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 import { baseBalance } from '../utils'
+import { SortedTargets } from '../types'
+
+
 const PERBILL = new BN(1_000_000_000);
 
 export function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
@@ -92,14 +95,14 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     const rewardPayout = amount.isZero() || rewardSplit.isZero()
       ? BN_ZERO
       : amount.mul(rewardSplit).div(amount.add(bondTotal));
-    const isNominating = exposure.others.reduce((isNominating : boolean, indv: any): boolean => {
+    const isNominating = exposure.others.reduce((nominating : boolean, indv: any): boolean => {
       const nominator = indv.who.toString();
 
       if (!nominators.includes(nominator)) {
         nominators.push(nominator);
       }
 
-      return isNominating || allAccounts.includes(nominator);
+      return nominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
 
     totalStaked = totalStaked.add(bondTotal);
