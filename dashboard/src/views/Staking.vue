@@ -25,17 +25,19 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Overview from '@/components/staking/Overview.vue';
+// import Overview from '@/components/staking/Overview.vue';
+import Targets from '@/components/staking/Targets/Targets.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
-    Overview,
+    // Overview,
+    Targets
   }
 })
 export default class Staking extends Vue {
   private activeTab: number = 0;
-  private components: string[] = ['Overview']
+  private components: string[] = ['Targets']
   // private stakingOverview: any = [];
   // private stashIds: any = [];
   // private validators: any = [];

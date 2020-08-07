@@ -7,6 +7,7 @@
     <TableOverview :validators="validators" />
   </div>
 </template>
+
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, PropSync, Mixins } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';

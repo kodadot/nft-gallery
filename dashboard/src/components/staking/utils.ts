@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import { Balance } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, formatBalance } from '@polkadot/util';
 
 export interface StakingState {
   commission?: string;
@@ -41,4 +41,8 @@ export function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): S
     stakeOwn,
     stakeTotal
   };
+}
+
+export function baseBalance (): BN {
+  return new BN('1'.padEnd(formatBalance.getDefaults().decimals + 4, '0'));
 }
