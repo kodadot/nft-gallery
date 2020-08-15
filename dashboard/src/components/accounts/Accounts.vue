@@ -55,7 +55,7 @@ export default class Accounts extends Vue {
 
   public searchFilter: string = ''.toLowerCase();
   public theme: string = 'substrate';
-  public hideTestingAccounts: boolean = true;
+  public hideTestingAccounts: boolean = false;
   public modal: object = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [

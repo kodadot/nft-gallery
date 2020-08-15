@@ -28,18 +28,20 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Overview from '@/components/staking/Overview.vue';
 // import Targets from '@/components/staking/Targets/Targets.vue';
 // import Waiting from '@/components/staking/Waiting/Waiting.vue';
+import Actions from '@/components/staking/Actions/Actions.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
-    Overview,
+    // Overview,
     // Targets,
-    // Waiting
+    // Waiting,
+    Actions
   }
 })
 export default class Staking extends Vue {
   private activeTab: number = 0;
-  private components: string[] = ['Waiting']
+  private components: string[] = ['Actions']
   // private stakingOverview: any = [];
   // private stashIds: any = [];
   // private validators: any = [];

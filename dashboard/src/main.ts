@@ -7,7 +7,7 @@ import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
 import { toString, toNumber } from '@/utils/filters'
-// import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
@@ -18,8 +18,10 @@ import 'setimmediate';
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
+(window as any).K = keyring; 
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
+
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

@@ -44,7 +44,7 @@ export default class Dashboard extends Vue {
     keyring.loadAll({
       ss58Format: this.ss58Format,
       type: 'sr25519',
-      isDevelopment: false,
+      isDevelopment: true,
     });
   }
 
