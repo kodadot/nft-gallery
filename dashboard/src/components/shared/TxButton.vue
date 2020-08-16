@@ -3,8 +3,7 @@
     type="is-primary"
     icon-left="paper-plane"
     outlined
-    :disabled="disabled"
-    @click="shipIt"
+    disabled
   >
     Submit
   </b-button>
@@ -17,11 +16,11 @@ import exec from '@/utils/transactionExecutor';
 import { KeyringAccount } from '@/types';
 
 export default class TxButton extends Vue {
-  @Prop() public readonly callback!: (...p: any) => Promise<any> | any;
-  @Prop() public readonly params!: any[];
-  @Prop() public readonly disabled!: boolean;
-  @Prop() public readonly account!: string | KeyringAccount;
-  @Prop({ default: '' }) public readonly password!: string;
+  @Prop() public callback!: (...p: any) => Promise<any> | any;
+  @Prop() public params!: any[];
+  @Prop() public disabled!: boolean;
+  @Prop() public account!: string | KeyringAccount;
+  @Prop({ default: '' }) public password!: string;
 
   public async shipIt() {
     const { api } = (this as any).$http;

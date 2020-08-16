@@ -7,13 +7,15 @@
       <b-input v-model="password" type="password" password-reveal> </b-input>
     </b-field>
     <BalanceInput v-model="value" />
-    <!-- <TxButton
-      @processed="handleProcessed"
-      :callback="callback"
-      :params="params"
-      :account="stashId"
-      :password="password"
-    /> -->
+    <b-button
+    type="is-primary"
+    icon-left="paper-plane"
+    outlined
+    :disabled="disabled"
+    @click="submit"
+  >
+    Submit
+  </b-button>
   </ModalWrapper>
 </template>
 
@@ -21,13 +23,14 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ModalWrapper from '@/components/shared/modals/ModalWrapper.vue';
 import BalanceInput from '@/components/shared/BalanceInput.vue';
-// import TxButton from '@/components/shared/TxButton.vue';
+import exec from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
+
 import Connector from '@vue-polkadot/vue-api';
 
 const components = {
   ModalWrapper,
-  BalanceInput,
-  // TxButton
+  BalanceInput
 };
 
 @Component({ components })
@@ -45,6 +48,22 @@ export default class BondExtra extends Vue {
     return [this.value];
   }
 
-  private handleProcessed(status: any | Error) {}
+  get disabled() {
+    return !(this.stashId && this.value)
+  }
+
+  private async submit() {
+       try {
+      const { stashId: account, password, callback, params } = this;
+      showNotification(`Dispatched ${params.toString()}`);
+      const tx = await exec(account, password, callback, params);
+      showNotification(tx, notificationTypes.success);
+      console.timeStamp(`Bond Extra ${tx}`);
+    } catch (e) {
+      showNotification(e.message , notificationTypes.danger);
+      console.error(e)
+    }
+
+  }
 }
 </script>
