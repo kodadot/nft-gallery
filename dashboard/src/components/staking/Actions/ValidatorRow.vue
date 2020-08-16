@@ -1,20 +1,20 @@
 <template>
   <ItemCard>
-    <div class="column is-4">
+    <div class="column is-3">
       <WithLabel label="Stash"
         ><div class="proposal-tip__reason">
           {{ validator.stashId | toString }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-4">
+    <div class="column is-3">
       <WithLabel label="Controller"
         ><div class="proposal-tip__reason">
-          {{ validator.stashId | toString }}
+          {{ validator.controllerId | toString }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-2">
+    <div class="column is-1">
       <WithLabel label="Rewards"
         ><div class="proposal-tip__reason">
           {{ validator.destination }}
@@ -44,7 +44,11 @@
       
     </div>
     <div class="column is-1">
-      <b-button class="staking-actions-button" type="is-primary" icon-left="plus" />
+      <ActionModal
+        :stashId="validator.stashId"
+        :controllerId="validator.controllerId"
+        :bonded="bonded"
+      />
     </div>
   </ItemCard>
 </template>
@@ -58,11 +62,13 @@ import WithLabel from '@/components/shared/format/WithLabel.vue'
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
 import { StakerState } from './types'
+import ActionModal from './ActionModal.vue'
 
 const components = {
   ItemCard,
   Money,
   WithLabel,
+  ActionModal
 }
 
 @Component({ components })

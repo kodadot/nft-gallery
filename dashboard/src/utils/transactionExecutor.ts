@@ -1,9 +1,11 @@
 import keyring from '@polkadot/ui-keyring';
+import { KeyringAccount } from '@/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-const exec = async (account: any, password: any, callback: any, params: any) => {
+const exec = async (account: KeyringAccount | string, password: string, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[]) => {
 	try {
 		const transfer = await callback(...params);
-		const alicePair = keyring.getPair(account.address);
+		const alicePair = keyring.getPair(typeof account === 'string' ? account : account.address);
 		alicePair.decodePkcs8(password);
 		const hash = await transfer.signAndSend(alicePair);
 		return hash.toHex();
