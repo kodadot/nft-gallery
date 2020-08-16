@@ -1,7 +1,10 @@
 <template>
-  <ModalWrapper icon="plus" label="Bond more funds">
+  <ModalWrapper icon="minus" label="Unbond funds">
     <b-field label="Stash Account">
       <b-input placeholder="StashId" v-model="stashId" disabled />
+    </b-field>
+    <b-field label="Controller Account">
+      <b-input placeholder="StashId" v-model="controllerId" disabled />
     </b-field>
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal> </b-input>
@@ -36,12 +39,20 @@ const components = {
 @Component({ components })
 export default class BondExtra extends Vue {
   @Prop() public stashId!: string;
+  @Prop() public controllerId!: string;
+  @Prop() public bonded!: number;
   private value: number = 0;
   private password: string = '';
 
+  public mounted() {
+    if (this.bonded) {
+      this.value = this.bonded;
+    }
+  }
+
   get callback() {
     const { api } = Connector.getInstance();
-    return api.tx.staking.bondExtra;
+    return api.tx.staking.unbond;
   }
 
   get params() {

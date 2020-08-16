@@ -40,7 +40,7 @@
     </div>
     <div class="column is-2">
       
-      <b-button class="staking-actions-button" type="is-primary" icon-left="stop" >Stop</b-button>
+      <b-button class="staking-actions-button" type="is-primary" icon-left="stop" @click="handleStop">Stop</b-button>
       
     </div>
     <div class="column is-1">
@@ -63,6 +63,8 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
 import { StakerState } from './types'
 import ActionModal from './ActionModal.vue'
+import { notificationTypes, showNotification } from '@/utils/notification';
+import exec from '@/utils/transactionExecutor';
 
 const components = {
   ItemCard,
@@ -83,6 +85,32 @@ export default class ValidatorRow extends Vue {
   get commission() {
     const { validatorPrefs } = this.validator
     return validatorPrefs && validatorPrefs.commission || '0.00%'
+  }
+
+  private async handleStop() {
+    try {
+      const { validator, callback  } = this;
+      const { controllerId: account } = validator 
+
+      showNotification('Dispatched');
+      const tx = await exec(account || '', null, callback, []);
+      showNotification(tx, notificationTypes.success);
+      console.timeStamp(`[handleStop] ${tx}`);
+    } catch (e) {
+      showNotification(e.message, notificationTypes.danger);
+      console.error(e);
+    }
+
+  }
+
+    get callback() {
+    const { api } = Connector.getInstance();
+    return api.tx.staking.chill;
+  }
+
+
+  get disabled() {
+    return false;
   }
 
   
