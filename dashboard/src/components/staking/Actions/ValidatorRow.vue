@@ -1,27 +1,27 @@
 <template>
   <ItemCard>
-    <div class="column is-3">
+    <div class="column is-4">
       <WithLabel label="Stash"
         ><div class="proposal-tip__reason">
           {{ validator.stashId | toString }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-3">
+    <div class="column is-4">
       <WithLabel label="Controller"
         ><div class="proposal-tip__reason">
           {{ validator.controllerId | toString }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-1">
+    <div class="column is-2">
       <WithLabel label="Rewards"
         ><div class="proposal-tip__reason">
           {{ validator.destination }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-1">
+    <div class="column is-2">
       <WithLabel label="Bonded"><Money :value="bonded" /></WithLabel>
     </div>
     <div class="column is-2">
@@ -31,17 +31,12 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-1">
+    <div class="column is-2">
       <WithLabel label="Commision"
         ><div class="proposal-tip__reason">
           {{ commission }}
         </div></WithLabel
       >
-    </div>
-    <div class="column is-2">
-      
-      <b-button class="staking-actions-button" type="is-primary" icon-left="stop" @click="handleStop">Stop</b-button>
-      
     </div>
     <div class="column is-1">
       <ActionModal
