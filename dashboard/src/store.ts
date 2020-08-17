@@ -27,7 +27,10 @@ const apiPlugin = (store: any) => {
       tokenSymbol: chainToken || 'Unit',
       genesisHash: genesisHash || ''
     })
-    store.commit('setLoading', false)
+    const nodeInfo = store.getters.availableNodes
+        .filter((o:any) => o.value === store.state.setting.apiUrl)
+        .map((o:any) => {return o.info})[0]
+    store.commit('setExplorer', { 'chain': nodeInfo })
   })
   Api().on('error', async (error: Error) => {
     store.commit('setError', error);
