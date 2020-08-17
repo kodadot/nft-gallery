@@ -18,14 +18,16 @@ const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
   Api().on('connect', async (api: any) => {
     const { chainSS58, chainDecimals, chainToken  } = api.registry
+    const {genesisHash} = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl, 
-      { chainSS58, chainDecimals, chainToken});
+      { chainSS58, chainDecimals, chainToken, genesisHash});
     store.commit('setChainProperties', {
       ss58Format: chainSS58 || 42,
       tokenDecimals: chainDecimals || 12,
-      tokenSymbol: chainToken || 'Unit'
+      tokenSymbol: chainToken || 'Unit',
+      genesisHash: genesisHash || ''
     })
-    
+    store.commit('setLoading', false)
   })
   Api().on('error', async (error: Error) => {
     store.commit('setError', error);
