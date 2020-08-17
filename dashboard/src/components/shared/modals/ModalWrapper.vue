@@ -1,8 +1,10 @@
 <template>
   <div>
     <b-button
-      class="button is-primary"
+      class="button"
+      :type="buttonType"
       :icon-left="icon"
+      :expanded="expanded"
       @click="isModalActive = true"
     >
       {{ label }}
@@ -30,7 +32,13 @@ export default class ModalWrapper extends Vue {
 
   @Prop() public label!: string;
   @Prop() public icon!: string;
+  @Prop() public type!: string;
+  @Prop() public expanded!: boolean;
   private isModalActive: boolean = false;
+
+  get buttonType() {
+    return this.type || 'is-primary';
+  }
 
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <ModalWrapper icon="ellipsis-v">
+    <Stop :stashId="stashId" :controllerId="controllerId" class="staking-action__modal" />
     <BondExtra :stashId="stashId" :bonded="bonded" class="staking-action__modal" />
     <Unbond :stashId="stashId" :bonded="bonded" :controllerId="controllerId" class="staking-action__modal"/>
     <SetControllerAccount :stashId="stashId" :controllerId="controllerId" class="staking-action__modal" />
@@ -17,6 +18,7 @@ import SetSessionKey from './partial/SetSessionKey.vue'
 import SetRewardDestination from './partial/SetRewardDestination.vue'
 import SetControllerAccount from './partial/SetControllerAccount.vue'
 import Unbond from './partial/Unbond.vue'
+import Stop from './partial/Stop.vue'
 
 
 const components = {
@@ -26,7 +28,8 @@ const components = {
   SetRewardDestination,
   SetCommision,
   SetSessionKey,
-  Unbond
+  Unbond,
+  Stop
 }
 
 @Component({ components })
