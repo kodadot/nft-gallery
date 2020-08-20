@@ -1,6 +1,6 @@
 <template>
   <div>
-       <b-tabs v-model="activeTab">
+    <b-tabs v-model="activeTab">
       <b-tab-item label="General">
         <General />
       </b-tab-item>
@@ -15,7 +15,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import General from '@/components/settings/General.vue';
 import Metadata from '@/components/metadata/Metadata.vue';
-
 
 @Component({
   components: {

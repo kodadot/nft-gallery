@@ -73,7 +73,8 @@ export default class Dropdown extends WithKeyring {
 	private tooltip: string = 'Select a contact you want to send funds to.';
 
 	get accounts() {
-		return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
+    // return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
+    return this.keyringAccounts;
 	}
   
   get selected() {

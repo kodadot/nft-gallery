@@ -7,6 +7,7 @@
     <!-- <SettingChooser label="Interface Operation Mode" selector="availableLocking" setter="setLocking"  defaultValue="locking" /> -->
     <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
+    <SettingChooserDevelopment label="Development Mode" selector="options" setter="setDevelopment" />
     
   </div>
 </template>
@@ -15,11 +16,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import SettingChooser from '../settings/SettingChooser.vue';
 import SettingChooserExplorer from '@/components/settings/SettingChooserExplorer.vue'
+import SettingChooserDevelopment from '@/components/settings/SettingChooserDevelopment.vue'
 
 @Component({
   components: {
     SettingChooser,
     SettingChooserExplorer,
+    SettingChooserDevelopment
   },
 })
 export default class General extends Vue {

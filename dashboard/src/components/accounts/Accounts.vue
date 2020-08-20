@@ -17,14 +17,11 @@
     <ul>
       <li 
         v-for="acc in keyringAccounts"
-        v-bind:key="acc.address"
-      > 
+        v-bind:key="acc.address"> 
         <Keypair 
           v-if="
           acc.visible 
-          && !acc.meta.isExternal 
-          && hideTestingAccounts == !acc.meta.isTesting"
-
+          && !acc.meta.isExternal"
           mode="accounts"
           :address="acc.address"
           :theme="theme"
@@ -54,10 +51,8 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class Accounts extends Vue {
   private chainProperties: any;
-
   public searchFilter: string = ''.toLowerCase();
   public theme: string = 'substrate';
-  public hideTestingAccounts: boolean = true;
   public modal: object = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [

@@ -66,6 +66,7 @@ export default new Vuex.Store({
     chainProperties: {},
     explorer: {},
     explorerOptions: {},
+    development: {},
     error: null,
   },
   mutations: {
@@ -74,6 +75,9 @@ export default new Vuex.Store({
     },
     setChainProperties(state: any, data) {
       state.chainProperties = Object.assign({}, data)
+    },
+    setDevelopment(state: any, data) {
+      state.development = Object.assign(state.development, data)
     },
     setExplorer(state: any, data) {
       state.explorer = Object.assign(state.explorer, data)
