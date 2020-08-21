@@ -6,6 +6,7 @@ import { apiEnabled } from '@/routeGuard';
 import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Explorer from '@/router/explorer';
+import Galactic from '@/router/galactic';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Democracy = () => import('@/components/democracy/DemocracyWrapper.vue');
@@ -29,7 +30,7 @@ export default new Router({
     ...Accounts,
     ...Transfer, 
     ...Explorer,
-
+    ...Galactic,
     {
       path: '/democracy',
       name: 'democracy',

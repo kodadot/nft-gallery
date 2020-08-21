@@ -137,6 +137,7 @@ export default class SidebarMenu extends Vue {
       icon: 'galactic-senate',
       pack: 'fab',
       to: { name: 'galactic' },
+      tag: 'router-link'
     },
     {
       name: 'RPC',
