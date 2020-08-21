@@ -1,7 +1,7 @@
 <template>
   <div>
     <Card v-if="fetchedBlock && fetchedBlock.stateRoot"
-      :nature="fetchedBlock.number.toString()"
+      :nature="addCommas(fetchedBlock.number.toString())"
       :natureDesc="blockHash && blockHash.toString()"
       :type="fetchedBlock.parentHash.toString()"
       :extrinsicHash="fetchedBlock.extrinsicsRoot.toString()"
@@ -34,6 +34,10 @@ export default class SingleBlockDetail extends Vue {
     if (this.$parent.$options.name !== 'RecentBlocks') {
       this.loadExternalInfoByHash(hash);
     }
+  }
+
+  private addCommas(num: any) {
+     return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   }
 
   public async loadExternalInfoByBlockNumber(blockNumber: any) {

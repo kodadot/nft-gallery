@@ -2,6 +2,7 @@
   <div>
     <b-tabs v-model="activeTab" @input="tabClick" :multiline="true">
       <b-tab-item label="⛓ Chain">
+        
         <b-progress v-if="!loadedSummary"
         size="is-large" 
         type="is-primary" 
@@ -14,9 +15,13 @@
 					:lastBlock="currentBlock.toString()"
           :queryBlock="$route.params.hash" />
       </b-tab-item>
-      <!-- <b-tab-item label="👁 Node">
-        <NodeDetails />
-      </b-tab-item> -->
+      <b-tab-item label="👁 Node">
+        <router-link :to="{ name: 'explorerPeers' }">
+          Peers doesn't work now 
+        </router-link>
+        <a href="https://github.com/polkadot-js/apps/issues/3250">
+        I'm sorry, original issue</a>
+      </b-tab-item>
       <b-tab-item label="🔬 Verbose">
         <NodeVerbose />
       </b-tab-item>

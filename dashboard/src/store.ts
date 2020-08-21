@@ -18,14 +18,19 @@ const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
   Api().on('connect', async (api: any) => {
     const { chainSS58, chainDecimals, chainToken  } = api.registry
+    const {genesisHash} = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl, 
-      { chainSS58, chainDecimals, chainToken});
+      { chainSS58, chainDecimals, chainToken, genesisHash});
     store.commit('setChainProperties', {
       ss58Format: chainSS58 || 42,
       tokenDecimals: chainDecimals || 12,
-      tokenSymbol: chainToken || 'Unit'
+      tokenSymbol: chainToken || 'Unit',
+      genesisHash: genesisHash || ''
     })
-    
+    const nodeInfo = store.getters.availableNodes
+        .filter((o:any) => o.value === store.state.setting.apiUrl)
+        .map((o:any) => {return o.info})[0]
+    store.commit('setExplorer', { 'chain': nodeInfo })
   })
   Api().on('error', async (error: Error) => {
     store.commit('setError', error);
@@ -61,6 +66,7 @@ export default new Vuex.Store({
     chainProperties: {},
     explorer: {},
     explorerOptions: {},
+    development: {},
     error: null,
   },
   mutations: {
@@ -69,6 +75,9 @@ export default new Vuex.Store({
     },
     setChainProperties(state: any, data) {
       state.chainProperties = Object.assign({}, data)
+    },
+    setDevelopment(state: any, data) {
+      state.development = Object.assign(state.development, data)
     },
     setExplorer(state: any, data) {
       state.explorer = Object.assign(state.explorer, data)

@@ -20,7 +20,7 @@ import { Unit } from '../types';
 
 @Component
 export default class Balance extends Vue {
-  
+
   set arg(value: number) {
     this.value = value;
     this.handleSelected();
@@ -30,6 +30,10 @@ export default class Balance extends Vue {
     const defaultValue = this.defaultValue && isHex(this.defaultValue)
      ? hexToBn(this.defaultValue as string).toString()
      : this.defaultValue;
+
+    if (defaultValue !== null && typeof defaultValue === 'object') {
+      return defaultValue.toString()
+    }
     
     return defaultValue || this.value;
   }
@@ -40,20 +44,20 @@ export default class Balance extends Vue {
 
   get units() { 
     return [
-      { name: 'femto', value: 1e-15 },
-      { name: 'pico', value: 1e-12 },
-      { name: 'nano', value: 1e-9 },
-      { name: 'micro', value: 1e-6 },
-      { name: 'mili', value: 1e-3 },
-      { name: this.getTokenSymbol(), value: 1 },
-      { name: 'Kilo', value: 1e3 },
-      { name: 'Mega', value: 1e6 },
-      { name: 'Giga', value: 1e9 },
-      { name: 'Tera', value: 1e12 },
-      { name: 'Peta', value: 1e15 },
-      { name: 'Exa', value: 1e18 },
-      { name: 'Zeta', value: 1e21 },
-      { name: 'Yotta', value: 1e24 },
+      { name: 'femto', value: 1e-12*this.getChainDecimalsMultiplier()},
+      { name: 'pico', value: 1e-9*this.getChainDecimalsMultiplier()},
+      { name: 'nano', value: 1e-6*this.getChainDecimalsMultiplier()},
+      { name: 'micro', value: 1e-3*this.getChainDecimalsMultiplier()},
+      { name: 'mili', value: 1*this.getChainDecimalsMultiplier()},
+      { name: this.getTokenSymbol(), value: 1e3*this.getChainDecimalsMultiplier()},
+      { name: 'Kilo', value: 1e6 * this.getChainDecimalsMultiplier()},
+      { name: 'Mega', value: 1e9 * this.getChainDecimalsMultiplier()},
+      { name: 'Giga', value: 1e12 * this.getChainDecimalsMultiplier()},
+      { name: 'Tera', value: 1e15 * this.getChainDecimalsMultiplier()},
+      { name: 'Peta', value: 1e18 * this.getChainDecimalsMultiplier()},
+      { name: 'Exa', value: 1e21 * this.getChainDecimalsMultiplier()},
+      { name: 'Zeta', value: 1e24 * this.getChainDecimalsMultiplier()},
+      { name: 'Yotta', value: 1e27 * this.getChainDecimalsMultiplier()},
     ];
   }
 
@@ -64,7 +68,7 @@ export default class Balance extends Vue {
 
   private chainProperties: any = '-';
   private value = 0;
-  private unitsSelected: number = 1e-3;
+  private unitsSelected: number = 1e3*this.getChainDecimalsMultiplier();
   
   private getTokenSymbol(): string {
     this.chainProperties = this.$store.state.chainProperties;
@@ -73,6 +77,10 @@ export default class Balance extends Vue {
     }
     return '-';
   }
+
+  private getChainDecimalsMultiplier(): number {
+    return 1*10**this.$store.state.chainProperties.tokenDecimals 
+  } 
 
   @Watch('unitsSelected')
   private function() {
@@ -98,4 +106,10 @@ export default class Balance extends Vue {
 .arguments-wrapper {
    margin: 1em 0em 0em 1em;
  }
+
+ @media only screen and (max-width: 425px) {
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
+}
 </style>

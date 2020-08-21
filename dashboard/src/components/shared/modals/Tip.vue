@@ -1,9 +1,12 @@
 <template>
-	<ModalWrapper label="Tip" icon="plus">
+	<ModalWrapper label="Add Tip" icon="plus">
 		<div>
-		<h3>Add Tip</h3>
 		<Dropdown mode="accounts" @selected="handleAccountSelection" />
     <Dropdown mode="accounts" @selected="handleBeneficiary" />
+    <b-field label="reason" class="password-wrapper">
+      <b-input v-model="reason" > </b-input>
+    </b-field>
+    
 		<b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal> </b-input>
     </b-field>
@@ -17,7 +20,6 @@
       >
         Submit
       </b-button>
-			<!-- <ViewTransaction v-if="tx" :tx="tx"/> -->
     </div>
 		
 	</ModalWrapper>
@@ -30,7 +32,6 @@ import Dropdown from '@/components/shared/Dropdown.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
-import ViewTransaction from '../ViewTransaction.vue';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
 import C from '@vue-polkadot/vue-api'
 
@@ -38,13 +39,13 @@ import C from '@vue-polkadot/vue-api'
 	components: {
 		ModalWrapper,
 		Dropdown,
-		ViewTransaction,
 	},
 })
 export default class TipModal extends Vue {
 	private account: any = {};
 	private password: string = '';
   private beneficiary: any = {};
+  private reason: string = '';
 	
 
 
@@ -53,6 +54,7 @@ export default class TipModal extends Vue {
   }
   
   public handleBeneficiary(account: KeyringPair) {
+    console.log(account.address)
     this.beneficiary = account;
   }
 
@@ -64,8 +66,9 @@ export default class TipModal extends Vue {
     }
     
     try {
+      const { reason, beneficiary } = this;
       showNotification('Dispatched');
-      const tx = await exec(this.account, this.password, api.tx.democracy.second, []);
+      const tx = await exec(this.account, this.password, api.tx.treasury.reportAwesome, [reason, beneficiary.address]);
       // showNotification(`Second ${referendumId.toString()}`, { ...notificationTypes.success, onAction: this.onAction() });
     } catch (e) {
       showNotification(e, notificationTypes.danger);
@@ -74,7 +77,7 @@ export default class TipModal extends Vue {
   }
   
   get disabled() {
-    return !this.account || !this.password || !this.beneficiary
+    return !this.account || !this.password || !this.beneficiary || !this.reason
   }
   
 }

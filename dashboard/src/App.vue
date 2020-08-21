@@ -1,12 +1,12 @@
 <template>
   <div>
     <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
-    <div id="dashboard" v-if="online">
+    <!-- <div id="dashboard" v-if="online"> -->
       <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
-    </div>
-    <div v-else>
-      <Offline />
-    </div>
+    <!-- </div> -->
+    <!-- <div v-else> -->
+      <!-- <Offline /> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import Offline from './components/offline/Offline.vue'
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
 import Connector from '@vue-polkadot/vue-api';
 
@@ -44,7 +44,7 @@ export default class Dashboard extends Vue {
     keyring.loadAll({
       ss58Format: this.ss58Format,
       type: 'sr25519',
-      isDevelopment: false,
+      isDevelopment: this.$store.state.development.status || false,
     });
   }
 
@@ -77,7 +77,7 @@ export default class Dashboard extends Vue {
 
 #routerview {
   margin-left: 5em;
-  padding: 0 0.6em;
+  padding: 0.6em;
 }
 
 #routerview.sidebar__active {

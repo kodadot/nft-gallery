@@ -8,8 +8,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class Money extends Vue {
+@Component({
+  name: 'WithLabel'
+})
+export default class WithLabel extends Vue {
   @Prop(String) readonly label: string | undefined;
 }
 

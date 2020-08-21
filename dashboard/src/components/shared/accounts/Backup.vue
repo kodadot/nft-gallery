@@ -18,13 +18,13 @@
         @input="validatePassword(password)"
         password-reveal></b-input>
     </b-field>      
-    <router-link to="/accounts">
+    <router-link :to="{name: 'accounts'}">
       <b-button icon-left="cloud-download-alt" type="is-dark" 
         @click="makeBackup(address, password)" outlined>
         Backup
       </b-button>
     </router-link>
-    <router-link to="/accounts">
+    <router-link :to="{name: 'accounts'}">
       <b-button icon-left="times" type="is-warning" outlined>
         Cancel
       </b-button>
@@ -34,8 +34,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@vue-polkadot/vue-keyring';
+import Identicon from '@polkadot/vue-identicon';
+import keyring from '@polkadot/ui-keyring';
 import FileSaver from 'file-saver';
 
 

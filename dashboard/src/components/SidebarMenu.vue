@@ -97,27 +97,27 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
-      name: 'Extrinsics',
-      icon: 'sync',
-      to: { name: 'extrinsics' },
-      tag: 'router-link',
-    },
-    {
       name: 'Staking',
       icon: 'seedling',
       to: { name: 'staking' },
-      tag: 'router-link'
-    },
-       {
-      name: 'Chain State',
-      icon: 'database',
-      to: { name: 'chainstate' },
       tag: 'router-link'
     },
     {
       name: 'Treasury',
       icon: 'gem',
       to: { name: 'treasury' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Chain State',
+      icon: 'database',
+      to: { name: 'chainstate' },
+      tag: 'router-link'
+    },
+    {
+      name: 'Extrinsics',
+      icon: 'sync',
+      to: { name: 'extrinsics' },
       tag: 'router-link',
     },
     {
@@ -137,6 +137,11 @@ export default class SidebarMenu extends Vue {
       icon: 'galactic-senate',
       pack: 'fab',
       to: { name: 'galactic' },
+    },
+    {
+      name: 'RPC',
+      icon: 'exchange-alt',
+      to: { name: 'rpc' },
       tag: 'router-link'
     }
   ];

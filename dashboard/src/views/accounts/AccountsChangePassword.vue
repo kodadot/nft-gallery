@@ -1,29 +1,28 @@
 <template>
-<div id="AccountsBackup">
-  <div> 
-    <Backup
-      :address="address"
-      :theme="theme"
-    />
-  </div>
+<div id="AccountsChangepass">
+  <Changepass
+    :address="address"
+    :theme="theme"
+  />
 </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Backup from '../components/shared/Backup.vue';
+import Changepass from '@/components/shared/accounts/ChangePassword.vue';
 
 @Component({
   components: {
-    Backup,
+    Changepass
   },
 })
-export default class AccountsBackup extends Vue {
+export default class AccountsCreate extends Vue {
   public theme: string = 'substrate';
   public address: string = '';
 
   public getIconTheme() {
     this.theme = this.$store.state.setting.icon;
   }
+
   public externalURI() {
     if (this.$route.params.address) {
       this.address = this.$route.params.address;

@@ -1,7 +1,7 @@
 <template>
   <div id="addressbook">
     <b-field grouped multiline>
-      <router-link to="/addressbook/create">
+      <router-link :to="{ name: 'addressbookCreate'}">
         <b-button type="is-dark" icon-left="plus" outlined>Add Contact</b-button>
       </router-link>
     </b-field>
@@ -27,16 +27,18 @@
         @forget-account="mapAccounts"
         @save-name="mapAccounts"
         @save-tags="mapAccounts" 
+      
       />
       </li>
     </ul>
+    
   </div>  
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@vue-polkadot/vue-keyring';
-import Keypair from '../shared/Keypair.vue';
+import Identicon from '@polkadot/vue-identicon';
+import keyring from '@polkadot/ui-keyring';
+import Keypair from '../shared/accounts/Keypair.vue';
 import { mapState } from 'vuex';
 
 @Component({
@@ -67,6 +69,8 @@ export default class AddressBook extends Vue {
       }
     }
   }
+
+ 
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {

@@ -36,8 +36,12 @@
       >
         Submit
       </b-button>
-      <b-button v-if="tx" tag="a" :href="getExplorerUrl(tx)"
-        icon-left="external-link-alt">
+      <b-button
+        v-if="tx"
+        tag="a"
+        :href="getExplorerUrl(tx)"
+        icon-left="external-link-alt"
+      >
         View {{ tx.slice(0, 20) }}
       </b-button>
     </div>
@@ -51,7 +55,7 @@ import Argurments from '../components/extrinsics/Arguments.vue';
 import { Prop, Vue, Component } from 'vue-property-decorator';
 import { KeyringPair } from '@polkadot/keyring/types';
 import InputFile from '../components/extrinsics/components/InputFile.vue';
-import keyring from '@vue-polkadot/vue-keyring';
+import keyring from '@polkadot/ui-keyring';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
@@ -60,8 +64,8 @@ import { urlBuilderTransaction } from '@/utils/explorerGuide';
     Selection,
     Executor,
     Argurments,
-		InputFile,
-		Dropdown,
+    InputFile,
+    Dropdown,
   },
 })
 export default class Extrinsics extends Vue {
@@ -111,8 +115,8 @@ export default class Extrinsics extends Vue {
   };
 
   getExplorerUrl(value: string) {
-    return urlBuilderTransaction(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderTransaction(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
   }
 
@@ -166,11 +170,11 @@ export default class Extrinsics extends Vue {
       try {
         this.showNotification('Dispatched');
         const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
-        ...args,
-      );
+          ...args,
+        );
         const nonce = await (this as any).$http.api.query.system.accountNonce(
-        this.account.address,
-      );
+          this.account.address,
+        );
         const alicePair = keyring.getPair(this.account.address);
         alicePair.decodePkcs8(this.password);
         console.log(await nonce.toString());
@@ -233,5 +237,11 @@ export default class Extrinsics extends Vue {
 
 .password-wrapper {
   margin-top: 1em;
+}
+
+@media only screen and (max-width: 425px) {
+  .executor-wrapper {
+    flex-direction: column;
+  }
 }
 </style>

@@ -96,7 +96,7 @@
       <b-field></b-field>
     </section>
     <div>
-      <router-link :to="'/'+mode">
+      <router-link :to="{ name: mode }">
         <b-button 
           type="is-dark"
           icon-left="plus"
@@ -106,7 +106,7 @@
           Save
         </b-button>
       </router-link>
-      <router-link :to="'/'+mode">
+      <router-link :to="{ name: mode }">
         <b-button 
           type="is-warning"
           icon-left="times"
@@ -119,8 +119,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
-import keyring from '@vue-polkadot/vue-keyring';
-import Identicon from '@vue-polkadot/vue-identicon';
+import keyring from '@polkadot/ui-keyring';
+import Identicon from '@polkadot/vue-identicon';
 import { keyExtractSuri, mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -279,14 +279,14 @@ export default class Create extends Vue {
   @Emit()
   public onCreate(): void {
     try {
-      if (this.newAccount.tags != null) {
-        this.newAccount.tags = this.newAccount.tags.split(',')
-        .map((item: string) => item.trim())
-        .filter((item: string) => item);
-      }
+      
+      
       const meta = {
         name: this.newAccount.name,
-        tags: this.newAccount.tags,
+        tags: (this.newAccount.tags != null)? 
+          this.newAccount.tags.split(',')
+          .map((item: string) => item.trim())
+          .filter((item: string) => item) : null,
         whenCreated: Date.now() };
       if (this.mode === 'accounts') {
         if (this.seedType === 'mnemonic') {
@@ -303,6 +303,7 @@ export default class Create extends Vue {
       if (this.mode === 'addressbook') {
         const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
       }
+      
     } catch (error) {
       console.error(error);
     }

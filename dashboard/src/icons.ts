@@ -9,7 +9,8 @@ import {
   faAngleDoubleRight, faPlus, faTimes, faCaretDown, 
   faCaretUp, faMinus, faFile, faBook, 
   faCodeBranch, faSearch, faQuestionCircle, faExternalLinkAlt, 
-  faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem
+  faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem, 
+  faInfoCircle, faExchangeAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faTwitter, faGalacticSenate 
@@ -26,7 +27,9 @@ library.add(faTrash, faKey, faSync, faRedo,
   faCaretUp, faMinus, faFile, faBook,
   faCodeBranch, faSearch, faQuestionCircle, faExternalLinkAlt,
   faTwitter, faArrowUp, faTools, faCheck, faSeedling, 
-  faGalacticSenate, faDatabase, faGem);
+  faGalacticSenate, faDatabase, faGem,
+  faTwitter, faArrowUp, faTools, faCheck,
+  faInfoCircle, faExchangeAlt );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 Vue.component('vue-fontawesome', FontAwesomeIcon);  

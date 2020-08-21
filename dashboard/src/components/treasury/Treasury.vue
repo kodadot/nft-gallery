@@ -4,9 +4,7 @@
       :approvalCount="approvalsLength"
       :proposalCount="proposalsLength"
     />
-    <b-button type="is-primary" icon-left="plus" class="treasury-button__submit">
-      Submit Proposal
-    </b-button>
+    <ProposalModal class="treasury-button__submit" />
     <div>
       <SectionTitle title="Proposals" />
     </div>
@@ -29,6 +27,7 @@ import Summary from './Summary.vue'
 import Proposals from './Proposals.vue'
 import SectionTitle from '@/components/shared/SectionTitle.vue'
 import EmptyGuard from '@/components/shared/wrapper/EmptyGuard.vue'
+import ProposalModal from '@/components/shared/modals/Proposal.vue'
 
 import Connector from '@vue-polkadot/vue-api';
 
@@ -37,7 +36,8 @@ import Connector from '@vue-polkadot/vue-api';
     Summary,
     Proposals,
     SectionTitle,
-    EmptyGuard
+    EmptyGuard,
+    ProposalModal
   }
 })
 export default class Treasury extends Vue {

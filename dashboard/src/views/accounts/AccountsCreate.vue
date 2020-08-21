@@ -1,37 +1,30 @@
 <template>
-<div id="AccountsChangepass">
-  <Changepass
-    :address="address"
+<div id="AccountsCreate">
+  <Create 
+    mode="accounts"
     :theme="theme"
+    @on-create="$emit('on-create')"
   />
 </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Changepass from '../components/shared/ChangePassword.vue';
+import Create from '@/components/shared/accounts/Create.vue';
 
 @Component({
   components: {
-    Changepass,
+    Create
   },
 })
 export default class AccountsCreate extends Vue {
   public theme: string = 'substrate';
-  public address: string = '';
 
   public getIconTheme() {
     this.theme = this.$store.state.setting.icon;
   }
 
-  public externalURI() {
-    if (this.$route.params.address) {
-      this.address = this.$route.params.address;
-    }
-  }
-
   public mounted(): void {
     this.getIconTheme();
-    this.externalURI();
   }
 }
 </script>

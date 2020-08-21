@@ -9,7 +9,7 @@
       :defaultValue="defaultValue"
       v-bind:class="{ big: actionVisible }"
     />
-    <b-button class="argument-handler__delete-button" type="is-dark" icon-left="times" outlined @click="handleAction" />
+    <b-button v-if="actionVisible" class="argument-handler__delete-button" type="is-dark" icon-left="times" outlined @click="handleAction" />
   </div>
 </template>
 
@@ -29,9 +29,21 @@ export default class ArgumentHandler extends Vue {
   @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public enhanceTypeDef(argument: any) {
-    // return { ...argument }
+    console.log(argument.type);
+
+    try {
+      const type = createType(registry, argument.type).toRawType()
+      return this.typeDefOf(argument, type);
+    } catch (error) {
+      console.warn(error)
+      return this.typeDefOf(argument, argument.type)
+    }
+
+  }
+
+  private typeDefOf(argument: any, type: any) {
     return {
-      ...getTypeDef(createType(registry, argument.type).toRawType()),
+      ...getTypeDef(type),
       ...argument,
     };
   }
@@ -70,5 +82,20 @@ export default class ArgumentHandler extends Vue {
 
 .actionable {
   display: flex;
+}
+
+@media only screen and (max-width: 425px) {
+  .actionable {
+    flex-direction: column-reverse;
+  }
+
+  .argument-handler__delete-button {
+    width: 4em;
+    align-self: flex-end;
+  }
+
+  .arguments-wrapper {
+    margin: 0.5em 0 0 0;
+  }
 }
 </style>
