@@ -1,6 +1,7 @@
 <template>
   <ModalWrapper icon="ellipsis-v">
-    <Stop :stashId="stashId" :controllerId="controllerId" class="staking-action__modal" />
+    <Stop v-if="isStopVisible" :stashId="stashId" :controllerId="controllerId" class="staking-action__modal" />
+    <Nominate :stashId="stashId" :controllerId="controllerId" :nominating="nominating" :targetValidatorIds="targetValidatorIds" class="staking-action__modal" />
     <BondExtra :stashId="stashId" :bonded="bonded" class="staking-action__modal" />
     <Unbond :stashId="stashId" :bonded="bonded" :controllerId="controllerId" class="staking-action__modal"/>
     <SetControllerAccount :stashId="stashId" :controllerId="controllerId" class="staking-action__modal" />
@@ -19,7 +20,7 @@ import SetRewardDestination from './partial/SetRewardDestination.vue'
 import SetControllerAccount from './partial/SetControllerAccount.vue'
 import Unbond from './partial/Unbond.vue'
 import Stop from './partial/Stop.vue'
-
+import Nominate from './partial/Nominate.vue'
 
 const components = {
   ModalWrapper,
@@ -29,7 +30,8 @@ const components = {
   SetCommision,
   SetSessionKey,
   Unbond,
-  Stop
+  Stop,
+  Nominate
 }
 
 @Component({ components })
@@ -37,7 +39,9 @@ export default class  extends Vue {
   @Prop() public readonly stashId!: string;
   @Prop() public readonly controllerId!: string;
   @Prop() public readonly bonded!: number;
-
+  @Prop() public readonly isStopVisible!: boolean;
+  @Prop() public readonly nominating!: string[];
+  @Prop() private targetValidatorIds!: string[];
 
 }
 </script>

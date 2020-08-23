@@ -3,7 +3,7 @@
     <!-- {{ validators[0] }}
     {{ resolved }} -->
     <EmptyGuard :array="validators" label="Validators">
-      <ValidatorRow v-for="(validator, index) in validators" :key="index" :validator="validator" :index="index" />
+      <ValidatorRow v-for="(validator, index) in validators" :key="index" :validator="validator" :index="index" :targetValidatorIds="targetValidatorIds" />
     </EmptyGuard>
   </div>
 </template>
@@ -24,6 +24,7 @@ const components = {
 @Component({ components })
 export default class TableOverview extends Vue {
   @Prop() private validators!: StakerState[];
+  @Prop() private targetValidatorIds!: string[];
 
   private resolved: any = '';
 

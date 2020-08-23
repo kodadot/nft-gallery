@@ -31,10 +31,17 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-2">
+    <div class="column is-1">
       <WithLabel label="Commision"
         ><div class="proposal-tip__reason">
           {{ commission }}
+        </div></WithLabel
+      >
+    </div>
+    <div class="column is-1" @click="handleNominatorsVisibility">
+      <WithLabel label="Nominating"
+        ><div class="proposal-tip__reason">
+          {{ nominating.length }}
         </div></WithLabel
       >
     </div>
@@ -43,8 +50,14 @@
         :stashId="validator.stashId"
         :controllerId="validator.controllerId"
         :bonded="bonded"
+        :nominating="nominating"
+        :targetValidatorIds="targetValidatorIds"
+        :isStopVisible="isStopVisible"
       />
     </div>
+      <template v-if="nominatorsVisible" v-slot:additional>
+      <Nominators :nominators="nominators" />
+    </template>
   </ItemCard>
 </template>
 
@@ -60,21 +73,34 @@ import { StakerState } from './types'
 import ActionModal from './ActionModal.vue'
 import { notificationTypes, showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
+import Nominators from '../Nominators.vue'
 
 const components = {
   ItemCard,
   Money,
   WithLabel,
-  ActionModal
+  ActionModal,
+  Nominators
 }
 
 @Component({ components })
 export default class ValidatorRow extends Vue {
   @Prop() public validator!: StakerState;
   @Prop() public index!: number;
+  @Prop() private targetValidatorIds!: string[];
+
+  private nominatorsVisible = false;
 
   get bonded() {
     return this.validator && this.validator.stakingLedger && this.validator.stakingLedger.total || 0
+  }
+
+  get nominating(): string[] {
+    return this.validator && this.validator.nominating || []
+  }
+
+  get nominators(): [string, number][] {
+    return this.nominating.map(v => [v, 0])
   }
 
   get commission() {
@@ -106,6 +132,15 @@ export default class ValidatorRow extends Vue {
 
   get disabled() {
     return false;
+  }
+
+  private handleNominatorsVisibility() {
+    this.nominatorsVisible = !this.nominatorsVisible;
+  }
+
+  get isStopVisible() {
+    const { validator } = this
+    return  validator.isStashNominating || validator.isStashValidating
   }
 
   
