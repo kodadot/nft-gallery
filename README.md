@@ -57,5 +57,12 @@ Sure, your contribution is welcome. Please follow [code of conduct](CODE_OF_COND
 
 ## 🐳 Docker
 
-Yet, we don't have any official image. 
-There is issue, [anyone could help setup Docker image for us](https://github.com/vue-polkadot/apps/issues/51)
+Build docker image of KodaDot
+```
+docker build -t hello/kodadot .
+```
+
+Run it locally and then visit `localhost:8080`
+```
+docker run -it -p 8080:8080 --rm --name hellokodadot hello/kodadot
+```
