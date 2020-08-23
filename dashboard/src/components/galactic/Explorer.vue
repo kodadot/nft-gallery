@@ -13,7 +13,7 @@
         </a-entity>
 
         <!-- snap this to camera, like HUD -->
-        <a-text position="-1 1 -10" :value="`Best Block ${blockNumber}`"></a-text>  
+        <!-- <a-text position="-1 1 -10" :value="`Best Block ${blockNumber}`"></a-text>   -->
         
         <a-box
           v-for="b in newHeads" 
@@ -99,8 +99,8 @@ export default class Galactic extends Vue {
   public async mounted(): Promise<void> {
     this.loadExternalInfo();
     // this.registerClick()
-
   }
+  
   public blocks: any = [
     {
       number: '2804637',

@@ -39,7 +39,6 @@ export default class RecentEvents extends Mixins(Subscribe) {
       .map((record, index) => ({ index, record }))
       .filter(({ record: { event: { section }}}) => section !== 'system')
       .filter(({ record: { event: { method, section }}}) => !!method && !!section);
-    // console.log('RecentEvents -> queEvents -> newEvents', newEvents);
     
     const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
     
