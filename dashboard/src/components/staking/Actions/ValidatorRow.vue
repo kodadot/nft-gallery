@@ -1,13 +1,13 @@
 <template>
   <ItemCard>
-    <div class="column is-4">
+    <div class="column is-3">
       <WithLabel label="Stash"
         ><div class="proposal-tip__reason">
           {{ validator.stashId | toString }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-4">
+    <div class="column is-3">
       <WithLabel label="Controller"
         ><div class="proposal-tip__reason">
           {{ validator.controllerId | toString }}

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="staking-actions-button__wrapper">
-    <b-button class="staking-actions-button" type="is-primary" icon-left="plus" >Nominator</b-button>
+    <NewNominator class="staking-actions-button" />
     <b-button class="staking-actions-button" type="is-success" icon-left="plus" >Validator</b-button>
     <b-button class="staking-actions-button" type="is-danger" icon-left="plus" >Stash</b-button>
     </div>
@@ -9,9 +9,13 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import NewNominator from './NewNominator.vue'
 
+const components = {
+  NewNominator
+}
 
-@Component
+@Component({ components })
 export default class ElectionBanner extends Vue {
 
   private value2: any;
