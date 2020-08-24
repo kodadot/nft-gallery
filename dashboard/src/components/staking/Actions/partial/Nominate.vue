@@ -70,7 +70,7 @@ export default class Nominate extends Vue {
 
   private async submit() {
     try {
-      const { stashId: account, password, callback, params } = this;
+      const { controllerId: account, password, callback, params } = this;
       showNotification(`Dispatched ${params.toString()}`);
       const tx = await exec(account, password, callback, params);
       showNotification(tx, notificationTypes.success);

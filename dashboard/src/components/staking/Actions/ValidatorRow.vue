@@ -14,7 +14,7 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-2">
+    <div class="column is-1.5">
       <WithLabel label="Rewards"
         ><div class="proposal-tip__reason">
           {{ validator.destination }}
@@ -31,14 +31,14 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-1">
+    <div class="column is-1.5">
       <WithLabel label="Commision"
         ><div class="proposal-tip__reason">
           {{ commission }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-1" @click="handleNominatorsVisibility">
+    <div v-if="nominating.length" class="column is-1" @click="handleNominatorsVisibility">
       <WithLabel label="Nominating"
         ><div class="proposal-tip__reason">
           {{ nominating.length }}

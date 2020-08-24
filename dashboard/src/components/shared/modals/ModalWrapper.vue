@@ -7,7 +7,7 @@
       :expanded="expanded"
       @click="isModalActive = true"
     >
-      {{ label }}
+      <template v-if="label">{{ label }}</template>
     </b-button>
     <b-modal :active.sync="isModalActive">
       <div class="card">
