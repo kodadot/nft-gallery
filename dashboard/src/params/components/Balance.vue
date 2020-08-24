@@ -31,11 +31,7 @@ export default class Balance extends Vue {
      ? hexToBn(this.defaultValue as string).toString()
      : this.defaultValue;
 
-<<<<<<< HEAD
-    if (defaultValue && typeof defaultValue === 'object') {
-=======
     if (defaultValue !== null && typeof defaultValue === 'object') {
->>>>>>> develop
       return defaultValue.toString()
     }
     
