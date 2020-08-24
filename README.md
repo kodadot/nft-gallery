@@ -56,6 +56,16 @@ Sure, your contribution is welcome. Please follow [code of conduct](CODE_OF_COND
 
 
 ## 🐳 Docker
+If you want just to try out our KodaDot on Kusama and have full local setup with local node, we assume you have docker and docker-compose installed
+
+```
+docker-compose pull && docker-compose up
+```
+
+If you want to run just KodaDot
+```
+docker-compose up kodadot
+```
 
 Build docker image of KodaDot
 ```
