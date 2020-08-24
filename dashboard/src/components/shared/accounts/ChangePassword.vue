@@ -15,13 +15,13 @@
         @input="validatePassword(change.newPass)"
         password-reveal></b-input>
     </b-field>
-    <router-link to="/accounts">
+    <router-link :to="{name: 'accounts'}">
       <b-button @click="doChangePassword()"
         type="is-dark" icon-left="key" outlined>
         Change Passowrd
       </b-button>
     </router-link>
-    <router-link to="/accounts">
+    <router-link :to="{name: 'accounts'}">
       <b-button icon-left="times" type="is-warning" outlined>
         Cancel
       </b-button>
@@ -30,9 +30,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
+import Identicon from '@polkadot/vue-identicon';
 import keyring from '@polkadot/ui-keyring';
-
 @Component({
   components:
     {

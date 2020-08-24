@@ -1,10 +1,11 @@
 <template>
+
   <div class="Accounts">
     <b-field grouped multiline>
-      <router-link to="/accounts/create">
+      <router-link :to="{ name: 'accountsCreate' }">
         <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
       </router-link>
-      <router-link to="/accounts/restore">
+      <router-link :to="{name: 'accountsRestore'}">
         <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
       </router-link>
     </b-field>
@@ -16,14 +17,11 @@
     <ul>
       <li 
         v-for="acc in keyringAccounts"
-        v-bind:key="acc.address"
-      > 
+        v-bind:key="acc.address"> 
         <Keypair 
           v-if="
           acc.visible 
-          && !acc.meta.isExternal 
-          && hideTestingAccounts == !acc.meta.isTesting"
-
+          && !acc.meta.isExternal"
           mode="accounts"
           :address="acc.address"
           :theme="theme"
@@ -36,12 +34,13 @@
         />
       </li>
     </ul>
+    
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@polkadot/ui-keyring';
-import Keypair from '../shared/Keypair.vue';
+import Keypair from '../shared/accounts/Keypair.vue';
 import { u8aToHex } from '@polkadot/util';
 import Connector from '@vue-polkadot/vue-api';
 
@@ -52,10 +51,8 @@ import Connector from '@vue-polkadot/vue-api';
 })
 export default class Accounts extends Vue {
   private chainProperties: any;
-
   public searchFilter: string = ''.toLowerCase();
   public theme: string = 'substrate';
-  public hideTestingAccounts: boolean = false;
   public modal: object = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [
@@ -84,6 +81,8 @@ export default class Accounts extends Vue {
       }
     }
   }
+
+  
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {

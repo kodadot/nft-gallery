@@ -85,7 +85,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, PropSync, Vue, Watch, Emit } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
+import Identicon from '@polkadot/vue-identicon';
 @Component({
   components: {
     Identicon,

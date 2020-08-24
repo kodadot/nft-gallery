@@ -1,11 +1,13 @@
+import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
-import { Type } from '@polkadot/types';
+import { Compact } from '@polkadot/types';
 
-const format = (balance: string | Type, currency: string, withSi?: boolean): string => {
+const M_LENGTH = 6 + 1;
+const K_LENGTH = 3 + 1;
+
+const format = (balance: Compact<any> | BN | string, currency: string, withSi?: boolean): string => {
     const value = typeof balance === 'object' ? balance.toString() : balance;
   
-    const M_LENGTH = 6 + 1;
-    const K_LENGTH = 3 + 1; 
     const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
     console.log(`${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`);
     

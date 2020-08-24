@@ -6,13 +6,13 @@
           @input="validatePassword(password)"
           password-reveal></b-input>
       </b-field>  
-      <router-link to="/accounts">
+      <router-link :to="{name: 'accounts'}">
         <b-button icon-left="sync" type="is-dark"
           @click="OnRestore()" outlined>
           Restore Account
         </b-button>
       </router-link>
-      <router-link to="/accounts">
+      <router-link :to="{name: 'accounts'}">
         <b-button icon-left="times" type="is-warning" outlined>
           Cancel
         </b-button>
@@ -24,7 +24,7 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
-import FileLoad from './FileLoad.vue';
+import FileLoad from '../FileLoad.vue';
 
 @Component({
   components: {
