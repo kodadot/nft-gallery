@@ -12,7 +12,6 @@ const Landing = () => import('@/components/landing/Landing.vue');
 const Democracy = () => import('@/components/democracy/DemocracyWrapper.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
-// const Staking = () => import('@/views/Staking.vue');
 const Chainstate = () => import('@/views/ChainState.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
@@ -54,11 +53,6 @@ export default new Router({
       component: RPC,
       beforeEnter: apiEnabled,
     },
-    // {
-    //   path: '/staking',
-    //   name: 'staking',
-    //   component: Staking
-    // },
     {
       path: '/chainstate',
       name: 'chainstate',

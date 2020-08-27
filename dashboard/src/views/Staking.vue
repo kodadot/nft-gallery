@@ -25,10 +25,10 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Overview from '@/components/staking/Overview.vue';
+// import Overview from '@/components/staking/Overview.vue';
 // import Targets from '@/components/staking/Targets/Targets.vue';
 // import Waiting from '@/components/staking/Waiting/Waiting.vue';
-import Actions from '@/components/staking/Actions/Actions.vue';
+// import Actions from '@/components/staking/Actions/Actions.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
