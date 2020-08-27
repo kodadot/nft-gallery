@@ -24,13 +24,13 @@ export default [
             component: Targets,
           },
           {
-            path: 'Waiting',
-            name: 'Waiting',
+            path: 'waiting',
+            name: 'waiting',
             component: Waiting,
           },
           {
-            path: 'Actions',
-            name: 'Actions',
+            path: 'actions',
+            name: 'actions',
             component: Actions,
           },
         ]
