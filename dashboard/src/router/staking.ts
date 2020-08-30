@@ -9,8 +9,8 @@ const Actions = () => import(/* webpackChunkName:'explorer' */ '@/components/sta
 export default [
   {
     path: '/staking/0',
-    name: 'staking',
     component: Staking,
+    beforeEnter: apiEnabled,
     children: [
       {
         path: '',
@@ -21,8 +21,8 @@ export default [
   },
   {
     path: '/staking/1',
-    name: 'staking',
     component: Staking,
+    beforeEnter: apiEnabled,
     children: [
       {
         path: '',
@@ -33,8 +33,8 @@ export default [
   },
   {
     path: '/staking/2',
-    name: 'staking',
     component: Staking,
+    beforeEnter: apiEnabled,
     children: [
       {
         path: '',
@@ -45,8 +45,8 @@ export default [
   },
   {
     path: '/staking/3',
-    name: 'staking',
     component: Staking,
+    beforeEnter: apiEnabled,
     children: [
       {
         path: '',
