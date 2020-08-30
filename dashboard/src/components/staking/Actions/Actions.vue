@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ElectionBanner />
+    <ElectionBanner :targetValidatorIds="targetValidatorIds" />
     <div>
       <SectionTitle title="Stashes" />
     </div>
