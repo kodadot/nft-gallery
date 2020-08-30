@@ -8,7 +8,7 @@ const Actions = () => import(/* webpackChunkName:'explorer' */ '@/components/sta
 
 export default [
   {
-    path: '/staking/0',
+    path: '/staking/:tab',
     name: 'staking',
     component: Staking,
     children: [
