@@ -56,7 +56,7 @@ const components = {
 };
 
 type ApiCallType = {
-  callback: Function;
+  callback: () => void;
   params: any[];
 };
 
@@ -64,7 +64,7 @@ type ApiCallType = {
 export default class NewNominator extends Vue {
   private activeStep: number = 0;
   private bondCallback: ApiCallType = {
-    callback: () => {},
+    callback: () => null,
     params: []
   };
   private nominated: string[] = [];
