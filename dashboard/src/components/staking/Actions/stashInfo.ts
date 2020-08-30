@@ -60,16 +60,18 @@ function getStashes(
 ): [string, IsInKeyring][] {
   const result: [string, IsInKeyring][] = [];
 
-  ownBonded.forEach((value, index): void => {
-    value.isSome && result.push([allAccounts[index], true]);
+  ownBonded.forEach(({isSome}, index): void => {
+    if (isSome) {
+      result.push([allAccounts[index], true]);
+    }
   });
 
   ownLedger.forEach((ledger): void => {
     if (ledger.isSome) {
       const stashId = ledger.unwrap().stash.toString();
-
-      !result.some(([accountId]) => accountId === stashId) &&
+      if (!result.some(([accountId]) => accountId === stashId)) {
         result.push([stashId, false]);
+      }
     }
   });
 

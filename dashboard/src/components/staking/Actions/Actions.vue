@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ElectionBanner />
+    <ElectionBanner :targetValidatorIds="targetValidatorIds" />
     <div>
       <SectionTitle title="Stashes" />
     </div>
@@ -121,7 +121,7 @@ export default class Actions extends Mixins(SubscribeMixin) {
   private stateCallBack([accounts, validators]: [any, any]) {
     const { ownStashes, allStashes } = this;
     const { allAccounts } = getAccounts();
-    const queried = ownStashes.reduce(
+    const queriedAccounts = ownStashes.reduce(
       (queried: Queried, [stashId, isOwnStash], index): Queried => ({
         ...queried,
         [stashId]: [isOwnStash, accounts[index], validators[index]]
@@ -130,9 +130,9 @@ export default class Actions extends Mixins(SubscribeMixin) {
     );
 
     const stashInfo = ownStashes
-      .filter(([stashId]) => queried[stashId])
+      .filter(([stashId]) => queriedAccounts[stashId])
       .map(([stashId]) =>
-        getStakerState(stashId, allAccounts, allStashes, queried[stashId])
+        getStakerState(stashId, allAccounts, allStashes, queriedAccounts[stashId])
       );
 
     this.state = extractState(stashInfo);
