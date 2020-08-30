@@ -1,30 +1,30 @@
 <template>
   <div>
     <div class="staking-actions-button__wrapper">
-    <NewNominator class="staking-actions-button" />
-    <b-button class="staking-actions-button" type="is-success" icon-left="plus" >Validator</b-button>
-    <b-button class="staking-actions-button" type="is-danger" icon-left="plus" >Stash</b-button>
+      <NewNominator class="staking-actions-button" :targetValidatorIds="targetValidatorIds" />
+      <NewValidator class="staking-actions-button" />
+      <NewStash class="staking-actions-button" />
     </div>
   </div>
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import NewNominator from './NewNominator.vue'
 
 const components = {
-  NewNominator
-}
+  NewNominator: () => import('./NewNominator.vue'),
+  NewValidator: () => import('./NewValidator.vue'),
+  NewStash: () => import('./NewStash.vue')
+};
 
 @Component({ components })
 export default class ElectionBanner extends Vue {
-
-  private value2: any;
-  @Prop() public value!: any;
+  @Prop() private targetValidatorIds!: string[];
 }
 </script>
 
 <style scoped>
 .staking-actions-button__wrapper {
+  display: flex;
   float: right;
   margin-bottom: 1em;
 }
