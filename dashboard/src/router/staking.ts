@@ -6,33 +6,48 @@ const Targets = () => import(/* webpackChunkName:'explorer' */ '@/components/sta
 const Waiting = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Waiting/Waiting.vue');
 const Actions = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Actions/Actions.vue');
 
+const StakingDefault = () => import(/* webpackChunkName:'explorer' */ '@/views/Staking.vue');
+
 export default [
-    {
-        path: '/staking',
-        name: 'staking',
-        component: Staking,
-        beforeEnter: apiEnabled,
-        children: [
-          {
-            path: 'overview',
-            name: 'overview',
-            component: Overview,
-          },
-          {
-            path: 'targets',
-            name: 'targets',
-            component: Targets,
-          },
-          {
-            path: 'waiting',
-            name: 'waiting',
-            component: Waiting,
-          },
-          {
-            path: 'actions',
-            name: 'actions',
-            component: Actions,
-          },
-        ]
-    },
+  {
+    path: '/staking/0',
+    name: 'staking',
+    component: Staking,
+  // beforeEnter: apiEnabled,
+  
+    children: [
+      {
+        path: '',
+        name: 'overview',
+        component: Overview,
+      },
+    ]
+  },
+  {
+    path: '/staking/1',
+    name: 'staking',
+    component: Staking,
+    children: [
+      {
+        path: '',
+        name: 'actions',
+        compoentn: Actions
+      },
+      {
+        path: 'targets',
+        name: 'targets',
+        component: Targets,
+      },
+      {
+        path: 'waiting',
+        name: 'waiting',
+        component: Waiting,
+      },
+      {
+        path: 'actions',
+        name: 'actions',
+        component: Actions,
+      },
+    ]
+  }
 ]
