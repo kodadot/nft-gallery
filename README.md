@@ -56,6 +56,23 @@ Sure, your contribution is welcome. Please follow [code of conduct](CODE_OF_COND
 
 
 ## 🐳 Docker
+If you want just to try out our KodaDot on Kusama and have full local setup with local node, we assume you have docker and docker-compose installed
 
-Yet, we don't have any official image. 
-There is issue, [anyone could help setup Docker image for us](https://github.com/vue-polkadot/apps/issues/51)
+```
+docker-compose pull && docker-compose up
+```
+
+If you want to run just KodaDot
+```
+docker-compose up kodadot
+```
+
+Build docker image of KodaDot
+```
+docker build -t hello/kodadot .
+```
+
+Run it locally and then visit `localhost:8080`
+```
+docker run -it -p 8080:8080 --rm --name hellokodadot hello/kodadot
+```
