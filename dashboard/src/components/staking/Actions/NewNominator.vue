@@ -62,12 +62,14 @@ const components = {
 };
 
 type ApiCallType = {
-  bondTx: () => SubmittableExtrinsic<'promise'> | any,
-  bondOwnTx: () => SubmittableExtrinsic<'promise'> | any,
-  controllerTx: () => SubmittableExtrinsic<'promise'> | any,
-  stashId: string,
-  controllerId: string,
-  password: string
+  bondTx: (...params: [string, number, number]) => SubmittableExtrinsic<'promise'> | any;
+  bondOwnTx: (...params: [string, number, number]) => SubmittableExtrinsic<'promise'> | any;
+  controllerTx: (controllerId: string) => SubmittableExtrinsic<'promise'> | any;
+  stashId: string;
+  controllerId: string;
+  password: string;
+  bondParams: [string, number, number];
+  bondOwnParams: [string, number, number];
 };
 
 @Component({ components })
@@ -76,13 +78,15 @@ export default class NewNominator extends Vue {
 
   private tx: string = '';
   private activeStep: number = 0;
-  private bondCallback: ApiCallType = {
+   private bondCallback: ApiCallType = {
     bondTx: () => null,
     bondOwnTx: () => null,
     controllerTx: () => null,
     stashId: '',
     controllerId: '',
-    password: ''
+    password: '',
+    bondParams: ['', 0, 0],
+    bondOwnParams: ['', 0, 0],
   };
   private nominated: string[] = [];
 
@@ -102,12 +106,12 @@ export default class NewNominator extends Vue {
 
   get batchMethods(): any[] {
     const { nominateTx, bondCallback } = this;
-    const { stashId, bondTx, bondOwnTx, controllerTx } = bondCallback;
+    const { stashId, bondTx, bondOwnTx, controllerTx, bondParams, bondOwnParams, controllerId  } = bondCallback;
     if (bondCallback.stashId === bondCallback.controllerId) {
-      return [bondTx(), nominateTx]
+      return [bondTx(...bondParams), nominateTx]
     }
 
-    return [bondOwnTx(), nominateTx, controllerTx()]
+    return [bondOwnTx(...bondOwnParams), nominateTx, controllerTx(controllerId)]
   }
 
   private async submit()  {
@@ -116,6 +120,7 @@ export default class NewNominator extends Vue {
     try {
       showNotification('Dispatched');
       const { batchMethods, bondCallback } = this;
+      console.log(batchMethods);
       this.tx = await exec(
         bondCallback.stashId,
         bondCallback.password,

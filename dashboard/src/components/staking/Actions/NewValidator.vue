@@ -140,16 +140,12 @@ export default class NewNominator extends Vue {
   private async submit() {
     const { api } = Connector.getInstance();
     const { batchMethods, bondCallback } = this;
-    console.log(bondCallback.stashId,
-        bondCallback.password);
-  const { stashId, bondTx, bondOwnTx, controllerTx } = bondCallback;
-  const { sessionTx, validateTx } = this;
+    const { stashId, bondTx, bondOwnTx, controllerTx } = bondCallback;
+    const { sessionTx, validateTx } = this;
     console.log(batchMethods);
-    
 
     try {
       showNotification('Dispatched');
-      const { batchMethods, bondCallback } = this;
       this.tx = await exec(
         bondCallback.stashId,
         bondCallback.password,
