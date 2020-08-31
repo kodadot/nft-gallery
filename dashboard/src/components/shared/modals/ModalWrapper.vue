@@ -6,6 +6,7 @@
       :icon-left="icon"
       :expanded="expanded"
       @click="isModalActive = true"
+      :class="{ 'modal-wrapper-button__right': isRight }"
     >
       <template v-if="label">{{ label }}</template>
     </b-button>
@@ -34,6 +35,7 @@ export default class ModalWrapper extends Vue {
   @Prop() public icon!: string;
   @Prop() public type!: string;
   @Prop() public expanded!: boolean;
+  @Prop() public isRight!: boolean;
   private isModalActive: boolean = false;
 
   get buttonType() {
@@ -42,3 +44,9 @@ export default class ModalWrapper extends Vue {
 
 }
 </script>
+
+<style scoped>
+.modal-wrapper-button__right {
+  float: right;
+}
+</style>

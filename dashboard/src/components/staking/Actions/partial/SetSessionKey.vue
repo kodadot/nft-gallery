@@ -9,8 +9,8 @@
     <b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal> </b-input>
     </b-field>
-    <b-field label="Session Keys" >
-      <b-input placeholder="0x..." v-model="keys" /> 
+    <b-field label="Session Keys">
+      <b-input placeholder="0x..." v-model="keys" />
     </b-field>
 
     <b-button
@@ -36,7 +36,7 @@ import { BN_ZERO, BN_HUNDRED as MAX_COMM } from '@polkadot/util';
 import { isHex } from '@polkadot/util';
 
 import Connector from '@vue-polkadot/vue-api';
-import BN from 'bn.js'
+import BN from 'bn.js';
 
 const components = {
   ModalWrapper,
@@ -60,7 +60,7 @@ export default class SetSessionKey extends Vue {
   }
 
   get params() {
-    return [this.keys, EMPTY_PROOF]
+    return [this.keys, EMPTY_PROOF];
   }
 
   get disabled() {

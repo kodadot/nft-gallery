@@ -26,7 +26,6 @@ export default class ElectionBanner extends Vue {
 .staking-actions-button__wrapper {
   display: flex;
   float: right;
-  margin-bottom: 1em;
 }
 
 .staking-actions-button {

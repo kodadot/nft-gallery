@@ -14,29 +14,22 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-1.5">
+    <div class="column is-1">
       <WithLabel label="Rewards"
         ><div class="proposal-tip__reason">
           {{ validator.destination }}
         </div></WithLabel
       >
     </div>
-    <div class="column is-2">
+    <div class="column is-1">
       <WithLabel label="Bonded"><Money :value="bonded" /></WithLabel>
     </div>
-    <div class="column is-2">
-      <WithLabel label="Session Keys"
-        ><div class="proposal-tip__reason">
-          {{ validator.hexSessionIdQueue }}
-        </div></WithLabel
-      >
-    </div>
-    <div class="column is-1.5">
-      <WithLabel label="Commision"
-        ><div class="proposal-tip__reason">
-          {{ commission }}
-        </div></WithLabel
-      >
+    <div
+      class="column"
+      :class="[ nominating.length ? 'is-2' : 'is-3' ]"
+    >
+      <div><b>Session keys: </b>{{validator.hexSessionIdQueue}}</div>
+      <div><b>Commission: </b>{{ commission }}</div>
     </div>
     <div v-if="nominating.length" class="column is-1" @click="handleNominatorsVisibility">
       <WithLabel label="Nominating"

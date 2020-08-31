@@ -5,14 +5,21 @@
         <BondPartial v-model="bondCallback" />
       </b-step-item>
 
-      <b-step-item step="2" label="Nominate">
-        <NominatePartial :targetValidatorIds="[]" :nominating="[]" v-model="nominated" />
+      <b-step-item step="2" label="Keys and Commision">
+        <div>
+          <b-field label="Session Keys">
+            <b-input placeholder="0x..." expanded v-model="keys" />
+            <b-button @click="generateSessionKey" type="is-success" outlined class="staking-actions-session-key__generate">Generate </b-button>
+          </b-field>
+          <b-field label="Commission">
+            <b-input v-model="commision" />
+          </b-field>
+        </div>
       </b-step-item>
 
       <template slot="navigation" slot-scope="{ previous, next }">
         <b-button
           outlined
-          
           icon-left="angle-left"
           :disabled="previous.disabled"
           @click.prevent="previous.action"
@@ -24,7 +31,6 @@
           :disabled="next.disabled || emptyParams"
           @click.prevent="next.action"
         >
-          
         </b-button>
       </template>
     </b-steps>
@@ -47,7 +53,9 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import BondPartial from './partial/BondPartial.vue';
 import ModalWrapper from '@/components/shared/modals/ModalWrapper.vue';
-import NominatePartial from './partial/NominatePartial.vue'
+import NominatePartial from './partial/NominatePartial.vue';
+import Connector from '@vue-polkadot/vue-api';
+import { notificationTypes, showNotification } from '@/utils/notification';
 
 const components = {
   BondPartial,
@@ -67,19 +75,34 @@ export default class NewNominator extends Vue {
     callback: () => null,
     params: []
   };
-  private nominated: string[] = [];
+
+  private keys: string = '';
+  private commision: number = 0;
 
   get disabled(): boolean {
     return this.activeStep !== 1;
   }
 
   get emptyParams(): boolean {
-    return false
+    return false;
     // return !this.bondCallback.params.length
   }
 
   private submit() {
     console.log('Lorem Ipsum haha');
+  }
+
+  private async generateSessionKey() {
+    const { api } = Connector.getInstance();
+    try {
+      const response = await api.rpc.author.rotateKeys()
+      console.log('response', response)
+      this.keys = response.toString();
+    } catch (e) {
+      showNotification(e.message, notificationTypes.danger);
+      console.warn(e);
+    }
+
   }
 }
 </script>
@@ -88,5 +111,9 @@ export default class NewNominator extends Vue {
 .new-nominator__submit {
   float: right;
   margin-top: -2em;
+}
+
+.staking-actions-session-key__generate {
+  height: inherit;
 }
 </style>
