@@ -6,12 +6,12 @@ import { apiEnabled } from '@/routeGuard';
 import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Explorer from '@/router/explorer';
+import Staking from '@/router/staking';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Democracy = () => import('@/components/democracy/DemocracyWrapper.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
-const Staking = () => import('@/views/Staking.vue');
 const Chainstate = () => import('@/views/ChainState.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
@@ -29,6 +29,7 @@ export default new Router({
     ...Accounts,
     ...Transfer, 
     ...Explorer,
+    ...Staking,
 
     {
       path: '/democracy',
@@ -51,11 +52,6 @@ export default new Router({
       name: 'rpc',
       component: RPC,
       beforeEnter: apiEnabled,
-    },
-    {
-      path: '/staking',
-      name: 'staking',
-      component: Staking
     },
     {
       path: '/chainstate',
