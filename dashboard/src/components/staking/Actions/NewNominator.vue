@@ -62,9 +62,9 @@ const components = {
 };
 
 type ApiCallType = {
-  bondTx?: SubmittableExtrinsic<'promise'> | any,
-  bondOwnTx?: SubmittableExtrinsic<'promise'> | any,
-  controllerTx?: SubmittableExtrinsic<'promise'> | any,
+  bondTx: () => SubmittableExtrinsic<'promise'> | any,
+  bondOwnTx: () => SubmittableExtrinsic<'promise'> | any,
+  controllerTx: () => SubmittableExtrinsic<'promise'> | any,
   stashId: string,
   controllerId: string,
   password: string
@@ -77,6 +77,9 @@ export default class NewNominator extends Vue {
   private tx: string = '';
   private activeStep: number = 0;
   private bondCallback: ApiCallType = {
+    bondTx: () => null,
+    bondOwnTx: () => null,
+    controllerTx: () => null,
     stashId: '',
     controllerId: '',
     password: ''

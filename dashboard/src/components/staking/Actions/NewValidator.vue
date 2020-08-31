@@ -9,10 +9,16 @@
         <div>
           <b-field label="Session Keys">
             <b-input placeholder="0x..." expanded v-model="keys" />
-            <b-button @click="generateSessionKey" type="is-success" outlined class="staking-actions-session-key__generate">Generate </b-button>
+            <b-button
+              @click="generateSessionKey"
+              type="is-success"
+              outlined
+              class="staking-actions-session-key__generate"
+              >Generate
+            </b-button>
           </b-field>
           <b-field label="Commission">
-            <b-input v-model="commision" />
+            <b-input v-model="commission" />
           </b-field>
         </div>
       </b-step-item>
@@ -56,6 +62,10 @@ import ModalWrapper from '@/components/shared/modals/ModalWrapper.vue';
 import NominatePartial from './partial/NominatePartial.vue';
 import Connector from '@vue-polkadot/vue-api';
 import { notificationTypes, showNotification } from '@/utils/notification';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import BN from 'bn.js';
+import { BN_ZERO, BN_HUNDRED as MAX_COMM } from '@polkadot/util';
+import exec from '@/utils/transactionExecutor';
 
 const components = {
   BondPartial,
@@ -64,20 +74,36 @@ const components = {
 };
 
 type ApiCallType = {
-  callback: () => void;
-  params: any[];
+  bondTx: (...params: [string, number, number]) => SubmittableExtrinsic<'promise'> | any;
+  bondOwnTx: (...params: [string, number, number]) => SubmittableExtrinsic<'promise'> | any;
+  controllerTx: (controllerId: string) => SubmittableExtrinsic<'promise'> | any;
+  stashId: string;
+  controllerId: string;
+  password: string;
+  bondParams: [string, number, number];
+  bondOwnParams: [string, number, number];
 };
+
+const EMPTY_PROOF = new Uint8Array();
+const COMM_MUL = new BN(1e7);
 
 @Component({ components })
 export default class NewNominator extends Vue {
   private activeStep: number = 0;
+  private tx: string = '';
   private bondCallback: ApiCallType = {
-    callback: () => null,
-    params: []
+    bondTx: () => null,
+    bondOwnTx: () => null,
+    controllerTx: () => null,
+    stashId: '',
+    controllerId: '',
+    password: '',
+    bondParams: ['', 0, 0],
+    bondOwnParams: ['', 0, 0],
   };
 
   private keys: string = '';
-  private commision: number = 0;
+  private commission: number = 0;
 
   get disabled(): boolean {
     return this.activeStep !== 1;
@@ -88,21 +114,63 @@ export default class NewNominator extends Vue {
     // return !this.bondCallback.params.length
   }
 
-  private submit() {
-    console.log('Lorem Ipsum haha');
+  get sessionTx(): SubmittableExtrinsic<'promise'> {
+    const { api } = Connector.getInstance();
+    return api.tx.session.setKeys(this.keys as any, EMPTY_PROOF);
   }
 
+  get validateTx(): SubmittableExtrinsic<'promise'> {
+    const { api } = Connector.getInstance();
+    const commission = (new BN(this.commission) || BN_ZERO).mul(COMM_MUL);
+    return api.tx.staking.validate({
+      commission: commission.isZero() ? 1 : commission
+    });
+  }
+
+  get batchMethods(): SubmittableExtrinsic<'promise'>[] {
+    const { sessionTx, bondCallback, validateTx } = this;
+    const { stashId, bondTx, bondOwnTx, controllerTx, controllerId, bondParams, bondOwnParams  } = bondCallback;
+    if (bondCallback.stashId === bondCallback.controllerId) {
+      return [bondTx(...bondParams), sessionTx, validateTx];
+    }
+
+    return [bondOwnTx(...bondOwnParams), sessionTx, validateTx, controllerTx(controllerId)];
+  }
+
+  private async submit() {
+    const { api } = Connector.getInstance();
+    const { batchMethods, bondCallback } = this;
+    console.log(bondCallback.stashId,
+        bondCallback.password);
+  const { stashId, bondTx, bondOwnTx, controllerTx } = bondCallback;
+  const { sessionTx, validateTx } = this;
+    console.log(batchMethods);
+    
+
+    try {
+      showNotification('Dispatched');
+      const { batchMethods, bondCallback } = this;
+      this.tx = await exec(
+        bondCallback.stashId,
+        bondCallback.password,
+        api.tx.utility.batch,
+        [batchMethods]
+      );
+      showNotification(this.tx, notificationTypes.success);
+    } catch (e) {
+      showNotification(e, notificationTypes.danger);
+    }
+  }
   private async generateSessionKey() {
     const { api } = Connector.getInstance();
     try {
-      const response = await api.rpc.author.rotateKeys()
-      console.log('response', response)
+      const response = await api.rpc.author.rotateKeys();
+      console.log('response', response);
       this.keys = response.toString();
     } catch (e) {
       showNotification(e.message, notificationTypes.danger);
       console.warn(e);
     }
-
   }
 }
 </script>

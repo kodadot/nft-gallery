@@ -26,7 +26,7 @@ import Connector from '@vue-polkadot/vue-api';
 import BalanceInput from '@/components/shared/BalanceInput.vue';
 import { rewardDestinationOptions } from '../constants';
 import Dropdown from '@/components/shared/Dropdown.vue';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { SubmittableExtrinsic, AugmentedSubmittable } from '@polkadot/api/types';
 import AccountSelect from '@/components/shared/AccountSelect.vue'
 
 const components = {
@@ -46,9 +46,9 @@ export default class BondPartial extends Vue {
   private password: string = '';
   private destination: number = 0;
 
-  private callback(...params: [string, number, number]): () => SubmittableExtrinsic<'promise'> {
+  private callback(): AugmentedSubmittable<any> {
     const { api } = Connector.getInstance();
-    return () => api.tx.staking.bond(...params);
+    return api.tx.staking.bond;
   }
 
   get options() {
@@ -92,9 +92,11 @@ export default class BondPartial extends Vue {
     const { api } = Connector.getInstance();
 
     return {
-      bondTx: callback(...params(controllerId)),
-      bondOwnTx: callback(...params(stashId)),
-      controllerTx: () => api.tx.staking.setController(controllerId),
+      bondTx: api.tx.staking.bond,
+      bondParams: params(controllerId),
+      bondOwnTx: api.tx.staking.bond,
+      bondOwnParams: params(stashId),
+      controllerTx: api.tx.staking.setController,
       controllerId,
       stashId,
       password,

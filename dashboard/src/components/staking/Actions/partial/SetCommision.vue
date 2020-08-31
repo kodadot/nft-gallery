@@ -10,7 +10,7 @@
       <b-input v-model="password" type="password" password-reveal> </b-input>
     </b-field>
     <b-field label="Commission" >
-      <b-input v-model="commision" /> 
+      <b-input v-model="commission" /> 
     </b-field>
 
     <b-button
@@ -52,11 +52,11 @@ export default class SetCommision extends Vue {
 
   private account: string = '';
   private password: string = '';
-  private commision: number = 0;
+  private commission: number = 0;
 
   public mounted() {
     if (this.actualCommision) {
-      this.commision = this.actualCommision;
+      this.commission = this.actualCommision;
     }
   }
 
@@ -66,14 +66,14 @@ export default class SetCommision extends Vue {
   }
 
   get params() {
-    const commission = (new BN(this.commision) || BN_ZERO).mul(COMM_MUL);
+    const commission = (new BN(this.commission) || BN_ZERO).mul(COMM_MUL);
     return [{
-      commision: commission.isZero() ? 1 : commission
+      commission: commission.isZero() ? 1 : commission
     }];
   }
 
   get disabled() {
-    return !this.commision;
+    return !this.commission;
   }
 
   public handleAccountSelection(account: KeyringPair) {
