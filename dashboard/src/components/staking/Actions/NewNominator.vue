@@ -101,10 +101,10 @@ export default class NewNominator extends Vue {
     const { nominateTx, bondCallback } = this;
     const { stashId, bondTx, bondOwnTx, controllerTx } = bondCallback;
     if (bondCallback.stashId === bondCallback.controllerId) {
-      return [bondTx, nominateTx]
+      return [bondTx(), nominateTx]
     }
 
-    return [bondOwnTx, nominateTx, controllerTx]
+    return [bondOwnTx(), nominateTx, controllerTx()]
   }
 
   private async submit()  {

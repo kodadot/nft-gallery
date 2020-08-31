@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Dropdown mode="accounts" @selected="setStashId" />
-    <Dropdown mode="accounts" @selected="setControllerId" />
-    <BalanceInput v-model="amount"/>
-    <b-field label="Payment destination">
-      <b-select placeholder="Select destination" v-model="destination" >
+    <AccountSelect label="stashId" :value="stashId" @input="setStashId" />
+    <AccountSelect label="controllerId" :value="controllerId" @input="setControllerId" />
+    <BalanceInput :value="amount" @input="setValue" />
+    <b-field label="Payment destination" class="staking-actions-bond__destination">
+      <b-select placeholder="Select destination" v-model="destination" @input="setDestination" expanded>
         <option
           v-for="option in options"
           :value="option.value"
@@ -15,9 +15,8 @@
       </b-select>
     </b-field>
     <b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal> </b-input>
+      <b-input v-model="password" @input="setPassword" type="password" password-reveal> </b-input>
     </b-field>
-    <b-button @click="next">Next</b-button>
   </div>
 </template>
 <script lang="ts" >
@@ -28,10 +27,12 @@ import BalanceInput from '@/components/shared/BalanceInput.vue';
 import { rewardDestinationOptions } from '../constants';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import AccountSelect from '@/components/shared/AccountSelect.vue'
 
 const components = {
   BalanceInput,
-  Dropdown
+  Dropdown,
+  AccountSelect
 };
 
 @Component({ components })
@@ -45,9 +46,9 @@ export default class BondPartial extends Vue {
   private password: string = '';
   private destination: number = 0;
 
-  private callback(...params: [string, number, number]): SubmittableExtrinsic<'promise'> {
+  private callback(...params: [string, number, number]): () => SubmittableExtrinsic<'promise'> {
     const { api } = Connector.getInstance();
-    return api.tx.staking.bond(...params);
+    return () => api.tx.staking.bond(...params);
   }
 
   get options() {
@@ -59,31 +60,53 @@ export default class BondPartial extends Vue {
     return [account, amount, destination];
   }
 
-  public setStashId(account: KeyringPair) {
-    this.stashId = account.address;
-  }
-
-  public setControllerId(account: KeyringPair) {
-    this.controllerId = account.address;
-  }
-
-  public next() {
+  public setPassword(newPassword: string) {
+    this.password = newPassword;
     this.partialBond();
   }
-// TODO: call
+
+  public setDestination(newDestination: number) {
+    this.destination = newDestination;
+    this.partialBond();
+  }
+
+  public setStashId(stashId: string) {
+    this.stashId = stashId;
+    this.partialBond();
+  }
+
+  public setControllerId(controllerId: string) {
+    this.controllerId= controllerId;
+    this.partialBond();
+  }
+
+  public setValue(newValue: any) {
+    this.amount = newValue;
+    this.partialBond();
+  }
+
+
   @Emit('input')
   public partialBond() {
-    const { callback, controllerId, stashId, password, params } = this;
+    const { callback, controllerId, stashId, password, params, amount, destination } = this;
     const { api } = Connector.getInstance();
 
     return {
       bondTx: callback(...params(controllerId)),
       bondOwnTx: callback(...params(stashId)),
-      controllerTx: api.tx.staking.setController(controllerId),
+      controllerTx: () => api.tx.staking.setController(controllerId),
       controllerId,
       stashId,
-      password
+      password,
+      destination,
+      amount
     };
   }
 }
 </script>
+
+<style scoped>
+.staking-actions-bond__destination {
+  margin: 1em 0 1em 1em;
+}
+</style>

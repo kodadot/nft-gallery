@@ -2,7 +2,7 @@
   <div>
     <ElectionBanner :targetValidatorIds="targetValidatorIds" />
     <div>
-      <SectionTitle title="Stashes" />
+      <SectionTitle class="staking-actions__title" title="Stashes" />
     </div>
     <TableOverview :validators="validators" :targetValidatorIds="targetValidatorIds" />
   </div>
@@ -140,3 +140,9 @@ export default class Actions extends Mixins(SubscribeMixin) {
   }
 }
 </script>
+
+<style scoped>
+.staking-actions__title {
+  margin-bottom: 1em;
+}
+</style>

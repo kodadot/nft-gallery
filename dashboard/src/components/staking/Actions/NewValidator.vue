@@ -1,5 +1,5 @@
 <template>
-  <ModalWrapper icon="plus" label="Nominator" type="is-primary">
+  <ModalWrapper icon="plus" label="Validator" type="is-primary">
     <b-steps v-model="activeStep" animated rounded :has-navigation="true">
       <b-step-item step="1" label="Bond">
         <BondPartial v-model="bondCallback" />

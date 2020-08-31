@@ -1,34 +1,7 @@
 <template>
-  <ModalWrapper icon="plus" label="Nominator" type="is-primary">
-    <b-steps v-model="activeStep" animated rounded :has-navigation="true">
-      <b-step-item step="1" label="Bond">
-        <BondPartial v-model="bondCallback" />
-      </b-step-item>
-
-      <b-step-item step="2" label="Nominate">
-        <NominatePartial :targetValidatorIds="[]" :nominating="[]" v-model="nominated" />
-      </b-step-item>
-
-      <template slot="navigation" slot-scope="{ previous, next }">
-        <b-button
-          outlined
-          
-          icon-left="angle-left"
-          :disabled="previous.disabled"
-          @click.prevent="previous.action"
-        >
-        </b-button>
-        <b-button
-          outlined
-          icon-right="angle-right"
-          :disabled="next.disabled || emptyParams"
-          @click.prevent="next.action"
-        >
-          
-        </b-button>
-      </template>
-    </b-steps>
-
+  <ModalWrapper icon="plus" label="Stash" type="is-primary">
+    <BondPartial v-model="bondCallback" />
+    <div class="filler" />
     <b-button
       type="is-primary"
       icon-left="paper-plane"
@@ -47,7 +20,11 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import BondPartial from './partial/BondPartial.vue';
 import ModalWrapper from '@/components/shared/modals/ModalWrapper.vue';
-import NominatePartial from './partial/NominatePartial.vue'
+import NominatePartial from './partial/NominatePartial.vue';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import exec from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
+import Connector from '@vue-polkadot/vue-api';
 
 const components = {
   BondPartial,
@@ -56,30 +33,56 @@ const components = {
 };
 
 type ApiCallType = {
-  callback: () => void;
-  params: any[];
+  bondTx?: SubmittableExtrinsic<'promise'> | any;
+  bondOwnTx?: SubmittableExtrinsic<'promise'> | any;
+  controllerTx?: SubmittableExtrinsic<'promise'> | any;
+  stashId: string;
+  controllerId: string;
+  password: string;
+  amount: number;
+  destination: number;
 };
 
 @Component({ components })
-export default class NewNominator extends Vue {
-  private activeStep: number = 0;
-  private bondCallback: ApiCallType = {
-    callback: () => null,
-    params: []
-  };
-  private nominated: string[] = [];
+export default class NewStash extends Vue {
+  private tx: string = '';
 
-  get disabled(): boolean {
-    return this.activeStep !== 1;
-  }
+  private bondCallback: ApiCallType = {
+    stashId: '',
+    controllerId: '',
+    password: '',
+    amount: 0,
+    destination: 0
+  };
 
   get emptyParams(): boolean {
-    return false
+    return false;
     // return !this.bondCallback.params.length
   }
 
-  private submit() {
-    console.log('Lorem Ipsum haha');
+  get disabled(): boolean {
+    return false;
+  }
+
+  private async submit() {
+    const { api } = Connector.getInstance();
+    const { bondCallback } = this;
+    const { stashId, password, bondTx, amount, destination } = bondCallback;
+    console.log([stashId, amount, destination]);
+        
+
+    try {
+      showNotification('Dispatched');
+      this.tx = await exec(
+        stashId,
+        password,
+        api.tx.staking.bond,
+        [stashId, amount, destination]
+        );
+      showNotification(this.tx, notificationTypes.success);
+    } catch (e) {
+      showNotification(e, notificationTypes.danger);
+    }
   }
 }
 </script>
@@ -88,5 +91,9 @@ export default class NewNominator extends Vue {
 .new-nominator__submit {
   float: right;
   margin-top: -2em;
+}
+
+.filler {
+  height: 3em;
 }
 </style>
