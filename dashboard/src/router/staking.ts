@@ -27,7 +27,7 @@ export default [
       {
         path: '',
         name: 'actions',
-        compoentn: Actions
+        component: Actions
       },
     ]
   },
