@@ -18,7 +18,8 @@ import { faTwitter, faGalacticSenate
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-library.add(faTrash, faKey, faSync, faRedo,
+library.add(
+  faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
   faUsers, faAddressBook, faPaperPlane,
   faCalendarCheck, faCogs, faEye, faEyeSlash,
@@ -29,7 +30,8 @@ library.add(faTrash, faKey, faSync, faRedo,
   faTwitter, faArrowUp, faTools, faCheck, faSeedling, 
   faGalacticSenate, faDatabase, faGem,
   faTwitter, faArrowUp, faTools, faCheck,
-  faInfoCircle, faExchangeAlt, faVrCardboard );
+  faInfoCircle, faExchangeAlt, faVrCardboard 
+  );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 Vue.component('vue-fontawesome', FontAwesomeIcon);  

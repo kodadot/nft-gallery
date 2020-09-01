@@ -133,9 +133,9 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link'
     },
     {
-      name: 'Galactic',
+      name: 'AR/VR',
       icon: 'vr-cardboard',
-      to: { name: 'galactic' },
+      to: { name: 'arvr' },
       tag: 'router-link'
     },
     {
