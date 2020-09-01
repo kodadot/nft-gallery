@@ -6,7 +6,7 @@
           :value="option.address"
           :key="option.address"
         >
-          {{ option.meta.name }}:{{ option.address | shortAddress(10, -10) }}
+          <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
         </option>
       </b-select>
     </b-field>

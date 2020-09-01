@@ -13,7 +13,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class Staking extends Vue {
   private activeTab: number = 0;
-  private labels: string[] = ['Overview', 'Actions', 'Targets', 'Waiting']
+  private labels: string[] = ['Overview', 'Actions', 'Targets', 'Waiting', 'Payouts']
     
   @Watch('$route.params.tab')
   private async reflect() {

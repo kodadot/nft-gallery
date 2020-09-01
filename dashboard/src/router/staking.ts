@@ -5,6 +5,7 @@ const Overview = () => import(/* webpackChunkName:'explorer' */ '@/components/st
 const Targets = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Targets/Targets.vue');
 const Waiting = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Waiting/Waiting.vue');
 const Actions = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Actions/Actions.vue');
+const Payouts = () => import(/* webpackChunkName:'explorer' */ '@/components/staking/Payouts/Payouts.vue');
 
 export default [
   {
@@ -52,6 +53,18 @@ export default [
         path: '',
         name: 'waiting',
         component: Waiting
+      }
+    ]
+  },
+  {
+    path: '/staking/4',
+    component: Staking,
+    beforeEnter: apiEnabled,
+    children: [
+      {
+        path: '',
+        name: 'waiting',
+        component: Payouts
       }
     ]
   }

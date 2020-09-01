@@ -53,6 +53,13 @@ export async function getOwnStashes(): Promise<[string, IsInKeyring][]> {
   );
 }
 
+export function getOwnStashIds(): Promise<string[]> {
+  return getOwnStashes().then(ownStashes => {
+    return ownStashes
+    ? ownStashes.map(([stashId]) => stashId) : []
+  })
+}
+
 function getStashes(
   allAccounts: string[],
   ownBonded: Option<AccountId>[],
