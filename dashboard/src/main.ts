@@ -28,7 +28,7 @@ Vue.use(Buefy, {
   customIconPacks: {
     fas: {
       sizes: {
-        'default': null,
+        'default': '',
         'is-small': '1x',
         'is-medium': '2x',
         'is-large': '3x',
