@@ -45,9 +45,5 @@ export default class TableOverview extends Vue {
     const { api } = Connector.getInstance();
     return await api.derive.accounts.info(address);
   }
-
-  private async mounted() {
-    this.resolved = await this.getAddressInsight(this.validators[0])
-  }
 }
 </script>

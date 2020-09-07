@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PayoutBanner :availableEras="eraSelection" />
+    <PayoutBanner :availableEras="eraSelection" v-model="eraSelectionIndex" />
     <div>
       <SectionTitle class="staking-actions__title" title="Payout/Stash" />
     </div>
@@ -49,7 +49,7 @@ export default class Payouts extends Vue {
 
   public async mounted() {
     const { api } = Connector.getInstance();
-    const { eraAt, hasOwnValidators, eraSelectionIndex, myStashesIndex, ownValidators } = this;
+    const { hasOwnValidators, calculateEraRewards, eraSelectionIndex  } = this;
     const eraLength: BN = await api.derive.session.eraLength();
     const historyDepth: BN = await api.query.staking.historyDepth();
     this.eraSelection = await getOptions(eraLength, historyDepth);
@@ -57,18 +57,8 @@ export default class Payouts extends Vue {
     if (api.tx.staking.payoutStakers && hasOwnValidators) {
       this.myStashesIndex = 0;
     }
-    
-    
-    const stakerPayoutsAfter: BN = await getStakerPayouts();
-    const { allRewards, isLoadingRewards } = await getOwnEraRewards(eraAt(eraSelectionIndex), myStashesIndex ? undefined : ownValidators);
 
-    // TODO: Add to private :)
-    const { stashTotal, stashes, validators } =  getAvailable(allRewards, stakerPayoutsAfter);
-    this.stashes = stashes || [];
-    this.validators = validators || [];
-    
-    
-    console.log('[DATA]', stashes)
+    await calculateEraRewards(eraSelectionIndex);
   }
 
   public eraAt(index: number): number {
@@ -77,6 +67,24 @@ export default class Payouts extends Vue {
 
   get hasOwnValidators(): boolean {
     return this.ownValidators.length !== 0;
+  }
+
+  @Watch('eraSelectionIndex')
+  selectedNewEra(newValue: number, oldValue: number) {
+    this.calculateEraRewards(newValue);
+  }
+
+  private async calculateEraRewards(eraIndex: number) {
+    const { eraAt, hasOwnValidators, myStashesIndex, ownValidators } = this;
+
+    const stakerPayoutsAfter: BN = await getStakerPayouts();
+    const { allRewards, isLoadingRewards } = await getOwnEraRewards(eraAt(eraIndex), myStashesIndex ? undefined : ownValidators);
+
+    const { stashTotal, stashes, validators } =  getAvailable(allRewards, stakerPayoutsAfter);
+    this.stashes = stashes || [];
+    this.validators = validators || [];
+
+    console.log('[PAYOUTS] rewards', { stashes, validators })
   }
 
 
