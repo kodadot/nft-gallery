@@ -23,8 +23,8 @@
       >
     </div>
     <div class="column is-1">
-      <WithLabel label="Last #"
-        ><div class="proposal-tip__reason">0</div></WithLabel
+      <WithLabel label="Points"
+        ><div class="proposal-tip__reason">{{ rewardPoints }}</div></WithLabel
       >
     </div>
     <template v-if="nominatorsVisible" v-slot:additional>
@@ -54,6 +54,7 @@ const components = {
 @Component({ components })
 export default class ValidatorRow extends Vue {
   @Prop() public validatorId!: AccountId;
+  @Prop() public rewardPoints!: string;
   private nominatorsVisible = false;
   private loading: boolean = false;
   private stakingInfo: StakingState = {

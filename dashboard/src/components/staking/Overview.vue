@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Summary :overview="stakingOverview" />
+    <Summary :overview="stakingOverview" :currentBlock="currentBlock" :session="sessionProgress" :waiting="waiting" />
      <div>
       <SectionTitle title="Validators" />
     </div>
-    <TableOverview :validators="validators" />
+    <TableOverview :validators="validators" :rewardPoints="rewardPoints" />
   </div>
 </template>
 
@@ -16,9 +16,12 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 import TableOverview from './TableOverview.vue';
 import Subscribe from '@/utils/mixins/subscribeMixin'
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, EraRewardPoints } from '@polkadot/types/interfaces';
 import Summary from './Summary.vue'
 import SectionTitle from '@/components/shared/SectionTitle.vue'
+import { mapEraPoint } from './getEraPoints'
+import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { getStashIds } from './Actions/stashInfo';
 
 @Component({
   components: {
@@ -35,16 +38,24 @@ import SectionTitle from '@/components/shared/SectionTitle.vue'
 export default class Overview extends Mixins(Subscribe) {
   private SummarySessionLoaded: boolean = false;
   private currentBlock: any = {};
-  private stakingOverview: any = {};
+  private stakingOverview: DeriveStakingOverview = {} as DeriveStakingOverview;
+  private rewardPoints: Record<string, string> = {};
+  private sessionProgress: DeriveSessionProgress = {} as DeriveSessionProgress;
+  private waiting: number = 0;
 
   private async mounted() {
     const { api } = Connector.getInstance();
     this.subscribe(api.derive.chain.bestNumber, [], (value: any) => this.currentBlock = value);
     this.subscribe(api.derive.staking.overview, [], this.handleStakingOverview)
+    this.subscribe(api.derive.staking.currentPoints, [], (value: EraRewardPoints) => this.rewardPoints = mapEraPoint(value.individual))
+    this.subscribe(api.derive.session.progress, [], (value: DeriveSessionProgress) =>  this.sessionProgress = value)
   }
 
-  private handleStakingOverview(stakingOverview: DeriveStakingOverview) {
+  private async handleStakingOverview(stakingOverview: DeriveStakingOverview) {
     this.stakingOverview = stakingOverview;
+    const allStashes = await getStashIds();
+    // TODO: getting different number than polkadot.js :) 
+    // this.waiting = allStashes.filter((address) => !stakingOverview.validators.includes(address as any))?.length
   }
 
   get validators(): AccountId[] {

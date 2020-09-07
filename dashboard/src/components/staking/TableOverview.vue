@@ -3,7 +3,7 @@
     <!-- {{ validators[0] }}
     {{ resolved }} -->
     <EmptyGuard :array="validators" label="Validators">
-      <ValidatorRow v-for="(validator, index) in validators" :key="index" :validatorId="validator" />
+      <ValidatorRow v-for="(validator, index) in validators" :key="index" :validatorId="validator" :rewardPoints="rewardOf(validator)" />
     </EmptyGuard>
   </div>
 </template>
@@ -23,6 +23,7 @@ const components = {
 @Component({ components })
 export default class TableOverview extends Vue {
   @Prop() private validators!: AccountId[];
+  @Prop() private rewardPoints!: Record<string, string>;
 
   private resolved: any = '';
 
@@ -39,6 +40,10 @@ export default class TableOverview extends Vue {
     // console.log('TableOverview -> getStakerInfo -> query.exposure.total', query.exposure.total.unwrap());
     // console.log('TableOverview -> getStakerInfo -> totalHex', totalHex);
     return { query }
+  }
+
+  private rewardOf(account: string): string {
+    return this.rewardPoints[account] || '0';
   }
 
   private async getAccountsInfo(address: string) {

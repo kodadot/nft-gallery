@@ -11,15 +11,15 @@
       </div>
       <div>
         <div><b>Last Block</b></div>
-        <div>{{ lastBlock }}</div>
+        <div>{{ currentBlock | toString }}</div>
       </div>
 			<div class="summary-progressbar">
 				<label><b>Epoch</b></label>
-				<ProgressBar :value="10" :max="100" />
+				<ProgressBar :value="sessionProgress" :max="sessionLength" />
 			</div>
       <div class="summary-progressbar">
 				<label><b>Era</b></label>
-				<ProgressBar :value="activeEra" :max="currentEra" />
+				<ProgressBar :value="eraProgress" :max="eraLength" />
 			</div>
     </div>
   </div>
@@ -31,6 +31,8 @@ import Connector from '@vue-polkadot/vue-api';
 import BN from 'bn.js';
 import ProgressBar from '@/components/shared/ProgressBar.vue';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
+import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 
 const components = { ProgressBar }
 
@@ -38,6 +40,9 @@ const components = { ProgressBar }
 @Component({ components })
 export default class Summary extends Vue {
   @Prop() private readonly overview!: DeriveStakingOverview;
+  @Prop() private readonly currentBlock!: BlockNumber;
+  @Prop() private readonly session!: DeriveSessionProgress;
+  @Prop() private readonly waiting!: number;
 
 
   get totalValidators() {
@@ -45,26 +50,35 @@ export default class Summary extends Vue {
   }
 
   get validators() {
-    return this.overview.validators && this.overview.validators.length || 0
+    return this.overview.validators?.length || 0
   }
 
-  get activeEra() {
-    return this.overview.activeEra || 0
+  get lastBlock() {
+    return this.currentBlock?.toString || 0;
   }
 
-  get currentEra() {
-    return this.overview.currentEra || 0
+  get sessionLabel(): string {
+    return this.session?.isEpoch ? 'Epoch' : 'Session'
   }
 
+  get sessionLength() {
+    return this.session?.sessionLength?.toNumber()
+  }
 
-  private waiting: number = 0;
+  get sessionProgress() {
+    return this.session?.sessionProgress?.toNumber()
+  }
+
+  get eraLength() {
+    return this.session?.eraLength?.toNumber();
+  }
+
+  get eraProgress() {
+    return this.session?.eraProgress?.toNumber();
+  }
+
   private nominators: number = 0;
   
-  private lastBlock: number = 0;
-
- 
-
-
 }
 
 

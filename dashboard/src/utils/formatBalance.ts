@@ -9,7 +9,7 @@ const format = (balance: Compact<any> | BN | string, currency: string, withSi?: 
     const value = typeof balance === 'object' ? balance.toString() : balance;
   
     const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
-    console.log(`${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`);
+    // console.log(`${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`);
     
     const isShort = withSi && prefix.length >= K_LENGTH;
   
