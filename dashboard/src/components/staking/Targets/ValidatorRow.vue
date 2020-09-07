@@ -12,7 +12,7 @@
         </div></WithLabel
       >
     </div>
-    <div class="column is-1">
+    <div class="column is-2">
       <WithLabel label="Nominators"
         ><div class="proposal-tip__reason">
           {{ validator.numNominators }}
@@ -20,23 +20,23 @@
       >
     </div>
      <div class="column is-1">
-      <WithLabel label="Stake Total"
+      <WithLabel label="Total"
         ><Money :value="validator.bondTotal"
       /></WithLabel>
     </div>
     <div class="column is-1">
-      <WithLabel label="Stake Own"
+      <WithLabel label="Own"
         ><Money :value="validator.bondOwn"
       /></WithLabel>
     </div>
     <div class="column is-1">
-      <WithLabel label="Stake Other"
+      <WithLabel label="Other"
         ><Money :value="validator.bondOther"
       /></WithLabel>
     </div>
     <div class="column is-1">
-      <WithLabel label="Stake Own"
-        ><Money :value="0"
+      <WithLabel label="Commission"
+        ><Percent :value="0"
       /></WithLabel>
     </div>
   </ItemCard>
@@ -47,6 +47,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import ItemCard from '@/components/shared/wrapper/ItemCard.vue'
 import Money from '@/components/shared/format/Money.vue'
+import Percent from '@/components/shared/format/Percent.vue'
 import WithLabel from '@/components/shared/format/WithLabel.vue'
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveStakingQuery } from '@polkadot/api-derive/types';
@@ -55,6 +56,7 @@ const components = {
   ItemCard,
   Money,
   WithLabel,
+  Percent
 }
 
 @Component({ components })

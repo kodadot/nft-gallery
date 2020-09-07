@@ -39,6 +39,11 @@ function getRewards([[stashIds], available]: [
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
   stashIds.forEach((stashId, index): void => {
+    if (!available[index]) {
+      allRewards[stashId] = [];
+      return;
+    }
+
     allRewards[stashId] = available[index].filter(
       ({ eraReward }) => !eraReward.isZero()
     );

@@ -2,7 +2,7 @@
   <div>
     <!-- {{ validators[0] }}
     {{ resolved }} -->
-    <EmptyGuard :array="validators" label="Validators">
+    <EmptyGuard :array="validators" label="Stashes">
       <ValidatorRow v-for="(validator, index) in validators" :key="index" :validator="validator" :index="index" :targetValidatorIds="targetValidatorIds" />
     </EmptyGuard>
   </div>

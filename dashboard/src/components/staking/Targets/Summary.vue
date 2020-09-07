@@ -9,10 +9,12 @@
         <div><b>Last Reward</b></div>
         <Money :value="lastReward" />
       </div>
-      <div class="summary-progressbar">
-				<label><b>Total staked / Total issuance</b></label>
-				<ProgressBar :value="totalStaked" :max="totalIssuance" />
-			</div>
+      <div>
+        <div><b>Total staked</b> <Money :value="totalStaked" /></div>
+      </div>
+      <div>
+        <div><b>Total issuance</b> <Money :value="totalIssuance" /></div>
+      </div>
     </div>
   </div>
 </template>
