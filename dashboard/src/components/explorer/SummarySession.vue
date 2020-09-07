@@ -1,9 +1,8 @@
 <template>
   <div>
     <div v-if="entries && entries.validatorCount">
-      <DisabledInput
-        label="Validators" :value="entries.validatorCount" /> 
-
+      <!-- <DisabledInput label="Validators" :value="entries.validatorCount" />  -->
+      <DisabledInput label="Validators" :value="`${validators.length} / ${entries.validatorCount.toString()}`" /> 
       <div class="columns">
         <div class="column">
           <center><label><b>Epoch</b></label></center>
@@ -38,6 +37,8 @@ export default class SummarySession extends Vue {
   private sessionData: any = {};
   private emitedLoaded: boolean = false;
   private sessionResolved: any = {};
+  private stakingOverview: any = [];
+  private validators: any = [];
   private entries: any = {};
   private subs: any[] = [];
   @Prop({default: 0}) public currentBlock!: number;
@@ -69,6 +70,8 @@ export default class SummarySession extends Vue {
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.session.progress((value: any) => this.sessionData.info = value))
+    this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
+    this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
   }
 
   public async mounted() {

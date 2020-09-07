@@ -37,7 +37,7 @@ open http://localhost:8080/
 
 ## 🏗 Development
 
-Contribution are welcome!
+Contribution is welcome!
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 

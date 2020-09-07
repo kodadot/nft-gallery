@@ -1,11 +1,14 @@
 <template>
   <div>
     <b-button
-      class="button is-primary"
+      class="button"
+      :type="buttonType"
       :icon-left="icon"
+      :expanded="expanded"
       @click="isModalActive = true"
+      :class="{ 'modal-wrapper-button__right': isRight }"
     >
-      {{ label }}
+      <template v-if="label">{{ label }}</template>
     </b-button>
     <b-modal :active.sync="isModalActive">
       <div class="card">
@@ -30,7 +33,20 @@ export default class ModalWrapper extends Vue {
 
   @Prop() public label!: string;
   @Prop() public icon!: string;
+  @Prop() public type!: string;
+  @Prop() public expanded!: boolean;
+  @Prop() public isRight!: boolean;
   private isModalActive: boolean = false;
+
+  get buttonType() {
+    return this.type || 'is-primary';
+  }
 
 }
 </script>
+
+<style scoped>
+.modal-wrapper-button__right {
+  float: right;
+}
+</style>
