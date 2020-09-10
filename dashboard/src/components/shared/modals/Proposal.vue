@@ -44,7 +44,6 @@ export default class ProposalModal extends Vue {
   private accountId: string = '';
   private beneficiaryId: string = '';
 	private password: string = '';
-  private beneficiary: any = {};
   private amount: number = 0;
 	
   public async shipIt() {
@@ -67,7 +66,7 @@ export default class ProposalModal extends Vue {
   }
   
   get disabled() {
-    return !this.accountId || !this.beneficiary || !this.amount
+    return !this.accountId || !this.beneficiaryId || !this.amount
   }
   
 }

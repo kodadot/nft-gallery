@@ -64,11 +64,6 @@ export default class Tip extends Vue {
 </script>
 
 <style scoped>
-.proposal-adress__overflow {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .proposal-tip__reason {
   word-break: break-word;
