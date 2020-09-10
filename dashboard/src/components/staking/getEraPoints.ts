@@ -15,7 +15,7 @@ export const getEraPoints = async (): Promise<Record<string, string>> => {
 }
 
 export const mapEraPoint = (eraPoints: BTreeMap<AccountId, RewardPoint>): Record<string, string> => {
-  let result: Record<string, string> = {};
+  const result: Record<string, string> = {};
 
   eraPoints.forEach((value, key) => {
     result[key.toString()] = value.toString()

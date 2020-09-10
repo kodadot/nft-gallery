@@ -32,6 +32,8 @@ interface Filtered {
   validatorEras: ValidatorWithEras[];
 }
 
+/* tslint:disable */
+
 function getRewards([[stashIds], available]: [
   [string[]],
   DeriveStakerReward[][]
