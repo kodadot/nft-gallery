@@ -62,7 +62,7 @@ export default class Payouts extends Vue {
   }
 
   public eraAt(index: number): number {
-    return this.eraSelection[index].value
+    return this.eraSelection[index]?.value
   }
 
   get hasOwnValidators(): boolean {

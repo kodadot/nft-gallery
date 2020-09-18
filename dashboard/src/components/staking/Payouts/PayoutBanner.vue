@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-tabs type="is-toggle" class="payout-banner__tabs" :value="value" @input="updateSelectedEra">
+    <b-tabs type="is-toggle" class="payout-banner__tabs" @input="updateSelectedEra">
       <b-tab-item v-for="(era, index) in availableEras" :key="index" :label="era.text" />
     </b-tabs>
     <!-- <b-button disabled type="is-primary is-light">Payout All</b-button> -->
@@ -14,10 +14,12 @@ import { EraSelection } from './utils';
 @Component({})
 export default class PayoutBanner extends Vue {
   @Prop() public availableEras!: EraSelection[];
-  @Prop({ default: 0 }) public value!: number;
+  @Prop() public value!: number;
 
   @Emit('input')
   updateSelectedEra(selectedEra: number) {
+    console.log(selectedEra);
+    
     return selectedEra;
   }
 }
