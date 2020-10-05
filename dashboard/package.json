@@ -15,7 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "@polkadot/types": "^1.33.1",
-    "@polkadot/ui-keyring": "^0.58.1",
+    "@polkadot/ui-keyring": "^0.59.1",
     "@polkadot/ui-settings": "^0.58.1",
     "@polkadot/util": "^3.4.1",
     "@polkadot/util-crypto": "^3.4.1",
