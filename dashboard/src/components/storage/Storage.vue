@@ -13,7 +13,7 @@
       />
       <b-button class="chainstate-button" type="is-dark" icon-left="plus" @click="handleClick" :disabled="disabled"  />
     </div>
-    <!-- <Argurments v-if="params.length" :args="params" @selected="handleSelectedArguments" /> -->
+    <Argurments v-if="params.length" :args="params" @selected="handleSelectedArguments" />
   </div>
 </template>
 
@@ -50,7 +50,7 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
     console.log(params);
     
   
-    this.setArgs(params.map(({type}) =>  ({ ...type, name: '' })))
+    this.setArgs(params.map(({type}, index) =>  ({ ...type, name: index })))
     console.log(this.mapArgs());
     
   }
@@ -71,19 +71,21 @@ export default class Storage extends Mixins(ExtrinsicMixin) {
 
   private handleType(storageEntryPromise: StorageEntryPromise): string {
     const { type } = storageEntryPromise.creator.meta;
-    const { isPlain, isMap, isDoubleMap } = type;  
+    const { isPlain, isMap, isDoubleMap } = type;
 
     if (isPlain) {
       return type.asPlain.toString();
     }
 
     if (isMap) {
-      return type.asMap.key.toString()
+      return ''
+      // return type.asMap.key.toString()
     }
 
     // TODO: not so correct
     if (isDoubleMap) {
-      return type.asDoubleMap.key1.toString()
+      return ''
+      // return type.asDoubleMap.key1.toString()
     }
 
     return ''

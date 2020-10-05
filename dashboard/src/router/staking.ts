@@ -63,7 +63,7 @@ export default [
     children: [
       {
         path: '',
-        name: 'waiting',
+        name: 'payouts',
         component: Payouts
       }
     ]
