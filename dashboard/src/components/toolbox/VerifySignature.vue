@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Dropdown nobalance="true" :externalAddress="address"
-      @selected="handleAccountSelectionFrom" />
-      <br>
+    <AccountSelect label="sign with following account" v-model="accountFrom" :asKeyring="true" />
     <b-field label="using the following data">
       <b-input v-model="data" 
       @input="isHexData();complexVerifySignature()"
@@ -25,12 +23,13 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
-import Dropdown from '@/components/shared/Dropdown.vue';
+import AccountSelect from '@/components/shared/AccountSelect.vue'
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
+import { emptyObject } from '@/utils/empty';
 
 @Component({
   components: {
-    Dropdown,
+    AccountSelect,
     DisabledInput
   }
 })
@@ -39,7 +38,7 @@ export default class VerifySignature extends Vue {
   private signature: string = '';
   private inputDataCheck: string = 'No';
   private address: any = '';
-  private accountFrom: any = null;
+  private accountFrom: KeyringPair = emptyObject<KeyringPair>();
   private validSignature: boolean = false;
   private isValidSignature: boolean = false;
   private keyringPubKey: any = '';

@@ -1,6 +1,6 @@
 version: '3.6'
 services:
-  kusama:
+  substrate:
     image: parity/polkadot:latest
     logging:
       driver: "json-file"
@@ -8,12 +8,12 @@ services:
         max-size: "100M"
         max-file: "2"
     volumes:
-      - ./data_ksmcc2:/data/chains
+      - ./data_local_alice:/data/chains
     ports:
-      - "127.0.0.1:9933:9933"
+      - "0.0.0.0:9933:9933"
       - "0.0.0.0:9944:9944"
       - "127.0.0.1:30333:30333"
-    command: ['--chain','kusama','--name', 'KodaDot','--out-peers','20','--in-peers','20','--ws-external','--rpc-external','--rpc-cors','all', '--wasm-execution=Compiled' ]
+    command: ['--dev','--ws-external','--rpc-cors','all', '--wasm-execution=Compiled','--alice', '--rpc-methods=Unsafe']
   kodadot:
     image: yangwao/kodadot:develop-latest
     logging:
@@ -23,4 +23,3 @@ services:
         max-file: "2"
     ports:
       - "0.0.0.0:8080:8080"
-      

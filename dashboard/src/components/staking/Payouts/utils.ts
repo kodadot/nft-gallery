@@ -21,6 +21,8 @@ export interface EraSelection {
 
 const DAY_SECS = new BN(1000 * 60 * 60 * 24);
 
+/* tslint:disable */
+
 export function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, stakerPayoutsAfter: BN): PayoutValidator[] {
   return Object
     .entries(allRewards)

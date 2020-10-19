@@ -11,6 +11,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Router from 'vue-router';
 import Connector from '@vue-polkadot/vue-api';
 
+const localhost: RegExp = /27\.0\.0\.1\:\d+/;
+
 @Component({})
 export default class NetworkVisualCue extends Vue {
   @Prop(String) public value!: string;
@@ -23,8 +25,8 @@ export default class NetworkVisualCue extends Vue {
   private hyphenation(): any {
     const destination: any = Object.entries(this.$store.getters.getSettings);
     const hyphenCheck = destination[0][1].slice(6)
-  
-    if (hyphenCheck === '27.0.0.1:9944/' ) {
+    
+    if (localhost.test(hyphenCheck)) {
       return this.hyphenCustom = ['l','o','c','a','1']
     }
     this.hyphenCustom = hyphenCheck.split('.');
