@@ -7,11 +7,12 @@ import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Explorer from '@/router/explorer';
 import Staking from '@/router/staking';
+import Toolbox from '@/router/toolbox';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Democracy = () => import('@/components/democracy/DemocracyWrapper.vue');
 const Settings = () => import('@/views/Settings.vue');
-const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
+// const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 const Chainstate = () => import('@/views/ChainState.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
@@ -30,7 +31,7 @@ export default new Router({
     ...Transfer, 
     ...Explorer,
     ...Staking,
-
+    ...Toolbox,
     {
       path: '/democracy',
       name: 'democracy',
@@ -41,11 +42,6 @@ export default new Router({
 			path: '/settings',
       name: 'settings',
       component: Settings
-    },
-    {
-      path: '/toolbox',
-      name: 'toolbox',
-      component: Toolbox
     },
     {
       path: '/rpc',
