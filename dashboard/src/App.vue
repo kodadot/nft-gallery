@@ -25,8 +25,6 @@ import Connector from '@vue-polkadot/vue-api';
   },
 })
 export default class Dashboard extends Vue {
-  private chainProperties: any;
-  private ss58Format: any = 42;
   private sidebarClosed: boolean = true;
   private online: boolean = false;
 
@@ -34,15 +32,17 @@ export default class Dashboard extends Vue {
     this.sidebarClosed = val;
   }
 
-  public async getChainProperties(): Promise<void> {
-    this.ss58Format = Object.entries(this.$store.state.chainProperties)[0][1];
-    console.log('ss58format - settings', this.ss58Format);
+  get chainProperties() {
+    return this.$store.getters.getChainProperties;
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
   }
 
   public async loadKeyring(): Promise<void> {
-    this.getChainProperties();
     keyring.loadAll({
-      ss58Format: this.ss58Format,
+      ss58Format: this.ss58Format || 42,
       type: 'sr25519',
       isDevelopment: this.$store.state.development.status || false,
     });

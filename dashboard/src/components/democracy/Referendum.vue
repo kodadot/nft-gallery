@@ -18,8 +18,8 @@
       <div class="proposal-meta">
         <div><b>Remaining: </b><div>{{remaining}} </div></div>
         <div><b>Activate at: </b><div>{{enactBlock}} </div></div>
-        <div><b>Aye ({{state.voteCountAye}}): </b><div>{{state.votedAye}} KSM</div></div>
-        <div><b>Nay ({{state.voteCountNay}}): </b><div>{{state.votedNay}} KSM</div></div>
+        <div><b>Aye ({{state.voteCountAye}}): </b><Money :value="state.votedAye" /></div>
+        <div><b>Nay ({{state.voteCountNay}}): </b><Money :value="state.votedNay" /></div>
       </div>
 			<Vote :referendumId="referendum.index" />
     </div>
@@ -43,11 +43,13 @@ import Argurments from '@/components/extrinsics/Arguments.vue';
 import referendumState from './referendumState';
 import Connector from '@vue-polkadot/vue-api';
 import Vote from '@/components/shared/modals/Vote.vue';
+import Money from '@/components/shared/format/Money.vue'
 
 @Component({
   components: {
     Argurments,
-		Vote,
+    Vote,
+    Money
   },
 })
 export default class Referendum extends Vue {

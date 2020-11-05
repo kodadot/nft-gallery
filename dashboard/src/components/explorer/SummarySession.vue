@@ -25,6 +25,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Progressbar from '@/components/shared/ProgressBar.vue';
 import Connector from '@vue-polkadot/vue-api';
 import Collapse from '@/components/shared/Collapse.vue';
+import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 
 @Component({
   components: {
@@ -70,8 +71,12 @@ export default class SummarySession extends Vue {
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
     this.subs.push(await api.derive.session.progress((value: any) => this.sessionData.info = value))
-    this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
-    this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
+    this.subs.push(await api.derive.staking.overview(this.updateStakingOverview)); 
+  }
+
+  private updateStakingOverview(stakingOverview: DeriveStakingOverview) {
+    this.stakingOverview = stakingOverview;
+    this.validators = stakingOverview.validators?.map(validator => validator.toString())
   }
 
   public async mounted() {
