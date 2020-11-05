@@ -1,5 +1,5 @@
 <template>
-  <div>{{value | formatBalance(chainProperties.tokenSymbol, false)}}</div>
+  <div>{{value | formatBalance(decimals, unit)}}</div>
 </template>
 
 <script lang="ts">
@@ -14,6 +14,15 @@ export default class Money extends Vue {
   get chainProperties() {
     return this.$store.getters.getChainProperties;
   }
+
+  get decimals(): number {  
+    return this.chainProperties.tokenDecimals
+  }
+
+  get unit(): string {  
+    return this.chainProperties.tokenSymbol
+  }
+
 }
 
 </script>
