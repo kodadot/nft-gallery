@@ -1,5 +1,6 @@
 <template>
-  <div>{{value | formatBalance(decimals, unit)}}</div>
+  <div v-if="!inline">{{value | formatBalance(decimals, unit)}}</div>
+  <span v-else>{{value | formatBalance(decimals, unit)}}</span>
 </template>
 
 <script lang="ts">
@@ -10,6 +11,7 @@ import { mapGetters } from 'vuex'
 @Component
 export default class Money extends Vue {
   @Prop({default: 0}) readonly value: number | string | undefined;
+  @Prop(Boolean) readonly inline!: boolean
 
   get chainProperties() {
     return this.$store.getters.getChainProperties;

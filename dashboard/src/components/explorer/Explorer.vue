@@ -85,7 +85,11 @@ export default class Explorer extends Vue {
   }
 
   public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.forEach((sub) => {
+      if (typeof sub === 'function') {
+        sub()
+      } 
+    });
   }
 }
 </script>

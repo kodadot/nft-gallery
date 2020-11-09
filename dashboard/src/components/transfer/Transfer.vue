@@ -24,7 +24,7 @@
         type="is-primary"
         icon-left="paper-plane"
         outlined
-        :disabled="!accountFrom || !password"
+        :disabled="!accountFrom"
         @click="shipIt">
 				Make Transfer
       </b-button>
@@ -48,6 +48,8 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Connector from '@vue-polkadot/vue-api';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
 import shortAddress from '@/utils/shortAddress';
+import exec from '@/utils/transactionExecutor';
+import { showNotification } from '@/utils/notification';
 
 @Component({
   components: {
@@ -98,18 +100,18 @@ export default class Transfer extends Vue {
       this.$store.state.explorer.provider)
   }
 
+
+
   public async shipIt(): Promise<void> {
     const { api } = Connector.getInstance();
       try {
-        this.showNotification('Dispatched');
-        const alicePair = keyring.getPair(this.accountFrom.address);
-        alicePair.decodePkcs8(this.password);
-        const txHash = await api.tx.balances.transfer(this.accountTo.address, this.balance).signAndSend(alicePair)
-        this.showNotification(txHash.toHex(), this.snackbarTypes.success);
-        
-        this.tx = txHash.toHex();
+        showNotification('Dispatched');
+        console.log([this.accountTo.address, this.balance])
+        const tx = await exec(this.accountFrom.address, this.password, api.tx.balances.transfer, [this.accountTo.address, this.balance?.toString()]);
+        showNotification(tx, this.snackbarTypes.success);
       } catch (e) {
-        this.showNotification(e, this.snackbarTypes.danger);
+        console.error('[ERR: TRANSFER SUBMIT]', e)
+        showNotification(e.message, this.snackbarTypes.danger);
       }
   }
 
@@ -167,17 +169,6 @@ export default class Transfer extends Vue {
     this.externalURI();
   }
 
-  private showNotification(message: string | null, params = this.snackbarTypes.info) {
-    this.$buefy.snackbar.open({
-      duration: 9000,
-      message: `${shortAddress(this.accountFrom.address)} -> ${shortAddress(this.accountTo.address)}<br>${message}`,
-      type: 'is-success',
-      position: 'is-top-right',
-      actionText: 'OK',
-      queue: false,
-      ...params,
-    });
-  }
 }
 </script>
 

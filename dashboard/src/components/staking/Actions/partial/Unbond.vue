@@ -11,14 +11,14 @@
     </b-field>
     <BalanceInput v-model="value" />
     <b-button
-    type="is-primary"
-    icon-left="paper-plane"
-    outlined
-    :disabled="disabled"
-    @click="submit"
-  >
-    Submit
-  </b-button>
+      type="is-primary"
+      icon-left="paper-plane"
+      outlined
+      :disabled="disabled"
+      @click="submit"
+    >
+      Submit
+    </b-button>
   </ModalWrapper>
 </template>
 
@@ -60,21 +60,20 @@ export default class BondExtra extends Vue {
   }
 
   get disabled() {
-    return !(this.stashId && this.value)
+    return !(this.stashId && this.value);
   }
 
   private async submit() {
-       try {
+    try {
       const { stashId: account, password, callback, params } = this;
       showNotification(`Dispatched ${params.toString()}`);
       const tx = await exec(account, password, callback, params);
       showNotification(tx, notificationTypes.success);
       console.timeStamp(`Bond Extra ${tx}`);
     } catch (e) {
-      showNotification(e.message , notificationTypes.danger);
-      console.error(e)
+      showNotification(e.message, notificationTypes.danger);
+      console.error(e);
     }
-
   }
 }
 </script>

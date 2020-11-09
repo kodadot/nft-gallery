@@ -41,7 +41,7 @@
             </b-tag>
             </p>
             <div>🧾 transactions <b>{{nonce}}</b></div>
-            <div>🏦 available <b><Money :value="balanceAvailable" /></b></div>
+            <div>🏦 available <b><Money :value="balanceAvailable" inline /></b></div>
             </div>
           </b-field>
         </div>

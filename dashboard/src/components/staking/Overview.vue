@@ -20,7 +20,7 @@ import { AccountId, EraRewardPoints } from '@polkadot/types/interfaces';
 import Summary from './Summary.vue'
 import SectionTitle from '@/components/shared/SectionTitle.vue'
 import { mapEraPoint } from './getEraPoints'
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { DeriveSessionProgress, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import { getStashIds } from './Actions/stashInfo';
 
 @Component({
@@ -45,17 +45,17 @@ export default class Overview extends Mixins(Subscribe) {
 
   private async mounted() {
     const { api } = Connector.getInstance();
+    // Optimalization api.derive.staking.queryMulti([api.derive.staking.overview, []])
     this.subscribe(api.derive.chain.bestNumber, [], (value: any) => this.currentBlock = value);
     this.subscribe(api.derive.staking.overview, [], this.handleStakingOverview)
     this.subscribe(api.derive.staking.currentPoints, [], (value: EraRewardPoints) => this.rewardPoints = mapEraPoint(value.individual))
     this.subscribe(api.derive.session.progress, [], (value: DeriveSessionProgress) =>  this.sessionProgress = value)
+    this.subscribe(api.derive.staking.waitingInfo, [], (value: DeriveStakingWaiting) =>  this.waiting = value?.waiting?.length)
   }
 
   private async handleStakingOverview(stakingOverview: DeriveStakingOverview) {
     this.stakingOverview = stakingOverview;
     const allStashes = await getStashIds();
-    // TODO: getting different number than polkadot.js :) 
-    // this.waiting = allStashes.filter((address) => !stakingOverview.validators.includes(address as any))?.length
   }
 
   get validators(): AccountId[] {

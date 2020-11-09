@@ -51,12 +51,11 @@ export default class Tip extends Vue {
   
 
   public async mounted() {
-    console.warn(this.hash);
+    // console.warn(this.hash);
     
     const { api } = Connector.getInstance()
     const tip = await api.query.treasury.tips(this.hash)
     this.tip = tip.unwrapOr(emptyObject<OpenTip>())
-    console.log(this.tip);
 
     const tipFees = this.tip.tips?.map(([ , value]) => value)
     .sort((a, b) => a.cmp(b))

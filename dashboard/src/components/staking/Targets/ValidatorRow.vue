@@ -36,7 +36,7 @@
     </div>
     <div class="column is-1">
       <WithLabel label="Commission"
-        ><Percent :value="0"
+        ><Percent :value="validator.commissionPer"
       /></WithLabel>
     </div>
   </ItemCard>

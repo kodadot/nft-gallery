@@ -3,10 +3,7 @@
 	<b-tag class="balance-tag" 
 		type="is-dark" size="is-medium">
 		Transferable: 
-    <span v-if='balance !== null'>
-      {{ balance }}
-    </span> 
-    <span v-else> - </span>
+    <Money :value="currentBalance" inline />
 	</b-tag>
 </template>
 
@@ -14,28 +11,23 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import formatBalance from '../../utils/formatBalance';
+import Money from '@/components/shared/format/Money.vue'
 
-@Component({})
+@Component({
+  components: {
+    Money
+  }
+})
 export default class Balance extends Vue {
   @Prop() public account!: string;
+  private currentBalance: string = '0'; 
 
-  private currentBalance: string = '';
-  private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[2][1]
-
-  get balance() {
-    return formatBalance(this.currentBalance, this.tokenSymbol, false);
-  }
-
-  get ChainProperties() {
-    return this.chainProperties;
-  }
 
   @Watch('account')
   public async onAccountChange(value: string) {
     const { api } = Connector.getInstance();
     const { nonce, data: balance } = await api.query.system.account(value);
-    this.currentBalance = balance.free.toString();
+    this.currentBalance = balance.free?.toString();
   }
 }
 </script>
