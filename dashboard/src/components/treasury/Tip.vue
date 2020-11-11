@@ -1,11 +1,11 @@
 <template>
   <ItemCard>
     <div class="column is-3">
-      <WithLabel label="Beneficiary"><div class="proposal-tip__reason">{{ tip.who | toString }}</div></WithLabel>
+      <WithLabel label="Beneficiary"><div class="proposal-tip__reason"><Identity :address="tip.who" /></div></WithLabel>
      
     </div>
     <div class="column is-3">
-      <WithLabel label="Finder"><div class="proposal-tip__reason">{{ tip.finder | toString }}</div></WithLabel>
+      <WithLabel label="Finder"><div class="proposal-tip__reason"><Identity :address="tip.finder" /></div></WithLabel>
       
     </div>
     <div class="column is-1">
@@ -26,6 +26,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ItemCard from '@/components/shared/wrapper/ItemCard.vue'
 import Money from '@/components/shared/format/Money.vue'
+import Identity from '@/components/shared/format/Identity.vue'
 import WithLabel from '@/components/shared/format/WithLabel.vue'
 import Connector from '@vue-polkadot/vue-api';
 import { OpenTip, Balance } from '@polkadot/types/interfaces';
@@ -39,7 +40,8 @@ import { BN_ZERO } from '@polkadot/util';
   components: {
     ItemCard,
     Money,
-    WithLabel
+    WithLabel,
+    Identity
   }
 })
 export default class Tip extends Vue {

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import VuexPersist from 'vuex-persist';
 import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
+import IdentityModule from './vuex/IdentityModule';
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -98,6 +99,7 @@ export default new Vuex.Store({
   },
   modules: {
     setting: SettingModule,
+    identity: IdentityModule,
   },
   plugins: [vuexLocalStorage.plugin, apiPlugin, myPlugin ],
 });
