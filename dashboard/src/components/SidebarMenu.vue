@@ -99,7 +99,7 @@ export default class SidebarMenu extends Vue {
     {
       name: 'Staking',
       icon: 'seedling',
-      to: { name: 'overview' },
+      to: { name: 'staking' },
       tag: 'router-link'
     },
     {

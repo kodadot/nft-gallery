@@ -1,33 +1,31 @@
 <template>
-  <div>
-    <b-tabs v-model="activeTab" @input="tabClick">
-      <b-tab-item v-for="l in labels" :key="l" :label="l">
+   <b-tabs v-model="activeTab" destroy-on-hide>
+      <b-tab-item v-for="x in components" :key="x" :label="x">
+        <component v-bind:is="x"></component>
       </b-tab-item>
     </b-tabs>
-    <router-view></router-view>
-  </div>
 </template>
-<script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
-@Component({})
-export default class Staking extends Vue {
-  private activeTab: number = 0;
-  private labels: string[] = ['Overview', 'Actions', 'Targets', 'Waiting', 'Payouts']
-    
-  @Watch('$route.params.tab')
-  private async reflect() {
-    if (typeof this.$route.params.tab === 'number') {
-      this.activeTab = Number(this.$route.params.tab);
-    }
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+const Overview = () => import('@/components/staking/Overview.vue')
+const Actions = () => import('@/components/staking/Actions/Actions.vue')
+const Targets = () => import('@/components/staking/Targets/Targets.vue')
+const Waiting = () => import('@/components/staking/Waiting/Waiting.vue')
+const Payouts = () => import('@/components/staking/Payouts/Payouts.vue')
 
-  private async tabClick(): Promise<void> {
-    this.$router.replace(`/staking/${this.activeTab}`)
+@Component({
+  components: {
+    Overview,
+    Actions,
+    Targets,
+    Waiting,
+    Payouts
   }
+})
+export default class TreasuryWrapper extends Vue {
+  public activeTab: number = 0;
 
-  private async mounted(): Promise<void> {
-    this.reflect();
-  }
+  public components: string[] = ['Overview', 'Actions', 'Targets', 'Waiting', 'Payouts']
 }
 </script>
