@@ -109,6 +109,12 @@ export default class SidebarMenu extends Vue {
       tag: 'router-link',
     },
     {
+      name: 'RMRK.app',
+      icon: 'ring',
+      to: { name: 'rmrk' },
+      tag: 'router-link',
+    },
+    {
       name: 'Chain State',
       icon: 'database',
       to: { name: 'chainstate' },
