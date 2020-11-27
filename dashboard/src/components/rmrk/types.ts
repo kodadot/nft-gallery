@@ -6,9 +6,9 @@ export interface Attribute {
 
 export enum DisplayType {
   null,
-  "boost_number",
-  "number",
-  "boost_percentage",
+  'boost_number',
+  'number',
+  'boost_percentage'
 }
 
 export interface CollectionMetadata {
@@ -29,7 +29,7 @@ export interface RmrkMint {
   readonly metadata: string;
 }
 
-'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
+// 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export interface RmrkView {
   readonly collection: string;
   readonly name: string;
@@ -41,11 +41,20 @@ export interface RmrkView {
 
 export enum RmrkAction {
   MINT = 'MINT',
-  MINTNFT = 'MINTNFT',
+  MINTNFT = 'MINTNFT'
+}
+
+
+export enum MediaType {
+  VIDEO = 'Video',
+  IMAGE = 'Image',
+  AUDIO = 'Audio',
+  JSON = 'Json',
+  TEXT = 'Text',
+  UNKNOWN = ''
 }
 
 export interface RMRK {
-  action: RmrkAction
-  view: RmrkView | RmrkMint
+  action: RmrkAction;
+  view: RmrkView | RmrkMint;
 }
-

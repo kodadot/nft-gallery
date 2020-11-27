@@ -1,12 +1,7 @@
 <template>
   <div v-if="visible" class="card nft-card">
     <div class="card-image" v-if="image">
-      <figure class="image is-1by1 nft-image">
-        <img
-          :src="image"
-          :alt="rmrk.view.sn"
-        />
-      </figure>
+      <MediaResolver :src="image" :mimeType="mimeType" />
     </div>
     <div class="card-content">
       <div class="content">
@@ -28,11 +23,17 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { RMRK, CollectionMetadata } from '../types';
 import { fetchRmrkMeta, isEmpty, equals } from '../utils';
 import { emptyObject } from '@/utils/empty';
+import MediaResolver from './MediaResolver.vue'
 
-@Component({})
+@Component({
+  components: {
+    MediaResolver
+  }
+})
 export default class RmrkNftView extends Vue {
   @Prop() public rmrk!: RMRK;
   private image: string = ''
+  private mimeType: string = ''
   private metadata: CollectionMetadata = emptyObject<CollectionMetadata>();
 
   get visible() {
@@ -55,6 +56,12 @@ export default class RmrkNftView extends Vue {
     if (this.metadata.image) {
       this.image = this.metadata.image.replace('ipfs://', 'https://ipfs.io/')
     }
+
+    this.metadata.attributes.forEach(attr => {
+      if (attr.trait_type === 'Art media type') {
+        this.mimeType = String(attr.value)
+      }
+    })
     
   }
 }
@@ -65,6 +72,10 @@ export default class RmrkNftView extends Vue {
 .card.nft-card {
   margin: 1em !important;
   max-width: 25em;
+}
+
+.card-image {
+  padding: 1.5em;
 }
 
 .nft-image {

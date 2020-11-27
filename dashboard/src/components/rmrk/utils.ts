@@ -1,6 +1,6 @@
 import { emptyObject } from '@/utils/empty';
 import { hexToString, isHex } from '@polkadot/util';
-import { RMRK, RmrkMint, RmrkView, RmrkAction, CollectionMetadata } from './types'
+import { RMRK, RmrkMint, RmrkView, RmrkAction, CollectionMetadata, MediaType } from './types'
 import api from '@/fetch'
 
 export const fetchRmrkMeta = async (rmrk: RMRK): Promise<CollectionMetadata> => {
@@ -36,7 +36,7 @@ export const decodeRmrkString = (rmrkString: string): RMRK => {
 
   return getRmrk(value)
 };
-'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
+// 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export const getRmrk = (rmrkString: string): RMRK => {
   const action: RmrkAction | null = getAction(rmrkString)
 
@@ -108,10 +108,37 @@ export const equals = (first: RMRK, second: RMRK): boolean => {
   return true
 }
 
-function isRmrkView(object: any): object is RmrkView {
-  return 'sn' in object;
-}
 
+
+export const resolveMedia = (mimeType: string): MediaType => {
+  if (!mimeType) {
+    return MediaType.UNKNOWN
+  }
+
+  if (/^application\/json/.test(mimeType)) {
+    return MediaType.JSON
+  }
+
+  const match = mimeType.match(/^[a-z]+/)
+
+  if (!match) {
+    return MediaType.UNKNOWN
+  }
+
+  const prefix = match[0].toUpperCase()
+
+  let result = MediaType.UNKNOWN
+
+  Object.entries(MediaType).forEach(([type, value]) => {
+    if (type === prefix) {
+      result = value
+      return
+    }
+  })
+
+  return result
+  
+}
 
 
 export const decode = (value: string) => decodeURIComponent(value);
