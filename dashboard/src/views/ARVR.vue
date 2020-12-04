@@ -21,7 +21,9 @@
         
 
         <!-- sky should be disabled while in AR mode -->
-        <a-sky color="#707070"></a-sky>
+        <a-sky color="#707070"
+          opacity="0"
+        ></a-sky>
         
         <b-button class="enterButton" size="large" id="myEnterVRButton" href="#">VR</b-button>
         <b-button class="enterButton" size="large" id="myEnterARButton" href="#">AR</b-button>        
