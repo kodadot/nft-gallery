@@ -4,7 +4,7 @@
     <div id="myEmbeddedScene">
       <a-scene
         renderer="colorManagement: true;"
-        vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton">
+        vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton #ar-sky">
         
         
         <nft :index="0" src="https://ipfs.io/ipfs/QmUzAU6QKC6JaEmUvry3sF3VX8jpzRgMdo4itvjJUKeZdY" name="Kusama Cube" sn="0000000000000001" artist="obxium" />
@@ -21,7 +21,7 @@
         
 
         <!-- sky should be disabled while in AR mode -->
-        <a-sky color="#707070"></a-sky>
+        <!-- <a-sky v-if="visible" color="#707070"></a-sky> -->
         
         <b-button class="enterButton" size="large" id="myEnterVRButton" href="#">VR</b-button>
         <b-button class="enterButton" size="large" id="myEnterARButton" href="#">AR</b-button>        
@@ -42,10 +42,7 @@ import 'aframe';
   }
 })
 export default class ARVR extends Vue {
-
-  
-
-  private visible: boolean = false;
+  private visible: boolean = true;
   @Prop() public value!: any; 
 
   public mounted() {
