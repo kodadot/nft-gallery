@@ -20,11 +20,10 @@ type BalanceType = {
 @Component({ components })
 export default class BalanceInput extends Vue {
   @Prop() public value!: number;
-
+  
   @Emit('input')
   public handleValue(value: BalanceType) {
     return value.balance;
   }
-
 }
 </script>

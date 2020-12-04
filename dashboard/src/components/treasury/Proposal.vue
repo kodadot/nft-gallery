@@ -1,24 +1,24 @@
 <template>
   <ItemCard>
-    <div class="column is-0 proposal-index__main">
+    <div class="column is-1 proposal-index__main">
       {{ proposal.id | toNumber }}
     </div>
-    <div class="column is-4 proposal-adress__overflow">
+    <div class="column is-3 proposal-adress__overflow">
       <WithLabel label="Proposer"><div>{{ proposal.proposal.proposer | toString }}</div></WithLabel>
      
     </div>
-    <div class="column is-4 proposal-adress__overflow">
+    <div class="column is-3 proposal-adress__overflow">
       <WithLabel label="Beneficiary"><div>{{ proposal.proposal.beneficiary | toString }}</div></WithLabel>
       
     </div>
-    <div class="column is-1">
-      <WithLabel label="Payment"><Money :value="2000000000000000" /></WithLabel>
+    <div class="column is-2">
+      <WithLabel label="Payment"><Money :value="proposal.proposal.value" /></WithLabel>
     </div>
     <div class="column is-1">
-      <WithLabel label="Bond"><Money :value="100000000000000" /></WithLabel>
+      <WithLabel label="Bond"><Money :value="proposal.proposal.bond" /></WithLabel>
     </div>
     <div class="column is-2 ">
-      <b-button class="proposal-button__action" is-primary disabled
+      <b-button class="proposal-button__action" is-primary disabled icon-left="step-forward"
         >To Council</b-button
       >
     </div>
@@ -60,8 +60,6 @@ export default class Proposal extends Vue {
 } */
 
 .proposal-adress__overflow {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
 }
 </style>

@@ -3,6 +3,7 @@
     <div class="card-content item-card-content columns is-vcentered">
       <slot />
     </div>
+    <slot name="additional"></slot>
   </div>
 </template>
 

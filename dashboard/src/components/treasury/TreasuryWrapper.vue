@@ -1,5 +1,5 @@
 <template>
-   <b-tabs v-model="activeTab">
+   <b-tabs v-model="activeTab" destroy-on-hide>
       <b-tab-item v-for="x in components" :key="x" :label="x">
         <component v-bind:is="x"></component>
         </b-tab-item>

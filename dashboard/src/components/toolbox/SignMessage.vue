@@ -1,21 +1,16 @@
 <template>
   <div>
-    <Dropdown nobalance="true" mode='accounts' :externalAddress="address"
-      @selected="handleAccountSelectionFrom" />
-      <br>
+    <AccountSelect label="sign with following account" v-model="account" :asKeyring="true" />
     <b-field label="sign the following data">
-      <b-input v-model="input" @input="isHexData()"></b-input>
+      <b-input v-model="input" />
     </b-field>
-    <b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal>
-      </b-input>
-    </b-field>
+    <PasswordInput v-model="password" />
     
-    <b-button icon-left="key" @click="signData()" 
+    <b-button icon-left="key" @click="signData" 
       :disabled="!accountFrom">Sign Message</b-button>
     <br>
     <br>
-    <DisabledInput label="hex input data" :value="inputDataCheck" />
+    <DisabledInput label="hex input data" :value="isHexData" />
     <b-field label="signature">
       <b-input :value="signature" expanded disabled/>
       <b-button
@@ -33,12 +28,15 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@polkadot/ui-keyring';
 import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
 import DisabledInput from '@/components/shared/DisabledInput.vue';
-import Dropdown from '@/components/shared/Dropdown.vue';
+import AccountSelect from '@/components/shared/AccountSelect.vue'
+import PasswordInput from '@/components/shared/PasswordInput.vue';
+import { emptyObject } from '@/utils/empty';
 
 @Component({
   components: {
     DisabledInput,
-    Dropdown,
+    AccountSelect,
+    PasswordInput
   }
 })
 export default class SignMessage extends Vue {
@@ -47,29 +45,29 @@ export default class SignMessage extends Vue {
   private input: string = '';
   private signature: any = '';
   private inputDataCheck: string = 'No';
-  private accountFrom: any = null;
+  private account: KeyringPair = emptyObject<KeyringPair>();
   private currentPair: any = null;
 
-  private isHexData(): void {
-    this.inputDataCheck = isHex(this.input)
-      ? 'Yes'
-      : 'No';
+  get isHexData(): string {
+    return String(isHex(this.input))
+  }
+
+  get accountFrom(): boolean {
+    return !!this.account.address
   }
 
   private signData(): void {
-    this.isHexData();
-    this.accountFrom.decodePkcs8(this.password)
+    if (this.password) {
+      this.account.decodePkcs8(this.password)
+    }
+    
     this.signature = u8aToHex(
-      this.accountFrom.sign(
+      this.account.sign(
         isHex(this.input)
           ? hexToU8a(this.input)
           : stringToU8a(this.input)
       )
     )
-  }
-
-  private handleAccountSelectionFrom(account: KeyringPair) {
-    this.accountFrom = account;
   }
 
   private toast(message: string): void {

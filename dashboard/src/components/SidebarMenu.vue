@@ -6,6 +6,7 @@
     type="is-dark"
     open
     fullheight
+    :can-cancel="false"
   >
     <div class="p-1">
       <div class="block">

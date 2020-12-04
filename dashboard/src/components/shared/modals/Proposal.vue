@@ -1,13 +1,10 @@
 <template>
 	<ModalWrapper label="Add Proposal" icon="plus">
 		<div>
-		<Dropdown mode="accounts" @selected="handleAccountSelection" />
-    <Dropdown mode="accounts" @selected="handleBeneficiary" />
-    <BalanceInput v-model="value" />
-		<b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal> </b-input>
-    </b-field>
-    
+		<AccountSelect label="submit with account" v-model="accountId" />
+    <AccountSelect label="beneficiary" v-model="beneficiaryId" />
+    <BalanceInput v-model="amount" />
+		<PasswordInput v-model="password" />    
       <b-button
         type="is-primary"
         icon-left="paper-plane"
@@ -30,45 +27,38 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
-import C from '@vue-polkadot/vue-api'
-import BalanceInput from '@/components/shared/BalanceInput.vue'
+import Connector from '@vue-polkadot/vue-api';
+import BalanceInput from '@/components/shared/BalanceInput.vue';
+import AccountSelect from '@/components/shared/AccountSelect.vue'
+import PasswordInput from '@/components/shared/PasswordInput.vue';
 
 @Component({
 	components: {
 		ModalWrapper,
-    Dropdown,
+    AccountSelect,
     BalanceInput,
+    PasswordInput
 	},
 })
 export default class ProposalModal extends Vue {
-	private account: any = {};
+  private accountId: string = '';
+  private beneficiaryId: string = '';
 	private password: string = '';
-  private beneficiary: any = {};
-  private value: number = 0;
+  private amount: number = 0;
 	
-
-
-  public handleAccountSelection(account: KeyringPair) {
-		this.account = account;
-  }
-  
-  public handleBeneficiary(account: KeyringPair) {
-    console.log(account.address)
-    this.beneficiary = account;
-  }
-
   public async shipIt() {
-    const { api } = C.getInstance()
+    const { api } = Connector.getInstance();
 
     if (!api) {
       return;
     }
     
     try {
-      const { value, beneficiary } = this;
-      showNotification('Dispatched');
-      const tx = await exec(this.account, this.password, api.tx.treasury.proposeSpend, [value, beneficiary.address]);
-      // showNotification(`Second ${referendumId.toString()}`, { ...notificationTypes.success, onAction: this.onAction() });
+      const { amount, beneficiaryId, accountId, password } = this;
+      showNotification('Dispatched new proposal');
+      console.log({ amount, beneficiaryId, accountId, password })
+      const tx = await exec(accountId, password, api.tx.treasury.proposeSpend, [amount, beneficiaryId]);
+      showNotification('Success', notificationTypes.success );
     } catch (e) {
       showNotification(e, notificationTypes.danger);
     }
@@ -76,7 +66,7 @@ export default class ProposalModal extends Vue {
   }
   
   get disabled() {
-    return !this.account || !this.password || !this.beneficiary || !this.value
+    return !this.accountId || !this.beneficiaryId || !this.amount
   }
   
 }

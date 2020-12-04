@@ -41,7 +41,7 @@
             </b-tag>
             </p>
             <div>🧾 transactions <b>{{nonce}}</b></div>
-            <div>🏦 available <b>{{balance}}</b></div>
+            <div>🏦 available <b><Money :value="balanceAvailable" inline /></b></div>
             </div>
           </b-field>
         </div>
@@ -102,12 +102,11 @@ import keyring from '@polkadot/ui-keyring';
 import Connector from '@vue-polkadot/vue-api';
 import formatBalance from '@/utils/formatBalance';
 import { urlBuilderAccount } from '@/utils/explorerGuide';
+import Money from '@/components/shared/format/Money.vue'
 
-@Component({
-  components: {
-    Identicon,
-  },
-})
+const components = { Identicon, Money }
+
+@Component({ components })
 export default class Keypair extends Vue {
   public nonce: string = '-';
   public balanceAvailable: string = '';

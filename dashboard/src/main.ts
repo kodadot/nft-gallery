@@ -6,8 +6,8 @@ import './icons';
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
-import { toString, toNumber } from '@/utils/filters'
-// import keyring from '@polkadot/ui-keyring';
+import { toString, toNumber, toPercent } from '@/utils/filters'
+import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
@@ -33,8 +33,10 @@ Vue.config.ignoredElements = [
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
+(window as any).K = keyring; 
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
+
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
@@ -43,7 +45,7 @@ Vue.use(Buefy, {
   customIconPacks: {
     fas: {
       sizes: {
-        'default': null,
+        'default': '',
         'is-small': '1x',
         'is-medium': '2x',
         'is-large': '3x',
@@ -55,6 +57,7 @@ Vue.use(Buefy, {
 Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)
+Vue.filter('toPercent', toPercent)
 
 Vue.use(VueClipboard);
 

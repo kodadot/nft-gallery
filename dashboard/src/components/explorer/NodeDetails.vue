@@ -49,7 +49,7 @@ import Card from '../shared/Card.vue';
 })
 export default class NodeDetails extends Vue {  
   private health: any = '';
-  private peers: any[] = [];
+  private peers: any = [];
   private peersAdjusted: any[] = [];
   private subs: any[] = [];
   private ourBestBlock: any = '';
@@ -77,6 +77,12 @@ export default class NodeDetails extends Vue {
       label: 'best hash',
       width: '10',
       visible: false
+    },
+    {
+      field: 'protocolVersion',
+      label: 'protocol Version',
+      width: '10',
+      visible: false
     }
   ]
     
@@ -90,7 +96,7 @@ export default class NodeDetails extends Vue {
   public async refreshPeers() {
     const { api } = Connector.getInstance();
     this.peers = await api.rpc.system.peers();
-    console.log('refreshing peers')
+    console.log('refreshing peers table')
     // const arr = Object.entries(this.peers)
 
     // const a: any[] = []
