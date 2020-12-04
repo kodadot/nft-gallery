@@ -54,6 +54,8 @@ Vue.use(Buefy, {
   },
 });
 
+
+
 Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)

@@ -6,7 +6,7 @@ import { apiEnabled } from '@/routeGuard';
 import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Explorer from '@/router/explorer';
-import Arvr from '@/router/arvr';
+// import Arvr from '@/router/arvr';
 // import Staking from '@/router/staking';
 import Toolbox from '@/router/toolbox';
 
@@ -20,6 +20,7 @@ const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const RPC = () => import('@/components/rpc/RPC.vue');
 const Staking = () => import('@/views/Staking.vue');
+const ARVR = () => import('@/views/ARVR.vue');
 
 export default new Router({
   routes: [
@@ -28,11 +29,9 @@ export default new Router({
       name: 'landing',
       component: Landing,
     },
-    
     ...Accounts,
     ...Transfer, 
     ...Explorer,
-    ...Arvr,
     // ...Staking,
     ...Toolbox,
     {
@@ -72,6 +71,11 @@ export default new Router({
 			path: '/treasury',
       name: 'treasury',
       component: Treasury
+    },
+    {
+			path: '/arvr',
+      name: 'arvr',
+      component: ARVR
     },
 		{
 			path: '*',
