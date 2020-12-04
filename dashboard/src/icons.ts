@@ -12,7 +12,7 @@ import {
   faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem, 
   faInfoCircle, faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
   faUsersCog, faCoins, faAngleLeft, faAngleRight,
-  faCreditCard, faStepForward
+  faCreditCard, faStepForward, faVrCardboard
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -30,7 +30,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faTwitter, faArrowUp, faTools, faCheck, faSeedling, 
   faDatabase, faGem,  faInfoCircle, faExchangeAlt,
   faBug, faStop, faEllipsisV, faPercent, faUsersCog, faCoins,
-  faAngleLeft, faAngleRight, faCreditCard, faStepForward
+  faAngleLeft, faAngleRight, faCreditCard, faStepForward, faVrCardboard
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

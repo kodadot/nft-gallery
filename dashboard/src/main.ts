@@ -15,6 +15,21 @@ import router from './router';
 import Connector from '@vue-polkadot/vue-api';
 import 'setimmediate';
 
+import 'aframe';
+Vue.config.ignoredElements = [
+  'a-scene',
+  'a-assets',
+  'a-box',
+  'a-cylinder',
+  'a-text',
+  'a-sphere',
+  'a-plane',
+  'a-sky',
+  'a-camera',
+  'a-cursor',
+  'a-entity'
+]
+
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
@@ -38,6 +53,8 @@ Vue.use(Buefy, {
     },
   },
 });
+
+
 
 Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)

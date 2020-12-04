@@ -19,6 +19,7 @@ const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const RPC = () => import('@/components/rpc/RPC.vue');
 const Staking = () => import('@/views/Staking.vue');
+const ARVR = () => import('@/views/ARVR.vue');
 
 export default new Router({
   routes: [
@@ -70,6 +71,11 @@ export default new Router({
 			path: '/treasury',
       name: 'treasury',
       component: Treasury
+    },
+    {
+			path: '/arvr',
+      name: 'arvr',
+      component: ARVR
     },
 		{
 			path: '*',

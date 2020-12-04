@@ -142,6 +142,12 @@ export default class SidebarMenu extends Vue {
       icon: 'exchange-alt',
       to: { name: 'rpc' },
       tag: 'router-link'
+    },
+    {
+      name: 'ARVR',
+      icon: 'vr-cardboard',
+      to: { name: 'arvr' },
+      tag: 'router-link'
     }
   ];
   public externalLinks: any = [

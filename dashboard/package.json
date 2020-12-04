@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve-secure": "vue-cli-service serve --https",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "vue-cli-service serve"
@@ -20,10 +21,12 @@
     "@polkadot/util": "^3.6.1",
     "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/vue-identicon": "^0.61.1",
+    "@types/aframe": "^1.0.2",
     "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-api": "^0.0.24",
     "@vue-polkadot/vue-identicon": "^0.0.8",
     "@vue-polkadot/vue-settings": "0.0.15",
+    "aframe": "^1.1.0",
     "buefy": "^0.9.2",
     "core-js": "^2.6.5",
     "file-saver": "^2.0.2",
