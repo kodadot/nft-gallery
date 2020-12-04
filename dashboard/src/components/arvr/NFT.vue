@@ -1,9 +1,12 @@
 <template>
   <a-box :position="position" :src="src">
     <template>
-      <a-text :position="at(1)" :value="name"></a-text>
-      <a-text :position="at(1.5)" :value="sn"></a-text>
-      <a-text :position="at(2)" :value="artist"></a-text>
+      <a-text :position="at(-1)" :value="name"></a-text>
+      <a-text :position="at(-1.5)" :value="sn"></a-text>
+      <a-text :position="at(-2)" :value="artist"></a-text>
+      <a-text :position="at(-1, 1)" rotation="0 180 0" :value="name"></a-text>
+      <a-text :position="at(-1.5, 1)" rotation="0 180 0" :value="sn"></a-text>
+      <a-text :position="at(-2, 1)" rotation="0 180 0" :value="artist"></a-text>
     </template>
   </a-box>
 </template>
@@ -19,7 +22,7 @@ export default class NFT extends Vue {
   @Prop() public artist!: string;
 
   get position(): string {
-    return `${this.index} 0 0`;
+    return `${this.index} 1.5 0`;
   }
 
   private at(y: number, x = -1) {

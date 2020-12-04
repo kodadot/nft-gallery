@@ -42,10 +42,7 @@ import 'aframe';
   }
 })
 export default class ARVR extends Vue {
-
-  
-
-  private visible: boolean = false;
+  private visible: boolean = true;
   @Prop() public value!: any; 
 
   public mounted() {
