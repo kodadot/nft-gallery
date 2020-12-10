@@ -20,6 +20,7 @@
     "@polkadot/util": "^3.6.1",
     "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/vue-identicon": "^0.61.1",
+    "@textile/hub": "^4.0.0",
     "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-api": "^0.0.24",
     "@vue-polkadot/vue-identicon": "^0.0.8",

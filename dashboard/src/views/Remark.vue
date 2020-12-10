@@ -1,28 +1,31 @@
 <template>
-  <div>
-    <h2 class="nft-gallery__title">RMRK.app NFT Reader</h2>
-    <Reader />
-  </div>
+   <b-tabs v-model="activeTab" destroy-on-hide>
+      <b-tab-item v-for="x in components" :key="x" :label="x">
+        <component v-bind:is="x"></component>
+      </b-tab-item>
+    </b-tabs>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Reader from '@/components/rmrk/Reader/Reader.vue'
+const Reader = () => import('@/components/rmrk/Reader/Reader.vue')
+const Create = () => import('@/components/rmrk/Create/Create.vue')
+const CreateToken = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Reader } 
+const components = { Reader, Create, CreateToken } 
 
 @Component({ components })
 export default class Remark extends Vue {
+  public activeTab: number = 0;
 
-  private value2: any;
-  @Prop() public value!: any;
+  public components: string[] = ['Reader', 'Create', 'CreateToken']
 }
 </script>
 
 <style scoped>
-.nft-gallery__title {
+/* .nft-gallery__title {
   font-size: 2em;
   font-weight: 500;
-}
+} */
 
 </style>

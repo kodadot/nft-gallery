@@ -13,12 +13,16 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
+import { client } from '@/textile'
+import { Client } from '@textile/hub'
 import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector; 
-(window as any).K = keyring; 
+(window as any).K = keyring;
+(window as any).T = client;
+(window as any).Client = Client;
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
 

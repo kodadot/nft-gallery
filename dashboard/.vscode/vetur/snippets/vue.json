@@ -7,6 +7,7 @@
 			"\n"
 			"	</div>"
 			"</template>"
+			"\n"
 			"<script lang=\"ts\" >"
 			 "import { Component, Prop, Vue, Watch } from 'vue-property-decorator';"
 			 "\n"

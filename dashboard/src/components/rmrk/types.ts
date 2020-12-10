@@ -20,23 +20,23 @@ export interface CollectionMetadata {
 }
 
 export interface RmrkMint {
-  readonly version: string;
-  readonly name: string;
-  readonly max: number;
-  readonly issuer: string;
-  readonly symbol: string;
-  readonly id: string;
-  readonly metadata: string;
+   version: string;
+   name: string;
+   max: number;
+   issuer: string;
+   symbol: string;
+   id: string;
+   metadata: string;
 }
 
 // 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export interface RmrkView {
-  readonly collection: string;
-  readonly name: string;
-  readonly instance: string;
-  readonly transferable: number;
-  readonly sn: string;
-  readonly metadata: string;
+   collection: string;
+   name: string;
+   instance: string;
+   transferable: number;
+   sn: string;
+   metadata: string;
 }
 
 export enum RmrkAction {
@@ -56,5 +56,7 @@ export enum MediaType {
 
 export interface RMRK {
   action: RmrkAction;
-  view: RmrkView | RmrkMint;
+  view: RmrkType;
 }
+
+export type RmrkType = RmrkView | RmrkMint
