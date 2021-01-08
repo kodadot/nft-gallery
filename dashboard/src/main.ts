@@ -13,7 +13,8 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
-import { client } from '@/textile'
+import { client, keyInfo } from '@/textile'
+import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
 import { Client } from '@textile/hub'
 import 'setimmediate';
 
@@ -23,6 +24,9 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).K = keyring;
 (window as any).T = client;
 (window as any).Client = Client;
+(window as any).R = getInstance;
+
+(async () => await createInstance(keyInfo))()
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
 

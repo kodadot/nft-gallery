@@ -50,13 +50,9 @@ const myPlugin = (store: any) => {
       Api().connect(payload)
     }
   })
-  // // called when the store is initialized
-  // store.subscribe(({ type, payload }: any, state: any) => {
-  //   if (type === 'setSettings' && payload.apiUrl) {
-  //     Connector.getInstance().changeApiUrl(payload.apiUrl);
-  //   }
-  // });
 };
+
+// TODO: create instance of Texitle here as plugin
 
 Vue.use(Vuex);
 

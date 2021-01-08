@@ -39,9 +39,10 @@ export interface RmrkView {
    metadata: string;
 }
 
-export enum RmrkAction {
+export enum RmrkEvent {
   MINT = 'MINT',
-  MINTNFT = 'MINTNFT'
+  MINTNFT = 'MINTNFT',
+  SEND = 'SEND'
 }
 
 
@@ -55,7 +56,7 @@ export enum MediaType {
 }
 
 export interface RMRK {
-  action: RmrkAction;
+  event: RmrkEvent;
   view: RmrkType;
 }
 

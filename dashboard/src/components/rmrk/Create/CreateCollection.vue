@@ -45,6 +45,7 @@ import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec from '@/utils/transactionExecutor';
 import min from '@polkadot/util/bn/min';
+import { getInstance, RmrkType } from '../service/RmrkService';
 
 const components = {
   AccountSelect,
@@ -81,15 +82,21 @@ export default class CreateCollection extends Vue {
       id: this.rmrkId
     };
 
-    return encodeURIComponent(`rmrk::MINT::${JSON.stringify(mint)}`);
+    return `rmrk::MINT::${encodeURIComponent(JSON.stringify(mint))}`;
   }
 
   private async submit() {
     const { api } = Connector.getInstance();
     const mintString = this.constructRmrkMint();
-    console.log('submit', mintString);
-    const tx = await exec(this.accountId, '', api.tx.system.remark, [mintString]);
-    console.warn('TX IN', tx)
+    try {
+      console.log('submit', mintString);
+      const tx = await exec(this.accountId, '', api.tx.system.remark, [mintString]);
+      console.warn('TX IN', tx)
+      const persisted = await getInstance()?.resolve(mintString)
+      console.log('SAVED', persisted?.name)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   private upload(data: any) {
