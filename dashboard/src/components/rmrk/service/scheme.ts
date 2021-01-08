@@ -139,7 +139,7 @@ export interface NFT {
 }
 
 export const getNftId = (nft: NFT): string => {
-  return `${nft.collection}-${nft.instance}-${nft.sn}`
+  return `${nft.collection}-${nft.instance || nft.name}-${nft.sn}`
 }
 
 export const computeAndUpdateNft = (nft: NFT): NFT => {

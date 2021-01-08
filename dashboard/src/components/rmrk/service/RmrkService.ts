@@ -4,7 +4,6 @@ import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
-import { toHtml } from '@fortawesome/fontawesome-svg-core';
 
 export type RmrkType = Collection | NFT
 
@@ -66,25 +65,35 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   public resolve(rmrkString: string): Promise<RmrkType> {
-    const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
-    switch (resolved.event) {
-      case RmrkEvent.MINT:
-        return this.mint(resolved.view)
-      case RmrkEvent.MINTNFT:
-        return this.mintNFT(resolved.view)
-      case RmrkEvent.SEND:
-        return this.send(resolved.view)
-      case RmrkEvent.BUY:
-        return this.buy(resolved.view as RmrkInteraction)
-      case RmrkEvent.CONSUME:
-        return this.consume(resolved.view as RmrkInteraction)
-      case RmrkEvent.LIST:
-        return this.list(resolved.view as RmrkInteraction)
-      case RmrkEvent.CHANGEISSUER:
-        return this.changeIssuer(resolved.view as RmrkInteraction)
-      default:
-        throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
+    try {
+      const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
+      switch (resolved.event) {
+        case RmrkEvent.MINT:
+          return this.mint(resolved.view)
+        case RmrkEvent.MINTNFT:
+          return this.mintNFT(resolved.view)
+        case RmrkEvent.SEND:
+          return this.send(resolved.view)
+        case RmrkEvent.BUY:
+          return this.buy(resolved.view as RmrkInteraction)
+        case RmrkEvent.CONSUME:
+          return this.consume(resolved.view as RmrkInteraction)
+        case RmrkEvent.LIST:
+          return this.list(resolved.view as RmrkInteraction)
+        case RmrkEvent.CHANGEISSUER:
+          return this.changeIssuer(resolved.view as RmrkInteraction)
+        default:
+          throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
+      }
+    } catch (e) {
+      throw e
     }
+
+  }
+
+  public async removeNFTCollection() {
+    this.useNFT();
+    return this.removeCollection()
   }
 
   private async changeIssuer(view: RmrkInteraction): Promise<Collection> {
@@ -108,8 +117,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     throw new EvalError(`[RMRK Service] List does not change state ?? ${view.id}`);
   }
 
-  consume(view: RmrkInteraction): Promise<RmrkType> {
-    throw new EvalError(`[RMRK Service] Burn does not change state ?? ${view.id}`);
+  private async consume(view: RmrkInteraction): Promise<NFT> {
+    this.useNFT();
+    this.shouldExist(view.id);
+    const nft = await this.getCollection<NFT>(view.id)
+    await this.remove(nft._id)
+    return nft
   }
 
   buy(view: RmrkInteraction): Promise<RmrkType> {
@@ -119,6 +132,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   private async mint(view: object): Promise<Collection> {
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
+    
+    const hasCollection = await this.hasCollection();
+    if (!hasCollection) {
+      await this.createCollection(collection)
+    }
+  
     const collectionAlreadyCreated = await this.exists(collection._id);
 
     if (collectionAlreadyCreated) {
@@ -134,6 +153,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useCollection();
     this.shouldExist(item.collection);
     this.useNFT();
+
+    const hasCollection = await this.hasCollection();
+    if (!hasCollection) {
+      await this.createCollection(item)
+    }
+
     const nftAlreadyCreated = await this.exists(item._id);
 
     if (nftAlreadyCreated) {
@@ -153,7 +178,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       const nft = await this.getCollection<NFT>(item.id)
       const updatedNft: NFT = {
         ...nft,
-        currentOwner: item.value || nft.currentOwner
+        currentOwner: item.metadata || nft.currentOwner
       }
 
       await this.update(updatedNft)

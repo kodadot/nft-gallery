@@ -41,7 +41,7 @@ export interface RmrkView {
 
 export interface RmrkInteraction {
   id: string;
-  value?: string;
+  metadata?: string;
 }
 
 export enum RmrkEvent {

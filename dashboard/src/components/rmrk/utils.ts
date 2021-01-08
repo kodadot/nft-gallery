@@ -16,6 +16,10 @@ export const fetchRmrkMeta = async (
   rmrk: RMRK
 ): Promise<CollectionMetadata> => {
   try {
+    if (!rmrk.view.metadata) {
+      return emptyObject<CollectionMetadata>();
+    }
+
     const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata));
     console.log('IPFS data', status, data);
     if (status < 400) {

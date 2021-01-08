@@ -31,7 +31,7 @@ export default abstract class TextileService<T> {
   abstract set collectioName(name: string);
   
 
-  private createCollection(schema: T): Promise<void> {
+  protected createCollection(schema: T): Promise<void> {
     return this.client.newCollectionFromObject(this.store, schema, { name: this.collectioName })
   }
 
@@ -46,6 +46,15 @@ export default abstract class TextileService<T> {
 
   protected async update(object: T) {
     await this.client.save(this.store, this.collectioName, [ object ])
+  }
+
+  protected async remove(id: string | string[]) {
+    await this.client.delete(this.store, this.collectioName, Array.isArray(id) ? id : [id])
+  }
+
+  // TODO: only for testing!
+  protected async removeCollection() {
+    await this.client.deleteCollection(this.store, this.collectioName)
   }
 
 
@@ -94,7 +103,7 @@ export default abstract class TextileService<T> {
     // return this.client.find(this.store, this.collectioName, undefined)
   }
 
-  private async hasCollection(): Promise<boolean> {
+  protected async hasCollection(): Promise<boolean> {
     try {
       await this.client.getCollectionInfo(this.store, this.collectioName)
       return true

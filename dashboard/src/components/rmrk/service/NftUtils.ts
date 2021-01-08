@@ -59,7 +59,7 @@ class NFTUtils {
       return RmrkEvent.LIST
     }
 
-    throw new EvalError('Unable to get action from string');
+    throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`);
 
   }
 
