@@ -90,6 +90,30 @@ export interface CollectionMetadata {
   image_data?: string;
 }
 
+// export interface Collection {
+//   version: string;
+//   name: string;
+//   max: number;
+//   issuer: string;
+//   symbol: string;
+//   id: string;
+//   _id: string;
+//   metadata: CollectionMetadata;
+//   items: NFT[];
+// }
+
+// export interface NFT {
+//   name: string;
+//   instance: string;
+//   transferable: number;
+//   collection: string
+//   sn: string;
+//   _id: string;
+//   id: string;
+//   metadata: NFTMetadata;
+//   currentOwner: string;
+// }
+
 export interface Collection {
   version: string;
   name: string;
@@ -98,7 +122,7 @@ export interface Collection {
   symbol: string;
   id: string;
   _id: string;
-  metadata: CollectionMetadata;
+  metadata: string;
   items: NFT[];
 }
 
@@ -106,9 +130,30 @@ export interface NFT {
   name: string;
   instance: string;
   transferable: number;
+  collection: string
   sn: string;
   _id: string;
   id: string;
-  metadata: NFTMetadata;
+  metadata: string;
   currentOwner: string;
+}
+
+export const getNftId = (nft: NFT): string => {
+  return `${nft.collection}-${nft.instance}-${nft.sn}`
+}
+
+export const computeAndUpdateNft = (nft: NFT): NFT => {
+  const id = getNftId(nft)
+  return {
+    ...nft,
+    _id: id,
+    id
+  }
+}
+
+export const computeAndUpdateCollection = (collection: Collection): Collection => {
+  return {
+    ...collection,
+    _id: collection.id
+  }
 }

@@ -39,9 +39,18 @@ export interface RmrkView {
    metadata: string;
 }
 
+export interface RmrkInteraction {
+  id: string;
+  value?: string;
+}
+
 export enum RmrkEvent {
   MINT = 'MINT',
   MINTNFT = 'MINTNFT',
+  LIST = 'LIST',
+  BUY = 'BUY',
+  CONSUME = 'CONSUME',
+  CHANGEISSUER = 'CHANGEISSUER',
   SEND = 'SEND'
 }
 
@@ -60,4 +69,4 @@ export interface RMRK {
   view: RmrkType;
 }
 
-export type RmrkType = RmrkView | RmrkMint
+export type RmrkType = RmrkView | RmrkMint | RmrkInteraction

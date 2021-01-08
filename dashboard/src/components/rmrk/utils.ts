@@ -10,6 +10,8 @@ import {
 } from './types';
 import api from '@/fetch';
 
+export const SQUARE = '::'
+
 export const fetchRmrkMeta = async (
   rmrk: RMRK
 ): Promise<CollectionMetadata> => {

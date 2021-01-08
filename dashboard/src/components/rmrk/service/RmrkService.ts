@@ -1,17 +1,23 @@
 import { Client, KeyInfo, ThreadID } from '@textile/hub';
-import { Collection, NFT, State } from './scheme'
+import { Collection, NFT, State, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
 import TextileService from './TextileService';
-import { RmrkEvent, RMRK } from '../types'
+import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
+import { toHtml } from '@fortawesome/fontawesome-svg-core';
 
 export type RmrkType = Collection | NFT
+
+export enum AvailableCollection {
+  COLLECTION = 'collection',
+  NFT = 'nft'
+}
 
 export class RmrkService extends TextileService<RmrkType> implements State {
   protected _client: Client;
   // private _url: string;
   protected _dbStore: string;
-  private _name: string = 'collection';
+  private _name: AvailableCollection = AvailableCollection.COLLECTION;
 
   private constructor(keyInfo: KeyInfo, url?: string) {
     super(keyInfo)
@@ -32,11 +38,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   get collectioName(): string {
-    return 'collection'
+    return this._name
   }
 
-  set collectioName(name: string) {
-    
+  private useNFT() {
+    this._name = AvailableCollection.NFT
+  }
+
+  private useCollection() {
+    this._name = AvailableCollection.COLLECTION
   }
 
   getNFTsForCollection(id: string): Promise<NFT[]> {
@@ -59,33 +69,99 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
     switch (resolved.event) {
       case RmrkEvent.MINT:
-        return this.addCollection(resolved.view)
+        return this.mint(resolved.view)
       case RmrkEvent.MINTNFT:
-        return this.addItemToCollection(resolved.view)
-      // case RmrkInteraction.SEND:
-      //   return this.addCollection(resolved.view)
+        return this.mintNFT(resolved.view)
+      case RmrkEvent.SEND:
+        return this.send(resolved.view)
+      case RmrkEvent.BUY:
+        return this.buy(resolved.view as RmrkInteraction)
+      case RmrkEvent.CONSUME:
+        return this.consume(resolved.view as RmrkInteraction)
+      case RmrkEvent.LIST:
+        return this.list(resolved.view as RmrkInteraction)
+      case RmrkEvent.CHANGEISSUER:
+        return this.changeIssuer(resolved.view as RmrkInteraction)
       default:
         throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
     }
   }
 
-  private async addCollection(view: object): Promise<Collection> {
-    const collection = (view as Collection);
-    collection._id = collection.id;
-    // await this.addToCollection(collection)
+  private async changeIssuer(view: RmrkInteraction): Promise<Collection> {
+    this.useCollection();
+
+    try {
+      this.shouldExist(view.id)
+      const collection = await this.getCollection<Collection>(view.id)
+      const updatedCollection: Collection = {
+        ...collection,
+        issuer: view.id
+      }
+      await this.update(updatedCollection)
+      return collection
+    } catch (e) {
+      throw e
+    }
+  }
+
+  list(view: RmrkInteraction): Promise<RmrkType> {
+    throw new EvalError(`[RMRK Service] List does not change state ?? ${view.id}`);
+  }
+
+  consume(view: RmrkInteraction): Promise<RmrkType> {
+    throw new EvalError(`[RMRK Service] Burn does not change state ?? ${view.id}`);
+  }
+
+  buy(view: RmrkInteraction): Promise<RmrkType> {
+    throw new EvalError(`[RMRK Service] Buy does not change state ${view.id}`);
+  }
+
+  private async mint(view: object): Promise<Collection> {
+    const collection = computeAndUpdateCollection(view as Collection);
+    this.useCollection();
+    const collectionAlreadyCreated = await this.exists(collection._id);
+
+    if (collectionAlreadyCreated) {
+      throw ReferenceError(`[RMRK Service] Collection already created ${collection._id}`)
+    }
+
+    await this.addToCollection(collection)
     return collection;
   }
 
-  private async addItemToCollection(view: object): Promise<NFT> {
-    const item = (view as NFT);
-    // const exitsts = await this.exists(item._id)
-    // if (!exitsts) {
-    //   throw new ReferenceError(`Unable to find collection ${item._id}`)
-    // }
-    // const collection = await this.getCollection<Collection>(item._id)
-    // collection.items = [ ...(collection.items || []), item ]
-    // await this.update(collection);
+  private async mintNFT(view: object): Promise<NFT> {
+    const item = computeAndUpdateNft(view as NFT);
+    this.useCollection();
+    this.shouldExist(item.collection);
+    this.useNFT();
+    const nftAlreadyCreated = await this.exists(item._id);
+
+    if (nftAlreadyCreated) {
+      throw ReferenceError(`[RMRK Service] NFT already created ${item._id}`)
+    }
+
+    await this.addToCollection(item);
     return item
+  }
+
+  private async send(view: object): Promise<NFT> {
+    const item = (view as RmrkInteraction);
+    this.useNFT();
+
+    try {
+      await this.shouldExist(item.id)
+      const nft = await this.getCollection<NFT>(item.id)
+      const updatedNft: NFT = {
+        ...nft,
+        currentOwner: item.value || nft.currentOwner
+      }
+
+      await this.update(updatedNft)
+
+      return updatedNft
+    } catch (e) {
+      throw e
+    }
   }
 
   public async joinStore(): Promise<void> {

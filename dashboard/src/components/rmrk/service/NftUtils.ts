@@ -1,5 +1,6 @@
 import { hexToString, isHex } from '@polkadot/util';
 import { RmrkEvent, RMRK } from '../types';
+import { SQUARE } from '../utils'
 
 class NFTUtils {
   public static decode(value: string) {
@@ -42,6 +43,22 @@ class NFTUtils {
       return RmrkEvent.SEND
     }
 
+    if (RmrkActionRegex.BUY.test(rmrkString)) {
+      return RmrkEvent.BUY
+    }
+
+    if (RmrkActionRegex.CONSUME.test(rmrkString)) {
+      return RmrkEvent.CONSUME
+    }
+
+    if (RmrkActionRegex.CHANGEISSUER.test(rmrkString)) {
+      return RmrkEvent.CHANGEISSUER
+    }
+
+    if (RmrkActionRegex.LIST.test(rmrkString)) {
+      return RmrkEvent.LIST
+    }
+
     throw new EvalError('Unable to get action from string');
 
   }
@@ -50,14 +67,21 @@ class NFTUtils {
     const rr: RegExp = /{.*}/
     const match = rmrkString.match(rr)
 
-    if (!match) {
-      throw new TypeError(`RMRK: Unable to unwrap object ${rmrkString}`)
+    if (match) {
+      return JSON.parse(match[0])  
     }
 
-    return JSON.parse(match[0])
+    const split = rmrkString.split(SQUARE)
 
+    if (split.length >= 4) {
+      return {
+        id: split[3],
+        value: split[4]
+      }
+    }
+
+    throw new TypeError(`RMRK: Unable to unwrap object ${rmrkString}`)
   }
-
 
 }
 
@@ -65,7 +89,13 @@ class RmrkActionRegex {
   static MINTNFT = /^rmrk::MINTNFT::/;
   static MINT = /^rmrk::MINT::/;
   static SEND = /^rmrk::SEND::/;
+  static BUY = /^rmrk::BUY::/;
+  static CONSUME = /^rmrk::CONSUME::/;
+  static CHANGEISSUER = /^rmrk::CHANGEISSUER::/;
+  static LIST = /^rmrk::LIST::/;
+  
 }
+
 
 
 export default NFTUtils

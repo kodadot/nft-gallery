@@ -73,6 +73,14 @@ export default abstract class TextileService<T> {
     return this.client.has(this.store, this.collectioName, Array.isArray(id) ? id : [id])
   }
 
+  public async shouldExist(id: string | string[]): Promise<void> {
+    const has = await this.exists(id)
+
+    if (!has) {
+      throw ReferenceError(`[TextileService] No object with not found with id ${id}`)
+    }
+  }
+
   public static threadId(id: string): ThreadID {
     return ThreadID.fromString(id)
   }
