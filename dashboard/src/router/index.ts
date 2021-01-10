@@ -20,6 +20,7 @@ const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const RPC = () => import('@/components/rpc/RPC.vue');
 const Staking = () => import('@/views/Staking.vue');
 const Remark = () => import('@/views/Remark.vue');
+const Gallery = () => import('@/components/rmrk/Gallery/Gallery.vue')
 
 export default new Router({
   routes: [
@@ -76,6 +77,11 @@ export default new Router({
 			path: '/rmrk',
       name: 'rmrk',
       component: Remark
+    },
+    {
+      path: '/nft',
+      name: 'nft',
+      component: Gallery,
     },
 		{
 			path: '*',

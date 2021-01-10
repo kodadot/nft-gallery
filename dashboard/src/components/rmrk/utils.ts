@@ -9,8 +9,47 @@ import {
   MediaType
 } from './types';
 import api from '@/fetch';
+import { RmrkType } from './service/RmrkService';
 
 export const SQUARE = '::'
+
+export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
+  const res = a.map((k, i) => [k, b[i]]);
+
+  if (cb) {
+    return res.map(cb)
+  }
+
+  return res
+}
+
+export const fetchCollectionMetadata = (
+  rmrk: RmrkType
+): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
+
+export const fetchNFTMetadata = (
+  rmrk: RmrkType
+): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
+
+export const fetchMetadata = async <T>(
+  rmrk: RmrkType
+): Promise<T> => {
+  try {
+    if (!rmrk.metadata) {
+      return emptyObject<T>();
+    }
+
+    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.metadata));
+    console.log('IPFS data', status, data);
+    if (status < 400) {
+      return data as T;
+    }
+  } catch (e) {
+    console.warn('IPFS Err', e);
+  }
+
+  return emptyObject<T>();
+}
 
 export const fetchRmrkMeta = async (
   rmrk: RMRK
@@ -32,10 +71,10 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>();
 };
 
-const sanitizeIpfsUrl = (ipfsUrl: string) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string) => {
   const rr = /^ipfs:\/\//;
   if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', '');
+    return ipfsUrl.replace('ipfs://', 'https://ipfs.io/');
   }
 
   return ipfsUrl;

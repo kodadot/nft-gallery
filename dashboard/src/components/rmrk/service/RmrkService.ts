@@ -206,7 +206,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
+  public getAllCollections(): Promise<Collection[]> {
+    this.useCollection()
+    return this.findAll()
+  }
 
+  public getAllNFTs(): Promise<Collection[]> {
+    this.useNFT()
+    return this.findAll()
+  }
 }
 
 

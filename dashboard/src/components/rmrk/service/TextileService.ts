@@ -106,11 +106,6 @@ export default abstract class TextileService<T> {
     return this.client.find(this.store, this.collectioName, query)
   }
 
-  getAllCollections<U>(): Promise<U[]> {
-    throw new Error('Method not implemented.');
-    // return this.client.find(this.store, this.collectioName, undefined)
-  }
-
   protected async hasCollection(): Promise<boolean> {
     try {
       await this.client.getCollectionInfo(this.store, this.collectioName)

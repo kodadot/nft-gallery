@@ -59,7 +59,7 @@ export interface NFTMetadata {
   image?: string;
   image_data?: string;
   description?: string;
-  name?: string;
+  name: string;
   attributes: Attribute[];
   background_color?: string;
   animation_url?: string;
@@ -113,6 +113,15 @@ export interface CollectionMetadata {
 //   metadata: NFTMetadata;
 //   currentOwner: string;
 // }
+
+export interface CollectionWithMeta extends Collection, CollectionMetadata {
+
+}
+
+export interface NFTWithMeta extends NFT, NFTMetadata {
+
+}
+
 
 export interface Collection {
   version: string;
