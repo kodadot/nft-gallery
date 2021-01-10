@@ -98,6 +98,14 @@ export default abstract class TextileService<T> {
     return this.client.findByID(this.store, this.collectioName, id)
   }
 
+  public findAll<U>(): Promise<U[]> {
+    return this.find({} as QueryJSON);
+  }
+
+  public find<U>(query: QueryJSON): Promise<U[]> {
+    return this.client.find(this.store, this.collectioName, query)
+  }
+
   getAllCollections<U>(): Promise<U[]> {
     throw new Error('Method not implemented.');
     // return this.client.find(this.store, this.collectioName, undefined)

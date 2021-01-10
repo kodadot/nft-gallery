@@ -1,4 +1,4 @@
-import { Client, KeyInfo, ThreadID } from '@textile/hub';
+import { Client, KeyInfo, QueryJSON, ThreadID, Where } from '@textile/hub';
 import { Collection, NFT, State, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
@@ -48,11 +48,18 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this._name = AvailableCollection.COLLECTION
   }
 
-  getNFTsForCollection(id: string): Promise<NFT[]> {
-    throw new Error('Method not implemented.');
+  async getNFTsForCollection(id: string): Promise<NFT[]> {
+    this.useNFT();
+    const query: QueryJSON = new Where('collection').eq(id)
+    const nfts = await this.find<NFT>(query)
+    return nfts
   }
-  getNFT(id: string): Promise<NFT> {
-    throw new Error('Method not implemented.');
+
+  async getNFT(id: string): Promise<NFT> {
+    this.useNFT();
+    this.shouldExist(id);
+    const nft = await this.getCollection<NFT>(id)
+    return nft
   }
   getNFTsForAccount(account: string): Promise<NFT[]> {
     throw new Error('Method not implemented.');
