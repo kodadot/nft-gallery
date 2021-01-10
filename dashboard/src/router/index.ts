@@ -21,6 +21,7 @@ const RPC = () => import('@/components/rpc/RPC.vue');
 const Staking = () => import('@/views/Staking.vue');
 const Remark = () => import('@/views/Remark.vue');
 const Gallery = () => import('@/components/rmrk/Gallery/Gallery.vue')
+const GalleryItem = () => import('@/components/rmrk/Gallery/GalleryItem.vue')
 
 export default new Router({
   routes: [
@@ -82,6 +83,11 @@ export default new Router({
       path: '/nft',
       name: 'nft',
       component: Gallery,
+    },
+    {
+      path: '/nft/detail/:id',
+      name: 'nftDetail',
+      component: GalleryItem,
     },
 		{
 			path: '*',

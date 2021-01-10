@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="nft-gallery__title">RMRK NFT Collection Gallery</div>
+    <p class="title">RMRK NFT Collection Gallery</p>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <b-field label="Owners">
       <b-select
@@ -13,39 +13,39 @@
         </option>
       </b-select>
     </b-field> -->
-    <div class="columns is-multiline ">
-      <div
-        class="column is-one-quarter-desktop is-one-third-tablet card nft-card "
-        v-for="collection in collections"
-        :key="collection.id"
-      >
-        <div class="card-image" v-if="collection.image">
-          <b-image
-            :src="collection.image"
-            alt="Simple image"
-            ratio="1by1"
-            rounded
-          ></b-image>
-        </div>
+    <div class="gallery__wrapper">
+      <div class="columns is-multiline">
+        <div
+          class="column is-one-quarter-desktop is-one-third-tablet"
+          v-for="nft in nfts"
+          :key="nft.id"
+        >
+          <div class="card nft-card">
+            <router-link :to="`/nft/detail/${nft.id}`">
+              <div class="card-image" v-if="nft.image">
+                <b-image
+                  :src="nft.image"
+                  alt="Simple image"
+                  ratio="1by1"
+                  rounded
+                ></b-image>
+              </div>
 
-        <div class="card-content">
-          <b-tag type="is-primary" size="is-medium">{{ collection.symbol }}</b-tag>
-          <div class="nft-card__index"><b># {{ collection.id }}</b></div>
-          <div><b>Collection:</b>{{ collection.name }}</div>
-          <div class="nft-card__owner"><b>Max:</b>{{ collection.max }}</div>
-          <div class="nft-card__owner"><b>Owner:</b>{{ collection.issuer }}</div>
-          <div class="nft-card__owner"><b>Description:</b>{{ collection.description }}</div>
-          
-          <!-- <b-taglist v-if="token.attributes">
-            <b-tag
-              type="is-dark"
-              size="is-medium"
-              v-for="attr in token.attributes"
-              :key="attr"
-            >
-              {{ attr }}
-            </b-tag>
-          </b-taglist> -->
+              <div v-else class="card-image">
+                <b-image
+                  :src="require('@/utils/placeholder.png')"
+                  alt="Simple image"
+                  ratio="1by1"
+                  rounded
+                ></b-image>
+              </div>
+
+              <div class="card-content">
+                <p class="subtitle is-6">{{ nft.collection }}</p>
+                <p class="title is-4">{{ nft.name }}</p>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -54,54 +54,54 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '@/components/rmrk/service/RmrkService'
-import { Collection, CollectionMetadata, CollectionWithMeta } from '../service/scheme';
-import { fetchCollectionMetadata, zip, sanitizeIpfsUrl } from '../utils';
+import { getInstance } from '@/components/rmrk/service/RmrkService';
+import { NFTWithMeta, NFT } from '../service/scheme';
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 
+type NFTType = NFT | NFTWithMeta;
 
 @Component({})
 export default class Gallery extends Vue {
-
-  private collections: (Collection | CollectionWithMeta)[] = [];
+  private nfts: NFTType[] = [];
 
   private isLoading: boolean = false;
 
   public async mounted() {
-    const rmrkService = getInstance()
+    const rmrkService = getInstance();
 
     if (!rmrkService) {
-      return
+      return;
     }
 
-    this.isLoading = true
+    this.isLoading = true;
 
     try {
-      this.collections = await rmrkService.getAllCollections()
+      this.nfts = await rmrkService.getAllNFTs();
       this.collectionMeta();
-
     } catch (e) {
-      console.warn(e)
+      console.warn(e);
     }
 
     this.isLoading = false;
-  
   }
 
   collectionMeta() {
-    this.collections.map(fetchCollectionMetadata).forEach(async (call, index) => {
-      const res = await call
-      Vue.set(this.collections, index, {...this.collections[index], ...res, image: sanitizeIpfsUrl(res.image || '')})
-    })
-
-    
+    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
+      const res = await call;
+      Vue.set(this.nfts, index, {
+        ...this.nfts[index],
+        ...res,
+        image: sanitizeIpfsUrl(res.image || '')
+      });
+    });
   }
-
 }
 </script>
 
 <style scoped>
 .card.nft-card {
-  margin: 1em !important;
+  padding: 1em !important;
+  height: 100%;
 }
 .nft-card__owner {
   word-break: break-word;
@@ -110,8 +110,8 @@ export default class Gallery extends Vue {
   font-size: 1.35em;
   font-weight: bold;
 }
-.nft-gallery__title {
-  font-size: 2em;
-  font-weight: 500;
+.gallery__wrapper {
+  width: 80%;
+  margin: auto;
 }
 </style>

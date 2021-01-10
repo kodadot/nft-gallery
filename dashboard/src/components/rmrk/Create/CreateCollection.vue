@@ -54,7 +54,7 @@ const components = {
 
 @Component({ components })
 export default class CreateCollection extends Vue {
-  private version: string = 'RMRK0.1';
+  private version: string = '1.0.0';
   private rmrkMint: RmrkMint = emptyObject<RmrkMint>();
   private accountId: string = '';
   private uploadMode: boolean = true;
@@ -76,6 +76,7 @@ export default class CreateCollection extends Vue {
   public constructRmrkMint(): string {
     const mint: RmrkMint = {
       ...this.rmrkMint,
+      symbol: this.rmrkMint.symbol.toUpperCase(),
       version: this.version,
       issuer: this.accountId,
       metadata: 'https://ipfs.io/ipfs/' + this.rmrkMint?.metadata,
