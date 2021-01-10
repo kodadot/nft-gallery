@@ -132,7 +132,6 @@ export interface Collection {
   id: string;
   _id: string;
   metadata: string;
-  items: NFT[];
 }
 
 export interface NFT {
@@ -145,6 +144,8 @@ export interface NFT {
   id: string;
   metadata: string;
   currentOwner: string;
+  price?: string;
+  disabled?: boolean;
 }
 
 export const getNftId = (nft: NFT): string => {

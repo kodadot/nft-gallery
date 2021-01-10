@@ -21,7 +21,20 @@
     <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
       {{ uploadMode ? 'Upload' : 'IPFS hash' }}
     </b-switch>
-    <MetadataUpload v-if="uploadMode" @change="upload" />
+    <template v-if="uploadMode">
+      <b-field label="Description">
+        <b-input
+          v-model="meta.description"
+          maxlength="200"
+          type="textarea"
+        ></b-input>
+      </b-field>
+      <MetadataUpload v-model="image" />
+      <b-field label="Image data">
+        <b-input v-model="meta.image_data"></b-input>
+      </b-field>
+    </template>
+
     <b-field v-else label="Metadata IPFS Hash">
       <b-input v-model="rmrkMint.metadata"></b-input>
     </b-field>
@@ -44,8 +57,12 @@ import AccountSelect from '@/components/shared/AccountSelect.vue';
 import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec from '@/utils/transactionExecutor';
-import min from '@polkadot/util/bn/min';
+
 import { getInstance, RmrkType } from '../service/RmrkService';
+import { Collection, CollectionMetadata } from '../service/scheme';
+import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+import { decodeAddress } from '@polkadot/keyring';
+import { u8aToHex } from '@polkadot/util';
 
 const components = {
   AccountSelect,
@@ -55,53 +72,95 @@ const components = {
 @Component({ components })
 export default class CreateCollection extends Vue {
   private version: string = '1.0.0';
-  private rmrkMint: RmrkMint = emptyObject<RmrkMint>();
+  private rmrkMint: Collection = emptyObject<Collection>();
+  private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private accountId: string = '';
   private uploadMode: boolean = true;
+  private image: Blob | null = null;
 
   get rmrkId(): string {
-    return String(
-      this.accountId?.substr(0, 4) +
-        this.accountId?.substr(-4) +
-        '-' +
-        (this.rmrkMint?.symbol || '')
+    return this.generateId(this.accountIdToPubKey);
+  }
+
+  get accountIdToPubKey() {
+    return (this.accountId && u8aToHex(decodeAddress(this.accountId))) || '';
+  }
+
+  private generateId(pubkey: string): string {
+    return (
+      pubkey?.substr(2, 10) +
+      pubkey?.substring(pubkey.length - 8) +
+      '-' +
+      (this.rmrkMint?.symbol || '')
     ).toUpperCase();
   }
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.accountId);
+    return !(name && symbol && max && this.accountId && this.image);
   }
 
-  public constructRmrkMint(): string {
-    const mint: RmrkMint = {
+  public constructRmrkMint(): Collection {
+    const mint: Collection = {
       ...this.rmrkMint,
       symbol: this.rmrkMint.symbol.toUpperCase(),
       version: this.version,
       issuer: this.accountId,
-      metadata: 'https://ipfs.io/ipfs/' + this.rmrkMint?.metadata,
+      metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
       id: this.rmrkId
     };
 
-    return `rmrk::MINT::${encodeURIComponent(JSON.stringify(mint))}`;
+    return mint;
+  }
+
+  public async constructMeta() {
+    if (!this.image) {
+      throw new ReferenceError('No file found!');
+    }
+
+    this.meta = {
+      ...this.meta,
+      attributes: [],
+      external_url: `https://rmrk.app/registry/${this.rmrkId}`
+    };
+
+    // TODO: upload image to IPFS
+    const imageHash = await pinFile(this.image);
+    this.meta.image = unSanitizeIpfsUrl(imageHash);
+    // TODO: upload meta to IPFS
+    const metaHash = await pinJson(this.meta);
+
+    return unSanitizeIpfsUrl(metaHash);
   }
 
   private async submit() {
     const { api } = Connector.getInstance();
-    const mintString = this.constructRmrkMint();
+    const rmrkService = getInstance();
+    const mint = this.constructRmrkMint();
+    if (!this.rmrkMint.metadata) {
+      const meta = await this.constructMeta();
+      mint.metadata = meta;
+    }
+
+    const mintString = `rmrk::MINT::${this.version}::${encodeURIComponent(
+      JSON.stringify(mint)
+    )}`;
     try {
       console.log('submit', mintString);
-      const tx = await exec(this.accountId, '', api.tx.system.remark, [mintString]);
-      console.warn('TX IN', tx)
-      const persisted = await getInstance()?.resolve(mintString)
-      console.log('SAVED', persisted?.name)
+      const tx = await exec(this.accountId, '', api.tx.system.remark, [
+        mintString
+      ]);
+      console.warn('TX IN', tx);
+      const persisted = await rmrkService?.resolve(mintString);
+      console.log('SAVED', persisted?._id);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
-  private upload(data: any) {
-    console.log('upload', data);
+  private upload(data: File) {
+    console.log('upload', data.name);
+    this.image = data;
   }
 }
 </script>

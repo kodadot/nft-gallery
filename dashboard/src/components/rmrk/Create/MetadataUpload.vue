@@ -1,9 +1,9 @@
 <template>
-    <b-field class="file is-primary" :class="{'has-name': !!file}"  accept="application/json, text/plain">
+    <b-field class="file is-primary" :class="{'has-name': !!file}" >
         <b-upload v-model="file" class="file-label">
             <span class="file-cta">
-                <b-icon class="file-icon" icon="upload"></b-icon>
-                <span class="file-label">Click to add metadata json</span>
+                <b-icon class="file-icon" icon="file-image"></b-icon>
+                <span class="file-label">Click to add Image</span>
             </span>
             <span class="file-name" v-if="file">
                 {{ file.name }}
@@ -22,14 +22,17 @@ export default class  extends Vue {
 
 
   @Watch('file')
-  public createInput(file: any): void {
+  public createInput(file: Blob): void {
     const reader = new FileReader();
     reader.onload = () => {
-      this.handleSelection(reader.result)
-      console.log(reader.result);
+      // this.handleSelection(reader.result)
+      // console.log(reader.result);
+      
       
     };
+    this.$emit('input', file)
     reader.readAsText(file);
+    
   }
 
 

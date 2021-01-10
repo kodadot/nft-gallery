@@ -64,6 +64,13 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   getNFTsForAccount(account: string): Promise<NFT[]> {
     throw new Error('Method not implemented.');
   }
+
+  async getCollectionListForAccount(account: string): Promise<Collection[]> {
+    const query: QueryJSON = new Where('issuer').eq(account)
+    const collections = await this.find<Collection>(query)
+    return collections
+  }
+
   getLastSyncedBlock(): Promise<number> {
     throw new Error('Method not implemented.');
   }
