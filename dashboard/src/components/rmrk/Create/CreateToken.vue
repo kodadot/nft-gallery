@@ -44,6 +44,11 @@ import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec from '@/utils/transactionExecutor';
 import { notificationTypes,  showNotification } from '@/utils/notification';
+import { getInstance, RmrkType } from '../service/RmrkService';
+import { Collection, NFT, NFTMetadata, NFTWithMeta } from '../service/scheme';
+import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+
+const shouldUpdate = (val: string, oldVal: string) => val && (val !== oldVal)
 
 const test: RmrkMint = {
   name: 'Test Collection',
@@ -63,10 +68,22 @@ const test: RmrkMint = {
   }
 })
 export default class CreateToken extends Vue {
-  private data: RmrkMint[] = [test];
-  private selectedCollection: RmrkMint | null = null;
-  private added: RmrkView[] = [];
+  private data: Collection[] = [];
+  private selectedCollection: Collection | null = null;
+  private added: NFTWithMeta[] = [];
   private accountId: string = '';
+
+ @Watch('accountId')
+ hasAccount(value: string, oldVal: string) {
+   if (shouldUpdate(value, oldVal)) {
+     this.fetchCollections()
+   }
+ }
+
+  public async fetchCollections() {
+    const rmrkService = getInstance()
+    this.data = await rmrkService?.getCollectionListForAccount(this.accountId) || []
+  }
 
   get disabled() {
     return this.selectedCollection?.max === this.added.length;
