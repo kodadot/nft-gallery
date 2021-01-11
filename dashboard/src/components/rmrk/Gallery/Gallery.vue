@@ -21,7 +21,7 @@
           :key="nft.id"
         >
           <div class="card nft-card">
-            <router-link :to="`/nft/detail/${nft.id}`">
+            <router-link :to="`/nft/detail/${nft.id}`" tag="div" class="nft-card__skeleton">
               <div class="card-image" v-if="nft.image">
                 <b-image
                   :src="nft.image"
@@ -103,6 +103,14 @@ export default class Gallery extends Vue {
   padding: 1em !important;
   height: 100%;
 }
+.nft-card__skeleton {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
 .nft-card__owner {
   word-break: break-word;
 }

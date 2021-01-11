@@ -1,6 +1,9 @@
 <template>
   <div class="card create-token-card">
     <div class="card-content">
+      <b-field label="Id">
+        <b-input v-model="nftId" disabled></b-input>
+      </b-field>
       <b-field label="Serial Number">
         <b-input v-model="serialNumber" disabled></b-input>
       </b-field>
@@ -10,26 +13,49 @@
       <b-field label="Name">
         <b-input v-model="view.name"></b-input>
       </b-field>
+      <b-field label="Instance">
+        <b-input v-model="view.instance"></b-input>
+      </b-field>
       <b-switch v-model="view.transferable">
         Transferable
       </b-switch>
-      <!-- <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
-        {{ uploadMode ? 'Upload' : 'IPFS hash' }}
-      </b-switch> -->
-      <!-- <MetadataUpload v-if="uploadMode" @change="upload" /> -->
-      <b-field label="Metadata IPFS Hash">
-        <b-input v-model="view.metadata"></b-input>
+      <b-field v-if="view.transferable" label="Price">
+        <b-input v-model="view.price" ></b-input>
       </b-field>
+    <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
+      {{ uploadMode ? 'Upload' : 'IPFS hash' }}
+    </b-switch>
+    <template v-if="uploadMode">
+      <b-field label="Description">
+        <b-input
+          v-model="view.meta.description"
+          maxlength="200"
+          type="textarea"
+        ></b-input>
+      </b-field>
+      <MetadataUpload v-model="image" />
+      <b-field label="Image data">
+        <b-input v-model="view.meta.image_data"></b-input>
+      </b-field>
+    </template>
+
+    <b-field v-else label="Metadata IPFS Hash">
+      <b-input v-model="view.metadata"></b-input>
+    </b-field>
     </div>
   </div>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { RmrkView } from '../types';
+import { NFT, NFTMetadata } from '../service/scheme';
 import { emptyObject } from '@/utils/empty';
 import { client } from '@/textile';
 import MetadataUpload from './MetadataUpload.vue'
+
+interface NFTAndMeta extends NFT {
+  meta: NFTMetadata
+}
 
 @Component({
   components: {
@@ -38,8 +64,14 @@ import MetadataUpload from './MetadataUpload.vue'
 })
 export default class CreateItem extends Vue {
   @Prop() public index!: number;
-  @Prop() public view!: RmrkView;
+  @Prop() public view!: NFTAndMeta;
   private uploadMode: boolean = true;
+  private image: Blob | null = null;
+
+  get nftId(): string {
+    const {collection, instance, sn} = this.view
+    return `${collection}-${instance}-${this.serialNumber}`
+  }
 
   get serialNumber(): string {
     return String(this.index + 1).padStart(16, '0');
@@ -53,9 +85,17 @@ export default class CreateItem extends Vue {
   private updateItem() {
     return { index: this.index, view: {
       ...this.view,
-      sn: this.serialNumber
+      id: this.nftId
     } }
   }
+
+  @Watch('image')
+  private imageUpload(val: Blob, oldVal: Blob | null) {
+    if (val && !oldVal) {
+      this.$emit('upload', { image: val, index: this.index })
+    }
+  }
+
 }
 </script>
 

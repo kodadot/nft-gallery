@@ -86,16 +86,15 @@ class NFTUtils {
 }
 
 class RmrkActionRegex {
-  static MINTNFT = /^rmrk::MINTNFT::/;
-  static MINT = /^rmrk::MINT::/;
-  static SEND = /^rmrk::SEND::/;
-  static BUY = /^rmrk::BUY::/;
-  static CONSUME = /^rmrk::CONSUME::/;
-  static CHANGEISSUER = /^rmrk::CHANGEISSUER::/;
-  static LIST = /^rmrk::LIST::/;
+  static MINTNFT = /^[rR][mM][rR][kK]::MINTNFT::/;
+  static MINT = /^[rR][mM][rR][kK]::MINT::/;
+  static SEND = /^[rR][mM][rR][kK]::SEND::/;
+  static BUY = /^[rR][mM][rR][kK]::BUY::/;
+  static CONSUME = /^[rR][mM][rR][kK]::CONSUME::/;
+  static CHANGEISSUER = /^[rR][mM][rR][kK]::CHANGEISSUER::/;
+  static LIST = /^[rR][mM][rR][kK]::LIST::/;
   
 }
-
 
 
 export default NFTUtils

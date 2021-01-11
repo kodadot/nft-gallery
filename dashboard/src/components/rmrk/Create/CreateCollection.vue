@@ -11,7 +11,7 @@
     <b-field label="Maximum NFTs in collection">
       <b-numberinput
         v-model="rmrkMint.max"
-        placeholder="MaxArts"
+        placeholder="1 is minumum"
         :min="1"
       ></b-numberinput>
     </b-field>
@@ -142,7 +142,7 @@ export default class CreateCollection extends Vue {
       mint.metadata = meta;
     }
 
-    const mintString = `rmrk::MINT::${this.version}::${encodeURIComponent(
+    const mintString = `RMRK::MINT::${this.version}::${encodeURIComponent(
       JSON.stringify(mint)
     )}`;
     try {
