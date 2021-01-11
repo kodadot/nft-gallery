@@ -110,7 +110,7 @@ export default class CreateToken extends Vue {
 
 
   private handleAdd() {
-    const rmrk = emptyObject<RmrkView>();
+    const rmrk = emptyObject<NFTWithMeta>();
     rmrk.collection = this.selectedCollection?.id || '';
     this.added.push(rmrk);
   }

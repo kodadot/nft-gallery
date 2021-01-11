@@ -24,7 +24,7 @@ export const pinJson = async (object: any) => {
   }
 };
 
-export const pinFile = async (file: File): Promise<string> => {
+export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
 
