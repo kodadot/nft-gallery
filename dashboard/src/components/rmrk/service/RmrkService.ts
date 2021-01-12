@@ -4,6 +4,7 @@ import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
+import Consolidator from './Consolidator';
 
 export type RmrkType = Collection | NFT
 
@@ -61,8 +62,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const nft = await this.getCollection<NFT>(id)
     return nft
   }
-  getNFTsForAccount(account: string): Promise<NFT[]> {
-    throw new Error('Method not implemented.');
+
+  async getNFTsForAccount(account: string): Promise<NFT[]> {
+    this.useNFT();
+    const query: QueryJSON = new Where('currentOwner').eq(account)
+    const nfts = await this.find<NFT>(query)
+    return nfts
   }
 
   async getCollectionListForAccount(account: string): Promise<Collection[]> {
@@ -88,24 +93,24 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   }
 
-  public resolve(rmrkString: string): Promise<RmrkType> {
+  public resolve(rmrkString: string, caller: string): Promise<RmrkType> {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
       switch (resolved.event) {
         case RmrkEvent.MINT:
-          return this.mint(resolved.view)
+          return this.mint(resolved.view, caller)
         case RmrkEvent.MINTNFT:
-          return this.mintNFT(resolved.view)
+          return this.mintNFT(resolved.view, caller)
         case RmrkEvent.SEND:
-          return this.send(resolved.view)
+          return this.send(resolved.view, caller)
         case RmrkEvent.BUY:
-          return this.buy(resolved.view as RmrkInteraction)
+          return this.buy(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.CONSUME:
-          return this.consume(resolved.view as RmrkInteraction)
+          return this.consume(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.LIST:
-          return this.list(resolved.view as RmrkInteraction)
+          return this.list(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.CHANGEISSUER:
-          return this.changeIssuer(resolved.view as RmrkInteraction)
+          return this.changeIssuer(resolved.view as RmrkInteraction, caller)
         default:
           throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
       }
@@ -115,17 +120,27 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   }
 
-  public async removeNFTCollection() {
-    this.useNFT();
-    return this.removeCollection()
+  public async deleteAllNFT(): Promise<string[]> {
+    const nfts = await this.getAllNFTs();
+    const ids = nfts.map(nft => nft._id);
+    await this.remove(ids)
+    return ids
   }
 
-  private async changeIssuer(view: RmrkInteraction): Promise<Collection> {
+  public async deleteAllCollection(): Promise<string[]> {
+    const collections = await this.getAllCollections();
+    const ids = collections.map(el => el._id);
+    await this.remove(ids)
+    return ids
+  }
+
+  private async changeIssuer(view: RmrkInteraction, caller: string): Promise<Collection> {
     this.useCollection();
 
     try {
       this.shouldExist(view.id)
       const collection = await this.getCollection<Collection>(view.id)
+      Consolidator.isIssuer(collection, caller)
       const updatedCollection: Collection = {
         ...collection,
         issuer: view.id
@@ -137,25 +152,45 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
-  list(view: RmrkInteraction): Promise<RmrkType> {
-    throw new EvalError(`[RMRK Service] List does not change state ?? ${view.id}`);
-  }
+  async list(view: RmrkInteraction, caller: string): Promise<RmrkType> {
+    if (!view.metadata) {
+      throw new EvalError(`[RMRK Service] Unable to LIST ${view.id} without modifier`);
+    }
 
-  private async consume(view: RmrkInteraction): Promise<NFT> {
     this.useNFT();
     this.shouldExist(view.id);
     const nft = await this.getCollection<NFT>(view.id)
+    Consolidator.isOwner(nft, caller)
+    if (view.metadata === 'cancel') {
+      nft.price = undefined
+    } else if (Number(view.metadata) > 0) {
+      nft.price = view.metadata
+    } else {
+      throw new EvalError(`[RMRK Service] Bad modifier ${view.metadata} for LIST ${view.id}`);
+    }
+    
+    await this.update(nft)
+    return nft
+  }
+
+  private async consume(view: RmrkInteraction, caller: string): Promise<NFT> {
+    this.useNFT();
+    this.shouldExist(view.id);
+    const nft = await this.getCollection<NFT>(view.id)
+    Consolidator.isOwner(nft, caller)
     await this.remove(nft._id)
     return nft
   }
 
-  buy(view: RmrkInteraction): Promise<RmrkType> {
+  buy(view: RmrkInteraction, caller: string): Promise<RmrkType> {
     throw new EvalError(`[RMRK Service] Buy does not change state ${view.id}`);
   }
 
-  private async mint(view: object): Promise<Collection> {
+  private async mint(view: object, caller: string): Promise<Collection> {
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
+
+    // Consolidator.collectionIdValid(collection, caller);
     
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
@@ -172,11 +207,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return collection;
   }
 
-  private async mintNFT(view: object): Promise<NFT> {
+  private async mintNFT(view: object, caller: string): Promise<NFT> {
     const item = computeAndUpdateNft(view as NFT);
     this.useCollection();
-    this.shouldExist(item.collection);
+    await this.shouldExist(item.collection);
+    const collection = await this.findById<Collection>(item.collection);
+    Consolidator.isIssuer(collection, caller)
     this.useNFT();
+
+    item.currentOwner = caller;
 
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
@@ -193,13 +232,14 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return item
   }
 
-  private async send(view: object): Promise<NFT> {
+  private async send(view: object, caller: string): Promise<NFT> {
     const item = (view as RmrkInteraction);
     this.useNFT();
 
     try {
       await this.shouldExist(item.id)
       const nft = await this.getCollection<NFT>(item.id)
+      Consolidator.isOwner(nft, caller)
       const updatedNft: NFT = {
         ...nft,
         currentOwner: item.metadata || nft.currentOwner

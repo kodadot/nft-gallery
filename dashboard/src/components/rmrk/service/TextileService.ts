@@ -98,6 +98,10 @@ export default abstract class TextileService<T> {
     return this.client.findByID(this.store, this.collectioName, id)
   }
 
+  public findById<U>(id: string): Promise<U> {
+    return this.getCollection(id)
+  } 
+
   public findAll<U>(): Promise<U[]> {
     return this.find({} as QueryJSON);
   }

@@ -183,7 +183,7 @@ export default class CreateToken extends Vue {
       const rmrkService = getInstance();
       remarks.forEach(async (rmrk, index) => {
         try {
-          const res = rmrkService?.resolve(rmrk)
+          const res = rmrkService?.resolve(rmrk, this.accountId)
           console.log('res', index, res)
         } catch (e) {
           console.warn(`Failed Indexing ${index} with err ${e}`);

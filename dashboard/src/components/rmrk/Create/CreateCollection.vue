@@ -151,7 +151,7 @@ export default class CreateCollection extends Vue {
         mintString
       ]);
       console.warn('TX IN', tx);
-      const persisted = await rmrkService?.resolve(mintString);
+      const persisted = await rmrkService?.resolve(mintString, this.accountId);
       console.log('SAVED', persisted?._id);
     } catch (e) {
       console.error(e);
