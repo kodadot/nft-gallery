@@ -1,5 +1,5 @@
 import { hexToString, isHex } from '@polkadot/util';
-import { RmrkEvent, RMRK } from '../types';
+import { RmrkEvent, RMRK, RmrkInteraction } from '../types';
 import { SQUARE } from '../utils'
 
 class NFTUtils {
@@ -74,10 +74,10 @@ class NFTUtils {
     const split = rmrkString.split(SQUARE)
 
     if (split.length >= 4) {
-      return {
+      return ({
         id: split[3],
-        value: split[4]
-      }
+        metadata: split[4]
+      } as RmrkInteraction)
     }
 
     throw new TypeError(`RMRK: Unable to unwrap object ${rmrkString}`)

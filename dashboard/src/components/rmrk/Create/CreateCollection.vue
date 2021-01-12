@@ -71,7 +71,7 @@ const components = {
 
 @Component({ components })
 export default class CreateCollection extends Vue {
-  private version: string = '1.0.0';
+  private version: string = 'RMRK1.0.0';
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private accountId: string = '';

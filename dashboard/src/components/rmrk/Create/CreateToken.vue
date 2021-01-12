@@ -77,7 +77,7 @@ interface NFTAndMeta extends NFT {
   }
 })
 export default class CreateToken extends Vue {
-  private version: string = '1.0.0';
+  private version: string = 'RMRK1.0.0';
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
   private added: NFTAndMeta[] = [];

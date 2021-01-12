@@ -21,8 +21,8 @@
         <div class="tile is-child box">
           <p class="title is-4"><b>Actions</b></p>
           <p class="subtitle is-6"><b>{Coming soon}</b></p>
-          <!-- <AccountSelect label="Account" v-model="accountId" /> -->
-          <!-- <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="0" /> -->
+          <AccountSelect label="Account" v-model="accountId" />
+          <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
         </div>
         <div class="tile is-child box">
           <p class="title">Description</p>
