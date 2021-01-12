@@ -78,6 +78,16 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     throw new Error('Method not implemented.');
   }
 
+  public test(rmrkString: string): RMRK {
+    try {
+      const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
+      return resolved
+    } catch (e) {
+      throw e
+    }
+
+  }
+
   public resolve(rmrkString: string): Promise<RmrkType> {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
