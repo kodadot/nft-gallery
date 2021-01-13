@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <AccountSelect label="Account" v-model="accountId" />
     <b-field v-if="accountId" label="Collection">
       <b-select placeholder="Select a collection" v-model="selectedCollection">
@@ -10,7 +11,7 @@
     </b-field>
     <b-button
       v-if="selectedCollection"
-      type="is-primary"
+      type="is-info"
       icon-left="plus"
       @click="handleAdd"
       :disabled="disabled"
@@ -26,7 +27,7 @@
       @update="handleUpdate"
       @upload="uploadFile"
     />
-    <b-button type="is-primary" icon-left="paper-plane" @click="submit">
+    <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
       Submit
     </b-button>
   </div>
@@ -83,6 +84,7 @@ export default class CreateToken extends Vue {
   private added: NFTAndMeta[] = [];
   private accountId: string = '';
   private images: (Blob | null)[] = [];
+  private isLoading: boolean = false;
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
@@ -163,6 +165,7 @@ export default class CreateToken extends Vue {
   }
 
   private async submit() {
+    this.isLoading = true;
     const { api } = Connector.getInstance();
     const remarks: string[] = await Promise.all(this.added
     .map(this.makeItSexy)
@@ -183,7 +186,8 @@ export default class CreateToken extends Vue {
       const rmrkService = getInstance();
       remarks.forEach(async (rmrk, index) => {
         try {
-          const res = rmrkService?.resolve(rmrk, this.accountId)
+          const res = await rmrkService?.resolve(rmrk, this.accountId)
+          showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
           console.log('res', index, res)
         } catch (e) {
           console.warn(`Failed Indexing ${index} with err ${e}`);
@@ -194,6 +198,8 @@ export default class CreateToken extends Vue {
     } catch (e) {
       showNotification(e, notificationTypes.danger);
     }
+
+    this.isLoading = false;
   }
 
   private handleAdd() {
@@ -201,6 +207,7 @@ export default class CreateToken extends Vue {
     rmrk.collection = this.selectedCollection?.id || '';
     rmrk.sn = String(this.added.length + 1).padStart(16, '0');
     rmrk.meta = emptyObject<NFTMetadata>();
+    rmrk.transferable = 0;
     this.added.push(rmrk);
     this.images.push(null);
   }

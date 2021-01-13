@@ -97,7 +97,10 @@ export default class AvailableActions extends Vue {
     try {
       showNotification(rmrk)
       console.log('submit', rmrk);
-      const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
+      const isSend = this.selectedAction === 'SEND';
+      const cb = isSend ? api.tx.utility.batch : api.tx.system.remark
+      const arg = isSend ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const tx = await exec(this.accountId, '', cb, [arg]);
       showNotification(tx, notificationTypes.success)
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);

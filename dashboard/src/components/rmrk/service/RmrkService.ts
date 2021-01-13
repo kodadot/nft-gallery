@@ -182,8 +182,24 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return nft
   }
 
-  buy(view: RmrkInteraction, caller: string): Promise<RmrkType> {
-    throw new EvalError(`[RMRK Service] Buy does not change state ${view.id}`);
+  async buy(view: RmrkInteraction, caller: string): Promise<RmrkType> {
+    const item = (view as RmrkInteraction);
+    this.useNFT();
+
+    try {
+      await this.shouldExist(item.id)
+      const nft = await this.getCollection<NFT>(item.id)
+      const updatedNft: NFT = {
+        ...nft,
+        currentOwner: caller || nft.currentOwner
+      }
+
+      await this.update(updatedNft)
+
+      return updatedNft
+    } catch (e) {
+      throw e
+    }
   }
 
   private async mint(view: object, caller: string): Promise<Collection> {

@@ -29,11 +29,15 @@
           <div class="nft-card__index">
             <b># {{ nft.id }}</b>
           </div>
+          <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+            <Money :value="nft.price" :inline="true" />
+          </b-tag>
           <p class="nft-card__owner"><b>name:</b>{{ nft.name }}</p>
           <p class="nft-card__owner">
             <b>collection:</b>{{ nft.collection }}
           </p>
           <p class="nft-card__owner"><b>sn:</b>{{ nft.sn }}</p>
+          <p class="nft-card__owner"><b>instance:</b>{{ nft.sn }}</p>
           <p class="nft-card__owner">
             <b>About:</b>{{ nft.description }}
           </p>
@@ -52,13 +56,16 @@ import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import AvailableActions from './AvailableActions.vue'
+import { notificationTypes, showNotification } from '@/utils/notification';
+import Money from '@/components/shared/format/Money.vue'
 
 type NFTType = NFT | NFTWithMeta;
 
 @Component({
   components: {
     AccountSelect,
-    AvailableActions
+    AvailableActions,
+    Money
   }
 })
 export default class GalleryItem extends Vue {
@@ -88,6 +95,7 @@ export default class GalleryItem extends Vue {
       console.log(meta)
       this.nft = { ...nft, ...meta, image: sanitizeIpfsUrl(meta.image || '') };
     } catch (e) {
+      showNotification(`${e}`, notificationTypes.danger)
       console.warn(e);
     }
 

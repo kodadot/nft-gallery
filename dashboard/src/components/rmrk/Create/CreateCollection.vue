@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div>Using {{ version }}</div>
     <div>
       Computed id: <b>{{ rmrkId }}</b>
@@ -43,6 +44,7 @@
       icon-left="paper-plane"
       @click="submit"
       :disabled="disabled"
+      :loading="isLoading"
     >
       Submit
     </b-button>
@@ -57,6 +59,7 @@ import AccountSelect from '@/components/shared/AccountSelect.vue';
 import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
@@ -77,6 +80,7 @@ export default class CreateCollection extends Vue {
   private accountId: string = '';
   private uploadMode: boolean = true;
   private image: Blob | null = null;
+  private isLoading: boolean = false;
 
   get rmrkId(): string {
     return this.generateId(this.accountIdToPubKey);
@@ -134,6 +138,7 @@ export default class CreateCollection extends Vue {
   }
 
   private async submit() {
+    this.isLoading = true;
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
     const mint = this.constructRmrkMint();
@@ -146,6 +151,7 @@ export default class CreateCollection extends Vue {
       JSON.stringify(mint)
     )}`;
     try {
+      showNotification(mintString)
       console.log('submit', mintString);
       const tx = await exec(this.accountId, '', api.tx.system.remark, [
         mintString
@@ -153,9 +159,13 @@ export default class CreateCollection extends Vue {
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(mintString, this.accountId);
       console.log('SAVED', persisted?._id);
+      showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
     } catch (e) {
+      showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e);
     }
+
+    this.isLoading = false;
   }
 
   private upload(data: File) {
