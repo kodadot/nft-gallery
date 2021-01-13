@@ -12,8 +12,13 @@ import {
   faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem, 
   faInfoCircle, faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
   faUsersCog, faCoins, faAngleLeft, faAngleRight,
-  faCreditCard, faStepForward, faRing, faDonate, faFileImage
+  faCreditCard, faStepForward, faRing, faDonate, faFileImage,
+  faPenNib, faImages
+
 } from '@fortawesome/free-solid-svg-icons';
+
+// throws error, idk why
+// import { faImages } from '@fortawesome/free-regular-svg-icons';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
@@ -31,8 +36,9 @@ library.add(faTrash, faKey, faSync, faRedo,
   faDatabase, faGem,  faInfoCircle, faExchangeAlt,
   faBug, faStop, faEllipsisV, faPercent, faUsersCog, faCoins,
   faAngleLeft, faAngleRight, faCreditCard, faStepForward, faRing,
-  faDonate, faFileImage
+  faDonate, faFileImage, faPenNib, faImages
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 Vue.component('vue-fontawesome', FontAwesomeIcon);  

@@ -75,12 +75,12 @@ export default new Router({
       component: Treasury
     },
     {
-			path: '/rmrk',
+			path: '/create-rmrk',
       name: 'rmrk',
       component: Remark
     },
     {
-      path: '/nft',
+      path: '/rmrk-gallery',
       name: 'nft',
       component: Gallery,
     },
