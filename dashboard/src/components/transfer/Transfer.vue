@@ -12,7 +12,7 @@
 		</b-field>
     <Dropdown mode='accounts' :externalAddress="transfer.from"
 			@selected="handleAccountSelectionFrom" />
-		<Dropdown :externalAddress="transfer.to"
+    <Dropdown :externalAddress="transfer.to"
 			@selected="handleAccountSelectionTo" />
     <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
     <b-field label="password 🤫 magic spell" class="password-wrapper">
