@@ -12,13 +12,13 @@ const Reader = () => import('@/components/rmrk/Reader/Reader.vue')
 const Create = () => import('@/components/rmrk/Create/Create.vue')
 const CreateToken = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Reader, Create, CreateToken } 
+const components = { Create, CreateToken, Reader } 
 
 @Component({ components })
 export default class Remark extends Vue {
   public activeTab: number = 0;
 
-  public components: string[] = ['Reader', 'Create', 'CreateToken']
+  public components: string[] = ['Create', 'CreateToken', 'Reader']
 }
 </script>
 
