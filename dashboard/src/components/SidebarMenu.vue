@@ -90,24 +90,24 @@ export default class SidebarMenu extends Vue {
       to: { name: 'transfer' },
       tag: 'router-link',
     },
-    {
-      name: 'Democracy',
-      icon: 'calendar-check',
-      to: { name: 'democracy' },
-      tag: 'router-link',
-    },
-    {
-      name: 'Staking',
-      icon: 'seedling',
-      to: { name: 'staking' },
-      tag: 'router-link'
-    },
-    {
-      name: 'Treasury',
-      icon: 'gem',
-      to: { name: 'treasury' },
-      tag: 'router-link',
-    },
+    // {
+    //   name: 'Democracy',
+    //   icon: 'calendar-check',
+    //   to: { name: 'democracy' },
+    //   tag: 'router-link',
+    // },
+    // {
+    //   name: 'Staking',
+    //   icon: 'seedling',
+    //   to: { name: 'staking' },
+    //   tag: 'router-link'
+    // },
+    // {
+    //   name: 'Treasury',
+    //   icon: 'gem',
+    //   to: { name: 'treasury' },
+    //   tag: 'router-link',
+    // },
     {
       name: 'RMRK.app',
       icon: 'ring',
@@ -120,18 +120,18 @@ export default class SidebarMenu extends Vue {
       to: { name: 'nft' },
       tag: 'router-link'
     },
-    {
-      name: 'Chain State',
-      icon: 'database',
-      to: { name: 'chainstate' },
-      tag: 'router-link'
-    },
-    {
-      name: 'Extrinsics',
-      icon: 'sync',
-      to: { name: 'extrinsics' },
-      tag: 'router-link',
-    },
+    // {
+    //   name: 'Chain State',
+    //   icon: 'database',
+    //   to: { name: 'chainstate' },
+    //   tag: 'router-link'
+    // },
+    // {
+    //   name: 'Extrinsics',
+    //   icon: 'sync',
+    //   to: { name: 'extrinsics' },
+    //   tag: 'router-link',
+    // },
     {
       name: 'Settings',
       icon: 'cogs',
@@ -144,17 +144,17 @@ export default class SidebarMenu extends Vue {
       to: { name: 'toolbox' },
       tag: 'router-link'
     },
-    {
-      name: 'Debug',
-      icon: 'bug',
-      to: { name: 'debug' },
-    },
-    {
-      name: 'RPC',
-      icon: 'exchange-alt',
-      to: { name: 'rpc' },
-      tag: 'router-link'
-    }
+    // {
+    //   name: 'Debug',
+    //   icon: 'bug',
+    //   to: { name: 'debug' },
+    // },
+    // {
+    //   name: 'RPC',
+    //   icon: 'exchange-alt',
+    //   to: { name: 'rpc' },
+    //   tag: 'router-link'
+    // }
   ];
   public externalLinks: any = [
     {
@@ -166,7 +166,7 @@ export default class SidebarMenu extends Vue {
     {
       name: 'Wiki',
       icon: 'book',
-      href: 'https://wiki.polkadot.network/',
+      href: 'https://kodadot.js.org/',
       target: '_blank'
     },
     {
