@@ -17,6 +17,7 @@ import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
 import { Client } from '@textile/hub'
 import { enableExtension } from './extension'
+import { web3FromAddress } from '@polkadot/extension-dapp';
 import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
@@ -26,6 +27,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).T = client;
 (window as any).Client = Client;
 (window as any).R = getInstance;
+(window as any).W = web3FromAddress;
 
 (async () => { 
   await createInstance(keyInfo);
