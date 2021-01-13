@@ -13,18 +13,19 @@
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator';
-import WithKeyring from '@/utils/WithKeyring';
+import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 
 @Component
 export default class AccountSelect extends Mixins(WithKeyring) {
-  @Prop() public value!: string | KeyringPair;
+  @Prop() public value!: string | KeyringAccount;
   @Prop() public asKeyring!: boolean;
   @Prop({ default: 'Account' }) public label!: boolean;
 
 
   get options() {
-    return this.keyringAccounts;
+    return this.allAcctounts();
   }
 
   get account(): string {

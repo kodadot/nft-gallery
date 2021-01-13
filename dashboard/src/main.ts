@@ -16,6 +16,7 @@ import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
 import { Client } from '@textile/hub'
+import { enableExtension } from './extension'
 import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
@@ -26,7 +27,10 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).Client = Client;
 (window as any).R = getInstance;
 
-(async () => await createInstance(keyInfo))()
+(async () => { 
+  await createInstance(keyInfo);
+  await enableExtension();
+})()
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance(); 
 
