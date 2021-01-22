@@ -51,7 +51,8 @@ export enum RmrkEvent {
   BUY = 'BUY',
   CONSUME = 'CONSUME',
   CHANGEISSUER = 'CHANGEISSUER',
-  SEND = 'SEND'
+  SEND = 'SEND',
+  APPRECIATE = 'APPRECIATE',
 }
 
 

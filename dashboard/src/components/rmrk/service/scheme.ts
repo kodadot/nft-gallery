@@ -122,6 +122,13 @@ export interface NFTWithMeta extends NFT, NFTMetadata {
 
 }
 
+// id me
+export interface Emotion {
+  _id: string;
+  remarkId: string;
+  issuer: string;
+  metadata: string;
+}
 
 export interface Collection {
   version: string;

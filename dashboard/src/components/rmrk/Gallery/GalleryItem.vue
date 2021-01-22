@@ -9,6 +9,7 @@
               ratio="1by1"
               rounded
             ></b-image>
+          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
         </div>
       </div>
 
@@ -58,6 +59,7 @@ import AccountSelect from '@/components/shared/AccountSelect.vue';
 import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification';
 import Money from '@/components/shared/format/Money.vue'
+import Appreciation from './Appreciation.vue'
 
 type NFTType = NFT | NFTWithMeta;
 
@@ -65,7 +67,8 @@ type NFTType = NFT | NFTWithMeta;
   components: {
     AccountSelect,
     AvailableActions,
-    Money
+    Money,
+    Appreciation
   }
 })
 export default class GalleryItem extends Vue {

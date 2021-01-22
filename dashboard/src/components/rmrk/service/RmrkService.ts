@@ -1,16 +1,17 @@
 import { Client, KeyInfo, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
-import Consolidator from './Consolidator';
+import Consolidator, { generateId } from './Consolidator';
 
-export type RmrkType = Collection | NFT
+export type RmrkType = Collection | NFT | Emotion
 
 export enum AvailableCollection {
   COLLECTION = 'collection',
-  NFT = 'nft'
+  NFT = 'nft',
+  APPRECIATION = 'appreciation'
 }
 
 export class RmrkService extends TextileService<RmrkType> implements State {
@@ -49,6 +50,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this._name = AvailableCollection.COLLECTION
   }
 
+  private useAppreciation() {
+    this._name = AvailableCollection.APPRECIATION
+  }
+
   async getNFTsForCollection(id: string): Promise<NFT[]> {
     this.useNFT();
     const query: QueryJSON = new Where('collection').eq(id)
@@ -83,6 +88,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     throw new Error('Method not implemented.');
   }
 
+  async getAppreciationsForNFT(id: string): Promise<Emotion[]> {
+    this.useNFT();
+    this.shouldExist(id);
+    this.useAppreciation();
+    const query: QueryJSON = new Where('remarkId').eq(id)
+    const appreciations = await this.find<Emotion>(query)
+    return appreciations 
+  }
+
   public test(rmrkString: string): RMRK {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
@@ -111,6 +125,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
           return this.list(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.CHANGEISSUER:
           return this.changeIssuer(resolved.view as RmrkInteraction, caller)
+        case RmrkEvent.APPRECIATE:
+          return this.appreciate(resolved.view as RmrkInteraction, caller)
         default:
           throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
       }
@@ -200,6 +216,40 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     } catch (e) {
       throw e
     }
+  }
+
+  async appreciate(view: RmrkInteraction, caller: string): Promise<Appreciation> {
+    if (!view.metadata) {
+      throw ReferenceError(`[RMRK Service] Unable to appreciate without appreciation ${view.id}`)
+    }
+
+    const appreciation: Appreciation = {
+      _id: generateId(caller, view.id),
+      remarkId: view.id,
+      issuer: caller,
+      metadata: view.metadata
+    };
+
+    this.useAppreciation();
+
+
+    // Consolidator.collectionIdValid(collection, caller);
+    
+    const hasCollection = await this.hasCollection();
+    if (!hasCollection) {
+      await this.createCollection(appreciation)
+    }
+  
+    const collectionAlreadyCreated = await this.exists(appreciation._id);
+
+    if (collectionAlreadyCreated) {
+      throw ReferenceError(`[RMRK Service] Collection already created ${appreciation._id}`)
+    }
+
+    await this.addToCollection(appreciation)
+    return appreciation;
+    
+
   }
 
   private async mint(view: object, caller: string): Promise<Collection> {
