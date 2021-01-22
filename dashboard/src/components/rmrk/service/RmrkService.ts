@@ -218,12 +218,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
-  async appreciate(view: RmrkInteraction, caller: string): Promise<Appreciation> {
+  async appreciate(view: RmrkInteraction, caller: string): Promise<Emotion> {
     if (!view.metadata) {
       throw ReferenceError(`[RMRK Service] Unable to appreciate without appreciation ${view.id}`)
     }
 
-    const appreciation: Appreciation = {
+    const appreciation: Emotion = {
       _id: generateId(caller, view.id),
       remarkId: view.id,
       issuer: caller,
