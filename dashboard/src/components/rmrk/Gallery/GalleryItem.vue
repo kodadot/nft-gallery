@@ -9,6 +9,7 @@
               ratio="1by1"
               rounded
             ></b-image>
+          <!-- <MediaResolver v-if="nft.animation_url" :src="nft.image" :mimeType="mimeType" /> -->
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
         </div>
       </div>
@@ -60,6 +61,8 @@ import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification';
 import Money from '@/components/shared/format/Money.vue'
 import Appreciation from './Appreciation.vue'
+import MediaResolver from '../Media/MediaResolver.vue'
+import api from '@/fetch';
 
 type NFTType = NFT | NFTWithMeta;
 
@@ -68,7 +71,8 @@ type NFTType = NFT | NFTWithMeta;
     AccountSelect,
     AvailableActions,
     Money,
-    Appreciation
+    Appreciation,
+    MediaResolver
   }
 })
 export default class GalleryItem extends Vue {
@@ -76,6 +80,7 @@ export default class GalleryItem extends Vue {
   private accountId: string = '';
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
+  public mimeType: string = '';
 
   @Prop() public value!: any;
 
@@ -96,7 +101,16 @@ export default class GalleryItem extends Vue {
       console.log(nft)
       const meta = await fetchNFTMetadata(nft);
       console.log(meta)
-      this.nft = { ...nft, ...meta, image: sanitizeIpfsUrl(meta.image || '') };
+      this.nft = { 
+        ...nft,
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || ''),
+      };
+      if (this.nft.animation_url) {
+        const { headers } = await api.head(this.nft.animation_url);
+        this.mimeType = headers['content-type'];
+      }  
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       console.warn(e);

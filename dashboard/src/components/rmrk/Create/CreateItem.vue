@@ -33,7 +33,9 @@
           type="textarea"
         ></b-input>
       </b-field>
-      <MetadataUpload v-model="image" />
+      <MetadataUpload v-model="image" label="Click to add image" />
+      <div>If your artwork is animated (audio/video/3d model) add animated</div>
+      <MetadataUpload v-model="animatimated" label="Add animated file" />
       <b-field label="Image data">
         <b-input v-model="view.meta.image_data"></b-input>
       </b-field>
@@ -67,6 +69,7 @@ export default class CreateItem extends Vue {
   @Prop() public view!: NFTAndMeta;
   private uploadMode: boolean = true;
   private image: Blob | null = null;
+  private animatimated: Blob | null = null;
 
   get nftId(): string {
     const {collection, instance, sn} = this.view
@@ -87,6 +90,13 @@ export default class CreateItem extends Vue {
       ...this.view,
       id: this.nftId
     } }
+  }
+
+  @Watch('animatimated')
+  private animatedUpload(val: Blob, oldVal: Blob | null) {
+    if (val && !oldVal) {
+      this.$emit('animated', { image: val, index: this.index })
+    }
   }
 
   @Watch('image')

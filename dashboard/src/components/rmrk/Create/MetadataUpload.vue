@@ -2,8 +2,8 @@
     <b-field class="file is-primary" :class="{'has-name': !!file}" >
         <b-upload v-model="file" class="file-label">
             <span class="file-cta">
-                <b-icon class="file-icon" icon="file-image"></b-icon>
-                <span class="file-label">Click to add Image</span>
+                <b-icon class="file-icon" :icon="icon"></b-icon>
+                <span class="file-label">{{ label }}</span>
             </span>
             <span class="file-name" v-if="file">
                 {{ file.name }}
@@ -17,7 +17,8 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 
 @Component({})
 export default class  extends Vue {
-
+  @Prop({default: 'Click to add media file' }) public label!: string;
+  @Prop({default: 'file-image' }) public icon!: string;
   private file: Blob | null = null;
 
 

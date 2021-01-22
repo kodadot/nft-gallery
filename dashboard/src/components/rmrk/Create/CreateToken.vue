@@ -26,6 +26,7 @@
       :view="item"
       @update="handleUpdate"
       @upload="uploadFile"
+      @animated="uploadAnimatedFile"
     />
     <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
       Submit
@@ -84,6 +85,7 @@ export default class CreateToken extends Vue {
   private added: NFTAndMeta[] = [];
   private accountId: string = '';
   private images: (Blob | null)[] = [];
+  private animated: (Blob | null)[] = [];
   private isLoading: boolean = false;
 
   @Watch('accountId')
@@ -113,6 +115,10 @@ export default class CreateToken extends Vue {
 
   private uploadFile(item: { image: Blob; index: number }) {
     this.$set(this.images, item.index, item.image);
+  }
+
+    private uploadAnimatedFile(item: { image: Blob; index: number }) {
+    this.$set(this.animated, item.index, item.image);
   }
 
   private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {
@@ -158,6 +164,13 @@ export default class CreateToken extends Vue {
     // TODO: upload image to IPFS
     const imageHash = await pinFile(image);
     meta.image = unSanitizeIpfsUrl(imageHash);
+
+    const animatedFile = this.animated[index];
+    if (animatedFile) {
+      const animatedHash = await pinFile(animatedFile);
+      meta.animation_url = unSanitizeIpfsUrl(animatedHash);
+    }
+
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(meta);
 
