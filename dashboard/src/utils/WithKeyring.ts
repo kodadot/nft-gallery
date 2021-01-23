@@ -62,5 +62,11 @@ export default class WithKeyring extends Vue {
     return u8aToHex(publicKey);
   }
 
+  // public passwordRequired(address: string): boolean {
+  //   if (this.importedAccounts.some(acc => acc.address === address)) {
+  //     return true
+  //   }
 
+  //   return isAccountLocked(address)
+  // }
 }

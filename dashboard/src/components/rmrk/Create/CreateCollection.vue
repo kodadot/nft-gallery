@@ -39,6 +39,7 @@
     <b-field v-else label="Metadata IPFS Hash">
       <b-input v-model="rmrkMint.metadata"></b-input>
     </b-field>
+    <PasswordInput v-model="password" :account="accountId" />   
     <b-button
       type="is-primary"
       icon-left="paper-plane"
@@ -60,6 +61,7 @@ import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
+import PasswordInput from '@/components/shared/PasswordInput.vue';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
@@ -69,7 +71,8 @@ import { u8aToHex } from '@polkadot/util';
 
 const components = {
   AccountSelect,
-  MetadataUpload
+  MetadataUpload,
+  PasswordInput,
 };
 
 @Component({ components })
@@ -81,6 +84,7 @@ export default class CreateCollection extends Vue {
   private uploadMode: boolean = true;
   private image: Blob | null = null;
   private isLoading: boolean = false;
+  private password: string = '';
 
   get rmrkId(): string {
     return this.generateId(this.accountIdToPubKey);
@@ -153,7 +157,7 @@ export default class CreateCollection extends Vue {
     try {
       showNotification(mintString)
       console.log('submit', mintString);
-      const tx = await exec(this.accountId, '', api.tx.system.remark, [
+      const tx = await exec(this.accountId, this.password, api.tx.system.remark, [
         mintString
       ]);
       console.warn('TX IN', tx);
