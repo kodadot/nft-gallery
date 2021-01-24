@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p class="title">RMRK NFT Collection Gallery</p>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <b-field label="Owners">
       <b-select

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
+    <Navbar/>
+    <!-- <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" /> -->
     <!-- <div id="dashboard" v-if="online"> -->
-      <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
+      <!-- <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" /> -->
+    <router-view id="routerview" />
     <!-- </div> -->
     <!-- <div v-else> -->
       <!-- <Offline /> -->
@@ -16,11 +18,13 @@ import Offline from './components/offline/Offline.vue'
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
+import Navbar from './components/Navbar.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
     SidebarMenu,
+    Navbar,
     Offline,
   },
 })
@@ -73,15 +77,6 @@ export default class Dashboard extends Vue {
   float: left;
   height: 100%;
   position: fixed;
-}
-
-#routerview {
-  margin-left: 5em;
-  padding: 0.6em;
-}
-
-#routerview.sidebar__active {
-  margin-left: 16.5em;
 }
 
 // Import Bulma's core
