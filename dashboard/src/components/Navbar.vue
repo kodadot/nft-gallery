@@ -6,8 +6,8 @@
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
-            src="../assets/koda_logo_843x843.png"
-            alt="KodaDot - best NFT explorer on Kusama and Polkadot"
+          src="../assets/koda_logo_843x843.png"
+          alt="KodaDot - best NFT explorer on Kusama and Polkadot"
         >
       </b-navbar-item>
     </template>
@@ -68,7 +68,6 @@ export default class NavbarMenu extends Vue {
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
-      strong: false
     },
     {
       name: 'Transfer',
@@ -82,7 +81,6 @@ export default class NavbarMenu extends Vue {
       tag: 'router-link',
       to: { name: 'settings' },
     },
-    
   ]
   private navbarExternal: any = [
     {
