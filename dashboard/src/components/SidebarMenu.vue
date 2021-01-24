@@ -73,6 +73,19 @@ export default class SidebarMenu extends Vue {
   public reduce = true;
   public sidebar: any = [
     {
+      name: 'RMRK.app',
+      icon: 'pen-nib',
+      to: { name: 'rmrk' },
+      tag: 'router-link',
+    },
+    {
+      name: 'NFT',
+      icon: 'images',
+      to: { name: 'nft' },
+      tag: 'router-link'
+    },
+    
+    {
       name: 'Explorer',
       icon: 'search',
       to: { name: 'explorer' },
@@ -108,18 +121,7 @@ export default class SidebarMenu extends Vue {
     //   to: { name: 'treasury' },
     //   tag: 'router-link',
     // },
-    {
-      name: 'RMRK.app',
-      icon: 'pen-nib',
-      to: { name: 'rmrk' },
-      tag: 'router-link',
-    },
-    {
-      name: 'NFT',
-      icon: 'images',
-      to: { name: 'nft' },
-      tag: 'router-link'
-    },
+
     // {
     //   name: 'Chain State',
     //   icon: 'database',

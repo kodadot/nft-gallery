@@ -18,7 +18,8 @@
           Create your NFT collectables </router-link></h3><br>
 
           ⚙️ <router-link :to="{ name: 'settings' }">Change your endpoint node</router-link><br> 
-          📣 Feedback? <a href="https://github.com/vue-polkadot/apps/issues/new">Submit issue, we'd be happy to discuss it.</a><br>
+          📣 Feedback? <a href="https://github.com/vue-polkadot/apps/issues/new">We'd be happy to discuss it.</a><br>
+
         </div>
       </div>
     </section>
