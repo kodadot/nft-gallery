@@ -74,7 +74,10 @@ export default class Dropdown extends WithKeyring {
 
 	get accounts() {
     // return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
-    return this.keyringAccounts;
+    
+    // return this.keyringAccounts;
+    // show injected accounts from extension as well
+    return this.allAcctounts();
 	}
   
   get selected() {

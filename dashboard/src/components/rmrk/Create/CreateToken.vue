@@ -9,6 +9,7 @@
         </option>
       </b-select>
     </b-field>
+    <div>
     <b-button
       v-if="selectedCollection"
       type="is-info"
@@ -18,7 +19,7 @@
     >
       Add
     </b-button>
-
+    </div>
     <CreateItem
       v-for="(item, index) in added"
       :key="index"
@@ -28,6 +29,7 @@
       @upload="uploadFile"
       @animated="uploadAnimatedFile"
     />
+    <PasswordInput v-model="password" :account="accountId" />
     <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
       Submit
     </b-button>
@@ -52,8 +54,7 @@ import {
   getNftId
 } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
-import transfer from '@/router/transfer';
-import min from '@polkadot/util/bn/min';
+import PasswordInput from '@/components/shared/PasswordInput.vue';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -75,7 +76,8 @@ interface NFTAndMeta extends NFT {
 @Component({
   components: {
     AccountSelect,
-    CreateItem
+    CreateItem,
+    PasswordInput
   }
 })
 export default class CreateToken extends Vue {
@@ -87,6 +89,7 @@ export default class CreateToken extends Vue {
   private images: (Blob | null)[] = [];
   private animated: (Blob | null)[] = [];
   private isLoading: boolean = false;
+  private password: string = '';
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
@@ -190,7 +193,7 @@ export default class CreateToken extends Vue {
     console.log('batchMethods', batchMethods)
 
     try {
-      const tx = await exec(this.accountId, '', api.tx.utility.batch, [
+      const tx = await exec(this.accountId, this.password, api.tx.utility.batch, [
         batchMethods
       ]);
       console.warn('TX IN', tx);
