@@ -118,7 +118,8 @@ export default class Gallery extends Vue {
   font-weight: bold;
 }
 .gallery__wrapper {
-  width: 80%;
+  width: 95%;
   margin: auto;
+  margin-top: 2em;
 }
 </style>

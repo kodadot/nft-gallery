@@ -129,7 +129,7 @@ export default class GalleryItem extends Vue {
 
 <style scoped>
 .gallery-item__skeleton {
-  width: 80%;
+  width: 95%;
   margin: auto;
 }
 </style>

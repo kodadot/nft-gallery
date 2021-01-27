@@ -1,15 +1,17 @@
 <template>
-  <div>
+  <div class="nft-appreciation__main">
     <b-tooltip
       v-if="accountId && nftId"
       type="is-light"
       :triggers="['click']"
       :auto-close="['outside', 'escape']"
+      multilined
+      size="is-large"
     >
       <template v-slot:content>
-        <div class="columns is-multiline">
+        <div class="columns is-multiline is-mobile">
           <div
-            class="column nft-appreciation__column"
+            class="column nft-appreciation__column is-one-quarter is-one-quarter-mobile"
             v-for="emoji in availableEmojis"
             :key="emoji"
             @click="appreciate(emoji)"
@@ -24,7 +26,7 @@
           </div>
         </div>
       </template>
-      <b-button label="Appreciation" type="is-light" />
+      <b-button class="nft-appreciation__button" label="Appreciation" type="is-light" expanded />
     </b-tooltip>
     <EmotionList :emotions="emotions" />
   </div>
@@ -114,8 +116,8 @@ export default class Appreciation extends Vue {
 </script>
 
 <style scoped>
-.nft-appreciation__wrapper {
-  width: 48px;
+.nft-appreciation__main {
+  margin: 1em 0;
 }
 .nft-appreciation__column {
   padding: 0.45em;
@@ -125,4 +127,9 @@ export default class Appreciation extends Vue {
   cursor: pointer;
   background-color: #dedddd;
 }
+
+.nft-appreciation__button {
+  width: 100%;
+}
+
 </style>
