@@ -13,12 +13,12 @@ import {
   faInfoCircle, faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
   faUsersCog, faCoins, faAngleLeft, faAngleRight,
   faCreditCard, faStepForward, faRing, faDonate, faFileImage,
-  faPenNib, faImages
+  faPenNib, faImages, faHeart
 
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
-// import { faImages } from '@fortawesome/free-regular-svg-icons';
+// import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
@@ -36,7 +36,7 @@ library.add(faTrash, faKey, faSync, faRedo,
   faDatabase, faGem,  faInfoCircle, faExchangeAlt,
   faBug, faStop, faEllipsisV, faPercent, faUsersCog, faCoins,
   faAngleLeft, faAngleRight, faCreditCard, faStepForward, faRing,
-  faDonate, faFileImage, faPenNib, faImages
+  faDonate, faFileImage, faPenNib, faImages, faHeart
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

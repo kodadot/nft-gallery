@@ -3,10 +3,11 @@
     <b-tooltip
       v-if="accountId && nftId"
       type="is-light"
-      :triggers="['click']"
-      :auto-close="['outside', 'escape']"
+      :triggers="['click', 'mouseIn']"
+      :auto-close="['outside', 'escape', 'mouseOut']"
       multilined
       size="is-large"
+      class="nft-appreciation__tooltip"
     >
       <template v-slot:content>
         <div class="columns is-multiline is-mobile">
@@ -26,7 +27,7 @@
           </div>
         </div>
       </template>
-      <b-button class="nft-appreciation__button" label="Appreciation" type="is-light" expanded />
+      <b-button class="nft-appreciation__button"  icon-left="heart" expanded />
     </b-tooltip>
     <EmotionList :emotions="emotions" />
   </div>
@@ -129,6 +130,10 @@ export default class Appreciation extends Vue {
 }
 
 .nft-appreciation__button {
+  width: 100%;
+}
+
+.nft-appreciation__tooltip {
   width: 100%;
 }
 

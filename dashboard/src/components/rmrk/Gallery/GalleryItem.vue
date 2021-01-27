@@ -4,12 +4,13 @@
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
+              v-if="imageVisible"
               :src="nft.image || require('@/utils/placeholder.png')"
+              :src-fallback="require('@/utils/placeholder.png')"
               alt="Simple image"
               ratio="1by1"
-              rounded
             ></b-image>
-          <!-- <MediaResolver v-if="nft.animation_url" :src="nft.image" :mimeType="mimeType" /> -->
+          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
         </div>
       </div>
@@ -22,7 +23,7 @@
         </div>
         <div class="tile is-child box">
           <p class="title is-4"><b>Actions</b></p>
-          <p class="subtitle is-6"><b>{Coming soon}</b></p>
+          <!-- <p class="subtitle is-6"><b>{Coming soon}</b></p> -->
           <AccountSelect label="Account" v-model="accountId" />
           <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
         </div>
@@ -61,8 +62,10 @@ import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification';
 import Money from '@/components/shared/format/Money.vue'
 import Appreciation from './Appreciation.vue'
-import MediaResolver from '../Media/MediaResolver.vue'
+// import MediaResolver from '../Media/MediaResolver.vue'
 import api from '@/fetch';
+import { resolveMedia } from '../utils'
+import { MediaType } from '../types';
 
 type NFTType = NFT | NFTWithMeta;
 
@@ -72,7 +75,7 @@ type NFTType = NFT | NFTWithMeta;
     AvailableActions,
     Money,
     Appreciation,
-    MediaResolver
+    MediaResolver: () => import('../Media/MediaResolver.vue')
   }
 })
 export default class GalleryItem extends Vue {
@@ -81,6 +84,7 @@ export default class GalleryItem extends Vue {
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
   public mimeType: string = '';
+  private imageVisible: boolean = true;
 
   @Prop() public value!: any;
 
@@ -110,6 +114,8 @@ export default class GalleryItem extends Vue {
       if (this.nft.animation_url) {
         const { headers } = await api.head(this.nft.animation_url);
         this.mimeType = headers['content-type'];
+        const mediaType = resolveMedia(this.mimeType);
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE].some(t => t === mediaType);
       }  
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
@@ -131,5 +137,9 @@ export default class GalleryItem extends Vue {
 .gallery-item__skeleton {
   width: 95%;
   margin: auto;
+}
+
+.withPicture {
+  margin: 0.75em 0;
 }
 </style>

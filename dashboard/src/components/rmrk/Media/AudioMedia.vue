@@ -1,9 +1,11 @@
 
 <template>
-  <audio controls>
-      <source :src="src" :type="mimeType">
+  <div>
+    <audio controls class="media-audio__player">
+      <source :src="src" :type="mimeType" />
       Unable to show audio
-  </audio>
+    </audio>
+  </div>
 </template>
 
 <script lang="ts" >
@@ -14,3 +16,9 @@ export default class AppAudio extends Vue {
   @Prop() public mimeType!: string;
 }
 </script>
+
+<style scoped>
+.media-audio__player {
+  width: 100%;
+}
+</style>

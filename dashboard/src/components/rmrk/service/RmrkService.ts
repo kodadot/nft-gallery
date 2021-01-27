@@ -125,7 +125,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
           return this.list(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.CHANGEISSUER:
           return this.changeIssuer(resolved.view as RmrkInteraction, caller)
-        case RmrkEvent.APPRECIATE:
+        case RmrkEvent.EMOTE:
           return this.appreciate(resolved.view as RmrkInteraction, caller)
         default:
           throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)

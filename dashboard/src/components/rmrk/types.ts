@@ -52,7 +52,7 @@ export enum RmrkEvent {
   CONSUME = 'CONSUME',
   CHANGEISSUER = 'CHANGEISSUER',
   SEND = 'SEND',
-  APPRECIATE = 'APPRECIATE',
+  EMOTE = 'EMOTE',
 }
 
 

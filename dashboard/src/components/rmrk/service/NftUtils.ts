@@ -59,8 +59,8 @@ class NFTUtils {
       return RmrkEvent.LIST
     }
 
-    if (RmrkActionRegex.APPRECIATE.test(rmrkString)) {
-      return RmrkEvent.APPRECIATE
+    if (RmrkActionRegex.EMOTE.test(rmrkString)) {
+      return RmrkEvent.EMOTE
     }
 
     throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`);
@@ -97,7 +97,7 @@ class RmrkActionRegex {
   static CONSUME = /^[rR][mM][rR][kK]::CONSUME::/;
   static CHANGEISSUER = /^[rR][mM][rR][kK]::CHANGEISSUER::/;
   static LIST = /^[rR][mM][rR][kK]::LIST::/;
-  static APPRECIATE = /^[rR][mM][rR][kK]::APPRECIATE::/;
+  static EMOTE = /^[rR][mM][rR][kK]::EMOTE::/;
   
 }
 

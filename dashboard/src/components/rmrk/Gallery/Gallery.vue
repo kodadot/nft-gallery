@@ -24,9 +24,9 @@
               <div class="card-image" v-if="nft.image">
                 <b-image
                   :src="nft.image"
+                  :src-fallback="require('@/utils/placeholder.png')"
                   alt="Simple image"
-                  ratio="1by1"
-                  rounded
+                  ratio="1by1" 
                 ></b-image>
               </div>
 
@@ -35,7 +35,6 @@
                   :src="require('@/utils/placeholder.png')"
                   alt="Simple image"
                   ratio="1by1"
-                  rounded
                 ></b-image>
               </div>
 

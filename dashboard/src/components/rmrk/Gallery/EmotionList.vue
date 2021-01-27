@@ -1,12 +1,12 @@
 <template>
-  <div class="columns is-multiline is-gapless nft-emotion__main">
+  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main">
     <div
-      class="column is-3 nft-emotion__column"
+      class="column is-one-fifth nft-emotion__column"
       v-for="emoji in emojis"
       :key="emoji.key"
     >
       <b-taglist attached>
-        <b-tag type="is-dark is-large">
+        <b-tag type="is-light is-large">
           <b-image
             class="nft-emotion__image"
             :src="require(`@/components/rmrk/emoji/${emoji.key}.png`)"
@@ -60,4 +60,5 @@ export default class extends Vue {
 .nft-emotion__image {
   width: 25px;
 }
+
 </style>

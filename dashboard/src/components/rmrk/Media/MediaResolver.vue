@@ -4,10 +4,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import shouldUpdate from '@/utils/shouldUpdate';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { resolveMedia } from '../utils'
-import api from '@/fetch';
 
 
 const VideoMedia = () => import('./VideoMedia.vue')

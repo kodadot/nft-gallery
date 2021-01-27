@@ -1,17 +1,14 @@
 <template>
-  <b-image
-    :src="require('@/utils/placeholder.png')"
-    alt="Simple image"
-    ratio="1by1"
-    rounded
-  ></b-image>
+  <div>
+    <a :href="src" target="_blank">Unknown animated media, click to download</a>
+  </div>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class Unknown extends Vue {
-  private value2: any;
-  @Prop() public value!: any;
+  @Prop() public src!: string;
+  @Prop() public mimeType!: string;
 }
 </script>
