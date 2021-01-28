@@ -11,6 +11,7 @@ import { resolveMedia } from '../utils'
 const VideoMedia = () => import('./VideoMedia.vue')
 const ImageMedia = () => import('./ImageMedia.vue')
 const AudioMedia = () => import('./AudioMedia.vue')
+const JsonMedia = () => import('./JsonMedia.vue')
 const Media = () => import('./Unknown.vue')
 const SUFFIX = 'Media'
 @Component({
@@ -18,6 +19,7 @@ const SUFFIX = 'Media'
     VideoMedia,
     ImageMedia,
     AudioMedia,
+    JsonMedia,
     Media
   }
 })
