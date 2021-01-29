@@ -2,7 +2,9 @@
   <b-navbar 
     fixed-top
     shadow
-    close-on-click>
+    close-on-click
+    spaced
+    centered>
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
@@ -20,13 +22,6 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item>
-      <!-- <b-navbar-item
-        v-for="row in navbarExternal"
-        v-bind:key="row.name"
-        :tag="row.tag"
-        :href="row.href"
-      >{{row.name}}
-      </b-navbar-item> -->
     </template>
     <template #end>
       <b-navbar-item tag="div">
