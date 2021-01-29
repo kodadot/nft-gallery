@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p class="title">RMRK NFT Collection Gallery</p>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <b-field label="Owners">
       <b-select
@@ -13,7 +12,7 @@
         </option>
       </b-select>
     </b-field> -->
-    <div class="gallery__wrapper">
+    <div>
       <div class="columns is-multiline">
         <div
           class="column is-one-quarter-desktop is-one-third-tablet"
@@ -117,9 +116,5 @@ export default class Gallery extends Vue {
 .nft-card__index {
   font-size: 1.35em;
   font-weight: bold;
-}
-.gallery__wrapper {
-  width: 80%;
-  margin: auto;
 }
 </style>

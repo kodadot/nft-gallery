@@ -1,0 +1,88 @@
+<template>
+  <b-navbar 
+    fixed-top
+    shadow
+    close-on-click
+    spaced
+    centered>
+    <template #brand>
+      <b-navbar-item tag="router-link" :to="{ path: '/' }">
+        <img
+          src="../assets/koda_logo_843x843.png"
+          alt="KodaDot - best NFT explorer on Kusama and Polkadot"
+        >
+      </b-navbar-item>
+    </template>
+    <template #start>
+      <b-navbar-item
+        v-for="row in navbar"
+        v-bind:key="row.name"
+        :tag="row.tag"
+        :to="row.to">
+        <strong v-if="row.strong">{{row.name}}</strong>
+        <small v-else>{{row.name}}</small>
+      </b-navbar-item>
+    </template>
+    <template #end>
+      <b-navbar-item tag="div">
+        <div class="buttons">
+            <a class="button is-info"
+              href="https://twitter.com/Kodadot">
+                <strong>@KodaDot</strong>
+            </a>
+            <a class="button is-primary"
+              href="https://rmrk.app">
+                RMRK.app
+            </a>
+        </div>
+      </b-navbar-item>
+    </template>
+  </b-navbar>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+
+@Component({})
+export default class NavbarMenu extends Vue {
+  public navbar: any = [
+    {
+      name: 'Create NFT',
+      tag: 'router-link',
+      to: { name: 'rmrk' },
+      strong: true
+    },
+    {
+      name: 'Gallery',
+      tag: 'router-link',
+      to: { name: 'nft' },
+      strong: true
+    },
+    {
+      name: 'Accounts',
+      icon: 'users',
+      to: { name: 'accounts' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Transfer',
+      icon: 'paper-plane',
+      to: { name: 'transfer' },
+      tag: 'router-link',
+    },
+    {
+      name: 'Settings',
+      icon: 'cogs',
+      tag: 'router-link',
+      to: { name: 'settings' },
+    },
+  ]
+  private navbarExternal: any = [
+    {
+      name: 'Twitter',
+      tag: 'a',
+      href: 'https://twitter.com/Kodadot'
+    }
+  ]
+}
+</script>

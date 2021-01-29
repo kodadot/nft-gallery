@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" />
+  <div class="container is-max-desktop">
+    <Navbar/>
+    <!-- <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" /> -->
     <!-- <div id="dashboard" v-if="online"> -->
-      <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" />
+      <!-- <router-view id="routerview" :class="{'sidebar__active': !sidebarClosed }" /> -->
+    <router-view id="routerview" />
     <!-- </div> -->
     <!-- <div v-else> -->
       <!-- <Offline /> -->
@@ -16,11 +18,13 @@ import Offline from './components/offline/Offline.vue'
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import SidebarMenu from './components/SidebarMenu.vue';
+import Navbar from './components/Navbar.vue';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
   components: {
     SidebarMenu,
+    Navbar,
     Offline,
   },
 })
@@ -75,18 +79,10 @@ export default class Dashboard extends Vue {
   position: fixed;
 }
 
-#routerview {
-  margin-left: 5em;
-  padding: 0.6em;
-}
-
-#routerview.sidebar__active {
-  margin-left: 16.5em;
-}
-
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 @import "./colors";
+@import "./layout";
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -99,6 +95,12 @@ $colors: (
     "success": ($success, $success-invert),
     "warning": ($warning, $warning-invert),
     "danger": ($danger, $danger-invert),
+);
+
+$layout: (
+    "container-offset": ($container-offset),
+    "container-max-width": ($container-max-width),
+    "tablet": ($tablet),
 );
 
 // Links
