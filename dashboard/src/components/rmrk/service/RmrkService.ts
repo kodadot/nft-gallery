@@ -38,6 +38,26 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return rmrkService
   }
 
+
+
+  public async onUrlChange(ss58: string): Promise<void> {
+    const name = ss58 || 'local';
+    
+    try {
+      const thread = await this._client.getThread(name)
+      this._dbStore = thread.id
+    } catch(err) {
+      console.warn(`[RMRK SERVICE] No thread with ${name}`)
+      const thread = await this._client.newDB(undefined, ss58)
+      this._dbStore = thread.toString();
+    }
+
+  }
+
+  public storeThread() {
+    return ThreadID.fromString(this._dbStore);
+  }
+
   get collectioName(): string {
     return this._name
   }
