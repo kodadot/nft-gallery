@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container is-max-desktop">
     <Navbar/>
     <!-- <SidebarMenu class="should-be-sidebar" @toggle="toggleSidebar" /> -->
     <!-- <div id="dashboard" v-if="online"> -->
@@ -82,6 +82,7 @@ export default class Dashboard extends Vue {
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 @import "./colors";
+@import "./layout";
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -94,6 +95,12 @@ $colors: (
     "success": ($success, $success-invert),
     "warning": ($warning, $warning-invert),
     "danger": ($danger, $danger-invert),
+);
+
+$layout: (
+    "container-offset": ($container-offset),
+    "container-max-width": ($container-max-width),
+    "tablet": ($tablet),
 );
 
 // Links
