@@ -50,13 +50,6 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss">
-.should-be-sidebar {
-  width: 5em;
-  height: 100%;
-  float: left;
-  height: 100%;
-  position: fixed;
-}
 
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
