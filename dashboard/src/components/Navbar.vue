@@ -2,7 +2,8 @@
   <b-navbar 
     fixed-top
     shadow
-    close-on-click>
+    spaced
+    >
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
@@ -11,7 +12,7 @@
         >
       </b-navbar-item>
     </template>
-    <template #start>
+    <template #start class="start">
       <b-navbar-item
         v-for="row in navbar"
         v-bind:key="row.name"
@@ -20,25 +21,22 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item>
-      <!-- <b-navbar-item
-        v-for="row in navbarExternal"
-        v-bind:key="row.name"
-        :tag="row.tag"
-        :href="row.href"
-      >{{row.name}}
-      </b-navbar-item> -->
     </template>
     <template #end>
       <b-navbar-item tag="div">
         <div class="buttons">
-            <a class="button is-info"
-              href="https://twitter.com/Kodadot">
-                <strong>@KodaDot</strong>
-            </a>
-            <a class="button is-primary"
-              href="https://rmrk.app">
-                RMRK.app
-            </a>
+          <a class="button is-info"
+            href="https://twitter.com/Kodadot">
+              <b-icon 
+                pack="fab" 
+                icon="twitter">
+              </b-icon>
+              <strong>KodaDot</strong>
+          </a>
+          <a class="button is-primary"
+            href="https://rmrk.app">
+              RMRK.app
+          </a>
         </div>
       </b-navbar-item>
     </template>
@@ -46,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class NavbarMenu extends Vue {
@@ -91,3 +89,14 @@ export default class NavbarMenu extends Vue {
   ]
 }
 </script>
+<style>
+/* .navbar-brand {
+  padding-left: 8rem;
+} */
+.navbar-start {
+  padding-left: 8rem;
+}
+.navbar-end {
+  padding-right: 8rem;
+}
+</style>

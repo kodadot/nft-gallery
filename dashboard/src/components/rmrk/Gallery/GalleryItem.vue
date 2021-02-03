@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="tile is-ancestor gallery-item__skeleton">
+    <div class="tile is-ancestor">
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image

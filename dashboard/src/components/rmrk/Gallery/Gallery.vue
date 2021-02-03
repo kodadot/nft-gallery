@@ -12,7 +12,7 @@
         </option>
       </b-select>
     </b-field> -->
-    <div class="gallery__wrapper">
+    <div>
       <div class="columns is-multiline">
         <div
           class="column is-one-quarter-desktop is-one-third-tablet"
@@ -115,10 +115,5 @@ export default class Gallery extends Vue {
 .nft-card__index {
   font-size: 1.35em;
   font-weight: bold;
-}
-.gallery__wrapper {
-  width: 95%;
-  margin: auto;
-  margin-top: 2em;
 }
 </style>

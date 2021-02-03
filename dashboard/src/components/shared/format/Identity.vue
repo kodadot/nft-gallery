@@ -9,18 +9,17 @@ import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
 import IdentityMixin from '@/utils/mixins/identityMixin'
-import { emptyObject } from '@/utils/empty';
-import AccountId from '@polkadot/types/generic/AccountId';
+import { GenericAccountId } from '@polkadot/types/generic/AccountId';
 import { hexToString } from '@polkadot/util';
 
-type Address = string | AccountId | undefined
+type Address = string | GenericAccountId | undefined
 
 const components = {}
 
 @Component({ components })
 export default class Identity extends Vue {
   @Prop() public address!: Address;
-  private identity: Registration = emptyObject<Registration>();
+  private identity: Registration = {} as Registration;
 
   get identityInfo(): IdentityInfo {
     return this.identity?.info
@@ -50,10 +49,10 @@ export default class Identity extends Vue {
 
   public async identityOf(account: Address): Promise<Registration> {
     if (!account) {
-      return Promise.resolve(emptyObject<Registration>())
+      return Promise.resolve({} as Registration)
     }
 
-    const address: string = account instanceof AccountId ? account.toString() : account;
+    const address: string = account instanceof GenericAccountId ? account.toString() : account;
     const identity = this.$store.getters.getIdentityFor(address)
 
     if (identity) {
