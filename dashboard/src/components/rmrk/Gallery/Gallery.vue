@@ -32,7 +32,7 @@
 
               <div v-else class="card-image">
                 <b-image
-                  :src="require('@/utils/placeholder.png')"
+                  :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                   alt="Simple image"
                   ratio="1by1"
                   rounded
