@@ -18,11 +18,40 @@
           <p class="subtitle">In Collection {{ nft.collection }}</p>
           <p><b>Owned by: </b>{{ nft.currentOwner }}</p>
         </div>
+
+        <div class="card">
+          <div class="card-content">
+            <p class="title">
+              Actions
+            </p>
+            <p class="subtitle">
+              <AccountSelect label="Account" v-model="accountId" />
+              <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+            </p>
+          </div>
+          <footer class="card-footer">
+            <p class="card-footer-item">
+              <span>
+                Share on <a :href="twitterUri">Twitter</a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
+                Share on <a :href="telegramUri">Telegram</a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
+                Share on <a :href="LinemeUri">Line.me</a>
+              </span>
+            </p>
+          </footer>
+        </div>
+  
         <div class="tile is-child box">
           <p class="title is-4"><b>Actions</b></p>
           <p class="subtitle is-6"><b>{Coming soon}</b></p>
-          <AccountSelect label="Account" v-model="accountId" />
-          <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+          
         </div>
         <div class="tile is-child box">
           <p class="title">Description</p>
@@ -107,7 +136,27 @@ export default class GalleryItem extends Vue {
       this.id = this.$route.params.id;
     }
   }
-}
+
+  get helloText() {
+    return 'Check this cool RMRK NFT!'
+  }
+
+  get realworldFullPath() {
+    return `${window.location.origin}/#${this.$route.fullPath}`
+  }
+
+  get telegramUri() {
+    return `tg://msg_url?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+
+  get twitterUri() {
+    return `https://twitter.com/intent/tweet?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+
+  get LinemeUri() {
+    return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+ }
 </script>
 
 <style scoped>
