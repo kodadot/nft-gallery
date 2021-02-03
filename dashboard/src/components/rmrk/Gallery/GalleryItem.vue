@@ -32,26 +32,38 @@
           <footer class="card-footer">
             <p class="card-footer-item">
               <span>
-                Share on <a :href="twitterUri">Twitter</a>
+                <a :href="twitterUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="twitter">
+                  </b-icon>
+                </a>
               </span>
             </p>
             <p class="card-footer-item">
               <span>
-                Share on <a :href="telegramUri">Telegram</a>
+                <a :href="telegramUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="telegram">
+                  </b-icon>
+                </a>
               </span>
             </p>
             <p class="card-footer-item">
               <span>
-                Share on <a :href="LinemeUri">Line.me</a>
+                <a :href="LinemeUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="line">
+                  </b-icon>
+                </a>
               </span>
             </p>
           </footer>
-        </div>
-  
-        <div class="tile is-child box">
-          <p class="title is-4"><b>Actions</b></p>
-          <p class="subtitle is-6"><b>{Coming soon}</b></p>
-          
         </div>
         <div class="tile is-child box">
           <p class="title">Description</p>

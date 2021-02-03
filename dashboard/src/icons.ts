@@ -23,7 +23,7 @@ import {
 // throws error, idk why
 // import { faImages } from '@fortawesome/free-regular-svg-icons';
 
-import { faTwitter, faLine } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter, faLine, faTelegram } from '@fortawesome/free-brands-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -47,7 +47,7 @@ library.add(
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus,
   
-  faTwitter, faLine
+  faTwitter, faTelegram, faLine
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
