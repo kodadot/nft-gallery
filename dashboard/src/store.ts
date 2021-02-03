@@ -18,14 +18,14 @@ interface ChangeUrlAction {
 const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
   Api().on('connect', async (api: any) => {
-    const { chainSS58, chainDecimals, chainToken  } = api.registry
+    const { chainSS58, chainDecimals, chainTokens  } = api.registry
     const {genesisHash} = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl, 
-      { chainSS58, chainDecimals, chainToken, genesisHash});
+      { chainSS58, chainDecimals, chainTokens, genesisHash});
     store.commit('setChainProperties', {
       ss58Format: chainSS58 || 42,
-      tokenDecimals: chainDecimals || 12,
-      tokenSymbol: chainToken || 'Unit',
+      tokenDecimals: chainDecimals[0] || 12,
+      tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || ''
     })
     const nodeInfo = store.getters.availableNodes
