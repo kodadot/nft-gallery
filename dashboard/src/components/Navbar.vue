@@ -7,7 +7,7 @@
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
-          src="../assets/koda_logo_843x843.png"
+          src="../assets/kodadot_logo_v1_transparent_400px.png"
           alt="KodaDot - best NFT explorer on Kusama and Polkadot"
         >
       </b-navbar-item>
