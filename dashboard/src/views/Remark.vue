@@ -7,25 +7,16 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-const Reader = () => import('@/components/rmrk/Reader/Reader.vue')
+import { Component, Vue } from 'vue-property-decorator';
 const Create = () => import('@/components/rmrk/Create/Create.vue')
 const CreateToken = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Create, CreateToken, Reader } 
+const components = { Create, CreateToken } 
 
 @Component({ components })
 export default class Remark extends Vue {
   public activeTab: number = 0;
 
-  public components: string[] = ['Create', 'CreateToken', 'Reader']
+  public components: string[] = ['Create', 'CreateToken']
 }
 </script>
-
-<style scoped>
-/* .nft-gallery__title {
-  font-size: 2em;
-  font-weight: 500;
-} */
-
-</style>
