@@ -26,13 +26,12 @@
                   :src="nft.image"
                   alt="Simple image"
                   ratio="1by1"
-                  rounded
                 ></b-image>
               </div>
 
               <div v-else class="card-image">
                 <b-image
-                  :src="require('@/utils/placeholder.png')"
+                  :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                   alt="Simple image"
                   ratio="1by1"
                   rounded
@@ -40,8 +39,8 @@
               </div>
 
               <div class="card-content">
-                <p class="subtitle is-6">{{ nft.collection }}</p>
                 <p class="title is-4">{{ nft.name }}</p>
+                <p class="subtitle is-6">{{ nft.collection }}</p>
               </div>
             </router-link>
           </div>
@@ -112,9 +111,5 @@ export default class Gallery extends Vue {
 
 .nft-card__owner {
   word-break: break-word;
-}
-.nft-card__index {
-  font-size: 1.35em;
-  font-weight: bold;
 }
 </style>
