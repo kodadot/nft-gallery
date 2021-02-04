@@ -39,8 +39,8 @@
               </div>
 
               <div class="card-content">
-                <p class="subtitle is-6">{{ nft.collection }}</p>
                 <p class="title is-4">{{ nft.name }}</p>
+                <p class="subtitle is-6">{{ nft.collection }}</p>
               </div>
             </router-link>
           </div>

@@ -3,7 +3,7 @@
         <b-upload v-model="file" class="file-label">
             <span class="file-cta">
                 <b-icon class="file-icon" icon="file-image"></b-icon>
-                <span class="file-label">Click to add Image</span>
+                <span class="file-label">Add Multimedia</span>
             </span>
             <span class="file-name" v-if="file">
                 {{ file.name }}

@@ -34,10 +34,13 @@
             <p class="title">
               {{ nft.name }}
             </p>
-            <p class="subtitle">Collection</p>
+            <p class="title is-size-4">
+              Collection
+            </p>
             <p class="subtitle is-size-6"> 
-              {{ nft.collection }}</p>
-            <p class="subtitle is-size-4">
+              {{ nft.collection }}
+            </p>
+            <p class="title is-size-4">
               Owner
             </p>
             <p class="subtitle is-size-6">

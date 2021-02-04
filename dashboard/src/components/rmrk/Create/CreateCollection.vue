@@ -1,7 +1,13 @@
 <template>
   <div>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-    <div>Using {{ version }}</div>
+    
+    <p class="title">
+      Context
+    </p>
+    <p class="subtitle">
+      using {{ version }}
+    </p>
     <div>
       Computed id: <b>{{ rmrkId }}</b>
     </div>
@@ -19,8 +25,11 @@
     <b-field label="Symbol">
       <b-input v-model="rmrkMint.symbol"></b-input>
     </b-field>
-    <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
-      {{ uploadMode ? 'Upload' : 'IPFS hash' }}
+    <p class="title">
+      Content
+    </p>
+    <b-switch v-model="uploadMode" passive-type="is-dark">
+      {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
     </b-switch>
     <template v-if="uploadMode">
       <b-field label="Description">
@@ -31,7 +40,7 @@
         ></b-input>
       </b-field>
       <MetadataUpload v-model="image" />
-      <b-field label="Image data">
+      <b-field label="Multimedia data">
         <b-input v-model="meta.image_data"></b-input>
       </b-field>
     </template>
@@ -47,7 +56,7 @@
       :disabled="disabled"
       :loading="isLoading"
     >
-      Submit
+      Create Collection
     </b-button>
   </div>
 </template>
