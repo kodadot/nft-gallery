@@ -4,6 +4,7 @@ import VuexPersist from 'vuex-persist';
 import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
 import IdentityModule from './vuex/IdentityModule';
+import { getInstance } from '@/components/rmrk/service/RmrkService';
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -17,6 +18,7 @@ interface ChangeUrlAction {
 
 const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
+  
   Api().on('connect', async (api: any) => {
     const { chainSS58, chainDecimals, chainTokens  } = api.registry
     const {genesisHash} = api
@@ -28,6 +30,16 @@ const apiPlugin = (store: any) => {
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || ''
     })
+    const rmrkService = getInstance();
+
+    if (rmrkService) {
+      try {
+        rmrkService.onUrlChange(chainSS58)
+      } catch (e) {
+        console.warn('[RMRK API] error', e);
+      }   
+    }
+
     const nodeInfo = store.getters.availableNodes
         .filter((o:any) => o.value === store.state.setting.apiUrl)
         .map((o:any) => {return o.info})[0]
@@ -36,6 +48,7 @@ const apiPlugin = (store: any) => {
   Api().on('error', async (error: Error) => {
     store.commit('setError', error);
     console.warn('[API] error', error);
+    // Api().disconnect()
   })
 }
 

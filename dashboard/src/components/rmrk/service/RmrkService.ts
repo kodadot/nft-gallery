@@ -41,7 +41,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
 
   public async onUrlChange(ss58: string): Promise<void> {
-    const name = ss58 || 'local';
+    const name = String(ss58) || 'local';
     
     try {
       const thread = await this._client.getThread(name)
@@ -127,14 +127,14 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   }
 
-  public resolve(rmrkString: string, caller: string): Promise<RmrkType> {
+  public resolve(rmrkString: string, caller: string, blocknumber?: string | number): Promise<RmrkType> {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
       switch (resolved.event) {
         case RmrkEvent.MINT:
-          return this.mint(resolved.view, caller)
+          return this.mint(resolved.view, caller, blocknumber)
         case RmrkEvent.MINTNFT:
-          return this.mintNFT(resolved.view, caller)
+          return this.mintNFT(resolved.view, caller, blocknumber)
         case RmrkEvent.SEND:
           return this.send(resolved.view, caller)
         case RmrkEvent.BUY:
@@ -272,11 +272,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   }
 
-  private async mint(view: object, caller: string): Promise<Collection> {
+  private async mint(view: object, caller: string, blocknumber?: string | number): Promise<Collection> {
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
 
     // Consolidator.collectionIdValid(collection, caller);
+
+    if (blocknumber) {
+      collection.blockNumber = Number(blocknumber)
+    }
     
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
@@ -293,7 +297,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return collection;
   }
 
-  private async mintNFT(view: object, caller: string): Promise<NFT> {
+  private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
     const item = computeAndUpdateNft(view as NFT);
     this.useCollection();
     await this.shouldExist(item.collection);
@@ -302,6 +306,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useNFT();
 
     item.currentOwner = caller;
+
+    if (blocknumber) {
+      item.blockNumber = Number(blocknumber)
+    }
 
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
