@@ -5,6 +5,7 @@ import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
 import IdentityModule from './vuex/IdentityModule';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
+import { changeCurrentColor } from '@/colors'
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -30,6 +31,7 @@ const apiPlugin = (store: any) => {
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || ''
     })
+    
     const rmrkService = getInstance();
 
     if (rmrkService) {
