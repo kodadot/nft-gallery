@@ -17,6 +17,7 @@ import {
   faTimes, faCopy, faTrash, faCloudDownloadAlt,
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus,
+  faChevronDown, faChevronUp
 
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -46,7 +47,7 @@ library.add(
   faTimes, faCopy, faTrash, faCloudDownloadAlt,
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus,
-  
+  faChevronDown, faChevronUp,
   faTwitter, faTelegram, faLine
   );
 

@@ -26,7 +26,6 @@
                   :src="nft.image"
                   alt="Simple image"
                   ratio="1by1"
-                  rounded
                 ></b-image>
               </div>
 
@@ -112,9 +111,5 @@ export default class Gallery extends Vue {
 
 .nft-card__owner {
   word-break: break-word;
-}
-.nft-card__index {
-  font-size: 1.35em;
-  font-weight: bold;
 }
 </style>

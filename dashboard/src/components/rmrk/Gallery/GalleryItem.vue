@@ -4,21 +4,48 @@
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
-              :src="nft.image || require('@/utils/placeholder.png')"
+              :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               alt="Simple image"
               ratio="1by1"
-              rounded
             ></b-image>
+            <div class="card">
+              <div class="card-content">
+                <p class="title">
+                  Legend
+                </p>
+                <p class="subtitle is-size-6">
+                  <b># {{ nft.id }}</b>
+                  <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                    <Money :value="nft.price" :inline="true" />
+                  </b-tag>
+                  <p class="subtitle is-size-6">
+                    {{ nft.description }}
+                  </p>
+                  <!-- <p><a :href="nft.external_url" >View it on RMRK.app</a></p> -->
+                </p>
+              </div>
+            </div>
         </div>
       </div>
 
       <div class="tile is-vertical is-parent">
-        <div class="tile is-child">
-          <p class="title">{{ nft.name }}</p>
-          <p class="subtitle">In Collection {{ nft.collection }}</p>
-          <p><b>Owned by: </b>{{ nft.currentOwner }}</p>
+        <div class="card">
+          <div class="card-content">
+            <p class="title">
+              {{ nft.name }}
+            </p>
+            <p class="subtitle">Collection</p>
+            <p class="subtitle is-size-6"> 
+              {{ nft.collection }}</p>
+            <p class="subtitle is-size-4">
+              Owner
+            </p>
+            <p class="subtitle is-size-6">
+              {{ nft.currentOwner }}
+            </p>
+          </div>
         </div>
-
+        <br/>
         <div class="card">
           <div class="card-content">
             <p class="title">
@@ -54,7 +81,7 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="LinemeUri">
+                <a :href="linemeUri">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -65,25 +92,41 @@
             </p>
           </footer>
         </div>
-        <div class="tile is-child box">
-          <p class="title">Description</p>
-          <div class="nft-card__index">
-            <b># {{ nft.id }}</b>
+      <br>
+
+
+        <b-collapse class="card" animation="slide" 
+          aria-id="contentIdForA11y3" :open="false">
+          <template #trigger="props">
+            <div
+              class="card-header"
+              role="button"
+              aria-controls="contentIdForA11y3">
+              <p class="card-header-title">
+                Facts
+              </p>
+              <a class="card-header-icon">
+                  <b-icon
+                      :icon="props.open ? 'chevron-down' : 'chevron-up'">
+                  </b-icon>
+              </a>
+            </div>
+          </template>
+
+          <div class="card-content">
+            <div class="content">
+              <p class="subtitle is-size-6">
+                <b>COLLECTION:</b>{{ nft.collection }}
+              </p>
+              <p class="subtitle is-size-6">
+                <b>SN:</b>{{ nft.sn }}
+              </p>
+              <p class="subtitle is-size-6">
+                <b>INSTANCE:</b>{{ nft.sn }}
+              </p>
+            </div>
           </div>
-          <b-tag v-if="nft.price" type="is-dark" size="is-medium">
-            <Money :value="nft.price" :inline="true" />
-          </b-tag>
-          <p class="nft-card__owner"><b>name:</b>{{ nft.name }}</p>
-          <p class="nft-card__owner">
-            <b>collection:</b>{{ nft.collection }}
-          </p>
-          <p class="nft-card__owner"><b>sn:</b>{{ nft.sn }}</p>
-          <p class="nft-card__owner"><b>instance:</b>{{ nft.sn }}</p>
-          <p class="nft-card__owner">
-            <b>About:</b>{{ nft.description }}
-          </p>
-          <p><a :href="nft.external_url" >View it on RMRK.app</a></p>
-        </div>
+        </b-collapse>
       </div>
     </div>
   </div>
@@ -150,11 +193,11 @@ export default class GalleryItem extends Vue {
   }
 
   get helloText() {
-    return 'Check this cool RMRK NFT!'
+    return 'Check out this cool RMRK NFT'
   }
 
   get realworldFullPath() {
-    return `${window.location.origin}/#${this.$route.fullPath}`
+    return `${window.location.origin}/%23${this.$route.fullPath}`
   }
 
   get telegramUri() {
@@ -162,10 +205,10 @@ export default class GalleryItem extends Vue {
   }
 
   get twitterUri() {
-    return `https://twitter.com/intent/tweet?url=${this.realworldFullPath}&text=${this.helloText}`
+    return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`
   }
 
-  get LinemeUri() {
+  get linemeUri() {
     return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`
   }
  }
