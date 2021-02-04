@@ -14,8 +14,5 @@ import CreateCollection from './CreateCollection.vue'
   }
 })
 export default class  extends Vue {
-
-  private value2: any;
-  @Prop() public value!: any;
 }
 </script>

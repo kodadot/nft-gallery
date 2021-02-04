@@ -17,7 +17,7 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 
 @Component({})
 export default class  extends Vue {
-  @Prop({default: 'Click to add media file' }) public label!: string;
+  @Prop({default: 'Add Multimedia' }) public label!: string;
   @Prop({default: 'file-image' }) public icon!: string;
   private file: Blob | null = null;
 

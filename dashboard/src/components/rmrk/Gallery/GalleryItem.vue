@@ -4,48 +4,132 @@
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
-              v-if="imageVisible"
-              :src="nft.image || require('@/utils/placeholder.png')"
-              :src-fallback="require('@/utils/placeholder.png')"
+              :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               alt="Simple image"
               ratio="1by1"
             ></b-image>
-          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+            <div class="card">
+              <div class="card-content">
+                <p class="title">
+                  Legend
+                </p>
+                <p class="subtitle is-size-6">
+                  <b># {{ nft.id }}</b>
+                  <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                    <Money :value="nft.price" :inline="true" />
+                  </b-tag>
+                  <p class="subtitle is-size-6">
+                    {{ nft.description }}
+                  </p>
+                  <!-- <p><a :href="nft.external_url" >View it on RMRK.app</a></p> -->
+                </p>
+              </div>
+            </div>
         </div>
       </div>
 
       <div class="tile is-vertical is-parent">
-        <div class="tile is-child">
-          <p class="title">{{ nft.name }}</p>
-          <p class="subtitle">In Collection {{ nft.collection }}</p>
-          <p><b>Owned by: </b>{{ nft.currentOwner }}</p>
-        </div>
-        <div class="tile is-child box">
-          <p class="title is-4"><b>Actions</b></p>
-          <!-- <p class="subtitle is-6"><b>{Coming soon}</b></p> -->
-          <AccountSelect label="Account" v-model="accountId" />
-          <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
-        </div>
-        <div class="tile is-child box">
-          <p class="title">Description</p>
-          <div class="nft-card__index">
-            <b># {{ nft.id }}</b>
+        <div class="card">
+          <div class="card-content">
+            <p class="title">
+              {{ nft.name }}
+            </p>
+            <p class="title is-size-4">
+              Collection
+            </p>
+            <p class="subtitle is-size-6"> 
+              {{ nft.collection }}
+            </p>
+            <p class="title is-size-4">
+              Owner
+            </p>
+            <p class="subtitle is-size-6">
+              {{ nft.currentOwner }}
+            </p>
           </div>
-          <b-tag v-if="nft.price" type="is-dark" size="is-medium">
-            <Money :value="nft.price" :inline="true" />
-          </b-tag>
-          <p class="nft-card__owner"><b>name:</b>{{ nft.name }}</p>
-          <p class="nft-card__owner">
-            <b>collection:</b>{{ nft.collection }}
-          </p>
-          <p class="nft-card__owner"><b>sn:</b>{{ nft.sn }}</p>
-          <p class="nft-card__owner"><b>instance:</b>{{ nft.sn }}</p>
-          <p class="nft-card__owner">
-            <b>About:</b>{{ nft.description }}
-          </p>
-          <p><a :href="nft.external_url" >View it on RMRK.app</a></p>
         </div>
+        <br/>
+        <div class="card">
+          <div class="card-content">
+            <p class="title">
+              Actions
+            </p>
+            <p class="subtitle">
+              <AccountSelect label="Account" v-model="accountId" />
+              <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+            </p>
+          </div>
+          <footer class="card-footer">
+            <p class="card-footer-item">
+              <span>
+                <a :href="twitterUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="twitter">
+                  </b-icon>
+                </a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
+                <a :href="telegramUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="telegram">
+                  </b-icon>
+                </a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
+                <a :href="linemeUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="line">
+                  </b-icon>
+                </a>
+              </span>
+            </p>
+          </footer>
+        </div>
+      <br>
+
+
+        <b-collapse class="card" animation="slide" 
+          aria-id="contentIdForA11y3" :open="false">
+          <template #trigger="props">
+            <div
+              class="card-header"
+              role="button"
+              aria-controls="contentIdForA11y3">
+              <p class="card-header-title">
+                Facts
+              </p>
+              <a class="card-header-icon">
+                  <b-icon
+                      :icon="props.open ? 'chevron-down' : 'chevron-up'">
+                  </b-icon>
+              </a>
+            </div>
+          </template>
+
+          <div class="card-content">
+            <div class="content">
+              <p class="subtitle is-size-6">
+                <b>COLLECTION:</b>{{ nft.collection }}
+              </p>
+              <p class="subtitle is-size-6">
+                <b>SN:</b>{{ nft.sn }}
+              </p>
+              <p class="subtitle is-size-6">
+                <b>INSTANCE:</b>{{ nft.sn }}
+              </p>
+            </div>
+          </div>
+        </b-collapse>
       </div>
     </div>
   </div>
@@ -130,7 +214,27 @@ export default class GalleryItem extends Vue {
       this.id = this.$route.params.id;
     }
   }
-}
+
+  get helloText() {
+    return 'Check out this cool RMRK NFT'
+  }
+
+  get realworldFullPath() {
+    return `${window.location.origin}/%23${this.$route.fullPath}`
+  }
+
+  get telegramUri() {
+    return `tg://msg_url?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+
+  get twitterUri() {
+    return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`
+  }
+
+  get linemeUri() {
+    return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+ }
 </script>
 
 <style scoped>
