@@ -73,9 +73,14 @@ export const fetchRmrkMeta = async (
 };
 
 export const sanitizeIpfsUrl = (ipfsUrl: string) => {
-  const rr = /^ipfs:\/\//;
+  const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', 'https://ipfs.io/');
+  }
+
+  const r = /^ipfs:\/\//;
+  if (r.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', 'https://ipfs.io/ipfs/');
   }
 
   return ipfsUrl;

@@ -46,6 +46,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     try {
       const thread = await this._client.getThread(name)
       this._dbStore = thread.id
+      console.log(`[RMRK SERVICE] Connected to service <3 ${name}`)
     } catch(err) {
       console.warn(`[RMRK SERVICE] No thread with ${name}`)
       const thread = await this._client.newDB(undefined, ss58)
@@ -277,6 +278,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useCollection();
 
     // Consolidator.collectionIdValid(collection, caller);
+    collection.issuer = caller;
 
     if (blocknumber) {
       collection.blockNumber = Number(blocknumber)

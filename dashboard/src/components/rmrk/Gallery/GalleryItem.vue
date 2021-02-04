@@ -14,7 +14,7 @@
                   Legend
                 </p>
                 <p class="subtitle is-size-6">
-                  <b># {{ nft.id }}</b>
+                  <b># {{ nftId }}</b>
                   <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                     <Money :value="nft.price" :inline="true" />
                   </b-tag>
@@ -233,6 +233,11 @@ export default class GalleryItem extends Vue {
 
   get linemeUri() {
     return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`
+  }
+
+  get nftId() {
+    const { id, blockNumber } = this.nft
+    return `${blockNumber ? blockNumber + '-' : ''}${id}`
   }
  }
 </script>
