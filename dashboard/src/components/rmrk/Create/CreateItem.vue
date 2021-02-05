@@ -54,6 +54,7 @@ import { NFT, NFTMetadata } from '../service/scheme';
 import { emptyObject } from '@/utils/empty';
 import { client } from '@/textile';
 import MetadataUpload from './MetadataUpload.vue'
+import slugify from 'slugify'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata
@@ -73,7 +74,7 @@ export default class CreateItem extends Vue {
 
   get nftId(): string {
     const {collection, instance, sn} = this.view
-    return `${collection}-${instance}-${this.serialNumber}`
+    return `${collection}-${(instance || '').toUpperCase()}-${this.serialNumber}`
   }
 
   get serialNumber(): string {

@@ -90,6 +90,7 @@ export default class Appreciation extends Vue {
         `[TEXTILE] ${persisted?._id}`,
         notificationTypes.success
       );
+      await this.fetchAppreciationsForNFT(this.nftId)
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);

@@ -97,6 +97,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   async getCollectionListForAccount(account: string): Promise<Collection[]> {
+    this.useCollection();
     const query: QueryJSON = new Where('issuer').eq(account)
     const collections = await this.find<Collection>(query)
     return collections
@@ -245,7 +246,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     const appreciation: Emotion = {
-      _id: generateId(caller, view.id),
+      _id: generateId(caller, view.id + view.metadata),
       remarkId: view.id,
       issuer: caller,
       metadata: view.metadata
@@ -264,7 +265,9 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const collectionAlreadyCreated = await this.exists(appreciation._id);
 
     if (collectionAlreadyCreated) {
-      throw ReferenceError(`[RMRK Service] Collection already created ${appreciation._id}`)
+      await this.remove(appreciation._id)
+      return appreciation
+      // throw ReferenceError(`[RMRK Service] Collection already created ${appreciation._id}`)
     }
 
     await this.addToCollection(appreciation)

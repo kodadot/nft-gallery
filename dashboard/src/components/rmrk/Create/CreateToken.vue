@@ -55,6 +55,7 @@ import {
 } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
+import slugify from 'slugify'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -137,7 +138,8 @@ export default class CreateToken extends Vue {
       currentOwner: this.accountId,
       id,
       _id: id,
-      transferable: Number(nftForMint.transferable)
+      transferable: Number(nftForMint.transferable),
+      instance: slugify(nftForMint.instance, '_').toUpperCase()
     };
   }
 
@@ -191,31 +193,41 @@ export default class CreateToken extends Vue {
 
     const batchMethods: any[] = remarks.map(this.toRemark)
     console.log('batchMethods', batchMethods)
+    const rmrkService = getInstance();
 
     try {
       const tx = await exec(this.accountId, this.password, api.tx.utility.batch, [
         batchMethods
-      ]);
-      console.warn('TX IN', tx);
-
-      showNotification(execResultValue(tx), notificationTypes.success);
-      const rmrkService = getInstance();
-      remarks.forEach(async (rmrk, index) => {
-        try {
-          const res = await rmrkService?.resolve(rmrk, this.accountId)
-          showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
-          console.log('res', index, res)
-        } catch (e) {
-          console.warn(`Failed Indexing ${index} with err ${e}`);
-          
+      ], async (result) => {
+        console.log(`Current status is`, result);
+        if (result.status.isFinalized) {
+          console.log(`finalized status is`, result);
+          console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(result.status.asFinalized);
+          const blockNumber = header.number.toString();
+          remarks.forEach(async (rmrk, index) => {
+            this.isLoading = true;
+            try {
+              const res = await rmrkService?.resolve(rmrk, this.accountId, blockNumber)
+              showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
+              console.log('res', index, res)
+            } catch (e) {
+              console.warn(`Failed Indexing ${index} with err ${e}`);  
+            }
+            this.isLoading = false;
+          })    
         }
-        
-      })
+      });
+      console.warn('TX IN', tx);
+      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
+      
     } catch (e) {
       showNotification(e, notificationTypes.danger);
+      this.isLoading = false;
     }
 
-    this.isLoading = false;
+    
   }
 
   private handleAdd() {
