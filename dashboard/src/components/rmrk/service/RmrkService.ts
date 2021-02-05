@@ -40,8 +40,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
 
 
-  public async onUrlChange(ss58: string): Promise<void> {
-    const name = String(ss58) || 'local';
+  public async onUrlChange(ss58: string | undefined | number): Promise<void> {
+    const name = ss58 ? String(ss58) : 'local';
     
     try {
       const thread = await this._client.getThread(name)
@@ -49,7 +49,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       console.log(`[RMRK SERVICE] Connected to service <3 ${name}`)
     } catch(err) {
       console.warn(`[RMRK SERVICE] No thread with ${name}`)
-      const thread = await this._client.newDB(undefined, ss58)
+      const thread = await this._client.newDB(undefined, name)
       this._dbStore = thread.toString();
     }
 

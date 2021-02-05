@@ -43,7 +43,7 @@ import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Connector from '@vue-polkadot/vue-api';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import {
@@ -198,7 +198,7 @@ export default class CreateToken extends Vue {
       ]);
       console.warn('TX IN', tx);
 
-      showNotification(tx, notificationTypes.success);
+      showNotification(execResultValue(tx), notificationTypes.success);
       const rmrkService = getInstance();
       remarks.forEach(async (rmrk, index) => {
         try {

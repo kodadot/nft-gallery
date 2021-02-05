@@ -1314,6 +1314,13 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@polkadot/networks@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-5.5.2.tgz#7a1be26fbb44512084f4575c2f2c876e007b79a5"
+  integrity sha512-KDoqUulR0r0uv8H7iKC4X/+YUcrqrIe0ACeidvCfTcu4iiAnWXwbS9ifv/qj+eWTI+FXMSRFDSCvyYXKz4Ic2A==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+
 "@polkadot/rpc-core@3.7.2":
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-3.7.2.tgz#d7d8cd473d431050db9179e49c138d33970b948f"
@@ -2157,10 +2164,12 @@
     vue-class-component "^7.0.2"
     vue-property-decorator "^8.1.0"
 
-"@vue-polkadot/vue-settings@0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.15.tgz#5247632c4366af52e3d008a8649b14c8c0a6eb81"
-  integrity sha512-uXVHLRNsu/wbNo1nPsJ55b9HcdOJm7Mg8yIQKN9S//w0NnusmfitdrTXXCpJBVQ1Xu9OrHUqqxsI6Q5mkWQC3Q==
+"@vue-polkadot/vue-settings@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.16.tgz#f5b148862cbfd00fa5356a4eae6d19478be7f9f7"
+  integrity sha512-qjA+uGwFUxZmv9QDPwLtXWEQMHn5LBRgtSE7xH2REmMQpVZx4WuKYr8HIprvNf4vMuHyS2grAsg3wvy2KmbUiQ==
+  dependencies:
+    "@polkadot/networks" "^5.5.2"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0":
   version "1.0.0"

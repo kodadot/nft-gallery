@@ -36,7 +36,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import shouldUpdate from '@/utils/shouldUpdate';
@@ -81,7 +81,7 @@ export default class Appreciation extends Vue {
       showNotification(rmrk);
       console.log('submit', rmrk);
       const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
-      showNotification(tx, notificationTypes.success);
+      showNotification(execResultValue(tx), notificationTypes.success);
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
       console.log(persisted);
