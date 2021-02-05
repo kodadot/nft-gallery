@@ -23,7 +23,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   private constructor(keyInfo: KeyInfo, url?: string) {
     super(keyInfo)
     this._client = emptyObject<Client>();
-    const defaultUrl = 'bafkqswn7uhcawhc74xne4zlhoebazbnsqa2n7k6yrqdt4sqedugmrsq';
+    const defaultUrl = 'bafkyp34nfouh564fd4e2m6gy33wln5wwdqescynecpfawnh7rycakly';
+    // const defaultUrl = 'bafkqswn7uhcawhc74xne4zlhoebazbnsqa2n7k6yrqdt4sqedugmrsq';
     this._dbStore = url || defaultUrl;
   }
 
