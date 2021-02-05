@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { KeyringAccount } from '@/types';
 
 export default class TxButton extends Vue {
@@ -33,7 +33,7 @@ export default class TxButton extends Vue {
       showNotification('Dispatched');
       const { account, password, callback, params } = this;
       const tx = await exec(account, password, callback, params);
-      showNotification(tx, notificationTypes.success);
+      showNotification(execResultValue(tx), notificationTypes.success);
       this.handleProcessed(tx);
     } catch (e) {
       showNotification(e, notificationTypes.danger);

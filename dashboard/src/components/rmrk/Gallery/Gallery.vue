@@ -24,8 +24,9 @@
               <div class="card-image" v-if="nft.image">
                 <b-image
                   :src="nft.image"
+                  :src-fallback="require('@/utils/placeholder.png')"
                   alt="Simple image"
-                  ratio="1by1"
+                  ratio="1by1" 
                 ></b-image>
               </div>
 
@@ -34,7 +35,6 @@
                   :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                   alt="Simple image"
                   ratio="1by1"
-                  rounded
                 ></b-image>
               </div>
 

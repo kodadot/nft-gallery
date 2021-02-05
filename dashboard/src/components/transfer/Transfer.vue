@@ -48,7 +48,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 import Connector from '@vue-polkadot/vue-api';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
 import shortAddress from '@/utils/shortAddress';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { showNotification } from '@/utils/notification';
 
 @Component({
@@ -108,7 +108,7 @@ export default class Transfer extends Vue {
         showNotification('Dispatched');
         console.log([this.accountTo.address, this.balance])
         const tx = await exec(this.accountFrom.address, this.password, api.tx.balances.transfer, [this.accountTo.address, this.balance?.toString()]);
-        showNotification(tx, this.snackbarTypes.success);
+        showNotification(execResultValue(tx), this.snackbarTypes.success);
       } catch (e) {
         console.error('[ERR: TRANSFER SUBMIT]', e)
         showNotification(e.message, this.snackbarTypes.danger);

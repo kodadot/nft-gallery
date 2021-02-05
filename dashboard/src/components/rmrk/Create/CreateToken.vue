@@ -27,6 +27,7 @@
       :view="item"
       @update="handleUpdate"
       @upload="uploadFile"
+      @animated="uploadAnimatedFile"
     />
     <PasswordInput v-model="password" :account="accountId" />
     <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
@@ -42,7 +43,7 @@ import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Connector from '@vue-polkadot/vue-api';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import {
@@ -54,6 +55,7 @@ import {
 } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
+import slugify from 'slugify'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -86,6 +88,7 @@ export default class CreateToken extends Vue {
   private added: NFTAndMeta[] = [];
   private accountId: string = '';
   private images: (Blob | null)[] = [];
+  private animated: (Blob | null)[] = [];
   private isLoading: boolean = false;
   private password: string = '';
 
@@ -118,6 +121,10 @@ export default class CreateToken extends Vue {
     this.$set(this.images, item.index, item.image);
   }
 
+    private uploadAnimatedFile(item: { image: Blob; index: number }) {
+    this.$set(this.animated, item.index, item.image);
+  }
+
   private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {
     const metaHash = await this.constructMeta(nft, index);
 
@@ -131,7 +138,8 @@ export default class CreateToken extends Vue {
       currentOwner: this.accountId,
       id,
       _id: id,
-      transferable: Number(nftForMint.transferable)
+      transferable: Number(nftForMint.transferable),
+      instance: slugify(nftForMint.instance, '_').toUpperCase()
     };
   }
 
@@ -161,6 +169,13 @@ export default class CreateToken extends Vue {
     // TODO: upload image to IPFS
     const imageHash = await pinFile(image);
     meta.image = unSanitizeIpfsUrl(imageHash);
+
+    const animatedFile = this.animated[index];
+    if (animatedFile) {
+      const animatedHash = await pinFile(animatedFile);
+      meta.animation_url = unSanitizeIpfsUrl(animatedHash);
+    }
+
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(meta);
 
@@ -178,31 +193,41 @@ export default class CreateToken extends Vue {
 
     const batchMethods: any[] = remarks.map(this.toRemark)
     console.log('batchMethods', batchMethods)
+    const rmrkService = getInstance();
 
     try {
       const tx = await exec(this.accountId, this.password, api.tx.utility.batch, [
         batchMethods
-      ]);
-      console.warn('TX IN', tx);
-
-      showNotification(tx, notificationTypes.success);
-      const rmrkService = getInstance();
-      remarks.forEach(async (rmrk, index) => {
-        try {
-          const res = await rmrkService?.resolve(rmrk, this.accountId)
-          showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
-          console.log('res', index, res)
-        } catch (e) {
-          console.warn(`Failed Indexing ${index} with err ${e}`);
-          
+      ], async (result) => {
+        console.log(`Current status is`, result);
+        if (result.status.isFinalized) {
+          console.log(`finalized status is`, result);
+          console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(result.status.asFinalized);
+          const blockNumber = header.number.toString();
+          remarks.forEach(async (rmrk, index) => {
+            this.isLoading = true;
+            try {
+              const res = await rmrkService?.resolve(rmrk, this.accountId, blockNumber)
+              showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
+              console.log('res', index, res)
+            } catch (e) {
+              console.warn(`Failed Indexing ${index} with err ${e}`);  
+            }
+            this.isLoading = false;
+          })    
         }
-        
-      })
+      });
+      console.warn('TX IN', tx);
+      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
+      
     } catch (e) {
       showNotification(e, notificationTypes.danger);
+      this.isLoading = false;
     }
 
-    this.isLoading = false;
+    
   }
 
   private handleAdd() {
