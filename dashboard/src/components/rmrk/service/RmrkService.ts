@@ -42,7 +42,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
 
   public async onUrlChange(ss58: string | undefined | number): Promise<void> {
-    const name = ss58 ? String(ss58) : 'local';
+    const name = ss58 ||(typeof ss58 === 'number' && ss58 >= 0) ? String(ss58) : 'local';
     
     try {
       const thread = await this._client.getThread(name)
