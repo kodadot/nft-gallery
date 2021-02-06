@@ -122,6 +122,13 @@ export interface NFTWithMeta extends NFT, NFTMetadata {
 
 }
 
+// id me
+export interface Emotion {
+  _id: string;
+  remarkId: string;
+  issuer: string;
+  metadata: string;
+}
 
 export interface Collection {
   version: string;
@@ -132,6 +139,7 @@ export interface Collection {
   id: string;
   _id: string;
   metadata: string;
+  blockNumber?: number;
 }
 
 export interface NFT {
@@ -146,6 +154,7 @@ export interface NFT {
   currentOwner: string;
   price?: string;
   disabled?: boolean;
+  blockNumber?: number;
 }
 
 export const getNftId = (nft: NFT): string => {

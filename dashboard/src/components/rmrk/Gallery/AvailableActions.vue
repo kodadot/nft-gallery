@@ -29,7 +29,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 
@@ -101,7 +101,7 @@ export default class AvailableActions extends Vue {
       const cb = isSend ? api.tx.utility.batch : api.tx.system.remark
       const arg = isSend ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
-      showNotification(tx, notificationTypes.success)
+      showNotification(execResultValue(tx), notificationTypes.success)
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
       console.log(persisted)

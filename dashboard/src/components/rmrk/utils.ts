@@ -10,6 +10,7 @@ import {
 } from './types';
 import api from '@/fetch';
 import { RmrkType } from './service/RmrkService';
+import { NFTMetadata } from './service/scheme';
 
 export const SQUARE = '::'
 
@@ -29,7 +30,7 @@ export const fetchCollectionMetadata = (
 
 export const fetchNFTMetadata = (
   rmrk: RmrkType
-): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
+): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk)
 
 export const fetchMetadata = async <T>(
   rmrk: RmrkType
@@ -72,9 +73,14 @@ export const fetchRmrkMeta = async (
 };
 
 export const sanitizeIpfsUrl = (ipfsUrl: string) => {
-  const rr = /^ipfs:\/\//;
+  const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', 'https://ipfs.io/');
+  }
+
+  const r = /^ipfs:\/\//;
+  if (r.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', 'https://ipfs.io/ipfs/');
   }
 
   return ipfsUrl;

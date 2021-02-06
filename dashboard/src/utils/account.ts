@@ -1,6 +1,8 @@
 import { KeyringAccount } from '@/types';
 import keyring from '@polkadot/ui-keyring';
 import { getAddress } from '@/extension'
+import { decodeAddress, encodeAddress, } from '@polkadot/util-crypto';
+import store from '@/store'
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
   const address = typeof account === 'string' ? account : account.address;
@@ -22,6 +24,20 @@ const passwordRequired = async (account: KeyringAccount | string) => {
 
 
   return isAccountLocked(address)
+}
+
+const accountToAddress = (account: KeyringAccount | string) => typeof account === 'string' ? account : account.address;
+
+export const toDefaultAddress = (account: KeyringAccount | string) => {
+  const address = accountToAddress(account);
+  if (/^5/.test(address)) {
+    return address
+  }
+
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+
+  return encodeAddress(decodeAddress(address, ss58Format));
+  
 }
 
 export default passwordRequired

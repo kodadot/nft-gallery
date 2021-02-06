@@ -37,13 +37,21 @@ export default class WithKeyring extends Vue {
     this.keyringAccounts = keyring.getPairs();
   }
 
+  get chainProperties() {
+    return this.$store.getters.getChainProperties;
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
   public async extensionAccounts() {
     if (!isWeb3Injected) {
       console.warn('Extension not working')
       return;
     }
 
-    this.importedAccounts = await web3Accounts();
+    this.importedAccounts = await web3Accounts({ ss58Format: this.ss58Format || 42 });
   }
 
   public allAcctounts(): KeyringAccount[] {

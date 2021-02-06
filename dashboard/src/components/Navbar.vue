@@ -45,9 +45,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { getCurrentColor } from '@/colors'
 
 @Component({})
 export default class NavbarMenu extends Vue {
+  private color: string = getCurrentColor()
   public navbar: any = [
     {
       name: 'Create',
@@ -96,6 +98,12 @@ export default class NavbarMenu extends Vue {
       href: 'https://twitter.com/Kodadot'
     }
   ]
+
+  // get chainColor() {
+  //   return {
+  //     'border-bottom': `4px ${this.color} solid`
+  //   }
+  // }
 }
 </script>
 <style>

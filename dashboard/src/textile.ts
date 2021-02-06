@@ -1,4 +1,4 @@
-import { Client, KeyInfo, ThreadID } from '@textile/hub'
+import { Client, KeyInfo } from '@textile/hub'
 
 export async function client(): Promise<Client> {
    return await Client.withKeyInfo(keyInfo)

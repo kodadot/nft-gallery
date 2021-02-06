@@ -4,17 +4,21 @@
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
+              v-if="imageVisible"
               :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+              :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               alt="Simple image"
               ratio="1by1"
             ></b-image>
+          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
+          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <div class="card">
               <div class="card-content">
                 <p class="title">
                   Legend
                 </p>
                 <p class="subtitle is-size-6">
-                  <b># {{ nft.id }}</b>
+                  <b># {{ nftId }}</b>
                   <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                     <Money :value="nft.price" :inline="true" />
                   </b-tag>
@@ -142,9 +146,14 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
-import AvailableActions from './AvailableActions.vue'
+import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import Money from '@/components/shared/format/Money.vue'
+import Money from '@/components/shared/format/Money.vue';
+import Appreciation from './Appreciation.vue';
+// import MediaResolver from '../Media/MediaResolver.vue'
+import api from '@/fetch';
+import { resolveMedia } from '../utils';
+import { MediaType } from '../types';
 
 type NFTType = NFT | NFTWithMeta;
 
@@ -152,7 +161,9 @@ type NFTType = NFT | NFTWithMeta;
   components: {
     AccountSelect,
     AvailableActions,
-    Money
+    Money,
+    Appreciation,
+    MediaResolver: () => import('../Media/MediaResolver.vue')
   }
 })
 export default class GalleryItem extends Vue {
@@ -160,6 +171,8 @@ export default class GalleryItem extends Vue {
   private accountId: string = '';
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
+  public mimeType: string = '';
+  private imageVisible: boolean = true;
 
   @Prop() public value!: any;
 
@@ -177,12 +190,25 @@ export default class GalleryItem extends Vue {
 
     try {
       const nft = await rmrkService.getNFT(this.id);
-      console.log(nft)
+      console.log(nft);
       const meta = await fetchNFTMetadata(nft);
-      console.log(meta)
-      this.nft = { ...nft, ...meta, image: sanitizeIpfsUrl(meta.image || '') };
+      console.log(meta);
+      this.nft = {
+        ...nft,
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || '')
+      };
+      if (this.nft.animation_url) {
+        const { headers } = await api.head(this.nft.animation_url);
+        this.mimeType = headers['content-type'];
+        const mediaType = resolveMedia(this.mimeType);
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE].some(
+          t => t === mediaType
+        );
+      }
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger)
+      showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
     }
 
@@ -196,30 +222,39 @@ export default class GalleryItem extends Vue {
   }
 
   get helloText() {
-    return 'Check out this cool RMRK NFT'
+    return 'Check out this cool RMRK NFT';
   }
 
   get realworldFullPath() {
-    return `${window.location.origin}/%23${this.$route.fullPath}`
+    return `${window.location.origin}/%23${this.$route.fullPath}`;
   }
 
   get telegramUri() {
-    return `tg://msg_url?url=${this.realworldFullPath}&text=${this.helloText}`
+    return `tg://msg_url?url=${this.realworldFullPath}&text=${this.helloText}`;
   }
 
   get twitterUri() {
-    return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`
+    return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`;
   }
 
   get linemeUri() {
-    return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`
+    return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
   }
- }
+
+  get nftId() {
+    const { id, blockNumber } = this.nft;
+    return `${blockNumber ? blockNumber + '-' : ''}${id}`;
+  }
+}
 </script>
 
 <style scoped>
 .gallery-item__skeleton {
-  width: 80%;
+  width: 95%;
   margin: auto;
+}
+
+.withPicture {
+  margin: 0.75em 0;
 }
 </style>

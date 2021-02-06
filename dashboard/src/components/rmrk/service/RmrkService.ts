@@ -1,16 +1,17 @@
 import { Client, KeyInfo, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
-import Consolidator from './Consolidator';
+import Consolidator, { generateId } from './Consolidator';
 
-export type RmrkType = Collection | NFT
+export type RmrkType = Collection | NFT | Emotion
 
 export enum AvailableCollection {
   COLLECTION = 'collection',
-  NFT = 'nft'
+  NFT = 'nft',
+  APPRECIATION = 'appreciation'
 }
 
 export class RmrkService extends TextileService<RmrkType> implements State {
@@ -22,7 +23,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   private constructor(keyInfo: KeyInfo, url?: string) {
     super(keyInfo)
     this._client = emptyObject<Client>();
-    const defaultUrl = 'bafkqswn7uhcawhc74xne4zlhoebazbnsqa2n7k6yrqdt4sqedugmrsq';
+    const defaultUrl = 'bafkyp34nfouh564fd4e2m6gy33wln5wwdqescynecpfawnh7rycakly';
+    // const defaultUrl = 'bafkqswn7uhcawhc74xne4zlhoebazbnsqa2n7k6yrqdt4sqedugmrsq';
     this._dbStore = url || defaultUrl;
   }
 
@@ -37,6 +39,27 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return rmrkService
   }
 
+
+
+  public async onUrlChange(ss58: string | undefined | number): Promise<void> {
+    const name = ss58 ? String(ss58) : 'local';
+    
+    try {
+      const thread = await this._client.getThread(name)
+      this._dbStore = thread.id
+      console.log(`[RMRK SERVICE] Connected to service <3 ${name}`)
+    } catch(err) {
+      console.warn(`[RMRK SERVICE] No thread with ${name}`)
+      const thread = await this._client.newDB(undefined, name)
+      this._dbStore = thread.toString();
+    }
+
+  }
+
+  public storeThread() {
+    return ThreadID.fromString(this._dbStore);
+  }
+
   get collectioName(): string {
     return this._name
   }
@@ -47,6 +70,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   private useCollection() {
     this._name = AvailableCollection.COLLECTION
+  }
+
+  private useAppreciation() {
+    this._name = AvailableCollection.APPRECIATION
   }
 
   async getNFTsForCollection(id: string): Promise<NFT[]> {
@@ -71,6 +98,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   async getCollectionListForAccount(account: string): Promise<Collection[]> {
+    this.useCollection();
     const query: QueryJSON = new Where('issuer').eq(account)
     const collections = await this.find<Collection>(query)
     return collections
@@ -83,6 +111,15 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     throw new Error('Method not implemented.');
   }
 
+  async getAppreciationsForNFT(id: string): Promise<Emotion[]> {
+    this.useNFT();
+    this.shouldExist(id);
+    this.useAppreciation();
+    const query: QueryJSON = new Where('remarkId').eq(id)
+    const appreciations = await this.find<Emotion>(query)
+    return appreciations 
+  }
+
   public test(rmrkString: string): RMRK {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
@@ -93,14 +130,14 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   }
 
-  public resolve(rmrkString: string, caller: string): Promise<RmrkType> {
+  public resolve(rmrkString: string, caller: string, blocknumber?: string | number): Promise<RmrkType> {
     try {
       const resolved: RMRK = NFTUtils.decodeAndConvert(rmrkString)
       switch (resolved.event) {
         case RmrkEvent.MINT:
-          return this.mint(resolved.view, caller)
+          return this.mint(resolved.view, caller, blocknumber)
         case RmrkEvent.MINTNFT:
-          return this.mintNFT(resolved.view, caller)
+          return this.mintNFT(resolved.view, caller, blocknumber)
         case RmrkEvent.SEND:
           return this.send(resolved.view, caller)
         case RmrkEvent.BUY:
@@ -111,6 +148,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
           return this.list(resolved.view as RmrkInteraction, caller)
         case RmrkEvent.CHANGEISSUER:
           return this.changeIssuer(resolved.view as RmrkInteraction, caller)
+        case RmrkEvent.EMOTE:
+          return this.appreciate(resolved.view as RmrkInteraction, caller)
         default:
           throw new EvalError(`Unable to evaluate following string, ${rmrkString}`)
       }
@@ -202,11 +241,52 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
-  private async mint(view: object, caller: string): Promise<Collection> {
+  async appreciate(view: RmrkInteraction, caller: string): Promise<Emotion> {
+    if (!view.metadata) {
+      throw ReferenceError(`[RMRK Service] Unable to appreciate without appreciation ${view.id}`)
+    }
+
+    const appreciation: Emotion = {
+      _id: generateId(caller, view.id + view.metadata),
+      remarkId: view.id,
+      issuer: caller,
+      metadata: view.metadata
+    };
+
+    this.useAppreciation();
+
+
+    // Consolidator.collectionIdValid(collection, caller);
+    
+    const hasCollection = await this.hasCollection();
+    if (!hasCollection) {
+      await this.createCollection(appreciation)
+    }
+  
+    const collectionAlreadyCreated = await this.exists(appreciation._id);
+
+    if (collectionAlreadyCreated) {
+      await this.remove(appreciation._id)
+      return appreciation
+      // throw ReferenceError(`[RMRK Service] Collection already created ${appreciation._id}`)
+    }
+
+    await this.addToCollection(appreciation)
+    return appreciation;
+    
+
+  }
+
+  private async mint(view: object, caller: string, blocknumber?: string | number): Promise<Collection> {
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
 
     // Consolidator.collectionIdValid(collection, caller);
+    collection.issuer = caller;
+
+    if (blocknumber) {
+      collection.blockNumber = Number(blocknumber)
+    }
     
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
@@ -223,7 +303,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return collection;
   }
 
-  private async mintNFT(view: object, caller: string): Promise<NFT> {
+  private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
     const item = computeAndUpdateNft(view as NFT);
     this.useCollection();
     await this.shouldExist(item.collection);
@@ -232,6 +312,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useNFT();
 
     item.currentOwner = caller;
+
+    if (blocknumber) {
+      item.blockNumber = Number(blocknumber)
+    }
 
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {

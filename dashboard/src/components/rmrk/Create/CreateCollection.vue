@@ -63,21 +63,23 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
 import { RmrkMint } from '../types';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
-import exec from '@/utils/transactionExecutor';
+import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
+import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
+
 
 const components = {
   AccountSelect,
@@ -86,7 +88,7 @@ const components = {
 };
 
 @Component({ components })
-export default class CreateCollection extends Vue {
+export default class CreateCollection extends Mixins(SubscribeMixin) {
   private version: string = 'RMRK1.0.0';
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
@@ -169,17 +171,29 @@ export default class CreateCollection extends Vue {
       console.log('submit', mintString);
       const tx = await exec(this.accountId, this.password, api.tx.system.remark, [
         mintString
-      ]);
+      ], async (result) => {
+        console.log(`Current status is`, result);
+        if (result.status.isFinalized) {
+          console.log(`finalized status is`, result);
+          console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(result.status.asFinalized);
+          const persisted = await rmrkService?.resolve(mintString, this.accountId, header.number.toString());
+          console.log('SAVED', persisted?._id);
+          showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
+          this.isLoading = false;
+        }
+      });
       console.warn('TX IN', tx);
-      const persisted = await rmrkService?.resolve(mintString, this.accountId);
-      console.log('SAVED', persisted?._id);
-      showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
+      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
+      
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e);
+      this.isLoading = false;
     }
 
-    this.isLoading = false;
+    
   }
 
   private upload(data: File) {
