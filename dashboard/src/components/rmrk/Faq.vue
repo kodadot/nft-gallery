@@ -12,6 +12,7 @@
         <p class="subtitle">
           {{qa[1]}}
         </p>
+        <br>
       </div>
     </div>
   </div>

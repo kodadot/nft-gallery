@@ -114,7 +114,7 @@
               </p>
               <a class="card-header-icon">
                   <b-icon
-                      :icon="props.open ? 'chevron-down' : 'chevron-up'">
+                      :icon="props.open ? 'chevron-up' : 'chevron-down'">
                   </b-icon>
               </a>
             </div>
