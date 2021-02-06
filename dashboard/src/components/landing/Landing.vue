@@ -9,16 +9,16 @@
           
 
           <h2 class="title is-3">
-          👀 <router-link :to="{ name: 'nft' }">
-          Browse NFT collectables</router-link></h2><br>
+          👀🛍️ <router-link :to="{ name: 'nft' }">
+          Browse & shop NFT collectables</router-link></h2><br>
           
           <h2 class="title is-4">
           🖨 <router-link :to="{ name: 'rmrk' }">
           Create your NFT collectables</router-link></h2><br>
 
           <h2 class="title is-4">
-          ⚙️ <router-link :to="{ name: 'settings' }">
-          Change your endpoint node</router-link></h2><br>
+          🆕 <router-link :to="{ name: 'rmrkFaq' }">
+          New here? We have F.A.Q.!</router-link></h2><br>
           
           <h2 class="title is-4">
           📣 <a href="https://github.com/kodadot/nft-gallery/issues/new" target="_blank">

@@ -25,6 +25,10 @@
     <template #end>
       <b-navbar-item tag="div">
         <div class="buttons">
+          <b-button tag="router-link"
+            :to="{ name: 'rmrkFaq' }" > 
+            F.A.Q. 
+          </b-button>
           <a class="button is-info"
             href="https://twitter.com/Kodadot">
               <b-icon 
@@ -32,10 +36,6 @@
                 icon="twitter">
               </b-icon>
               <strong>KodaDot</strong>
-          </a>
-          <a class="button is-primary"
-            href="https://rmrk.app">
-              RMRK.app
           </a>
         </div>
       </b-navbar-item>
@@ -52,9 +52,16 @@ export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
     {
-      name: 'Create NFT',
+      name: 'Create',
       tag: 'router-link',
       to: { name: 'rmrk' },
+      strong: true
+    },
+    {
+      name: 'Credit',
+      icon: 'users',
+      to: { name: 'rmrkCredit' },
+      tag: 'router-link',
       strong: true
     },
     {
@@ -63,12 +70,14 @@ export default class NavbarMenu extends Vue {
       to: { name: 'nft' },
       strong: true
     },
+
     {
       name: 'Accounts',
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
     },
+
     {
       name: 'Transfer',
       icon: 'paper-plane',

@@ -8,7 +8,7 @@ import {
   // faCaretUp, faFile, faBook, 
   // faCodeBranch, 
   // faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem, 
-  // faInfoCircle, faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
+  // faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
   // faUsersCog, faCoins, faAngleLeft, faAngleRight,
   // faCreditCard, faStepForward, faRing, faDonate, 
   // faPenNib, faImages,
@@ -16,9 +16,9 @@ import {
   faPaperPlane, faFileImage, faPlus, faSync, faEye,
   faTimes, faCopy, faTrash, faCloudDownloadAlt,
   faKey, faExternalLinkAlt, faUpload, faUsers,
-  faQuestionCircle, faMinus,
+  faQuestionCircle, faMinus, faSearch, faInfoCircle,
   faChevronDown, faChevronUp,
-  faHeart, faSearch, faCaretDown
+  faHeart,  faCaretDown
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -36,9 +36,9 @@ library.add(
   // faExclamationCircle, faUpload, faCopy, faAngleDoubleLeft,
   // faAngleDoubleRight, faPlus, faTimes, faCaretDown, 
   // faCaretUp, faMinus, faFile, faBook,
-  // faCodeBranch, faSearch, faQuestionCircle, faExternalLinkAlt,
+  // faCodeBranch, faQuestionCircle, faExternalLinkAlt,
   // faTwitter, faArrowUp, faTools, faCheck, faSeedling, 
-  // faDatabase, faGem,  faInfoCircle, faExchangeAlt,
+  // faDatabase, faGem, faExchangeAlt,
   // faBug, faStop, faEllipsisV, faPercent, faUsersCog, faCoins,
   // faAngleLeft, faAngleRight, faCreditCard, faStepForward, faRing,
   // faDonate, faFileImage, faPenNib, faImages, faLine
@@ -46,7 +46,7 @@ library.add(
   faPaperPlane, faFileImage, faPlus, faSync, faEye,
   faTimes, faCopy, faTrash, faCloudDownloadAlt,
   faKey, faExternalLinkAlt, faUpload, faUsers,
-  faQuestionCircle, faMinus,
+  faQuestionCircle, faMinus, faSearch, faInfoCircle,
   faChevronDown, faChevronUp,
   faTwitter, faTelegram,
   faLine, faHeart, faSearch,

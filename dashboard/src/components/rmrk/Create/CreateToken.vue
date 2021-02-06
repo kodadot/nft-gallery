@@ -1,38 +1,40 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-    <AccountSelect label="Account" v-model="accountId" />
-    <b-field v-if="accountId" label="Collection">
-      <b-select placeholder="Select a collection" v-model="selectedCollection">
-        <option v-for="option in data" :value="option" :key="option.id">
-          {{ option.name }} {{ option.id }}
-        </option>
-      </b-select>
-    </b-field>
-    <div>
-    <b-button
-      v-if="selectedCollection"
-      type="is-info"
-      icon-left="plus"
-      @click="handleAdd"
-      :disabled="disabled"
-    >
-      Add
-    </b-button>
+    <div class="box">
+      <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+      <AccountSelect label="Account" v-model="accountId" />
+      <b-field v-if="accountId" label="Collection">
+        <b-select placeholder="Select a collection" v-model="selectedCollection">
+          <option v-for="option in data" :value="option" :key="option.id">
+            {{ option.name }} {{ option.id }}
+          </option>
+        </b-select>
+      </b-field>
+      <div>
+      <b-button
+        v-if="selectedCollection"
+        type="is-info"
+        icon-left="plus"
+        @click="handleAdd"
+        :disabled="disabled"
+      >
+        Add
+      </b-button>
+      </div>
+      <CreateItem
+        v-for="(item, index) in added"
+        :key="index"
+        :index="index"
+        :view="item"
+        @update="handleUpdate"
+        @upload="uploadFile"
+        @animated="uploadAnimatedFile"
+      />
+      <PasswordInput v-model="password" :account="accountId" />
+      <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
+        Submit
+      </b-button>
     </div>
-    <CreateItem
-      v-for="(item, index) in added"
-      :key="index"
-      :index="index"
-      :view="item"
-      @update="handleUpdate"
-      @upload="uploadFile"
-      @animated="uploadAnimatedFile"
-    />
-    <PasswordInput v-model="password" :account="accountId" />
-    <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-      Submit
-    </b-button>
   </div>
 </template>
 
@@ -58,17 +60,6 @@ import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
-
-const test: RmrkMint = {
-  name: 'Test Collection',
-  max: 4,
-  symbol: 'ALC',
-  metadata:
-    'https://ipfs.io/ipfs/QmTcaAPWPY5NinmCdDJAi6YFmyag41UEy4SpE1jn4Xdhnx',
-  version: 'RMRK0.1',
-  issuer: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
-  id: '5GRWUTQY-ALC'
-};
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
