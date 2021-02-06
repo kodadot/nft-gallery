@@ -25,6 +25,10 @@
     <template #end>
       <b-navbar-item tag="div">
         <div class="buttons">
+          <b-button tag="router-link"
+            :to="{ name: 'rmrkFaq' }" > 
+            F.A.Q. 
+          </b-button>
           <a class="button is-info"
             href="https://twitter.com/Kodadot">
               <b-icon 
@@ -32,10 +36,6 @@
                 icon="twitter">
               </b-icon>
               <strong>KodaDot</strong>
-          </a>
-          <a class="button is-primary"
-            href="https://rmrk.app">
-              RMRK.app
           </a>
         </div>
       </b-navbar-item>
@@ -50,7 +50,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class NavbarMenu extends Vue {
   public navbar: any = [
     {
-      name: 'Create NFT',
+      name: 'Create',
       tag: 'router-link',
       to: { name: 'rmrk' },
       strong: true
