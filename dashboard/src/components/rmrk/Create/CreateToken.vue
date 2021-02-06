@@ -11,29 +11,33 @@
         </b-select>
       </b-field>
       <div>
-      <b-button
-        v-if="selectedCollection"
-        type="is-info"
-        icon-left="plus"
-        @click="handleAdd"
-        :disabled="disabled"
-      >
-        Add
+      <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
+      <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
+        Submit
       </b-button>
+
       </div>
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
-        :index="index"
+        :index="index + alreadyMinted"
         :view="item"
         @update="handleUpdate"
         @upload="uploadFile"
         @animated="uploadAnimatedFile"
       />
-      <PasswordInput v-model="password" :account="accountId" />
-      <b-button type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-        Submit
+      <div>
+        <b-button
+          v-if="selectedCollection"
+          type="is-info"
+          icon-left="plus"
+          @click="handleAdd"
+          :disabled="disabled"
+        >
+        Add
       </b-button>
+      </div>
+
     </div>
   </div>
 </template>
@@ -82,6 +86,7 @@ export default class CreateToken extends Vue {
   private animated: (Blob | null)[] = [];
   private isLoading: boolean = false;
   private password: string = '';
+  private alreadyMinted = 0;
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
@@ -92,6 +97,24 @@ export default class CreateToken extends Vue {
     }
   }
 
+  @Watch('selectedCollection')
+  get(value: Collection | null, oldVal: Collection | null) {
+    if (value?.id !== oldVal?.id) {
+      console.log('calling fetch', value?.id);
+      this.fetchAlreadyMinted()
+    }
+  }
+
+  public async fetchAlreadyMinted() {
+    const rmrkService = getInstance();
+    if (this.selectedCollection) {
+      const data = await rmrkService?.getNFTsForCollection(this.selectedCollection?.id);
+    this.alreadyMinted = Number(data?.length);
+      console.log('Already minted', this.alreadyMinted)
+    }
+    
+  }
+
   public async fetchCollections() {
     const rmrkService = getInstance();
     const data = await rmrkService?.getCollectionListForAccount(this.accountId);
@@ -99,8 +122,12 @@ export default class CreateToken extends Vue {
     this.data = data || [];
   }
 
+  get canSubmit() {
+    return this.added.length
+  }
+
   get disabled() {
-    return this.selectedCollection?.max === this.added.length;
+    return this.selectedCollection?.max === this.added.length + this.alreadyMinted;
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
@@ -130,7 +157,7 @@ export default class CreateToken extends Vue {
       id,
       _id: id,
       transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.instance, '_').toUpperCase()
+      instance: slugify(nftForMint.instance || nftForMint.name, '_').toUpperCase()
     };
   }
 
@@ -224,7 +251,7 @@ export default class CreateToken extends Vue {
   private handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
     rmrk.collection = this.selectedCollection?.id || '';
-    rmrk.sn = String(this.added.length + 1).padStart(16, '0');
+    rmrk.sn = String(this.added.length + this.alreadyMinted +  1).padStart(16, '0');
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 0;
     this.added.push(rmrk);
