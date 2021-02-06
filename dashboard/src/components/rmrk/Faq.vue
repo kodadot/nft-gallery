@@ -12,6 +12,7 @@
         <p class="subtitle">
           {{qa[1]}}
         </p>
+        <br>
       </div>
     </div>
   </div>
@@ -28,7 +29,8 @@ export default class  extends Vue {
     ['What wallet do I need to mint, buy and collect?', 'Polkadot extension for now, you can find it in Chrome Store'],
     ['How to mint my work?','We will have video demo for that'],
     ['How I can trade KSM for my artwork?','Its supported widely on popular exhchanges, liqudity on exchanges is around $200M, plenty'],
-    ['How I can buy KSM?', 'We have integration with Ramp.network. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up']
+    ['How I can buy KSM?', 'We have integration with Ramp.network. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up'],
+    ['Ive got errors, how to resolve them?', 'We are trying delivering incremental updates & fixes ASAP and may we published new version and your browser has cached old one. If you are on Windows, try hold down Ctrl and then press F5. Mac users, hold down CMD and Shift and then press R. If this did not help, DMs on Twitter with screenshot where is developer console open.']
   ];
   @Prop() public value!: any;
 }

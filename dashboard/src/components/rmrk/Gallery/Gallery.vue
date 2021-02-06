@@ -20,7 +20,7 @@
           :key="nft.id"
         >
           <div class="card nft-card">
-            <router-link :to="`/nft/detail/${nft.id}`" tag="div" class="nft-card__skeleton">
+            <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image" v-if="nft.image">
                 <b-image
                   :src="nft.image"
