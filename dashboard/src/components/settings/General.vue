@@ -8,7 +8,7 @@
     <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
     <SettingChooserDevelopment label="Development Mode" selector="options" setter="setDevelopment" />
-    
+    <b-button :style="{ marginTop: '1em' }" @click="refresh" type="is-danger is-light">Clear Cache & Reload</b-button>
   </div>
 </template>
 
@@ -26,6 +26,12 @@ import SettingChooserDevelopment from '@/components/settings/SettingChooserDevel
   },
 })
 export default class General extends Vue {
+
+  // DEV: Not happy about this
+  private refresh() {
+    window.sessionStorage.removeItem('vuex');
+    window.location.reload();
+  }
 
 }
 </script>
