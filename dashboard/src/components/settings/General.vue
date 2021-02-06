@@ -5,9 +5,9 @@
     <SettingChooser label="Default Icon Theme" selector="availableIcons" setter="setIcon"  defaultValue="icon" />
     <SettingChooser label="Interface Operation Mode" selector="availableUiModes" setter="setUiMode"  defaultValue="uiMode" />
     <!-- <SettingChooser label="Interface Operation Mode" selector="availableLocking" setter="setLocking"  defaultValue="locking" /> -->
-    <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
+    <!-- <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
-    <SettingChooserDevelopment label="Development Mode" selector="options" setter="setDevelopment" />
+    <SettingChooserDevelopment label="Development Mode" selector="options" setter="setDevelopment" /> -->
     <b-button :style="{ marginTop: '1em' }" @click="refresh" type="is-danger is-light">Clear Cache & Reload</b-button>
   </div>
 </template>

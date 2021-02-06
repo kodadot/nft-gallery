@@ -3,6 +3,7 @@ import { KeyringAccount } from '@/types';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Callback } from '@polkadot/types/types';
 import { getAddress } from '@/extension';
+import { toDefaultAddress } from '@/utils/account'
 
 export type ExecResult = (() => void) | string
 
@@ -19,7 +20,7 @@ const exec = async (account: KeyringAccount | string, password: string | null, c
 	try {
     const transfer = await callback(...params);
     const address = typeof account === 'string' ? account : account.address;
-    const injector = await getAddress(address);
+    const injector = await getAddress(toDefaultAddress(address));
     if (injector) {
       const h = await transfer.signAndSend(address, { signer: injector.signer }, statusCb);
       return h

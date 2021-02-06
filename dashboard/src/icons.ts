@@ -4,9 +4,9 @@ import {
   // faPlay, faFolderOpen, faAddressBook,
   // faCalendarCheck, faCogs,  faEyeSlash,
   // faExclamationCircle,   faAngleDoubleLeft, 
-  // faAngleDoubleRight,   faCaretDown, 
+  // faAngleDoubleRight, 
   // faCaretUp, faFile, faBook, 
-  // faCodeBranch, faSearch, 
+  // faCodeBranch, 
   // faArrowUp, faTools, faCheck, faSeedling, faDatabase, faGem, 
   // faInfoCircle, faExchangeAlt, faBug, faStop, faEllipsisV, faPercent,
   // faUsersCog, faCoins, faAngleLeft, faAngleRight,
@@ -18,7 +18,7 @@ import {
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus,
   faChevronDown, faChevronUp,
-  faHeart
+  faHeart, faSearch, faCaretDown
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -48,7 +48,9 @@ library.add(
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus,
   faChevronDown, faChevronUp,
-  faTwitter, faTelegram, faLine, faHeart
+  faTwitter, faTelegram,
+  faLine, faHeart, faSearch,
+  faCaretDown
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
