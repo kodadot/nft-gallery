@@ -27,7 +27,8 @@ export default class  extends Vue {
     ['What coin is used for NFTs?', 'Kusama, you can get it through our Credit feature, using fiat on-ramp.'],
     ['What wallet do I need to mint, buy and collect?', 'Polkadot extension for now, you can find it in Chrome Store'],
     ['How to mint my work?','We will have video demo for that'],
-    ['How I can trade KSM for my artwork?','Its supported widely on popular exhchanges, liqudity on exchanges is around $200M, plenty']
+    ['How I can trade KSM for my artwork?','Its supported widely on popular exhchanges, liqudity on exchanges is around $200M, plenty'],
+    ['How I can buy KSM?', 'We have integration with Ramp.network. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up']
   ];
   @Prop() public value!: any;
 }

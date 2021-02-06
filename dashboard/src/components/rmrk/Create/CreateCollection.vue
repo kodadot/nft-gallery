@@ -1,63 +1,64 @@
 <template>
   <div>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-    
-    <p class="title">
-      Context
-    </p>
-    <p class="subtitle">
-      using {{ version }}
-    </p>
-    <div>
-      Computed id: <b>{{ rmrkId }}</b>
-    </div>
-    <AccountSelect label="Account" v-model="accountId" />
-    <b-field label="Name">
-      <b-input v-model="rmrkMint.name"></b-input>
-    </b-field>
-    <b-field label="Maximum NFTs in collection">
-      <b-numberinput
-        v-model="rmrkMint.max"
-        placeholder="1 is minumum"
-        :min="1"
-      ></b-numberinput>
-    </b-field>
-    <b-field label="Symbol">
-      <b-input v-model="rmrkMint.symbol"></b-input>
-    </b-field>
-    <p class="title">
-      Content
-    </p>
-    <b-switch v-model="uploadMode" passive-type="is-dark">
-      {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
-    </b-switch>
-    <template v-if="uploadMode">
-      <b-field label="Description">
-        <b-input
-          v-model="meta.description"
-          maxlength="200"
-          type="textarea"
-        ></b-input>
+    <div class="box">
+      <p class="title">
+        Context
+      </p>
+      <p class="subtitle">
+        using {{ version }}
+      </p>
+      <div>
+        Computed id: <b>{{ rmrkId }}</b>
+      </div>
+      <AccountSelect label="Account" v-model="accountId" />
+      <b-field label="Name">
+        <b-input v-model="rmrkMint.name"></b-input>
       </b-field>
-      <MetadataUpload v-model="image" />
-      <b-field label="Multimedia data">
-        <b-input v-model="meta.image_data"></b-input>
+      <b-field label="Maximum NFTs in collection">
+        <b-numberinput
+          v-model="rmrkMint.max"
+          placeholder="1 is minumum"
+          :min="1"
+        ></b-numberinput>
       </b-field>
-    </template>
+      <b-field label="Symbol">
+        <b-input v-model="rmrkMint.symbol"></b-input>
+      </b-field>
+      <p class="title">
+        Content
+      </p>
+      <b-switch v-model="uploadMode" passive-type="is-dark">
+        {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
+      </b-switch>
+      <template v-if="uploadMode">
+        <b-field label="Description">
+          <b-input
+            v-model="meta.description"
+            maxlength="200"
+            type="textarea"
+          ></b-input>
+        </b-field>
+        <MetadataUpload v-model="image" />
+        <b-field label="Multimedia data">
+          <b-input v-model="meta.image_data"></b-input>
+        </b-field>
+      </template>
 
-    <b-field v-else label="Metadata IPFS Hash">
-      <b-input v-model="rmrkMint.metadata"></b-input>
-    </b-field>
-    <PasswordInput v-model="password" :account="accountId" />   
-    <b-button
-      type="is-primary"
-      icon-left="paper-plane"
-      @click="submit"
-      :disabled="disabled"
-      :loading="isLoading"
-    >
-      Create Collection
-    </b-button>
+      <b-field v-else label="Metadata IPFS Hash">
+        <b-input v-model="rmrkMint.metadata"></b-input>
+      </b-field>
+      <PasswordInput v-model="password" :account="accountId" />   
+      <b-button
+        type="is-primary"
+        icon-left="paper-plane"
+        @click="submit"
+        :disabled="disabled"
+        :loading="isLoading"
+      >
+        Create Collection
+      </b-button>
+    </div>
   </div>
 </template>
 
