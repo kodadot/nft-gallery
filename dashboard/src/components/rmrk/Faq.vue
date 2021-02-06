@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <div class="box">
       <p class="title">
         Frequently Asked Question
@@ -29,7 +28,7 @@ export default class  extends Vue {
     ['What wallet do I need to mint, buy and collect?', 'Polkadot extension for now, you can find it in Chrome Store'],
     ['How to mint my work?','We will have video demo for that'],
     ['How I can trade KSM for my artwork?','Its supported widely on popular exhchanges, liqudity on exchanges is around $200M, plenty']
-    ];
+  ];
   @Prop() public value!: any;
 }
 </script>

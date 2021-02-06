@@ -56,17 +56,26 @@ export default class NavbarMenu extends Vue {
       strong: true
     },
     {
+      name: 'Credit',
+      icon: 'users',
+      to: { name: 'rmrkCredit' },
+      tag: 'router-link',
+      strong: true
+    },
+    {
       name: 'Gallery',
       tag: 'router-link',
       to: { name: 'nft' },
       strong: true
     },
+
     {
       name: 'Accounts',
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
     },
+
     {
       name: 'Transfer',
       icon: 'paper-plane',
