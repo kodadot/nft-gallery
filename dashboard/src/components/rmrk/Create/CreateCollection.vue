@@ -12,8 +12,9 @@
         Computed id: <b>{{ rmrkId }}</b>
       </div>
       <AccountSelect label="Account" v-model="accountId" />
-      <b-field label="Name">
-        <b-input v-model="rmrkMint.name"></b-input>
+      <b-field grouped label="Name">
+        <b-input v-model="rmrkMint.name" expanded></b-input>
+        <Tooltip :label="tooltip.name" />
       </b-field>
       <b-field label="Maximum NFTs in collection">
         <b-numberinput
@@ -22,8 +23,9 @@
           :min="1"
         ></b-numberinput>
       </b-field>
-      <b-field label="Symbol">
-        <b-input v-model="rmrkMint.symbol"></b-input>
+      <b-field grouped label="Symbol">
+        <b-input v-model="rmrkMint.symbol" expanded></b-input>
+        <Tooltip :label="tooltip.symbol" />
       </b-field>
       <p class="title">
         Content
@@ -67,6 +69,7 @@ import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
 import { RmrkMint } from '../types';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
+import Tooltip from '@/components/shared/Tooltip.vue';
 import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
@@ -85,6 +88,7 @@ const components = {
   AccountSelect,
   MetadataUpload,
   PasswordInput,
+  Tooltip,
 };
 
 @Component({ components })
@@ -97,6 +101,12 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
+  private tooltip: object = { 
+      account: 'Owner address of minted art',
+      name: 'Name you want to show in gallery view',
+      symbol: 'Symbol you want to trade it under',
+      description: 'Describe your collection, it will show under collection view',
+      multimedia: 'Add collection cover which will show up at collection view' }
 
   get rmrkId(): string {
     return this.generateId(this.accountIdToPubKey);
