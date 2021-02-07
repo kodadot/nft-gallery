@@ -157,12 +157,12 @@ export interface NFT {
   blockNumber?: number;
 }
 
-export const getNftId = (nft: NFT): string => {
-  return `${nft.collection}-${nft.instance || nft.name}-${nft.sn}`
+export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
+  return `${blocknumber ? blocknumber + '-' : '' }${nft.collection}-${nft.instance || nft.name}-${nft.sn}`
 }
 
-export const computeAndUpdateNft = (nft: NFT): NFT => {
-  const id = getNftId(nft)
+export const computeAndUpdateNft = (nft: NFT, blocknumber?: string | number): NFT => {
+  const id = getNftId(nft, blocknumber)
   return {
     ...nft,
     _id: id,

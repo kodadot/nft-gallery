@@ -304,7 +304,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
-    const item = computeAndUpdateNft(view as NFT);
+    const item = computeAndUpdateNft(view as NFT, blocknumber);
     this.useCollection();
     await this.shouldExist(item.collection);
     const collection = await this.findById<Collection>(item.collection);

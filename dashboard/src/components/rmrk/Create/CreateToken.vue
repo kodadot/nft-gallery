@@ -148,14 +148,12 @@ export default class CreateToken extends Vue {
 
     const { meta, price, ...nftForMint } = nft;
 
-    const id = getNftId(nftForMint);
-
     return {
       ...nftForMint,
       metadata: metaHash,
       currentOwner: this.accountId,
-      id,
-      _id: id,
+      // id,
+      // _id: id,
       transferable: Number(nftForMint.transferable),
       instance: slugify(nftForMint.instance || nftForMint.name, '_').toUpperCase()
     };
