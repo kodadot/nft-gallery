@@ -24,10 +24,10 @@ if (process.env.NODE_ENV === 'production') {
         position: 'is-top-right',
       });
 
-      notif.$on('close', () => {
-        window.sessionStorage.clear();
-        window.location.reload()
-      })
+      // notif.$on('close', () => {
+      //   window.sessionStorage.clear();
+      //   window.location.reload()
+      // })
     },
     offline() {
       console.log(
