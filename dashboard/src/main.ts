@@ -17,6 +17,7 @@ import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
 import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
+import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 
 Vue.filter('shortAddress', shortAddress);
@@ -28,7 +29,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).W = web3FromAddress;
 
 (async () => { 
-  await createInstance(keyInfo);
+  await createInstance(keyInfo, getPrefixByStoreUrl());
   await enableExtension();
 })()
 // Connector.createInstance(store.state.setting.apiUrl);

@@ -29,9 +29,13 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   public static async setup(keyInfo: KeyInfo, url?: string): Promise<RmrkService> {
-    const rmrkService = new RmrkService(keyInfo, url)
+    const rmrkService = new RmrkService(keyInfo)
     try {
       rmrkService._client = await Client.withKeyInfo(keyInfo)
+      if (url) {
+        console.log(`[RMRK SETUP] has url ${url}`)
+        rmrkService.onUrlChange(url)
+      }
     } catch(err) {
       throw new Error(`[RMRK SERVICE]: ${err.message}`)
     }
@@ -304,7 +308,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
-    const item = computeAndUpdateNft(view as NFT);
+    const item = computeAndUpdateNft(view as NFT, blocknumber);
     this.useCollection();
     await this.shouldExist(item.collection);
     const collection = await this.findById<Collection>(item.collection);

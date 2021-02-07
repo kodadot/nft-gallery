@@ -181,7 +181,7 @@ export default class GalleryItem extends Vue {
   public async mounted() {
     this.checkId();
     const rmrkService = getInstance();
-
+    console.log('rmrkService', rmrkService)
     if (!rmrkService || !this.id) {
       return;
     }
