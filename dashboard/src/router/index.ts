@@ -6,18 +6,13 @@ import { apiEnabled } from '@/routeGuard';
 import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Toolbox from '@/router/toolbox';
+import Rmrk from '@/router/rmrk';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Settings = () => import('@/views/Settings.vue');
-// const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
-
-const Remark = () => import('@/views/Remark.vue');
-const Gallery = () => import('@/components/rmrk/Gallery/Gallery.vue')
-const GalleryItem = () => import('@/components/rmrk/Gallery/GalleryItem.vue')
-const rmrkCredit = () => import('@/components/rmrk/Credit/Credit.vue')
-const rmrkFaq = () => import('@/components/rmrk/Faq.vue')
+// const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
   routes: [
@@ -29,6 +24,7 @@ export default new Router({
     ...Accounts,
     ...Transfer, 
     ...Toolbox,
+    ...Rmrk,
     {
 			path: '/settings',
       name: 'settings',
@@ -39,31 +35,6 @@ export default new Router({
       name: 'extrinsics',
       component: Extrinsics,
       beforeEnter: apiEnabled,
-    },
-    {
-			path: '/rmrk/create',
-      name: 'rmrk',
-      component: Remark
-    },
-    {
-      path: '/rmrk/gallery',
-      name: 'nft',
-      component: Gallery,
-    },
-    {
-      path: '/rmrk/detail/:id',
-      name: 'nftDetail',
-      component: GalleryItem,
-    },
-    {
-      path: '/rmrk/credit',
-      name: 'rmrkCredit',
-      component: rmrkCredit
-    },
-    {
-      path: '/rmrk/faq',
-      name: 'rmrkFaq',
-      component: rmrkFaq,
     },
 		{
 			path: '*',
