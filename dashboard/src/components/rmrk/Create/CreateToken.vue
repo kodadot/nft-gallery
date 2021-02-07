@@ -3,19 +3,16 @@
     <div class="box">
       <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
       <AccountSelect label="Account" v-model="accountId" />
-      <b-field v-if="accountId" label="Collection">
-        <b-select placeholder="Select a collection" v-model="selectedCollection">
+      <b-field grouped v-if="accountId" label="Collection">
+        <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
           <option v-for="option in data" :value="option" :key="option.id">
             {{ option.name }} {{ option.id }}
           </option>
         </b-select>
+        <Tooltip :label="tooltip" />
       </b-field>
       <div>
       <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
-      <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-        Submit
-      </b-button>
-
       </div>
       <CreateItem
         v-for="(item, index) in added"
@@ -34,8 +31,11 @@
           @click="handleAdd"
           :disabled="disabled"
         >
-        Add
-      </b-button>
+        Add Token
+        </b-button>
+        <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
+          Mint
+        </b-button>
       </div>
 
     </div>
@@ -48,6 +48,7 @@ import { RmrkMint, RmrkView } from '../types';
 import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
+import Tooltip from '@/components/shared/Tooltip.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -73,10 +74,12 @@ interface NFTAndMeta extends NFT {
   components: {
     AccountSelect,
     CreateItem,
-    PasswordInput
+    PasswordInput,
+    Tooltip
   }
 })
 export default class CreateToken extends Vue {
+  private tooltip: string = 'Select collection where you want mint your token'
   private version: string = 'RMRK1.0.0';
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
@@ -253,7 +256,7 @@ export default class CreateToken extends Vue {
     rmrk.collection = this.selectedCollection?.id || '';
     rmrk.sn = String(this.added.length + this.alreadyMinted +  1).padStart(16, '0');
     rmrk.meta = emptyObject<NFTMetadata>();
-    rmrk.transferable = 0;
+    rmrk.transferable = 1;
     this.added.push(rmrk);
     this.images.push(null);
   }

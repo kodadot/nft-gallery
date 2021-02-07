@@ -1,24 +1,31 @@
 <template>
-     <b-field :label="label" >
-      <b-select placeholder="Select account" v-model="account" expanded>
-        <option
-          v-for="option in options"
-          :value="option.address"
-          :key="option.address"
-        >
-          <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
-        </option>
-      </b-select>
+     <b-field grouped :label="label" >
+        <b-select placeholder="Select account" v-model="account" expanded>
+          <option
+            v-for="option in options"
+            :value="option.address"
+            :key="option.address"
+          >
+            <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
+          </option>
+        </b-select>
+        <Tooltip :label="tooltip" />
     </b-field>
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator';
 import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring';
+import Tooltip from '@/components/shared/Tooltip.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 
-@Component
+@Component({
+  components: {
+    Tooltip
+  }
+})
 export default class AccountSelect extends Mixins(WithKeyring) {
+  private tooltip: string = 'Owner\'s address of minted art';
   @Prop() public value!: string | KeyringAccount;
   @Prop() public asKeyring!: boolean;
   @Prop({ default: 'Account' }) public label!: boolean;

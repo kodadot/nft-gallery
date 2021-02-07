@@ -5,11 +5,11 @@ const rmrkCredit = () => import('@/components/rmrk/Credit/Credit.vue')
 const rmrkFaq = () => import('@/components/rmrk/Faq.vue')
 
 export default [
-  // {
-  //   path: '/rmrk/create',
-  //   name: 'rmrk',
-  //   component: Remark
-  // },
+  {
+    path: '/rmrk/create',
+    name: 'rmrk',
+    component: Remark
+  },
   {
     path: '/rmrk/gallery',
     name: 'nft',

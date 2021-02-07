@@ -18,7 +18,7 @@ import {
   faKey, faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus, faSearch, faInfoCircle,
   faChevronDown, faChevronUp,
-  faHeart,  faCaretDown
+  faHeart, faCaretDown, faInfo
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -50,7 +50,7 @@ library.add(
   faChevronDown, faChevronUp,
   faTwitter, faTelegram,
   faLine, faHeart, faSearch,
-  faCaretDown
+  faCaretDown, faInfo
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

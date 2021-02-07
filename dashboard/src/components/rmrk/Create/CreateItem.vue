@@ -11,20 +11,27 @@
         <b-input v-model="view.collection" disabled></b-input>
       </b-field>
       <b-field label="Name">
-        <b-input v-model="view.name"></b-input>
+        <b-input v-model="view.name" expanded></b-input>
+        <Tooltip :label="tooltip.name" />
       </b-field>
       <b-field label="Instance">
-        <b-input v-model="view.instance"></b-input>
+        <b-input v-model="view.instance" expanded></b-input>
+        <Tooltip :label="tooltip.instance" />
       </b-field>
-      <b-switch v-model="view.transferable">
-        Transferable
-      </b-switch>
-      <b-field v-if="view.transferable" label="Price">
+      <b-field>
+        <b-switch :true-value="1" :false-value="0" 
+            v-model="view.transferable" disabled>
+          Transferable is by default
+        </b-switch>
+      </b-field>
+      <!-- <b-field v-if="view.transferable" label="Price">
         <b-input v-model="view.price" ></b-input>
+      </b-field> -->
+      <b-field>
+        <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
+          {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
+        </b-switch>
       </b-field>
-    <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
-      {{ uploadMode ? 'Upload' : 'IPFS hash' }}
-    </b-switch>
     <template v-if="uploadMode">
       <b-field label="Description">
         <b-input
@@ -54,6 +61,7 @@ import { NFT, NFTMetadata } from '../service/scheme';
 import { emptyObject } from '@/utils/empty';
 import { client } from '@/textile';
 import MetadataUpload from './MetadataUpload.vue'
+import Tooltip from '@/components/shared/Tooltip.vue';
 import slugify from 'slugify'
 
 interface NFTAndMeta extends NFT {
@@ -62,12 +70,18 @@ interface NFTAndMeta extends NFT {
 
 @Component({
   components: {
-    MetadataUpload
+    MetadataUpload,
+    Tooltip
   }
 })
 export default class CreateItem extends Vue {
   @Prop() public index!: number;
   @Prop() public view!: NFTAndMeta;
+  private tooltip: object = {
+    name: 'Name of your token',
+    instance: 'Instance is like the identifier of an NFT, like a marketplace ticker. It\'s a "short computer-friendly name"',
+    image: 'Upload will upload your image of the NFT',
+  }
   private uploadMode: boolean = true;
   private image: Blob | null = null;
   private animatimated: Blob | null = null;
@@ -115,11 +129,3 @@ export default class CreateItem extends Vue {
   margin-bottom: 1em;
 }
 </style>
-
-// {
-//   "collection": "241B8516516F381A-OKSM",
-//   "name": "Kusama Cube",
-//   "transferable": 1,
-//   "sn": "0000000000000001",
-//   "metadata": "ipfs://ipfs/QmQGFnoHCRtAcPaWcoiTHHTJ7TEhrpur5WbZSjZdeY3bEp"
-// }

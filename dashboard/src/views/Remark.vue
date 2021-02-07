@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-6 is-offset-3">
+    <div class="column is-7 is-offset-3">
       <b-tabs v-model="activeTab" destroy-on-hide>
         <b-tab-item v-for="x in components" :key="x" :label="x">
           <component v-bind:is="x"></component>
