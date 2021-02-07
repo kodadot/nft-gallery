@@ -51,12 +51,12 @@ import { getCurrentColor } from '@/colors'
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
-    {
-      name: 'Create',
-      tag: 'router-link',
-      to: { name: 'rmrk' },
-      strong: true
-    },
+    // {
+    //   name: 'Create',
+    //   tag: 'router-link',
+    //   to: { name: 'rmrk' },
+    //   strong: true
+    // },
     {
       name: 'Credit',
       icon: 'users',
