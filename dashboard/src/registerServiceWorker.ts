@@ -27,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 
       notif.$on('close', () => {
         window.sessionStorage.clear();
+        window.localStorage.clear();
         window.location.reload()
       })
     },
