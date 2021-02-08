@@ -2,10 +2,10 @@
   <div>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div class="box">
-      <p class="title">
+      <p class="title is-size-3">
         Context
       </p>
-      <p class="subtitle">
+      <p class="subtitle is-size-7">
         using {{ version }}
       </p>
       <div>
