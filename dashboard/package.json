@@ -23,7 +23,7 @@
     "@polkadot/vue-identicon": "^0.68.1",
     "@polkadot/wasm-crypto": "^3.2.2",
     "@polkadot/wasm-crypto-wasm": "^3.2.2",
-    "@textile/hub": "^4.0.0",
+    "@textile/hub": "^6.0.1",
     "@types/file-saver": "^2.0.1",
     "@vue-polkadot/vue-api": "^0.0.27",
     "@vue-polkadot/vue-identicon": "^0.0.8",

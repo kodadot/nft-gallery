@@ -5,6 +5,7 @@ import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
 import Consolidator, { generateId } from './Consolidator';
+import { keyInfo as keysToTheKingdom } from '@/textile'
 
 export type RmrkType = Collection | NFT | Emotion
 
@@ -43,7 +44,20 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return rmrkService
   }
 
+  protected refreshContext() {
+    return this._client.context.withKeyInfo(keysToTheKingdom)
+  }
 
+  protected async checkExpiredOrElseRefresh() {
+    console.log('checkExpiredOrElseRefresh', this.isAuthExpired)
+    if (this.isAuthExpired) {
+      try {
+        await this.refreshContext()
+      } catch (e) {
+        console.error(`[RMRK] Unable to refresh context::\n ${e}`)
+      }  
+    }
+  }
 
   public async onUrlChange(ss58: string | undefined | number): Promise<void> {
     const name = ss58 ||(typeof ss58 === 'number' && ss58 >= 0) ? String(ss58) : 'local';
@@ -282,6 +296,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   private async mint(view: object, caller: string, blocknumber?: string | number): Promise<Collection> {
+    await this.checkExpiredOrElseRefresh()
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
 
@@ -308,6 +323,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
+    await this.checkExpiredOrElseRefresh()
     const item = computeAndUpdateNft(view as NFT, blocknumber);
     this.useCollection();
     await this.shouldExist(item.collection);
