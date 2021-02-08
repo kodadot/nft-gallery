@@ -39,7 +39,8 @@ export default class  extends Vue {
     ['Royalties streams settings?', 'Right now, we don\'t have chain logic, but we plan to implement something great, soon. <a href="https://twitter.com/kodadot">Stay with us and follow us @KodaDot!</a>'],
     ['How I can create own shop?','We are implementing collection view, sets of collection view. <a href="https://twitter.com/kodadot">Stay with us and follow us @KodaDot!</a>'],
     ['How appreaciations works?', 'It\'s that heart 🖤 under NFT token. We are <a href="https://github.com/Swader/rmrk-spec/issues/10">origin authors of EMOTE in RMRK standard</a> which works like appreciations. It\'s function is price discovery for your work.' ],
-    ['Are you funded?','Right now, we have <a href="https://kusama.polkassembly.io/post/384">Kusama Treasury funding for Milestone 1</a>. We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.']
+    ['Are you funded?','Right now, we have <a href="https://kusama.polkassembly.io/post/384">Kusama Treasury funding for Milestone 1</a>. We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.'],
+    ['Are you have Telegram channel?', 'We have only private channel for NFT creators, DM us if you are NFT creator!']
   ];
   @Prop() public value!: any;
 }
