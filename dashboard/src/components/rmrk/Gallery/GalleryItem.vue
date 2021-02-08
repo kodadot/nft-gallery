@@ -77,6 +77,17 @@
             </p>
             <p class="card-footer-item">
               <span>
+                <a :href="linemeUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="line">
+                  </b-icon>
+                </a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
                 <a :href="telegramUri">
                   <b-icon 
                     size="is-large"
@@ -88,11 +99,13 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="linemeUri">
-                  <b-icon 
+                <a href="#"
+                  v-clipboard:copy="realworldFullPathShare"
+                  @click="toast('URL copied to clipboard')">
+                 <b-icon   
                     size="is-large"
-                    pack="fab" 
-                    icon="line">
+                    pack="fas" 
+                    icon="share">
                   </b-icon>
                 </a>
               </span>
@@ -100,7 +113,6 @@
           </footer>
         </div>
       <br>
-
 
         <b-collapse class="card" animation="slide" 
           aria-id="contentIdForA11y3" :open="false">
@@ -171,12 +183,12 @@ export default class GalleryItem extends Vue {
   private accountId: string = '';
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
-  public mimeType: string = '';
   private imageVisible: boolean = true;
+  private isLoading: boolean = false;
 
   @Prop() public value!: any;
 
-  private isLoading: boolean = false;
+  public mimeType: string = '';
 
   public async mounted() {
     this.checkId();
@@ -221,12 +233,20 @@ export default class GalleryItem extends Vue {
     }
   }
 
+  public toast(message: string): void {
+    this.$buefy.toast.open(message);
+  }
+
   get helloText() {
     return 'Check out this cool RMRK NFT';
   }
 
   get realworldFullPath() {
     return `${window.location.origin}/%23${this.$route.fullPath}`;
+  }
+
+  get realworldFullPathShare() {
+    return `${window.location.origin}/#${this.$route.fullPath}`;
   }
 
   get telegramUri() {
