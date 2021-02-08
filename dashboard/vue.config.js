@@ -8,6 +8,12 @@ module.exports = {
     port: 9090,
     hot: true,
     disableHostCheck: true,
+   pwa: {
+     workboxPluginMode: 'GenerateSW',
+     workboxOptions: {
+       skipWaiting: true
+     }
+   } 
   },
   
   chainWebpack: config => {

@@ -11,8 +11,14 @@ if (process.env.NODE_ENV === 'production') {
           'For more details, visit https://goo.gl/AFskqB'
       );
     },
+    registered(){
+      console.log('Service worker has been registered.')
+    },
     cached() {
       console.log('Content has been cached for offline use.');
+    },
+    updatefound() {
+      console.log('New content is downloading.')
     },
     updated() {
       console.log('New content is available; please refresh.');
@@ -28,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
       notif.$on('close', () => {
         window.sessionStorage.clear();
         window.localStorage.clear();
-        window.location.reload()
+        window.location.reload();
       })
     },
     offline() {
