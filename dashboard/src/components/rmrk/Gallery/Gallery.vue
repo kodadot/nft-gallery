@@ -39,7 +39,8 @@
               </div>
 
               <div class="card-content">
-                <p class="title is-4">{{ nft.name }}</p>
+                <p class="title is-4">
+                  <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">{{ nft.name }}</router-link></p>
                 <p class="subtitle is-6">{{ nft.collection }}</p>
               </div>
             </router-link>
@@ -112,4 +113,13 @@ export default class Gallery extends Vue {
 .nft-card__owner {
   word-break: break-word;
 }
+
+a {
+  color: grey;
+}
+
+a:hover {
+  color: black;
+}
+
 </style>
