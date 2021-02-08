@@ -8,14 +8,14 @@ module.exports = {
     port: 9090,
     hot: true,
     disableHostCheck: true,
-   pwa: {
-     name: 'KodaDot NFT',
-     workboxPluginMode: 'GenerateSW',
-     workboxOptions: {
-       skipWaiting: true
-     }
-   } 
+   
   },
+  pwa: {
+    workboxPluginMode: 'GenerateSW',
+    workboxOptions: {
+      skipWaiting: true
+    }
+  }, 
   
   chainWebpack: config => {
     // ...other chains
