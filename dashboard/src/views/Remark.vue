@@ -6,6 +6,27 @@
           <component v-bind:is="x"></component>
         </b-tab-item>
       </b-tabs>
+    <!-- <section>
+        <b-field>
+            <b-radio-button v-model="components"
+                native-value="Nope"
+                type="is-danger is-light is-outlined">
+                <b-icon icon="close"></b-icon>
+                <span>Collection</span>
+            </b-radio-button>
+
+            <b-radio-button v-model="components"
+                native-value="Yep"
+                type="is-success is-light is-outlined">
+                <b-icon icon="check"></b-icon>
+                <span>Token</span>
+            </b-radio-button>
+        </b-field>
+        <p class="content">
+            <b>Selection:</b>
+            {{ components }}
+        </p>
+    </section> -->
     </div>
   </div>
 </template>
