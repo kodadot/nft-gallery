@@ -24,9 +24,9 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class  extends Vue {
   public faqQuestionsAnswers: any = [
-    ['What coin is used for NFTs?', '<a href="https://kusama.network/">Kusama, $KSM</a>. You can get it through our <a href="#/rmrk/credit">Credit</a> feature, using fiat on-ramp or <a href="https://www.coingecko.com/en/coins/kusama#markets">through custodial exchange</a>'],
+    ['What coin is used for NFTs?', '<a href="https://kusama.network/">Kusama, $KSM</a>. You can get it through our <a href="#/rmrk/credit">Credit</a> feature or <a href="https://www.binance.com/en/register?ref=T1JB89F0">through custodial exchange</a>.'],
     ['What wallet do I need to mint, buy and collect?', 'We reccommend you to use <a href="https://polkadot.js.org/extension/">Polkadot Extension for now</a>. Later we plan to add mobile-first experience. In all cases, <b>backup your seed, it\s your owners right and sort of value.</b>'],
-    ['How I\'ll mint my work?','You will go to the <a href="/#/rmrk/create">Create</a> and you need to first mint your collection and then token. If you want to video that, DM us!'],
+    ['How I\'ll mint my work?','You will go to the <a href="/#/rmrk/create">Create</a>. You need to first mint your Collection and then Token. If you want to video that, DM us!'],
     ['How I can trade KSM for my artwork?','Its supported widely on popular exchanges. Daily liqudity on exchanges is around $200M at time of writing and 1 $KSM is traded for ~ $100.'] ,
     ['How I can buy KSM as new-comer?', 'We have integration with <a href="https://ramp.network">Ramp.network</a>, click on <a href="#/rmrk/credit">Credit in navbar</a>. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can <a href="https://www.binance.com/en/register?ref=T1JB89F0">buy $KSM at Binance</a>'],
     ['How I can buy KSM with ETH, DAI, BTC..?', 'For best rates, you can <a href="https://www.coingecko.com/en/coins/edgeware#markets">use custodial exchange from list</a>. For best experience  <a href="https://www.binance.com/en/register?ref=T1JB89F0">we reccommend you to use Binance</a>. If you are <a href="https://simpleswap.io/?ref=6cc6e0c538ad">looking for simple trade, try SimpleSwap</a>.'],

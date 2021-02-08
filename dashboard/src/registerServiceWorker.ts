@@ -18,16 +18,17 @@ if (process.env.NODE_ENV === 'production') {
       console.log('New content is available; please refresh.');
       const notif = Notification.open({
         // duration: 4000,
-        message: `New version of app is available. REFRESHING`,
+        message: `New version of app is available. Close to refresh`,
         queue: false,
         type: 'is-info is-light',
         position: 'is-top-right',
+        indefinite: true,
       });
 
-      // notif.$on('close', () => {
-      //   window.sessionStorage.clear();
-      //   window.location.reload()
-      // })
+      notif.$on('close', () => {
+        window.sessionStorage.clear();
+        window.location.reload()
+      })
     },
     offline() {
       console.log(
