@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
     updated() {
       console.log('New content is available; please refresh.');
       const notif = Notification.open({
-        // duration: 4000,
+        duration: 30000,
         message: `New version of app is available. Close to refresh`,
         queue: false,
         type: 'is-info is-light',
