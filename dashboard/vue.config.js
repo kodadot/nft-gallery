@@ -9,6 +9,7 @@ module.exports = {
     hot: true,
     disableHostCheck: true,
    pwa: {
+     name: 'KodaDot NFT',
      workboxPluginMode: 'GenerateSW',
      workboxOptions: {
        skipWaiting: true
