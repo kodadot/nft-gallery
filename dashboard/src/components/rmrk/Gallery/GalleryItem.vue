@@ -25,7 +25,6 @@
                   <p class="subtitle is-size-5">
                     {{ nft.description }}
                   </p>
-                  <!-- <p><a :href="nft.external_url" >View it on RMRK.app</a></p> -->
                 </p>
               </div>
             </div>
@@ -33,28 +32,42 @@
       </div>
 
       <div class="tile is-vertical is-parent">
-        <div class="card">
+        <b-collapse class="card" animation="slide" 
+          aria-id="contentIdForA11y3" :open="false">
+          <template #trigger="props">
+            <div
+              class="card-header"
+              role="button"
+              aria-controls="contentIdForA11y3">
+              <p class="card-header-title is-size-1">
+                {{ nft.name }}
+              </p>
+              <a class="card-header-icon">
+                <b-icon
+                  :icon="props.open ? 'chevron-up' : 'chevron-down'">
+                </b-icon>
+              </a>
+            </div>
+          </template>
           <div class="card-content">
-            <p class="title is-size-1">
-              {{ nft.name }}
-            </p>
-            <p class="title is-size-4">
-              Collection
-            </p>
-            <p class="subtitle is-size-6"> 
-              {{ nft.collection }}
-            </p>
-            <p class="title is-size-4">
-              Owner
-            </p>
-            <p class="subtitle is-size-7">
-              {{ nft.currentOwner }}
-            </p>
+            <div class="content">
+              <p class="title is-size-4">
+                Collection
+              </p>
+              <p class="subtitle is-size-6"> 
+                {{ nft.collection }}
+              </p>
+              <p class="title is-size-4">
+                Owner
+              </p>
+              <p class="subtitle is-size-7">
+                {{ nft.currentOwner }}
+              </p>
+            </div>
           </div>
-        </div>
-        <br/>
-
-
+        </b-collapse>
+        <br>
+        
         <b-collapse class="card" animation="slide" 
           aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
@@ -66,23 +79,22 @@
                 Actions
               </p>
               <a class="card-header-icon">
-                  <b-icon
-                      :icon="props.open ? 'chevron-up' : 'chevron-down'">
-                  </b-icon>
+                <b-icon
+                  :icon="props.open ? 'chevron-up' : 'chevron-down'">
+                </b-icon>
               </a>
             </div>
           </template>
-
           <div class="card-content">
             <div class="content">
               <p class="subtitle">
                 <AccountSelect label="Account" v-model="accountId" />
                 <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
               </p>
-
             </div>
           </div>
         </b-collapse>
+
         <div class="card">
           <footer class="card-footer">
             <p class="card-footer-item">
@@ -120,7 +132,7 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a href="#"
+                <a :href="realworldFullPathShare"
                   v-clipboard:copy="realworldFullPathShare"
                   @click="toast('URL copied to clipboard')">
                  <b-icon   
@@ -146,9 +158,9 @@
                 Facts
               </p>
               <a class="card-header-icon">
-                  <b-icon
-                      :icon="props.open ? 'chevron-up' : 'chevron-down'">
-                  </b-icon>
+                <b-icon
+                  :icon="props.open ? 'chevron-up' : 'chevron-down'">
+                </b-icon>
               </a>
             </div>
           </template>
