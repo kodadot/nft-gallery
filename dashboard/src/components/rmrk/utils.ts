@@ -75,12 +75,12 @@ export const fetchRmrkMeta = async (
 export const sanitizeIpfsUrl = (ipfsUrl: string) => {
   const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', 'https://ipfs.io/');
+    return ipfsUrl.replace('ipfs://', 'https://cloudflare-ipfs.com/');
   }
 
   const r = /^ipfs:\/\//;
   if (r.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', 'https://ipfs.io/ipfs/');
+    return ipfsUrl.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/');
   }
 
   return ipfsUrl;
