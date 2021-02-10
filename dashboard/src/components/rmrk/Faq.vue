@@ -35,13 +35,14 @@ export default class  extends Vue {
     ['What does SEND, CONSUME, LIST mean?', 'SEND will send it to someone, CONSUME will burn it, LIST will list it for sale so someone can buy it from you.'],
     ['I\'ve minted NFT, but I don\'t see it in gallery, where is it?', 'Best way is to check through <a href="https://kusama.subscan.io/">Subscan Explorer</a> and lookup your address. <a href="https://kusama.subscan.io/extrinsic/6095478-1">You can find example how minted NFT looks through explorer, when you look on extrinsics.</a>'],
     ['What countries fiat on-ramp support?', 'Right now, we are aware that US is not supported, other all countries should work, <a href="https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/">full list of supported countries</a>. This is out of our control right now.'],
-    ['How I will sell my token?','Right now, you will use LIST in Actions'],
+    ['How I will sell my token?','Right now, you will use LIST in Actions.'],
     ['Royalties streams settings?', 'Right now, we don\'t have chain logic, but we plan to implement something great, soon. <a href="https://twitter.com/kodadot">Stay with us and follow us @KodaDot!</a>'],
     ['How I can create own shop?','We are implementing collection view, sets of collection view. <a href="https://twitter.com/kodadot">Stay with us and follow us @KodaDot!</a>'],
     ['How appreaciations works?', 'It\'s that heart 🖤 under NFT token. We are <a href="https://github.com/Swader/rmrk-spec/issues/10">origin authors of EMOTE in RMRK standard</a> which works like appreciations. It\'s function is price discovery for your work.' ],
     ['Are you funded?','Right now, we have <a href="https://kusama.polkassembly.io/post/384">Kusama Treasury funding for Milestone 1</a>. We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.'],
-    ['Are you have Telegram channel?', 'We have only private channel for NFT creators, DM us if you are NFT creator!'],
-    ['Will you have AR/VR mode?', 'Yes, that\'s part of our Milestone 2, stay tuned!']
+    ['Do you have Telegram channel?', 'We have only private channel for NFT creators, DM us if you are NFT creator!'],
+    ['Will you have AR/VR mode or implementation?', 'Yes, that\'s part of our Milestone 2, stay tuned!'],
+    ['How to open developer console?','If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.']
   ];
   @Prop() public value!: any;
 }

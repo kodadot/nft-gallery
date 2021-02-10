@@ -13,18 +13,20 @@ import {
   // faCreditCard, faStepForward, faRing, faDonate, 
   // faPenNib, faImages,
 
-  faPaperPlane, faFileImage, faPlus, faSync, faEye,
-  faTimes, faCopy, faTrash, faCloudDownloadAlt,
-  faKey, faExternalLinkAlt, faUpload, faUsers,
-  faQuestionCircle, faMinus, faSearch, faInfoCircle,
-  faChevronDown, faChevronUp,
-  faHeart, faCaretDown, faInfo, faShare
+  faPaperPlane, faFileImage, faPlus, 
+  faSync, faEye, faTimes, 
+  faTrash, faCloudDownloadAlt, faKey, 
+  faExternalLinkAlt, faUpload, faUsers,
+  faQuestionCircle, faMinus, faSearch, 
+  faInfoCircle, faChevronDown, faChevronUp,
+  faHeart, faCaretDown, faInfo, 
+  faShareSquare, faCopy, 
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
 // import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
-import { faTwitter, faLine, faTelegram } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter, faLine, faTelegram, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -43,14 +45,16 @@ library.add(
   // faAngleLeft, faAngleRight, faCreditCard, faStepForward, faRing,
   // faDonate, faFileImage, faPenNib, faImages, faLine
 
-  faPaperPlane, faFileImage, faPlus, faSync, faEye,
-  faTimes, faCopy, faTrash, faCloudDownloadAlt,
-  faKey, faExternalLinkAlt, faUpload, faUsers,
-  faQuestionCircle, faMinus, faSearch, faInfoCircle,
-  faChevronDown, faChevronUp,
-  faTwitter, faTelegram,
-  faLine, faHeart, faSearch,
-  faCaretDown, faInfo, faShare
+  faPaperPlane, faFileImage, faPlus, 
+  faSync, faEye, faTimes, 
+  faCopy, faTrash, faCloudDownloadAlt,
+  faKey, faExternalLinkAlt, faUpload, 
+  faUsers, faQuestionCircle, faMinus, 
+  faSearch, faInfoCircle, faChevronDown, 
+  faChevronUp, faHeart, faSearch,
+  faCaretDown, faInfo, faShareSquare,
+
+  faTwitter, faTelegram, faMedium, faLine, 
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

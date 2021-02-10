@@ -7,22 +7,22 @@
               v-if="imageVisible"
               :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-              alt="Simple image"
+              alt="NFT minted image"
               ratio="1by1"
             ></b-image>
           <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <div class="card">
               <div class="card-content">
-                <p class="title">
+                <p class="title is-size-2">
                   Legend
                 </p>
-                <p class="subtitle is-size-6">
+                <p class="subtitle is-size-7">
                   <b># {{ nftId }}</b>
                   <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                     <Money :value="nft.price" :inline="true" />
                   </b-tag>
-                  <p class="subtitle is-size-6">
+                  <p class="subtitle is-size-5">
                     {{ nft.description }}
                   </p>
                   <!-- <p><a :href="nft.external_url" >View it on RMRK.app</a></p> -->
@@ -35,7 +35,7 @@
       <div class="tile is-vertical is-parent">
         <div class="card">
           <div class="card-content">
-            <p class="title">
+            <p class="title is-size-1">
               {{ nft.name }}
             </p>
             <p class="title is-size-4">
@@ -47,22 +47,43 @@
             <p class="title is-size-4">
               Owner
             </p>
-            <p class="subtitle is-size-6">
+            <p class="subtitle is-size-7">
               {{ nft.currentOwner }}
             </p>
           </div>
         </div>
         <br/>
-        <div class="card">
+
+
+        <b-collapse class="card" animation="slide" 
+          aria-id="contentIdForA11y3" :open="false">
+          <template #trigger="props">
+            <div
+              class="card-header"
+              role="button"
+              aria-controls="contentIdForA11y3">
+              <p class="card-header-title">
+                Actions
+              </p>
+              <a class="card-header-icon">
+                  <b-icon
+                      :icon="props.open ? 'chevron-up' : 'chevron-down'">
+                  </b-icon>
+              </a>
+            </div>
+          </template>
+
           <div class="card-content">
-            <p class="title">
-              Actions
-            </p>
-            <p class="subtitle">
-              <AccountSelect label="Account" v-model="accountId" />
-              <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
-            </p>
+            <div class="content">
+              <p class="subtitle">
+                <AccountSelect label="Account" v-model="accountId" />
+                <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+              </p>
+
+            </div>
           </div>
+        </b-collapse>
+        <div class="card">
           <footer class="card-footer">
             <p class="card-footer-item">
               <span>
@@ -71,17 +92,6 @@
                     size="is-large"
                     pack="fab" 
                     icon="twitter">
-                  </b-icon>
-                </a>
-              </span>
-            </p>
-            <p class="card-footer-item">
-              <span>
-                <a :href="linemeUri">
-                  <b-icon 
-                    size="is-large"
-                    pack="fab" 
-                    icon="line">
                   </b-icon>
                 </a>
               </span>
@@ -99,13 +109,24 @@
             </p>
             <p class="card-footer-item">
               <span>
+                <a :href="linemeUri">
+                  <b-icon 
+                    size="is-large"
+                    pack="fab" 
+                    icon="line">
+                  </b-icon>
+                </a>
+              </span>
+            </p>
+            <p class="card-footer-item">
+              <span>
                 <a href="#"
                   v-clipboard:copy="realworldFullPathShare"
                   @click="toast('URL copied to clipboard')">
                  <b-icon   
-                    size="is-large"
+                    size="is-medium"
                     pack="fas" 
-                    icon="share">
+                    icon="share-square">
                   </b-icon>
                 </a>
               </span>
