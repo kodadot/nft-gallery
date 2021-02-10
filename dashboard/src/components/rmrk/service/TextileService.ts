@@ -26,6 +26,9 @@ export default abstract class TextileService<T> {
     return TextileService.threadId(this._dbStore)
   }
 
+  get isAuthExpired(): boolean { 
+    return (this._client.context as any).isExpired
+  }
 
   abstract get collectioName(): string;
   abstract set collectioName(name: string);
@@ -117,8 +120,6 @@ export default abstract class TextileService<T> {
     } catch(e) {
       return false
     }
-
-
   }
 
 }

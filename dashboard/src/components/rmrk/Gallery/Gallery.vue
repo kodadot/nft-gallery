@@ -59,6 +59,8 @@ import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 
 type NFTType = NFT | NFTWithMeta;
 
+const nftSort = (a: any, b: any) => b._mod - a._mod
+
 @Component({})
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
@@ -75,7 +77,7 @@ export default class Gallery extends Vue {
     this.isLoading = true;
 
     try {
-      this.nfts = await rmrkService.getAllNFTs();
+      this.nfts = await rmrkService.getAllNFTs().then(arr => arr.slice().sort(nftSort));
       this.collectionMeta();
     } catch (e) {
       console.warn(e);

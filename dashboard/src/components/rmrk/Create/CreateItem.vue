@@ -76,6 +76,7 @@ interface NFTAndMeta extends NFT {
 })
 export default class CreateItem extends Vue {
   @Prop() public index!: number;
+  @Prop() public alreadyMinted!: number;
   @Prop() public view!: NFTAndMeta;
   private tooltip: object = {
     name: 'Name of your token',
@@ -92,7 +93,7 @@ export default class CreateItem extends Vue {
   }
 
   get serialNumber(): string {
-    return String(this.index + 1).padStart(16, '0');
+    return String(this.index + 1 + this.alreadyMinted).padStart(16, '0');
   }
 
   private async m() {

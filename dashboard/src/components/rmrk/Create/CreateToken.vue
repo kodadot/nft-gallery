@@ -17,7 +17,8 @@
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
-        :index="index + alreadyMinted"
+        :index="index"
+        :alreadyMinted="alreadyMinted"
         :view="item"
         @update="handleUpdate"
         @upload="uploadFile"
