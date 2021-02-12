@@ -70,7 +70,12 @@ export default class NavbarMenu extends Vue {
       to: { name: 'nft' },
       strong: true
     },
-
+    {
+      name: 'Packs',
+      tag: 'router-link',
+      to: { name: 'packs' },
+      strong: true
+    },
     {
       name: 'Accounts',
       icon: 'users',

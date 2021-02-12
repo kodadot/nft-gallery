@@ -1,18 +1,20 @@
-import { Client, KeyInfo, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft } from './scheme'
+import { Client, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
 import { emptyObject } from '@/utils/empty';
 import Consolidator, { generateId } from './Consolidator';
 import { keyInfo as keysToTheKingdom } from '@/textile'
+import slugify from 'slugify';
 
-export type RmrkType = Collection | NFT | Emotion
+export type RmrkType = Collection | NFT | Emotion | Pack
 
 export enum AvailableCollection {
   COLLECTION = 'collection',
   NFT = 'nft',
-  APPRECIATION = 'appreciation'
+  APPRECIATION = 'appreciation',
+  PACK = 'pack'
 }
 
 export class RmrkService extends TextileService<RmrkType> implements State {
@@ -33,10 +35,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const rmrkService = new RmrkService(keyInfo)
     try {
       rmrkService._client = await Client.withKeyInfo(keyInfo)
-      if (url) {
-        console.log(`[RMRK SETUP] has url ${url}`)
-        rmrkService.onUrlChange(url)
-      }
+      console.log(`[RMRK SETUP] has url ${url}`)
+      rmrkService.onUrlChange(url)
     } catch(err) {
       throw new Error(`[RMRK SERVICE]: ${err.message}`)
     }
@@ -94,6 +94,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this._name = AvailableCollection.APPRECIATION
   }
 
+  private usePack() {
+    this._name = AvailableCollection.PACK
+  }
+
   async getNFTsForCollection(id: string): Promise<NFT[]> {
     this.useNFT();
     const query: QueryJSON = new Where('collection').eq(id)
@@ -121,6 +125,22 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const collections = await this.find<Collection>(query)
     return collections
   }
+
+  async getPackListForAccount(account: string): Promise<Pack[]> {
+    this.usePack();
+    const query: QueryJSON = new Where('owner').eq(account)
+    const collections = await this.find<Pack>(query)
+    return collections
+  }
+
+  // async getPackListByIds(account: string, ids: string[]): Promise<Pack[]> {
+  //   this.usePack();
+  //   const query: Query = new Query();
+  //   ids.forEach(id => query.or(new Where('id').eq(id)))
+  //   query.and('')
+  //   const collections = await this.find<Pack>(query)
+  //   return collections
+  // }
 
   getLastSyncedBlock(): Promise<number> {
     throw new Error('Method not implemented.');
@@ -200,7 +220,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       Consolidator.isIssuer(collection, caller)
       const updatedCollection: Collection = {
         ...collection,
-        issuer: view.id
+        issuer: view.metadata || caller
       }
       await this.update(updatedCollection)
       return collection
@@ -371,6 +391,46 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     } catch (e) {
       throw e
     }
+  }
+
+  public async createPack(pack: Partial<Pack>, caller: string): Promise<Pack> {
+    this.usePack()
+    if (!pack.name) {
+      throw EvalError(`[RMRK Service] Unable to save pack without name, caller ${caller}`)
+    }
+
+    const id = generateId(caller, slugify(pack.name.toUpperCase(), '_'))
+
+    const item: Pack = {
+      ...pack,
+      _id: pack._id || id,
+      id: pack._id || id,
+      name: pack.name,
+      owner: caller,
+      nfts: pack.nfts || {},
+      collections: pack.collections || {},
+    }
+
+
+    // Consolidator.collectionIdValid(collection, caller);
+    
+    const hasCollection = await this.hasCollection();
+    if (!hasCollection) {
+      await this.createCollection(item)
+    }
+  
+    const collectionAlreadyCreated = await this.exists(item._id);
+
+    if (collectionAlreadyCreated) {
+      throw ReferenceError(`[RMRK Service] Pack already created ${item._id}`)
+    }
+
+    await this.addToCollection(item)
+    return item;
+  }
+
+  public async addNFTToPacks(nft: string, added: string[], caller: string) {
+    // await this.getPackListForAccount(caller).then(packs => packs.filter())
   }
 
   public async joinStore(): Promise<void> {
