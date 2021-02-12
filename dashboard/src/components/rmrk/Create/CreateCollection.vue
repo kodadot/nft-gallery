@@ -3,13 +3,13 @@
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div class="box">
       <p class="title is-size-3">
-        Context
+        {{ $t('context') }}
       </p>
       <p class="subtitle is-size-7">
-        using {{ version }}
+        {{ $t('using') }} {{ version }}
       </p>
       <div>
-        Computed id: <b>{{ rmrkId }}</b>
+        {{ $t('computed id')}}: <b>{{ rmrkId }}</b>
       </div>
       <AccountSelect label="Account" v-model="accountId" />
       <b-field grouped label="Name">
@@ -28,7 +28,7 @@
         <Tooltip :label="tooltip.symbol" />
       </b-field>
       <p class="title">
-        Content
+        {{ $t('content')}}
       </p>
       <b-switch v-model="uploadMode" passive-type="is-dark">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
@@ -101,8 +101,8 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
-  private tooltip: object = { 
-      account: 'Owner address of minted art',
+  public tooltip: object = { 
+      account:  'Owner address of minted art',
       name: 'Name you want to show in gallery view',
       symbol: 'Symbol you want to trade it under',
       description: 'Describe your collection, it will show under collection view',

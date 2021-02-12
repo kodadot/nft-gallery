@@ -15,7 +15,7 @@
             <div class="card">
               <div class="card-content">
                 <p class="title is-size-2">
-                  Legend
+                  {{ $t('legend')}}
                 </p>
                 <p class="subtitle is-size-7">
                   <b># {{ nftId }}</b>
@@ -52,13 +52,13 @@
           <div class="card-content">
             <div class="content">
               <p class="title is-size-4">
-                Collection
+                {{ $t('collection') }}
               </p>
               <p class="subtitle is-size-6"> 
                 {{ nft.collection }}
               </p>
               <p class="title is-size-4">
-                Owner
+                {{ $t('owner') }}
               </p>
               <p class="subtitle is-size-7">
                 {{ nft.currentOwner }}
@@ -155,7 +155,7 @@
               role="button"
               aria-controls="contentIdForA11y3">
               <p class="card-header-title">
-                Facts
+                {{ $t('facts') }}
               </p>
               <a class="card-header-icon">
                 <b-icon
@@ -168,13 +168,13 @@
           <div class="card-content">
             <div class="content">
               <p class="subtitle is-size-6">
-                <b>COLLECTION:</b>{{ nft.collection }}
+                <b>{{ $t('collection') }}:</b>{{ nft.collection }}
               </p>
               <p class="subtitle is-size-6">
                 <b>SN:</b>{{ nft.sn }}
               </p>
               <p class="subtitle is-size-6">
-                <b>INSTANCE:</b>{{ nft.sn }}
+                <b>{{ $t('instance') }}:</b>{{ nft.sn }}
               </p>
             </div>
           </div>

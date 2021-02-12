@@ -21,6 +21,7 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item>
+      <LocaleChanger />
     </template>
     <template #end>
       <b-navbar-item tag="div">
@@ -45,9 +46,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import LocaleChanger from '@/components/shared/SwitchLocale.vue';
 import { getCurrentColor } from '@/colors'
 
-@Component({})
+@Component({
+  components: {
+    LocaleChanger
+  }
+})
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
