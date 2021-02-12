@@ -2,6 +2,7 @@
   <div class="nft-appreciation__main">
     <b-dropdown
       v-model="currentMenu"
+      @input="handleInput"
       multiple
       aria-role="list"
       expanded
@@ -43,6 +44,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import shouldUpdate from '@/utils/shouldUpdate';
 import groupBy from '@/utils/groupBy';
+import { Debounce } from 'vue-debounce-decorator'
 
 import { Pack } from '@/components/rmrk/service/scheme';
 import { emptyObject } from '@/utils/empty';
@@ -53,6 +55,7 @@ export default class PackSaver extends Vue {
   @Prop() public accountId!: string;
   @Prop() public nftId!: string;
   private currentMenu: string[] = [];
+  private savedMenu: Record<string,boolean> = {};
   private menus: Pack[] = [];
   private newPackName = '';
   protected isLoading = false;
@@ -81,6 +84,31 @@ export default class PackSaver extends Vue {
 
   }
 
+  @Debounce(1500)
+  protected handleInput(value: string[]) {
+    console.log('new value is,', value, 'database has', this.savedMenu)
+    const changeLog: Record<string, boolean> = {};
+    Object.keys(this.savedMenu).forEach(m => {
+      changeLog[m] = value.some(v => v === m)
+    })
+    // value.forEach(id => changeLog[id] = !this.savedMenu[id])
+    console.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
+    this.submit(changeLog)
+  }
+
+  protected async submit(changeLog: Record<string, boolean>) {
+      const rmrkService = getInstance();
+      try {
+        const persisted = await rmrkService?.addNFTToPacks(this.nftId, changeLog, this.accountId);
+        if (Object.keys(persisted || {}).length) {
+          this.savedMenu = {...persisted}
+          showNotification(`[Textile] packs updated`);
+        }
+      } catch (e) {
+        showNotification(`[ERR] ${e}`, notificationTypes.danger);
+        console.error(e);
+      }
+  }
 
   // private async submit(rmrk: string) {
   //   const { api } = Connector.getInstance();
@@ -113,8 +141,9 @@ export default class PackSaver extends Vue {
       console.log(packs);
       this.menus = packs || [];
       this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
+      this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
     } catch (e) {
-      console.warn(`[Appreciation] unable to fetch appreciations ${e}`);
+      console.warn(`[Pack] unable to fetch appreciations ${e}`);
     }
   }
 

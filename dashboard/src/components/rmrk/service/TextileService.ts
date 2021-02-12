@@ -47,8 +47,8 @@ export default abstract class TextileService<T> {
     await this.client.create(this.store, this.collectioName, [ object ])
   }
 
-  protected async update(object: T) {
-    await this.client.save(this.store, this.collectioName, [ object ])
+  protected async update(object: T | T[]) {
+    await this.client.save(this.store, this.collectioName, Array.isArray(object) ? object : [ object ])
   }
 
   protected async remove(id: string | string[]) {

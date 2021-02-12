@@ -429,8 +429,23 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return item;
   }
 
-  public async addNFTToPacks(nft: string, added: string[], caller: string) {
-    // await this.getPackListForAccount(caller).then(packs => packs.filter())
+  public async addNFTToPacks(nft: string, changeLog: Record<string, boolean>, caller: string): Promise<Record<string, boolean>> {
+    const filterFn = (pack: Pack) => Object.keys(changeLog).some(packId => packId === pack._id)
+
+    try {
+      const filteredPacks = await this.getPackListForAccount(caller)
+      .then(packs => packs.filter(filterFn))
+  
+      filteredPacks.forEach(pack => pack.nfts[nft] = changeLog[pack._id])
+      this.usePack()
+      this.update(filteredPacks)
+      return changeLog
+    } catch (e) {
+      console.warn(`[RMRK Service] Add NFT to Packs ${e.message}`)
+      throw e
+    }
+
+    return {}
   }
 
   public async joinStore(): Promise<void> {

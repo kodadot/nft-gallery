@@ -128,9 +128,10 @@ export interface Pack {
   name: string;
   image?: string;
   description?: string;
-  metadata?: PackMetadata;
+  metadata?: string;
   collections: Record<string, boolean>;
   nfts: Record<string, boolean>;
+  social?: Record<string, string>; 
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
