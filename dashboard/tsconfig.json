@@ -13,6 +13,8 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "types": [
+      "webpack-env",
+      "webpack",
       "webpack-env"
     ],
     "paths": {
@@ -32,7 +34,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "src/sw.js"
+    "tests/**/*.tsx",
+    "src/sw.js"
   ],
   "exclude": [
     "node_modules"
