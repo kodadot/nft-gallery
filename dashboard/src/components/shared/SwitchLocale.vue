@@ -5,9 +5,9 @@
     icon-pack="fas"
     v-model="$i18n.locale">
     <option 
-      v-for="(lang, i) in langs" 
+      v-for="(lang, i) in langsFlags" 
       :key="`Lang${i}`" 
-      :value="lang">{{ lang }}
+      :value="lang[0]">{{ lang[1] }}
     </option>
   </b-select>
 </template>
@@ -17,6 +17,12 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class LocaleChanger extends Vue {
-  public langs: any = ['En', 'Ko']
+  public langsFlags: any = [
+    ['en', '🇬🇧'], 
+    ['es','🇪🇸'], 
+    ['jp','🇯🇵'], 
+    ['ko','🇰🇷'], 
+    ['cn', '🇨🇳']
+  ]
 }
 </script>
