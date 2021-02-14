@@ -21,6 +21,18 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item>
+      <b-navbar-dropdown 
+          arrowless
+          collapsible
+          label="Extra">
+          <b-navbar-item 
+            v-for="row in navbarExtra"
+            v-bind:key="row.name"
+            :tag="row.tag"
+            :to="row.to">
+            {{row.name}}
+          </b-navbar-item>
+      </b-navbar-dropdown>
     </template>
     <template #end>
       <b-navbar-item tag="div">
@@ -58,26 +70,26 @@ export default class NavbarMenu extends Vue {
       strong: true
     },
     {
-      name: 'Credit',
-      icon: 'users',
-      to: { name: 'rmrkCredit' },
-      tag: 'router-link',
-      strong: true
-    },
-    {
       name: 'Gallery',
       tag: 'router-link',
       to: { name: 'nft' },
       strong: true
     },
-
+  ]
+  public navbarExtra: any = [
     {
       name: 'Accounts',
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
     },
-
+    {
+      name: 'Credit',
+      icon: 'users',
+      to: { name: 'rmrkCredit' },
+      tag: 'router-link',
+      strong: true
+    },
     {
       name: 'Transfer',
       icon: 'paper-plane',
