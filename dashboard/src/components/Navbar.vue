@@ -21,23 +21,37 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item>
-      <LocaleChanger />
+      <b-navbar-dropdown 
+          arrowless
+          collapsible
+          label="Extra">
+          <b-navbar-item 
+            v-for="row in navbarExtra"
+            v-bind:key="row.name"
+            :tag="row.tag"
+            :to="row.to">
+            {{row.name}}
+          </b-navbar-item>
+      </b-navbar-dropdown>
     </template>
     <template #end>
-      <b-navbar-item tag="div">
+      <b-navbar-item>
         <div class="buttons">
-          <b-button tag="router-link"
-            :to="{ name: 'rmrkFaq' }" > 
-            F.A.Q. 
-          </b-button>
-          <a class="button is-info"
-            href="https://twitter.com/Kodadot">
-              <b-icon 
-                pack="fab" 
-                icon="twitter">
-              </b-icon>
-              <strong>KodaDot</strong>
-          </a>
+          <b-field grouped>
+            <b-button tag="router-link"
+              :to="{ name: 'rmrkFaq' }" > 
+              F.A.Q. 
+            </b-button>
+            <b-button tag="a" type="is-info"
+              href="https://twitter.com/Kodadot">
+                <b-icon 
+                  pack="fab" 
+                  icon="twitter">
+                </b-icon>
+                <strong>KodaDot</strong>
+            </b-button>
+            <LocaleChanger />  
+          </b-field>
         </div>
       </b-navbar-item>
     </template>
@@ -64,26 +78,26 @@ export default class NavbarMenu extends Vue {
       strong: true
     },
     {
-      name: 'Credit',
-      icon: 'users',
-      to: { name: 'rmrkCredit' },
-      tag: 'router-link',
-      strong: true
-    },
-    {
       name: 'Gallery',
       tag: 'router-link',
       to: { name: 'nft' },
       strong: true
     },
-
+  ]
+  public navbarExtra: any = [
     {
       name: 'Accounts',
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
     },
-
+    {
+      name: 'Credit',
+      icon: 'users',
+      to: { name: 'rmrkCredit' },
+      tag: 'router-link',
+      strong: true
+    },
     {
       name: 'Transfer',
       icon: 'paper-plane',

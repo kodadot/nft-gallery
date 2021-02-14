@@ -21,5 +21,8 @@
   "Name you want to show in gallery view": "Name you want to show in gallery view",
   "Symbol you want to trade it under": "Symbol you want to trade it under",
   "Describe your collection, it will show under collection view": "Describe your collection, it will show under collection view",
-  "Add collection cover which will show up at collection view": "Add collection cover which will show up at collection view"
+  "Add collection cover which will show up at collection view": "Add collection cover which will show up at collection view",
+  "Add Token": "Add Token",
+  "Mint": "Mint",
+  "Transferable is by default": "Transferable is by default"  
 }

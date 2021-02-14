@@ -61,7 +61,7 @@
                 {{ $t('owner') }}
               </p>
               <p class="subtitle is-size-7">
-                {{ nft.currentOwner }}
+                <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank">{{ nft.currentOwner }}</a>
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@
               role="button"
               aria-controls="contentIdForA11y3">
               <p class="card-header-title">
-                Actions
+                {{ $t('actions') }}
               </p>
               <a class="card-header-icon">
                 <b-icon
@@ -99,7 +99,8 @@
           <footer class="card-footer">
             <p class="card-footer-item">
               <span>
-                <a :href="twitterUri">
+                <a :href="twitterUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -110,7 +111,8 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="telegramUri">
+                <a :href="telegramUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -121,7 +123,8 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="linemeUri">
+                <a :href="linemeUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -138,7 +141,7 @@
                  <b-icon   
                     size="is-medium"
                     pack="fas" 
-                    icon="share-square">
+                    icon="link">
                   </b-icon>
                 </a>
               </span>
@@ -271,7 +274,7 @@ export default class GalleryItem extends Vue {
   }
 
   get helloText() {
-    return 'Check out this cool RMRK NFT';
+    return 'Check out this cool RMRK NFT %23kodadot';
   }
 
   get realworldFullPath() {

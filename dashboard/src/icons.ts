@@ -20,7 +20,7 @@ import {
   faQuestionCircle, faMinus, faSearch, 
   faInfoCircle, faChevronDown, faChevronUp,
   faHeart, faCaretDown, faInfo, 
-  faShareSquare, faCopy, 
+  faLink, faCopy, faLanguage
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -52,7 +52,7 @@ library.add(
   faUsers, faQuestionCircle, faMinus, 
   faSearch, faInfoCircle, faChevronDown, 
   faChevronUp, faHeart, faSearch,
-  faCaretDown, faInfo, faShareSquare,
+  faCaretDown, faInfo, faLink, faLanguage,
 
   faTwitter, faTelegram, faMedium, faLine, 
   );

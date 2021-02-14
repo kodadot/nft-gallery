@@ -18,17 +18,17 @@
         <b-input v-model="view.instance" expanded></b-input>
         <Tooltip :label="tooltip.instance" />
       </b-field>
-      <b-field>
+      <!-- <b-field>
         <b-switch :true-value="1" :false-value="0" 
             v-model="view.transferable" disabled>
-          Transferable is by default
+          {{ $t('Transferable is by default') }}
         </b-switch>
-      </b-field>
+      </b-field> -->
       <!-- <b-field v-if="view.transferable" label="Price">
         <b-input v-model="view.price" ></b-input>
       </b-field> -->
       <b-field>
-        <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
+        <b-switch v-model="uploadMode" passive-type="is-dark" type="is-primary">
           {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
         </b-switch>
       </b-field>

@@ -32,10 +32,10 @@
           @click="handleAdd"
           :disabled="disabled"
         >
-        Add Token
+        {{ $t('Add Token') }}
         </b-button>
         <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-          Mint
+          {{ $t('Mint') }}
         </b-button>
       </div>
 
