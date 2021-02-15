@@ -9,23 +9,23 @@
         {{ $t('using') }} {{ version }}
       </p>
       <div>
-        {{ $t('computed id')}}: <b>{{ rmrkId }}</b>
+        {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
       </div>
-      <AccountSelect label="Account" v-model="accountId" />
-      <b-field grouped label="Name">
+      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      <b-field grouped :label="$i18n.t('Name')">
         <b-input v-model="rmrkMint.name" expanded></b-input>
-        <Tooltip :label="tooltip.name" />
+        <Tooltip :label="$i18n.t('Owner address of minted art')" />
       </b-field>
-      <b-field label="Maximum NFTs in collection">
+      <b-field :label="$i18n.t('Maximum NFTs in collection')">
         <b-numberinput
           v-model="rmrkMint.max"
           placeholder="1 is minumum"
           :min="1"
         ></b-numberinput>
       </b-field>
-      <b-field grouped label="Symbol">
+      <b-field grouped :label="$i18n.t('Symbol')">
         <b-input v-model="rmrkMint.symbol" expanded></b-input>
-        <Tooltip :label="tooltip.symbol" />
+        <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
       <p class="title">
         {{ $t('content')}}
@@ -34,7 +34,7 @@
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>
       <template v-if="uploadMode">
-        <b-field label="Description">
+        <b-field :label="$i18n.t('Description')">
           <b-input
             v-model="meta.description"
             maxlength="200"
@@ -42,12 +42,12 @@
           ></b-input>
         </b-field>
         <MetadataUpload v-model="image" />
-        <b-field label="Multimedia data">
+        <b-field :label="$i18n.t('Multimedia data')">
           <b-input v-model="meta.image_data"></b-input>
         </b-field>
       </template>
 
-      <b-field v-else label="Metadata IPFS Hash">
+      <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
         <b-input v-model="rmrkMint.metadata"></b-input>
       </b-field>
       <PasswordInput v-model="password" :account="accountId" />   
@@ -58,7 +58,7 @@
         :disabled="disabled"
         :loading="isLoading"
       >
-        Create Collection
+        {{ $t('create collection') }}
       </b-button>
     </div>
   </div>
@@ -212,13 +212,3 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   }
 }
 </script>
-
-// {
-//   "version": "RMRK0.1",
-//   "name": "Genesis limited edition obxium art NFTs on Kusama blockchain",
-//   "max": 5,
-//   "issuer": "DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby",
-//   "symbol": "OKSM",
-//   "id": "241B8516516F381A-OKSM",
-//   "metadata": "ipfs://ipfs/QmTcaAPWPY5NinmCdDJAi6YFmyag41UEy4SpE1jn4Xdhnx"
-// }

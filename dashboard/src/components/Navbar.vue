@@ -42,7 +42,9 @@
               :to="{ name: 'rmrkFaq' }" > 
               F.A.Q. 
             </b-button>
-            <b-button tag="a" type="is-info"
+            <LocaleChanger />  
+            <b-button tag="a" 
+              type="is-info" outlined
               href="https://twitter.com/Kodadot">
                 <b-icon 
                   pack="fab" 
@@ -50,7 +52,6 @@
                 </b-icon>
                 <strong>KodaDot</strong>
             </b-button>
-            <LocaleChanger />  
           </b-field>
         </div>
       </b-navbar-item>
