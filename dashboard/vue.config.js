@@ -1,8 +1,8 @@
 // vue.config.js
 module.exports = {
   // https://cli.vuejs.org/config/#publicpath
-  // publicPath: './',
-  
+  publicPath: '/',
+
   // https://webpack.js.org/configuration/dev-server/
   // https://cli.vuejs.org/config/#devserver
   devServer: {
