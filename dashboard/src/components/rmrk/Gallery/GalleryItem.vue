@@ -215,6 +215,10 @@ type NFTType =  NFTWithMeta;
           name: 'description',
           content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
         },
+        // { property: 'og:title', content: this.nft.name },
+        // { property: 'og:type', content: 'website'},
+        // { property: 'og:description', content: this.nft.description },
+        // { property: 'og:image', content: this.nft.image }
         { property: 'og:title', content: this.nft.name || 'Artists Mint Title' },
         { property: 'og:type', content: 'website'},
         { property: 'og:description', content: this.nft.description || 'Artist Mint Description' },
@@ -238,14 +242,6 @@ export default class GalleryItem extends Vue {
   private imageVisible: boolean = true;
   private isLoading: boolean = false;
 
-  // public metaInfo(): MetaInfo {
-  //     return {
-  //       title: 'about',
-  //       meta: [
-  //          { property: 'og:url', content: 'https://kodadot.xyz'},
-  //       ]
-  //     }
-  // }
   @Prop() public value!: any;
 
   public mimeType: string = '';
