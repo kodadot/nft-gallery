@@ -202,16 +202,34 @@ import Appreciation from './Appreciation.vue';
 import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
+import { MetaInfo } from 'vue-meta';
 
 type NFTType = NFT | NFTWithMeta;
 
-@Component({
+@Component<GalleryItem>({
+  metaInfo() {
+    return {
+      title: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market',
+      titleTemplate: '%s | StarMesh',
+      meta: [
+        { 
+          vmid: 'description',
+          name: 'description',
+          content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
+        },
+        { property: 'og:title', content: 'Artists Mint Title' },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:description', content: 'Artist Mint Description' },
+        { property: 'og:image', content: 'cool image'}
+      ]
+    }
+  },
   components: {
     AccountSelect,
     AvailableActions,
     Money,
     Appreciation,
-    MediaResolver: () => import('../Media/MediaResolver.vue')
+    MediaResolver: () => import('../Media/MediaResolver.vue'),
   }
 })
 export default class GalleryItem extends Vue {
@@ -222,6 +240,14 @@ export default class GalleryItem extends Vue {
   private imageVisible: boolean = true;
   private isLoading: boolean = false;
 
+  // public metaInfo(): MetaInfo {
+  //     return {
+  //       title: 'about',
+  //       meta: [
+  //          { property: 'og:url', content: 'https://kodadot.xyz'},
+  //       ]
+  //     }
+  // }
   @Prop() public value!: any;
 
   public mimeType: string = '';
