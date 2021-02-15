@@ -19,16 +19,18 @@
         <Tooltip :label="tooltip.instance" />
       </b-field>
       <b-field>
-        <b-switch :true-value="1" :false-value="0" 
+        <!-- <b-switch :true-value="1" :false-value="0" 
             v-model="view.transferable" disabled>
           Transferable is by default
-        </b-switch>
+        </b-switch> -->
       </b-field>
       <!-- <b-field v-if="view.transferable" label="Price">
         <b-input v-model="view.price" ></b-input>
       </b-field> -->
       <b-field>
-        <b-switch v-model="uploadMode" passive-type="is-dark" type="is-info">
+        <b-switch v-model="uploadMode" 
+          passive-type="is-dark" 
+          :rounded="false">
           {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
         </b-switch>
       </b-field>
@@ -40,9 +42,16 @@
           type="textarea"
         ></b-input>
       </b-field>
-      <MetadataUpload v-model="image" label="Click to add image" />
-      <div>If your artwork is animated (audio/video/3d model) add animated</div>
-      <MetadataUpload v-model="animatimated" label="Add animated file" />
+      <b-field>
+        <b-switch v-model="isImage"
+          passive-type="is-dark"
+          :rounded="false">
+          {{ isImage ? 'Static Image' : 'Animated multimedia' }}
+        </b-switch>
+      </b-field>
+      <MetadataUpload v-if="isImage" v-model="image" label="Click to add image" />
+      <!-- <div>If your artwork is animated (audio/video/3d model) add animated</div> -->
+      <MetadataUpload v-if="!isImage" v-model="animated" label="Add animated file" />
       <b-field label="Image data">
         <b-input v-model="view.meta.image_data"></b-input>
       </b-field>
@@ -78,6 +87,7 @@ export default class CreateItem extends Vue {
   @Prop() public index!: number;
   @Prop() public alreadyMinted!: number;
   @Prop() public view!: NFTAndMeta;
+  private isImage: boolean = true;
   private tooltip: object = {
     name: 'Name of your token',
     instance: 'Instance is like the identifier of an NFT, like a marketplace ticker. It\'s a "short computer-friendly name"',
@@ -85,7 +95,7 @@ export default class CreateItem extends Vue {
   }
   private uploadMode: boolean = true;
   private image: Blob | null = null;
-  private animatimated: Blob | null = null;
+  private animated: Blob | null = null;
 
   get nftId(): string {
     const {collection, instance, sn} = this.view
@@ -108,7 +118,7 @@ export default class CreateItem extends Vue {
     } }
   }
 
-  @Watch('animatimated')
+  @Watch('animated')
   private animatedUpload(val: Blob, oldVal: Blob | null) {
     if (val && !oldVal) {
       this.$emit('animated', { image: val, index: this.index })
