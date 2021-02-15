@@ -135,7 +135,7 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="realworldFullPathShare"
+                <a 
                   v-clipboard:copy="realworldFullPathShare"
                   @click="toast('URL copied to clipboard')">
                  <b-icon   
@@ -202,16 +202,36 @@ import Appreciation from './Appreciation.vue';
 import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
+import { MetaInfo } from 'vue-meta';
 
-type NFTType = NFT | NFTWithMeta;
+type NFTType =  NFTWithMeta;
 
-@Component({
+@Component<GalleryItem>({
+  metaInfo() {
+    return {
+      meta: [
+        { 
+          vmid: 'description',
+          name: 'description',
+          content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
+        },
+        { property: 'og:title', content: (this.nft.name as string) },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:description', content: (this.nft.description as string) },
+        { property: 'og:image', content: (this.nft.image as string) }
+        // { property: 'og:title', content: this.nft.name || 'Artists Mint Title' },
+        // { property: 'og:type', content: 'website'},
+        // { property: 'og:description', content: this.nft.description || 'Artist Mint Description' },
+        // { property: 'og:image', content: this.nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png') }
+      ]
+    }
+  },
   components: {
     AccountSelect,
     AvailableActions,
     Money,
     Appreciation,
-    MediaResolver: () => import('../Media/MediaResolver.vue')
+    MediaResolver: () => import('../Media/MediaResolver.vue'),
   }
 })
 export default class GalleryItem extends Vue {
@@ -278,11 +298,11 @@ export default class GalleryItem extends Vue {
   }
 
   get realworldFullPath() {
-    return `${window.location.origin}/%23${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get realworldFullPathShare() {
-    return `${window.location.origin}/#${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get telegramUri() {

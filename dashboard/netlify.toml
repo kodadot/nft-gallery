@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/robots.txt"
+  to = "/static/robots.txt"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

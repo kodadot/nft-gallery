@@ -15,6 +15,7 @@ const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
