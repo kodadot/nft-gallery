@@ -204,7 +204,7 @@ import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
 import { MetaInfo } from 'vue-meta';
 
-type NFTType = NFT | NFTWithMeta;
+type NFTType =  NFTWithMeta;
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -217,10 +217,10 @@ type NFTType = NFT | NFTWithMeta;
           name: 'description',
           content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
         },
-        { property: 'og:title', content: 'Artists Mint Title' },
+        { property: 'og:title', content: this.nft.name || 'Artists Mint Title' },
         { property: 'og:type', content: 'website'},
-        { property: 'og:description', content: 'Artist Mint Description' },
-        { property: 'og:image', content: 'cool image'}
+        { property: 'og:description', content: this.nft.description || 'Artist Mint Description' },
+        { property: 'og:image', content: this.nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png') }
       ]
     }
   },
