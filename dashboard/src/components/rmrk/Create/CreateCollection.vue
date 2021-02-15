@@ -30,7 +30,9 @@
       <p class="title">
         {{ $t('content')}}
       </p>
-      <b-switch v-model="uploadMode" passive-type="is-dark">
+      <b-switch v-model="uploadMode" 
+        passive-type="is-dark"
+        :rounded="false">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>
       <template v-if="uploadMode">

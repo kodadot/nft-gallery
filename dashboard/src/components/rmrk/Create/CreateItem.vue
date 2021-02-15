@@ -28,21 +28,30 @@
         <b-input v-model="view.price" ></b-input>
       </b-field> -->
       <b-field>
-        <b-switch v-model="uploadMode" passive-type="is-dark" type="is-primary">
+        <b-switch v-model="uploadMode" 
+          passive-type="is-dark" 
+          :rounded="false">
           {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
         </b-switch>
       </b-field>
     <template v-if="uploadMode">
       <b-field label="Description">
         <b-input
-          v-model="view.meta.description"
+        v-model="view.meta.description"
           maxlength="200"
           type="textarea"
         ></b-input>
       </b-field>
-      <MetadataUpload v-model="image" :label="$i18n.t('Click to add image')" />
-      <div>Is your artwork animated like (audio/video/3d model)? Then Add Animated</div>
-      <MetadataUpload v-model="animatimated" :label="$i18n.t('Add Animated File')" />
+      <b-field>
+        <b-switch v-model="isImage"
+          passive-type="is-dark"
+          :rounded="false">
+          {{ isImage ? 'Static Image' : 'Animated multimedia' }}
+        </b-switch>
+      </b-field>
+      <MetadataUpload v-if="isImage" v-model="image" :label="$i18n.t('Click to add image')" />
+      <!-- <div>If your artwork is animated (audio/video/3d model) add animated</div> -->
+      <MetadataUpload v-if="!isImage" v-model="animated" :label="$i18n.t('Add Animated File')" />
       <b-field :label="$i18n.t('Image data')">
         <b-input v-model="view.meta.image_data"></b-input>
       </b-field>
@@ -78,9 +87,10 @@ export default class CreateItem extends Vue {
   @Prop() public index!: number;
   @Prop() public alreadyMinted!: number;
   @Prop() public view!: NFTAndMeta;
+  private isImage: boolean = true;
   private uploadMode: boolean = true;
   private image: Blob | null = null;
-  private animatimated: Blob | null = null;
+  private animated: Blob | null = null;
 
   get nftId(): string {
     const {collection, instance, sn} = this.view
@@ -103,7 +113,7 @@ export default class CreateItem extends Vue {
     } }
   }
 
-  @Watch('animatimated')
+  @Watch('animated')
   private animatedUpload(val: Blob, oldVal: Blob | null) {
     if (val && !oldVal) {
       this.$emit('animated', { image: val, index: this.index })

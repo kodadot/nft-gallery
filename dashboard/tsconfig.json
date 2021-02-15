@@ -13,9 +13,9 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "types": [
-      "webpack-env",
       "webpack",
-      "webpack-env"
+      "webpack-env",
+      "vue-meta"
     ],
     "paths": {
       "@/*": [

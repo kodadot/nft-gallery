@@ -12,10 +12,29 @@ import keyring from '@polkadot/ui-keyring';
 import Navbar from './components/Navbar.vue';
 import Connector from '@vue-polkadot/vue-api';
 
-@Component({
+@Component<Dashboard>({
+  metaInfo() {
+    return {
+      title: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer',
+      titleTemplate: '%s | KodaDot',
+      meta: [{ 
+        vmid: 'description',
+        name: 'description',
+        content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
+      },
+      { property: 'og:title', content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer' },
+      { property: 'og:type', content: 'website'},
+      { property: 'og:url', content: 'https://kodadot.xyz'},
+      { property: 'og:description', content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer' },
+      { property: 'og:site_name', content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'},
+      { property: 'og:locale', content: 'en_US'},
+      // { property: 'og:image', content: '/img/icons/android-chrome-256x256.png'}
+      ]
+    }
+  },
   components: {
     Navbar,
-  },
+  }
 })
 export default class Dashboard extends Vue {
   get chainProperties() {
