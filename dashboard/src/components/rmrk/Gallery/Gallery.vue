@@ -41,7 +41,7 @@
               <div class="card-content">
                 <p class="title is-4">
                   <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">{{ nft.name }}</router-link></p>
-                <p class="subtitle is-6">{{ nft.collection }}</p>
+                <!-- <p class="subtitle is-6">{{ nft.collection }}</p> -->
               </div>
             </router-link>
           </div>

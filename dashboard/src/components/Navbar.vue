@@ -35,20 +35,25 @@
       </b-navbar-dropdown>
     </template>
     <template #end>
-      <b-navbar-item tag="div">
+      <b-navbar-item>
         <div class="buttons">
-          <b-button tag="router-link"
-            :to="{ name: 'rmrkFaq' }" > 
-            F.A.Q. 
-          </b-button>
-          <a class="button is-info"
-            href="https://twitter.com/Kodadot">
-              <b-icon 
-                pack="fab" 
-                icon="twitter">
-              </b-icon>
-              <strong>KodaDot</strong>
-          </a>
+          <b-field grouped>
+            <b-button tag="router-link"
+              :to="{ name: 'rmrkFaq' }" > 
+              F.A.Q. 
+            </b-button>
+            <!-- <LocaleChanger />   -->
+            <b-button tag="a" 
+              type="is-info" outlined
+              href="https://twitter.com/Kodadot">
+                <b-icon 
+                  pack="fab" 
+                  icon="twitter">
+                </b-icon>
+                <strong>KodaDot</strong>
+            </b-button>
+            
+          </b-field>
         </div>
       </b-navbar-item>
     </template>
@@ -57,9 +62,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import LocaleChanger from '@/components/shared/SwitchLocale.vue';
 import { getCurrentColor } from '@/colors'
 
-@Component({})
+@Component({
+  components: {
+    LocaleChanger
+  }
+})
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
