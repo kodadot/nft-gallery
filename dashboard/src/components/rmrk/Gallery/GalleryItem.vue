@@ -135,7 +135,7 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="realworldFullPathShare"
+                <a 
                   v-clipboard:copy="realworldFullPathShare"
                   @click="toast('URL copied to clipboard')">
                  <b-icon   
