@@ -20,7 +20,7 @@ import Connector from '@vue-polkadot/vue-api';
       meta: [{ 
         vmid: 'description',
         name: 'description',
-        content: 'First Polkadot & Kusama NFT Market Explorer'
+        content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
       },
       { property: 'og:title', content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer' },
       { property: 'og:type', content: 'website'},

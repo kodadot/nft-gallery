@@ -209,8 +209,6 @@ type NFTType =  NFTWithMeta;
 @Component<GalleryItem>({
   metaInfo() {
     return {
-      title: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market',
-      titleTemplate: '%s | StarMesh',
       meta: [
         { 
           vmid: 'description',
@@ -304,11 +302,11 @@ export default class GalleryItem extends Vue {
   }
 
   get realworldFullPath() {
-    return `${window.location.origin}/%23${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get realworldFullPathShare() {
-    return `${window.location.origin}/#${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get telegramUri() {
