@@ -2,14 +2,14 @@
   <div>
     <div class="box">
       <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-      <AccountSelect label="Account" v-model="accountId" />
-      <b-field grouped v-if="accountId" label="Collection">
+      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      <b-field grouped v-if="accountId" :label="$i18n.t('Collection')">
         <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
           <option v-for="option in data" :value="option" :key="option.id">
             {{ option.name }} {{ option.id }}
           </option>
         </b-select>
-        <Tooltip :label="tooltip" />
+        <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
       </b-field>
       <div>
       <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
@@ -80,7 +80,6 @@ interface NFTAndMeta extends NFT {
   }
 })
 export default class CreateToken extends Vue {
-  private tooltip: string = 'Select collection where you want mint your token'
   private version: string = 'RMRK1.0.0';
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;

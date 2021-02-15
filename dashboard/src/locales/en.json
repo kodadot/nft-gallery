@@ -8,21 +8,31 @@
   "settings": "Settings",
   "legend": "Legend",
   "collection": "Collection",
+  "Collection": "Collection",
   "owner": "Owner",
   "actions": "Actions",
   "facts": "Facts",
   "instance": "Instance",
+  "Instance": "Instance",
   "context": "Context",
   "using": "using",
   "computed id": "Computed id",
   "content": "Content",
   "create collection": "Create Collection",
-  "Owner address of minted art": "Owner address of minted artTTT",
-  "Name you want to show in gallery view": "Name you want to show in gallery view",
-  "Symbol you want to trade it under": "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": "Describe your collection, it will show under collection view",
-  "Add collection cover which will show up at collection view": "Add collection cover which will show up at collection view",
-  "Maximum NFTs in collection": "Maximum NFTs in collection",
+  "Owner address of minted art": 
+    "Owner address of minted art",
+  "Name you want to show in gallery view": 
+    "Name you want to show in gallery view",
+  "Symbol you want to trade it under": 
+    "Symbol you want to trade it under",
+  "Describe your collection, it will show under collection view": 
+    "Describe your collection, it will show under collection view",
+  "Add collection cover which will show up at collection view": 
+    "Add collection cover which will show up at collection view",
+  "Select collection where do you want mint your token": 
+    "Select collection where do you want mint your token",
+  "Maximum NFTs in collection": 
+    "Maximum NFTs in collection",
   "Account": "Account",
   "Name": "Name",
   "Symbol": "Symbol",
@@ -31,5 +41,12 @@
   "Metadata IPFS Hash": "Metadata IPFS Hash",
   "Add Token": "Add Token",
   "Mint": "Mint",
-  "Transferable is by default": "Transferable is by default"  
+  "Transferable is by default": "Transferable is by default",
+  "Serial Number": "Serial Number",
+  "Name of your token": "Name of your token",
+  "Instance_tooltip": 
+    "Instance is like the identifier of an NFT, like a marketplace ticker. It\\'s a \"short computer-friendly name\"",
+  "Upload will upload your image of the NFT": "Upload will upload your image of the NFT",
+  "Click to add image": "Click to add image",
+  "Add Animated File": "Add Animated File"
 }

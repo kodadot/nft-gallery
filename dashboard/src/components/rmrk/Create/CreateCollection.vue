@@ -101,12 +101,6 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
-  public tooltip: object = { 
-      account:  'Owner address of minted art',
-      name: 'Name you want to show in gallery view',
-      symbol: 'Symbol you want to trade it under',
-      description: 'Describe your collection, it will show under collection view',
-      multimedia: 'Add collection cover which will show up at collection view' }
 
   get rmrkId(): string {
     return this.generateId(this.accountIdToPubKey);
