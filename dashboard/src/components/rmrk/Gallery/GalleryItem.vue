@@ -218,11 +218,11 @@ type NFTType =  NFTWithMeta;
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:type', content: 'website'},
         { property: 'og:description', content: (this.nft.description as string) },
-        { property: 'og:image', content: (this.nft.image as string) }
-        // { property: 'og:title', content: this.nft.name || 'Artists Mint Title' },
-        // { property: 'og:type', content: 'website'},
-        // { property: 'og:description', content: this.nft.description || 'Artist Mint Description' },
-        // { property: 'og:image', content: this.nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png') }
+        { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'twitter:creator', content: '@KodaDot' },
+        { property: 'twitter:title', content: (this.nft.name as string) },
+        { property: 'twitter:description', content: (this.nft.description as string) },
+        { property: 'twitter:image', content: (this.nft.image as string) },
       ]
     }
   },
