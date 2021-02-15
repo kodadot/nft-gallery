@@ -295,7 +295,7 @@ export default class GalleryItem extends Vue {
   }
 
   get helloText() {
-    return 'Check out this cool RMRK NFT %23kodadot';
+    return 'Check this cool NFT on %23KusamaNetwork %23kodadot';
   }
 
   get realworldFullPath() {
