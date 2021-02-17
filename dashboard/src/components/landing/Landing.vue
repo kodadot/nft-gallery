@@ -9,7 +9,7 @@
                 icon="magic"
                 size="is-large">
               </b-icon> 
-              KodaDot NFT Explorer<br>
+              KodaDot NFT  {{ $t('Explorer') }}<br>
             </router-link>
           </h1><br>
           <div class="columns">
@@ -19,7 +19,7 @@
                   <b-icon  
                     icon="eye">
                   </b-icon> 
-                  Gallery of NFT Tokens and Collectibles
+                  {{ $t('Gallery of NFT Tokens and Collectibles') }}
                 </router-link>
               </h2>
               <br>  
@@ -28,7 +28,7 @@
                   <b-icon  
                     icon="print">
                   </b-icon>
-                  Create your NFT Token & Collectibles
+                  {{ $t('Create your NFT Token & Collectibles') }}
                 </router-link>
               </h2><br>
             </div>
@@ -38,14 +38,14 @@
                   <b-icon  
                     icon="question">
                   </b-icon> 
-                  New here? We have F.A.Q.!
+                  {{ $t('New here? We have F.A.Q.') }}
                 </router-link></h2><br>
               <h2 class="title is-4">
                 <a href="https://github.com/kodadot/nft-gallery/issues/new" target="_blank">
                   <b-icon  
                     icon="comment-alt">
                   </b-icon>
-                  Feedback? We'd be happy to discuss it.
+                  {{ $t('Feedback? We\\\'d be happy to discuss it.') }}
                 </a>
               </h2><br>
             </div>
@@ -67,7 +67,7 @@
                     pack="fab" 
                     icon="medium">
                   </b-icon>   
-                  Read our story, how we started.
+                  {{ $t('Read our story, how we started.') }}
                 </a>
               </h2>
             </div>

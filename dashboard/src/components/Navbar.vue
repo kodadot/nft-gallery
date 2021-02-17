@@ -8,7 +8,7 @@
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
           src="../assets/kodadot_logo_v1_transparent_400px.png"
-          alt="KodaDot - best NFT explorer on Kusama and Polkadot"
+          alt="First NFT market explorer on Kusama and Polkadot"
         >
       </b-navbar-item>
     </template>
@@ -52,7 +52,6 @@
                 </b-icon>
                 <strong>KodaDot</strong>
             </b-button>
-            
           </b-field>
         </div>
       </b-navbar-item>
@@ -64,6 +63,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import LocaleChanger from '@/components/shared/SwitchLocale.vue';
 import { getCurrentColor } from '@/colors'
+import i18n from '@/i18n.ts';
 
 @Component({
   components: {
@@ -74,13 +74,13 @@ export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
     {
-      name: 'Create',
+      name: i18n.t('Create'),
       tag: 'router-link',
       to: { name: 'rmrk' },
       strong: true
     },
     {
-      name: 'Gallery',
+      name: i18n.t('Gallery'),
       tag: 'router-link',
       to: { name: 'nft' },
       strong: true
@@ -88,26 +88,26 @@ export default class NavbarMenu extends Vue {
   ]
   public navbarExtra: any = [
     {
-      name: 'Accounts',
+      name: i18n.t('Accounts'),
       icon: 'users',
       to: { name: 'accounts' },
       tag: 'router-link',
     },
     {
-      name: 'Credit',
+      name: i18n.t('Credit'),
       icon: 'users',
       to: { name: 'rmrkCredit' },
       tag: 'router-link',
       strong: true
     },
     {
-      name: 'Transfer',
+      name: i18n.t('Transfer'),
       icon: 'paper-plane',
       to: { name: 'transfer' },
       tag: 'router-link',
     },
     {
-      name: 'Settings',
+      name: i18n.t('Settings'),
       icon: 'cogs',
       tag: 'router-link',
       to: { name: 'settings' },
