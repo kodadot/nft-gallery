@@ -42,7 +42,7 @@
               :to="{ name: 'rmrkFaq' }" > 
               F.A.Q. 
             </b-button>
-            <!-- <LocaleChanger />   -->
+            <LocaleChanger />  
             <b-button tag="a" 
               type="is-info" outlined
               href="https://twitter.com/Kodadot">
