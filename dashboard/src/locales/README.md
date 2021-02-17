@@ -1,3 +1,5 @@
+### From Terminal and see changes local
+
 How to check your translations locally? 
 
 You will need [nodejs enviroment](https://nodejs.org/en/download/) and [yarn](https://classic.yarnpkg.com/en/docs/install).
@@ -15,10 +17,8 @@ Particular commands you need to write to your terminal
 9. On the upper right you will see your flag. If you don't see your native language flag, [request us on translators channel](https://t.me/kodadot_translators) , we can add your language!
 10. Once you are done, [make pull-request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
-We welcome your contribution and you will be historical part of KodaDot NFT contribution! :)
 
-
-You can translate from Browser
+### Translate from Browser
 1. Fork the repository 
 2. Go to same path in your repository
 3. Choose language and hit edit
@@ -29,3 +29,5 @@ You can translate from Browser
 5. Commit
 6. Create pull request to our repository
 ![](assets/edit_and_commit.png)
+
+We welcome your contribution and you will be historical part of KodaDot NFT contribution! :)
