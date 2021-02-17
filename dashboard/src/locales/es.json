@@ -19,51 +19,51 @@
   "propietario": "Owner",
   "acciones": "Actions",
   "hechos": "Facts",
-  "instance": "Instance",
-  "Instance": "Instance",
+  "ejemplo": "Instance",
+  "Ejemplo": "Instance",
   "contexto": "Context",
   "usando": "using",
   "id calculado": "Computed id",
   "contenido": "Content",
   "crear colección": "Create Collection",
-  "Owner address of minted art": 
+  "Dirección del propietario del arte adherido": 
     "Owner address of minted art",
-  "Name you want to show in gallery view": 
+  "Nombre a mostrar en la vista de la galeria": 
     "Name you want to show in gallery view",
-  "Symbol you want to trade it under": 
+  "Simbolo con el que desea intercambiarlo": 
     "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": 
+  "Describe tu colección, se mostrará en la vista de la colección": 
     "Describe your collection, it will show under collection view",
-  "Add collection cover which will show up at collection view": 
+  "Agregue la portada de la colección que se mostrará en la vista de colección": 
     "Add collection cover which will show up at collection view",
-  "Select collection where do you want mint your token": 
+  "Selecciona la colección donde quieras adherir tu token": 
     "Select collection where do you want mint your token",
-  "Maximum NFTs in collection": 
+  "Maximo de NFTs en la colección": 
     "Maximum NFTs in collection",
-  "Account": "Account",
-  "Name": "Name",
-  "Symbol": "Symbol",
-  "Description": "Description",
-  "Multimedia data": "Multimedia data",
-  "Metadata IPFS Hash": "Metadata IPFS Hash",
-  "Add Token": "Add Token",
-  "Mint": "Mint",
-  "Transferable is by default": "Transferable is by default",
-  "Serial Number": "Serial Number",
-  "Name of your token": "Name of your token",
+  "Cuenta": "Account",
+  "Nombre": "Name",
+  "Simbolo": "Symbol",
+  "Descripción": "Description",
+  "Datos multimedia": "Multimedia data",
+  "Datos Hash IPFS ": "Metadata IPFS Hash",
+  "Agregar Token": "Add Token",
+  "Adherir": "Mint",
+  "Transferible esta por defecto": "Transferable is by default",
+  "Número de serie": "Serial Number",
+  "Nombre de tu token": "Name of your token",
   "Instance_tooltip": 
     "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
-  "Upload will upload your image of the NFT": "Upload will upload your image of the NFT",
-  "Click to add image": "Click to add image",
-  "Add Animated File": "Add Animated File",
-  "Image data": "Image data",
-  "Explorer": "Explorer",
-  "Gallery of NFT Tokens and Collectibles": "Gallery of NFT Tokens and Collectibles",
-  "Create your NFT Token & Collectibles": "Create your NFT Token & Collectibles",
-  "New here? We have F.A.Q.": "New here? We have F.A.Q.",
-  "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
-  "Read our story, how we started.": "Read our story, how we started.",
-  "Frequently Asked Question": "Frequently Asked Question",
+  "Cargar cargará tu imagen del NFT": "Upload will upload your image of the NFT",
+  "Click para agregar imagen": "Click to add image",
+  "Agregar archivo animado": "Add Animated File",
+  "Datos de la imagen": "Image data",
+  "Explorador": "Explorer",
+  "Galería de Tokens NFT y Coleccionables": "Gallery of NFT Tokens and Collectibles",
+  "Crea tu propia Token NFT & Coleccionables": "Create your NFT Token & Collectibles",
+  "Eres nuevo? Tenemos Preguntas más frecuentes": "New here? We have F.A.Q.",
+  "Quieres brindarnos Feedback? Estamos encantados en tomarlo en cuenta.": "Feedback? We'd be happy to discuss it.",
+  "Lea nuestra historia, como empezamos.": "Read our story, how we started.",
+  "Preguntas Frecuentes": "Frequently Asked Question",
   "FAQQ1": "What coin is used for NFTs?",
   "FAQA1": "<a href=\"https: //kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",
   "FAQQ2": "What wallet do I need to mint, buy and collect?",
