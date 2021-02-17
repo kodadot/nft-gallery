@@ -30,6 +30,8 @@ export default class LocaleChanger extends Vue {
     ['vt', '🇻🇳'],
     ['pl', '🇵🇱'],
     ['ua', '🇺🇦'],
+    ['fr', '🇫🇷'],
+    ['tu', '🇹🇷 ']
   ]
 }
 </script>
