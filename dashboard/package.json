@@ -10,11 +10,12 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-common-types": "^0.2.27",
+    "@fortawesome/fontawesome-common-types": "^0.2.34",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
-    "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@fortawesome/vue-fontawesome": "^2.0.2",
     "@polkadot/extension-dapp": "^0.36.1",
     "@polkadot/types": "^3.7.2",
     "@polkadot/ui-keyring": "^0.68.1",

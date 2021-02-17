@@ -11,9 +11,9 @@
         </b-select>
         <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
       </b-field>
-      <div>
-      <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
-      </div>
+      <b-field>
+        <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
+      </b-field>
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
@@ -24,20 +24,25 @@
         @upload="uploadFile"
         @animated="uploadAnimatedFile"
       />
-      <div>
-        <b-button
-          v-if="selectedCollection"
-          type="is-info"
-          icon-left="plus"
-          @click="handleAdd"
-          :disabled="disabled"
-        >
-        {{ $t('Add Token') }}
-        </b-button>
-        <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-          {{ $t('Mint') }}
-        </b-button>
-      </div>
+      <b-field grouped>
+        <b-field position="is-left" expanded>
+          <b-button
+            v-if="selectedCollection"
+            type="is-info"
+            icon-left="plus"
+            @click="handleAdd"
+            :disabled="disabled"
+            outlined
+          >
+            {{ $t('Add Token') }}
+          </b-button>
+        </b-field >
+        <b-field position="is-right">
+            <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" outlined @click="submit" :loading="isLoading">
+              {{ $t('Mint') }}
+            </b-button>
+        </b-field>
+      </b-field>
 
     </div>
   </div>

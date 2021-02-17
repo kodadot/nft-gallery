@@ -59,6 +59,7 @@
         @click="submit"
         :disabled="disabled"
         :loading="isLoading"
+        outlined
       >
         {{ $t('create collection') }}
       </b-button>

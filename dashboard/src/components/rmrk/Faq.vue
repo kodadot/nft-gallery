@@ -43,8 +43,9 @@ export default class  extends Vue {
     ['Are you funded?','Right now, we have <a href="https://kusama.polkassembly.io/post/384">Kusama Treasury funding for Milestone 1</a>. We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.'],
     ['Do you have Telegram channel?', 'We have only private channel for NFT creators, DM us if you are NFT creator!'],
     ['Will you have AR/VR mode or implementation?', 'Yes, that\'s part of our Milestone 2, stay tuned!'],
-    ['How to open developer console?','If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.']
+    ['How to open developer console?','If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.'],
+    ['How do I update metadata for extension?', 'Go to <a href="https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata">Dotapps.io, Settings > Metadata</a> and see there button <b>Update metadata</b>, then refresh your window, should be working with recent chain types'],
+    ['I\'ve got "Low balance error"','Check if you have <b>transferable</b> $KSM on your account, not staked. That\'s different. You can check it at <a href="https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts">Dotapps.io > Accounts<a/> and at balances unfold, you can see there <b>Transferable</b> amount.']
   ];
-  @Prop() public value!: any;
 }
 </script>
