@@ -42,8 +42,9 @@
                 </router-link></h2><br>
               <h2 class="title is-4">
                 <a href="https://github.com/kodadot/nft-gallery/issues/new" target="_blank">
-                  <b-icon  
-                    icon="comment-alt">
+                  <b-icon 
+                    pack="far"
+                    icon="comment-dots">
                   </b-icon>
                   Feedback? We'd be happy to discuss it.
                 </a>
