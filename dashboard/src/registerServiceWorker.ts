@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'production') {
         message: `New App is available. Close to update.`,
         queue: false,
         type: 'is-info is-light',
-        position: 'is-top-right',
+        position: 'is-bottom-right',
         indefinite: true,
       });
 
