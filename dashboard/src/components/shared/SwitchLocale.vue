@@ -19,10 +19,17 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 export default class LocaleChanger extends Vue {
   public langsFlags: any = [
     ['en', '🇬🇧'], 
-    ['es','🇪🇸'], 
-    ['jp','🇯🇵'], 
-    ['ko','🇰🇷'], 
-    ['cn', '🇨🇳']
+    ['cn', '🇨🇳'],
+    ['cz', '🇨🇿'],
+    ['de', '🇩🇪'],
+    ['es', '🇪🇸'],
+    ['it', '🇮🇹'],
+    ['pt', '🇵🇹'],
+    ['ko', '🇰🇷'], 
+    ['jp', '🇯🇵'], 
+    ['vt', '🇻🇳'],
+    ['pl', '🇵🇱'],
+    ['ua', '🇺🇦'],
   ]
 }
 </script>
