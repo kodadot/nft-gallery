@@ -14,10 +14,6 @@
         <b-input v-model="view.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Name of your token')" />
       </b-field>
-      <b-field label="Instance">
-        <b-input v-model="view.instance" expanded></b-input>
-        <Tooltip :label="$i18n.t('Instance_tooltip')" />
-      </b-field>
       <!-- <b-field>
         <b-switch :true-value="1" :false-value="0" 
             v-model="view.transferable" disabled>

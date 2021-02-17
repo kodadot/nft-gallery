@@ -69,6 +69,7 @@ import {
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
+import { fetchCollectionMetadata } from '../utils';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -163,7 +164,7 @@ export default class CreateToken extends Vue {
       // id,
       // _id: id,
       transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.instance || nftForMint.name, '_').toUpperCase()
+      instance: slugify(nftForMint.name, '_').toUpperCase()
     };
   }
 
@@ -180,19 +181,20 @@ export default class CreateToken extends Vue {
 
   public async constructMeta(nft: NFTAndMeta, index: number) {
     const image = this.images[index];
-    if (!image) {
-      throw new ReferenceError('No file found!');
-    }
-
+   
     const meta = {
       ...nft.meta,
       attributes: [],
       external_url: `https://rmrk.app/registry/${nft.collection}`
     };
 
-    // TODO: upload image to IPFS
-    const imageHash = await pinFile(image);
-    meta.image = unSanitizeIpfsUrl(imageHash);
+     if (!image) {
+      const collectionMeta = await fetchCollectionMetadata(this.selectedCollection || emptyObject<Collection>());
+      meta.image = collectionMeta.image;
+    } else {
+      const imageHash = await pinFile(image);
+      meta.image = unSanitizeIpfsUrl(imageHash);
+    }
 
     const animatedFile = this.animated[index];
     if (animatedFile) {
