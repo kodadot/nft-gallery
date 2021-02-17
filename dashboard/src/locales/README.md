@@ -19,6 +19,9 @@ Particular commands you need to write to your terminal
 
 
 ### Translate from Browser
+
+We've [made video how to translate from the browser](https://t.me/kodadot_translators/97).
+
 1. Fork the repository 
 2. Go to same path in your repository
 3. Choose language and hit edit
