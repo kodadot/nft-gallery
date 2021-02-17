@@ -2,7 +2,7 @@
   <div>
     <div class="box">
       <p class="title">
-        Frequently Asked Question
+        {{ $t('Frequently Asked Question') }}
       </p>
       <div v-for="qa in faqQuestionsAnswers"
         v-bind:key="qa[0]">
@@ -24,7 +24,6 @@ import i18n from '@/i18n.ts';
 
 @Component({})
 export default class  extends Vue {
-
   public faqQuestionsAnswers: any = [
     [i18n.t('FAQQ1'), i18n.t('FAQA1')],
     [i18n.t('FAQQ2'), i18n.t('FAQA2')],
