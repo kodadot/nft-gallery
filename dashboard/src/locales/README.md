@@ -16,3 +16,16 @@ Particular commands you need to write to your terminal
 10. Once you are done, [make pull-request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 We welcome your contribution and you will be historical part of KodaDot NFT contribution! :)
+
+
+You can translate from Browser
+1. Fork the repository 
+2. Go to same path in your repository
+3. Choose language and hit edit
+
+![](assets/fork_and_edit.png)
+
+4. Make changes
+5. Commit
+6. Create pull request to our repository
+![](assets/edit_and_commit.png)
