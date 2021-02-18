@@ -6,14 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-common-types": "^0.2.27",
-    "@fortawesome/fontawesome-svg-core": "^1.2.27",
-    "@fortawesome/free-brands-svg-icons": "^5.12.1",
-    "@fortawesome/free-solid-svg-icons": "^5.12.1",
-    "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@fortawesome/fontawesome-common-types": "^0.2.34",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-regular-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/vue-fontawesome": "^2.0.2",
     "@polkadot/extension-dapp": "^0.36.1",
     "@polkadot/types": "^3.7.2",
     "@polkadot/ui-keyring": "^0.68.1",
@@ -41,6 +43,8 @@
     "vue": "2.6.11",
     "vue-class-component": "^7.2.2",
     "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.22.4",
+    "vue-meta": "^2.4.0",
     "vue-property-decorator": "^8.4.0",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2",
@@ -48,6 +52,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@intlify/vue-i18n-loader": "^1.0.0",
+    "@types/webpack": "^4.4.0",
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-pwa": "^4.5.11",
     "@vue/cli-plugin-typescript": "^4.2.3",
@@ -57,6 +63,7 @@
     "tslint": "^6.1.0",
     "typescript": "^3.8.3",
     "vue-debounce-decorator": "^1.0.1",
+    "vue-cli-plugin-i18n": "^1.0.1",
     "vue-template-compiler": "2.6.11"
   }
 }

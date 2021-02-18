@@ -12,6 +12,9 @@ import './registerServiceWorker'
 import App from './App.vue';
 import store from './store';
 import router from './router';
+
+import MetaInfo from 'vue-meta';
+Vue.use(MetaInfo)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
@@ -19,10 +22,11 @@ import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
+import i18n from './i18n'
 
 Vue.filter('shortAddress', shortAddress);
 
-(window as any).C = Connector; 
+(window as any).C = Connector;
 (window as any).K = keyring;
 (window as any).T = client;
 (window as any).R = getInstance;
@@ -33,7 +37,7 @@ Vue.filter('shortAddress', shortAddress);
   await enableExtension();
 })()
 // Connector.createInstance(store.state.setting.apiUrl);
-Vue.prototype.$http = Connector.getInstance(); 
+Vue.prototype.$http = Connector.getInstance();
 
 
 Vue.use(Buefy, {
@@ -64,5 +68,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  i18n,
+  render: (h) => h(App)
 }).$mount('#app');

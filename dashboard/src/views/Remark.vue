@@ -16,13 +16,13 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator';
 const Collection = () => import('@/components/rmrk/Create/Create.vue')
-const Token = () => import('@/components/rmrk/Create/CreateToken.vue')
+const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Collection, Token } 
+const components = { Collection, NFT } 
 
 @Component({ components })
 export default class Remark extends Vue {
   public activeTab: number = 0;
-  public components: string[] = ['Collection', 'Token']
+  public components: string[] = ['Collection', 'NFT']
 }
 </script>

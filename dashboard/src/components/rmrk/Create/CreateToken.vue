@@ -2,18 +2,18 @@
   <div>
     <div class="box">
       <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-      <AccountSelect label="Account" v-model="accountId" />
-      <b-field grouped v-if="accountId" label="Collection">
+      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      <b-field grouped v-if="accountId" :label="$i18n.t('Collection')">
         <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
           <option v-for="option in data" :value="option" :key="option.id">
             {{ option.name }} {{ option.id }}
           </option>
         </b-select>
-        <Tooltip :label="tooltip" />
+        <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
       </b-field>
-      <div>
-      <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
-      </div>
+      <b-field>
+        <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
+      </b-field>
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
@@ -23,21 +23,27 @@
         @update="handleUpdate"
         @upload="uploadFile"
         @animated="uploadAnimatedFile"
+        @remove="hadleItemRemoval"
       />
-      <div>
-        <b-button
-          v-if="selectedCollection"
-          type="is-info"
-          icon-left="plus"
-          @click="handleAdd"
-          :disabled="disabled"
-        >
-        Add Token
-        </b-button>
-        <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" @click="submit" :loading="isLoading">
-          Mint
-        </b-button>
-      </div>
+      <b-field grouped>
+        <b-field position="is-left" expanded>
+          <b-button
+            v-if="selectedCollection"
+            type="is-info"
+            icon-left="plus"
+            @click="handleAdd"
+            :disabled="disabled"
+            outlined
+          >
+            {{ $t('Add Token') }}
+          </b-button>
+        </b-field >
+        <b-field position="is-right">
+            <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" outlined @click="submit" :loading="isLoading">
+              {{ $t('Mint') }}
+            </b-button>
+        </b-field>
+      </b-field>
 
     </div>
   </div>
@@ -64,6 +70,7 @@ import {
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
+import { fetchCollectionMetadata } from '../utils';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -80,7 +87,6 @@ interface NFTAndMeta extends NFT {
   }
 })
 export default class CreateToken extends Vue {
-  private tooltip: string = 'Select collection where you want mint your token'
   private version: string = 'RMRK1.0.0';
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
@@ -159,7 +165,7 @@ export default class CreateToken extends Vue {
       // id,
       // _id: id,
       transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.instance || nftForMint.name, '_').toUpperCase()
+      instance: slugify(nftForMint.name, '_').toUpperCase()
     };
   }
 
@@ -176,19 +182,20 @@ export default class CreateToken extends Vue {
 
   public async constructMeta(nft: NFTAndMeta, index: number) {
     const image = this.images[index];
-    if (!image) {
-      throw new ReferenceError('No file found!');
-    }
-
+   
     const meta = {
       ...nft.meta,
       attributes: [],
       external_url: `https://rmrk.app/registry/${nft.collection}`
     };
 
-    // TODO: upload image to IPFS
-    const imageHash = await pinFile(image);
-    meta.image = unSanitizeIpfsUrl(imageHash);
+     if (!image) {
+      const collectionMeta = await fetchCollectionMetadata(this.selectedCollection || emptyObject<Collection>());
+      meta.image = collectionMeta.image;
+    } else {
+      const imageHash = await pinFile(image);
+      meta.image = unSanitizeIpfsUrl(imageHash);
+    }
 
     const animatedFile = this.animated[index];
     if (animatedFile) {
@@ -250,14 +257,30 @@ export default class CreateToken extends Vue {
     
   }
 
-  private handleAdd() {
+  protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
     rmrk.collection = this.selectedCollection?.id || '';
-    rmrk.sn = String(this.added.length + this.alreadyMinted +  1).padStart(16, '0');
+    rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
     this.added.push(rmrk);
     this.images.push(null);
+    this.animated.push(null)
+  }
+
+  protected hadleItemRemoval(index: number) {
+    this.added.splice(index, 1);  
+    this.added.forEach((nft, i) => nft.sn = this.calculateSerialNumber(i))
+    for (let i = index; i < this.added.length; i++) {
+      this.$set(this.images, i, this.images[i + 1]);
+      this.$set(this.animated, i, this.animated[i + 1]);
+    }
+    this.$set(this.images, this.added.length, null);
+    this.$set(this.animated, this.added.length, null);
+  }
+
+  protected calculateSerialNumber(index: number) {
+    return String(index + this.alreadyMinted +  1).padStart(16, '0');
   }
 }
 </script>

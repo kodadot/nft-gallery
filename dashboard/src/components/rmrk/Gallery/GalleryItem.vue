@@ -16,7 +16,7 @@
             <div class="card">
               <div class="card-content">
                 <p class="title is-size-2">
-                  Legend
+                  {{ $t('legend')}}
                 </p>
                 <p class="subtitle is-size-7">
                   <b># {{ nftId }}</b>
@@ -53,16 +53,16 @@
           <div class="card-content">
             <div class="content">
               <p class="title is-size-4">
-                Collection
+                {{ $t('collection') }}
               </p>
               <p class="subtitle is-size-6"> 
                 {{ nft.collection }}
               </p>
               <p class="title is-size-4">
-                Owner
+                {{ $t('owner') }}
               </p>
               <p class="subtitle is-size-7">
-                {{ nft.currentOwner }}
+                <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank">{{ nft.currentOwner }}</a>
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@
               role="button"
               aria-controls="contentIdForA11y3">
               <p class="card-header-title">
-                Actions
+                {{ $t('actions') }}
               </p>
               <a class="card-header-icon">
                 <b-icon
@@ -100,7 +100,8 @@
           <footer class="card-footer">
             <p class="card-footer-item">
               <span>
-                <a :href="twitterUri">
+                <a :href="twitterUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -111,7 +112,8 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="telegramUri">
+                <a :href="telegramUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -122,7 +124,8 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="linemeUri">
+                <a :href="linemeUri"
+                    target="_blank">
                   <b-icon 
                     size="is-large"
                     pack="fab" 
@@ -133,13 +136,13 @@
             </p>
             <p class="card-footer-item">
               <span>
-                <a :href="realworldFullPathShare"
+                <a 
                   v-clipboard:copy="realworldFullPathShare"
                   @click="toast('URL copied to clipboard')">
                  <b-icon   
                     size="is-medium"
                     pack="fas" 
-                    icon="share-square">
+                    icon="link">
                   </b-icon>
                 </a>
               </span>
@@ -156,7 +159,7 @@
               role="button"
               aria-controls="contentIdForA11y3">
               <p class="card-header-title">
-                Facts
+                {{ $t('facts') }}
               </p>
               <a class="card-header-icon">
                 <b-icon
@@ -169,13 +172,13 @@
           <div class="card-content">
             <div class="content">
               <p class="subtitle is-size-6">
-                <b>COLLECTION:</b>{{ nft.collection }}
+                <b>{{ $t('collection') }}:</b>{{ nft.collection }}
               </p>
               <p class="subtitle is-size-6">
                 <b>SN:</b>{{ nft.sn }}
               </p>
               <p class="subtitle is-size-6">
-                <b>INSTANCE:</b>{{ nft.sn }}
+                <b>{{ $t('instance') }}:</b>{{ nft.sn }}
               </p>
             </div>
           </div>
@@ -200,10 +203,31 @@ import Appreciation from './Appreciation.vue';
 import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
+import { MetaInfo } from 'vue-meta';
 
-type NFTType = NFT | NFTWithMeta;
+type NFTType =  NFTWithMeta;
 
-@Component({
+@Component<GalleryItem>({
+  metaInfo() {
+    return {
+      meta: [
+        { 
+          vmid: 'description',
+          name: 'description',
+          content: 'KodaDot 🖼👀 First Polkadot/Kusama NFT Market Explorer'
+        },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:title', content: (this.nft.name as string) },
+        { property: 'og:description', content: (this.nft.description as string) },
+        { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'twitter:card', content: 'summary_large_image' },
+        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:title', content: (this.nft.name as string) },
+        { property: 'twitter:description', content: (this.nft.description as string) },
+        { property: 'twitter:image', content: (this.nft.image as string) },
+      ]
+    }
+  },
   components: {
     AccountSelect,
     AvailableActions,
@@ -273,15 +297,15 @@ export default class GalleryItem extends Vue {
   }
 
   get helloText() {
-    return 'Check out this cool RMRK NFT';
+    return 'Check this cool NFT on %23KusamaNetwork %23kodadot';
   }
 
   get realworldFullPath() {
-    return `${window.location.origin}/%23${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get realworldFullPathShare() {
-    return `${window.location.origin}/#${this.$route.fullPath}`;
+    return `${window.location.origin}${this.$route.fullPath}`;
   }
 
   get telegramUri() {
@@ -297,8 +321,8 @@ export default class GalleryItem extends Vue {
   }
 
   get nftId() {
-    const { id, blockNumber } = this.nft;
-    return `${blockNumber ? blockNumber + '-' : ''}${id}`;
+    const { id } = this.nft;
+    return id;
   }
 }
 </script>
