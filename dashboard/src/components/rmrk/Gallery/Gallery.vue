@@ -13,40 +13,7 @@
       </b-select>
     </b-field> -->
     <div>
-      <div class="columns is-multiline">
-        <div
-          class="column is-one-quarter-desktop is-one-third-tablet"
-          v-for="nft in nfts"
-          :key="nft.id"
-        >
-          <div class="card nft-card">
-            <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
-              <div class="card-image" v-if="nft.image">
-                <b-image
-                  :src="nft.image"
-                  :src-fallback="require('@/utils/placeholder.png')"
-                  alt="Simple image"
-                  ratio="1by1" 
-                ></b-image>
-              </div>
-
-              <div v-else class="card-image">
-                <b-image
-                  :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-                  alt="Simple image"
-                  ratio="1by1"
-                ></b-image>
-              </div>
-
-              <div class="card-content">
-                <p class="title is-4">
-                  <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">{{ nft.name }}</router-link></p>
-                <!-- <p class="subtitle is-6">{{ nft.collection }}</p> -->
-              </div>
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <GalleryCardList :items="nfts" />
     </div>
   </div>
 </template>
@@ -56,12 +23,15 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import GalleryCardList from './GalleryCardList.vue'
 
 type NFTType = NFT | NFTWithMeta;
 
 const nftSort = (a: any, b: any) => b._mod - a._mod
 
-@Component({})
+const components = { GalleryCardList }
+
+@Component({ components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
 
@@ -99,29 +69,3 @@ export default class Gallery extends Vue {
 }
 </script>
 
-<style scoped>
-.card.nft-card {
-  padding: 1em !important;
-  height: 100%;
-}
-.nft-card__skeleton {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.nft-card__owner {
-  word-break: break-word;
-}
-
-a {
-  color: grey;
-}
-
-a:hover {
-  color: black;
-}
-
-</style>
