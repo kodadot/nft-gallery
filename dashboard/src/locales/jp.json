@@ -30,13 +30,13 @@
   "Owner address of minted art": 
     "発行するアートの所有者アドレス",
   "Name you want to show in gallery view": 
-    "ギャラリービューで表示したいあなたの名前",
+    "ギャラリービューで表示したい名前",
   "Symbol you want to trade it under": 
     "トレードで使いたいシンボル",
   "Describe your collection, it will show under collection view": 
-    "あなたのコレクションの説明。コレクションビューの下に表示されます。",
+    "コレクションの説明。コレクションビューの下に表示されます。",
   "Add collection cover which will show up at collection view": 
-    "コレクションビューに表示されるコレクションカバーの追加",
+    "コレクションビューに表示されるコレクションカバーを追加",
   "Select collection where do you want mint your token": 
     "トークンを発行するコレクションを選択",
   "Maximum NFTs in collection": 
