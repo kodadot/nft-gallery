@@ -1,6 +1,10 @@
 <template>
   <div class="card create-token-card">
+      
     <div class="card-content">
+      <b-field>
+        <b-button type="is-danger" icon-left="times" outlined @click="removeToken" />
+      </b-field>
       <b-field label="Id">
         <b-input v-model="nftId" disabled></b-input>
       </b-field>
@@ -13,10 +17,6 @@
       <b-field :label="$i18n.t('Name')">
         <b-input v-model="view.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Name of your token')" />
-      </b-field>
-      <b-field label="Instance">
-        <b-input v-model="view.instance" expanded></b-input>
-        <Tooltip :label="$i18n.t('Instance_tooltip')" />
       </b-field>
       <!-- <b-field>
         <b-switch :true-value="1" :false-value="0" 
@@ -93,12 +93,17 @@ export default class CreateItem extends Vue {
   private animated: Blob | null = null;
 
   get nftId(): string {
-    const {collection, instance, sn} = this.view
-    return `${collection}-${(instance || '').toUpperCase()}-${this.serialNumber}`
+    const {collection, name } = this.view
+    return `${collection}-${slugify(name || '', '_').toUpperCase()}-${this.serialNumber}`
   }
 
   get serialNumber(): string {
     return String(this.index + 1 + this.alreadyMinted).padStart(16, '0');
+  }
+
+  @Emit('remove')
+  public removeToken() {
+    return this.index
   }
 
   private async m() {

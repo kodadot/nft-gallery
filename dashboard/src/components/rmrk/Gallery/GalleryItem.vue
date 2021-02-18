@@ -319,8 +319,8 @@ export default class GalleryItem extends Vue {
   }
 
   get nftId() {
-    const { id, blockNumber } = this.nft;
-    return `${blockNumber ? blockNumber + '-' : ''}${id}`;
+    const { id } = this.nft;
+    return id;
   }
 }
 </script>
