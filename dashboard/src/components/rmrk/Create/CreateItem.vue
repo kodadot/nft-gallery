@@ -1,6 +1,10 @@
 <template>
   <div class="card create-token-card">
+      
     <div class="card-content">
+      <b-field>
+        <b-button type="is-danger" icon-left="times" outlined @click="removeToken" />
+      </b-field>
       <b-field label="Id">
         <b-input v-model="nftId" disabled></b-input>
       </b-field>
@@ -89,12 +93,17 @@ export default class CreateItem extends Vue {
   private animated: Blob | null = null;
 
   get nftId(): string {
-    const {collection, instance, sn} = this.view
-    return `${collection}-${(instance || '').toUpperCase()}-${this.serialNumber}`
+    const {collection, name } = this.view
+    return `${collection}-${slugify(name || '', '_').toUpperCase()}-${this.serialNumber}`
   }
 
   get serialNumber(): string {
     return String(this.index + 1 + this.alreadyMinted).padStart(16, '0');
+  }
+
+  @Emit('remove')
+  public removeToken() {
+    return this.index
   }
 
   private async m() {

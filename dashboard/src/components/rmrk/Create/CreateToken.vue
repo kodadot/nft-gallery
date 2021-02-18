@@ -23,6 +23,7 @@
         @update="handleUpdate"
         @upload="uploadFile"
         @animated="uploadAnimatedFile"
+        @remove="hadleItemRemoval"
       />
       <b-field grouped>
         <b-field position="is-left" expanded>
@@ -256,14 +257,30 @@ export default class CreateToken extends Vue {
     
   }
 
-  private handleAdd() {
+  protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
     rmrk.collection = this.selectedCollection?.id || '';
-    rmrk.sn = String(this.added.length + this.alreadyMinted +  1).padStart(16, '0');
+    rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
     this.added.push(rmrk);
     this.images.push(null);
+    this.animated.push(null)
+  }
+
+  protected hadleItemRemoval(index: number) {
+    this.added.splice(index, 1);  
+    this.added.forEach((nft, i) => nft.sn = this.calculateSerialNumber(i))
+    for (let i = index; i < this.added.length; i++) {
+      this.$set(this.images, i, this.images[i + 1]);
+      this.$set(this.animated, i, this.animated[i + 1]);
+    }
+    this.$set(this.images, this.added.length, null);
+    this.$set(this.animated, this.added.length, null);
+  }
+
+  protected calculateSerialNumber(index: number) {
+    return String(index + this.alreadyMinted +  1).padStart(16, '0');
   }
 }
 </script>
