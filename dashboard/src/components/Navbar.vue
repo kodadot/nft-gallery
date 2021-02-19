@@ -3,6 +3,7 @@
     fixed-top
     shadow
     spaced
+    :close-on-click="false"
     >
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
