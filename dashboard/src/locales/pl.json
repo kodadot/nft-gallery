@@ -52,7 +52,7 @@
   "Serial Number": "Numer Seryjny",
   "Name of your token": "Nazwa tokena",
   "Instance_tooltip": 
-    "Znacznik jest jak identyfikator dla NFT, wyróżnienie go na rynku. To "skrócona nazwa"",
+    "Znacznik jest jak identyfikator dla NFT, wyróżnienie go na rynku. To \"skrócona nazwa\"",
   "Upload will upload your image of the NFT": "Załaduj - doda zdjęcie twojego NFT",
   "Click to add image": "Kilknij aby dodać zdjęcie",
   "Add Animated File": "Dodaj Animację",
@@ -71,10 +71,10 @@
   "FAQQ3": "Jak stworzyć moje prace?",
   "FAQA3": "Najpierw udaj sie tutaj <a href=\"/#/rmrk/create\">Create</a>. W pierwszej kolejności stwórz swój Album a następnie Token. Jeżeli chcialbyś to udokumentować, czekamy na info!",
   "FAQQ4": "Jak moge sprzedać swoje prace / kolekcje?",
-  "FAQA4": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów. 
+  "FAQA4": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów.", 
   "FAQQ5": "Gdzie mogę kupić token $KSM?",
   "FAQA5": "Poprzez integrację z <a href=\"https: //ramp.network\">Ramp.network</a>, Kliknij na <a href=\"#/rmrk/credit\">Środki</a>. Możesz użyć Revolut, standardowego przelewu bankowego, Karty Kredytowej, Apple Pay żeby zasilić swoje konto $KSM . Możesz również zakupić przez Binance <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">Kup $KSM na Binance</a>",
-  "FAQQ6": "Jak mogę kupić $KSM za $ETH, $BTC lub $DAI?,
+  "FAQQ6": "Jak mogę kupić $KSM za $ETH, $BTC lub $DAI?",
   "FAQA6": "Najlepsze oferty znajdziesz na <a href=\"https: //www.coingecko.com/en/coins/edgeware#markets\"> na gieldach z tej listy </a>. Najwiecej par walutowych znajdziesz na <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">polecamy korzystanie z Binance</a>. Zapraszamy również <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\"> do skorzystania z SimpleSwap</a>.",
   "FAQQ7": "Jaki dokładnie proces powinienem przejść przy tworzeniu NFT?",
   "FAQA7": "W pierwszej kolejności zainstaluj <a href=\"https: //polkadot.js.org/extension/\">Polkadot Extension</a>, <b>zapisz klucze i seed</b>. Następnie zasilić swoje konto w sekcji <a href=\"#/rmrk/credit\">Dostępne środki</a>. Po zasileniu konta, poprzez sekcję <a href=\"/#/rmrk/create\">Utwórz</a>, stwórz swoją Kolekcję / Album. Poczekaj aż Kolekcja / Album zostaną stworzone i następnie w sekcji <a href=\"/#/rmrk/create\">Utwórz Token</a> stwórz swój pierwszy token! W przypadku jakichkolwiek problemów prosimy o kontakt, jesteśmy w trakcie prac nad naszym Interfejsem. Prosimy o wyrozumiałość, jesteśmy we wczesnej fazie rozwoju i cieszymy się że mamy tyle do odkrycia. Zapraszamy do wspólpracy, jesteśmy otwarci na wszelkie propozycje i wsparcie. Owocnego Tworzenia! 😌",
