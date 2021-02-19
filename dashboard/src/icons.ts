@@ -28,7 +28,10 @@ import {
 // throws error, idk why
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
-import { faTwitter, faLine, faTelegram, faMedium } from '@fortawesome/free-brands-svg-icons';
+import { 
+  faTwitter, faLine, faTelegram, 
+  faTelegramPlane, faMedium 
+} from '@fortawesome/free-brands-svg-icons';
 
 import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
@@ -58,7 +61,8 @@ library.add(
   faQuestion, faEye, 
   faPrint, faCommentAlt, faMagic,
 
-  faTwitter, faTelegram, faMedium, faLine, 
+  faTwitter, faTelegram, faMedium, 
+  faLine, faTelegramPlane,
   faCommentDots
   );
 
