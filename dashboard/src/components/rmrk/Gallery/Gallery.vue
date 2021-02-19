@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <b-field label="Owners">
       <b-select
         placeholder="Select an owner"
@@ -22,7 +21,12 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image" v-if="nft.image">
+                <b-skeleton 
+                  height="240px" 
+                  :active="isLoading">
+                </b-skeleton>
                 <b-image
+                  v-if="!isLoading"
                   :src="nft.image"
                   :src-fallback="require('@/utils/placeholder.png')"
                   alt="Simple image"
@@ -39,9 +43,16 @@
               </div>
 
               <div class="card-content">
-                <p class="title is-4">
-                  <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">{{ nft.name }}</router-link></p>
-                <!-- <p class="subtitle is-6">{{ nft.collection }}</p> -->
+                <p 
+                  v-if="!isLoading"
+                  class="title is-4">
+                  <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">
+                    {{ nft.name }}
+                  </router-link>
+                </p>
+                <b-skeleton  
+                  :active="isLoading">
+                </b-skeleton>
               </div>
             </router-link>
           </div>
@@ -64,8 +75,7 @@ const nftSort = (a: any, b: any) => b._mod - a._mod
 @Component({})
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
-
-  private isLoading: boolean = false;
+  private isLoading: boolean = true;
 
   public async mounted() {
     const rmrkService = getInstance();
@@ -73,8 +83,6 @@ export default class Gallery extends Vue {
     if (!rmrkService) {
       return;
     }
-
-    this.isLoading = true;
 
     try {
       this.nfts = await rmrkService.getAllNFTs().then(arr => arr.slice().sort(nftSort));

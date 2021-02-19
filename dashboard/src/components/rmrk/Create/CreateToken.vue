@@ -23,6 +23,7 @@
         @update="handleUpdate"
         @upload="uploadFile"
         @animated="uploadAnimatedFile"
+        @remove="hadleItemRemoval"
       />
       <b-field grouped>
         <b-field position="is-left" expanded>
@@ -69,6 +70,7 @@ import {
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
+import { fetchCollectionMetadata } from '../utils';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -163,7 +165,7 @@ export default class CreateToken extends Vue {
       // id,
       // _id: id,
       transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.instance || nftForMint.name, '_').toUpperCase()
+      instance: slugify(nftForMint.name, '_').toUpperCase()
     };
   }
 
@@ -180,19 +182,20 @@ export default class CreateToken extends Vue {
 
   public async constructMeta(nft: NFTAndMeta, index: number) {
     const image = this.images[index];
-    if (!image) {
-      throw new ReferenceError('No file found!');
-    }
-
+   
     const meta = {
       ...nft.meta,
       attributes: [],
       external_url: `https://rmrk.app/registry/${nft.collection}`
     };
 
-    // TODO: upload image to IPFS
-    const imageHash = await pinFile(image);
-    meta.image = unSanitizeIpfsUrl(imageHash);
+     if (!image) {
+      const collectionMeta = await fetchCollectionMetadata(this.selectedCollection || emptyObject<Collection>());
+      meta.image = collectionMeta.image;
+    } else {
+      const imageHash = await pinFile(image);
+      meta.image = unSanitizeIpfsUrl(imageHash);
+    }
 
     const animatedFile = this.animated[index];
     if (animatedFile) {
@@ -254,14 +257,30 @@ export default class CreateToken extends Vue {
     
   }
 
-  private handleAdd() {
+  protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
     rmrk.collection = this.selectedCollection?.id || '';
-    rmrk.sn = String(this.added.length + this.alreadyMinted +  1).padStart(16, '0');
+    rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
     this.added.push(rmrk);
     this.images.push(null);
+    this.animated.push(null)
+  }
+
+  protected hadleItemRemoval(index: number) {
+    this.added.splice(index, 1);  
+    this.added.forEach((nft, i) => nft.sn = this.calculateSerialNumber(i))
+    for (let i = index; i < this.added.length; i++) {
+      this.$set(this.images, i, this.images[i + 1]);
+      this.$set(this.animated, i, this.animated[i + 1]);
+    }
+    this.$set(this.images, this.added.length, null);
+    this.$set(this.animated, this.added.length, null);
+  }
+
+  protected calculateSerialNumber(index: number) {
+    return String(index + this.alreadyMinted +  1).padStart(16, '0');
   }
 }
 </script>

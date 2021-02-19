@@ -26,11 +26,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
-// import { faEye, faCommentDots } from '@fortawesome/free-regular-svg-icons';
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
 import { faTwitter, faLine, faTelegram, faMedium } from '@fortawesome/free-brands-svg-icons';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 library.add(
   // faTrash, faKey, faSync, faRedo,
@@ -59,6 +59,7 @@ library.add(
   faPrint, faCommentAlt, faMagic,
 
   faTwitter, faTelegram, faMedium, faLine, 
+  faCommentDots
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
