@@ -45,7 +45,7 @@
               <div class="card-content">
                 <p 
                   v-if="!isLoading"
-                  class="title is-4">
+                  class="title is-4 has-text-centered">
                   <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">
                     {{ nft.name }}
                   </router-link>
