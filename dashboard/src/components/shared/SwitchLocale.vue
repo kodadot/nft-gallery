@@ -20,7 +20,7 @@ export default class LocaleChanger extends Vue {
   public langsFlags: any = [
     ['en', '🇬🇧'], 
     ['bn', '🇧🇩'],
-    ['cn', '🇨🇳'],
+    // ['cn', '🇨🇳'],
     ['cz', '🇨🇿'],
     // ['de', '🇩🇪'],
     ['es', '🇪🇸'],
