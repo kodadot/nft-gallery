@@ -106,6 +106,6 @@
   "FAQA20": "Nếu bạn đang sử dụng Mac, trên Chrome nhấn <b>Option, CMD, J</b>, trên Firefox <b>Command + Option + K</b>.",
   "FAQQ21": "Làm cách nào để cập nhật siêu dữ liệu cho tiện ích mở rộng?",
   "FAQA21": "Đi đến <a href=\"https: //cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Cài đặ > Metadata</a> và xem nút ở đó <b>Update metadata</b>, sau đó làm mới cửa sổ của bạn, sẽ hoạt động với các loại chuỗi gần đây ",
-  "FAQQ22": "['Tôi gặp phải \ "Lỗi số dư thấp \" ",
+  "FAQQ22": "['Tôi gặp phải  \"Lỗi số dư thấp\" ",
   "FAQA22": "Kiểm tra xem bạn có <b>transferable</b> $ KSM trong tài khoản của mình hay không. Đó là sự khác biệt. Bạn có thể kiểm tra nó tại <a href=\"https: //cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Tài khoản<a/> và khi số dư mở ra, bạn có thể thấy <b>Transferable</b> số lượng ở đó."
 }
