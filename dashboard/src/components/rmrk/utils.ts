@@ -13,6 +13,16 @@ import { RmrkType } from './service/RmrkService';
 import { NFTMetadata } from './service/scheme';
 
 export const SQUARE = '::'
+export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
+
+export const ipfsProviders: Record<string, string> = {
+  pinata: 'https://gateway.pinata.cloud/',
+  cloudflare: 'https://cloudflare-ipfs.com/',
+  ipfs: DEFAULT_IPFS_PROVIDER,
+  '': 'https://cloudflare-ipfs.com/'
+}
+
+const resolveProvider = (key?: string) => ipfsProviders[key || '']
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]]);

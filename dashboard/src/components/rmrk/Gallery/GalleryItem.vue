@@ -28,7 +28,7 @@
                     class="subtitle is-size-5">
                     {{ nft.description }}
                   </p>
-                  <b-skeleton count="3" size="is-large" :active="isLoading"></b-skeleton>
+                  <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
                 </p>
               </div>
             </div>
