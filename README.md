@@ -13,7 +13,7 @@ Basic usage is to interact from browser with Polkadot and Substrate based networ
 ## 🕹 Play
 
 ```shell
-git clone git@github.com:vue-polkadot/apps.git
+git clone git@github.com:kodadot/nft-gallery.git
 cd dashboard;yarn
 yarn serve
 open http://localhost:8080/
@@ -43,7 +43,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
 
 ### 👷‍♀️ Get Started
 
-1. Clone the repo `git clone git@github.com:vue-polkadot/apps.git <optional local path>`
+1. Clone the repo `git clone git@github.com:kodadot/nft-gallery.git <optional local path>`
 2. Ensure that you have a recent LTS version of [Node.js](https://nodejs.org/en/), we are using in time of writing version `v12.16.0`
 3. Recent version of [Yarn](https://yarnpkg.com/docs/install), we are now using `1.22.4`
 4. Install the dependencies by running `yarn`
