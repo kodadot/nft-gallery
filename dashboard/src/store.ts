@@ -77,7 +77,33 @@ export default new Vuex.Store({
     keyringLoaded: false,
     chainProperties: {},
     explorer: {},
-    language: {},
+    lang: {},
+    language: {
+      userLang: process.env.VUE_APP_I18N_LOCALE || 'en',
+      langsFlags: [
+        // ['cn', '🇨🇳'],
+        // ['de', '🇩🇪'],
+        // ['ua', '🇺🇦'],
+        // ['it', '🇮🇹'],
+        // ['hi', '🇮🇳'],
+        // ['ko', '🇰🇷'], 
+        ['en', '🇬🇧'],
+        ['bn', '🇧🇩'],
+        ['cz', '🇨🇿'],
+        ['es', '🇪🇸'],
+        ['jp', '🇯🇵'],
+        ['pl', '🇵🇱'],
+        ['pt', '🇵🇹'],
+        ['tu', '🇹🇷'],
+        ['ur', '🇵🇰'],
+        ['vt', '🇻🇳'],
+        ['fr', '🇫🇷'],
+        ['ru', '🇷🇺'],
+        ['fr', '🇫🇷'],
+        ['sk', '🇸🇰'],
+        ['nl', '🇳🇱'],
+      ]
+    },
     explorerOptions: {},
     development: {},
     error: null,
@@ -110,7 +136,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getChainProperties: ({chainProperties}) => chainProperties
+    getChainProperties: ({chainProperties}) => chainProperties,
+    getUserLang: ({ language }) => language.userLang || 'en'
   },
   modules: {
     setting: SettingModule,
