@@ -106,6 +106,6 @@
   "FAQA20": "Si vous êtes sur Mac, sur Chrome tapez <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.",
   "FAQQ21": "Comment mettre à jour les métadonnées pour l'extension ?",
   "FAQA21": "Allez voir <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a>  et voyez là le bouton <b>Mettre à jour les métadonnées</b>, puis rafraîchissez votre fenêtre, devrait fonctionner avec les types de chaîne récents.",
-  "FAQQ22": "['J'ai une \"erreur de solde faible"\.",
+  "FAQQ22": "['J'ai une \"erreur de solde faible",
   "FAQA22": "Vérifiez si vous avez des $KSM <b>transférables</b> sur votre compte, non mis en jeu. C'est différent. Vous pouvez le vérifier dans  <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Comptes<a/> et à balances déplier, vous pouvez voir là montant <b>transférable</b>"
 }
