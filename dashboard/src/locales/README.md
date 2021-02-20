@@ -33,4 +33,6 @@ We've [made video how to translate from the browser](https://t.me/kodadot_transl
 6. Create pull request to our repository
 ![](assets/edit_and_commit.png)
 
-We welcome your contribution and you will be historical part of KodaDot NFT contribution! :)
+We welcome your contribution. 
+You will be historical part of KodaDot NFT contribution! 
+First translations will be rewarded with NFT with value in it.

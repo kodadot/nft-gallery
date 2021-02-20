@@ -106,6 +106,8 @@
   "FAQA20": "If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.",
   "FAQQ21": "How do I update metadata for extension?",
   "FAQA21": "Go to <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a> and see there button <b>Update metadata</b>, then refresh your window, should be working with recent chain types",
-  "FAQQ22": "['I've got \"Low balance error\"",
-  "FAQA22": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> and at balances unfold, you can see there <b>Transferable</b> amount."
+  "FAQQ22": "I've got \"Low balance error\"",
+  "FAQA22": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> and at balances unfold, you can see there <b>Transferable</b> amount.",
+  "FAQQ23": "How do I set identity?",
+  "FAQA23": "You can learn more <a href=\"https://guide.kusama.network/docs/en/mirror-learn-identity#docsNav\">how to set identity on Kusama network</a>"
 }

@@ -77,6 +77,7 @@ export default new Vuex.Store({
     keyringLoaded: false,
     chainProperties: {},
     explorer: {},
+    language: {},
     explorerOptions: {},
     development: {},
     error: null,
@@ -93,6 +94,9 @@ export default new Vuex.Store({
     },
     setExplorer(state: any, data) {
       state.explorer = Object.assign(state.explorer, data)
+    },
+    setLanguage(state: any, data) {
+      state.language = Object.assign(state.language, data)
     },
     setExplorerOptions(state: any, data) {
       state.explorerOptions = Object.assign({}, data)

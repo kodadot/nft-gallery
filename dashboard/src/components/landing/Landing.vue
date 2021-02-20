@@ -105,7 +105,8 @@ export default class Landing extends Vue {
   public publicCommunity: any = [
     ['Poland', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
-    ['Vietnamese', 'https://t.me/joinchat/GR0OiagewrkTzD4u']
+    ['Vietnamese', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
+    ['Want to help to translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 }
 </script>

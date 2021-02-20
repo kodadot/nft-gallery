@@ -47,6 +47,7 @@ export default class  extends Vue {
     [i18n.t('FAQQ20'), i18n.t('FAQA20')],
     [i18n.t('FAQQ21'), i18n.t('FAQA21')],
     [i18n.t('FAQQ22'), i18n.t('FAQA22')],
+    [i18n.t('FAQQ23'), i18n.t('FAQA23')],
   ];
 }
 </script>
