@@ -67,12 +67,15 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import GalleryCardList from './GalleryCardList.vue'
 
 type NFTType = NFT | NFTWithMeta;
 
 const nftSort = (a: any, b: any) => b._mod - a._mod
 
-@Component({})
+const components = { GalleryCardList }
+
+@Component({ components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
@@ -107,29 +110,3 @@ export default class Gallery extends Vue {
 }
 </script>
 
-<style scoped>
-.card.nft-card {
-  padding: 1em !important;
-  height: 100%;
-}
-.nft-card__skeleton {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.nft-card__owner {
-  word-break: break-word;
-}
-
-a {
-  color: grey;
-}
-
-a:hover {
-  color: black;
-}
-
-</style>

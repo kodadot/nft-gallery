@@ -13,6 +13,7 @@
             <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
           <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+          <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <div class="card">
               <div class="card-content">
                 <p class="title is-size-2">
@@ -238,8 +239,9 @@ type NFTType =  NFTWithMeta;
     AccountSelect,
     AvailableActions,
     Money,
-    Appreciation,
+    Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
+    PackSaver: () => import('../Pack/PackSaver.vue')
   }
 })
 export default class GalleryItem extends Vue {

@@ -27,32 +27,6 @@ export interface State {
   refresh(): Promise<State>;
 }
 
-// export class rmkNFT {
-//    collection: Collection;
-//    name: string;
-//    instance: string;
-//    transferable: number;
-//    sn: string;
-//    metadata: NFTMetadata;
-//   static mintnft(): rmkNFT {
-//     return new rmkNFT();
-//   }
-//   id(): string {
-//     return `${this.collection.id}-${this.instance}-${this.sn}`;
-//   }
-//   send(): rmkNFT {
-//     return this;
-//   }
-//   consume(): rmkNFT {
-//     return this;
-//   }
-//   list(): rmkNFT {
-//     return this;
-//   }
-//   buy(): rmkNFT {
-//     return this;
-//   }
-// }
 
 export interface NFTMetadata {
   external_url?: string;
@@ -66,21 +40,6 @@ export interface NFTMetadata {
   youtube_url?: string;
 }
 
-// export class rmkCollection {
-//    version: string;
-//    name: string;
-//    max: number;
-//    issuer: string;
-//    symbol: string;
-//    id: string;
-//    metadata: CollectionMetadata;
-//   static mint(): rmkCollection {
-//     return new rmkCollection();
-//   }
-//   change_issuer(): rmkCollection {
-//     return this;
-//   }
-// }
 
 export interface CollectionMetadata {
   description?: string;
@@ -88,6 +47,11 @@ export interface CollectionMetadata {
   external_url?: string;
   image?: string;
   image_data?: string;
+}
+
+export interface PackMetadata {
+  social: Record<string, string>;
+
 }
 
 // export interface Collection {
@@ -155,6 +119,19 @@ export interface NFT {
   price?: string;
   disabled?: boolean;
   blockNumber?: number;
+}
+
+export interface Pack {
+  _id: string;
+  id: string;
+  owner: string;
+  name: string;
+  image?: string;
+  description?: string;
+  metadata?: string;
+  collections: Record<string, boolean>;
+  nfts: Record<string, boolean>;
+  social?: Record<string, string>; 
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {

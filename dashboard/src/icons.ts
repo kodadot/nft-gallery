@@ -20,7 +20,8 @@ import {
   faQuestionCircle, faMinus, faSearch, 
   faInfoCircle, faChevronDown, faChevronUp,
   faHeart, faCaretDown, faInfo, 
-  faLink, faCopy, faLanguage,
+  faShareSquare, faCopy, faBookmark,
+  faLink, faLanguage,
   faQuestion, faPrint,
   faMagic, faEye, faCommentAlt
 } from '@fortawesome/free-solid-svg-icons';
@@ -57,6 +58,9 @@ library.add(
   faUsers, faQuestionCircle, faMinus, 
   faSearch, faInfoCircle, faChevronDown, 
   faChevronUp, faHeart, faSearch,
+  faCaretDown, faInfo, faShareSquare,
+  faTwitter, faTelegram, faMedium, faLine, 
+  faBookmark,
   faCaretDown, faInfo, faLink, faLanguage,
   faQuestion, faEye, 
   faPrint, faCommentAlt, faMagic,
