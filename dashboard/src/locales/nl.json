@@ -64,10 +64,25 @@
   "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
   "Read our story, how we started.": "Read our story, how we started.",
   "Frequently Asked Question": "Frequently Asked Question",
-  "FAQQ1": "What coin is used for NFTs? [link](https://twitter.com/kodadot)",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",
-  "FAQQ2": "What wallet do I need to mint, buy and collect?",
-  "FAQA2": "We reccommend you to use <a href=\"https://polkadot.js.org/extension/\">Polkadot Extension for now</a>. Later we plan to add mobile-first experience. In all cases, <b>backup your seed, it\\s your owners right and sort of value.</b>",
+  "faq": {
+    "q": {
+      "1": "What coin is used for NFTs?",
+      "2": "What wallet do I need to mint, buy and collect?"
+    },
+    "a": {
+      "1": {  
+        "m": "@.md:faq.a.1.l1 . You can get it through our @.md:faq.a.1.l2 feature or @.md:faq.a.1.l3",
+        "l1": "[Kusama network, $KSM](https://kusama.network)",
+        "l2": "[Credit](//rmrk/credit)",
+        "l3": "[through custodial exchange](https://www.binance.com/en/register?ref=T1JB89F0)"
+      },
+      "2": {
+        "m": "We reccommend you to use @.md:faq.a.2.l1 Later we plan to add mobile-first experience. In all cases, backup your seed, it's your owners right and sort of value.",
+        "l1": "[Polkadot Extension for now](https://polkadot.js.org/extension)"
+      }
+    }
+  },
+  
   "FAQQ3": "How I'll mint my work?",
   "FAQA3": "You will go to the <a href=\"/#/rmrk/create\">Create</a>. You need to first mint your Collection and then Token. If you want to video that, DM us!",
   "FAQQ4": "How I can trade KSM for my artwork?",
