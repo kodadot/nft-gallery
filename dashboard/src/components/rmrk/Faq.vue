@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="box">
+      
+      <p>
+        <markdown-it-vue class="md-body" :content="markdowntest" />
+        <!-- <vue-simple-markdown :source="markdowntest"></vue-simple-markdown> -->
+      </p>
       <p class="title">
         {{ $t('Frequently Asked Question') }}
       </p>
@@ -10,7 +15,9 @@
           {{qa[0]}}
         </p>
         <p class="subtitle">
-          <span v-html="qa[1]"></span>
+          <!-- <markdown-it-vue class="md-body" :content="qa[1]" /> -->
+          <markdown-it-vue class="md-body" :content="qa[1]" />
+          <!-- <span v-html="qa[1]"></span> -->
         </p>
         <br>
       </div>
@@ -21,9 +28,18 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import i18n from '@/i18n.ts';
+// import VueMarkdown from 'vue-markdown-render'
+// import VueSimpleMarkdown from 'vue-simple-markdown'
+// import NL from '@/locales/nl.md';
+import MarkdownItVue from 'markdown-it-vue';
 
-@Component({})
+@Component({
+  components: {
+    MarkdownItVue
+  }
+})
 export default class  extends Vue {
+  public markdowntest: any = 'Helllo **bold** text [link](https://twitter.com/kodadot)'
   public faqQuestionsAnswers: any = [
     [i18n.t('FAQQ1'), i18n.t('FAQA1')],
     [i18n.t('FAQQ2'), i18n.t('FAQA2')],
