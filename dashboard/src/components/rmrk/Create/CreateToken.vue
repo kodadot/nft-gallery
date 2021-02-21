@@ -3,7 +3,13 @@
     <div class="box">
       <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
       <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
-      <b-field grouped v-if="accountId" :label="$i18n.t('Collection')">
+      <template v-if="accountId">
+        <b-switch v-model="oneByOne"
+          passive-type="is-dark"
+          :rounded="false">
+          {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
+        </b-switch>
+        <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">
         <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
           <option v-for="option in data" :value="option" :key="option.id">
             {{ option.name }} {{ option.id }}
@@ -11,6 +17,11 @@
         </b-select>
         <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
       </b-field>
+      <b-field v-else grouped :label="$i18n.t('Symbol')">
+        <b-input v-model="symbol" expanded></b-input>
+        <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
+      </b-field>
+      </template>
       <b-field>
         <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
       </b-field>
@@ -28,7 +39,7 @@
       <b-field grouped>
         <b-field position="is-left" expanded>
           <b-button
-            v-if="selectedCollection"
+            v-if="accountId && (selectedCollection || singleNFTValid)"
             type="is-info"
             icon-left="plus"
             @click="handleAdd"
@@ -64,13 +75,13 @@ import {
   Collection,
   NFT,
   NFTMetadata,
-  NFTWithMeta,
-  getNftId
 } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';
+import { generateId } from '@/components/rmrk/service/Consolidator'
+import NFTUtils from '../service/NftUtils';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -97,6 +108,8 @@ export default class CreateToken extends Vue {
   private isLoading: boolean = false;
   private password: string = '';
   private alreadyMinted = 0;
+  private oneByOne: boolean = true;
+  private symbol: string = '';
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
@@ -136,8 +149,13 @@ export default class CreateToken extends Vue {
     return this.added.length
   }
 
+  get singleNFTValid() {
+    return this.oneByOne && this.symbol
+  }
+
   get disabled() {
-    return this.selectedCollection?.max === this.added.length + this.alreadyMinted;
+    const max = this.oneByOne ? 1 : this.selectedCollection?.max
+    return max === this.added.length + this.alreadyMinted;
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
@@ -162,8 +180,6 @@ export default class CreateToken extends Vue {
       ...nftForMint,
       metadata: metaHash,
       currentOwner: this.accountId,
-      // id,
-      // _id: id,
       transferable: Number(nftForMint.transferable),
       instance: slugify(nftForMint.name, '_').toUpperCase()
     };
@@ -209,16 +225,21 @@ export default class CreateToken extends Vue {
     return unSanitizeIpfsUrl(metaHash);
   }
 
-  private async submit() {
+  protected async submit() {
     this.isLoading = true;
     const { api } = Connector.getInstance();
-    const remarks: string[] = await Promise.all(this.added
-    .map(this.makeItSexy)
-    .map(async mint => this.toMintFormat(await mint)
-    ));
-    console.log('remarks', remarks);
+    const nfts: NFT[] = await Promise.all(this.added.map(this.makeItSexy));
 
-    const batchMethods: any[] = remarks.map(this.toRemark)
+    const remarks: string[] = nfts.map(this.toMintFormat)
+
+    if (!remarks.length) {
+      throw new RangeError('Unable to process empty NFTs!')
+    }
+
+    const firstNFT = nfts[0];
+    const collectionToMint: string[] = this.oneByOne ? [NFTUtils.encodeCollection(NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version), this.version)] : []
+
+    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark)]
     console.log('batchMethods', batchMethods)
     const rmrkService = getInstance();
 
@@ -233,7 +254,7 @@ export default class CreateToken extends Vue {
           execResultValue(tx)
           const header = await api.rpc.chain.getHeader(result.status.asFinalized);
           const blockNumber = header.number.toString();
-          remarks.forEach(async (rmrk, index) => {
+          for (const [index, rmrk] of [...collectionToMint, ...remarks].entries()) {
             this.isLoading = true;
             try {
               const res = await rmrkService?.resolve(rmrk, this.accountId, blockNumber)
@@ -243,7 +264,7 @@ export default class CreateToken extends Vue {
               console.warn(`Failed Indexing ${index} with err ${e}`);  
             }
             this.isLoading = false;
-          })    
+          }
         }
       });
       console.warn('TX IN', tx);
@@ -259,7 +280,7 @@ export default class CreateToken extends Vue {
 
   protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
-    rmrk.collection = this.selectedCollection?.id || '';
+    rmrk.collection = this.oneByOne ? generateId(this.accountId, this.symbol) : this.selectedCollection?.id || '';
     rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;

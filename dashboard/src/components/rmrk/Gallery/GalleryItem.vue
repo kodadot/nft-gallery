@@ -4,12 +4,13 @@
       <div class="tile is-6 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
-              v-if="imageVisible"
+              v-if="!isLoading && imageVisible"
               :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
               alt="NFT minted image"
               ratio="1by1"
             ></b-image>
+            <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
           <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
           <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
@@ -19,13 +20,16 @@
                   {{ $t('legend')}}
                 </p>
                 <p class="subtitle is-size-7">
-                  <b># {{ nftId }}</b>
+                  <b v-if="!isLoading"># {{ nftId }}</b>
+                  <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
                   <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                     <Money :value="nft.price" :inline="true" />
                   </b-tag>
-                  <p class="subtitle is-size-5">
+                  <p v-if="!isLoading" 
+                    class="subtitle is-size-5">
                     {{ nft.description }}
                   </p>
+                  <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
                 </p>
               </div>
             </div>
@@ -41,7 +45,10 @@
               role="button"
               aria-controls="contentIdForA11y3">
               <p class="card-header-title is-size-1">
-                {{ nft.name }}
+                <span v-if="!isLoading">
+                  {{ nft.name }}
+                </span>
+                <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
               </p>
               <a class="card-header-icon">
                 <b-icon
@@ -243,7 +250,7 @@ export default class GalleryItem extends Vue {
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
   private imageVisible: boolean = true;
-  private isLoading: boolean = false;
+  public isLoading: boolean = true;
 
   @Prop() public value!: any;
 
@@ -256,8 +263,6 @@ export default class GalleryItem extends Vue {
     if (!rmrkService || !this.id) {
       return;
     }
-
-    this.isLoading = true;
 
     try {
       const nft = await rmrkService.getNFT(this.id);
