@@ -82,15 +82,15 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>();
 };
 
-export const sanitizeIpfsUrl = (ipfsUrl: string) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
   const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', 'https://cloudflare-ipfs.com/');
+    return ipfsUrl.replace('ipfs://', resolveProvider(provider));
   }
 
   const r = /^ipfs:\/\//;
   if (r.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/');
+    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`);
   }
 
   return ipfsUrl;
