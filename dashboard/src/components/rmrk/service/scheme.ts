@@ -1,7 +1,10 @@
-interface Astronaut {
+export interface CompletePack {
+    _id: string;
+  id: string;
+  owner: string;
   name: string;
-  missions: number;
-  _id: string;
+  collections: CollectionWithMeta[];
+  nfts: NFTWithMeta[];
 }
 
 export interface Attribute {

@@ -1,5 +1,5 @@
 import { Client, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack } from './scheme'
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
@@ -132,6 +132,27 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const collections = await this.find<Pack>(query)
     return collections
   }
+
+  async getCompletePack(id: string): Promise<CompletePack> {
+    this.usePack();
+    const pack = await this.findById<Pack>(id);
+    const completePack: CompletePack = {
+      ...pack,
+      nfts: [],
+      collections: []
+    }
+
+    return completePack;
+  }
+
+  //   async getNFTByIds(id: string | string[]): Promise<NFT[]> {
+  //   this.useNFT();
+  //   this.shouldExist(id);
+  //   const query: Query = new Where('owner').eq(account)
+  //   const nft = await this.getCollection<NFT>(id)
+  //   return nft
+  // }
+
 
   // async getPackListByIds(account: string, ids: string[]): Promise<Pack[]> {
   //   this.usePack();

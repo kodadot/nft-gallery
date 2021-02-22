@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-wrapper">
+  <div class="pack-item-wrapper">
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <div class="tile is-child box">
@@ -25,37 +25,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '@/components/rmrk/service/RmrkService';
+<script lang="ts" >
+import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import {
-  fetchNFTMetadata,
-  sanitizeIpfsUrl,
-  defaultSortBy,
-  fetchCollectionMetadata
-} from '@/components/rmrk/utils';
-import {
-  Collection,
-  CollectionWithMeta,
-  NFTWithMeta,
-  Pack
-} from '@/components/rmrk/service/scheme';
-import GalleryCardList from '@/components/rmrk/Gallery/GalleryCardList.vue';
-import Identity from '@/components/shared/format/Identity.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { getInstance } from '../service/RmrkService';
+import { CompletePack } from '../service/scheme';
 
-const components = { GalleryCardList, Identity };
-
-@Component({ components })
-export default class Profile extends Vue {
-  public activeTab: number = 0;
+@Component({})
+export default class PackItem extends Vue {
   private id: string = '';
+  private pack: CompletePack = emptyObject<CompletePack>();
   private isLoading: boolean = false;
-  private collections: CollectionWithMeta[] = [];
-  private nfts: NFTWithMeta[] = [];
-  private packs: Pack[] = [];
 
-  public async mounted() {
+    public async mounted() {
     this.checkId();
     const rmrkService = getInstance();
     if (!rmrkService || !this.id) {
@@ -65,14 +48,11 @@ export default class Profile extends Vue {
     this.isLoading = true;
 
     try {
-      this.nfts = await rmrkService
-        .getNFTsForAccount(this.id)
-        .then(defaultSortBy);
-      this.collectionMeta();
+      this.pack = await rmrkService.getCompletePack(this.id)
       // const collections = await rmrkService.getCollectionListForAccount(
       //   this.id
       // ).then(defaultSortBy);
-      this.packs = await rmrkService.getPackListForAccount(this.id).then(defaultSortBy);
+
       // console.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger);
@@ -82,21 +62,10 @@ export default class Profile extends Vue {
     this.isLoading = false;
   }
 
-  public checkId() {
+    public checkId() {
     if (this.$route.params.id) {
       this.id = this.$route.params.id;
     }
-  }
-
-  collectionMeta() {
-    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.nfts, index, {
-        ...this.nfts[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
   }
 }
 </script>

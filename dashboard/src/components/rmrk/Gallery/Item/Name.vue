@@ -32,7 +32,7 @@
               {{ $t('owner') }}
             </p>
             <p class="subtitle is-size-7">
-              <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank">{{ nft.currentOwner }}</a>
+              <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a>
             </p>
           </div>
         </div>
@@ -41,9 +41,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Identity from '@/components/shared/format/Identity.vue'
 
-@Component({})
+const components = {
+  Identity
+}
+
+@Component({ components })
 export default class Name extends Vue {
   @Prop() public nft!: any;
   @Prop() public isLoading!: boolean;

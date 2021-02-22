@@ -34,6 +34,10 @@ export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3):
   return res
 }
 
+export const fetchPackMetadata = (
+  rmrk: RmrkType
+): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk)
+
 export const fetchCollectionMetadata = (
   rmrk: RmrkType
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
