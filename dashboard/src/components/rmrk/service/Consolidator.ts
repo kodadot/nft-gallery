@@ -105,7 +105,8 @@ function accountIdToPubKey(accountId: string) {
   return (accountId && u8aToHex(decodeAddress(accountId))) || '';
 }
 
-export function generateId(pubkey: string, symbol: string): string {
+export function generateId(caller: string, symbol: string): string {
+  const pubkey = caller.startsWith('0x') ? caller : accountIdToPubKey(caller);
   return (
     pubkey?.substr(2, 10) +
     pubkey?.substring(pubkey.length - 8) +

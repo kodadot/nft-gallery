@@ -85,6 +85,7 @@ import { Collection, CollectionMetadata } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
+import { generateId } from '@/components/rmrk/service/Consolidator'
 
 
 const components = {
@@ -106,7 +107,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   private password: string = '';
 
   get rmrkId(): string {
-    return this.generateId(this.accountIdToPubKey);
+    return generateId(this.accountId, this.rmrkMint?.symbol || '')
   }
 
   get accountIdToPubKey() {

@@ -20,7 +20,8 @@ import {
   faQuestionCircle, faMinus, faSearch, 
   faInfoCircle, faChevronDown, faChevronUp,
   faHeart, faCaretDown, faInfo, 
-  faLink, faCopy, faLanguage,
+  faShareSquare, faCopy, faBookmark,
+  faLink, faLanguage,
   faQuestion, faPrint,
   faMagic, faEye, faCommentAlt
 } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +29,10 @@ import {
 // throws error, idk why
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
-import { faTwitter, faLine, faTelegram, faMedium } from '@fortawesome/free-brands-svg-icons';
+import { 
+  faTwitter, faLine, faTelegram, 
+  faTelegramPlane, faMedium 
+} from '@fortawesome/free-brands-svg-icons';
 
 import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
@@ -54,11 +58,15 @@ library.add(
   faUsers, faQuestionCircle, faMinus, 
   faSearch, faInfoCircle, faChevronDown, 
   faChevronUp, faHeart, faSearch,
+  faCaretDown, faInfo, faShareSquare,
+  faTwitter, faTelegram, faMedium, faLine, 
+  faBookmark,
   faCaretDown, faInfo, faLink, faLanguage,
   faQuestion, faEye, 
   faPrint, faCommentAlt, faMagic,
 
-  faTwitter, faTelegram, faMedium, faLine, 
+  faTwitter, faTelegram, faMedium, 
+  faLine, faTelegramPlane,
   faCommentDots
   );
 
