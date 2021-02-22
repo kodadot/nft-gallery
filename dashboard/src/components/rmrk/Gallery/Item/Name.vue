@@ -1,5 +1,4 @@
 <template>
-  
     <div>
       <b-collapse class="card" animation="slide" 
         aria-id="contentIdForA11y3" :open="false">
@@ -12,8 +11,7 @@
               <span v-if="!isLoading">
                 {{ nft.name }}
               </span>
-              <!-- do prop sync for isLoading -->
-              <!-- <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton> -->
+              <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
             </p>
             <a class="card-header-icon">
               <b-icon
@@ -48,6 +46,6 @@ import { Component, Prop, PropSync, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class Name extends Vue {
   @Prop() public nft!: any;
-  @Prop() public isLoading!: any;
+  @Prop() public isLoading!: boolean;
 }
 </script>
