@@ -1,7 +1,7 @@
-<template>
+ <template>
   <div class="wrapper">
     <div class="tile is-ancestor">
-      <div class="tile is-6 is-vertical is-parent">
+      <div class="tile is-8 is-vertical is-parent">
         <div class="tile is-child box">
             <b-image
               v-if="!isLoading && imageVisible"
@@ -37,7 +37,8 @@
       </div>
 
       <div class="tile is-vertical is-parent">
-        <Name :nft="nft" />
+        <Name :nft="nft" :isLoading="isLoading" />
+        <br>
         <b-collapse class="card" animation="slide" 
           aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
@@ -65,7 +66,8 @@
           </div>
         </b-collapse>
         <Sharing />
-        <Facts :nft="nft" :isLoading="isLoading" />
+        <br>
+        <Facts :nft="nft" />
       </div>
     </div>
   </div>
@@ -133,9 +135,6 @@ export default class GalleryItem extends Vue {
   private nft: NFTType = emptyObject<NFTType>();
   private imageVisible: boolean = true;
   public isLoading: boolean = true;
-
-  @Prop() public value!: any;
-
   public mimeType: string = '';
 
   public async mounted() {

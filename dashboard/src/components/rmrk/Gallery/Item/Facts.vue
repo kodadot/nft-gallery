@@ -17,7 +17,6 @@
           </a>
         </div>
       </template>
-
       <div class="card-content">
         <div class="content">
           <p class="subtitle is-size-6">
@@ -29,10 +28,12 @@
           <p class="subtitle is-size-6">
             <b>{{ $t('instance') }}:</b>{{ nft.sn }}
           </p>
+          <p class="subtitle is-size-6">
+            <b>IPFS</b>: <a :href="nft.image">Link to media</a>
+          </p>
         </div>
       </div>
     </b-collapse>
-
   </div>
 </template>
 
