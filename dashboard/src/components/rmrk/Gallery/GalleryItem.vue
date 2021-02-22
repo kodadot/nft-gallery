@@ -154,7 +154,7 @@ export default class GalleryItem extends Vue {
         ...nft,
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || '')
+        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       };
       if (this.nft.animation_url) {
         const { headers } = await api.head(this.nft.animation_url);
