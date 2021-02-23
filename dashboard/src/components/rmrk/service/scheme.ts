@@ -1,8 +1,9 @@
-export interface CompletePack {
-    _id: string;
-  id: string;
-  owner: string;
-  name: string;
+export interface CompletePack extends BasePack {
+  collections: Collection[];
+  nfts: NFT[];
+}
+
+export interface CompletePackWithItemMeta extends BasePack {
   collections: CollectionWithMeta[];
   nfts: NFTWithMeta[];
 }
@@ -124,7 +125,7 @@ export interface NFT {
   blockNumber?: number;
 }
 
-export interface Pack {
+export interface BasePack {
   _id: string;
   id: string;
   owner: string;
@@ -132,6 +133,9 @@ export interface Pack {
   image?: string;
   description?: string;
   metadata?: string;
+}
+
+export interface Pack extends BasePack {
   collections: Record<string, boolean>;
   nfts: Record<string, boolean>;
   social?: Record<string, string>; 

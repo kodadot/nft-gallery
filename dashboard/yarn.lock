@@ -9484,6 +9484,11 @@ mimic-response@^2.0.0:
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-2.1.0.tgz#d13763d35f613d09ec37ebb30bac0469c0ee8f43"
   integrity sha512-wXqjST+SLt7R009ySCglWBCFpjUygmCIfD790/kVbiGmUgfYGuB14PiTd5DwVxSV4NcYHjzMkoj5LjQZwTQLEA==
 
+mingo@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/mingo/-/mingo-4.1.2.tgz#c8b96c6a78fe9b37b42ea1264d785c8e5cd9eb02"
+  integrity sha512-WQKhtFDV7nRIMlPP7tfo0Zx4bpvmhfBuHKvNPA9DbISjYJtrU4g1kacQPxPhMSEebJ6tGz7pHXDzQOyANpJ9jA==
+
 mini-css-extract-plugin@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-0.9.0.tgz#47f2cf07aa165ab35733b1fc97d4c46c0564339e"
