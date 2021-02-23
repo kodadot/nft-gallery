@@ -108,6 +108,7 @@ type NFTType =  NFTWithMeta;
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:description', content: (this.nft.description as string) },
         { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'og:video', content: (this.nft.image as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
