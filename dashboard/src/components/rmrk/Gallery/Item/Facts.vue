@@ -30,6 +30,13 @@
           </p>
           <p class="subtitle is-size-6">
             <b>IPFS</b>: <a :href="nft.image">Link to media</a>
+            <p> Undefined for crawler? Next time try these gateways, add CID after and open it</p>
+            <ul>
+              <li v-for="gw in gwList"
+              :key="gw">
+                {{gw}}
+              </li>
+            </ul>
           </p>
         </div>
       </div>
@@ -43,5 +50,13 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class Facts extends Vue {
   @Prop() public nft!: any;
+
+  public gwList: any = [
+    'https://gateway.pinata.cloud/ipfs/',
+    'https://cloudflare-ipfs.com/ipfs/',
+    'https://gateway.ipfs.io/ipfs/',
+    'https://ipfs.fleek.co/ipfs/',
+    'https://dweb.link/ipfs/',
+  ]
 }
 </script>
