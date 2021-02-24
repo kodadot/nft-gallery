@@ -49,4 +49,16 @@ export const unSanitizeIpfsUrl = (url: string) => {
   return `ipfs://ipfs/${url}`;
 };
 
+
+const cidRegex: RegExp = /ipfs\/([a-zA-Z0-9]+)\/?$/;
+export const extractCid = (ipfsLink?: string): string => {
+  if (!ipfsLink) {
+    return ''
+  }
+
+  const match = ipfsLink.match(cidRegex);
+
+  return match ? match[1] : '';  
+}
+
 export default api;
