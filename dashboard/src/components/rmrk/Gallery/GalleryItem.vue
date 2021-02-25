@@ -1,46 +1,23 @@
  <template>
   <div class="wrapper">
-    <div class="tile is-ancestor">
-      <div class="tile is-8 is-vertical is-parent">
-        <div class="tile is-child box">
-            <b-image
-              v-if="!isLoading && imageVisible"
-              :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-              :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-              alt="NFT minted image"
-              ratio="1by1"
-            ></b-image>
-            <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <div class="box">
+          <b-image
+            v-if="!isLoading && imageVisible"
+            :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+            :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+            alt="NFT minted image"
+            ratio="1by1"
+          ></b-image>
+          <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
+          
           <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
           <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-            <div class="card">
-              <div class="card-content">
-                <p class="title is-size-2">
-                  {{ $t('legend')}}
-                </p>
-                <p class="subtitle is-size-7">
-                  <b v-if="!isLoading"># {{ nftId }}</b>
-                  <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
-                  <b-tag v-if="nft.price" type="is-dark" size="is-medium">
-                    <Money :value="nft.price" :inline="true" />
-                  </b-tag>
-                  <p v-if="!isLoading" 
-                    class="subtitle is-size-5">
-                    {{ nft.description }}
-                  </p>
-                  <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
-                </p>
-              </div>
-            </div>
-        </div>
-      </div>
-
-      <div class="tile is-vertical is-parent">
-        <Name :nft="nft" :isLoading="isLoading" />
-        <br>
-        <b-collapse class="card" animation="slide" 
-          aria-id="contentIdForA11y3" :open="false">
+          
+          <b-collapse class="card" animation="slide" 
+            aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
             <div
               class="card-header"
@@ -65,9 +42,27 @@
             </div>
           </div>
         </b-collapse>
-        <Sharing />
-        <br>
-        <Facts :nft="nft" />
+        <Name :nft="nft" :isLoading="isLoading" />
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-size-2">
+                {{ $t('legend')}}
+              </p>
+              <p class="subtitle is-size-7">
+                <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                  <Money :value="nft.price" :inline="true" />
+                </b-tag>
+                <p v-if="!isLoading" 
+                  class="subtitle is-size-5">
+                  {{ nft.description }}
+                </p>
+                <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+              </p>
+            </div>
+          </div>
+          <Sharing />
+          <Facts :nft="nft" />
+        </div>
       </div>
     </div>
   </div>
@@ -108,6 +103,7 @@ type NFTType =  NFTWithMeta;
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:description', content: (this.nft.description as string) },
         { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'og:video', content: (this.nft.image as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
