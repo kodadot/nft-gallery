@@ -20,6 +20,9 @@
       <div class="card-content">
         <div class="content">
           <p class="subtitle is-size-6">
+            <b>ID:</b> {{ nft.id }}
+          </p>
+          <p class="subtitle is-size-6">
             <b>{{ $t('collection') }}:</b>{{ nft.collection }}
           </p>
           <p class="subtitle is-size-6">
