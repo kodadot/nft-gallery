@@ -45,20 +45,36 @@ export const pinFile = async (file: Blob): Promise<string> => {
   }
 };
 
-export const unpin = async (hash: string) => {
-    try {
-      const { status, data } = await api.delete(`unpin/${hash}`);
-      console.log('[PINATA] Pin Image', status, data);
-      if (status < 400) {
-        return data;
-      }
-    } catch (e) {
-      throw e;
+export const unpin = async (ipfsLink: string) => {
+  const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
+  try {
+    const { status, data } = await api.delete(`unpin/${hash}`);
+    console.log('[PINATA] Pin Image', status, data);
+    if (status < 400) {
+      return data;
     }
-} 
+  } catch (e) {
+    throw e;
+  }
+};
 
 export const unSanitizeIpfsUrl = (url: string) => {
   return `ipfs://ipfs/${url}`;
+};
+
+export const justHash = (ipfsLink?: string): boolean => {
+  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '');
+};
+
+const cidRegex: RegExp = /ipfs\/([a-zA-Z0-9]+)\/?$/;
+export const extractCid = (ipfsLink?: string): string => {
+  if (!ipfsLink) {
+    return '';
+  }
+
+  const match = ipfsLink.match(cidRegex);
+
+  return match ? match[1] : '';
 };
 
 export default api;

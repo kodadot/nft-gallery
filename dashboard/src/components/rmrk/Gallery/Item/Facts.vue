@@ -29,14 +29,13 @@
             <b>{{ $t('instance') }}:</b>{{ nft.sn }}
           </p>
           <p class="subtitle is-size-6">
-            <b>IPFS</b>: <a :href="nft.image">Link to media</a>
-            <p> Undefined for crawler? Next time try these gateways, add CID after and open it</p>
-            <ul>
+            <b>IPFS</b>: <b-button size="is-small" @click="getGwLinks">{{ multimediaCid }}</b-button>
+            <ol v-if="showGwLinks">
               <li v-for="gw in gwList"
               :key="gw">
-                {{gw}}
+                <a :href="gw+multimediaCid" target="_blank">Gateway</a>
               </li>
-            </ul>
+            </ol>
           </p>
         </div>
       </div>
@@ -46,11 +45,12 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-
+import { extractCid } from '@/pinata';
 @Component({})
 export default class Facts extends Vue {
   @Prop() public nft!: any;
-
+  public multimediaCid: string = 'IPFS Gateways';
+  public showGwLinks: boolean = false;
   public gwList: any = [
     'https://gateway.pinata.cloud/ipfs/',
     'https://cloudflare-ipfs.com/ipfs/',
@@ -58,5 +58,11 @@ export default class Facts extends Vue {
     'https://ipfs.fleek.co/ipfs/',
     'https://dweb.link/ipfs/',
   ]
+
+  @Watch('nft')
+  public async getGwLinks() {
+    this.multimediaCid = await extractCid(this.nft && this.nft.image)
+    this.showGwLinks = true
+  }
 }
 </script>
