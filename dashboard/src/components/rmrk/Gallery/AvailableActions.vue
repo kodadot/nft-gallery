@@ -12,9 +12,7 @@
         </option>
       </b-select>
     </b-field>
-    <b-field v-if="showMeta" label="Meta">
-      <b-input v-model="meta"></b-input>
-    </b-field>
+    <component v-if="showMeta" :is="showMeta" @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
@@ -36,19 +34,24 @@ import { getInstance, RmrkType } from '../service/RmrkService';
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
 
-const needMeta: Record<string, boolean> = {
-  SEND: true,
-  LIST: true
+const needMeta: Record<string, string> = {
+  SEND: 'AddressInput',
+  LIST: 'BalanceInput'
 };
 
-@Component({})
+const components = {
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  AddressInput: () => import('@/components/shared/AddressInput.vue') 
+}
+
+@Component({ components })
 export default class AvailableActions extends Vue {
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;
   @Prop() public price!: string;
   @Prop() public nftId!: string;
   private selectedAction: string = '';
-  private meta: string = '';
+  private meta: string | number = '';
   private isLoading: boolean = false;
   private version: string = 'RMRK1.0.0';
 
@@ -88,6 +91,10 @@ export default class AvailableActions extends Vue {
     return `RMRK::${selectedAction}::${version}::${nftId}${
       meta ? '::' + meta : ''
     }`;
+  }
+
+  protected updateMeta(value: string | number) {
+    this.meta = value;
   }
 
   private async submit() {
