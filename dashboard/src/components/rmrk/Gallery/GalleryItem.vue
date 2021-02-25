@@ -1,8 +1,8 @@
  <template>
   <div class="wrapper">
-    <div class="tile is-ancestor">
-      <div class="tile is-half is-8 is-vcentered is-parent">
-        <div class="tile is-child box">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <div class="box">
           <b-image
             v-if="!isLoading && imageVisible"
             :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
@@ -49,8 +49,6 @@
                 {{ $t('legend')}}
               </p>
               <p class="subtitle is-size-7">
-                <b v-if="!isLoading"># {{ nftId }}</b>
-                <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
                 <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                   <Money :value="nft.price" :inline="true" />
                 </b-tag>
@@ -66,7 +64,6 @@
           <Facts :nft="nft" />
         </div>
       </div>
-
     </div>
   </div>
 </template>
