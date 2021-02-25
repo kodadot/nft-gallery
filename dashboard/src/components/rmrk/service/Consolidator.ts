@@ -27,13 +27,15 @@ export default class Consolidator {
   }
 
   public static isAvailableForSale(nft: NFT, previousOwner: string) {
-    return nft.currentOwner !== previousOwner;
+    return Consolidator.callerEquals(nft.currentOwner, previousOwner)
   }
 
   public static consolidate(action: RmrkEvent | string, nft: NFT, previousOwner: string, caller: string): boolean  {
     switch(action) {
       case RmrkEvent.BUY:
         return Consolidator.canBuy(nft, previousOwner)
+        case RmrkEvent.CONSUME:
+          return Consolidator.canConsume(nft, caller)
       default:
         console.warn(`[CONSOLIDATOR] NO consolidation for interaction ${action}`)
     }
@@ -43,6 +45,10 @@ export default class Consolidator {
 
   private static canBuy(nft: NFT, previousOwner: string) {
     return Consolidator.isAvailableForSale(nft, previousOwner);
+  }
+
+  private static canConsume(nft: NFT, caller: string) {
+    return Consolidator.callerEquals(nft.currentOwner, caller)
   }
 
   // private static canMintNft() {
