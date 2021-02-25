@@ -45,8 +45,21 @@ export const pinFile = async (file: Blob): Promise<string> => {
   }
 };
 
+export const unpin = async (hash: string) => {
+    try {
+      const { status, data } = await api.delete(`unpin/${hash}`);
+      console.log('[PINATA] Pin Image', status, data);
+      if (status < 400) {
+        return data;
+      }
+    } catch (e) {
+      throw e;
+    }
+} 
+
 export const unSanitizeIpfsUrl = (url: string) => {
   return `ipfs://ipfs/${url}`;
 };
 
 export default api;
+// QmYt2FydonvVMsEqe2q3hvm38WDq21xM8Z5ZSHZw19PwjF;

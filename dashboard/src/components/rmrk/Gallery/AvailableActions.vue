@@ -30,6 +30,7 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
+import { unpin } from '@/pinata';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -50,6 +51,9 @@ export default class AvailableActions extends Vue {
   @Prop() public accountId!: string;
   @Prop() public price!: string;
   @Prop() public nftId!: string;
+  @Prop() public imageHash!: string;
+  @Prop() public metadataHash!: string;
+  @Prop() public animationHash!: string;
   private selectedAction: string = '';
   private meta: string | number = '';
   private isLoading: boolean = false;
@@ -97,20 +101,23 @@ export default class AvailableActions extends Vue {
     this.meta = value;
   }
 
-  private async submit() {
+  protected async submit() {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
     try {
       showNotification(rmrk)
       console.log('submit', rmrk);
-      const isSend = this.selectedAction === 'SEND';
-      const cb = isSend ? api.tx.utility.batch : api.tx.system.remark
-      const arg = isSend ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const isBuy = this.selectedAction === 'BUY';
+      const cb = isBuy ? api.tx.utility.batch : api.tx.system.remark
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
       showNotification(execResultValue(tx), notificationTypes.success)
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
+      if (this.selectedAction === 'CONSUME') {
+        this.unpinNFT()
+      }
       console.log(persisted)
       console.log('SAVED', persisted?._id);
       showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
@@ -118,6 +125,20 @@ export default class AvailableActions extends Vue {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e);
     }
+  }
+
+  protected unpinNFT() {
+    [this.imageHash, this.metadataHash, this.animationHash]
+    .forEach(async hash => {
+      if (hash) {
+        try {
+          await unpin(hash)
+        } catch (e) {
+          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+        }
+      }
+    }) 
+
   }
 }
 </script>

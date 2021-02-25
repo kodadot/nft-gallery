@@ -22,9 +22,11 @@
                 <p class="subtitle is-size-7">
                   <b v-if="!isLoading"># {{ nftId }}</b>
                   <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
-                  <b-tag v-if="nft.price" type="is-dark" size="is-medium">
-                    <Money :value="nft.price" :inline="true" />
-                  </b-tag>
+                  <div>
+                    <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                      <Money :value="nft.price" :inline="true" />
+                    </b-tag>
+                  </div>
                   <p v-if="!isLoading" 
                     class="subtitle is-size-5">
                     {{ nft.description }}
