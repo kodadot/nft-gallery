@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { RmrkMint, RmrkView } from '../types';
 import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
@@ -82,6 +82,7 @@ import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import NFTUtils from '../service/NftUtils';
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -97,8 +98,7 @@ interface NFTAndMeta extends NFT {
     Tooltip
   }
 })
-export default class CreateToken extends Vue {
-  private version: string = 'RMRK1.0.0';
+export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
   private added: NFTAndMeta[] = [];

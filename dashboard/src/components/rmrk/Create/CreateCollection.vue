@@ -79,6 +79,7 @@ import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
@@ -96,8 +97,7 @@ const components = {
 };
 
 @Component({ components })
-export default class CreateCollection extends Mixins(SubscribeMixin) {
-  private version: string = 'RMRK1.0.0';
+export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersionMixin) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private accountId: string = '';
