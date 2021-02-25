@@ -1,5 +1,5 @@
 import { RmrkType } from './RmrkService';
-import { RmrkInteraction } from '../types';
+import { RmrkEvent, RmrkInteraction } from '../types';
 import { Collection, NFT } from './scheme';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/keyring';
@@ -26,9 +26,24 @@ export default class Consolidator {
     }
   }
 
-  // private static canBuy() {
+  public static isAvailableForSale(nft: NFT, previousOwner: string) {
+    return nft.currentOwner !== previousOwner;
+  }
 
-  // }
+  public static consolidate(action: RmrkEvent | string, nft: NFT, previousOwner: string, caller: string): boolean  {
+    switch(action) {
+      case RmrkEvent.BUY:
+        return Consolidator.canBuy(nft, previousOwner)
+      default:
+        console.warn(`[CONSOLIDATOR] NO consolidation for interaction ${action}`)
+    }
+
+    return true
+  }
+
+  private static canBuy(nft: NFT, previousOwner: string) {
+    return Consolidator.isAvailableForSale(nft, previousOwner);
+  }
 
   // private static canMintNft() {
 

@@ -31,6 +31,7 @@ import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { unpin } from '@/pinata';
+import Consolidator from '../service/Consolidator';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -140,5 +141,20 @@ export default class AvailableActions extends Vue {
     }) 
 
   }
+
+  protected async consolidate(): Promise<boolean> {
+    const rmrkService = getInstance();
+    await rmrkService?.checkExpiredOrElseRefresh()
+
+    if (!rmrkService) {
+      console.warn('NO RMRK SERVICE, Live your life on the edge')
+      return true;
+    }
+
+    const nft = await rmrkService?.getNFT(this.nftId)
+    return Consolidator.consolidate(this.selectedAction, nft, this.currentOwnerId, this.accountId)
+  }
+
+
 }
 </script>
