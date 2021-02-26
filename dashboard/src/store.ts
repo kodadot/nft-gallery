@@ -77,6 +77,32 @@ export default new Vuex.Store({
     keyringLoaded: false,
     chainProperties: {},
     explorer: {},
+    lang: {},
+    language: {
+      userLang: process.env.VUE_APP_I18N_LOCALE || 'en',
+      langsFlags: [
+        // ['cn', '🇨🇳'],
+        // ['de', '🇩🇪'],
+        // ['ua', '🇺🇦'],
+        // ['it', '🇮🇹'],
+        // ['hi', '🇮🇳'],
+        // ['ko', '🇰🇷'], 
+        // ['nl', '🇳🇱'],
+        ['en', '🇬🇧'],
+        ['bn', '🇧🇩'],
+        ['cz', '🇨🇿'],
+        ['es', '🇪🇸'],
+        ['fr', '🇫🇷'],
+        ['jp', '🇯🇵'],
+        ['pl', '🇵🇱'],
+        ['pt', '🇵🇹'],
+        ['sk', '🇸🇰'],
+        ['tu', '🇹🇷'],
+        ['ur', '🇵🇰'],
+        ['vt', '🇻🇳'],
+        ['ru', '🇷🇺'],
+      ]
+    },
     explorerOptions: {},
     development: {},
     error: null,
@@ -94,6 +120,9 @@ export default new Vuex.Store({
     setExplorer(state: any, data) {
       state.explorer = Object.assign(state.explorer, data)
     },
+    setLanguage(state: any, data) {
+      state.language = Object.assign(state.language, data)
+    },
     setExplorerOptions(state: any, data) {
       state.explorerOptions = Object.assign({}, data)
     },
@@ -106,7 +135,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getChainProperties: ({chainProperties}) => chainProperties
+    getChainProperties: ({chainProperties}) => chainProperties,
+    getUserLang: ({ language }) => language.userLang || 'en'
   },
   modules: {
     setting: SettingModule,

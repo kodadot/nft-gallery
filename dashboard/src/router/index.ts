@@ -7,6 +7,7 @@ import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Toolbox from '@/router/toolbox';
 import Rmrk from '@/router/rmrk';
+import Profile from '@/router/profile';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Settings = () => import('@/views/Settings.vue');
@@ -26,6 +27,7 @@ export default new Router({
     ...Transfer, 
     ...Toolbox,
     ...Rmrk,
+    ...Profile,
     {
 			path: '/settings',
       name: 'settings',

@@ -1,6 +1,6 @@
 {
-  "name": "KodaDot - NFT explorer",
   "short_name": "KodaDot_NFT",
+  "name": "KodaDot - Polkadot / Kusama NFT explorer",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

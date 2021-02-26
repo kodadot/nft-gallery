@@ -27,11 +27,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -42,7 +43,7 @@ const needMeta: Record<string, boolean> = {
 };
 
 @Component({})
-export default class AvailableActions extends Vue {
+export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;
   @Prop() public price!: string;
@@ -50,7 +51,6 @@ export default class AvailableActions extends Vue {
   private selectedAction: string = '';
   private meta: string = '';
   private isLoading: boolean = false;
-  private version: string = 'RMRK1.0.0';
 
   get actions() {
     return this.isOwner

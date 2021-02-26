@@ -79,12 +79,14 @@ import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
+import { generateId } from '@/components/rmrk/service/Consolidator'
 
 
 const components = {
@@ -95,8 +97,7 @@ const components = {
 };
 
 @Component({ components })
-export default class CreateCollection extends Mixins(SubscribeMixin) {
-  private version: string = 'RMRK1.0.0';
+export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersionMixin) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private accountId: string = '';
@@ -106,7 +107,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin) {
   private password: string = '';
 
   get rmrkId(): string {
-    return this.generateId(this.accountIdToPubKey);
+    return generateId(this.accountId, this.rmrkMint?.symbol || '')
   }
 
   get accountIdToPubKey() {

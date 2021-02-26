@@ -1,6 +1,8 @@
 import { hexToString, isHex } from '@polkadot/util';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types';
 import { SQUARE } from '../utils'
+import { generateId } from '../service/Consolidator'
+import { Collection, NFT } from './scheme';
 
 class NFTUtils {
   public static decode(value: string) {
@@ -22,8 +24,51 @@ class NFTUtils {
     } catch(e) {
       throw e
     }
+  }
 
+  public static toString(rmrkType: NFT | Collection, version: string = 'RMRK1.0.0'): string {
+    if (NFTUtils.isCollection(rmrkType)) {
+      return NFTUtils.encodeCollection(rmrkType, version)
+    }
 
+    if (NFTUtils.isNFT(rmrkType)) {
+      return NFTUtils.encodeNFT(rmrkType, version)
+    }
+
+    return ''
+  }
+
+  public static encodeCollection(collection: Collection, version: string) {
+    return `RMRK::MINT::${version}::${encodeURIComponent(
+      JSON.stringify(collection)
+    )}`;
+  }
+  
+  protected static encodeNFT(nft: NFT, version: string) {
+    return `RMRK::MINTNFT::${version}::${encodeURIComponent(
+      JSON.stringify(nft)
+    )}`
+  }
+
+  public static collectionFromNFT(symbol: string, nft: NFT, version: string = 'RMRK1.0.0'): Collection {
+    return {
+      id: generateId(nft.currentOwner, symbol),
+      _id: '',
+      symbol,
+      issuer: nft.currentOwner,
+      version,
+      name: nft.name,
+      max: 1,
+      metadata: nft.metadata
+    }
+  }
+
+  public static isCollection(object: Collection | NFT): object is Collection {
+    return 'issuer' in object && 'symbol' in object;
+  }
+
+  public static isNFT(object: Collection | NFT): object is NFT {
+    return 'currentOwner' in object && 'instance' in object;
   }
 
   public static decodeAndConvert(rmrkString: string) {

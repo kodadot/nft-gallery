@@ -60,7 +60,7 @@ export const getPrefixByStoreUrl = (): string | undefined => {
   console.log('getPrefixByStoreUrl', apiUrl);
   
   if (!apiUrl) {
-    return undefined
+    return 'undefined'
   }
 
   return getChainPrefixByUrl(apiUrl)
@@ -68,6 +68,10 @@ export const getPrefixByStoreUrl = (): string | undefined => {
 
 export const getChainPrefixByUrl = (url: string): string | undefined => {
   const option =  ENDPOINTS.find(({ value }) => value === url);
-  return option ? String(prefixes[option?.info]) : undefined
+  if (!option) {
+    return undefined
+  }
+
+  return prefixes[option.info] ? String(prefixes[option?.info]) : undefined
 }
 

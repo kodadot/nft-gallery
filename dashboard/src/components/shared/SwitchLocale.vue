@@ -3,7 +3,8 @@
     placeholder="Language"
     icon="language"
     icon-pack="fas"
-    v-model="$i18n.locale">
+    v-model="userLang"    
+    >
     <option 
       v-for="(lang, i) in langsFlags" 
       :key="`Lang${i}`" 
@@ -17,12 +18,20 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class LocaleChanger extends Vue {
-  public langsFlags: any = [
-    ['en', '🇬🇧'], 
-    ['es','🇪🇸'], 
-    ['jp','🇯🇵'], 
-    ['ko','🇰🇷'], 
-    ['cn', '🇨🇳']
-  ]
+
+get langsFlags() {  
+  return this.$store.state.language.langsFlags;
+}
+
+get userLang() {
+  this.$i18n.locale = this.$store.getters.getUserLang;
+  return this.$store.getters.getUserLang;
+}
+
+set userLang(value) {
+  this.$store.commit('setLanguage', { 'userLang': value})
+  this.$i18n.locale = value
+}
+  
 }
 </script>
