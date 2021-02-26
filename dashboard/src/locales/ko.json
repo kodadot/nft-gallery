@@ -35,7 +35,7 @@
   "Describe your collection, it will show under collection view": 
     "컬렉션 뷰 밑에 표시될 컬렉션 설명",
   "Add collection cover which will show up at collection view": 
-    "컬렉션 뷰에 표시될 컬렉션 커버 추가,
+    "컬렉션 뷰에 표시될 컬렉션 커버 추가",
   "Select collection where do you want mint your token": 
     "토큰을 어디다 넣을지 컬렉션 선택",
   "Maximum NFTs in collection": 
@@ -51,8 +51,7 @@
   "Transferable is by default": "전송가능",
   "Serial Number": "시리얼번호",
   "Name of your token": "토큰이름",
-  "Instance_tooltip": 
-    "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
+  "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "업로드하면 NFT이미지가 업로드됨.",
   "Click to add image": "클릭해서 이미지추가",
   "Add Animated File": "애니 파일 추가",
@@ -63,16 +62,17 @@
   "New here? We have F.A.Q.": "새로왔는가? 질의응답 코너이다.",
   "Feedback? We\\'d be happy to discuss it.": "고객요청? 회의 해 보겠다. ",
   "Read our story, how we started.": "우리 글을 읽어줘 어떻게 시작했을까?!",
-  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",  "자주 묻는 질문": "자주 묻는 질문 답변"
+  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",
+  "자주 묻는 질문": "자주 묻는 질문 답변",
   "FAQQ1": "NFT에 사용되는 동전은 무엇입니까?",
   "FAQA1": 
 "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",
   
-  "FAQQ2": "민트, 구매, 수집하려면 어떤 지갑이 필요합니까?"
-  "FAQA2": "현재 https://polkadot.js.org/extension/\"Polkadot Extension을 사용하는 것이 좋습니다. 나중에 모바일 우선 환경을 추가할 계획입니다. 모든 경우에서, Seed(니모닉)을 백업하면 소유자의 권리와 가치를 부여합니다.</b>,"
+  "FAQQ2": "민트, 구매, 수집하려면 어떤 지갑이 필요합니까?",
+  "FAQA2": "현재 https://polkadot.js.org/extension/\"Polkadot Extension을 사용하는 것이 좋습니다. 나중에 모바일 우선 환경을 추가할 계획입니다. 모든 경우에서, Seed(니모닉)을 백업하면 소유자의 권리와 가치를 부여합니다.</b>",
   "FAQQ3": "어떻게 일을 시작하죠?",
-  "FAQA3": "<aref=\"/#/rmrk/create\"로 이동합니다.">만든다. 먼저 컬렉션을 만든 다음 토큰을 만들어야 합니다. 비디오로 녹화하려면 디엠주세요!"
   "FAQQ4": "KSM과 제 작품을 어떻게 바꿀 수 있을까요?",
-  FAQA4: "그냥 팔면 됩니다. 쿠사마의 일 거래량은 약 2억 달러이며 1달러 KSM은 약 100달러에 거래됩니다."
+  "FAQA4": "그냥 팔면 됩니다. 쿠사마의 일 거래량은 약 2억 달러이며 1달러 KSM은 약 100달러에 거래됩니다.",
   "FAQQ5": "KSM로 어떻게 새로운 작품을 구입할 수 있습니까?",
-"FAQA5":  "We have integration with <a href=\"https://ramp.network\">Ramp.network</a>, click on <a href=\"#/rmrk/credit\">Credit in navbar</a>. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">buy $KSM at Binance</a>",
+"FAQA5":  "We have integration with <a href=\"https://ramp.network\">Ramp.network</a>, click on <a href=\"#/rmrk/credit\">Credit in navbar</a>. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">buy $KSM at Binance</a>"
+}
