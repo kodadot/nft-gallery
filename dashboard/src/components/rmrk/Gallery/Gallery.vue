@@ -14,7 +14,7 @@
     <div>
       <div class="columns is-multiline">
         <div
-          class="column is-one-quarter-desktop is-one-third-tablet"
+          class="column is-4"
           v-for="nft in nfts"
           :key="nft.id"
         >
