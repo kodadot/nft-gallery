@@ -35,7 +35,7 @@
   "Describe your collection, it will show under collection view": 
     "컬렉션 뷰 밑에 표시될 컬렉션 설명",
   "Add collection cover which will show up at collection view": 
-    "컬렉션 뷰에 표시될 컬렉션 커버 추가",
+    "컬렉션 뷰에 표시될 컬렉션 커버 추가,
   "Select collection where do you want mint your token": 
     "토큰을 어디다 넣을지 컬렉션 선택",
   "Maximum NFTs in collection": 
@@ -51,7 +51,8 @@
   "Transferable is by default": "전송가능",
   "Serial Number": "시리얼번호",
   "Name of your token": "토큰이름",
-  "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
+  "Instance_tooltip": 
+    "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "업로드하면 NFT이미지가 업로드됨.",
   "Click to add image": "클릭해서 이미지추가",
   "Add Animated File": "애니 파일 추가",
@@ -62,17 +63,52 @@
   "New here? We have F.A.Q.": "새로왔는가? 질의응답 코너이다.",
   "Feedback? We\\'d be happy to discuss it.": "고객요청? 회의 해 보겠다. ",
   "Read our story, how we started.": "우리 글을 읽어줘 어떻게 시작했을까?!",
-  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",
-  "자주 묻는 질문": "자주 묻는 질문 답변",
+  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",  "자주 묻는 질문": "자주 묻는 질문 답변"
   "FAQQ1": "NFT에 사용되는 동전은 무엇입니까?",
   "FAQA1": 
 "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",
   
-  "FAQQ2": "민트, 구매, 수집하려면 어떤 지갑이 필요합니까?",
-  "FAQA2": "현재 https://polkadot.js.org/extension/\"Polkadot Extension을 사용하는 것이 좋습니다. 나중에 모바일 우선 환경을 추가할 계획입니다. 모든 경우에서, Seed(니모닉)을 백업하면 소유자의 권리와 가치를 부여합니다.</b>",
+  "FAQQ2": "민트, 구매, 수집하려면 어떤 지갑이 필요합니까?"
+  "FAQA2": "현재 https://polkadot.js.org/extension/\"Polkadot Extension을 사용하는 것이 좋습니다. 나중에 모바일 우선 환경을 추가할 계획입니다. 모든 경우에서, Seed(니모닉)을 백업하면 소유자의 권리와 가치를 부여합니다.</b>,"
   "FAQQ3": "어떻게 일을 시작하죠?",
+  "FAQA3": "<aref=\"/#/rmrk/create\"로 이동합니다.\">만든다. 먼저 컬렉션을 만든 다음 토큰을 만들어야 합니다. 비디오로 녹화하려면 디엠주세요!"
   "FAQQ4": "KSM과 제 작품을 어떻게 바꿀 수 있을까요?",
-  "FAQA4": "그냥 팔면 됩니다. 쿠사마의 일 거래량은 약 2억 달러이며 1달러 KSM은 약 100달러에 거래됩니다.",
+  "FAQA4": "그냥 팔면 됩니다. 쿠사마의 일 거래량은 약 2억 달러이며 1달러 KSM은 약 100달러에 거래됩니다."
   "FAQQ5": "KSM로 어떻게 새로운 작품을 구입할 수 있습니까?",
-"FAQA5":  "We have integration with <a href=\"https://ramp.network\">Ramp.network</a>, click on <a href=\"#/rmrk/credit\">Credit in navbar</a>. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">buy $KSM at Binance</a>"
+"FAQA5":  "We have integration with <a href=\"https://ramp.network\">Ramp.network</a>, click on <a href=\"#/rmrk/credit\">Credit in navbar</a>. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">buy $KSM at Binance</a>",
+
+"FAQQ6": "ETH, DAI, BTC를 통해 KSM을 구입하는 방법"?",
+  "FAQA6": "최상의 요금으로, 당신은 =\"https://www.coingecko.com/en/coins/kusama\"에서보면https://www.binance.com/en/register?ref=T1JB89F0\" 에서 거래하는 것이 가장 좋을거야.
+"FAQQ7": "NFT 크리에이터일 때의 등록절차는 어떻게되나요?"
+  "FAQA7": "우선 <f=\"https://polkadot.js.org/extension/\"을(를) 설치해야 합니다. Polkadot Extension=/a, <을(를) 설치해야 합니다. 그런 다음 =Credit=\"#/rmrk/credit\" 기능을 통해 지갑 주소를 보충하십시오. 자금이 확보되면, <ahref=\"/#/rmrk/create\"로 이동합니다.>만들기</a>, 컬렉션을 만듭니다. 컬렉션이 종료될 때까지 기다렸다가 [ahref=\"/#/rmrk/create\"로 이동합니다.>토큰을 만들고 당신의 첫 번째 토큰(NFT)을 민트하세요! 만약 문제가 있었다면, 우리는 UX-흐름에 대해 연구하고 있습니다. Koda Dot은 약 한 달 된 코드를 가지고 있으며 아직 개선의 여지가 있습니다. 참고하십시오. 우리는 단지 2인 1조입니다.,
+  "FAQQ8": "가상 세계에서 사용할 수 있습니까?",
+  "FAQA8": "우리는 가능성을 탐색하고 있으며, 실제로 이정표 2에서 이에 대해 적극적으로 연구할 계획입니다."
+  "FAQQ9": "오류가 있는데 어떻게 해결해야 합니까?",
+  "FAQA9": "우리는 매일 증분 업데이트를 제공하고 가능한 한 빨리 수정하려고 합니다. 새 버전을 게시할 수 있으며 브라우저가 이전 버전을 캐시했습니다. Windows(윈도우) <(윈도우)를 사용하는 경우 <Ctrl을 누른 다음 F5</b>를 누릅니다. <Mac 사용자 <, <CMD 및 Shift 키를 누른 다음 R</b>를 누릅니다. 이 방법이 도움이 되지 않는다면, 개발자 콘솔이 열려 있는 스크린샷이 있는 트위터의 DM이 도움이 됩니다.
+  "FAQQ10": "SEND, EXPERY, LIST는 무엇을 의미합니까?",
+  "FAQA10": "SEND가 다른 사람에게 보낼 것입니다. 소비자는 그것을 불태우고, LIST는 누군가가 당신에게 그것을 살 수 있도록 판매를 위해 그것을 나열할 것입니다."
+  "FAQQ11": "NFT를 주조했는데 갤러리에는 보이지 않는데, 어디에 있나요?"
+  "FAQA11": "가장 좋은 방법은 <a href=\"https://kusama.subscan.io/\">Subscan Explorer</a> and lookup your address. 에서 주소를 조회합니다. = href=\"the://kusama.subscan.io/extrinsic/6095478-1\">외부를 보면 탐험가를 통해 NFT가 어떻게 주조되었는지 예를 찾을 수 있다.
+  "FAQQ12": "어느 나라가 온-오프라인 지원을 받습니까?",
+  "FAQA12":"지금 미국은 안되는데 다른나라는 다 가능해!! <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\">full list of supported countries</a>full 목록을 잘 알고 있다.countries</a>지원을 받고 있다. 지금은 통제할 수 없는 상황입니다."
+  "FAQQ13": "내 토큰을 어떻게 팔 수있니?",
+  "FAQA13": "지금 당장은 LIST in Actions를 사용할 것입니다."
+  "FAQQ14": "로열티 스트림 설정?",
+  "FAQA14": "지금은, 연쇄 논리는 없지만, 조만간 뭔가 대단한 것을 구현할 계획입니다. https://twitter.com/kodadot\"https://twitter.com/kodadot\"@KodaDot을 따라오세요!</a>,"
+  "FAQQ15": "어떻게 하면 나만의 가게를 만들 수 있을까?",
+  "FAQA15": "우리는 컬렉션 뷰, 컬렉션 뷰를 구현하고 있습니다. https://twitter.com/kodadot\"https://twitter.com/kodadot\"@KodaDot을 따라오세요!</a>,"
+  "FAQQ16": "감사는 어떻게 되는가?",
+  "FAQA16": "NFT 토큰 아래 있는 하트 🖤입니다. 우리는 감상처럼 작동하는 RMRK 표준 =/a에서 EMOTE의 = 이 기능은 작업에 대한 가격 검색입니다."
+  "FAQQ17": "자금 지원되었나요?",
+  "FAQA17": "현재, 우리는 =a href=\"twright://kusama를 가지고 있습니다.polkassembly.io/post/384\"> 이정표 1에 대한 쿠사마 재무부 자금 지원. 우리는 적극적으로 자금 조달 방안을 모색하고 있으며, 결국 개인 자금을 조달할 것이다. 개인 판매에 관심이 있으시다면 DM주세요.
+  "FAQQ18": "텔레그램 채널 있어요?"
+  "FAQA18": "NFT 크리에이터를 위한 전용 채널만 있습니다. NFT 크리에이터라면 DM 주세요!"
+  "FAQQ19": "AR/VR 모드 또는 구현을 원하십니까?",
+  "FAQA19": "예, 마일스톤 2의 일부입니다. 계속 튜닝하십시오!"
+  "FAQQ20": "개발자 콘솔을 여는 방법?",
+  "FAQA20": "Mac을 사용하는 경우 Chrome에서 <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.\"를 누릅니다."
+  "FAQQ21": "확장용 메타데이터를 업데이트하려면 어떻게 해야 합니까?",
+  "FAQA21": "https://cloudflare-ipfs.com/ipns/dotapps.io/으로 이동 후에 ?href=\"ws%3A%2F%2Fkusama-rpc.polkadot.io#/설정/메타데이터\">Dotapps.io, 설정 > 메타데이터 Dotapps.io에서 해당 버튼을 확인한 다음 창을 새로 고칩니다. 최신 체인 유형으로 작업해야 합니다.",
+  "FAQQ22": "[']저는 \"저균형 오류\"를 가지고 있습니다.
+  "FAQA22": "계좌에 계좌이체가 가능한 $KSM이 있는지 확인해라. 그건 다르지. https://cloudflare-ipfs.com/ipns/dotapps.io/?href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?ws%3에서 확인하실 수 있습니다.A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > 계좌와 잔액으로 보면 < 송금 가능한 금액을 알 수 있습니다."
 }
