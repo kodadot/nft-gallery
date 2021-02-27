@@ -73,7 +73,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
-import MarkdownItVue from 'markdown-it-vue';
+// import MarkdownItVue from 'markdown-it-vue';
 // import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd.min.js';
 import 'markdown-it-vue/dist/markdown-it-vue.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
@@ -92,6 +92,7 @@ import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
 import { MetaInfo } from 'vue-meta';
+// import { VueConstructor } from 'vue';
 
 type NFTType =  NFTWithMeta;
 
@@ -121,7 +122,7 @@ type NFTType =  NFTWithMeta;
     AccountSelect,
     AvailableActions,
     Facts,
-    MarkdownItVue,
+    // MarkdownItVue: MarkdownItVue as VueConstructor<Vue>,
     Money,
     Name,
     Sharing,
