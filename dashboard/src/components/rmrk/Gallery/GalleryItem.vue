@@ -54,6 +54,8 @@
                 </b-tag>
                 <p v-if="!isLoading" 
                   class="subtitle is-size-5">
+                  <!-- <markdown-it-vue class="md-body" :content="nft.description" /> -->
+                  <!-- <markdown-it-vue-light class="md-body" :content="nft.description" /> -->
                   {{ nft.description }}
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
@@ -71,6 +73,9 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
+// import MarkdownItVue from 'markdown-it-vue';
+// import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd.min.js';
+import 'markdown-it-vue/dist/markdown-it-vue.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
@@ -87,6 +92,7 @@ import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
 import { MetaInfo } from 'vue-meta';
+// import { VueConstructor } from 'vue';
 
 type NFTType =  NFTWithMeta;
 
@@ -115,10 +121,11 @@ type NFTType =  NFTWithMeta;
   components: {
     AccountSelect,
     AvailableActions,
-    Money,
-    Sharing,
     Facts,
+    // MarkdownItVue: MarkdownItVue as VueConstructor<Vue>,
+    Money,
     Name,
+    Sharing,
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     PackSaver: () => import('../Pack/PackSaver.vue')
