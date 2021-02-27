@@ -12,9 +12,7 @@
         </option>
       </b-select>
     </b-field>
-    <b-field v-if="showMeta" label="Meta">
-      <b-input v-model="meta"></b-input>
-    </b-field>
+    <component v-if="showMeta" :is="showMeta" @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
@@ -32,24 +30,34 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
+import { unpin } from '@/pinata';
+import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
 
-const needMeta: Record<string, boolean> = {
-  SEND: true,
-  LIST: true
+const needMeta: Record<string, string> = {
+  SEND: 'AddressInput',
+  LIST: 'BalanceInput'
 };
 
-@Component({})
+const components = {
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  AddressInput: () => import('@/components/shared/AddressInput.vue') 
+}
+
+@Component({ components })
 export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;
   @Prop() public price!: string;
   @Prop() public nftId!: string;
+  @Prop() public imageHash!: string;
+  @Prop() public metadataHash!: string;
+  @Prop() public animationHash!: string;
   private selectedAction: string = '';
-  private meta: string = '';
+  private meta: string | number = '';
   private isLoading: boolean = false;
 
   get actions() {
@@ -90,20 +98,27 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     }`;
   }
 
-  private async submit() {
+  protected updateMeta(value: string | number) {
+    this.meta = value;
+  }
+
+  protected async submit() {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
     try {
       showNotification(rmrk)
       console.log('submit', rmrk);
-      const isSend = this.selectedAction === 'SEND';
-      const cb = isSend ? api.tx.utility.batch : api.tx.system.remark
-      const arg = isSend ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const isBuy = this.selectedAction === 'BUY';
+      const cb = isBuy ? api.tx.utility.batch : api.tx.system.remark
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
       showNotification(execResultValue(tx), notificationTypes.success)
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
+      if (this.selectedAction === 'CONSUME') {
+        this.unpinNFT()
+      }
       console.log(persisted)
       console.log('SAVED', persisted?._id);
       showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
@@ -112,5 +127,34 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       console.error(e);
     }
   }
+
+  protected unpinNFT() {
+    [this.imageHash, this.metadataHash, this.animationHash]
+    .forEach(async hash => {
+      if (hash) {
+        try {
+          await unpin(hash)
+        } catch (e) {
+          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+        }
+      }
+    }) 
+
+  }
+
+  protected async consolidate(): Promise<boolean> {
+    const rmrkService = getInstance();
+    await rmrkService?.checkExpiredOrElseRefresh()
+
+    if (!rmrkService) {
+      console.warn('NO RMRK SERVICE, Live your life on the edge')
+      return true;
+    }
+
+    const nft = await rmrkService?.getNFT(this.nftId)
+    return Consolidator.consolidate(this.selectedAction, nft, this.currentOwnerId, this.accountId)
+  }
+
+
 }
 </script>

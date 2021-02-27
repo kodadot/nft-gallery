@@ -48,7 +48,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return this._client.context.withKeyInfo(keysToTheKingdom)
   }
 
-  protected async checkExpiredOrElseRefresh() {
+  public async checkExpiredOrElseRefresh() {
     console.log('checkExpiredOrElseRefresh', this.isAuthExpired)
     if (this.isAuthExpired) {
       try {

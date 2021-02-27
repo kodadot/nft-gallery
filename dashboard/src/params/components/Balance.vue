@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import { isHex, hexToString, hexToBn, hexToNumber } from '@polkadot/util';
-import { Unit } from '../types';
+import { units as defaultUnits } from '@/params/constants'
 
 @Component
 export default class Balance extends Vue {
