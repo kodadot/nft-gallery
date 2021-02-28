@@ -3,6 +3,7 @@ import { RmrkEvent, RMRK, RmrkInteraction } from '../types';
 import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT } from './scheme';
+import slugify from 'slugify';
 
 class NFTUtils {
   public static decode(value: string) {
@@ -54,7 +55,7 @@ class NFTUtils {
     return {
       id: generateId(nft.currentOwner, symbol),
       _id: '',
-      symbol,
+      symbol: slugify(symbol, '_').toUpperCase(),
       issuer: nft.currentOwner,
       version,
       name: nft.name,
