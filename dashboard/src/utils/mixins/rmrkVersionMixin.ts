@@ -6,9 +6,5 @@ import { Component, Vue } from 'vue-property-decorator';
 */
 @Component
 export default class RmrkVersionMixin extends Vue {
-  private _version = '1.0.0'
-
-  get version() {
-    return this._version
-  }
+  public version = '1.0.0'
 }
