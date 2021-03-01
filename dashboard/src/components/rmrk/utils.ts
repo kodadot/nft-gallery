@@ -10,7 +10,7 @@ import {
 } from './types';
 import api from '@/fetch';
 import { RmrkType } from './service/RmrkService';
-import { NFTMetadata } from './service/scheme';
+import { NFTMetadata, Collection } from './service/scheme';
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
@@ -206,8 +206,6 @@ export const resolveMedia = (mimeType: string): MediaType => {
 };
 
 export const decode = (value: string) => decodeURIComponent(value);
-
-
 export const nftSort = (a: any, b: any) => b._mod - a._mod
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr) 

@@ -6,15 +6,19 @@
           <p class="title">
             Profile
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity :address="id"
+              ><Identity :address="id" :inline="true"
             /></a>
           </p>
+          <Sharing label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" />
         </div>
       </div>
     </div>
     <b-tabs type="is-toggle" v-model="activeTab" expanded>
       <b-tab-item label="NFTs">
         <GalleryCardList :items="nfts" />    
+      </b-tab-item>
+      <b-tab-item label="Collections">
+        <GalleryCardList :items="collections" type="collectionDetail" />    
       </b-tab-item>
       <b-tab-item label="Packs">
         <GalleryCardList :items="packs" type="packDetail" />
@@ -41,10 +45,12 @@ import {
   NFTWithMeta,
   Pack
 } from '@/components/rmrk/service/scheme';
-import GalleryCardList from '@/components/rmrk/Gallery/GalleryCardList.vue';
-import Identity from '@/components/shared/format/Identity.vue';
 
-const components = { GalleryCardList, Identity };
+const components = {
+  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+  Identity: () => import('@/components/shared/format/Identity.vue')
+};
 
 @Component({ components })
 export default class Profile extends Vue {
@@ -68,10 +74,11 @@ export default class Profile extends Vue {
       this.nfts = await rmrkService
         .getNFTsForAccount(this.id)
         .then(defaultSortBy);
+      this.nftMeta();
+      this.collections = await rmrkService.getCollectionListForAccount(
+        this.id
+      ).then(defaultSortBy);
       this.collectionMeta();
-      // const collections = await rmrkService.getCollectionListForAccount(
-      //   this.id
-      // ).then(defaultSortBy);
       this.packs = await rmrkService.getPackListForAccount(this.id).then(defaultSortBy);
       // console.log(packs)
     } catch (e) {
@@ -89,6 +96,17 @@ export default class Profile extends Vue {
   }
 
   collectionMeta() {
+    this.collections.map(fetchCollectionMetadata).forEach(async (call, index) => {
+      const res = await call;
+      Vue.set(this.collections, index, {
+        ...this.collections[index],
+        ...res,
+        image: sanitizeIpfsUrl(res.image || '')
+      });
+    });
+  }
+
+  nftMeta() {
     this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
       const res = await call;
       Vue.set(this.nfts, index, {
@@ -98,5 +116,7 @@ export default class Profile extends Vue {
       });
     });
   }
+
+
 }
 </script>

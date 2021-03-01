@@ -31,8 +31,9 @@
             <p class="title is-size-4">
               {{ $t('owner') }}
             </p>
-            <p class="subtitle is-size-7">
-              <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a>
+            <p class="subtitle is-size-6">
+              <ProfileLink :address="nft.currentOwner" />
+              <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
             </p>
           </div>
         </div>
@@ -42,10 +43,10 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identity from '@/components/shared/format/Identity.vue'
+// import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
-  Identity
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 }
 
 @Component({ components })

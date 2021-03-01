@@ -156,14 +156,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return emptyObject<CompletePack>();
   }
 
-  //   async getNFTByIds(id: string | string[]): Promise<NFT[]> {
-  //   this.useNFT();
-  //   this.shouldExist(id);
-  //   const query: Query = new Where('owner').eq(account)
-  //   const nft = await this.getCollection<NFT>(id)
-  //   return nft
-  // }
-
+  async getCollectionById(id: string): Promise<Collection> {
+    this.useCollection();
+    // this.shouldExist(id);
+    const collection = await this.getCollection<Collection>(id)
+    return collection
+  }
 
   // async getPackListByIds(account: string, ids: string[]): Promise<Pack[]> {
   //   this.usePack();

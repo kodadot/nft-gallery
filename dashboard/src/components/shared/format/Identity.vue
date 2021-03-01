@@ -1,14 +1,14 @@
 <template>
-  <div v-clipboard:copy="address">
+  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign }">
     {{ name | toString }}
-  </div>
+  </component>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
-import IdentityMixin from '@/utils/mixins/identityMixin'
+import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId';
 import { hexToString } from '@polkadot/util';
 
@@ -17,13 +17,19 @@ type Address = string | GenericAccountId | undefined
 const components = {}
 
 @Component({ components })
-export default class Identity extends Vue {
+export default class Identity extends Mixins(InlineMixin) {
+  // @Prop({ default: false }) inline!: boolean;
   @Prop() public address!: Address;
+  @Prop() public verticalAlign!: boolean;
   private identity: Registration = {} as Registration;
 
   get identityInfo(): IdentityInfo {
     return this.identity?.info
   }
+
+  // get is() {
+  //   return this.inline ? 'span' : 'div'
+  // }
 
   get name(): Address {
     console.log('name', this.identityInfo);
@@ -66,3 +72,9 @@ export default class Identity extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.aligned {
+  vertical-align: middle;
+}
+</style>

@@ -4,14 +4,12 @@
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title">
-            {{ name }}
+            Collection {{ name }}
           </p>
           <p class="subtitle">
-            Curated by: <a v-if="owner" :href="`https://kusama.subscan.io/account/${owner}`" target="_blank"
-              ><Identity :address="owner" :inline="true"
-            /></a>
+            Issued by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
-          <Sharing label="Check this awesome Pack on %23KusamaNetwork %23KodaDot" />
+          <Sharing label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" />
         </div>
       </div>
     </div>
@@ -26,31 +24,28 @@ import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '../service/RmrkService';
-import { CompletePack } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
+import { fetchNFTMetadata, sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata } from '../utils';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 };
 
 @Component({ components })
-export default class PackItem extends Vue {
+export default class CollectionItem extends Vue {
   private id: string = '';
-  private pack: CompletePack = emptyObject<CompletePack>();
+  private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
+  private nfts: NFTWithMeta[] = [];
   private isLoading: boolean = false;
 
   get name() {
-    return this.pack.name || this.id
+    return this.collection.name || this.id
   }
 
   get owner() {
-    return this.pack.owner || ''
-  }
-
-  get nfts() {
-    return this.pack.nfts || [];
+    return this.collection.issuer || ''
   }
 
   public async mounted() {
@@ -63,7 +58,10 @@ export default class PackItem extends Vue {
   this.isLoading = true;
 
   try {
-    this.pack = await rmrkService.getCompletePack(this.id);
+    await rmrkService.getCollectionById(this.id).then(this.collectionMeta);
+    this.nfts = await rmrkService
+        .getNFTsForCollection(this.id)
+        .then(defaultSortBy);
     this.nftMeta();
     // const collections = await rmrkService.getCollectionListForAccount(
     //   this.id
@@ -83,12 +81,27 @@ export default class PackItem extends Vue {
       this.id = this.$route.params.id;
     }
   }
+  
+  collectionMeta(collection: Collection) {
+    fetchCollectionMetadata(collection)
+    .then(
+      meta => this.collection = {
+        ...collection,
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+      },
+      e => {
+        showNotification(`${e}`, notificationTypes.danger);
+        console.warn(e);
+      }
+    )
+  }
 
   nftMeta() {
-    this.pack.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
+    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
       const res = await call;
-      Vue.set(this.pack.nfts, index, {
-        ...this.pack.nfts[index],
+      Vue.set(this.nfts, index, {
+        ...this.nfts[index],
         ...res,
         image: sanitizeIpfsUrl(res.image || '')
       });

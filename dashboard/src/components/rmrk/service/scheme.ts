@@ -1,3 +1,5 @@
+import { sanitizeIpfsUrl } from '../utils'
+
 export interface CompletePack extends BasePack {
   collections: Collection[];
   nfts: NFT[];
@@ -160,3 +162,16 @@ export const computeAndUpdateCollection = (collection: Collection): Collection =
     _id: collection.id
   }
 }
+
+export const mergeCollection = (collection: Collection, metadata: CollectionMetadata): CollectionWithMeta => ({
+  ...collection,
+  ...metadata,
+  image: sanitizeIpfsUrl(metadata.image || '')
+})
+
+
+export const mergeNFT = (nft: NFT, metadata: NFTMetadata): NFTWithMeta => ({
+  ...nft,
+  ...metadata,
+  image: sanitizeIpfsUrl(metadata.image || '')
+})
