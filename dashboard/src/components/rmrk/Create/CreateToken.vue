@@ -181,7 +181,8 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       metadata: metaHash,
       currentOwner: this.accountId,
       transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.name, '_').toUpperCase()
+      instance: slugify(nftForMint.name, '_').toUpperCase(),
+      collection: this.oneByOne ? generateId(this.accountId, this.symbol) : nftForMint.collection
     };
   }
 
