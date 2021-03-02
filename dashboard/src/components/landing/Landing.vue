@@ -7,7 +7,7 @@
             <router-link :to="{ name: 'nft' }">
               <b-icon  
                 icon="magic"
-                size="is-large">
+                size="is-medium">
               </b-icon> 
               KodaDot NFT  {{ $t('Explorer') }}<br>
             </router-link>
@@ -51,14 +51,11 @@
                   </a>
                 </h2><br>
               </div>
-            </div>
-              <div class="tile is-parent is-vertical">
-                <div class="tile is-child">
+              <div class="tile is-child">
                   <h2 class="title is-3">
                     <b-icon
                       pack="fab"
                       icon="telegram-plane"
-                      size="is-medium"
                     ></b-icon>
                       Community
                   </h2>
@@ -67,6 +64,26 @@
                       v-for="community in publicCommunity"
                       :key="community[0]">
                         <a :href="community[1]">{{ community[0] }}</a>
+                      </li>
+                  </h2>
+                </div>  
+            </div>
+              <div class="tile is-parent is-vertical">
+                <div class="tile is-child">
+                  <h2 class="title is-3">
+                    <b-icon
+                      pack="fas"
+                      icon="ghost"
+                    ></b-icon>
+                      Creators Spotlight
+                  </h2>
+                  <h2 class="subtitle is-4">
+                    <li 
+                      v-for="c in creators"
+                      :key="c">
+                        <router-link :to="{ name: 'profile', params: { id: c } }">
+                          {{ c | shortAddress }}
+                        </router-link>
                       </li>
                   </h2>
                 </div>
@@ -106,14 +123,30 @@ export default class Landing extends Vue {
     ['Poland', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
     ['Vietnamese', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
-    ['Want to help to translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
+
+  public creators: any = [
+    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
+    'Dx6nVUy6f2znn4ZwNZ3TGbEyUz3FLbCRGQGKAut4LxjCVRs',
+    'J6mwrrDE5ZywDe8T4mWgsdgHCcrDcrVtoGh37i7PSaZARRs',
+    'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby',
+    'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
+  ]
+
 }
 </script>
 
 <style scoped>
 .subtitle {
   text-decoration: underline;
+}
+
+.truncate {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li {

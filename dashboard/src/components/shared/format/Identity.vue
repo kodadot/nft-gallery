@@ -1,6 +1,6 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign }">
-    {{ name | toString }}
+    {{ name | toString | shortAddress }}
   </component>
 </template>
 
