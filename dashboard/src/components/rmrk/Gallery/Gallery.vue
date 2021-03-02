@@ -66,13 +66,10 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import { fetchNFTMetadata, sanitizeIpfsUrl, defaultSortBy } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 
 type NFTType = NFT | NFTWithMeta;
-
-const nftSort = (a: any, b: any) => b._mod - a._mod
-
 const components = { GalleryCardList }
 
 @Component({ components })
@@ -88,7 +85,7 @@ export default class Gallery extends Vue {
     }
 
     try {
-      this.nfts = await rmrkService.getAllNFTs().then(arr => arr.slice().sort(nftSort));
+      this.nfts = await rmrkService.getAllNFTs().then(defaultSortBy);
       this.collectionMeta();
     } catch (e) {
       console.warn(e);
