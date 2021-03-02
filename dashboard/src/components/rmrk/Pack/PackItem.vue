@@ -7,9 +7,7 @@
             {{ name }}
           </p>
           <p class="subtitle">
-            Curated by: <a v-if="owner" :href="`https://kusama.subscan.io/account/${owner}`" target="_blank"
-              ><Identity :address="owner" :inline="true"
-            /></a>
+            Curated by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
           <Sharing label="Check this awesome Pack on %23KusamaNetwork %23KodaDot" />
         </div>
@@ -32,7 +30,7 @@ import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 };
 
 @Component({ components })
