@@ -81,13 +81,13 @@ export default new Vuex.Store({
     language: {
       userLang: process.env.VUE_APP_I18N_LOCALE || 'en',
       langsFlags: [
-        // ['cn', '🇨🇳'],
         // ['de', '🇩🇪'],
         // ['ua', '🇺🇦'],
         // ['it', '🇮🇹'],
         // ['hi', '🇮🇳'],
         ['en', '🇬🇧'],
         ['bn', '🇧🇩'],
+        ['cn', '🇨🇳'],
         ['cz', '🇨🇿'],
         ['es', '🇪🇸'],
         ['fr', '🇫🇷'],

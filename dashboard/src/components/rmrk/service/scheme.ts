@@ -1,7 +1,13 @@
-interface Astronaut {
-  name: string;
-  missions: number;
-  _id: string;
+import { sanitizeIpfsUrl } from '../utils'
+
+export interface CompletePack extends BasePack {
+  collections: Collection[];
+  nfts: NFT[];
+}
+
+export interface CompletePackWithItemMeta extends BasePack {
+  collections: CollectionWithMeta[];
+  nfts: NFTWithMeta[];
 }
 
 export interface Attribute {
@@ -121,7 +127,7 @@ export interface NFT {
   blockNumber?: number;
 }
 
-export interface Pack {
+export interface BasePack {
   _id: string;
   id: string;
   owner: string;
@@ -129,6 +135,9 @@ export interface Pack {
   image?: string;
   description?: string;
   metadata?: string;
+}
+
+export interface Pack extends BasePack {
   collections: Record<string, boolean>;
   nfts: Record<string, boolean>;
   social?: Record<string, string>; 
@@ -153,3 +162,16 @@ export const computeAndUpdateCollection = (collection: Collection): Collection =
     _id: collection.id
   }
 }
+
+export const mergeCollection = (collection: Collection, metadata: CollectionMetadata): CollectionWithMeta => ({
+  ...collection,
+  ...metadata,
+  image: sanitizeIpfsUrl(metadata.image || '')
+})
+
+
+export const mergeNFT = (nft: NFT, metadata: NFTMetadata): NFTWithMeta => ({
+  ...nft,
+  ...metadata,
+  image: sanitizeIpfsUrl(metadata.image || '')
+})

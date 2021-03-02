@@ -4,6 +4,8 @@ const GalleryItem = () => import('@/components/rmrk/Gallery/GalleryItem.vue')
 const rmrkCredit = () => import('@/components/rmrk/Credit/Credit.vue')
 const rmrkFaq = () => import('@/components/rmrk/Faq.vue')
 const Packs = () => import('@/components/rmrk/Pack/Packs.vue')
+const PackItem = () => import('@/components/rmrk/Pack/PackItem.vue')
+const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vue')
 
 export default [
   {
@@ -35,5 +37,15 @@ export default [
     path: '/rmrk/packs',
     name: 'packs',
     component: Packs,
+  },
+  {
+    path: '/rmrk/pack/:id',
+    name: 'packDetail',
+    component: PackItem,
+  },
+  {
+    path: '/rmrk/collection/:id',
+    name: 'collectionDetail',
+    component: CollectionItem,
   },
 ];

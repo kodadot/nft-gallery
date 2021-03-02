@@ -5,7 +5,7 @@
       v-for="nft in items"
       :key="nft.id"
     >
-      <GalleryCard :id="nft.id" :name="nft.name" :image="nft.image" />
+      <GalleryCard :id="nft.id" :name="nft.name" :image="nft.image" :type="type" />
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@ const components = { GalleryCard };
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
+  @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop() public items!: RmrkType[];
 }
 </script>

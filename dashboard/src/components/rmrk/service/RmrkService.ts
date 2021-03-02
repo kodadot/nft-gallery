@@ -1,5 +1,5 @@
-import { Client, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack } from './scheme'
+import { Client, CriterionJSON, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
@@ -7,6 +7,7 @@ import { emptyObject } from '@/utils/empty';
 import Consolidator, { generateId } from './Consolidator';
 import { keyInfo as keysToTheKingdom } from '@/textile'
 import slugify from 'slugify';
+import mingo from 'mingo'
 
 export type RmrkType = Collection | NFT | Emotion | Pack
 
@@ -131,6 +132,35 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     const query: QueryJSON = new Where('owner').eq(account)
     const collections = await this.find<Pack>(query)
     return collections
+  }
+
+  async getCompletePack(id: string): Promise<CompletePack> {
+    this.usePack();
+    try {
+      const pack = await this.findById<Pack>(id);
+      this.useNFT();
+      const nfts = Object.keys(pack.nfts) ? await this.find<NFT>(this.queryById(Object.keys(pack.nfts))) : [];
+      // this.useCollection();
+      // const collections = Object.keys(pack.collections) ? await this.find<Collection>(this.queryById(Object.keys(pack.collections))) : [];
+      const completePack: CompletePack = {
+        ...pack,
+        nfts,
+        collections: [],
+      }
+
+      return completePack;
+
+    } catch (e) {
+      console.warn(`[RMRK SERVICE] Complete pack failed ${e}`)
+    }
+    return emptyObject<CompletePack>();
+  }
+
+  async getCollectionById(id: string): Promise<Collection> {
+    this.useCollection();
+    // this.shouldExist(id);
+    const collection = await this.getCollection<Collection>(id)
+    return collection
   }
 
   // async getPackListByIds(account: string, ids: string[]): Promise<Pack[]> {
@@ -313,6 +343,24 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return appreciation;
     
 
+  }
+
+  private queryById(ids: string | string[]): Query {
+    if (!Array.isArray(ids)) {
+      return new Where('id').eq(ids)
+    }
+
+    const query = new Query();
+    ids.forEach((id, index) => {
+      const expr = new Where('id').eq(id);
+      if (!index) {
+        query.and('id').eq(id)
+      } else {
+        query.or(expr)
+      }
+    })
+
+    return query
   }
 
   private async mint(view: object, caller: string, blocknumber?: string | number): Promise<Collection> {

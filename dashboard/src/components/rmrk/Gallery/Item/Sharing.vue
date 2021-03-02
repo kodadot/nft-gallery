@@ -59,9 +59,10 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class Sharing extends Vue {
+  @Prop({ default: 'Check this cool NFT on %23KusamaNetwork %23kodadot' }) label!: string;
 
   get helloText() {
-    return 'Check this cool NFT on %23KusamaNetwork %23kodadot';
+    return this.label;
   }
 
   get realworldFullPath() {
@@ -82,6 +83,10 @@ export default class Sharing extends Vue {
 
   get linemeUri() {
     return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
+  }
+  
+  public toast(message: string): void {
+    this.$buefy.toast.open(message);
   }
 }
 </script>

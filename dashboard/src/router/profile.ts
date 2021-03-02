@@ -5,5 +5,5 @@ export default [
     path: '/u/:id',
     name: 'profile',
     component: Profile,
-  },
+  }
 ];
