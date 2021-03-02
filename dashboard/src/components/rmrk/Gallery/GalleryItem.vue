@@ -7,7 +7,7 @@
             v-if="!isLoading && imageVisible"
             :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
             :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-            alt="NFT minted image"
+            alt="NFT minted multimedia"
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
@@ -62,8 +62,8 @@
               </p>
             </div>
           </div>
-          <Sharing />
           <Facts :nft="nft" />
+          <Sharing />
         </div>
       </div>
     </div>

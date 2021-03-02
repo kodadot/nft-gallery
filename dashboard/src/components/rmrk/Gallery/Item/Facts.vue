@@ -1,5 +1,4 @@
 <template>
-  <div>
     <b-collapse class="card" animation="slide" 
       aria-id="contentIdForA11y3" :open="false">
       <template #trigger="props">
@@ -15,7 +14,7 @@
               :icon="props.open ? 'chevron-up' : 'chevron-down'">
             </b-icon>
           </a>
-        </div>
+      </div>
       </template>
       <div class="card-content">
         <div class="content">
@@ -32,7 +31,7 @@
             <b>{{ $t('instance') }}:</b>{{ nft.sn }}
           </p>
           <p class="subtitle is-size-6">
-            <b>IPFS</b>: <b-button size="is-small" @click="getGwLinks">{{ multimediaCid }}</b-button>
+            <b>IPFS</b>: {{ multimediaCid }}
             <ol v-if="showGwLinks">
               <li v-for="gw in gwList"
               :key="gw">
@@ -43,7 +42,6 @@
         </div>
       </div>
     </b-collapse>
-  </div>
 </template>
 
 <script lang="ts" >

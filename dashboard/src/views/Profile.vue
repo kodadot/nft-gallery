@@ -4,7 +4,10 @@
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title">
-            Profile
+            <b-icon
+              pack="fas"
+              icon="ghost"
+            ></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
               ><Identity :address="id" :inline="true"
             /></a>

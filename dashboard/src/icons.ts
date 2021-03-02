@@ -23,7 +23,7 @@ import {
   faShareSquare, faCopy, faBookmark,
   faLink, faLanguage,
   faQuestion, faPrint,
-  faMagic, faEye, faCommentAlt
+  faMagic, faEye, faCommentAlt, faGhost
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -67,7 +67,7 @@ library.add(
 
   faTwitter, faTelegram, faMedium, 
   faLine, faTelegramPlane,
-  faCommentDots
+  faCommentDots, faGhost
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
