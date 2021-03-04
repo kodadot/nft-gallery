@@ -1,6 +1,6 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign }">
-    {{ name | toString | shortAddress }}
+    {{ name | toString }}
   </component>
 </template>
 
@@ -10,7 +10,11 @@ import Connector from '@vue-polkadot/vue-api';
 import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId';
-import { hexToString } from '@polkadot/util';
+import { hexToString, isHex } from '@polkadot/util';
+import { emptyObject } from '@/utils/empty';
+import { Data } from '@polkadot/types';
+import { AnyJson } from '@polkadot/types/types';
+import shortAddress from '@/utils/shortAddress';
 
 type Address = string | GenericAccountId | undefined
 
@@ -21,7 +25,7 @@ export default class Identity extends Mixins(InlineMixin) {
   // @Prop({ default: false }) inline!: boolean;
   @Prop() public address!: Address;
   @Prop() public verticalAlign!: boolean;
-  private identity: Registration = {} as Registration;
+  private identity: Registration = emptyObject<Registration>();
 
   get identityInfo(): IdentityInfo {
     return this.identity?.info
@@ -32,9 +36,10 @@ export default class Identity extends Mixins(InlineMixin) {
   // }
 
   get name(): Address {
-    console.log('name', this.identityInfo);
-    const name = this.identityInfo?.display;
-    return hexToString((name as any)?.Raw) || this.address
+    console.log('get name -> identityInfo', this.identityInfo);
+    const name = this.handleRaw(this.identityInfo?.display);
+    console.log('get name -> name', name);
+    return name as string || this.address
   }
 
   @Watch('address')
@@ -55,7 +60,7 @@ export default class Identity extends Mixins(InlineMixin) {
 
   public async identityOf(account: Address): Promise<Registration> {
     if (!account) {
-      return Promise.resolve({} as Registration)
+      return Promise.resolve(emptyObject<Registration>())
     }
 
     const address: string = account instanceof GenericAccountId ? account.toString() : account;
@@ -68,7 +73,23 @@ export default class Identity extends Mixins(InlineMixin) {
   
    return await this.$store.dispatch('fetchIdentity', address)
     .then(() => this.$store.getters.getIdentityFor(address))
-    .then(id => id || {})
+    .then(id => { console.log('identity', identity); return id || emptyObject<Registration>()  })
+  }
+
+  private handleRaw(display: Data): Address {
+    if (display?.isRaw) {
+      return display.asRaw.toHuman() as string;
+    }
+
+    if (isHex((display as any)?.Raw)) {
+      return hexToString((display as any)?.Raw)
+    }
+
+    return shortAddress(this.resolveAddress(this.address))
+  }
+
+  private resolveAddress(account: Address): string {
+    return account instanceof GenericAccountId ? account.toString() : account || '';
   }
 }
 </script>
