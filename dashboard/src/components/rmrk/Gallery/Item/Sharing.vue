@@ -50,6 +50,19 @@
           </a>
         </span>
       </p>
+      <p class="card-footer-item">
+        <span>
+          <a 
+            v-clipboard:copy="iframeUri"
+            @click="toast('Code copied to clipboard')">
+            <b-icon   
+              size="is-medium"
+              pack="fas" 
+              icon="code">
+            </b-icon>
+          </a>
+        </span>
+      </p>
     </footer>
   </div>
 </template>
@@ -84,6 +97,18 @@ export default class Sharing extends Vue {
   get linemeUri() {
     return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
   }
+
+  get iframeUri() {
+    return `
+    <iframe
+      src="${this.realworldFullPath}"
+      title="${this.label}"
+      width="50%" height="1200" style="border:none;"
+    ></iframe>
+    `
+  }  
+
+
   
   public toast(message: string): void {
     this.$buefy.toast.open(message);

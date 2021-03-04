@@ -14,6 +14,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
 import InlineMixin from '@/utils/mixins/inlineMixin';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue')
@@ -22,6 +23,10 @@ const components = {
 @Component({ components })
 export default class ProfileLink extends Mixins(InlineMixin) {
   @Prop() public address!: string;
+
+  get sharingMode() {
+    return isShareMode
+  }
 }
 </script>
 

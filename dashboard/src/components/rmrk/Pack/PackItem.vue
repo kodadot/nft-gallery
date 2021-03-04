@@ -9,7 +9,7 @@
           <p class="subtitle">
             Curated by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
-          <Sharing label="Check this awesome Pack on %23KusamaNetwork %23KodaDot" />
+          <Sharing v-if="sharingVisible" label="Check this awesome Pack on %23KusamaNetwork %23KodaDot" />
         </div>
       </div>
     </div>
@@ -26,6 +26,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '../service/RmrkService';
 import { CompletePack } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -51,12 +52,18 @@ export default class PackItem extends Vue {
     return this.pack.nfts || [];
   }
 
+  get sharingVisible() {
+    return !isShareMode
+  }
+
+
   public async mounted() {
   this.checkId();
   const rmrkService = getInstance();
   if (!rmrkService || !this.id) {
     return;
   }
+
 
   this.isLoading = true;
 

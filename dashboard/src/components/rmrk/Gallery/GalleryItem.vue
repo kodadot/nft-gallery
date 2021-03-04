@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="columns">
       <div class="column is-8 is-offset-2">
-        <div class="box">
+        <div :class="{ box: detailVisible }">
           <b-image
             v-if="!isLoading && imageVisible"
             :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
@@ -11,10 +11,10 @@
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
-          
-          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+          <template v-if="detailVisible">
+            <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
+            <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+            <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
           
           <b-collapse class="card" animation="slide" 
             aria-id="contentIdForA11y3" :open="false">
@@ -42,10 +42,11 @@
             </div>
           </div>
         </b-collapse>
+        </template>
         <Name :nft="nft" :isLoading="isLoading" />
           <div class="card">
             <div class="card-content">
-              <p class="title is-size-2">
+              <p class="title" :class="[ detailVisible ? 'is-size-2' : 'is-size-4' ]">
                 {{ $t('legend')}}
               </p>
               <p class="subtitle is-size-7">
@@ -54,16 +55,16 @@
                 </b-tag>
                 <p v-if="!isLoading" 
                   class="subtitle is-size-5">
-                  <!-- <markdown-it-vue class="md-body" :content="nft.description" /> -->
-                  <!-- <markdown-it-vue-light class="md-body" :content="nft.description" /> -->
                   {{ nft.description }}
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
               </p>
             </div>
           </div>
-          <Facts :nft="nft" />
-          <Sharing />
+          <template v-if="detailVisible">
+            <Facts :nft="nft" />
+            <Sharing />
+          </template>
         </div>
       </div>
     </div>
@@ -92,6 +93,7 @@ import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
 import { MetaInfo } from 'vue-meta';
+import isShareMode from '@/utils/isShareMode';
 // import { VueConstructor } from 'vue';
 
 type NFTType =  NFTWithMeta;
@@ -188,6 +190,10 @@ export default class GalleryItem extends Vue {
   get nftId() {
     const { id } = this.nft;
     return id;
+  }
+
+  get detailVisible() {
+    return !isShareMode
   }
 }
 </script>

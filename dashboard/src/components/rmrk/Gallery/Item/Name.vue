@@ -7,7 +7,10 @@
             class="card-header"
             role="button"
             aria-controls="contentIdForA11y3">
-            <p class="card-header-title is-size-1">
+            <p
+              class="card-header-title"
+              :class="[ detailVisible ? 'is-size-1' : 'is-size-3' ]"
+            >
               <span v-if="!isLoading">
                 {{ nft.name }}
               </span>
@@ -43,6 +46,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import isShareMode from '@/utils/isShareMode';
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
@@ -53,5 +57,9 @@ const components = {
 export default class Name extends Vue {
   @Prop() public nft!: any;
   @Prop() public isLoading!: boolean;
+
+  get detailVisible() {
+    return !isShareMode
+  }
 }
 </script>
