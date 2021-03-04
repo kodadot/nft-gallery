@@ -103,7 +103,7 @@ export default class Sharing extends Vue {
     <iframe
       src="${this.realworldFullPath}"
       title="${this.label}"
-      width="50%" height="1200" style="border:none;"
+      width="480" height="800" style="border:none;"
     ></iframe>
     `
   }  
