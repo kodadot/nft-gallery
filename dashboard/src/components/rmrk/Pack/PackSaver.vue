@@ -87,11 +87,12 @@ export default class PackSaver extends Vue {
   @Debounce(1500)
   protected handleInput(value: string[]) {
     console.log('new value is,', value, 'database has', this.savedMenu)
-    const changeLog: Record<string, boolean> = {};
-    Object.keys(this.savedMenu).forEach(m => {
-      changeLog[m] = value.some(v => v === m)
+    const changeLog: Record<string, boolean> = {...this.savedMenu};
+    Object.keys(changeLog).forEach(m => {
+      changeLog[m] = false
     })
-    // value.forEach(id => changeLog[id] = !this.savedMenu[id])
+
+    value.forEach(id => changeLog[id] = true)
     console.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
     this.submit(changeLog)
   }
@@ -110,11 +111,18 @@ export default class PackSaver extends Vue {
       }
   }
 
+  public mounted() {
+    if (this.accountId) {
+      this.fetchPacksForUser(this.accountId)
+    }
+  }
+
   // private async submit(rmrk: string) {
   //   const { api } = Connector.getInstance();
   //   const rmrkService = getInstance();
 
   //   try {
+    
   //     showNotification(rmrk);
   //     console.log('submit', rmrk);
   //     const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
@@ -148,7 +156,7 @@ export default class PackSaver extends Vue {
   }
 
   @Watch('accountId')
-  private watchAccountId(val: string, oldVal: string) {
+  protected watchAccountId(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchPacksForUser(val);
     }
