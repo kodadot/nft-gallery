@@ -40,12 +40,10 @@ const IdentityModule = {
     },
     async fetchIdentity({dispatch}: any, address: string) {
       const { api } = Connector.getInstance()
-      try {
-        const optionIdentity = await api.query.identity?.identityOf(address)
-        console.log(optionIdentity);
-        
-        const identity = optionIdentity.unwrapOr(null)
-        
+      try { 
+        const optionIdentity = await api?.isReady
+        .then((a) => a?.query.identity?.identityOf(address))
+        const identity = optionIdentity?.unwrapOr(null)
         if (identity) {
           dispatch('setIdentity', { address, identity })
         }
