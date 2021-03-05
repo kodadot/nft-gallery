@@ -108,6 +108,10 @@ $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
+// DEV: for dark mode
+// $scheme-main: rgb(27, 34, 44);
+// $scheme-invert: $white;
+
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

@@ -16,18 +16,17 @@
         </div>
       </div>
     </div>
-    <b-tabs type="is-toggle" v-model="activeTab" expanded>
-      <b-tab-item label="NFTs">
+    <b-tabs :class="{ 'invisible-tab': profileMode }" type="is-toggle" v-model="activeTab" expanded >
+      <b-tab-item label="NFTs" value="nft" >
         <GalleryCardList :items="nfts" />    
       </b-tab-item>
-      <b-tab-item label="Collections">
-        <GalleryCardList :items="collections" type="collectionDetail" />    
+      <b-tab-item label="Collections" value="collection" >
+        <GalleryCardList :items="collections" type="collectionDetail" link="rmrk/collection" />
       </b-tab-item>
-      <b-tab-item label="Packs">
-        <GalleryCardList :items="packs" type="packDetail" />
+      <b-tab-item label="Packs" value="pack" >
+        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
       </b-tab-item>
     </b-tabs>
-    <!-- <GalleryCardList :items="nfts" /> -->
     
   </div>
 </template>
@@ -48,6 +47,7 @@ import {
   NFTWithMeta,
   Pack
 } from '@/components/rmrk/service/scheme';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -55,9 +55,11 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue')
 };
 
+const eq = (tab: string) => (el: string) => tab === el
+
 @Component({ components })
 export default class Profile extends Vue {
-  public activeTab: number = 0;
+  public activeTab: string = 'nft';
   private id: string = '';
   private isLoading: boolean = false;
   private collections: CollectionWithMeta[] = [];
@@ -66,6 +68,7 @@ export default class Profile extends Vue {
 
   public async mounted() {
     this.checkId();
+    this.checkActiveTab();
     const rmrkService = getInstance();
     if (!rmrkService || !this.id) {
       return;
@@ -98,6 +101,16 @@ export default class Profile extends Vue {
     }
   }
 
+  get profileMode() {
+    return isShareMode;
+  }
+
+  public checkActiveTab() {
+    if (this.$route.params.tab && ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))) {
+      this.activeTab = this.$route.params.tab;
+    }
+  }
+
   collectionMeta() {
     this.collections.map(fetchCollectionMetadata).forEach(async (call, index) => {
       const res = await call;
@@ -123,3 +136,9 @@ export default class Profile extends Vue {
 
 }
 </script>
+
+<style >
+.invisible-tab > nav.tabs {
+  display: none;
+}
+</style>

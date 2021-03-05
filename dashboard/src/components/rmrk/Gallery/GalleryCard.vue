@@ -1,10 +1,6 @@
 <template>
   <div class="card nft-card">
-    <router-link
-      :to="{ name: type, params: { id: id } }"
-      tag="div"
-      class="nft-card__skeleton"
-    >
+    <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
       <div class="card-image" v-if="image">
         <b-image
           :src="image"
@@ -23,13 +19,12 @@
       </div>
 
       <div class="card-content">
-        <p class="title is-4">
-          <router-link :to="{ name: type, params: { id: id } }">{{
-            name
-          }}</router-link>
+        <p class="title is-4 has-text-centered has-text-primary">
+          {{ name }}
         </p>
       </div>
-    </router-link>
+    
+    </LinkResolver>
   </div>
 </template>
 
@@ -43,6 +38,7 @@ const components = {
 @Component({ components })
 export default class GalleryCard extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
+  @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public id!: string;
   @Prop() public name!: string;
   @Prop() public image!: string;
@@ -64,9 +60,5 @@ export default class GalleryCard extends Vue {
 
 a {
   color: grey;
-}
-
-a:hover {
-  color: black;
 }
 </style>
