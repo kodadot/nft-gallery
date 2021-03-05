@@ -1,3 +1,3 @@
-const isShareMode = process.env.VUE_APP_MODE === 'share'
+const isShareMode = !(window === window.parent)
 
 export default isShareMode

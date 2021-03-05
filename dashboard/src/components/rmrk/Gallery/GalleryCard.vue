@@ -36,7 +36,11 @@
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({})
+const components = {
+  LinkResolver: () => import('@/components/shared/LinkResolver.vue')
+}
+
+@Component({ components })
 export default class GalleryCard extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop() public id!: string;
