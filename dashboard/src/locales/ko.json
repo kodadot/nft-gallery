@@ -26,19 +26,19 @@
   "computed id": "아이디",
   "content": "컨텐츠",
   "create collection": "창작물 모음집",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "예술품 소유자 주소",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "갤러리에 표시할 이름",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "바꾸고싶은 기호(심볼)",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "컬렉션 뷰 밑에 표시될 컬렉션 설명",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "컬렉션 뷰에 표시될 컬렉션 커버 추가",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "토큰을 어디다 넣을지 컬렉션 선택",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "최대 NFT의 모음",
   "Account": "계정t",
   "Name": "이름",
@@ -51,7 +51,7 @@
   "Transferable is by default": "전송가능",
   "Serial Number": "시리얼번호",
   "Name of your token": "토큰이름",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "업로드하면 NFT이미지가 업로드됨.",
   "Click to add image": "클릭해서 이미지추가",
@@ -63,7 +63,7 @@
   "New here? We have F.A.Q.": "새로왔는가? 질의응답 코너이다.",
   "Feedback? We\\'d be happy to discuss it.": "고객요청? 회의 해 보겠다. ",
   "Read our story, how we started.": "우리 글을 읽어줘 어떻게 시작했을까?!",
-  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",  
+  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",
   "자주 묻는 질문": "자주 묻는 질문 답변",
   "FAQQ1": "NFT에 사용되는 동전은 무엇입니까?",
   "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",

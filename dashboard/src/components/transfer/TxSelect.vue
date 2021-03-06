@@ -13,11 +13,11 @@
               v-bind:key="acc.name"
               v-bind:value="acc.address"
               :label="shortAddress(acc.address)">
-              <option v-if="direction === 'to'" 
+              <option v-if="direction === 'to'"
                 :value="acc.address">
                 {{acc.meta.name}}
               </option>
-              <option v-if="direction === 'from' && !acc.meta.isExternal" 
+              <option v-if="direction === 'from' && !acc.meta.isExternal"
                 :value="acc.address">
                 {{acc.meta.name}}
               </option>
@@ -36,7 +36,7 @@
     :size="size" />
   </p>
   <b-dropdown v-model="pickedAddress" aria-role="list">
-        <button class="button is-large is-light" slot="trigger"> 
+        <button class="button is-large is-light" slot="trigger">
           <span v-if="pickedAddress">
             <!-- {{shortAddress(pickedAddress)}} -->
             {{pickedMetaName}}
@@ -49,7 +49,7 @@
         <p v-for="acc in keyringAccounts"
               v-bind:key="acc.name"
               v-bind:value="acc.address">
-          <b-dropdown-item v-if="direction === 'from' && !acc.meta.isExternal" 
+          <b-dropdown-item v-if="direction === 'from' && !acc.meta.isExternal"
             :value="acc.address" @click="setMeta(acc.meta.name)" aria-role="listitem">
               <div class="media">
                   <Identicon
@@ -62,7 +62,7 @@
                   </div>
               </div>
           </b-dropdown-item>
-          <b-dropdown-item v-if="direction === 'to'" 
+          <b-dropdown-item v-if="direction === 'to'"
             :value="acc.address" @click="setMeta(acc.meta.name)" aria-role="listitem">
               <div class="media">
                   <Identicon

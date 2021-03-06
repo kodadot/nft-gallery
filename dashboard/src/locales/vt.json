@@ -26,19 +26,19 @@
   "computed id": "Máy chủ ID",
   "content": "Nội dung",
   "create collection": "Tạo bộ sưu tập",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Địa chỉ chủ sở hữu của nghệ thuật đúc",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Tên bạn muốn hiển thị trong thư viện",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Biểu tượng bạn muốn giao dịch",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Mô tả bộ sưu tập của bạn, nó sẽ hiển thị dưới chế độ xem bộ sưu tập",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Thêm bìa bộ sưu tập sẽ hiển thị ở chế độ xem bộ sưu tập",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Chọn bộ sưu tập mà bạn muốn đúc mã thông báo của mình",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "NFT tối đa trong bộ sưu tập",
   "Account": "Tài khoản",
   "Name": "Tên",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Có thể chuyển nhượng theo mặc định",
   "Serial Number": "Số sê-ri",
   "Name of your token": "Tên mã thông báo của bạn",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "Tải lên sẽ tải hình ảnh NFT của bạn",
   "Click to add image": "Nhấp để thêm hình ảnh",

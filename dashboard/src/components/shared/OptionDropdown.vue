@@ -13,11 +13,11 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
 @Component
 export default class OptionDropdown extends Vue {
-	
+
 	get selected() {
 		return this.selectedOption;
 	}
-	
+
 	set selected(value: any) {
 		this.selectedOption = value;
 		this.$emit('selected', value);
@@ -27,6 +27,6 @@ export default class OptionDropdown extends Vue {
 	@Prop() public description!: string;
 	@Prop() public options!: any[];
 	private selectedOption: any;
-	
+
 }
 </script>

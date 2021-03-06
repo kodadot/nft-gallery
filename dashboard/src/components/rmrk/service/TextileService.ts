@@ -26,13 +26,13 @@ export default abstract class TextileService<T> {
     return TextileService.threadId(this._dbStore)
   }
 
-  get isAuthExpired(): boolean { 
+  get isAuthExpired(): boolean {
     return (this._client.context as any).isExpired
   }
 
   abstract get collectioName(): string;
   abstract set collectioName(name: string);
-  
+
 
   protected createCollection(schema: T): Promise<void> {
     return this.client.newCollectionFromObject(this.store, schema, { name: this.collectioName })
@@ -103,7 +103,7 @@ export default abstract class TextileService<T> {
 
   public findById<U>(id: string): Promise<U> {
     return this.getCollection(id)
-  } 
+  }
 
   public findAll<U>(): Promise<U[]> {
     return this.find({} as QueryJSON);

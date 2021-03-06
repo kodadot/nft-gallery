@@ -21,7 +21,7 @@ import { decodeRmrkString } from '../utils'
 import { emptyObject } from '@/utils/empty';
 import RmrkNftView from './RmrkNftView.vue'
 
-const components = { RmrkNftView } 
+const components = { RmrkNftView }
 
 @Component({ components })
 export default class Reader extends Vue {
@@ -29,7 +29,7 @@ export default class Reader extends Vue {
   private blockNumber: string = '';
   private hash: string = '';
   private rmrkView: RMRK = emptyObject<RMRK>();
-  
+
 
   private handleRmrk() {
     const { rmrkString, blockNumber, hash, handleRmrkString } = this

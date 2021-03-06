@@ -12,8 +12,8 @@ export default class ViewTransaction extends Vue {
 	@Prop({ default: '' }) public tx: string = '';
 
   getExplorerUrl(value: string) {
-    return urlBuilderTransaction(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderTransaction(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
   }
 

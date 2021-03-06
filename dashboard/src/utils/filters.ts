@@ -20,4 +20,4 @@ export const toPercent = (value: number | undefined | BN): string => {
   }
 
   return EMPTY;
-} 
+}

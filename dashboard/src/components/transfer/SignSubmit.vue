@@ -4,7 +4,7 @@
       Recent block #{{conn.blockNumber}}
     </b-field>
 		<b-field v-else>
-			<p class="has-text-danger">You are not connected, 
+			<p class="has-text-danger">You are not connected,
 				<router-link :to="{ name: 'settings' }">
 				go to settings and pick node</router-link>
 			</p>
@@ -35,7 +35,7 @@
         View {{ tx.slice(0, 20) }}
       </b-button>
     </div>
-  </div>  
+  </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
@@ -91,8 +91,8 @@ export default class Transfer extends Vue {
   };
 
   getExplorerUrl(value: string) {
-    return urlBuilderTransaction(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderTransaction(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
   }
 

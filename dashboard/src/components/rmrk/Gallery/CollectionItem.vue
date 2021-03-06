@@ -15,7 +15,7 @@
     </div>
 
     <GalleryCardList :items="nfts" />
-    
+
   </div>
 </template>
 
@@ -81,7 +81,7 @@ export default class CollectionItem extends Vue {
       this.id = this.$route.params.id;
     }
   }
-  
+
   collectionMeta(collection: Collection) {
     fetchCollectionMetadata(collection)
     .then(

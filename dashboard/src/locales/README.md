@@ -1,6 +1,6 @@
 ### From Terminal and see changes local
 
-How to check your translations locally? 
+How to check your translations locally?
 
 You will need [nodejs enviroment](https://nodejs.org/en/download/) and [yarn](https://classic.yarnpkg.com/en/docs/install).
 
@@ -10,7 +10,7 @@ Particular commands you need to write to your terminal
 2. Checkout on `i18n` branch - `git checkout i18n`
 3. Install dependencies packages `yarn`
 4. Run local server `yarn serve`
-5. Open browser on [http://localhost:9090](http://localhost:9090) 
+5. Open browser on [http://localhost:9090](http://localhost:9090)
 6. If it is everything runs, that great!
 7. Now open in your editor your language .json file which is in `dashboard/src/locales/`, for Spanish i.e. `dashboard/src/locales/es.json`
 8. Everytime you hit save, reload page to see your changes live.
@@ -22,7 +22,7 @@ Particular commands you need to write to your terminal
 
 We've [made video how to translate from the browser](https://t.me/kodadot_translators/97).
 
-1. Fork the repository 
+1. Fork the repository
 2. Go to same path in your repository
 3. Choose language and hit edit
 
@@ -33,6 +33,6 @@ We've [made video how to translate from the browser](https://t.me/kodadot_transl
 6. Create pull request to our repository
 ![](assets/edit_and_commit.png)
 
-We welcome your contribution. 
-You will be historical part of KodaDot NFT contribution! 
+We welcome your contribution.
+You will be historical part of KodaDot NFT contribution!
 First translations will be rewarded with NFT with value in it.

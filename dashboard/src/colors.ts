@@ -181,5 +181,5 @@ export const changeCurrentColor = async () => {
     return currentColor;
   } catch (e) {
     console.warn('[COLORS] NO collor for this chain')
-  } 
+  }
 }

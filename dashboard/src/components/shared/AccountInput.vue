@@ -10,7 +10,7 @@
 			</p>
 		</b-field>
 		<b-field>
-			<b-dropdown v-model="selected" 
+			<b-dropdown v-model="selected"
 				:mobile-modal="false" aria-role="list">
 				<button class="button is-primary" type="button" slot="trigger">
 					<template v-if="selected">
@@ -32,7 +32,7 @@
 						<b-icon class="media-left" icon="users">
 						</b-icon>
 						<div class="media-content">
-							<h3>{{ acc.meta.name }}</h3> 
+							<h3>{{ acc.meta.name }}</h3>
               <small>{{ acc.address | shortAddress(10, -10) }}</small>
 						</div>
 					</div>
@@ -62,10 +62,10 @@ import AccountNameTag from './AccountNameTag.vue';
 	},
 })
 export default class Dropdown extends WithKeyring {
-  @Prop() private nobalance!: boolean; 
+  @Prop() private nobalance!: boolean;
   @Prop({ default: 'all' }) public mode!: string;
   @Prop() public externalAddress!: string;
-  
+
 	private position: string = 'is-left';
   private selectedMetaName: string = '';
   private selectedAccount: string = '';
@@ -76,7 +76,7 @@ export default class Dropdown extends WithKeyring {
     // return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
     return this.keyringAccounts;
 	}
-  
+
   get selected() {
 		return this.selectedAccount;
   }
@@ -111,7 +111,7 @@ export default class Dropdown extends WithKeyring {
 			this.label = 'From Accounts';
 			this.tooltip = 'The account you will send funds from.';
 		}
-  } 
+  }
 }
 
 </script>

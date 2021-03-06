@@ -15,12 +15,12 @@
       </b-input>
     </b-field>
     <ul>
-      <li 
+      <li
         v-for="acc in keyringAccounts"
-        v-bind:key="acc.address"> 
-        <Keypair 
+        v-bind:key="acc.address">
+        <Keypair
           v-if="
-          acc.visible 
+          acc.visible
           && !acc.meta.isExternal"
           mode="accounts"
           :address="acc.address"
@@ -34,7 +34,7 @@
         />
       </li>
     </ul>
-    
+
   </div>
 </template>
 <script lang="ts">
@@ -71,7 +71,7 @@ export default class Accounts extends Vue {
       if (searchFilter.length === 0) {
         acc.visible = true;
       }
-      
+
       if (acc.meta.name.toLowerCase().includes(searchFilter)
         || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
           return result || tag.toLowerCase().includes(searchFilter); }) ) {
@@ -82,7 +82,7 @@ export default class Accounts extends Vue {
     }
   }
 
-  
+
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {

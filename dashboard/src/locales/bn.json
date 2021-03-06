@@ -26,19 +26,19 @@
   "computed id": "কম্পিউটেড আইডি",
   "content": "বিষয়",
   "create collection": "Create সংগ্রহ",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "মিন্ট করা শিল্পের অধিকারীর ঠিকানা",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "যে নাম গ্যালারী ভিউএ দেখাতে চান।",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "যে প্রতীক লাগিয়ে লেনদেন করতে চান।",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "আপনার সংগ্রহকে বর্ণনা করুণ, এটা 'সংগ্রহ' ভিউএর নিচে দেখাবে।",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "সংগ্রহের কভার আপলোড করুন, এটা ‘সংগ্রহ’ ভিউএ দেখাবে।",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "সংগ্রহ নির্বাচন করুণ, যেখানে আপনি টোকেন মিন্ট করবেন।",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "সংগ্রহের সর্বাধিক এনএফটি।",
   "Account": "অ্যাকাউন্ট",
   "Name": "নাম",
@@ -51,7 +51,7 @@
   "Transferable is by default": "ডিফল্টরূপে স্থানান্তরযোগ্য",
   "Serial Number": "ক্রমিক সংখ্যা",
   "Name of your token": "আপনার টোকেনের নাম",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance হল মার্কেটপ্লেসের টিকারের মতো কোনও এনএফটি-এর সনাক্তকারী। এটা একটা \"ছোট, কম্প্যুটার-ফ্রেন্ডলি নাম।\"",
   "Upload will upload your image of the NFT": "আপলোড (Upload) আপনার এনএফটি এর চিত্র আপলোড করবে।",
   "Click to add image": "ছবি যোগ করতে ক্লিক করুন।",

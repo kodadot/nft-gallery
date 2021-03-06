@@ -19,11 +19,11 @@ interface ChangeUrlAction {
 
 const apiPlugin = (store: any) => {
   const { getInstance: Api } = Connector
-  
+
   Api().on('connect', async (api: any) => {
     const { chainSS58, chainDecimals, chainTokens  } = api.registry
     const {genesisHash} = api
-    console.log('[API] Connect to <3', store.state.setting.apiUrl, 
+    console.log('[API] Connect to <3', store.state.setting.apiUrl,
       { chainSS58, chainDecimals, chainTokens, genesisHash});
     store.commit('setChainProperties', {
       ss58Format: chainSS58 || 42,
@@ -31,7 +31,7 @@ const apiPlugin = (store: any) => {
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || ''
     })
-    
+
     const rmrkService = getInstance();
 
     if (rmrkService) {
@@ -39,7 +39,7 @@ const apiPlugin = (store: any) => {
         rmrkService.onUrlChange(chainSS58)
       } catch (e) {
         console.warn('[RMRK API] error', e);
-      }   
+      }
     }
 
     const nodeInfo = store.getters.availableNodes
@@ -92,7 +92,7 @@ export default new Vuex.Store({
         ['es', '🇪🇸'],
         ['fr', '🇫🇷'],
         ['jp', '🇯🇵'],
-        ['ko', '🇰🇷'], 
+        ['ko', '🇰🇷'],
         ['nl', '🇳🇱'],
         ['pl', '🇵🇱'],
         ['pt', '🇵🇹'],

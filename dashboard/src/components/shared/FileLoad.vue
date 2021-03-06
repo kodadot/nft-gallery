@@ -1,7 +1,7 @@
 <template>
   <div class="field">
     <b-field>
-      <b-upload v-model="toImport" 
+      <b-upload v-model="toImport"
         name="account"
         native
         drag-drop

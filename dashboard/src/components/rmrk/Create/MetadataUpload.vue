@@ -31,12 +31,12 @@ export default class  extends Vue {
     reader.onload = () => {
       // this.handleSelection(reader.result)
       // console.log(reader.result);
-      
-      
+
+
     };
     this.$emit('input', file)
     reader.readAsText(file);
-    
+
   }
 
   @Emit('change')

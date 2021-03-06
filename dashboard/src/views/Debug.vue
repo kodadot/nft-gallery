@@ -8,19 +8,19 @@
         <StakerInfo />
       </b-tab-item>
       <!-- <b-tab-item label="Payouts">
-        
+
       </b-tab-item>
       <b-tab-item label="Payouts">
-        
+
       </b-tab-item>
       <b-tab-item label="Targets">
-        
+
       </b-tab-item>
       <b-tab-item label="Waiting">
-        
+
       </b-tab-item>
       <b-tab-item label="Validator stats">
-        
+
       </b-tab-item> -->
     </b-tabs>
   </div>

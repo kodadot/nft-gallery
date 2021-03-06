@@ -2,14 +2,14 @@
   <div>
     <b-tabs v-model="activeTab" @input="tabClick">
       <b-tab-item label="Accounts">
-        
+
       </b-tab-item>
       <b-tab-item label="Contacts">
-        
+
       </b-tab-item>
     </b-tabs>
-    <router-view 
-    
+    <router-view
+
     >
     </router-view>
   </div>
@@ -28,7 +28,7 @@ import Router from 'vue-router';
 })
 export default class AccountsMain extends Vue {
   private activeTab: number = 0;
-  
+
   @Watch('$route.params.tab')
   private async reflect() {
     if (typeof this.$route.params.tab === 'number') {

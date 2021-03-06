@@ -58,7 +58,7 @@ const reduceKnownPrefixes = (arr: any[]): Record<string, number> => arr.reduce((
 export const getPrefixByStoreUrl = (): string | undefined => {
   const apiUrl = store.getters.getSettings?.apiUrl;
   console.log('getPrefixByStoreUrl', apiUrl);
-  
+
   if (!apiUrl) {
     return 'undefined'
   }

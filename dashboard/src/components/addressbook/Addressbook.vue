@@ -14,11 +14,11 @@
       <li
         v-for="acc in keyringAccounts"
         v-bind:key="acc.address"
-      > 
-      <Keypair 
+      >
+      <Keypair
         v-if="
-        isKeyringLoaded 
-        && acc.meta.isExternal 
+        isKeyringLoaded
+        && acc.meta.isExternal
         && acc.visible"
         mode="addressbook"
         :address="acc.address"
@@ -26,13 +26,13 @@
         :meta="acc.meta"
         @forget-account="mapAccounts"
         @save-name="mapAccounts"
-        @save-tags="mapAccounts" 
-      
+        @save-tags="mapAccounts"
+
       />
       </li>
     </ul>
-    
-  </div>  
+
+  </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
@@ -59,7 +59,7 @@ export default class AddressBook extends Vue {
       if (searchFilter.length === 0) {
         acc.visible = true;
       }
-      
+
       if (acc.meta.name.toLowerCase().includes(searchFilter)
         || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
           return result || tag.toLowerCase().includes(searchFilter); }) ) {
@@ -70,7 +70,7 @@ export default class AddressBook extends Vue {
     }
   }
 
- 
+
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {

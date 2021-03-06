@@ -26,19 +26,19 @@
   "computed id": "id počítača",
   "content": "obsah",
   "create collection": "vytvoriť kolekciu",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Adresa vlastníka vytvoreného diela",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Meno, ktoré chcete použiť v zobrazení galérie",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Symbol, pod ktorým chcete obchodovať",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Opíšte svoju kolekciu, opis sa ukáže pod zobrazením kolekcie",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Pridajte obal kolekcie viditeľný pri zobrazení kolekcie",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Zvoľte kolekciu, v ktorej chcete vytvoriť svoj token",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Maximálny počet NTF tokenov v kolekcii",
   "Account": "Účet",
   "Name": "Meno",

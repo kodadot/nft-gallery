@@ -44,7 +44,7 @@ const needMeta: Record<string, string> = {
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  AddressInput: () => import('@/components/shared/AddressInput.vue') 
+  AddressInput: () => import('@/components/shared/AddressInput.vue')
 }
 
 @Component({ components })
@@ -138,7 +138,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
           console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
         }
       }
-    }) 
+    })
 
   }
 

@@ -35,7 +35,7 @@
           <div class="nft-card__owner"><b>Max:</b>{{ nft.max }}</div>
           <div class="nft-card__owner"><b>Owner:</b>{{ nft.issuer }}</div>
           <div class="nft-card__owner"><b>Description:</b>{{ nft.description }}</div>
-          
+
           <!-- <b-taglist v-if="token.attributes">
             <b-tag
               type="is-dark"
@@ -73,7 +73,7 @@ export default class NFTList extends Vue {
   onCollectionUpdate(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       const rmrkService = getInstance()
-      
+
     }
   }
 
@@ -103,7 +103,7 @@ export default class NFTList extends Vue {
       Vue.set(this.nfts, index, {...this.nfts[index], ...res, image: sanitizeIpfsUrl(res.image || '')})
     })
 
-    
+
   }
 
 

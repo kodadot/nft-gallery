@@ -38,11 +38,11 @@ export default class BalanceInput extends Vue {
     return this.$store.getters.getChainProperties;
   }
 
-  get decimals(): number {  
+  get decimals(): number {
     return this.chainProperties.tokenDecimals
   }
 
-  get unit(): string {  
+  get unit(): string {
     return this.chainProperties.tokenSymbol
   }
 
@@ -73,7 +73,7 @@ export default class BalanceInput extends Vue {
   //     })
   //   }
   // }
-  
+
   @Debounce(200)
   @Emit('input')
   public handleInput() {

@@ -26,7 +26,7 @@ export default class Balance extends Vue {
     this.handleSelected();
   }
 
-  get arg() {    
+  get arg() {
     const defaultValue = this.defaultValue && isHex(this.defaultValue)
      ? hexToBn(this.defaultValue as string).toString()
      : this.defaultValue;
@@ -34,7 +34,7 @@ export default class Balance extends Vue {
     if (defaultValue !== null && typeof defaultValue === 'object') {
       return defaultValue.toString()
     }
-    
+
     return defaultValue || this.value;
   }
 
@@ -42,7 +42,7 @@ export default class Balance extends Vue {
     return this.chainProperties;
   }
 
-  get units() { 
+  get units() {
     return [
       { name: 'femto', value: 1e-12*this.getChainDecimalsMultiplier()},
       { name: 'pico', value: 1e-9*this.getChainDecimalsMultiplier()},
@@ -64,12 +64,12 @@ export default class Balance extends Vue {
   @Prop() public argument!: any;
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
-  
+
 
   private chainProperties: any = '-';
   private value = 0;
   private unitsSelected: number = 1e3*this.getChainDecimalsMultiplier();
-  
+
   private getTokenSymbol(): string {
     this.chainProperties = this.$store.state.chainProperties;
     if (this.chainProperties !== '-') {
@@ -79,8 +79,8 @@ export default class Balance extends Vue {
   }
 
   private getChainDecimalsMultiplier(): number {
-    return 1*10**this.$store.state.chainProperties.tokenDecimals 
-  } 
+    return 1*10**this.$store.state.chainProperties.tokenDecimals
+  }
 
   @Watch('unitsSelected')
   private function() {

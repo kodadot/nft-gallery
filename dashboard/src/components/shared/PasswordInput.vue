@@ -21,8 +21,8 @@ export default class PasswordInput extends Vue {
   //     } catch(err) {
   //       console.warn('[Password] unable to get account', err)
   //     }
-      
-      
+
+
   //   }
   // }
 

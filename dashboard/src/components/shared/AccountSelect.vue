@@ -46,7 +46,7 @@ export default class AccountSelect extends Mixins(WithKeyring) {
     } else {
       this.$emit('input', accountValue)
     }
-    
+
   }
 
 }

@@ -3,14 +3,14 @@
     <p class="title">
       {{ $t('Frequently Asked Question') }}
     </p>
-    <div 
+    <div
       v-for="n in 23"
       :key="n">
       <p class="title">
-        <span v-html="$t(`FAQQ${n}`)"></span> 
+        <span v-html="$t(`FAQQ${n}`)"></span>
       </p>
       <p class="subtitle">
-        <span v-html="$t(`FAQA${n}`)"></span> 
+        <span v-html="$t(`FAQA${n}`)"></span>
       </p>
       <br>
     </div>

@@ -19,7 +19,7 @@ export default class ExtrinsicMixin extends Vue {
 
   protected setSection(section: any) {
     this.section = section
-  } 
+  }
 
   get methods() {
     return this.fnSection

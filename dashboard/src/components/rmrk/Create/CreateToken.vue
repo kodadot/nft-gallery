@@ -135,7 +135,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     this.alreadyMinted = Number(data?.length);
       console.log('Already minted', this.alreadyMinted)
     }
-    
+
   }
 
   public async fetchCollections() {
@@ -199,7 +199,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
   public async constructMeta(nft: NFTAndMeta, index: number) {
     const image = this.images[index];
-   
+
     const meta = {
       ...nft.meta,
       attributes: [],
@@ -262,7 +262,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
               showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
               console.log('res', index, res)
             } catch (e) {
-              console.warn(`Failed Indexing ${index} with err ${e}`);  
+              console.warn(`Failed Indexing ${index} with err ${e}`);
             }
             this.isLoading = false;
           }
@@ -270,13 +270,13 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       });
       console.warn('TX IN', tx);
       showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
-      
+
     } catch (e) {
       showNotification(e, notificationTypes.danger);
       this.isLoading = false;
     }
 
-    
+
   }
 
   protected handleAdd() {
@@ -291,7 +291,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   }
 
   protected hadleItemRemoval(index: number) {
-    this.added.splice(index, 1);  
+    this.added.splice(index, 1);
     this.added.forEach((nft, i) => nft.sn = this.calculateSerialNumber(i))
     for (let i = index; i < this.added.length; i++) {
       this.$set(this.images, i, this.images[i + 1]);

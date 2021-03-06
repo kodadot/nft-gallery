@@ -140,7 +140,7 @@ export interface BasePack {
 export interface Pack extends BasePack {
   collections: Record<string, boolean>;
   nfts: Record<string, boolean>;
-  social?: Record<string, string>; 
+  social?: Record<string, string>;
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {

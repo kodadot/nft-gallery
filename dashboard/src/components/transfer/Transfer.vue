@@ -1,11 +1,11 @@
 <template>
   <div id="transfer">
-    <DisabledInput v-if="conn.chainName" 
+    <DisabledInput v-if="conn.chainName"
       label="Chain" :value="conn.chainName" />
     <DisabledInput v-if="conn.blockNumber"
       label="Best Block" :value="conn.blockNumber" />
 		<b-field v-else>
-			<p class="has-text-danger">You are not connected. 
+			<p class="has-text-danger">You are not connected.
 				<router-link :to="{ name: 'settings' }">
 				Go to settings and pick node</router-link>
 			</p>
@@ -28,12 +28,12 @@
         @click="shipIt">
 				Make Transfer
       </b-button>
-      <b-button v-if="tx" tag="a" target="_blank" :href="getExplorerUrl(tx)" 
+      <b-button v-if="tx" tag="a" target="_blank" :href="getExplorerUrl(tx)"
         icon-left="external-link-alt">
         View {{ tx.slice(0, 10) }}
       </b-button>
     </div>
-  </div>  
+  </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
@@ -95,8 +95,8 @@ export default class Transfer extends Vue {
   };
 
   getExplorerUrl(value: string) {
-    return urlBuilderTransaction(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderTransaction(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
   }
 

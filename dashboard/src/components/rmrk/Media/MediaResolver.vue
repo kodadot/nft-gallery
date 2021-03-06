@@ -26,7 +26,7 @@ const SUFFIX = 'Media'
 export default class MediaResolver extends Vue {
   @Prop() public src!: string;
   @Prop() public mimeType!: string;
-  
+
   get resolveComponent() {
     return resolveMedia(this.mimeType) + SUFFIX
   }
@@ -49,12 +49,12 @@ export default class MediaResolver extends Vue {
   // async fetchContentType(val: string) {
   //   try {
   //     const { headers } = await api.get(val);
-  //     this.resolveComponent = 
+  //     this.resolveComponent =
   // //   } catch (e) {
   //     console.warn(`[MEDIA RESOLVER] Unable to get content type of ${val}`)
   //   }
 
   // }
-  
+
 }
 </script>

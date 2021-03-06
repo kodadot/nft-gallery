@@ -11,12 +11,12 @@
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
-          
+
           <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
           <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          
-          <b-collapse class="card" animation="slide" 
+
+          <b-collapse class="card" animation="slide"
             aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
             <div
@@ -52,7 +52,7 @@
                 <b-tag v-if="nft.price" type="is-dark" size="is-medium">
                   <Money :value="nft.price" :inline="true" />
                 </b-tag>
-                <p v-if="!isLoading" 
+                <p v-if="!isLoading"
                   class="subtitle is-size-5">
                   <!-- <markdown-it-vue class="md-body" :content="nft.description" /> -->
                   <!-- <markdown-it-vue-light class="md-body" :content="nft.description" /> -->
@@ -100,7 +100,7 @@ type NFTType =  NFTWithMeta;
   metaInfo() {
     return {
       meta: [
-        { 
+        {
           vmid: 'description',
           name: 'description',
           content: '🖼 👀 KodaDot Polkadot/Kusama NFT Market Explorer'

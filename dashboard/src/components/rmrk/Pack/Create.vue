@@ -28,8 +28,8 @@
           ></b-input>
         </b-field>
       <MetadataUpload v-model="image" />
-        
-      <PasswordInput v-model="password" :account="accountId" />   
+
+      <PasswordInput v-model="password" :account="accountId" />
       <b-button
         type="is-primary"
         icon-left="paper-plane"

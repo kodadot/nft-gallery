@@ -3,12 +3,12 @@
     <section>
       <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
         <div
-          slot="trigger" 
+          slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
           aria-controls="contentIdForA11y3">
-          <p class="card-header-title"> 
+          <p class="card-header-title">
             {{header}}
           </p>
           <a class="card-header-icon">
@@ -26,7 +26,7 @@
                   <div class="column is-2"
                     v-if="validateAddress(line)"
                     v-clipboard:copy="open"
-                    @click="toast('Address copied to clipboard')"> 
+                    @click="toast('Address copied to clipboard')">
                     <div class="columns">
                       <div class="column">
                       <Identicon
@@ -46,7 +46,7 @@
               </b-message>
             </div>
           </div>
-        </div>    
+        </div>
       </b-collapse>
     </section>
   </div>
