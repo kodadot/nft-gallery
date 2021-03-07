@@ -69,10 +69,12 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { IFrame, emptyIframe } from '../../types';
 
 @Component({})
 export default class Sharing extends Vue {
   @Prop({ default: 'Check this cool NFT on %23KusamaNetwork %23kodadot' }) label!: string;
+  @Prop({ default: emptyIframe }) iframe!: IFrame;
 
   get helloText() {
     return this.label;
@@ -98,13 +100,24 @@ export default class Sharing extends Vue {
     return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
   }
 
+  get width() {
+    return this.iframe.width || '480px'
+  }
+
+  get height() {
+    return this.iframe.height || '840px'
+  }
+
+  get customIframeUri() {
+    return this.iframe.customUrl || this.realworldFullPath
+  }
+
   get iframeUri() {
     return `
     <iframe
-      src="${this.realworldFullPath}"
+      src="${this.customIframeUri}"
       title="${this.label}"
-      width="480" 
-      height="840" style="border:none;"
+      style="width:${this.width};height:${this.height};border:none;"
     ></iframe>
     `
   }  

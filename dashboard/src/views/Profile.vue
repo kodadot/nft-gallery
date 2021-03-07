@@ -12,11 +12,11 @@
               ><Identity :address="id" :inline="true"
             /></a>
           </p>
-          <Sharing label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" />
+          <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
         </div>
       </div>
     </div>
-    <b-tabs :class="{ 'invisible-tab': profileMode }" type="is-toggle" v-model="activeTab" expanded >
+    <b-tabs :class="{ 'invisible-tab': sharingVisible }" type="is-toggle" v-model="activeTab" expanded >
       <b-tab-item label="NFTs" value="nft" >
         <GalleryCardList :items="nfts" />    
       </b-tab-item>
@@ -101,8 +101,16 @@ export default class Profile extends Vue {
     }
   }
 
-  get profileMode() {
+  get sharingVisible() {
     return isShareMode;
+  }
+
+  get customUrl() {
+    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
+  }
+
+  get iframeSettings() {
+    return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
   public checkActiveTab() {

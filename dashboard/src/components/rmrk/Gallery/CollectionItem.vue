@@ -9,7 +9,7 @@
           <p class="subtitle">
             Issued by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
-          <Sharing v-if="sharingVisible" label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" />
+          <Sharing v-if="sharingVisible" label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
         </div>
       </div>
     </div>
@@ -85,6 +85,10 @@ export default class CollectionItem extends Vue {
     if (this.$route.params.id) {
       this.id = this.$route.params.id;
     }
+  }
+
+  get iframeSettings() {
+    return { width: '100%', height: '100vh' }
   }
   
   collectionMeta(collection: Collection) {
