@@ -1,8 +1,9 @@
 <template>
-  <b-navbar 
+  <b-navbar
     fixed-top
     shadow
     spaced
+    wrapper-class="container"
     :close-on-click="false"
     >
     <template #brand>
@@ -24,22 +25,22 @@
         :to="{ name: 'nft'}">
         <strong>{{ $t('Gallery') }}</strong>
       </b-navbar-item>
-      <b-navbar-dropdown 
+      <b-navbar-dropdown
           arrowless
           collapsible
           label="Extra">
-          <b-navbar-item 
+          <b-navbar-item
             tag="router-link"
             :to="{ name: 'rmrkCredit' }">
             {{ $t('Credit') }}
           </b-navbar-item>
-          <b-navbar-item 
+          <b-navbar-item
             tag="router-link"
             :to="{ name: 'settings'}">
             {{ $t('Settings') }}
           </b-navbar-item>
       </b-navbar-dropdown>
-      <!-- translations does not resolve in this, 
+      <!-- translations does not resolve in this,
           but it works in FAQ -->
       <!-- <b-navbar-item
         v-for="row in navbar"
@@ -49,11 +50,11 @@
         <strong v-if="row.strong">{{row.name}}</strong>
         <small v-else>{{row.name}}</small>
       </b-navbar-item> -->
-      <!-- <b-navbar-dropdown 
+      <!-- <b-navbar-dropdown
           arrowless
           collapsible
           label="Extra">
-          <b-navbar-item 
+          <b-navbar-item
             v-for="row in navbarExtra"
             v-bind:key="row.name"
             :tag="row.tag"
@@ -67,15 +68,15 @@
         <div class="buttons">
           <b-field grouped>
             <b-button tag="router-link"
-              :to="{ name: 'rmrkFaq' }" > 
-              F.A.Q. 
+              :to="{ name: 'rmrkFaq' }" >
+              F.A.Q.
             </b-button>
-            <LocaleChanger />  
-            <b-button tag="a" 
+            <LocaleChanger />
+            <b-button tag="a"
               type="is-info" outlined
               href="https://twitter.com/Kodadot">
-                <b-icon 
-                  pack="fab" 
+                <b-icon
+                  pack="fab"
                   icon="twitter">
                 </b-icon>
                 <strong>KodaDot</strong>
@@ -156,14 +157,3 @@ export default class NavbarMenu extends Vue {
   // }
 }
 </script>
-<style>
-/* .navbar-brand {
-  padding-left: 8rem;
-} */
-.navbar-start {
-  padding-left: 8rem;
-}
-.navbar-end {
-  padding-right: 8rem;
-}
-</style>
