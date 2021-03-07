@@ -26,19 +26,19 @@
   "computed id": "Hesaplanan kimlik",
   "content": "İçerik",
   "create collection": "Koleksiyon yarat",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Basılan sanatın adres sahibi",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Galerinizi görülmesini istediğiniz şekilde adlandırın",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Ticaretini yapmak istediğiniz sembol",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Koleksiyonunuzu tanımlayın, Koleksiyon altında gösterilecek",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Koleksiyon görüntülede gösterilecek koleksiyon kapağı ekleyin",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Tokenınızı basmak istediğiniz koleksiyonu seçin",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Koleksiyondaki maksimum NFTler",
   "Account": "Hesap",
   "Name": "Ad",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Otomatik ayar transfer edilebilir",
   "Serial Number": "Seri numarası",
   "Name of your token": "Tokenınızın ismi",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "NFT yükle",
   "Click to add image": "Resim eklemek için tıklayınız",

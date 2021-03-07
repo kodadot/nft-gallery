@@ -35,7 +35,7 @@
           <div class="nft-card__owner"><b>Max:</b>{{ collection.max }}</div>
           <div class="nft-card__owner"><b>Owner:</b>{{ collection.issuer }}</div>
           <div class="nft-card__owner"><b>Description:</b>{{ collection.description }}</div>
-          
+
           <!-- <b-taglist v-if="token.attributes">
             <b-tag
               type="is-dark"
@@ -84,7 +84,7 @@ export default class Gallery extends Vue {
     }
 
     this.isLoading = false;
-  
+
   }
 
   collectionMeta() {
@@ -93,7 +93,7 @@ export default class Gallery extends Vue {
       Vue.set(this.collections, index, {...this.collections[index], ...res, image: sanitizeIpfsUrl(res.image || '')})
     })
 
-    
+
   }
 
 }

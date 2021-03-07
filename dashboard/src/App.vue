@@ -17,7 +17,7 @@ import isShareMode from '@/utils/isShareMode'
     return {
       title: '🖼 👀 KodaDot | Polkadot/Kusama NFT Market Explorer',
       titleTemplate: '%s | KodaDot',
-      meta: [{ 
+      meta: [{
         vmid: 'description',
         name: 'description',
         content: '🖼 👀 KodaDot | Polkadot/Kusama NFT Market Explorer'

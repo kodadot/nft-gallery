@@ -5,7 +5,7 @@
         <b-input v-model="password" type="password"
           @input="validatePassword(password)"
           password-reveal></b-input>
-      </b-field>  
+      </b-field>
       <router-link :to="{name: 'accounts'}">
         <b-button icon-left="sync" type="is-dark"
           @click="OnRestore()" outlined>

@@ -7,7 +7,7 @@
           <b-tab-item v-for="x in components" :key="x" :label="x">
             <component v-bind:is="x"></component>
           </b-tab-item>
-        </b-tabs>      
+        </b-tabs>
     </section>
     </div>
   </div>
@@ -18,7 +18,7 @@ import { Component, Vue } from 'vue-property-decorator';
 const Collection = () => import('@/components/rmrk/Create/Create.vue')
 const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 
-const components = { Collection, NFT } 
+const components = { Collection, NFT }
 
 @Component({ components })
 export default class Remark extends Vue {

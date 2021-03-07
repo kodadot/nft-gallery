@@ -31,7 +31,7 @@ export default class Enum extends Vue {
 
   public mounted() {
     console.log('ENUM defaultValue', this.defaultValue);
-    
+
   }
 
   get selected() {

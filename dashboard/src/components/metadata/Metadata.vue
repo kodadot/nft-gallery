@@ -6,8 +6,8 @@
       label="Decimals" :value="loading ? '' : chainProperties.tokenDecimals.toString()" />
     <DisabledInput
       label="Unit" :value="loading ? '' : chainProperties.tokenSymbol.toString()" />
-     <DisabledInput 
-      label="Genesis Hash" :value="loading ? '' : chainProperties.genesisHash.toString()" /> 
+     <DisabledInput
+      label="Genesis Hash" :value="loading ? '' : chainProperties.genesisHash.toString()" />
       <b-progress v-if="loading"
       size="is-large" type="is-primary" show-value>Connecting</b-progress>
   </div>
@@ -24,21 +24,21 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 })
 export default class Summary extends Vue {
   private readonly emptyChainProperties: any =  {
-        ss58Format: '',  
-        tokenDecimals: '', 
-        genesisHash: '', 
+        ss58Format: '',
+        tokenDecimals: '',
+        genesisHash: '',
         tokenSymbol:''
     }
   public chainProperties: any = this.emptyChainProperties;
   public loading: boolean = false;
 
   @Watch('$store.state.chainProperties')
-  public mapProp(): void {  
+  public mapProp(): void {
     this.chainProperties = {...this.emptyChainProperties, ...this.$store.state.chainProperties};
   }
 
   @Watch('$store.state.loading')
-  public mapLoading(): void {  
+  public mapLoading(): void {
     this.loading = this.$store.state.loading
   }
 

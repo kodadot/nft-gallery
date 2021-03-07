@@ -3,12 +3,12 @@
     <section>
       <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
         <div
-          slot="trigger" 
+          slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
           aria-controls="contentIdForA11y3">
-          <p class="card-header-title"> 
+          <p class="card-header-title">
               {{header}}
           </p>
           <a class="card-header-icon">
@@ -36,7 +36,7 @@ export default class CardEvents extends Vue {
   @Prop({ default: false}) public open!: boolean;
   @Prop() public header!: any;
   @Prop() public content!: any;
-  
+
 }
 </script>
 <style scoped>

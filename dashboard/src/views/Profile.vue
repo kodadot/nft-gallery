@@ -18,7 +18,7 @@
     </div>
     <b-tabs :class="{ 'invisible-tab': sharingVisible }" type="is-toggle" v-model="activeTab" expanded >
       <b-tab-item label="NFTs" value="nft" >
-        <GalleryCardList :items="nfts" />    
+        <GalleryCardList :items="nfts" />
       </b-tab-item>
       <b-tab-item label="Collections" value="collection" >
         <GalleryCardList :items="collections" type="collectionDetail" link="rmrk/collection" />
@@ -27,7 +27,7 @@
         <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
       </b-tab-item>
     </b-tabs>
-    
+
   </div>
 </template>
 

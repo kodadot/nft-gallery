@@ -3,12 +3,12 @@
     <section>
       <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
         <div
-          slot="trigger" 
+          slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
           aria-controls="contentIdForA11y3">
-          <p class="card-header-title"> 
+          <p class="card-header-title">
             <a :href="getExplorerUrl(nature)"  target="_blank">
               🧊 {{nature}}</a>
           </p>
@@ -27,8 +27,8 @@
         <footer class="card-footer card-footer__block">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <router-link 
-                :to="{ name: 'explorerByTabHash', 
+              <router-link
+                :to="{ name: 'explorerByTabHash',
                 params: { tab: 1, hash: type }}">
                 <i>parent</i><br>
                 {{type}}
@@ -65,12 +65,12 @@ export default class Card extends Vue {
   @Prop(String) public type!: string;
   @Prop(String) public extrinsicHash!: string;
   @Prop(String) public lifetime!: string;
-  
+
   getExplorerUrl(value: string) {
-    return urlBuilderBlockNumber(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderBlockNumber(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
-  } 
+  }
 }
 </script>
 <style scoped>

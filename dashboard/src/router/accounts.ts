@@ -52,7 +52,7 @@ export default [
   },
   {
     path: '/accounts/1',
-   
+
     component: Accounts,
     // beforeEnter: apiEnabled,
     children: [
@@ -71,5 +71,5 @@ export default [
 
     ]
   },
-      
+
 ]

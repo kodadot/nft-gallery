@@ -15,7 +15,7 @@
     </div>
 
     <GalleryCardList :items="nfts" />
-    
+
   </div>
 </template>
 
@@ -90,7 +90,7 @@ export default class CollectionItem extends Vue {
   get iframeSettings() {
     return { width: '100%', height: '100vh' }
   }
-  
+
   collectionMeta(collection: Collection) {
     fetchCollectionMetadata(collection)
     .then(

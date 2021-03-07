@@ -26,19 +26,19 @@
   "computed id": "计算id",
   "content": "内容",
   "create collection": "创建收藏",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "作品所有者地址",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "画廊展示界面您想显示的名字",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "交易中您想使用的标志",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "您的收藏的描述，将在收藏品展示中显示",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "增加收藏品封面，将在收藏品展示中显示",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "选择您想铸币的收藏品",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "收藏的最大NFTs数量",
   "Account": "账户",
   "Name": "姓名",
@@ -51,7 +51,7 @@
   "Transferable is by default": "默认模式可转移",
   "Serial Number": "序列号吗",
   "Name of your token": "您的代币名称",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance是一个NFT的标志符, 就像交易市场指示. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "Upload 将上传您的NFT的形象",
   "Click to add image": "点击添加形象",

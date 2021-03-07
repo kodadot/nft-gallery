@@ -45,12 +45,12 @@ export default class Identity extends Mixins(InlineMixin) {
   @Watch('address')
   async watchAddress(newAddress: Address,  oldAddress: Address) {
     console.log('@Watch(address)', newAddress);
-    
+
     if ((newAddress && !oldAddress) || (oldAddress !== newAddress)) {
       this.identity = await this.identityOf(newAddress)
-    } 
+    }
   }
-  
+
 
   public async mounted() {
     console.log('this.address', this.address);
@@ -70,7 +70,7 @@ export default class Identity extends Mixins(InlineMixin) {
       return Promise.resolve(identity)
     }
 
-  
+
    return await this.$store.dispatch('fetchIdentity', address)
     .then(() => this.$store.getters.getIdentityFor(address))
     .then(id => { console.log('identity', identity); return id || emptyObject<Registration>()  })

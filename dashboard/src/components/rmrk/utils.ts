@@ -208,4 +208,4 @@ export const resolveMedia = (mimeType: string): MediaType => {
 export const decode = (value: string) => decodeURIComponent(value);
 export const nftSort = (a: any, b: any) => b._mod - a._mod
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
-export const defaultSortBy = (arr: any[]) => sortBy(arr) 
+export const defaultSortBy = (arr: any[]) => sortBy(arr)

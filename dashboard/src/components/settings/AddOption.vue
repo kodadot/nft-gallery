@@ -5,8 +5,8 @@
     <b-input placeholder="Name" v-model="text"></b-input>
     <b-input placeholder="wss://kusama-rpc.polkadot.io/" v-model="value" expanded></b-input>
     <p class="control">
-      <b-button :disabled="!text || !value" type="is-dark" 
-        @click="onAddedOption" 
+      <b-button :disabled="!text || !value" type="is-dark"
+        @click="onAddedOption"
         outlined>Add</b-button>
     </p>
   </b-field>

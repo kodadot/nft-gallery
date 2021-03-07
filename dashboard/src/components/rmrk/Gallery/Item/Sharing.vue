@@ -5,9 +5,9 @@
         <span>
           <a :href="twitterUri"
               target="_blank">
-            <b-icon 
+            <b-icon
               size="is-large"
-              pack="fab" 
+              pack="fab"
               icon="twitter">
             </b-icon>
           </a>
@@ -17,9 +17,9 @@
         <span>
           <a :href="telegramUri"
               target="_blank">
-            <b-icon 
+            <b-icon
               size="is-large"
-              pack="fab" 
+              pack="fab"
               icon="telegram">
             </b-icon>
           </a>
@@ -29,9 +29,9 @@
         <span>
           <a :href="linemeUri"
               target="_blank">
-            <b-icon 
+            <b-icon
               size="is-large"
-              pack="fab" 
+              pack="fab"
               icon="line">
             </b-icon>
           </a>
@@ -39,12 +39,12 @@
       </p>
       <p class="card-footer-item">
         <span>
-          <a 
+          <a
             v-clipboard:copy="realworldFullPathShare"
             @click="toast('URL copied to clipboard')">
-            <b-icon   
+            <b-icon
               size="is-medium"
-              pack="fas" 
+              pack="fas"
               icon="link">
             </b-icon>
           </a>
@@ -52,12 +52,12 @@
       </p>
       <p class="card-footer-item">
         <span>
-          <a 
+          <a
             v-clipboard:copy="iframeUri"
             @click="toast('Code copied to clipboard')">
-            <b-icon   
+            <b-icon
               size="is-medium"
-              pack="fas" 
+              pack="fas"
               icon="code">
             </b-icon>
           </a>
@@ -120,10 +120,10 @@ export default class Sharing extends Vue {
       style="width:${this.width};height:${this.height};border:none;"
     ></iframe>
     `
-  }  
+  }
 
 
-  
+
   public toast(message: string): void {
     this.$buefy.toast.open(message);
   }

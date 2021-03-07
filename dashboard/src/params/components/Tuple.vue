@@ -4,7 +4,7 @@
       {{argument.name}}: {{argument.type}}
     </strong>
 <div class='tuple-argument-wrapper' >
-  
+
   <ArgumentHandler
       class='tuple-argument-item'
       v-for="(arg, index) in fields"
@@ -39,13 +39,13 @@ export default class Tuple extends Vue {
   private fields: any[] = [];
   private results: any[] = [];
 
-    public unwrapTuple(argument: any): any {      
+    public unwrapTuple(argument: any): any {
       return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
     }
 
     public enhanceTypeDef(argument: any, index: number) {
       console.log('Tuple', argument);
-      
+
     return {
       ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
