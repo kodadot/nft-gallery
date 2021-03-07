@@ -21,8 +21,8 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image" v-if="nft.image">
-                <b-skeleton 
-                  height="240px" 
+                <b-skeleton
+                  height="240px"
                   :active="isLoading">
                 </b-skeleton>
                 <b-image
@@ -30,7 +30,7 @@
                   :src="nft.image"
                   :src-fallback="require('@/utils/placeholder.png')"
                   alt="Simple image"
-                  ratio="1by1" 
+                  ratio="1by1"
                 ></b-image>
               </div>
 
@@ -43,14 +43,14 @@
               </div>
 
               <div class="card-content">
-                <p 
+                <p
                   v-if="!isLoading"
                   class="title is-4 has-text-centered">
                   <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">
                     {{ nft.name }}
                   </router-link>
                 </p>
-                <b-skeleton  
+                <b-skeleton
                   :active="isLoading">
                 </b-skeleton>
               </div>

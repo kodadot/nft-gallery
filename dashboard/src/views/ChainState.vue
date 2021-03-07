@@ -101,7 +101,7 @@ export default class ChainState extends Vue {
     } else {
       this.subs[key] = await fn(...args, callback);
     }
-    
+
   }
 
   public beforeDestroy() {
@@ -112,7 +112,7 @@ export default class ChainState extends Vue {
     const index = this.keys[key];
     this.$delete(this.random, index);
     this.$delete(this.defaultValues, index);
-    
+
     if (this.subs[key] && isFunction(this.subs[key])) {
       this.subs[key]();
     }

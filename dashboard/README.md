@@ -50,7 +50,7 @@ Usage:
 export default class Summary extends Vue {
   private currentBlock: any = {};
   private subs: any[] = [];
-  
+
   public async mounted() {
     this.subs.push(await api.derive.chain.bestNumber(value => this.currentBlock = value));
   }

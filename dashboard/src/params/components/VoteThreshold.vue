@@ -32,7 +32,7 @@ export default class VoteThreshold extends Vue {
   }
 
 
-  get selected() {    
+  get selected() {
     return this.defaultValue || '';
   }
 

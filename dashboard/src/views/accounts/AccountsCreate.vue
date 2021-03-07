@@ -1,6 +1,6 @@
 <template>
 <div id="AccountsCreate">
-  <Create 
+  <Create
     mode="accounts"
     :theme="theme"
     @on-create="$emit('on-create')"

@@ -14,7 +14,7 @@ export default class Balance extends Vue {
   get chainProps() {
     return this.chainProperties;
   }
-  
+
   public async mounted(): Promise<void> {
     const { api } = (this as any).$http;
     this.chainProperties = await api.registry.getChainProperties();

@@ -30,7 +30,7 @@
       <p class="title">
         {{ $t('content')}}
       </p>
-      <b-switch v-model="uploadMode" 
+      <b-switch v-model="uploadMode"
         passive-type="is-dark"
         :rounded="false">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
@@ -52,7 +52,7 @@
       <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
         <b-input v-model="rmrkMint.metadata"></b-input>
       </b-field>
-      <PasswordInput v-model="password" :account="accountId" />   
+      <PasswordInput v-model="password" :account="accountId" />
       <b-button
         type="is-primary"
         icon-left="paper-plane"
@@ -194,14 +194,14 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
       });
       console.warn('TX IN', tx);
       showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
-      
+
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e);
       this.isLoading = false;
     }
 
-    
+
   }
 
   private upload(data: File) {

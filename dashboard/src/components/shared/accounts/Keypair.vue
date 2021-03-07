@@ -2,32 +2,32 @@
   <div id="Keypair" class="keypair-card__wrapper card">
       <div class="card-content">
         <div class="columns">
-          <div class="column">  
+          <div class="column">
           <b-field grouped multiline>
             <div class="keypair-info__wrapper">
             <div v-if="!isEditingName" @click="editName()"><b>🧢{{meta.name}}</b>
             </div>
-            <b-input v-if="isEditingName" v-model="newName" 
+            <b-input v-if="isEditingName" v-model="newName"
               @blur="saveName()"
               @keyup.native.enter="$event.target.blur()">
-            </b-input> 
+            </b-input>
             <div>📇{{shortAddress(address)}}
               <b-button
-              size="is-small" 
-              icon-left="copy" 
+              size="is-small"
+              icon-left="copy"
               v-clipboard:copy="address"
               @click="toast('Address copied to clipboard')">
               </b-button>
               </div>
             <div v-if="mode === 'accounts'">🔑{{shortAddress(publicKey)}}</div>
             <div v-if="mode === 'accounts'">🆎{{type}}</div>
-            <p v-if="!meta.tags && !isEditingTags 
+            <p v-if="!meta.tags && !isEditingTags
               || meta.tags === null && !isEditingTags
-              || meta.tags !== null && meta.tags.length === 0 && !isEditingTags" 
+              || meta.tags !== null && meta.tags.length === 0 && !isEditingTags"
               @click="editTags()">🏷 add tags</p>
-            <b-input v-if="isEditingTags" 
-              v-model="newTags" 
-              @blur="saveTags()" 
+            <b-input v-if="isEditingTags"
+              v-model="newTags"
+              @blur="saveTags()"
               @keyup.native.enter="$event.target.blur()">
             </b-input>
             <p @click="editTags()" v-if="!isEditingTags && meta.tags">
@@ -36,7 +36,7 @@
               v-bind:key="t">
               {{t}}
             </b-tag>
-            <b-tag type="is-light" 
+            <b-tag type="is-light"
               v-if="meta.isTesting">testing account
             </b-tag>
             </p>
@@ -61,7 +61,7 @@
       <div>
         <div v-if="mode === 'accounts'">
           <b-field grouped multiline>
-            <b-button type="is-dark" icon-left="trash" 
+            <b-button type="is-dark" icon-left="trash"
               @click="forgetAccount(address)" outlined>
             </b-button>
             <router-link :to="{name:'accountsBackup', params:{ address: address}}">
@@ -80,7 +80,7 @@
         </div>
         <div v-if="mode === 'addressbook'">
           <b-field grouped multiline>
-            <b-button type="is-dark" icon-left="trash" 
+            <b-button type="is-dark" icon-left="trash"
               @click="forgetAccount(address)" outlined>
             </b-button>
             <router-link :to="{name:'transferTo', params:{ to: address}}">
@@ -128,8 +128,8 @@ export default class Keypair extends Vue {
   @Prop(String) public password!: string;
 
   getExplorerUrl(value: string) {
-    return urlBuilderAccount(value, 
-      this.$store.state.explorer.chain, 
+    return urlBuilderAccount(value,
+      this.$store.state.explorer.chain,
       this.$store.state.explorer.provider)
   }
 

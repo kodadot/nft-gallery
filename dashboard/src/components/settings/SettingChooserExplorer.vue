@@ -38,10 +38,10 @@ export default class SettingChooserExplorer extends Vue {
 
   public async mounted() {
     this.$store.commit('setExplorerOptions',{ availableOptions: {
-      provider: [ 
+      provider: [
         { text: 'Subscan', value: 'subscan' },
-        { text: 'Polkascan', value: 'polkascan'} 
-      ], 
+        { text: 'Polkascan', value: 'polkascan'}
+      ],
       chain: [
         { text: 'Kusama', value: 'kusama' },
         { text: 'Edgeware', value: 'edgeware' },
@@ -51,7 +51,7 @@ export default class SettingChooserExplorer extends Vue {
     )
   }
 }
-</script> 
+</script>
 <style scoped>
 .setting-chooser-wrapper {
   margin-top: 1em;

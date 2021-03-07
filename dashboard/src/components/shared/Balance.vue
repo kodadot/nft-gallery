@@ -1,8 +1,8 @@
 <template>
   <!-- // TODO denomination and set asset by network -->
-	<b-tag class="balance-tag" 
+	<b-tag class="balance-tag"
 		type="is-dark" size="is-medium">
-		Transferable: 
+		Transferable:
     <Money :value="currentBalance" inline />
 	</b-tag>
 </template>
@@ -20,7 +20,7 @@ import Money from '@/components/shared/format/Money.vue'
 })
 export default class Balance extends Vue {
   @Prop() public account!: string;
-  private currentBalance: string = '0'; 
+  private currentBalance: string = '0';
 
 
   @Watch('account')

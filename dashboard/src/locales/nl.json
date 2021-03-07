@@ -26,19 +26,19 @@
   "computed id": "berekend id",
   "content": "inhoud",
   "create collection": "creëer collectie",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Adres eigenaar van geminte kunst",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Naam die je wil tonen in de galerijweergave",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Symbool waaronder je het wil verhandelen",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Beschrijf jouw collectie, dit zal weergegeven worden onder de collectieweergave",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Voeg collectie cover toe die getoond zal worden in collectieweergave",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Selecteer collectie waarnaar je jouw token wil minten",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Maximale NFTs in collectie",
   "Account": "Account",
   "Name": "Naam",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Trasfereerbaar is by default",
   "Serial Number": "Serie Nummer",
   "Name of your token": "Naam van je token",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "Uploaden zal je de foto van jouw NFT uploaden",
   "Click to add image": "Druk om afbeelding weer te geven",

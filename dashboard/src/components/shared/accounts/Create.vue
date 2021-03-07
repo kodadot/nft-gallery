@@ -4,7 +4,7 @@
       <div>
         <b-field grouped>
           <b-field>
-            <Identicon 
+            <Identicon
               :value="newAccount.address.toString()"
               :size="size"
              />
@@ -15,7 +15,7 @@
           </b-field>
         </b-field>
       </div>
-      <b-field label="name" 
+      <b-field label="name"
         v-bind:type="{ 'is-danger': !isNameValid }" >
         <b-input v-model="newAccount.name"
           @input="checkAccountName(); validateSave()"
@@ -24,17 +24,17 @@
       </b-field>
       <div v-if="mode === 'addressbook'">
         <b-field label="address"
-          v-bind:type="{ 'is-danger': !newAccount.address.length > 0 
+          v-bind:type="{ 'is-danger': !newAccount.address.length > 0
           || !isAddressValid || !uniqueAddress }">
           <b-input v-model="newAccount.address"
-            @input="validateAddress(newAccount.address); 
-              checkAlreadyPresentAddress(newAccount.address); 
+            @input="validateAddress(newAccount.address);
+              checkAlreadyPresentAddress(newAccount.address);
               validateSave()">
           </b-input>
         </b-field>
       </div>
       <div v-if="mode === 'accounts'">
-      <b-field label="mnemonic seed" 
+      <b-field label="mnemonic seed"
         v-bind:type="{ 'is-danger': !isSeedValid }">
         <b-input v-if="seedType === 'mnemonic'" v-model="newAccount.mnemonicSeed"
           @input="validateMnemonic(); addressFromSeed('mnemonic'); validateSeed()"
@@ -55,18 +55,18 @@
               </template>
               <b-icon icon="caret-down"></b-icon>
             </button>
-            <b-dropdown-item value="mnemonic" 
+            <b-dropdown-item value="mnemonic"
               @click="dropdownClick('mnemonic')">
               Mnemonic
             </b-dropdown-item>
-            <b-dropdown-item value="raw" 
+            <b-dropdown-item value="raw"
               @click="dropdownClick('raw')">
               Raw Seed
             </b-dropdown-item>
           </b-dropdown>
         </p>
       </b-field>
-      <b-field label="password" 
+      <b-field label="password"
         v-bind:type="{ 'is-danger': !isPassValid }">
         <b-input v-model="newAccount.password" type="password"
          @input="validatePassword(newAccount.password); validateSave()"
@@ -97,17 +97,17 @@
     </section>
     <div>
       <router-link :to="{ name: mode }">
-        <b-button 
+        <b-button
           type="is-dark"
           icon-left="plus"
-          @click="onCreate" 
+          @click="onCreate"
           outlined
           :disabled="!canSave">
           Save
         </b-button>
       </router-link>
       <router-link :to="{ name: mode }">
-        <b-button 
+        <b-button
           type="is-warning"
           icon-left="times"
           outlined>
@@ -225,7 +225,7 @@ export default class Create extends Vue {
   }
 
   public validateRawSeed(): boolean {
-    return this.isValidRawSeed = ((this.newAccount.rawSeed.length > 0) 
+    return this.isValidRawSeed = ((this.newAccount.rawSeed.length > 0)
       && (this.newAccount.rawSeed.length <= 32)) || this.isHexSeed(this.newAccount.rawSeed);
   }
 
@@ -279,11 +279,11 @@ export default class Create extends Vue {
   @Emit()
   public onCreate(): void {
     try {
-      
-      
+
+
       const meta = {
         name: this.newAccount.name,
-        tags: (this.newAccount.tags != null)? 
+        tags: (this.newAccount.tags != null)?
           this.newAccount.tags.split(',')
           .map((item: string) => item.trim())
           .filter((item: string) => item) : null,
@@ -303,7 +303,7 @@ export default class Create extends Vue {
       if (this.mode === 'addressbook') {
         const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
       }
-      
+
     } catch (error) {
       console.error(error);
     }

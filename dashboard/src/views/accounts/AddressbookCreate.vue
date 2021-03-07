@@ -1,6 +1,6 @@
 <template>
 <div id="AddressbookCreate">
-  <Create 
+  <Create
     mode="addressbook"
     :theme="theme"
     @on-create="$emit('on-create')"

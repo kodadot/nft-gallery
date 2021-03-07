@@ -32,7 +32,7 @@ export default class Amount extends Vue {
 
 
     console.log(this.defaultValue, isHex(this.defaultValue));
-    
+
 
     return defaultValue ? defaultValue : 0;
   }

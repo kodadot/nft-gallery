@@ -4,7 +4,7 @@
       :value="address.toString()"
       :size="size"
       />
-    {{shortAddress(address)}} 
+    {{shortAddress(address)}}
     <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">
       <b-input v-model="change.oldPass" type="password"
         @input="validatePassword(change.oldPass)"

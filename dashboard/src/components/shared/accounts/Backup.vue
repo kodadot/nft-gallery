@@ -7,8 +7,8 @@
       />
       {{shortAddress(address)}}
       <b-button
-      size="is-small" 
-      icon-left="copy" 
+      size="is-small"
+      icon-left="copy"
       v-clipboard:copy="address"
       @click="toast('Address copied to clipboard')">
       </b-button>
@@ -17,9 +17,9 @@
       <b-input v-model="password" type="password"
         @input="validatePassword(password)"
         password-reveal></b-input>
-    </b-field>      
+    </b-field>
     <router-link :to="{name: 'accounts'}">
-      <b-button icon-left="cloud-download-alt" type="is-dark" 
+      <b-button icon-left="cloud-download-alt" type="is-dark"
         @click="makeBackup(address, password)" outlined>
         Backup
       </b-button>

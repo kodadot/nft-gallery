@@ -35,7 +35,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).Q = Query;
 (window as any).Where = Where;
 
-(async () => { 
+(async () => {
   await createInstance(keyInfo, getPrefixByStoreUrl());
   await enableExtension();
 })()

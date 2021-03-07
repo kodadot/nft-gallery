@@ -1,6 +1,6 @@
 <template>
 <div id="AccountsBackup">
-  <div> 
+  <div>
     <Backup
       :address="address"
       :theme="theme"

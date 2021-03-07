@@ -5,10 +5,10 @@
         <div class="container">
           <h1 class="title is-1">
             <router-link :to="{ name: 'nft' }">
-              <b-icon  
+              <b-icon
                 icon="magic"
                 size="is-medium">
-              </b-icon> 
+              </b-icon>
               KodaDot NFT  {{ $t('Explorer') }}<br>
             </router-link>
           </h1><br>
@@ -17,15 +17,15 @@
               <div class="tile is-child">
                 <h2 class="title is-3">
                   <router-link :to="{ name: 'nft' }">
-                    <b-icon  
+                    <b-icon
                       icon="eye">
-                    </b-icon> 
+                    </b-icon>
                     {{ $t('Gallery of NFT Tokens and Collectibles') }}
                   </router-link>
                 </h2>
                 <h2 class="subtitle is-4">
                   <router-link :to="{ name: 'rmrk' }">
-                    <b-icon  
+                    <b-icon
                       icon="print">
                     </b-icon>
                     {{ $t('Create your NFT Token & Collectibles') }}
@@ -35,15 +35,15 @@
               <div class="tile is-child">
                 <h2 class="title is-4">
                   <router-link :to="{ name: 'rmrkFaq' }">
-                    <b-icon  
+                    <b-icon
                       icon="question">
-                    </b-icon> 
+                    </b-icon>
                     {{ $t('New here? We have F.A.Q.') }}
                   </router-link>
                 </h2>
                 <h2 class="subtitle is-4">
                   <a href="https://github.com/kodadot/nft-gallery/issues/new" target="_blank">
-                    <b-icon 
+                    <b-icon
                       pack="far"
                       icon="comment-dots">
                     </b-icon>
@@ -60,13 +60,13 @@
                       Community
                   </h2>
                   <h2 class="subtitle is-4">
-                    <li 
+                    <li
                       v-for="community in publicCommunity"
                       :key="community[0]">
                         <a :href="community[1]">{{ community[0] }}</a>
                       </li>
                   </h2>
-                </div>  
+                </div>
             </div>
               <div class="tile is-parent is-vertical">
                 <div class="tile is-child">
@@ -78,7 +78,7 @@
                       Creators Spotlight
                   </h2>
                   <h2 class="subtitle is-4">
-                    <li 
+                    <li
                       v-for="c in creators"
                       :key="c">
                         <router-link :to="{ name: 'profile', params: { id: c } }">
@@ -90,19 +90,19 @@
                 <div class="tile is-child">
                   <h2 class="title">
                     <a href="https://twitter.com/KodaDot" target="_blank">
-                      <b-icon 
-                        pack="fab" 
+                      <b-icon
+                        pack="fab"
                         icon="twitter">
-                      </b-icon> 
+                      </b-icon>
                       KodaDot
                     </a>
                   </h2>
                   <h2 class="subtitle">
                     <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
-                      <b-icon 
-                        pack="fab" 
+                      <b-icon
+                        pack="fab"
                         icon="medium">
-                      </b-icon>   
+                      </b-icon>
                       {{ $t('Read our story, how we started.') }}
                     </a>
                   </h2>

@@ -13,7 +13,7 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AddressInput extends Vue {
-  
+
   private value: string = '';
   private err: string | null = '';
   @Prop({ default: 'insert address' }) public label!: string;

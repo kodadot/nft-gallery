@@ -46,7 +46,7 @@ export default class Arguments extends Vue {
   @Emit('action')
   private action(value: any) {
     return value;
-  } 
+  }
 
 }
 </script>

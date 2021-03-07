@@ -1,13 +1,13 @@
 <template>
-  <b-select 
+  <b-select
     placeholder="Language"
     icon="language"
     icon-pack="fas"
-    v-model="userLang"    
+    v-model="userLang"
     >
-    <option 
-      v-for="(lang, i) in langsFlags" 
-      :key="`Lang${i}`" 
+    <option
+      v-for="(lang, i) in langsFlags"
+      :key="`Lang${i}`"
       :value="lang[0]">{{ lang[1] }}
     </option>
   </b-select>
@@ -19,7 +19,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class LocaleChanger extends Vue {
 
-get langsFlags() {  
+get langsFlags() {
   return this.$store.state.language.langsFlags;
 }
 
@@ -32,6 +32,6 @@ set userLang(value) {
   this.$store.commit('setLanguage', { 'userLang': value})
   this.$i18n.locale = value
 }
-  
+
 }
 </script>

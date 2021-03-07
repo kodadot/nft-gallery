@@ -6,7 +6,7 @@ const urlBuilderBlockNumber = (value: string, chain: string, provider: string): 
 
   if (provider === 'polkascan') {
     return `https://${provider}.io/pre/${chain}/block/${value}`
-  }  
+  }
 }
 
 const urlBuilderAccount = (value: string, chain: string, provider: string): any => {
@@ -16,7 +16,7 @@ const urlBuilderAccount = (value: string, chain: string, provider: string): any 
 
   if (provider === 'polkascan') {
     return `https://${provider}.io/pre/${chain}/account/${value}`
-  }  
+  }
 }
 
 const urlBuilderTransaction = (value: string, chain: string, provider: string): any => {
