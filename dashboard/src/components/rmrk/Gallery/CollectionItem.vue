@@ -25,7 +25,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '../service/RmrkService';
 import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata } from '../utils';
+import { sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata, sanitizeImage, sanitizeObjectArray } from '../utils';
 import isShareMode from '@/utils/isShareMode';
 
 const components = {
@@ -63,11 +63,12 @@ export default class CollectionItem extends Vue {
   this.isLoading = true;
 
   try {
-    await rmrkService.getCollectionById(this.id).then(this.collectionMeta);
+    this.collection = await rmrkService.getCollectionById(this.id).then(sanitizeImage);
     this.nfts = await rmrkService
         .getNFTsForCollection(this.id)
+        .then(sanitizeObjectArray)
         .then(defaultSortBy);
-    this.nftMeta();
+    // this.nftMeta();
     // const collections = await rmrkService.getCollectionListForAccount(
     //   this.id
     // ).then(defaultSortBy);
@@ -104,17 +105,6 @@ export default class CollectionItem extends Vue {
         console.warn(e);
       }
     )
-  }
-
-  nftMeta() {
-    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.nfts, index, {
-        ...this.nfts[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
   }
 }
 </script>
