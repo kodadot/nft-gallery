@@ -12,22 +12,21 @@
               ><Identity :address="id" :inline="true"
             /></a>
           </p>
-          <Sharing label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" />
+          <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
         </div>
       </div>
     </div>
-    <b-tabs type="is-toggle" v-model="activeTab" expanded>
-      <b-tab-item label="NFTs">
+    <b-tabs :class="{ 'invisible-tab': sharingVisible }" type="is-toggle" v-model="activeTab" expanded >
+      <b-tab-item label="NFTs" value="nft" >
         <GalleryCardList :items="nfts" />
       </b-tab-item>
-      <b-tab-item label="Collections">
-        <GalleryCardList :items="collections" type="collectionDetail" />
+      <b-tab-item label="Collections" value="collection" >
+        <GalleryCardList :items="collections" type="collectionDetail" link="rmrk/collection" />
       </b-tab-item>
-      <b-tab-item label="Packs">
-        <GalleryCardList :items="packs" type="packDetail" />
+      <b-tab-item label="Packs" value="pack" >
+        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
       </b-tab-item>
     </b-tabs>
-    <!-- <GalleryCardList :items="nfts" /> -->
 
   </div>
 </template>
@@ -46,6 +45,7 @@ import {
   NFTWithMeta,
   Pack
 } from '@/components/rmrk/service/scheme';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -53,9 +53,11 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue')
 };
 
+const eq = (tab: string) => (el: string) => tab === el
+
 @Component({ components })
 export default class Profile extends Vue {
-  public activeTab: number = 0;
+  public activeTab: string = 'nft';
   protected id: string = '';
   protected isLoading: boolean = false;
   protected collections: CollectionWithMeta[] = [];
@@ -64,6 +66,7 @@ export default class Profile extends Vue {
 
   public async mounted() {
     this.checkId();
+    this.checkActiveTab();
     const rmrkService = getInstance();
     if (!rmrkService || !this.id) {
       return;
@@ -99,5 +102,29 @@ export default class Profile extends Vue {
     }
   }
 
+  get sharingVisible() {
+    return isShareMode;
+  }
+
+  get customUrl() {
+    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
+  }
+
+  get iframeSettings() {
+    return { width: '100%', height: '100vh', customUrl: this.customUrl }
+  }
+
+  public checkActiveTab() {
+    if (this.$route.params.tab && ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))) {
+      this.activeTab = this.$route.params.tab;
+    }
+  }
+
 }
 </script>
+
+<style >
+.invisible-tab > nav.tabs {
+  display: none;
+}
+</style>
