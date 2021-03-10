@@ -129,7 +129,7 @@ export default class Landing extends Vue {
     ['Czech', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
     ['Japan', 'https://t.me/joinchat/-CjTUgAflGQxYTU0'],
     ['Korea', 'https://t.me/KodaDotKR'],
-    ['Portugese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
+    ['Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
     ['Poland', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['Russia', 'https://t.me/kodadotru'],
     ['Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
