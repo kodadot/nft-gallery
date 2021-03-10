@@ -9,8 +9,8 @@ import {
   MediaType
 } from './types';
 import api from '@/fetch';
-import { RmrkType } from './service/RmrkService';
-import { NFTMetadata, Collection } from './service/scheme';
+import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/RmrkService';
+import { NFTMetadata, Collection, PackMetadata, NFT } from './service/scheme';
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
@@ -36,18 +36,18 @@ export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3):
 
 export const fetchPackMetadata = (
   rmrk: RmrkType
-): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk)
+): Promise<PackMetadata> => fetchMetadata<PackMetadata>(rmrk)
 
 export const fetchCollectionMetadata = (
-  rmrk: RmrkType
+  rmrk: Collection
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const fetchNFTMetadata = (
-  rmrk: RmrkType
+  rmrk: NFT
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk)
 
 export const fetchMetadata = async <T>(
-  rmrk: RmrkType
+  rmrk: RmrkType | CollectionOrNFT
 ): Promise<T> => {
   try {
     if (!rmrk.metadata) {
@@ -99,6 +99,17 @@ export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
 
   return ipfsUrl;
 };
+
+export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: string): T {
+  return {
+    ...instance,
+    image: sanitizeIpfsUrl(instance.image || '', provider)
+  }
+}
+
+export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: string): T[] {
+  return instances.map(i => sanitizeImage(i, provider))
+}
 
 export const decodeRmrkString = (rmrkString: string): RMRK => {
   const value = decode(
@@ -206,6 +217,7 @@ export const resolveMedia = (mimeType: string): MediaType => {
 };
 
 export const decode = (value: string) => decodeURIComponent(value);
-export const nftSort = (a: any, b: any) => b._mod - a._mod
+export const sortByModification = (a: any, b: any) => b._mod - a._mod
+export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)

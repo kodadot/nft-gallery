@@ -77,7 +77,7 @@ import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd.min.js';
 import 'markdown-it-vue/dist/markdown-it-vue.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import AvailableActions from './AvailableActions.vue';
@@ -151,13 +151,11 @@ export default class GalleryItem extends Vue {
     try {
       const nft = await rmrkService.getNFT(this.id);
       console.log(nft);
-      const meta = await fetchNFTMetadata(nft);
-      console.log(meta);
+
       this.nft = {
         ...nft,
-        ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+        image: sanitizeIpfsUrl(nft.image || ''),
+        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
       };
       if (this.nft.animation_url) {
         const { headers } = await api.head(this.nft.animation_url);

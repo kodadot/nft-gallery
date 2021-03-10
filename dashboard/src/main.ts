@@ -23,7 +23,6 @@ import { web3FromAddress } from '@polkadot/extension-dapp';
 import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
-import { Query, Where } from '@textile/hub';
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -32,8 +31,8 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).T = client;
 (window as any).R = getInstance;
 (window as any).W = web3FromAddress;
-(window as any).Q = Query;
-(window as any).Where = Where;
+// (window as any).migrateCollection = migrateCollection;
+// (window as any).migrateNFT = migrateNFT;
 
 (async () => {
   await createInstance(keyInfo, getPrefixByStoreUrl());

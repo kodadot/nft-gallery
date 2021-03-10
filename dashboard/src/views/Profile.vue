@@ -37,10 +37,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import {
-  fetchNFTMetadata,
-  sanitizeIpfsUrl,
   defaultSortBy,
-  fetchCollectionMetadata
+  sanitizeObjectArray
 } from '@/components/rmrk/utils';
 import {
   Collection,
@@ -58,11 +56,11 @@ const components = {
 @Component({ components })
 export default class Profile extends Vue {
   public activeTab: number = 0;
-  private id: string = '';
-  private isLoading: boolean = false;
-  private collections: CollectionWithMeta[] = [];
-  private nfts: NFTWithMeta[] = [];
-  private packs: Pack[] = [];
+  protected id: string = '';
+  protected isLoading: boolean = false;
+  protected collections: CollectionWithMeta[] = [];
+  protected nfts: NFTWithMeta[] = [];
+  protected packs: Pack[] = [];
 
   public async mounted() {
     this.checkId();
@@ -76,12 +74,15 @@ export default class Profile extends Vue {
     try {
       this.nfts = await rmrkService
         .getNFTsForAccount(this.id)
+        .then(sanitizeObjectArray)
         .then(defaultSortBy);
-      this.nftMeta();
+      // this.nftMeta();
       this.collections = await rmrkService.getCollectionListForAccount(
         this.id
-      ).then(defaultSortBy);
-      this.collectionMeta();
+      )
+      .then(sanitizeObjectArray)
+      .then(defaultSortBy);
+      // this.collectionMeta();
       this.packs = await rmrkService.getPackListForAccount(this.id).then(defaultSortBy);
       // console.log(packs)
     } catch (e) {
@@ -97,29 +98,6 @@ export default class Profile extends Vue {
       this.id = this.$route.params.id;
     }
   }
-
-  collectionMeta() {
-    this.collections.map(fetchCollectionMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.collections, index, {
-        ...this.collections[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
-  }
-
-  nftMeta() {
-    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.nfts, index, {
-        ...this.nfts[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
-  }
-
 
 }
 </script>
