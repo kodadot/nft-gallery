@@ -66,7 +66,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl, defaultSortBy } from '../utils';
+import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 
 type NFTType = NFT | NFTWithMeta;
@@ -85,8 +85,10 @@ export default class Gallery extends Vue {
     }
 
     try {
-      this.nfts = await rmrkService.getAllNFTs().then(defaultSortBy);
-      this.collectionMeta();
+      this.nfts = await rmrkService.getAllNFTs()
+      .then(sanitizeObjectArray)
+      .then(defaultSortBy);
+      // this.collectionMeta();
     } catch (e) {
       console.warn(e);
     }
@@ -94,16 +96,6 @@ export default class Gallery extends Vue {
     this.isLoading = false;
   }
 
-  collectionMeta() {
-    this.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.nfts, index, {
-        ...this.nfts[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
-  }
 }
 </script>
 
