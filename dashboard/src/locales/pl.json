@@ -26,19 +26,19 @@
   "computed id": "Identyfikator",
   "content": "Zawartość",
   "create collection": "Utwórz Album",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Adres twórcy",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Nazwa która ma się wyświetlać w Galerii",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Symbol handlowy",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Opisz swój album, opis pojawi się pod prezentacją",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Dodaj zdjęcie przewodnie które będzie wizytówką albumu",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Wybór kolekcji / albumu do której przypisać token",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Maksymalna liczba NFT",
   "Account": "Konto",
   "Name": "Nazwa",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Do przesłania",
   "Serial Number": "Numer Seryjny",
   "Name of your token": "Nazwa tokena",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Znacznik jest jak identyfikator dla NFT, wyróżnienie go na rynku. To \"skrócona nazwa\"",
   "Upload will upload your image of the NFT": "Załaduj - doda zdjęcie twojego NFT",
   "Click to add image": "Kilknij aby dodać zdjęcie",
@@ -71,7 +71,7 @@
   "FAQQ3": "Jak stworzyć moje prace?",
   "FAQA3": "Najpierw udaj sie tutaj <a href=\"/#/rmrk/create\">Create</a>. W pierwszej kolejności stwórz swój Album a następnie Token. Jeżeli chcialbyś to udokumentować, czekamy na info!",
   "FAQQ4": "Jak moge sprzedać swoje prace / kolekcje?",
-  "FAQA4": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów.", 
+  "FAQA4": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów.",
   "FAQQ5": "Gdzie mogę kupić token $KSM?",
   "FAQA5": "Poprzez integrację z <a href=\"https://ramp.network\">Ramp.network</a>, Kliknij na <a href=\"#/rmrk/credit\">Środki</a>. Możesz użyć Revolut, standardowego przelewu bankowego, Karty Kredytowej, Apple Pay żeby zasilić swoje konto $KSM . Możesz również zakupić przez Binance <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">Kup $KSM na Binance</a>",
   "FAQQ6": "Jak mogę kupić $KSM za $ETH, $BTC lub $DAI?",

@@ -20,7 +20,7 @@ export default class SettingChooserDevelopment extends Vue {
   @Prop() public label!: string;
   @Prop() public selector!: string;
   @Prop() public setter!: string;
-  
+
   get options() {
     return this.$store.state.development[this.selector];
   }
@@ -44,7 +44,7 @@ export default class SettingChooserDevelopment extends Vue {
     )
   }
 }
-</script> 
+</script>
 <style scoped>
 .setting-chooser-wrapper {
   margin-top: 1em;

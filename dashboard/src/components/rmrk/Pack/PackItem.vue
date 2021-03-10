@@ -15,7 +15,7 @@
     </div>
 
     <GalleryCardList :items="nfts" />
-    
+
   </div>
 </template>
 

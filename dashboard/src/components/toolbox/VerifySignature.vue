@@ -2,13 +2,13 @@
   <div>
     <AccountSelect label="sign with following account" v-model="accountFrom" :asKeyring="true" />
     <b-field label="using the following data">
-      <b-input v-model="data" 
+      <b-input v-model="data"
       @input="isHexData();complexVerifySignature()"
       :disabled="!accountFrom"></b-input>
     </b-field>
-    <b-field label="the supplied signature" 
+    <b-field label="the supplied signature"
       v-bind:type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
-      <b-input v-model="signature" @input="complexVerifySignature()" 
+      <b-input v-model="signature" @input="complexVerifySignature()"
       :disabled="!accountFrom"></b-input>
     </b-field>
     <b-field grouped>
@@ -58,7 +58,7 @@ export default class VerifySignature extends Vue {
       if (this.isValidSignature && this.keyringPubKey) {
         let isValidSr = false;
         let isValidEd = false;
-        
+
         try {
           isValidEd = naclVerify(this.data, this.signature, this.keyringPubKey);
           this.validSignature = true

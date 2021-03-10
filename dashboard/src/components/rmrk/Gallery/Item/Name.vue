@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-collapse class="card" animation="slide" 
+      <b-collapse class="card" animation="slide"
         aria-id="contentIdForA11y3" :open="false">
         <template #trigger="props">
           <div
@@ -25,7 +25,7 @@
             <p class="title is-size-4">
               {{ $t('collection') }}
             </p>
-            <p class="subtitle is-size-6"> 
+            <p class="subtitle is-size-6">
               {{ nft.collection }}
             </p>
             <p class="title is-size-4">

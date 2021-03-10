@@ -5,8 +5,8 @@
       <b-input v-model="input" />
     </b-field>
     <PasswordInput v-model="password" />
-    
-    <b-button icon-left="key" @click="signData" 
+
+    <b-button icon-left="key" @click="signData"
       :disabled="!accountFrom">Sign Message</b-button>
     <br>
     <br>
@@ -15,7 +15,7 @@
       <b-input :value="signature" expanded disabled/>
       <b-button
         size="is-large"
-        icon-left="copy" 
+        icon-left="copy"
         v-clipboard:copy="signature"
         @click="toast('Signature has been copied')">
       </b-button>
@@ -60,7 +60,7 @@ export default class SignMessage extends Vue {
     if (this.password) {
       this.account.decodePkcs8(this.password)
     }
-    
+
     this.signature = u8aToHex(
       this.account.sign(
         isHex(this.input)

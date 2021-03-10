@@ -62,7 +62,7 @@ export default class RmrkNftView extends Vue {
         this.mimeType = String(attr.value)
       }
     })
-    
+
   }
 }
 </script>

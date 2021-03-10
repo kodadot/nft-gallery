@@ -26,19 +26,19 @@
   "computed id": "ID компьютера",
   "content": "Содержание",
   "create collection": "Создать Коллекцию",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Аккаунт владельца создаваемой коллекции",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Название, показываемое в галерее",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Тикер коллекции при торговле",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Описание вашей коллекции, отображаемое при просмотре коллекции",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Добавить обложку, отображаемую при просмотре коллекции",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Выберите коллекцию, в которой создать токен",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Максимальное количество NFT в коллекции",
   "Account": "Аккаунт",
   "Name": "Название",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Трансферабельный по умолчанию",
   "Serial Number": "Серийный номер",
   "Name of your token": "Название вашего токена",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Экземпляр - это короткий идентификатор NFT, тикер на маркете. Это \"короткое компьютерное название\"",
   "Upload will upload your image of the NFT": "Загрузить - загрузит изображение для вашего NFT",
   "Click to add image": "Нажать для добавления изображения",

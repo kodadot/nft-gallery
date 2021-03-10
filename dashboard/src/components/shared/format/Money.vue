@@ -17,11 +17,11 @@ export default class Money extends Vue {
     return this.$store.getters.getChainProperties;
   }
 
-  get decimals(): number {  
+  get decimals(): number {
     return this.chainProperties.tokenDecimals
   }
 
-  get unit(): string {  
+  get unit(): string {
     return this.chainProperties.tokenSymbol
   }
 

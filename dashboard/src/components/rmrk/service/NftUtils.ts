@@ -44,7 +44,7 @@ class NFTUtils {
       JSON.stringify(collection)
     )}`;
   }
-  
+
   protected static encodeNFT(nft: NFT, version: string) {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
       JSON.stringify(nft)
@@ -118,7 +118,7 @@ class NFTUtils {
     const match = rmrkString.match(rr)
 
     if (match) {
-      return JSON.parse(match[0])  
+      return JSON.parse(match[0])
     }
 
     const split = rmrkString.split(SQUARE)
@@ -144,7 +144,7 @@ class RmrkActionRegex {
   static CHANGEISSUER = /^[rR][mM][rR][kK]::CHANGEISSUER::/;
   static LIST = /^[rR][mM][rR][kK]::LIST::/;
   static EMOTE = /^[rR][mM][rR][kK]::EMOTE::/;
-  
+
 }
 
 

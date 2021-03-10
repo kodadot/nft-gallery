@@ -18,17 +18,17 @@
     </div>
     <b-tabs type="is-toggle" v-model="activeTab" expanded>
       <b-tab-item label="NFTs">
-        <GalleryCardList :items="nfts" />    
+        <GalleryCardList :items="nfts" />
       </b-tab-item>
       <b-tab-item label="Collections">
-        <GalleryCardList :items="collections" type="collectionDetail" />    
+        <GalleryCardList :items="collections" type="collectionDetail" />
       </b-tab-item>
       <b-tab-item label="Packs">
         <GalleryCardList :items="packs" type="packDetail" />
       </b-tab-item>
     </b-tabs>
     <!-- <GalleryCardList :items="nfts" /> -->
-    
+
   </div>
 </template>
 

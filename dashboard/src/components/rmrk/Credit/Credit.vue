@@ -7,11 +7,11 @@
         KYC might requried, but you can verify with your Revolut card.
       </b-message>
       <p>
-        
+
       </p>
       <AccountSelect label="Account" v-model="accountId" />
       <b-button type="is-danger is-light"
-        tag="a" 
+        tag="a"
         :href="`https://ramp.network/buy/?swapAsset=KSM`
         + `&userAddress=${accountId}`
         + `&hostAppName=KodaDot`

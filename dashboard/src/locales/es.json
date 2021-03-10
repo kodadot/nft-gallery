@@ -26,19 +26,19 @@
   "computed id": "ID aleatorio",
   "content": "Contenido",
   "create collection": "Crear Colección",
-  "Owner address of minted art": 
+  "Owner address of minted art":
     "Dirección del propietario de la obra",
-  "Name you want to show in gallery view": 
+  "Name you want to show in gallery view":
     "Nombre que desea mostrar en la vista de la galería",
-  "Symbol you want to trade it under": 
+  "Symbol you want to trade it under":
     "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": 
+  "Describe your collection, it will show under collection view":
     "Describe tu collección, se mostrará debajo de la vista de la colección",
-  "Add collection cover which will show up at collection view": 
+  "Add collection cover which will show up at collection view":
     "Añadir portada de la colección que se mostrará encima de la vista de la colección",
-  "Select collection where do you want mint your token": 
+  "Select collection where do you want mint your token":
     "Seleccione la colección donde desea añadir su token",
-  "Maximum NFTs in collection": 
+  "Maximum NFTs in collection":
     "Máximo de NFTs en la colección",
   "Account": "Cuenta",
   "Name": "Nombre",
@@ -51,7 +51,7 @@
   "Transferable is by default": "Transferible por defecto",
   "Serial Number": "Número de serie",
   "Name of your token": "Nombre del token",
-  "Instance_tooltip": 
+  "Instance_tooltip":
     "Nombre abreviado",
   "Upload will upload your image of the NFT": "Subir imagen del NFT",
   "Click to add image": "Click para añadir imagen",

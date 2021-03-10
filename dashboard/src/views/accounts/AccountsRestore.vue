@@ -1,6 +1,6 @@
 <template>
 <div id="AccountsRestore">
-  <div> 
+  <div>
     <Restore @on-restore="$emit('on-restore')"/>
   </div>
 </div>

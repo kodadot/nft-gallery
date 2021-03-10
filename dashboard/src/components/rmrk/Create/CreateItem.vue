@@ -1,6 +1,6 @@
 <template>
   <div class="card create-token-card">
-      
+
     <div class="card-content">
       <b-field>
         <b-button type="is-danger" icon-left="times" outlined @click="removeToken" />
@@ -19,7 +19,7 @@
         <Tooltip :label="$i18n.t('Name of your token')" />
       </b-field>
       <!-- <b-field>
-        <b-switch :true-value="1" :false-value="0" 
+        <b-switch :true-value="1" :false-value="0"
             v-model="view.transferable" disabled>
           {{ $t('Transferable is by default') }}
         </b-switch>
@@ -28,8 +28,8 @@
         <b-input v-model="view.price" ></b-input>
       </b-field> -->
       <b-field>
-        <b-switch v-model="uploadMode" 
-          passive-type="is-dark" 
+        <b-switch v-model="uploadMode"
+          passive-type="is-dark"
           :rounded="false">
           {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
         </b-switch>

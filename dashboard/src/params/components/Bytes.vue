@@ -10,7 +10,7 @@
           @click="enableUpload"
           class="button is-primary"
           icon-left="file"
-          :disabled="disabled" 
+          :disabled="disabled"
         />
       </p>
     </b-field>

@@ -74,7 +74,7 @@ export default class PackSaver extends Vue {
       this.$set(this.currentMenu, this.currentMenu.length, persisted?._id);
       showNotification(`[Textile] Saved pack ${persisted?.name}`);
       this.newPackName = ''
-      
+
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
@@ -122,7 +122,7 @@ export default class PackSaver extends Vue {
   //   const rmrkService = getInstance();
 
   //   try {
-    
+
   //     showNotification(rmrk);
   //     console.log('submit', rmrk);
   //     const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
@@ -135,7 +135,7 @@ export default class PackSaver extends Vue {
   //       `[TEXTILE] ${persisted?._id}`,
   //       notificationTypes.success
   //     );
-      
+
   //   } catch (e) {
   //     showNotification(`[ERR] ${e}`, notificationTypes.danger);
   //     console.error(e);

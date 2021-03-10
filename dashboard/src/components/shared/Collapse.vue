@@ -13,7 +13,7 @@
             <strong>{{ title }}</strong>
         </div>
         <div class="panel-block" v-for="n in content">
-          <DisabledInput :label="n[0]" :value="n[1]" /> 
+          <DisabledInput :label="n[0]" :value="n[1]" />
         </div>
     </b-collapse>
   </div>
@@ -28,7 +28,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
   }
 })
 export default class Collapse extends Vue {
-  private isOpen: boolean = false 
+  private isOpen: boolean = false
   @Prop({default: false}) private open!: boolean;
   @Prop({default: 'title'}) private title!: string;
   @Prop() private content: any;

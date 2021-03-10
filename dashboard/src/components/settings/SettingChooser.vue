@@ -50,7 +50,7 @@ export default class SettingChooser extends Vue {
     this.$store.dispatch(this.addMethod, nodeOption);
   }
 }
-</script> 
+</script>
 <style scoped>
 .setting-chooser-wrapper {
   margin-top: 1em;

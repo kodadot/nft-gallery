@@ -6,7 +6,7 @@ import store from '@/store'
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
   const address = typeof account === 'string' ? account : account.address;
-  // DEV: Account return true when addres is not available 
+  // DEV: Account return true when addres is not available
   if (keyring.isAvailable(address)) {
     return false
   }
@@ -37,7 +37,7 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
   const ss58Format = store.getters.getChainProperties?.ss58Format
 
   return encodeAddress(decodeAddress(address, ss58Format));
-  
+
 }
 
 export default passwordRequired

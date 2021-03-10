@@ -1,5 +1,5 @@
 <template>
-    <b-collapse class="card" animation="slide" 
+    <b-collapse class="card" animation="slide"
       aria-id="contentIdForA11y3" :open="false">
       <template #trigger="props">
         <div

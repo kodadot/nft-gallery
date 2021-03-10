@@ -56,13 +56,13 @@ export class RmrkService extends TextileService<RmrkType> implements State {
         await this.refreshContext()
       } catch (e) {
         console.error(`[RMRK] Unable to refresh context::\n ${e}`)
-      }  
+      }
     }
   }
 
   public async onUrlChange(ss58: string | undefined | number): Promise<void> {
     const name = ss58 ||(typeof ss58 === 'number' && ss58 >= 0) ? String(ss58) : 'local';
-    
+
     try {
       const thread = await this._client.getThread(name)
       this._dbStore = thread.id
@@ -185,7 +185,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useAppreciation();
     const query: QueryJSON = new Where('remarkId').eq(id)
     const appreciations = await this.find<Emotion>(query)
-    return appreciations 
+    return appreciations
   }
 
   public test(rmrkString: string): RMRK {
@@ -275,7 +275,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     } else {
       throw new EvalError(`[RMRK Service] Bad modifier ${view.metadata} for LIST ${view.id}`);
     }
-    
+
     await this.update(nft)
     return nft
   }
@@ -325,12 +325,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
 
     // Consolidator.collectionIdValid(collection, caller);
-    
+
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
       await this.createCollection(appreciation)
     }
-  
+
     const collectionAlreadyCreated = await this.exists(appreciation._id);
 
     if (collectionAlreadyCreated) {
@@ -341,7 +341,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
     await this.addToCollection(appreciation)
     return appreciation;
-    
+
 
   }
 
@@ -374,12 +374,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     if (blocknumber) {
       collection.blockNumber = Number(blocknumber)
     }
-    
+
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
       await this.createCollection(collection)
     }
-  
+
     const collectionAlreadyCreated = await this.exists(collection._id);
 
     if (collectionAlreadyCreated) {
@@ -461,12 +461,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
 
     // Consolidator.collectionIdValid(collection, caller);
-    
+
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
       await this.createCollection(item)
     }
-  
+
     const collectionAlreadyCreated = await this.exists(item._id);
 
     if (collectionAlreadyCreated) {
@@ -483,7 +483,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     try {
       const filteredPacks = await this.getPackListForAccount(caller)
       .then(packs => packs.filter(filterFn))
-  
+
       filteredPacks.forEach(pack => pack.nfts[nft] = changeLog[pack._id])
       this.usePack()
       this.update(filteredPacks)

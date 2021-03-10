@@ -9,7 +9,7 @@
         <b-input :value="hashedData" expanded disabled/>
         <b-button
           size="is-large"
-          icon-left="copy" 
+          icon-left="copy"
           v-clipboard:copy="hashedData"
           @click="toast('Hash has been copied')">
         </b-button>

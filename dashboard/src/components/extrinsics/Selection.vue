@@ -10,13 +10,13 @@
         v-for="acc in accounts"
         v-bind:key="acc.address"
         :value="acc.address"
-      >{{ acc.meta.name }} - {{ acc.address }} 
+      >{{ acc.meta.name }} - {{ acc.address }}
       </option>
       <option v-if="mode === 'accounts' && !acc.meta.isExternal"
         v-for="acc in accounts"
         v-bind:key="acc.address"
         :value="acc.address"
-      >{{ acc.meta.name }} - {{ acc.address }} 
+      >{{ acc.meta.name }} - {{ acc.address }}
       </option>
     </b-select>
   </b-field>
@@ -69,7 +69,7 @@ class Selection extends WithKeyring {
     if (mode === 'accounts') {
       this.label = 'From Accounts';
     }
-  } 
+  }
 }
 
 // Explicit casting because it would shout in other components
