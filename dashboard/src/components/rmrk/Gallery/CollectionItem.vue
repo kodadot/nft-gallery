@@ -9,7 +9,7 @@
           <p class="subtitle">
             Issued by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
-          <Sharing label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" />
+          <Sharing v-if="sharingVisible" label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
         </div>
       </div>
     </div>
@@ -26,6 +26,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '../service/RmrkService';
 import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata } from '../utils';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -46,6 +47,10 @@ export default class CollectionItem extends Vue {
 
   get owner() {
     return this.collection.issuer || ''
+  }
+
+  get sharingVisible() {
+    return !isShareMode
   }
 
   public async mounted() {
@@ -80,6 +85,10 @@ export default class CollectionItem extends Vue {
     if (this.$route.params.id) {
       this.id = this.$route.params.id;
     }
+  }
+
+  get iframeSettings() {
+    return { width: '100%', height: '100vh' }
   }
 
   collectionMeta(collection: Collection) {

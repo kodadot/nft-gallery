@@ -1,6 +1,6 @@
 <template>
   <div class="container is-max-desktop">
-    <Navbar/>
+    <Navbar v-if="isNavbarVisible"/>
     <router-view id="routerview" />
   </div>
 </template>
@@ -10,6 +10,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import Navbar from './components/Navbar.vue';
+import isShareMode from '@/utils/isShareMode'
 
 @Component<Dashboard>({
   metaInfo() {
@@ -69,6 +70,10 @@ export default class Dashboard extends Vue {
   public mounted(): void {
     this.mountWasmCrypto();
   }
+
+  get isNavbarVisible() {
+    return !isShareMode
+  }
 }
 </script>
 
@@ -102,6 +107,10 @@ $layout: (
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
+
+// DEV: for dark mode
+// $scheme-main: rgb(27, 34, 44);
+// $scheme-invert: $white;
 
 // Import Bulma and Buefy styles
 @import "~bulma";

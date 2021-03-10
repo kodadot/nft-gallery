@@ -71,3 +71,15 @@ export interface RMRK {
 }
 
 export type RmrkType = RmrkView | RmrkMint | RmrkInteraction
+
+export interface IFrame {
+  width?: string;
+  height?: string;
+  customUrl?: string;
+}
+
+export const emptyIframe: IFrame = {
+  width: '480px',
+  height: '840px'
+}
+
