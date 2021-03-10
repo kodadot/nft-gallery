@@ -64,6 +64,7 @@
       </b-navbar-dropdown> -->
     </template>
     <template #end>
+      <kusama-price />
       <b-navbar-item>
         <div class="buttons">
           <b-field grouped>
@@ -91,12 +92,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import LocaleChanger from '@/components/shared/SwitchLocale.vue';
+import KusamaPrice from '@/components/KusamaPrice.vue';
 import { getCurrentColor } from '@/colors'
 import i18n from '@/i18n.ts';
 
 @Component({
   components: {
-    LocaleChanger
+    LocaleChanger,
+    KusamaPrice
   }
 })
 export default class NavbarMenu extends Vue {
