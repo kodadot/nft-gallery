@@ -31,7 +31,7 @@ import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
 import {
   faTwitter, faLine, faTelegram,
-  faTelegramPlane, faMedium
+  faTelegramPlane, faMedium, faWpexplorer
 } from '@fortawesome/free-brands-svg-icons';
 
 import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -67,7 +67,7 @@ library.add(
 
   faTwitter, faTelegram, faMedium,
   faLine, faTelegramPlane,
-  faCommentDots, faGhost, faCode
+  faCommentDots, faGhost, faCode, faWpexplorer
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
