@@ -520,6 +520,27 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useNFT()
     return this.findAll()
   }
+
+  public async updateCollectionWithMeta(id: string) {
+    try {
+      const collection = await this.getCollectionById(id)
+      const final = await migrateCollection(collection)
+      await this.update(final)
+    } catch (e) {
+      console.warn(`[RMRK Service] Unable to update collection with Meta ${e.message}`)
+    }
+  }
+
+  public async updateNFTWithMeta(id: string) {
+    try {
+      this.useNFT();
+      const nft = await this.getNFT(id)
+      const final = await migrateNFT(nft)
+      await this.update(final)
+    } catch (e) {
+      console.warn(`[RMRK Service] Unable to update collection with Meta ${e.message}`)
+    }
+  }
 }
 
 

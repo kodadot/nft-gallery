@@ -17,7 +17,7 @@ import MetaInfo from 'vue-meta';
 Vue.use(MetaInfo)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
-import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
+import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
 import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { getPrefixByStoreUrl } from '@/utils/chain'
