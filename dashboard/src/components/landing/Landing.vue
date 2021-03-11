@@ -17,11 +17,20 @@
             <div class="tile is-parent is-vertical">
               <div class="tile is-child">
                 <h2 class="title is-3">
-                    <b-icon
-                      pack="fas"
-                      icon="ghost"
-                    ></b-icon>
-                      Creators Spotlight
+                  <b-icon
+                    pack="fas"
+                    icon="camera-retro">
+                  </b-icon>
+                    <router-link :to="{ name: 'nftRare', }">
+                      Rare solo feed
+                    </router-link>
+                </h2>
+                <h2 class="title is-3">
+                  <b-icon
+                    pack="fas"
+                    icon="ghost"
+                  ></b-icon>
+                    Creators Spotlight
                 </h2>
                 <h2 class="subtitle is-4">
                   <li
@@ -34,21 +43,21 @@
                 </h2>
               </div>
               <div class="tile is-child">
-                  <h2 class="title is-3">
-                    <b-icon
-                      pack="fab"
-                      icon="telegram-plane"
-                    ></b-icon>
-                      Community
-                  </h2>
-                  <h2 class="subtitle is-4">
-                    <li
-                      v-for="community in publicCommunity"
-                      :key="community[0]">
-                        <a :href="community[1]">{{ community[0] }}</a>
-                      </li>
-                  </h2>
-                </div>
+                <h2 class="title is-3">
+                  <b-icon
+                    pack="fab"
+                    icon="telegram-plane"
+                  ></b-icon>
+                    Community
+                </h2>
+                <h2 class="subtitle is-4">
+                  <li
+                    v-for="community in publicCommunity"
+                    :key="community[0]">
+                      <a :href="community[1]">{{ community[0] }}</a>
+                  </li>
+                </h2>
+              </div>
             </div>
               <div class="tile is-parent is-vertical">
                 <div class="tile is-child">
