@@ -11,11 +11,12 @@
         </option>
       </b-select>
     </b-field> -->
+    <Search :query.sync="searchQuery" />
     <div>
       <div class="columns is-multiline">
         <div
           class="column is-4"
-          v-for="nft in nfts"
+          v-for="nft in results"
           :key="nft.id"
         >
           <div class="card nft-card">
@@ -68,14 +69,17 @@ import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
+import Search from './Search/SearchBar.vue'
+import { basicFilter } from './Search/query'
 
-type NFTType = NFT | NFTWithMeta;
-const components = { GalleryCardList }
+type NFTType = NFTWithMeta;
+const components = { GalleryCardList, Search }
 
 @Component({ components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
+  private searchQuery = ''
 
   public async mounted() {
     const rmrkService = getInstance();
@@ -94,6 +98,14 @@ export default class Gallery extends Vue {
     }
 
     this.isLoading = false;
+  }
+
+  get results() {
+    if (this.searchQuery) {
+      return basicFilter(this.searchQuery, this.nfts)
+    }
+
+    return this.nfts
   }
 
 }
