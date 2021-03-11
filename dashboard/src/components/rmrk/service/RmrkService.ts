@@ -1,5 +1,5 @@
 import { Client, CriterionJSON, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack } from './scheme'
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack, mergeCollection, CollectionWithMeta, NFTWithMeta, mergeNFT } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
@@ -7,9 +7,11 @@ import { emptyObject } from '@/utils/empty';
 import Consolidator, { generateId } from './Consolidator';
 import { keyInfo as keysToTheKingdom } from '@/textile'
 import slugify from 'slugify';
-import mingo from 'mingo'
+import { fetchCollectionMetadata, fetchNFTMetadata } from '../utils';
 
-export type RmrkType = Collection | NFT | Emotion | Pack
+export type RmrkType = RmrkWithMetaType | Emotion | Pack
+export type RmrkWithMetaType = CollectionWithMeta | NFTWithMeta
+export type CollectionOrNFT = Collection | NFT
 
 export enum AvailableCollection {
   COLLECTION = 'collection',
@@ -61,7 +63,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   }
 
   public async onUrlChange(ss58: string | undefined | number): Promise<void> {
-    const name = ss58 ||(typeof ss58 === 'number' && ss58 >= 0) ? String(ss58) : 'local';
+    const name = ss58 ||(typeof ss58 === 'number' && ss58 > 0) ? String(ss58) : 'local';
 
     try {
       const thread = await this._client.getThread(name)
@@ -99,31 +101,31 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this._name = AvailableCollection.PACK
   }
 
-  async getNFTsForCollection(id: string): Promise<NFT[]> {
+  async getNFTsForCollection(id: string): Promise<NFTWithMeta[]> {
     this.useNFT();
     const query: QueryJSON = new Where('collection').eq(id)
-    const nfts = await this.find<NFT>(query)
+    const nfts = await this.find<NFTWithMeta>(query)
     return nfts
   }
 
-  async getNFT(id: string): Promise<NFT> {
+  async getNFT(id: string): Promise<NFTWithMeta> {
     this.useNFT();
     this.shouldExist(id);
-    const nft = await this.getCollection<NFT>(id)
+    const nft = await this.getCollection<NFTWithMeta>(id)
     return nft
   }
 
-  async getNFTsForAccount(account: string): Promise<NFT[]> {
+  async getNFTsForAccount(account: string): Promise<NFTWithMeta[]> {
     this.useNFT();
     const query: QueryJSON = new Where('currentOwner').eq(account)
-    const nfts = await this.find<NFT>(query)
+    const nfts = await this.find<NFTWithMeta>(query)
     return nfts
   }
 
-  async getCollectionListForAccount(account: string): Promise<Collection[]> {
+  async getCollectionListForAccount(account: string): Promise<CollectionWithMeta[]> {
     this.useCollection();
     const query: QueryJSON = new Where('issuer').eq(account)
-    const collections = await this.find<Collection>(query)
+    const collections = await this.find<CollectionWithMeta>(query)
     return collections
   }
 
@@ -139,9 +141,9 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     try {
       const pack = await this.findById<Pack>(id);
       this.useNFT();
-      const nfts = Object.keys(pack.nfts) ? await this.find<NFT>(this.queryById(Object.keys(pack.nfts))) : [];
+      const nfts = Object.keys(pack.nfts) ? await this.find<NFTWithMeta>(this.queryById(Object.keys(pack.nfts))) : [];
       // this.useCollection();
-      // const collections = Object.keys(pack.collections) ? await this.find<Collection>(this.queryById(Object.keys(pack.collections))) : [];
+      // const collections = Object.keys(pack.collections) ? await this.find<CollectionWithMeta>(this.queryById(Object.keys(pack.collections))) : [];
       const completePack: CompletePack = {
         ...pack,
         nfts,
@@ -156,10 +158,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return emptyObject<CompletePack>();
   }
 
-  async getCollectionById(id: string): Promise<Collection> {
+  async getCollectionById(id: string): Promise<CollectionWithMeta> {
     this.useCollection();
     // this.shouldExist(id);
-    const collection = await this.getCollection<Collection>(id)
+    const collection = await this.getCollection<CollectionWithMeta>(id)
     return collection
   }
 
@@ -241,14 +243,14 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return ids
   }
 
-  private async changeIssuer(view: RmrkInteraction, caller: string): Promise<Collection> {
+  private async changeIssuer(view: RmrkInteraction, caller: string): Promise<CollectionWithMeta> {
     this.useCollection();
 
     try {
       this.shouldExist(view.id)
-      const collection = await this.getCollection<Collection>(view.id)
+      const collection = await this.getCollection<CollectionWithMeta>(view.id)
       Consolidator.isIssuer(collection, caller)
-      const updatedCollection: Collection = {
+      const updatedCollection: CollectionWithMeta = {
         ...collection,
         issuer: view.metadata || caller
       }
@@ -259,14 +261,14 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
-  async list(view: RmrkInteraction, caller: string): Promise<RmrkType> {
+  async list(view: RmrkInteraction, caller: string): Promise<NFTWithMeta> {
     if (!view.metadata) {
       throw new EvalError(`[RMRK Service] Unable to LIST ${view.id} without modifier`);
     }
 
     this.useNFT();
     this.shouldExist(view.id);
-    const nft = await this.getCollection<NFT>(view.id)
+    const nft = await this.getCollection<NFTWithMeta>(view.id)
     Consolidator.isOwner(nft, caller)
     if (view.metadata === 'cancel') {
       nft.price = undefined
@@ -280,10 +282,10 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return nft
   }
 
-  private async consume(view: RmrkInteraction, caller: string): Promise<NFT> {
+  private async consume(view: RmrkInteraction, caller: string): Promise<NFTWithMeta> {
     this.useNFT();
     this.shouldExist(view.id);
-    const nft = await this.getCollection<NFT>(view.id)
+    const nft = await this.getCollection<NFTWithMeta>(view.id)
     Consolidator.isOwner(nft, caller)
     await this.remove(nft._id)
     return nft
@@ -295,8 +297,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
     try {
       await this.shouldExist(item.id)
-      const nft = await this.getCollection<NFT>(item.id)
-      const updatedNft: NFT = {
+      const nft = await this.getCollection<NFTWithMeta>(item.id)
+      const updatedNft: NFTWithMeta = {
         ...nft,
         currentOwner: caller || nft.currentOwner
       }
@@ -363,7 +365,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return query
   }
 
-  private async mint(view: object, caller: string, blocknumber?: string | number): Promise<Collection> {
+  private async mint(view: object, caller: string, blocknumber?: string | number): Promise<CollectionWithMeta> {
     await this.checkExpiredOrElseRefresh()
     const collection = computeAndUpdateCollection(view as Collection);
     this.useCollection();
@@ -375,9 +377,11 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       collection.blockNumber = Number(blocknumber)
     }
 
+    const collectionWithMeta = await migrateCollection(collection)
+
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
-      await this.createCollection(collection)
+      await this.createCollection(collectionWithMeta)
     }
 
     const collectionAlreadyCreated = await this.exists(collection._id);
@@ -386,16 +390,16 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       throw ReferenceError(`[RMRK Service] Collection already created ${collection._id}`)
     }
 
-    await this.addToCollection(collection)
-    return collection;
+    await this.addToCollection(collectionWithMeta)
+    return collectionWithMeta;
   }
 
-  private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFT> {
+  private async mintNFT(view: object, caller: string, blocknumber?: string | number): Promise<NFTWithMeta> {
     await this.checkExpiredOrElseRefresh()
     const item = computeAndUpdateNft(view as NFT, blocknumber);
     this.useCollection();
     await this.shouldExist(item.collection);
-    const collection = await this.findById<Collection>(item.collection);
+    const collection = await this.findById<CollectionWithMeta>(item.collection);
     Consolidator.isIssuer(collection, caller)
     this.useNFT();
 
@@ -405,9 +409,11 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       item.blockNumber = Number(blocknumber)
     }
 
+    const nft = await migrateNFT(item)
+
     const hasCollection = await this.hasCollection();
     if (!hasCollection) {
-      await this.createCollection(item)
+      await this.createCollection(nft)
     }
 
     const nftAlreadyCreated = await this.exists(item._id);
@@ -416,19 +422,19 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       throw ReferenceError(`[RMRK Service] NFT already created ${item._id}`)
     }
 
-    await this.addToCollection(item);
-    return item
+    await this.addToCollection(nft);
+    return nft
   }
 
-  private async send(view: object, caller: string): Promise<NFT> {
+  private async send(view: object, caller: string): Promise<NFTWithMeta> {
     const item = (view as RmrkInteraction);
     this.useNFT();
 
     try {
       await this.shouldExist(item.id)
-      const nft = await this.getCollection<NFT>(item.id)
+      const nft = await this.getCollection<NFTWithMeta>(item.id)
       Consolidator.isOwner(nft, caller)
-      const updatedNft: NFT = {
+      const updatedNft: NFTWithMeta = {
         ...nft,
         currentOwner: item.metadata || nft.currentOwner
       }
@@ -490,10 +496,9 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       return changeLog
     } catch (e) {
       console.warn(`[RMRK Service] Add NFT to Packs ${e.message}`)
-      throw e
+      return {}
     }
 
-    return {}
   }
 
   public async joinStore(): Promise<void> {
@@ -506,12 +511,12 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
   }
 
-  public getAllCollections(): Promise<Collection[]> {
+  public getAllCollections(): Promise<CollectionWithMeta[]> {
     this.useCollection()
     return this.findAll()
   }
 
-  public getAllNFTs(): Promise<NFT[]> {
+  public getAllNFTs(): Promise<NFTWithMeta[]> {
     this.useNFT()
     return this.findAll()
   }
@@ -532,3 +537,23 @@ export const createInstance = async (keyInfo: KeyInfo, url?: string): Promise<Rm
 
   return instance
 }
+
+
+export const migrateCollection = async (collection: Collection): Promise<CollectionWithMeta> => {
+  const metadata = await fetchCollectionMetadata(collection);
+  const final = mergeCollection(collection, metadata);
+  return final
+}
+
+export const migrateNFT = async (nft: NFT): Promise<NFTWithMeta> => {
+  try {
+    const metadata = await fetchNFTMetadata(nft);
+    const final = mergeNFT(nft, metadata);
+    return final
+  } catch (e) {
+    console.warn(e)
+    const x = emptyObject<NFTWithMeta>();
+    return { ...x, ...nft };
+  }
+}
+

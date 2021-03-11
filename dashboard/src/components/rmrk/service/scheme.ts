@@ -163,15 +163,15 @@ export const computeAndUpdateCollection = (collection: Collection): Collection =
   }
 }
 
-export const mergeCollection = (collection: Collection, metadata: CollectionMetadata): CollectionWithMeta => ({
+export const mergeCollection = (collection: Collection, metadata: CollectionMetadata, shouldSanitize: boolean = false): CollectionWithMeta => ({
   ...collection,
   ...metadata,
-  image: sanitizeIpfsUrl(metadata.image || '')
+  image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
 })
 
 
-export const mergeNFT = (nft: NFT, metadata: NFTMetadata): NFTWithMeta => ({
+export const mergeNFT = (nft: NFT, metadata: NFTMetadata, shouldSanitize: boolean = false): NFTWithMeta => ({
   ...nft,
   ...metadata,
-  image: sanitizeIpfsUrl(metadata.image || '')
+  image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
 })
