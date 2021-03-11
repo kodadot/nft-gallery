@@ -46,7 +46,7 @@
         <b-switch v-model="isImage"
           passive-type="is-dark"
           :rounded="false">
-          {{ isImage ? 'Static Image' : 'Animated multimedia' }}
+          {{ isImage ? 'Image / GIF' : 'Animated multimedia' }}
         </b-switch>
       </b-field>
       <MetadataUpload v-if="isImage" v-model="image" :label="$i18n.t('Click to add image')" />
