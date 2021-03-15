@@ -17,12 +17,19 @@ import { Debounce } from 'vue-debounce-decorator';
 export default class SearchBar extends Vue {
   @Prop() public query!: string;
 
+  public mounted() {
+    if (this.$route.query.search && typeof this.$route.query.search === 'string') {
+      this.update(this.$route.query.search)
+    }
+  }
+
 
   get searchQuery() {
     return this.query
   }
 
   set searchQuery(value: string) {
+    this.replaceUrl(value)
     this.update(value)
   }
 
@@ -31,6 +38,13 @@ export default class SearchBar extends Vue {
   update(value: string) {
     console.log('Debounced', value)
     return value
+  }
+
+  @Debounce(400)
+  replaceUrl(value: string) {
+    if (this.query != value) {
+      this.$router.replace({ name: "nft", query: {search: value} })
+    }
   }
 
 }
