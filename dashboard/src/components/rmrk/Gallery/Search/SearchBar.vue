@@ -4,9 +4,6 @@
       <b-field >
         <b-input expanded placeholder="Search..." type="search" v-model="searchQuery" icon="search">
         </b-input>
-        <p class="control">
-          <b-button type="is-primary" outlined label="Search" />
-        </p>
       </b-field>
     </div>
   </div>

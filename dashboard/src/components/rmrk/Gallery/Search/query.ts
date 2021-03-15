@@ -10,6 +10,8 @@ export const basicFilterQuery = (value: string): Query => {
       { name: { $regex: rr} },
       { instance: { $regex: rr} },
       { currentOwner: { $regex: rr} },
+      { description: { $regex: rr} },
+      { collection: { $regex: rr} },
     ]
 
 
