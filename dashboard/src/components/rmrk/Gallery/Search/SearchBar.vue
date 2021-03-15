@@ -42,8 +42,8 @@ export default class SearchBar extends Vue {
 
   @Debounce(400)
   replaceUrl(value: string) {
-    if (this.query != value) {
-      this.$router.replace({ name: "nft", query: {search: value} })
+    if (this.query !== value) {
+      this.$router.replace({ name: 'nft', query: {search: value} })
     }
   }
 
