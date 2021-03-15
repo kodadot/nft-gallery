@@ -23,6 +23,7 @@ import { web3FromAddress } from '@polkadot/extension-dapp';
 import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
+import mingo from 'mingo'
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -31,6 +32,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).T = client;
 (window as any).R = getInstance;
 (window as any).W = web3FromAddress;
+(window as any).mingo = mingo;
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 
