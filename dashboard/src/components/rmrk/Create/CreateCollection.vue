@@ -120,7 +120,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
       pubkey?.substring(pubkey.length - 8) +
       '-' +
       (this.rmrkMint?.symbol || '')
-    ).toUpperCase();
+    ).trim().toUpperCase();
   }
 
   get disabled(): boolean {
@@ -131,7 +131,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
   public constructRmrkMint(): Collection {
     const mint: Collection = {
       ...this.rmrkMint,
-      symbol: this.rmrkMint.symbol.toUpperCase(),
+      symbol: this.rmrkMint.symbol.trim().toUpperCase(),
       version: this.version,
       issuer: this.accountId,
       metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
