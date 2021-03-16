@@ -154,8 +154,8 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   }
 
   get disabled() {
-    const max = this.oneByOne ? 1 : this.selectedCollection?.max
-    return max === this.added.length + this.alreadyMinted;
+    const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0
+    return max <= this.added.length + this.alreadyMinted;
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
@@ -245,7 +245,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const rmrkService = getInstance();
 
     try {
-      const tx = await exec(this.accountId, this.password, api.tx.utility.batch, [
+      const tx = await exec(this.accountId, this.password, api.tx.utility.batchAll, [
         batchMethods
       ], async (result) => {
         console.log(`Current status is`, result);
