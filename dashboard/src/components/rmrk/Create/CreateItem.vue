@@ -42,16 +42,15 @@
           type="textarea"
         ></b-input>
       </b-field>
+      <MetadataUpload v-model="image" :label="$i18n.t('Click to add image')" />
       <b-field>
-        <b-switch v-model="isImage"
-          passive-type="is-dark"
+        <b-switch v-model="hasAnimated"
           :rounded="false">
-          {{ isImage ? 'Image / GIF' : 'Animated multimedia' }}
+          Animated multimedia (audio/video/3d model)
         </b-switch>
       </b-field>
-      <MetadataUpload v-if="isImage" v-model="image" :label="$i18n.t('Click to add image')" />
-      <!-- <div>If your artwork is animated (audio/video/3d model) add animated</div> -->
-      <MetadataUpload v-if="!isImage" v-model="animated" :label="$i18n.t('Add Animated File')" />
+      <MetadataUpload v-if="hasAnimated" v-model="animated" :label="$i18n.t('Add Animated File')" />
+
       <b-field :label="$i18n.t('Image data')">
         <b-input v-model="view.meta.image_data"></b-input>
       </b-field>
@@ -87,7 +86,7 @@ export default class CreateItem extends Vue {
   @Prop() public index!: number;
   @Prop() public alreadyMinted!: number;
   @Prop() public view!: NFTAndMeta;
-  private isImage: boolean = true;
+  private hasAnimated: boolean = false;
   private uploadMode: boolean = true;
   private image: Blob | null = null;
   private animated: Blob | null = null;
