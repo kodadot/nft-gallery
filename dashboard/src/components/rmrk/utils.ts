@@ -196,6 +196,10 @@ export const resolveMedia = (mimeType: string): MediaType => {
     return MediaType.JSON;
   }
 
+  if (/^application\/octet-stream/.test(mimeType)) {
+    return MediaType.MODEL;
+  }
+
   const match = mimeType.match(/^[a-z]+/);
 
   if (!match) {

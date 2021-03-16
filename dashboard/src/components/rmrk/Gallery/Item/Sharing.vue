@@ -74,7 +74,7 @@ import { IFrame, emptyIframe } from '../../types';
 @Component({})
 export default class Sharing extends Vue {
   @Prop({ default: 'Check this cool NFT on %23KusamaNetwork %23kodadot' }) label!: string;
-  @Prop({ default: emptyIframe }) iframe!: IFrame;
+  @Prop({ default: () => emptyIframe }) iframe!: IFrame;
 
   get helloText() {
     return this.label;

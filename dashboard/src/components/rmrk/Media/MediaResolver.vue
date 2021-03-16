@@ -1,6 +1,6 @@
 
 <template>
-  <component :is="resolveComponent" :src="src" />
+  <component v-if="src" :is="resolveComponent" :src="src" />
 </template>
 
 <script lang="ts" >
@@ -12,6 +12,7 @@ const VideoMedia = () => import('./VideoMedia.vue')
 const ImageMedia = () => import('./ImageMedia.vue')
 const AudioMedia = () => import('./AudioMedia.vue')
 const JsonMedia = () => import('./JsonMedia.vue')
+const ModelMedia = () => import('./ModelMedia.vue')
 const Media = () => import('./Unknown.vue')
 const SUFFIX = 'Media'
 @Component({
@@ -20,6 +21,7 @@ const SUFFIX = 'Media'
     ImageMedia,
     AudioMedia,
     JsonMedia,
+    ModelMedia,
     Media
   }
 })
