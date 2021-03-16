@@ -154,8 +154,8 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   }
 
   get disabled() {
-    const max = this.oneByOne ? 1 : this.selectedCollection?.max
-    return max === this.added.length + this.alreadyMinted;
+    const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0
+    return max <= this.added.length + this.alreadyMinted;
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
