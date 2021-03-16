@@ -110,7 +110,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       showNotification(rmrk)
       console.log('submit', rmrk);
       const isBuy = this.selectedAction === 'BUY';
-      const cb = isBuy ? api.tx.utility.batch : api.tx.system.remark
+      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
       showNotification(execResultValue(tx), notificationTypes.success)
