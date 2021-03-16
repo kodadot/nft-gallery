@@ -245,7 +245,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const rmrkService = getInstance();
 
     try {
-      const tx = await exec(this.accountId, this.password, api.tx.utility.batch, [
+      const tx = await exec(this.accountId, this.password, api.tx.utility.batchAll, [
         batchMethods
       ], async (result) => {
         console.log(`Current status is`, result);
