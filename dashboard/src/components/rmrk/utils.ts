@@ -19,6 +19,7 @@ export const ipfsProviders: Record<string, string> = {
   pinata: 'https://gateway.pinata.cloud/',
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
+  dweb: 'https://dweb.link/',
   '': 'https://cloudflare-ipfs.com/'
 }
 
@@ -193,7 +194,7 @@ export const resolveMedia = (mimeType: string): MediaType => {
   }
 
   if (/^application\/json/.test(mimeType)) {
-    return MediaType.JSON;
+    return MediaType.MODEL;
   }
 
   if (/^application\/octet-stream/.test(mimeType)) {
