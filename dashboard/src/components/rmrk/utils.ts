@@ -226,3 +226,21 @@ export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
+
+
+export const isJsonGltf = (value: any): boolean => {
+  try {
+    if (!(value['asset'] && /^2\.[0-9]$/.test(value['asset']['version']))) {
+      return false
+    }
+
+    if (!(value['buffers'] && /^data:application\/octet/.test(value['buffers'][0]['uri']))) {
+      return false
+    }
+
+    return true
+  } catch (e) {
+    console.warn(`Unable to decide on isJsonGltf ${e}`)
+    return false
+  }
+}
