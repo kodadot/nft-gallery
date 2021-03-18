@@ -42,6 +42,8 @@ const needMeta: Record<string, string> = {
   LIST: 'BalanceInput'
 };
 
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
+
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue')
@@ -56,7 +58,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop() public imageHash!: string;
   @Prop() public metadataHash!: string;
   @Prop() public animationHash!: string;
-  private selectedAction: string = '';
+  private selectedAction: Action = '';
   private meta: string | number = '';
   private isLoading: boolean = false;
 
@@ -86,7 +88,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     return accountId && Number(price) > 0;
   }
 
-  private handleSelect(value: string) {
+  private handleSelect(value: Action) {
     this.selectedAction = value;
     this.meta = '';
   }
@@ -98,6 +100,22 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     }`;
   }
 
+  get isBuy() {
+    return this.selectedAction === 'BUY'
+  }
+
+  get isConsume() {
+    return this.selectedAction === 'CONSUME'
+  }
+
+  get isList() {
+    return this.selectedAction === 'LIST'
+  }
+
+  get isSend() {
+    return this.selectedAction === 'SEND'
+  }
+
   protected updateMeta(value: string | number) {
     this.meta = value;
   }
@@ -106,10 +124,16 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
+    await rmrkService?.checkExpiredOrElseRefresh();
+
     try {
       showNotification(rmrk)
       console.log('submit', rmrk);
-      const isBuy = this.selectedAction === 'BUY';
+      const isBuy = this.isBuy;
+      if (await rmrkService?.isNFTAvailable(this.nftId, this.currentOwnerId).then(isNFTAvailable => !isNFTAvailable)) {
+        showNotification(`[RMRK::BUY] Owner changed or NFT does not exist`, notificationTypes.warn)
+        return;
+      }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
