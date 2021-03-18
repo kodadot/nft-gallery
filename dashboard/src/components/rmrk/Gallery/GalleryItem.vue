@@ -157,13 +157,13 @@ export default class GalleryItem extends Vue {
       this.nft = {
         ...nft,
         image: sanitizeIpfsUrl(nft.image || ''),
-        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
+        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'dweb')
       };
       if (this.nft.animation_url) {
         const { headers } = await api.head(this.nft.animation_url);
         this.mimeType = headers['content-type'];
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL].some(
           t => t === mediaType
         );
       }

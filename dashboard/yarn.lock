@@ -794,6 +794,11 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-2.0.2.tgz#5b86cd2fb7b4c17e5dede722c1c2855c97eceaea"
   integrity sha512-ecpKSBUWXsxRJVi/dbOds4tkKwEcBQ1JSDZFzE2jTFpF8xIh3OgTX8POIor6bOltjibr3cdEyvnDjecMwUmxhQ==
 
+"@google/model-viewer@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@google/model-viewer/-/model-viewer-1.6.0.tgz#4c930f095d9a8f109837629b8c617b7360921e2b"
+  integrity sha512-RykcEQgeHByLiv/JR8JqOJDxbtk+VMsIIbpPDjyqhUG5eL+UliG5eBiupbpUbrUi/Wp7K3z3XsIVDmz/fDrmLg==
+
 "@hapi/accept@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-5.0.1.tgz#068553e867f0f63225a506ed74e899441af53e10"
