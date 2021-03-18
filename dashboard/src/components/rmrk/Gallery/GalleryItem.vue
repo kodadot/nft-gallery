@@ -11,11 +11,10 @@
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
+          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <template v-if="detailVisible">
-            <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
             <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-
           <b-collapse class="card" animation="slide"
             aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
