@@ -7,6 +7,7 @@ const rmrkFaq = () => import('@/components/rmrk/Faq.vue')
 const Packs = () => import('@/components/rmrk/Pack/Packs.vue')
 const PackItem = () => import('@/components/rmrk/Pack/PackItem.vue')
 const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vue')
+const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 
 export default [
   {
@@ -53,5 +54,10 @@ export default [
     path: '/rmrk/collection/:id',
     name: 'collectionDetail',
     component: CollectionItem,
+  },
+  {
+    path: '/rmrk/view',
+    name: 'viewModel',
+    component: ViewModel,
   },
 ];

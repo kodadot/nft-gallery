@@ -16,6 +16,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
+    "@google/model-viewer": "^1.6.0",
     "@polkadot/extension-dapp": "^0.36.1",
     "@polkadot/types": "^3.7.2",
     "@polkadot/ui-keyring": "^0.68.1",
