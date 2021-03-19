@@ -201,6 +201,10 @@ export const resolveMedia = (mimeType: string): MediaType => {
     return MediaType.MODEL;
   }
 
+  if (/^image\/svg\+xml/.test(mimeType)) {
+    return MediaType.IFRAME
+  }
+
   const match = mimeType.match(/^[a-z]+/);
 
   if (!match) {
