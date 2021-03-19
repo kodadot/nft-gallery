@@ -55,9 +55,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop() public accountId!: string;
   @Prop() public price!: string;
   @Prop() public nftId!: string;
-  @Prop() public imageHash!: string;
-  @Prop() public metadataHash!: string;
-  @Prop() public animationHash!: string;
+  @Prop({ default: () => [] }) public ipfsHashes!: string[];
   private selectedAction: Action = '';
   private meta: string | number = '';
   private isLoading: boolean = false;
@@ -71,7 +69,15 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   get showSubmit() {
-    return this.selectedAction && (!this.showMeta || this.meta);
+    return this.selectedAction && (!this.showMeta || this.metaValid);
+  }
+
+  get metaValid() {
+    if (typeof this.meta === 'number') {
+      return this.meta >= 0
+    }
+
+    return this.meta
   }
 
   get showMeta() {
@@ -96,7 +102,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   private constructRmrk(): string {
     const { selectedAction, version, meta, nftId } = this;
     return `RMRK::${selectedAction}::${version}::${nftId}${
-      meta ? '::' + meta : ''
+      this.metaValid ? '::' + meta : ''
     }`;
   }
 
@@ -117,6 +123,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   protected updateMeta(value: string | number) {
+    console.log(typeof value, value)
     this.meta = value;
   }
 
@@ -131,7 +138,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
       if (await rmrkService?.isNFTAvailable(this.nftId, this.currentOwnerId).then(isNFTAvailable => !isNFTAvailable)) {
-        showNotification(`[RMRK::BUY] Owner changed or NFT does not exist`, notificationTypes.warn)
+        showNotification(`[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`, notificationTypes.warn)
         return;
       }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
@@ -140,7 +147,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       showNotification(execResultValue(tx), notificationTypes.success)
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
-      if (this.selectedAction === 'CONSUME') {
+      if (this.isConsume) {
         this.unpinNFT()
       }
       console.log(persisted)
@@ -153,7 +160,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   protected unpinNFT() {
-    [this.imageHash, this.metadataHash, this.animationHash]
+    this.ipfsHashes
     .forEach(async hash => {
       if (hash) {
         try {

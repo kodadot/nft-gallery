@@ -24,7 +24,6 @@ import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
 import mingo from 'mingo'
-import { Consolidator } from 'rmrk-tools';
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -34,7 +33,6 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).R = getInstance;
 (window as any).W = web3FromAddress;
 (window as any).mingo = mingo;
-(window as any).Consolidator = Consolidator;
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 
