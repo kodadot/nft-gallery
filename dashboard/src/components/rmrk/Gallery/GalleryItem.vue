@@ -162,7 +162,7 @@ export default class GalleryItem extends Vue {
         const { headers } = await api.head(this.nft.animation_url);
         this.mimeType = headers['content-type'];
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
           t => t === mediaType
         );
       }
