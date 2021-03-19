@@ -63,6 +63,7 @@ export enum MediaType {
   AUDIO = 'Audio',
   JSON = 'Json',
   TEXT = 'Text',
+  IFRAME = 'IFrame',
   UNKNOWN = ''
 }
 
