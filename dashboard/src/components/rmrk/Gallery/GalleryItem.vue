@@ -36,7 +36,14 @@
             <div class="content">
               <p class="subtitle">
                 <AccountSelect label="Account" v-model="accountId" />
-                <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+                <AvailableActions
+                :accountId="accountId"
+                :currentOwnerId="nft.currentOwner"
+                :price="nft.price"
+                :nftId="nft.id"
+                :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
+                @change="handleAction"
+                />
               </p>
             </div>
           </div>
@@ -49,7 +56,7 @@
                 {{ $t('legend')}}
               </p>
               <p class="subtitle is-size-7">
-                <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                <b-tag v-if="hasPrice" type="is-dark" size="is-medium">
                   <Money :value="nft.price" :inline="true" />
                 </b-tag>
                 <p v-if="!isLoading"
@@ -184,6 +191,10 @@ export default class GalleryItem extends Vue {
     this.$buefy.toast.open(message);
   }
 
+  get hasPrice() {
+    return Number(this.nft.price) > 0;
+  }
+
   get nftId() {
     const { id } = this.nft;
     return id;
@@ -191,6 +202,12 @@ export default class GalleryItem extends Vue {
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  protected handleAction(deleted: boolean) {
+    if (deleted) {
+      showNotification(`INSTANCE REMOVED`, notificationTypes.warn)
+    }
   }
 }
 </script>
