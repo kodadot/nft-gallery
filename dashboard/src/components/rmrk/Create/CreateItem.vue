@@ -38,7 +38,7 @@
       <b-field label="Description">
         <b-input
         v-model="view.meta.description"
-          maxlength="200"
+          maxlength="500"
           type="textarea"
         ></b-input>
       </b-field>
