@@ -17,12 +17,14 @@ import MetaInfo from 'vue-meta';
 Vue.use(MetaInfo)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
-import { createInstance, getInstance } from '@/components/rmrk/service/RmrkService'
+import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
 import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
 import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
+import mingo from 'mingo'
+import api from './fetch'
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -31,6 +33,8 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).T = client;
 (window as any).R = getInstance;
 (window as any).W = web3FromAddress;
+(window as any).mingo = mingo;
+(window as any).api = api;
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 

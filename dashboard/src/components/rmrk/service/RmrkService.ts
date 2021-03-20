@@ -270,9 +270,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.shouldExist(view.id);
     const nft = await this.getCollection<NFTWithMeta>(view.id)
     Consolidator.isOwner(nft, caller)
-    if (view.metadata === 'cancel') {
-      nft.price = undefined
-    } else if (Number(view.metadata) > 0) {
+    if (Number(view.metadata) >= 0) {
       nft.price = view.metadata
     } else {
       throw new EvalError(`[RMRK Service] Bad modifier ${view.metadata} for LIST ${view.id}`);
@@ -300,7 +298,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       const nft = await this.getCollection<NFTWithMeta>(item.id)
       const updatedNft: NFTWithMeta = {
         ...nft,
-        currentOwner: caller || nft.currentOwner
+        currentOwner: caller || nft.currentOwner,
+        price: undefined
       }
 
       await this.update(updatedNft)
@@ -436,7 +435,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
       Consolidator.isOwner(nft, caller)
       const updatedNft: NFTWithMeta = {
         ...nft,
-        currentOwner: item.metadata || nft.currentOwner
+        currentOwner: item.metadata || nft.currentOwner,
+        price: undefined
       }
 
       await this.update(updatedNft)
@@ -519,6 +519,38 @@ export class RmrkService extends TextileService<RmrkType> implements State {
   public getAllNFTs(): Promise<NFTWithMeta[]> {
     this.useNFT()
     return this.findAll()
+  }
+
+  public async updateCollectionWithMeta(id: string) {
+    try {
+      const collection = await this.getCollectionById(id)
+      const final = await migrateCollection(collection)
+      await this.update(final)
+    } catch (e) {
+      console.warn(`[RMRK Service] Unable to update collection with Meta ${e.message}`)
+    }
+  }
+
+  public async updateNFTWithMeta(id: string) {
+    try {
+      this.useNFT();
+      const nft = await this.getNFT(id)
+      const final = await migrateNFT(nft)
+      await this.update(final)
+    } catch (e) {
+      console.warn(`[RMRK Service] Unable to update collection with Meta ${e.message}`)
+    }
+  }
+
+  public async isNFTAvailable(id: string, currentOwner: string): Promise<boolean> {
+    try {
+      this.useNFT();
+      const nft = await this.getNFT(id)
+      Consolidator.isOwner(nft, currentOwner)
+      return true
+    } catch (e) {
+      return false
+    }
   }
 }
 

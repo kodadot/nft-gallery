@@ -11,11 +11,10 @@
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
+          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
           <template v-if="detailVisible">
-            <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
             <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-
           <b-collapse class="card" animation="slide"
             aria-id="contentIdForA11y3" :open="false">
           <template #trigger="props">
@@ -37,7 +36,14 @@
             <div class="content">
               <p class="subtitle">
                 <AccountSelect label="Account" v-model="accountId" />
-                <AvailableActions :accountId="accountId" :currentOwnerId="nft.currentOwner" :price="nft.price" :nftId="nft.id" />
+                <AvailableActions
+                :accountId="accountId"
+                :currentOwnerId="nft.currentOwner"
+                :price="nft.price"
+                :nftId="nft.id"
+                :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
+                @change="handleAction"
+                />
               </p>
             </div>
           </div>
@@ -50,7 +56,7 @@
                 {{ $t('legend')}}
               </p>
               <p class="subtitle is-size-7">
-                <b-tag v-if="nft.price" type="is-dark" size="is-medium">
+                <b-tag v-if="hasPrice" type="is-dark" size="is-medium">
                   <Money :value="nft.price" :inline="true" />
                 </b-tag>
                 <p v-if="!isLoading"
@@ -157,13 +163,13 @@ export default class GalleryItem extends Vue {
       this.nft = {
         ...nft,
         image: sanitizeIpfsUrl(nft.image || ''),
-        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
+        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'dweb')
       };
       if (this.nft.animation_url) {
         const { headers } = await api.head(this.nft.animation_url);
         this.mimeType = headers['content-type'];
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
           t => t === mediaType
         );
       }
@@ -185,6 +191,10 @@ export default class GalleryItem extends Vue {
     this.$buefy.toast.open(message);
   }
 
+  get hasPrice() {
+    return Number(this.nft.price) > 0;
+  }
+
   get nftId() {
     const { id } = this.nft;
     return id;
@@ -192,6 +202,12 @@ export default class GalleryItem extends Vue {
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  protected handleAction(deleted: boolean) {
+    if (deleted) {
+      showNotification(`INSTANCE REMOVED`, notificationTypes.warn)
+    }
   }
 }
 </script>

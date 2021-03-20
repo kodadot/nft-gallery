@@ -58,10 +58,12 @@ export enum RmrkEvent {
 
 export enum MediaType {
   VIDEO = 'Video',
+  MODEL = 'Model',
   IMAGE = 'Image',
   AUDIO = 'Audio',
   JSON = 'Json',
   TEXT = 'Text',
+  IFRAME = 'IFrame',
   UNKNOWN = ''
 }
 
