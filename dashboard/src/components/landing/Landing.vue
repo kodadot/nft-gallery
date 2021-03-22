@@ -56,7 +56,7 @@
                     :key="community[0]">
                       <a :href="community[1]">{{ community[0] }}</a>
                   </li>
-                </h2>
+                </h2><br>
                 <h2 class="title is-4">
                   <a href="https://nft.kodadot.xyz/rmrk/collection/10D77F8B699437BB50-KODA" target="_blank">
                     <b-icon
@@ -74,7 +74,15 @@
                     </b-icon>
                     {{ $t('Tutorial: Mint your NFTs on KodaDot') }}
                   </a>
-                </h2><br>
+                </h2>
+                <h2 class="title is-4">
+                  <router-link :to="{ name: 'rmrkFaq' }">
+                    <b-icon
+                      icon="question">
+                    </b-icon>
+                    {{ $t('New here? We have F.A.Q.') }}
+                  </router-link>
+                </h2>
               </div>
             </div>
               <div class="tile is-parent is-vertical">
@@ -108,15 +116,15 @@
                 </h2><br>
               </div>
               <div class="tile is-child">
-                <h2 class="title is-4">
-                  <router-link :to="{ name: 'rmrkFaq' }">
+                <h2 class="title">
+                  <a href="https://t.me/kodadot" target="_blank">
                     <b-icon
-                      icon="question">
+                      pack="fab"
+                      icon="telegram">
                     </b-icon>
-                    {{ $t('New here? We have F.A.Q.') }}
-                  </router-link>
+                    KodaDot
+                  </a>
                 </h2>
-
                 <h2 class="title">
                   <a href="https://twitter.com/KodaDot" target="_blank">
                     <b-icon
