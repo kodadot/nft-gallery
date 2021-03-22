@@ -55,7 +55,7 @@
             </b-button>
         </b-field>
       </b-field>
-
+      <Support v-if="canSubmit" v-model="hasSupport" />
     </div>
   </div>
 </template>
@@ -67,6 +67,7 @@ import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
+import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -95,7 +96,8 @@ interface NFTAndMeta extends NFT {
     AccountSelect,
     CreateItem,
     PasswordInput,
-    Tooltip
+    Tooltip,
+    Support
   }
 })
 export default class CreateToken extends Mixins(RmrkVersionMixin) {
@@ -110,6 +112,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private alreadyMinted = 0;
   private oneByOne: boolean = true;
   private symbol: string = '';
+  private hasSupport: boolean = true;
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
