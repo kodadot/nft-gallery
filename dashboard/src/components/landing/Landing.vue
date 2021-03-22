@@ -57,6 +57,24 @@
                       <a :href="community[1]">{{ community[0] }}</a>
                   </li>
                 </h2>
+                <h2 class="title is-4">
+                  <a href="https://nft.kodadot.xyz/rmrk/collection/10D77F8B699437BB50-KODA" target="_blank">
+                    <b-icon
+                      pack="far"
+                      icon="comment-dots">
+                    </b-icon>
+                    {{ $t('Tutorial: How to mint NFT') }}
+                  </a>
+                </h2>
+                <h2 class="title is-4">
+                  <a href="https://stakenode.medium.com/dont-panic-and-mint-your-nft-s-on-kodadot-kusama-polkadot-first-nft-explorer-4273f789e585" target="_blank">
+                    <b-icon
+                      pack="far"
+                      icon="comment-dots">
+                    </b-icon>
+                    {{ $t('Tutorial: Mint your NFTs on KodaDot') }}
+                  </a>
+                </h2><br>
               </div>
             </div>
               <div class="tile is-parent is-vertical">
@@ -98,51 +116,43 @@
                     {{ $t('New here? We have F.A.Q.') }}
                   </router-link>
                 </h2>
-                <h2 class="title is-4">
-                  <a href="https://github.com/kodadot/nft-gallery/issues/new" target="_blank">
+
+                <h2 class="title">
+                  <a href="https://twitter.com/KodaDot" target="_blank">
                     <b-icon
-                      pack="far"
-                      icon="comment-dots">
+                      pack="fab"
+                      icon="twitter">
                     </b-icon>
-                    {{ $t('Feedback? We\\\'d be happy to discuss it.') }}
+                    KodaDot
                   </a>
-                </h2><br>
-                  <h2 class="title">
-                    <a href="https://twitter.com/KodaDot" target="_blank">
-                      <b-icon
-                        pack="fab"
-                        icon="twitter">
-                      </b-icon>
-                      KodaDot
-                    </a>
-                  </h2>
-                  <h2 class="title">
-                    <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
-                      <b-icon
-                        pack="fab"
-                        icon="reddit-alien">
-                      </b-icon>
-                      r/KodaDot
-                    </a>
-                  </h2>
-                  <h2 class="title">
-                    <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
-                      <b-icon
-                        pack="fab"
-                        icon="medium">
-                      </b-icon>
-                      {{ $t('Read our story, how we started.') }}
-                    </a>
-                  </h2>
-                  <h2 class="title">
-                    <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
-                      <b-icon
-                        pack="fab"
-                        icon="medium">
-                      </b-icon>
-                      {{ $t('Traverse to the prime show') }}
-                    </a>
-                  </h2>
+                </h2>
+                <h2 class="title">
+                  <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="reddit-alien">
+                    </b-icon>
+                    r/KodaDot
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="medium">
+                    </b-icon>
+                    {{ $t('Read our story, how we started.') }}
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="medium">
+                    </b-icon>
+                    {{ $t('Traverse to the prime show') }}
+                  </a>
+                </h2>
                 </div>
               </div>
           </div>
@@ -157,15 +167,17 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class Landing extends Vue {
   public publicCommunity: any = [
-    ['Bengali', 'https://t.me/KodaDot_Bengali'],
-    ['Czech', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['Japan', 'https://t.me/joinchat/-CjTUgAflGQxYTU0'],
-    ['Korea', 'https://t.me/KodaDotKR'],
-    ['Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
-    ['Poland', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
-    ['Russia', 'https://t.me/kodadotru'],
-    ['Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
-    ['Vietnamese', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
+    ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
+    ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
+    ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
+    ['🇯🇵 Japan', 'https://t.me/joinchat/-CjTUgAflGQxYTU0'],
+    ['🇰🇷 Korea', 'https://t.me/KodaDotKR'],
+    ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
+    ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
+    ['🇷🇺 Russia', 'https://t.me/kodadotru'],
+    ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
+    ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
+    ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
     ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 
@@ -175,6 +187,9 @@ export default class Landing extends Vue {
     'J6mwrrDE5ZywDe8T4mWgsdgHCcrDcrVtoGh37i7PSaZARRs',
     'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby',
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
+    'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
+    'F87P5Ab1QFq68a2tCq2N7TSmkfDUtG7EYUecgSBaYRFeCnf',
+    'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN'
   ]
 
 }
