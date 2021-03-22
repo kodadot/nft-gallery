@@ -57,7 +57,7 @@
               </p>
               <p class="subtitle is-size-7">
                 <b-tag v-if="hasPrice" type="is-dark" size="is-medium">
-                  <Money :value="nft.price" :inline="true" />
+                  <Money :value="nft.price" showFiatValue="usd" inline />
                 </b-tag>
                 <p v-if="!isLoading"
                   class="subtitle is-size-5">
