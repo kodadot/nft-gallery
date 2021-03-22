@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import axios from 'axios'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import coingecko from '@/coingecko'
 
 @Component
 export default class Money extends Vue {
@@ -19,7 +19,6 @@ export default class Money extends Vue {
   @Prop(Boolean) readonly inline!: boolean
   @Prop({default: ''}) readonly showFiatValue!: string
 
-  private readonly apiUrl: string = 'https://api.coingecko.com/api/v3'
   private readonly coinId: string = 'kusama'
   private fiatValue: number = 0
 
@@ -35,7 +34,7 @@ export default class Money extends Vue {
     return this.chainProperties.tokenSymbol
   }
 
-  public created() {
+  public mounted() {
     if (this.showFiatValue) {
       this.getFiatValue()
     }
@@ -43,7 +42,7 @@ export default class Money extends Vue {
 
   private async getFiatValue() {
     try {
-      const { data } = await axios.get(`${this.apiUrl}/simple/price`, {
+      const { data } = await coingecko.get(`/simple/price`, {
         params: {
           ids: this.coinId,
           vs_currencies: this.showFiatValue
