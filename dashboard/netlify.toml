@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/robots.txt"
-  to = "/static/robots.txt"
+  to = "/public/robots.txt"
   status = 200
   force = true
 
