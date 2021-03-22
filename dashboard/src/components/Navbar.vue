@@ -102,12 +102,12 @@ import i18n from '@/i18n.ts';
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
-    {
-      name: i18n.t('Create'),
-      tag: 'router-link',
-      to: { name: 'rmrk' },
-      strong: true
-    },
+    // {
+    //   name: i18n.t('Create'),
+    //   tag: 'router-link',
+    //   to: { name: 'rmrk' },
+    //   strong: true
+    // },
     {
       name: i18n.t('Gallery'),
       tag: 'router-link',
