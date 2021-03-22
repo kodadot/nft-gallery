@@ -84,6 +84,7 @@ import { fetchCollectionMetadata } from '../utils';
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { supportTx }   from '@/utils/support'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -229,6 +230,14 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return unSanitizeIpfsUrl(metaHash);
   }
 
+  protected async canSupport() {
+    if (this.hasSupport) {
+      return [await supportTx([...this.images, ...this.animated])]
+    }
+
+    return []
+  }
+
   protected async submit() {
     this.isLoading = true;
     const { api } = Connector.getInstance();
@@ -243,7 +252,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const firstNFT = nfts[0];
     const collectionToMint: string[] = this.oneByOne ? [NFTUtils.encodeCollection(NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version), this.version)] : []
 
-    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark)]
+    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark), ...await this.canSupport()]
     console.log('batchMethods', batchMethods)
     const rmrkService = getInstance();
 
