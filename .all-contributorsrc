@@ -36,6 +36,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "coreman000",
+      "name": "Mikhail Krasnoselskii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14929454?v=4",
+      "profile": "https://github.com/coreman000",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7
