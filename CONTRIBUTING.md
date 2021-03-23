@@ -44,10 +44,12 @@ Doesn't tell me anything about why you're doing that
 * For english language contributions: Has a good score on [Grammarly](grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
 
 ### Reviewing
-We (usually the docs team, but sometimes GitHub product managers, engineers, or supportocats too!) review every single PR. The purpose of reviews is to create the best content we can for people who use GitHub.
+We (usually the core team, sometimes KodaDot engineers or support too!) review every single PR. The purpose of reviews is to create the best content we can for people who use KodaDot
 
 💛 Reviews are always respectful, acknowledging that everyone did the best possible job with the knowledge they had at the time.
+
 💛 Reviews discuss content, not the person who created it.
+
 💛 Reviews are constructive and start conversation around feedback.
 
 ### Does it move this repository closer to my vision for the repository
