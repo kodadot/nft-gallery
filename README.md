@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
-=======
-# 📱 Apps
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
->>>>>>> ef77d3dac6abf05581c24c40403f23bdc8c8d54c
 
 
 ## Social medias
