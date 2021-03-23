@@ -1,14 +1,18 @@
-# 📱 Apps
+# 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 
-Apps are core components of [KodaDot wallet](https://twitter.com/KodaDot).
 
-Basic usage is to interact from browser with Polkadot and Substrate based networks.
+## Social medias
+[telegram.me/kodadot](https://t.me/kodadot)
+[twitter.com/@KodaDot](https://twitter.com/KodaDot).
+[r/KodaDot](https://www.reddit.com/r/KodaDot/)
+## Readings 
+* [The First Multilingual NFT Gallery in Polkadot ecosystem running live on Kusama](https://medium.com/kodadot/the-first-multilingual-nft-gallery-in-polkadot-ecosystem-running-live-on-kusama-b8f7566770be)
+* [Read our story, how we started.](https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856)
+* [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
 
-## 🐦 [Follow us on Twitter @KodaDot](https://twitter.com/KodaDot)
+## ▶️ Demo version
 
-## ▶️ Demo versions
-* 👩‍✈️[Stable release - could be used for production](https://kodadot.netlify.app/)
-* [🚧👷‍♀️ Development preview release - may not work everytime](https://dev-kodadot.netlify.app/)
+* 👩‍✈️[Stable release](https://nft.kodadot.xyz/)
 
 ## 🕹 Play
 
@@ -16,24 +20,9 @@ Basic usage is to interact from browser with Polkadot and Substrate based networ
 git clone git@github.com:kodadot/nft-gallery.git
 cd dashboard;yarn
 yarn serve
-open http://localhost:8080/
+open http://localhost:9090/
 ```
 
-## 🏦 Stage One
-* [Accounts](https://kodadot.netlify.app/#/accounts) - It offers basic management functionality to work with Accounts
-* [Address book](https://kodadot.netlify.app/#/addressbook) - It offers basic management functionality to work with Addresses
-* [Democracy](https://kodadot.netlify.app/#/democracy) - It offers basic voting app, allowing votes on activate proposals and referenda.
-* [Extrinsics](https://kodadot.netlify.app/#/extrinsics) - Extrinsics page is enviroment where user is able to execute every available transaction on the selected node.
-* [Transfer](https://kodadot.netlify.app/#/transfer) - Transfer function is abstraction on top of extrinsics for transfering various assets of network.
-* [Settings](https://kodadot.netlify.app/#/settings) - It provide seamless integration of vue-settings and vue-api inside Vuex, allowing choice of language, node to connect to, and theme.
-
-## 🏯 Stage Two
-* [Explorer](https://kodadot.netlify.app/#/explorer) - Explore chain name, best block, finalized blocks, total isuance, number of validators, state of epoch & era, deep dive in too finalized blocks, see hash of parent block, extrinsics and state. Next to it explore events happening in extrinsics, i.e. treasury deposit, balance transfers, council votes, democracy events and various governance drive
-* [ChainState - Storage](https://kodadot.netlify.app/#/chainstate) - Find out what's in Storage of chain, what are constants and raw inputs. Simple node query application, multiple queries can be queued and updates as new values become available
-* [ToolBox](https://kodadot.netlify.app/#/toolbox) - Utility hashing functions like Sign, Verify with accounts and hash data. 
-* [RPC](https://kodadot.netlify.app/#/rpc) - Submission of raw data to RPC endpoints
-* [Treasury](https://kodadot.netlify.app/#/treasury) - Vote on proposals and send tips 
-* 🏗 [Staking](https://kodadot.netlify.app/#/staking) - Staking managment, you can stake and nominate
 
 ## 🏗 Development
 
@@ -54,6 +43,9 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
 
 Sure, your contribution is welcome. Please follow [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md)
 
+## Support the project ⭐
+If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏
+
 
 ## 🐳 Docker
 If you want just to try out our KodaDot on Kusama and have full local setup with local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed. We have are building [images from develop and master branch](https://hub.docker.com/r/yangwao/kodadot/tags?page=1&ordering=last_updated)
@@ -73,7 +65,7 @@ Build docker image of KodaDot
 docker build -t hello/kodadot .
 ```
 
-Run it locally and then visit `localhost:8080`
+Run it locally and then visit `localhost:9090`
 ```
 docker run -it -p 8080:8080 --rm --name hellokodadot hello/kodadot
 ```
