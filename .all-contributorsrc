@@ -27,6 +27,15 @@
       "contributions": [
         "research"
       ]
+    },
+    {
+      "login": "JKrupinski",
+      "name": "Jarek Krupiński",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15692855?v=4",
+      "profile": "https://github.com/JKrupinski",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
