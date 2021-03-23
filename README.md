@@ -1,6 +1,6 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -61,6 +61,9 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
     <td align="center"><a href="https://github.com/katongo11"><img src="https://avatars.githubusercontent.com/u/70867725?v=4?s=100" width="100px;" alt=""/><br /><sub><b>katongo11</b></sub></a><br /><a href="#translation-katongo11" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/kzyxyz"><img src="https://avatars.githubusercontent.com/u/42226966?v=4?s=100" width="100px;" alt=""/><br /><sub><b>kzyxyz</b></sub></a><br /><a href="#translation-kzyxyz" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/yacare555"><img src="https://avatars.githubusercontent.com/u/67239493?v=4?s=100" width="100px;" alt=""/><br /><sub><b>yacare555</b></sub></a><br /><a href="https://github.com/kodadot/nft-gallery/commits?author=yacare555" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/Ryan-Gordon"><img src="https://avatars.githubusercontent.com/u/11082710?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ryan Gordon</b></sub></a><br /><a href="https://github.com/kodadot/nft-gallery/commits?author=Ryan-Gordon" title="Code">💻</a></td>
   </tr>
 </table>
 

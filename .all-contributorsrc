@@ -198,6 +198,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Ryan-Gordon",
+      "name": "Ryan Gordon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11082710?v=4",
+      "profile": "https://github.com/Ryan-Gordon",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
