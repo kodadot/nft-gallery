@@ -2,9 +2,10 @@
 
 
 ## Social medias
-[telegram.me/kodadot](https://t.me/kodadot)
-[twitter.com/@KodaDot](https://twitter.com/KodaDot).
-[r/KodaDot](https://www.reddit.com/r/KodaDot/)
+* [telegram.me/kodadot](https://t.me/kodadot)
+* [twitter.com/@KodaDot](https://twitter.com/KodaDot).
+* [r/KodaDot](https://www.reddit.com/r/KodaDot/)
+
 ## Readings 
 * [The First Multilingual NFT Gallery in Polkadot ecosystem running live on Kusama](https://medium.com/kodadot/the-first-multilingual-nft-gallery-in-polkadot-ecosystem-running-live-on-kusama-b8f7566770be)
 * [Read our story, how we started.](https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856)
@@ -14,6 +15,20 @@
 
 * 👩‍✈️[Stable release](https://nft.kodadot.xyz/)
 
+## 🏗 Development
+
+[Contribution is welcome!](CONTRIBUTING.md)
+
+We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
+
+## Contributors 
+
+<a href="https://github.com/kodadot/nft-gallery/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
+</a>
+
+Made with [contributors-img](https://contrib.rocks).
+
 ## 🕹 Play
 
 ```shell
@@ -22,21 +37,6 @@ cd dashboard;yarn
 yarn serve
 open http://localhost:9090/
 ```
-
-## 🏗 Development
-
-[Contribution is welcome!](CONTRIBUTING.md)
-
-We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
-
-### 👷‍♀️ Get Started
-
-1. Clone the repo `git clone git@github.com:kodadot/nft-gallery.git <optional local path>`
-2. Ensure that you have a recent LTS version of [Node.js](https://nodejs.org/en/), we are using in time of writing version `v12.16.0`
-3. Recent version of [Yarn](https://yarnpkg.com/docs/install), we are now using `1.22.4`
-4. Install the dependencies by running `yarn`
-5. Now you can launch the UI. You can have local running [Substrate node](https://substrate.dev/docs/en/tutorials/start-a-private-network-with-substrate) or connect to existing networks
-6. Access the UI at [http://localhost:9090/](http://localhost:9090/)
 
 ## 🙋‍♀️ I want to contribute
 
