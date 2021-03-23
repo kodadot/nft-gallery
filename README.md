@@ -1,6 +1,6 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -42,6 +42,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
     <td align="center"><a href="https://github.com/coreman000"><img src="https://avatars.githubusercontent.com/u/14929454?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mikhail Krasnoselskii</b></sub></a><br /><a href="#translation-coreman000" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/jimmy-tudeski"><img src="https://avatars.githubusercontent.com/u/68714636?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jimmy-tudeski</b></sub></a><br /><a href="#translation-jimmy-tudeski" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/harrymoneyy"><img src="https://avatars.githubusercontent.com/u/79300644?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Harry</b></sub></a><br /><a href="#translation-harrymoneyy" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/Curu24"><img src="https://avatars.githubusercontent.com/u/66644637?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jiri Rozinek</b></sub></a><br /><a href="#translation-Curu24" title="Translation">🌍</a></td>
   </tr>
 </table>
 
