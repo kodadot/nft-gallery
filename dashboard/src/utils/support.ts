@@ -2,6 +2,7 @@ const IPFS_REPLICATIONS = 2;
 const IPFS_PRICE = 0.15; // 15 euro cents
 const MONTHS = 24;
 const BYTES = 1000;
+const MINUMUM_MB_STORAGE = 10;
 import { getKSMUSD } from '@/coingecko'
 import Connector from '@vue-polkadot/vue-api'
 const BACKUP_PUBKEY = '0x8cc1b91e8946862c2c79915a4bc004926510fcf71c422fde977c0b0e9d9be40e'
@@ -15,8 +16,9 @@ export const getFileSize = (file: Blob | number) => {
   const size = sizeOf(file)
   const res = ( size / BYTES ** 2 )
 
-  if (res <= 100) {
-    return 0.1
+  // Minu
+  if (res <= MINUMUM_MB_STORAGE) {
+    return 0.01
   }
 
   return res / BYTES;
