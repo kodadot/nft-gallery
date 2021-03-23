@@ -13,22 +13,24 @@
 * [twitter.com/@KodaDot](https://twitter.com/KodaDot).
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
-## Readings 
+## Readings 📚
 * [The First Multilingual NFT Gallery in Polkadot ecosystem running live on Kusama](https://medium.com/kodadot/the-first-multilingual-nft-gallery-in-polkadot-ecosystem-running-live-on-kusama-b8f7566770be)
 * [Read our story, how we started.](https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856)
 * [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
 
-## ▶️ Demo version
+## Demo version ▶️
 
 * 👩‍✈️[Stable release](https://nft.kodadot.xyz/)
 
-## 🏗 Development
+## Development 🏗 
 
 [Contribution is welcome!](CONTRIBUTING.md)
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
-## Contributors 
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)): 
 
 <a href="https://github.com/kodadot/nft-gallery/graphs/contributors">
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -118,23 +120,3 @@ Run it locally and then visit `localhost:9090`
 ```
 docker run -it -p 8080:8080 --rm --name hellokodadot hello/kodadot
 ```
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/vikiival"><img src="https://avatars.githubusercontent.com/u/22471030?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Viki Val</b></sub></a><br /><a href="#design-vikiival" title="Design">🎨</a> <a href="https://github.com/kodadot/nft-gallery/commits?author=vikiival" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
