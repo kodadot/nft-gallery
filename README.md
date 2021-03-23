@@ -1,6 +1,6 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -47,6 +47,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
   <tr>
     <td align="center"><a href="https://github.com/Summer2040"><img src="https://avatars.githubusercontent.com/u/79899319?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Summer2040</b></sub></a><br /><a href="#translation-Summer2040" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/achrafchi"><img src="https://avatars.githubusercontent.com/u/79375373?v=4?s=100" width="100px;" alt=""/><br /><sub><b>achrafchi</b></sub></a><br /><a href="#translation-achrafchi" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/lunacek"><img src="https://avatars.githubusercontent.com/u/25346031?v=4?s=100" width="100px;" alt=""/><br /><sub><b>lunacek</b></sub></a><br /><a href="#translation-lunacek" title="Translation">🌍</a></td>
   </tr>
 </table>
 
