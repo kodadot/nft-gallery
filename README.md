@@ -1,6 +1,6 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -51,6 +51,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
     <td align="center"><a href="https://github.com/razi429"><img src="https://avatars.githubusercontent.com/u/4163503?v=4?s=100" width="100px;" alt=""/><br /><sub><b>razi429</b></sub></a><br /><a href="#translation-razi429" title="Translation">🌍</a></td>
     <td align="center"><a href="https://snyk.io/"><img src="https://avatars.githubusercontent.com/u/19733683?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Snyk bot</b></sub></a><br /><a href="#security-snyk-bot" title="Security">🛡️</a></td>
     <td align="center"><a href="https://github.com/joaopscastro"><img src="https://avatars.githubusercontent.com/u/79213332?v=4?s=100" width="100px;" alt=""/><br /><sub><b>joaopscastro</b></sub></a><br /><a href="#translation-joaopscastro" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/anindyabaidya"><img src="https://avatars.githubusercontent.com/u/62795016?v=4?s=100" width="100px;" alt=""/><br /><sub><b>anindyabaidya</b></sub></a><br /><a href="#translation-anindyabaidya" title="Translation">🌍</a></td>
   </tr>
 </table>
 
