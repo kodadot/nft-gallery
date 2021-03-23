@@ -117,6 +117,15 @@
       "contributions": [
         "security"
       ]
+    },
+    {
+      "login": "joaopscastro",
+      "name": "joaopscastro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79213332?v=4",
+      "profile": "https://github.com/joaopscastro",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7
