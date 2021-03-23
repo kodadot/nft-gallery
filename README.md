@@ -1,6 +1,6 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -66,6 +66,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
     <td align="center"><a href="https://github.com/Ryan-Gordon"><img src="https://avatars.githubusercontent.com/u/11082710?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ryan Gordon</b></sub></a><br /><a href="https://github.com/kodadot/nft-gallery/commits?author=Ryan-Gordon" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/avcdsld"><img src="https://avatars.githubusercontent.com/u/10495516?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Takamasa Arakawa</b></sub></a><br /><a href="https://github.com/kodadot/nft-gallery/commits?author=avcdsld" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/apps/dependabot"><img src="https://avatars.githubusercontent.com/in/29110?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dependabot[bot]</b></sub></a><br /><a href="#security-dependabot[bot]" title="Security">🛡️</a></td>
+    <td align="center"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="#talk-allcontributors[bot]" title="Talks">📢</a></td>
   </tr>
 </table>
 
