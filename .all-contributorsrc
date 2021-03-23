@@ -1,25 +1,24 @@
 {
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": false,
-  "contributors": [
-    {
-      "login": "vikiival",
-      "name": "Viki Val",
-      "avatar_url": "https://avatars.githubusercontent.com/u/22471030?v=4",
-      "profile": "https://github.com/vikiival",
-      "contributions": [
-        "design",
-        "code"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
   "projectName": "nft-gallery",
   "projectOwner": "kodadot",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "yangwao",
+      "name": "Matej Nemček",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5887929?v=4",
+      "profile": "https://twitter.com/yangwao",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
 }

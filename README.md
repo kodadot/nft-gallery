@@ -1,4 +1,7 @@
 # 🖼👀 NFT Market/Gallery on Kusama & Polkadot
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
@@ -28,6 +31,19 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
 ## Contributors 
 
 <a href="https://github.com/kodadot/nft-gallery/graphs/contributors">
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://twitter.com/yangwao"><img src="https://avatars.githubusercontent.com/u/5887929?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Matej Nemček</b></sub></a><br /><a href="https://github.com/kodadot/nft-gallery/commits?author=yangwao" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
   <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 </a>
 
@@ -44,7 +60,7 @@ open http://localhost:9090/
 
 ## 🙋‍♀️ I want to contribute
 
-Sure, your contribution is welcome. Please follow [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md)
+Sure, your **contribution** is welcome. Please follow [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md)
 
 ## Support the project ⭐
 If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏
