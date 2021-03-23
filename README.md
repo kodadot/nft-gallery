@@ -23,10 +23,9 @@ yarn serve
 open http://localhost:9090/
 ```
 
-
 ## 🏗 Development
 
-Contribution is welcome!
+[Contribution is welcome!](CONTRIBUTING.md)
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
@@ -37,7 +36,7 @@ We are using `yarn` workspace, as installing things via npm **will result in bro
 3. Recent version of [Yarn](https://yarnpkg.com/docs/install), we are now using `1.22.4`
 4. Install the dependencies by running `yarn`
 5. Now you can launch the UI. You can have local running [Substrate node](https://substrate.dev/docs/en/tutorials/start-a-private-network-with-substrate) or connect to existing networks
-6. Access the UI at [http://localhost:8080/](http://localhost:8080/)
+6. Access the UI at [http://localhost:9090/](http://localhost:9090/)
 
 ## 🙋‍♀️ I want to contribute
 
