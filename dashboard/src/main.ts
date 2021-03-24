@@ -25,6 +25,8 @@ import 'setimmediate';
 import i18n from './i18n'
 import mingo from 'mingo'
 import api from './fetch'
+import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
+
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -35,6 +37,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).W = web3FromAddress;
 (window as any).mingo = mingo;
 (window as any).api = api;
+(window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 

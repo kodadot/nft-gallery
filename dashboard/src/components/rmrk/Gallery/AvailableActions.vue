@@ -33,6 +33,7 @@ import { getInstance, RmrkType } from '../service/RmrkService';
 import { unpin } from '@/pinata';
 import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { somePercentFromTX } from '@/utils/support';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -142,7 +143,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
         return;
       }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg]);
       showNotification(execResultValue(tx), notificationTypes.success)
       console.warn('TX IN', tx);

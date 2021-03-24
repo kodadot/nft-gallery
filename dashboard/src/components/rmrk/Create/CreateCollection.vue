@@ -52,17 +52,24 @@
       <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
         <b-input v-model="rmrkMint.metadata"></b-input>
       </b-field>
-      <PasswordInput v-model="password" :account="accountId" />
-      <b-button
-        type="is-primary"
-        icon-left="paper-plane"
-        @click="submit"
-        :disabled="disabled"
-        :loading="isLoading"
-        outlined
-      >
-        {{ $t('create collection') }}
-      </b-button>
+      <b-field>
+        <PasswordInput v-model="password" :account="accountId" />
+      </b-field>
+      <b-field>
+        <b-button
+          type="is-primary"
+          icon-left="paper-plane"
+          @click="submit"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined
+        >
+          {{ $t('create collection') }}
+        </b-button>
+      </b-field>
+      <b-field>
+        <Support v-model="hasSupport" :price="filePrice" />
+      </b-field>
     </div>
   </div>
 </template>
@@ -73,6 +80,7 @@ import { RmrkMint } from '../types';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
+import Support from '@/components/shared/Support.vue';
 import MetadataUpload from './MetadataUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
@@ -87,6 +95,7 @@ import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator'
+import { supportTx, baseIpfsPrice } from '@/utils/support';
 
 
 const components = {
@@ -94,6 +103,7 @@ const components = {
   MetadataUpload,
   PasswordInput,
   Tooltip,
+  Support
 };
 
 @Component({ components })
@@ -105,6 +115,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
+  private hasSupport: boolean = true;
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')
@@ -141,6 +152,14 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
     return mint;
   }
 
+  get filePrice() {
+    if (!this.image) {
+      return 0
+    }
+
+    return baseIpfsPrice(this.image)
+  }
+
   public async constructMeta() {
     if (!this.image) {
       throw new ReferenceError('No file found!');
@@ -161,6 +180,19 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
     return unSanitizeIpfsUrl(metaHash);
   }
 
+  protected async canSupport() {
+    if (this.hasSupport && this.image) {
+      return [await supportTx(this.image)]
+    }
+
+    return []
+  }
+
+  private toRemark(remark: string) {
+    const { api } = Connector.getInstance();
+    return api.tx.system.remark(remark)
+  }
+
   private async submit() {
     this.isLoading = true;
     const { api } = Connector.getInstance();
@@ -177,8 +209,10 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
     try {
       showNotification(mintString)
       console.log('submit', mintString);
-      const tx = await exec(this.accountId, this.password, api.tx.system.remark, [
-        mintString
+      const cb = !this.hasSupport ? api.tx.system.remark : api.tx.utility.batchAll;
+      const args = !this.hasSupport ? mintString : [this.toRemark(mintString), ...await this.canSupport()]
+      const tx = await exec(this.accountId, this.password, cb, [
+        args
       ], async (result) => {
         console.log(`Current status is`, result);
         if (result.status.isFinalized) {
