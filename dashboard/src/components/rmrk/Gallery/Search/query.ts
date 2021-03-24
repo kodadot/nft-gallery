@@ -26,19 +26,18 @@ export const basicAggregation = (): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
-         _id: "$image",
-         ids: { $push: "$id" },
-         collection: { $first: "$collection" },
-         name: { $first: "$name" },
-         id: { $first: "$id" },
-         image: { $first: "$image" },
-         count: { $sum: 1 }
+        _id: '$image',
+        ids: { $push: '$id' },
+        collection: { $first: '$collection' },
+        name: { $first: '$name' },
+        id: { $first: '$id' },
+        image: { $first: '$image' },
+        count: { $sum: 1 }
       }
     }
-
   ]
 
-  return new Aggregator(agg)
+  return new Aggregator(agg);
 }
 
 export const basicFilter = (value: string, ntfs: NFTWithMeta[]): any[] => {
