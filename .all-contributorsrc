@@ -1,0 +1,240 @@
+{
+  "projectName": "nft-gallery",
+  "projectOwner": "kodadot",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "yangwao",
+      "name": "Matej Nemček",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5887929?v=4",
+      "profile": "https://twitter.com/yangwao",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "vikiival",
+      "name": "Viki Val",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22471030?v=4",
+      "profile": "https://github.com/vikiival",
+      "contributions": [
+        "research"
+      ]
+    },
+    {
+      "login": "JKrupinski",
+      "name": "Jarek Krupiński",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15692855?v=4",
+      "profile": "https://github.com/JKrupinski",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "coreman000",
+      "name": "Mikhail Krasnoselskii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14929454?v=4",
+      "profile": "https://github.com/coreman000",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "jimmy-tudeski",
+      "name": "jimmy-tudeski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68714636?v=4",
+      "profile": "https://github.com/jimmy-tudeski",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "harrymoneyy",
+      "name": "Harry",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79300644?v=4",
+      "profile": "https://github.com/harrymoneyy",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Curu24",
+      "name": "Jiri Rozinek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66644637?v=4",
+      "profile": "https://github.com/Curu24",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Summer2040",
+      "name": "Summer2040",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79899319?v=4",
+      "profile": "https://github.com/Summer2040",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "achrafchi",
+      "name": "achrafchi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79375373?v=4",
+      "profile": "https://github.com/achrafchi",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "lunacek",
+      "name": "lunacek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25346031?v=4",
+      "profile": "https://github.com/lunacek",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "razi429",
+      "name": "razi429",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4163503?v=4",
+      "profile": "https://github.com/razi429",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "snyk-bot",
+      "name": "Snyk bot",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19733683?v=4",
+      "profile": "https://snyk.io/",
+      "contributions": [
+        "security"
+      ]
+    },
+    {
+      "login": "joaopscastro",
+      "name": "joaopscastro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79213332?v=4",
+      "profile": "https://github.com/joaopscastro",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "anindyabaidya",
+      "name": "anindyabaidya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62795016?v=4",
+      "profile": "https://github.com/anindyabaidya",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "iamonuwa",
+      "name": "Onuwa Nnachi Isaac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6551094?v=4",
+      "profile": "https://iamonuwa.dev/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ferhatsirin77",
+      "name": "Ferhat Sirin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71610432?v=4",
+      "profile": "https://github.com/ferhatsirin77",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "hernanvqt",
+      "name": "hernanvqt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61509987?v=4",
+      "profile": "https://github.com/hernanvqt",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "unknow112",
+      "name": "Martin Tonhauzer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20564765?v=4",
+      "profile": "https://github.com/unknow112",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "katongo11",
+      "name": "katongo11",
+      "avatar_url": "https://avatars.githubusercontent.com/u/70867725?v=4",
+      "profile": "https://github.com/katongo11",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "kzyxyz",
+      "name": "kzyxyz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42226966?v=4",
+      "profile": "https://github.com/kzyxyz",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "yacare555",
+      "name": "yacare555",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67239493?v=4",
+      "profile": "https://github.com/yacare555",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Ryan-Gordon",
+      "name": "Ryan Gordon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11082710?v=4",
+      "profile": "https://github.com/Ryan-Gordon",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "avcdsld",
+      "name": "Takamasa Arakawa",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10495516?v=4",
+      "profile": "https://github.com/avcdsld",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dependabot[bot]",
+      "name": "dependabot[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/29110?v=4",
+      "profile": "https://github.com/apps/dependabot",
+      "contributions": [
+        "security"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
+      "contributions": [
+        "talk"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
