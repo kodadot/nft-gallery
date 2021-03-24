@@ -26,6 +26,15 @@ import i18n from './i18n'
 import mingo from 'mingo'
 import api from './fetch'
 
+import { useOperators, OperatorType } from 'mingo/core'
+import { $match, $group, $project } from 'mingo/operators/pipeline'
+import { $sum, $first, $push } from 'mingo/operators/accumulator'
+
+// ensure the required operators are preloaded prior to using them.
+type OperatorMap = Record<string, any> ;
+useOperators(OperatorType.PIPELINE, { $match, $group, $project } as OperatorMap)
+useOperators(OperatorType.ACCUMULATOR, { $sum, $first, $push } as OperatorMap)
+
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector;

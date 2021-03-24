@@ -28,7 +28,7 @@
                 <b-image
                   v-if="!isLoading"
                   :src="nft.image"
-                  :src-fallback="require('@/utils/placeholder.png')"
+                  :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                   alt="NFT multimedia craft"
                   ratio="1by1"
                 ></b-image>

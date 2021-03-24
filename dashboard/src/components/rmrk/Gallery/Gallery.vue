@@ -29,7 +29,7 @@
                 <b-image
                   v-if="!isLoading"
                   :src="nft.image"
-                  :src-fallback="require('@/utils/placeholder.png')"
+                  :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                   alt="Simple image"
                   ratio="1by1"
                 ></b-image>
@@ -47,8 +47,11 @@
                 <p
                   v-if="!isLoading"
                   class="title is-4 has-text-centered">
-                  <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}">
+                  <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
                     {{ nft.name }}
+                  </router-link>
+                  <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
+                    {{ nft.name }} 「{{ nft.count }}」
                   </router-link>
                 </p>
                 <b-skeleton
@@ -70,7 +73,7 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
-import { basicFilter } from './Search/query'
+import { basicFilter, basicAggQuery } from './Search/query'
 
 type NFTType = NFTWithMeta;
 const components = { GalleryCardList, Search }
@@ -102,10 +105,10 @@ export default class Gallery extends Vue {
 
   get results() {
     if (this.searchQuery) {
-      return basicFilter(this.searchQuery, this.nfts)
+      return basicAggQuery(basicFilter(this.searchQuery, this.nfts))
     }
 
-    return this.nfts
+    return basicAggQuery(this.nfts)
   }
 
 }
