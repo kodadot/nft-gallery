@@ -81,7 +81,7 @@ import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';
-import { generateId } from '@/components/rmrk/service/Consolidator'
+import Consolidator, { generateId } from '@/components/rmrk/service/Consolidator'
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost }   from '@/utils/support'
@@ -248,6 +248,11 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   protected async submit() {
     this.isLoading = true;
     const { api } = Connector.getInstance();
+    if (!this.validate()) {
+      this.isLoading = false;
+      return
+    }
+
     const nfts: NFT[] = await Promise.all(this.added.map(this.makeItSexy));
 
     const remarks: string[] = nfts.map(this.toMintFormat)
@@ -297,6 +302,19 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
 
   }
+  validate(): boolean {
+    console.log('KKT', this.added)
+    for (const nft of this.added) {
+      try {
+        Consolidator.nftValid(nft)
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn)
+        return false
+      }
+    }
+
+    return true
+  }
 
   protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
@@ -304,6 +322,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
+    rmrk.name = '';
     this.added.push(rmrk);
     this.images.push(null);
     this.animated.push(null)
