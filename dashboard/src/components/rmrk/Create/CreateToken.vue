@@ -55,7 +55,7 @@
             </b-button>
         </b-field>
       </b-field>
-      <Support v-if="canSubmit" v-model="hasSupport" />
+      <Support v-if="canSubmit" v-model="hasSupport" :price="filePrice" />
     </div>
   </div>
 </template>
@@ -84,7 +84,7 @@ import { fetchCollectionMetadata } from '../utils';
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { supportTx }   from '@/utils/support'
+import { supportTx, MaybeFile, calculateCost }   from '@/utils/support'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -106,14 +106,15 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private selectedCollection: Collection | null = null;
   private added: NFTAndMeta[] = [];
   private accountId: string = '';
-  private images: (Blob | null)[] = [];
-  private animated: (Blob | null)[] = [];
+  private images: MaybeFile[] = [];
+  private animated: MaybeFile[] = [];
   private isLoading: boolean = false;
   private password: string = '';
   private alreadyMinted = 0;
   private oneByOne: boolean = true;
   private symbol: string = '';
   private hasSupport: boolean = true;
+  private filePrice: number = 0;
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
@@ -167,12 +168,18 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     this.$set(this.added, item.index, item.view);
   }
 
-  private uploadFile(item: { image: Blob; index: number }) {
+  private uploadFile(item: { image: File; index: number }) {
     this.$set(this.images, item.index, item.image);
+    this.calculatePrice();
   }
 
-    private uploadAnimatedFile(item: { image: Blob; index: number }) {
+  private uploadAnimatedFile(item: { image: File; index: number }) {
     this.$set(this.animated, item.index, item.image);
+    this.calculatePrice();
+  }
+
+  private calculatePrice() {
+    this.filePrice = calculateCost([...this.images, ...this.animated])
   }
 
   private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {

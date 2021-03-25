@@ -95,7 +95,7 @@ import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, baseIpfsPrice } from '@/utils/support';
+import { supportTx, calculateCost } from '@/utils/support';
 
 
 const components = {
@@ -153,11 +153,7 @@ export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersion
   }
 
   get filePrice() {
-    if (!this.image) {
-      return 0
-    }
-
-    return baseIpfsPrice(this.image)
+    return calculateCost(this.image)
   }
 
   public async constructMeta() {
