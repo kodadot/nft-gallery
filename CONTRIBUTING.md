@@ -84,7 +84,7 @@ Doesn't tell me anything about why you're doing that
 
 **Tells me the problem that you have found, and the pull request shows me the action you have taken to solve it.**
 
-
+$$
 ### Is it of good quality
 
 * There are no spelling mistakes
