@@ -39,7 +39,7 @@ const IdentityModule = {
       }
     },
     addAuth(state: IdentityStruct, authRequest: Auth) {
-      Object.assign(state.auth, authRequest);
+      state.auth = {...authRequest}
     }
 
   },
@@ -73,6 +73,9 @@ const IdentityModule = {
   },
   getAuth(state: IdentityStruct): Auth {
     return state.auth
+  },
+  getAuthAddress(state: IdentityStruct): string {
+    return state.auth.address
   }
  }
 }
