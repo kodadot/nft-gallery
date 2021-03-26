@@ -27,6 +27,7 @@
                   :active="isLoading">
                 </b-skeleton>
                 <b-image
+                  class="image-box"
                   v-if="!isLoading"
                   :src="nft.image"
                   :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
@@ -113,4 +114,24 @@ export default class Gallery extends Vue {
 
 }
 </script>
+
+<style>
+.image-box {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+}
+.image-box img {
+    max-width: 100%;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(1);
+}
+
+.image-box:hover img {
+    transform: scale(1.1);
+}
+</style>
 

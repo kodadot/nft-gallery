@@ -1,3 +1,4 @@
+import { emptyObject } from '@/utils/empty';
 import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
 import Connector from '@vue-polkadot/vue-api';
 import Vue from 'vue'
@@ -7,8 +8,14 @@ export interface IdentityMap {
   [address: string]: Registration
 }
 
+export interface Auth {
+  address: string;
+  source: 'keyring' | 'extension' | 'ledger'
+}
+
 export interface IdentityStruct {
   identities: IdentityMap;
+  auth: Auth
 }
 
 export interface IdenityRequest {
@@ -18,6 +25,7 @@ export interface IdenityRequest {
 
 const defaultState: IdentityStruct = {
   identities: {},
+  auth: emptyObject<Auth>()
 };
 
 
@@ -29,10 +37,11 @@ const IdentityModule = {
       if (!state.identities[address]) {
         Vue.set(state.identities, address, identity)
       }
+    },
+    addAuth(state: IdentityStruct, authRequest: Auth) {
+      Object.assign(state.auth, authRequest);
     }
-    // addAvaibleOption(state: SettingsStruct, settings: Partial<SettingsStruct>) {
 
-    // }
   },
   actions: {
     setIdentity({commit}: any, identityRequest: IdenityRequest) {
@@ -50,6 +59,9 @@ const IdentityModule = {
       } catch(e) {
         console.error('[FETCH IDENTITY] Unable to get identity', e)
       }
+    },
+    setAuth({commit}: any, authRequest: Auth) {
+      commit('addAuth', authRequest)
     }
   },
  getters: {
@@ -58,6 +70,9 @@ const IdentityModule = {
    },
    getIdentityFor(state: IdentityStruct): (address: string) => Registration | undefined {
     return (address: string) => state.identities[address];
+  },
+  getAuth(state: IdentityStruct): Auth {
+    return state.auth
   }
  }
 }
