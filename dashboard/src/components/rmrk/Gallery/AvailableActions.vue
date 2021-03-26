@@ -33,6 +33,7 @@ import { getInstance, RmrkType } from '../service/RmrkService';
 import { unpin } from '@/pinata';
 import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -85,8 +86,10 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   get isOwner() {
-    const { currentOwnerId, accountId } = this;
-    return currentOwnerId && accountId && currentOwnerId === accountId;
+
+    console.log('{ currentOwnerId, accountId }', this.currentOwnerId, this.accountId);
+
+    return this.currentOwnerId && this.accountId && this.currentOwnerId === this.accountId;
   }
 
   get isAvailableToBuy() {

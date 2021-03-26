@@ -35,7 +35,7 @@
           <div class="card-content">
             <div class="content">
               <p class="subtitle">
-                <AccountSelect label="Account" v-model="accountId" />
+                <Auth />
                 <AvailableActions
                 :accountId="accountId"
                 :currentOwnerId="nft.currentOwner"
@@ -55,7 +55,7 @@
               <p class="title" :class="[ detailVisible ? 'is-size-2' : 'is-size-4' ]">
                 {{ $t('legend')}}
               </p>
-              <p class="subtitle is-size-7">
+              <div class="subtitle is-size-7">
                 <b-tag v-if="hasPrice" type="is-dark" size="is-medium">
                   <Money :value="nft.price" showFiatValue="usd" inline />
                 </b-tag>
@@ -64,7 +64,7 @@
                   {{ nft.description }}
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
-              </p>
+              </div>
             </div>
           </div>
           <template v-if="detailVisible">
@@ -86,14 +86,13 @@ import 'markdown-it-vue/dist/markdown-it-vue.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
-import AccountSelect from '@/components/shared/AccountSelect.vue';
+
 import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import Money from '@/components/shared/format/Money.vue';
 import Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-import Appreciation from './Appreciation.vue';
 // import MediaResolver from '../Media/MediaResolver.vue'
 import api from '@/fetch';
 import { resolveMedia } from '../utils';
@@ -127,7 +126,7 @@ type NFTType =  NFTWithMeta;
     }
   },
   components: {
-    AccountSelect,
+    Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions,
     Facts,
     // MarkdownItVue: MarkdownItVue as VueConstructor<Vue>,
@@ -141,12 +140,16 @@ type NFTType =  NFTWithMeta;
 })
 export default class GalleryItem extends Vue {
   private id: string = '';
-  private accountId: string = '';
+  // private accountId: string = '';
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
   private imageVisible: boolean = true;
   public isLoading: boolean = true;
   public mimeType: string = '';
+
+    get accountId() {
+    return this.$store.getters.getAuthAddress;
+  }
 
   public async mounted() {
     this.checkId();
