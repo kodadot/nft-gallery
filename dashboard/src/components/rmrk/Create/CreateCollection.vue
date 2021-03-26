@@ -8,10 +8,16 @@
       <p class="subtitle is-size-7">
         {{ $t('using') }} {{ version }}
       </p>
+      <b-field>
       <div>
         {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
       </div>
-      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      </b-field>
+      <b-field>
+        <Auth />
+      </b-field>
+
+
       <b-field grouped :label="$i18n.t('Name')">
         <b-input v-model="rmrkMint.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Owner address of minted art')" />
@@ -24,7 +30,7 @@
         ></b-numberinput>
       </b-field>
       <b-field grouped :label="$i18n.t('Symbol')">
-        <b-input v-model="rmrkMint.symbol" expanded></b-input>
+        <b-input placeholder="3-5 character long name" v-model="rmrkMint.symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
       <p class="title">
@@ -90,7 +96,7 @@ import { generateId } from '@/components/rmrk/service/Consolidator'
 
 
 const components = {
-  AccountSelect,
+  Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload,
   PasswordInput,
   Tooltip,
@@ -100,11 +106,15 @@ const components = {
 export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersionMixin) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
-  private accountId: string = '';
+  // private accountId: string = '';
   private uploadMode: boolean = true;
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
+
+  get accountId() {
+    return this.$store.getters.getAuthAddress;
+  }
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')

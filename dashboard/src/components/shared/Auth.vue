@@ -1,7 +1,7 @@
 <template>
   <div class="auth-avatar" v-if="account">
-    <Avatar :value="account" :size="24" />
-    <b><Identity :address="account" :inline="true"/></b>
+    <Avatar :value="account" :size="size" />
+    <span class="subtitle has-text-weight-bold auth-avatar-title" ><Identity :address="account" :inline="true"/></span>
   </div>
   <AccountSelect
     v-else
@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import shouldUpdate from '@/utils/shouldUpdate';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
@@ -23,7 +22,7 @@ const components = {
 
 @Component({ components })
 export default class Auth extends Vue {
-  @Prop() public value!: string;
+  @Prop({ default: 24 }) public size!: number;
 
   public mounted() {
     if (this.account) {
@@ -47,5 +46,9 @@ export default class Auth extends Vue {
 .auth-avatar {
   display: flex;
   flex-direction: row;
+}
+
+.auth-avatar-title {
+  padding-left: 0.3em;
 }
 </style>

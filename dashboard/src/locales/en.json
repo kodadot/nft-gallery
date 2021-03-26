@@ -42,7 +42,7 @@
     "Maximum NFTs in collection",
   "Account": "Account",
   "Name": "Name",
-  "Symbol": "Symbol",
+  "Symbol": "Symbol (Short name)",
   "Description": "Description",
   "Multimedia data": "Multimedia data",
   "Metadata IPFS Hash": "Metadata IPFS Hash",
