@@ -26,13 +26,24 @@
                   height="240px"
                   :active="isLoading">
                 </b-skeleton>
-                <b-image
+                <!-- <b-image
                   v-if="!isLoading"
                   :src="nft.image"
                   :src-fallback="require('@/utils/placeholder.png')"
                   alt="Simple image"
                   ratio="1by1"
-                ></b-image>
+                ></b-image> -->
+
+                <figure class="">
+                    <vue-freezeframe  v-if="!isLoading">
+                      <img
+                        :src="require('@/utils/placeholder.png')"
+                        :data-src="nft.image"
+                        alt="Simple image"
+                        class="lazyload"
+                      />
+                    </vue-freezeframe>
+                </figure>
               </div>
 
               <div v-else class="card-image">
@@ -71,9 +82,20 @@ import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import { basicFilter } from './Search/query'
+import got from 'got'
+import FileType from 'file-type'
+import axios from 'axios'
+// const got = require('got');
+// const FileType = require('file-type');
+import Freezeframe from 'freezeframe';
+import { extractCid } from '@/pinata';
+import IPFS from 'ipfs'
+import toStream from 'it-to-stream'
+import { VueFreezeframe } from 'vue-freezeframe';
+import 'lazysizes'
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search }
+const components = { GalleryCardList, Search, VueFreezeframe }
 
 @Component({ components })
 export default class Gallery extends Vue {
@@ -98,6 +120,7 @@ export default class Gallery extends Vue {
     }
 
     this.isLoading = false;
+    new Freezeframe()
   }
 
   get results() {
@@ -106,6 +129,43 @@ export default class Gallery extends Vue {
     }
 
     return this.nfts
+  }
+
+  async onLoad(event, nft) {
+    // logo.start(); // start animation
+    // logo.stop(); // stop animation
+    // logo.toggle(); // toggle animation
+        // const cid = extractCid(src)
+
+    // const file = await axios.get(src)
+    // debugger
+    // const type = await FileType.fromStream(toStream(file.data))
+    // console.log(type, event)
+
+    // if (type.ext === 'gif') {
+    //   debugger
+    //   const logo = new Freezeframe(event.path[0]);
+    // }
+
+    // const image = await axios.get(nft.image)
+    // const type = image.headers['content-type']
+    // if (type === 'image/gif') {
+    //   const frame = document.getElementById(nft.id)
+    //   console.log(event.target)
+    //   const logo = new Freezeframe(frame, {
+    //     trigger: false
+    //   });
+
+    //   // logo.start(); // start animation
+    //   // logo.toggle(); // toggle animation
+    // }
+
+
+  	// console.log(await FileType.fromStream(stream));
+//     const type = await FileType.fromStream(toStream(ipfs.cat(cid, {
+//   length: 100 // or however many bytes you need
+// })))
+    // debugger
   }
 
 }
