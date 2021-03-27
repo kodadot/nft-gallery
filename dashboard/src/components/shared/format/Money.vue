@@ -4,7 +4,7 @@
       {{ value | formatBalance(decimals, unit) }}
     </span>
     <span v-if="fiatValue">
-      / {{ fiatValue | formatBalance(decimals, showFiatValue.toUpperCase()) }}
+      / {{ fiatValue.toString() | formatBalance(decimals, showFiatValue.toUpperCase()) }}
     </span>
   </div>
 </template>
