@@ -110,12 +110,13 @@ export default class Gallery extends Vue {
 
   setFreezeframe() {
     document.addEventListener('lazybeforeunveil', async (e) => {
-      const target = e.target as Image,
-        image = await axios.head(target.dataset.src),
-        isGif = image.headers['content-type'] === 'image/gif'
+      const target = e.target as Image
+      const src = target.dataset.src as string
+      const image = await axios.head(src)
+      const isGif = image.headers['content-type'] === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
-        new Freezeframe(target, {
+        const ff = new Freezeframe(target, {
           trigger: false,
           overlay: true,
           warnings: false
@@ -126,8 +127,9 @@ export default class Gallery extends Vue {
     })
   }
 
-  onError(e) {
-    e.target.src = this.placeholder
+  onError(e: Event) {
+    const target = e.target as Image
+    target.src = this.placeholder
   }
 }
 </script>

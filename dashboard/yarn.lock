@@ -2732,11 +2732,6 @@
     "@babel/runtime" "^7.12.5"
     "@ledgerhq/hw-transport" "^5.38.0"
 
-"@zxing/text-encoding@0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@zxing/text-encoding/-/text-encoding-0.9.0.tgz#fb50ffabc6c7c66a0c96b4c03e3d9be74864b70b"
-  integrity sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -4047,16 +4042,6 @@ cids@^1.1.4:
     multicodec "^2.1.0"
     multihashes "^3.1.0"
     uint8arrays "^2.0.5"
-
-cids@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/cids/-/cids-1.1.6.tgz#ac7aea7dbcabaa64ca242b5d970d596a5c34d006"
-  integrity sha512-5P+Jas2bVpjiHibp/SOwKY+v7JhAjTChaAZN+vCIrsWXn/JZV0frX22Vp5zZgEyJRPco79pX+yNQ2S3LkRukHQ==
-  dependencies:
-    multibase "^4.0.1"
-    multicodec "^3.0.1"
-    multihashes "^4.0.1"
-    uint8arrays "^2.1.3"
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
@@ -10294,14 +10279,6 @@ multibase@^3.0.0, multibase@^3.0.1, multibase@^3.1.0:
     "@multiformats/base-x" "^4.0.1"
     web-encoding "^1.0.4"
 
-multibase@^4.0.1:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/multibase/-/multibase-4.0.2.tgz#8250a0f50d0ed49765146bf0e3431e3df9b249ac"
-  integrity sha512-l0XMK4O5I9cCfxC0/UMDX/UxlIlrqkjEZQNG+ZUUrsGhnXWgFXgatYOQSONiR/lQGfBO463UyZkh3SiQBpjRIQ==
-  dependencies:
-    "@multiformats/base-x" "^4.0.1"
-    web-encoding "^1.1.0"
-
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
@@ -10339,14 +10316,6 @@ multicodec@^2.1.0:
     uint8arrays "1.1.0"
     varint "^6.0.0"
 
-multicodec@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-3.0.1.tgz#94e043847ee11fcce92487609ac9010429a95e31"
-  integrity sha512-Y6j3wiPojvkF/z6KFIGt84KdJdP2oILEdzc/3YbD3qQ3EerhqtYlfsZTPPNVoCCxNZZdzIpCKrdYFSav17sIrQ==
-  dependencies:
-    uint8arrays "^2.1.3"
-    varint "^5.0.2"
-
 multihashes@0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.19.tgz#d7493cf028e48747122f350908ea13d12d204813"
@@ -10373,15 +10342,6 @@ multihashes@^3.1.0:
     multibase "^3.1.0"
     uint8arrays "^2.0.5"
     varint "^6.0.0"
-
-multihashes@^4.0.1:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-4.0.2.tgz#d76aeac3a302a1bed9fe1ec964fb7a22fa662283"
-  integrity sha512-xpx++1iZr4ZQHjN1mcrXS6904R36LWLxX/CBifczjtmrtCXEX623DMWOF1eiNSg+pFpiZDFVBgou/4v6ayCHSQ==
-  dependencies:
-    multibase "^4.0.1"
-    uint8arrays "^2.1.3"
-    varint "^5.0.2"
 
 multihashing-async@^2.0.0, multihashing-async@^2.0.1:
   version "2.0.1"
@@ -14057,14 +14017,6 @@ uint8arrays@^2.0.5:
     multibase "^3.0.0"
     web-encoding "^1.0.5"
 
-uint8arrays@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-2.1.3.tgz#6e09ed40687042ed7b0047b498c0e876efe5a49a"
-  integrity sha512-2h2Z2OIqzrhHmZTv9ViJVyZZreFkHRHeihh7SxLVY/nLUVJhU4ey/u74tWsgMR6hhMSO2g5rhKmdLQIg3lKiUQ==
-  dependencies:
-    multibase "^4.0.1"
-    web-encoding "^1.1.0"
-
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
@@ -14358,7 +14310,7 @@ varint-decoder@^1.0.0:
   dependencies:
     varint "^5.0.0"
 
-varint@^5.0.0, varint@^5.0.2, varint@~5.0.0:
+varint@^5.0.0, varint@~5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.2.tgz#5b47f8a947eb668b848e034dcfa87d0ff8a7f7a4"
   integrity sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==
@@ -14558,13 +14510,6 @@ web-encoding@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/web-encoding/-/web-encoding-1.0.6.tgz#ec631356ee523b4474ecbcae680440bd1e79416a"
   integrity sha512-26wEnRPEFAc5d5lmH1Q/DuvWEYsRF1D2alX2jlKpdmqv7cj+BbANL7Xlcl9r4s72Eg9kItZa9RWVbBMC9dMv4w==
-
-web-encoding@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/web-encoding/-/web-encoding-1.1.0.tgz#b8ed50f0e23ba239542ba11ebe885b75a0b95bea"
-  integrity sha512-KzYonGdJnZB3qvhK8hKca5qXk/wp+hgwGNTY1TnqtF2CzDzpN8szOC3ejhX9+wbhCq3vQs/TjM8BykS1kor0lQ==
-  optionalDependencies:
-    "@zxing/text-encoding" "0.9.0"
 
 web-streams-polyfill@^3.0.0:
   version "3.0.1"

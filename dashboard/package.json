@@ -33,7 +33,6 @@
     "@vue-polkadot/vue-settings": "^0.0.16",
     "axios": "^0.21.0",
     "buefy": "^0.9.2",
-    "cids": "^1.1.6",
     "core-js": "^2.6.5",
     "file-saver": "^2.0.2",
     "freezeframe": "^5.0.2",
