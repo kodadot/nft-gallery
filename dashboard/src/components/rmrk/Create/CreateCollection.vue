@@ -39,7 +39,7 @@
         <b-field :label="$i18n.t('Description')">
           <b-input
             v-model="meta.description"
-            maxlength="200"
+            maxlength="500"
             type="textarea"
           ></b-input>
         </b-field>
