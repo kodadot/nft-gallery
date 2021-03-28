@@ -1,7 +1,10 @@
 <template>
   <b-dropdown position="is-bottom-left" append-to-body aria-role="menu">
     <template #trigger>
-      <Avatar v-if="account" :value="account" :size="48" />
+      <span v-if="account" class="columns is-mobile is-vcentered navbar-avatar" >
+      <Avatar class="navbar-avatar" :value="account" :size="42" />
+      <span class="subtitle has-text-weight-bold is-align-self-center"><Identity class="navbar-identity" :address="account" :inline="true"/></span>
+      </span>
       <template v-else>
         <b-button type="is-text">Connect</b-button>
       </template>
@@ -82,3 +85,19 @@ export default class NavbarProfileDropdown extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "bulma/bulma.sass";
+
+.navbar-avatar {
+  @include until($desktop) {
+    margin-left: 0.5rem;
+  }
+}
+
+// .navbar-identity {
+//   @include from($desktop) {
+//     display: none;
+//   }
+// }
+</style>

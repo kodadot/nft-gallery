@@ -64,26 +64,9 @@
       </b-navbar-dropdown> -->
     </template>
     <template v-slot:end>
-      <b-navbar-item>
-        <div class="buttons">
-          <b-field grouped>
-            <b-button tag="router-link"
-              :to="{ name: 'rmrkFaq' }" >
-              F.A.Q.
-            </b-button>
-            <LocaleChanger />
-            <b-button tag="a"
-              type="is-info" outlined
-              href="https://twitter.com/Kodadot">
-                <b-icon
-                  pack="fab"
-                  icon="twitter">
-                </b-icon>
-                <strong>KodaDot</strong>
-            </b-button>
-          </b-field>
-        </div>
-        </b-navbar-item>
+      <!-- <b-navbar-item>
+          <LocaleChanger />
+        </b-navbar-item> -->
         <NavbarProfileDropdown />
     </template>
   </b-navbar>

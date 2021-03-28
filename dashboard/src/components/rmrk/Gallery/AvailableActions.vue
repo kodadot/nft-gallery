@@ -1,6 +1,12 @@
 <template>
   <div>
-    <b-field v-if="accountId" label="Action">
+    <div v-if="accountId" class="buttons">
+      <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
+      @click="handleAction(action)">
+        {{ action }}
+      </b-button>
+    </div>
+    <!-- <b-field v-if="accountId" label="Action">
       <b-select
         placeholder="Select available action"
         :value="selectedAction"
@@ -11,15 +17,15 @@
           {{ action }}
         </option>
       </b-select>
-    </b-field>
-    <component v-if="showMeta" :is="showMeta" @input="updateMeta" />
+    </b-field> -->
+    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
       icon-left="paper-plane"
       @click="submit"
     >
-      Submit
+      Submit {{ selectedAction }}
     </b-button>
   </div>
 </template>
@@ -34,6 +40,7 @@ import { unpin } from '@/pinata';
 import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import shouldUpdate from '@/utils/shouldUpdate';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -43,12 +50,20 @@ const needMeta: Record<string, string> = {
   LIST: 'BalanceInput'
 };
 
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
+type DescriptionTuple = [string, string] | [string];
+const iconResolver: Record<string, DescriptionTuple> = {
+  SEND: ['is-info is-light'],
+  CONSUME: ['is-danger'],
+  LIST: ['is-light'],
+  BUY: ['is-success is-light']
+};
+
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue')
-}
+};
 
 @Component({ components })
 export default class AvailableActions extends Mixins(RmrkVersionMixin) {
@@ -75,21 +90,41 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 
   get metaValid() {
     if (typeof this.meta === 'number') {
-      return this.meta >= 0
+      return this.meta >= 0;
     }
 
-    return this.meta
+    return this.meta;
   }
 
   get showMeta() {
     return needMeta[this.selectedAction];
   }
 
+  protected iconType(value: string) {
+    return iconResolver[value];
+  }
+
+  protected handleAction(action: Action) {
+    if (shouldUpdate(action,  this.selectedAction)) {
+      this.selectedAction = action;
+    } else {
+      this.selectedAction = '';
+      this.meta = '';
+    }
+  }
+
   get isOwner() {
+    console.log(
+      '{ currentOwnerId, accountId }',
+      this.currentOwnerId,
+      this.accountId
+    );
 
-    console.log('{ currentOwnerId, accountId }', this.currentOwnerId, this.accountId);
-
-    return this.currentOwnerId && this.accountId && this.currentOwnerId === this.accountId;
+    return (
+      this.currentOwnerId &&
+      this.accountId &&
+      this.currentOwnerId === this.accountId
+    );
   }
 
   get isAvailableToBuy() {
@@ -110,23 +145,23 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   get isBuy() {
-    return this.selectedAction === 'BUY'
+    return this.selectedAction === 'BUY';
   }
 
   get isConsume() {
-    return this.selectedAction === 'CONSUME'
+    return this.selectedAction === 'CONSUME';
   }
 
   get isList() {
-    return this.selectedAction === 'LIST'
+    return this.selectedAction === 'LIST';
   }
 
   get isSend() {
-    return this.selectedAction === 'SEND'
+    return this.selectedAction === 'SEND';
   }
 
   protected updateMeta(value: string | number) {
-    console.log(typeof value, value)
+    console.log(typeof value, value);
     this.meta = value;
   }
 
@@ -137,58 +172,74 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     await rmrkService?.checkExpiredOrElseRefresh();
 
     try {
-      showNotification(rmrk)
+      showNotification(rmrk);
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
-      if (await rmrkService?.isNFTAvailable(this.nftId, this.currentOwnerId).then(isNFTAvailable => !isNFTAvailable)) {
-        showNotification(`[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`, notificationTypes.warn)
+      if (
+        await rmrkService
+          ?.isNFTAvailable(this.nftId, this.currentOwnerId)
+          .then(isNFTAvailable => !isNFTAvailable)
+      ) {
+        showNotification(
+          `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
+          notificationTypes.warn
+        );
         return;
       }
-      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark;
+      const arg = isBuy
+        ? [
+            api.tx.system.remark(rmrk),
+            api.tx.balances.transfer(this.currentOwnerId, this.price)
+          ]
+        : rmrk;
       const tx = await exec(this.accountId, '', cb, [arg]);
-      showNotification(execResultValue(tx), notificationTypes.success)
+      showNotification(execResultValue(tx), notificationTypes.success);
       console.warn('TX IN', tx);
       const persisted = await rmrkService?.resolve(rmrk, this.accountId);
       if (this.isConsume) {
-        this.unpinNFT()
+        this.unpinNFT();
       }
-      console.log(persisted)
+      console.log(persisted);
       console.log('SAVED', persisted?._id);
-      showNotification(`[TEXTILE] ${persisted?._id}`, notificationTypes.success)
+      showNotification(
+        `[TEXTILE] ${persisted?._id}`,
+        notificationTypes.success
+      );
     } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
     }
   }
 
   protected unpinNFT() {
-    this.ipfsHashes
-    .forEach(async hash => {
+    this.ipfsHashes.forEach(async hash => {
       if (hash) {
         try {
-          await unpin(hash)
+          await unpin(hash);
         } catch (e) {
-          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`);
         }
       }
-    })
-
+    });
   }
 
   protected async consolidate(): Promise<boolean> {
     const rmrkService = getInstance();
-    await rmrkService?.checkExpiredOrElseRefresh()
+    await rmrkService?.checkExpiredOrElseRefresh();
 
     if (!rmrkService) {
-      console.warn('NO RMRK SERVICE, Live your life on the edge')
+      console.warn('NO RMRK SERVICE, Live your life on the edge');
       return true;
     }
 
-    const nft = await rmrkService?.getNFT(this.nftId)
-    return Consolidator.consolidate(this.selectedAction, nft, this.currentOwnerId, this.accountId)
+    const nft = await rmrkService?.getNFT(this.nftId);
+    return Consolidator.consolidate(
+      this.selectedAction,
+      nft,
+      this.currentOwnerId,
+      this.accountId
+    );
   }
-
-
 }
 </script>
