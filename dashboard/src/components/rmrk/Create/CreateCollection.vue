@@ -33,7 +33,7 @@
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>
       <template v-if="uploadMode">
-        <b-field :label="$i18n.t('Collection cescription')">
+        <b-field :label="$i18n.t('Collection description')">
           <b-input
             v-model="meta.description"
             maxlength="500"
