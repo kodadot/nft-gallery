@@ -84,6 +84,12 @@ export interface PackMetadata {
 //   currentOwner: string;
 // }
 
+export interface Arweave {
+  imageArId: string;
+  metadataArId: string;
+  animationArId?: string;
+}
+
 export interface CollectionWithMeta extends Collection, CollectionMetadata {
 
 }
@@ -110,6 +116,7 @@ export interface Collection {
   _id: string;
   metadata: string;
   blockNumber?: number;
+  arweave?: Arweave;
 }
 
 export interface NFT {
@@ -125,6 +132,7 @@ export interface NFT {
   price?: string;
   disabled?: boolean;
   blockNumber?: number;
+  arweave?: Arweave;
 }
 
 export interface BasePack {
