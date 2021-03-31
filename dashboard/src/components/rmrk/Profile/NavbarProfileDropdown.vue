@@ -41,7 +41,7 @@
         </a>
       </b-dropdown-item>
     </template>
-    <b-dropdown-item custom aria-role="menuitem">
+    <b-dropdown-item v-if="account" custom aria-role="menuitem">
       <b-button @click="changeAccount = !changeAccount" expanded
         >Change account</b-button
       >
