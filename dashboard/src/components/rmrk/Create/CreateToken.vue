@@ -2,13 +2,17 @@
   <div>
     <div class="box">
       <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
-      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      <b-field>
+        <Auth />
+      </b-field>
       <template v-if="accountId">
-        <b-switch v-model="oneByOne"
-          passive-type="is-dark"
-          :rounded="false">
-          {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
-        </b-switch>
+        <b-field>
+          <b-switch v-model="oneByOne"
+            passive-type="is-dark"
+            :rounded="false">
+            {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
+          </b-switch>
+        </b-field>
         <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">
         <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
           <option v-for="option in data" :value="option" :key="option.id">
@@ -18,7 +22,7 @@
         <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
       </b-field>
       <b-field v-else grouped :label="$i18n.t('Symbol')">
-        <b-input v-model="symbol" expanded></b-input>
+        <b-input placeholder="3-5 character long name"  v-model="symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
       </template>
@@ -65,7 +69,6 @@ import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { RmrkMint, RmrkView } from '../types';
 import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
-import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
@@ -92,7 +95,7 @@ interface NFTAndMeta extends NFT {
 
 @Component({
   components: {
-    AccountSelect,
+    Auth: () => import('@/components/shared/Auth.vue'),
     CreateItem,
     PasswordInput,
     Tooltip
@@ -102,7 +105,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
   private added: NFTAndMeta[] = [];
-  private accountId: string = '';
+  // private accountId: string = '';
   private images: (Blob | null)[] = [];
   private animated: (Blob | null)[] = [];
   private isLoading: boolean = false;
@@ -110,6 +113,10 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private alreadyMinted = 0;
   private oneByOne: boolean = true;
   private symbol: string = '';
+
+  get accountId() {
+    return this.$store.getters.getAuthAddress;
+  }
 
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
