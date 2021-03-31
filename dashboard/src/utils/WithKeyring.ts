@@ -4,6 +4,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import { enableExtension } from '@/extension';
 
 import {
   web3Accounts,
@@ -47,8 +48,8 @@ export default class WithKeyring extends Vue {
 
   public async extensionAccounts() {
     if (!isWeb3Injected) {
-      console.warn('Extension not working')
-      return;
+      console.warn('Extension not working, reload might fix things')
+      await enableExtension();
     }
 
     this.importedAccounts = await web3Accounts({ ss58Format: this.ss58Format || 42 });
