@@ -1,5 +1,5 @@
 <template>
-  <video controls>
+  <video controls playsinline loop autoplay>
       <source :src="src" :type="mimeType">
       Unable to show video
   </video>
