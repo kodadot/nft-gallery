@@ -2,8 +2,8 @@
   <b-dropdown position="is-bottom-left" append-to-body aria-role="menu">
     <template #trigger>
       <span v-if="account" class="columns is-mobile is-vcentered navbar-avatar" >
-      <Avatar class="navbar-avatar" :value="account" :size="42" />
-      <span class="subtitle has-text-weight-bold is-align-self-center"><Identity class="navbar-identity" :address="account" :inline="true"/></span>
+      <Avatar class="navbar-avatar" :value="account" :size="34" />
+      <span class="navbar-identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span>
       </span>
       <template v-else>
         <b-button type="is-text">Connect</b-button>
@@ -91,13 +91,14 @@ export default class NavbarProfileDropdown extends Vue {
 
 .navbar-avatar {
   @include until($desktop) {
-    margin-left: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    // margin-left: 0.3rem;
   }
 }
 
-// .navbar-identity {
-//   @include from($desktop) {
-//     display: none;
-//   }
-// }
+.navbar-identity {
+  @include from($desktop) {
+    display: none;
+  }
+}
 </style>
