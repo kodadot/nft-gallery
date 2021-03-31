@@ -59,7 +59,7 @@ export default class WithKeyring extends Vue {
     return [...this.keyringAccounts, ...this.importedAccounts]
   }
 
-  public mounted(): void {
+  public created(): void {
     this.mountWasmCrypto();
   }
 
