@@ -391,6 +391,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     await this.addToCollection(collectionWithMeta)
+    console.log('[AR Collection] START', (new Date()).toISOString())
+    this.addCollectionToArweave(collectionWithMeta)
     return collectionWithMeta;
   }
 
@@ -423,7 +425,25 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     await this.addToCollection(nft);
+    console.log('[AR NFT] START', (new Date()).toISOString())
+    this.addNFTToArweave(nft)
     return nft
+  }
+
+  private async addNFTToArweave(nft: NFTWithMeta) {
+    await nftToArweave(nft).then(ar => ({ ...nft, ...ar})).then(nftWithAr => {
+      console.log('[AR NFT] END', (new Date()).toISOString())
+      this.useNFT();
+      this.update(nftWithAr)
+    })
+  }
+
+  private async addCollectionToArweave(collection: CollectionWithMeta) {
+    await collectionToArweave(collection).then(ar => ({ ...collection, ...ar})).then(collectionWithAr => {
+      console.log('[AR Collection] END', (new Date()).toISOString())
+      this.useCollection();
+      this.update(collectionWithAr)
+    })
   }
 
   private async send(view: object, caller: string): Promise<NFTWithMeta> {

@@ -118,6 +118,10 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return this.$store.getters.getAuthAddress;
   }
 
+  public created() {
+    this.fetchCollections();
+  }
+
   @Watch('accountId')
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {

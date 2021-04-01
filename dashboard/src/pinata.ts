@@ -87,8 +87,12 @@ const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
 export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
   const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
   try {
-    const { data } = await api.post(IPFS2AR + hash)
-    return (data as IpfsToArweaveType).arweaveId
+    const res = await fetch(IPFS2AR + hash, {method: 'POST'})
+    if (res.ok) {
+      return (await res.json()).arweaveId
+    }
+
+    return ''
   } catch (e) {
     console.error(`[IPFS2AR] Unable to Arweave ${e.message}`)
     return ''

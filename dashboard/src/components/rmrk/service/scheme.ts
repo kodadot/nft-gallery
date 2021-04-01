@@ -85,16 +85,16 @@ export interface PackMetadata {
 // }
 
 export interface Arweave {
-  imageArId: string;
-  metadataArId: string;
+  imageArId?: string;
+  metadataArId?: string;
   animationArId?: string;
 }
 
-export interface CollectionWithMeta extends Collection, CollectionMetadata {
+export interface CollectionWithMeta extends Collection, CollectionMetadata, Arweave {
 
 }
 
-export interface NFTWithMeta extends NFT, NFTMetadata {
+export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {
 
 }
 
@@ -116,7 +116,6 @@ export interface Collection {
   _id: string;
   metadata: string;
   blockNumber?: number;
-  arweave?: Arweave;
 }
 
 export interface NFT {
@@ -132,7 +131,6 @@ export interface NFT {
   price?: string;
   disabled?: boolean;
   blockNumber?: number;
-  arweave?: Arweave;
 }
 
 export interface BasePack {
