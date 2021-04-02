@@ -38,10 +38,10 @@
                   v-if="!isLoading"
                   class="title is-4 has-text-centered">
                   <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
-                    {{ nft.name }}
+                    {{ truncateStr(nft.name) }}
                   </router-link>
                   <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
-                    {{ nft.name }} 「{{ nft.count }}」
+                    {{ truncateStr(nft.name) }} 「{{ nft.count }}」
                   </router-link>
                 </p>
                 <b-skeleton
@@ -109,6 +109,13 @@ export default class Gallery extends Vue {
     }
 
     return basicAggQuery(this.nfts)
+  }
+
+  truncateStr(s: string, maxLen : number = 20): string {
+    if (s.length < maxLen) {
+      return s;
+    }
+    return s.substring(0, maxLen) + "...";
   }
 
   setFreezeframe() {
