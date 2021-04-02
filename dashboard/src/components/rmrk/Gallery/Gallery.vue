@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gallery">
     <!-- <b-field label="Owners">
       <b-select
         placeholder="Select an owner"
@@ -21,27 +21,16 @@
         >
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
-              <div class="card-image" v-if="nft.image">
-                <b-skeleton
-                  height="240px"
-                  :active="isLoading">
-                </b-skeleton>
-                <b-image
-                  class="image-box"
-                  v-if="!isLoading"
-                  :src="nft.image"
-                  :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-                  alt="Simple image"
-                  ratio="1by1"
-                ></b-image>
-              </div>
-
-              <div v-else class="card-image">
-                <b-image
-                  :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-                  alt="Simple image"
-                  ratio="1by1"
-                ></b-image>
+              <div class="card-image">
+                <figure class="gallery__image-wrapper">
+                  <img
+                    :src="placeholder"
+                    :data-src="nft.image"
+                    :alt="nft.name"
+                    class="lazyload gallery__image"
+                    @error="onError"
+                  />
+                </figure>
               </div>
 
               <div class="card-content">
@@ -75,6 +64,13 @@ import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import { basicFilter, basicAggQuery } from './Search/query'
+import axios from 'axios'
+import Freezeframe from 'freezeframe'
+import 'lazysizes'
+
+interface Image extends HTMLImageElement {
+  ffInitialized: boolean
+}
 
 type NFTType = NFTWithMeta;
 const components = { GalleryCardList, Search }
@@ -84,9 +80,12 @@ export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
   private searchQuery = ''
+  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
 
   public async mounted() {
     const rmrkService = getInstance();
+
+    this.setFreezeframe()
 
     if (!rmrkService) {
       return;
@@ -112,26 +111,75 @@ export default class Gallery extends Vue {
     return basicAggQuery(this.nfts)
   }
 
+  setFreezeframe() {
+    document.addEventListener('lazybeforeunveil', async (e) => {
+      const target = e.target as Image
+      const src = target.dataset.src as string
+      const image = await axios.head(src)
+      const isGif = image.headers['content-type'] === 'image/gif'
+
+      if (isGif && !target.ffInitialized) {
+        const ff = new Freezeframe(target, {
+          trigger: false,
+          overlay: true,
+          warnings: false
+        })
+
+        target.ffInitialized = true
+      }
+    })
+  }
+
+  onError(e: Event) {
+    const target = e.target as Image
+    target.src = this.placeholder
+  }
 }
 </script>
 
-<style>
-.image-box {
+<style lang="scss">
+.gallery {
+  &__image-wrapper {
     position: relative;
     margin: auto;
+    padding-top: 100%;
     overflow: hidden;
-}
-.image-box img {
-    max-width: 100%;
+    cursor: pointer;
+  }
+
+  &__image {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
     transition: all 0.3s;
     display: block;
     width: 100%;
     height: auto;
-    transform: scale(1);
-}
+    transform: scale(1) translateY(-50%);
 
-.image-box:hover img {
-    transform: scale(1.1);
+    &:hover {
+      transform: scale(1.1) translateY(-50%);
+    }
+  }
+
+  .ff-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: hidden;
+
+    .ff-overlay {
+      z-index: 2;
+    }
+
+    .ff-image,
+    .ff-canvas {
+      top: 50%;
+      height: auto;
+      transform: translateY(-50%);
+    }
+  }
 }
 </style>
-
