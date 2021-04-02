@@ -22,12 +22,12 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image">
-                <figure class="gallery__image image is-1by1">
+                <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
                     :data-src="nft.image"
                     :alt="nft.name"
-                    class="lazyload has-ratio"
+                    class="lazyload gallery__image"
                     @error="onError"
                   />
                 </figure>
@@ -139,8 +139,29 @@ export default class Gallery extends Vue {
 
 <style lang="scss">
 .gallery {
-  &__image {
+  &__image-wrapper {
+    position: relative;
+    margin: auto;
+    padding-top: 100%;
+    overflow: hidden;
     cursor: pointer;
+  }
+
+  &__image {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(1) translateY(-50%);
+
+    &:hover {
+      transform: scale(1.1) translateY(-50%);
+    }
   }
 
   .ff-container {
@@ -160,24 +181,5 @@ export default class Gallery extends Vue {
       transform: translateY(-50%);
     }
   }
-}
-
-.image-box {
-  position: relative;
-  margin: auto;
-  overflow: hidden;
-}
-
-.image-box img {
-  max-width: 100%;
-  transition: all 0.3s;
-  display: block;
-  width: 100%;
-  height: auto;
-  transform: scale(1);
-}
-
-.image-box:hover img {
-  transform: scale(1.1);
 }
 </style>
