@@ -1,4 +1,4 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { KeyringPair } from '@polkadot/keyring/types';
@@ -10,6 +10,7 @@ import {
   web3Accounts,
   isWeb3Injected
 } from '@polkadot/extension-dapp';
+import { getPrefixByStoreUrl } from '@/utils/chain'
 
 export type KeyringAccount = KeyringPair | InjectedAccountWithMeta;
 
@@ -52,7 +53,11 @@ export default class WithKeyring extends Vue {
       await enableExtension();
     }
 
-    this.importedAccounts = await web3Accounts({ ss58Format: this.ss58Format || 42 });
+    this.importedAccounts = await web3Accounts({ ss58Format: this.ss58Format || this.prefixByStore  });
+  }
+
+  get prefixByStore() {
+    return typeof getPrefixByStoreUrl() === 'undefined' ? 42 : Number(getPrefixByStoreUrl())
   }
 
   public allAcctounts(): KeyringAccount[] {
