@@ -192,12 +192,12 @@ export default class Landing extends Vue {
   ]
 
   public creators: any = [
-    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
     'Dx6nVUy6f2znn4ZwNZ3TGbEyUz3FLbCRGQGKAut4LxjCVRs',
     'J6mwrrDE5ZywDe8T4mWgsdgHCcrDcrVtoGh37i7PSaZARRs',
     'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby',
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
+    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
     'F87P5Ab1QFq68a2tCq2N7TSmkfDUtG7EYUecgSBaYRFeCnf',
     'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN'
   ]

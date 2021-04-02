@@ -36,15 +36,15 @@ export default class Identity extends Mixins(InlineMixin) {
   // }
 
   get name(): Address {
-    console.log('get name -> identityInfo', this.identityInfo);
+    // console.log('get name -> identityInfo', this.identityInfo);
     const name = this.handleRaw(this.identityInfo?.display);
-    console.log('get name -> name', name);
+    // console.log('get name -> name', name);
     return name as string || this.address
   }
 
   @Watch('address')
   async watchAddress(newAddress: Address,  oldAddress: Address) {
-    console.log('@Watch(address)', newAddress);
+    // console.log('@Watch(address)', newAddress);
 
     if ((newAddress && !oldAddress) || (oldAddress !== newAddress)) {
       this.identity = await this.identityOf(newAddress)
@@ -52,7 +52,7 @@ export default class Identity extends Mixins(InlineMixin) {
   }
 
 
-  public async mounted() {
+  public async created() {
     console.log('this.address', this.address);
     this.identity = await this.identityOf(this.address)
     ;
