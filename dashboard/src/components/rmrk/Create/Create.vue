@@ -13,6 +13,6 @@ import CreateCollection from './CreateCollection.vue'
     CreateCollection
   }
 })
-export default class  extends Vue {
+export default class Create extends Vue {
 }
 </script>

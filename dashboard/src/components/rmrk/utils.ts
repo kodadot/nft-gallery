@@ -20,7 +20,7 @@ export const ipfsProviders: Record<string, string> = {
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  '': 'https://cloudflare-ipfs.com/'
+  '': 'https://gateway.pinata.cloud/'
 }
 
 const resolveProvider = (key?: string) => ipfsProviders[key || '']

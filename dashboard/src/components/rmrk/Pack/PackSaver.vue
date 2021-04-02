@@ -10,7 +10,7 @@
       :max-height="200"
       >
       <template #trigger>
-        <b-button type="is-primary" icon-left="bookmark">
+        <b-button type="is-primary" outlined icon-left="bookmark">
           Save to pack ({{ currentMenu.length }})
         </b-button>
       </template>

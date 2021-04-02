@@ -9,7 +9,7 @@
             <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
           </option>
         </b-select>
-        <Tooltip :label="tooltip" />
+        <Tooltip v-if="tooltipVisible" :label="tooltip" />
     </b-field>
 </template>
 <script lang="ts" >
@@ -26,9 +26,10 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 })
 export default class AccountSelect extends Mixins(WithKeyring) {
   private tooltip: string = 'Owner\'s address of minted art';
-  @Prop() public value!: string | KeyringAccount;
+  @Prop({ default: '' }) public value!: string | KeyringAccount;
   @Prop() public asKeyring!: boolean;
   @Prop({ default: 'Account' }) public label!: boolean;
+  @Prop({ default: true }) tooltipVisible!: boolean;
 
 
   get options() {

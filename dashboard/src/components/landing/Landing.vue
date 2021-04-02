@@ -37,7 +37,7 @@
                     v-for="c in creators"
                     :key="c">
                       <router-link :to="{ name: 'profile', params: { id: c } }">
-                        {{ c | shortAddress }}
+                        <Identity :address="c" :inline="true" />
                       </router-link>
                     </li>
                 </h2>
@@ -171,14 +171,16 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-
-@Component({})
+const components = {
+  Identity: () => import('@/components/shared/format/Identity.vue'),
+};
+@Component({ components })
 export default class Landing extends Vue {
   public publicCommunity: any = [
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
     ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['🇯🇵 Japan', 'https://t.me/joinchat/-CjTUgAflGQxYTU0'],
+    ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
     ['🇰🇷 Korea', 'https://t.me/KodaDotKR'],
     ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],

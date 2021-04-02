@@ -6,7 +6,7 @@
     wrapper-class="container"
     :close-on-click="false"
     >
-    <template #brand>
+    <template v-slot:brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
           src="@/assets/kodadot_logo_v1_transparent_400px.png"
@@ -14,7 +14,7 @@
         >
       </b-navbar-item>
     </template>
-    <template #start class="start">
+    <template v-slot:start class="start">
       <b-navbar-item
         tag="router-link"
         :to="{ name: 'rmrk'}">
@@ -63,27 +63,11 @@
           </b-navbar-item>
       </b-navbar-dropdown> -->
     </template>
-    <template #end>
-      <b-navbar-item>
-        <div class="buttons">
-          <b-field grouped>
-            <b-button tag="router-link"
-              :to="{ name: 'rmrkFaq' }" >
-              F.A.Q.
-            </b-button>
-            <LocaleChanger />
-            <b-button tag="a"
-              type="is-info" outlined
-              href="https://twitter.com/Kodadot">
-                <b-icon
-                  pack="fab"
-                  icon="twitter">
-                </b-icon>
-                <strong>KodaDot</strong>
-            </b-button>
-          </b-field>
-        </div>
-      </b-navbar-item>
+    <template v-slot:end>
+      <!-- <b-navbar-item>
+          <LocaleChanger />
+        </b-navbar-item> -->
+        <NavbarProfileDropdown />
     </template>
   </b-navbar>
 </template>
@@ -91,12 +75,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import LocaleChanger from '@/components/shared/SwitchLocale.vue';
+import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
 import i18n from '@/i18n.ts';
 
 @Component({
   components: {
-    LocaleChanger
+    LocaleChanger,
+    NavbarProfileDropdown
   }
 })
 export default class NavbarMenu extends Vue {

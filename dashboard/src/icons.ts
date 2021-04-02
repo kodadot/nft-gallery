@@ -25,7 +25,7 @@ import {
   faQuestion, faPrint,
   faMagic, faEye, faCommentAlt,
   faGhost, faCode, faLeaf,
-  faFlask, faCameraRetro
+  faFlask, faCameraRetro,
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why

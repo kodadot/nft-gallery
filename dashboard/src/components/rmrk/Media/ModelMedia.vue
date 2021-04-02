@@ -3,6 +3,7 @@
     <model-viewer
       class="view-model__component"
       :src="src"
+      auto-rotate
       camera-controls
       shadow-intensity="1"
     >
