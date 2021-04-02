@@ -35,7 +35,7 @@
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
-        <a class="has-text-info" href="https://google.com" target="_blank">
+        <a class="has-text-info" href="https://twitter.com/kodadot" target="_blank">
           <b-icon pack="fab" icon="twitter"> </b-icon>
           <strong>KodaDot</strong>
         </a>
