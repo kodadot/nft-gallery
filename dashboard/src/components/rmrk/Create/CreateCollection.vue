@@ -33,26 +33,20 @@
         <b-input placeholder="3-5 character long name" v-model="rmrkMint.symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
-      <p class="title">
-        {{ $t('content')}}
-      </p>
       <b-switch v-model="uploadMode"
         passive-type="is-dark"
         :rounded="false">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>
       <template v-if="uploadMode">
-        <b-field :label="$i18n.t('Description')">
+        <b-field :label="$i18n.t('Collection description')">
           <b-input
             v-model="meta.description"
             maxlength="500"
             type="textarea"
           ></b-input>
         </b-field>
-        <MetadataUpload v-model="image" />
-        <b-field :label="$i18n.t('Multimedia data')">
-          <b-input v-model="meta.image_data"></b-input>
-        </b-field>
+        <MetadataUpload label='Add Cover' v-model="image" />
       </template>
 
       <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
