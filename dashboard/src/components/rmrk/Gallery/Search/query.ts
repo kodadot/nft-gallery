@@ -26,7 +26,7 @@ export const basicAggregation = (): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
-        _id: { image: "$image", collection: "$collection"   },
+        _id: { image: '$image', collection: '$collection' },
         // _id: '$image',
         ids: { $push: '$id' },
         collection: { $first: '$collection' },
