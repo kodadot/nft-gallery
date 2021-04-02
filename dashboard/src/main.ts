@@ -14,7 +14,10 @@ import store from './store';
 import router from './router';
 
 import MetaInfo from 'vue-meta';
+import AudioVisual from 'vue-audio-visual'
+
 Vue.use(MetaInfo)
+Vue.use(AudioVisual)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'

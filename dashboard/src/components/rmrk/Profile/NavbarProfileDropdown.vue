@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown position="is-bottom-left" append-to-body aria-role="menu">
+  <b-dropdown position="is-bottom-left" aria-role="menu">
     <template #trigger>
       <span v-if="account" class="columns is-mobile is-vcentered navbar-avatar" >
       <Avatar class="navbar-avatar" :value="account" :size="34" />

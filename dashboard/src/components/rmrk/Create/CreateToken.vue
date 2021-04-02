@@ -118,8 +118,10 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return this.$store.getters.getAuthAddress;
   }
 
-  public created() {
-    this.fetchCollections();
+  public mounted() {
+    if (this.accountId) {
+      this.fetchCollections();
+    }
   }
 
   @Watch('accountId')
@@ -151,6 +153,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
   public async fetchCollections() {
     const rmrkService = getInstance();
+    console.warn(rmrkService, this.accountId)
     const data = await rmrkService?.getCollectionListForAccount(this.accountId);
     console.log('data', data);
     this.data = data || [];
