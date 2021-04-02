@@ -27,9 +27,8 @@
           <p class="subtitle is-size-6">
             <b>SN:</b>{{ nft.sn }}
           </p>
-          <p class="subtitle is-size-6">
-            <b>{{ $t('instance') }}:</b>{{ nft.sn }}
-          </p>
+          <ArweaveLink v-if="nft.imageArId" :id="nft.imageArId" label="image" />
+          <ArweaveLink v-if="nft.animationArId" :id="nft.animationArId" label="animated" />
           <p class="subtitle is-size-6">
             <b>IPFS</b>: {{ multimediaCid }}
             <ol v-if="showGwLinks">
@@ -47,9 +46,15 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { extractCid } from '@/pinata';
-@Component({})
+import { NFTWithMeta } from '../../service/scheme';
+import { emptyObject } from '@/utils/empty';
+const components = {
+  ArweaveLink: () => import('@/components/shared/ArweaveLink.vue')
+};
+
+@Component({ components })
 export default class Facts extends Vue {
-  @Prop() public nft!: any;
+  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
   public multimediaCid: string = 'IPFS Gateways';
   public showGwLinks: boolean = false;
   public gwList: any = [
@@ -57,13 +62,13 @@ export default class Facts extends Vue {
     'https://cloudflare-ipfs.com/ipfs/',
     'https://gateway.ipfs.io/ipfs/',
     'https://ipfs.fleek.co/ipfs/',
-    'https://dweb.link/ipfs/',
-  ]
+    'https://dweb.link/ipfs/'
+  ];
 
-  @Watch('nft')
-  public async getGwLinks() {
-    this.multimediaCid = await extractCid(this.nft && this.nft.image)
-    this.showGwLinks = true
+
+  public async created() {
+    this.multimediaCid = await extractCid(this.nft && this.nft.image);
+    this.showGwLinks = true;
   }
 }
 </script>

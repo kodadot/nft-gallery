@@ -1,5 +1,5 @@
 import { Client, CriterionJSON, KeyInfo, Query, QueryJSON, ThreadID, Where } from '@textile/hub';
-import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack, mergeCollection, CollectionWithMeta, NFTWithMeta, mergeNFT } from './scheme'
+import { Collection, NFT, State, Emotion, computeAndUpdateCollection, computeAndUpdateNft, Pack, CompletePack, mergeCollection, CollectionWithMeta, NFTWithMeta, mergeNFT, Arweave } from './scheme'
 import TextileService from './TextileService';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import NFTUtils from './NftUtils'
@@ -8,6 +8,7 @@ import Consolidator, { generateId } from './Consolidator';
 import { keyInfo as keysToTheKingdom } from '@/textile'
 import slugify from 'slugify';
 import { fetchCollectionMetadata, fetchNFTMetadata } from '../utils';
+import { ipfsToArweave } from '@/pinata'
 
 export type RmrkType = RmrkWithMetaType | Emotion | Pack
 export type RmrkWithMetaType = CollectionWithMeta | NFTWithMeta
@@ -390,6 +391,8 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     await this.addToCollection(collectionWithMeta)
+    console.log('[AR Collection] START', (new Date()).toISOString())
+    this.addCollectionToArweave(collectionWithMeta)
     return collectionWithMeta;
   }
 
@@ -422,7 +425,25 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     await this.addToCollection(nft);
+    console.log('[AR NFT] START', (new Date()).toISOString())
+    this.addNFTToArweave(nft)
     return nft
+  }
+
+  private async addNFTToArweave(nft: NFTWithMeta) {
+    await nftToArweave(nft).then(ar => ({ ...nft, ...ar})).then(nftWithAr => {
+      console.log('[AR NFT] END', (new Date()).toISOString())
+      this.useNFT();
+      this.update(nftWithAr)
+    })
+  }
+
+  private async addCollectionToArweave(collection: CollectionWithMeta) {
+    await collectionToArweave(collection).then(ar => ({ ...collection, ...ar})).then(collectionWithAr => {
+      console.log('[AR Collection] END', (new Date()).toISOString())
+      this.useCollection();
+      this.update(collectionWithAr)
+    })
   }
 
   private async send(view: object, caller: string): Promise<NFTWithMeta> {
@@ -586,6 +607,31 @@ export const migrateNFT = async (nft: NFT): Promise<NFTWithMeta> => {
     console.warn(e)
     const x = emptyObject<NFTWithMeta>();
     return { ...x, ...nft };
+  }
+}
+
+export const nftToArweave = async (nft: NFTWithMeta): Promise<Arweave> => {
+  const ar = emptyObject<Arweave>();
+  try {
+    await ipfsToArweave(nft.metadata).then(m => ar.metadataArId = m);
+    nft.image && await ipfsToArweave(nft.image).then(i => ar.imageArId = i);
+    nft.animation_url && await ipfsToArweave(nft.animation_url).then(a => ar.animationArId = a);
+    return ar
+  } catch (e) {
+    console.error(`[nftToArweave] Unable to Arweave ${e.message}`)
+    return ar
+  }
+}
+
+export const collectionToArweave = async (collection: CollectionWithMeta): Promise<Arweave> => {
+  const ar = emptyObject<Arweave>();
+  try {
+    await ipfsToArweave(collection.metadata).then(m => ar.metadataArId = m);
+    collection.image && await ipfsToArweave(collection.image).then(i => ar.imageArId = i);
+    return ar
+  } catch (e) {
+    console.error(`[nftToArweave] Unable to Arweave ${e.message}`)
+    return ar
   }
 }
 
