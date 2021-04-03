@@ -27,7 +27,7 @@
   "content": "Contenuto",
   "create collection": "Crea Collezione",
   "Owner address of minted art": 
-    "indirizzo del proprietario dell'arte coniata",
+    "Indirizzo del proprietario dell'arte coniata",
   "Name you want to show in gallery view": 
     "Nome che vuoi mostrare nella schermata della galleria",
   "Symbol you want to trade it under": 
@@ -48,7 +48,7 @@
   "Metadata IPFS Hash": "IPFS Hash utilizzato per recuperare i metadati",
   "Add Token": "Inserisci Token",
   "Mint": "Conia",
-  "Transferable is by default": "Trasferibile è per impostazione predefinita",
+  "Transferable is by default": "É Trasferibile per impostazione predefinita",
   "Serial Number": "Numero di serie",
   "Name of your token": "Nome del tuo token",
   "Instance_tooltip": 
