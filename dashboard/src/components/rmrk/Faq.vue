@@ -7,7 +7,7 @@
       <div v-for="qa in faqQuestionsAnswers"
         v-bind:key="qa[0]">
         <p class="title">
-          {{qa[0]}}
+          {{$t(qa[0])}}
         </p>
         <p class="subtitle">
           <span v-html="qa[1]"></span>

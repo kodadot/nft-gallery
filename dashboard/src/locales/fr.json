@@ -26,20 +26,13 @@
   "computed id": "aléatoire id",
   "content": "contenu",
   "create collection": "créer une collection",
-  "Owner address of minted art": 
-    "Adresse du propriétaire de l'art frappé",
-  "Name you want to show in gallery view": 
-    "Nom que vous voulez montrer en vue de la galerie",
-  "Symbol you want to trade it under": 
-    "Symbole sous lequel vous voulez  négocier",
-  "Describe your collection, it will show under collection view": 
-    "Décrivez votre collection, elle apparaîtra sous la vue de la collection",
-  "Add collection cover which will show up at collection view": 
-    "Ajouter une couverture de collection qui apparaîtra à la vue de la collection",
-  "Select collection where do you want mint your token": 
-    "Sélectionnez collection où voulez vous monnayer votre token",
-  "Maximum NFTs in collection": 
-    "NFT Maximum dans la collection",
+  "Owner address of minted art": "Adresse du propriétaire de l'art frappé",
+  "Name you want to show in gallery view": "Nom que vous voulez montrer en vue de la galerie",
+  "Symbol you want to trade it under": "Symbole sous lequel vous voulez  négocier",
+  "Describe your collection, it will show under collection view": "Décrivez votre collection, elle apparaîtra sous la vue de la collection",
+  "Add collection cover which will show up at collection view": "Ajouter une couverture de collection qui apparaîtra à la vue de la collection",
+  "Select collection where do you want mint your token": "Sélectionnez collection où voulez vous monnayer votre token",
+  "Maximum NFTs in collection": "NFT Maximum dans la collection",
   "Account": "Compte",
   "Name": "Nom",
   "Symbol": "Symbole",
@@ -51,8 +44,7 @@
   "Transferable is by default": "Transférable est par défaut",
   "Serial Number": "Numéro de Série",
   "Name of your token": "Nom de votre token",
-  "Instance_tooltip":
-    "L'Instance est comme l'identifiant d'un NFT, comme un ticker marketplace. C'est un \"court-ordinateur-nom convivial\"",
+  "Instance_tooltip": "L'Instance est comme l'identifiant d'un NFT, comme un ticker marketplace. C'est un \"court-ordinateur-nom convivial\"",
   "Upload will upload your image of the NFT": "Upload téléchargera votre image du NFT",
   "Click to add image": "Cliquez pour ajouter une image",
   "Add Animated File": "Ajouter un fichier animé",
@@ -63,49 +55,99 @@
   "New here? We have F.A.Q.": "Vous êtes nouveau ici ? Nous avons la F.A.Q.",
   "Feedback? We\\'d be happy to discuss it.": "Des commentaires? Nous serions heureux d'en discuter.",
   "Read our story, how we started.": "Lisez notre histoire, comment nous avons commencé.",
-  "Frequently Asked Question": "Foire aux questions",
-  "FAQQ1": "Quelle pièce est utilisée pour les NFT ?",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. Vous pouvez l'obtenir par le biais de notre <a href=\"#/rmrk/credit\">Credit</a> fonction ou <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">par échange de garde</a>.",
-  "FAQQ2": "Quel est le portefeuille que je dois frapper, acheter et collectionner ?",
-  "FAQA2": "Nous vous recommandons d'utiliser <a href=\"https://polkadot.js.org/extension/\">Extension de Polkadot pour l'instant</a>. Plus tard, nous prévoyons d'ajouter une expérience mobile d'abord. Dans tous les cas, <b> sauvegardez votre graine, c'est votre droit de propriété et le type de valeur.</b>",
-  "FAQQ3": "Comment vais-je frapper mon travail?",
-  "FAQA3": "Vous irez à la <a href=\"/#/rmrk/create\">create</a>. Vous devez d'abord monnayer votre collection, puis le jeton. Si vous voulez filmer cela, envoyez-nous un DM!",
-  "FAQQ4": "Comment vais-je frapper mon travail ?",
-  "FAQA4": "Il est largement soutenu sur les échanges populaires. La liquidité quotidienne sur les bourses est d'environ 200 millions de dollars au moment où nous écrivons ces lignes et 1 $KSM se négocie à environ 100 dollars.",
-  "FAQQ5": "Comment puis-je acheter KSM en tant que nouveau venu ?",
-  "FAQA5": "Nous avons une intégration avec <a href=\"https://ramp.network\">Ramp.network</a>, cliquez sur<a href=\"#/rmrk/credit\">Crédit dans la barre de navigation</a>.Vous pouvez utiliser Revolut, Virement bancaire manuel, Carte de débit et Apple Pay pour recharger votre adresse KSM. Vous pouvez <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">acheter $KSM dans Binance</a>",
-  "FAQQ6": "Comment puis-je acheter KSM avec ETH, DAI, BTC... ?",
-  "FAQA6": "Pour obtenir les meilleurs tarifs, vous pouvez <a href=\"https://www.coingecko.com/en/coins/kusama\">utiliser les services de change de la liste </a>. Pour une meilleure expérience  <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">nous vous recommandons d'utiliser Binance</a>. Si vous <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\">recherchez un échange simple, essayez SimpleSwap</a>.",
-  "FAQQ7": "Quel est le flux quand je suis créateur NFT ?",
-  "FAQA7": "Tout d'abord, vous devez installer <a href=\"https://polkadot.js.org/extension/\">l'extension Polkadot n</a>, <b>sauvegardez votre graine</b>. Ensuite, vous rechargez l'adresse de votre portefeuille grâce à notre fonction   <a href=\"#/rmrk/credit\">Crédit</a>. Une fois que vous avez les fonds, allez à  <a href=\"/#/rmrk/create\">Créer</a>, créer Collection. Attendez que la collection soit frappée, puis allez à  <a href=\"/#/rmrk/create\">Créer Token</a> and Mint votre tout premier jeton !  Si vous avez eu des problèmes, nous travaillons sur notre flux d'UX. Le code de KodaDot a environ un mois d'âge et il y a encore des possibilités d'amélioration, supportez-nous, nous ne sommes qu'une équipe de deux. Bonne frappe de la monnaie 😌",
-  "FAQQ8": "Puis-je l'utiliser dans des mondes virtuels ?",
-  "FAQA8": "Nous explorons les possibilités, nous prévoyons en fait de rechercher activement à ce sujet dans notre étape 2",
-  "FAQQ9": "J'ai des erreurs, comment les résoudre ?",
-  "FAQA9": "Nous essayons de fournir des mises à jour quotidiennes et des corrections le plus rapidement possible. Il se peut que nous publiions une nouvelle version et que votre navigateur ait mis en cache l'ancienne. Si vous êtes sous<b>Windows</b>, essayez de maintenir la touche <b>Ctrl enfoncée et d'appuyer sur F5</b>. <b>Pour les utilisateurs de Mac</b>, maintenez les touches<b>CMD et Shift enfoncées et appuyez sur R</b>. Si cela n'a pas aidé, DMs sur Twitter avec capture d'écran où est ouverte la console du développeur.",
-  "FAQQ10": "Que signifie ENVOYER, CONSOMMER, LISTE ?",
-  "FAQA10": "SEND l'enverra à quelqu'un, CONSUME le brûlera, LIST le mettra en vente pour que quelqu'un puisse vous l'acheter.",
-  "FAQQ11": "J'ai frappé le NFT, mais je ne le vois pas dans la galerie, où est-il ?",
-  "FAQA11": "La meilleure façon de procéder est d'utiliser le <a href=\"https://kusama.subscan.io/\">Subscan Explorer</a> et de rechercher votre adresse. <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">Vous pouvez trouver un exemple de la façon dont NFT frappe dans l'explorateur, lorsque vous regardez les extrinsèques.</a>",
-  "FAQQ12": "What countries fiat on-ramp support?",
-  "FAQA12": "Pour l'instant, nous sommes conscients que les États-Unis ne sont pas soutenus, mais que tous les pays devraient travailler, <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\"> liste complète des pays soutenus</a>. Cela échappe à notre contrôle en ce moment.",
-  "FAQQ13": "Comment vais-je vendre mon jeton ?",
-  "FAQA13": "Pour l'instant, vous utiliserez LIST in Actions.",
-  "FAQQ14": "Paramètres des flux de redevances ?",
-  "FAQA14": "Pour l'instant, nous n'avons pas de logique de chaîne, mais nous prévoyons de mettre en œuvre quelque chose de grand, bientôt. <a href=\"https://twitter.com/kodadot\">Restez avec nous et suivez-nous @KodaDot !</a>",
-  "FAQQ15": "Comment puis-je créer ma propre boutique ?",
-  "FAQA15": "Nous sommes en train de mettre en place une vue de la collection, des ensembles de vues de la collection. <a href=\"https://twitter.com/kodadot\">Restez avec nous et suivez-nous @KodaDot !</a>",
-  "FAQQ16": "Comment fonctionnent les appréciations ?",
-  "FAQA16": "C'est ce cœur 🖤 sous le jeton NFT. Nous sommes <a href=\"https://github.com/Swader/rmrk-spec/issues/10\">auteurs d'origine d'EMOTE au standard RMRK</a> qui fonctionne comme des appréciations. Sa fonction est de découvrir le prix de votre travail.",
-  "FAQQ17": "Êtes-vous financé ?",
-  "FAQA17": "En ce moment, nous avons <a href=\"https://kusama.polkassembly.io/post/384\">Kusama Treasury funding for Milestone 1</a>. Nous recherchons activement des options de financement, nous pourrions éventuellement lever des fonds privés. DMs nous, si vous êtes intéressés par une vente privée.",
-  "FAQQ18": "Avez-vous Télégramme canal?",
-  "FAQA18": "Nous n'avons qu'une chaîne privée pour les créateurs NFT, DM nous si vous êtes créateur NFT !",
-  "FAQQ19": "Allez-vous avoir le mode AR/VR ou la mise en œuvre ?",
-  "FAQA19": "Oui, cela fait partie de notre étape 2, restez à l'écoute !",
-  "FAQQ20": "Comment ouvrir la console du développeur ?",
-  "FAQA20": "Si vous êtes sur Mac, sur Chrome tapez <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>.",
-  "FAQQ21": "Comment mettre à jour les métadonnées pour l'extension ?",
-  "FAQA21": "Allez voir <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a>  et voyez là le bouton <b>Mettre à jour les métadonnées</b>, puis rafraîchissez votre fenêtre, devrait fonctionner avec les types de chaîne récents.",
-  "FAQQ22": "['J'ai une \"erreur de solde faible",
-  "FAQA22": "Vérifiez si vous avez des $KSM <b>transférables</b> sur votre compte, non mis en jeu. C'est différent. Vous pouvez le vérifier dans  <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Comptes<a/> et à balances déplier, vous pouvez voir là montant <b>transférable</b>"
+  "Frequently Asked Question": "Questions fréquentes",
+  "faq": {
+    "q": {
+      "1": "Quelle pi\u00e8ce est utilis\u00e9e pour les NFT ?",
+      "2": "Quel est le portefeuille que je dois frapper, acheter et collectionner ?",
+      "3": "Comment vais-je frapper mon travail?",
+      "4": "Comment vais-je frapper mon travail ?",
+      "5": "Comment puis-je acheter KSM en tant que nouveau venu ?",
+      "6": "Comment puis-je acheter KSM avec ETH, DAI, BTC... ?",
+      "7": "Quel est le flux quand je suis cr\u00e9ateur NFT ?",
+      "8": "Puis-je l'utiliser dans des mondes virtuels ?",
+      "9": "J'ai des erreurs, comment les r\u00e9soudre ?",
+      "10": "Que signifie ENVOYER, CONSOMMER, LISTE ?",
+      "11": "J'ai frapp\u00e9 le NFT, mais je ne le vois pas dans la galerie, o\u00f9 est-il ?",
+      "12": "What countries fiat on-ramp support?",
+      "13": "Comment vais-je vendre mon jeton ?",
+      "14": "Param\u00e8tres des flux de redevances ?",
+      "15": "Comment puis-je cr\u00e9er ma propre boutique ?",
+      "16": "Comment fonctionnent les appr\u00e9ciations ?",
+      "17": "\u00cates-vous financ\u00e9 ?",
+      "18": "Avez-vous T\u00e9l\u00e9gramme canal?",
+      "19": "Allez-vous avoir le mode AR/VR ou la mise en \u0153uvre ?",
+      "20": "Comment ouvrir la console du d\u00e9veloppeur ?",
+      "21": "Comment mettre \u00e0 jour les m\u00e9tadonn\u00e9es pour l'extension ?",
+      "22": "['J'ai une \"erreur de solde faible"
+    },
+    "a": {
+      "1": {
+        "m": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. Vous pouvez l'obtenir par le biais de notre <a href=\"#/rmrk/credit\">Credit</a> fonction ou <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">par \u00e9change de garde</a>."
+      },
+      "2": {
+        "m": "Nous vous recommandons d'utiliser <a href=\"https://polkadot.js.org/extension/\">Extension de Polkadot pour l'instant</a>. Plus tard, nous pr\u00e9voyons d'ajouter une exp\u00e9rience mobile d'abord. Dans tous les cas, <b> sauvegardez votre graine, c'est votre droit de propri\u00e9t\u00e9 et le type de valeur.</b>"
+      },
+      "3": {
+        "m": "Vous irez \u00e0 la <a href=\"/#/rmrk/create\">create</a>. Vous devez d'abord monnayer votre collection, puis le jeton. Si vous voulez filmer cela, envoyez-nous un DM!"
+      },
+      "4": {
+        "m": "Il est largement soutenu sur les \u00e9changes populaires. La liquidit\u00e9 quotidienne sur les bourses est d'environ 200 millions de dollars au moment o\u00f9 nous \u00e9crivons ces lignes et 1 $KSM se n\u00e9gocie \u00e0 environ 100 dollars."
+      },
+      "5": {
+        "m": "Nous avons une int\u00e9gration avec <a href=\"https://ramp.network\">Ramp.network</a>, cliquez sur<a href=\"#/rmrk/credit\">Cr\u00e9dit dans la barre de navigation</a>.Vous pouvez utiliser Revolut, Virement bancaire manuel, Carte de d\u00e9bit et Apple Pay pour recharger votre adresse KSM. Vous pouvez <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">acheter $KSM dans Binance</a>"
+      },
+      "6": {
+        "m": "Pour obtenir les meilleurs tarifs, vous pouvez <a href=\"https://www.coingecko.com/en/coins/kusama\">utiliser les services de change de la liste </a>. Pour une meilleure exp\u00e9rience  <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">nous vous recommandons d'utiliser Binance</a>. Si vous <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\">recherchez un \u00e9change simple, essayez SimpleSwap</a>."
+      },
+      "7": {
+        "m": "Tout d'abord, vous devez installer <a href=\"https://polkadot.js.org/extension/\">l'extension Polkadot n</a>, <b>sauvegardez votre graine</b>. Ensuite, vous rechargez l'adresse de votre portefeuille gr\u00e2ce \u00e0 notre fonction   <a href=\"#/rmrk/credit\">Cr\u00e9dit</a>. Une fois que vous avez les fonds, allez \u00e0  <a href=\"/#/rmrk/create\">Cr\u00e9er</a>, cr\u00e9er Collection. Attendez que la collection soit frapp\u00e9e, puis allez \u00e0  <a href=\"/#/rmrk/create\">Cr\u00e9er Token</a> and Mint votre tout premier jeton !  Si vous avez eu des probl\u00e8mes, nous travaillons sur notre flux d'UX. Le code de KodaDot a environ un mois d'\u00e2ge et il y a encore des possibilit\u00e9s d'am\u00e9lioration, supportez-nous, nous ne sommes qu'une \u00e9quipe de deux. Bonne frappe de la monnaie \ud83d\ude0c"
+      },
+      "8": {
+        "m": "Nous explorons les possibilit\u00e9s, nous pr\u00e9voyons en fait de rechercher activement \u00e0 ce sujet dans notre \u00e9tape 2"
+      },
+      "9": {
+        "m": "Nous essayons de fournir des mises \u00e0 jour quotidiennes et des corrections le plus rapidement possible. Il se peut que nous publiions une nouvelle version et que votre navigateur ait mis en cache l'ancienne. Si vous \u00eates sous<b>Windows</b>, essayez de maintenir la touche <b>Ctrl enfonc\u00e9e et d'appuyer sur F5</b>. <b>Pour les utilisateurs de Mac</b>, maintenez les touches<b>CMD et Shift enfonc\u00e9es et appuyez sur R</b>. Si cela n'a pas aid\u00e9, DMs sur Twitter avec capture d'\u00e9cran o\u00f9 est ouverte la console du d\u00e9veloppeur."
+      },
+      "10": {
+        "m": "SEND l'enverra \u00e0 quelqu'un, CONSUME le br\u00fblera, LIST le mettra en vente pour que quelqu'un puisse vous l'acheter."
+      },
+      "11": {
+        "m": "La meilleure fa\u00e7on de proc\u00e9der est d'utiliser le <a href=\"https://kusama.subscan.io/\">Subscan Explorer</a> et de rechercher votre adresse. <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">Vous pouvez trouver un exemple de la fa\u00e7on dont NFT frappe dans l'explorateur, lorsque vous regardez les extrins\u00e8ques.</a>"
+      },
+      "12": {
+        "m": "Pour l'instant, nous sommes conscients que les \u00c9tats-Unis ne sont pas soutenus, mais que tous les pays devraient travailler, <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\"> liste compl\u00e8te des pays soutenus</a>. Cela \u00e9chappe \u00e0 notre contr\u00f4le en ce moment."
+      },
+      "13": {
+        "m": "Pour l'instant, vous utiliserez LIST in Actions."
+      },
+      "14": {
+        "m": "Pour l'instant, nous n'avons pas de logique de cha\u00eene, mais nous pr\u00e9voyons de mettre en \u0153uvre quelque chose de grand, bient\u00f4t. <a href=\"https://twitter.com/kodadot\">Restez avec nous et suivez-nous @KodaDot !</a>"
+      },
+      "15": {
+        "m": "Nous sommes en train de mettre en place une vue de la collection, des ensembles de vues de la collection. <a href=\"https://twitter.com/kodadot\">Restez avec nous et suivez-nous @KodaDot !</a>"
+      },
+      "16": {
+        "m": "C'est ce c\u0153ur \ud83d\udda4 sous le jeton NFT. Nous sommes <a href=\"https://github.com/Swader/rmrk-spec/issues/10\">auteurs d'origine d'EMOTE au standard RMRK</a> qui fonctionne comme des appr\u00e9ciations. Sa fonction est de d\u00e9couvrir le prix de votre travail."
+      },
+      "17": {
+        "m": "En ce moment, nous avons <a href=\"https://kusama.polkassembly.io/post/384\">Kusama Treasury funding for Milestone 1</a>. Nous recherchons activement des options de financement, nous pourrions \u00e9ventuellement lever des fonds priv\u00e9s. DMs nous, si vous \u00eates int\u00e9ress\u00e9s par une vente priv\u00e9e."
+      },
+      "18": {
+        "m": "Nous n'avons qu'une cha\u00eene priv\u00e9e pour les cr\u00e9ateurs NFT, DM nous si vous \u00eates cr\u00e9ateur NFT !"
+      },
+      "19": {
+        "m": "Oui, cela fait partie de notre \u00e9tape 2, restez \u00e0 l'\u00e9coute !"
+      },
+      "20": {
+        "m": "Si vous \u00eates sur Mac, sur Chrome tapez <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Allez voir <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a>  et voyez l\u00e0 le bouton <b>Mettre \u00e0 jour les m\u00e9tadonn\u00e9es</b>, puis rafra\u00eechissez votre fen\u00eatre, devrait fonctionner avec les types de cha\u00eene r\u00e9cents."
+      },
+      "22": {
+        "m": "V\u00e9rifiez si vous avez des $KSM <b>transf\u00e9rables</b> sur votre compte, non mis en jeu. C'est diff\u00e9rent. Vous pouvez le v\u00e9rifier dans  <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Comptes<a/> et \u00e0 balances d\u00e9plier, vous pouvez voir l\u00e0 montant <b>transf\u00e9rable</b>"
+      }
+    }
+  }
 }
