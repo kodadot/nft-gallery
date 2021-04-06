@@ -5,8 +5,9 @@ import './icons';
 
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
+import VueScreen from 'vue-screen';
 import formatBalance from '@/utils/formatBalance'
-import { toString, toNumber, toPercent } from '@/utils/filters'
+import { toString, toNumber, toPercent, truncateStr } from '@/utils/filters'
 import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
@@ -16,6 +17,7 @@ import router from './router';
 import MetaInfo from 'vue-meta';
 import AudioVisual from 'vue-audio-visual'
 
+Vue.use(VueScreen, 'bulma');
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
 import Connector from '@vue-polkadot/vue-api';
@@ -78,6 +80,7 @@ Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)
 Vue.filter('toPercent', toPercent)
+Vue.filter('truncateStr', truncateStr)
 
 Vue.use(VueClipboard);
 

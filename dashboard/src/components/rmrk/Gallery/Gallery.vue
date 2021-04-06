@@ -39,10 +39,10 @@
                   class="title is-4 has-text-centered"
                   :title="nft.name">
                   <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
-                    {{ truncateNFTName(nft.name) }}
+                    {{ nft.name | truncateStr(maxNFTNameChars) }}
                   </router-link>
                   <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
-                    {{ truncateNFTName(nft.name) }} 「{{ nft.count }}」
+                    {{ nft.name | truncateStr(maxNFTNameChars - (1 /* extra space */ + nftCountStr(nft).length)) }} {{ nftCountStr(nft) }}
                   </router-link>
                 </p>
                 <b-skeleton
@@ -62,7 +62,6 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
-import { truncateStr } from '@/utils/stringUtils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import { basicFilter, basicAggQuery } from './Search/query'
@@ -105,10 +104,6 @@ export default class Gallery extends Vue {
     this.isLoading = false;
   }
 
-  truncateNFTName(s: string): string {
-    return truncateStr(s);
-  }
-
   get results() {
     if (this.searchQuery) {
       return basicAggQuery(basicFilter(this.searchQuery, this.nfts))
@@ -139,6 +134,42 @@ export default class Gallery extends Vue {
   onError(e: Event) {
     const target = e.target as Image
     target.src = this.placeholder
+  }
+
+  private nftCountStr(nft: any): string {
+    return `「${nft.count}」`;
+  }
+
+  private get maxNFTNameChars(): number {
+    let breakpointStr = this.$screen.breakpoint;
+    if (this.$screen.landscape) {
+      breakpointStr += "-l";
+    } else {
+      breakpointStr += "-p";
+    }
+    switch (breakpointStr) {
+      case 'mobile-p':
+        return 19;
+      case 'mobile-l':
+        return 30;
+      case 'tablet-p':
+        return 15;
+      case 'tablet-l':
+        return 11;
+      case 'desktop-p':
+        return 15;
+      case 'desktop-l':
+        return 15;
+      case 'widescreen-p':
+        return 19;
+      case 'widescreen-l':
+        return 19;
+      case 'fullhd-p':
+        return 19;
+      case 'fullhd-l':
+        return 22;
+    }
+    return 15;
   }
 }
 </script>
