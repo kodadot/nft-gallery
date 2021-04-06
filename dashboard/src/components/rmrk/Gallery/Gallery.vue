@@ -36,7 +36,8 @@
               <div class="card-content">
                 <p
                   v-if="!isLoading"
-                  class="title is-4 has-text-centered">
+                  class="title is-4 has-text-centered"
+                  :title="nft.name">
                   <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
                     {{ truncateNFTName(nft.name) }}
                   </router-link>
