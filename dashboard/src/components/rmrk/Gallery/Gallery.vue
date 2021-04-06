@@ -38,10 +38,10 @@
                   v-if="!isLoading"
                   class="title is-4 has-text-centered">
                   <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
-                    {{ truncateStr(nft.name) }}
+                    {{ truncateNFTName(nft.name) }}
                   </router-link>
                   <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
-                    {{ truncateStr(nft.name) }} 「{{ nft.count }}」
+                    {{ truncateNFTName(nft.name) }} 「{{ nft.count }}」
                   </router-link>
                 </p>
                 <b-skeleton
@@ -61,6 +61,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
+import { truncateStr } from '@/utils/stringUtils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import { basicFilter, basicAggQuery } from './Search/query'
@@ -103,19 +104,16 @@ export default class Gallery extends Vue {
     this.isLoading = false;
   }
 
+  truncateNFTName(s: string): string {
+    return truncateStr(s);
+  }
+
   get results() {
     if (this.searchQuery) {
       return basicAggQuery(basicFilter(this.searchQuery, this.nfts))
     }
 
     return basicAggQuery(this.nfts)
-  }
-
-  truncateStr(s: string, maxLen : number = 20): string {
-    if (s.length < maxLen) {
-      return s;
-    }
-    return s.substring(0, maxLen) + "...";
   }
 
   setFreezeframe() {
