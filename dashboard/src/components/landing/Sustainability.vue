@@ -6,7 +6,8 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                Sustainibility of KodaDot
+                <b-icon icon="leaf"></b-icon>
+                Sustainability of KodaDot
               </h1>
               <h1 class="subtitle">
                 micro-dao-bedrock-boostrap experiment
@@ -23,7 +24,7 @@
                 Creators needs and help them to make sustainable living out of
                 their work and we are here to support it. On other part,
                 we need to mind our long-term sustainability.
-                We are in position being being universal viewer and
+                We are in position being universal viewer and
                 not being landlord in form of platform as other galleries do.
               </p><br>
               <p>
@@ -35,7 +36,8 @@
               </p><br>
               <p>
                 Out flow of funds will have three parts. <b>Artists support program,
-                Running costs and Research & Development costs</b>.
+                Running costs and Research & Development costs</b>. From start,
+                we will put some of our savings into bedrock fund.
               </p><br>
               <p>
                 <a href="https://github.com/kodadot/nft-gallery/issues/141">
@@ -70,7 +72,6 @@
                 broader community who would like to participate as we
                 expect Treasury could grow larger next day.
               </p><br>
-
               <h1 class="title is-4">
                 <a href="https://www.dictionary.com/browse/sustainability">Definition of Sustainability</a>
               </h1>
