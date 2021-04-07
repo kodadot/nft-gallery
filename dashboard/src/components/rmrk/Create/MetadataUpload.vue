@@ -30,11 +30,12 @@ export default class  extends Vue {
     const reader = new FileReader();
     reader.onload = () => {
       // this.handleSelection(reader.result)
-      // console.log(reader.result);
+      // console.log(reader.si);
 
 
     };
     this.$emit('input', file)
+    console.log(file.size)
     reader.readAsText(file);
 
   }
