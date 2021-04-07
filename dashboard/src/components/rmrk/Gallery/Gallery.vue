@@ -33,16 +33,33 @@
                 </figure>
               </div>
 
-              <div class="card-content">
+              <div class="card-content is-relative">
                 <p
                   v-if="!isLoading"
-                  class="title is-4 has-text-centered">
+                  class="title mb-0 is-4 has-text-centered"
+                  :title="nft.name">
                   <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
-                    {{ nft.name }}
+                    <div>
+                      <div class="has-text-overflow-ellipsis middle">
+                        {{ nft.name }}
+                      </div>
+                    </div>
                   </router-link>
                   <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
-                    {{ nft.name }} 「{{ nft.count }}」
+
+                    <div class="has-text-overflow-ellipsis">
+                      {{ nft.name }}
+                    </div>
                   </router-link>
+
+                  <p
+                    v-if="nft.count > 2"
+                    :title="`${nft.count} items available in collection`"
+                    class="is-absolute nft-collection-counter title is-6 is-color-pink"
+                  >
+                    「{{ nft.count }}」
+                  </p>
+
                 </p>
                 <b-skeleton
                   :active="isLoading">
@@ -180,6 +197,29 @@ export default class Gallery extends Vue {
       height: auto;
       transform: translateY(-50%);
     }
+  }
+
+  .has-text-overflow-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .is-float-right{
+    float: right;
+  }
+
+  .is-color-pink {
+    color: #d32e79;
+  }
+
+  .is-absolute {
+    position: absolute;
+  }
+
+  .nft-collection-counter {
+    top: 5px;
+    right: -5px;
   }
 }
 </style>
