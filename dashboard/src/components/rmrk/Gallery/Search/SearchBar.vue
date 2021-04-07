@@ -5,6 +5,8 @@
         <b-input expanded placeholder="Search..." type="search" v-model="searchQuery" icon="search">
         </b-input>
       </b-field>
+      <Sort />
+      <TypeTagInput/>
     </div>
   </div>
 </template>
@@ -12,10 +14,17 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
+import { SearchQuery } from './types'
 
-@Component({})
+
+@Component({
+  components: {
+    Sort: () => import('./SearchSortDropdown.vue'),
+    TypeTagInput: () => import('./TypeTagInput.vue')
+  }
+})
 export default class SearchBar extends Vue {
-  @Prop() public query!: string;
+  @Prop() public query!: SearchQuery;
 
   public mounted() {
     if (this.$route.query.search && typeof this.$route.query.search === 'string') {
@@ -25,7 +34,7 @@ export default class SearchBar extends Vue {
 
 
   get searchQuery() {
-    return this.query
+    return this.query.query
   }
 
   set searchQuery(value: string) {
@@ -42,7 +51,7 @@ export default class SearchBar extends Vue {
 
   @Debounce(400)
   replaceUrl(value: string) {
-    if (this.query !== value) {
+    if (this.query.query !== value) {
       this.$router.replace({ name: 'nft', query: {search: value} })
     }
   }

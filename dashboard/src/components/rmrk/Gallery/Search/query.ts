@@ -1,11 +1,9 @@
 import M, { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
+import { SortBy, QueryType } from './types'
 
-
-type QueryType = Record<string, unknown>
-
-export const basicFilterQuery = (value: string): Query => {
+export const basicFilterQuery = (value: string, additionalQuery: any = {}): Query => {
   const rr: RegExp = new RegExp(value, 'i')
   const criteria: QueryType = {
     $or: [
@@ -14,6 +12,7 @@ export const basicFilterQuery = (value: string): Query => {
       { currentOwner: { $regex: rr} },
       { description: { $regex: rr} },
       { collection: { $regex: rr} },
+      ...additionalQuery,
     ]
 
 
@@ -41,14 +40,21 @@ export const basicAggregation = (): Aggregator => {
   return new Aggregator(agg);
 }
 
-export const basicFilter = (value: string, ntfs: NFTWithMeta[]): any[] => {
+export const basicFilter = (value: string, nfts: NFTWithMeta[], sort?: SortBy): any[] => {
   const query = basicFilterQuery(value)
-  return query.find(ntfs).all()
+  if (sort) {
+    return query.find(nfts).sort(sort).all()
+  }
+
+  return query.find(nfts).all()
 }
 
 
-export const basicAggQuery = (ntfs: NFTWithMeta[]) => {
+export const basicAggQuery = (nfts: NFTWithMeta[]) => {
   const query = basicAggregation()
-  return query.run(ntfs)
+  return query.run(nfts)
 }
 
+
+
+// dev sort({ age: 1 })
