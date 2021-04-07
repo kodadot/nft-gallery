@@ -122,7 +122,7 @@ export interface NFT {
   name: string;
   instance: string;
   transferable: number;
-  collection: string
+  collection: string;
   sn: string;
   _id: string;
   id: string;

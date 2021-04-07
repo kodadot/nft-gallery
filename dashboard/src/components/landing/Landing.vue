@@ -96,6 +96,12 @@
                     Low carbon NFT platform running on
                     <a href="https://kusama.network">Kusama.network</a> - NPoS
                   </h2>
+                  <h2 class="title">
+                    <b-icon icon="leaf"></b-icon>
+                    <router-link :to="{ name: 'sustainability'}">
+                      Sustainability program
+                    </router-link>
+                  </h2>
                 </div>
                 <div class="tile is-child">
                   <h2 class="title is-3">

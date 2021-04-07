@@ -4,16 +4,20 @@ import { Collection, NFT } from './scheme';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/keyring';
 
-// const collectionSchema: Record<keyof Collection, string> = {
-//   version: 'string',
-//   name: 'string',
-//   max: 'number',
-//   issuer: 'string',
-//   symbol: 'string',
-//   id: 'string',
-//   _id: 'string',
-//   metadata: 'string',
-// }
+const nftSchema: Record<keyof NFT, boolean> = {
+  name: true,
+  instance: true,
+  transferable: false,
+  collection: true,
+  sn: true,
+  _id: false,
+  id: true,
+  metadata: false,
+  currentOwner: true,
+  price: true,
+  disabled: false,
+  blockNumber: false,
+}
 
 export default class Consolidator {
   public static isPermitedInteraction(): boolean {
@@ -119,6 +123,19 @@ export default class Consolidator {
 
   private static callerEquals(ownerId: string, caller: string): boolean {
     return ownerId === caller;
+  }
+
+
+  public static nftValid(nft: NFT) {
+    Object.entries(nft).forEach(([key, value]) => {
+      if ((nftSchema as any)[key] && !value) {
+        throw new ValidationError(`${key} is missing on NFT ${nft.sn}`)
+      }
+    })
+  }
+
+  public static collectionValid(collection: Collection) {
+    throw new Error('Not implemented')
   }
 }
 
