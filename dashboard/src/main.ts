@@ -6,7 +6,7 @@ import './icons';
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
-import { toString, toNumber, toPercent } from '@/utils/filters'
+import { toString, toNumber, toPercent, truncateStr } from '@/utils/filters'
 import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
@@ -14,7 +14,10 @@ import store from './store';
 import router from './router';
 
 import MetaInfo from 'vue-meta';
+import AudioVisual from 'vue-audio-visual'
+
 Vue.use(MetaInfo)
+Vue.use(AudioVisual)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
@@ -27,6 +30,15 @@ import mingo from 'mingo'
 import api from './fetch'
 import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
 
+
+import { useOperators, OperatorType } from 'mingo/core'
+import { $match, $group, $project } from 'mingo/operators/pipeline'
+import { $sum, $first, $push } from 'mingo/operators/accumulator'
+
+// ensure the required operators are preloaded prior to using them.
+type OperatorMap = Record<string, any> ;
+useOperators(OperatorType.PIPELINE, { $match, $group, $project } as OperatorMap)
+useOperators(OperatorType.ACCUMULATOR, { $sum, $first, $push } as OperatorMap)
 
 Vue.filter('shortAddress', shortAddress);
 
@@ -69,6 +81,7 @@ Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)
 Vue.filter('toPercent', toPercent)
+Vue.filter('truncateStr', truncateStr)
 
 Vue.use(VueClipboard);
 

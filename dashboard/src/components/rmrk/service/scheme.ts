@@ -84,11 +84,17 @@ export interface PackMetadata {
 //   currentOwner: string;
 // }
 
-export interface CollectionWithMeta extends Collection, CollectionMetadata {
+export interface Arweave {
+  imageArId?: string;
+  metadataArId?: string;
+  animationArId?: string;
+}
+
+export interface CollectionWithMeta extends Collection, CollectionMetadata, Arweave {
 
 }
 
-export interface NFTWithMeta extends NFT, NFTMetadata {
+export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {
 
 }
 

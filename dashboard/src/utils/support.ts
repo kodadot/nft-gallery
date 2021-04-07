@@ -7,6 +7,7 @@ const PERCENT = 0.02; // percent / 100
 import { getKSMUSD } from '@/coingecko'
 import Connector from '@vue-polkadot/vue-api'
 const BACKUP_PUBKEY = '0x8cc1b91e8946862c2c79915a4bc004926510fcf71c422fde977c0b0e9d9be40e'
+const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
 import { pubKeyToAddress } from './account';
 import store from '@/store'
 
@@ -72,11 +73,16 @@ export const cost = async (files: FileType): Promise<number> => {
 
 export const supportTx = async (files:FileType) => {
   const { api } = Connector.getInstance()
-  return api.tx.balances.transfer(pubKeyToAddress(BACKUP_PUBKEY), await cost(files))
+  return api.tx.balances.transfer(resolveSupportAddress(), await cost(files))
 }
 
 export const somePercentFromTX = (price: number | string) => {
   const { api } = Connector.getInstance()
   const fee = Number(price) * PERCENT
-  return api.tx.balances.transfer(pubKeyToAddress(BACKUP_PUBKEY), fee)
+  return api.tx.balances.transfer(resolveSupportAddress() , fee)
+}
+
+export const resolveSupportAddress = () => {
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+  return Number(ss58Format) === 2 ? KODADOT_DAO : pubKeyToAddress(BACKUP_PUBKEY)
 }

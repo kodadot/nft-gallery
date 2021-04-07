@@ -8,10 +8,16 @@
       <p class="subtitle is-size-7">
         {{ $t('using') }} {{ version }}
       </p>
+      <b-field>
       <div>
         {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
       </div>
-      <AccountSelect :label="$i18n.t('Account')" v-model="accountId" />
+      </b-field>
+      <b-field>
+        <Auth />
+      </b-field>
+
+
       <b-field grouped :label="$i18n.t('Name')">
         <b-input v-model="rmrkMint.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Owner address of minted art')" />
@@ -24,29 +30,23 @@
         ></b-numberinput>
       </b-field>
       <b-field grouped :label="$i18n.t('Symbol')">
-        <b-input v-model="rmrkMint.symbol" expanded></b-input>
+        <b-input placeholder="3-5 character long name" v-model="rmrkMint.symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
-      <p class="title">
-        {{ $t('content')}}
-      </p>
       <b-switch v-model="uploadMode"
         passive-type="is-dark"
         :rounded="false">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>
       <template v-if="uploadMode">
-        <b-field :label="$i18n.t('Description')">
+        <b-field :label="$i18n.t('Collection description')">
           <b-input
             v-model="meta.description"
-            maxlength="200"
+            maxlength="500"
             type="textarea"
           ></b-input>
         </b-field>
-        <MetadataUpload v-model="image" />
-        <b-field :label="$i18n.t('Multimedia data')">
-          <b-input v-model="meta.image_data"></b-input>
-        </b-field>
+        <MetadataUpload label='Add Cover' v-model="image" />
       </template>
 
       <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
@@ -99,7 +99,7 @@ import { supportTx, calculateCost } from '@/utils/support';
 
 
 const components = {
-  AccountSelect,
+  Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload,
   PasswordInput,
   Tooltip,
@@ -110,12 +110,16 @@ const components = {
 export default class CreateCollection extends Mixins(SubscribeMixin, RmrkVersionMixin) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
-  private accountId: string = '';
+  // private accountId: string = '';
   private uploadMode: boolean = true;
   private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
+
+  get accountId() {
+    return this.$store.getters.getAuthAddress;
+  }
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')

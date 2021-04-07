@@ -18,6 +18,7 @@
     "no-console": false,
     "no-trailing-whitespace": false,
     "max-classes-per-file": [true, 2],
-    "no-string-literal": false
+    "no-string-literal": false,
+    "no-unused-expression": [true, "allow-fast-null-checks"]
   }
 }

@@ -23,12 +23,13 @@ if (process.env.NODE_ENV === 'production') {
     updated() {
       console.log('New content is available; please refresh.');
       const notif = Notification.open({
-        duration: 30000,
-        message: `New App is available. Close to update.`,
+        // duration: 30000,
+        message: `New version is ready. Close to upgrade.`,
         queue: false,
         type: 'is-info is-light',
-        position: 'is-bottom-right',
+        position: 'is-top-left',
         indefinite: true,
+        hasIcon: true,
       });
 
       notif.$on('close', () => {

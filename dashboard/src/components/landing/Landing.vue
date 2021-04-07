@@ -37,7 +37,7 @@
                     v-for="c in creators"
                     :key="c">
                       <router-link :to="{ name: 'profile', params: { id: c } }">
-                        {{ c | shortAddress }}
+                        <Identity :address="c" :inline="true" />
                       </router-link>
                     </li>
                 </h2>
@@ -95,6 +95,12 @@
                     <b-icon icon="leaf"></b-icon>
                     Low carbon NFT platform running on
                     <a href="https://kusama.network">Kusama.network</a> - NPoS
+                  </h2>
+                  <h2 class="title">
+                    <b-icon icon="leaf"></b-icon>
+                    <router-link :to="{ name: 'sustainability'}">
+                      Sustainability program
+                    </router-link>
                   </h2>
                 </div>
                 <div class="tile is-child">
@@ -171,14 +177,16 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-
-@Component({})
+const components = {
+  Identity: () => import('@/components/shared/format/Identity.vue'),
+};
+@Component({ components })
 export default class Landing extends Vue {
   public publicCommunity: any = [
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
     ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['🇯🇵 Japan', 'https://t.me/joinchat/-CjTUgAflGQxYTU0'],
+    ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
     ['🇰🇷 Korea', 'https://t.me/KodaDotKR'],
     ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
@@ -190,12 +198,12 @@ export default class Landing extends Vue {
   ]
 
   public creators: any = [
-    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
     'Dx6nVUy6f2znn4ZwNZ3TGbEyUz3FLbCRGQGKAut4LxjCVRs',
     'J6mwrrDE5ZywDe8T4mWgsdgHCcrDcrVtoGh37i7PSaZARRs',
     'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby',
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
+    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
     'F87P5Ab1QFq68a2tCq2N7TSmkfDUtG7EYUecgSBaYRFeCnf',
     'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN'
   ]
