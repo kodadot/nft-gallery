@@ -1,0 +1,98 @@
+<template>
+  <div>
+    <section class="hero is-light">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-6 is-offset-3">
+              <h1 class="title is-1">
+                Sustainibility of KodaDot
+              </h1>
+              <h1 class="subtitle">
+                micro-dao-bedrock-boostrap experiment
+              </h1>
+              <p>
+                As part of our micro-dao-bedrock-boostrap experiment,
+                we would like to keep our efforts sustainable in the long-run
+                and create trust from creators culture and economy for KodaDot
+                that we will won't dissapear tomorrow and keep running as long
+                we can cover our efforts to keep it online and working.
+              </p><br>
+              <p>
+                We will be slowly elaborating what is best possible way to embrace
+                Creators needs and help them to make sustainable living out of
+                their work and we are here to support it. On other part,
+                we need to mind our long-term sustainability.
+                We are in position being being universal viewer and
+                not being landlord in form of platform as other galleries do.
+              </p><br>
+              <p>
+                Right now our only income was approved
+                <a href="https://kusama.polkassembly.io/motion/256">proposal#384 &
+                motion#256 from Kusama Treasury funding</a>
+                for milestone1. Mostly it went for development costs,
+                not for running and further maintance costs.
+              </p><br>
+              <p>
+                Out flow of funds will have three parts. <b>Artists support program,
+                Running costs and Research & Development costs</b>.
+              </p><br>
+              <p>
+                <a href="https://github.com/kodadot/nft-gallery/issues/141">
+                Running costs</a> consist paying up Netlify (http, cdn, CI&CD),
+                Pinata (IPFS), Arweave (free for now, later paid integration),
+                Textile.io (we expecting this costs would go linear, later exponential).
+                Maintance, R&D costs need to be paid as
+                <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
+                new features is popping up</a> and we are trying invite more developers
+                to our circles by putting bounties on issues and anyone can help with our efforts.
+              </p></br>
+              <p>
+                As we would like to establish our accrual vector for sustainibility fund
+                and introduce small fee through minting through KodaDot,
+                we will be adding button where you still can voluntary opt-out
+                and mint without supporting us at all.
+              </p><br>
+              <p>
+                As start and giving community value back, we are trying to establish
+                <a href="https://hackmd.io/cy3jpAhvR-S32SUiMqEabg?edit">artists-support-program</a>
+                which will flow back to artists. We are trying to create self-reinforcment
+                accrual cycle, where you as creator supporting KodaDot gallery will flow back
+                and support new artists, thus creating network effects for early adopters and
+                next wave of adopters and so which will later could be self-propelled at some point.
+                We just need play bit more with right flow curves. It's experiment.
+              </p><br>
+              <p>
+                Current holders of multisig are founders of KodaDot --
+                <a href="https://twitter.com/yangwao">yangwao</a> &
+                <a href="https://twitter.com/vikiival">vikiival</a>
+                and later it will expand as we will create trust with
+                broader community who would like to participate as we
+                expect Treasury could grow larger next day.
+              </p><br>
+
+              <h1 class="title is-4">
+                <a href="https://www.dictionary.com/browse/sustainability">Definition of Sustainability</a>
+              </h1>
+              <h1 class="subtitle">noun</h1>
+              <p>
+                <li>the ability to be sustained, supported, upheld, or confirmed.</li>
+                <li>Environmental Science. the quality of not being harmful to the environment or depleting natural resources, and thereby supporting long-term ecological balance:</li>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</template>
+<script lang="ts" >
+import { Component, Vue } from 'vue-property-decorator';
+
+
+@Component({})
+export default class Sustainibility extends Vue {
+
+}
+</script>
