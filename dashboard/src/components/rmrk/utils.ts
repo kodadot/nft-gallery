@@ -15,7 +15,9 @@ import { NFTMetadata, Collection, PackMetadata, NFT } from './service/scheme';
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
 
-export const ipfsProviders: Record<string, string> = {
+export type ProviderKeyType = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | ''
+
+export const ipfsProviders: Record<ProviderKeyType, string> = {
   pinata: 'https://gateway.pinata.cloud/',
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
@@ -23,7 +25,7 @@ export const ipfsProviders: Record<string, string> = {
   '': 'https://gateway.pinata.cloud/'
 }
 
-const resolveProvider = (key?: string) => ipfsProviders[key || '']
+const resolveProvider = (key?: ProviderKeyType) => ipfsProviders[key || '']
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]]);
@@ -87,7 +89,7 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>();
 };
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
   const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', resolveProvider(provider));
@@ -101,14 +103,14 @@ export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
   return ipfsUrl;
 };
 
-export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: string): T {
+export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {
   return {
     ...instance,
     image: sanitizeIpfsUrl(instance.image || '', provider)
   }
 }
 
-export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: string): T[] {
+export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: ProviderKeyType): T[] {
   return instances.map(i => sanitizeImage(i, provider))
 }
 

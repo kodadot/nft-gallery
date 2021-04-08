@@ -44,6 +44,7 @@ export interface NFTMetadata {
   background_color?: string;
   animation_url?: string;
   youtube_url?: string;
+  type?: string;
 }
 
 
