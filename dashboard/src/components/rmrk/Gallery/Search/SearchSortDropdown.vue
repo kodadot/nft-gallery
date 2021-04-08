@@ -15,13 +15,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-
-
-
-type SortType = {
-  field: string,
-  value: -1 | 1
-}
+import { SortType } from './types';
 
 type Sort = Record<string, SortType>
 
@@ -30,10 +24,11 @@ export default class SearchSortDropdown extends Vue {
   private selectedAction: string = 'sort.created';
   private sortActions: Sort = {
     'sort.created': { field: 'blockNumber', value: -1 },
-    'sort.modified': { field: '_modified', value: -1 },
-    'sort.priceDown': { field: 'blockNumber', value: -1 },
     'sort.old': { field: 'blockNumber', value: 1 },
-    'sort.priceUp': { field: 'blockNumber', value: 1 },
+    'sort.lastChanged': { field: '_mod', value: -1 },
+    'sort.leastChanged': { field: '_mod', value: 1 },
+    'sort.priceDown': { field: 'price', value: -1 },
+    'sort.priceUp': { field: 'price', value: 1 },
   }
 
   handleSelect(name: string) {

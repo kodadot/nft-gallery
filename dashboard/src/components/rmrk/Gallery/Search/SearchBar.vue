@@ -45,19 +45,18 @@ export default class SearchBar extends Vue {
   }
 
   get typeQuery() {
-    return this.type ? this.type.split('|') : []
+    return this.type
   }
 
-  set typeQuery(value: string[]) {
+  set typeQuery(value: string) {
     this.updateType(value)
   }
 
 
   @Emit('update:type')
   @Debounce(400)
-  updateType(value: string[]) {
-
-    return value.join('|')
+  updateType(value: string) {
+    return value
   }
 
 
