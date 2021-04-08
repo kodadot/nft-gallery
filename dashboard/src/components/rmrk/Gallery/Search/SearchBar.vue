@@ -5,16 +5,16 @@
         <b-input expanded placeholder="Search..." type="search" v-model="searchQuery" icon="search">
         </b-input>
       </b-field>
-      <Sort />
-      <TypeTagInput/>
+      <Sort @input="updateSortBy" />
+      <TypeTagInput v-model="typeQuery" />
     </div>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit,  } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
-import { SearchQuery } from './types'
+import { SearchQuery, SortBy } from './types'
 
 
 @Component({
@@ -24,34 +24,61 @@ import { SearchQuery } from './types'
   }
 })
 export default class SearchBar extends Vue {
-  @Prop() public query!: SearchQuery;
+  @Prop() public search!: string;
+  @Prop() public type!: string;
+  @Prop() public sortBy!: SortBy;
 
   public mounted() {
     if (this.$route.query.search && typeof this.$route.query.search === 'string') {
-      this.update(this.$route.query.search)
+      this.updateSearch(this.$route.query.search)
     }
   }
 
 
   get searchQuery() {
-    return this.query.query
+    return this.search
   }
 
   set searchQuery(value: string) {
-    this.replaceUrl(value)
-    this.update(value)
+    // this.replaceUrl(value)
+    this.updateSearch(value)
   }
 
-  @Emit('update:query')
+  get typeQuery() {
+    return this.type ? this.type.split('|') : []
+  }
+
+  set typeQuery(value: string[]) {
+    this.updateType(value)
+  }
+
+
+  @Emit('update:type')
   @Debounce(400)
-  update(value: string) {
+  updateType(value: string[]) {
+
+    return value.join('|')
+  }
+
+
+  @Emit('update:sortBy')
+  @Debounce(400)
+  updateSortBy(value: SortBy) {
+    console.log('Debounced', value)
+    return value
+  }
+
+
+  @Emit('update:search')
+  @Debounce(400)
+  updateSearch(value: string) {
     console.log('Debounced', value)
     return value
   }
 
   @Debounce(400)
   replaceUrl(value: string) {
-    if (this.query.query !== value) {
+    if (this.search !== value) {
       this.$router.replace({ name: 'nft', query: {search: value} })
     }
   }

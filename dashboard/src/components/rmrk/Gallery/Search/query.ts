@@ -1,25 +1,27 @@
 import M, { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
-import { SortBy, QueryType } from './types'
+import { SortBy, QueryType, SearchQuery } from './types'
 
-export const basicFilterQuery = (value: string, additionalQuery: any = {}): Query => {
+export const basicFilterQuery = (value: string): Query => {
   const rr: RegExp = new RegExp(value, 'i')
-  const criteria: QueryType = {
-    $or: [
-      { name: { $regex: rr} },
-      { instance: { $regex: rr} },
-      { currentOwner: { $regex: rr} },
-      { description: { $regex: rr} },
-      { collection: { $regex: rr} },
-      ...additionalQuery,
-    ]
-
-
-  }
+  const criteria: QueryType = basicCriteria(rr)
 
   return new Query(criteria)
 }
+
+const basicCriteria = (rr: RegExp, additionalQuery: never[] = []) => ({
+  $or: [
+    { name: { $regex: rr} },
+    { instance: { $regex: rr} },
+    { currentOwner: { $regex: rr} },
+    { description: { $regex: rr} },
+    { collection: { $regex: rr} },
+    ...additionalQuery
+  ]
+})
+
+const queryOf = (criteria: QueryType) => new Query(criteria)
 
 export const basicAggregation = (): Aggregator => {
   const agg: Aggregation = [
@@ -40,15 +42,27 @@ export const basicAggregation = (): Aggregator => {
   return new Aggregator(agg);
 }
 
-export const basicFilter = (value: string, nfts: NFTWithMeta[], sort?: SortBy): any[] => {
+export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
   const query = basicFilterQuery(value)
-  if (sort) {
-    return query.find(nfts).sort(sort).all()
-  }
-
   return query.find(nfts).all()
 }
 
+export const expandedFilter = (value: SearchQuery, nfts: NFTWithMeta[]): any[] => {
+  // if (sort) {
+  //   return query.find(nfts).sort(sort).all()
+  // }
+  const rr: RegExp = new RegExp(value.search, 'i')
+  const additionalQuery = value.type ? [{ type: { $regex: new RegExp(value.type, 'i')} }] as any : []
+  const criteria: QueryType = basicCriteria(rr, additionalQuery)
+
+  let cursor = queryOf(criteria).find(nfts)
+
+  if (value.sortBy) {
+    cursor = cursor.sort(value.sortBy)
+  }
+
+  return cursor.all()
+}
 
 export const basicAggQuery = (nfts: NFTWithMeta[]) => {
   const query = basicAggregation()
