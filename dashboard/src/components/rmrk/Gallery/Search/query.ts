@@ -11,13 +11,15 @@ export const basicFilterQuery = (value: string): Query => {
 }
 
 const basicCriteria = (rr: RegExp, additionalQuery: never[] = []) => ({
+  $and: [
+    ...additionalQuery
+  ],
   $or: [
     { name: { $regex: rr} },
     { instance: { $regex: rr} },
     { currentOwner: { $regex: rr} },
     { description: { $regex: rr} },
     { collection: { $regex: rr} },
-    ...additionalQuery
   ]
 })
 
