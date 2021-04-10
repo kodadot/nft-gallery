@@ -32,7 +32,7 @@ import {
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
 import {
-  faTwitter, faLine, faTelegram,
+  faTwitter, faLine, faTelegram, faFacebook,
   faTelegramPlane, faMedium,
   faWpexplorer,
   faRedditAlien
@@ -70,7 +70,7 @@ library.add(
   faPrint, faCommentAlt, faMagic,
   faLeaf, faFlask,
 
-  faTwitter, faTelegram, faMedium,
+  faTwitter, faTelegram, faFacebook, faMedium,
   faLine, faTelegramPlane,
   faCommentDots, faGhost, faCode,
   faWpexplorer,

@@ -26,6 +26,20 @@
         </span>
       </p>
       <p class="card-footer-item">
+        <ShareNetwork
+          network="facebook"
+          :url="realworldFullPath"
+          title="Check this cool NFT on Kusama Network"
+          hashtags="kodadot"
+        >
+          <b-icon
+            size="is-large"
+            pack="fab"
+            icon="facebook">
+          </b-icon>
+        </ShareNetwork>
+      </p>
+      <p class="card-footer-item">
         <span>
           <a :href="linemeUri"
               target="_blank">
