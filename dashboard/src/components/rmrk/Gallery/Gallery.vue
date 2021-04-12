@@ -22,6 +22,7 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image">
+                <span class="card-image__emotes">{{nft.emotes || 1000}} likes</span>
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -31,6 +32,7 @@
                     @error="onError"
                   />
                 </figure>
+                <span class="card-image__price">{{nft.price || 1000}} KSM</span>
               </div>
 
               <div class="card-content is-relative">
@@ -80,6 +82,7 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
+import Money from '@/components/shared/format/Money.vue';
 import { basicFilter, basicAggQuery } from './Search/query'
 import axios from 'axios'
 import Freezeframe from 'freezeframe'
@@ -90,7 +93,7 @@ interface Image extends HTMLImageElement {
 }
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search }
+const components = { GalleryCardList, Search, Money }
 
 @Component({ components })
 export default class Gallery extends Vue {
@@ -116,7 +119,6 @@ export default class Gallery extends Vue {
     } catch (e) {
       console.warn(e);
     }
-
     this.isLoading = false;
   }
 
@@ -169,6 +171,7 @@ export default class Gallery extends Vue {
     left: 0;
     position: absolute;
     right: 0;
+    border-radius: 8px 8px 0 0;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -187,6 +190,10 @@ export default class Gallery extends Vue {
     height: 100%;
     overflow: hidden;
 
+    &:hover .ff-canvas {
+      transform: scale(1.1) translateY(-50%);
+    }
+
     .ff-overlay {
       z-index: 2;
     }
@@ -196,6 +203,7 @@ export default class Gallery extends Vue {
       top: 50%;
       height: auto;
       transform: translateY(-50%);
+      transition: all 0.3s !important;
     }
   }
 
@@ -220,6 +228,54 @@ export default class Gallery extends Vue {
   .nft-collection-counter {
     top: 5px;
     right: -5px;
+  }
+}
+
+.card {
+  border-radius: 8px;
+
+  &-image {
+
+    .ff-canvas {
+      border-radius: 8px 8px 0 0;
+    }
+
+    &__emotes {
+      position: absolute;
+      background-color: #d32e79;
+      border-radius: 4px;
+      padding: 3px 8px;
+      color: #fff;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      z-index: 2;
+      transition: all 0.3s;
+    }
+
+    &__price {
+      position: absolute;
+      background-color: #363636;
+      border-radius: 4px;
+      padding: 3px 8px;
+      color: #fff;
+      bottom: 10px;
+      left: 10px;
+      font-size: 14px;
+      z-index: 2;
+      transition: all 0.3s;
+    }
+
+    &:hover &__emotes {
+        top: -10px;
+        right: -10px;
+      }
+      
+
+    &:hover  &__price {
+        bottom: -10px;
+        left: -10px;
+      }
   }
 }
 </style>
