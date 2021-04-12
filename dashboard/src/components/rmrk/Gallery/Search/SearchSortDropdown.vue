@@ -7,7 +7,7 @@
     >
       <!-- <option value="">None</option> -->
       <option v-for="action in actions" :value="action[0]" :key="action[0]">
-        {{ action[0] }}
+        {{ $t(action[0]) }}
       </option>
     </b-select>
   </b-field>
