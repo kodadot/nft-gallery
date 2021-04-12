@@ -82,7 +82,6 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
-import Money from '@/components/shared/format/Money.vue';
 import { basicFilter, basicAggQuery } from './Search/query'
 import axios from 'axios'
 import Freezeframe from 'freezeframe'
@@ -93,7 +92,7 @@ interface Image extends HTMLImageElement {
 }
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search, Money }
+const components = { GalleryCardList, Search }
 
 @Component({ components })
 export default class Gallery extends Vue {
@@ -267,15 +266,14 @@ export default class Gallery extends Vue {
     }
 
     &:hover &__emotes {
-        top: -10px;
-        right: -10px;
-      }
-      
+      top: -10px;
+      right: -10px;
+    }
 
     &:hover  &__price {
-        bottom: -10px;
-        left: -10px;
-      }
+      bottom: -10px;
+      left: -10px;
+    }
   }
 }
 </style>
