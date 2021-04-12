@@ -19,7 +19,6 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 
 @Component({})
 export default class extends Vue {
-  private tags: string[] = []
   private allTags: string[] = [
     'audio',
     'video',
@@ -27,7 +26,15 @@ export default class extends Vue {
     'gif',
     'svg'
   ];
-  @Prop() public value!: any;
+  @Prop() public value!: string;
+
+  get tags() {
+    return this.value ? this.value.split('|') : []
+  }
+
+  set tags(value: string[]) {
+    this.handleInput(value)
+  }
 
   @Emit('input')
   handleInput(value: string[]) {

@@ -16,6 +16,8 @@
             label="Sort & Filter"
             aria-controls="contentIdForA11y1"
             icon-right="caret-down"
+            type="is-primary"
+            outlined
           />
         </template>
         <div class="mt-3">
@@ -31,6 +33,14 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
 import { SearchQuery, SortBy } from './types';
+import shouldUpdate from '@/utils/shouldUpdate';
+
+type StringOrNull = string | null
+const exist = (value: string | StringOrNull[], cb: (arg: string) => {}) => {
+  if (value && typeof value === 'string') {
+    cb(value)
+  }
+}
 
 @Component({
   components: {
@@ -44,12 +54,15 @@ export default class SearchBar extends Vue {
   @Prop() public sortBy!: SortBy;
 
   public mounted() {
-    if (
-      this.$route.query.search &&
-      typeof this.$route.query.search === 'string'
-    ) {
-      this.updateSearch(this.$route.query.search);
-    }
+    exist(this.$route.query.search, this.updateSearch)
+    exist(this.$route.query.type, this.updateType)
+    // console.log('query', this.$route.query)
+    // if (
+    //   this.$route.query.search &&
+    //   typeof this.$route.query.search === 'string'
+    // ) {
+    //   this.updateSearch(this.$route.query.search);
+    // }
   }
 
   get searchQuery() {
@@ -57,7 +70,6 @@ export default class SearchBar extends Vue {
   }
 
   set searchQuery(value: string) {
-    // this.replaceUrl(value)
     this.updateSearch(value);
   }
 
@@ -72,6 +84,7 @@ export default class SearchBar extends Vue {
   @Emit('update:type')
   @Debounce(400)
   updateType(value: string) {
+    this.replaceUrl(value, 'type')
     return value;
   }
 
@@ -79,6 +92,7 @@ export default class SearchBar extends Vue {
   @Debounce(400)
   updateSortBy(value: SortBy) {
     console.log('Debounced', value);
+    // this.replaceUrl(value)
     return value;
   }
 
@@ -86,14 +100,13 @@ export default class SearchBar extends Vue {
   @Debounce(400)
   updateSearch(value: string) {
     console.log('Debounced', value);
+    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
     return value;
   }
 
-  @Debounce(400)
-  replaceUrl(value: string) {
-    if (this.search !== value) {
-      this.$router.replace({ name: 'nft', query: { search: value } });
-    }
+  @Debounce(100)
+  replaceUrl(value: string, key='search') {
+    this.$router.replace({ name: 'nft', query: { search: this.searchQuery, type: this.typeQuery, [key]: value } }).catch(console.warn /*Navigation Duplicate err fix later */);
   }
 }
 </script>
