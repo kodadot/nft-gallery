@@ -157,6 +157,11 @@ export default class Gallery extends Vue {
 
 <style lang="scss">
 .gallery {
+
+  @media screen and (max-width: 1023px){
+    padding: 0 15px;
+  }
+
   &__image-wrapper {
     position: relative;
     margin: auto;
@@ -258,38 +263,40 @@ export default class Gallery extends Vue {
     }
   }
 
-  &-content {
-    position: absolute;
-    bottom: -80px;
-    left: 0;
-    width: 100%;
-    transition: all 0.3s;
-    background: #fff;
-    opacity: 0;
-  }
+  @media screen and (min-width: 1024px){
+    &-content {
+      position: absolute;
+      bottom: -80px;
+      left: 0;
+      width: 100%;
+      transition: all 0.3s;
+      background: #fff;
+      opacity: 0;
+    }
 
-  &:hover &-content {
-    bottom: 0;
-    opacity: 1;
-    z-index: 2;
-  }
+    &:hover &-content {
+      bottom: 0;
+      opacity: 1;
+      z-index: 2;
+    }
 
-  &:hover .gallery__image-wrapper img {
-    transform: scale(1.1) translateY(-50%);
-  }
+    &:hover .gallery__image-wrapper img {
+      transform: scale(1.1) translateY(-50%);
+    }
 
-  &:hover .ff-canvas {
-    transform: scale(1.1) translateY(-50%);
-  }
+    &:hover .ff-canvas {
+      transform: scale(1.1) translateY(-50%);
+    }
 
-  &:hover &-image__emotes {
-    top: -10px;
-    right: -10px;
-  }
+    &:hover &-image__emotes {
+      top: -10px;
+      right: -10px;
+    }
 
-  &:hover  &-image__price {
-    bottom: -10px;
-    left: -10px;
+    &:hover  &-image__price {
+      bottom: -10px;
+      left: -10px;
+    }
   }
 }
 </style>
