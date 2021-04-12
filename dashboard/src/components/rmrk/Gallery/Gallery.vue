@@ -35,7 +35,7 @@
                 <span class="card-image__price">{{nft.price || 1000}} KSM</span>
               </div>
 
-              <div class="card-content is-relative">
+              <div class="card-content">
                 <p
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
@@ -170,17 +170,13 @@ export default class Gallery extends Vue {
     left: 0;
     position: absolute;
     right: 0;
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px;
     top: 50%;
     transition: all 0.3s;
     display: block;
     width: 100%;
     height: auto;
     transform: scale(1) translateY(-50%);
-
-    &:hover {
-      transform: scale(1.1) translateY(-50%);
-    }
   }
 
   .ff-container {
@@ -188,10 +184,6 @@ export default class Gallery extends Vue {
     top: 0;
     height: 100%;
     overflow: hidden;
-
-    &:hover .ff-canvas {
-      transform: scale(1.1) translateY(-50%);
-    }
 
     .ff-overlay {
       z-index: 2;
@@ -232,11 +224,11 @@ export default class Gallery extends Vue {
 
 .card {
   border-radius: 8px;
+  position: relative;
 
   &-image {
-
     .ff-canvas {
-      border-radius: 8px 8px 0 0;
+      border-radius: 8px;
     }
 
     &__emotes {
@@ -248,7 +240,7 @@ export default class Gallery extends Vue {
       top: 10px;
       right: 10px;
       font-size: 14px;
-      z-index: 2;
+      z-index: 3;
       transition: all 0.3s;
     }
 
@@ -261,19 +253,43 @@ export default class Gallery extends Vue {
       bottom: 10px;
       left: 10px;
       font-size: 14px;
-      z-index: 2;
+      z-index: 3;
       transition: all 0.3s;
     }
+  }
 
-    &:hover &__emotes {
-      top: -10px;
-      right: -10px;
-    }
+  &-content {
+    position: absolute;
+    bottom: -80px;
+    left: 0;
+    width: 100%;
+    transition: all 0.3s;
+    background: #fff;
+    opacity: 0;
+  }
 
-    &:hover  &__price {
-      bottom: -10px;
-      left: -10px;
-    }
+  &:hover &-content {
+    bottom: 0;
+    opacity: 1;
+    z-index: 2;
+  }
+
+  &:hover .gallery__image-wrapper img {
+    transform: scale(1.1) translateY(-50%);
+  }
+
+  &:hover .ff-canvas {
+    transform: scale(1.1) translateY(-50%);
+  }
+
+  &:hover &-image__emotes {
+    top: -10px;
+    right: -10px;
+  }
+
+  &:hover  &-image__price {
+    bottom: -10px;
+    left: -10px;
   }
 }
 </style>
