@@ -2,6 +2,15 @@
   <div class="card mb-3 mt-5">
     <div class="card-content ">
       <div class="columns">
+        <b-field class="column mb-0">
+          <b-input
+            placeholder="Search..."
+            type="search"
+            v-model="searchQuery"
+            icon="search"
+          >
+          </b-input>
+        </b-field>
         <b-field class="column is-2 mb-0">
           <b-button
             label="Sort & Filter"
@@ -12,15 +21,6 @@
             expanded
             @click="isVisible = !isVisible"
           />
-        </b-field>
-        <b-field class="column">
-          <b-input
-            placeholder="Search..."
-            type="search"
-            v-model="searchQuery"
-            icon="search"
-          >
-          </b-input>
         </b-field>
       </div>
 
