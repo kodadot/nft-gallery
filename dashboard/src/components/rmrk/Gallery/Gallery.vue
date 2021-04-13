@@ -22,7 +22,7 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image">
-                <span class="card-image__emotes">{{nft.emotes || 1000}} likes</span>
+                <span v-if="nft.emoteCount" class="card-image__emotes">{{nft.emoteCount}}</span>
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -32,7 +32,7 @@
                     @error="onError"
                   />
                 </figure>
-                <span class="card-image__price">{{nft.price || 1000}} KSM</span>
+                <span v-if="nft.price" class="card-image__price">{{nft.price}} KSM</span>
               </div>
 
               <div class="card-content">
