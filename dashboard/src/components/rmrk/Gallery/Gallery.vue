@@ -226,75 +226,79 @@ export default class Gallery extends Vue {
     right: -5px;
   }
 
-  .card {
-    border-radius: 8px;
-    position: relative;
+  .columns {
+    padding-top: 10px;
 
-    &-image {
-      .ff-canvas {
-        border-radius: 8px;
+    .card {
+      border-radius: 8px;
+      position: relative;
+
+      &-image {
+        .ff-canvas {
+          border-radius: 8px;
+        }
+
+        &__emotes {
+          position: absolute;
+          background-color: #d32e79;
+          border-radius: 4px;
+          padding: 3px 8px;
+          color: #fff;
+          top: 10px;
+          right: 10px;
+          font-size: 14px;
+          z-index: 3;
+          transition: all 0.3s;
+        }
+
+        &__price {
+          position: absolute;
+          background-color: #363636;
+          border-radius: 4px;
+          padding: 3px 8px;
+          color: #fff;
+          bottom: 10px;
+          left: 10px;
+          font-size: 14px;
+          z-index: 3;
+          transition: all 0.3s;
+        }
       }
 
-      &__emotes {
-        position: absolute;
-        background-color: #d32e79;
-        border-radius: 4px;
-        padding: 3px 8px;
-        color: #fff;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        z-index: 3;
-        transition: all 0.3s;
-      }
+      @media screen and (min-width: 1024px){
+        &-content {
+          position: absolute;
+          bottom: -30px;
+          left: 0;
+          width: 100%;
+          transition: all 0.3s;
+          background: #fff;
+          opacity: 0;
+        }
 
-      &__price {
-        position: absolute;
-        background-color: #363636;
-        border-radius: 4px;
-        padding: 3px 8px;
-        color: #fff;
-        bottom: 10px;
-        left: 10px;
-        font-size: 14px;
-        z-index: 3;
-        transition: all 0.3s;
-      }
-    }
+        &:hover .card-content {
+          bottom: 0;
+          opacity: 1;
+          z-index: 2;
+        }
 
-    @media screen and (min-width: 1024px){
-      &-content {
-        position: absolute;
-        bottom: -80px;
-        left: 0;
-        width: 100%;
-        transition: all 0.3s;
-        background: #fff;
-        opacity: 0;
-      }
+        &:hover .gallery__image-wrapper img {
+          transform: scale(1.1) translateY(-50%);
+        }
 
-      &:hover .card-content {
-        bottom: 0;
-        opacity: 1;
-        z-index: 2;
-      }
+        &:hover .ff-canvas {
+          transform: scale(1.1) translateY(-50%);
+        }
 
-      &:hover .gallery__image-wrapper img {
-        transform: scale(1.1) translateY(-50%);
-      }
+        &:hover .card-image__emotes {
+          top: -10px;
+          right: -10px;
+        }
 
-      &:hover .ff-canvas {
-        transform: scale(1.1) translateY(-50%);
-      }
-
-      &:hover .card-image__emotes {
-        top: -10px;
-        right: -10px;
-      }
-
-      &:hover  .card-image__price {
-        bottom: -10px;
-        left: -10px;
+        &:hover  .card-image__price {
+          bottom: -10px;
+          left: -10px;
+        }
       }
     }
   }
