@@ -1,93 +1,116 @@
 <template>
-  <div class="card">
+  <div class="card share">
     <footer class="card-footer">
-      <p class="card-footer-item">
-        <span>
-          <a :href="twitterUri"
-              target="_blank">
-            <b-icon
-              size="is-large"
-              pack="fab"
-              icon="twitter">
-            </b-icon>
-          </a>
-        </span>
-      </p>
-      <p class="card-footer-item">
-        <span>
-          <a :href="telegramUri"
-              target="_blank">
-            <b-icon
-              size="is-large"
-              pack="fab"
-              icon="telegram">
-            </b-icon>
-          </a>
-        </span>
-      </p>
-      <p class="card-footer-item">
-        <ShareNetwork
-          network="facebook"
-          :url="realworldFullPath"
-          title="Check this cool NFT on Kusama Network"
-          hashtags="kodadot"
+      <div class="card-footer-item">
+        <b-button
+          size="is-medium"
+          v-clipboard:copy="realworldFullPathShare"
+          @click="toast('URL copied to clipboard')"
+          class="share__button"
         >
           <b-icon
-            size="is-large"
-            pack="fab"
-            icon="facebook">
+            size="is-medium"
+            pack="fas"
+            icon="link">
           </b-icon>
-        </ShareNetwork>
-      </p>
-      <p class="card-footer-item">
-        <span>
-          <a :href="linemeUri"
-              target="_blank">
+        </b-button>
+      </div>
+      <div class="card-footer-item">
+        <b-button
+          size="is-medium"
+          v-clipboard:copy="iframeUri"
+          @click="toast('Code copied to clipboard')"
+          class="share__button"
+        >
+          <b-icon
+            size="is-medium"
+            pack="fas"
+            icon="code">
+          </b-icon>
+        </b-button>
+      </div>
+      <div class="card-footer-item">
+        <b-tooltip
+          type="is-light"
+          class="share__tooltip"
+          :triggers="['click']"
+          :auto-close="['outside', 'escape']"
+        >
+          <template v-slot:content>
+            <ShareNetwork
+              network="twitter"
+              :url="realworldFullPath"
+              :title="label"
+              twitter-user="KodaDot"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="twitter"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              network="telegram"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="telegram"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              network="line"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="line"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              network="facebook"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="facebook"
+              >
+              </b-icon>
+            </ShareNetwork>
+          </template>
+          <b-button
+            class="share__button"
+            size="is-medium"
+          >
             <b-icon
               size="is-large"
-              pack="fab"
-              icon="line">
-            </b-icon>
-          </a>
-        </span>
-      </p>
-      <p class="card-footer-item">
-        <span>
-          <a
-            v-clipboard:copy="realworldFullPathShare"
-            @click="toast('URL copied to clipboard')">
-            <b-icon
-              size="is-medium"
               pack="fas"
-              icon="link">
+              icon="share-alt"
+            >
             </b-icon>
-          </a>
-        </span>
-      </p>
-      <p class="card-footer-item">
-        <span>
-          <a
-            v-clipboard:copy="iframeUri"
-            @click="toast('Code copied to clipboard')">
-            <b-icon
-              size="is-medium"
-              pack="fas"
-              icon="code">
-            </b-icon>
-          </a>
-        </span>
-      </p>
+          </b-button>
+        </b-tooltip>
+      </div>
     </footer>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { IFrame, emptyIframe } from '../../types';
 
 @Component({})
 export default class Sharing extends Vue {
-  @Prop({ default: 'Check this cool NFT on %23KusamaNetwork %23kodadot' }) label!: string;
+  @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string;
   @Prop({ default: () => emptyIframe }) iframe!: IFrame;
 
   get helloText() {
@@ -143,3 +166,21 @@ export default class Sharing extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+  @import "@/colors";
+
+  .share {
+    &__button {
+      color: $primary;
+      border: none;
+    }
+
+    &__tooltip {
+      .tooltip-content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+</style>
