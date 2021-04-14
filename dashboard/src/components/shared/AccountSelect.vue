@@ -12,6 +12,7 @@
         <Tooltip v-if="tooltipVisible" :label="tooltip" />
     </b-field>
 </template>
+
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator';
 import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring';
