@@ -9,6 +9,7 @@ import { keyInfo as keysToTheKingdom } from '@/textile'
 import slugify from 'slugify';
 import { fetchCollectionMetadata, fetchNFTMetadata } from '../utils';
 import { ipfsToArweave } from '@/pinata'
+import { fetchMimeType } from '@/fetch';
 
 export type RmrkType = RmrkWithMetaType | Emotion | Pack
 export type RmrkWithMetaType = CollectionWithMeta | NFTWithMeta
@@ -166,13 +167,16 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     return collection
   }
 
-  // async getPackListByIds(account: string, ids: string[]): Promise<Pack[]> {
-  //   this.usePack();
-  //   const query: Query = new Query();
-  //   ids.forEach(id => query.or(new Where('id').eq(id)))
-  //   query.and('')
-  //   const collections = await this.find<Pack>(query)
-  //   return collections
+  // DEV: If textile shouts someting about types, write it here :)
+  // async migrate() {
+  //   this.useNFT();
+  //   const onlyPositive = ({ status }: PromiseSettledResult<NFTWithMeta>)  => status === 'fulfilled'
+  //   const onlyValue = ({ value }: PromiseFulfilledResult<NFTWithMeta>) => value
+  //   const n = await this.getAllNFTs();
+  //   const typed = await Promise.allSettled(n.map(withTypeMap))
+  //   .then(res => res.filter(onlyPositive).map(v => onlyValue(v as PromiseFulfilledResult<NFTWithMeta>)))
+  //   await this.update(typed)
+  //   return typed
   // }
 
   getLastSyncedBlock(): Promise<number> {
@@ -602,6 +606,7 @@ export const migrateNFT = async (nft: NFT): Promise<NFTWithMeta> => {
   try {
     const metadata = await fetchNFTMetadata(nft);
     const final = mergeNFT(nft, metadata);
+    final.type = await fetchMimeType(final.animation_url || final.image)
     return final
   } catch (e) {
     console.warn(e)
@@ -635,3 +640,9 @@ export const collectionToArweave = async (collection: CollectionWithMeta): Promi
   }
 }
 
+const urlMap = ({ animation_url, image }: NFTWithMeta) => animation_url || image
+
+export const withTypeMap = async (nft: NFTWithMeta): Promise<NFTWithMeta> => {
+  const type = await fetchMimeType(urlMap(nft));
+  return {...nft, type}
+}
