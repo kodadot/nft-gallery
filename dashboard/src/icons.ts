@@ -25,7 +25,7 @@ import {
   faQuestion, faPrint,
   faMagic, faEye, faCommentAlt,
   faGhost, faCode, faLeaf,
-  faFlask, faCameraRetro, faTag
+  faFlask, faCameraRetro, faTag, faShareAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -75,7 +75,7 @@ library.add(
   faCommentDots, faGhost, faCode,
   faWpexplorer,
   faRedditAlien, faCameraRetro,
-  faTag
+  faTag, faShareAlt
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
