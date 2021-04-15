@@ -11,7 +11,7 @@
         </option>
       </b-select>
     </b-field> -->
-    <Search :query.sync="searchQuery" />
+    <Search v-bind.sync="searchQuery" />
     <div>
       <div class="columns is-multiline">
         <div
@@ -82,10 +82,11 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
-import { basicFilter, basicAggQuery } from './Search/query'
+import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import axios from 'axios'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
+import { SearchQuery } from './Search/types';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -98,7 +99,11 @@ const components = { GalleryCardList, Search }
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
-  private searchQuery = ''
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: { blockNumber: -1 }
+  }
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
 
   public async mounted() {
@@ -122,11 +127,11 @@ export default class Gallery extends Vue {
   }
 
   get results() {
-    if (this.searchQuery) {
-      return basicAggQuery(basicFilter(this.searchQuery, this.nfts))
-    }
+    // if (this.searchQuery) {
+    //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
+    // }
 
-    return basicAggQuery(this.nfts)
+    return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
   }
 
   setFreezeframe() {
