@@ -21,6 +21,7 @@
           class="share__tooltip"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
+          :active="active"
         >
           <template v-slot:content>
             <ShareNetwork
@@ -96,6 +97,7 @@
           <b-button
             class="share__button"
             size="is-medium"
+            @click="active = !active"
           >
             <b-icon
               size="is-large"
@@ -118,6 +120,8 @@ import { IFrame, emptyIframe } from '../../types';
 export default class Sharing extends Vue {
   @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string;
   @Prop({ default: () => emptyIframe }) iframe!: IFrame;
+
+  private active: boolean = false;
 
   get helloText() {
     return this.label;
@@ -165,8 +169,6 @@ export default class Sharing extends Vue {
     `
   }
 
-
-
   public toast(message: string): void {
     this.$buefy.toast.open(message);
   }
@@ -187,6 +189,11 @@ export default class Sharing extends Vue {
         &:not(:active) {
           box-shadow: none;
         }
+      }
+
+      & > span {
+        display: flex;
+        align-items: center;
       }
     }
 
