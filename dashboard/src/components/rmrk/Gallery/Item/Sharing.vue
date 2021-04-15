@@ -16,20 +16,6 @@
         </b-button>
       </div>
       <div class="card-footer-item">
-        <b-button
-          size="is-medium"
-          v-clipboard:copy="iframeUri"
-          @click="toast('Code copied to clipboard')"
-          class="share__button"
-        >
-          <b-icon
-            size="is-medium"
-            pack="fas"
-            icon="code">
-          </b-icon>
-        </b-button>
-      </div>
-      <div class="card-footer-item">
         <b-tooltip
           type="is-light"
           class="share__tooltip"
@@ -38,6 +24,8 @@
         >
           <template v-slot:content>
             <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
               network="twitter"
               :url="realworldFullPath"
               :title="label"
@@ -51,6 +39,8 @@
               </b-icon>
             </ShareNetwork>
             <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
               network="telegram"
               :url="realworldFullPath"
               :title="label"
@@ -63,6 +53,8 @@
               </b-icon>
             </ShareNetwork>
             <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
               network="line"
               :url="realworldFullPath"
               :title="label"
@@ -75,6 +67,8 @@
               </b-icon>
             </ShareNetwork>
             <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
               network="facebook"
               :url="realworldFullPath"
               :title="label"
@@ -86,6 +80,18 @@
               >
               </b-icon>
             </ShareNetwork>
+            <b-button
+              size="is-medium"
+              v-clipboard:copy="iframeUri"
+              @click="toast('Code copied to clipboard')"
+              class="share__button"
+            >
+              <b-icon
+                size="is-medium"
+                pack="fas"
+                icon="code">
+              </b-icon>
+            </b-button>
           </template>
           <b-button
             class="share__button"
@@ -173,13 +179,35 @@ export default class Sharing extends Vue {
   .share {
     &__button {
       color: $primary;
+      background: transparent;
       border: none;
+
+      &:hover,
+      &:focus {
+        &:not(:active) {
+          box-shadow: none;
+        }
+      }
     }
 
     &__tooltip {
       .tooltip-content {
         display: flex;
         flex-direction: column;
+
+        &:before {
+          display: none;
+        }
+
+        @media screen and (min-width: 1024px) {
+          flex-direction: row;
+        }
+      }
+
+      &.is-light  {
+        .tooltip-content {
+          background-color: $white;
+        }
       }
     }
   }
