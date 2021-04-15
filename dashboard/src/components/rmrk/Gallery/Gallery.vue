@@ -237,6 +237,7 @@ export default class Gallery extends Vue {
     .card {
       border-radius: 8px;
       position: relative;
+      overflow: hidden;
 
       &-image {
         .ff-canvas {
@@ -273,7 +274,7 @@ export default class Gallery extends Vue {
       @media screen and (min-width: 1024px){
         &-content {
           position: absolute;
-          bottom: -30px;
+          bottom: -45px;
           left: 0;
           width: 100%;
           transition: all 0.3s;
@@ -296,13 +297,12 @@ export default class Gallery extends Vue {
         }
 
         &:hover .card-image__emotes {
-          top: -10px;
-          right: -10px;
+          top: 15px;
+          right: 15px;
         }
 
         &:hover  .card-image__price {
-          bottom: -10px;
-          left: -10px;
+          bottom: 62px;
         }
       }
     }
