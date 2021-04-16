@@ -98,6 +98,7 @@
             class="share__button"
             size="is-medium"
             @click="active = !active"
+            @focusout="active = !active"
           >
             <b-icon
               size="is-large"
