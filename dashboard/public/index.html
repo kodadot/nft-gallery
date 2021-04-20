@@ -25,8 +25,15 @@
         width: 100%;
       }
 
+      .preloader {
+        text-align: center;
+        padding: 0 0.5rem;
+      }
+
       .preloader-container {
-        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100vw;
         height: 100vh;
         background-color: #fefefe;
@@ -34,14 +41,20 @@
         font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
       }
 
-      .preloader {
-        display: block;
-        margin: calc((100vh / 2) - (90px / 2)) 3em;
+      .preloader-text {
+        display: inline-block;
+        justify-content: center;
+        font-size: 1.25em;
+        margin-top: 0.5rem;
       }
 
-      .preloader::after {
+      .preloader-text::after {
         content: ' _';
         animation: blink 0.3s infinite;
+      }
+
+      .preloader-image {
+        max-width: 100%;
       }
 
       @keyframes blink {
@@ -63,9 +76,12 @@
     </noscript>
     <div id="app">
       <div class="preloader-container">
-        <h1 class="preloader">
-          <img src="/kodadot_logo_v1_transparent_400px.jpg"/> <br/>
-          🔌 Charging 🖼 NFT Market Explorer</h1> 
+        <div class="preloader">
+          <img class="preloader-image" src="/kodadot_logo_v1_transparent_400px.jpg"/> <br/>
+          <span class="preloader-text">
+            🔌 Charging 🖼 NFT Market Explorer
+          </span>
+        </div>
       </div>
     </div>
     <!-- built files will be auto injected -->
