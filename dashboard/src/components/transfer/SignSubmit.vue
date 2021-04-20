@@ -190,9 +190,7 @@ export default class Transfer extends Vue {
     this.$buefy.snackbar.open({
       duration: 5000,
       message: `${this.account.address} -> ${this.to}<br>${message}`,
-      type: 'is-success',
       position: 'is-top-right',
-      actionText: 'OK',
       queue: false,
       ...params,
     });

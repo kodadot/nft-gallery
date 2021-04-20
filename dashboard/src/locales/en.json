@@ -109,5 +109,13 @@
   "FAQQ22": "I've got \"Low balance error\"",
   "FAQA22": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> and at balances unfold, you can see there <b>Transferable</b> amount.",
   "FAQQ23": "How do I set identity?",
-  "FAQA23": "You can learn more <a href=\"https://guide.kusama.network/docs/en/mirror-learn-identity#docsNav\">how to set identity on Kusama network</a>"
+  "FAQA23": "You can learn more <a href=\"https://guide.kusama.network/docs/en/mirror-learn-identity#docsNav\">how to set identity on Kusama network</a>",
+  "sort": {
+    "created": "New first",
+    "old": "Old first",
+    "lastChanged": "Last interacted",
+    "leastChanged": "Long time no interaction",
+    "priceDown": "From most expensive",
+    "priceUp": "From cheaper"
+  }
 }

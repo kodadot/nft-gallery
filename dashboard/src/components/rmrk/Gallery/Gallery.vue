@@ -11,7 +11,7 @@
         </option>
       </b-select>
     </b-field> -->
-    <Search :query.sync="searchQuery" />
+    <Search v-bind.sync="searchQuery" />
     <div>
       <div class="columns is-multiline">
         <div
@@ -22,6 +22,7 @@
           <div class="card nft-card">
             <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
               <div class="card-image">
+                <span v-if="nft.emoteCount" class="card-image__emotes">{{nft.emoteCount}}</span>
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -31,9 +32,12 @@
                     @error="onError"
                   />
                 </figure>
+                <span v-if="nft.price" class="card-image__price">
+                  <Money :value="nft.price" showFiatValue="usd" inline />
+                </span>
               </div>
 
-              <div class="card-content is-relative">
+              <div class="card-content">
                 <p
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
@@ -80,23 +84,29 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
-import { basicFilter, basicAggQuery } from './Search/query'
+import Money from '@/components/shared/format/Money.vue'
+import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import axios from 'axios'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
+import { SearchQuery } from './Search/types';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
 }
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search }
+const components = { GalleryCardList, Search, Money }
 
 @Component({ components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
-  private searchQuery = ''
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: { blockNumber: -1 }
+  }
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
 
   public async mounted() {
@@ -116,16 +126,15 @@ export default class Gallery extends Vue {
     } catch (e) {
       console.warn(e);
     }
-
     this.isLoading = false;
   }
 
   get results() {
-    if (this.searchQuery) {
-      return basicAggQuery(basicFilter(this.searchQuery, this.nfts))
-    }
+    // if (this.searchQuery) {
+    //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
+    // }
 
-    return basicAggQuery(this.nfts)
+    return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
   }
 
   setFreezeframe() {
@@ -156,6 +165,11 @@ export default class Gallery extends Vue {
 
 <style lang="scss">
 .gallery {
+
+  @media screen and (max-width: 1023px){
+    padding: 0 15px;
+  }
+
   &__image-wrapper {
     position: relative;
     margin: auto;
@@ -169,16 +183,13 @@ export default class Gallery extends Vue {
     left: 0;
     position: absolute;
     right: 0;
+    border-radius: 8px;
     top: 50%;
     transition: all 0.3s;
     display: block;
     width: 100%;
     height: auto;
     transform: scale(1) translateY(-50%);
-
-    &:hover {
-      transform: scale(1.1) translateY(-50%);
-    }
   }
 
   .ff-container {
@@ -196,6 +207,7 @@ export default class Gallery extends Vue {
       top: 50%;
       height: auto;
       transform: translateY(-50%);
+      transition: all 0.3s !important;
     }
   }
 
@@ -220,6 +232,83 @@ export default class Gallery extends Vue {
   .nft-collection-counter {
     top: 5px;
     right: -5px;
+  }
+
+  .columns {
+    padding-top: 10px;
+
+    .card {
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+
+      &-image {
+        .ff-canvas {
+          border-radius: 8px;
+        }
+
+        &__emotes {
+          position: absolute;
+          background-color: #d32e79;
+          border-radius: 4px;
+          padding: 3px 8px;
+          color: #fff;
+          top: 10px;
+          right: 10px;
+          font-size: 14px;
+          z-index: 3;
+          transition: all 0.3s;
+        }
+
+        &__price {
+          position: absolute;
+          background-color: #363636;
+          border-radius: 4px;
+          padding: 3px 8px;
+          color: #fff;
+          bottom: 10px;
+          left: 10px;
+          font-size: 14px;
+          z-index: 3;
+          transition: all 0.3s;
+        }
+      }
+
+      @media screen and (min-width: 1024px){
+        &-content {
+          position: absolute;
+          bottom: -45px;
+          left: 0;
+          width: 100%;
+          transition: all 0.3s;
+          background: #fff;
+          opacity: 0;
+        }
+
+        &:hover .card-content {
+          bottom: 0;
+          opacity: 1;
+          z-index: 2;
+        }
+
+        &:hover .gallery__image-wrapper img {
+          transform: scale(1.1) translateY(-50%);
+        }
+
+        &:hover .ff-canvas {
+          transform: scale(1.1) translateY(-50%);
+        }
+
+        &:hover .card-image__emotes {
+          top: 15px;
+          right: 15px;
+        }
+
+        &:hover  .card-image__price {
+          bottom: 62px;
+        }
+      }
+    }
   }
 }
 </style>
