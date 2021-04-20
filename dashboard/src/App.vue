@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-max-desktop">
+  <div class="container">
     <Navbar v-if="isNavbarVisible"/>
     <router-view id="routerview" />
   </div>
