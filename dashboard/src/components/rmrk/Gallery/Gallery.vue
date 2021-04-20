@@ -32,7 +32,9 @@
                     @error="onError"
                   />
                 </figure>
-                <span v-if="nft.price" class="card-image__price">{{nft.price}} KSM</span>
+                <span v-if="nft.price" class="card-image__price">
+                  <Money :value="nft.price" showFiatValue="usd" inline />
+                </span>
               </div>
 
               <div class="card-content">
@@ -82,6 +84,7 @@ import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
+import Money from '@/components/shared/format/Money.vue'
 import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import axios from 'axios'
 import Freezeframe from 'freezeframe'
@@ -93,7 +96,7 @@ interface Image extends HTMLImageElement {
 }
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search }
+const components = { GalleryCardList, Search, Money }
 
 @Component({ components })
 export default class Gallery extends Vue {
