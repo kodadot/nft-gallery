@@ -143,3 +143,15 @@ export default class NavbarMenu extends Vue {
   // }
 }
 </script>
+
+<style lang="scss">
+.navbar {
+  &.is-spaced {
+    & > .container {
+      .navbar-menu {
+        margin-right: 0;
+      }
+    }
+  }
+}
+</style>

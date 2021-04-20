@@ -1,12 +1,12 @@
 <template>
   <b-dropdown position="is-bottom-left" aria-role="menu">
     <template #trigger>
-      <span v-if="account" class="columns is-mobile is-vcentered navbar-avatar" >
-      <Avatar class="navbar-avatar" :value="account" :size="34" />
-      <span class="navbar-identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span>
+      <span v-if="account" class="is-mobile is-vcentered navbar__avatar" >
+        <Avatar class="navbar__avatar-icon" :value="account" :size="34" />
+        <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span>
       </span>
       <template v-else>
-        <b-button type="is-text">Connect</b-button>
+        <b-button type="is-text" class="navbar__button">Connect</b-button>
       </template>
     </template>
 
@@ -89,16 +89,41 @@ export default class NavbarProfileDropdown extends Vue {
 <style lang="scss" scoped>
 @import "bulma/bulma.sass";
 
-.navbar-avatar {
-  @include until($desktop) {
-    padding: 0.5rem 0.75rem;
-    // margin-left: 0.3rem;
+.navbar {
+  &__identity {
+    @include from($desktop) {
+      display: none;
+    }
   }
-}
 
-.navbar-identity {
-  @include from($desktop) {
-    display: none;
+  &__avatar {
+    display: flex;
+    align-items: center;
+
+    @include until($desktop) {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  &__avatar-icon {
+    @include until($desktop) {
+      padding-right: 0.75rem;
+    }
+  }
+
+  &__button {
+    padding: 0.5rem 0.75rem;
+
+    @include from($desktop) {
+      padding-right: 0;
+    }
+
+    &.is-text {
+      &:hover,
+      &:focus {
+        background-color: transparent;
+      }
+    }
   }
 }
 </style>
