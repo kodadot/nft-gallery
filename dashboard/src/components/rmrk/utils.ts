@@ -10,7 +10,7 @@ import {
 } from './types';
 import api from '@/fetch';
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/RmrkService';
-import { NFTMetadata, Collection, PackMetadata, NFT } from './service/scheme';
+import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme';
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
@@ -112,6 +112,10 @@ export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?
 
 export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: ProviderKeyType): T[] {
   return instances.map(i => sanitizeImage(i, provider))
+}
+
+export function mapPriceToNumber(instances: NFTWithMeta[], provider?: ProviderKeyType): any[] {
+  return instances.map(i => ({...i, price: Number(i.price || 0)}))
 }
 
 export const decodeRmrkString = (rmrkString: string): RMRK => {

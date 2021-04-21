@@ -81,7 +81,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
-import { defaultSortBy, sanitizeObjectArray } from '../utils';
+import { defaultSortBy, sanitizeObjectArray, mapPriceToNumber } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import Money from '@/components/shared/format/Money.vue'
@@ -121,6 +121,7 @@ export default class Gallery extends Vue {
     try {
       this.nfts = await rmrkService.getAllNFTs()
       .then(sanitizeObjectArray)
+      .then(mapPriceToNumber)
       .then(defaultSortBy);
       // this.collectionMeta();
     } catch (e) {
@@ -134,7 +135,7 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
+    return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
   setFreezeframe() {

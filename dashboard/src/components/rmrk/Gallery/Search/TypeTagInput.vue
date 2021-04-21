@@ -9,6 +9,7 @@
       placeholder="Search by type"
       aria-close-label="Delete this tag"
       autocomplete
+      open-on-focus
     >
     </b-taginput>
   </b-field>
