@@ -9,7 +9,7 @@
               icon="ghost"
             ></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity ref="identity" :address="id" :inline="true"
+              ><Identity :address="id" :inline="true"
             /></a>
           </p>
           <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import {
@@ -40,6 +40,7 @@ import {
   sanitizeObjectArray
 } from '@/components/rmrk/utils';
 import {
+  Collection,
   CollectionWithMeta,
   NFTWithMeta,
   Pack
@@ -55,23 +56,7 @@ const components = {
 
 const eq = (tab: string) => (el: string) => tab === el
 
-@Component<Profile>({ 
-  components,
-  metaInfo() {
-    return {
-      meta: [
-        { property: 'og:title', content: this.name },
-        { property: 'og:type', content: 'website'},
-        { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
-        { property: 'og:video', vmid: 'og:video' , content: this.firstNFT as string },
-        { property: 'twitter:title', content: this.name },
-        { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
-        { property: 'twitter:card', content: 'summary_large_image' },
-      ]
-    };
-  },
-
- })
+@Component({ components })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
   protected id: string = '';
@@ -141,6 +126,7 @@ export default class Profile extends Vue {
       this.activeTab = this.$route.params.tab;
     }
   }
+
 }
 </script>
 
