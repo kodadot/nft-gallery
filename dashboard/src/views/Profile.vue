@@ -79,6 +79,7 @@ export default class Profile extends Vue {
   protected collections: CollectionWithMeta[] = [];
   protected nfts: NFTWithMeta[] = [];
   protected packs: Pack[] = [];
+  protected name: string = '';
 
   public async mounted() {
     this.checkId();
@@ -110,6 +111,7 @@ export default class Profile extends Vue {
     }
 
     this.isLoading = false;
+    this.name = ((this.$refs['identity'] as Identity).name as string);
   }
 
   public checkId() {
@@ -132,10 +134,6 @@ export default class Profile extends Vue {
 
   get firstNFT() {
     return !!this.nfts[0] && !!this.nfts[0].image ? this.nfts[0].image : '';
-  }
-
-  get name() {
-    return ((this.$refs['identity'] as Identity).name as string);
   }
 
   public checkActiveTab() {
