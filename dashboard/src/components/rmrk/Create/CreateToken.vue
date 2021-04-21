@@ -122,7 +122,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return this.$store.getters.getAuthAddress;
   }
 
-  public mounted() {
+  public created() {
     if (this.accountId) {
       this.fetchCollections();
     }
@@ -157,6 +157,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
   public async fetchCollections() {
     const rmrkService = getInstance();
+    console.log(this.accountId)
     console.warn(rmrkService, this.accountId)
     const data = await rmrkService?.getCollectionListForAccount(this.accountId);
     console.log('data', data);
