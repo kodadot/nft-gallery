@@ -9,7 +9,7 @@
               icon="ghost"
             ></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity :address="id" :inline="true"
+              ><Identity ref="identity" :address="id" :inline="true"
             /></a>
           </p>
           <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import {
@@ -40,12 +40,12 @@ import {
   sanitizeObjectArray
 } from '@/components/rmrk/utils';
 import {
-  Collection,
   CollectionWithMeta,
   NFTWithMeta,
   Pack
 } from '@/components/rmrk/service/scheme';
 import isShareMode from '@/utils/isShareMode';
+import Identity from '../components/shared/format/Identity.vue';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -55,7 +55,23 @@ const components = {
 
 const eq = (tab: string) => (el: string) => tab === el
 
-@Component({ components })
+@Component<Profile>({ 
+  components,
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: this.name },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
+        { property: 'og:video', vmid: 'og:video' , content: this.firstNFT as string },
+        { property: 'twitter:title', content: this.name },
+        { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
+        { property: 'twitter:card', content: 'summary_large_image' },
+      ]
+    };
+  },
+
+ })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
   protected id: string = '';
@@ -114,12 +130,19 @@ export default class Profile extends Vue {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
+  get firstNFT() {
+    return !!this.nfts[0] && !!this.nfts[0].image ? this.nfts[0].image : '';
+  }
+
+  get name() {
+    return ((this.$refs['identity'] as Identity).name as string);
+  }
+
   public checkActiveTab() {
     if (this.$route.params.tab && ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))) {
       this.activeTab = this.$route.params.tab;
     }
   }
-
 }
 </script>
 

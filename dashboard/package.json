@@ -10,6 +10,7 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "@edgeware/node-types": "^3.3.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
