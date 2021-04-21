@@ -9,7 +9,7 @@
               icon="ghost"
             ></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity :address="id" :inline="true"
+              ><Identity ref="identity" :address="id" :inline="true"
             /></a>
           </p>
           <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
@@ -56,7 +56,22 @@ const components = {
 
 const eq = (tab: string) => (el: string) => tab === el
 
-@Component({ components })
+@Component<Profile>({ 
+  components,
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: this.name },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
+        { property: 'og:video', vmid: 'og:video' , content: this.firstNFT as string },
+        { property: 'twitter:title', content: this.name },
+        { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
+        { property: 'twitter:card', content: 'summary_large_image' },
+      ]
+    };
+  },
+ })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
   protected id: string = '';
@@ -94,7 +109,6 @@ export default class Profile extends Vue {
       showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
     }
-
     this.isLoading = false;
     this.name = ((this.$refs['identity'] as Identity).name as string);
   }
