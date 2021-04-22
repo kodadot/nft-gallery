@@ -59,10 +59,8 @@ const eq = (tab: string) => (el: string) => tab === el
 @Component<Profile>({ 
   components,
   metaInfo() {
-    const title = `${this.name} | KodaDot Profile`;
     return {
       meta: [
-        { property: 'og:title', content: title },
         { property: 'og:type', content: 'website'},
         { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
         { property: 'twitter:site', content: '@KodaDot' },
