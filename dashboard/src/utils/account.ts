@@ -40,4 +40,9 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
 
 }
 
+export const pubKeyToAddress = (publicKey: string) => {
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+  return encodeAddress(publicKey, ss58Format);
+}
+
 export default passwordRequired

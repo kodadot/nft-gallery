@@ -10,12 +10,14 @@ import {
 } from './types';
 import api from '@/fetch';
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/RmrkService';
-import { NFTMetadata, Collection, PackMetadata, NFT } from './service/scheme';
+import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme';
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
 
-export const ipfsProviders: Record<string, string> = {
+export type ProviderKeyType = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | ''
+
+export const ipfsProviders: Record<ProviderKeyType, string> = {
   pinata: 'https://gateway.pinata.cloud/',
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
@@ -23,7 +25,7 @@ export const ipfsProviders: Record<string, string> = {
   '': 'https://gateway.pinata.cloud/'
 }
 
-const resolveProvider = (key?: string) => ipfsProviders[key || '']
+const resolveProvider = (key?: ProviderKeyType) => ipfsProviders[key || '']
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]]);
@@ -87,7 +89,7 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>();
 };
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
   const rr = /^ipfs:\/\/ipfs/;
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', resolveProvider(provider));
@@ -101,15 +103,19 @@ export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: string) => {
   return ipfsUrl;
 };
 
-export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: string): T {
+export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {
   return {
     ...instance,
     image: sanitizeIpfsUrl(instance.image || '', provider)
   }
 }
 
-export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: string): T[] {
+export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: ProviderKeyType): T[] {
   return instances.map(i => sanitizeImage(i, provider))
+}
+
+export function mapPriceToNumber(instances: NFTWithMeta[], provider?: ProviderKeyType): any[] {
+  return instances.map(i => ({...i, price: Number(i.price || 0)}))
 }
 
 export const decodeRmrkString = (rmrkString: string): RMRK => {

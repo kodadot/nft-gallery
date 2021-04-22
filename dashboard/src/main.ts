@@ -6,7 +6,7 @@ import './icons';
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
-import { toString, toNumber, toPercent } from '@/utils/filters'
+import { toString, toNumber, toPercent, truncateStr } from '@/utils/filters'
 import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
@@ -15,9 +15,11 @@ import router from './router';
 
 import MetaInfo from 'vue-meta';
 import AudioVisual from 'vue-audio-visual'
+import VueSocialSharing from 'vue-social-sharing'
 
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
+Vue.use(VueSocialSharing)
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
@@ -28,6 +30,8 @@ import 'setimmediate';
 import i18n from './i18n'
 import mingo from 'mingo'
 import api from './fetch'
+import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
+
 
 import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
@@ -47,6 +51,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).W = web3FromAddress;
 (window as any).mingo = mingo;
 (window as any).api = api;
+(window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 
@@ -78,6 +83,7 @@ Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)
 Vue.filter('toPercent', toPercent)
+Vue.filter('truncateStr', truncateStr)
 
 Vue.use(VueClipboard);
 

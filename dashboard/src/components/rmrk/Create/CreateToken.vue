@@ -59,7 +59,7 @@
             </b-button>
         </b-field>
       </b-field>
-
+      <Support v-if="canSubmit" v-model="hasSupport" :price="filePrice" />
     </div>
   </div>
 </template>
@@ -70,6 +70,7 @@ import { RmrkMint, RmrkView } from '../types';
 import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
+import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -83,9 +84,10 @@ import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';
-import { generateId } from '@/components/rmrk/service/Consolidator'
+import Consolidator, { generateId } from '@/components/rmrk/service/Consolidator'
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { supportTx, MaybeFile, calculateCost }   from '@/utils/support'
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
@@ -98,27 +100,29 @@ interface NFTAndMeta extends NFT {
     Auth: () => import('@/components/shared/Auth.vue'),
     CreateItem,
     PasswordInput,
-    Tooltip
+    Tooltip,
+    Support
   }
 })
 export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private data: Collection[] = [];
   private selectedCollection: Collection | null = null;
   private added: NFTAndMeta[] = [];
-  // private accountId: string = '';
-  private images: (Blob | null)[] = [];
-  private animated: (Blob | null)[] = [];
+  private images: MaybeFile[] = [];
+  private animated: MaybeFile[] = [];
   private isLoading: boolean = false;
   private password: string = '';
   private alreadyMinted = 0;
   private oneByOne: boolean = true;
   private symbol: string = '';
+  private hasSupport: boolean = true;
+  private filePrice: number = 0;
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
   }
 
-  public mounted() {
+  public created() {
     if (this.accountId) {
       this.fetchCollections();
     }
@@ -153,6 +157,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
   public async fetchCollections() {
     const rmrkService = getInstance();
+    console.log(this.accountId)
     console.warn(rmrkService, this.accountId)
     const data = await rmrkService?.getCollectionListForAccount(this.accountId);
     console.log('data', data);
@@ -177,12 +182,18 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     this.$set(this.added, item.index, item.view);
   }
 
-  private uploadFile(item: { image: Blob; index: number }) {
+  private uploadFile(item: { image: File; index: number }) {
     this.$set(this.images, item.index, item.image);
+    this.calculatePrice();
   }
 
-    private uploadAnimatedFile(item: { image: Blob; index: number }) {
+  private uploadAnimatedFile(item: { image: File; index: number }) {
     this.$set(this.animated, item.index, item.image);
+    this.calculatePrice();
+  }
+
+  private calculatePrice() {
+    this.filePrice = calculateCost([...this.images, ...this.animated])
   }
 
   private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {
@@ -240,9 +251,22 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return unSanitizeIpfsUrl(metaHash);
   }
 
+  protected async canSupport() {
+    if (this.hasSupport) {
+      return [await supportTx([...this.images, ...this.animated])]
+    }
+
+    return []
+  }
+
   protected async submit() {
     this.isLoading = true;
     const { api } = Connector.getInstance();
+    if (!this.validate()) {
+      this.isLoading = false;
+      return
+    }
+
     const nfts: NFT[] = await Promise.all(this.added.map(this.makeItSexy));
 
     const remarks: string[] = nfts.map(this.toMintFormat)
@@ -254,7 +278,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const firstNFT = nfts[0];
     const collectionToMint: string[] = this.oneByOne ? [NFTUtils.encodeCollection(NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version), this.version)] : []
 
-    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark)]
+    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark), ...await this.canSupport()]
     console.log('batchMethods', batchMethods)
     const rmrkService = getInstance();
 
@@ -292,6 +316,19 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
 
   }
+  validate(): boolean {
+    console.log('KKT', this.added)
+    for (const nft of this.added) {
+      try {
+        Consolidator.nftValid(nft)
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn)
+        return false
+      }
+    }
+
+    return true
+  }
 
   protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
@@ -299,6 +336,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
+    rmrk.name = '';
     this.added.push(rmrk);
     this.images.push(null);
     this.animated.push(null)

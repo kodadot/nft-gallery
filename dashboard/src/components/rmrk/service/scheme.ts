@@ -44,6 +44,7 @@ export interface NFTMetadata {
   background_color?: string;
   animation_url?: string;
   youtube_url?: string;
+  type?: string;
 }
 
 
@@ -122,7 +123,7 @@ export interface NFT {
   name: string;
   instance: string;
   transferable: number;
-  collection: string
+  collection: string;
   sn: string;
   _id: string;
   id: string;

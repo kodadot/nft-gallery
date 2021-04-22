@@ -61,7 +61,7 @@
                 </b-tag>
                 <p v-if="!isLoading"
                   class="subtitle is-size-5">
-                  {{ nft.description }}
+                  <markdown-it-vue-light class="md-body" :content="nft.description"/>
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
               </div>
@@ -80,9 +80,8 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
-// import MarkdownItVue from 'markdown-it-vue';
-// import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd.min.js';
-import 'markdown-it-vue/dist/markdown-it-vue.css'
+import MarkdownItVueLight from 'markdown-it-vue';
+import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
@@ -99,7 +98,7 @@ import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
 import { MetaInfo } from 'vue-meta';
 import isShareMode from '@/utils/isShareMode';
-// import { VueConstructor } from 'vue';
+import { VueConstructor } from 'vue';
 
 type NFTType =  NFTWithMeta;
 
@@ -129,7 +128,7 @@ type NFTType =  NFTWithMeta;
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions,
     Facts,
-    // MarkdownItVue: MarkdownItVue as VueConstructor<Vue>,
+    MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     Money,
     Name,
     Sharing,
