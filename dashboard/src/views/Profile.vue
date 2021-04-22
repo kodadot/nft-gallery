@@ -59,6 +59,7 @@ const eq = (tab: string) => (el: string) => tab === el
 @Component<Profile>({ 
   components,
   metaInfo() {
+<<<<<<< HEAD
     const title = `${this.name} | KodaDot Profile`;
     return {
       meta: [
@@ -67,6 +68,15 @@ const eq = (tab: string) => (el: string) => tab === el
         { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
         { property: 'twitter:title', content: title },
         { property: 'twitter:site', content: '@KodaDot' },
+=======
+    return {
+      meta: [
+        { property: 'og:title', content: this.name },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
+        { property: 'og:video', vmid: 'og:video' , content: this.firstNFT as string },
+        { property: 'twitter:title', content: this.name },
+>>>>>>> c61e2b111523da15a1bd6ce4099581ff3ae53add
         { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
         { property: 'twitter:card', content: 'summary_large_image' },
       ]
