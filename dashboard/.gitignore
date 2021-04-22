@@ -23,3 +23,6 @@ yarn-error.log*
 
 .vercel
 /test
+
+# Local Netlify folder
+.netlify
