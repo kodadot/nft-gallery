@@ -65,7 +65,6 @@ const eq = (tab: string) => (el: string) => tab === el
         { property: 'og:title', content: title },
         { property: 'og:type', content: 'website'},
         { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
-        { property: 'twitter:title', content: title },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
         { property: 'twitter:card', content: 'summary_large_image' },
