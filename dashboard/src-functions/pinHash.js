@@ -3,19 +3,12 @@ import axios from "axios"
 exports.handler = async (event, context) => {
 
 
-  const hash = event.queryStringParameters.hash;
-
-  if (!hash) {
-    return {
-      statusCode: 403,
-      body: `Cannot unpin without hash`,
-    };
-  }
-
-  const BASE_URL = `https://api.pinata.cloud/pinning/unpin/${hash}`;
+  // const location = event.queryStringParameters.location || "home";
+  const BASE_URL = 'https://api.pinata.cloud/pinning/pinByHash';
+  const object = event.body;
 
   try {
-    const { status, data } = await axios.delete(BASE_URL, {
+    const { status, data } = await axios.post(BASE_URL, object, {
       headers: {
         'Content-Type': 'application/json',
         pinata_api_key: process.env.PINATA_API_KEY,
