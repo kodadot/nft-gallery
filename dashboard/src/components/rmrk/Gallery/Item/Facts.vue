@@ -29,12 +29,12 @@
           </p>
           <ArweaveLink v-if="nft.imageArId" :id="nft.imageArId" label="image" />
           <ArweaveLink v-if="nft.animationArId" :id="nft.animationArId" label="animated" />
-          <p class="subtitle is-size-6">
-            <b>IPFS</b>: {{ multimediaCid }}
-            <ol v-if="showGwLinks">
+          <p v-if="imageId" class="subtitle is-size-6"  >
+            <b>IPFS</b>:
+            <ol>
               <li v-for="gw in gwList"
               :key="gw">
-                <a :href="gw+multimediaCid" target="_blank">Gateway</a>
+                <a :href="gw+imageId" target="_blank">Gateway</a>
               </li>
             </ol>
           </p>
@@ -55,7 +55,7 @@ const components = {
 @Component({ components })
 export default class Facts extends Vue {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
-  public multimediaCid: string = 'IPFS Gateways';
+  public multimediaCid: string = '';
   public showGwLinks: boolean = false;
   public gwList: any = [
     'https://gateway.pinata.cloud/ipfs/',
@@ -66,9 +66,14 @@ export default class Facts extends Vue {
   ];
 
 
-  public async created() {
-    this.multimediaCid = await extractCid(this.nft && this.nft.image);
-    this.showGwLinks = true;
+  get imageId() {
+    return extractCid(this.nft.image);
   }
+
+// public created() {
+  //   console.log(this.nft)
+  //   this.multimediaCid = extractCid(this.nft.image);
+  //   this.showGwLinks = true;
+  // }
 }
 </script>
