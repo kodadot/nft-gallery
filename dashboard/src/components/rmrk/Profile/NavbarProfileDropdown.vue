@@ -106,6 +106,8 @@ export default class NavbarProfileDropdown extends Vue {
   }
 
   &__avatar-icon {
+    cursor: pointer;
+
     @include until($desktop) {
       padding-right: 0.75rem;
     }
@@ -115,7 +117,7 @@ export default class NavbarProfileDropdown extends Vue {
     padding: 0.5rem 0.75rem;
 
     @include from($desktop) {
-      padding-right: 0;
+      padding: 0.5rem 0;
     }
 
     &.is-text {
