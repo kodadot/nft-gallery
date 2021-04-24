@@ -64,10 +64,8 @@
       </b-navbar-dropdown> -->
     </template>
     <template v-slot:end>
-      <!-- <b-navbar-item>
-          <LocaleChanger />
-        </b-navbar-item> -->
-        <NavbarProfileDropdown />
+      <LocaleChanger />
+      <NavbarProfileDropdown />
     </template>
   </b-navbar>
 </template>
