@@ -15,17 +15,17 @@ import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './servi
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
 
-export type ProviderKeyType = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | ''
+export type ProviderKeyType = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
 
 export const ipfsProviders: Record<ProviderKeyType, string> = {
   pinata: 'https://gateway.pinata.cloud/',
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
-  '': 'https://gateway.pinata.cloud/'
+  kodadot: 'https://kodadot.mypinata.cloud/',
 }
 
-const resolveProvider = (key?: ProviderKeyType) => ipfsProviders[key || '']
+const resolveProvider = (key: ProviderKeyType = 'kodadot') => ipfsProviders[key]
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]]);

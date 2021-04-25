@@ -20,6 +20,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
+.netlify
 .vercel
 /test
