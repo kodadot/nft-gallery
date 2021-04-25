@@ -5,7 +5,7 @@ exports.handler = async (event, context) => {
   const BASE_URL = `https://api.pinata.cloud/data/testAuthentication`;
   const { PINATA_API_KEY, PINATA_SECRET_API_KEY } = process.env;
 
-  connsole.log(PINATA_API_KEY, PINATA_SECRET_API_KEY)
+  console.log(PINATA_API_KEY, PINATA_SECRET_API_KEY)
 
   try {
     const { status, data } = await axios.get(BASE_URL, {
