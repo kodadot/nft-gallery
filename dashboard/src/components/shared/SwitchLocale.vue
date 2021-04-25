@@ -1,16 +1,16 @@
 <template>
-  <b-select
-    placeholder="Language"
-    icon="language"
-    icon-pack="fas"
-    v-model="userLang"
+  <div class="language-switcher">
+    <b-select
+      placeholder="Language"
+      v-model="userLang"
     >
-    <option
-      v-for="(lang, i) in langsFlags"
-      :key="`Lang${i}`"
-      :value="lang[0]">{{ lang[1] }}
-    </option>
-  </b-select>
+      <option
+        v-for="(lang, i) in langsFlags"
+        :key="`Lang${i}`"
+        :value="lang[0]">{{ lang[1] }}
+      </option>
+    </b-select>
+  </div>
 </template>
 
 <script lang="ts" >
@@ -35,3 +35,9 @@ set userLang(value) {
 
 }
 </script>
+
+<style lang="scss" scoped>
+  .language-switcher {
+    padding: 0 12px;
+  }
+</style>
