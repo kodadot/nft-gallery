@@ -37,6 +37,7 @@ export const basicAggregation = (): Aggregator => {
         id: { $first: '$id' },
         image: { $first: '$image' },
         price: { $first: '$price' },
+        type: { $first: '$type' },
         count: { $sum: 1 }
       }
     }

@@ -16,10 +16,14 @@ import router from './router';
 import MetaInfo from 'vue-meta';
 import AudioVisual from 'vue-audio-visual'
 import VueSocialSharing from 'vue-social-sharing'
+import VueLazyload from 'vue-lazyload'
 
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
 Vue.use(VueSocialSharing)
+Vue.use(VueLazyload, {
+  lazyComponent: true
+})
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
