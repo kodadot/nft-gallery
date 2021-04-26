@@ -144,9 +144,9 @@ export default class Gallery extends Vue {
 
   setFreezeframe() {
     document.addEventListener('lazybeforeunveil', async (e) => {
-      const target = e.target as Image,
-        type = target.dataset.type as string,
-        isGif = type === 'image/gif'
+      const target = e.target as Image
+      const type = target.dataset.type as string
+      const isGif = type === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
         const ff = new Freezeframe(target, {
