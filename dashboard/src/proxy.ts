@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { extractCid, justHash } from './utils/ipfs';
 
-export const BASE_URL = '.netlify/functions/';
+export const BASE_URL = `${window.location.origin}/.netlify/functions/`;
 
 const api = Axios.create({
   baseURL: BASE_URL
@@ -34,8 +34,8 @@ export const pinFile = async (file: Blob): Promise<string> => {
     });
     console.log('[PROXY] SLATE Image', status, data);
     if (status < 400) {
-      await api.post('pinHash', { hashToPin: data.cid })
-      return data.cid;
+      await api.post('pinHash', { hashToPin: data.data.cid })
+      return data.data.cid;
     } else {
       throw new Error('Unable to PIN for reasons');
     }
