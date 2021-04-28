@@ -167,6 +167,15 @@
                     {{ $t('Traverse to the prime show') }}
                   </a>
                 </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/metaprime_net" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    {{ $t('Building on Metaprime_net') }}
+                  </a>
+                </h2>
                 </div>
               </div>
           </div>
