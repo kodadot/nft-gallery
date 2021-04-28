@@ -132,21 +132,30 @@
                   </a>
                 </h2>
                 <h2 class="title">
-                  <a href="https://twitter.com/KodaDot" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                    KodaDot
-                  </a>
-                </h2>
-                <h2 class="title">
                   <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
                     <b-icon
                       pack="fab"
                       icon="reddit-alien">
                     </b-icon>
                     r/KodaDot
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/KodaDot" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    @KodaDot
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/metaprime_net" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    {{ $t('Building on @Metaprime_net') }}
                   </a>
                 </h2>
                 <h2 class="title">
@@ -165,15 +174,6 @@
                       icon="medium">
                     </b-icon>
                     {{ $t('Traverse to the prime show') }}
-                  </a>
-                </h2>
-                <h2 class="title">
-                  <a href="https://twitter.com/metaprime_net" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                    {{ $t('Building on @Metaprime_net') }}
                   </a>
                 </h2>
                 </div>
