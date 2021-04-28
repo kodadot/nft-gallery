@@ -42,14 +42,17 @@ export interface State {
   refresh(): Promise<State>;
 }
 
-
-export interface NFTMetadata {
+export interface Metadata {
+  description?: string;
+  attributes: Attribute[];
   external_url?: string;
   image?: string;
   image_data?: string;
-  description?: string;
+}
+
+
+export interface NFTMetadata extends Metadata {
   name: string;
-  attributes: Attribute[];
   background_color?: string;
   animation_url?: string;
   youtube_url?: string;
@@ -57,13 +60,10 @@ export interface NFTMetadata {
 }
 
 
-export interface CollectionMetadata {
-  description?: string;
-  attributes: Attribute[];
-  external_url?: string;
-  image?: string;
-  image_data?: string;
+export interface CollectionMetadata extends Metadata {
+
 }
+
 
 export interface PackMetadata {
   social: Record<string, string>;

@@ -88,8 +88,9 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { Collection, CollectionMetadata, SimpleNFT } from '../service/scheme';
-import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+import { Collection, CollectionMetadata, SimpleNFT, NFTMetadata } from '../service/scheme';
+import { unSanitizeIpfsUrl } from '@/utils/ipfs';
+import { pinFile, pinJson } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import Consolidator, { generateId } from '@/components/rmrk/service/Consolidator'
@@ -110,7 +111,7 @@ const components = {
 @Component({ components })
 export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin) {
   private rmrkMint: SimpleNFT = emptyObject<SimpleNFT>();
-  private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private meta: NFTMetadata = emptyObject<NFTMetadata>();
   // private accountId: string = '';
   private uploadMode: boolean = true;
   private file: Blob | null = null;
@@ -175,6 +176,21 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
     return emptyObject<Collection>();
   }
 
+
+
+
+
+  protected async sub() {
+    this.isLoading = true;
+    const { api } = Connector.getInstance();
+
+
+    // check validity
+    // PIN Image
+    // Construct and pin JSON
+
+  }
+
   get filePrice() {
     return calculateCost(this.file)
   }
@@ -184,15 +200,29 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
       throw new ReferenceError('No file found!');
     }
 
+
     this.meta = {
       ...this.meta,
-      attributes: [],
-      external_url: `https://nft.kodadot.xyz`
+      attributes: this.rmrkMint.tags,
+      external_url: `https://nft.kodadot.xyz`,
+      type: this.file.type
     };
+
 
     // TODO: upload file to IPFS
     const fileHash = await pinFile(this.file);
-    this.meta.image = unSanitizeIpfsUrl(fileHash);
+
+    if (!this.secondaryFileVisible) {
+      this.meta.image = unSanitizeIpfsUrl(fileHash);
+    } else {
+      this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
+      if (this.secondFile) {
+        const coverImageHash = await pinFile(this.file);
+        this.meta.image = unSanitizeIpfsUrl(coverImageHash);
+      }
+    }
+
+
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta);
 
