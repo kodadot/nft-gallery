@@ -5,6 +5,11 @@ import { generateId } from '../service/Consolidator'
 import { Collection, NFT, SimpleNFT } from './scheme';
 import slugify from 'slugify';
 
+export type MintType = {
+  collection: Collection
+  nfts: NFT[]
+}
+
 class NFTUtils {
   public static decode(value: string) {
     return decodeURIComponent(value);
@@ -27,7 +32,7 @@ class NFTUtils {
     }
   }
 
-  public static toString(rmrkType: NFT | Collection, version: string = 'RMRK1.0.0'): string {
+  public static toString(rmrkType: NFT | Collection, version: string = '1.0.0'): string {
     if (NFTUtils.isCollection(rmrkType)) {
       return NFTUtils.encodeCollection(rmrkType, version)
     }
@@ -69,6 +74,31 @@ class NFTUtils {
     }
   }
 
+  public static createNFT(caller: string, index: number, symbol: string, name: string, metadata: string): NFT {
+    const trimmedSymbol = NFTUtils.upperTrim(symbol, true)
+    const instance = NFTUtils.upperTrim(name, true)
+    return {
+      name: name.trim(),
+      instance,
+      transferable: 1,
+      collection: generateId(caller, trimmedSymbol),
+      sn: NFTUtils.nftSerialNumber(index),
+      _id: '',
+      id: '',
+      metadata,
+      currentOwner: caller
+    }
+  }
+
+  public static upperTrim(name: string, slug?: boolean) {
+    const result = name.trim().toUpperCase()
+    return slug ? slugify(result, '_') : result
+  }
+
+  public static nftSerialNumber(index: number, offset: number = 0, plusOne: boolean = true) {
+    return String(index + offset + Number(plusOne)).padStart(16, '0');
+  }
+
   public static isCollection(object: Collection | NFT): object is Collection {
     return 'issuer' in object && 'symbol' in object;
   }
@@ -81,8 +111,18 @@ class NFTUtils {
     return NFTUtils.convert(NFTUtils.decodeRmrk(rmrkString))
   }
 
-  public static generateRemarks(simpleMint: SimpleNFT, caller: string, encode?: boolean): (Collection | NFT)[] | string[] {
-    const collection = NFTUtils.createCollection(nft.currentOwner, symbol, nft.name, nft.metadata, 1, version)
+  public static generateRemarks(mint: SimpleNFT, caller: string, version: string = '1.0.0', encode?: boolean): MintType | string[] {
+    const collection = NFTUtils.createCollection(caller, mint.symbol, mint.name, mint.metadata, mint.max, version);
+    const nfts = Array(mint.max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i, mint.symbol, mint.name, mint.metadata))
+
+    if (encode) {
+      return [NFTUtils.encodeCollection(collection, version), ...nfts.map(nft => NFTUtils.encodeNFT(nft, version))]
+    }
+
+    return {
+      collection,
+      nfts
+    }
   }
 
   public static getAction = (rmrkString: string): RmrkEvent  => {

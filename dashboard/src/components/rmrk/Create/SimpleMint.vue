@@ -57,7 +57,7 @@
         <b-button
           type="is-primary"
           icon-left="paper-plane"
-          @click="submit"
+          @click="loremIpfsum"
           :disabled="disabled"
           :loading="isLoading"
           outlined
@@ -95,6 +95,7 @@ import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support';
 import { resolveMedia } from '../utils';
+import NFTUtils from '../service/NftUtils';
 
 
 const components = {
@@ -156,28 +157,29 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.accountId && this.image);
+    return !(name && symbol && max && this.accountId && this.file);
   }
 
   public constructRmrkMint(): Collection {
-    const mint: Collection = {
-      ...this.rmrkMint,
-      symbol: this.rmrkMint.symbol.trim().toUpperCase(),
-      version: this.version,
-      issuer: this.accountId,
-      metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
-      id: this.rmrkId
-    };
+    // const mint: Collection = {
+    //   ...this.rmrkMint,
+    //   symbol: this.rmrkMint.symbol.trim().toUpperCase(),
+    //   version: this.version,
+    //   issuer: this.accountId,
+    //   metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
+    //   id: this.rmrkId
+    // };
 
-    return mint;
+    // return mint;
+    return emptyObject<Collection>();
   }
 
   get filePrice() {
-    return calculateCost(this.image)
+    return calculateCost(this.file)
   }
 
   public async constructMeta() {
-    if (!this.image) {
+    if (!this.file) {
       throw new ReferenceError('No file found!');
     }
 
@@ -187,9 +189,9 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
       external_url: `https://rmrk.app/registry/${this.rmrkId}`
     };
 
-    // TODO: upload image to IPFS
-    const imageHash = await pinFile(this.image);
-    this.meta.image = unSanitizeIpfsUrl(imageHash);
+    // TODO: upload file to IPFS
+    const fileHash = await pinFile(this.file);
+    this.meta.image = unSanitizeIpfsUrl(fileHash);
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta);
 
@@ -197,8 +199,8 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
   }
 
   protected async canSupport() {
-    if (this.hasSupport && this.image) {
-      return [await supportTx(this.image)]
+    if (this.hasSupport && this.file) {
+      return [await supportTx(this.file)]
     }
 
     return []
@@ -207,6 +209,11 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
   private toRemark(remark: string) {
     const { api } = Connector.getInstance();
     return api.tx.system.remark(remark)
+  }
+
+  protected loremIpfsum() {
+    const { rmrkMint, accountId, version } = this;
+    (window as any).res = NFTUtils.generateRemarks(rmrkMint, accountId, version);
   }
 
   private async submit() {
@@ -256,7 +263,7 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
 
   private upload(data: File) {
     console.log('upload', data.name);
-    this.image = data;
+    this.file = data;
   }
 }
 </script>

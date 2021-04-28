@@ -29,6 +29,7 @@ export interface SimpleNFT {
   symbol: string;
   tags: string[];
   description: string;
+  metadata: string;
 }
 
 export interface State {
