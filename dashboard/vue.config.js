@@ -11,7 +11,12 @@ module.exports = {
     port: 9090,
     hot: true,
     disableHostCheck: true,
-
+    proxy: {
+      '/.netlify': {
+        target: 'http://localhost:9000',
+        pathRewrite: { '^/.netlify/functions': '' }
+      }
+    }
   },
 
   pwa: {
@@ -26,8 +31,7 @@ module.exports = {
     config.module // fixes https://github.com/graphql/graphql-js/issues/1272
       .rule('mjs$')
       .test(/\.mjs$/)
-      .include
-      .add(/node_modules/)
+      .include.add(/node_modules/)
       .end()
       .type('javascript/auto');
   },
@@ -47,4 +51,4 @@ module.exports = {
       enableInSFC: true
     }
   }
-}
+};

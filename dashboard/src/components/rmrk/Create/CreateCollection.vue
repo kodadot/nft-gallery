@@ -91,7 +91,8 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, CollectionMetadata } from '../service/scheme';
-import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+import { unSanitizeIpfsUrl } from '@/utils/ipfs';
+import { pinFile, pinJson } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator'

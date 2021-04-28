@@ -8,7 +8,7 @@ import Consolidator, { generateId } from './Consolidator';
 import { keyInfo as keysToTheKingdom } from '@/textile'
 import slugify from 'slugify';
 import { fetchCollectionMetadata, fetchNFTMetadata } from '../utils';
-import { ipfsToArweave } from '@/pinata'
+import { ipfsToArweave } from '@/utils/ipfs'
 import { fetchMimeType } from '@/fetch';
 
 export type RmrkType = RmrkWithMetaType | Emotion | Pack

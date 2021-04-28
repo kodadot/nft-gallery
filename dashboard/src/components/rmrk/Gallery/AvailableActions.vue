@@ -36,7 +36,7 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { unpin } from '@/pinata';
+import { unpin } from '@/proxy';
 import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { somePercentFromTX } from '@/utils/support';
