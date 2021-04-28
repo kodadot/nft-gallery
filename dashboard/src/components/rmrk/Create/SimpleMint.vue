@@ -17,29 +17,18 @@
         <Auth />
       </b-field>
 
-      <MetadataUpload label='Add Cover' v-model="image" />
+      <MetadataUpload label='Add Cover' v-model="file" />
+      <div v-if="file">{{file.type}}</div>
 
       <b-field grouped :label="$i18n.t('Name')">
         <b-input v-model="rmrkMint.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Owner address of minted art')" />
       </b-field>
-      <b-field :label="$i18n.t('Maximum NFTs in collection')">
-        <b-numberinput
-          v-model="rmrkMint.max"
-          placeholder="1 is minumum"
-          :min="1"
-        ></b-numberinput>
-      </b-field>
       <b-field grouped :label="$i18n.t('Symbol')">
         <b-input placeholder="3-5 character long name" v-model="rmrkMint.symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
-      <b-switch v-model="uploadMode"
-        passive-type="is-dark"
-        :rounded="false">
-        {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
-      </b-switch>
-      <template v-if="uploadMode">
+
         <b-field :label="$i18n.t('Collection description')">
           <b-input
             v-model="meta.description"
@@ -48,11 +37,19 @@
           ></b-input>
         </b-field>
 
-      </template>
-
-      <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
-        <b-input v-model="rmrkMint.metadata"></b-input>
+      <b-field :label="$i18n.t('Maximum NFTs in collection')">
+        <b-numberinput
+          v-model="rmrkMint.max"
+          placeholder="1 is minumum"
+          :min="1"
+        ></b-numberinput>
       </b-field>
+
+      <div v-if="secondaryFileVisible">secondaryFileVisible should appear here</div>
+      <AttributeTagInput v-model="rmrkMint.tags" />
+
+
+
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -77,7 +74,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { RmrkMint } from '../types';
+import { RmrkMint, MediaType } from '../types';
 import { emptyObject } from '@/utils/empty';
 import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
@@ -91,12 +88,13 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { Collection, CollectionMetadata } from '../service/scheme';
+import { Collection, CollectionMetadata, SimpleNFT } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support';
+import { resolveMedia } from '../utils';
 
 
 const components = {
@@ -104,16 +102,17 @@ const components = {
   MetadataUpload,
   PasswordInput,
   Tooltip,
-  Support
+  Support,
+  AttributeTagInput: () => import('./AttributeTagInput.vue')
 };
 
 @Component({ components })
 export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin) {
-  private rmrkMint: Collection = emptyObject<Collection>();
+  private rmrkMint: SimpleNFT = emptyObject<SimpleNFT>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   // private accountId: string = '';
   private uploadMode: boolean = true;
-  private image: Blob | null = null;
+  private file: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
@@ -123,6 +122,16 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
       console.warn('Should Redirect to /rmrk/new')
     }
   }
+
+  get fileType() {
+    return resolveMedia(this.file?.type)
+  }
+
+  get secondaryFileVisible() {
+    const fileType = this.fileType
+    return !([MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType))
+  }
+
 
   get accountId() {
     return this.$store.getters.getAuthAddress;

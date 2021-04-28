@@ -2,7 +2,7 @@ import { hexToString, isHex } from '@polkadot/util';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types';
 import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
-import { Collection, NFT } from './scheme';
+import { Collection, NFT, SimpleNFT } from './scheme';
 import slugify from 'slugify';
 
 class NFTUtils {
@@ -51,16 +51,21 @@ class NFTUtils {
     )}`
   }
 
-  public static collectionFromNFT(symbol: string, nft: NFT, version: string = 'RMRK1.0.0'): Collection {
+  public static collectionFromNFT(symbol: string, nft: NFT, version: string = '1.0.0'): Collection {
+    return NFTUtils.createCollection(nft.currentOwner, symbol, nft.name, nft.metadata, 1, version)
+  }
+
+  public static createCollection(caller: string, symbol: string, name: string, metadata: string, max: number = 1, version: string = '1.0.0') {
+    const trimmedSymbol = slugify(symbol.trim().toUpperCase(), '_')
     return {
-      id: generateId(nft.currentOwner, symbol),
+      id: generateId(caller, trimmedSymbol),
       _id: '',
-      symbol: slugify(symbol, '_').toUpperCase(),
-      issuer: nft.currentOwner,
+      symbol: trimmedSymbol,
+      issuer: caller,
       version,
-      name: nft.name,
-      max: 1,
-      metadata: nft.metadata
+      name: name.trim(),
+      max,
+      metadata,
     }
   }
 
@@ -74,6 +79,10 @@ class NFTUtils {
 
   public static decodeAndConvert(rmrkString: string) {
     return NFTUtils.convert(NFTUtils.decodeRmrk(rmrkString))
+  }
+
+  public static generateRemarks(simpleMint: SimpleNFT, caller: string, encode?: boolean): (Collection | NFT)[] | string[] {
+    const collection = NFTUtils.createCollection(nft.currentOwner, symbol, nft.name, nft.metadata, 1, version)
   }
 
   public static getAction = (rmrkString: string): RmrkEvent  => {

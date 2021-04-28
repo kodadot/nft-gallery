@@ -11,8 +11,8 @@ export interface CompletePackWithItemMeta extends BasePack {
 }
 
 export interface Attribute {
-  display_type: DisplayType;
-  trait_type: string;
+  display_type?: DisplayType;
+  trait_type?: string;
   value: number | string;
 }
 
@@ -21,6 +21,14 @@ export enum DisplayType {
   'boost_number',
   'number',
   'boost_percentage'
+}
+
+export interface SimpleNFT {
+  name: string;
+  max: number;
+  symbol: string;
+  tags: string[];
+  description: string;
 }
 
 export interface State {
