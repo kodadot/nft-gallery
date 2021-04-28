@@ -10,8 +10,8 @@ exports.handler = async (event, context) => {
   try {
     const { status, data } = await axios.get(BASE_URL, {
       headers: {
-        pinata_api_key: PINATA_API_KEY || '1132c4704eda6c83a876',
-        pinata_secret_api_key: PINATA_SECRET_API_KEY || '684571ddca0c3e2ba69876a0d339c6d64bc88446a5eee5182ceccfaad8e12e7b'
+        pinata_api_key: PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_SECRET_API_KEY,
       },
     });
     console.log('[PINATA] TEST', status, data);
