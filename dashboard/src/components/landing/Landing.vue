@@ -173,7 +173,7 @@
                       pack="fab"
                       icon="twitter">
                     </b-icon>
-                    {{ $t('Building on Metaprime_net') }}
+                    {{ $t('Building on @Metaprime_net') }}
                   </a>
                 </h2>
                 </div>
