@@ -77,12 +77,14 @@ class NFTUtils {
   public static createNFT(caller: string, index: number, symbol: string, name: string, metadata: string): NFT {
     const trimmedSymbol = NFTUtils.upperTrim(symbol, true)
     const instance = NFTUtils.upperTrim(name, true)
+    const collectionId = generateId(caller, trimmedSymbol)
+    const sn = NFTUtils.nftSerialNumber(index)
     return {
       name: name.trim(),
       instance,
       transferable: 1,
-      collection: generateId(caller, trimmedSymbol),
-      sn: NFTUtils.nftSerialNumber(index),
+      collection: collectionId,
+      sn,
       _id: '',
       id: '',
       metadata,

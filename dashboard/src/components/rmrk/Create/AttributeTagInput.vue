@@ -13,7 +13,7 @@
       allow-new
     >
       <template #header>
-        Feel free to add your own
+        <b>Type and press enter to add your own</b>
       </template>
     </b-taginput>
   </b-field>

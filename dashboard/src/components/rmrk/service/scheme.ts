@@ -27,7 +27,7 @@ export interface SimpleNFT {
   name: string;
   max: number;
   symbol: string;
-  tags: string[];
+  tags: Attribute[];
   description: string;
   metadata: string;
 }

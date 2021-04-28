@@ -17,7 +17,7 @@
         <Auth />
       </b-field>
 
-      <MetadataUpload label='Add Cover' v-model="file" />
+      <MetadataUpload v-model="file" />
       <div v-if="file">{{file.type}}</div>
 
       <b-field grouped :label="$i18n.t('Name')">
@@ -45,7 +45,7 @@
         ></b-numberinput>
       </b-field>
 
-      <div v-if="secondaryFileVisible">secondaryFileVisible should appear here</div>
+      <MetadataUpload v-if="secondaryFileVisible" label='Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/png/gif)' v-model="secondFile" icon="file-image" />
       <AttributeTagInput v-model="rmrkMint.tags" />
 
 
@@ -92,7 +92,7 @@ import { Collection, CollectionMetadata, SimpleNFT } from '../service/scheme';
 import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
-import { generateId } from '@/components/rmrk/service/Consolidator'
+import Consolidator, { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils from '../service/NftUtils';
@@ -114,6 +114,7 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
   // private accountId: string = '';
   private uploadMode: boolean = true;
   private file: Blob | null = null;
+  private secondFile: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
@@ -186,7 +187,7 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
     this.meta = {
       ...this.meta,
       attributes: [],
-      external_url: `https://rmrk.app/registry/${this.rmrkId}`
+      external_url: `https://nft.kodadot.xyz`
     };
 
     // TODO: upload file to IPFS
@@ -213,7 +214,17 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
 
   protected loremIpfsum() {
     const { rmrkMint, accountId, version } = this;
-    (window as any).res = NFTUtils.generateRemarks(rmrkMint, accountId, version);
+    const res = NFTUtils.generateRemarks(rmrkMint, accountId, version);
+    if (!Array.isArray(res)) {
+      try {
+        res.nfts.forEach(Consolidator.nftValid)
+      } catch (e) {
+        console.error('asd', e.message)
+      }
+
+    }
+
+    (window as any).res = res;
   }
 
   private async submit() {

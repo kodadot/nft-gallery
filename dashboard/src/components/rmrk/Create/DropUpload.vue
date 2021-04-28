@@ -4,11 +4,11 @@
       <section class="section">
         <div class="content has-text-centered">
           <p>
-            <b-icon icon="upload" size="is-large"> </b-icon>
+            <b-icon :icon="icon" size="is-large"> </b-icon>
           </p>
 
-          <p v-if="!file">Drop your files here or click to upload</p>
-          <p v-else>Current upload {{ file.name }}. Click or drop to change</p>
+          <p v-if="!file">{{ label }}</p>
+          <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
         </div>
       </section>
     </b-upload>
@@ -26,8 +26,8 @@ import Tooltip from '@/components/shared/Tooltip.vue';
   }
 })
 export default class extends Vue {
-  @Prop({ default: 'Add Multimedia' }) public label!: string;
-  @Prop({ default: 'file-image' }) public icon!: string;
+  @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
+  @Prop({ default: 'upload' }) public icon!: string;
   private file: Blob | null = null;
 
   @Watch('file')
@@ -40,8 +40,6 @@ export default class extends Vue {
     this.$emit('input', file);
     console.log(file.size);
     reader.readAsText(file);
-
-
   }
 
   @Emit('change')
