@@ -80,7 +80,8 @@ import {
   NFT,
   NFTMetadata,
 } from '../service/scheme';
-import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+import { pinFile, pinJson } from '@/proxy';
+import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';

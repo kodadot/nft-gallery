@@ -45,7 +45,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { extractCid } from '@/pinata';
+import { extractCid } from '@/utils/ipfs';
 import { NFTWithMeta } from '../../service/scheme';
 import { emptyObject } from '@/utils/empty';
 const components = {
