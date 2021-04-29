@@ -1,0 +1,17 @@
+name: pr-fix-feat
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  pr_check:
+    runs-on: ubuntu-latest
+    name: A job to Post comment on PR
+    steps:
+    - uses: actions/checkout@v2
+    - name: PR Action
+      uses: koushikmohan1996/action-pr-gifs@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
