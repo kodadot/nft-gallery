@@ -1,6 +1,6 @@
 <template>
   <b-field class="file is-primary">
-    <b-upload v-model="file" class="file-label" drag-drop>
+    <b-upload v-model="file" class="file-label" drag-drop :expanded="expanded">
       <section class="section">
         <div class="content has-text-centered">
           <p>
@@ -28,6 +28,7 @@ import Tooltip from '@/components/shared/Tooltip.vue';
 export default class extends Vue {
   @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
   @Prop({ default: 'upload' }) public icon!: string;
+  @Prop(Boolean) public expanded!: boolean;
   private file: Blob | null = null;
 
   @Watch('file')
