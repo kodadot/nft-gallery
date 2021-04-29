@@ -3,7 +3,7 @@
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div class="box">
       <p class="title is-size-3">
-        {{ $t('context') }}
+        {{ $t('simpleMint.context') }}
       </p>
       <p class="subtitle is-size-7">
         {{ $t('using') }} {{ version }}
@@ -21,11 +21,11 @@
       <div v-if="file">{{file.type}}</div>
 
       <b-field grouped :label="$i18n.t('Name')">
-        <b-input v-model="rmrkMint.name" expanded></b-input>
+        <b-input placeholder="Name of the NFT" v-model="rmrkMint.name" expanded></b-input>
         <Tooltip :label="$i18n.t('Owner address of minted art')" />
       </b-field>
       <b-field grouped :label="$i18n.t('Symbol')">
-        <b-input placeholder="3-5 character long name" v-model="rmrkMint.symbol" expanded></b-input>
+        <b-input placeholder="3-5 character long name" maxlength="10" @keydown.native.space.prevent v-model="rmrkMint.symbol" expanded></b-input>
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
 
@@ -34,6 +34,7 @@
             v-model="meta.description"
             maxlength="500"
             type="textarea"
+            placeholder="Tell sometinng more about the NFT"
           ></b-input>
         </b-field>
 
@@ -46,7 +47,7 @@
       </b-field>
 
       <MetadataUpload v-if="secondaryFileVisible" label='Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/png/gif)' v-model="secondFile" icon="file-image" />
-      <AttributeTagInput v-model="rmrkMint.tags" />
+      <AttributeTagInput v-model="rmrkMint.tags" placeholder="Get discovered easier through tags" />
 
 
 
@@ -110,7 +111,10 @@ const components = {
 
 @Component({ components })
 export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin) {
-  private rmrkMint: SimpleNFT = emptyObject<SimpleNFT>();
+  private rmrkMint: SimpleNFT = {
+    ...emptyObject<SimpleNFT>(),
+    max: 1,
+  } ;
   private meta: NFTMetadata = emptyObject<NFTMetadata>();
   // private accountId: string = '';
   private uploadMode: boolean = true;
@@ -133,6 +137,10 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
   get secondaryFileVisible() {
     const fileType = this.fileType
     return !([MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType))
+  }
+
+  public denySpace(e: any) {
+    return e.which !== 32;
   }
 
 

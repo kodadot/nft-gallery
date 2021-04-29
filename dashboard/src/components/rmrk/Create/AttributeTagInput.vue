@@ -1,12 +1,13 @@
 <template>
-  <b-field :label="$i18n.t('Name')">
+  <b-field :label="$i18n.t('Tags')">
     <b-taginput
       v-model="tags"
       @input="handleInput"
       :data="allTags"
+      :maxtags="max"
       ellipsis
       icon="tag"
-      placeholder="Select tags and create your onw"
+      :placeholder="placeholder"
       aria-close-label="Delete this tag"
       autocomplete
       open-on-focus
@@ -35,6 +36,8 @@ export default class extends Vue {
     'abstract'
   ];
   @Prop() public value!: Attribute[];
+  @Prop({ default: 3 }) public max!: string | number;
+  @Prop({ default: 'Select tags or create your own' }) public placeholder!: string;
 
   get tags() {
     return this.value ? this.value.map(valueOf) : []

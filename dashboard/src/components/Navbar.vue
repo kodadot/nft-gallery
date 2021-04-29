@@ -15,11 +15,26 @@
       </b-navbar-item>
     </template>
     <template v-slot:start class="start">
-      <b-navbar-item
+      <b-navbar-dropdown
+          arrowless
+          collapsible
+          label="Create">
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'rmrk'}">
+            {{ $t('Classic') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'simpleMint'}">
+            {{ $t('Simple') }}
+          </b-navbar-item>
+      </b-navbar-dropdown>
+      <!-- <b-navbar-item
         tag="router-link"
         :to="{ name: 'rmrk'}">
         <strong>{{ $t('Create') }}</strong>
-      </b-navbar-item>
+      </b-navbar-item> -->
       <b-navbar-item
         tag="router-link"
         :to="{ name: 'nft'}">
@@ -33,6 +48,11 @@
             tag="router-link"
             :to="{ name: 'rmrkCredit' }">
             {{ $t('Credit') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'rmrkFaq'}">
+            {{ $t('FAQ') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
