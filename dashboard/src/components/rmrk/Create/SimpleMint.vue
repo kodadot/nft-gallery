@@ -3,7 +3,7 @@
     <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div class="box">
       <p class="title is-size-3">
-        {{ $t('simpleMint.context') }}
+        {{ $t('mint.context') }}
       </p>
       <p class="subtitle is-size-7">
         {{ $t('using') }} {{ version }}
@@ -58,12 +58,12 @@
         <b-button
           type="is-primary"
           icon-left="paper-plane"
-          @click="loremIpfsum"
+          @click="sub"
           :disabled="disabled"
           :loading="isLoading"
           outlined
         >
-          {{ $t('create collection') }}
+          {{ $t('mint.submit') }}
         </b-button>
       </b-field>
       <b-field>
@@ -82,7 +82,7 @@ import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import MetadataUpload from './DropUpload.vue'
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue, ExecResult } from '@/utils/transactionExecutor';
+import exec, { execResultValue, Extrinsic, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
@@ -139,11 +139,6 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
     return !([MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType))
   }
 
-  public denySpace(e: any) {
-    return e.which !== 32;
-  }
-
-
   get accountId() {
     return this.$store.getters.getAuthAddress;
   }
@@ -190,7 +185,56 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
 
   protected async sub() {
     this.isLoading = true;
+    const { accountId, version } = this;
     const { api } = Connector.getInstance();
+    const meta = await this.constructMeta();
+    this.rmrkMint.metadata = meta;
+
+    const result = NFTUtils.generateRemarks(this.rmrkMint, accountId, version, true);
+    const cb = api.tx.utility.batchAll;
+    const remarks: string[] = Array.isArray(result)
+      ? result
+      : [NFTUtils.toString(result.collection, version), ...result.nfts.map(nft => NFTUtils.toString(nft, version))];
+
+    const rmrkService = getInstance();
+
+
+    const args = !this.hasSupport ? remarks.map(this.toRemark) : [...remarks.map(this.toRemark), ...await this.canSupport()]
+
+    const tx = await exec(this.accountId, '', cb, [args], txCb(
+      async (blockHash) => {
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(blockHash);
+          const blockNumber = header.number.toString();
+          for (const [index, rmrk] of remarks.entries()) {
+            this.isLoading = true;
+            try {
+              const res = await rmrkService?.resolve(rmrk, this.accountId, blockNumber)
+              showNotification(`[TEXTILE] Entry ${index+1} saved as ${res?._id}`, notificationTypes.success)
+              console.log('res', index, res)
+            } catch (e) {
+              console.warn(`Failed Indexing ${index} with err ${e}`);
+            }
+            this.isLoading = false;
+          }
+
+          showNotification(`[TEXTILE] Saved ${remarks.length} entries`, notificationTypes.success)
+          this.isLoading = false;
+      },
+      dispatchError => {
+          execResultValue(tx);
+          if (dispatchError.isModule) {
+            const decoded = api.registry.findMetaError(dispatchError.asModule);
+            const { documentation, name, section } = decoded;
+            showNotification(`[ERR] ${section}.${name}: ${documentation.join(' ')}`, notificationTypes.danger);
+          } else {
+            showNotification(`[ERR] ${dispatchError.toString()}`, notificationTypes.danger);
+          }
+
+          this.isLoading = false;
+        }
+
+    ))
 
 
     // check validity
@@ -203,7 +247,7 @@ export default class SimpleMint extends Mixins(SubscribeMixin, RmrkVersionMixin)
     return calculateCost(this.file)
   }
 
-  public async constructMeta() {
+  public async constructMeta(): Promise<string> {
     if (!this.file) {
       throw new ReferenceError('No file found!');
     }

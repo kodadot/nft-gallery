@@ -7,6 +7,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces';
 
 export type ExecResult = (() => void) | string
+export type Extrinsic = SubmittableExtrinsic<'promise'>
 
 export const execResultValue = (execResult: ExecResult): string => {
   if (typeof execResult === 'function') {
@@ -55,5 +56,7 @@ export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: Dispat
       onSuccess(result.status.asFinalized)
     }
   }
+
+
 
 export default exec;
