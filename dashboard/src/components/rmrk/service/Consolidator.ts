@@ -144,6 +144,10 @@ function accountIdToPubKey(accountId: string) {
 }
 
 export function generateId(caller: string, symbol: string): string {
+  if (!caller) {
+    return ''
+  }
+
   const pubkey = caller.startsWith('0x') ? caller : accountIdToPubKey(caller);
   return (
     pubkey?.substr(2, 10) +

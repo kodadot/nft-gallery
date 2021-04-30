@@ -13,10 +13,10 @@
             <!-- {{ $t('mint.context') }} -->
             Create NFT
           </p>
-          <p class="subtitle is-size-7">{{ $t('using') }} {{ version }}</p>
+          <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
           <b-field>
             <div>
-              {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
+              {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
             </div>
           </b-field>
           <b-field>
@@ -31,21 +31,29 @@
               placeholder="Name of the NFT"
               v-model="rmrkMint.name"
               expanded
+              class="mr-0"
             ></b-input>
-            <Tooltip :label="$i18n.t('Owner address of minted art')" />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('Owner address of minted art')"
+            />
           </b-field>
-          <b-field grouped :label="$i18n.t('Symbol')">
+          <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
             <b-input
               placeholder="3-5 character long name"
               maxlength="10"
               @keydown.native.space.prevent
               v-model="rmrkMint.symbol"
               expanded
+              class="mr-0"
             ></b-input>
-            <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('Symbol you want to trade it under')"
+            />
           </b-field>
 
-          <b-field :label="$i18n.t('Collection description')">
+          <b-field :label="$i18n.t('Collection description')" class="mb-0">
             <b-input
               v-model="meta.description"
               maxlength="500"
@@ -54,7 +62,7 @@
             ></b-input>
           </b-field>
 
-          <b-field :label="$i18n.t('Maximum NFTs in collection')">
+          <b-field :label="$i18n.t('Edition')">
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
@@ -74,6 +82,16 @@
             placeholder="Get discovered easier through tags"
           />
 
+        <b-field>
+          <b-switch
+              v-model="nsfw"
+              type='is-dark'
+              :rounded="false"
+              >
+              {{ nsfw ? "NSFW" : "SFW" }}
+          </b-switch>
+        </b-field>
+
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
           </b-field>
@@ -86,7 +104,7 @@
               :loading="isLoading"
               outlined
             >
-              {{ $t('mint.submit') }}
+              {{ $t("mint.submit") }}
             </b-button>
           </b-field>
           <b-field>
@@ -119,8 +137,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
 import { getInstance, RmrkType } from '../service/RmrkService';
 import {
-  Collection,
-  CollectionMetadata,
+  Attribute,
   SimpleNFT,
   NFTMetadata
 } from '../service/scheme';
@@ -161,8 +178,9 @@ export default class SimpleMint extends Mixins(
   private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
+  private nsfw: boolean = false;
 
-  public mounted() {
+  public created() {
     if (!this.accountId) {
       console.warn('Should Redirect to /rmrk/new');
     }
@@ -185,39 +203,11 @@ export default class SimpleMint extends Mixins(
     return generateId(this.accountId, this.rmrkMint?.symbol || '');
   }
 
-  get accountIdToPubKey() {
-    return (this.accountId && u8aToHex(decodeAddress(this.accountId))) || '';
-  }
-
-  private generateId(pubkey: string): string {
-    return (
-      pubkey?.substr(2, 10) +
-      pubkey?.substring(pubkey.length - 8) +
-      '-' +
-      (this.rmrkMint?.symbol || '')
-    )
-      .trim()
-      .toUpperCase();
-  }
-
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
     return !(name && symbol && max && this.accountId && this.file);
   }
 
-  public constructRmrkMint(): Collection {
-    // const mint: Collection = {
-    //   ...this.rmrkMint,
-    //   symbol: this.rmrkMint.symbol.trim().toUpperCase(),
-    //   version: this.version,
-    //   issuer: this.accountId,
-    //   metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
-    //   id: this.rmrkId
-    // };
-
-    // return mint;
-    return emptyObject<Collection>();
-  }
 
   protected async sub() {
     this.isLoading = true;
@@ -307,6 +297,14 @@ export default class SimpleMint extends Mixins(
     // Construct and pin JSON
   }
 
+  public nsfwAttribute(): Attribute[] {
+    if (!this.nsfw) {
+      return []
+    }
+
+    return [{ trait_type: "NSFW", value: Number(this.nsfw) }]
+  }
+
   get filePrice() {
     return calculateCost(this.file);
   }
@@ -318,7 +316,7 @@ export default class SimpleMint extends Mixins(
 
     this.meta = {
       ...this.meta,
-      attributes: this.rmrkMint.tags,
+      attributes: [...this.rmrkMint.tags, ...this.nsfwAttribute()],
       external_url: `https://nft.kodadot.xyz`,
       type: this.file.type
     };
@@ -338,7 +336,6 @@ export default class SimpleMint extends Mixins(
 
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta);
-
     return unSanitizeIpfsUrl(metaHash);
   }
 
@@ -353,86 +350,6 @@ export default class SimpleMint extends Mixins(
   private toRemark(remark: string) {
     const { api } = Connector.getInstance();
     return api.tx.system.remark(remark);
-  }
-
-  protected loremIpfsum() {
-    const { rmrkMint, accountId, version } = this;
-    const res = NFTUtils.generateRemarks(rmrkMint, accountId, version);
-    if (!Array.isArray(res)) {
-      try {
-        res.nfts.forEach(Consolidator.nftValid);
-      } catch (e) {
-        console.error('asd', e.message);
-      }
-    }
-
-    (window as any).res = res;
-  }
-
-  private async submit() {
-    this.isLoading = true;
-    const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
-    const mint = this.constructRmrkMint();
-    if (!this.rmrkMint.metadata) {
-      const meta = await this.constructMeta();
-      mint.metadata = meta;
-    }
-
-    const mintString = `RMRK::MINT::${this.version}::${encodeURIComponent(
-      JSON.stringify(mint)
-    )}`;
-    try {
-      showNotification(mintString);
-      console.log('submit', mintString);
-      const cb = !this.hasSupport
-        ? api.tx.system.remark
-        : api.tx.utility.batchAll;
-      const args = !this.hasSupport
-        ? mintString
-        : [this.toRemark(mintString), ...(await this.canSupport())];
-      const tx = await exec(
-        this.accountId,
-        this.password,
-        cb,
-        [args],
-        async result => {
-          console.log(`Current status is`, result);
-          if (result.status.isFinalized) {
-            console.log(`finalized status is`, result);
-            console.log(
-              `Transaction finalized at blockHash ${result.status.asFinalized}`
-            );
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(
-              result.status.asFinalized
-            );
-            const persisted = await rmrkService?.resolve(
-              mintString,
-              this.accountId,
-              header.number.toString()
-            );
-            console.log('SAVED', persisted?._id);
-            showNotification(
-              `[TEXTILE] ${persisted?._id}`,
-              notificationTypes.success
-            );
-            this.isLoading = false;
-          }
-        }
-      );
-      console.warn('TX IN', tx);
-      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`);
-    } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger);
-      console.error(e);
-      this.isLoading = false;
-    }
-  }
-
-  private upload(data: File) {
-    console.log('upload', data.name);
-    this.file = data;
   }
 }
 </script>
