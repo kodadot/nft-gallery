@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: lgtm
 
 # Controls when the action will run. 
 on:
@@ -22,13 +22,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
       # Runs a single command using the runners shell
       - name: LGTM Reaction
-        # You may pin to the exact commit or the version.
-        # uses: micnncim/action-lgtm-reaction@4b0c3ab3be53fcab2e4597abe455ec30158554bb
         uses: micnncim/action-lgtm-reaction@v0.6.0
         with:
           # Trigger comment on issue to send reaction
