@@ -4,6 +4,7 @@ import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, SimpleNFT } from './scheme';
 import slugify from 'slugify';
+import { RmrkWithMetaType } from './RmrkService';
 
 export type MintType = {
   collection: Collection
@@ -56,6 +57,13 @@ class NFTUtils {
     )}`
   }
 
+  public static createInteraction(action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE', version: string = '1.0.0', objectId: string, meta: string) {
+    return `RMRK::${action}::${version}::${objectId}${
+      meta ? '::' + meta : ''
+    }`;
+  }
+
+
   public static collectionFromNFT(symbol: string, nft: NFT, version: string = '1.0.0'): Collection {
     return NFTUtils.createCollection(nft.currentOwner, symbol, nft.name, nft.metadata, 1, version)
   }
@@ -101,11 +109,11 @@ class NFTUtils {
     return String(index + offset + Number(plusOne)).padStart(16, '0');
   }
 
-  public static isCollection(object: Collection | NFT): object is Collection {
+  public static isCollection(object: Collection | NFT | RmrkWithMetaType): object is Collection {
     return 'issuer' in object && 'symbol' in object;
   }
 
-  public static isNFT(object: Collection | NFT): object is NFT {
+  public static isNFT(object: Collection | NFT | RmrkWithMetaType): object is NFT {
     return 'currentOwner' in object && 'instance' in object;
   }
 
@@ -186,7 +194,7 @@ class NFTUtils {
 
 }
 
-class RmrkActionRegex {
+export class RmrkActionRegex {
   static MINTNFT = /^[rR][mM][rR][kK]::MINTNFT::/;
   static MINT = /^[rR][mM][rR][kK]::MINT::/;
   static SEND = /^[rR][mM][rR][kK]::SEND::/;

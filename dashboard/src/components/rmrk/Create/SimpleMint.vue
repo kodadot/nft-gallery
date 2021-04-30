@@ -82,15 +82,24 @@
             placeholder="Get discovered easier through tags"
           />
 
-        <b-field>
-          <b-switch
-              v-model="nsfw"
-              type='is-dark'
-              :rounded="false"
-              >
+          <b-field>
+            <b-switch v-model="nsfw" type="is-dark" :rounded="false">
               {{ nsfw ? "NSFW" : "SFW" }}
-          </b-switch>
-        </b-field>
+            </b-switch>
+          </b-field>
+
+          <BalanceInput @input="updateMeta" />
+          <b-message
+            v-if="price"
+            icon="exclamation-triangle"
+            class="mt-3 has-text-primary"
+            title="Additional transaction"
+            type="is-primary"
+            has-icon
+            aria-close-label="Close message"
+          >
+            Setting the price now requeries to make additional transaction.
+          </b-message>
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
@@ -128,29 +137,28 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, {
   execResultValue,
   Extrinsic,
-  txCb
+  txCb,
+  ExecResult
 } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
-import { getInstance, RmrkType } from '../service/RmrkService';
-import {
-  Attribute,
-  SimpleNFT,
-  NFTMetadata
-} from '../service/scheme';
+import { getInstance, RmrkType, RmrkWithMetaType } from '../service/RmrkService';
+import { Attribute, SimpleNFT, NFTMetadata } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import { pinFile, pinJson } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
-import { u8aToHex } from '@polkadot/util';
+import { u8aToHex, formatBalance } from '@polkadot/util';
 import Consolidator, {
   generateId
 } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost } from '@/utils/support';
 import { resolveMedia } from '../utils';
-import NFTUtils from '../service/NftUtils';
+import NFTUtils, { RmrkActionRegex, MintType } from '../service/NftUtils';
+import rmrk from '@/router/rmrk';
+import { DispatchError, Hash } from '@polkadot/types/interfaces';
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -158,7 +166,8 @@ const components = {
   PasswordInput,
   Tooltip,
   Support,
-  AttributeTagInput: () => import('./AttributeTagInput.vue')
+  AttributeTagInput: () => import('./AttributeTagInput.vue'),
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue')
 };
 
 @Component({ components })
@@ -179,6 +188,12 @@ export default class SimpleMint extends Mixins(
   private password: string = '';
   private hasSupport: boolean = true;
   private nsfw: boolean = false;
+  private price: number = 0;
+
+  protected updateMeta(value: number) {
+    console.log(typeof value, value);
+    this.price = value;
+  }
 
   public created() {
     if (!this.accountId) {
@@ -208,19 +223,24 @@ export default class SimpleMint extends Mixins(
     return !(name && symbol && max && this.accountId && this.file);
   }
 
-
   protected async sub() {
     this.isLoading = true;
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
+    const rmrkService = getInstance();
+
+    if (!rmrkService) {
+      showNotification(`[TEXTILE] not available`, notificationTypes.danger);
+      return;
+    }
+
     const meta = await this.constructMeta();
     this.rmrkMint.metadata = meta;
 
     const result = NFTUtils.generateRemarks(
       this.rmrkMint,
       accountId,
-      version,
-      true
+      version
     );
     const cb = api.tx.utility.batchAll;
     const remarks: string[] = Array.isArray(result)
@@ -229,8 +249,6 @@ export default class SimpleMint extends Mixins(
           NFTUtils.toString(result.collection, version),
           ...result.nfts.map(nft => NFTUtils.toString(nft, version))
         ];
-
-    const rmrkService = getInstance();
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
@@ -246,6 +264,7 @@ export default class SimpleMint extends Mixins(
           execResultValue(tx);
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
+          const mints: any[] = []
           for (const [index, rmrk] of remarks.entries()) {
             this.isLoading = true;
             try {
@@ -254,6 +273,7 @@ export default class SimpleMint extends Mixins(
                 this.accountId,
                 blockNumber
               );
+              mints.push()
               showNotification(
                 `[TEXTILE] Entry ${index + 1} saved as ${res?._id}`,
                 notificationTypes.success
@@ -263,6 +283,9 @@ export default class SimpleMint extends Mixins(
               console.warn(`Failed Indexing ${index} with err ${e}`);
             }
             this.isLoading = false;
+          }
+          if (this.price) {
+            this.listForSale(mints)
           }
 
           showNotification(
@@ -297,12 +320,81 @@ export default class SimpleMint extends Mixins(
     // Construct and pin JSON
   }
 
-  public nsfwAttribute(): Attribute[] {
-    if (!this.nsfw) {
-      return []
+  protected onTxError(dispatchError: DispatchError): void {
+    const { api } = Connector.getInstance();
+    if (dispatchError.isModule) {
+      const decoded = api.registry.findMetaError(dispatchError.asModule);
+      const { documentation, name, section } = decoded;
+      showNotification(
+        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        notificationTypes.danger
+      );
+    } else {
+      showNotification(
+        `[ERR] ${dispatchError.toString()}`,
+        notificationTypes.danger
+      );
     }
 
-    return [{ trait_type: "NSFW", value: Number(this.nsfw) }]
+    this.isLoading = false;
+  }
+
+  public async listForSale(remarks: RmrkWithMetaType[]) {
+    const { api } = Connector.getInstance();
+    const rmrkService = getInstance();
+
+    const { price, version } = this;
+    showNotification(
+      `[APP] Listing NFT to sale for ${formatBalance(price)}`
+    );
+
+    const onlyNfts = remarks.filter(NFTUtils.isNFT).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price)));
+
+
+    const cb = api.tx.utility.batchAll;
+    const args = onlyNfts.map(this.toRemark)
+
+    const tx = await exec(
+      this.accountId,
+      '',
+      cb,
+      [args],
+      txCb(
+        async blockHash => {
+          execResultValue(tx);
+          const header = await api.rpc.chain.getHeader(blockHash);
+          const blockNumber = header.number.toString();
+          for (const [index, rmrk] of onlyNfts.entries()) {
+            this.isLoading = true;
+            try {
+              const res = await rmrkService?.resolve(
+                rmrk,
+                this.accountId,
+                blockNumber
+              );
+              console.log('res', index, res);
+            } catch (e) {
+              console.warn(`Failed Indexing ${index} with err ${e}`);
+            }
+            this.isLoading = false;
+          }
+
+          showNotification(
+            `[TEXTILE] Saved NFTs with price ${formatBalance(price)}`,
+            notificationTypes.success
+          );
+          this.isLoading = false;
+        },
+        dispatchError => { execResultValue(tx); this.onTxError(dispatchError)  }
+      ))
+  }
+
+  public nsfwAttribute(): Attribute[] {
+    if (!this.nsfw) {
+      return [];
+    }
+
+    return [{ trait_type: 'NSFW', value: Number(this.nsfw) }];
   }
 
   get filePrice() {
