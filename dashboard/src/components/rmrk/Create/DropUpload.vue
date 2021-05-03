@@ -1,6 +1,6 @@
 <template>
   <b-field class="file is-primary">
-    <b-upload v-model="file" class="file-label" drag-drop :expanded="expanded">
+    <b-upload v-model="file" class="file-label" drag-drop :expanded="expanded" :accept="accept">
       <section class="section">
         <div class="content has-text-centered">
           <p>
@@ -29,6 +29,7 @@ export default class extends Vue {
   @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
   @Prop({ default: 'upload' }) public icon!: string;
   @Prop(Boolean) public expanded!: boolean;
+  @Prop(String) public accept!: string;
   private file: Blob | null = null;
 
   @Watch('file')

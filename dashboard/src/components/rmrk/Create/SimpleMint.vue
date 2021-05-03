@@ -74,6 +74,7 @@
             label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/png/gif)"
             v-model="secondFile"
             icon="file-image"
+            accept="image/png, image/jpeg, image/gif"
             expanded
           />
           <AttributeTagInput

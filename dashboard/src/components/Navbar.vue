@@ -18,7 +18,10 @@
       <b-navbar-dropdown
           arrowless
           collapsible
-          label="Create">
+          >
+          <template #label>
+            <span><b>{{ $t('Create') }}</b></span>
+          </template>
           <b-navbar-item
             tag="router-link"
             :to="{ name: 'rmrk'}">
