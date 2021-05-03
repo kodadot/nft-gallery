@@ -24,7 +24,6 @@
           </b-field>
 
           <MetadataUpload v-model="file" expanded />
-          <div v-if="file">{{ file.type }}</div>
 
           <b-field grouped :label="$i18n.t('Name')">
             <b-input
@@ -92,13 +91,13 @@
           <b-message
             v-if="price"
             icon="exclamation-triangle"
-            class="mt-3 has-text-primary"
+            class="mt-3"
             title="Additional transaction"
             type="is-primary"
             has-icon
             aria-close-label="Close message"
           >
-            Setting the price now requeries to make additional transaction.
+            <span class="has-text-primary">Setting the price now requeries to make additional transaction.</span>
           </b-message>
 
           <b-field>
@@ -157,7 +156,6 @@ import Consolidator, {
 import { supportTx, calculateCost } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils, { RmrkActionRegex, MintType } from '../service/NftUtils';
-import rmrk from '@/router/rmrk';
 import { DispatchError, Hash } from '@polkadot/types/interfaces';
 
 const components = {
@@ -445,3 +443,9 @@ export default class SimpleMint extends Mixins(
   }
 }
 </script>
+
+<style>
+.message.is-primary .message-body {
+  color: #d32e79 !important;
+}
+</style>

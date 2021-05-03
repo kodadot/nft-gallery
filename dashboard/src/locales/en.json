@@ -117,5 +117,8 @@
     "leastChanged": "Long time no interaction",
     "priceDown": "From most expensive",
     "priceUp": "From cheaper"
+  },
+  "mint": {
+    "submit": "Click to create NFT(s)"
   }
 }
