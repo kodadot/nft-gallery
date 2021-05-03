@@ -27,7 +27,7 @@
 
           <b-field grouped :label="$i18n.t('Name')">
             <b-input
-              placeholder="Name of the NFT"
+              placeholder="Name your NFT"
               v-model="rmrkMint.name"
               expanded
               class="mr-0"
@@ -57,7 +57,7 @@
               v-model="meta.description"
               maxlength="500"
               type="textarea"
-              placeholder="Tell sometinng more about the NFT"
+              placeholder="Describe your NFT"
             ></b-input>
           </b-field>
 
@@ -88,7 +88,7 @@
             </b-switch>
           </b-field>
 
-          <BalanceInput @input="updateMeta" />
+          <BalanceInput @input="updateMeta" label="Price" />
           <b-message
             v-if="price"
             icon="exclamation-triangle"

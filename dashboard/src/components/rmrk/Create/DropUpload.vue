@@ -6,7 +6,6 @@
           <p>
             <b-icon :icon="icon" size="is-large"> </b-icon>
           </p>
-
           <p v-if="!file">{{ label }}</p>
           <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
         </div>
