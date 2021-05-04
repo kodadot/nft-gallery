@@ -112,7 +112,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   async getNFT(id: string): Promise<NFTWithMeta> {
     this.useNFT();
-    this.shouldExist(id);
+    await this.shouldExist(id);
     const nft = await this.getCollection<NFTWithMeta>(id)
     return nft
   }
@@ -188,7 +188,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   async getAppreciationsForNFT(id: string): Promise<Emotion[]> {
     this.useNFT();
-    this.shouldExist(id);
+    await this.shouldExist(id);
     this.useAppreciation();
     const query: QueryJSON = new Where('remarkId').eq(id)
     const appreciations = await this.find<Emotion>(query)
@@ -252,7 +252,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     this.useCollection();
 
     try {
-      this.shouldExist(view.id)
+      await this.shouldExist(view.id)
       const collection = await this.getCollection<CollectionWithMeta>(view.id)
       Consolidator.isIssuer(collection, caller)
       const updatedCollection: CollectionWithMeta = {
@@ -272,7 +272,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     }
 
     this.useNFT();
-    this.shouldExist(view.id);
+    await this.shouldExist(view.id);
     const nft = await this.getCollection<NFTWithMeta>(view.id)
     Consolidator.isOwner(nft, caller)
     if (Number(view.metadata) >= 0) {
@@ -287,7 +287,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
 
   private async consume(view: RmrkInteraction, caller: string): Promise<NFTWithMeta> {
     this.useNFT();
-    this.shouldExist(view.id);
+    await this.shouldExist(view.id);
     const nft = await this.getCollection<NFTWithMeta>(view.id)
     Consolidator.isOwner(nft, caller)
     await this.remove(nft._id)
