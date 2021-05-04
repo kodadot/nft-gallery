@@ -31,6 +31,7 @@
               v-model="rmrkMint.name"
               expanded
               class="mr-0"
+              spellcheck="true"
             ></b-input>
             <Tooltip
               iconsize="is-medium"
@@ -58,6 +59,7 @@
               maxlength="500"
               type="textarea"
               placeholder="Describe your NFT"
+              spellcheck="true"
             ></b-input>
           </b-field>
 
