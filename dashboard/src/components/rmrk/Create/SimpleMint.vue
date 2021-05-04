@@ -409,7 +409,7 @@ export default class SimpleMint extends Mixins(
 
     this.meta = {
       ...this.meta,
-      attributes: [...this.rmrkMint.tags, ...this.nsfwAttribute()],
+      attributes: [...(this.rmrkMint?.tags || []), ...this.nsfwAttribute()],
       external_url: `https://nft.kodadot.xyz`,
       type: this.file.type
     };
