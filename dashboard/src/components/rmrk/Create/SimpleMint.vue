@@ -281,7 +281,7 @@ export default class SimpleMint extends Mixins(
                 this.accountId,
                 blockNumber
               );
-              mints.push()
+              mints.push(res)
               showNotification(
                 `[TEXTILE] Entry ${index + 1} saved as ${res?._id}`,
                 notificationTypes.success
@@ -289,6 +289,7 @@ export default class SimpleMint extends Mixins(
               console.log('res', index, res);
             } catch (e) {
               console.warn(`Failed Indexing ${index} with err ${e}`);
+              this.isLoading = false;
             }
             this.isLoading = false;
           }
@@ -300,7 +301,6 @@ export default class SimpleMint extends Mixins(
             `[TEXTILE] Saved ${remarks.length} entries`,
             notificationTypes.success
           );
-          this.isLoading = false;
         },
         dispatchError => {
           execResultValue(tx);
@@ -350,6 +350,7 @@ export default class SimpleMint extends Mixins(
   public async listForSale(remarks: RmrkWithMetaType[]) {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
+    this.isLoading = true;
 
     const { price, version } = this;
     showNotification(
@@ -358,6 +359,10 @@ export default class SimpleMint extends Mixins(
 
     const onlyNfts = remarks.filter(NFTUtils.isNFT).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price)));
 
+    if (!onlyNfts.length) {
+      showNotification('Can not list empty NFTs', notificationTypes.danger)
+      return;
+    }
 
     const cb = api.tx.utility.batchAll;
     const args = onlyNfts.map(this.toRemark)
@@ -373,7 +378,6 @@ export default class SimpleMint extends Mixins(
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
           for (const [index, rmrk] of onlyNfts.entries()) {
-            this.isLoading = true;
             try {
               const res = await rmrkService?.resolve(
                 rmrk,
@@ -384,7 +388,7 @@ export default class SimpleMint extends Mixins(
             } catch (e) {
               console.warn(`Failed Indexing ${index} with err ${e}`);
             }
-            this.isLoading = false;
+
           }
 
           showNotification(
@@ -393,7 +397,7 @@ export default class SimpleMint extends Mixins(
           );
           this.isLoading = false;
         },
-        dispatchError => { execResultValue(tx); this.onTxError(dispatchError)  }
+        dispatchError => { execResultValue(tx); this.onTxError(dispatchError); this.isLoading = false; }
       ))
   }
 

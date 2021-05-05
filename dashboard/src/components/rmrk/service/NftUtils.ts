@@ -2,7 +2,7 @@ import { hexToString, isHex } from '@polkadot/util';
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types';
 import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
-import { Collection, NFT, SimpleNFT } from './scheme';
+import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme';
 import slugify from 'slugify';
 import { RmrkWithMetaType } from './RmrkService';
 
@@ -113,7 +113,7 @@ class NFTUtils {
     return 'issuer' in object && 'symbol' in object;
   }
 
-  public static isNFT(object: Collection | NFT | RmrkWithMetaType): object is NFT {
+  public static isNFT(object: Collection | NFT | RmrkWithMetaType): object is NFT | NFTWithMeta {
     return 'currentOwner' in object && 'instance' in object;
   }
 
