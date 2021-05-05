@@ -25,7 +25,9 @@ import {
   faQuestion, faPrint,
   faMagic, faEye, faCommentAlt,
   faGhost, faCode, faLeaf,
-  faFlask, faCameraRetro, faTag, faShareAlt, faExclamationTriangle
+  faFlask, faCameraRetro, faTag,
+  faShareAlt, faExclamationTriangle,
+  faCalendar
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -69,6 +71,7 @@ library.add(
   faLanguage, faQuestion, faEye,
   faPrint, faCommentAlt, faMagic,
   faLeaf, faFlask,
+  faCalendar,
 
   faTwitter, faTelegram, faFacebook, faMedium,
   faLine, faTelegramPlane,
