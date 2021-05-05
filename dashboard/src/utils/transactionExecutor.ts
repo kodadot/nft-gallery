@@ -57,6 +57,15 @@ export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: Dispat
     }
   }
 
+export const estimate = async (account: KeyringAccount | string, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[]): Promise<string> => {
+  const transfer = await callback(...params);
+  const address = typeof account === 'string' ? account : account.address;
+  const injector = await getAddress(toDefaultAddress(address));
+
+  const info = await transfer.paymentInfo(address, injector ?  { signer: injector.signer } : {})
+  return info.partialFee.toString()
+}
+
 
 
 export default exec;

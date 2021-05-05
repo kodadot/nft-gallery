@@ -126,6 +126,24 @@
             </b-button>
           </b-field>
           <b-field>
+            <b-button
+              type="is-text"
+              icon-left="calculator"
+              @click="estimateTx"
+              :disabled="disabled"
+              :loading="isLoading"
+              outlined
+            >
+              <template v-if="!estimated">
+                {{ $t("mint.estimate") }}
+              </template>
+              <template v-else>
+                {{ $t("mint.estimated") }}
+                <Money :value="estimated" inline  />
+              </template>
+            </b-button>
+          </b-field>
+          <b-field>
             <Support v-model="hasSupport" :price="filePrice" />
           </b-field>
         </div>
@@ -147,7 +165,8 @@ import exec, {
   execResultValue,
   Extrinsic,
   txCb,
-  ExecResult
+  ExecResult,
+  estimate
 } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
@@ -175,7 +194,8 @@ const components = {
   Tooltip,
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue')
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  Money: () => import('@/components/shared/format/Money.vue')
 };
 
 @Component({ components })
@@ -197,6 +217,7 @@ export default class SimpleMint extends Mixins(
   private hasSupport: boolean = true;
   private nsfw: boolean = false;
   private price: number = 0;
+  private estimated: string = '';
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -229,6 +250,35 @@ export default class SimpleMint extends Mixins(
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
     return !(name && symbol && max && this.accountId && this.file);
+  }
+
+  protected async estimateTx() {
+    this.isLoading = true;
+    const { accountId, version } = this;
+    const { api } = Connector.getInstance();
+
+
+    const result = NFTUtils.generateRemarks(
+      this.rmrkMint,
+      accountId,
+      version
+    );
+    const cb = api.tx.utility.batchAll;
+    const remarks: string[] = Array.isArray(result)
+      ? result
+      : [
+          NFTUtils.toString(result.collection, version),
+          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
+        ];
+
+    const args = !this.hasSupport
+      ? remarks.map(this.toRemark)
+      : [...remarks.map(this.toRemark), ...(await this.canSupport())];
+
+
+     this.estimated = await estimate(this.accountId, cb, [args])
+
+    this.isLoading = false;
   }
 
   protected async sub() {

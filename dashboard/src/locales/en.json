@@ -119,7 +119,9 @@
     "priceUp": "From cheaper"
   },
   "mint": {
-    "submit": "Click to create NFT(s)"
+    "submit": "Click to create NFT(s)",
+    "estimate": "I want to know the transaction fees",
+    "estimated": "Transaction fees will cost about"
   },
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
