@@ -23,7 +23,9 @@
             <Auth />
           </b-field>
 
-          <MetadataUpload v-model="file" expanded />
+          <MetadataUpload v-model="file"
+           label="Drop your NFT here or click to upload. Supports (bbmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ mp3/ json)"
+           expanded />
 
           <b-field grouped :label="$i18n.t('Name')">
             <b-input
@@ -35,7 +37,7 @@
             ></b-input>
             <Tooltip
               iconsize="is-medium"
-              :label="$i18n.t('Owner address of minted art')"
+              :label="$i18n.t('tooltip.name')"
             />
           </b-field>
           <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
@@ -49,7 +51,7 @@
             ></b-input>
             <Tooltip
               iconsize="is-medium"
-              :label="$i18n.t('Symbol you want to trade it under')"
+              :label="$i18n.t('tooltip.symbol')"
             />
           </b-field>
 
@@ -63,17 +65,22 @@
             ></b-input>
           </b-field>
 
-          <b-field :label="$i18n.t('Edition')">
+          <b-field grouped :label="$i18n.t('Edition')">
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
+              expanded
               :min="1"
             ></b-numberinput>
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.edition')"
+            />
           </b-field>
 
           <MetadataUpload
             v-if="secondaryFileVisible"
-            label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/png/gif)"
+            label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
             v-model="secondFile"
             icon="file-image"
             accept="image/png, image/jpeg, image/gif"
