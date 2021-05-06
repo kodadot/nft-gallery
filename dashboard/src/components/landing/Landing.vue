@@ -149,6 +149,15 @@
                     @KodaDot
                   </a>
                 </h2>
+
+                <h2 class="title">
+                  <a href="https://calendar.google.com/calendar/u/0/embed?src=c_eu96e3mq6ov7oj0eaadgbbvjvk@group.calendar.google.com" target="_blank">
+                    <b-icon
+                      icon="calendar">
+                    </b-icon>
+                    {{ $t('Community Events') }}
+                  </a>
+                </h2>
                 <h2 class="title">
                   <a href="https://twitter.com/metaprime_net" target="_blank">
                     <b-icon
@@ -178,6 +187,7 @@
                 </h2>
                 </div>
               </div>
+
           </div>
         </div>
       </div>

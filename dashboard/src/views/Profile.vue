@@ -9,7 +9,7 @@
               icon="ghost"
             ></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity :address="id" :inline="true"
+              ><Identity ref="identity" :address="id" :inline="true"
             /></a>
           </p>
           <Sharing v-if="!sharingVisible" label="Check this awesome Profile on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
@@ -46,6 +46,7 @@ import {
   Pack
 } from '@/components/rmrk/service/scheme';
 import isShareMode from '@/utils/isShareMode';
+import Identity from '../components/shared/format/Identity.vue';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -55,7 +56,20 @@ const components = {
 
 const eq = (tab: string) => (el: string) => tab === el
 
-@Component({ components })
+@Component<Profile>({ 
+  components,
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:type', content: 'website'},
+        { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
+        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
+        { property: 'twitter:card', content: 'summary_large_image' },
+      ]
+    };
+  },
+ })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
   protected id: string = '';
@@ -63,6 +77,7 @@ export default class Profile extends Vue {
   protected collections: CollectionWithMeta[] = [];
   protected nfts: NFTWithMeta[] = [];
   protected packs: Pack[] = [];
+  protected name: string = '';
 
   public async mounted() {
     this.checkId();
@@ -92,8 +107,8 @@ export default class Profile extends Vue {
       showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
     }
-
     this.isLoading = false;
+    this.name = ((this.$refs['identity'] as Identity).name as string);
   }
 
   public checkId() {
@@ -112,6 +127,15 @@ export default class Profile extends Vue {
 
   get iframeSettings() {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
+  }
+
+  get firstNFT() {
+    if(this.nfts !== undefined && this.nfts.length !== 0) {
+      const firstNft = this.nfts.find(nft => nft.image && nft.type && nft.type.includes('image'));
+      if(firstNft !== undefined) return firstNft.image;
+    }
+    const url = new URL(window.location.href);
+    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png}`;
   }
 
   public checkActiveTab() {
