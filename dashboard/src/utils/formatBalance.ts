@@ -8,7 +8,13 @@ const K_LENGTH = 3 + 1;
 
 
 function format(balance: number | string | BN | BigInt, decimals: number = 12, withUnit?: boolean | string, withSi?: boolean ) {
-  return formatBalance(balance, { decimals , withUnit , forceUnit: '-', withSi })
+  try {
+    return formatBalance(balance, { decimals , withUnit , forceUnit: '-', withSi })
+  } catch (e) {
+    console.error('[FORMAT BALANCE]', e.message, String(balance), typeof balance, decimals, withUnit)
+    return ''
+  }
+
 }
 
 // Legacy
