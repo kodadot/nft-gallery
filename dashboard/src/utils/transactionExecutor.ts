@@ -7,6 +7,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces';
 
 export type ExecResult = (() => void) | string
+export type Extrinsic = SubmittableExtrinsic<'promise'>
 
 export const execResultValue = (execResult: ExecResult): string => {
   if (typeof execResult === 'function') {
@@ -55,5 +56,16 @@ export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: Dispat
       onSuccess(result.status.asFinalized)
     }
   }
+
+export const estimate = async (account: KeyringAccount | string, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[]): Promise<string> => {
+  const transfer = await callback(...params);
+  const address = typeof account === 'string' ? account : account.address;
+  const injector = await getAddress(toDefaultAddress(address));
+
+  const info = await transfer.paymentInfo(address, injector ?  { signer: injector.signer } : {})
+  return info.partialFee.toString()
+}
+
+
 
 export default exec;
