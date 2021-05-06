@@ -107,7 +107,7 @@
             has-icon
             aria-close-label="Close message"
           >
-            <span class="has-text-primary">Setting the price now requeries to make additional transaction.</span>
+            <span class="has-text-primary">Setting the price now requires making an additional transaction.</span>
           </b-message>
 
           <b-field>
