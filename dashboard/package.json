@@ -54,6 +54,8 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/helper-define-map": "^7.13.12",
+    "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@types/webpack": "^4.4.0",
