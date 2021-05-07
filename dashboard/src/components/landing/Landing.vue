@@ -93,8 +93,9 @@
                   </h2>
                   <h2 class="title">
                     <b-icon icon="leaf"></b-icon>
-                    Low carbon NFT platform running on
-                    <a href="https://kusama.network">Kusama.network</a> - NPoS
+                    <router-link :to="{ name: 'carbonless'}">
+                      Carbonless NFT movement
+                    </router-link>
                   </h2>
                   <h2 class="title">
                     <b-icon icon="leaf"></b-icon>
