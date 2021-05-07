@@ -72,7 +72,7 @@ export default class Facts extends Vue {
   ];
 
   get tags() {
-    return this.nft.attributes.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
+    return this.nft.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
   }
 
 

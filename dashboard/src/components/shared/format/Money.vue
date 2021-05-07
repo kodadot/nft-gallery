@@ -54,6 +54,7 @@ export default class Money extends Vue {
           }
         })
 
+        // 420 * 10 ** 12
         this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
         this.$store.dispatch('setFiatPrice', data);
       }
