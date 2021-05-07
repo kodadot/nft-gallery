@@ -117,5 +117,18 @@
     "leastChanged": "Long time no interaction",
     "priceDown": "From most expensive",
     "priceUp": "From cheaper"
+  },
+  "mint": {
+    "submit": "Click to create NFT(s)",
+    "estimate": "I want to know the transaction fees",
+    "estimated": "Transaction fees will cost about"
+  },
+  "tooltip": {
+    "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
+    "name": "NFT will be visible under this name in gallery",
+    "edition": "Number of copies"
+  },
+  "nft": {
+    "carbonless": "This NFT is carbonless"
   }
 }

@@ -1,23 +1,17 @@
 <template>
   <div>
+    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
       @click="handleAction(action)">
         {{ action }}
       </b-button>
     </div>
-    <!-- <b-field v-if="accountId" label="Action">
-      <b-select
-        placeholder="Select available action"
-        :value="selectedAction"
-        @input="handleSelect"
-      >
-        <option value="">None</option>
-        <option v-for="action in actions" :value="action" :key="action">
-          {{ action }}
-        </option>
-      </b-select>
-    </b-field> -->
+    <b-message v-if="buyAvailable" title="RMRK::ALERT" type="is-warning" has-icon aria-close-label="Close message">
+      We would like to warn buyers they are solely operating on their own will and carry any involving risks as we are experimental implementation of RMRK-spec.
+      You should double-check on "official UI" (if there are any available already) whenever the current owner showing in KodaDot UI is identical through other UI available from RMRK-team.
+      If there are any doubts, reach us to proceed. We are working to migrate the current KodaDot UI to a more secure and robust solution.
+    </b-message>
     <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
     <b-button
       v-if="showSubmit"
@@ -33,10 +27,10 @@
 <script lang="ts" >
 import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { unpin } from '@/pinata';
+import { unpin } from '@/proxy';
 import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { somePercentFromTX } from '@/utils/support';
@@ -75,7 +69,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop({ default: () => [] }) public ipfsHashes!: string[];
   private selectedAction: Action = '';
   private meta: string | number = '';
-  private isLoading: boolean = false;
+  protected isLoading: boolean = false;
 
   get actions() {
     return this.isOwner
@@ -83,6 +77,10 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       : this.isAvailableToBuy
       ? buyActions
       : [];
+  }
+
+  get buyAvailable() {
+    return this.actions.some(e => e === 'BUY')
   }
 
   get showSubmit() {
@@ -171,6 +169,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
     await rmrkService?.checkExpiredOrElseRefresh();
+    this.isLoading = true;
 
     try {
       showNotification(rmrk);
@@ -189,22 +188,33 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
-      const tx = await exec(this.accountId, '', cb, [arg]);
-      showNotification(execResultValue(tx), notificationTypes.success);
-      console.warn('TX IN', tx);
-      const persisted = await rmrkService?.resolve(rmrk, this.accountId);
-      if (this.isConsume) {
-        this.unpinNFT();
-      }
-      console.log(persisted);
-      console.log('SAVED', persisted?._id);
-      showNotification(
-        `[TEXTILE] ${persisted?._id}`,
-        notificationTypes.success
-      );
+      const tx = await exec(this.accountId, '', cb, [arg], txCb(
+        async (blockHash) => {
+          execResultValue(tx);
+          showNotification(blockHash.toString(), notificationTypes.info);
+          const persisted = await rmrkService?.resolve(rmrk, this.accountId);
+          if (this.isConsume) {
+            this.unpinNFT();
+          }
+          console.log(persisted);
+          console.log('SAVED', persisted?._id);
+          showNotification(
+            `[TEXTILE] ${persisted?._id}`,
+            notificationTypes.success
+          );
+          this.isLoading = false;
+        },
+        err => {
+          execResultValue(tx);
+          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+          this.isLoading = false;
+        }
+      ));
+
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
+      this.isLoading = false;
     }
   }
 

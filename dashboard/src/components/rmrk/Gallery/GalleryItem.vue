@@ -61,7 +61,7 @@
                 </b-tag>
                 <p v-if="!isLoading"
                   class="subtitle is-size-5">
-                  <markdown-it-vue-light class="md-body" :content="nft.description"/>
+                  <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
               </div>
@@ -80,7 +80,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
-import MarkdownItVueLight from 'markdown-it-vue';
+// import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
@@ -128,7 +128,7 @@ type NFTType =  NFTWithMeta;
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions,
     Facts,
-    MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
+    // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     Money,
     Name,
     Sharing,
@@ -146,7 +146,7 @@ export default class GalleryItem extends Vue {
   public isLoading: boolean = true;
   public mimeType: string = '';
 
-    get accountId() {
+  get accountId() {
     return this.$store.getters.getAuthAddress;
   }
 

@@ -19,6 +19,7 @@
     "no-trailing-whitespace": false,
     "max-classes-per-file": [true, 2],
     "no-string-literal": false,
-    "no-unused-expression": [true, "allow-fast-null-checks"]
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "no-empty-interface": false
   }
 }

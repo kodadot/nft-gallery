@@ -1,6 +1,6 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t('balance')" class="balance">
+    <b-field :label="$t(label)" class="balance">
       <b-input v-model="value" @input="handleInput" type="number" step="0.001" min="0"/>
       <p class="control balance">
         <b-select v-model="selectedUnit" @input="handleInput">
@@ -32,6 +32,7 @@ export default class BalanceInput extends Vue {
   private value: number = 0;
   protected units: Unit[] = defaultUnits;
   private selectedUnit: number = 1;
+  @Prop({ default: 'balance' }) public label!: string;
 
 
   get chainProperties() {

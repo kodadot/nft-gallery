@@ -194,7 +194,7 @@ export const equals = (first: RMRK, second: RMRK): boolean => {
   return true;
 };
 
-export const resolveMedia = (mimeType: string): MediaType => {
+export const resolveMedia = (mimeType?: string): MediaType => {
   if (!mimeType) {
     return MediaType.UNKNOWN;
   }

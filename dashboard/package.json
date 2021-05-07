@@ -4,10 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "netlify-lambda build src-functions && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve",
+    "lambda": "netlify-lambda serve src-functions"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -17,14 +21,14 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "@google/model-viewer": "^1.6.0",
     "@polkadot/extension-dapp": "^0.37.2",
-    "@polkadot/types": "^4.6.2",
-    "@polkadot/ui-keyring": "^0.74.1",
-    "@polkadot/util": "^6.2.1",
-    "@polkadot/util-crypto": "^6.2.1",
-    "@polkadot/vue-identicon": "^0.74.1",
+    "@polkadot/types": "^4.7.2",
+    "@polkadot/ui-keyring": "^0.75.1",
+    "@polkadot/util": "^6.3.1",
+    "@polkadot/util-crypto": "^6.3.1",
+    "@polkadot/vue-identicon": "^0.75.1",
     "@textile/hub": "^6.0.1",
     "@types/file-saver": "^2.0.2",
-    "@vue-polkadot/vue-api": "0.0.29",
+    "@vue-polkadot/vue-api": "^0.0.31",
     "@vue-polkadot/vue-settings": "^0.0.17",
     "axios": "^0.21.1",
     "buefy": "^0.9.2",
@@ -33,6 +37,7 @@
     "lazysizes": "^5.3.0",
     "markdown-it-vue": "^1.1.6",
     "mingo": "^4.1.2",
+    "netlify-lambda": "^2.0.4",
     "register-service-worker": "^1.7.1",
     "setimmediate": "^1.0.5",
     "slugify": "^1.4.6",
@@ -50,6 +55,8 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/helper-define-map": "^7.13.12",
+    "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@types/webpack": "^4.4.0",

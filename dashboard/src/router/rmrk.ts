@@ -8,6 +8,7 @@ const Packs = () => import('@/components/rmrk/Pack/Packs.vue')
 const PackItem = () => import('@/components/rmrk/Pack/PackItem.vue')
 const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vue')
 const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
+const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
 
 export default [
   {
@@ -59,5 +60,10 @@ export default [
     path: '/rmrk/view',
     name: 'viewModel',
     component: ViewModel,
+  },
+  {
+    path: '/rmrk/mint',
+    name: 'simpleMint',
+    component: SimpleMint
   },
 ];

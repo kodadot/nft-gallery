@@ -11,8 +11,8 @@ export interface CompletePackWithItemMeta extends BasePack {
 }
 
 export interface Attribute {
-  display_type: DisplayType;
-  trait_type: string;
+  display_type?: DisplayType;
+  trait_type?: string;
   value: number | string;
 }
 
@@ -21,6 +21,15 @@ export enum DisplayType {
   'boost_number',
   'number',
   'boost_percentage'
+}
+
+export interface SimpleNFT {
+  name: string;
+  max: number;
+  symbol: string;
+  tags: Attribute[];
+  description: string;
+  metadata: string;
 }
 
 export interface State {
@@ -33,14 +42,17 @@ export interface State {
   refresh(): Promise<State>;
 }
 
-
-export interface NFTMetadata {
+export interface Metadata {
+  description?: string;
+  attributes: Attribute[];
   external_url?: string;
   image?: string;
   image_data?: string;
-  description?: string;
+}
+
+
+export interface NFTMetadata extends Metadata {
   name: string;
-  attributes: Attribute[];
   background_color?: string;
   animation_url?: string;
   youtube_url?: string;
@@ -48,13 +60,10 @@ export interface NFTMetadata {
 }
 
 
-export interface CollectionMetadata {
-  description?: string;
-  attributes: Attribute[];
-  external_url?: string;
-  image?: string;
-  image_data?: string;
+export interface CollectionMetadata extends Metadata {
+
 }
+
 
 export interface PackMetadata {
   social: Record<string, string>;

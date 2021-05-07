@@ -80,7 +80,8 @@ import {
   NFT,
   NFTMetadata,
 } from '../service/scheme';
-import { pinFile, pinJson, unSanitizeIpfsUrl } from '@/pinata';
+import { pinFile, pinJson } from '@/proxy';
+import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify'
 import { fetchCollectionMetadata } from '../utils';
@@ -159,9 +160,9 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const rmrkService = getInstance();
     console.log(this.accountId)
     console.warn(rmrkService, this.accountId)
-    const data = await rmrkService?.getCollectionListForAccount(this.accountId);
-    console.log('data', data);
-    this.data = data || [];
+    const data = await rmrkService?.getAllCollections();
+    console.log('data', data?.length);
+    this.data = (data || []).filter(({ issuer }) => issuer === this.accountId);
   }
 
   get canSubmit() {

@@ -93,8 +93,9 @@
                   </h2>
                   <h2 class="title">
                     <b-icon icon="leaf"></b-icon>
-                    Low carbon NFT platform running on
-                    <a href="https://kusama.network">Kusama.network</a> - NPoS
+                    <router-link :to="{ name: 'carbonless'}">
+                      Carbonless NFT movement
+                    </router-link>
                   </h2>
                   <h2 class="title">
                     <b-icon icon="leaf"></b-icon>
@@ -132,21 +133,39 @@
                   </a>
                 </h2>
                 <h2 class="title">
-                  <a href="https://twitter.com/KodaDot" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                    KodaDot
-                  </a>
-                </h2>
-                <h2 class="title">
                   <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
                     <b-icon
                       pack="fab"
                       icon="reddit-alien">
                     </b-icon>
                     r/KodaDot
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/KodaDot" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    @KodaDot
+                  </a>
+                </h2>
+
+                <h2 class="title">
+                  <a href="https://calendar.google.com/calendar/u/0/embed?src=c_eu96e3mq6ov7oj0eaadgbbvjvk@group.calendar.google.com" target="_blank">
+                    <b-icon
+                      icon="calendar">
+                    </b-icon>
+                    {{ $t('Community Events') }}
+                  </a>
+                </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/metaprime_net" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    {{ $t('Building on @Metaprime_net') }}
                   </a>
                 </h2>
                 <h2 class="title">
@@ -169,6 +188,7 @@
                 </h2>
                 </div>
               </div>
+
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@
               :class="[ detailVisible ? 'is-size-1' : 'is-size-3' ]"
             >
               <span v-if="!isLoading">
-                {{ nft.name }}
+                {{ nft.name }} <span v-if="carbonlessBadge">「🌱」</span>
               </span>
               <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
             </p>
@@ -25,6 +25,9 @@
         </template>
         <div class="card-content">
           <div class="content">
+            <p class="title is-size-4 has-text-success">
+              {{ $t('nft.carbonless') }} 「🌱」
+            </p>
             <p class="title is-size-4">
               {{ $t('collection') }}
             </p>
@@ -38,6 +41,7 @@
               <ProfileLink :address="nft.currentOwner" />
               <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
             </p>
+
           </div>
         </div>
       </b-collapse>
@@ -47,6 +51,8 @@
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import isShareMode from '@/utils/isShareMode';
+import { NFTWithMeta } from '../../service/scheme';
+import { emptyObject } from '@/utils/empty';
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
@@ -55,11 +61,15 @@ const components = {
 
 @Component({ components })
 export default class Name extends Vue {
-  @Prop() public nft!: any;
+  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
   @Prop() public isLoading!: boolean;
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  get carbonlessBadge() {
+    return this.nft.attributes?.some(({trait_type, value}) => trait_type === 'carbonless' && value)
   }
 }
 </script>
