@@ -106,6 +106,11 @@ export default new Vuex.Store({
     explorerOptions: {},
     development: {},
     error: null,
+    fiatPrice: {
+      kusama: {
+        usd: null
+      }
+    }
   },
   mutations: {
     keyringLoaded(state: any) {
@@ -132,6 +137,14 @@ export default new Vuex.Store({
     setError(state: any, error: Error) {
       state.loading = false;
       state.error = error.message;
+    },
+    setFiatPrice(state: any, data) {
+      state.fiatPrice = Object.assign({}, state.fiatPrice, data)
+    }
+  },
+  actions: {
+    setFiatPrice({ commit }: any, data) {
+      commit('setFiatPrice', data);
     }
   },
   getters: {

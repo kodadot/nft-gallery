@@ -33,11 +33,15 @@
                     @error="onError"
                   />
                 </figure>
-                <span v-if="nft.price" class="card-image__price">
-                  <!-- <lazy-component>
-                    <Money :value="nft.price" showFiatValue="usd" inline />
-                  </lazy-component> -->
-                  <Money :value="nft.price" inline />
+                <span
+                  v-if="nft.price"
+                  class="card-image__price"
+                >
+                    <Money
+                      :value="nft.price"
+                      showFiatValue="usd"
+                      inline
+                    />
                 </span>
               </div>
 
@@ -116,7 +120,7 @@ export default class Gallery extends Vue {
   public async mounted() {
     const rmrkService = getInstance();
 
-    // this.setFreezeframe()
+    this.setFreezeframe()
 
     if (!rmrkService) {
       return;

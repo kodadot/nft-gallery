@@ -4,7 +4,7 @@
       {{ value | formatBalance(decimals, unit) }}
     </span>
     <span v-if="fiatValue">
-      / {{ fiatValue | formatBalance(2, showFiatValue.toUpperCase()) }}
+      / {{ fiatValue | formatBalance(decimals, showFiatValue.toUpperCase()) }}
     </span>
   </div>
 </template>
@@ -42,16 +42,23 @@ export default class Money extends Vue {
 
   private async getFiatValue() {
     try {
-      const { data } = await coingecko.get(`/simple/price`, {
-        params: {
-          ids: this.coinId,
-          vs_currencies: this.showFiatValue
-        }
-      })
+      const price = this.$store.state.fiatPrice[this.coinId][this.showFiatValue]
 
-      this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
+      if (price) {
+        this.fiatValue = price * Number(this.value)
+      } else {
+        const { data } = await coingecko.get(`/simple/price`, {
+          params: {
+            ids: this.coinId,
+            vs_currencies: this.showFiatValue
+          }
+        })
+
+        this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
+        this.$store.dispatch('setFiatPrice', data);
+      }
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 }
