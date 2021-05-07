@@ -127,5 +127,8 @@
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
     "name": "NFT will be visible under this name in gallery",
     "edition": "Number of copies"
+  },
+  "nft": {
+    "carbonless": "This NFT is carbonless"
   }
 }

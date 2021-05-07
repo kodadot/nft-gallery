@@ -10,6 +10,7 @@ const BACKUP_PUBKEY = '0x8cc1b91e8946862c2c79915a4bc004926510fcf71c422fde977c0b0
 const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
 import { pubKeyToAddress } from './account';
 import store from '@/store'
+const OFFSET_DAO = 'J9PSLHKjtJ9eEAX4xmCe8xNipRxNiYJTbnyfKXXRkhMmuq8'
 
 export type MaybeFile = File | Blob | null
 type FileType = MaybeFile | MaybeFile[]
@@ -85,4 +86,21 @@ export const somePercentFromTX = (price: number | string) => {
 export const resolveSupportAddress = () => {
   const ss58Format = store.getters.getChainProperties?.ss58Format
   return Number(ss58Format) === 2 ? KODADOT_DAO : pubKeyToAddress(BACKUP_PUBKEY)
+}
+
+export const resolveOffsetAddress = () => {
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+  return Number(ss58Format) === 2 ? OFFSET_DAO : pubKeyToAddress(BACKUP_PUBKEY)
+}
+
+export const offsetTx = async (price: number) => {
+  const { api } = Connector.getInstance()
+  return api.tx.balances.transfer(resolveSupportAddress(), await offsetCost(price))
+}
+
+export const offsetCost = async (price: number): Promise<number> => {
+  const ksmPrice = await getKSMUSD();
+  console.log(price / ksmPrice);
+  const decimals = store.getters.getChainProperties?.tokenDecimals
+  return Math.round(price / ksmPrice * 10 ** decimals);
 }
