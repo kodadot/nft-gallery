@@ -27,6 +27,12 @@
           <p class="subtitle is-size-6">
             <b>SN:</b>{{ nft.sn }}
           </p>
+          <p class="subtitle is-size-6">
+            <b>TAGS:</b>
+             <b-taglist>
+              <b-tag v-for="(tag, index) in tags" :key="index">{{tag}}</b-tag>
+            </b-taglist>
+          </p>
           <ArweaveLink v-if="nft.imageArId" :id="nft.imageArId" label="image" />
           <ArweaveLink v-if="nft.animationArId" :id="nft.animationArId" label="animated" />
           <p v-if="imageId" class="subtitle is-size-6"  >
@@ -64,6 +70,10 @@ export default class Facts extends Vue {
     'https://ipfs.fleek.co/ipfs/',
     'https://dweb.link/ipfs/'
   ];
+
+  get tags() {
+    return this.nft.attributes.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
+  }
 
 
   get imageId() {

@@ -146,6 +146,16 @@
           <b-field>
             <Support v-model="hasSupport" :price="filePrice" />
           </b-field>
+          <b-field>
+            <Support
+              v-model="hasCarbonOffset"
+              :price="1"
+              activeMessage="I'm making carbonless NFT"
+              passiveMessage="I don't want to have carbonless NFT"
+              type="is-success"
+              />
+          </b-field>
+
         </div>
       </section>
     </div>
@@ -182,7 +192,7 @@ import { u8aToHex, formatBalance } from '@polkadot/util';
 import Consolidator, {
   generateId
 } from '@/components/rmrk/service/Consolidator';
-import { supportTx, calculateCost } from '@/utils/support';
+import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils, { RmrkActionRegex, MintType } from '../service/NftUtils';
 import { DispatchError, Hash } from '@polkadot/types/interfaces';
@@ -218,6 +228,7 @@ export default class SimpleMint extends Mixins(
   private nsfw: boolean = false;
   private price: number = 0;
   private estimated: string = '';
+  private hasCarbonOffset: boolean = true;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -273,7 +284,7 @@ export default class SimpleMint extends Mixins(
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
-      : [...remarks.map(this.toRemark), ...(await this.canSupport())];
+      : [...remarks.map(this.toRemark), ...(await this.canSupport()), ...(await this.canOffset())];
 
 
      this.estimated = await estimate(this.accountId, cb, [args])
@@ -310,7 +321,7 @@ export default class SimpleMint extends Mixins(
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
-      : [...remarks.map(this.toRemark), ...(await this.canSupport())];
+      : [...remarks.map(this.toRemark), ...(await this.canSupport()), ...(await this.canOffset())];
 
     const tx = await exec(
       this.accountId,
@@ -459,6 +470,14 @@ export default class SimpleMint extends Mixins(
     return [{ trait_type: 'NSFW', value: Number(this.nsfw) }];
   }
 
+  public offsetAttribute(): Attribute[] {
+    if (!this.hasCarbonOffset) {
+      return [];
+    }
+
+    return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }];
+  }
+
   get filePrice() {
     return calculateCost(this.file);
   }
@@ -470,7 +489,7 @@ export default class SimpleMint extends Mixins(
 
     this.meta = {
       ...this.meta,
-      attributes: [...(this.rmrkMint?.tags || []), ...this.nsfwAttribute()],
+      attributes: [...(this.rmrkMint?.tags || []), ...this.nsfwAttribute(), ...this.offsetAttribute()],
       external_url: `https://nft.kodadot.xyz`,
       type: this.file.type
     };
@@ -496,6 +515,14 @@ export default class SimpleMint extends Mixins(
   protected async canSupport() {
     if (this.hasSupport && this.file) {
       return [await supportTx(this.file)];
+    }
+
+    return [];
+  }
+
+  protected async canOffset() {
+    if (this.hasCarbonOffset) {
+      return [await offsetTx(1)];
     }
 
     return [];
