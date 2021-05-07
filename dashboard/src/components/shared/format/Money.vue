@@ -59,7 +59,7 @@ export default class Money extends Vue {
         this.$store.dispatch('setFiatPrice', data);
       }
     } catch (error) {
-      throw error
+      console.log(error)
     }
   }
 }

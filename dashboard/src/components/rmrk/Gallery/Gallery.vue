@@ -94,7 +94,6 @@ import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import Money from '@/components/shared/format/Money.vue'
 import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
-import axios from 'axios'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types';

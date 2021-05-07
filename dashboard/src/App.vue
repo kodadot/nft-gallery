@@ -79,7 +79,7 @@ export default class Dashboard extends Vue {
 
       this.$store.dispatch('setFiatPrice', data);
     } catch (error) {
-      throw error;
+      console.log(error)
     }
   }
 
