@@ -114,13 +114,13 @@ type NFTType =  NFTWithMeta;
         { property: 'og:type', content: 'website'},
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:description', content: (this.nft.description as string) },
-        { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'og:image', content: (`https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price}&image=${(this.nft.image as string)}`)},
         { property: 'og:video', content: (this.nft.image as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
         { property: 'twitter:description', content: (this.nft.description as string) },
-        { property: 'twitter:image', content: (this.nft.image as string) },
+        { property: 'twitter:image', content: (`https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price}&image=${(this.nft.image as string)}`)},
       ]
     }
   },
