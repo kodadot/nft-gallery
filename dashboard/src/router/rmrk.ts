@@ -9,6 +9,7 @@ const PackItem = () => import('@/components/rmrk/Pack/PackItem.vue')
 const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vue')
 const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
+const BrutalSearch = () => import('@/components/rmrk/BrutalSearch/Search.vue')
 
 export default [
   {
@@ -20,6 +21,11 @@ export default [
     path: '/rmrk/gallery',
     name: 'nft',
     component: Gallery,
+  },
+  {
+    path: '/rmrk/search',
+    name: 'brutal-nft-search',
+    component: BrutalSearch,
   },
   {
     path: '/rmrk/rare',
