@@ -1,11 +1,10 @@
-name: pr-chatter
+name: Chatter
 on:
   pull_request_review:
     types: [submitted]
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: BrianMitchL/pr-chatter-action@v1
         with:
