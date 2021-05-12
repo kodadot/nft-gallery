@@ -85,6 +85,7 @@ import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
+import { formatBalance } from '@polkadot/util';
 
 import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -104,6 +105,7 @@ type NFTType =  NFTWithMeta;
 
 @Component<GalleryItem>({
   metaInfo() {
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.nft.image as string)}`;
     return {
       meta: [
         {
@@ -114,13 +116,13 @@ type NFTType =  NFTWithMeta;
         { property: 'og:type', content: 'website'},
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:description', content: (this.nft.description as string) },
-        { property: 'og:image', content: (this.nft.image as string) },
+        { property: 'og:image', content: (image)},
         { property: 'og:video', content: (this.nft.image as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
         { property: 'twitter:description', content: (this.nft.description as string) },
-        { property: 'twitter:image', content: (this.nft.image as string) },
+        { property: 'twitter:image', content: (image)},
       ]
     }
   },
