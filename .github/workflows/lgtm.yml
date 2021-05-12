@@ -1,4 +1,4 @@
-name: lgtm
+name: Send LGTM reaction
 on:
   issue_comment:
     types: [created]
@@ -12,7 +12,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@1.0.0
-      - uses: micnncim/action-lgtm-reaction@master
+      - uses: actions/checkout@v2
+      - uses: micnncim/action-lgtm-reaction@master # Set some version.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
+        with:
+          trigger: '[".*looks good to me.*"]'
+          override: true
+          source: 'giphy'
