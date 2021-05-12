@@ -4,8 +4,10 @@ on:
     types: [created]
   pull_request_review:
     types: [submitted]
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [ gh-actions ]
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
