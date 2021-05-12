@@ -1,5 +1,4 @@
 name: pr-chatter
-
 on:
   pull_request_review:
     types: [submitted]
