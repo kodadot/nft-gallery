@@ -25,7 +25,7 @@
         </template>
         <div class="card-content">
           <div class="content">
-            <p class="title is-size-4 has-text-success">
+            <p v-if="carbonlessBadge" class="title is-size-4 has-text-success">
               {{ $t('nft.carbonless') }} 「🌱」
             </p>
             <p class="title is-size-4">
