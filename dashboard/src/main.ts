@@ -20,6 +20,7 @@ import VueSocialSharing from 'vue-social-sharing'
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
 Vue.use(VueSocialSharing)
+
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
 import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'

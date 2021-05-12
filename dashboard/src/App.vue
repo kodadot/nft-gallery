@@ -11,6 +11,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import Navbar from './components/Navbar.vue';
 import isShareMode from '@/utils/isShareMode'
+import coingecko from '@/coingecko'
 
 @Component<Dashboard>({
   metaInfo() {
@@ -67,8 +68,24 @@ export default class Dashboard extends Vue {
     console.log('keyring loaded');
   }
 
+  public async getKsmPrice(): Promise<void> {
+    try {
+      const { data } = await coingecko.get(`/simple/price`, {
+        params: {
+          ids: 'kusama',
+          vs_currencies: 'usd'
+        }
+      })
+
+      this.$store.dispatch('setFiatPrice', data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   public mounted(): void {
     this.mountWasmCrypto();
+    this.getKsmPrice();
   }
 
   get isNavbarVisible() {

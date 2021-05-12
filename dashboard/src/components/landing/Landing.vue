@@ -186,6 +186,15 @@
                     {{ $t('Traverse to the prime show') }}
                   </a>
                 </h2>
+                <h2 class="title">
+                  <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="medium">
+                    </b-icon>
+                    {{ $t('Client-first NFT gallery: Technical examination') }}
+                  </a>
+                </h2>
                 </div>
               </div>
 
