@@ -35,7 +35,7 @@ export default class Auth extends Vue {
   public mounted() {
     if (this.account) {
       this.$emit('input', this.account);
-      this.calculateBalance(this.account);
+      // this.calculateBalance(this.account);
     }
   }
 
@@ -52,8 +52,8 @@ export default class Auth extends Vue {
   protected async calculateBalance(account: string) {
     console.log('calling balance', account)
     const { api } = Connector.getInstance();
-    const balance = await api.query.system.account(account);
-    this.balance = balance.data.free.toString();
+    const balance = await api?.query.system.account(account);
+    this.balance = balance?.data.free.toString();
   }
 }
 </script>

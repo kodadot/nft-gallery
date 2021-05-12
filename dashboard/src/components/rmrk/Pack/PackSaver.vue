@@ -113,7 +113,8 @@ export default class PackSaver extends Vue {
 
   public mounted() {
     if (this.accountId) {
-      this.fetchPacksForUser(this.accountId)
+      // fugly hack to avoid race conditions on texile
+      setTimeout(() => this.fetchPacksForUser(this.accountId), 1000)
     }
   }
 

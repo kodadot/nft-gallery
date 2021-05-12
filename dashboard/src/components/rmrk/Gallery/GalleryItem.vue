@@ -176,7 +176,7 @@ export default class GalleryItem extends Vue {
         );
       }
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger);
+      showNotification(`${e}`, notificationTypes.warn);
       console.warn(e);
     }
 

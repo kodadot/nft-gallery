@@ -47,6 +47,7 @@ import {
 } from '@/components/rmrk/service/scheme';
 import isShareMode from '@/utils/isShareMode';
 import Identity from '../components/shared/format/Identity.vue';
+import shouldUpdate from '@/utils/shouldUpdate';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -56,7 +57,7 @@ const components = {
 
 const eq = (tab: string) => (el: string) => tab === el
 
-@Component<Profile>({ 
+@Component<Profile>({
   components,
   metaInfo() {
     return {
@@ -80,6 +81,28 @@ export default class Profile extends Vue {
   protected name: string = '';
 
   public async mounted() {
+    await this.fetchProfile()
+  }
+
+  public checkId() {
+    if (this.$route.params.id) {
+      this.id = this.$route.params.id;
+    }
+  }
+
+  get sharingVisible() {
+    return isShareMode;
+  }
+
+  get customUrl() {
+    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
+  }
+
+  get iframeSettings() {
+    return { width: '100%', height: '100vh', customUrl: this.customUrl }
+  }
+
+  protected async fetchProfile() {
     this.checkId();
     this.checkActiveTab();
     const rmrkService = getInstance();
@@ -111,24 +134,6 @@ export default class Profile extends Vue {
     this.name = ((this.$refs['identity'] as Identity).name as string);
   }
 
-  public checkId() {
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id;
-    }
-  }
-
-  get sharingVisible() {
-    return isShareMode;
-  }
-
-  get customUrl() {
-    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
-  }
-
-  get iframeSettings() {
-    return { width: '100%', height: '100vh', customUrl: this.customUrl }
-  }
-
   get firstNFT() {
     if(this.nfts !== undefined && this.nfts.length !== 0) {
       const firstNft = this.nfts.find(nft => nft.image && nft.type && nft.type.includes('image'));
@@ -141,6 +146,13 @@ export default class Profile extends Vue {
   public checkActiveTab() {
     if (this.$route.params.tab && ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))) {
       this.activeTab = this.$route.params.tab;
+    }
+  }
+
+  @Watch('$route.params.id')
+  protected onIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.fetchProfile()
     }
   }
 
