@@ -3,8 +3,6 @@ name: pr-chatter
 on:
   pull_request_review:
     types: [submitted]
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
