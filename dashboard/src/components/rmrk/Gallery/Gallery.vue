@@ -27,13 +27,21 @@
                   <img
                     :src="placeholder"
                     :data-src="nft.image"
+                    :data-type="nft.type"
                     :alt="nft.name"
                     class="lazyload gallery__image"
                     @error="onError"
                   />
                 </figure>
-                <span v-if="nft.price" class="card-image__price">
-                  <Money :value="nft.price" inline />
+                <span
+                  v-if="nft.price"
+                  class="card-image__price"
+                >
+                    <Money
+                      :value="nft.price"
+                      showFiatValue="usd"
+                      inline
+                    />
                 </span>
               </div>
 
@@ -86,7 +94,6 @@ import GalleryCardList from './GalleryCardList.vue'
 import Search from './Search/SearchBar.vue'
 import Money from '@/components/shared/format/Money.vue'
 import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
-import axios from 'axios'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types';
@@ -112,7 +119,7 @@ export default class Gallery extends Vue {
   public async mounted() {
     const rmrkService = getInstance();
 
-    // this.setFreezeframe()
+    this.setFreezeframe()
 
     if (!rmrkService) {
       return;
@@ -123,6 +130,7 @@ export default class Gallery extends Vue {
       .then(sanitizeObjectArray)
       .then(mapPriceToNumber)
       .then(defaultSortBy);
+
       // this.collectionMeta();
     } catch (e) {
       console.warn(e);
@@ -141,9 +149,8 @@ export default class Gallery extends Vue {
   setFreezeframe() {
     document.addEventListener('lazybeforeunveil', async (e) => {
       const target = e.target as Image
-      const src = target.dataset.src as string
-      const image = await axios.head(src)
-      const isGif = image.headers['content-type'] === 'image/gif'
+      const type = target.dataset.type as string
+      const isGif = type === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
         const ff = new Freezeframe(target, {
