@@ -1,34 +1,14 @@
-# This is a basic workflow to help you get started with Actions
-
-name: lgtm
-
-# Controls when the action will run. 
+name: Send LGTM reaction
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  issue_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command using the runners shell
-      - name: LGTM Reaction
-        uses: micnncim/action-lgtm-reaction@v0.6.0
-        with:
-          # Trigger comment on issue to send reaction
-          trigger: "^lgtm$"
-          # Whether the original comment is overridden
-          overide: false
-          # Source providing LGTM image
-          source: lgtmapp
+      - uses: actions/checkout@1.0.0
+      - uses: micnncim/action-lgtm-reaction@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
