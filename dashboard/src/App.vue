@@ -115,4 +115,5 @@ $link-focus-border: $primary;
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+// @import "~bulma-prefers-dark/bulma-prefers-dark";
 </style>
