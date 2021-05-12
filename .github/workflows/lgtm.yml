@@ -1,4 +1,4 @@
-name: Send LGTM reaction
+name: lgtm
 on:
   issue_comment:
     types: [created]
