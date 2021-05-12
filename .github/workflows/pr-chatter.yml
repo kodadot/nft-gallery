@@ -27,7 +27,7 @@ jobs:
       - uses: BrianMitchL/pr-chatter-action@v1
         with:
         # required
-          TENOR_API_KEY: ${{ secrets.TENOR_API_KEY }}
+          TENOR_API_KEY: T0FSGDPQMCIT
           # optional
           approved-gif-keywords: 'amazing, approve, awesome, great work, good job, hooray, incredible, joy, looks good, nice, perfect, thumbs up, wonderful'
           # optional
