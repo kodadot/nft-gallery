@@ -1,16 +1,11 @@
-# run the action on the `pull_request_review` event
+name: pr-chatter
 on:
   pull_request_review:
     types: [submitted]
 
-# later in the job steps
 - uses: BrianMitchL/pr-chatter-action@v1
   with:
-    # required
     TENOR_API_KEY: T0FSGDPQMCIT
-    # optional
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    # optional
     approved-gif-keywords: 'amazing, approve, awesome, great work, good job, hooray, incredible, joy, looks good, nice, perfect, thumbs up, wonderful'
-    # optional
     changes-requested-gif-keywords: 'try again, review, at least you tried, so close, dumpster fire, terrible, awful, disgusting, sad'
