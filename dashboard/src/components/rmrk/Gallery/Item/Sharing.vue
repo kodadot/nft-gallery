@@ -81,6 +81,62 @@
               >
               </b-icon>
             </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="messenger"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="facebook-messenger"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="whatsapp"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="whatsapp"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="pinterest"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="pinterest"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="email"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fas"
+                icon="envelope"
+              >
+              </b-icon>
+            </ShareNetwork>
             <b-button
               size="is-medium"
               v-clipboard:copy="iframeUri"
@@ -199,17 +255,25 @@ export default class Sharing extends Vue {
     }
 
     &__tooltip {
+      width: 100%;
+
       .tooltip-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 168px;
 
         &:before {
           display: none;
         }
+      }
 
-        @media screen and (min-width: 1024px) {
-          flex-direction: row;
-        }
+      .tooltip-trigger {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       &.is-light  {
