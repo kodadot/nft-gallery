@@ -61,6 +61,7 @@
                 </b-tag>
                 <p v-if="!isLoading"
                   class="subtitle is-size-5">
+                  {{ nft.description }}
                   <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
                 </p>
                 <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
