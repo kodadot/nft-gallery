@@ -18,7 +18,7 @@ export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
 export type ProviderKeyType = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
 
 export const ipfsProviders: Record<ProviderKeyType, string> = {
-  pinata: 'https://gateway.pinata.cloud/',
+  pinata: 'https://kodadot.mypinata.cloud/',
   cloudflare: 'https://cloudflare-ipfs.com/',
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
