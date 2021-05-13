@@ -27,15 +27,16 @@ import {
   faGhost, faCode, faLeaf,
   faFlask, faCameraRetro, faTag,
   faShareAlt, faExclamationTriangle,
-  faCalendar, faCalculator
+  faCalendar, faCalculator, faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
 import {
-  faTwitter, faLine, faTelegram, faFacebook,
-  faTelegramPlane, faMedium,
+  faTwitter, faLine, faTelegram,
+  faFacebook, faFacebookMessenger,
+  faTelegramPlane, faMedium, faWhatsapp, faPinterest,
   faWpexplorer,
   faRedditAlien
 } from '@fortawesome/free-brands-svg-icons';
@@ -63,23 +64,22 @@ library.add(
   faKey, faExternalLinkAlt, faUpload,
   faUsers, faQuestionCircle, faMinus,
   faSearch, faInfoCircle, faChevronDown,
-  faChevronUp, faHeart, faSearch,
+  faChevronUp, faHeart,
   faCaretDown, faInfo, faShareSquare,
-  faTwitter, faTelegram, faMedium, faLine,
-  faBookmark,
-  faCaretDown, faInfo, faLink,
+  faBookmark, faLink,
   faLanguage, faQuestion, faEye,
   faPrint, faCommentAlt, faMagic,
   faLeaf, faFlask,
-  faCalendar,
-
-  faTwitter, faTelegram, faFacebook, faMedium,
-  faLine, faTelegramPlane,
+  faCalendar, faEnvelope,
   faCommentDots, faGhost, faCode,
   faWpexplorer,
   faRedditAlien, faCameraRetro,
   faTag, faShareAlt,
-  faExclamationTriangle, faCalculator
+  faExclamationTriangle, faCalculator,
+
+  // Social
+  faTwitter, faTelegram, faFacebook, faFacebookMessenger,
+  faLine, faTelegramPlane, faWhatsapp, faPinterest, faMedium
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
