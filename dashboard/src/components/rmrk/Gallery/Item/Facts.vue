@@ -64,7 +64,7 @@ export default class Facts extends Vue {
   public multimediaCid: string = '';
   public showGwLinks: boolean = false;
   public gwList: any = [
-    'https://gateway.pinata.cloud/ipfs/',
+    'https://kodadot.mypinata.cloud/ipfs/',
     'https://cloudflare-ipfs.com/ipfs/',
     'https://gateway.ipfs.io/ipfs/',
     'https://ipfs.fleek.co/ipfs/',
