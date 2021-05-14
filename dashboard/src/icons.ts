@@ -36,8 +36,8 @@ import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import {
   faTwitter, faLine, faTelegram,
   faFacebook, faFacebookMessenger,
-  faTelegramPlane, faMedium, faWhatsapp, faPinterest,
-  faWpexplorer,
+  faTelegramPlane, faMedium, faWhatsapp,
+  faPinterest, faWpexplorer, faDiscord,
   faRedditAlien
 } from '@fortawesome/free-brands-svg-icons';
 
@@ -78,8 +78,10 @@ library.add(
   faExclamationTriangle, faCalculator,
 
   // Social
-  faTwitter, faTelegram, faFacebook, faFacebookMessenger,
-  faLine, faTelegramPlane, faWhatsapp, faPinterest, faMedium
+  faTwitter, faTelegram, faFacebook,
+  faFacebookMessenger, faDiscord,
+  faLine, faTelegramPlane, faWhatsapp,
+  faPinterest, faMedium,
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
