@@ -114,7 +114,7 @@
                   </router-link>
                 </h2>
                 <h2 class="title is-4">
-                  <router-link :to="{ name: 'rmrk' }">
+                  <router-link :to="{ name: 'simpleMint' }">
                     <b-icon
                       icon="print">
                     </b-icon>
@@ -150,15 +150,23 @@
                     @KodaDot
                   </a>
                 </h2>
-
                 <h2 class="title">
+                  <a href="https://discord.gg/PxEyQhW4NK" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="discord">
+                    </b-icon>
+                    KodaDot Stewards Discord
+                  </a>
+                </h2>
+                <!-- <h2 class="title">
                   <a href="https://calendar.google.com/calendar/u/0/embed?src=c_eu96e3mq6ov7oj0eaadgbbvjvk@group.calendar.google.com" target="_blank">
                     <b-icon
                       icon="calendar">
                     </b-icon>
                     {{ $t('Community Events') }}
                   </a>
-                </h2>
+                </h2> -->
                 <h2 class="title">
                   <a href="https://twitter.com/metaprime_net" target="_blank">
                     <b-icon
@@ -197,7 +205,6 @@
                 </h2>
                 </div>
               </div>
-
           </div>
         </div>
       </div>
@@ -216,7 +223,6 @@ export default class Landing extends Vue {
     ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
     ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
-    ['🇰🇷 Korea', 'https://t.me/KodaDotKR'],
     ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
     ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
     ['🇷🇺 Russia', 'https://t.me/kodadotru'],
