@@ -11,7 +11,7 @@
         <div class="box">
           <p class="title is-size-3">
             <!-- {{ $t('mint.context') }} -->
-            Create NFT
+            Create NFT Collectibles
           </p>
           <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
           <b-field>
@@ -24,7 +24,7 @@
           </b-field>
 
           <MetadataUpload v-model="file"
-           label="Drop your NFT here or click to upload. Supports (bbmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ mp3/ json)"
+           label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
            expanded />
 
           <b-field grouped :label="$i18n.t('Name')">
