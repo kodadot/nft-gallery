@@ -7,7 +7,7 @@
             v-if="!isLoading && imageVisible"
             :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
             :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-            alt="NFT minted multimedia"
+            alt="KodaDot NFT minted multimedia"
             ratio="1by1"
           ></b-image>
           <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
@@ -112,7 +112,7 @@ type NFTType =  NFTWithMeta;
         {
           vmid: 'description',
           name: 'description',
-          content: '🖼 👀 KodaDot Polkadot/Kusama NFT Market Explorer'
+          content: 'KodaDot - Kusama NFT Market Explorer'
         },
         { property: 'og:type', content: 'website'},
         { property: 'og:title', content: (this.nft.name as string) },
