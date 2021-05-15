@@ -28,13 +28,13 @@ import coingecko from '@/coingecko'
       { property: 'og:url', content: 'https://nft.kodadot.xyz'},
       { property: 'og:description', content: ' KodaDot | Kusama NFT Market Explorer' },
       { property: 'og:site_name', content: ' KodaDot | Kusama NFT Market Explorer'},
-      { property: 'og:image', content: 'https://deploy-preview-379--nftkodadot.netlify.app/kodadot_community.jpeg'},
+      { property: 'og:image', content: '//kodadot_community.jpeg'},
       { property: 'og:locale', content: 'en_US'},
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:site', content: '@KodaDot' },
       { property: 'twitter:title', content: 'KodaDot | Kusama NFT Market Explorer' },
       { property: 'twitter:description', content: 'KodaDot | Kusama NFT Market Explorer' },
-      { property: 'twitter:image', content: 'https://deploy-preview-379--nftkodadot.netlify.app/kodadot_community.jpeg'},
+      { property: 'twitter:image', content: '//kodadot_community.jpeg'},
       ]
     }
   },
