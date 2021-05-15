@@ -16,24 +16,24 @@ import coingecko from '@/coingecko'
 @Component<Dashboard>({
   metaInfo() {
     return {
-      title: '🖼 👀 KodaDot | Polkadot/Kusama NFT Market Explorer',
-      titleTemplate: '%s | KodaDot',
+      title: 'KodaDot | Kusama NFT Market Explorer',
+      titleTemplate: '%s | Low Carbon NFTs',
       meta: [{
         vmid: 'description',
         name: 'description',
-        content: '🖼 👀 KodaDot | Polkadot/Kusama NFT Market Explorer'
+        content: 'KodaDot | Kusama NFT Market Explorer'
       },
-      { property: 'og:title', content: '🖼 👀  KodaDot | Polkadot/Kusama NFT Market Explorer' },
+      { property: 'og:title', content: 'KodaDot | Kusama NFT Market Explorer' },
       { property: 'og:type', content: 'website'},
       { property: 'og:url', content: 'https://nft.kodadot.xyz'},
-      { property: 'og:description', content: ' 🖼 👀  KodaDot | Polkadot/Kusama NFT Market Explorer' },
-      { property: 'og:site_name', content: ' 🖼 👀  KodaDot | Polkadot/Kusama NFT Market Explorer'},
+      { property: 'og:description', content: ' KodaDot | Kusama NFT Market Explorer' },
+      { property: 'og:site_name', content: ' KodaDot | Kusama NFT Market Explorer'},
       // { property: 'og:image', content: '/img/icons/android-chrome-256x256.png'}
       { property: 'og:locale', content: 'en_US'},
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:site', content: '@KodaDot' },
-      { property: 'twitter:title', content: ' 🖼 👀  KodaDot | Polkadot/Kusama NFT Market Explorer' },
-      { property: 'twitter:description', content: ' 🖼 👀  KodaDot | Polkadot/Kusama NFT Market Explorer' },
+      { property: 'twitter:title', content: 'KodaDot | Kusama NFT Market Explorer' },
+      { property: 'twitter:description', content: 'KodaDot | Kusama NFT Market Explorer' },
       // { property: 'twitter:image', content: (this.nft.image as string) },
       ]
     }
