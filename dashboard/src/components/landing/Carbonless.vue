@@ -119,8 +119,27 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 
-@Component({})
-export default class Sustainibility extends Vue {
+@Component<Carbonless>({
+  metaInfo() {
+    return {
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: 'KodaDOT Kusama NFT Explorer'
+        },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:title', content: 'KodaDOT Kusama NFT explorer'},
+        { property: 'og:image', content: '/public/kodadot_community.jpeg'},
+        { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
+        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
+        { property: 'twitter:image', content: '/public/kodadot_community.jpeg'},
+      ]
+    }
+  }
+})
+export default class Carbonless extends Vue {
 
 }
 </script>
