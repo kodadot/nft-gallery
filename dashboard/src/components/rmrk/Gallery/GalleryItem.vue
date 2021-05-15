@@ -112,7 +112,7 @@ type NFTType =  NFTWithMeta;
         {
           vmid: 'description',
           name: 'description',
-          content: '🖼 👀 KodaDot Polkadot/Kusama NFT Market Explorer'
+          content: 'KodaDot - Kusama NFT Market Explorer'
         },
         { property: 'og:type', content: 'website'},
         { property: 'og:title', content: (this.nft.name as string) },

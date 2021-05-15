@@ -28,7 +28,7 @@ import coingecko from '@/coingecko'
       { property: 'og:url', content: 'https://nft.kodadot.xyz'},
       { property: 'og:description', content: ' KodaDot | Kusama NFT Market Explorer' },
       { property: 'og:site_name', content: ' KodaDot | Kusama NFT Market Explorer'},
-      // { property: 'og:image', content: '/img/icons/android-chrome-256x256.png'}
+      { property: 'og:image', content: 'https://kodadot.xyz/kodadot_community.jpeg'}
       { property: 'og:locale', content: 'en_US'},
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:site', content: '@KodaDot' },
