@@ -105,7 +105,21 @@ interface Image extends HTMLImageElement {
 type NFTType = NFTWithMeta;
 const components = { GalleryCardList, Search, Money }
 
-@Component({ components })
+@Component<Gallery>({
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:type', content: 'website'},
+        { property: 'og:title', content: 'Low minting fees and carbonless NFTs'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:description', content: 'Buy Carbonless NFTs on Kusama'},
+        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:description', content: 'Buy Carbonless NFTs on Kusama'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+      ]
+    }
+  },
+  components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;

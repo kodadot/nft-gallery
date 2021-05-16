@@ -18,11 +18,11 @@ import coingecko from '@/coingecko'
     return {
       title: 'KodaDot - Kusama NFT Market Explorer',
       titleTemplate: '%s | Low Carbon NFTs',
-      meta: [{
-        vmid: 'description',
-        name: 'description',
-        content: 'KodaDot - Kusama NFT Market Explorer'
-      },
+      // meta: [{
+      //   vmid: 'description',
+      //   name: 'description',
+      //   content: 'KodaDot - Kusama NFT Market Explorer'
+      // },
       // { property: 'og:title', content: 'KodaDot - Kusama NFT Market Explorer' },
       // { property: 'og:type', content: 'website'},
       // { property: 'og:url', content: 'https://nft.kodadot.xyz'},

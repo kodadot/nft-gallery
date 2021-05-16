@@ -211,24 +211,18 @@ const components = {
 @Component<SimpleMint>({
     metaInfo() {
     return {
-      title: 'KodaDot | Kusama NFT Market Explorer',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [{
-        vmid: 'description',
-        name: 'description',
-        content: 'KodaDot | Kusama NFT Market Explorer'
-      },
+      meta: [
       { property: 'og:title', content: 'KodaDot | Low fees and low carbon minting' },
       { property: 'og:type', content: 'website'},
       { property: 'og:url', content: 'https://nft.kodadot.xyz'},
-      { property: 'og:description', content: 'Low fees and low carbon minting' },
+      { property: 'og:description', content: 'Create carbonless NFTs with low on-chain fees' },
       { property: 'og:site_name', content: 'Low fees and low carbon minting'},
       { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
       { property: 'og:locale', content: 'en_US'},
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:site', content: '@KodaDot' },
       { property: 'twitter:title', content: 'Low fees and low carbon minting' },
-      { property: 'twitter:description', content: 'Low fees and low carbon minting' },
+      { property: 'twitter:description', content: 'Create carbonless NFTs with low on-chain fees' },
       { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
       ]
     }
