@@ -208,7 +208,22 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue')
 };
 
-@Component({ components })
+@Component<SimpleMint>({
+    metaInfo() {
+    return {
+      meta: [
+      { property: 'og:title', content: 'KodaDot | Low fees and low carbon minting' },
+      { property: 'og:url', content: 'https://nft.kodadot.xyz'},
+      { property: 'og:description', content: 'Create carbonless NFTs with low on-chain fees' },
+      { property: 'og:site_name', content: 'Low fees and low carbon minting'},
+      { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+      { property: 'twitter:title', content: 'Low fees and low carbon minting' },
+      { property: 'twitter:description', content: 'Create carbonless NFTs with low on-chain fees' },
+      { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+      ]
+    }
+  },
+  components })
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
   RmrkVersionMixin
