@@ -94,7 +94,26 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 
-@Component({})
+@Component<Sustainibility>({
+  metaInfo() {
+    return {
+      meta: [
+        {
+          vmid: 'description',
+          name: 'description',
+          content: 'KodaDOT Kusama NFT Explorer'
+        },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:title', content: 'KodaDOT Kusama NFT explorer'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:description', content: 'KodaDot Sustainibility program'},
+        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:description', content: 'KodaDot Sustainibility program'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+      ]
+    }
+  }
+})
 export default class Sustainibility extends Vue {
 
 }
