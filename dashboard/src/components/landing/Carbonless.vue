@@ -123,21 +123,16 @@ import { Component, Vue } from 'vue-property-decorator';
   metaInfo() {
     return {
       meta: [
-        {
-          vmid: 'description',
-          name: 'description',
-          content: 'KodaDOT Kusama NFT Explorer'
-        },
-        { property: 'og:type', content: 'website'},
-        { property: 'og:title', content: 'KodaDOT Kusama NFT explorer'},
+        { property: 'og:title', content: 'KodaDOT cares about environmental impact'},
         { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
-        { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:site', content: '@KodaDot' },
-        { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
+        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
+        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
         { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
       ]
     }
-  }
+  },
+  components: {}
 })
 export default class Carbonless extends Vue {
 
