@@ -219,6 +219,7 @@ const components = {
 @Component<Landing>({
   metaInfo() {
     return {
+      titleTemplate: '',
       meta: [
         {
           vmid: 'description',

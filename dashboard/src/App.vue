@@ -16,24 +16,24 @@ import coingecko from '@/coingecko'
 @Component<Dashboard>({
   metaInfo() {
     return {
-      title: 'KodaDot | Kusama NFT Market Explorer',
+      title: 'KodaDot - Kusama NFT Market Explorer',
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [{
         vmid: 'description',
         name: 'description',
-        content: 'KodaDot | Kusama NFT Market Explorer'
+        content: 'KodaDot - Kusama NFT Market Explorer'
       },
-      { property: 'og:title', content: 'KodaDot | Kusama NFT Market Explorer' },
-      { property: 'og:type', content: 'website'},
-      { property: 'og:url', content: 'https://nft.kodadot.xyz'},
-      { property: 'og:description', content: ' KodaDot | Kusama NFT Market Explorer' },
-      { property: 'og:site_name', content: ' KodaDot | Kusama NFT Market Explorer'},
-      // { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
-      { property: 'og:locale', content: 'en_US'},
-      { property: 'twitter:card', content: 'summary_large_image' },
-      { property: 'twitter:site', content: '@KodaDot' },
-      { property: 'twitter:title', content: 'KodaDot | Kusama NFT Market Explorer' },
-      { property: 'twitter:description', content: 'KodaDot | Kusama NFT Market Explorer' },
+      // { property: 'og:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      // { property: 'og:type', content: 'website'},
+      // { property: 'og:url', content: 'https://nft.kodadot.xyz'},
+      // { property: 'og:description', content: ' KodaDot - Kusama NFT Market Explorer' },
+      // { property: 'og:site_name', content: ' KodaDot - Kusama NFT Market Explorer'},
+      // // { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+      // { property: 'og:locale', content: 'en_US'},
+      // { property: 'twitter:card', content: 'summary_large_image' },
+      // { property: 'twitter:site', content: '@KodaDot' },
+      // { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      // { property: 'twitter:description', content: 'KodaDot - Kusama NFT Market Explorer' },
       // { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
       ]
     }
