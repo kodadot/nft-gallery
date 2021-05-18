@@ -220,19 +220,12 @@ const components = {
   metaInfo() {
     return {
       meta: [
-        {
-          vmid: 'description',
-          name: 'description',
-          content: 'KodaDOT - Kusama NFT Explorer'
-        },
-        { property: 'og:type', content: 'website'},
-        { property: 'og:title', content: 'KodaDOT - Kusama NFT explorer'},
-        { property: 'og:image', content: '//kodadot_community.jpeg'},
+        { property: 'og:title', content: 'KodaDOT - Kusama NFT Market explorer'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
         { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
         { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:image', content: '//kodadot_community.jpeg'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
       ]
     }
   },
