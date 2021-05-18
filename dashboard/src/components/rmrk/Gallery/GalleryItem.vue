@@ -26,6 +26,8 @@
     </div>
     <div class="columns">
       <div class="column is-6">
+        <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+        
         <div class="nft-title">
           <Name :nft="nft" :isLoading="isLoading" />
         </div>
@@ -51,16 +53,14 @@
         
         <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
         <div class="price-block" v-if="hasPrice">
-          <b-tag type="is-dark" size="is-medium">
-            <Money :value="nft.price" showFiatValue="usd" inline />
-          </b-tag>
+          <div class="price-block__original">{{ this.nft.price | formatBalance(12, 'KSM') }}</div>
+          <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
           <div class="label">{{ $t('price') }}</div>
         </div>
 
         <template v-if="detailVisible">
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
           <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          <b-collapse class="card" animation="slide"
+          <b-collapse class="card mb-4" animation="slide"
               aria-id="contentIdForA11y3" :open="false">
               <template #trigger="props">
                 <div
@@ -350,5 +350,18 @@ button#fullscreen-view {
 .price-block {
   border: 2px solid $primary;
   padding: 14px;
+
+  &__original {
+    color: $dark;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &__exchange {
+    opacity: .6;
+    color: $dark;
+    margin: 0;
+  }
 }
 </style>
