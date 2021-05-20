@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-appreciation__main">
+  <div class="nft-appreciation__main mb-4">
     <b-tooltip
       v-if="accountId && nftId"
       type="is-light"
@@ -133,6 +133,11 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   border-radius: 0;
   border: 2px solid $primary;
   color: $primary;
+}
+
+.nft-emotion__main {
+  padding-left: 60px;
+  margin-top: -40px;
 }
 
 </style>

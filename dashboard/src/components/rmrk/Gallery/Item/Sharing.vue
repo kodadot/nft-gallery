@@ -234,6 +234,7 @@ export default class Sharing extends Vue {
 
 <style lang="scss">
   @import "@/colors";
+  @import "@/typography";
 
   .share {
     &__button {
