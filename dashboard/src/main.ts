@@ -16,10 +16,12 @@ import router from './router';
 import MetaInfo from 'vue-meta';
 import AudioVisual from 'vue-audio-visual'
 import VueSocialSharing from 'vue-social-sharing'
+import VueApollo from 'vue-apollo'
 
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
 Vue.use(VueSocialSharing)
+Vue.use(VueApollo)
 
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
@@ -38,6 +40,7 @@ import axios from 'axios'
 import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
 import { $sum, $first, $push } from 'mingo/operators/accumulator'
+import apolloClient from './subquery';
 
 // ensure the required operators are preloaded prior to using them.
 type OperatorMap = Record<string, any> ;
@@ -90,11 +93,16 @@ Vue.filter('truncateStr', truncateStr)
 
 Vue.use(VueClipboard);
 
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})
+
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
+  apolloProvider,
   i18n,
   render: (h) => h(App)
 }).$mount('#app');

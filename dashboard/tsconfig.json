@@ -15,7 +15,8 @@
     "types": [
       "webpack",
       "webpack-env",
-      "vue-meta"
+      "vue-meta",
+      "vue-apollo"
     ],
     "paths": {
       "@/*": [
