@@ -40,3 +40,9 @@
     }
   }
 }
+
+.no-padding-desktop {
+  @media screen and (min-width:1023px) {
+    padding: 0;
+  }
+}
