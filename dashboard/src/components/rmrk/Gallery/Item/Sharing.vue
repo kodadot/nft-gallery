@@ -3,7 +3,7 @@
     <footer class="card-footer">
       <div class="card-footer-item">
         <b-button
-          size="is-medium"
+          size="is-small"
           v-clipboard:copy="realworldFullPathShare"
           @click="toast('URL copied to clipboard')"
           class="share__button"
@@ -152,7 +152,7 @@
           </template>
           <b-button
             class="share__button"
-            size="is-medium"
+            size="is-small"
             @click="active = !active"
             @focusout="active = !active"
           >
@@ -234,12 +234,14 @@ export default class Sharing extends Vue {
 
 <style lang="scss">
   @import "@/colors";
+  @import "@/typography";
 
   .share {
     &__button {
       color: $primary;
       background: transparent;
       border: none;
+      margin: 5px;
 
       &:hover,
       &:focus {

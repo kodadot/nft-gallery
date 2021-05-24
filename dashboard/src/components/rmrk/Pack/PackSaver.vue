@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-appreciation__main">
+  <div class="nft-appreciation__main my-4">
     <b-dropdown
       v-model="currentMenu"
       @input="handleInput"
@@ -10,7 +10,7 @@
       :max-height="200"
       >
       <template #trigger>
-        <b-button type="is-primary" outlined icon-left="bookmark">
+        <b-button type="is-primary" outlined icon-left="bookmark" expanded>
           Save to pack ({{ currentMenu.length }})
         </b-button>
       </template>
