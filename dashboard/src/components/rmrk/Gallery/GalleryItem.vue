@@ -1,77 +1,102 @@
  <template>
-  <div class="wrapper">
-    <div class="columns">
-      <div class="column is-8 is-offset-2">
-        <div :class="{ box: detailVisible }">
-          <b-image
-            v-if="!isLoading && imageVisible"
-            :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-            :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-            alt="KodaDot NFT minted multimedia"
-            ratio="1by1"
-          ></b-image>
-          <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
-          <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
-          <template v-if="detailVisible">
-            <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-            <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          <b-collapse class="card" animation="slide"
-            aria-id="contentIdForA11y3" :open="false">
-          <template #trigger="props">
-            <div
-              class="card-header"
-              role="button"
-              aria-controls="contentIdForA11y3">
-              <p class="card-header-title">
-                {{ $t('actions') }}
-              </p>
-              <a class="card-header-icon">
-                <b-icon
-                  :icon="props.open ? 'chevron-up' : 'chevron-down'">
-                </b-icon>
-              </a>
-            </div>
-          </template>
-          <div class="card-content">
-            <div class="content">
-              <p class="subtitle">
-                <Auth />
-                <AvailableActions
-                :accountId="accountId"
-                :currentOwnerId="nft.currentOwner"
-                :price="nft.price"
-                :nftId="nft.id"
-                :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
-                @change="handleAction"
-                />
-              </p>
-            </div>
-          </div>
-        </b-collapse>
-        </template>
-        <Name :nft="nft" :isLoading="isLoading" />
-          <div class="card">
-            <div class="card-content">
-              <p class="title" :class="[ detailVisible ? 'is-size-2' : 'is-size-4' ]">
-                {{ $t('legend')}}
-              </p>
-              <div class="subtitle is-size-7">
-                <b-tag v-if="hasPrice" type="is-dark" size="is-medium">
-                  <Money :value="nft.price" showFiatValue="usd" inline />
-                </b-tag>
-                <p v-if="!isLoading"
-                  class="subtitle is-size-5">
-                  {{ nft.description }}
-                  <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
-                </p>
-                <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+  <div class="wrapper section no-padding-desktop">
+    <div class="container">
+      <div class="columns">
+          <div class="image-wrapper">
+              <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
+              <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
+                <div class="image-preview" :class="{fullscreen: isFullScreenView}">
+                  <b-image
+                    v-if="!isLoading && imageVisible"
+                    :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+                    :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+                    alt="KodaDot NFT minted multimedia"
+                  ></b-image>
+                  <img class="fullscreen-image" :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
+                  <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
+                  <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
+                </div>
               </div>
-            </div>
+              <button id="fullscreen-view" @click="toggleFullScreen" v-if="!isLoading && imageVisible" :class="{fullscreen: isFullScreenView}">
+                <b-icon
+                  :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'"
+                  >
+                </b-icon>
+              </button>
           </div>
+      </div>
+      <div class="columns">
+        <div class="column is-6">
+          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+          
+          <div class="nft-title">
+            <Name :nft="nft" :isLoading="isLoading" />
+          </div>
+
+          <p class="label">
+            {{ $t('legend')}}
+          </p>
+          
+          <div class="subtitle is-size-7">
+            <p v-if="!isLoading"
+              class="subtitle is-size-5">
+              {{ nft.description }}
+              <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
+            </p>
+            <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+          </div>
+          
           <template v-if="detailVisible">
             <Facts :nft="nft" />
-            <Sharing />
           </template>
+        </div>
+        <div class="column is-3 is-offset-3" v-if="detailVisible">
+          
+          <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
+          <div class="price-block" v-if="hasPrice">
+            <div class="price-block__original">{{ this.nft.price | formatBalance(12, 'KSM') }}</div>
+            <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
+            <div class="label">{{ $t('price') }}</div>
+          </div>
+
+          <template v-if="detailVisible">
+            <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+            <b-collapse class="card mb-4" animation="slide"
+                aria-id="contentIdForA11y3" :open="false">
+                <template #trigger="props">
+                  <div
+                    class="card-header"
+                    role="button"
+                    aria-controls="contentIdForA11y3">
+                    <p class="card-header-title">
+                      {{ $t('actions') }}
+                    </p>
+                    <a class="card-header-icon">
+                      <b-icon
+                        :icon="props.open ? 'chevron-up' : 'chevron-down'">
+                      </b-icon>
+                    </a>
+                  </div>
+                </template>
+                <div class="card-content">
+                  <div class="content">
+                    <p class="subtitle">
+                      <Auth />
+                      <AvailableActions
+                      :accountId="accountId"
+                      :currentOwnerId="nft.currentOwner"
+                      :price="nft.price"
+                      :nftId="nft.id"
+                      :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
+                      @change="handleAction"
+                      />
+                    </p>
+                  </div>
+                </div>
+            </b-collapse>
+          </template>
+
+          <Sharing />
         </div>
       </div>
     </div>
@@ -146,6 +171,8 @@ export default class GalleryItem extends Vue {
   private passsword: string = '';
   private nft: NFTType = emptyObject<NFTType>();
   private imageVisible: boolean = true;
+  private viewMode: string = 'default';
+  private isFullScreenView: boolean = false;
   public isLoading: boolean = true;
   public mimeType: string = '';
 
@@ -192,6 +219,14 @@ export default class GalleryItem extends Vue {
     }
   }
 
+  public toggleView(): void {
+    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default';
+  }
+
+  public toggleFullScreen(): void {
+    this.isFullScreenView = !this.isFullScreenView;
+  }
+
   public toast(message: string): void {
     this.$buefy.toast.open(message);
   }
@@ -217,7 +252,14 @@ export default class GalleryItem extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/colors";
+@import "@/typography";
+
+.nft-title {
+  margin-bottom: 24px;
+}
+
 .gallery-item__skeleton {
   width: 95%;
   margin: auto;
@@ -225,5 +267,103 @@ export default class GalleryItem extends Vue {
 
 .withPicture {
   margin: 0.75em 0;
+}
+
+.image-wrapper {
+  position: relative;
+  margin: 30px auto;
+  width: 100%;
+
+  .image {
+    border: 2px solid $primary;    
+  }
+
+  .fullscreen-image {
+    display: none;
+  }
+
+  .image-preview {
+    &.fullscreen {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 999998;
+      background: #000;
+
+      img.fullscreen-image {
+        display: block;
+        width: auto !important;
+        height: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+
+      .image {
+        visibility: hidden;
+      }
+    }
+  }
+
+  .column {
+    transition: .3s all;
+  }
+
+  button {
+    border: 2px solid $primary;
+    color: $primary;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    font-size: 20px;
+    background: #fafafa;
+    z-index: 2;
+
+    &:hover {
+      color: #fff;
+      background: $primary;
+      cursor: pointer;
+    }
+  }
+}
+
+button#theatre-view {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+}
+
+button#fullscreen-view {
+  position: absolute;
+  bottom: 13px;
+  right: 13px;
+
+  &.fullscreen {
+    position: fixed;
+    z-index: 999998;
+    bottom:0;
+    right: 0;
+  }
+}
+
+.price-block {
+  border: 2px solid $primary;
+  padding: 14px;
+
+  &__original {
+    color: $dark;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &__exchange {
+    opacity: .6;
+    color: $dark;
+    margin: 0;
+  }
 }
 </style>
