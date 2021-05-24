@@ -124,11 +124,11 @@ import { Component, Vue } from 'vue-property-decorator';
     return {
       meta: [
         { property: 'og:title', content: 'KodaDOT cares about environmental impact'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
         { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
         { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   },
