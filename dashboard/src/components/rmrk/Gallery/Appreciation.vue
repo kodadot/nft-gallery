@@ -120,6 +120,10 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 <style scoped lang="scss">
 @import "@/colors";
 
+.nft-appreciation__main {
+  min-height: 40px;
+}
+
 .nft-appreciation__column {
   padding: 0.45em;
 }
