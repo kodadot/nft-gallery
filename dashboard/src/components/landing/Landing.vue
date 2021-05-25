@@ -151,12 +151,12 @@
                   </a>
                 </h2>
                 <h2 class="title">
-                  <a href="https://discord.gg/PxEyQhW4NK" target="_blank">
+                  <a href="https://discord.gg/u6ymnbz4PR" target="_blank">
                     <b-icon
                       pack="fab"
                       icon="discord">
                     </b-icon>
-                    KodaDot Stewards Discord
+                    KodaDot Community Discord
                   </a>
                 </h2>
                 <!-- <h2 class="title">
@@ -233,6 +233,7 @@ const components = {
 export default class Landing extends Vue {
 
   public publicCommunity: any = [
+    ['🌐 Global', 'https://discord.gg/u6ymnbz4PR'],
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
     ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
