@@ -62,7 +62,6 @@ const eq = (tab: string) => (el: string) => tab === el
   metaInfo() {
     return {
       meta: [
-        { property: 'og:type', content: 'website'},
         { property: 'og:image', vmid: 'og:image', content: this.firstNFT as string},
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:image', vmid: 'twitter:image', content: this.firstNFT as string },
