@@ -139,7 +139,6 @@ type NFTType =  NFTWithMeta;
           name: 'description',
           content: 'KodaDot - Kusama NFT Market Explorer'
         },
-        { property: 'og:type', content: 'website'},
         { property: 'og:title', content: (this.nft.name as string) },
         { property: 'og:description', content: (this.nft.description as string) },
         { property: 'og:image', content: (image)},

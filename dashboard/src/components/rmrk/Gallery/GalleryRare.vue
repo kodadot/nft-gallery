@@ -68,11 +68,24 @@ import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray } from '../utils';
 import GalleryCardList from './GalleryCardList.vue'
+import Sustainibility from '@/components/landing/Sustainability.vue';
 
 type NFTType = NFT | NFTWithMeta;
 const components = { GalleryCardList }
 
-@Component({ components })
+@Component<Sustainibility>({
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: 'Low minting fees and carbonless NFTs'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
+        { property: 'og:description', content: 'Buy Carbonless NFTs on Kusama'},
+        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
+        { property: 'twitter:description', content: 'Buy Carbonless NFTs on Kusama'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
+      ]
+    }
+  }, components })
 export default class Gallery extends Vue {
   private nfts: NFTType[] = [];
   private isLoading: boolean = true;
