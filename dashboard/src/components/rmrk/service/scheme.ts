@@ -108,6 +108,10 @@ export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {
 
 }
 
+export interface CollectionWithNFT extends Collection {
+  nfts?: NFT[]
+}
+
 // id me
 export interface Emotion {
   _id: string;

@@ -131,21 +131,21 @@ type NFTType =  NFTWithMeta;
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.nft.image as string)}`;
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`;
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [
-        { name: 'description', content: (this.nft.description as string) },
+        { name: 'description', content: (this.meta.description as string) },
         { property: 'og:title', content: (this.nft.name as string) },
-        { property: 'og:description', content: (this.nft.description as string) },
+        { property: 'og:description', content: (this.meta.description as string) },
         { property: 'og:image', content: (image)},
-        { property: 'og:video', content: (this.nft.image as string) },
+        { property: 'og:video', content: (this.meta.image as string) },
         { property: 'og:author', content: (this.nft.currentOwner as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
-        { property: 'twitter:description', content: (this.nft.description as string) },
+        { property: 'twitter:description', content: (this.meta.description as string) },
         { property: 'twitter:image', content: (image)},
       ]
     }
@@ -179,7 +179,7 @@ export default class GalleryItem extends Vue {
     return this.$store.getters.getAuthAddress;
   }
 
-  public async mounted() {
+  public async created() {
     this.checkId();
     const rmrkService = getInstance();
     console.log('rmrkService', rmrkService)
