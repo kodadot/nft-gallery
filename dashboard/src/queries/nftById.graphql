@@ -1,4 +1,4 @@
-#import "./nft.gql"
+#import "./nft.graphql"
 
 query nftById($id: String!) {
     nFTEntity(id: $id) {

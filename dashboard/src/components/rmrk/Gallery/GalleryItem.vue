@@ -8,7 +8,7 @@
                 <div class="image-preview" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible"
-                    :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+                    :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
                   ></b-image>
@@ -28,7 +28,7 @@
       <div class="columns">
         <div class="column is-6">
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          
+
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -36,25 +36,25 @@
           <p class="label">
             {{ $t('legend')}}
           </p>
-          
+
           <div class="subtitle is-size-7">
             <p v-if="!isLoading"
               class="subtitle is-size-5">
-              {{ nft.description }}
+              {{ meta.description }}
               <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
-          
+
           <template v-if="detailVisible">
-            <Facts :nft="nft" />
+            <Facts :nft="nft" :meta="meta"  />
           </template>
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
-          
+
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
-            <div class="price-block__original">{{ this.nft.price | formatBalance(12, 'KSM') }}</div>
+            <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
             <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
             <div class="label">{{ $t('price') }}</div>
           </div>
@@ -108,7 +108,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFTWithMeta, NFT } from '../service/scheme';
+import { NFTWithMeta, NFT, NFTMetadata } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 import { formatBalance } from '@polkadot/util';
@@ -123,9 +123,9 @@ import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 import api from '@/fetch';
 import { resolveMedia } from '../utils';
 import { MediaType } from '../types';
-import { MetaInfo } from 'vue-meta';
 import isShareMode from '@/utils/isShareMode';
-import { VueConstructor } from 'vue';
+import nftById from '@/queries/nftById.graphql'
+import { fetchNFTMetadata } from '../utils';
 
 type NFTType =  NFTWithMeta;
 
@@ -167,12 +167,13 @@ export default class GalleryItem extends Vue {
   private id: string = '';
   // private accountId: string = '';
   private passsword: string = '';
-  private nft: NFTType = emptyObject<NFTType>();
+  private nft: NFT = emptyObject<NFT>();
   private imageVisible: boolean = true;
   private viewMode: string = 'default';
   private isFullScreenView: boolean = false;
   public isLoading: boolean = true;
   public mimeType: string = '';
+  public meta: NFTMetadata = emptyObject<NFTMetadata>();
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -187,28 +188,49 @@ export default class GalleryItem extends Vue {
     }
 
     try {
-      const nft = await rmrkService.getNFT(this.id);
-      console.log(nft);
+      // const nft = await rmrkService.getNFT(this.id);
+     const a = this.$apollo.addSmartQuery('nft',{
+        query: nftById,
+        variables: {
+          id: this.id
+        },
+        update: ({ nFTEntity }) => { console.log(nFTEntity); return nFTEntity },
+        result: () => this.fetchMetadata()
+      })
 
-      this.nft = {
-        ...nft,
-        image: sanitizeIpfsUrl(nft.image || ''),
-        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      };
-      if (this.nft.animation_url) {
-        const { headers } = await api.head(this.nft.animation_url);
-        this.mimeType = headers['content-type'];
-        const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
-          t => t === mediaType
-        );
-      }
+      // console.log(nft);
+
+      // this.nft = {
+      //   ...nft,
+      //   image: sanitizeIpfsUrl(nft.image || ''),
+      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
+      // };
+      // if (this.nft.animation_url) {
+      //   const { headers } = await api.head(this.nft.animation_url);
+      //   this.mimeType = headers['content-type'];
+      //   const mediaType = resolveMedia(this.mimeType);
+      //   this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
+      //     t => t === mediaType
+      //   );
+      // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
       console.warn(e);
     }
 
     this.isLoading = false;
+  }
+
+  public async fetchMetadata() {
+    console.log(this.nft['metadata'], !this.meta['image'])
+    if (this.nft['metadata'] && !this.meta['image']) {
+      const meta = await fetchNFTMetadata(this.nft)
+      this.meta = {
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      }
+    }
   }
 
   public checkId() {
@@ -273,7 +295,7 @@ export default class GalleryItem extends Vue {
   width: 100%;
 
   .image {
-    border: 2px solid $primary;    
+    border: 2px solid $primary;
   }
 
   .fullscreen-image {
