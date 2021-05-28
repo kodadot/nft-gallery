@@ -7,8 +7,9 @@
     "build": "netlify-lambda build src-functions && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "lambda": "netlify-lambda serve src-functions",
     "start": "vue-cli-service serve",
-    "lambda": "netlify-lambda serve src-functions"
+    "sitemap": "vue-cli-service sitemap"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -44,6 +45,7 @@
     "vue": "^2.6.12",
     "vue-audio-visual": "^2.2.2",
     "vue-class-component": "^7.2.6",
+    "vue-cli-plugin-sitemap": "~2.3.0",
     "vue-clipboard2": "^0.3.1",
     "vue-i18n": "^8.24.4",
     "vue-meta": "^2.4.0",

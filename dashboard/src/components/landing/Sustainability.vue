@@ -97,7 +97,10 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component<Sustainibility>({
   metaInfo() {
     return {
+      title: 'KodaDot Kusama NFT explorer',
+      titleTemplate: '%s | Low Carbon NFTs',
       meta: [
+        { name: 'description', content: 'KodaDot: Sustainibility mission' },
         { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
         { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
