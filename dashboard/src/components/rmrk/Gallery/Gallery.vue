@@ -12,6 +12,7 @@
       </b-select>
     </b-field> -->
     <Search v-bind.sync="searchQuery" />
+    <b-button @click="first += 1">Show {{ first }}</b-button>
     <div>
       <div class="columns is-multiline">
         <div
@@ -122,13 +123,14 @@ const components = { GalleryCardList, Search, Money }
   },
   components })
 export default class Gallery extends Vue {
-  private nfts: NFTType[] = [];
-  private isLoading: boolean = true;
+  private nfts: NFT[] = [];
+  private isLoading: boolean = false;
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: { blockNumber: -1 }
   }
+  private first = 4;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
 
   public async created() {
@@ -142,11 +144,23 @@ export default class Gallery extends Vue {
     //   return;
     // }
 
-    const ap = await this.$apollo.query<NFT>({
-      query: nftList
+    // const ap = await this.$apollo.query<NFT>({
+    //   query: nftList
+    // })
+
+    const a = this.$apollo.addSmartQuery('nfts',{
+      query: nftList,
+      update: ({ nFTEntities }) => nFTEntities.nodes,
+      loadingKey: 'isLoading',
+      variables: () => {
+        return {
+          first: this.first
+        }
+      },
     })
 
-    console.log(ap)
+    console.log(a)
+
 
     // try {
     //   this.nfts = await rmrkService.getAllNFTs()
@@ -166,7 +180,9 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+    return this.nfts
+
+    // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
   setFreezeframe() {

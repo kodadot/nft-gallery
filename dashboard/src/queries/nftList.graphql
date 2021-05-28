@@ -7,8 +7,8 @@ fragment nft on NFTEntity {
   blockNumber
 }
 
-query nfts {
-  nFTEntities(first:5) {
+query nfts($first: Int!) {
+  nFTEntities(first: $first) {
     nodes {
       ...nft
     }
