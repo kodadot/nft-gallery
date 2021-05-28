@@ -351,6 +351,7 @@ export default class GalleryItem extends Vue {
 
   .price-block {
     border: 2px solid $primary;
+    border-width: 2px 2px 0;
     padding: 14px;
 
     &__original {
