@@ -27,7 +27,8 @@ import {
   faGhost, faCode, faLeaf,
   faFlask, faCameraRetro, faTag,
   faShareAlt, faExclamationTriangle,
-  faCalendar, faCalculator, faEnvelope
+  faCalendar, faCalculator, faEnvelope,
+  faArrowsAlt, faCompressAlt, faCompressArrowsAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -76,6 +77,7 @@ library.add(
   faRedditAlien, faCameraRetro,
   faTag, faShareAlt,
   faExclamationTriangle, faCalculator,
+  faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
 
   // Social
   faTwitter, faTelegram, faFacebook,

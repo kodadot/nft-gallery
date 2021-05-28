@@ -6,6 +6,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Social medias
+* [KodaDot Discord](https://discord.gg/u6ymnbz4PR)
 * [telegram.me/kodadot](https://t.me/kodadot)
 * [twitter.com/@KodaDot](https://twitter.com/KodaDot).
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)

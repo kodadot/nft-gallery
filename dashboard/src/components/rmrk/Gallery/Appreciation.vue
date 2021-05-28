@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-appreciation__main">
+  <div class="nft-appreciation__main mb-4">
     <b-tooltip
       v-if="accountId && nftId"
       type="is-light"
@@ -27,7 +27,7 @@
           </div>
         </div>
       </template>
-      <b-button class="nft-appreciation__button"  icon-left="heart" expanded />
+      <b-button class="nft-appreciation__button" icon-left="heart" />
     </b-tooltip>
     <EmotionList :emotions="emotions" />
   </div>
@@ -117,10 +117,13 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/colors";
+
 .nft-appreciation__main {
-  margin: 1em 0;
+  min-height: 40px;
 }
+
 .nft-appreciation__column {
   padding: 0.45em;
 }
@@ -131,11 +134,14 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 }
 
 .nft-appreciation__button {
-  width: 100%;
+  border-radius: 0;
+  border: 2px solid $primary;
+  color: $primary;
 }
 
-.nft-appreciation__tooltip {
-  width: 100%;
+.nft-emotion__main {
+  padding-left: 60px;
+  margin-top: -40px;
 }
 
 </style>

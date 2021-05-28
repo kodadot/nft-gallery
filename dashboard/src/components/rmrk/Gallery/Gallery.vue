@@ -113,11 +113,11 @@ const components = { GalleryCardList, Search, Money }
     return {
       meta: [
         { property: 'og:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
         { property: 'og:description', content: 'Buy Carbonless NFTs on Kusama'},
         { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
         { property: 'twitter:description', content: 'Buy Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
       ]
     }
   },

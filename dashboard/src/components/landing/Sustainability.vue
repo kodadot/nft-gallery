@@ -97,19 +97,16 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component<Sustainibility>({
   metaInfo() {
     return {
+      title: 'KodaDot Kusama NFT explorer',
+      titleTemplate: '%s | Low Carbon NFTs',
       meta: [
-        {
-          vmid: 'description',
-          name: 'description',
-          content: 'KodaDOT Kusama NFT Explorer'
-        },
-        { property: 'og:type', content: 'website'},
-        { property: 'og:title', content: 'KodaDOT Kusama NFT explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
-        { property: 'og:description', content: 'KodaDot Sustainibility program'},
-        { property: 'twitter:site', content: '@KodaDot' },
-        { property: 'twitter:description', content: 'KodaDot Sustainibility program'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { name: 'description', content: 'KodaDot: Sustainibility mission' },
+        { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
+        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
+        { property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   }

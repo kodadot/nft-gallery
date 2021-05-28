@@ -94,25 +94,25 @@
               <p>
                 We (Kodadot) are feeling inspired to join this movement in our fashioned way
                 <b>to add carbonless minting for creators</b> and start showing which NFTs are
-                carbonless by showing 🌱 next. To top-up our carbon credits buffer,
+                carbonless by showing 🌱 next to them. To top-up our carbon credits buffer,
                 <b><a href="https://nft.kodadot.xyz/rmrk/detail/7369221-0E76E3AC15B4C1FA1E-VCU-KODADOT_CARBON_CREDITS-0000000000000001">we've already
-                bought KodaDot Carbon Credits</a></b> and plan to buy more in favour of KodaDot NFTs.<br>
+                bought KodaDot Carbon Credits</a></b> and plan to automatize offset them in the future more in sustainabile way.<br>
+                <b>You can read more at <a href="https://offsetra.com/profile/kodadot">KodaDot's profile page at Offsetra</a></b><br><br>
                 Once you minted your <b>carbonless NFT on KodaDot,
-                <a href="https://t.me/joinchat/aE-i3mgMAo9lMTU0">you are welcome to join our Carbonless Minting Telegram channel</a></b>
+                <u><a href="https://t.me/joinchat/aE-i3mgMAo9lMTU0">you are welcome to join our Carbonless Minting Telegram channel</a> and <a href="https://discord.gg/u6ymnbz4PR">KodaDot Discord</a></u></b>
               </p><br>
               <h1 class="title is-4">
                 Reading list
               </h1>
               <p>
                 Whenever you want to learn more about cleanNFTs,
-                <a href="https://github.com/kodadot/nft-gallery/issues/346">we left some material in our issues.</a>
+                <u><a href="https://github.com/kodadot/nft-gallery/issues/346">we left some material in our issues.</a></u>
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-
   </div>
 </template>
 <script lang="ts" >
@@ -122,13 +122,16 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component<Carbonless>({
   metaInfo() {
     return {
+      title: 'KodaDOT cares about environmental impact',
+      titleTemplate: '%s | Low Carbon NFTs',
       meta: [
+        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
         { property: 'og:title', content: 'KodaDOT cares about environmental impact'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
         { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
         { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   },

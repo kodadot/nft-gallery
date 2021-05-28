@@ -107,7 +107,7 @@
                     </router-link>
                   </h2>
                 </div>
-                <div class="tile is-child">
+                <!-- <div class="tile is-child">
                   <h2 class="title is-3">
                   <router-link :to="{ name: 'nft' }">
                     <b-icon
@@ -124,7 +124,7 @@
                     {{ $t('Create your NFT Token & Collectibles') }}
                   </router-link>
                 </h2><br>
-              </div>
+              </div> -->
               <div class="tile is-child">
                 <h2 class="title">
                   <a href="https://t.me/kodadot" target="_blank">
@@ -154,12 +154,12 @@
                   </a>
                 </h2>
                 <h2 class="title">
-                  <a href="https://discord.gg/PxEyQhW4NK" target="_blank">
+                  <a href="https://discord.gg/u6ymnbz4PR" target="_blank">
                     <b-icon
                       pack="fab"
                       icon="discord">
                     </b-icon>
-                    KodaDot Stewards Discord
+                    KodaDot Community Discord
                   </a>
                 </h2>
                 <!-- <h2 class="title">
@@ -170,15 +170,6 @@
                     {{ $t('Community Events') }}
                   </a>
                 </h2> -->
-                <h2 class="title">
-                  <a href="https://twitter.com/metaprime_net" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                    {{ $t('Building on @Metaprime_net') }}
-                  </a>
-                </h2>
                 <h2 class="title">
                   <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
                     <b-icon
@@ -206,6 +197,15 @@
                     {{ $t('Client-first NFT gallery: Technical examination') }}
                   </a>
                 </h2>
+                <h2 class="title">
+                  <a href="https://twitter.com/metaprime_net" target="_blank">
+                    <b-icon
+                      pack="fab"
+                      icon="twitter">
+                    </b-icon>
+                    {{ $t('NFT-focused infrastracture @Metaprime_net') }}
+                  </a>
+                </h2>
                 </div>
               </div>
           </div>
@@ -226,12 +226,12 @@ const components = {
   metaInfo() {
     return {
       meta: [
-        { property: 'og:title', content: 'KodaDOT - Kusama NFT Market explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'og:title', content: 'KodaDot - Kusama NFT Market explorer'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
         { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
         { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   },
@@ -250,6 +250,7 @@ const components = {
 export default class Landing extends Vue {
 
   public publicCommunity: any = [
+    ['🌐 Global Discord', 'https://discord.gg/u6ymnbz4PR'],
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
     ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
@@ -260,7 +261,7 @@ export default class Landing extends Vue {
     ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
     ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
     ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
-    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    // ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 
   public creators: any = [
