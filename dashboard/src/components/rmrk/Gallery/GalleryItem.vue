@@ -1,5 +1,5 @@
  <template>
-  <div class="wrapper section no-padding-desktop">
+  <div class="wrapper section no-padding-desktop gallery-item">
     <div class="container">
       <div class="columns">
           <div class="image-wrapper">
@@ -11,6 +11,7 @@
                     :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
+                    ratio="1by1"
                   ></b-image>
                   <img class="fullscreen-image" :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
@@ -28,7 +29,7 @@
       <div class="columns">
         <div class="column is-6">
           <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          
+
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -36,7 +37,7 @@
           <p class="label">
             {{ $t('legend')}}
           </p>
-          
+
           <div class="subtitle is-size-7">
             <p v-if="!isLoading"
               class="subtitle is-size-5">
@@ -45,13 +46,13 @@
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
-          
+
           <template v-if="detailVisible">
             <Facts :nft="nft" />
           </template>
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
-          
+
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
             <div class="price-block__original">{{ this.nft.price | formatBalance(12, 'KSM') }}</div>
@@ -250,118 +251,161 @@ export default class GalleryItem extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/colors";
 @import "@/typography";
 
-.nft-title {
-  margin-bottom: 24px;
-}
-
-.gallery-item__skeleton {
-  width: 95%;
-  margin: auto;
-}
-
-.withPicture {
-  margin: 0.75em 0;
-}
-
-.image-wrapper {
-  position: relative;
-  margin: 30px auto;
-  width: 100%;
-
-  .image {
-    border: 2px solid $primary;    
+.gallery-item {
+  .nft-title {
+    margin-bottom: 24px;
   }
 
-  .fullscreen-image {
-    display: none;
+  .gallery-item__skeleton {
+    width: 95%;
+    margin: auto;
   }
 
-  .image-preview {
+  .withPicture {
+    margin: 0.75em 0;
+  }
+
+  .image-wrapper {
+    position: relative;
+    margin: 30px auto;
+    width: 100%;
+
+    .image {
+      border: 2px solid $primary;
+    }
+
+    .fullscreen-image {
+      display: none;
+    }
+
+    .image-preview {
+      &.fullscreen {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999998;
+        background: #000;
+
+        img.fullscreen-image {
+          display: block;
+          width: auto !important;
+          height: 100% !important;
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        .image {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .column {
+      transition: .3s all;
+    }
+
+    button {
+      border: 2px solid $primary;
+      color: $primary;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      font-size: 20px;
+      background: #fafafa;
+      z-index: 2;
+
+      &:hover {
+        color: #fff;
+        background: $primary;
+        cursor: pointer;
+      }
+    }
+  }
+
+  button#theatre-view {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+  }
+
+  button#fullscreen-view {
+    position: absolute;
+    bottom: 13px;
+    right: 13px;
+
     &.fullscreen {
       position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
       z-index: 999998;
-      background: #000;
-
-      img.fullscreen-image {
-        display: block;
-        width: auto !important;
-        height: 100% !important;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
-
-      .image {
-        visibility: hidden;
-      }
+      bottom:0;
+      right: 0;
     }
   }
 
-  .column {
-    transition: .3s all;
-  }
-
-  button {
+  .price-block {
     border: 2px solid $primary;
-    color: $primary;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 7px 16px;
-    font-size: 20px;
-    background: #fafafa;
-    z-index: 2;
+    padding: 14px;
 
-    &:hover {
-      color: #fff;
-      background: $primary;
-      cursor: pointer;
+    &__original {
+      color: $dark;
+      font-size: 24px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    &__exchange {
+      opacity: .6;
+      color: $dark;
+      margin: 0;
     }
   }
-}
 
-button#theatre-view {
-  position: absolute;
-  top: 13px;
-  left: 13px;
-}
+  .card {
+    border-radius: 0 !important;
+    box-shadow: none;
+    border: 2px solid $primary;
 
-button#fullscreen-view {
-  position: absolute;
-  bottom: 13px;
-  right: 13px;
+    &-header {
+      border-radius: 0;
+      position: relative;
 
-  &.fullscreen {
-    position: fixed;
-    z-index: 999998;
-    bottom:0;
-    right: 0;
+      &:before {
+        content: '';
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        background: $primary;
+      }
+
+      &-title {
+        color: $primary;
+      }
+    }
+
+    &-footer {
+      border-radius: none;
+      border-top: none;
+
+      &-item:not(:last-child){
+        border-right-color: $primary;
+      }
+    }
   }
-}
 
-.price-block {
-  border: 2px solid $primary;
-  padding: 14px;
-
-  &__original {
-    color: $dark;
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  &__exchange {
-    opacity: .6;
-    color: $dark;
-    margin: 0;
+  &.no-padding-desktop {
+    @media screen and (min-width: 1023px) {
+      padding: 0;
+    }
   }
 }
 </style>
