@@ -49,6 +49,26 @@ module.exports = {
       fallbackLocale: 'en',
       localeDir: 'locales',
       enableInSFC: true
+    },
+    sitemap: {
+      baseURL: 'https://nft.kodadot.xyz',
+      outputDir: './public',
+      defaults: {
+        changefreq: 'daily',
+        priority:   1.0,
+      },
+      pretty: true,
+      urls: [
+          '/',
+          '/rmrk/rare',
+          '/rmrk/gallery',
+          '/rmrk/mint',
+          '/rmrk/create',
+          '/rmrk/credit',
+          '/rmrk/faq',
+          '/carbonless',
+          '/sustainability'
+      ]
     }
   }
 };
