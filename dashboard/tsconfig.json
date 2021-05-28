@@ -40,5 +40,8 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "src/graphql.d.ts"
   ]
 }

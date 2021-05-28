@@ -1,0 +1,16 @@
+fragment nft on NFTEntity {
+  id
+  name
+  metadata
+  issuer
+  currentOwner
+  blockNumber
+}
+
+query nfts {
+  nFTEntities(first:5) {
+    nodes {
+      ...nft
+    }
+  }
+}

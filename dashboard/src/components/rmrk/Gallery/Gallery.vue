@@ -97,6 +97,8 @@ import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types';
+import nftList from '@/queries/nftList.graphql'
+import { gql } from 'apollo-boost';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -129,25 +131,33 @@ export default class Gallery extends Vue {
   }
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
 
-  public async mounted() {
-    const rmrkService = getInstance();
+  public async created() {
+    this.isLoading = true
+    // const rmrkService = getInstance();
 
-    this.setFreezeframe()
+    // this.setFreezeframe()
 
-    if (!rmrkService) {
-      return;
-    }
+    // if (!rmrkService) {
+    //   this.isLoading = false;
+    //   return;
+    // }
 
-    try {
-      this.nfts = await rmrkService.getAllNFTs()
-      .then(sanitizeObjectArray)
-      .then(mapPriceToNumber)
-      .then(defaultSortBy);
+    const ap = await this.$apollo.query<NFT>({
+      query: nftList
+    })
 
-      // this.collectionMeta();
-    } catch (e) {
-      console.warn(e);
-    }
+    console.log(ap)
+
+    // try {
+    //   this.nfts = await rmrkService.getAllNFTs()
+    //   .then(sanitizeObjectArray)
+    //   .then(mapPriceToNumber)
+    //   .then(defaultSortBy);
+
+    //   // this.collectionMeta();
+    // } catch (e) {
+    //   console.warn(e);
+    // }
     this.isLoading = false;
   }
 

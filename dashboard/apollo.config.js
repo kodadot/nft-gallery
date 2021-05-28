@@ -2,7 +2,7 @@
 module.exports = {
   client: {
     service: {
-      name: 'subquery',
+      name: 'magick',
       // URL to the GraphQL API
       url: 'http://localhost:3000',
     },
