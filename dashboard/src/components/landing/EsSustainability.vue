@@ -20,17 +20,17 @@
               </p><br>
               <p>
                 Por el momento nuestro unico ingreso ha sido aprobado
-                <a href="https://kusama.polkassembly.io/motion/256">propuesta#384 &
+                <a href="https://kusama.polkassembly.io/motion/256">propuesta#384 &amp;
                 motion#256 de Kusama Treasury funding</a>
                 por milestone1. Principalmente este fondo se destinó a los costos del desarrollo y no para su funcionamiento y/o mantenimiento.
               </p><br>
               <p>
-                Nuestro flujo de los fondos estará dividio en 3 partes: <b>Un programa para el apoyo de los Artistas, Costos de funcionamiento y para el Costo de la investigacion y desarrollo de KodaDot.</b>. Desde el inicio, vamos a poner una parte de nuestros ahorros en el fondo de bedrock.
+                Nuestro flujo de los fondos estará dividio en 3 partes: <b>Un programa para el apoyo de los Artistas, Costos de funcionamiento y para el Costo de la investigacion y desarrollo de KodaDot.</b> Desde el inicio, vamos a poner una parte de nuestros ahorros en el fondo de bedrock.
               </p><br>
               <p>
                 <a href="https://github.com/kodadot/nft-gallery/issues/141">
-                Los costos por el funcionamento de</a> de KodaDot consisten en pagar Netlify (http, cdn, CI&CD), Pinata (IPFS), Arweave (por ahora es gratuito, despues tendremos que pagar), Textile.io (esperamos que este costo sea el mismo por un tiempo, y despues aumente).
-                Mantenimiento, los costos de R&D deben ser pagados a
+                Los costos por el funcionamento de</a> de KodaDot consisten en pagar Netlify (http, cdn, CI&amp;CD), Pinata (IPFS), Arweave (por ahora es gratuito, despues tendremos que pagar), Textile.io (esperamos que este costo sea el mismo por un tiempo, y despues aumente).
+                Mantenimiento, los costos de R&amp;D deben ser pagados a
                 <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
                  medida que nuevas funciones en KodaDot vayan apareciendo</a> y estamos  <b>tratando de invitar a mas desarrolladores a nuestros circulos poniendo recompensas en problemas</b>.
                 Cualquiera podrá unirse y ayudar con nuestro esfuerzo.
@@ -44,7 +44,7 @@
               </p><br>
               <p>
                 Los poseedores actuales de multisig son los fundadores de KodaDot --
-                <a href="https://twitter.com/yangwao">yangwao</a> &
+                <a href="https://twitter.com/yangwao">yangwao</a> &amp;
                 <a href="https://twitter.com/vikiival">vikiival</a>
                 y luego se expandirá, ya que creemos confianza con una comunidad mas amplia a la que le gustaria participar y adentrarse en KodaDot ya que esperamos que la tesoreria pueda crecer ampliamente algun dia.
               </p><br>
