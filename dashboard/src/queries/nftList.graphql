@@ -7,8 +7,9 @@ fragment nft on NFTEntity {
   blockNumber
 }
 
-query nfts($first: Int!) {
-  nFTEntities(first: $first) {
+query nfts($first: Int! $offset: Int) {
+  nFTEntities(first: $first offset: $offset orderBy: BLOCK_NUMBER_ASC) {
+    totalCount
     nodes {
       ...nft
     }

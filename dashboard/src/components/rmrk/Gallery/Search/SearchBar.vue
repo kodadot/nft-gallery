@@ -37,13 +37,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
 import { SearchQuery, SortBy } from './types';
 import shouldUpdate from '@/utils/shouldUpdate';
-
-type StringOrNull = string | null;
-const exist = (value: string | StringOrNull[], cb: (arg: string) => {}) => {
-  if (value && typeof value === 'string') {
-    cb(value);
-  }
-};
+import { exist, StringOrNull } from './exist'
 
 @Component({
   components: {
@@ -113,7 +107,7 @@ export default class SearchBar extends Vue {
     this.$router
       .replace({
         name: 'nft',
-        query: { search: this.searchQuery, type: this.typeQuery, [key]: value }
+        query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */);
   }

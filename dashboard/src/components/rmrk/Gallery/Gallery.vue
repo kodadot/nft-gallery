@@ -1,18 +1,9 @@
 <template>
   <div class="gallery">
-    <!-- <b-field label="Owners">
-      <b-select
-        placeholder="Select an owner"
-        :value="selectedOwner"
-        @input="handleOwner"
-      >
-        <option v-for="option in allOwners" :value="option" :key="option">
-          {{ option }}
-        </option>
-      </b-select>
-    </b-field> -->
-    <Search v-bind.sync="searchQuery" />
+    <!-- TODO: Make it work with graphql -->
+    <!-- <Search v-bind.sync="searchQuery" /> -->
     <b-button @click="first += 1">Show {{ first }}</b-button>
+    <Pagination simple  :total="total" v-model="currentValue" />
     <div>
       <div class="columns is-multiline">
         <div
@@ -47,7 +38,7 @@
               </div>
 
               <div class="card-content">
-                <p
+                <span
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
                   :title="nft.name">
@@ -73,7 +64,7 @@
                     「{{ nft.count }}」
                   </p>
 
-                </p>
+                </span>
                 <b-skeleton
                   :active="isLoading">
                 </b-skeleton>
@@ -83,6 +74,7 @@
         </div>
       </div>
     </div>
+    <Pagination class="mt-5"  :total="total" v-model="currentValue" />
   </div>
 </template>
 
@@ -91,22 +83,24 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT } from '../service/scheme';
 import { defaultSortBy, sanitizeObjectArray, mapPriceToNumber } from '../utils';
-import GalleryCardList from './GalleryCardList.vue'
-import Search from './Search/SearchBar.vue'
-import Money from '@/components/shared/format/Money.vue'
 import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types';
 import nftList from '@/queries/nftList.graphql'
-import { gql } from 'apollo-boost';
+import { Data } from '@polkadot/types';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
 }
 
 type NFTType = NFTWithMeta;
-const components = { GalleryCardList, Search, Money }
+const components = {
+  GalleryCardList: () => import('./GalleryCardList.vue'),
+  Search: () => import('./Search/SearchBar.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  Pagination: () => import('./Pagination.vue')
+}
 
 @Component<Gallery>({
   metaInfo() {
@@ -130,8 +124,23 @@ export default class Gallery extends Vue {
     type: '',
     sortBy: { blockNumber: -1 }
   }
-  private first = 4;
+  private first = 5;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
+  private currentValue = 1
+  private total = 0;
+
+  // public mounted() {
+  //   window.onscroll = () => {
+  //     const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight;
+  //     if (bottomOfWindow) {
+  //       console.log('!!!!!!!!!!!!!!!! [END]')
+  //     }
+  //   }
+  // }
+
+  get offset() {
+    return (this.currentValue * this.first) - this.first
+  }
 
   public async created() {
     this.isLoading = true
@@ -152,9 +161,11 @@ export default class Gallery extends Vue {
       query: nftList,
       update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
+      result: ({ data }) => this.total =  data.nFTEntities.totalCount,
       variables: () => {
         return {
-          first: this.first
+          first: this.first,
+          offset: this.offset
         }
       },
     })
