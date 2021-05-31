@@ -103,6 +103,12 @@
                       Sustainability program
                     </router-link>
                   </h2>
+                  <h2 class="title">
+                    <b-icon icon="leaf"></b-icon>
+                    <router-link :to="{ name: 'esSustainability'}">
+                      Sustentabilidad de KodaDot
+                    </router-link>
+                  </h2>
                 </div>
                 <!-- <div class="tile is-child">
                   <h2 class="title is-3">
