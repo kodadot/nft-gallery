@@ -3,18 +3,28 @@
     <!-- TODO: Make it work with graphql -->
     <!-- <Search v-bind.sync="searchQuery" /> -->
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
-    <Pagination class="pt-5" simple  :total="total" v-model="currentValue" replace />
+    <Pagination
+      class="pt-5"
+      simple
+      :total="total"
+      v-model="currentValue"
+      replace
+    />
     <div>
       <div class="columns is-multiline">
-        <div
-          class="column is-4"
-          v-for="(nft) in results"
-          :key="nft.id"
-        >
+        <div class="column is-4" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
-            <router-link :to="{ name: 'nftDetail', params: { id: nft.id }}" tag="div" class="nft-card__skeleton">
+            <router-link
+              :to="{ name: 'nftDetail', params: { id: nft.id } }"
+              tag="div"
+              class="nft-card__skeleton"
+            >
               <div class="card-image">
-                <span v-if="nft.emoteCount" class="card-image__emotes">{{nft.emoteCount}}</span>
+                <span v-if="nft.emoteCount" class="card-image__emotes">
+                  <b-icon icon="heart" />
+                  <span class="card-image__emotes__count">{{ nft.emoteCount }}</span>
+                  </span
+                >
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -25,15 +35,8 @@
                     @error="onError"
                   />
                 </figure>
-                <span
-                  v-if="nft.price"
-                  class="card-image__price"
-                >
-                    <Money
-                      :value="nft.price"
-                      showFiatValue="usd"
-                      inline
-                    />
+                <span v-if="nft.price > 0" class="card-image__price">
+                  <Money :value="nft.price" inline />
                 </span>
               </div>
 
@@ -41,16 +44,25 @@
                 <span
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
-                  :title="nft.name">
-                  <router-link v-if="nft.count < 2" :to="{ name: 'nftDetail', params: { id: nft.id }}">
+                  :title="nft.name"
+                >
+                  <router-link
+                    v-if="nft.count < 2"
+                    :to="{ name: 'nftDetail', params: { id: nft.id } }"
+                  >
                     <div>
                       <div class="has-text-overflow-ellipsis middle">
                         {{ nft.name }}
                       </div>
                     </div>
                   </router-link>
-                  <router-link v-else :to="{ name: 'collectionDetail', params: { id: nft.collection }}">
-
+                  <router-link
+                    v-else
+                    :to="{
+                      name: 'collectionDetail',
+                      params: { id: nft.collection }
+                    }"
+                  >
                     <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}
                     </div>
@@ -63,18 +75,20 @@
                   >
                     「{{ nft.count }}」
                   </p>
-
                 </span>
-                <b-skeleton
-                  :active="isLoading">
-                </b-skeleton>
+                <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
             </router-link>
           </div>
         </div>
       </div>
     </div>
-    <Pagination class="pt-5 pb-5"  :total="total" v-model="currentValue" replace />
+    <Pagination
+      class="pt-5 pb-5"
+      :total="total"
+      v-model="currentValue"
+      replace
+    />
   </div>
 </template>
 
@@ -82,17 +96,23 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
-import { defaultSortBy, sanitizeObjectArray, mapPriceToNumber, fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
-import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
-import Freezeframe from 'freezeframe'
-import 'lazysizes'
+import {
+  defaultSortBy,
+  sanitizeObjectArray,
+  mapPriceToNumber,
+  fetchNFTMetadata,
+  sanitizeIpfsUrl
+} from '../utils';
+import { basicFilter, basicAggQuery, expandedFilter } from './Search/query';
+import Freezeframe from 'freezeframe';
+import 'lazysizes';
 import { SearchQuery } from './Search/types';
-import nftList from '@/queries/nftList.graphql'
+import nftList from '@/queries/nftList.graphql';
 import { set, get, getMany, update } from 'idb-keyval';
 import axios from 'axios';
 
 interface Image extends HTMLImageElement {
-  ffInitialized: boolean
+  ffInitialized: boolean;
 }
 
 type NFTType = NFTWithMeta;
@@ -101,22 +121,41 @@ const components = {
   Search: () => import('./Search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue')
-}
+};
 
 @Component<Gallery>({
   metaInfo() {
     return {
       meta: [
-        { property: 'og:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
-        { property: 'og:description', content: 'Buy Carbonless NFTs on Kusama'},
-        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'twitter:description', content: 'Buy Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'},
+        {
+          property: 'og:title',
+          content: 'Low minting fees and carbonless NFTs'
+        },
+        {
+          property: 'og:image',
+          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
+        },
+        {
+          property: 'og:description',
+          content: 'Buy Carbonless NFTs on Kusama'
+        },
+        {
+          property: 'twitter:title',
+          content: 'Low minting fees and carbonless NFTs'
+        },
+        {
+          property: 'twitter:description',
+          content: 'Buy Carbonless NFTs on Kusama'
+        },
+        {
+          property: 'twitter:image',
+          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
+        }
       ]
-    }
+    };
   },
-  components })
+  components
+})
 export default class Gallery extends Vue {
   private nfts: NFT[] = [];
   private meta: Metadata[] = [];
@@ -125,10 +164,10 @@ export default class Gallery extends Vue {
     search: '',
     type: '',
     sortBy: { blockNumber: -1 }
-  }
+  };
   private first = 20;
-  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
-  private currentValue = 1
+  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
+  private currentValue = 1;
   private total = 0;
 
   // public mounted() {
@@ -141,11 +180,11 @@ export default class Gallery extends Vue {
   // }
 
   get offset() {
-    return (this.currentValue * this.first) - this.first
+    return this.currentValue * this.first - this.first;
   }
 
   public async created() {
-    this.isLoading = true
+    this.isLoading = true;
     // const rmrkService = getInstance();
 
     // this.setFreezeframe()
@@ -159,7 +198,7 @@ export default class Gallery extends Vue {
     //   query: nftList
     // })
 
-    const a = this.$apollo.addSmartQuery('nfts',{
+    const a = this.$apollo.addSmartQuery('nfts', {
       query: nftList,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
@@ -169,12 +208,11 @@ export default class Gallery extends Vue {
         return {
           first: this.first,
           offset: this.offset
-        }
-      },
-    })
+        };
+      }
+    });
 
-    console.log(a)
-
+    console.log(a);
 
     // try {
     //   this.nfts = await rmrkService.getAllNFTs()
@@ -190,23 +228,38 @@ export default class Gallery extends Vue {
   }
 
   protected async handleResult({ data }: any) {
-    this.total =  data.nFTEntities.totalCount;
-    this.nfts = data.nFTEntities.nodes;
+    this.total = data.nFTEntities.totalCount;
+    this.nfts = data.nFTEntities.nodes.map((e: any) => ({
+      ...e,
+      emoteCount: e.emotes?.totalCount
+    }));
 
-    const storedMetadata = await getMany(this.nfts.map(({ metadata }: any) => metadata))
+    console.log(this.nfts.map(e => e.emoteCount));
+
+    const storedMetadata = await getMany(
+      this.nfts.map(({ metadata }: any) => metadata)
+    );
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(this.nfts[i])
-          Vue.set(this.nfts, i, {...this.nfts[i], ...meta, image: sanitizeIpfsUrl(meta.image || '')})
-          update(this.nfts[i].metadata, () => meta)
+          const meta = await fetchNFTMetadata(this.nfts[i]);
+          Vue.set(this.nfts, i, {
+            ...this.nfts[i],
+            ...meta,
+            image: sanitizeIpfsUrl(meta.image || '')
+          });
+          update(this.nfts[i].metadata, () => meta);
         } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+          console.warn('[ERR] unable to get metadata');
         }
       } else {
-        Vue.set(this.nfts, i, {...this.nfts[i], ...m, image: sanitizeIpfsUrl(m.image || '')})
+        Vue.set(this.nfts, i, {
+          ...this.nfts[i],
+          ...m,
+          image: sanitizeIpfsUrl(m.image || '')
+        });
       }
-    })
+    });
   }
 
   get results() {
@@ -214,40 +267,39 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(this.nfts as NFTWithMeta[])
+    return basicAggQuery(this.nfts as NFTWithMeta[]);
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
   setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async (e) => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
+    document.addEventListener('lazybeforeunveil', async e => {
+      const target = e.target as Image;
+      const type = target.dataset.type as string;
+      const isGif = type === 'image/gif';
 
       if (isGif && !target.ffInitialized) {
         const ff = new Freezeframe(target, {
           trigger: false,
           overlay: true,
           warnings: false
-        })
+        });
 
-        target.ffInitialized = true
+        target.ffInitialized = true;
       }
-    })
+    });
   }
 
   onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
+    const target = e.target as Image;
+    target.src = this.placeholder;
   }
 }
 </script>
 
 <style lang="scss">
 .gallery {
-
-  @media screen and (max-width: 1023px){
+  @media screen and (max-width: 1023px) {
     padding: 0 15px;
   }
 
@@ -298,7 +350,12 @@ export default class Gallery extends Vue {
     text-overflow: ellipsis;
   }
 
-  .is-float-right{
+  .card-image__emotes__count {
+    vertical-align: text-bottom;
+  }
+
+
+  .is-float-right {
     float: right;
   }
 
@@ -355,7 +412,7 @@ export default class Gallery extends Vue {
         }
       }
 
-      @media screen and (min-width: 1024px){
+      @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
           bottom: -45px;
@@ -385,7 +442,7 @@ export default class Gallery extends Vue {
           right: 15px;
         }
 
-        &:hover  .card-image__price {
+        &:hover .card-image__price {
           bottom: 62px;
         }
       }

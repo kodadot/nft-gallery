@@ -145,6 +145,7 @@ export interface NFT {
   price?: string;
   disabled?: boolean;
   blockNumber?: number;
+  emoteCount?: number;
 }
 
 export interface BasePack {

@@ -39,6 +39,7 @@ export const basicAggregation = (): Aggregator => {
         metadata: { $first: '$metadata' },
         price: { $first: '$price' },
         type: { $first: '$type' },
+        emoteCount: { $first: '$emoteCount' },
         count: { $sum: 1 }
       }
     }

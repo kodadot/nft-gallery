@@ -1,11 +1,4 @@
-fragment nft on NFTEntity {
-  id
-  name
-  metadata
-  issuer
-  currentOwner
-  blockNumber
-}
+#import "./nft.graphql"
 
 query nfts($first: Int!, $offset: Int) {
   nFTEntities(
@@ -17,6 +10,9 @@ query nfts($first: Int!, $offset: Int) {
     totalCount
     nodes {
       ...nft
+      emotes {
+        totalCount
+      }
     }
   }
 }
