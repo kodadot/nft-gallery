@@ -4,7 +4,8 @@ module.exports = {
     service: {
       name: 'magick',
       // URL to the GraphQL API
-      url: 'http://localhost:3000',
+      url: 'https://api.subquery.network/sq/vikiival/magick'
+      // url: 'http://localhost:3000',
     },
     // Files processed by the extension
     includes: [
