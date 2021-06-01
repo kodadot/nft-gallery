@@ -37,6 +37,7 @@
     "file-saver": "^2.0.5",
     "freezeframe": "^5.0.2",
     "graphql": "^15.5.0",
+    "idb-keyval": "^5.0.6",
     "lazysizes": "^5.3.2",
     "markdown-it-vue": "^1.1.6",
     "mingo": "^4.1.2",

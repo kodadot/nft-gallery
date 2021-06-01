@@ -29,13 +29,13 @@ export const basicAggregation = (): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
-        _id: { image: '$image', collection: '$collection' },
+        _id: { image: '$metadata', collection: '$collection' },
         // _id: '$image',
         ids: { $push: '$id' },
         collection: { $first: '$collection' },
         name: { $first: '$name' },
         id: { $first: '$id' },
-        image: { $first: '$image' },
+        metadata: { $first: '$metadata' },
         price: { $first: '$price' },
         type: { $first: '$type' },
         count: { $sum: 1 }

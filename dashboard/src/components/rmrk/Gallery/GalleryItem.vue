@@ -126,6 +126,7 @@ import { MediaType } from '../types';
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql'
 import { fetchNFTMetadata } from '../utils';
+import { get, set } from 'idb-keyval';
 
 type NFTType =  NFTWithMeta;
 
@@ -224,11 +225,16 @@ export default class GalleryItem extends Vue {
   public async fetchMetadata() {
     console.log(this.nft['metadata'], !this.meta['image'])
     if (this.nft['metadata'] && !this.meta['image']) {
-      const meta = await fetchNFTMetadata(this.nft)
+      const m = await get(this.nft.metadata)
+      const meta = m ? m : await fetchNFTMetadata(this.nft)
       this.meta = {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      }
+
+      if (!m) {
+        set(this.nft.metadata, meta)
       }
     }
   }

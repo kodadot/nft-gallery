@@ -8,7 +8,7 @@
       <div class="columns is-multiline">
         <div
           class="column is-4"
-          v-for="nft in results"
+          v-for="(nft) in results"
           :key="nft.id"
         >
           <div class="card nft-card">
@@ -74,21 +74,22 @@
         </div>
       </div>
     </div>
-    <Pagination class="mt-5"  :total="total" v-model="currentValue" />
+    <Pagination class="pt-5 pb-5"  :total="total" v-model="currentValue" />
   </div>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
-import { NFTWithMeta, NFT } from '../service/scheme';
-import { defaultSortBy, sanitizeObjectArray, mapPriceToNumber } from '../utils';
+import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
+import { defaultSortBy, sanitizeObjectArray, mapPriceToNumber, fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import { basicFilter, basicAggQuery, expandedFilter } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types';
 import nftList from '@/queries/nftList.graphql'
-import { Data } from '@polkadot/types';
+import { set, get, getMany, update } from 'idb-keyval';
+import axios from 'axios';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -118,13 +119,14 @@ const components = {
   components })
 export default class Gallery extends Vue {
   private nfts: NFT[] = [];
+  private meta: Metadata[] = [];
   private isLoading: boolean = false;
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: { blockNumber: -1 }
   }
-  private first = 5;
+  private first = 30;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
   private currentValue = 1
   private total = 0;
@@ -159,9 +161,10 @@ export default class Gallery extends Vue {
 
     const a = this.$apollo.addSmartQuery('nfts',{
       query: nftList,
-      update: ({ nFTEntities }) => nFTEntities.nodes,
+      manual: true,
+      // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
-      result: ({ data }) => this.total =  data.nFTEntities.totalCount,
+      result: this.handleResult,
       variables: () => {
         return {
           first: this.first,
@@ -184,6 +187,27 @@ export default class Gallery extends Vue {
     //   console.warn(e);
     // }
     this.isLoading = false;
+  }
+
+  protected async handleResult({ data }: any) {
+    this.total =  data.nFTEntities.totalCount;
+    this.nfts = basicAggQuery(data.nFTEntities.nodes) as unknown as NFT[];
+    console.log(this.nfts);
+
+    const storedMetadata = await getMany(this.nfts.map(({ metadata }: any) => metadata))
+    storedMetadata.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchNFTMetadata(this.nfts[i])
+          Vue.set(this.nfts, i, {...this.nfts[i], ...meta, image: sanitizeIpfsUrl(meta.image || '')})
+          update(this.nfts[i].metadata, () => meta)
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata')
+        }
+      } else {
+        Vue.set(this.nfts, i, {...this.nfts[i], ...m, image: sanitizeIpfsUrl(m.image || '')})
+      }
+    })
   }
 
   get results() {
