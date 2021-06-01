@@ -7,8 +7,13 @@ fragment nft on NFTEntity {
   blockNumber
 }
 
-query nfts($first: Int! $offset: Int) {
-  nFTEntities(first: $first offset: $offset orderBy: BLOCK_NUMBER_ASC) {
+query nfts($first: Int!, $offset: Int) {
+  nFTEntities(
+    first: $first
+    offset: $offset
+    orderBy: BLOCK_NUMBER_DESC
+    filter: { name: { notLike: "%Kanaria%" } }
+  ) {
     totalCount
     nodes {
       ...nft
