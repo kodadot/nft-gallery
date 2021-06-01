@@ -2,8 +2,8 @@
   <div class="gallery">
     <!-- TODO: Make it work with graphql -->
     <!-- <Search v-bind.sync="searchQuery" /> -->
-    <b-button @click="first += 1">Show {{ first }}</b-button>
-    <Pagination simple  :total="total" v-model="currentValue" replace />
+    <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
+    <Pagination class="pt-5" simple  :total="total" v-model="currentValue" replace />
     <div>
       <div class="columns is-multiline">
         <div
@@ -126,7 +126,7 @@ export default class Gallery extends Vue {
     type: '',
     sortBy: { blockNumber: -1 }
   }
-  private first = 30;
+  private first = 20;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png')
   private currentValue = 1
   private total = 0;
@@ -191,8 +191,7 @@ export default class Gallery extends Vue {
 
   protected async handleResult({ data }: any) {
     this.total =  data.nFTEntities.totalCount;
-    this.nfts = basicAggQuery(data.nFTEntities.nodes) as unknown as NFT[];
-    console.log(this.nfts);
+    this.nfts = data.nFTEntities.nodes;
 
     const storedMetadata = await getMany(this.nfts.map(({ metadata }: any) => metadata))
     storedMetadata.forEach(async (m, i) => {
@@ -215,7 +214,7 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return this.nfts
+    return basicAggQuery(this.nfts as NFTWithMeta[])
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
