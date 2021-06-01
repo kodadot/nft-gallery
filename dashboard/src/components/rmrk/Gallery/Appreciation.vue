@@ -1,7 +1,7 @@
 <template>
   <div class="nft-appreciation__main mb-4">
     <b-tooltip
-      v-if="accountId && nftId"
+      v-if="accountId && nftId && !burned"
       type="is-light"
       :triggers="['click', 'mouseIn']"
       :auto-close="['outside', 'escape', 'mouseOut']"
@@ -53,6 +53,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;
   @Prop() public nftId!: string;
+  @Prop(Boolean) public burned!: boolean;
   private action = 'EMOTE';
   private availableEmojis: string[] = [
     '1F440',

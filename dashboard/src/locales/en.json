@@ -129,6 +129,7 @@
     "edition": "Number of copies"
   },
   "nft": {
-    "carbonless": "This NFT is carbonless"
+    "carbonless": "This NFT is carbonless",
+    "burned": "NFT is burned"
   }
 }

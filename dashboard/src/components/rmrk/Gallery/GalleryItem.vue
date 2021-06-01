@@ -12,7 +12,7 @@
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
                   ></b-image>
-                  <img class="fullscreen-image" :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
+                  <img class="fullscreen-image" :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
                   <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
                 </div>
@@ -27,7 +27,7 @@
       </div>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" :burned="nft.burned" />
 
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
@@ -59,7 +59,7 @@
             <div class="label">{{ $t('price') }}</div>
           </div>
 
-          <template v-if="detailVisible">
+          <template v-if="detailVisible && !nft.burned">
             <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <b-collapse class="card mb-4" animation="slide"
                 aria-id="contentIdForA11y3" :open="false">
@@ -196,7 +196,8 @@ export default class GalleryItem extends Vue {
           id: this.id
         },
         update: ({ nFTEntity }) => { console.log(nFTEntity); return nFTEntity },
-        result: () => this.fetchMetadata()
+        result: () => this.fetchMetadata(),
+        pollInterval: 5000
       })
 
       // console.log(nft);

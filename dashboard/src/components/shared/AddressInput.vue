@@ -21,7 +21,7 @@ export default class AddressInput extends Vue {
   @Debounce(500)
   @Emit('input')
   protected handleInput(value: string) {
-    const [valid, err] = checkAddress(value, this.ss58Format);
+    const [valid, err] = checkAddress(value, process.env.VUE_APP_KEYRING === 'true' ? 0 : this.ss58Format);
     this.err = err;
 
     if (valid) {

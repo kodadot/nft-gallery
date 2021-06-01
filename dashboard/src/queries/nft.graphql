@@ -8,4 +8,5 @@ fragment nft on NFTEntity {
   sn
   collectionId
   price
+  burned
 }

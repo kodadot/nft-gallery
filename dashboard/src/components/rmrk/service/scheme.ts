@@ -143,7 +143,7 @@ export interface NFT {
   metadata: string;
   currentOwner: string;
   price?: string;
-  disabled?: boolean;
+  burned?: boolean;
   blockNumber?: number;
   emoteCount?: number;
 }

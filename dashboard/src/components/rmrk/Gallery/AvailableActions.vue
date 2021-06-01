@@ -1,6 +1,8 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+    <b-loading is-full-page v-model="isLoading" :can-cancel="true">
+      <div class="loading-icon" ><span class="loading-text">Casting</span></div>
+    </b-loading>
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
       @click="handleAction(action)">
@@ -69,7 +71,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop({ default: () => [] }) public ipfsHashes!: string[];
   private selectedAction: Action = '';
   private meta: string | number = '';
-  protected isLoading: boolean = false;
+  protected isLoading: boolean = true;
 
   get actions() {
     return this.isOwner
@@ -175,38 +177,41 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       showNotification(rmrk);
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
-      if (
-        await rmrkService
-          ?.isNFTAvailable(this.nftId, this.currentOwnerId)
-          .then(isNFTAvailable => !isNFTAvailable)
-      ) {
-        showNotification(
-          `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-          notificationTypes.warn
-        );
-        return;
-      }
+      // if (
+      //   await rmrkService
+      //     ?.isNFTAvailable(this.nftId, this.currentOwnerId)
+      //     .then(isNFTAvailable => !isNFTAvailable)
+      // ) {
+      //   showNotification(
+      //     `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
+      //     notificationTypes.warn
+      //   );
+      //   return;
+      // }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
       const tx = await exec(this.accountId, '', cb, [arg], txCb(
         async (blockHash) => {
           execResultValue(tx);
           showNotification(blockHash.toString(), notificationTypes.info);
-          const persisted = await rmrkService?.resolve(rmrk, this.accountId);
+          // const persisted = await rmrkService?.resolve(rmrk, this.accountId);
           if (this.isConsume) {
             this.unpinNFT();
           }
-          console.log(persisted);
-          console.log('SAVED', persisted?._id);
+          // console.log(persisted);
+          // console.log('SAVED', persisted?._id);
+
           showNotification(
-            `[TEXTILE] ${persisted?._id}`,
+            `[${this.selectedAction}] ${this.nftId}`,
             notificationTypes.success
           );
+          this.selectedAction = '';
           this.isLoading = false;
         },
         err => {
           execResultValue(tx);
           showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+          this.selectedAction = '';
           this.isLoading = false;
         }
       ));
@@ -249,3 +254,10 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 }
 </script>
+
+<style scoped>
+.loading-text {
+    position: relative;
+    top: 4em;
+}
+</style>
