@@ -1,6 +1,6 @@
 <template>
   <div class="pack-item-wrapper">
-    <div class="tile is-ancestor">
+    <div class="tile is-ancestor  mt-1">
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title">

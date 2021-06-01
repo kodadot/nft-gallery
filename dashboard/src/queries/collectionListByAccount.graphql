@@ -2,7 +2,7 @@
 
 query collectionListByAccount($account: String!, $first: Int!, $offset: Int) {
   collectionEntities(
-    filter: { issuer: { equalTo: $account }, id: { not: "%KAN" } }
+    filter: { issuer: { equalTo: $account }, id: { notLike: "%KAN" } }
     orderBy: BLOCK_NUMBER_DESC
     first: $first
     offset: $offset
