@@ -1,0 +1,13 @@
+#import "./nft.graphql"
+
+query nftListByAccount($account: String! $first: Int! $offset: Int) {
+  nFTEntities(filter: {
+    currentOwner: {
+      equalTo:$account
+    }} orderBy: BLOCK_NUMBER_DESC first: $first offset: $offset) {
+    totalCount
+    nodes {
+      ...nft
+    }
+  }
+}

@@ -1,0 +1,13 @@
+#import "./collection.graphql"
+
+query collectionListByAccount($account: String! $first: Int! $offset: Int) {
+  collectionEntities(filter: {
+    issuer: {
+      equalTo:$account
+    }} orderBy: BLOCK_NUMBER_DESC first: $first offset: $offset) {
+    totalCount
+    nodes {
+      ...collection
+    }
+  }
+}

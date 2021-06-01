@@ -5,6 +5,7 @@
     :range-before="2"
     :range-after="2"
     :simple="simple"
+    :per-page="perPage"
     order="is-centered"
     aria-next-label="Next page"
     aria-previous-label="Previous page"
@@ -24,6 +25,8 @@ export default class Pagination extends Vue {
   @Prop() value!: number;
   @Prop() public total!: number;
   @Prop(Boolean) simple!: boolean;
+  @Prop({ default: 20 }) public perPage!: number;
+  @Prop(Boolean) replace!: boolean;
 
     public mounted() {
     exist(this.$route.query.page, (val) => { this.current = Number(val) });
@@ -43,7 +46,7 @@ export default class Pagination extends Vue {
 
   set current(value: number) {
     this.$emit('input', value)
-    this.replaceUrl(String(value))
+    this.replace && this.replaceUrl(String(value))
   }
 
 

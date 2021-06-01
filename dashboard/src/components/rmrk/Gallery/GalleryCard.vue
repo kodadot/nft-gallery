@@ -54,7 +54,6 @@ export default class GalleryCard extends Vue {
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
 
   async mounted() {
-    console.log('mounted', this.metadata)
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {

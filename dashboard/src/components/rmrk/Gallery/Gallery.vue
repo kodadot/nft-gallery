@@ -3,7 +3,7 @@
     <!-- TODO: Make it work with graphql -->
     <!-- <Search v-bind.sync="searchQuery" /> -->
     <b-button @click="first += 1">Show {{ first }}</b-button>
-    <Pagination simple  :total="total" v-model="currentValue" />
+    <Pagination simple  :total="total" v-model="currentValue" replace />
     <div>
       <div class="columns is-multiline">
         <div
@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <Pagination class="pt-5 pb-5"  :total="total" v-model="currentValue" />
+    <Pagination class="pt-5 pb-5"  :total="total" v-model="currentValue" replace />
   </div>
 </template>
 
