@@ -38,6 +38,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { somePercentFromTX } from '@/utils/support';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import shouldUpdate from '@/utils/shouldUpdate';
+import nftById from '@/queries/nftById.graphql';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -167,6 +168,26 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     this.meta = value;
   }
 
+  protected async checkBuyBeforeSubmit() {
+    const nft = await this.$apollo.query({
+        query: nftById,
+        variables: {
+          id: this.nftId
+        },
+      })
+
+      const { data: {nFTEntity} } = nft;
+
+      if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price == 0 || nFTEntity.price !== this.price ) {
+        showNotification(
+          `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
+          notificationTypes.warn
+        );
+        throw new ReferenceError('NFT has changed')
+      }
+
+  }
+
   protected async submit() {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
@@ -178,6 +199,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       showNotification(rmrk);
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
+
       // if (
       //   await rmrkService
       //     ?.isNFTAvailable(this.nftId, this.currentOwnerId)
@@ -190,7 +212,12 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       //   return;
       // }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price)] : rmrk
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
+
+      if (isBuy) {
+        await this.checkBuyBeforeSubmit()
+      }
+
       const tx = await exec(this.accountId, '', cb, [arg], txCb(
         async (blockHash) => {
           execResultValue(tx);
