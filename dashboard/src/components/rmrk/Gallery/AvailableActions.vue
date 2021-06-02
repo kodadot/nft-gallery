@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-loading is-full-page v-model="isLoading" :can-cancel="true">
-      <div class="loading-icon" ><span class="loading-text">Casting</span></div>
+      <div class="loading-icon" ><span v-if="status" class="loading-text">{{ $t(status) }}</span></div>
     </b-loading>
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
@@ -71,7 +71,8 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   @Prop({ default: () => [] }) public ipfsHashes!: string[];
   private selectedAction: Action = '';
   private meta: string | number = '';
-  protected isLoading: boolean = true;
+  protected isLoading: boolean = false;
+  protected status = ''
 
   get actions() {
     return this.isOwner
@@ -213,6 +214,24 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
           showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
           this.selectedAction = '';
           this.isLoading = false;
+        },
+        res => {
+          if (res.status.isReady) {
+            this.status = 'loader.casting'
+            return;
+          }
+
+          if (res.status.isInBlock) {
+            this.status = 'loader.block'
+            return;
+          }
+
+          if (res.status.isFinalized) {
+            this.status = 'loader.finalized'
+            return;
+          }
+
+          this.status = ''
         }
       ));
 

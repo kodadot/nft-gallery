@@ -42,9 +42,9 @@ const exec = async (account: KeyringAccount | string, password: string | null, c
 };
 
 
-export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: DispatchError) => void) =>
+export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: DispatchError) => void, onResult: (result: ISubmittableResult) => void = console.log) =>
   (result: ISubmittableResult) => {
-    console.log(`[EXEC] current`, result);
+    onResult(result);
     if (result.dispatchError) {
       console.warn(`[EXEC] dispatchError`, result);
       onError(result.dispatchError)
