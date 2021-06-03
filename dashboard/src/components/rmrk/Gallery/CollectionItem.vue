@@ -25,10 +25,9 @@
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '../service/RmrkService';
+import { Component, Vue } from 'vue-property-decorator';
 import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
-import { sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata, sanitizeImage, sanitizeObjectArray, fetchNFTMetadata } from '../utils';
+import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
 import isShareMode from '@/utils/isShareMode';
 import collectionById from '@/queries/collectionById.graphql'
 import { CollectionMetadata } from '../types';

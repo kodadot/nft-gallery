@@ -54,17 +54,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import {
   defaultSortBy,
-  sanitizeObjectArray,
-  fetchNFTMetadata,
-  sanitizeIpfsUrl
 } from '@/components/rmrk/utils';
 import {
-  Collection,
   CollectionWithMeta,
   NFTWithMeta,
   Pack
@@ -74,7 +70,6 @@ import Identity from '../components/shared/format/Identity.vue';
 import shouldUpdate from '@/utils/shouldUpdate';
 import nftList from '@/queries/nftListByAccount.graphql';
 import collectionList from '@/queries/collectionListByAccount.graphql';
-import { getMany, update } from 'idb-keyval';
 
 const components = {
   GalleryCardList: () =>

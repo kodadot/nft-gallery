@@ -96,23 +96,19 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '@/components/rmrk/service/RmrkService';
+
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
 import {
-  defaultSortBy,
-  sanitizeObjectArray,
-  mapPriceToNumber,
   fetchNFTMetadata,
   sanitizeIpfsUrl
 } from '../utils';
-import { basicFilter, basicAggQuery, expandedFilter } from './Search/query';
+import { basicAggQuery } from './Search/query';
 import Freezeframe from 'freezeframe';
 import 'lazysizes';
 import { SearchQuery } from './Search/types';
-import nftList from '@/queries/nftList.graphql';
+
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
-import { set, get, getMany, update } from 'idb-keyval';
-import axios from 'axios';
+import { getMany, update } from 'idb-keyval';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;

@@ -154,13 +154,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { RmrkMint, MediaType } from '../types';
+import { Component, Mixins } from 'vue-property-decorator';
+import { MediaType } from '../types';
 import { emptyObject } from '@/utils/empty';
-import AccountSelect from '@/components/shared/AccountSelect.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
-import MetadataUpload from './DropUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, {
   execResultValue,
@@ -170,24 +168,17 @@ import exec, {
 import { notificationTypes, showNotification } from '@/utils/notification';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-
-import {
-  getInstance,
-  RmrkType,
-  RmrkWithMetaType
-} from '../service/RmrkService';
 import { Attribute, SimpleNFT, NFTMetadata, NFT } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import { pinFile, pinJson } from '@/proxy';
-import { decodeAddress } from '@polkadot/keyring';
-import { u8aToHex, formatBalance } from '@polkadot/util';
-import Consolidator, {
+import {  formatBalance } from '@polkadot/util';
+import {
   generateId
 } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import { resolveMedia } from '../utils';
-import NFTUtils, { RmrkActionRegex, MintType } from '../service/NftUtils';
-import { DispatchError, Hash } from '@polkadot/types/interfaces';
+import NFTUtils, { MintType } from '../service/NftUtils';
+import { DispatchError } from '@polkadot/types/interfaces';
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -325,12 +316,6 @@ export default class SimpleMint extends Mixins(
     this.isLoading = true;
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
-
-    if (!rmrkService) {
-      showNotification(`[TEXTILE] not available`, notificationTypes.danger);
-      return;
-    }
 
     const meta = await this.constructMeta();
     this.rmrkMint.metadata = meta;
@@ -455,7 +440,6 @@ export default class SimpleMint extends Mixins(
 
   public async listForSale(remarks: NFT[]) {
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
     this.isLoading = true;
 
     const { price, version } = this;

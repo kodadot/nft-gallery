@@ -105,14 +105,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFTWithMeta, NFT, NFTMetadata } from '../service/scheme';
+import { NFT, NFTMetadata } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
-import { formatBalance } from '@polkadot/util';
 
 import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -120,16 +119,11 @@ import Money from '@/components/shared/format/Money.vue';
 import Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import MediaResolver from '../Media/MediaResolver.vue'
-import api from '@/fetch';
-import { resolveMedia } from '../utils';
-import { MediaType } from '../types';
+
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql'
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
-
-type NFTType =  NFTWithMeta;
 
 @Component<GalleryItem>({
   metaInfo() {

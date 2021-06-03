@@ -91,8 +91,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
-import { RmrkMint, RmrkView } from '../types';
+import { Component, Watch, Mixins } from 'vue-property-decorator';
 import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
@@ -205,7 +204,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       return false;
     }
     const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0;
-    return max <= this.added.length + this.selectedCollection.alreadyMinted;
+    return max <= this.added.length + Number(this.selectedCollection?.alreadyMinted);
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {

@@ -36,9 +36,9 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
-import { SearchQuery, SortBy } from './types';
+import { SortBy } from './types';
 import shouldUpdate from '@/utils/shouldUpdate';
-import { exist, StringOrNull } from './exist'
+import { exist } from './exist'
 
 @Component({
   components: {
@@ -55,13 +55,6 @@ export default class SearchBar extends Vue {
   public mounted() {
     exist(this.$route.query.search, this.updateSearch);
     exist(this.$route.query.type, this.updateType);
-    // console.log('query', this.$route.query)
-    // if (
-    //   this.$route.query.search &&
-    //   typeof this.$route.query.search === 'string'
-    // ) {
-    //   this.updateSearch(this.$route.query.search);
-    // }
   }
 
   get searchQuery() {
