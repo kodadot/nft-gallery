@@ -375,6 +375,8 @@ export default class SimpleMint extends Mixins(
             `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
             notificationTypes.success
           );
+
+          this.isLoading = false;
         },
         dispatchError => {
           execResultValue(tx);
