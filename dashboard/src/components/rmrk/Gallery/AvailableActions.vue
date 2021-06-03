@@ -25,16 +25,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Mixins, Prop} from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { getInstance, RmrkType } from '../service/RmrkService';
 import { unpin } from '@/proxy';
-import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { somePercentFromTX } from '@/utils/support';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import shouldUpdate from '@/utils/shouldUpdate';
 import nftById from '@/queries/nftById.graphql';
 
@@ -189,27 +186,13 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 
   protected async submit() {
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
-    await rmrkService?.checkExpiredOrElseRefresh();
     this.isLoading = true;
 
     try {
       showNotification(rmrk);
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
-
-      // if (
-      //   await rmrkService
-      //     ?.isNFTAvailable(this.nftId, this.currentOwnerId)
-      //     .then(isNFTAvailable => !isNFTAvailable)
-      // ) {
-      //   showNotification(
-      //     `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-      //     notificationTypes.warn
-      //   );
-      //   return;
-      // }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
 
@@ -221,12 +204,9 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
         async (blockHash) => {
           execResultValue(tx);
           showNotification(blockHash.toString(), notificationTypes.info);
-          // const persisted = await rmrkService?.resolve(rmrk, this.accountId);
           if (this.isConsume) {
             this.unpinNFT();
           }
-          // console.log(persisted);
-          // console.log('SAVED', persisted?._id);
 
           showNotification(
             `[${this.selectedAction}] ${this.nftId}`,
@@ -280,23 +260,6 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     });
   }
 
-  protected async consolidate(): Promise<boolean> {
-    const rmrkService = getInstance();
-    await rmrkService?.checkExpiredOrElseRefresh();
-
-    if (!rmrkService) {
-      console.warn('NO RMRK SERVICE, Live your life on the edge');
-      return true;
-    }
-
-    const nft = await rmrkService?.getNFT(this.nftId);
-    return Consolidator.consolidate(
-      this.selectedAction,
-      nft,
-      this.currentOwnerId,
-      this.accountId
-    );
-  }
 }
 </script>
 

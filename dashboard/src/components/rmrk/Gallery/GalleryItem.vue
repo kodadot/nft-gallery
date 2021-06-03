@@ -185,7 +185,7 @@ export default class GalleryItem extends Vue {
 
     try {
       // const nft = await rmrkService.getNFT(this.id);
-     const a = this.$apollo.addSmartQuery('nft',{
+     this.$apollo.addSmartQuery('nft',{
         query: nftById,
         variables: {
           id: this.id

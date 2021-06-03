@@ -223,7 +223,6 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import gql from 'graphql-tag'
-import Data from '@/params/components/Data.vue';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),

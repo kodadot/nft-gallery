@@ -549,7 +549,7 @@ export default class SimpleMint extends Mixins(
       const metaHash = await pinJson(this.meta);
       return unSanitizeIpfsUrl(metaHash);
     } catch (e) {
-      throw e;
+      throw new ReferenceError(e.message);
     }
   }
 
