@@ -1,35 +1,13 @@
 <template>
   <div class="nft-appreciation__main mb-4">
-    <b-tooltip
-      v-if="accountId && nftId && !burned"
-      type="is-light"
-      :triggers="['click', 'mouseIn']"
-      :auto-close="['outside', 'escape', 'mouseOut']"
-      multilined
-      size="is-large"
-      class="nft-appreciation__tooltip"
-    >
-      <template v-slot:content>
-        <div class="columns is-multiline is-mobile">
-          <div
-            class="column nft-appreciation__column is-one-quarter is-one-quarter-mobile"
-            v-for="emoji in availableEmojis"
-            :key="emoji"
-            @click="appreciate(emoji)"
-          >
-            <b-image
-              class="nft-appreciation__wrapper"
-              :src="require(`@/components/rmrk/emoji/${emoji}.png`)"
-              alt="Simple image"
-              ratio="1by1"
-              rounded
-            ></b-image>
-          </div>
-        </div>
-      </template>
-      <b-button class="nft-appreciation__button" icon-left="heart" />
-    </b-tooltip>
-    <EmotionList :emotions="emotions" />
+      <b-button class="nft-appreciation__button" icon-left="heart" @click="showDialog = !showDialog" />
+    <VEmojiPicker
+      v-show="showDialog"
+      labelSearch="Search your emote"
+      @select="onSelectEmoji"
+      class="emote-picker"
+    />
+    <EmotionList class="emote-list" :emotions="emotions" />
   </div>
 </template>
 
@@ -43,10 +21,13 @@ import shouldUpdate from '@/utils/shouldUpdate';
 import groupBy from '@/utils/groupBy';
 import EmotionList from './EmotionList.vue';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { VEmojiPicker } from 'v-emoji-picker';
+import emojiUnicode from 'emoji-unicode'
 
 @Component({
   components: {
-    EmotionList
+    EmotionList,
+    VEmojiPicker
   }
 })
 export default class Appreciation extends Mixins(RmrkVersionMixin) {
@@ -66,6 +47,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
     '1F60A'
   ];
   private emotions: any = {};
+  protected showDialog: boolean = false
 
   private appreciate(emoji: string) {
     console.log('clicked', emoji);
@@ -74,9 +56,14 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
     this.submit(rmrk);
   }
 
+  protected onSelectEmoji(emoji: any) {
+    console.log('Emoji', emoji.data,(emojiUnicode(emoji.data).split(' ')[0]).toUpperCase())
+    showNotification(`[EMOTE] ${emoji.data}`);
+  }
+
   private async submit(rmrk: string) {
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
+    // const rmrkService = getInstance();
 
     try {
       showNotification(rmrk);
@@ -84,13 +71,13 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
       const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
       showNotification(execResultValue(tx), notificationTypes.success);
       console.warn('TX IN', tx);
-      const persisted = await rmrkService?.resolve(rmrk, this.accountId);
-      console.log(persisted);
-      console.log('SAVED', persisted?._id);
-      showNotification(
-        `[TEXTILE] ${persisted?._id}`,
-        notificationTypes.success
-      );
+      // const persisted = await rmrkService?.resolve(rmrk, this.accountId);
+      // console.log(persisted);
+      // console.log('SAVED', persisted?._id);
+      // showNotification(
+      //   `[TEXTILE] ${persisted?._id}`,
+      //   notificationTypes.success
+      // );
       await this.fetchAppreciationsForNFT(this.nftId)
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
@@ -120,6 +107,11 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 
 <style scoped lang="scss">
 @import "@/colors";
+
+.emote-picker {
+  position: sticky;
+  z-index: 1;
+}
 
 .nft-appreciation__main {
   min-height: 40px;

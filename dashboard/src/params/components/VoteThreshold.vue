@@ -27,10 +27,6 @@ export default class VoteThreshold extends Vue {
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
 
-  private extractDefaultValue() {
-    Object.entries(this.defaultValue)
-  }
-
 
   get selected() {
     return this.defaultValue || '';

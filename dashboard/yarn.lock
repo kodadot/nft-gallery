@@ -5202,6 +5202,11 @@ emoji-regex@^8.0.0:
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
 
+emoji-unicode@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-unicode/-/emoji-unicode-2.0.1.tgz#37b05f0cd20254fd366d1df4442b5c613a3a021a"
+  integrity sha512-jjswgV5nR3KDqtC9ugzEOYQaBLLQP5hqaH2tiTBaq9maYpMnmvl9T+ogY3u2bN6O5NAP0Ddh9D+Meo7sfW/1uw==
+
 emojis-list@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
@@ -11191,6 +11196,14 @@ uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+v-emoji-picker@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/v-emoji-picker/-/v-emoji-picker-2.3.3.tgz#afff5d9be2d9c949b395616bcffd4d74f753289f"
+  integrity sha512-GLuBowVCwKjGRVQ+DJvP6SVFhLIlyvQTBgwlrBuwPX7wt7xi+fdWxmFtyJDBEp/2/xI1aS6Y2lXvse9Cf2vIzA==
+  dependencies:
+    vue-class-component "^7.2.6"
+    vue-property-decorator "^9.1.2"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
