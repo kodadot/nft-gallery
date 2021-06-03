@@ -3,11 +3,7 @@
     <div class="column is-7 is-offset-3">
       <section>
         <br />
-        <b-loading
-          is-full-page
-          v-model="isLoading"
-          :can-cancel="true"
-        ></b-loading>
+        <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
             <!-- {{ $t('mint.context') }} -->
@@ -23,9 +19,11 @@
             <Auth />
           </b-field>
 
-          <MetadataUpload v-model="file"
-           label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
-           expanded />
+          <MetadataUpload
+            v-model="file"
+            label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+            expanded
+          />
 
           <b-field grouped :label="$i18n.t('Name')">
             <b-input
@@ -35,10 +33,7 @@
               class="mr-0"
               spellcheck="true"
             ></b-input>
-            <Tooltip
-              iconsize="is-medium"
-              :label="$i18n.t('tooltip.name')"
-            />
+            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
           </b-field>
           <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
             <b-input
@@ -49,10 +44,7 @@
               expanded
               class="mr-0"
             ></b-input>
-            <Tooltip
-              iconsize="is-medium"
-              :label="$i18n.t('tooltip.symbol')"
-            />
+            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.symbol')" />
           </b-field>
 
           <b-field :label="$i18n.t('Collection description')" class="mb-0">
@@ -72,10 +64,7 @@
               expanded
               :min="1"
             ></b-numberinput>
-            <Tooltip
-              iconsize="is-medium"
-              :label="$i18n.t('tooltip.edition')"
-            />
+            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
           </b-field>
 
           <MetadataUpload
@@ -107,7 +96,10 @@
             has-icon
             aria-close-label="Close message"
           >
-            <span class="has-text-primary">Setting the price now requires making an additional transaction.</span>
+            <span class="has-text-primary"
+              >Setting the price now requires making an additional
+              transaction.</span
+            >
           </b-message>
 
           <b-field>
@@ -139,7 +131,7 @@
               </template>
               <template v-else>
                 {{ $t("mint.estimated") }}
-                <Money :value="estimated" inline  />
+                <Money :value="estimated" inline />
               </template>
             </b-button>
           </b-field>
@@ -153,9 +145,8 @@
               activeMessage="I'm making carbonless NFT"
               passiveMessage="I don't want to have carbonless NFT"
               type="is-success"
-              />
+            />
           </b-field>
-
         </div>
       </section>
     </div>
@@ -173,18 +164,19 @@ import MetadataUpload from './DropUpload.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, {
   execResultValue,
-  Extrinsic,
   txCb,
-  ExecResult,
   estimate
 } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import PasswordInput from '@/components/shared/PasswordInput.vue';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 
-import { getInstance, RmrkType, RmrkWithMetaType } from '../service/RmrkService';
-import { Attribute, SimpleNFT, NFTMetadata } from '../service/scheme';
+import {
+  getInstance,
+  RmrkType,
+  RmrkWithMetaType
+} from '../service/RmrkService';
+import { Attribute, SimpleNFT, NFTMetadata, NFT } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import { pinFile, pinJson } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
@@ -199,31 +191,54 @@ import { DispatchError, Hash } from '@polkadot/types/interfaces';
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload,
-  PasswordInput,
+  MetadataUpload: () => import('./DropUpload.vue'),
+  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Tooltip,
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  Money: () => import('@/components/shared/format/Money.vue')
+  Money: () => import('@/components/shared/format/Money.vue'),
+  Loader: () => import('@/components/shared/Loader.vue')
 };
 
 @Component<SimpleMint>({
-    metaInfo() {
+  metaInfo() {
     return {
       meta: [
-      { property: 'og:title', content: 'KodaDot | Low fees and low carbon minting' },
-      { property: 'og:url', content: 'https://nft.kodadot.xyz'},
-      { property: 'og:description', content: 'Create carbonless NFTs with low on-chain fees' },
-      { property: 'og:site_name', content: 'Low fees and low carbon minting'},
-      { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'},
-      { property: 'twitter:title', content: 'Low fees and low carbon minting' },
-      { property: 'twitter:description', content: 'Create carbonless NFTs with low on-chain fees' },
-      { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'},
+        {
+          property: 'og:title',
+          content: 'KodaDot | Low fees and low carbon minting'
+        },
+        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
+        {
+          property: 'og:description',
+          content: 'Create carbonless NFTs with low on-chain fees'
+        },
+        {
+          property: 'og:site_name',
+          content: 'Low fees and low carbon minting'
+        },
+        {
+          property: 'og:image',
+          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+        },
+        {
+          property: 'twitter:title',
+          content: 'Low fees and low carbon minting'
+        },
+        {
+          property: 'twitter:description',
+          content: 'Create carbonless NFTs with low on-chain fees'
+        },
+        {
+          property: 'twitter:image',
+          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+        }
       ]
-    }
+    };
   },
-  components })
+  components
+})
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
   RmrkVersionMixin
@@ -244,6 +259,7 @@ export default class SimpleMint extends Mixins(
   private price: number = 0;
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
+  protected status = '';
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -283,12 +299,7 @@ export default class SimpleMint extends Mixins(
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
 
-
-    const result = NFTUtils.generateRemarks(
-      this.rmrkMint,
-      accountId,
-      version
-    );
+    const result = NFTUtils.generateRemarks(this.rmrkMint, accountId, version);
     const cb = api.tx.utility.batchAll;
     const remarks: string[] = Array.isArray(result)
       ? result
@@ -299,10 +310,13 @@ export default class SimpleMint extends Mixins(
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
-      : [...remarks.map(this.toRemark), ...(await this.canSupport()), ...(await this.canOffset())];
+      : [
+          ...remarks.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset())
+        ];
 
-
-     this.estimated = await estimate(this.accountId, cb, [args])
+    this.estimated = await estimate(this.accountId, cb, [args]);
 
     this.isLoading = false;
   }
@@ -325,7 +339,7 @@ export default class SimpleMint extends Mixins(
       this.rmrkMint,
       accountId,
       version
-    );
+    ) as MintType;
     const cb = api.tx.utility.batchAll;
     const remarks: string[] = Array.isArray(result)
       ? result
@@ -336,7 +350,11 @@ export default class SimpleMint extends Mixins(
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
-      : [...remarks.map(this.toRemark), ...(await this.canSupport()), ...(await this.canOffset())];
+      : [
+          ...remarks.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset())
+        ];
 
     const tx = await exec(
       this.accountId,
@@ -348,33 +366,13 @@ export default class SimpleMint extends Mixins(
           execResultValue(tx);
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
-          const mints: any[] = []
-          for (const [index, rmrk] of remarks.entries()) {
-            this.isLoading = true;
-            try {
-              const res = await rmrkService?.resolve(
-                rmrk,
-                this.accountId,
-                blockNumber
-              );
-              mints.push(res)
-              showNotification(
-                `[TEXTILE] Entry ${index + 1} saved as ${res?._id}`,
-                notificationTypes.success
-              );
-              console.log('res', index, res);
-            } catch (e) {
-              console.warn(`Failed Indexing ${index} with err ${e}`);
-              this.isLoading = false;
-            }
-            this.isLoading = false;
-          }
+
           if (this.price) {
-            this.listForSale(mints)
+            this.listForSale(result.nfts);
           }
 
           showNotification(
-            `[TEXTILE] Saved ${remarks.length} entries`,
+            `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
             notificationTypes.success
           );
         },
@@ -395,6 +393,24 @@ export default class SimpleMint extends Mixins(
           }
 
           this.isLoading = false;
+        },
+        res => {
+          if (res.status.isReady) {
+            this.status = 'loader.casting';
+            return;
+          }
+
+          if (res.status.isInBlock) {
+            this.status = 'loader.block';
+            return;
+          }
+
+          if (res.status.isFinalized) {
+            this.status = 'loader.finalized';
+            return;
+          }
+
+          this.status = '';
         }
       )
     );
@@ -423,25 +439,44 @@ export default class SimpleMint extends Mixins(
     this.isLoading = false;
   }
 
-  public async listForSale(remarks: RmrkWithMetaType[]) {
+  get chainProperties() {
+    return this.$store.getters.getChainProperties;
+  }
+
+  get decimals(): number {
+    return this.chainProperties.tokenDecimals;
+  }
+
+  get unit(): string {
+    return this.chainProperties.tokenSymbol;
+  }
+
+  public async listForSale(remarks: NFT[]) {
     const { api } = Connector.getInstance();
     const rmrkService = getInstance();
     this.isLoading = true;
 
     const { price, version } = this;
     showNotification(
-      `[APP] Listing NFT to sale for ${formatBalance(price)}`
+      `[APP] Listing NFT to sale for ${formatBalance(price, {
+        decimals: this.decimals,
+        withUnit: this.unit
+      })}`
     );
 
-    const onlyNfts = remarks.filter(NFTUtils.isNFT).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price)));
+    const onlyNfts = remarks
+      .filter(NFTUtils.isNFT)
+      .map(nft =>
+        NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+      );
 
     if (!onlyNfts.length) {
-      showNotification('Can not list empty NFTs', notificationTypes.danger)
+      showNotification('Can not list empty NFTs', notificationTypes.danger);
       return;
     }
 
     const cb = api.tx.utility.batchAll;
-    const args = onlyNfts.map(this.toRemark)
+    const args = onlyNfts.map(this.toRemark);
 
     const tx = await exec(
       this.accountId,
@@ -453,28 +488,26 @@ export default class SimpleMint extends Mixins(
           execResultValue(tx);
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
-          for (const [index, rmrk] of onlyNfts.entries()) {
-            try {
-              const res = await rmrkService?.resolve(
-                rmrk,
-                this.accountId,
-                blockNumber
-              );
-              console.log('res', index, res);
-            } catch (e) {
-              console.warn(`Failed Indexing ${index} with err ${e}`);
-            }
-
-          }
 
           showNotification(
-            `[TEXTILE] Saved NFTs with price ${formatBalance(price)}`,
+            `[LIST] Saved prices for ${
+              this.rmrkMint.max
+            } NFTs with tag ${formatBalance(price, {
+              decimals: this.decimals,
+              withUnit: this.unit
+            })} in block ${blockNumber}`,
             notificationTypes.success
           );
+
           this.isLoading = false;
         },
-        dispatchError => { execResultValue(tx); this.onTxError(dispatchError); this.isLoading = false; }
-      ))
+        dispatchError => {
+          execResultValue(tx);
+          this.onTxError(dispatchError);
+          this.isLoading = false;
+        }
+      )
+    );
   }
 
   public nsfwAttribute(): Attribute[] {
@@ -504,27 +537,34 @@ export default class SimpleMint extends Mixins(
 
     this.meta = {
       ...this.meta,
-      attributes: [...(this.rmrkMint?.tags || []), ...this.nsfwAttribute(), ...this.offsetAttribute()],
+      attributes: [
+        ...(this.rmrkMint?.tags || []),
+        ...this.nsfwAttribute(),
+        ...this.offsetAttribute()
+      ],
       external_url: `https://nft.kodadot.xyz`,
       type: this.file.type
     };
 
-    // TODO: upload file to IPFS
-    const fileHash = await pinFile(this.file);
+    try {
+      const fileHash = await pinFile(this.file);
 
-    if (!this.secondaryFileVisible) {
-      this.meta.image = unSanitizeIpfsUrl(fileHash);
-    } else {
-      this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
-      if (this.secondFile) {
-        const coverImageHash = await pinFile(this.secondFile);
-        this.meta.image = unSanitizeIpfsUrl(coverImageHash);
+      if (!this.secondaryFileVisible) {
+        this.meta.image = unSanitizeIpfsUrl(fileHash);
+      } else {
+        this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
+        if (this.secondFile) {
+          const coverImageHash = await pinFile(this.secondFile);
+          this.meta.image = unSanitizeIpfsUrl(coverImageHash);
+        }
       }
-    }
 
-    // TODO: upload meta to IPFS
-    const metaHash = await pinJson(this.meta);
-    return unSanitizeIpfsUrl(metaHash);
+      // TODO: upload meta to IPFS
+      const metaHash = await pinJson(this.meta);
+      return unSanitizeIpfsUrl(metaHash);
+    } catch (e) {
+      throw e;
+    }
   }
 
   protected async canSupport() {

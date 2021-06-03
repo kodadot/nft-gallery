@@ -135,6 +135,9 @@
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
     "finalized": "(3/3) Finalized",
-    "block": "(2/3) Transaction in block"
+    "block": "(2/3) Transaction in block",
+    "pinImage": "Pinning Image",
+    "pinMeta": "Pinning Metadata",
+    "constructTx": "Constructing transaction"
   }
 }
