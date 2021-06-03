@@ -1,8 +1,6 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true">
-      <div class="loading-icon" ><span v-if="status" class="loading-text">{{ $t(status) }}</span></div>
-    </b-loading>
+    <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
       @click="handleAction(action)">
@@ -60,7 +58,8 @@ type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  AddressInput: () => import('@/components/shared/AddressInput.vue')
+  AddressInput: () => import('@/components/shared/AddressInput.vue'),
+  Loader: () => import('@/components/shared/Loader.vue')
 };
 
 @Component({ components })
@@ -301,9 +300,3 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 }
 </script>
 
-<style scoped>
-.loading-text {
-    position: relative;
-    top: 4em;
-}
-</style>

@@ -195,7 +195,7 @@ export default class GalleryItem extends Vue {
         variables: {
           id: this.id
         },
-        update: ({ nFTEntity }) => { console.log(nFTEntity); return nFTEntity },
+        update: ({ nFTEntity }) => { return nFTEntity },
         result: () => this.fetchMetadata(),
         pollInterval: 5000
       })
@@ -224,7 +224,6 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
-    console.log(this.nft['metadata'], !this.meta['image'])
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
       const meta = m ? m : await fetchNFTMetadata(this.nft)
