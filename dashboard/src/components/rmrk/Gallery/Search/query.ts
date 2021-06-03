@@ -32,13 +32,14 @@ export const basicAggregation = (): Aggregator => {
         _id: { image: '$image', collection: '$collection' },
         // _id: '$image',
         ids: { $push: '$id' },
-        collection: { $first: '$collection' },
+        collectionId: { $first: '$collectionId' },
         name: { $first: '$name' },
         id: { $first: '$id' },
         image: { $first: '$image' },
         metadata: { $first: '$metadata' },
         price: { $first: '$price' },
         type: { $first: '$type' },
+        burned: { $first: '$burned' },
         emoteCount: { $first: '$emoteCount' },
         count: { $sum: 1 }
       }

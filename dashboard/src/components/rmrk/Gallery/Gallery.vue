@@ -1,7 +1,7 @@
 <template>
   <div class="gallery">
     <!-- TODO: Make it work with graphql -->
-    <!-- <Search v-bind.sync="searchQuery" /> -->
+    <Search v-bind.sync="searchQuery" />
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
     <Pagination
       class="pt-5"
@@ -22,9 +22,10 @@
               <div class="card-image">
                 <span v-if="nft.emoteCount" class="card-image__emotes">
                   <b-icon icon="heart" />
-                  <span class="card-image__emotes__count">{{ nft.emoteCount }}</span>
-                  </span
-                >
+                  <span class="card-image__emotes__count">{{
+                    nft.emoteCount
+                  }}</span>
+                </span>
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -32,6 +33,7 @@
                     :data-type="nft.type"
                     :alt="nft.name"
                     class="lazyload gallery__image"
+                    :class="{ 'card-image__burned': nft.burned }"
                     @error="onError"
                   />
                 </figure>
@@ -60,7 +62,7 @@
                     v-else
                     :to="{
                       name: 'collectionDetail',
-                      params: { id: nft.collection }
+                      params: { id: nft.collectionId }
                     }"
                   >
                     <div class="has-text-overflow-ellipsis">
@@ -108,6 +110,7 @@ import Freezeframe from 'freezeframe';
 import 'lazysizes';
 import { SearchQuery } from './Search/types';
 import nftList from '@/queries/nftList.graphql';
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { set, get, getMany, update } from 'idb-keyval';
 import axios from 'axios';
 
@@ -184,22 +187,8 @@ export default class Gallery extends Vue {
   }
 
   public async created() {
-    this.isLoading = true;
-    // const rmrkService = getInstance();
-
-    // this.setFreezeframe()
-
-    // if (!rmrkService) {
-    //   this.isLoading = false;
-    //   return;
-    // }
-
-    // const ap = await this.$apollo.query<NFT>({
-    //   query: nftList
-    // })
-
-    const a = this.$apollo.addSmartQuery('nfts', {
-      query: nftList,
+    this.$apollo.addSmartQuery('nfts', {
+      query: nftListWithSearch,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
@@ -207,27 +196,33 @@ export default class Gallery extends Vue {
       variables: () => {
         return {
           first: this.first,
-          offset: this.offset
+          offset: this.offset,
+          search: this.searchQuery.search
+            ? [{
+                name: { likeInsensitive: `%${this.searchQuery.search}%` },
+                // or: [
+                //   {
+                //     instance: {
+                //       likeInsensitive: `%${this.searchQuery.search}%`
+                //     }
+                //   },
+                //   {
+                //     collectionId: {
+                //       likeInsensitive: `%${this.searchQuery.search}%`
+                //     }
+                //   }
+                // ]
+              }]
+            : []
         };
       }
     });
 
-    console.log(a);
-
-    // try {
-    //   this.nfts = await rmrkService.getAllNFTs()
-    //   .then(sanitizeObjectArray)
-    //   .then(mapPriceToNumber)
-    //   .then(defaultSortBy);
-
-    //   // this.collectionMeta();
-    // } catch (e) {
-    //   console.warn(e);
-    // }
     this.isLoading = false;
   }
 
   protected async handleResult({ data }: any) {
+    console.log(data)
     this.total = data.nFTEntities.totalCount;
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
@@ -298,6 +293,10 @@ export default class Gallery extends Vue {
 </script>
 
 <style lang="scss">
+.card-image__burned {
+  filter: blur(7px);
+}
+
 .gallery {
   @media screen and (max-width: 1023px) {
     padding: 0 15px;
@@ -353,7 +352,6 @@ export default class Gallery extends Vue {
   .card-image__emotes__count {
     vertical-align: text-bottom;
   }
-
 
   .is-float-right {
     float: right;

@@ -20,6 +20,7 @@
             outlined
             expanded
             @click="isVisible = !isVisible"
+            disabled
           />
         </b-field>
       </div>
@@ -80,7 +81,7 @@ export default class SearchBar extends Vue {
   }
 
   @Emit('update:type')
-  @Debounce(400)
+  @Debounce(50)
   updateType(value: string) {
     this.replaceUrl(value, 'type');
     return value;
