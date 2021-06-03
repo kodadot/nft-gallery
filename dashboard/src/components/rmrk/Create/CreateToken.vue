@@ -1,34 +1,53 @@
 <template>
   <div>
     <div class="box">
-      <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+      <b-loading
+        is-full-page
+        v-model="isLoading"
+        :can-cancel="true"
+      ></b-loading>
       <b-field>
         <Auth />
       </b-field>
       <template v-if="accountId">
         <b-field>
-          <b-switch v-model="oneByOne"
-            passive-type="is-dark"
-            :rounded="false">
-            {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
+          <b-switch v-model="oneByOne" passive-type="is-dark" :rounded="false">
+            {{ oneByOne ? "Single NFT" : "NFT(s) in collection" }}
           </b-switch>
         </b-field>
         <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">
-        <b-select placeholder="Select a collection" v-model="selectedCollection" expanded>
-          <option v-for="option in data" :value="option" :key="option.id">
-            {{ option.name }} {{ option.id }}
-          </option>
-        </b-select>
-        <Tooltip :label="$i18n.t('Select collection where do you want mint your token')" />
-      </b-field>
-      <b-field v-else grouped :label="$i18n.t('Symbol')">
-        <b-input placeholder="3-5 character long name"  v-model="symbol" expanded></b-input>
-        <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
-      </b-field>
+          <b-select
+            placeholder="Select a collection"
+            v-model="selectedCollection"
+            expanded
+          >
+            <option v-for="option in collections" :value="option" :key="option.id">
+              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{ option.max || Infinity}}
+            </option>
+          </b-select>
+          <Tooltip
+            :label="
+              $i18n.t('Select collection where do you want mint your token')
+            "
+          />
+        </b-field>
+        <b-field v-else grouped :label="$i18n.t('Symbol')">
+          <b-input
+            placeholder="3-5 character long name"
+            v-model="symbol"
+            expanded
+          ></b-input>
+          <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
+        </b-field>
       </template>
       <b-field>
-        <PasswordInput v-if="canSubmit" v-model="password" :account="accountId" />
+        <PasswordInput
+          v-if="canSubmit"
+          v-model="password"
+          :account="accountId"
+        />
       </b-field>
+      <h6 v-if="selectedCollection" class="subtitle is-6">You have minted {{ selectedCollection.alreadyMinted }} out of {{ selectedCollection.max || Infinity }}</h6>
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
@@ -50,13 +69,20 @@
             :disabled="disabled"
             outlined
           >
-            {{ $t('Add Token') }}
+            {{ $t("Add Token") }}
           </b-button>
-        </b-field >
+        </b-field>
         <b-field position="is-right">
-            <b-button v-if="canSubmit" type="is-primary" icon-left="paper-plane" outlined @click="submit" :loading="isLoading">
-              {{ $t('Mint') }}
-            </b-button>
+          <b-button
+            v-if="canSubmit"
+            type="is-primary"
+            icon-left="paper-plane"
+            outlined
+            @click="submit"
+            :loading="isLoading"
+          >
+            {{ $t("Mint") }}
+          </b-button>
         </b-field>
       </b-field>
       <Support v-if="canSubmit" v-model="hasSupport" :price="filePrice" />
@@ -75,26 +101,33 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import {
-  Collection,
-  NFT,
-  NFTMetadata,
-} from '../service/scheme';
+import { Collection, NFT, NFTMetadata } from '../service/scheme';
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
-import slugify from 'slugify'
+import slugify from 'slugify';
 import { fetchCollectionMetadata } from '../utils';
-import Consolidator, { generateId } from '@/components/rmrk/service/Consolidator'
+import Consolidator, {
+  generateId
+} from '@/components/rmrk/service/Consolidator';
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { supportTx, MaybeFile, calculateCost }   from '@/utils/support'
+import { supportTx, MaybeFile, calculateCost } from '@/utils/support';
+import collectionForMint from '@/queries/collectionForMint.graphql';
 
 const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
 }
+
+type MintedCollection = {
+  id: string;
+  name: string;
+  alreadyMinted: number;
+  max: number;
+  metadata: string;
+};
 
 @Component({
   components: {
@@ -107,7 +140,8 @@ interface NFTAndMeta extends NFT {
 })
 export default class CreateToken extends Mixins(RmrkVersionMixin) {
   private data: Collection[] = [];
-  private selectedCollection: Collection | null = null;
+  private collections: MintedCollection[] = [];
+  private selectedCollection: MintedCollection | null = null;
   private added: NFTAndMeta[] = [];
   private images: MaybeFile[] = [];
   private animated: MaybeFile[] = [];
@@ -138,44 +172,40 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     }
   }
 
-  @Watch('selectedCollection')
-  get(value: Collection | null, oldVal: Collection | null) {
-    if (value?.id !== oldVal?.id) {
-      console.log('calling fetch', value?.id);
-      this.fetchAlreadyMinted()
-    }
-  }
-
-  public async fetchAlreadyMinted() {
-    const rmrkService = getInstance();
-    if (this.selectedCollection) {
-      const data = await rmrkService?.getNFTsForCollection(this.selectedCollection?.id);
-    this.alreadyMinted = Number(data?.length);
-      console.log('Already minted', this.alreadyMinted)
-    }
-
-  }
-
   public async fetchCollections() {
-    const rmrkService = getInstance();
-    console.log(this.accountId)
-    console.warn(rmrkService, this.accountId)
-    const data = await rmrkService?.getAllCollections();
-    console.log('data', data?.length);
-    this.data = (data || []).filter(({ issuer }) => issuer === this.accountId);
+    const collections = await this.$apollo.query({
+      query: collectionForMint,
+      variables: {
+        account: this.accountId
+      }
+    });
+
+    const {
+      data: { collectionEntities }
+    } = collections;
+
+    this.collections = collectionEntities.nodes?.map((ce: any) => ({
+      ...ce,
+      alreadyMinted: ce.nfts?.totalCount
+    }))
+    .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted)
+    ;
   }
 
   get canSubmit() {
-    return this.added.length
+    return this.added.length;
   }
 
   get singleNFTValid() {
-    return this.oneByOne && this.symbol
+    return this.oneByOne && this.symbol;
   }
 
   get disabled() {
-    const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0
-    return max <= this.added.length + this.alreadyMinted;
+    if (!this.selectedCollection?.max) {
+      return false;
+    }
+    const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0;
+    return max <= this.added.length + this.selectedCollection.alreadyMinted;
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
@@ -194,7 +224,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   }
 
   private calculatePrice() {
-    this.filePrice = calculateCost([...this.images, ...this.animated])
+    this.filePrice = calculateCost([...this.images, ...this.animated]);
   }
 
   private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {
@@ -208,19 +238,21 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       currentOwner: this.accountId,
       transferable: Number(nftForMint.transferable),
       instance: slugify(nftForMint.name, '_').toUpperCase(),
-      collection: this.oneByOne ? generateId(this.accountId, this.symbol) : nftForMint.collection
+      collection: this.oneByOne
+        ? generateId(this.accountId, this.symbol)
+        : nftForMint.collection
     };
   }
 
   private toMintFormat(nft: NFT) {
     return `RMRK::MINTNFT::${this.version}::${encodeURIComponent(
       JSON.stringify(nft)
-    )}`
+    )}`;
   }
 
   private toRemark(remark: string) {
     const { api } = Connector.getInstance();
-    return api.tx.system.remark(remark)
+    return api.tx.system.remark(remark);
   }
 
   public async constructMeta(nft: NFTAndMeta, index: number) {
@@ -232,8 +264,10 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       external_url: `https://rmrk.app/registry/${nft.collection}`
     };
 
-     if (!image) {
-      const collectionMeta = await fetchCollectionMetadata(this.selectedCollection || emptyObject<Collection>());
+    if (!image) {
+      const collectionMeta = await fetchCollectionMetadata(
+        (this.selectedCollection || emptyObject<Collection>()) as Collection
+      );
       meta.image = collectionMeta.image;
     } else {
       const imageHash = await pinFile(image);
@@ -254,10 +288,10 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
 
   protected async canSupport() {
     if (this.hasSupport) {
-      return [await supportTx([...this.images, ...this.animated])]
+      return [await supportTx([...this.images, ...this.animated])];
     }
 
-    return []
+    return [];
   }
 
   protected async submit() {
@@ -265,87 +299,115 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     const { api } = Connector.getInstance();
     if (!this.validate()) {
       this.isLoading = false;
-      return
+      return;
     }
 
     const nfts: NFT[] = await Promise.all(this.added.map(this.makeItSexy));
 
-    const remarks: string[] = nfts.map(this.toMintFormat)
+    const remarks: string[] = nfts.map(this.toMintFormat);
 
     if (!remarks.length) {
-      throw new RangeError('Unable to process empty NFTs!')
+      throw new RangeError('Unable to process empty NFTs!');
     }
 
     const firstNFT = nfts[0];
-    const collectionToMint: string[] = this.oneByOne ? [NFTUtils.encodeCollection(NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version), this.version)] : []
+    const collectionToMint: string[] = this.oneByOne
+      ? [
+          NFTUtils.encodeCollection(
+            NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version),
+            this.version
+          )
+        ]
+      : [];
 
-    const batchMethods = [...collectionToMint.map(this.toRemark), ...remarks.map(this.toRemark), ...await this.canSupport()]
-    console.log('batchMethods', batchMethods)
+    const batchMethods = [
+      ...collectionToMint.map(this.toRemark),
+      ...remarks.map(this.toRemark),
+      ...(await this.canSupport())
+    ];
+    console.log('batchMethods', batchMethods);
     const rmrkService = getInstance();
 
     try {
-      const tx = await exec(this.accountId, this.password, api.tx.utility.batchAll, [
-        batchMethods
-      ], async (result) => {
-        console.log(`Current status is`, result);
-        if (result.status.isFinalized) {
-          console.log(`finalized status is`, result);
-          console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
-          execResultValue(tx)
-          const header = await api.rpc.chain.getHeader(result.status.asFinalized);
-          const blockNumber = header.number.toString();
-          for (const [index, rmrk] of [...collectionToMint, ...remarks].entries()) {
-            this.isLoading = true;
-            try {
-              const res = await rmrkService?.resolve(rmrk, this.accountId, blockNumber)
-              showNotification(`[TEXTILE] ${res?._id}`, notificationTypes.success)
-              console.log('res', index, res)
-            } catch (e) {
-              console.warn(`Failed Indexing ${index} with err ${e}`);
+      const tx = await exec(
+        this.accountId,
+        this.password,
+        api.tx.utility.batchAll,
+        [batchMethods],
+        async result => {
+          console.log(`Current status is`, result);
+          if (result.status.isFinalized) {
+            console.log(`finalized status is`, result);
+            console.log(
+              `Transaction finalized at blockHash ${result.status.asFinalized}`
+            );
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(
+              result.status.asFinalized
+            );
+            const blockNumber = header.number.toString();
+            for (const [index, rmrk] of [
+              ...collectionToMint,
+              ...remarks
+            ].entries()) {
+              this.isLoading = true;
+              try {
+                const res = await rmrkService?.resolve(
+                  rmrk,
+                  this.accountId,
+                  blockNumber
+                );
+                showNotification(
+                  `[TEXTILE] ${res?._id}`,
+                  notificationTypes.success
+                );
+                console.log('res', index, res);
+              } catch (e) {
+                console.warn(`Failed Indexing ${index} with err ${e}`);
+              }
+              this.isLoading = false;
             }
-            this.isLoading = false;
           }
         }
-      });
+      );
       console.warn('TX IN', tx);
-      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`)
-
+      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`);
     } catch (e) {
       showNotification(e, notificationTypes.danger);
       this.isLoading = false;
     }
-
-
   }
   validate(): boolean {
-    console.log('KKT', this.added)
+    console.log('KKT', this.added);
     for (const nft of this.added) {
       try {
-        Consolidator.nftValid(nft)
+        Consolidator.nftValid(nft);
       } catch (e) {
-        showNotification(`${e}`, notificationTypes.warn)
-        return false
+        showNotification(`${e}`, notificationTypes.warn);
+        return false;
       }
     }
 
-    return true
+    return true;
   }
 
   protected handleAdd() {
     const rmrk = emptyObject<NFTAndMeta>();
-    rmrk.collection = this.oneByOne ? generateId(this.accountId, this.symbol) : this.selectedCollection?.id || '';
+    rmrk.collection = this.oneByOne
+      ? generateId(this.accountId, this.symbol)
+      : this.selectedCollection?.id || '';
     rmrk.sn = this.calculateSerialNumber(this.added.length);
     rmrk.meta = emptyObject<NFTMetadata>();
     rmrk.transferable = 1;
     rmrk.name = '';
     this.added.push(rmrk);
     this.images.push(null);
-    this.animated.push(null)
+    this.animated.push(null);
   }
 
   protected hadleItemRemoval(index: number) {
     this.added.splice(index, 1);
-    this.added.forEach((nft, i) => nft.sn = this.calculateSerialNumber(i))
+    this.added.forEach((nft, i) => (nft.sn = this.calculateSerialNumber(i)));
     for (let i = index; i < this.added.length; i++) {
       this.$set(this.images, i, this.images[i + 1]);
       this.$set(this.animated, i, this.animated[i + 1]);
@@ -355,7 +417,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
   }
 
   protected calculateSerialNumber(index: number) {
-    return String(index + this.alreadyMinted +  1).padStart(16, '0');
+    return String(index + this.alreadyMinted + 1).padStart(16, '0');
   }
 }
 </script>

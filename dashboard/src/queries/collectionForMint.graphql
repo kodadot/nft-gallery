@@ -1,0 +1,18 @@
+
+
+query collectionForMint($account: String!) {
+  collectionEntities(
+    filter: { currentOwner: { equalTo: $account } }
+    orderBy: BLOCK_NUMBER_DESC
+  ) {
+    nodes {
+      id
+      name
+      max
+      metadata
+      nfts {
+        totalCount
+      }
+    }
+  }
+}
