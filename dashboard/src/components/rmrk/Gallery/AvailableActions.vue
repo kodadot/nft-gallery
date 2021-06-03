@@ -177,7 +177,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 
       const { data: {nFTEntity} } = nft;
 
-      if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price == 0 || nFTEntity.price !== this.price ) {
+      if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price === 0 || nFTEntity.price !== this.price ) {
         showNotification(
           `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
           notificationTypes.warn
