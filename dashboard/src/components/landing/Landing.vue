@@ -22,15 +22,6 @@
                 <h2 class="title is-3">
                   <b-icon
                     pack="fas"
-                    icon="camera-retro">
-                  </b-icon>
-                    <router-link :to="{ name: 'nftRare', }">
-                      Rare solo feed
-                    </router-link>
-                </h2>
-                <h2 class="title is-3">
-                  <b-icon
-                    pack="fas"
                     icon="ghost"
                   ></b-icon>
                     Creators Spotlight
@@ -66,7 +57,7 @@
                       pack="far"
                       icon="comment-dots">
                     </b-icon>
-                    {{ $t('Tutorial: How to mint NFT') }}
+                    Tutorial 1
                   </a>
                 </h2>
                 <h2 class="title is-4">
@@ -75,7 +66,7 @@
                       pack="far"
                       icon="comment-dots">
                     </b-icon>
-                    {{ $t('Tutorial: Mint your NFTs on KodaDot') }}
+                    Tutorial 2
                   </a>
                 </h2>
                 <h2 class="title is-4">
@@ -83,16 +74,25 @@
                     <b-icon
                       icon="question">
                     </b-icon>
-                    {{ $t('New here? We have F.A.Q.') }}
+                    {{ $t('F.A.Q.') }}
                   </router-link>
                 </h2>
               </div>
             </div>
               <div class="tile is-parent is-vertical">
                 <div class="tile is-child">
+                  <h2 class="title is-3">
+                    <b-icon
+                      pack="fas"
+                      icon="camera-retro">
+                    </b-icon>
+                    <router-link :to="{ name: 'nftRare', }">
+                      {{ $t('Solo feed') }}
+                    </router-link>
+                  </h2>
                   <h2 class="title">
                     <b-icon icon="flask"></b-icon>
-                    We are wandering new avenues of NFT experience.<br>
+                    experimental NFT landscape<br>
                   </h2>
                   <h2 class="title">
                     <b-icon icon="leaf"></b-icon>
@@ -138,7 +138,6 @@
                       pack="fab"
                       icon="telegram">
                     </b-icon>
-                    KodaDot
                   </a>
                 </h2>
                 <h2 class="title">
@@ -147,7 +146,6 @@
                       pack="fab"
                       icon="reddit-alien">
                     </b-icon>
-                    r/KodaDot
                   </a>
                 </h2>
                 <h2 class="title">
@@ -156,7 +154,6 @@
                       pack="fab"
                       icon="twitter">
                     </b-icon>
-                    @KodaDot
                   </a>
                 </h2>
                 <h2 class="title">
@@ -165,7 +162,6 @@
                       pack="fab"
                       icon="discord">
                     </b-icon>
-                    KodaDot Community Discord
                   </a>
                 </h2>
                 <!-- <h2 class="title">
@@ -177,15 +173,14 @@
                   </a>
                 </h2> -->
                 <h2 class="title">
-                  <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
+                  <a href="https://medium.com/kodadot/" target="_blank">
                     <b-icon
                       pack="fab"
                       icon="medium">
                     </b-icon>
-                    {{ $t('Read our story, how we started.') }}
                   </a>
                 </h2>
-                <h2 class="title">
+                <!-- <h2 class="title">
                   <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
                     <b-icon
                       pack="fab"
@@ -202,8 +197,8 @@
                     </b-icon>
                     {{ $t('Client-first NFT gallery: Technical examination') }}
                   </a>
-                </h2>
-                <h2 class="title">
+                </h2> -->
+                <!-- <h2 class="title">
                   <a href="https://twitter.com/metaprime_net" target="_blank">
                     <b-icon
                       pack="fab"
@@ -211,7 +206,7 @@
                     </b-icon>
                     {{ $t('NFT-focused infrastracture @Metaprime_net') }}
                   </a>
-                </h2>
+                </h2> -->
                 </div>
               </div>
           </div>
@@ -255,9 +250,8 @@ const components = {
 export default class Landing extends Vue {
 
   public publicCommunity: any = [
-    ['🌐 Global Discord', 'https://discord.gg/u6ymnbz4PR'],
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
-    ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
+    // ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
     ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
     ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
@@ -265,8 +259,10 @@ export default class Landing extends Vue {
     ['🇷🇺 Russia', 'https://t.me/kodadotru'],
     ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
     ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
-    ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
-    // ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
+    ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
+    // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
+    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 
   public creators: any = [
@@ -277,8 +273,8 @@ export default class Landing extends Vue {
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
     'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd',
-    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
-    'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN'
+    // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
+    // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ]
 
 }
