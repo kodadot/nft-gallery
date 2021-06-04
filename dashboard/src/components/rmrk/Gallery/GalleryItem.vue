@@ -28,7 +28,7 @@
       </div>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" :burned="nft.burned" />
+          <Appreciation :emotes="nft.emotes" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" :burned="nft.burned" />
 
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
@@ -109,7 +109,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFT, NFTMetadata } from '../service/scheme';
+import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
@@ -170,6 +170,7 @@ export default class GalleryItem extends Vue {
   public isLoading: boolean = true;
   public mimeType: string = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
+  public emotes: Emote[] = []
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -190,7 +191,7 @@ export default class GalleryItem extends Vue {
         variables: {
           id: this.id
         },
-        update: ({ nFTEntity }) => { return nFTEntity },
+        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity.emotes?.nodes }),
         result: () => this.fetchMetadata(),
         pollInterval: 5000
       })
@@ -219,6 +220,8 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
+    console.log(this.nft.emotes);
+
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
       const meta = m ? m : await fetchNFTMetadata(this.nft)

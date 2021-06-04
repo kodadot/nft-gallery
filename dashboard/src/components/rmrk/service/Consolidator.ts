@@ -18,6 +18,7 @@ const nftSchema: Record<keyof NFT, boolean> = {
   burned: false,
   emoteCount: false,
   blockNumber: false,
+  emotes: false
 }
 
 export default class Consolidator {

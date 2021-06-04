@@ -5,18 +5,10 @@
       v-for="emoji in emojis"
       :key="emoji.key"
     >
-      <b-taglist attached>
-        <b-tag type="is-light is-large">
-          <b-image
-            class="nft-emotion__image"
-            :src="require(`@/components/rmrk/emoji/${emoji.key}.png`)"
-            alt="Simple image"
-            ratio="1by1"
-            rounded
-          ></b-image>
-        </b-tag>
-        <b-tag type="is-primary is-large">{{ emoji.count }}</b-tag>
-      </b-taglist>
+      <b-tag type="is-light is-large">
+        {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
+        <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
+      </b-tag>
     </div>
   </div>
 </template>
@@ -57,8 +49,11 @@ export default class extends Vue {
   margin-top: 1em;
 }
 
+.nft-emotion-tag__count {
+  margin-left: 0.2rem;
+}
+
 .nft-emotion__image {
   width: 25px;
 }
-
 </style>

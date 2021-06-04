@@ -112,6 +112,11 @@ export interface CollectionWithNFT extends Collection {
   nfts?: NFT[]
 }
 
+export type Emote = {
+  caller: string;
+  value: string;
+}
+
 // id me
 export interface Emotion {
   _id: string;
@@ -146,6 +151,7 @@ export interface NFT {
   burned?: boolean;
   blockNumber?: number;
   emoteCount?: number;
+  emotes?: Emote[]
 }
 
 export interface BasePack {
