@@ -1,0 +1,11 @@
+@import "~bulma/sass/utilities/_all";
+@import "./derived-variables.scss";
+@import "./atomic.scss";
+@import "/colors.scss";
+
+
+$footer-background-color: #1d1d1d;
+$footer-padding         : 0;
+
+
+$navbar-item-img-max-height: 60px;

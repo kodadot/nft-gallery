@@ -6,7 +6,7 @@
         <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span>
       </span>
       <template v-else>
-        <b-button type="is-text" class="navbar__button">Connect</b-button>
+        <b-button type="is-primary" class="navbar__button">Connect</b-button>
       </template>
     </template>
 
@@ -34,17 +34,15 @@
         </router-link>
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
-      <b-dropdown-item has-link aria-role="menuitem">
-        <a class="has-text-info" href="https://twitter.com/kodadot" target="_blank">
-          <b-icon pack="fab" icon="twitter"> </b-icon>
-          <strong>KodaDot</strong>
-        </a>
-      </b-dropdown-item>
     </template>
     <b-dropdown-item v-if="account" custom aria-role="menuitem">
-      <b-button @click="changeAccount = !changeAccount" expanded
-        >Change account</b-button
+      <b-button
+        type="is-primary"
+        @click="changeAccount = !changeAccount"
+        expanded
       >
+        Change account
+      </b-button>
     </b-dropdown-item>
     <b-dropdown-item
       v-if="changeAccount || !account"
@@ -86,7 +84,7 @@ export default class NavbarProfileDropdown extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "bulma/bulma.sass";
 
 .navbar {
@@ -110,21 +108,6 @@ export default class NavbarProfileDropdown extends Vue {
 
     @include until($desktop) {
       padding-right: 0.75rem;
-    }
-  }
-
-  &__button {
-    padding: 0.5rem 0.75rem;
-
-    @include from($desktop) {
-      padding: 0.5rem 0;
-    }
-
-    &.is-text {
-      &:hover,
-      &:focus {
-        background-color: transparent;
-      }
     }
   }
 }

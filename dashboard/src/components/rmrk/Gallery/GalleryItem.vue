@@ -1,5 +1,5 @@
  <template>
-  <div class="wrapper section no-padding-desktop gallery-item">
+  <div class="wrapper section no-padding-desktop gallery-item mb-6">
     <div class="container">
       <div class="columns">
           <div class="image-wrapper">
@@ -252,8 +252,8 @@ export default class GalleryItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/colors";
-@import "@/typography";
+@import "@/styles/colors";
+@import "@/styles/typography";
 
 .gallery-item {
   .nft-title {
@@ -351,11 +351,10 @@ export default class GalleryItem extends Vue {
 
   .price-block {
     border: 2px solid $primary;
-    border-width: 2px 2px 0;
     padding: 14px;
 
     &__original {
-      color: $dark;
+      color: $scheme-invert;
       font-size: 24px;
       text-transform: uppercase;
       font-weight: 500;
@@ -389,7 +388,7 @@ export default class GalleryItem extends Vue {
       }
 
       &-title {
-        color: $primary;
+        color: $scheme-invert;
       }
     }
 

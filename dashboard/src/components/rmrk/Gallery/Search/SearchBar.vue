@@ -17,7 +17,6 @@
             aria-controls="contentIdForA11y1"
             icon-right="caret-down"
             type="is-primary"
-            outlined
             expanded
             @click="isVisible = !isVisible"
           />

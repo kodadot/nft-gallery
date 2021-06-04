@@ -1,15 +1,24 @@
 <template>
   <div class="language-switcher">
-    <b-select
-      placeholder="Language"
-      v-model="userLang"
-    >
-      <option
+    <b-dropdown aria-role="list">
+      <template #trigger>
+          <b-button
+            label="Language"
+            type="is-primary"
+          />
+      </template>
+      <b-dropdown-item
+        aria-role="listitem"
         v-for="(lang, i) in langsFlags"
         :key="`Lang${i}`"
-        :value="lang[0]">{{ lang[1] }}
-      </option>
-    </b-select>
+        :value="userLang"
+        :class="{ 'is-active': userLang === lang.value}"
+        @click="setUserLang(lang.value)"
+      >
+        {{ lang.flag }}
+        {{ lang.label }}
+      </b-dropdown-item>
+    </b-dropdown>
   </div>
 </template>
 
@@ -19,20 +28,19 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component({})
 export default class LocaleChanger extends Vue {
 
-get langsFlags() {
-  return this.$store.state.language.langsFlags;
-}
+  get langsFlags() {
+    return this.$store.state.language.langsFlags;
+  }
 
-get userLang() {
-  this.$i18n.locale = this.$store.getters.getUserLang;
-  return this.$store.getters.getUserLang;
-}
+  get userLang() {
+    this.$i18n.locale = this.$store.getters.getUserLang;
+    return this.$store.getters.getUserLang;
+  }
 
-set userLang(value) {
-  this.$store.commit('setLanguage', { 'userLang': value})
-  this.$i18n.locale = value
-}
-
+  setUserLang(value) {
+    this.$store.commit('setLanguage', { 'userLang': value})
+    this.$i18n.locale = value
+  }
 }
 </script>
 

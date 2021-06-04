@@ -1,0 +1,156 @@
+@import "~bulma/sass/utilities/_all";
+@import "./derived-variables.scss";
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: mergeColorMaps(
+    (
+        "white": (
+            $white,
+            $black,
+        ),
+        "black": (
+            $black,
+            $white,
+        ),
+        "light": (
+            $light,
+            $light-invert,
+        ),
+        "dark": (
+            $dark,
+            $dark-invert,
+        ),
+        "primary": (
+            $primary,
+            $primary-invert,
+            $primary-light,
+            $primary-dark,
+        ),
+        "link": (
+            $link,
+            $link-invert,
+            $link-light,
+            $link-dark,
+        ),
+        "info": (
+            $info,
+            $info-invert,
+            $info-light,
+            $info-dark,
+        ),
+        "success": (
+            $success,
+            $success-invert,
+            $success-light,
+            $success-dark,
+        ),
+        "warning": (
+            $warning,
+            $warning-invert,
+            $warning-light,
+            $warning-dark,
+        ),
+        "danger": (
+            $danger,
+            $danger-invert,
+            $danger-light,
+            $danger-dark,
+        ),
+    ),
+    $custom-colors
+);
+
+// footer
+$footer-background-color: #1d1d1d;
+$footer-padding         : 0;
+
+// navbar
+$navbar-item-img-max-height: 60px;
+$navbar-item-hover-color: $primary;
+
+// button
+$button-border-color: $primary;
+$button-ghost-border-color: $primary;
+$button-border-width: 2px;
+$button-hover-border-color: $primary;
+
+// dropdown
+$dropdown-item-hover-background-color: $primary;
+$navbar-dropdown-item-hover-background-color: $primary;
+$dropdown-content-shadow: 0 0.5em 1em -0.125em rgba($scheme-invert-ter, 0.05), 0 0px 0 1px rgba($scheme-invert-ter, 0.05);
+
+
+// title
+$title-color: $scheme-invert;
+
+// form
+$input-placeholder-color: bulmaRgba($scheme-invert, 0.3);
+
+// box
+$box-shadow: none;
+
+// tabs
+$tabs-link-hover-color: $primary;
+$tabs-link-hover-border-bottom-color: transparent;
+
+body {
+    .button {
+        text-transform: uppercase;
+        border-radius: 0;
+        font-weight: 500;
+        transition: all 0.3s;
+        color: $scheme-invert;
+
+        &.is-primary {
+            border-color: $primary;
+            background-color: $scheme-main;
+
+            &:hover,
+            &:focus {
+                border-color: $primary;
+                background-color: $primary;
+            }
+        }
+    }
+
+    .select select,
+    .taginput .taginput-container.is-focusable,
+    .textarea,
+    .input {
+        color: $scheme-invert;
+    }
+
+    .select {
+        &:not(.is-multiple):not(.is-loading):hover::after {
+            border-color: $primary;
+        }
+
+        select {
+            option {
+                color: $scheme-invert;
+            }
+        }
+    }
+
+    .label {
+        color: $scheme-invert;
+    }
+
+    .select select[disabled],
+    .taginput [disabled].taginput-container.is-focusable,
+    [disabled].textarea, [disabled].input,
+    fieldset[disabled] .select select,
+    .select fieldset[disabled] select,
+    fieldset[disabled] .taginput .taginput-container.is-focusable,
+    .taginput fieldset[disabled] .taginput-container.is-focusable,
+    fieldset[disabled] .textarea,
+    fieldset[disabled] .input {
+        background-color: $scheme-main;
+    }
+
+    .notices .toast.is-dark {
+        background: $primary;
+    }
+}
+
+@import "./atomic.scss";

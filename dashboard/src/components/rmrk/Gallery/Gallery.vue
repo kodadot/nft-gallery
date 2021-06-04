@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery">
+  <div class="gallery container">
     <!-- <b-field label="Owners">
       <b-select
         placeholder="Select an owner"

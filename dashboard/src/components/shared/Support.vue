@@ -17,7 +17,7 @@ export default class Support extends Vue {
   @Prop({ default: 0 }) public price!: number;
   @Prop({ default: 'I\'m helping to cover costs' }) public activeMessage!: string;
   @Prop({ default: 'I don\'t want to support' }) public passiveMessage!: string;
-  @Prop({ default: 'is-primary' }) public type!: string;
+  @Prop({ default: '' }) public type!: string;
 
   get rounded() {
     return round(this.price)

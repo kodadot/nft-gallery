@@ -61,5 +61,5 @@ export default class Name extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "@/typography";
+@import "@/styles/typography";
 </style>

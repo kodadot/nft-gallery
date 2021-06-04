@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box container">
     <p class="title">
       {{ $t('Frequently Asked Question') }}
     </p>

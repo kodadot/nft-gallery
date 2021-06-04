@@ -1,7 +1,16 @@
 <template>
-  <div class="container">
+  <div
+    class="
+      is-flex
+      is-flex-direction-column
+      min-h-full
+    "
+  >
     <Navbar v-if="isNavbarVisible"/>
-    <router-view id="routerview" />
+    <main class="is-flex-grow-1 mt-6">
+      <router-view />
+    </main>
+    <Footer />
   </div>
 </template>
 
@@ -10,6 +19,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import Navbar from './components/Navbar.vue';
+import Footer from './components/Footer.vue';
 import isShareMode from '@/utils/isShareMode'
 import coingecko from '@/coingecko'
 
@@ -29,6 +39,7 @@ import coingecko from '@/coingecko'
   },
   components: {
     Navbar,
+    Footer
   }
 })
 export default class Dashboard extends Vue {
@@ -84,42 +95,5 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss">
-
-// Import Bulma's core
-@import "~bulma/sass/utilities/_all";
-@import "./colors";
-@import "./layout";
-
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
-$colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-);
-
-$layout: (
-    "container-offset": ($container-offset),
-    "container-max-width": ($container-max-width),
-    "tablet": ($tablet),
-);
-
-// Links
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
-
-// DEV: for dark mode
-// $scheme-main: rgb(27, 34, 44);
-// $scheme-invert: $white;
-
-// Import Bulma and Buefy styles
-@import "~bulma";
-@import "~buefy/src/scss/buefy";
-// @import "~bulma-prefers-dark/bulma-prefers-dark";
+@import './styles';
 </style>
