@@ -143,7 +143,7 @@ export class RmrkService extends TextileService<RmrkType> implements State {
     try {
       const pack = await this.findById<Pack>(id);
       this.useNFT();
-      const nfts = Object.keys(pack.nfts) ? await this.find<NFTWithMeta>(this.queryById(Object.keys(pack.nfts))) : [];
+      const nfts = Object.keys(pack.nfts).length ? await this.find<NFTWithMeta>(this.queryById(Object.keys(pack.nfts))) : [];
       // this.useCollection();
       // const collections = Object.keys(pack.collections) ? await this.find<CollectionWithMeta>(this.queryById(Object.keys(pack.collections))) : [];
       const completePack: CompletePack = {

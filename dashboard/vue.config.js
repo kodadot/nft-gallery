@@ -29,11 +29,17 @@ module.exports = {
   chainWebpack: config => {
     // ...other chains
     config.module // fixes https://github.com/graphql/graphql-js/issues/1272
+      .rule('graphql')
+      .test(/\.(graphql|gql)$/)
+      .use('graphql-tag/loader')
+        .loader('graphql-tag/loader')
+        .end()
       .rule('mjs$')
       .test(/\.mjs$/)
       .include.add(/node_modules/)
       .end()
-      .type('javascript/auto');
+      .type('javascript/auto')
+
   },
 
   configureWebpack: {

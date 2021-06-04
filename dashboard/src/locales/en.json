@@ -129,6 +129,15 @@
     "edition": "Number of copies"
   },
   "nft": {
-    "carbonless": "This NFT is carbonless"
+    "carbonless": "This NFT is carbonless",
+    "burned": "NFT is burned"
+  },
+  "loader": {
+    "casting": "(1/3) Casting the tx to blockchain",
+    "finalized": "(3/3) Finalized",
+    "block": "(2/3) Transaction in block",
+    "pinImage": "Pinning Image",
+    "pinMeta": "Pinning Metadata",
+    "constructTx": "Constructing transaction"
   }
 }
