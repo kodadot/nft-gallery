@@ -1,5 +1,6 @@
 <template>
   <div class="nft-appreciation__main mb-4">
+    <Loader v-model="isLoading" :status="status" />
       <b-button class="nft-appreciation__button" icon-left="heart" @click="showDialog = !showDialog" />
     <VEmojiPicker
       v-show="showDialog"
@@ -14,7 +15,7 @@
 <script lang="ts" >
 import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import shouldUpdate from '@/utils/shouldUpdate';
@@ -23,11 +24,14 @@ import EmotionList from './EmotionList.vue';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { VEmojiPicker } from 'v-emoji-picker';
 import emojiUnicode from 'emoji-unicode'
+import NFTUtils from '../service/NftUtils';
+import { IEmoji } from 'v-emoji-picker/lib/models/Emoji';
 
 @Component({
   components: {
     EmotionList,
-    VEmojiPicker
+    VEmojiPicker,
+    Loader: () => import('@/components/shared/Loader.vue')
   }
 })
 export default class Appreciation extends Mixins(RmrkVersionMixin) {
@@ -48,40 +52,73 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   ];
   private emotions: any = {};
   protected showDialog: boolean = false
+  protected isLoading: boolean = false;
+  protected status: string = '';
 
-  private appreciate(emoji: string) {
-    console.log('clicked', emoji);
-    const { version, nftId, action } = this;
-    const rmrk = `RMRK::${action}::${version}::${nftId}::${emoji}`;
-    this.submit(rmrk);
-  }
+  protected onSelectEmoji(emoji: IEmoji) {
 
-  protected onSelectEmoji(emoji: any) {
-    console.log('Emoji', emoji.data,(emojiUnicode(emoji.data).split(' ')[0]).toUpperCase())
-    showNotification(`[EMOTE] ${emoji.data}`);
+    const { version, nftId } = this;
+    const emote = (emojiUnicode(emoji.data).split(' ')[0]).toUpperCase()
+    if (emote) {
+      showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
+      const rmrk = NFTUtils.createInteraction("EMOTE", version, nftId, emote)
+      this.submit(rmrk);
+    } else {
+      showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
+    }
+
   }
 
   private async submit(rmrk: string) {
     const { api } = Connector.getInstance();
     // const rmrkService = getInstance();
+    this.isLoading = true;
 
     try {
       showNotification(rmrk);
       console.log('submit', rmrk);
-      const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
-      showNotification(execResultValue(tx), notificationTypes.success);
-      console.warn('TX IN', tx);
-      // const persisted = await rmrkService?.resolve(rmrk, this.accountId);
-      // console.log(persisted);
-      // console.log('SAVED', persisted?._id);
-      // showNotification(
-      //   `[TEXTILE] ${persisted?._id}`,
-      //   notificationTypes.success
-      // );
-      await this.fetchAppreciationsForNFT(this.nftId)
+      const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk], txCb(
+        async (blockHash) => {
+          execResultValue(tx);
+          showNotification(blockHash.toString(), notificationTypes.info);
+
+          showNotification(
+            `[EMOTE] ${this.nftId}`,
+            notificationTypes.success
+          );
+
+          this.isLoading = false;
+        },
+        err => {
+          execResultValue(tx);
+          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+
+          this.isLoading = false;
+        },
+        res => {
+          if (res.status.isReady) {
+            this.status = 'loader.casting'
+            return;
+          }
+
+          if (res.status.isInBlock) {
+            this.status = 'loader.block'
+            return;
+          }
+
+          if (res.status.isFinalized) {
+            this.status = 'loader.finalized'
+            return;
+          }
+
+          this.status = ''
+        }
+      ));
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
+    } finally {
+      this.isLoading = false;
     }
   }
 
