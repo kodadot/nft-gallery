@@ -250,7 +250,7 @@ export default class Landing extends Vue {
     ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
     ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
     ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
-    // ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 
   public creators: any = [
