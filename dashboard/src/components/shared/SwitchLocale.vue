@@ -37,7 +37,7 @@ export default class LocaleChanger extends Vue {
     return this.$store.getters.getUserLang;
   }
 
-  setUserLang(value) {
+  setUserLang(value: string) {
     this.$store.commit('setLanguage', { 'userLang': value})
     this.$i18n.locale = value
   }
