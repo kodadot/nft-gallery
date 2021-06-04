@@ -28,7 +28,7 @@ import {
   faFlask, faCameraRetro, faTag,
   faShareAlt, faExclamationTriangle,
   faCalendar, faCalculator, faEnvelope,
-  faArrowsAlt, faCompressAlt, faCompressArrowsAlt
+  faArrowsAlt, faCompressAlt, faCompressArrowsAlt, faAngleLeft, faAngleRight
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -84,6 +84,7 @@ library.add(
   faFacebookMessenger, faDiscord,
   faLine, faTelegramPlane, faWhatsapp,
   faPinterest, faMedium,
+  faAngleLeft, faAngleRight
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

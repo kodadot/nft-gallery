@@ -72,6 +72,6 @@ export const getChainPrefixByUrl = (url: string): string | undefined => {
     return undefined
   }
 
-  return prefixes[option.info] ? String(prefixes[option?.info]) : undefined
+  return prefixes[option.info] ? String(prefixes[option.info]) : undefined
 }
 

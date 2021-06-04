@@ -13,6 +13,9 @@
               KodaDot NFT  {{ $t('Explorer') }}<br>
             </router-link>
           </h1><br>
+          <h1 class="title is-1">
+            Home of {{ count }} collections
+          </h1><br>
           <div class="tile is-ancestor">
             <div class="tile is-parent is-vertical">
               <div class="tile is-child">
@@ -219,6 +222,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import gql from 'graphql-tag'
+
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
 };
@@ -235,7 +240,18 @@ const components = {
       ]
     }
   },
-  components })
+  components,
+  apollo: {
+    count: {
+      query: gql`query listed {
+      collectionEntities {
+        totalCount
+	    }
+    }`,
+    update: data => data.collectionEntities.totalCount
+    }
+  }
+})
 export default class Landing extends Vue {
 
   public publicCommunity: any = [

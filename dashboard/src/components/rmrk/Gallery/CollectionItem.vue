@@ -1,20 +1,23 @@
 <template>
   <div class="pack-item-wrapper">
-    <div class="tile is-ancestor">
+    <div class="tile is-ancestor  mt-1">
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title">
             Collection {{ name }}
           </p>
           <p class="subtitle">
-            Issued by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
+            Issued by: <ProfileLink :address="issuer" :inline="true" />
+          </p>
+          <p class="subtitle" v-if="owner">
+            Issued by: <ProfileLink :address="owner" :inline="true" />
           </p>
           <Sharing v-if="sharingVisible" label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
         </div>
       </div>
     </div>
 
-    <GalleryCardList :items="nfts" />
+    <GalleryCardList :items="collection.nfts" />
 
   </div>
 </template>
@@ -22,11 +25,12 @@
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '../service/RmrkService';
+import { Component, Vue } from 'vue-property-decorator';
 import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
-import { sanitizeIpfsUrl, defaultSortBy, fetchCollectionMetadata, sanitizeImage, sanitizeObjectArray } from '../utils';
+import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
 import isShareMode from '@/utils/isShareMode';
+import collectionById from '@/queries/collectionById.graphql'
+import { CollectionMetadata } from '../types';
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -40,47 +44,75 @@ export default class CollectionItem extends Vue {
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private nfts: NFTWithMeta[] = [];
   private isLoading: boolean = false;
+  public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
 
   get name() {
     return this.collection.name || this.id
   }
 
-  get owner() {
+  get issuer() {
     return this.collection.issuer || ''
+  }
+
+  get owner() {
+    return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
   }
 
   get sharingVisible() {
     return !isShareMode
   }
 
-  public async mounted() {
-  this.checkId();
-  const rmrkService = getInstance();
-  if (!rmrkService || !this.id) {
-    return;
+  public created() {
+    this.checkId();
+    this.$apollo.addSmartQuery('collection',{
+        query: collectionById,
+        variables: {
+          id: this.id
+        },
+        update: ({ collectionEntity }) => { console.log(collectionEntity); return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+        result: () => this.fetchMetadata()
+      })
   }
 
-  this.isLoading = true;
-
-  try {
-    this.collection = await rmrkService.getCollectionById(this.id).then(sanitizeImage);
-    this.nfts = await rmrkService
-        .getNFTsForCollection(this.id)
-        .then(sanitizeObjectArray)
-        .then(defaultSortBy);
-    // this.nftMeta();
-    // const collections = await rmrkService.getCollectionListForAccount(
-    //   this.id
-    // ).then(defaultSortBy);
-
-    // console.log(packs)
-  } catch (e) {
-    showNotification(`${e}`, notificationTypes.danger);
-    console.warn(e);
+  public async fetchMetadata() {
+    console.log(this.collection['metadata'], !this.meta['image'])
+    if (this.collection['metadata'] && !this.meta['image']) {
+      const meta = await fetchCollectionMetadata(this.collection)
+      this.meta = {
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+      }
+    }
   }
 
-    this.isLoading = false;
-  }
+  // public async mounted() {
+  // this.checkId();
+  // const rmrkService = getInstance();
+  // if (!rmrkService || !this.id) {
+  //   return;
+  // }
+
+  // this.isLoading = true;
+
+  // try {
+  //   this.collection = await rmrkService.getCollectionById(this.id).then(sanitizeImage);
+  //   this.collections = await rmrkService
+  //       .getNFTsForCollection(this.id)
+  //       .then(sanitizeObjectArray)
+  //       .then(defaultSortBy);
+  //   // this.collectionMeta();
+  //   // const collections = await rmrkService.getCollectionListForAccount(
+  //   //   this.id
+  //   // ).then(defaultSortBy);
+
+  //   // console.log(packs)
+  // } catch (e) {
+  //   showNotification(`${e}`, notificationTypes.danger);
+  //   console.warn(e);
+  // }
+
+  //   this.isLoading = false;
+  // }
 
   public checkId() {
     if (this.$route.params.id) {

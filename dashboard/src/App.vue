@@ -41,10 +41,11 @@ export default class Dashboard extends Vue {
   }
 
   public async loadKeyring(): Promise<void> {
+    const isDevelopment = process.env.VUE_APP_KEYRING === 'true'
     keyring.loadAll({
-      ss58Format: this.ss58Format || 42,
+      ss58Format: isDevelopment ? 0 : this.ss58Format || 42,
       type: 'sr25519',
-      isDevelopment: process.env.VUE_APP_KEYRING === 'true' || false,
+      isDevelopment,
     });
   }
 
