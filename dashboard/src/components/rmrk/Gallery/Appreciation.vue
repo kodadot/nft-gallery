@@ -17,12 +17,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Mixins, Prop } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { getInstance, RmrkType } from '../service/RmrkService';
-import shouldUpdate from '@/utils/shouldUpdate';
 import groupBy from '@/utils/groupBy';
 import EmotionList from './EmotionList.vue';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
