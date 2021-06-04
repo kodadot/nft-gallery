@@ -6,11 +6,14 @@
           :class="[ detailVisible ? 'is-size-1' : 'is-size-3' ]"
         >
           <span v-if="!isLoading">
-            {{ nft.name }} <span v-if="carbonlessBadge">「🌱」</span>
+           <span v-if="nft.burned">「🔥」</span> {{ nft.name }} <span v-if="carbonlessBadge">「🌱」</span>
           </span>
           <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
         </p>
-
+        <p v-if="nft.burned" class="title is-size-4 has-text-danger">
+          {{ $t('nft.burned') }} 「🔥」
+          <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
+        </p>
         <p v-if="carbonlessBadge" class="title is-size-4 has-text-success">
           {{ $t('nft.carbonless') }} 「🌱」
           <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
@@ -19,7 +22,9 @@
           {{ $t('collection') }}
         </p>
         <p class="subtitle is-size-6">
-          {{ nft.collection }}
+          <router-link :to="{ name: 'collectionDetail', params: { id: nft.collectionId } }">
+            {{ nft.collectionId }}
+          </router-link>
           <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
         </p>
         <p class="label">

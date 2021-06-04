@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+    <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
       @click="handleAction(action)">
@@ -25,17 +25,15 @@
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Mixins, Prop} from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { getInstance, RmrkType } from '../service/RmrkService';
 import { unpin } from '@/proxy';
-import Consolidator from '../service/Consolidator';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { somePercentFromTX } from '@/utils/support';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import shouldUpdate from '@/utils/shouldUpdate';
+import nftById from '@/queries/nftById.graphql';
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST'];
 const buyActions = ['BUY'];
@@ -57,7 +55,8 @@ type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  AddressInput: () => import('@/components/shared/AddressInput.vue')
+  AddressInput: () => import('@/components/shared/AddressInput.vue'),
+  Loader: () => import('@/components/shared/Loader.vue')
 };
 
 @Component({ components })
@@ -70,6 +69,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   private selectedAction: Action = '';
   private meta: string | number = '';
   protected isLoading: boolean = false;
+  protected status = ''
 
   get actions() {
     return this.isOwner
@@ -164,50 +164,80 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     this.meta = value;
   }
 
+  protected async checkBuyBeforeSubmit() {
+    const nft = await this.$apollo.query({
+        query: nftById,
+        variables: {
+          id: this.nftId
+        },
+      })
+
+      const { data: {nFTEntity} } = nft;
+
+      if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price === 0 || nFTEntity.price !== this.price ) {
+        showNotification(
+          `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
+          notificationTypes.warn
+        );
+        throw new ReferenceError('NFT has changed')
+      }
+
+  }
+
   protected async submit() {
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
     const rmrk = this.constructRmrk();
-    await rmrkService?.checkExpiredOrElseRefresh();
     this.isLoading = true;
 
     try {
       showNotification(rmrk);
       console.log('submit', rmrk);
       const isBuy = this.isBuy;
-      if (
-        await rmrkService
-          ?.isNFTAvailable(this.nftId, this.currentOwnerId)
-          .then(isNFTAvailable => !isNFTAvailable)
-      ) {
-        showNotification(
-          `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-          notificationTypes.warn
-        );
-        return;
-      }
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
+
+      if (isBuy) {
+        await this.checkBuyBeforeSubmit()
+      }
+
       const tx = await exec(this.accountId, '', cb, [arg], txCb(
         async (blockHash) => {
           execResultValue(tx);
           showNotification(blockHash.toString(), notificationTypes.info);
-          const persisted = await rmrkService?.resolve(rmrk, this.accountId);
           if (this.isConsume) {
             this.unpinNFT();
           }
-          console.log(persisted);
-          console.log('SAVED', persisted?._id);
+
           showNotification(
-            `[TEXTILE] ${persisted?._id}`,
+            `[${this.selectedAction}] ${this.nftId}`,
             notificationTypes.success
           );
+          this.selectedAction = '';
           this.isLoading = false;
         },
         err => {
           execResultValue(tx);
           showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+          this.selectedAction = '';
           this.isLoading = false;
+        },
+        res => {
+          if (res.status.isReady) {
+            this.status = 'loader.casting'
+            return;
+          }
+
+          if (res.status.isInBlock) {
+            this.status = 'loader.block'
+            return;
+          }
+
+          if (res.status.isFinalized) {
+            this.status = 'loader.finalized'
+            return;
+          }
+
+          this.status = ''
         }
       ));
 
@@ -230,22 +260,6 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     });
   }
 
-  protected async consolidate(): Promise<boolean> {
-    const rmrkService = getInstance();
-    await rmrkService?.checkExpiredOrElseRefresh();
-
-    if (!rmrkService) {
-      console.warn('NO RMRK SERVICE, Live your life on the edge');
-      return true;
-    }
-
-    const nft = await rmrkService?.getNFT(this.nftId);
-    return Consolidator.consolidate(
-      this.selectedAction,
-      nft,
-      this.currentOwnerId,
-      this.accountId
-    );
-  }
 }
 </script>
+

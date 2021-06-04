@@ -15,7 +15,8 @@
     "types": [
       "webpack",
       "webpack-env",
-      "vue-meta"
+      "vue-meta",
+      "vue-apollo"
     ],
     "paths": {
       "@/*": [
@@ -39,5 +40,8 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "src/graphql.d.ts"
   ]
 }

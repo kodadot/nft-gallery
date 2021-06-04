@@ -11,6 +11,7 @@ import Profile from '@/router/profile';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Sustainability = () => import('@/components/landing/Sustainability.vue');
+const EsSustainability = () => import('@/components/landing/EsSustainability.vue');
 const Carbonless = () => import('@/components/landing/Carbonless.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
@@ -29,6 +30,11 @@ export default new Router({
       path: '/sustainability',
       name: 'sustainability',
       component: Sustainability,
+    },
+    {
+      path: '/es/sustainability',
+      name: 'esSustainability',
+      component: EsSustainability,
     },
     {
       path: '/carbonless',

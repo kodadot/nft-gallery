@@ -19,11 +19,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Unit } from '../types';
 
 @Component
 export default class Vote extends Vue {
-
 
   get selected() {
     return '';

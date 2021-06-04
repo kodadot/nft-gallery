@@ -1,5 +1,5 @@
  <template>
-  <div class="wrapper section no-padding-desktop">
+  <div class="wrapper section no-padding-desktop gallery-item">
     <div class="container">
       <div class="columns">
           <div class="image-wrapper">
@@ -8,11 +8,12 @@
                 <div class="image-preview" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible"
-                    :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+                    :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
+                    ratio="1by1"
                   ></b-image>
-                  <img class="fullscreen-image" :src="nft.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
+                  <img class="fullscreen-image" :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
                   <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
                 </div>
@@ -27,8 +28,8 @@
       </div>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
-          
+          <Appreciation :emotes="nft.emotes" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" :burned="nft.burned" />
+
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -36,30 +37,30 @@
           <p class="label">
             {{ $t('legend')}}
           </p>
-          
+
           <div class="subtitle is-size-7">
             <p v-if="!isLoading"
               class="subtitle is-size-5">
-              {{ nft.description }}
+              {{ meta.description }}
               <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
-          
+
           <template v-if="detailVisible">
-            <Facts :nft="nft" />
+            <Facts :nft="nft" :meta="meta"  />
           </template>
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
-          
+
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
-            <div class="price-block__original">{{ this.nft.price | formatBalance(12, 'KSM') }}</div>
+            <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
             <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
             <div class="label">{{ $t('price') }}</div>
           </div>
 
-          <template v-if="detailVisible">
+          <template v-if="detailVisible && !nft.burned">
             <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
             <b-collapse class="card mb-4" animation="slide"
                 aria-id="contentIdForA11y3" :open="false">
@@ -104,14 +105,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFTWithMeta, NFT } from '../service/scheme';
+import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
-import { formatBalance } from '@polkadot/util';
 
 import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -119,33 +119,29 @@ import Money from '@/components/shared/format/Money.vue';
 import Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import MediaResolver from '../Media/MediaResolver.vue'
-import api from '@/fetch';
-import { resolveMedia } from '../utils';
-import { MediaType } from '../types';
-import { MetaInfo } from 'vue-meta';
-import isShareMode from '@/utils/isShareMode';
-import { VueConstructor } from 'vue';
 
-type NFTType =  NFTWithMeta;
+import isShareMode from '@/utils/isShareMode';
+import nftById from '@/queries/nftById.graphql'
+import { fetchNFTMetadata } from '../utils';
+import { get, set } from 'idb-keyval';
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.nft.image as string)}`;
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${this.nft.price ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`;
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [
-        { name: 'description', content: (this.nft.description as string) },
+        { name: 'description', content: (this.meta.description as string) },
         { property: 'og:title', content: (this.nft.name as string) },
-        { property: 'og:description', content: (this.nft.description as string) },
+        { property: 'og:description', content: (this.meta.description as string) },
         { property: 'og:image', content: (image)},
-        { property: 'og:video', content: (this.nft.image as string) },
+        { property: 'og:video', content: (this.meta.image as string) },
         { property: 'og:author', content: (this.nft.currentOwner as string) },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
-        { property: 'twitter:description', content: (this.nft.description as string) },
+        { property: 'twitter:description', content: (this.meta.description as string) },
         { property: 'twitter:image', content: (image)},
       ]
     }
@@ -167,18 +163,20 @@ export default class GalleryItem extends Vue {
   private id: string = '';
   // private accountId: string = '';
   private passsword: string = '';
-  private nft: NFTType = emptyObject<NFTType>();
+  private nft: NFT = emptyObject<NFT>();
   private imageVisible: boolean = true;
   private viewMode: string = 'default';
   private isFullScreenView: boolean = false;
   public isLoading: boolean = true;
   public mimeType: string = '';
+  public meta: NFTMetadata = emptyObject<NFTMetadata>();
+  public emotes: Emote[] = []
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
   }
 
-  public async mounted() {
+  public async created() {
     this.checkId();
     const rmrkService = getInstance();
     console.log('rmrkService', rmrkService)
@@ -187,28 +185,56 @@ export default class GalleryItem extends Vue {
     }
 
     try {
-      const nft = await rmrkService.getNFT(this.id);
-      console.log(nft);
+      // const nft = await rmrkService.getNFT(this.id);
+     this.$apollo.addSmartQuery('nft',{
+        query: nftById,
+        variables: {
+          id: this.id
+        },
+        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity.emotes?.nodes }),
+        result: () => this.fetchMetadata(),
+        pollInterval: 5000
+      })
 
-      this.nft = {
-        ...nft,
-        image: sanitizeIpfsUrl(nft.image || ''),
-        animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      };
-      if (this.nft.animation_url) {
-        const { headers } = await api.head(this.nft.animation_url);
-        this.mimeType = headers['content-type'];
-        const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
-          t => t === mediaType
-        );
-      }
+      // console.log(nft);
+
+      // this.nft = {
+      //   ...nft,
+      //   image: sanitizeIpfsUrl(nft.image || ''),
+      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
+      // };
+      // if (this.nft.animation_url) {
+      //   const { headers } = await api.head(this.nft.animation_url);
+      //   this.mimeType = headers['content-type'];
+      //   const mediaType = resolveMedia(this.mimeType);
+      //   this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
+      //     t => t === mediaType
+      //   );
+      // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
       console.warn(e);
     }
 
     this.isLoading = false;
+  }
+
+  public async fetchMetadata() {
+    console.log(this.nft.emotes);
+
+    if (this.nft['metadata'] && !this.meta['image']) {
+      const m = await get(this.nft.metadata)
+      const meta = m ? m : await fetchNFTMetadata(this.nft)
+      this.meta = {
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      }
+
+      if (!m) {
+        set(this.nft.metadata, meta)
+      }
+    }
   }
 
   public checkId() {
@@ -250,118 +276,162 @@ export default class GalleryItem extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/colors";
 @import "@/typography";
 
-.nft-title {
-  margin-bottom: 24px;
-}
-
-.gallery-item__skeleton {
-  width: 95%;
-  margin: auto;
-}
-
-.withPicture {
-  margin: 0.75em 0;
-}
-
-.image-wrapper {
-  position: relative;
-  margin: 30px auto;
-  width: 100%;
-
-  .image {
-    border: 2px solid $primary;    
+.gallery-item {
+  .nft-title {
+    margin-bottom: 24px;
   }
 
-  .fullscreen-image {
-    display: none;
+  .gallery-item__skeleton {
+    width: 95%;
+    margin: auto;
   }
 
-  .image-preview {
+  .withPicture {
+    margin: 0.75em 0;
+  }
+
+  .image-wrapper {
+    position: relative;
+    margin: 30px auto;
+    width: 100%;
+
+    .image {
+      border: 2px solid $primary;
+    }
+
+    .fullscreen-image {
+      display: none;
+    }
+
+    .image-preview {
+      &.fullscreen {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999998;
+        background: #000;
+
+        img.fullscreen-image {
+          display: block;
+          width: auto !important;
+          height: 100% !important;
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        .image {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .column {
+      transition: .3s all;
+    }
+
+    button {
+      border: 2px solid $primary;
+      color: $primary;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      font-size: 20px;
+      background: #fafafa;
+      z-index: 2;
+
+      &:hover {
+        color: #fff;
+        background: $primary;
+        cursor: pointer;
+      }
+    }
+  }
+
+  button#theatre-view {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+  }
+
+  button#fullscreen-view {
+    position: absolute;
+    bottom: 13px;
+    right: 13px;
+
     &.fullscreen {
       position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
       z-index: 999998;
-      background: #000;
-
-      img.fullscreen-image {
-        display: block;
-        width: auto !important;
-        height: 100% !important;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
-
-      .image {
-        visibility: hidden;
-      }
+      bottom:0;
+      right: 0;
     }
   }
 
-  .column {
-    transition: .3s all;
-  }
-
-  button {
+  .price-block {
     border: 2px solid $primary;
-    color: $primary;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 7px 16px;
-    font-size: 20px;
-    background: #fafafa;
-    z-index: 2;
+    border-width: 2px 2px 0;
+    padding: 14px;
 
-    &:hover {
-      color: #fff;
-      background: $primary;
-      cursor: pointer;
+    &__original {
+      color: $dark;
+      font-size: 24px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    &__exchange {
+      opacity: .6;
+      color: $dark;
+      margin: 0;
     }
   }
-}
 
-button#theatre-view {
-  position: absolute;
-  top: 13px;
-  left: 13px;
-}
+  .card {
+    border-radius: 0 !important;
+    box-shadow: none;
+    border: 2px solid $primary;
 
-button#fullscreen-view {
-  position: absolute;
-  bottom: 13px;
-  right: 13px;
+    &-header {
+      border-radius: 0;
+      position: relative;
 
-  &.fullscreen {
-    position: fixed;
-    z-index: 999998;
-    bottom:0;
-    right: 0;
+      &:before {
+        content: '';
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        background: $primary;
+      }
+
+      &-title {
+        color: $primary;
+      }
+    }
+
+    &-footer {
+      border-radius: none;
+      border-top: none;
+
+      &-item:not(:last-child){
+        border-right-color: $primary;
+      }
+    }
   }
-}
 
-.price-block {
-  border: 2px solid $primary;
-  padding: 14px;
-
-  &__original {
-    color: $dark;
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  &__exchange {
-    opacity: .6;
-    color: $dark;
-    margin: 0;
+  &.no-padding-desktop {
+    @media screen and (min-width: 1023px) {
+      padding: 0;
+    }
   }
 }
 </style>

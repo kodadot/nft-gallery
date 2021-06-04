@@ -1,5 +1,6 @@
 import BN from 'bn.js';
 import { isNumber } from '@polkadot/util';
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils';
 const EMPTY = '0.00 %';
 
 export const toNumber = (value: BN | number): number => BN.isBN(value) ? Number(value.toString()) : value || 0;
@@ -28,3 +29,5 @@ export const truncateStr = (s: string, maxLen : number = 20): string => {
   }
   return s.substring(0, maxLen) + '...';
 };
+
+export const toSanitizedUrl = (value: string) => sanitizeIpfsUrl(value);

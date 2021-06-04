@@ -108,6 +108,15 @@ export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {
 
 }
 
+export interface CollectionWithNFT extends Collection {
+  nfts?: NFT[]
+}
+
+export type Emote = {
+  caller: string;
+  value: string;
+}
+
 // id me
 export interface Emotion {
   _id: string;
@@ -139,8 +148,10 @@ export interface NFT {
   metadata: string;
   currentOwner: string;
   price?: string;
-  disabled?: boolean;
+  burned?: boolean;
   blockNumber?: number;
+  emoteCount?: number;
+  emotes?: Emote[]
 }
 
 export interface BasePack {
