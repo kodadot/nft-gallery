@@ -34,6 +34,18 @@
         </router-link>
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a class="has-text-info" href="https://twitter.com/kodadot" target="_blank">
+          <b-icon pack="fab" icon="twitter"> </b-icon>
+          <strong>KodaDot</strong>
+        </a>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a class="has-text-link-dark" href="https://discord.gg/u6ymnbz4PR" target="_blank">
+          <b-icon pack="fab" icon="discord"> </b-icon>
+          <strong>Discord</strong>
+        </a>
+      </b-dropdown-item>
     </template>
     <b-dropdown-item v-if="account" custom aria-role="menuitem">
       <b-button

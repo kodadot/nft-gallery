@@ -316,9 +316,8 @@ const components = {
 export default class Landing extends Vue {
 
   public publicCommunity: any = [
-    ['🌐 Global Discord', 'https://discord.gg/u6ymnbz4PR'],
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
-    ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'],
+    // ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
     ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
     ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
     ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
@@ -326,8 +325,10 @@ export default class Landing extends Vue {
     ['🇷🇺 Russia', 'https://t.me/kodadotru'],
     ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
     ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
-    ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'],
-    // ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
+    ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
+    // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
+    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
   ]
 
   public creators: any = [
@@ -338,8 +339,8 @@ export default class Landing extends Vue {
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
     'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd',
-    'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1',
-    'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN'
+    // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
+    // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ]
 
 }
