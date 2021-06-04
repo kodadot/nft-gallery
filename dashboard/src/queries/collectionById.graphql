@@ -1,0 +1,15 @@
+#import "./collection.graphql"
+
+query collectionById($id: String!) {
+  collectionEntity(id: $id) {
+    ...collection
+    nfts {
+      nodes {
+        id
+        metadata
+        name
+        price
+      }
+    }
+  }
+}

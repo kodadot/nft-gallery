@@ -283,6 +283,8 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import gql from 'graphql-tag'
+
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
 };
@@ -299,7 +301,18 @@ const components = {
       ]
     }
   },
-  components })
+  components,
+  apollo: {
+    count: {
+      query: gql`query listed {
+      collectionEntities {
+        totalCount
+	    }
+    }`,
+    update: data => data.collectionEntities.totalCount
+    }
+  }
+})
 export default class Landing extends Vue {
 
   public publicCommunity: any = [

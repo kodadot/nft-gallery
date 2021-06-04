@@ -24,7 +24,7 @@
       </b-field>
       <div v-if="mode === 'addressbook'">
         <b-field label="address"
-          v-bind:type="{ 'is-danger': !newAccount.address.length > 0
+          v-bind:type="{ 'is-danger': !newAccount.address.length
           || !isAddressValid || !uniqueAddress }">
           <b-input v-model="newAccount.address"
             @input="validateAddress(newAccount.address);

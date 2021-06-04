@@ -19,6 +19,7 @@
             type="is-primary"
             expanded
             @click="isVisible = !isVisible"
+            disabled
           />
         </b-field>
       </div>
@@ -34,15 +35,9 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Debounce } from 'vue-debounce-decorator';
-import { SearchQuery, SortBy } from './types';
+import { SortBy } from './types';
 import shouldUpdate from '@/utils/shouldUpdate';
-
-type StringOrNull = string | null;
-const exist = (value: string | StringOrNull[], cb: (arg: string) => {}) => {
-  if (value && typeof value === 'string') {
-    cb(value);
-  }
-};
+import { exist } from './exist'
 
 @Component({
   components: {
@@ -59,13 +54,6 @@ export default class SearchBar extends Vue {
   public mounted() {
     exist(this.$route.query.search, this.updateSearch);
     exist(this.$route.query.type, this.updateType);
-    // console.log('query', this.$route.query)
-    // if (
-    //   this.$route.query.search &&
-    //   typeof this.$route.query.search === 'string'
-    // ) {
-    //   this.updateSearch(this.$route.query.search);
-    // }
   }
 
   get searchQuery() {
@@ -85,7 +73,7 @@ export default class SearchBar extends Vue {
   }
 
   @Emit('update:type')
-  @Debounce(400)
+  @Debounce(50)
   updateType(value: string) {
     this.replaceUrl(value, 'type');
     return value;
@@ -112,7 +100,7 @@ export default class SearchBar extends Vue {
     this.$router
       .replace({
         name: 'nft',
-        query: { search: this.searchQuery, type: this.typeQuery, [key]: value }
+        query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */);
   }

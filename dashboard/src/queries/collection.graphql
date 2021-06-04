@@ -1,0 +1,9 @@
+fragment collection on CollectionEntity {
+  id
+	name
+  metadata
+  issuer
+  currentOwner
+  blockNumber
+  max
+}

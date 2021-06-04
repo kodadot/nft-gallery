@@ -6,7 +6,7 @@ import './icons';
 import shortAddress from './utils/shortAddress';
 import VueClipboard from 'vue-clipboard2';
 import formatBalance from '@/utils/formatBalance'
-import { toString, toNumber, toPercent, truncateStr } from '@/utils/filters'
+import { toString, toNumber, toPercent, truncateStr, toSanitizedUrl } from '@/utils/filters'
 import keyring from '@polkadot/ui-keyring';
 import './registerServiceWorker'
 import App from './App.vue';
@@ -16,10 +16,12 @@ import router from './router';
 import MetaInfo from 'vue-meta';
 import AudioVisual from 'vue-audio-visual'
 import VueSocialSharing from 'vue-social-sharing'
+import VueApollo from 'vue-apollo'
 
 Vue.use(MetaInfo)
 Vue.use(AudioVisual)
 Vue.use(VueSocialSharing)
+Vue.use(VueApollo)
 
 import Connector from '@vue-polkadot/vue-api';
 import { client, keyInfo } from '@/textile'
@@ -33,11 +35,13 @@ import mingo from 'mingo'
 import api from './fetch'
 import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
 import axios from 'axios'
+import { set, get, getMany } from 'idb-keyval';
 
 
 import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
 import { $sum, $first, $push } from 'mingo/operators/accumulator'
+import apolloClient from './subquery';
 
 // ensure the required operators are preloaded prior to using them.
 type OperatorMap = Record<string, any> ;
@@ -55,6 +59,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).api = api;
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
+(window as any).S = { get, set, getMany };
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 
@@ -87,14 +92,20 @@ Vue.filter('toString', toString)
 Vue.filter('toNumber', toNumber)
 Vue.filter('toPercent', toPercent)
 Vue.filter('truncateStr', truncateStr)
+Vue.filter('toSanitizedUrl', toSanitizedUrl)
 
 Vue.use(VueClipboard);
+
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})
 
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
+  apolloProvider,
   i18n,
   render: (h) => h(App)
 }).$mount('#app');

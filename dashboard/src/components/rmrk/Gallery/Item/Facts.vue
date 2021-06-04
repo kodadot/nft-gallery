@@ -22,7 +22,7 @@
             <b>ID:</b> {{ nft.id }}
           </p>
           <p class="subtitle is-size-6">
-            <b>{{ $t('collection') }}:</b>{{ nft.collection }}
+            <b>{{ $t('collection') }}:</b>{{ nft.collectionId }}
           </p>
           <p class="subtitle is-size-6">
             <b>SN:</b>{{ nft.sn }}
@@ -52,7 +52,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { extractCid } from '@/utils/ipfs';
-import { NFTWithMeta } from '../../service/scheme';
+import { NFT, NFTMetadata } from '../../service/scheme';
 import { emptyObject } from '@/utils/empty';
 const components = {
   ArweaveLink: () => import('@/components/shared/ArweaveLink.vue')
@@ -60,7 +60,8 @@ const components = {
 
 @Component({ components })
 export default class Facts extends Vue {
-  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
+  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
+  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
   public multimediaCid: string = '';
   public showGwLinks: boolean = false;
   public gwList: any = [
@@ -72,12 +73,12 @@ export default class Facts extends Vue {
   ];
 
   get tags() {
-    return this.nft.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
+    return this.meta.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
   }
 
 
   get imageId() {
-    return extractCid(this.nft.image);
+    return extractCid(this.meta.image);
   }
 
 // public created() {

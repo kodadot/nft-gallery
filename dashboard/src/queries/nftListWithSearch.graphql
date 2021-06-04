@@ -1,0 +1,21 @@
+#import "./nft.graphql"
+
+query nftListWithSearch($first: Int!, $offset: Int, $search: [NFTEntityFilter!]) {
+  nFTEntities(
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+    filter: {
+      name: { notLike: "%Kanaria%" }
+      and: $search
+    }
+  ) {
+    totalCount
+    nodes {
+      ...nft
+      emotes {
+        totalCount
+      }
+    }
+  }
+}
