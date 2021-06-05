@@ -24,13 +24,28 @@
           </span>
         </h2>
         <div class="buttons">
-          <b-button
-              tag="router-link"
-              to="/create"
-              type="is-primary"
-          >
-            Create
-          </b-button>
+          <b-dropdown aria-role="list" class="mr-2">
+            <template #trigger>
+                <b-button
+                  label="Create"
+                  type="is-primary"
+                />
+            </template>
+            <b-dropdown-item
+              aria-role="listitem"
+            >
+              <router-link :to="{ name: 'rmrk'}">
+                {{ $t('Classic') }}
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item
+              aria-role="listitem"
+            >
+              <router-link :to="{ name: 'simpleMint'}">
+                {{ $t('Simple') }}
+              </router-link>
+            </b-dropdown-item>
+          </b-dropdown>
           <b-button
               tag="router-link"
               to="/rmrk/gallery"
@@ -39,10 +54,8 @@
             Gallery
           </b-button>
           <b-button
-              tag="a"
-              href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856"
-              target="_blank"
-              rel="noopener noreferrer"
+              tag="router-link"
+              to="/about"
               type="is-primary"
           >
             About
@@ -62,7 +75,7 @@
             </p>
             <b-button
               tag="router-link"
-              to="/faq"
+              to="/partnership"
               type="is-primary"
             >
               Partnership & Ambassador Program
