@@ -12,24 +12,30 @@
                   </span>
                 </h2>
                 <div class="is-flex-inline is-align-items-start is-flex-direction-column">
-                  <b-button
-                    type="is-primary"
-                    class="mb-6"
-                  >
-                    1. Create polkadot js account
-                  </b-button>
-                  <b-button
-                    type="is-primary"
-                    class="mb-6"
-                  >
-                    2. Get KSM
-                  </b-button>
-                  <b-button
-                    type="is-primary"
-                    class="mb-6"
-                  >
-                    3. Minting
-                  </b-button>
+                  <router-link :to="{name: 'createAccount'}">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
+                      1. Create polkadot js account
+                    </b-button>
+                  </router-link>
+                  <router-link :to="{name: 'createAccount'}">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
+                      2. Get KSM
+                    </b-button>
+                  </router-link>
+                  <router-link :to="{name: 'createAccount'}">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
+                      3. Minting
+                    </b-button>
+                  </router-link>
                 </div>
               </div>
             </div>
