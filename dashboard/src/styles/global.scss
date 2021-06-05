@@ -62,4 +62,19 @@ body {
         text-transform: uppercase;
         font-size: 16px;
     }
+
+    .text {
+        &__stroked {
+            color: $primary;
+            -webkit-text-fill-color: $black;
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: $primary;
+            padding: 0 8px 0 0;
+        }
+    }
+
+    .heading {
+        display: flex;
+        flex-direction: column;
+    }
 }

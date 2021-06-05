@@ -420,16 +420,6 @@ export default class Landing extends Vue {
   }
 }
 
-.text {
-  &__stroked {
-    color: $primary;
-    -webkit-text-fill-color: $black;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: $primary;
-    padding: 0 8px 0 0;
-  }
-}
-
 .subtitle {
   text-decoration: underline;
 }
