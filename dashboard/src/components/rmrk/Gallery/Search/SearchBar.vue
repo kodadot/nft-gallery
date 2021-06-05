@@ -28,6 +28,8 @@
         <Sort class="column is-2 mb-0" @input="updateSortBy" />
         <TypeTagInput class="column" v-model="typeQuery" />
       </div>
+
+      <slot />
     </div>
   </div>
 </template>
