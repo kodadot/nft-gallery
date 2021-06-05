@@ -1,23 +1,50 @@
 # dashboard
 
-## Project setup
-```
-yarn install
+# 🏃‍♀️ Quick Setup
+
+```bash
+git clone https://github.com/kodadot/nft-gallery.git
+cd nft-gallery/dashboard
+touch .env.local
 ```
 
-### Compiles and hot-reloads for development
+in `.env.local` add folloving urls:
+```bash
+VUE_APP_KEYRING=true
+VUE_APP_I18N_LOCALE=en
+VUE_APP_I18N_FALLBACK_LOCALE=en
+VUE_APP_SLATE_KEY=
+VUE_APP_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick
 ```
-yarn run serve
+you can obtain api key for slate [here](slate.host)
+
+> to run ui
+
+```bash
+cd nft-gallery/dashboard
+yarn
+yarn start
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
+> in a second terminal window:
+> this will run lambda functions
+
+```bash
+cd nft-gallery/dashboard
+yarn lambda
 ```
 
-### Run your tests
-```
-yarn run test
+## Running local polkadot and subquery nodes
+
+To run the full local environment we recommend you to run a [polkadot/kusama node](https://github.com/paritytech/polkadot).
+In case you are using Apple M1 we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
+
+To run also a subquery indexing node please [check this repo](https://github.com/vikiival/magick)
+
+Moreover please add this to your `.env.local`
+
+```bash
+VUE_APP_SUBQUERY_URL=http://localhost:3000
 ```
 
 ### Lints and fixes files
