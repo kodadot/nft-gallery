@@ -77,6 +77,7 @@
               tag="router-link"
               to="/partnership"
               type="is-primary"
+              class="homepage__button--wrapped"
             >
               Partnership & Ambassador Program
             </b-button>
@@ -366,9 +367,12 @@ export default class Landing extends Vue {
   content: '';
   width: 100%;
   height: 100%;
-  background: url('../../assets/homepage-bg.png') center bottom;
-  background-repeat: no-repeat;
-  background-size: contain;
+
+  @include desktop {
+    background: url('../../assets/homepage-bg.png') center bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 
   &__title {
     display: inline-flex;
@@ -389,7 +393,10 @@ export default class Landing extends Vue {
     background-color: $scheme-main;
     border: 4px solid $primary;
     border-radius: 0;
-    box-shadow: 28px -28px $black, 28px -28px 0 4px $primary;
+
+    @include desktop {
+      box-shadow: 28px -28px $black, 28px -28px 0 4px $primary;
+    }
   }
 
   &__box-content {
@@ -402,6 +409,13 @@ export default class Landing extends Vue {
     p {
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  &__button {
+    &--wrapped {
+      height: auto;
+      white-space: normal;
     }
   }
 }

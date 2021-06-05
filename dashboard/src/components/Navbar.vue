@@ -38,6 +38,11 @@
         :to="{ name: 'nft'}">
         {{ $t('Gallery') }}
       </b-navbar-item>
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'leaderboard'}">
+        {{ $t('Leaderboard') }}
+      </b-navbar-item>
       <b-navbar-dropdown
           arrowless
           collapsible
@@ -58,11 +63,6 @@
             {{ $t('Settings') }}
           </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-item
-        tag="router-link"
-        :to="{ name: 'leaderboard'}">
-        {{ $t('Leaderboard') }}
-      </b-navbar-item>
     </template>
     <template v-slot:end>
       <LocaleChanger />
@@ -154,6 +154,14 @@ export default class NavbarMenu extends Vue {
   .navbar-item {
     text-transform: uppercase;
     font-weight: 500;
+  }
+
+  .navbar-brand {
+    align-items: center;
+  }
+
+  .burger {
+    margin-right: 0.5rem;
   }
 }
 </style>

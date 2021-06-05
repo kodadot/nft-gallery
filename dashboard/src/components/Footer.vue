@@ -128,18 +128,28 @@ export default class Footer extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/colors';
+
 .footer {
   &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
+    padding: 16px;
     height: 135px;
+
+    @include desktop {
+      flex-direction: row;
+    }
   }
 
   &__list {
     display: flex;
     align-items: center;
     list-style: none;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   &__list-item {
