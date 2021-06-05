@@ -128,7 +128,7 @@ export default class Footer extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/colors';
+@import '@/styles/variables';
 
 .footer {
   &__wrapper {

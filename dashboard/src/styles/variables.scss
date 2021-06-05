@@ -1,3 +1,4 @@
+@import './initial-variables.scss';
 @import "~bulma/sass/utilities/_all";
 @import "./derived-variables.scss";
 
@@ -93,64 +94,7 @@ $box-shadow: none;
 $tabs-link-hover-color: $primary;
 $tabs-link-hover-border-bottom-color: transparent;
 
-body {
-    .button {
-        text-transform: uppercase;
-        border-radius: 0;
-        font-weight: 500;
-        transition: all 0.3s;
-        color: $scheme-invert;
 
-        &.is-primary {
-            border-color: $primary;
-            background-color: $scheme-main;
-
-            &:hover,
-            &:focus {
-                border-color: $primary;
-                background-color: $primary;
-            }
-        }
-    }
-
-    .select select,
-    .taginput .taginput-container.is-focusable,
-    .textarea,
-    .input {
-        color: $scheme-invert;
-    }
-
-    .select {
-        &:not(.is-multiple):not(.is-loading):hover::after {
-            border-color: $primary;
-        }
-
-        select {
-            option {
-                color: $scheme-invert;
-            }
-        }
-    }
-
-    .label {
-        color: $scheme-invert;
-    }
-
-    .select select[disabled],
-    .taginput [disabled].taginput-container.is-focusable,
-    [disabled].textarea, [disabled].input,
-    fieldset[disabled] .select select,
-    .select fieldset[disabled] select,
-    fieldset[disabled] .taginput .taginput-container.is-focusable,
-    .taginput fieldset[disabled] .taginput-container.is-focusable,
-    fieldset[disabled] .textarea,
-    fieldset[disabled] .input {
-        background-color: $scheme-main;
-    }
-
-    .notices .toast.is-dark {
-        background: $primary;
-    }
-}
-
-@import "./atomic.scss";
+// layout
+$container-offset: (2 * $gap);
+$container-max-width: $fullhd;

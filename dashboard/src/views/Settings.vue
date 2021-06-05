@@ -28,8 +28,3 @@ export default class Settings extends Vue {
 
 }
 </script>
-
-
-<style lang="scss">
-  @import '@/styles/colors'
-</style>

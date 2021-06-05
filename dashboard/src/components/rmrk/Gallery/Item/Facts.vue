@@ -89,6 +89,5 @@ export default class Facts extends Vue {
 }
 </script>
 <style scoped lang="scss">
-  @import "@/styles/colors";
-  @import "@/styles/typography";
+  @import "@/styles/variables";
 </style>

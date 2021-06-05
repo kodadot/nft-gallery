@@ -361,7 +361,7 @@ export default class Landing extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/colors';
+@import '@/styles/variables';
 
 .homepage {
   content: '';
