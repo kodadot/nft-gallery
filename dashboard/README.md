@@ -18,7 +18,7 @@ VUE_APP_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick
 ```
 you can obtain api key for slate [here](slate.host)
 
-> to run ui
+> to run UI
 
 ```bash
 cd nft-gallery/dashboard
@@ -34,10 +34,10 @@ cd nft-gallery/dashboard
 yarn lambda
 ```
 
-## Running local polkadot and subquery nodes
+## Running local Polkadot and subquery nodes
 
-To run the full local environment we recommend you to run a [polkadot/kusama node](https://github.com/paritytech/polkadot).
-In case you are using Apple M1 we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
+To run the full local environment we recommend you to run a [polkadot/Kusama node](https://github.com/paritytech/polkadot).
+In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
 
 To run also a subquery indexing node please [check this repo](https://github.com/vikiival/magick)
 
