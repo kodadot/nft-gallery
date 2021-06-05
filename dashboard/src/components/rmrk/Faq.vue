@@ -5,7 +5,7 @@
         FAQ
       </span>
     </h2>
-    <p class="faq__box heading heading-is-2 text-bold inline-flex mb-6">
+    <p class="faq__box heading heading-is-2 text-bold is-flex-inline mb-6">
       No time for reading? <br>
       No problem. Check out <br>
       <router-link :to="{name: 'tutorials'}">

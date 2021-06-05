@@ -19,6 +19,7 @@ const Leaderboard = () => import('@/components/landing/Leaderboard.vue');
 const About = () => import('@/components/landing/About.vue');
 const Contact = () => import('@/components/landing/Contact.vue');
 const Partnership = () => import('@/components/landing/Partnership.vue');
+const Tutorials = () => import('@/components/landing/Tutorials.vue');
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
@@ -80,6 +81,11 @@ export default new Router({
       path: '/partnership',
       name: 'partnership',
       component: Partnership,
+    },
+    {
+      path: '/tutorials',
+      name: 'tutorials',
+      component: Tutorials,
     },
 		{
 			path: '*',
