@@ -138,6 +138,8 @@ export default class NavbarMenu extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .navbar {
   &.is-spaced {
     & > .container {
@@ -149,6 +151,10 @@ export default class NavbarMenu extends Vue {
 
   .logo {
     padding: 0.5rem 0.75rem;
+
+    @include desktop {
+      padding-left: 0;
+    }
   }
 
   .navbar-item {
