@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-6">
     <CreateCollection />
   </div>
 </template>

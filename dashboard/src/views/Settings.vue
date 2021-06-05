@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <b-tabs v-model="activeTab">
       <b-tab-item label="General">
         <General />
@@ -28,4 +28,3 @@ export default class Settings extends Vue {
 
 }
 </script>
-

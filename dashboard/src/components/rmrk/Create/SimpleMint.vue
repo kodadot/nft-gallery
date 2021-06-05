@@ -1,5 +1,5 @@
 <template>
-  <div class="columns">
+  <div class="columns mb-6">
     <div class="column is-7 is-offset-3">
       <section>
         <br />
@@ -81,7 +81,7 @@
           />
 
           <b-field>
-            <b-switch v-model="nsfw" type="is-dark" :rounded="false">
+            <b-switch v-model="nsfw" :rounded="false">
               {{ nsfw ? "NSFW" : "SFW" }}
             </b-switch>
           </b-field>
@@ -144,7 +144,6 @@
               :price="1"
               activeMessage="I'm making carbonless NFT"
               passiveMessage="I don't want to have carbonless NFT"
-              type="is-success"
             />
           </b-field>
         </div>

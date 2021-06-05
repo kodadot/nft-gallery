@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery">
+  <div class="gallery container">
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" />
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->

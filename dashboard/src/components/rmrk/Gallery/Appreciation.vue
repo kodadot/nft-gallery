@@ -142,7 +142,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/colors";
+@import "@/styles/variables";
 
 .emote-picker {
   position: absolute;

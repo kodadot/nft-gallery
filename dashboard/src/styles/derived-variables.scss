@@ -1,0 +1,114 @@
+@import "initial-variables";
+
+$primary: #db2980;
+
+// $info: $cyan;
+// $success: $green;
+// $warning: $yellow;
+// $danger: $red;
+
+// $light: $white-ter;
+$dark: $black;
+
+// // Invert colors
+
+// $orange-invert: findColorInvert($orange);
+// $yellow-invert: findColorInvert($yellow);
+// $green-invert: findColorInvert($green);
+// $turquoise-invert: findColorInvert($turquoise);
+// $cyan-invert: findColorInvert($cyan);
+// $blue-invert: findColorInvert($blue);
+// $purple-invert: findColorInvert($purple);
+// $red-invert: findColorInvert($red);
+
+// $primary-invert: findColorInvert($primary);
+// $primary-light: findLightColor($primary);
+// $primary-dark: findDarkColor($primary);
+// $info-invert: findColorInvert($info);
+// $info-light: findLightColor($info);
+// $info-dark: findDarkColor($info);
+// $success-invert: findColorInvert($success);
+// $success-light: findLightColor($success);
+// $success-dark: findDarkColor($success);
+// $warning-invert: findColorInvert($warning);
+// $warning-light: findLightColor($warning);
+// $warning-dark: findDarkColor($warning);
+// $danger-invert: findColorInvert($danger);
+// $danger-light: findLightColor($danger);
+// $danger-dark: findDarkColor($danger);
+// $light-invert: findColorInvert($light);
+// $dark-invert: findColorInvert($dark);
+
+
+
+// // General colors
+$scheme-main: $black;
+$scheme-main-bis: $black-bis;
+$scheme-main-ter: $black-ter;
+$scheme-invert: $white;
+$scheme-invert-bis: $white-bis;
+$scheme-invert-ter: $white-ter;
+
+
+// $background: $white-ter;
+
+// $border: $grey-lighter;
+// $border-hover: $grey-light;
+// $border-light: $grey-lightest;
+// $border-light-hover: $grey-light;
+
+// // Text colors
+
+$text: $white;
+// $text-invert: findColorInvert($text);
+// $text-light: $grey;
+// $text-strong: $grey-darker;
+
+// // Code colors
+
+// $code: darken($red, 15%);
+// $code-background: $background;
+
+// $pre: $text;
+// $pre-background: $background;
+
+// // Link colors
+
+$link: $primary;
+// $link-invert: findColorInvert($link);
+// $link-light: findLightColor($link);
+// $link-dark: findDarkColor($link);
+// $link-visited: $purple;
+
+$link-hover: $primary;
+// $link-hover-border: red;
+
+// $link-focus: $grey-darker;
+// $link-focus-border: $blue;
+
+// $link-active: $grey-darker;
+// $link-active-border: $grey-dark;
+
+// // Typography
+
+$family-primary: $family-monospace;
+// $family-secondary: $family-sans-serif;
+// $family-code: $family-monospace;
+
+// $size-small: $size-7;
+// $size-normal: $size-6;
+// $size-medium: $size-5;
+// $size-large: $size-4;
+
+// // Lists and maps
+// $custom-colors: null;
+// $custom-shades: null;
+
+// $colors: mergeColorMaps(("white": ($white, $black), "black": ($black, $white), "light": ($light, $light-invert), "dark": ($dark, $dark-invert), "primary": ($primary, $primary-invert, $primary-light, $primary-dark), "link": ($link, $link-invert, $link-light, $link-dark), "info": ($info, $info-invert, $info-light, $info-dark), "success": ($success, $success-invert, $success-light, $success-dark), "warning": ($warning, $warning-invert, $warning-light, $warning-dark), "danger": ($danger, $danger-invert, $danger-light, $danger-dark)), $custom-colors);
+
+// $shades: mergeColorMaps(("black-bis": $black-bis, "black-ter": $black-ter, "grey-darker": $grey-darker, "grey-dark": $grey-dark, "grey": $grey, "grey-light": $grey-light, "grey-lighter": $grey-lighter, "white-ter": $white-ter, "white-bis": $white-bis), $custom-shades);
+
+// $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7;
+
+
+$text-strong: $scheme-invert;

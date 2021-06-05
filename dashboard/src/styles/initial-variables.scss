@@ -1,0 +1,78 @@
+// Colors
+
+// $black:        hsl(0, 0%, 4%);
+// $black-bis:    hsl(0, 0%, 7%);
+// $black-ter:    hsl(0, 0%, 14%);
+
+// $grey-darker:  hsl(0, 0%, 21%);
+// $grey-dark:    hsl(0, 0%, 29%);
+// $grey:         hsl(0, 0%, 48%);
+// $grey-light:   hsl(0, 0%, 71%);
+// $grey-lighter: hsl(0, 0%, 86%);
+// $grey-lightest: hsl(0, 0%, 93%);
+
+$white-ter:    hsl(0, 0%, 96%);
+$white-bis:    hsl(0, 0%, 98%);
+$white:        hsl(0, 0%, 100%);
+
+// $orange:       hsl(14,  100%, 53%);
+// $yellow:       hsl(48,  100%, 67%);
+// $green:        hsl(141, 53%,  53%);
+// $turquoise:    hsl(171, 100%, 41%);
+// $cyan:         hsl(204, 71%,  53%);
+// $blue:         hsl(217, 71%,  53%);
+// $purple:       hsl(271, 100%, 71%);
+// $red:          hsl(348, 86%, 61%);
+
+// // Typography
+
+// $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-monospace: 'Fira Code', monospace;
+// $render-mode: optimizeLegibility;
+
+// $size-1: 3rem;
+// $size-2: 2.5rem;
+// $size-3: 2rem;
+// $size-4: 1.5rem;
+// $size-5: 1.25rem;
+// $size-6: 1rem;
+// $size-7: 0.75rem;
+
+// $weight-light: 300;
+// $weight-normal: 400;
+// $weight-medium: 500;
+// $weight-semibold: 600;
+// $weight-bold: 700;
+
+// // Spacing
+
+// $block-spacing: 1.5rem;
+
+// // Responsiveness
+
+// // The container horizontal gap, which acts as the offset for breakpoints
+// $gap: 32px;
+// // 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+// $tablet: 769px;
+// // 960px container + 4rem
+// $desktop: 960px + (2 * $gap);
+// // 1152px container + 4rem
+// $widescreen: 1152px + (2 * $gap);
+// $widescreen-enabled: true;
+// // 1344px container + 4rem
+// $fullhd: 1344px + (2 * $gap);
+// $fullhd-enabled: true;
+
+// // Miscellaneous
+
+// $easing: ease-out;
+$radius-small: 0;
+$radius: 0;
+$radius-large: 0;
+// $radius-rounded: 290486px;
+// $speed: 86ms;
+
+// // Flags
+
+// $variable-columns: true;
+// $rtl: false;
