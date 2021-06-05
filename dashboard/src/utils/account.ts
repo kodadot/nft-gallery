@@ -3,6 +3,7 @@ import keyring from '@polkadot/ui-keyring';
 import { getAddress } from '@/extension'
 import { decodeAddress, encodeAddress, } from '@polkadot/util-crypto';
 import store from '@/store'
+import { Prefix } from '@polkadot/util-crypto/address/types';
 
 export const isAccountLocked = (account: KeyringAccount | string): boolean => {
   const address = typeof account === 'string' ? account : account.address;
@@ -43,6 +44,12 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
 export const pubKeyToAddress = (publicKey: string) => {
   const ss58Format = store.getters.getChainProperties?.ss58Format
   return encodeAddress(publicKey, ss58Format);
+}
+
+export const formatAccount = (account: KeyringAccount | string, format?: Prefix) => {
+  const address = accountToAddress(account);
+  const ss58Format = format ? format : store.getters.getChainProperties?.ss58Format
+  return encodeAddress(decodeAddress(address), ss58Format);
 }
 
 export default passwordRequired

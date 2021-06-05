@@ -49,9 +49,9 @@ export default class Debug extends Vue {
 
   public async mounted() {
     const { api } = Connector.getInstance();
-    let stashes: any;
-    this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
-    this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
+    const stashes: any = [];
+    // this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
+    // this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
     this.stashIds = stashes.map((accountId: any) => accountId.toString())
     this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
     this.next = this.stashIds.filter((address: any) => !this.stakingOverview.validators.includes(address as any))

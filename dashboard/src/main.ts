@@ -42,6 +42,8 @@ import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
 import { $sum, $first, $push } from 'mingo/operators/accumulator'
 import apolloClient from './subquery';
+import { resolveSubsocialApi } from './components/subsocial/api';
+// import { resolveSubsocialApi } from '@/components/subsocial/api';
 
 // ensure the required operators are preloaded prior to using them.
 type OperatorMap = Record<string, any> ;
@@ -60,6 +62,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
 (window as any).S = { get, set, getMany };
+(window as any).SS = resolveSubsocialApi;
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 
