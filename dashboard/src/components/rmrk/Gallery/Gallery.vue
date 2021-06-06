@@ -107,6 +107,10 @@ interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
 
+const controlFilters = [
+  { name: { notLikeInsensitive: `%Penis%` } },
+]
+
 type NFTType = NFTWithMeta;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
@@ -188,6 +192,7 @@ export default class Gallery extends Vue {
           offset: this.offset,
           search: this.searchQuery.search
             ? [
+                ...controlFilters,
                 {
                   name: { likeInsensitive: `%${this.searchQuery.search}%` }
                   // or: [
@@ -204,7 +209,7 @@ export default class Gallery extends Vue {
                   // ]
                 }
               ]
-            : []
+            : controlFilters
         };
       }
     });
