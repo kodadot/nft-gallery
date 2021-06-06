@@ -5,6 +5,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { enableExtension } from '@/extension';
+import correctFormat from '@/utils/ss58Format'
 
 import {
   web3Accounts,
@@ -53,11 +54,11 @@ export default class WithKeyring extends Vue {
       await enableExtension();
     }
 
-    this.importedAccounts = await web3Accounts({ ss58Format: this.ss58Format || this.prefixByStore  });
+    this.importedAccounts = await web3Accounts({ ss58Format: correctFormat(this.ss58Format) >= 0 ? correctFormat(this.ss58Format) : correctFormat(this.prefixByStore)  });
   }
 
   get prefixByStore() {
-    return typeof getPrefixByStoreUrl() === 'undefined' ? 42 : Number(getPrefixByStoreUrl())
+    return correctFormat(getPrefixByStoreUrl())
   }
 
   public allAcctounts(): KeyringAccount[] {

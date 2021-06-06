@@ -25,10 +25,12 @@ import {
   OptionId,
   Content,
   ContentEnum,
-  PostExtension
+  PostExtension,
+  IpfsContent
 } from '@subsocial/types/substrate/classes';
 import { PostId, SpaceId } from '@subsocial/types/substrate/interfaces';
-import BN from 'bn.js';
+import { pinJson } from '@/proxy';
+import BN from 'bn.js'
 
 @Component({})
 export default class Reply extends Vue {
@@ -40,7 +42,7 @@ export default class Reply extends Vue {
     return this.$store.getters.getAuthAddress;
   }
 
-  protected buildParams() {
+  protected async buildParams() {
     const { postId: parentId, extension: comment } = this;
     const commentExt = comment
       ? new Comment({
@@ -49,12 +51,16 @@ export default class Reply extends Vue {
         })
       : new Comment({ parent_id: new OptionId(), root_post_id: parentId });
 
+
+    console.log(commentExt.parent_id.toString(), commentExt.root_post_id.toString())
+
     const newExtension = new PostExtension({ Comment: commentExt });
+    const cid = await pinJson({ body: this.message });
 
     return [
-      new OptionId(),
+      new OptionId(new BN(3417)),
       newExtension,
-      new Content({ Raw: this.message as any })
+      new IpfsContent(cid)
     ];
   }
 
@@ -65,12 +71,13 @@ export default class Reply extends Vue {
       return;
     }
 
-    const args = this.buildParams()
+    const args = await this.buildParams()
     console.log(args)
 
     try {
       showNotification('Dispatched');
-      const cb = (await ss.substrate.api).tx.posts.createPost;
+      const api = await ss.substrate.api;
+      const cb = api.tx.posts.createPost;
       const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args);
       showNotification(execResultValue(tx), notificationTypes.success);
     } catch (e) {
