@@ -50,6 +50,7 @@
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
           </template>
+          <CommentWrapper postId="14659" />
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
@@ -113,12 +114,12 @@ import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
-import AvailableActions from './AvailableActions.vue';
+// import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import Money from '@/components/shared/format/Money.vue';
-import Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-import Name from '@/components/rmrk/Gallery/Item/Name.vue';
+// import Money from '@/components/shared/format/Money.vue';
+// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
+// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
+// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql'
@@ -148,15 +149,16 @@ import { get, set } from 'idb-keyval';
   },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions,
-    Facts,
+    AvailableActions: () => import('./AvailableActions.vue'),
+    Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
-    Money,
-    Name,
-    Sharing,
+    Money: () => import('@/components/shared/format/Money.vue'),
+    Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
+    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
-    PackSaver: () => import('../Pack/PackSaver.vue')
+    PackSaver: () => import('../Pack/PackSaver.vue'),
+    CommentWrapper: () => import('@/components/subsocial/CommentWrapper.vue')
   }
 })
 export default class GalleryItem extends Vue {

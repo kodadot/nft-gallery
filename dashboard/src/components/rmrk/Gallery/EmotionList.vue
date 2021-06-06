@@ -5,7 +5,7 @@
       v-for="emoji in emojis"
       :key="emoji.key"
     >
-      <b-tag type="is-light is-large">
+      <b-tag type="is-dark is-large">
         {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
         <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
       </b-tag>

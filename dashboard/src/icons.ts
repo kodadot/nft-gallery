@@ -28,11 +28,12 @@ import {
   faFlask, faCameraRetro, faTag,
   faShareAlt, faExclamationTriangle,
   faCalendar, faCalculator, faEnvelope,
-  faArrowsAlt, faCompressAlt, faCompressArrowsAlt, faAngleLeft, faAngleRight
+  faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
+  faAngleLeft, faAngleRight, faReply
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
-import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
+import { faCommentDots, faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 
 import {
   faTwitter, faLine, faTelegram,
@@ -84,7 +85,8 @@ library.add(
   faFacebookMessenger, faDiscord,
   faLine, faTelegramPlane, faWhatsapp,
   faPinterest, faMedium,
-  faAngleLeft, faAngleRight
+  faAngleLeft, faAngleRight,
+  faReply, faThumbsUp, faThumbsDown,
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
