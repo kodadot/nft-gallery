@@ -21,8 +21,10 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action"></b-icon>
-            <b-icon @click.native="handleDislike" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action"> </b-icon>
+            <b-icon @click.native="handleLike" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <span class="comment-action__number">{{ upvotes }}</span>
+            <b-icon @click.native="handleDislike" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <span class="comment-action__number">{{ downvotes }}</span>
             <b-icon @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
           </div>
         </nav>
@@ -57,9 +59,12 @@ const components = {
 export default class Comment extends Vue {
   @Prop(Boolean) public value!: boolean;
   @Prop({ default: '' }) public message!: any;
-  @Prop({ default: '' }) public postId!: string;
-  @Prop({ default: '' })
+  @Prop(String) public postId!: string;
+  @Prop(String)
   public account!: string;
+  @Prop(Number) public upvotes!: number;
+  @Prop(Number) public downvotes!: number;
+
   public profile: ProfileContentType = emptyObject<ProfileContentType>();
 
   get address() {
@@ -143,7 +148,11 @@ export default class Comment extends Vue {
 
 <style lang="scss">
 .comment-action:hover {
-  color: purple;
+  color: #db2980;
   cursor: pointer;
+}
+
+.comment-action__number {
+  margin-right: 0.75rem;
 }
 </style>
