@@ -1,5 +1,5 @@
 <template>
-  <div class="box" id="FourZeroFour">
+  <div class="box container" id="FourZeroFour">
     <p class="title">End of The Internet 🔌</p>
     <p class="subtitle">You've probably found part of our App, we did not engineer!</p>
     <p class="subtitle">Go back or read book</p>

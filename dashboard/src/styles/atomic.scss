@@ -1,0 +1,60 @@
+.min-h-full {
+    min-height: 100%;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-semibold {
+    font-weight: 600;
+}
+
+.text-primary {
+    color: $primary;
+}
+
+.heading {
+    &.heading-is-1 {
+        font-size: 1rem;
+        line-height: 2rem;
+    }
+
+    &.heading-is-2 {
+        font-size: 2rem;
+        line-height: 3rem;
+    }
+
+    &.heading-is-3 {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
+
+    &.heading-is-4 {
+        font-size: 4rem;
+        line-height: 5rem;
+    }
+
+    &.heading-is-5 {
+        font-size: 5rem;
+        line-height: 6rem;
+    }
+
+    &.heading-is-6 {
+        font-size: 6rem;
+        line-height: 7rem;
+    }
+
+    &.heading-is-7 {
+        font-size: 7rem;
+        line-height: 8rem;
+    }
+}
+
+.max-w-600 {
+    max-width: 600px;
+}

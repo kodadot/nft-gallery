@@ -1,23 +1,20 @@
 <template>
   <b-dropdown position="is-bottom-left" aria-role="menu">
     <template #trigger>
-      <span v-if="account" class="is-mobile is-vcentered navbar__avatar" >
-        <Avatar class="navbar__avatar-icon" :value="account" :size="34" />
-        <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span>
+      <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
+        <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
+        <b-button type="is-primary" class="navbar__button">
+          <Identity :address="account" :inline="true" class="navbar__address" />
+        </b-button>
+
+        <!-- <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span> -->
       </span>
       <template v-else>
-        <b-button type="is-text" class="navbar__button">Connect</b-button>
+        <b-button type="is-primary" class="navbar__button ml-3 my-3">Log in</b-button>
       </template>
     </template>
 
     <template v-if="account">
-      <b-dropdown-item has-link aria-role="menuitem">
-        <router-link :to="{ name: 'profile', params: { id: account } }">
-          <b-icon pack="fas" icon="ghost"></b-icon>
-          <b><Identity :address="account" :inline="true"/></b>
-        </router-link>
-      </b-dropdown-item>
-      <hr class="dropdown-divider" />
       <b-dropdown-item has-link aria-role="menuitem">
         <router-link :to="{ name: 'profile', params: { id: account } }">
           Profile
@@ -35,22 +32,27 @@
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
-        <a class="has-text-info" href="https://twitter.com/kodadot" target="_blank">
-          <b-icon pack="fab" icon="twitter"> </b-icon>
+        <a href="https://twitter.com/kodadot" target="_blank" class="is-flex is-align-items-center pl-3">
+          <b-icon pack="fab" icon="twitter" class="mr-1"> </b-icon>
           <strong>KodaDot</strong>
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a class="has-text-link-dark" href="https://discord.gg/u6ymnbz4PR" target="_blank">
-          <b-icon pack="fab" icon="discord"> </b-icon>
+        <a href="https://discord.gg/u6ymnbz4PR" target="_blank" class="is-flex is-align-items-center pl-3">
+          <b-icon pack="fab" icon="discord" class="mr-1"> </b-icon>
           <strong>Discord</strong>
         </a>
       </b-dropdown-item>
+      <hr class="dropdown-divider" aria-role="menuitem" />
     </template>
     <b-dropdown-item v-if="account" custom aria-role="menuitem">
-      <b-button @click="changeAccount = !changeAccount" expanded
-        >Change account</b-button
+      <b-button
+        type="is-primary"
+        @click="changeAccount = !changeAccount"
+        expanded
       >
+        Change account
+      </b-button>
     </b-dropdown-item>
     <b-dropdown-item
       v-if="changeAccount || !account"
@@ -92,7 +94,7 @@ export default class NavbarProfileDropdown extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "bulma/bulma.sass";
 
 .navbar {
@@ -119,19 +121,8 @@ export default class NavbarProfileDropdown extends Vue {
     }
   }
 
-  &__button {
-    padding: 0.5rem 0.75rem;
-
-    @include from($desktop) {
-      padding: 0.5rem 0;
-    }
-
-    &.is-text {
-      &:hover,
-      &:focus {
-        background-color: transparent;
-      }
-    }
+  &__address {
+    text-transform: none;
   }
 }
 </style>

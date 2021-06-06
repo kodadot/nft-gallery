@@ -29,7 +29,6 @@
       </b-field> -->
       <b-field>
         <b-switch v-model="uploadMode"
-          passive-type="is-dark"
           :rounded="false">
           {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
         </b-switch>

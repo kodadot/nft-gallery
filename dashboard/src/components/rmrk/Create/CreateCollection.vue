@@ -34,7 +34,6 @@
         <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
       </b-field>
       <b-switch v-model="uploadMode"
-        passive-type="is-dark"
         :rounded="false">
         {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash of your content' }}
       </b-switch>

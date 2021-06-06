@@ -1,15 +1,13 @@
 <template>
-  <div class="gallery">
+  <div class="gallery container">
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery" />
+    <Search v-bind.sync="searchQuery">
+      <b-field class="column mb-0">
+        <Pagination simple :total="total" v-model="currentValue" replace />
+      </b-field>
+    </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
-    <Pagination
-      class="pt-5"
-      simple
-      :total="total"
-      v-model="currentValue"
-      replace
-    />
+
     <div>
       <div class="columns is-multiline">
         <div class="column is-4" v-for="nft in results" :key="nft.id">
@@ -95,13 +93,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
-import {
-  fetchNFTMetadata,
-  sanitizeIpfsUrl
-} from '../utils';
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import { basicAggQuery } from './Search/query';
 import Freezeframe from 'freezeframe';
 import 'lazysizes';
@@ -194,21 +189,23 @@ export default class Gallery extends Vue {
           first: this.first,
           offset: this.offset,
           search: this.searchQuery.search
-            ? [{
-                name: { likeInsensitive: `%${this.searchQuery.search}%` },
-                // or: [
-                //   {
-                //     instance: {
-                //       likeInsensitive: `%${this.searchQuery.search}%`
-                //     }
-                //   },
-                //   {
-                //     collectionId: {
-                //       likeInsensitive: `%${this.searchQuery.search}%`
-                //     }
-                //   }
-                // ]
-              }]
+            ? [
+                {
+                  name: { likeInsensitive: `%${this.searchQuery.search}%` }
+                  // or: [
+                  //   {
+                  //     instance: {
+                  //       likeInsensitive: `%${this.searchQuery.search}%`
+                  //     }
+                  //   },
+                  //   {
+                  //     collectionId: {
+                  //       likeInsensitive: `%${this.searchQuery.search}%`
+                  //     }
+                  //   }
+                  // ]
+                }
+              ]
             : []
         };
       }
@@ -218,14 +215,11 @@ export default class Gallery extends Vue {
   }
 
   protected async handleResult({ data }: any) {
-    console.log(data)
     this.total = data.nFTEntities.totalCount;
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e.emotes?.totalCount
     }));
-
-    console.log(this.nfts.map(e => e.emoteCount));
 
     const storedMetadata = await getMany(
       this.nfts.map(({ metadata }: any) => metadata)

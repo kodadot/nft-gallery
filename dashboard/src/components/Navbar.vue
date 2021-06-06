@@ -1,16 +1,16 @@
 <template>
   <b-navbar
     fixed-top
-    shadow
     spaced
     wrapper-class="container"
     :close-on-click="false"
     >
-    <template v-slot:brand>
-      <b-navbar-item tag="router-link" :to="{ path: '/' }">
+    <template #brand>
+      <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
         <img
           src="@/assets/kodadot_logo_v1_transparent_400px.png"
           alt="First NFT market explorer on Kusama and Polkadot"
+          class="logo__img"
         >
       </b-navbar-item>
     </template>
@@ -20,28 +20,28 @@
           collapsible
           >
           <template #label>
-            <span><b>{{ $t('Create') }}</b></span>
+            <span>{{ $t('Create') }}</span>
           </template>
-          <b-navbar-item
+          <!-- <b-navbar-item // Viki will fix
             tag="router-link"
             :to="{ name: 'rmrk'}">
             {{ $t('Classic') }}
-          </b-navbar-item>
+          </b-navbar-item> -->
           <b-navbar-item
             tag="router-link"
             :to="{ name: 'simpleMint'}">
             {{ $t('Simple') }}
           </b-navbar-item>
       </b-navbar-dropdown>
-      <!-- <b-navbar-item
-        tag="router-link"
-        :to="{ name: 'rmrk'}">
-        <strong>{{ $t('Create') }}</strong>
-      </b-navbar-item> -->
       <b-navbar-item
         tag="router-link"
         :to="{ name: 'nft'}">
-        <strong>{{ $t('Gallery') }}</strong>
+        {{ $t('Gallery') }}
+      </b-navbar-item>
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'leaderboard'}">
+        {{ $t('Leaderboard') }}
       </b-navbar-item>
       <b-navbar-dropdown
           arrowless
@@ -63,28 +63,6 @@
             {{ $t('Settings') }}
           </b-navbar-item>
       </b-navbar-dropdown>
-      <!-- translations does not resolve in this,
-          but it works in FAQ -->
-      <!-- <b-navbar-item
-        v-for="row in navbar"
-        v-bind:key="row.name"
-        :tag="row.tag"
-        :to="row.to">
-        <strong v-if="row.strong">{{row.name}}</strong>
-        <small v-else>{{row.name}}</small>
-      </b-navbar-item> -->
-      <!-- <b-navbar-dropdown
-          arrowless
-          collapsible
-          label="Extra">
-          <b-navbar-item
-            v-for="row in navbarExtra"
-            v-bind:key="row.name"
-            :tag="row.tag"
-            :to="row.to">
-            {{row.name}}
-          </b-navbar-item>
-      </b-navbar-dropdown> -->
     </template>
     <template v-slot:end>
       <LocaleChanger />
@@ -109,12 +87,6 @@ import i18n from '@/i18n.ts';
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
-    // {
-    //   name: i18n.t('Create'),
-    //   tag: 'router-link',
-    //   to: { name: 'rmrk' },
-    //   strong: true
-    // },
     {
       name: i18n.t('Gallery'),
       tag: 'router-link',
@@ -166,6 +138,8 @@ export default class NavbarMenu extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .navbar {
   &.is-spaced {
     & > .container {
@@ -173,6 +147,27 @@ export default class NavbarMenu extends Vue {
         margin-right: 0;
       }
     }
+  }
+
+  .logo {
+    padding: 0.5rem 0.75rem;
+
+    @include desktop {
+      padding-left: 0;
+    }
+  }
+
+  .navbar-item {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .navbar-brand {
+    align-items: center;
+  }
+
+  .burger {
+    margin-right: 0.5rem;
   }
 }
 </style>

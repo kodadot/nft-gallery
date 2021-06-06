@@ -17,7 +17,6 @@
       </div>
       <div class="card-footer-item">
         <b-tooltip
-          type="is-light"
           class="share__tooltip"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
@@ -151,6 +150,7 @@
             </b-button>
           </template>
           <b-button
+            type="is-dark"
             class="share__button"
             size="is-small"
             @click="active = !active"
@@ -233,8 +233,7 @@ export default class Sharing extends Vue {
 </script>
 
 <style lang="scss">
-  @import "@/colors";
-  @import "@/typography";
+  @import "@/styles/variables";
 
   .share {
     &__button {
@@ -265,7 +264,8 @@ export default class Sharing extends Vue {
         flex-wrap: wrap;
         justify-content: space-around;
         width: 100%;
-        max-width: 168px;
+        min-width: 162px;
+        max-width: 300px;
 
         &:before {
           display: none;

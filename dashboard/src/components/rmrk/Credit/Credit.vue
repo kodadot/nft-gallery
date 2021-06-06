@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="box">
       <b-message title="Top-up your Kusama address (experimental integration)" type="is-info" has-icon>
         Select your account and click on buy. <br>
@@ -10,7 +10,7 @@
 
       </p>
       <AccountSelect label="Account" v-model="accountId" />
-      <b-button type="is-danger is-light"
+      <b-button type="is-primary"
         tag="a"
         :href="`https://ramp.network/buy/?swapAsset=KSM`
         + `&userAddress=${accountId}`

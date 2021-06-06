@@ -2,7 +2,7 @@
   <div class="card mb-3 mt-5">
     <div class="card-content ">
       <div class="columns">
-        <b-field class="column mb-0">
+        <b-field class="column is-4 mb-0">
           <b-input
             placeholder="Search..."
             type="search"
@@ -11,24 +11,26 @@
           >
           </b-input>
         </b-field>
-        <b-field class="column is-2 mb-0">
+        <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
             aria-controls="contentIdForA11y1"
             icon-right="caret-down"
             type="is-primary"
-            outlined
             expanded
             @click="isVisible = !isVisible"
             disabled
           />
         </b-field>
+        <slot />
       </div>
 
       <div v-if="isVisible" class="columns">
         <Sort class="column is-2 mb-0" @input="updateSortBy" />
         <TypeTagInput class="column" v-model="typeQuery" />
       </div>
+
+
     </div>
   </div>
 </template>
@@ -43,7 +45,8 @@ import { exist } from './exist'
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
-    TypeTagInput: () => import('./TypeTagInput.vue')
+    TypeTagInput: () => import('./TypeTagInput.vue'),
+    Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue')
   }
 })
 export default class SearchBar extends Vue {
@@ -51,6 +54,8 @@ export default class SearchBar extends Vue {
   @Prop() public type!: string;
   @Prop() public sortBy!: SortBy;
   private isVisible: boolean = false;
+  private currentValue = 1;
+  private total = 0;
 
   public mounted() {
     exist(this.$route.query.search, this.updateSearch);
