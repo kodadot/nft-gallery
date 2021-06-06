@@ -1,6 +1,6 @@
 <template>
-  <div class="profile-wrapper">
-    <div class="tile is-ancestor">
+  <div class="profile-wrapper container">
+    <div class="tile">
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title">

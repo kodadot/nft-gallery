@@ -17,7 +17,6 @@
             aria-controls="contentIdForA11y1"
             icon-right="caret-down"
             type="is-primary"
-            outlined
             expanded
             @click="isVisible = !isVisible"
             disabled
@@ -29,6 +28,8 @@
         <Sort class="column is-2 mb-0" @input="updateSortBy" />
         <TypeTagInput class="column" v-model="typeQuery" />
       </div>
+
+      <slot />
     </div>
   </div>
 </template>

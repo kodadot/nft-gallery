@@ -10,6 +10,7 @@
       aria-close-label="Delete this tag"
       autocomplete
       open-on-focus
+      type="is-primary"
     >
     </b-taginput>
   </b-field>

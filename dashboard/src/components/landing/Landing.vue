@@ -1,219 +1,299 @@
 <template>
-  <div>
-    <section class="hero is-light">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title is-1">
-            <router-link :to="{ name: 'nft' }">
-              <b-icon
-                pack="fab"
-                icon="wpexplorer"
-                size="is-medium">
-              </b-icon>
-              KodaDot NFT  {{ $t('Explorer') }}<br>
-            </router-link>
-          </h1><br>
-          <h1 class="title is-1">
-            Home of {{ count }} collections
-          </h1><br>
-          <div class="tile is-ancestor">
+  <section class="hero is-dark homepage">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-1 homepage__title">
+          <span class="text__stroked">Koda</span>
+          <span>Dot</span>
+        </h1>
+        <h2 class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
+          <span>
+            Carbon neutral
+          </span>
+          <span class="text__stroked">
+            Kusama native
+          </span>
+          <span>
+            NFT plaftorm
+          </span>
+          <span class="title is-6 homepage__subtitle uppercase text-semibold">
+            Built on
+            <span class="text-bold text-primary">
+              RMRK Protocol
+            </span>
+          </span>
+        </h2>
+        <div class="buttons">
+          <b-dropdown aria-role="list" class="mr-2">
+            <template #trigger>
+                <b-button
+                  label="Create"
+                  type="is-primary"
+                />
+            </template>
+            <b-dropdown-item
+              aria-role="listitem"
+            >
+              <router-link :to="{ name: 'rmrk'}">
+                {{ $t('Classic') }}
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item
+              aria-role="listitem"
+            >
+              <router-link :to="{ name: 'simpleMint'}">
+                {{ $t('Simple') }}
+              </router-link>
+            </b-dropdown-item>
+          </b-dropdown>
+          <b-button
+              tag="router-link"
+              to="/rmrk/gallery"
+              type="is-primary"
+          >
+            Gallery
+          </b-button>
+          <b-button
+              tag="router-link"
+              to="/about"
+              type="is-primary"
+          >
+            About
+          </b-button>
+          <b-button
+              tag="router-link"
+              to="/rmrk/faq"
+              type="is-primary"
+          >
+            Faq
+          </b-button>
+        </div>
+        <div class="homepage__box">
+          <div class="homepage__box-content">
+            <p>
+              Would you like to get featured on our gallery page? Perhaps you have a business proposal in mind. Maybe you would like to be an ambassador. Go to this section for all of the above.
+            </p>
+            <b-button
+              tag="router-link"
+              to="/partnership"
+              type="is-primary"
+              class="homepage__button--wrapped"
+            >
+              Partnership & Ambassador Program
+            </b-button>
+            <div>
+              <p>
+                <span>
+                  Would you like to know how our journey started?
+                </span>
+                <span>
+                  If so, visit the About section.
+                </span>
+              </p>
+              <p>
+                <span>
+                  Struggling with KodaDot?
+                </span>
+                <span>
+                  Head over to our FAQ page.
+                </span>
+              </p>
+              <p>
+                <span>
+                  Found issue? Have Feedback?
+                </span>
+                <span>
+                  Create issue on our GitHub.
+                </span>
+              </p>
+            </div>
+          </div>
+          <b-button
+            tag="a"
+            href="https://github.com/kodadot"
+            target="_blank"
+            rel="noopener noreferrer"
+            type="is-primary"
+          >
+            Kodadot Github
+          </b-button>
+        </div>
+        <!-- <div class="tile is-ancestor">
+          <div class="tile is-parent is-vertical">
+            <div class="tile is-child">
+              <h2 class="title is-3">
+                <b-icon
+                  pack="fas"
+                  icon="camera-retro">
+                </b-icon>
+                  <router-link :to="{ name: 'nftRare', }">
+                    Rare solo feed
+                  </router-link>
+              </h2>
+              <h2 class="title is-3">
+                <b-icon
+                  pack="fas"
+                  icon="ghost"
+                ></b-icon>
+                  Creators Spotlight
+              </h2>
+              <h2 class="subtitle is-4">
+                <li
+                  v-for="c in creators"
+                  :key="c">
+                    <router-link :to="{ name: 'profile', params: { id: c } }">
+                      <Identity :address="c" :inline="true" />
+                    </router-link>
+                  </li>
+              </h2>
+            </div>
+            <div class="tile is-child">
+              <h2 class="title is-3">
+                <b-icon
+                  pack="fab"
+                  icon="telegram-plane"
+                ></b-icon>
+                  Community
+              </h2>
+              <h2 class="subtitle is-4">
+                <li
+                  v-for="community in publicCommunity"
+                  :key="community[0]">
+                    <a :href="community[1]">{{ community[0] }}</a>
+                </li>
+              </h2>
+              <h2 class="title is-4">
+                <a href="https://nft.kodadot.xyz/rmrk/collection/10D77F8B699437BB50-KODA" target="_blank">
+                  <b-icon
+                    pack="far"
+                    icon="comment-dots">
+                  </b-icon>
+                  {{ $t('Tutorial: How to mint NFT') }}
+                </a>
+              </h2>
+              <h2 class="title is-4">
+                <a href="https://stakenode.medium.com/dont-panic-and-mint-your-nft-s-on-kodadot-kusama-polkadot-first-nft-explorer-4273f789e585" target="_blank">
+                  <b-icon
+                    pack="far"
+                    icon="comment-dots">
+                  </b-icon>
+                  {{ $t('Tutorial: Mint your NFTs on KodaDot') }}
+                </a>
+              </h2>
+              <h2 class="title is-4">
+                <router-link :to="{ name: 'rmrkFaq' }">
+                  <b-icon
+                    icon="question">
+                  </b-icon>
+                  {{ $t('New here? We have F.A.Q.') }}
+                </router-link>
+              </h2>
+            </div>
+          </div>
             <div class="tile is-parent is-vertical">
               <div class="tile is-child">
-                <h2 class="title is-3">
-                  <b-icon
-                    pack="fas"
-                    icon="ghost"
-                  ></b-icon>
-                    Creators Spotlight
+                <h2 class="title">
+                  <b-icon icon="flask"></b-icon>
+                  We are wandering new avenues of NFT experience.
                 </h2>
-                <h2 class="subtitle is-4">
-                  <li
-                    v-for="c in creators"
-                    :key="c">
-                      <router-link :to="{ name: 'profile', params: { id: c } }">
-                        <Identity :address="c" :inline="true" />
-                      </router-link>
-                    </li>
+                <h2 class="title">
+                  <b-icon icon="leaf"></b-icon>
+                  <router-link :to="{ name: 'carbonless'}">
+                    Carbonless NFT movement
+                  </router-link>
+                </h2>
+                <h2 class="title">
+                  <b-icon icon="leaf"></b-icon>
+                  <router-link :to="{ name: 'sustainability'}">
+                    Sustainability program
+                  </router-link>
+                </h2>
+                <h2 class="title">
+                  <b-icon icon="leaf"></b-icon>
+                  <router-link :to="{ name: 'esSustainability'}">
+                    Sustentabilidad de KodaDot
+                  </router-link>
                 </h2>
               </div>
-              <div class="tile is-child">
-                <h2 class="title is-3">
+            <div class="tile is-child">
+              <h2 class="title">
+                <a href="https://t.me/kodadot" target="_blank">
                   <b-icon
                     pack="fab"
-                    icon="telegram-plane"
-                  ></b-icon>
-                    Community
-                </h2>
-                <h2 class="subtitle is-4">
-                  <li
-                    v-for="community in publicCommunity"
-                    :key="community[0]">
-                      <a :href="community[1]">{{ community[0] }}</a>
-                  </li>
-                </h2><br>
-                <h2 class="title is-4">
-                  <a href="https://nft.kodadot.xyz/rmrk/collection/10D77F8B699437BB50-KODA" target="_blank">
-                    <b-icon
-                      pack="far"
-                      icon="comment-dots">
-                    </b-icon>
-                    Tutorial 1
-                  </a>
-                </h2>
-                <h2 class="title is-4">
-                  <a href="https://stakenode.medium.com/dont-panic-and-mint-your-nft-s-on-kodadot-kusama-polkadot-first-nft-explorer-4273f789e585" target="_blank">
-                    <b-icon
-                      pack="far"
-                      icon="comment-dots">
-                    </b-icon>
-                    Tutorial 2
-                  </a>
-                </h2>
-                <h2 class="title is-4">
-                  <router-link :to="{ name: 'rmrkFaq' }">
-                    <b-icon
-                      icon="question">
-                    </b-icon>
-                    {{ $t('F.A.Q.') }}
-                  </router-link>
-                </h2>
+                    icon="telegram">
+                  </b-icon>
+                  KodaDot
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="reddit-alien">
+                  </b-icon>
+                  r/KodaDot
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://twitter.com/KodaDot" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="twitter">
+                  </b-icon>
+                  @KodaDot
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://discord.gg/u6ymnbz4PR" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="discord">
+                  </b-icon>
+                  KodaDot Community Discord
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="medium">
+                  </b-icon>
+                  {{ $t('Read our story, how we started.') }}
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="medium">
+                  </b-icon>
+                  {{ $t('Traverse to the prime show') }}
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="medium">
+                  </b-icon>
+                  {{ $t('Client-first NFT gallery: Technical examination') }}
+                </a>
+              </h2>
+              <h2 class="title">
+                <a href="https://twitter.com/metaprime_net" target="_blank">
+                  <b-icon
+                    pack="fab"
+                    icon="twitter">
+                  </b-icon>
+                  {{ $t('NFT-focused infrastracture @Metaprime_net') }}
+                </a>
+              </h2>
               </div>
             </div>
-              <div class="tile is-parent is-vertical">
-                <div class="tile is-child">
-                  <h2 class="title is-3">
-                    <b-icon
-                      pack="fas"
-                      icon="camera-retro">
-                    </b-icon>
-                    <router-link :to="{ name: 'nftRare', }">
-                      {{ $t('Solo feed') }}
-                    </router-link>
-                  </h2>
-                  <h2 class="title">
-                    <b-icon icon="flask"></b-icon>
-                    experimental NFT landscape<br>
-                  </h2>
-                  <h2 class="title">
-                    <b-icon icon="leaf"></b-icon>
-                    <router-link :to="{ name: 'carbonless'}">
-                      Carbonless NFT movement
-                    </router-link>
-                  </h2>
-                  <h2 class="title">
-                    <b-icon icon="leaf"></b-icon>
-                    <router-link :to="{ name: 'sustainability'}">
-                      Sustainability program
-                    </router-link>
-                  </h2>
-                  <h2 class="title">
-                    <b-icon icon="leaf"></b-icon>
-                    <router-link :to="{ name: 'esSustainability'}">
-                      Sustentabilidad de KodaDot
-                    </router-link>
-                  </h2>
-                </div>
-                <!-- <div class="tile is-child">
-                  <h2 class="title is-3">
-                  <router-link :to="{ name: 'nft' }">
-                    <b-icon
-                      icon="eye">
-                    </b-icon>
-                    {{ $t('Gallery of NFT Tokens and Collectibles') }}
-                  </router-link>
-                </h2>
-                <h2 class="title is-4">
-                  <router-link :to="{ name: 'simpleMint' }">
-                    <b-icon
-                      icon="print">
-                    </b-icon>
-                    {{ $t('Create your NFT Token & Collectibles') }}
-                  </router-link>
-                </h2><br>
-              </div> -->
-              <div class="tile is-child">
-                <h2 class="title">
-                  <a href="https://t.me/kodadot" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="telegram">
-                    </b-icon>
-                  </a>
-                </h2>
-                <h2 class="title">
-                  <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="reddit-alien">
-                    </b-icon>
-                  </a>
-                </h2>
-                <h2 class="title">
-                  <a href="https://twitter.com/KodaDot" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                  </a>
-                </h2>
-                <h2 class="title">
-                  <a href="https://discord.gg/u6ymnbz4PR" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="discord">
-                    </b-icon>
-                  </a>
-                </h2>
-                <!-- <h2 class="title">
-                  <a href="https://calendar.google.com/calendar/u/0/embed?src=c_eu96e3mq6ov7oj0eaadgbbvjvk@group.calendar.google.com" target="_blank">
-                    <b-icon
-                      icon="calendar">
-                    </b-icon>
-                    {{ $t('Community Events') }}
-                  </a>
-                </h2> -->
-                <h2 class="title">
-                  <a href="https://medium.com/kodadot/" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="medium">
-                    </b-icon>
-                  </a>
-                </h2>
-                <!-- <h2 class="title">
-                  <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="medium">
-                    </b-icon>
-                    {{ $t('Traverse to the prime show') }}
-                  </a>
-                </h2>
-                <h2 class="title">
-                  <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="medium">
-                    </b-icon>
-                    {{ $t('Client-first NFT gallery: Technical examination') }}
-                  </a>
-                </h2> -->
-                <!-- <h2 class="title">
-                  <a href="https://twitter.com/metaprime_net" target="_blank">
-                    <b-icon
-                      pack="fab"
-                      icon="twitter">
-                    </b-icon>
-                    {{ $t('NFT-focused infrastracture @Metaprime_net') }}
-                  </a>
-                </h2> -->
-                </div>
-              </div>
-          </div>
-        </div>
+        </div> -->
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
@@ -280,7 +360,66 @@ export default class Landing extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
+.homepage {
+  content: '';
+  width: 100%;
+  height: 100%;
+
+  @include desktop {
+    background: url('../../assets/homepage-bg.png') center bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &__title {
+    display: inline-flex;
+    padding: 16px 32px;
+    margin: 0 0 60px;
+    text-transform: uppercase;
+    border: 4px solid $primary;
+  }
+
+  &__heading {
+    font-size: 4rem;
+  }
+
+  &__box {
+    max-width: 600px;
+    padding: 40px 48px;
+    margin: 120px 0 132px;
+    background-color: $scheme-main;
+    border: 4px solid $primary;
+    border-radius: 0;
+
+    @include desktop {
+      box-shadow: 28px -28px $black, 28px -28px 0 4px $primary;
+    }
+  }
+
+  &__box-content {
+    max-width: 464px;
+
+    p, .button {
+      margin-bottom: 32px;
+    }
+
+    p {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__button {
+    &--wrapped {
+      height: auto;
+      white-space: normal;
+    }
+  }
+}
+
 .subtitle {
   text-decoration: underline;
 }

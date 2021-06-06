@@ -11,8 +11,9 @@
       </b-field>
       <template v-if="accountId">
         <b-field>
-          <b-switch v-model="oneByOne" passive-type="is-dark" :rounded="false">
-            {{ oneByOne ? "Single NFT" : "NFT(s) in collection" }}
+          <b-switch v-model="oneByOne"
+            :rounded="false">
+            {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
           </b-switch>
         </b-field>
         <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">

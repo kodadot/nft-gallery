@@ -15,6 +15,11 @@ const EsSustainability = () => import('@/components/landing/EsSustainability.vue
 const Carbonless = () => import('@/components/landing/Carbonless.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
+const Leaderboard = () => import('@/components/landing/Leaderboard.vue');
+const About = () => import('@/components/landing/About.vue');
+const Contact = () => import('@/components/landing/Contact.vue');
+const Partnership = () => import('@/components/landing/Partnership.vue');
+const Tutorials = () => import('@/components/landing/Tutorials.vue');
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
@@ -56,6 +61,31 @@ export default new Router({
       name: 'extrinsics',
       component: Extrinsics,
       beforeEnter: apiEnabled,
+    },
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      component: Leaderboard,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Contact,
+    },
+    {
+      path: '/partnership',
+      name: 'partnership',
+      component: Partnership,
+    },
+    {
+      path: '/tutorials',
+      name: 'tutorials',
+      component: Tutorials,
     },
 		{
 			path: '*',
