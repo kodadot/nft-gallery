@@ -55,10 +55,11 @@ export default class Reply extends Vue {
     console.log(commentExt.parent_id.toString(), commentExt.root_post_id.toString())
 
     const newExtension = new PostExtension({ Comment: commentExt });
-    const cid = await pinJson({ body: this.message });
+    // const cid = await pinJson({ body: this.message });
+    const cid = 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ'
 
     return [
-      new OptionId(new BN(3417)),
+      3417,
       newExtension,
       new IpfsContent(cid)
     ];
