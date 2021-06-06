@@ -19,20 +19,6 @@
           </li>
           <li class="icons__list-item">
             <a
-              href="https://www.reddit.com/r/KodaDot/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <b-icon
-                pack="fab"
-                icon="reddit-alien"
-                size="is-medium"
-              >
-              </b-icon>
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://discord.gg/u6ymnbz4PR"
               target="_blank"
               rel="noopener noreferrer"
@@ -68,6 +54,20 @@
               <b-icon
                 pack="fab"
                 icon="twitter"
+                size="is-medium"
+              >
+              </b-icon>
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://www.reddit.com/r/KodaDot/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <b-icon
+                pack="fab"
+                icon="reddit-alien"
                 size="is-medium"
               >
               </b-icon>
@@ -115,10 +115,10 @@ export default class Footer extends Vue {
       name: i18n.t('FAQ'),
       url: '/rmrk/faq'
     },
-    {
-      name: i18n.t('Contact'),
-      url: '/contact'
-    },
+    // {
+    //   name: i18n.t('Contact'),
+    //   url: '/contact'
+    // },
     {
       name: i18n.t('Partnerships & Ambassadors'),
       url: '/partnership'

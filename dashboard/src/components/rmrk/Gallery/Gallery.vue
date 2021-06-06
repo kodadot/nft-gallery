@@ -2,7 +2,9 @@
   <div class="gallery container">
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <Pagination simple :total="total" v-model="currentValue" replace />
+      <b-field class="column mb-0">
+        <Pagination simple :total="total" v-model="currentValue" replace />
+      </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
