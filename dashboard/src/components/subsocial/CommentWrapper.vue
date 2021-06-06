@@ -37,6 +37,7 @@ export default class CommentWrapper extends Vue {
       const commentIds = await ss.substrate.getReplyIdsByPostId(new BN(this.postId))
       const commentPromises =  commentIds.map(cm => ss.findPublicPost(cm))
       this.comments = await Promise.all(commentPromises)
+      console.log(this.comments)
     }
 
   }

@@ -1,7 +1,7 @@
 <template>
   <div v-if="comment">
     <Comment v-if="account" :message="message" :account="account" :postId="postId" v-model="replyVisible" />
-    <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" />
+    <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" :spaceId="spaceId" :extension="extension" />
     <CommentWrapper v-if="postId" class="comment-adapter__nested" :postId="postId" nested />
   </div>
 </template>
@@ -30,7 +30,28 @@ export default class CommentAdapter extends Vue {
   }
 
   get account() {
-    return this.comment?.struct.owner.toHuman()
+    return this.commentStruct?.owner.toHuman()
+  }
+
+  get spaceId() {
+    return this.commentStruct?.space_id.toHuman();
+  }
+
+  get extension() {
+    const extension = this.commentStruct?.extension
+    return (extension?.isComment && extension?.asComment) || (extension as any).Comment
+  }
+
+  get commentStruct() {
+    return this.comment?.struct
+  }
+
+  get upvotes() {
+    return this.commentStruct?.upvotes_count.toNumber()
+  }
+
+  get downvotes() {
+    return this.commentStruct?.downvotes_count.toNumber()
   }
 
 

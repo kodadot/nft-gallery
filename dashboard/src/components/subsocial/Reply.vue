@@ -15,11 +15,13 @@ import { resolveSubsocialApi } from './api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { subsocialAddress } from './utils';
+import { Comment, OptionId } from '@subsocial/types/substrate/classes'
 
 @Component({})
 export default class Reply extends Vue {
   protected message: string = '';
   @Prop({ default: '' }) public postId!: string;
+  @Prop() public extension!: Comment | null;
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
