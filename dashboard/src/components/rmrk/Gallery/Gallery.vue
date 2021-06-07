@@ -43,7 +43,7 @@
               <div class="card-content">
                 <span
                   v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered"
+                  class="title mb-0 is-4 has-text-centered" id="hover-title"
                   :title="nft.name"
                 >
                   <router-link
@@ -71,7 +71,7 @@
                   <p
                     v-if="nft.count > 2"
                     :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6 is-color-pink"
+                    class="is-absolute nft-collection-counter title is-6"
                   >
                     「{{ nft.count }}」
                   </p>
@@ -342,6 +342,7 @@ export default class Gallery extends Vue {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #fff;
   }
 
   .card-image__emotes__count {
@@ -380,7 +381,7 @@ export default class Gallery extends Vue {
 
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: #fff;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
@@ -420,6 +421,7 @@ export default class Gallery extends Vue {
           bottom: 0;
           opacity: 1;
           z-index: 2;
+          background: #000;
         }
 
         &:hover .gallery__image-wrapper img {
@@ -442,4 +444,5 @@ export default class Gallery extends Vue {
     }
   }
 }
+
 </style>
