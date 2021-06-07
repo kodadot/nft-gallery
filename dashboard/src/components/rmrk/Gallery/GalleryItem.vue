@@ -344,7 +344,6 @@ export default class GalleryItem extends Vue {
       padding: 7px 16px;
       font-size: 20px;
       background: $scheme-main;
-;
       z-index: 2;
 
       &:hover {
@@ -358,6 +357,10 @@ export default class GalleryItem extends Vue {
     position: absolute;
     top: 13px;
     left: 13px;
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+
   }
 
   button#fullscreen-view {
@@ -431,5 +434,6 @@ export default class GalleryItem extends Vue {
       padding: 0;
     }
   }
+  
 }
 </style>
