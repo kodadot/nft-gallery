@@ -338,16 +338,16 @@ export default class GalleryItem extends Vue {
 
     button {
       border: 2px solid $primary;
-      color: $primary;
+      color: #fff;
       font-weight: bold;
       text-transform: uppercase;
       padding: 7px 16px;
       font-size: 20px;
-      background: #fafafa;
+      background: $scheme-main;
+;
       z-index: 2;
 
       &:hover {
-        color: #fff;
         background: $primary;
         cursor: pointer;
       }
