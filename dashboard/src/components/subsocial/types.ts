@@ -11,4 +11,7 @@ export type ProfileContentType = ProfileContent
 
 export type OptionalProfileContent = Optional<ProfileContent>
 
-export type ReactionType = 'Upvote' | 'Downvote'
+export enum ReactionType {
+  Upvote,
+  Downvote
+}

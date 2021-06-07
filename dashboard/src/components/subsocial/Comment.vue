@@ -131,15 +131,18 @@ export default class Comment extends Vue {
       return
     }
 
+    const arg = new ReactionKind()
+
     try {
       showNotification('Dispatched');
-      const cb = (await ss.substrate.api).tx.reactions.createPostReaction
-      const arg = new ReactionKind(reaction)
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, arg]);
+      const api = await ss.substrate.api;
+      const cb = api.tx.reactions.createPostReaction;
+
+      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, 0]);
       showNotification(execResultValue(tx), notificationTypes.success);
 
     } catch (e) {
-      console.warn(`[SUBSOCIAL] Unable to react ${1} with reaction ${reaction},\nREASON: ${e}`)
+      console.error(`[SUBSOCIAL] Unable to react ${arg} with reaction ${reaction},\nREASON: ${e}`)
       showNotification(e.message, notificationTypes.danger);
     }
   }
