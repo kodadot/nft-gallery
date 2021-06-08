@@ -38,6 +38,15 @@ export default class Reply extends Vue {
   @Prop({ default: '' }) public postId!: PostId;
   @Prop() public extension!: Comment | null;
 
+
+  public async mounted() {
+    const ss = await resolveSubsocialApi();
+    const api = await ss.substrate.api;
+    const cb = api.tx.posts.createPost;
+    (window as any).post = cb;
+    (window as any).ipfs = ss.ipfs;
+  }
+
   get accountId() {
     return this.$store.getters.getAuthAddress;
   }
@@ -72,7 +81,9 @@ export default class Reply extends Vue {
       return;
     }
 
-    const args = await this.buildParams()
+    const args = [null,  { Comment: { parent_id: 14660, root_post_id: 14659  } }  , { IPFS: 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ' }]
+
+    // const args = await this.buildParams()
     console.log(args)
 
     try {

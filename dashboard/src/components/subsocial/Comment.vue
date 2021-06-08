@@ -14,7 +14,7 @@
               <ProfileLink v-if="address" :address="address" :inline="true" />
               <Identity v-else :address="account" :inline="true"/>
             </strong>
-            <small>@{{ handle }}</small>
+            <small v-if="handle">@{{ handle }}</small>
             <br />
             {{ message }}
           </p>
@@ -109,7 +109,7 @@ export default class Comment extends Vue {
   }
 
   protected async handleLike() {
-    this.submitReaction('Upvote')
+    this.submitReaction(ReactionType.Upvote)
     // try {
     //   const cb = (await ss.substrate.api).tx.posts.createPost
 
@@ -119,7 +119,7 @@ export default class Comment extends Vue {
   }
 
   protected handleDislike() {
-    this.submitReaction('Downvote')
+    this.submitReaction(ReactionType.Downvote)
   }
 
 
@@ -138,7 +138,7 @@ export default class Comment extends Vue {
       const api = await ss.substrate.api;
       const cb = api.tx.reactions.createPostReaction;
 
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, 0]);
+      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, reaction]);
       showNotification(execResultValue(tx), notificationTypes.success);
 
     } catch (e) {
