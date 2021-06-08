@@ -14,8 +14,10 @@
               <ProfileLink v-if="address" :address="address" :inline="true" />
               <Identity v-else :address="account" :inline="true"/>
             </strong>
-            <small v-if="handle">@{{ handle }}</small>
-            <br />
+            <template v-if="handle">
+              <small class="comment-handle" >@{{ handle }}</small>
+              <br />
+            </template>
             {{ message }}
           </p>
         </div>
@@ -157,5 +159,10 @@ export default class Comment extends Vue {
 
 .comment-action__number {
   margin-right: 0.75rem;
+}
+
+.comment-handle {
+  padding-bottom: 0.75em;
+
 }
 </style>

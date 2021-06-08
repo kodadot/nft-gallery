@@ -2,7 +2,7 @@
 node_modules
 dashboard/dist
 dist
-functions/
+functions
 yarn.lock
 
 package-lock.json

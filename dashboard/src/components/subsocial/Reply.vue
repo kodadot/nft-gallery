@@ -28,8 +28,8 @@ import {
   PostExtension,
   IpfsContent
 } from '@subsocial/types/substrate/classes';
-import { PostId, SpaceId } from '@subsocial/types/substrate/interfaces';
-import { pinJson } from '@/proxy';
+import { PostId } from '@subsocial/types/substrate/interfaces';
+import { pinSubSocialPost } from '@/proxy';
 import BN from 'bn.js'
 
 @Component({})
@@ -54,23 +54,20 @@ export default class Reply extends Vue {
   protected async buildParams() {
     const { postId: parentId, extension: comment } = this;
     const commentExt = comment
-      ? new Comment({
-          parent_id: new OptionId(parentId),
+      ? {
+          parent_id: parentId,
           root_post_id: comment.root_post_id
-        })
-      : new Comment({ parent_id: new OptionId(), root_post_id: parentId });
+        }
+      : { parent_id: null, root_post_id: parentId };
 
-
-    console.log(commentExt.parent_id.toString(), commentExt.root_post_id.toString())
-
-    const newExtension = new PostExtension({ Comment: commentExt });
-    // const cid = await pinJson({ body: this.message });
-    const cid = 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ'
+    const newExtension = { Comment: commentExt };
+    const cid = await pinSubSocialPost({ body: this.message });
+    // const cid = 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ'
 
     return [
-      3417,
+      null,
       newExtension,
-      new IpfsContent(cid)
+      { IPFS: cid }
     ];
   }
 
@@ -81,9 +78,7 @@ export default class Reply extends Vue {
       return;
     }
 
-    const args = [null,  { Comment: { parent_id: 14660, root_post_id: 14659  } }  , { IPFS: 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ' }]
-
-    // const args = await this.buildParams()
+    const args = await this.buildParams()
     console.log(args)
 
     try {
