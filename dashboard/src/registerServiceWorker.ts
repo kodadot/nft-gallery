@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
         // duration: 30000,
         message: `New version is ready. Close to upgrade.`,
         queue: false,
-        type: 'is-info is-light',
+        type: 'is-info is-dark',
         position: 'is-top-left',
         indefinite: true,
         hasIcon: true,
