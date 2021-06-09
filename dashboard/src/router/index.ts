@@ -48,7 +48,7 @@ export default new Router({
       component: Carbonless,
     },
     {
-      path: 'es/MovimientoNFTSinEmisionesDeCarbono',
+      path: '/es/MovimientoNFTSinEmisionesDeCarbono',
       name: 'esCarbonless',
       component: EsCarbonless,
     },
