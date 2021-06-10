@@ -36,7 +36,7 @@
               v-bind:key="t">
               {{t}}
             </b-tag>
-            <b-tag type="is-light"
+            <b-tag type="is-dark"
               v-if="meta.isTesting">testing account
             </b-tag>
             </p>

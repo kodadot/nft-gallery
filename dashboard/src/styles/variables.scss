@@ -57,6 +57,10 @@ $colors: mergeColorMaps(
             $danger-light,
             $danger-dark,
         ),
+        "grey":(
+            $grey-darker,
+            $white,
+        )
     ),
     $custom-colors
 );
