@@ -139,5 +139,8 @@
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction"
+  },
+  "subsocial": {
+    "showComments": "Show comments"
   }
 }

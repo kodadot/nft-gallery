@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-button v-if="!commentsVisible && !nested" type="is-link is-light" @click="commentsVisible = true" >{{ $t('subscan.showComments') }} {{ comments.length }}</b-button>
+    <b-button v-if="!commentsVisible && !nested" type="is-link is-light" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ comments.length }}</b-button>
     <template v-else>
-      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment"/>
+      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" />
     </template>
   </div>
 </template>
@@ -13,6 +13,7 @@ import { resolveSubsocialApi, subsocial } from './api'
 import { PostType } from './types'
 import BN from 'bn.js';
 import { findCommentsForPost } from './utils'
+import shouldUpdate from '@/utils/shouldUpdate';
 
 const components = {
   CommentAdapter: () => import('./CommentAdapter.vue')
@@ -23,12 +24,12 @@ const components = {
   components
 })
 export default class CommentWrapper extends Vue {
-  @Prop() public postId!: string;
+  @Prop(String) public postId!: string;
   @Prop(Boolean) public nested!: boolean;
+  @Prop(Boolean) public actionDisabled!: boolean;
   protected comments: PostType[] = [];
   protected commentsVisible: boolean = false;
   protected loading: boolean = false;
-
 
   public async mounted() {
     const ss = await resolveSubsocialApi();

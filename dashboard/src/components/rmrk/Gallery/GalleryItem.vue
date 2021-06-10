@@ -50,7 +50,10 @@
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
           </template>
-          <CommentWrapper postId="14659" />
+          <hr />
+          <p class="title is-size-4">{{ $t('subsocial.comments') }}</p>
+          <p class="subtitle is-size-6">{{ $t('subsocial.comments') }}</p>
+          <BaseCommentSection postId="14659" />
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
@@ -158,7 +161,7 @@ import { get, set } from 'idb-keyval';
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     PackSaver: () => import('../Pack/PackSaver.vue'),
-    CommentWrapper: () => import('@/components/subsocial/CommentWrapper.vue')
+    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue')
   }
 })
 export default class GalleryItem extends Vue {

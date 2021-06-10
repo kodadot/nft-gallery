@@ -22,20 +22,14 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 import { subsocialAddress } from './utils';
 import {
   Comment,
-  OptionId,
-  Content,
-  ContentEnum,
-  PostExtension,
-  IpfsContent
 } from '@subsocial/types/substrate/classes';
 import { PostId } from '@subsocial/types/substrate/interfaces';
 import { pinSubSocialPost } from '@/proxy';
-import BN from 'bn.js'
 
 @Component({})
 export default class Reply extends Vue {
   protected message: string = '';
-  @Prop({ default: '' }) public postId!: PostId;
+  @Prop(String) public postId!: PostId;
   @Prop() public extension!: Comment | null;
 
 

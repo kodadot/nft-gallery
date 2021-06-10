@@ -27,7 +27,7 @@
             <span class="comment-action__number">{{ upvotes }}</span>
             <b-icon @click.native="handleDislike" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ downvotes }}</span>
-            <b-icon @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
+            <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
           </div>
         </nav>
       </div>
@@ -66,6 +66,7 @@ export default class Comment extends Vue {
   public account!: string;
   @Prop(Number) public upvotes!: number;
   @Prop(Number) public downvotes!: number;
+  @Prop(Boolean) public actionDisabled!: boolean;
 
   public profile: ProfileContentType = emptyObject<ProfileContentType>();
 
@@ -164,5 +165,12 @@ export default class Comment extends Vue {
 .comment-handle {
   padding-bottom: 0.75em;
 
+}
+
+.comment-action__disabled {
+  pointer-events: none;
+  &:hover {
+    cursor: not-allowed;
+  }
 }
 </style>
