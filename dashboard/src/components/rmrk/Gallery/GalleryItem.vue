@@ -18,7 +18,7 @@
                   <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
                 </div>
               </div>
-              <button id="fullscreen-view" @click="toggleFullScreen" v-if="!isLoading && imageVisible" :class="{fullscreen: isFullScreenView}">
+              <button id="fullscreen-view" @keyup.esc="minimize" @click="toggleFullScreen" v-if="!isLoading && imageVisible" :class="{fullscreen: isFullScreenView}">
                 <b-icon
                   :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'"
                   >
@@ -249,6 +249,10 @@ export default class GalleryItem extends Vue {
 
   public toggleFullScreen(): void {
     this.isFullScreenView = !this.isFullScreenView;
+  }
+  
+  public minimize(): void {
+    this.isFullScreenView = false;
   }
 
   public toast(message: string): void {
