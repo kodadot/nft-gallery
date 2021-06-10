@@ -36,7 +36,7 @@
     :size="size" />
   </p>
   <b-dropdown v-model="pickedAddress" aria-role="list">
-        <button class="button is-large is-light" slot="trigger">
+        <button class="button is-large is-dark" slot="trigger">
           <span v-if="pickedAddress">
             <!-- {{shortAddress(pickedAddress)}} -->
             {{pickedMetaName}}

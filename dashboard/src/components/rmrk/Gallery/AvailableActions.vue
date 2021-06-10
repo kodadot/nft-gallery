@@ -45,10 +45,10 @@ const needMeta: Record<string, string> = {
 
 type DescriptionTuple = [string, string] | [string];
 const iconResolver: Record<string, DescriptionTuple> = {
-  SEND: ['is-info is-light'],
+  SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
-  LIST: ['is-light'],
-  BUY: ['is-success is-light']
+  LIST: ['is-dark'],
+  BUY: ['is-success is-dark']
 };
 
 type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';

@@ -13,6 +13,7 @@ const Landing = () => import('@/components/landing/Landing.vue');
 const Sustainability = () => import('@/components/landing/Sustainability.vue');
 const EsSustainability = () => import('@/components/landing/EsSustainability.vue');
 const Carbonless = () => import('@/components/landing/Carbonless.vue');
+const EsCarbonless = () => import('@/components/landing/EsCarbonless.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Leaderboard = () => import('@/components/landing/Leaderboard.vue');
@@ -45,6 +46,11 @@ export default new Router({
       path: '/carbonless',
       name: 'carbonless',
       component: Carbonless,
+    },
+    {
+      path: '/es/MovimientoNFTSinEmisionesDeCarbono',
+      name: 'esCarbonless',
+      component: EsCarbonless,
     },
     ...Accounts,
     ...Transfer,
