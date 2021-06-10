@@ -23,6 +23,15 @@
                   Read more
                 </router-link>
                 </b-button>
+                <b-button
+                  type="is-primary"
+                  class="my-5"
+                >
+                <router-link :to="{ name: 'esCarbonless'}">
+                  🇪🇸
+                </router-link>
+                </b-button>
+
               </div>
               <div class="mb-5">
                 <h2 class="heading heading-is-4 text-bold uppercase">
