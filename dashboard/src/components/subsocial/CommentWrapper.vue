@@ -12,8 +12,6 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { resolveSubsocialApi, subsocial } from './api'
 import { PostType } from './types'
 import BN from 'bn.js';
-import { findCommentsForPost } from './utils'
-import shouldUpdate from '@/utils/shouldUpdate';
 
 const components = {
   CommentAdapter: () => import('./CommentAdapter.vue')

@@ -3,6 +3,7 @@ import BN from 'bn.js';
 import { OptionalProfileContent } from './types'
 import { formatAccount } from '@/utils/account';
 export const SUBSOCIAL_SS58 = 28;
+export const SUBSOCIAL_KODA_SPACE = 3417;
 
 export const findCommentsForPost =  async (postId: string) => {
   const ss = await resolveSubsocialApi();

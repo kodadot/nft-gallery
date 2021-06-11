@@ -38,9 +38,10 @@ export default class extends Vue {
   @Prop() public value!: Attribute[];
   @Prop({ default: 3 }) public max!: string | number;
   @Prop({ default: 'Select tags or create your own' }) public placeholder!: string;
+  @Prop(Boolean) public simple!: boolean
 
   get tags() {
-    return this.value ? this.value.map(valueOf) : []
+    return this.simple ? (this.value || []) as any[] as string[] : (this.value || []).map(valueOf)
   }
 
   set tags(value: string[]) {
@@ -49,7 +50,7 @@ export default class extends Vue {
 
   @Emit('input')
   handleInput(value: string[]) {
-    return value.map(v => ({ value: v }))
+    return this.simple ? value : value.map(v => ({ value: v }))
   }
 }
 </script>

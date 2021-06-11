@@ -70,5 +70,17 @@ export const pinSubSocialPost = async (object: any) => {
   }
 };
 
+export const searchPost = async (query: string) => {
+  try {
+    const { status, data } = await api.get(`searchPost/?query=${query}`);
+    console.log('[PROXY] Search Post', status, data);
+    if (status < 400) {
+      return data;
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
 export default api;
 // QmYt2FydonvVMsEqe2q3hvm38WDq21xM8Z5ZSHZw19PwjF;

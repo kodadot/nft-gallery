@@ -1,29 +1,16 @@
 <template>
   <div>
-    <template v-if="accountId">
-      <FaucetLink />
-      <p class="subtitle is-6 has-text-primary">
+    <p class="title is-size-4">{{ $t('subsocial.comments') }}</p>
+    <p v-if="!accountId" class="subtitle is-size-6">{{ $t('subsocial.logIn') }}</p>
+    <template v-else >
+      <p class="subtitle is-6" v-if="this.balance">
         {{ $t("subsocial.balance") }}: {{ this.balance }}
       </p>
-      <BasePostReply />
+      <FaucetLink v-else />
+      <BasePostReply v-if="postId && this.balance" />
     </template>
-    <ModalWrapper :label="$t('subsocial.post')">
-      <template v-slot:trigger="{ handleOpen }">
-        <b-button @click="handleOpen">
-          <span :style="{ display: 'flex' }">
-            <figure class="image is-24x24 mr-2">
-              <img :src="require('@/assets/subsocial.svg')" />
-            </figure>
-            <span>{{ $t("subsocial.post") }}</span>
-          </span>
-        </b-button>
-      </template>
-      <template v-slot:default>
-        Lorem ipsum
-      </template>
-    </ModalWrapper>
-
-    <CommentWrapper postId="14659" />
+    <CreatePost v-if="!postId && accountId" :nft="nft" :meta="meta" />
+    <CommentWrapper  v-if="postId" :postId="postId" />
   </div>
 </template>
 
@@ -31,20 +18,34 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { resolveSubsocialApi } from './api';
 import shouldUpdate from '@/utils/shouldUpdate';
+import { emptyObject } from '@/utils/empty';
+import { NFT, NFTMetadata } from '../rmrk/service/scheme';
+import { searchPost } from '@/proxy';
+import { SUBSOCIAL_KODA_SPACE } from './utils';
 
 const components = {
   CommentWrapper: () => import('./CommentWrapper.vue'),
   BasePostReply: () => import('./Reply.vue'),
   FaucetLink: () => import('./FaucetLink.vue'),
-  ModalWrapper: () => import('@/components/shared/modals/ModalWrapper.vue')
+  CreatePost: () => import('./CreatePost.vue')
 };
+
+type ElasticResult = {
+  _id: string;
+  _source: {
+    spaceId: string;
+    title: string;
+  }
+}
 
 @Component({
   name: 'BaseCommentSection',
   components
 })
 export default class BaseCommentSection extends Vue {
-  @Prop(String) public postId!: string;
+  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
+  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
+  protected postId: string = '';
   protected actionDisabled: boolean = false;
   protected balance: string = '';
 
@@ -52,10 +53,8 @@ export default class BaseCommentSection extends Vue {
     return this.$store.getters.getAuthAddress;
   }
 
-  public async mounted() {
-    if (this.accountId) {
-      await this.checkIfPoor(this.accountId);
-    }
+  get nftId() {
+    return this.nft.name
   }
 
   protected async checkIfPoor(address: string) {
@@ -68,11 +67,25 @@ export default class BaseCommentSection extends Vue {
     console.log('balance', balance.freeBalance?.toHuman());
   }
 
-  @Watch('accountId')
+  protected async searchForPost(name: string = 'Something is in KodaDot kitchen') {
+    const res: ElasticResult[] = await searchPost(encodeURI(name))
+    const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
+    this.postId = found?._id || '';
+  }
+
+  @Watch('accountId', { immediate: true })
   protected onAccountChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.checkIfPoor(val);
     }
   }
+
+  @Watch('nftId', { immediate: true })
+  protected onNftId(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchForPost(val);
+    }
+  }
+
 }
 </script>

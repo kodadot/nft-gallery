@@ -62,7 +62,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
 (window as any).S = { get, set, getMany };
-(window as any).SS = resolveSubsocialApi;
+// (window as any).SS = resolveSubsocialApi;
 // (window as any).migrateCollection = migrateCollection;
 // (window as any).migrateNFT = migrateNFT;
 

@@ -50,10 +50,6 @@
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
           </template>
-          <hr />
-          <p class="title is-size-4">{{ $t('subsocial.comments') }}</p>
-          <p class="subtitle is-size-6">{{ $t('subsocial.comments') }}</p>
-          <BaseCommentSection postId="14659" />
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
@@ -104,7 +100,10 @@
           <Sharing />
         </div>
       </div>
+      <hr />
+      <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
+
   </div>
 </template>
 
