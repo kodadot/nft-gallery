@@ -30,7 +30,7 @@
           <p class="subtitle is-size-6">
             <b>TAGS:</b>
              <b-taglist>
-              <b-tag v-for="(tag, index) in tags" :key="index">{{tag}}</b-tag>
+              <b-tag type="is-dark" v-for="(tag, index) in tags" :key="index">{{tag}}</b-tag>
             </b-taglist>
           </p>
           <ArweaveLink v-if="nft.imageArId" :id="nft.imageArId" label="image" />
