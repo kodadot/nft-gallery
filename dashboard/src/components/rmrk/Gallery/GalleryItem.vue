@@ -15,7 +15,7 @@
                   ></b-image>
                   <img class="fullscreen-image" :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
-                  <MediaResolver v-if="nft.animation_url" :class="{ withPicture: imageVisible }" :src="nft.animation_url" :mimeType="mimeType" />
+                  <MediaResolver v-if="meta.animation_url" :class="{ withPicture: imageVisible }" :src="meta.animation_url" :mimeType="mimeType" />
                 </div>
               </div>
               <button id="fullscreen-view" @keyup.esc="minimize" @click="toggleFullScreen" v-if="!isLoading && imageVisible" :class="{fullscreen: isFullScreenView}">
@@ -110,7 +110,7 @@ import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
-import { sanitizeIpfsUrl } from '../utils';
+import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
 import AvailableActions from './AvailableActions.vue';
@@ -124,6 +124,8 @@ import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql'
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
+import { MediaType } from '../types';
+import axios from 'axios';
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -203,13 +205,6 @@ export default class GalleryItem extends Vue {
       //   image: sanitizeIpfsUrl(nft.image || ''),
       //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
       // };
-      // if (this.nft.animation_url) {
-      //   const { headers } = await api.head(this.nft.animation_url);
-      //   this.mimeType = headers['content-type'];
-      //   const mediaType = resolveMedia(this.mimeType);
-      //   this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
-      //     t => t === mediaType
-      //   );
       // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
@@ -231,6 +226,15 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
+      if (this.meta.animation_url && !this.mimeType) {
+        const { headers } = await axios.head(this.meta.animation_url);
+        this.mimeType = headers['content-type'];
+        const mediaType = resolveMedia(this.mimeType);
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
+          t => t === mediaType
+        );
+      }
+
       if (!m) {
         set(this.nft.metadata, meta)
       }
@@ -250,7 +254,7 @@ export default class GalleryItem extends Vue {
   public toggleFullScreen(): void {
     this.isFullScreenView = !this.isFullScreenView;
   }
-  
+
   public minimize(): void {
     this.isFullScreenView = false;
   }
@@ -438,6 +442,6 @@ export default class GalleryItem extends Vue {
       padding: 0;
     }
   }
-  
+
 }
 </style>
