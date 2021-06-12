@@ -342,7 +342,7 @@ export default class Landing extends Vue {
     ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
     ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
     // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
-    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/dashboard/src/locales']
+    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
   ]
 
   public creators: any = [

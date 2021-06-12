@@ -1,3 +1,25 @@
+dist
+functions/
+yarn.lock
+data_ksmcc2/
+
+package-lock.json
+# local env files
+.env.local
+.env.*.local
+
+#.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vercel
+/test
+
+# Local Netlify folder
+.netlify
+
 .DS_Store
 # Logs
 logs
@@ -57,6 +79,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
-# next.js build output
-.next
