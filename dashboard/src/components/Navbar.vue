@@ -169,5 +169,8 @@ export default class NavbarMenu extends Vue {
   .burger {
     margin-right: 0.5rem;
   }
+  .navbar-dropdown{
+    box-shadow: 0px 2px 5px 0.5px #d32e79 !important;
+  }
 }
 </style>
