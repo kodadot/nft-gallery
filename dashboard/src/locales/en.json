@@ -147,6 +147,7 @@
     "faucet": "You have no funds. Click here to visit faucet",
     "balance": "Current balance",
     "logIn": "You have to be logged in",
-    "post": "Post this NFT on SubSocial"
+    "post": "Post this NFT on SubSocial",
+    "reply": "Reply to this comment"
   }
 }

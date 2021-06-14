@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <b-field :label="$i18n.t('subsocial.message.reply')">
+    <b-field :label="$i18n.t('subsocial.reply')">
       <b-input v-model="message" type="textarea"></b-input>
     </b-field>
     <b-button
