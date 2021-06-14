@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <Loader v-model="isLoading" :status="status" />
     <b-field :label="$i18n.t('subsocial.reply')">
       <b-input v-model="message" type="textarea"></b-input>
     </b-field>
@@ -15,7 +16,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { resolveSubsocialApi } from './api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -25,11 +26,16 @@ import {
 } from '@subsocial/types/substrate/classes';
 import { PostId } from '@subsocial/types/substrate/interfaces';
 import { pinSubSocialPost } from '@/proxy';
+import TransactionMixin from '@/utils/mixins/txMixin';
 
-@Component({})
-export default class Reply extends Vue {
+@Component({
+  components: {
+    Loader: () => import('@/components/shared/Loader.vue')
+  }
+})
+export default class Reply extends Mixins(TransactionMixin) {
   protected message: string = '';
-  @Prop(String) public postId!: PostId;
+  @Prop(String) public postId!: string;
   @Prop() public extension!: Comment | null;
 
 
@@ -79,7 +85,26 @@ export default class Reply extends Vue {
       showNotification('Dispatched');
       const api = await ss.substrate.api;
       const cb = api.tx.posts.createPost;
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args);
+      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args,
+      txCb(
+          async blockHash => {
+            execResultValue(tx);
+            showNotification(blockHash.toString(), notificationTypes.info);
+
+            showNotification(
+              `[SUBSOCIAL] ${this.postId}`,
+              notificationTypes.success
+            );
+            this.isLoading = false;
+            this.$emit('submit');
+          },
+          err => {
+            execResultValue(tx);
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+          ));
       showNotification(execResultValue(tx), notificationTypes.success);
     } catch (e) {
       console.error(

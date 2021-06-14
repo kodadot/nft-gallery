@@ -1,7 +1,8 @@
 <template>
   <div v-if="comment">
+    <p>{{ postId }}</p>
     <Comment v-if="account"  :message="message" :account="account" :postId="postId" v-model="replyVisible" :upvotes="upvotes" :downvotes="downvotes" />
-    <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" :spaceId="spaceId" :extension="extension" />
+    <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" :spaceId="spaceId" :extension="extension" @submit="reloadComments" />
     <CommentWrapper v-if="postId" class="comment-adapter__nested" :postId="postId" nested />
   </div>
 </template>
@@ -59,13 +60,16 @@ export default class CommentAdapter extends Vue {
     return this.commentStruct?.downvotes_count.toNumber()
   }
 
-
+  reloadComments() {
+    const post = this.postId;
+    this.postId = '';
+    this.postId = post;
+  }
 
   public async mounted() {
-    if (this.comment?.struct.replies_count.toNumber()) {
-      this.postId = this.comment.struct.id.toString();
-    }
+    this.postId = this.comment?.struct.id.toString() || '';
   }
+
 }
 </script>
 

@@ -2,7 +2,7 @@
   <div>
     <template v-if="!commentsVisible && !nested">
       <b-button v-if="comments.length"  type="is-link is-light" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ comments.length }}</b-button>
-      <p class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
+      <p v-else class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
     </template>
     <template v-else>
       <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" />
