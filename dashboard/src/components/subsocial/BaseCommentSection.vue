@@ -7,7 +7,7 @@
         {{ $t("subsocial.balance") }}: {{ this.balance }}
       </p>
       <FaucetLink v-else />
-      <BasePostReply v-if="postId && this.balance && !actionDisabled" />
+      <BasePostReply v-if="postId && this.balance && !actionDisabled" :postId="postId" />
     </template>
     <CreatePost v-if="!postId && accountId && !actionDisabled" :nft="nft" :meta="meta" />
     <CommentWrapper  v-if="postId" :postId="postId" />
