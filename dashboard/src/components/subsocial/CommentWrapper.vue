@@ -1,6 +1,9 @@
 <template>
   <div>
-    <b-button v-if="!commentsVisible && !nested" type="is-link is-light" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ comments.length }}</b-button>
+    <template v-if="!commentsVisible && !nested">
+      <b-button v-if="comments.length"  type="is-link is-light" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ comments.length }}</b-button>
+      <p class="subtitle is-6 has-text-primary">{{ $t('subsocial.noComment') }}</p>
+    </template>
     <template v-else>
       <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" />
     </template>

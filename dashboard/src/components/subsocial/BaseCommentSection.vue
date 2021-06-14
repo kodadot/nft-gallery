@@ -21,7 +21,8 @@ import shouldUpdate from '@/utils/shouldUpdate';
 import { emptyObject } from '@/utils/empty';
 import { NFT, NFTMetadata } from '../rmrk/service/scheme';
 import { searchPost } from '@/proxy';
-import { SUBSOCIAL_KODA_SPACE } from './utils';
+import { SUBSOCIAL_KODA_SPACE, subSocialStore } from './utils';
+import { setMany, get } from 'idb-keyval';
 
 const components = {
   CommentWrapper: () => import('./CommentWrapper.vue'),
@@ -60,7 +61,7 @@ export default class BaseCommentSection extends Vue {
   protected async checkIfPoor(address: string) {
     const ss = await resolveSubsocialApi();
     const api = await ss.substrate.api;
-    (window as any).SS = ss.substrate;
+    (window as any).SS = ss;
     const balance = await api.derive.balances.all(address);
     this.actionDisabled = balance.freeBalance.ltn(0.05);
     this.balance = balance.freeBalance?.toHuman();
@@ -68,9 +69,26 @@ export default class BaseCommentSection extends Vue {
   }
 
   protected async searchForPost(name: string = 'Something is in KodaDot kitchen') {
-    const res: ElasticResult[] = await searchPost(encodeURI(name))
-    const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
-    this.postId = found?._id || '';
+    const cache = await get(name, subSocialStore);
+
+    if (cache) {
+      this.postId = cache;
+      return;
+    }
+
+    const ss = await resolveSubsocialApi();
+    const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
+    const p = await ss.findPublicPosts([...posts as any])
+    const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
+    await setMany(toStore, subSocialStore)
+
+    const x = await get(name, subSocialStore)
+
+    this.postId = x || ''
+
+    // const res: ElasticResult[] = await searchPost(encodeURI(name))
+    // const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
+    // this.postId = found?._id || '';
   }
 
   @Watch('accountId', { immediate: true })

@@ -141,6 +141,7 @@
     "constructTx": "Constructing transaction"
   },
   "subsocial": {
-    "showComments": "Show comments"
+    "showComments": "Show comments",
+    "noComment": "There are currently no comments for this post"
   }
 }

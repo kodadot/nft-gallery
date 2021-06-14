@@ -2,6 +2,8 @@ import { resolveSubsocialApi } from './api';
 import BN from 'bn.js';
 import { OptionalProfileContent } from './types'
 import { formatAccount } from '@/utils/account';
+import { createStore } from 'idb-keyval';
+
 export const SUBSOCIAL_SS58 = 28;
 export const SUBSOCIAL_KODA_SPACE = 3417;
 
@@ -19,3 +21,5 @@ export const findProfile =  async (account: string): Promise<OptionalProfileCont
 }
 
 export const subsocialAddress = (accountId: string) => formatAccount(accountId, SUBSOCIAL_SS58)
+
+export const subSocialStore = createStore('subsocial', 'keyval')
