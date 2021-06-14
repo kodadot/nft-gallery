@@ -3,13 +3,13 @@
     <p class="title is-size-4">{{ $t('subsocial.comments') }}</p>
     <p v-if="!accountId" class="subtitle is-size-6">{{ $t('subsocial.logIn') }}</p>
     <template v-else >
-      <p class="subtitle is-6" v-if="this.balance">
+      <p class="subtitle is-6" v-if="this.balance && !actionDisabled">
         {{ $t("subsocial.balance") }}: {{ this.balance }}
       </p>
       <FaucetLink v-else />
-      <BasePostReply v-if="postId && this.balance" />
+      <BasePostReply v-if="postId && this.balance && !actionDisabled" />
     </template>
-    <CreatePost v-if="!postId && accountId" :nft="nft" :meta="meta" />
+    <CreatePost v-if="!postId && accountId && !actionDisabled" :nft="nft" :meta="meta" />
     <CommentWrapper  v-if="postId" :postId="postId" />
   </div>
 </template>
