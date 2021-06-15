@@ -1,9 +1,9 @@
 <template>
   <div v-if="comment">
     <p>{{ postId }}</p>
-    <Comment v-if="account"  :message="message" :account="account" :postId="postId" v-model="replyVisible" :upvotes="upvotes" :downvotes="downvotes" />
+    <Comment v-if="account"  :message="message" :account="account" :postId="postId" v-model="replyVisible" :upvotes="upvotes" :downvotes="downvotes" :actionDisabled="actionDisabled" />
     <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" :spaceId="spaceId" :extension="extension" @submit="reloadComments" />
-    <CommentWrapper v-if="postId" class="comment-adapter__nested" :postId="postId" nested />
+    <CommentWrapper v-if="postId" class="comment-adapter__nested" :postId="postId" nested :actionDisabled="actionDisabled"  />
   </div>
 </template>
 

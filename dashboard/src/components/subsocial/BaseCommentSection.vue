@@ -9,8 +9,8 @@
       <FaucetLink v-else />
       <BasePostReply v-if="postId && this.balance && !actionDisabled" :postId="postId" @submit="reloadComments" />
     </template>
-    <CreatePost v-if="!postId && accountId && !actionDisabled" :nft="nft" :meta="meta" />
-    <CommentWrapper  v-if="postId" :postId="postId" />
+    <CreatePost v-if="!postId && accountId && !disabled" :nft="nft" :meta="meta" />
+    <CommentWrapper  v-if="postId" :postId="postId" :actionDisabled="disabled"  />
   </div>
 </template>
 
@@ -89,6 +89,10 @@ export default class BaseCommentSection extends Vue {
     // const res: ElasticResult[] = await searchPost(encodeURI(name))
     // const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
     // this.postId = found?._id || '';
+  }
+
+  get disabled() {
+    return this.actionDisabled || !this.accountId
   }
 
   reloadComments() {

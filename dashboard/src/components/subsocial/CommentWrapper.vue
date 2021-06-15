@@ -5,7 +5,7 @@
       <p v-else class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
     </template>
     <template v-else>
-      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" />
+      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" :actionDisabled="actionDisabled" />
     </template>
   </div>
 </template>

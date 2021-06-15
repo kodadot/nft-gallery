@@ -23,9 +23,9 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ upvotes }}</span>
-            <b-icon @click.native="handleDislike" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ downvotes }}</span>
             <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
           </div>
