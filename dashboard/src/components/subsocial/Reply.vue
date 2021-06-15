@@ -105,8 +105,7 @@ export default class Reply extends Mixins(TransactionMixin) {
             this.isLoading = false;
           },
           res => this.resolveStatus(res.status)
-          ));
-      showNotification(execResultValue(tx), notificationTypes.success);
+        ));
     } catch (e) {
       console.error(
         `[SUBSOCIAL] Unable to reply ${this.postId} with reaction ${

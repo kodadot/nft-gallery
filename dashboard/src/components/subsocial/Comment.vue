@@ -36,16 +36,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { findProfile, subsocialAddress } from './utils';
 import { ProfileContentType, ReactionType } from './types'
 import { ipfsHashToUrl } from '@/components/rmrk/utils';
 import { emptyObject } from '@/utils/empty';
 import { formatAccount } from '@/utils/account';
 import { resolveSubsocialApi } from './api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { ReactionKind } from '@subsocial/types/substrate/classes'
+import TransactionMixin from '@/utils/mixins/txMixin';
 
 
 const components = {
@@ -58,7 +59,7 @@ const components = {
   name: 'Comment',
   components
 })
-export default class Comment extends Vue {
+export default class Comment extends Mixins(TransactionMixin) {
   @Prop(Boolean) public value!: boolean;
   @Prop({ default: '' }) public message!: any;
   @Prop(String) public postId!: string;
@@ -137,18 +138,41 @@ export default class Comment extends Vue {
     const arg = new ReactionKind()
 
     try {
+      this.initTransactionLoader();
       showNotification('Dispatched');
       const api = await ss.substrate.api;
       const cb = api.tx.reactions.createPostReaction;
 
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, reaction]);
-      showNotification(execResultValue(tx), notificationTypes.success);
+      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, reaction],
+      txCb(
+          async blockHash => {
+            execResultValue(tx);
+            showNotification(blockHash.toString(), notificationTypes.info);
+
+            showNotification(
+              `[SUBSOCIAL] ${this.postId}`,
+              notificationTypes.success
+            );
+            this.isLoading = false;
+          },
+          err => {
+            execResultValue(tx);
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        ));
+
 
     } catch (e) {
       console.error(`[SUBSOCIAL] Unable to react ${arg} with reaction ${reaction},\nREASON: ${e}`)
       showNotification(e.message, notificationTypes.danger);
+    } finally {
+      this.isLoading = false;
     }
   }
+
+
 }
 </script>
 
