@@ -29,4 +29,9 @@ export default class TransactionMixin extends Vue {
 
     this.status = '';
   }
+
+  public initTransactionLoader() {
+    this.isLoading = true;
+    this.status = 'loader.sign';
+  }
 }

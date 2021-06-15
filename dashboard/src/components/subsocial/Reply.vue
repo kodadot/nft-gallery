@@ -82,6 +82,7 @@ export default class Reply extends Mixins(TransactionMixin) {
     console.log(args)
 
     try {
+      this.initTransactionLoader();
       showNotification('Dispatched');
       const api = await ss.substrate.api;
       const cb = api.tx.posts.createPost;
@@ -113,6 +114,9 @@ export default class Reply extends Mixins(TransactionMixin) {
         },\nREASON: ${e}`
       );
       showNotification(e.message, notificationTypes.danger);
+
+    } finally {
+      this.isLoading = false;
     }
   }
 }
