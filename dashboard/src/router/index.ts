@@ -93,6 +93,14 @@ export default new Router({
       name: 'tutorials',
       component: Tutorials,
     },
+    {
+      path: '/grants',
+      name: 'grants',
+      component: {},
+      beforeEnter(to, from, next) {
+        window.location.href = 'https://tally.so/r/mVP06w'
+      }
+    },
 		{
 			path: '*',
 			name: 'FourZeroFour',
