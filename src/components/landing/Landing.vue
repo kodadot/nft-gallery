@@ -67,6 +67,13 @@
           >
             Faq
           </b-button>
+          <b-button
+              tag="router-link"
+              to="/grants"
+              type="is-primary"
+          >
+            Grants
+          </b-button>
         </div>
         <div class="homepage__box">
           <div class="homepage__box-content">
