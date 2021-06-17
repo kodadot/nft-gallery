@@ -191,6 +191,7 @@ export default class Comment extends Mixins(TransactionMixin) {
             );
             this.isLoading = false;
             this.checkIfReacted(this.accountId)
+            this.$emit('change')
           },
           err => {
             execResultValue(tx);

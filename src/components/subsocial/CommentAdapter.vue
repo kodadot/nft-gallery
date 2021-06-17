@@ -1,7 +1,7 @@
 <template>
   <div v-if="comment">
     <p>{{ postId }}</p>
-    <Comment v-if="account"  :message="message" :account="account" :postId="postId" v-model="replyVisible" :upvotes="upvotes" :downvotes="downvotes" :actionDisabled="actionDisabled" />
+    <Comment v-if="account"  :message="message" :account="account" :postId="postId" v-model="replyVisible" :upvotes="upvotes" :downvotes="downvotes" :actionDisabled="actionDisabled" @change="refetch" />
     <Reply class="comment-adapter__nested" v-if="replyVisible" :postId="postId" :spaceId="spaceId" :extension="extension" @submit="reloadComments" />
     <CommentWrapper v-if="postId" class="comment-adapter__nested" :postId="postId" nested :actionDisabled="actionDisabled"  />
   </div>
@@ -10,6 +10,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { PostType } from './types'
+import { resolveSubsocialApi } from './api';
 
 const components = {
   Comment: () => import('./Comment.vue'),
@@ -23,6 +24,7 @@ const components = {
 })
 export default class CommentAdapter extends Vue {
   @Prop() public comment!: PostType;
+  @Prop(Number) public index!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
   protected postId: string = '';
   protected replyVisible: boolean = false;
@@ -64,6 +66,10 @@ export default class CommentAdapter extends Vue {
     const post = this.postId;
     this.postId = '';
     this.postId = post;
+  }
+
+  refetch() {
+    this.$emit('change', this.index)
   }
 
   public async mounted() {

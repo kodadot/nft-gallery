@@ -5,7 +5,7 @@
       <p v-else class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
     </template>
     <template v-else>
-      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" :actionDisabled="actionDisabled" />
+      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" :actionDisabled="actionDisabled" :index="i" @change="reloadComment" />
     </template>
   </div>
 </template>
@@ -42,6 +42,14 @@ export default class CommentWrapper extends Vue {
       console.log(this.comments)
     }
 
+  }
+
+  protected async reloadComment(index: number) {
+    const commentId = this.comments[index]?.struct.id;
+    const ss = await resolveSubsocialApi();
+    const comment = await ss.findPublicPost(commentId as any);
+    console.log('Updated comment', comment)
+    this.$set(this.comments, index, comment)
   }
 }
 </script>
