@@ -2,7 +2,9 @@
   <div class="gallery container">
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <Pagination simple :total="total" v-model="currentValue" replace />
+      <b-field class="column mb-0">
+        <Pagination simple :total="total" v-model="currentValue" replace />
+      </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
@@ -41,7 +43,7 @@
               <div class="card-content">
                 <span
                   v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered"
+                  class="title mb-0 is-4 has-text-centered" id="hover-title"
                   :title="nft.name"
                 >
                   <router-link
@@ -69,7 +71,7 @@
                   <p
                     v-if="nft.count > 2"
                     :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6 is-color-pink"
+                    class="is-absolute nft-collection-counter title is-6"
                   >
                     「{{ nft.count }}」
                   </p>
@@ -106,6 +108,10 @@ import { getMany, update } from 'idb-keyval';
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
+
+const controlFilters = [
+  { name: { notLikeInsensitive: `%Penis%` } },
+]
 
 type NFTType = NFTWithMeta;
 const components = {
@@ -188,6 +194,7 @@ export default class Gallery extends Vue {
           offset: this.offset,
           search: this.searchQuery.search
             ? [
+                ...controlFilters,
                 {
                   name: { likeInsensitive: `%${this.searchQuery.search}%` }
                   // or: [
@@ -204,7 +211,7 @@ export default class Gallery extends Vue {
                   // ]
                 }
               ]
-            : []
+            : controlFilters
         };
       }
     });
@@ -335,6 +342,7 @@ export default class Gallery extends Vue {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #fff;
   }
 
   .card-image__emotes__count {
@@ -365,7 +373,8 @@ export default class Gallery extends Vue {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-
+      box-shadow: 0px 2px 10px 0.5px #d32e79;
+      
       &-image {
         .ff-canvas {
           border-radius: 8px;
@@ -373,7 +382,7 @@ export default class Gallery extends Vue {
 
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: #fff;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
@@ -413,6 +422,7 @@ export default class Gallery extends Vue {
           bottom: 0;
           opacity: 1;
           z-index: 2;
+          background: #000;
         }
 
         &:hover .gallery__image-wrapper img {
@@ -435,4 +445,5 @@ export default class Gallery extends Vue {
     }
   }
 }
+
 </style>

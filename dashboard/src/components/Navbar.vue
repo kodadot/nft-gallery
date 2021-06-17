@@ -22,11 +22,11 @@
           <template #label>
             <span>{{ $t('Create') }}</span>
           </template>
-          <b-navbar-item
+          <!-- <b-navbar-item // Viki will fix
             tag="router-link"
             :to="{ name: 'rmrk'}">
             {{ $t('Classic') }}
-          </b-navbar-item>
+          </b-navbar-item> -->
           <b-navbar-item
             tag="router-link"
             :to="{ name: 'simpleMint'}">
@@ -168,6 +168,9 @@ export default class NavbarMenu extends Vue {
 
   .burger {
     margin-right: 0.5rem;
+  }
+  .navbar-dropdown{
+    box-shadow: 0px 2px 5px 0.5px #d32e79 !important;
   }
 }
 </style>

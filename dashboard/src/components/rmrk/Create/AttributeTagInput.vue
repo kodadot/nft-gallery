@@ -2,6 +2,8 @@
   <b-field :label="$i18n.t('Tags')">
     <b-taginput
       v-model="tags"
+      id="search_tag"
+      type="is-grey"
       @input="handleInput"
       :data="allTags"
       :maxtags="max"

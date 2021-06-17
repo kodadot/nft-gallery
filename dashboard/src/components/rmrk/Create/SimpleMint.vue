@@ -167,7 +167,7 @@ import exec, {
 import { notificationTypes, showNotification } from '@/utils/notification';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { Attribute, SimpleNFT, NFTMetadata, NFT } from '../service/scheme';
+import { Attribute, SimpleNFT, NFTMetadata, NFT, getNftId } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import { pinFile, pinJson } from '@/proxy';
 import {  formatBalance } from '@polkadot/util';
@@ -352,7 +352,7 @@ export default class SimpleMint extends Mixins(
           const blockNumber = header.number.toString();
 
           if (this.price) {
-            this.listForSale(result.nfts);
+            this.listForSale(result.nfts, blockNumber);
           }
 
           showNotification(
@@ -437,7 +437,8 @@ export default class SimpleMint extends Mixins(
     return this.chainProperties.tokenSymbol;
   }
 
-  public async listForSale(remarks: NFT[]) {
+  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
+    try {
     const { api } = Connector.getInstance();
     this.isLoading = true;
 
@@ -451,6 +452,7 @@ export default class SimpleMint extends Mixins(
 
     const onlyNfts = remarks
       .filter(NFTUtils.isNFT)
+      .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
       .map(nft =>
         NFTUtils.createInteraction('LIST', version, nft.id, String(price))
       );
@@ -493,6 +495,11 @@ export default class SimpleMint extends Mixins(
         }
       )
     );
+
+    } catch (e) {
+      showNotification(e.message, notificationTypes.danger)
+    }
+
   }
 
   public nsfwAttribute(): Attribute[] {

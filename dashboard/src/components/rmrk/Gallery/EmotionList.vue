@@ -5,7 +5,7 @@
       v-for="emoji in emojis"
       :key="emoji.key"
     >
-      <b-tag type="is-dark is-large">
+      <b-tag id="emoji-box" type="is-dark is-large">
         {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
         <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
       </b-tag>
@@ -44,7 +44,9 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "@/styles/variables";
+
 .nft-emotion__main {
   margin-top: 1em;
 }
@@ -55,5 +57,9 @@ export default class extends Vue {
 
 .nft-emotion__image {
   width: 25px;
+}
+
+#emoji-box {
+  border: 2px solid $primary;
 }
 </style>
