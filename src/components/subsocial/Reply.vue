@@ -62,7 +62,6 @@ export default class Reply extends Mixins(TransactionMixin) {
 
     const newExtension = { Comment: commentExt };
     const cid = await pinSubSocialPost({ body: this.message });
-    // const cid = 'QmZVJpQ54ZeJ9SEnM3MaXUeY86GvjU3SxTv2jkMYxJaRGQ'
 
     return [
       null,
@@ -78,10 +77,8 @@ export default class Reply extends Mixins(TransactionMixin) {
       return;
     }
 
-    const args = await this.buildParams()
-    console.log(args)
-
     try {
+      const args = await this.buildParams()
       this.initTransactionLoader();
       showNotification('Dispatched');
       const api = await ss.substrate.api;
@@ -113,9 +110,8 @@ export default class Reply extends Mixins(TransactionMixin) {
         },\nREASON: ${e}`
       );
       showNotification(e.message, notificationTypes.danger);
-
-    } finally {
       this.isLoading = false;
+
     }
   }
 }

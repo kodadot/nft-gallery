@@ -221,7 +221,7 @@ export default class Profile extends Vue {
       if (firstNft !== undefined) return firstNft.image;
     }
     const url = new URL(window.location.href);
-    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png}`;
+    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png`;
   }
 
   public checkActiveTab() {
