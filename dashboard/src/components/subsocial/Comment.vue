@@ -47,12 +47,16 @@ import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { ReactionKind } from '@subsocial/types/substrate/classes'
 import TransactionMixin from '@/utils/mixins/txMixin';
+import AuthMixin from '@/utils/mixins/authMixin';
+import shouldUpdate from '@/utils/shouldUpdate';
+import { Reaction } from '@subsocial/types/substrate/interfaces';
 
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  Loader: () => import('@/components/shared/Loader.vue')
 };
 
 @Component({
@@ -68,6 +72,7 @@ export default class Comment extends Mixins(TransactionMixin) {
   @Prop(Number) public upvotes!: number;
   @Prop(Number) public downvotes!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
+  public reaction: Reaction | undefined = undefined;
 
   public profile: ProfileContentType = emptyObject<ProfileContentType>();
 
@@ -126,6 +131,10 @@ export default class Comment extends Mixins(TransactionMixin) {
     this.submitReaction(ReactionType.Downvote)
   }
 
+  protected buildTxParams() {
+
+  }
+
 
 
   protected async submitReaction(reaction: ReactionType) {
@@ -170,6 +179,22 @@ export default class Comment extends Mixins(TransactionMixin) {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  @Watch('accountId', { immediate: true })
+  protected onAccountChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.checkIfReacted(val);
+    }
+  }
+
+
+  protected async checkIfReacted(accountId: string) {
+    const ss = await resolveSubsocialApi();
+    const api = await ss.substrate;
+    const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
+    this.reaction = await api.findReaction(reactionId);
+    console.log(this.reaction)
   }
 
 
