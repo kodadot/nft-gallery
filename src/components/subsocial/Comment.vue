@@ -23,9 +23,9 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-primary': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-success': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ upvotes }}</span>
-            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled, 'comment-action__downvoted': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-danger': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ downvotes }}</span>
             <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
           </div>
@@ -72,7 +72,8 @@ export default class Comment extends Mixins(TransactionMixin) {
   @Prop(Number) public upvotes!: number;
   @Prop(Number) public downvotes!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
-  public reaction: Reaction | undefined = undefined;
+  public reaction: number = -1;
+  public reactionId: string = '';
 
   public profile: ProfileContentType = emptyObject<ProfileContentType>();
 
@@ -128,13 +129,13 @@ export default class Comment extends Mixins(TransactionMixin) {
   }
 
   get isDownVote() {
-    console.log('down', this.reaction?.kind.isDownvote)
-    return this.reaction?.kind.isDownvote
+    console.log('down', this.reaction === ReactionType.Downvote)
+    return this.reaction === ReactionType.Downvote
   }
 
   get isUpvote() {
-    console.log('up', this.reaction?.kind.isUpvote)
-    return this.reaction?.kind.isUpvote
+    console.log('up', this.reaction === ReactionType.Upvote)
+    return this.reaction === ReactionType.Upvote
   }
 
 
@@ -147,11 +148,11 @@ export default class Comment extends Mixins(TransactionMixin) {
       return [this.postId, reaction]
     }
 
-    if (this.reaction.kind.toNumber() !== reaction) {
-      return [this.postId, this.reaction.id, reaction]
+    if (this.reaction !== reaction) {
+      return [this.postId, this.reactionId]
     }
 
-    return [this.postId, this.reaction.id]
+    return [this.postId, this.reactionId]
 
   }
 
@@ -171,9 +172,9 @@ export default class Comment extends Mixins(TransactionMixin) {
       this.initTransactionLoader();
       showNotification('Dispatched');
       const api = await ss.substrate.api;
-      const cb = !this.reaction
+      const cb = this.reaction < 0
         ? api.tx.reactions.createPostReaction
-        : reaction !== this.reaction.kind.toNumber()
+        : reaction !== this.reaction
           ? api.tx.reactions.updatePostReaction
           : api.tx.reactions.deletePostReaction;
 
@@ -218,8 +219,11 @@ export default class Comment extends Mixins(TransactionMixin) {
     const ss = await resolveSubsocialApi();
     const api = await ss.substrate;
     const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
-    this.reaction = await api.findReaction(reactionId);
-    console.log(this.reaction, ReactionType.Upvote, ReactionType.Downvote)
+    const reaction = await api.findReaction(reactionId);
+    if (reaction) {
+      this.reaction = reaction.kind.toNumber();
+      this.reactionId = reaction.id.toString();
+    }
   }
 
 
