@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <Loader v-model="isLoading" :status="status" />
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
@@ -144,12 +145,12 @@ export default class Comment extends Mixins(TransactionMixin) {
   }
 
   protected buildTxParams(reaction: ReactionType) {
-    if (!this.reaction) {
+    if (this.reaction < 0) {
       return [this.postId, reaction]
     }
 
     if (this.reaction !== reaction) {
-      return [this.postId, this.reactionId]
+      return [this.postId, this.reactionId, reaction]
     }
 
     return [this.postId, this.reactionId]
@@ -166,8 +167,6 @@ export default class Comment extends Mixins(TransactionMixin) {
       return
     }
 
-    const arg = new ReactionKind()
-
     try {
       this.initTransactionLoader();
       showNotification('Dispatched');
@@ -178,7 +177,9 @@ export default class Comment extends Mixins(TransactionMixin) {
           ? api.tx.reactions.updatePostReaction
           : api.tx.reactions.deletePostReaction;
 
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, reaction],
+      const args = this.buildTxParams(reaction)
+
+      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args,
       txCb(
           async blockHash => {
             execResultValue(tx);
@@ -189,6 +190,7 @@ export default class Comment extends Mixins(TransactionMixin) {
               notificationTypes.success
             );
             this.isLoading = false;
+            this.checkIfReacted(this.accountId)
           },
           err => {
             execResultValue(tx);
@@ -200,7 +202,7 @@ export default class Comment extends Mixins(TransactionMixin) {
 
 
     } catch (e) {
-      console.error(`[SUBSOCIAL] Unable to react ${arg} with reaction ${reaction},\nREASON: ${e}`)
+      console.error(`[SUBSOCIAL] Unable to react ${this.postId} with reaction ${reaction},\nREASON: ${e}`)
       showNotification(e.message, notificationTypes.danger);
     } finally {
       this.isLoading = false;
@@ -221,6 +223,7 @@ export default class Comment extends Mixins(TransactionMixin) {
     const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
     const reaction = await api.findReaction(reactionId);
     if (reaction) {
+      console.log('reaction', reaction)
       this.reaction = reaction.kind.toNumber();
       this.reactionId = reaction.id.toString();
     }
@@ -232,7 +235,7 @@ export default class Comment extends Mixins(TransactionMixin) {
 
 <style lang="scss">
 .comment-action:hover {
-  color: #db2980;
+  color: #db2980 !important;
   cursor: pointer;
 }
 
