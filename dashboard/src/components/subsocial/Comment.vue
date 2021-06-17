@@ -23,9 +23,9 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-primary': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ upvotes }}</span>
-            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled, 'comment-action__downvoted': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ downvotes }}</span>
             <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
           </div>
@@ -127,13 +127,34 @@ export default class Comment extends Mixins(TransactionMixin) {
 
   }
 
+  get isDownVote() {
+    console.log('down', this.reaction?.kind.isDownvote)
+    return this.reaction?.kind.isDownvote
+  }
+
+  get isUpvote() {
+    console.log('up', this.reaction?.kind.isUpvote)
+    return this.reaction?.kind.isUpvote
+  }
+
+
   protected handleDislike() {
     this.submitReaction(ReactionType.Downvote)
   }
 
-  protected buildTxParams() {
+  protected buildTxParams(reaction: ReactionType) {
+    if (!this.reaction) {
+      return [this.postId, reaction]
+    }
+
+    if (this.reaction.kind.toNumber() !== reaction) {
+      return [this.postId, this.reaction.id, reaction]
+    }
+
+    return [this.postId, this.reaction.id]
 
   }
+
 
 
 
@@ -150,7 +171,11 @@ export default class Comment extends Mixins(TransactionMixin) {
       this.initTransactionLoader();
       showNotification('Dispatched');
       const api = await ss.substrate.api;
-      const cb = api.tx.reactions.createPostReaction;
+      const cb = !this.reaction
+        ? api.tx.reactions.createPostReaction
+        : reaction !== this.reaction.kind.toNumber()
+          ? api.tx.reactions.updatePostReaction
+          : api.tx.reactions.deletePostReaction;
 
       const tx = await exec(subsocialAddress(this.accountId), '', cb as any, [this.postId, reaction],
       txCb(
@@ -194,7 +219,7 @@ export default class Comment extends Mixins(TransactionMixin) {
     const api = await ss.substrate;
     const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
     this.reaction = await api.findReaction(reactionId);
-    console.log(this.reaction)
+    console.log(this.reaction, ReactionType.Upvote, ReactionType.Downvote)
   }
 
 
