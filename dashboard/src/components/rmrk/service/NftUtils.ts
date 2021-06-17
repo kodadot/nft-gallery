@@ -58,6 +58,10 @@ class NFTUtils {
   }
 
   public static createInteraction(action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE', version: string = '1.0.0', objectId: string, meta: string) {
+    if (!objectId) {
+      throw new ReferenceError(`[${action}] Could not create, because nftId`)
+    }
+
     return `RMRK::${action}::${version}::${objectId}${
       meta ? '::' + meta : ''
     }`;
