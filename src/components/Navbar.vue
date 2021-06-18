@@ -22,11 +22,11 @@
           <template #label>
             <span>{{ $t('Create') }}</span>
           </template>
-          <!-- <b-navbar-item // Viki will fix
+          <b-navbar-item
             tag="router-link"
             :to="{ name: 'rmrk'}">
             {{ $t('Classic') }}
-          </b-navbar-item> -->
+          </b-navbar-item>
           <b-navbar-item
             tag="router-link"
             :to="{ name: 'simpleMint'}">
