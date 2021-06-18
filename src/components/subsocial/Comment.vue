@@ -205,8 +205,6 @@ export default class Comment extends Mixins(TransactionMixin) {
     } catch (e) {
       console.error(`[SUBSOCIAL] Unable to react ${this.postId} with reaction ${reaction},\nREASON: ${e}`)
       showNotification(e.message, notificationTypes.danger);
-    } finally {
-      this.isLoading = false;
     }
   }
 
