@@ -207,6 +207,10 @@ export const resolveMedia = (mimeType?: string): MediaType => {
     return MediaType.MODEL;
   }
 
+  if (/^text\/html/.test(mimeType)) {
+    return MediaType.IFRAME
+  }
+
   if (/^image\/svg\+xml/.test(mimeType)) {
     return MediaType.IFRAME
   }

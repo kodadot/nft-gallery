@@ -1,6 +1,6 @@
 <template>
 
-    <iframe class="iframe-model__wrapper" :src="src" :alt="mimeType" />
+    <iframe title="html-embed" class="iframe-model__wrapper" :src="src" :alt="mimeType" sandbox="allow-scripts allow-same-origin" allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;" />
 </template>
 
 <script lang="ts" >
