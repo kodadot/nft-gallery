@@ -45,7 +45,7 @@ import { emptyObject } from '@/utils/empty';
 import { formatAccount } from '@/utils/account';
 import { resolveSubsocialApi } from './api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification } from '@/utils/notification';
+import { notificationTypes, showNotification, infiniteNotif } from '@/utils/notification';
 import { ReactionKind } from '@subsocial/types/substrate/classes'
 import TransactionMixin from '@/utils/mixins/txMixin';
 import AuthMixin from '@/utils/mixins/authMixin';
@@ -167,6 +167,8 @@ export default class Comment extends Mixins(TransactionMixin) {
       return
     }
 
+    const notif = infiniteNotif(`[SUBSOCIAL] ${reaction ? 'Down' : 'Up' }voting for post ${this.postId}`)
+
     try {
       this.initTransactionLoader();
       showNotification('Dispatched');
@@ -190,21 +192,25 @@ export default class Comment extends Mixins(TransactionMixin) {
               notificationTypes.success
             );
             this.isLoading = false;
+            notif.close()
             this.checkIfReacted(this.accountId)
             this.$emit('change')
           },
           err => {
             execResultValue(tx);
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+            notif.close()
             this.isLoading = false;
           },
-          res => this.resolveStatus(res.status)
+          () => this.isLoading = false
         ));
 
 
     } catch (e) {
       console.error(`[SUBSOCIAL] Unable to react ${this.postId} with reaction ${reaction},\nREASON: ${e}`)
       showNotification(e.message, notificationTypes.danger);
+      this.isLoading = false;
+      notif.close()
     }
   }
 

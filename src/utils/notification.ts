@@ -38,3 +38,14 @@ export const showNotification = (message: string | null, params: any = notificat
 	});
 };
 
+export const infiniteNotif = (message: string) => {
+  const notif = Notification.open({
+		indefinite: true,
+		message,
+		type: 'is-info is-light',
+		position: 'is-top',
+		queue: false,
+	});
+
+  return notif
+}
