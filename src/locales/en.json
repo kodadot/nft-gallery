@@ -149,6 +149,7 @@
     "balance": "Current balance",
     "logIn": "You have to be logged in",
     "post": "Post this NFT on SubSocial",
-    "reply": "Reply to this comment"
+    "reply": "Reply to this comment",
+    "addComment": "Add comment"
   }
 }

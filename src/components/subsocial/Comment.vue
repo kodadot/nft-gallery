@@ -1,6 +1,5 @@
 <template>
   <div class="box">
-    <Loader v-model="isLoading" :status="status" />
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
@@ -24,11 +23,12 @@
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-success': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-success': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ upvotes }}</span>
-            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled, 'has-text-danger': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-danger': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
             <span class="comment-action__number">{{ downvotes }}</span>
             <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
+            <!-- <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="external-link-square-alt" size="is-small" class="level-item comment-action"> </b-icon> -->
           </div>
         </nav>
       </div>
@@ -201,8 +201,7 @@ export default class Comment extends Mixins(TransactionMixin) {
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
             notif.close()
             this.isLoading = false;
-          },
-          () => this.isLoading = false
+          }
         ));
 
 
@@ -228,9 +227,11 @@ export default class Comment extends Mixins(TransactionMixin) {
     const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
     const reaction = await api.findReaction(reactionId);
     if (reaction) {
-      console.log('reaction', reaction)
       this.reaction = reaction.kind.toNumber();
       this.reactionId = reaction.id.toString();
+    } else {
+      this.reaction = -1;
+      this.reactionId = '';
     }
   }
 

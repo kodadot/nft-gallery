@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <Loader v-model="isLoading" :status="status" />
-    <b-field :label="$i18n.t('subsocial.reply')">
+    <b-field :label="$i18n.t('subsocial.addComment')">
       <b-input v-model="message" type="textarea"></b-input>
     </b-field>
     <b-button
@@ -10,7 +10,7 @@
       @click="addComment"
       icon-left="plus"
       outlined
-      >Add Comment</b-button
+      >{{ $t('subsocial.addComment') }}</b-button
     >
   </div>
 </template>
@@ -19,7 +19,7 @@
 import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { resolveSubsocialApi } from './api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification } from '@/utils/notification';
+import { notificationTypes, showNotification, infiniteNotif } from '@/utils/notification';
 import { subsocialAddress } from './utils';
 import {
   Comment,
@@ -77,6 +77,8 @@ export default class Reply extends Mixins(TransactionMixin) {
       return;
     }
 
+    const notif = infiniteNotif(`[SUBSOCIAL] Commenting post ${this.postId}`)
+
     try {
       const args = await this.buildParams()
       this.initTransactionLoader();
@@ -94,14 +96,16 @@ export default class Reply extends Mixins(TransactionMixin) {
               notificationTypes.success
             );
             this.isLoading = false;
+            notif.close()
             this.$emit('submit');
           },
           err => {
             execResultValue(tx);
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+            notif.close()
             this.isLoading = false;
           },
-          res => this.resolveStatus(res.status)
+          () => this.isLoading = false
         ));
     } catch (e) {
       console.error(
@@ -111,6 +115,7 @@ export default class Reply extends Mixins(TransactionMixin) {
       );
       showNotification(e.message, notificationTypes.danger);
       this.isLoading = false;
+      notif.close()
 
     }
   }

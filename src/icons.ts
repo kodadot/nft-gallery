@@ -29,7 +29,7 @@ import {
   faShareAlt, faExclamationTriangle,
   faCalendar, faCalculator, faEnvelope,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
-  faAngleLeft, faAngleRight, faReply
+  faAngleLeft, faAngleRight, faReply, faExternalLinkSquareAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why
@@ -54,7 +54,7 @@ library.add(
   // faAngleDoubleRight, faPlus, faTimes, faCaretDown,
   // faCaretUp, faMinus, faFile, faBook,
   // faCodeBranch, faQuestionCircle, faExternalLinkAlt,
-  // faTwitter, faArrowUp, faTools, faCheck, faSeedling,
+  // faTwitter, faArrowUp, faTools, faCheck, faSeedling,w
   // faDatabase, faGem, faExchangeAlt,
   // faBug, faStop, faEllipsisV, faPercent, faUsersCog, faCoins,
   // faAngleLeft, faAngleRight, faCreditCard, faStepForward, faRing,
@@ -87,6 +87,7 @@ library.add(
   faPinterest, faMedium,
   faAngleLeft, faAngleRight,
   faReply, faThumbsUp, faThumbsDown,
+  faExternalLinkSquareAlt
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
