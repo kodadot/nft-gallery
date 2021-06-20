@@ -2,16 +2,17 @@
   <div class="card mb-3 mt-5">
     <div class="card-content ">
       <div class="columns">
-        <b-field class="column is-4 mb-0">
+        <b-field class="column is-6 mb-0">
           <b-input
             placeholder="Search..."
             type="search"
             v-model="searchQuery"
             icon="search"
-          >
+            expanded>
           </b-input>
         </b-field>
-        <b-field class="column is-3 mb-0">
+        <!-- disabled bc Viki needs add basic queries -->
+        <!-- <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
             aria-controls="contentIdForA11y1"
@@ -21,7 +22,7 @@
             @click="isVisible = !isVisible"
             disabled
           />
-        </b-field>
+        </b-field> -->
         <slot />
       </div>
 
@@ -29,7 +30,6 @@
         <Sort class="column is-2 mb-0" @input="updateSortBy" />
         <TypeTagInput class="column" v-model="typeQuery" />
       </div>
-
 
     </div>
   </div>
@@ -113,8 +113,10 @@ export default class SearchBar extends Vue {
 }
 </script>
 
-<style>
-.card{
-  box-shadow: 0px 2px 5px 0.5px #d32e79;
+<style lang="scss">
+.card {
+  box-shadow: 0px 0px 5px 0.5px #d32e79;
 }
+
+
 </style>

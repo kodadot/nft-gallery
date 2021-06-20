@@ -37,6 +37,11 @@ export default class Leaderboard extends Vue {
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
     'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd',
+    'ESRGCgBvTnuWkjeQs9G5W5hhXa4XuquXHJMtkDVQFvNUAb5',
+    'ERyyXEbUDa5AEMqY8dM7Nrtt6WY4BEAb65y1nbCmgE3rtQi',
+    'H1bSKJxoxzxYRCdGQutVqFGeW7xU3AcN6vyEdZBU7Qb1rsZ',
+    'Ea34UVcfamiLCFSRXD1bc4HRbZzsoo8RsTfKj2cDtf8GUdZ',
+    'H4XB5xxo1YhDmBf3fVnobqDJPnEuF1m2GTctdkiXSPNchy5'
     // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
     // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ]
