@@ -19,7 +19,7 @@
     </div>
     <b-tabs
       :class="{ 'invisible-tab': sharingVisible }"
-      type="is-toggle"
+      type="is-boxed"
       v-model="activeTab"
       expanded
       destroy-on-hide
@@ -242,7 +242,9 @@ export default class Profile extends Vue {
 }
 </script>
 
-<style >
+<style lang="scss">
+@import "@/styles/variables";
+
 .invisible-tab > nav.tabs {
   display: none;
 }
