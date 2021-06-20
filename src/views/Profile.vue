@@ -8,6 +8,13 @@
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
               ><Identity ref="identity" :address="id" :inline="true"
             /></a>
+            <OnChainProperty 
+              v-bind:email="email"
+              v-bind:twitter="twitter"
+              v-bind:web="web"
+              v-bind:legal="legal"
+              v-bind:riot="riot"
+               />
           </p>
           <Sharing
             v-if="!sharingVisible"
@@ -76,7 +83,8 @@ const components = {
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue')
+  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+  OnChainProperty: () => import('@/views/OnChainProperty.vue')
 };
 
 const eq = (tab: string) => (el: string) => tab === el;
@@ -110,6 +118,12 @@ export default class Profile extends Vue {
   protected nfts: NFTWithMeta[] = [];
   protected packs: Pack[] = [];
   protected name: string = '';
+  // protected property: {[key: string]: any} = {};
+  protected email: string = '';
+  protected twitter: string = '';
+  protected web: string = '';
+  protected legal: string = '';
+  protected riot: string = '';
   private currentValue = 1;
   private first = 20;
   private total = 0;
@@ -200,6 +214,13 @@ export default class Profile extends Vue {
     }
     // this.isLoading = false;
     this.name = (this.$refs['identity'] as Identity).name as string;
+    this.email = (this.$refs['identity'] as Identity).email as string;
+    this.twitter = (this.$refs['identity'] as Identity).twitter as string;
+    this.riot = (this.$refs['identity'] as Identity).riot as string;
+    this.web = (this.$refs['identity'] as Identity).web as string;
+    this.legal = (this.$refs['identity'] as Identity).legal as string;
+
+    console.log(this.email, this.twitter);
   }
 
   protected async handleResult({ data }: any) {

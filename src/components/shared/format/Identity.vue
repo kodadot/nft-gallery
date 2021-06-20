@@ -42,9 +42,43 @@ export default class Identity extends Mixins(InlineMixin) {
     return name as string || this.address
   }
 
+  get email(): Address {
+    const email = this.handleRaw(this.identityInfo?.email);
+    // console.log('Email', email);
+    return email as string || 'email';
+  }
+
+  get web(): Address {
+    const web = this.handleRaw(this.identityInfo?.web);
+    // console.log('Email', web);
+    return web as string || '';
+  }
+
+  get twitter(): Address {
+    const twitter = this.handleRaw(this.identityInfo?.twitter);
+    // console.log('Email', twitter);
+    return twitter as string || 'twitter';
+  }
+
+  get riot(): Address {
+    const riot = this.handleRaw(this.identityInfo?.riot);
+    // console.log('Email', riot);
+    return riot as string || '';
+  }
+
+  get legal(): Address{
+    const legal = this.handleRaw(this.identityInfo?.legal);
+    return legal as string || '';
+  }
+  // get image(): Address {
+  //   const image = this.handleRaw(this.identityInfo?.image);
+  //   // console.log('Email', image);
+  //   return image || '';
+  // }
+
   @Watch('address')
   async watchAddress(newAddress: Address,  oldAddress: Address) {
-    // console.log('@Watch(address)', newAddress);
+    console.log('@Watch(address)', newAddress);
 
     if ((newAddress && !oldAddress) || (oldAddress !== newAddress)) {
       this.identity = await this.identityOf(newAddress)
@@ -97,5 +131,6 @@ export default class Identity extends Mixins(InlineMixin) {
 <style scoped>
 .aligned {
   vertical-align: middle;
+  display: inline-block;
 }
 </style>
