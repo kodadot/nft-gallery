@@ -140,7 +140,12 @@
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction"
   },
-  "spotlight": "Spotlight",
+  "Spotlight": "Spotlight",
   "Simple": "Simple",
-  "About": "About"
+  "About": "About",
+  "FAQ": "FAQ",
+  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+  "theatre": "theatre",
+  "view": "view",
+  "price": "price"
 }
