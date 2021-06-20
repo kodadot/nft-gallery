@@ -2,11 +2,12 @@
   <b-pagination
     :total="total"
     :current.sync="current"
-    :range-before="2"
-    :range-after="2"
+    :range-before="3"
+    :range-after="3"
     :simple="simple"
     :per-page="perPage"
-    order="is-centered"
+    order=""
+    tag="a"
     aria-next-label="Next page"
     aria-previous-label="Previous page"
     aria-page-label="Page"
@@ -59,8 +60,9 @@ export default class Pagination extends Vue {
       })
       .catch(console.warn /*Navigation Duplicate err fix later */);
   }
-
-
-
 }
 </script>
+<style lang="scss">
+@import '@/styles/variables';
+
+</style>
