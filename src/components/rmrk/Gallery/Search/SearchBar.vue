@@ -113,8 +113,9 @@ export default class SearchBar extends Vue {
 }
 </script>
 
-<style>
-.card{
+<style lang="scss" scoped>
+@import '@/styles/variables';
+.card {
   box-shadow: 0px 2px 5px 0.5px #d32e79;
 }
 </style>

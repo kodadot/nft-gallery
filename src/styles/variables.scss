@@ -90,6 +90,7 @@ $title-color: $scheme-invert;
 
 // form
 $input-placeholder-color: bulmaRgba($scheme-invert, 0.3);
+$input-border-color: deeppink;
 
 // box
 $box-shadow: none;
@@ -108,3 +109,6 @@ $pagination-border-color: deeppink;
 $pagination-hover-border-color: deeppink;
 $pagination-focus-border-color: deeppink;
 $pagination-current-background-color: deeppink;
+$pagination-disabled-color: pink;
+$pagination-disabled-background-color: mediumvioletred;
+$pagination-disabled-border-color: mediumvioletred;

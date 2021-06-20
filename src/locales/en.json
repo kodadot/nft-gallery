@@ -120,7 +120,7 @@
   },
   "mint": {
     "submit": "Click to create NFT(s)",
-    "estimate": "I want to know the transaction fees",
+    "estimate": "Show me the transaction fees",
     "estimated": "Transaction fees will cost about"
   },
   "tooltip": {
