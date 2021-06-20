@@ -62,7 +62,10 @@ export default class Pagination extends Vue {
   }
 }
 </script>
-<style lang="scss">
-@import '@/styles/variables';
+<style lang="scss" scoped>
+
+input {
+  border: deeppink;
+}
 
 </style>
