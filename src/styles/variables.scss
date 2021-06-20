@@ -96,10 +96,11 @@ $box-shadow: none;
 
 // tabs
 $tabs-link-hover-color: $primary;
-$tabs-link-hover-border-bottom-color: transparent;
-$tabs-link-focus-border-bottom-color: lightgreen;
-$tabs-boxed-link-focus-border-color: lightgreen;
-$tabs-boxed-link-focus-active-border-bottom-color: lightgreen;
+$tabs-link-hover-border-bottom-color: lime;
+$tabs-link-focus-border-bottom-color: lime;
+$tabs-boxed-link-focus-border-color: lime;
+$tabs-boxed-link-focus-active-border-bottom-color: lime;
+$tabs-items-focused-outline: lime;
 
 // layout
 $container-offset: (2 * $gap);

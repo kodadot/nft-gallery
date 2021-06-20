@@ -1,27 +1,27 @@
 <template>
   <div class="profile-wrapper container">
-    <div class="tile">
-      <div class="tile is-parent">
-        <div class="tile is-child box">
-          <p class="title">
-            <b-icon pack="fas" icon="ghost"></b-icon>
+    <div class="columns">
+      <div class="column">
+        <p class="title">
+          <b-icon pack="fas" icon="ghost"></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
               ><Identity ref="identity" :address="id" :inline="true"
             /></a>
-            <OnChainProperty 
+            <OnChainProperty
               v-bind:email="email"
               v-bind:twitter="twitter"
               v-bind:web="web"
               v-bind:legal="legal"
               v-bind:riot="riot"
-               />
+                />
           </p>
-          <Sharing
-            v-if="!sharingVisible"
-            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
-            :iframe="iframeSettings"
-          />
-        </div>
+      </div>
+      <div class="column is-2">
+        <Sharing
+          v-if="!sharingVisible"
+          label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+          :iframe="iframeSettings"
+        />
       </div>
     </div>
     <b-tabs
@@ -30,15 +30,21 @@
       v-model="activeTab"
       expanded
       destroy-on-hide
+      size="is-large"
     >
-      <b-tab-item label="NFTs" value="nft">
-        <Pagination simple :total="total" v-model="currentValue" />
+      <b-tab-item :label="`NFTs - ${total}`" value="nft">
+        <template #header>
+          NFTs - {{ total }}
+        </template>
+        <Pagination :total="total"
+          v-model="currentValue" />
         <GalleryCardList :items="nfts" />
-        <Pagination class="pt-5 pb-5" :total="total" v-model="currentValue" />
+        <Pagination class="pt-5 pb-5"
+          :total="total"
+          v-model="currentValue" />
       </b-tab-item>
-      <b-tab-item label="Collections" value="collection">
+      <b-tab-item :label="`Collections - ${totalCollections}`" value="collection">
         <Pagination
-          simple
           :total="totalCollections"
           v-model="currentCollectionPage"
         />
@@ -263,7 +269,7 @@ export default class Profile extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/styles/variables";
 
 .invisible-tab > nav.tabs {

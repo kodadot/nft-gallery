@@ -1,5 +1,5 @@
 <template>
-	<component>
+	<!-- <component> -->
 	<div class="block">
 <!-- 		 <b-icon class="property"
 	    	v-if="legalVerified"
@@ -17,11 +17,11 @@
 		      pack="fas"
 		      icon="envelope"
 		    >
-		    </b-icon>			
+		    </b-icon>
 		<!-- </a> -->
 		</b-tooltip>
 		<b-tooltip :label="twitter" position="is-top">
-			<a :href="`https://twitter.com/${twitter}`"> 
+			<a :href="`https://twitter.com/${twitter}`">
 		    <b-icon class="property"
 		    	v-if="twitterVerified"
 		      size="is-medium"
@@ -63,8 +63,8 @@
 	      icon="link"
 	    >
 	  	</b-icon> -->
-	</div>		
-</component>
+	</div>
+<!-- </component> -->
 </template>
 
 <script lang="ts">
@@ -85,8 +85,8 @@ export default class OnChainProperty extends Vue{
 	// @Prop() public properties!: {[key: string]: any};
 	@Prop() public twitter!: string;
 	@Prop() public email!: string;
-	@Prop() public web!: string ; 
-	@Prop() public riot!: string ; 
+	@Prop() public web!: string ;
+	@Prop() public riot!: string ;
 	@Prop() public legal!: string ;
 	protected id: string = '';
 
