@@ -30,7 +30,7 @@
       v-model="activeTab"
       expanded
       destroy-on-hide
-      size="is-large"
+      size="is-medium"
     >
       <b-tab-item :label="`NFTs - ${total}`" value="nft">
         <template #header>

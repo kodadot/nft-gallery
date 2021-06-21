@@ -1,5 +1,4 @@
 <template>
-	<!-- <component> -->
 	<div class="block">
 <!-- 		 <b-icon class="property"
 	    	v-if="legalVerified"
@@ -10,7 +9,6 @@
 	  	</b-icon>
  -->
 		<b-tooltip :label="email" position="is-top">
-		<!-- <a href="email@email.com"> -->
 			<b-icon class="property"
 					v-if="emailVerified"
 		      size="is-medium"
@@ -18,7 +16,6 @@
 		      icon="envelope"
 		    >
 		    </b-icon>
-		<!-- </a> -->
 		</b-tooltip>
 		<b-tooltip :label="twitter" position="is-top">
 			<a :href="`https://twitter.com/${twitter}`">
@@ -64,7 +61,6 @@
 	    >
 	  	</b-icon> -->
 	</div>
-<!-- </component> -->
 </template>
 
 <script lang="ts">
