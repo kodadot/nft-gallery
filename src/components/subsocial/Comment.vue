@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box comment_box_line">
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
@@ -252,6 +252,10 @@ export default class Comment extends Mixins(TransactionMixin) {
 .comment-handle {
   padding-bottom: 0.75em;
 
+}
+
+.comment_box_line {
+  border-left: 1px solid lightpink;
 }
 
 .comment-action__disabled {
