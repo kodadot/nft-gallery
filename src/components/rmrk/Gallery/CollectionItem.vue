@@ -1,19 +1,23 @@
 <template>
   <div class="pack-item-wrapper">
-    <div class="tile is-ancestor  mt-1">
-      <div class="tile is-parent">
-        <div class="tile is-child box">
-          <p class="title">
-            Collection {{ name }}
-          </p>
-          <p class="subtitle">
-            Issued by: <ProfileLink :address="issuer" :inline="true" />
-          </p>
-          <p class="subtitle" v-if="owner">
-            Issued by: <ProfileLink :address="owner" :inline="true" />
-          </p>
-          <Sharing v-if="sharingVisible" label="Check this awesome Collection on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
-        </div>
+    <div class="columns">
+      <div class="column">
+        <p class="title">
+          Collection {{ name }}
+        </p>
+      </div>
+      <div class="column">
+        <p class="subtitle">
+          Creator <ProfileLink :address="issuer" :inline="true" />
+        </p>
+        <p class="subtitle" v-if="owner">
+          Owner <ProfileLink :address="owner" :inline="true" />
+        </p>
+      </div>
+      <div class="column is-2">
+        <Sharing v-if="sharingVisible"
+          label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
+          :iframe="iframeSettings" />
       </div>
     </div>
 
