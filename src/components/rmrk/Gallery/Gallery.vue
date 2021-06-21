@@ -2,7 +2,7 @@
   <div class="gallery container">
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <b-field class="column mb-0">
+      <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
         <Pagination simple :total="total" v-model="currentValue" replace />
       </b-field>
     </Search>
@@ -373,8 +373,8 @@ export default class Gallery extends Vue {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 2px 10px 0.5px #d32e79;
-      
+      box-shadow: 0px 0px 10px 0.5px #d32e79;
+
       &-image {
         .ff-canvas {
           border-radius: 8px;

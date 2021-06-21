@@ -120,7 +120,7 @@
   },
   "mint": {
     "submit": "Click to create NFT(s)",
-    "estimate": "I want to know the transaction fees",
+    "estimate": "Show me the transaction fees",
     "estimated": "Transaction fees will cost about"
   },
   "tooltip": {
@@ -141,6 +141,14 @@
     "constructTx": "Constructing transaction",
     "sign": "Waiting for response from singer"
   },
+  "Spotlight": "Spotlight",
+  "Simple": "Simple",
+  "About": "About",
+  "FAQ": "FAQ",
+  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+  "theatre": "theatre",
+  "view": "view",
+  "price": "price",
   "subsocial": {
     "showComments": "Show comments",
     "noComment": "There are currently no comments for this post!",

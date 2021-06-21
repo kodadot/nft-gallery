@@ -28,7 +28,11 @@
       </div>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :emotes="nft.emotes" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" :burned="nft.burned" />
+          <Appreciation :emotes="nft.emotes"
+            :accountId="accountId"
+            :currentOwnerId="nft.currentOwner"
+            :nftId="nft.id"
+            :burned="nft.burned" />
 
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
@@ -46,10 +50,6 @@
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
-
-          <template v-if="detailVisible">
-            <Facts :nft="nft" :meta="meta"  />
-          </template>
         </div>
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
@@ -98,6 +98,10 @@
           </template>
 
           <Sharing />
+          <br>
+          <template v-if="detailVisible">
+            <Facts :nft="nft" :meta="meta"  />
+          </template>
         </div>
       </div>
       <hr />
