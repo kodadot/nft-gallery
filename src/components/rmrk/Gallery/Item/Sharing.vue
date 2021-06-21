@@ -246,6 +246,7 @@ export default class Sharing extends Vue {
       &:focus {
         &:not(:active) {
           box-shadow: none;
+          // box-shadow: 0px 0px 5px 0.5px #d32e79;
         }
       }
 

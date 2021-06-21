@@ -51,7 +51,7 @@ export default class Pagination extends Vue {
   }
 
 
-  @Debounce(200)
+  @Debounce(100)
   replaceUrl(value: string, key = 'page') {
     this.$router
       .replace({
@@ -62,10 +62,3 @@ export default class Pagination extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-
-input {
-  border: deeppink;
-}
-
-</style>

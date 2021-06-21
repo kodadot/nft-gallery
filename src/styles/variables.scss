@@ -96,8 +96,21 @@ $box-shadow: none;
 
 // tabs
 $tabs-link-hover-color: $primary;
-$tabs-link-hover-border-bottom-color: transparent;
+$tabs-boxed-link-focus-border-bottom-color: $primary;
+$tabs-boxed-link-focus-background-color: lightpink;
+// $tabs-boxed-link-focus-active-background-color: $primary;
 
+//  these somehow doesn't work for profile, idk why, maybe fix whenever you spot this
+// $tabs-items-focused-outline: lime;
+// $tabs-link-focus-active-border-bottom-color: lime;
+// $tabs-link-focus-border-bottom-color: lime;
+// $tabs-boxed-link-focus-active-border-bottom-color: lime;
+// $tabs-link-focus-active-border-bottom-color:lime;
+// $tabs-link-hover-border-bottom-color: lime;
+// $tabs-link-focus-border-bottom-color: lime;
+// $tabs-boxed-link-focus-border-color: lime;
+// $tabs-boxed-link-focus-active-border-bottom-color: lime;
+// $tabs-items-focused-outline: lime;
 
 // layout
 $container-offset: (2 * $gap);

@@ -55,6 +55,13 @@
           </b-button>
           <b-button
               tag="router-link"
+              to="/spotlight"
+              type="is-primary"
+          >
+            Spotlight
+          </b-button>
+          <b-button
+              tag="router-link"
               to="/about"
               type="is-primary"
           >
@@ -102,7 +109,7 @@
                   Struggling with KodaDot?
                 </span>
                 <span>
-                  Head over to our FAQ page.
+                  Head over to our <a href="/rmrk/faq">FAQ page.</a>
                 </span>
               </p>
               <p>
