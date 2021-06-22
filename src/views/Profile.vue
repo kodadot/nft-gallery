@@ -109,7 +109,7 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'og:description',
           vmid: 'og:description',
-          content: this.firstNFTData.description as string
+          content: this.firstNFTData.description as string || 'Find more NFTs from this creator'
         },
         {
           property: 'og:image',
@@ -126,7 +126,7 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'twitter:description',
           vmid: 'twitter:description',
-          content: this.firstNFTData.description as string
+          content: this.firstNFTData.description as string || 'Find more NFTs from this creator'
         },
         {
           property: 'twitter:image',
