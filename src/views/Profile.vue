@@ -101,24 +101,29 @@ const eq = (tab: string) => (el: string) => tab === el;
   metaInfo() {
     return {
       meta: [
+        { property: 'og:title', content: this.id},
+        { property: 'og:description', content: this.firstNFTData.description as string},
         {
           property: 'og:image',
           vmid: 'og:image',
           content: this.firstNFTImage as string || this.defaultNFTImage as string
         },
         { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:card', content: 'summary_large_image' },
+        { property: 'twitter:title', content: this.id},
+        { property: 'twitter:description', content: this.firstNFTData.description as string},
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
           content: this.firstNFTImage as string || this.defaultNFTImage as string
         },
-        { property: 'twitter:card', content: 'summary_large_image' }
       ]
     };
   }
 })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
+  public firstNFTData: any = {};
   public firstNFTImage: string = '';
   protected id: string = '';
   protected isLoading: boolean = false;
@@ -221,9 +226,11 @@ export default class Profile extends Vue {
         .getPackListForAccount(this.id)
         .then(defaultSortBy);
       // console.log(packs)
-
       this.firstNFTImage = await fetchNFTMetadata(this.nfts[0])
-        .then((imageData) => sanitizeIpfsUrl(imageData.image!))
+        .then((imageData) => {
+          this.firstNFTData = imageData
+          return sanitizeIpfsUrl(imageData.image!)
+        })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
