@@ -101,8 +101,16 @@ const eq = (tab: string) => (el: string) => tab === el;
   metaInfo() {
     return {
       meta: [
-        { property: 'og:title', content: this.id},
-        { property: 'og:description', content: this.firstNFTData.description as string},
+        {
+          property: 'og:title',
+          vmid: 'og:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'og:description',
+          vmid: 'og:description',
+          content: this.firstNFTData.description as string
+        },
         {
           property: 'og:image',
           vmid: 'og:image',
@@ -110,8 +118,16 @@ const eq = (tab: string) => (el: string) => tab === el;
         },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:title', content: this.id},
-        { property: 'twitter:description', content: this.firstNFTData.description as string},
+        {
+          property: 'twitter:title',
+          vmid: 'twitter:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'twitter:description',
+          vmid: 'twitter:description',
+          content: this.firstNFTData.description as string
+        },
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
