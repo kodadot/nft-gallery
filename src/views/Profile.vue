@@ -104,13 +104,13 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'og:image',
           vmid: 'og:image',
-          content: this.firstNFTImage as string || this.defaultNftImage as string
+          content: this.firstNFTImage as string || this.defaultNFTImage as string
         },
         { property: 'twitter:site', content: '@KodaDot' },
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
-          content: this.firstNFTImage as string || this.defaultNftImage as string
+          content: this.firstNFTImage as string || this.defaultNFTImage as string
         },
         { property: 'twitter:card', content: 'summary_large_image' }
       ]
@@ -168,9 +168,9 @@ export default class Profile extends Vue {
     return this.currentCollectionPage * this.first - this.first;
   }
 
-  get defaultNftImage() {
+  get defaultNFTImage() {
     const url = new URL(window.location.href);
-    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png`;
+    return `${url.protocol}${url.hostname}` + require('@/assets/kodadot_logo_v1_transparent_400px.png');
   }
 
   protected async fetchProfile() {
