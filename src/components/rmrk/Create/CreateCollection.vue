@@ -11,7 +11,7 @@
           {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
         </div>
       </b-field>
-      <b-field >
+      <b-field>
         <Auth />
       </b-field>
 
@@ -19,7 +19,6 @@
         v-model="image"
         label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
         expanded
-
       />
 
       <b-field grouped :label="$i18n.t('Name')">
@@ -91,7 +90,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { emptyObject } from '@/utils/empty';
 
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
@@ -104,26 +103,28 @@ import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost } from '@/utils/support';
+import NFTUtils from '../service/NftUtils';
+import TransactionMixin from '@/utils/mixins/txMixin';
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue'),
+  Support: () => import('@/components/shared/Support.vue')
 };
 
 @Component({ components })
 export default class CreateCollection extends Mixins(
   SubscribeMixin,
-  RmrkVersionMixin
+  RmrkVersionMixin,
+  TransactionMixin
 ) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   // private accountId: string = '';
   private uploadMode: boolean = true;
   private image: Blob | null = null;
-  private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
   protected unlimited: boolean = true;
@@ -140,33 +141,21 @@ export default class CreateCollection extends Mixins(
     return (this.accountId && u8aToHex(decodeAddress(this.accountId))) || '';
   }
 
-  private generateId(pubkey: string): string {
-    return (
-      pubkey?.substr(2, 10) +
-      pubkey?.substring(pubkey.length - 8) +
-      '-' +
-      (this.rmrkMint?.symbol || '')
-    )
-      .trim()
-      .toUpperCase();
-  }
-
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
     return !(name && symbol && max && this.accountId && this.image);
   }
 
-  public constructRmrkMint(): Collection {
-    const mint: Collection = {
-      ...this.rmrkMint,
-      symbol: this.rmrkMint.symbol.trim().toUpperCase(),
-      version: this.version,
-      issuer: this.accountId,
-      metadata: unSanitizeIpfsUrl(this.rmrkMint?.metadata),
-      id: this.rmrkId
-    };
-
-    return mint;
+  public constructRmrkMint(metadata: string): Collection {
+    const { symbol, name, max } = this.rmrkMint;
+    const count = this.unlimited ? 0 : max;
+    return NFTUtils.createCollection(
+      this.accountId,
+      symbol,
+      name,
+      metadata,
+      count
+    );
   }
 
   get filePrice() {
@@ -181,7 +170,7 @@ export default class CreateCollection extends Mixins(
     this.meta = {
       ...this.meta,
       attributes: [],
-      external_url: `https://rmrk.app/registry/${this.rmrkId}`
+      external_url: `https://nft.kodadot.xyz`
     };
 
     // TODO: upload image to IPFS
@@ -208,68 +197,67 @@ export default class CreateCollection extends Mixins(
 
   private async submit() {
     this.isLoading = true;
+    this.status = 'loader.ipfs';
     const { api } = Connector.getInstance();
-    const rmrkService = getInstance();
-    const mint = this.constructRmrkMint();
-    if (!this.rmrkMint.metadata) {
-      const meta = await this.constructMeta();
-      mint.metadata = meta;
-    }
+    const metadata = await this.constructMeta();
+    const mint = this.constructRmrkMint(metadata);
+    const mintString = NFTUtils.encodeCollection(mint, this.version);
 
-    const mintString = `RMRK::MINT::${this.version}::${encodeURIComponent(
-      JSON.stringify(mint)
-    )}`;
     try {
       showNotification(mintString);
-      console.log('submit', mintString);
       const cb = !this.hasSupport
         ? api.tx.system.remark
         : api.tx.utility.batchAll;
       const args = !this.hasSupport
         ? mintString
         : [this.toRemark(mintString), ...(await this.canSupport())];
+
       const tx = await exec(
         this.accountId,
-        this.password,
+        '',
         cb,
         [args],
-        async result => {
-          console.log(`Current status is`, result);
-          if (result.status.isFinalized) {
-            console.log(`finalized status is`, result);
-            console.log(
-              `Transaction finalized at blockHash ${result.status.asFinalized}`
-            );
+        txCb(
+          async blockHash => {
             execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(
-              result.status.asFinalized
-            );
-            const persisted = await rmrkService?.resolve(
-              mintString,
-              this.accountId,
-              header.number.toString()
-            );
-            console.log('SAVED', persisted?._id);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
+
             showNotification(
-              `[TEXTILE] ${persisted?._id}`,
+              `[Collection] Saved ${this.rmrkMint.name} in block ${blockNumber}`,
               notificationTypes.success
             );
+
             this.isLoading = false;
-          }
-        }
+          },
+          dispatchError => {
+            execResultValue(tx);
+            if (dispatchError.isModule) {
+              const decoded = api.registry.findMetaError(
+                dispatchError.asModule
+              );
+              const { documentation, name, section } = decoded;
+              showNotification(
+                `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+                notificationTypes.danger
+              );
+            } else {
+              showNotification(
+                `[ERR] ${dispatchError.toString()}`,
+                notificationTypes.danger
+              );
+            }
+
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
       );
-      console.warn('TX IN', tx);
-      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`);
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
       this.isLoading = false;
     }
-  }
-
-  private upload(data: File) {
-    console.log('upload', data.name);
-    this.image = data;
   }
 }
 </script>
