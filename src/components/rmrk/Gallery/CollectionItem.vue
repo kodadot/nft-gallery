@@ -1,5 +1,5 @@
 <template>
-  <div class="pack-item-wrapper">
+  <div class="pack-item-wrapper container">
     <div class="columns">
       <div class="column">
         <p class="title">
@@ -42,7 +42,23 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 };
 
-@Component({ components })
+@Component<CollectionItem>({
+  metaInfo() {
+    return {
+      title: 'KodaDot cares about environmental impact',
+      titleTemplate: '%s | Low Carbon NFTs',
+      meta: [
+        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
+        { property: 'og:title', content: 'KodaDot cares about environmental impact'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
+        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+      ]
+    }
+  },
+  components })
 export default class CollectionItem extends Vue {
   private id: string = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
