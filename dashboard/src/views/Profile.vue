@@ -57,6 +57,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
+import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils';
 import {
   defaultSortBy,
 } from '@/components/rmrk/utils';
@@ -89,13 +90,13 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'og:image',
           vmid: 'og:image',
-          content: this.firstNFT as string
+          content: this.firstNFTImage as string || this.defaultNftImage as string
         },
         { property: 'twitter:site', content: '@KodaDot' },
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
-          content: this.firstNFT as string
+          content: this.firstNFTImage as string || this.defaultNftImage as string
         },
         { property: 'twitter:card', content: 'summary_large_image' }
       ]
@@ -104,6 +105,7 @@ const eq = (tab: string) => (el: string) => tab === el;
 })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
+  public firstNFTImage: string = '';
   protected id: string = '';
   protected isLoading: boolean = false;
   protected collections: CollectionWithMeta[] = [];
@@ -144,6 +146,11 @@ export default class Profile extends Vue {
 
   get collectionOffset() {
     return this.currentCollectionPage * this.first - this.first;
+  }
+
+  get defaultNftImage() {
+    const url = new URL(window.location.href);
+    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png`;
   }
 
   protected async fetchProfile() {
@@ -194,6 +201,9 @@ export default class Profile extends Vue {
         .getPackListForAccount(this.id)
         .then(defaultSortBy);
       // console.log(packs)
+
+      this.firstNFTImage = await fetchNFTMetadata(this.nfts[0])
+        .then((imageData) => sanitizeIpfsUrl(imageData.image!))
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
@@ -207,21 +217,9 @@ export default class Profile extends Vue {
     this.nfts = data.nFTEntities.nodes;
   }
 
-    protected async handleCollectionResult({ data }: any) {
+  protected async handleCollectionResult({ data }: any) {
     this.totalCollections = data.collectionEntities.totalCount;
-    console.log(data)
     this.collections = data.collectionEntities.nodes;
-  }
-
-  get firstNFT() {
-    if (this.nfts !== undefined && this.nfts.length !== 0) {
-      const firstNft = this.nfts.find(
-        nft => nft.image && nft.type && nft.type.includes('image')
-      );
-      if (firstNft !== undefined) return firstNft.image;
-    }
-    const url = new URL(window.location.href);
-    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png}`;
   }
 
   public checkActiveTab() {
