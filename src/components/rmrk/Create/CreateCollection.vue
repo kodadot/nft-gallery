@@ -16,7 +16,7 @@
       </b-field>
 
       <MetadataUpload
-        v-model="file"
+        v-model="image"
         label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
         expanded
 
@@ -122,7 +122,7 @@ export default class CreateCollection extends Mixins(
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   // private accountId: string = '';
   private uploadMode: boolean = true;
-  private file: Blob | null = null;
+  private image: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
   private hasSupport: boolean = true;
