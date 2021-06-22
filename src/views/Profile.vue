@@ -101,10 +101,31 @@ const eq = (tab: string) => (el: string) => tab === el;
     return {
       meta: [
         {
+          property: 'og:title',
+          vmid: 'og:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'twitter:title',
+          vmid: 'twitter:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'og:description',
+          vmid: 'og:description',
+          content: 'Find more NFTs from this creator'
+        },
+        {
+          property: 'twitter:description',
+          vmid: 'twitter:description',
+          content: 'Find more NFTs from this creator'
+        },
+        {
           property: 'og:image',
           vmid: 'og:image',
           content: this.firstNFT as string
         },
+
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
