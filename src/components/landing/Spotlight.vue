@@ -37,6 +37,15 @@ export default class Leaderboard extends Vue {
     'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
     'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
     'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd',
+    'ESRGCgBvTnuWkjeQs9G5W5hhXa4XuquXHJMtkDVQFvNUAb5',
+    'H1bSKJxoxzxYRCdGQutVqFGeW7xU3AcN6vyEdZBU7Qb1rsZ',
+    'Ea34UVcfamiLCFSRXD1bc4HRbZzsoo8RsTfKj2cDtf8GUdZ',
+    'H4XB5xxo1YhDmBf3fVnobqDJPnEuF1m2GTctdkiXSPNchy5',
+    'HnccMvwD4zsrG2mdyyiZvNCvDgMPZKrMA4BGHkT17c3KfkP',
+    'EB1oqZ5MEnEwxhJ5DySCH3pyY55a2CUDfAbYKmLz2QcqWgx',
+    'ERyyXEbUDa5AEMqY8dM7Nrtt6WY4BEAb65y1nbCmgE3rtQi',
+    'FLPSoZhUwJwZvGwihQbrnF7aNYP62GaNKmDKDoiVZFe3TaQ',
+    'HRL2QctmfjgFPLCSaiDJThYShQy7V4KvJqLWCY6pga6AEnE',
     // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
     // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ]

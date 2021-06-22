@@ -83,7 +83,6 @@
         >
           <router-link
             :to="item.url"
-            class="has-text-white"
           >
             {{ item.name }}
           </router-link>

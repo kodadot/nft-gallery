@@ -29,7 +29,7 @@
     "@polkadot/vue-identicon": "^0.81.1",
     "@textile/hub": "^6.1.2",
     "@types/file-saver": "^2.0.2",
-    "@vue-polkadot/vue-api": "^0.0.33",
+    "@vue-polkadot/vue-api": "^0.0.34",
     "@vue-polkadot/vue-settings": "^0.0.17",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",

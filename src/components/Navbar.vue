@@ -8,7 +8,7 @@
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
         <img
-          src="@/assets/kodadot_logo_v1_transparent_400px.png"
+          src="/kodadot_lgbt_320px.png"
           alt="First NFT market explorer on Kusama and Polkadot"
           class="logo__img"
         >
@@ -40,8 +40,8 @@
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'leaderboard'}">
-        {{ $t('Leaderboard') }}
+        :to="{ name: 'spotlight'}">
+        {{ $t('Spotlight') }}
       </b-navbar-item>
       <b-navbar-dropdown
           arrowless
@@ -170,7 +170,7 @@ export default class NavbarMenu extends Vue {
     margin-right: 0.5rem;
   }
   .navbar-dropdown{
-    box-shadow: 0px 2px 5px 0.5px #d32e79 !important;
+    box-shadow: 0px 0px 5px 0.5px #d32e79 !important;
   }
 }
 </style>
