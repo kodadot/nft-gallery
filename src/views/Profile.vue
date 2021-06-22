@@ -105,13 +105,11 @@ const eq = (tab: string) => (el: string) => tab === el;
           vmid: 'og:image',
           content: this.firstNFT as string
         },
-        { property: 'twitter:site', content: '@KodaDot' },
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
           content: this.firstNFT as string
         },
-        { property: 'twitter:card', content: 'summary_large_image' }
       ]
     };
   }
