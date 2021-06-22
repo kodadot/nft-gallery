@@ -114,7 +114,7 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'og:image',
           vmid: 'og:image',
-          content: this.firstNFTImage as string || this.defaultNFTImage as string
+          content: this.firstNFTData.image as string || this.defaultNFTImage as string
         },
         { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:card', content: 'summary_large_image' },
@@ -131,7 +131,7 @@ const eq = (tab: string) => (el: string) => tab === el;
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
-          content: this.firstNFTImage as string || this.defaultNFTImage as string
+          content: this.firstNFTData.image as string || this.defaultNFTImage as string
         },
       ]
     };
@@ -140,7 +140,6 @@ const eq = (tab: string) => (el: string) => tab === el;
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
   public firstNFTData: any = {};
-  public firstNFTImage: string = '';
   protected id: string = '';
   protected isLoading: boolean = false;
   protected collections: CollectionWithMeta[] = [];
@@ -159,7 +158,7 @@ export default class Profile extends Vue {
   private currentCollectionPage = 1;
   private totalCollections = 0;
 
-  public async mounted() {
+  public async created() {
     await this.fetchProfile();
   }
 
@@ -191,7 +190,7 @@ export default class Profile extends Vue {
 
   get defaultNFTImage() {
     const url = new URL(window.location.href);
-    return `${url.protocol}${url.hostname}` + require('@/assets/kodadot_logo_v1_transparent_400px.png');
+    return `${url.protocol}//${url.hostname}` + require('@/assets/kodadot_logo_v1_transparent_400px.png');
   }
 
   protected async fetchProfile() {
@@ -242,11 +241,6 @@ export default class Profile extends Vue {
         .getPackListForAccount(this.id)
         .then(defaultSortBy);
       // console.log(packs)
-      this.firstNFTImage = await fetchNFTMetadata(this.nfts[0])
-        .then((imageData) => {
-          this.firstNFTData = imageData
-          return sanitizeIpfsUrl(imageData.image!)
-        })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger);
       console.warn(e);
@@ -259,7 +253,11 @@ export default class Profile extends Vue {
     this.web = (this.$refs['identity'] as Identity).web as string;
     this.legal = (this.$refs['identity'] as Identity).legal as string;
 
-    console.log(this.email, this.twitter);
+    const meta = await fetchNFTMetadata(this.nfts[0])
+    this.firstNFTData = {
+      ...meta,
+      image: sanitizeIpfsUrl(meta.image || ''),
+    }
   }
 
   protected async handleResult({ data }: any) {
