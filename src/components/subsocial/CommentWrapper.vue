@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="!commentsVisible && !nested">
-      <b-button v-if="comments.length"  type="is-primary" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ comments.length }}</b-button>
+      <b-button v-if="replyCount"  type="is-primary" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ replyCount }}</b-button>
       <p v-else class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
     </template>
     <template v-else>
@@ -31,15 +31,19 @@ export default class CommentWrapper extends Vue {
   protected comments: PostType[] = [];
   protected commentsVisible: boolean = false;
   protected loading: boolean = false;
+  protected replyCount = 0;
 
   public async mounted() {
     const ss = await resolveSubsocialApi();
 
     if (this.postId) {
+      if (!this.nested) {
+        this.replyCount = (await ss.findPublicPost(new BN(this.postId)))?.struct.replies_count.toNumber() || 0
+      }
       const commentIds = await ss.substrate.getReplyIdsByPostId(new BN(this.postId))
       const commentPromises =  commentIds.map(cm => ss.findPublicPost(cm))
       this.comments = await Promise.all(commentPromises)
-      console.log(this.comments)
+
     }
 
   }
