@@ -10,26 +10,24 @@
         <Auth />
       </b-field>
       <template v-if="accountId">
-        <b-field>
-          <b-switch v-model="oneByOne"
-            :rounded="false">
-            {{ oneByOne ? 'Single NFT' : 'NFT(s) in collection' }}
-          </b-switch>
-        </b-field>
         <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">
           <b-select
             placeholder="Select a collection"
             v-model="selectedCollection"
             expanded
           >
-            <option v-for="option in collections" :value="option" :key="option.id">
-              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{ option.max || Infinity}}
+            <option
+              v-for="option in collections"
+              :value="option"
+              :key="option.id"
+            >
+              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
+                option.max || Infinity
+              }}
             </option>
           </b-select>
           <Tooltip
-            :label="
-              $i18n.t('Select collection where do you want mint your token')
-            "
+            :label="$i18n.t('Select collection where do you want mint your token')"
           />
         </b-field>
         <b-field v-else grouped :label="$i18n.t('Symbol')">
@@ -48,7 +46,10 @@
           :account="accountId"
         />
       </b-field>
-      <h6 v-if="selectedCollection" class="subtitle is-6">You have minted {{ selectedCollection.alreadyMinted }} out of {{ selectedCollection.max || Infinity }}</h6>
+      <h6 v-if="selectedCollection" class="subtitle is-6">
+        You have minted {{ selectedCollection.alreadyMinted }} out of
+        {{ selectedCollection.max || Infinity }}
+      </h6>
       <CreateItem
         v-for="(item, index) in added"
         :key="index"
@@ -60,33 +61,50 @@
         @animated="uploadAnimatedFile"
         @remove="hadleItemRemoval"
       />
-      <b-field grouped>
-        <b-field position="is-left" expanded>
-          <b-button
-            v-if="accountId && (selectedCollection || singleNFTValid)"
-            type="is-info"
-            icon-left="plus"
-            @click="handleAdd"
-            :disabled="disabled"
-            outlined
-          >
-            {{ $t("Add Token") }}
-          </b-button>
-        </b-field>
-        <b-field position="is-right">
-          <b-button
-            v-if="canSubmit"
-            type="is-primary"
-            icon-left="paper-plane"
-            outlined
-            @click="submit"
-            :loading="isLoading"
-          >
-            {{ $t("Mint") }}
-          </b-button>
-        </b-field>
+      <b-field>
+        <PasswordInput v-model="password" :account="accountId" />
       </b-field>
-      <Support v-if="canSubmit" v-model="hasSupport" :price="filePrice" />
+      <b-field>
+        <b-button
+          type="is-primary"
+          icon-left="paper-plane"
+          @click="sub"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined
+        >
+          {{ $t("mint.submit") }}
+        </b-button>
+      </b-field>
+      <b-field>
+        <b-button
+          type="is-text"
+          icon-left="calculator"
+          @click="estimateTx"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined
+        >
+          <template v-if="!estimated">
+            {{ $t("mint.estimate") }}
+          </template>
+          <template v-else>
+            {{ $t("mint.estimated") }}
+            <Money :value="estimated" inline />
+          </template>
+        </b-button>
+      </b-field>
+      <b-field>
+        <Support v-model="hasSupport" :price="filePrice" />
+      </b-field>
+      <b-field>
+        <Support
+          v-model="hasCarbonOffset"
+          :price="1"
+          activeMessage="I'm making carbonless NFT"
+          passiveMessage="I don't want to have carbonless NFT"
+        />
+      </b-field>
     </div>
   </div>
 </template>
@@ -135,7 +153,10 @@ type MintedCollection = {
     CreateItem,
     PasswordInput,
     Tooltip,
-    Support
+    Support,
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    Money: () => import('@/components/shared/format/Money.vue'),
+    Loader: () => import('@/components/shared/Loader.vue')
   }
 })
 export default class CreateToken extends Mixins(RmrkVersionMixin) {
@@ -184,12 +205,12 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       data: { collectionEntities }
     } = collections;
 
-    this.collections = collectionEntities.nodes?.map((ce: any) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.totalCount
-    }))
-    .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted)
-    ;
+    this.collections = collectionEntities.nodes
+      ?.map((ce: any) => ({
+        ...ce,
+        alreadyMinted: ce.nfts?.totalCount
+      }))
+      .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
   }
 
   get canSubmit() {
@@ -205,7 +226,9 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
       return false;
     }
     const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0;
-    return max <= this.added.length + Number(this.selectedCollection?.alreadyMinted);
+    return (
+      max <= this.added.length + Number(this.selectedCollection?.alreadyMinted)
+    );
   }
 
   private handleUpdate(item: { view: NFTAndMeta; index: number }) {
