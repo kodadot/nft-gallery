@@ -51,7 +51,7 @@ class NFTUtils {
     )}`;
   }
 
-  protected static encodeNFT(nft: NFT, version: string) {
+  public static encodeNFT(nft: NFT, version: string) {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
       JSON.stringify(nft)
     )}`

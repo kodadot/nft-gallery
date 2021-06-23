@@ -183,7 +183,7 @@ const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip,
+  Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),

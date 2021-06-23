@@ -10,7 +10,7 @@
         <Auth />
       </b-field>
       <template v-if="accountId">
-        <b-field grouped v-if="!oneByOne" :label="$i18n.t('Collection')">
+        <b-field grouped :label="$i18n.t('Collection')">
           <b-select
             placeholder="Select a collection"
             v-model="selectedCollection"
@@ -30,14 +30,6 @@
             :label="$i18n.t('Select collection where do you want mint your token')"
           />
         </b-field>
-        <b-field v-else grouped :label="$i18n.t('Symbol')">
-          <b-input
-            placeholder="3-5 character long name"
-            v-model="symbol"
-            expanded
-          ></b-input>
-          <Tooltip :label="$i18n.t('Symbol you want to trade it under')" />
-        </b-field>
       </template>
       <b-field>
         <PasswordInput
@@ -51,15 +43,7 @@
         {{ selectedCollection.max || Infinity }}
       </h6>
       <CreateItem
-        v-for="(item, index) in added"
-        :key="index"
-        :index="index"
-        :alreadyMinted="alreadyMinted"
-        :view="item"
-        @update="handleUpdate"
-        @upload="uploadFile"
-        @animated="uploadAnimatedFile"
-        @remove="hadleItemRemoval"
+        v-bind.sync="nft"
       />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
@@ -68,7 +52,7 @@
         <b-button
           type="is-primary"
           icon-left="paper-plane"
-          @click="sub"
+          @click="submit"
           :disabled="disabled"
           :loading="isLoading"
           outlined
@@ -80,7 +64,6 @@
         <b-button
           type="is-text"
           icon-left="calculator"
-          @click="estimateTx"
           :disabled="disabled"
           :loading="isLoading"
           outlined
@@ -119,7 +102,7 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { Collection, NFT, NFTMetadata } from '../service/scheme';
+import { Collection, NFT, NFTMetadata, MintNFT } from '../service/scheme';
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
@@ -132,8 +115,9 @@ import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost } from '@/utils/support';
 import collectionForMint from '@/queries/collectionForMint.graphql';
-
-const shouldUpdate = (val: string, oldVal: string) => val && val !== oldVal;
+import TransactionMixin from '@/utils/mixins/txMixin';
+import shouldUpdate from '@/utils/shouldUpdate';
+import { nsfwAttribute, offsetAttribute, secondaryFileVisible } from './mintUtils'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -145,6 +129,7 @@ type MintedCollection = {
   alreadyMinted: number;
   max: number;
   metadata: string;
+  symbol: string;
 };
 
 @Component({
@@ -159,19 +144,24 @@ type MintedCollection = {
     Loader: () => import('@/components/shared/Loader.vue')
   }
 })
-export default class CreateToken extends Mixins(RmrkVersionMixin) {
-  private data: Collection[] = [];
-  private collections: MintedCollection[] = [];
+export default class CreateToken extends Mixins(RmrkVersionMixin, TransactionMixin) {
+    protected nft: MintNFT = {
+    name: '',
+    description: '',
+    edition: 1,
+    tags: [],
+    nsfw: false,
+    price: '',
+    file: undefined,
+  }
+  protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
-  private added: NFTAndMeta[] = [];
-  private images: MaybeFile[] = [];
-  private animated: MaybeFile[] = [];
-  private isLoading: boolean = false;
+
   private password: string = '';
   private alreadyMinted = 0;
-  private oneByOne: boolean = true;
-  private symbol: string = '';
   private hasSupport: boolean = true;
+  private estimated: string = '';
+  private hasCarbonOffset: boolean = true;
   private filePrice: number = 0;
 
   get accountId() {
@@ -184,7 +174,7 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     }
   }
 
-  @Watch('accountId')
+  @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
       console.log('calling fetch', value);
@@ -210,61 +200,17 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
         ...ce,
         alreadyMinted: ce.nfts?.totalCount
       }))
-      .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
+      // .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
   }
 
-  get canSubmit() {
-    return this.added.length;
-  }
-
-  get singleNFTValid() {
-    return this.oneByOne && this.symbol;
-  }
 
   get disabled() {
-    if (!this.selectedCollection?.max) {
-      return false;
-    }
-    const max = this.oneByOne ? 1 : this.selectedCollection?.max || 0;
-    return (
-      max <= this.added.length + Number(this.selectedCollection?.alreadyMinted)
-    );
+    return !(this.nft.name && this.nft.file && this.selectedCollection)
   }
 
-  private handleUpdate(item: { view: NFTAndMeta; index: number }) {
-    console.log('here');
-    this.$set(this.added, item.index, item.view);
-  }
-
-  private uploadFile(item: { image: File; index: number }) {
-    this.$set(this.images, item.index, item.image);
-    this.calculatePrice();
-  }
-
-  private uploadAnimatedFile(item: { image: File; index: number }) {
-    this.$set(this.animated, item.index, item.image);
-    this.calculatePrice();
-  }
 
   private calculatePrice() {
-    this.filePrice = calculateCost([...this.images, ...this.animated]);
-  }
-
-  private async makeItSexy(nft: NFTAndMeta, index: number): Promise<NFT> {
-    const metaHash = await this.constructMeta(nft, index);
-
-    const { meta, price, ...nftForMint } = nft;
-
-    return {
-      ...nftForMint,
-      metadata: metaHash,
-      currentOwner: this.accountId,
-      transferable: Number(nftForMint.transferable),
-      instance: slugify(nftForMint.name, '_').toUpperCase(),
-      collection: this.oneByOne
-        ? generateId(this.accountId, this.symbol)
-        : nftForMint.collection
-    };
+    // this.filePrice = calculateCost([this.nft.file, this.nft.secondFile].filter(a => typeof a !== 'undefined'));
   }
 
   private toMintFormat(nft: NFT) {
@@ -278,165 +224,71 @@ export default class CreateToken extends Mixins(RmrkVersionMixin) {
     return api.tx.system.remark(remark);
   }
 
-  public async constructMeta(nft: NFTAndMeta, index: number) {
-    const image = this.images[index];
-
-    const meta = {
-      ...nft.meta,
-      attributes: [],
-      external_url: `https://rmrk.app/registry/${nft.collection}`
-    };
-
-    if (!image) {
-      const collectionMeta = await fetchCollectionMetadata(
-        (this.selectedCollection || emptyObject<Collection>()) as Collection
-      );
-      meta.image = collectionMeta.image;
-    } else {
-      const imageHash = await pinFile(image);
-      meta.image = unSanitizeIpfsUrl(imageHash);
-    }
-
-    const animatedFile = this.animated[index];
-    if (animatedFile) {
-      const animatedHash = await pinFile(animatedFile);
-      meta.animation_url = unSanitizeIpfsUrl(animatedHash);
-    }
-
-    // TODO: upload meta to IPFS
-    const metaHash = await pinJson(meta);
-
-    return unSanitizeIpfsUrl(metaHash);
-  }
-
   protected async canSupport() {
     if (this.hasSupport) {
-      return [await supportTx([...this.images, ...this.animated])];
+      // return [await supportTx([...this.images, ...this.animated])];
+      return [];
     }
 
     return [];
   }
 
   protected async submit() {
+    if (!this.selectedCollection) {
+      throw ReferenceError('[MINT] Unable to mint without collection')
+    }
+
     this.isLoading = true;
+    this.status = 'loader.ipfs';
     const { api } = Connector.getInstance();
-    if (!this.validate()) {
-      this.isLoading = false;
-      return;
-    }
-
-    const nfts: NFT[] = await Promise.all(this.added.map(this.makeItSexy));
-
-    const remarks: string[] = nfts.map(this.toMintFormat);
-
-    if (!remarks.length) {
-      throw new RangeError('Unable to process empty NFTs!');
-    }
-
-    const firstNFT = nfts[0];
-    const collectionToMint: string[] = this.oneByOne
-      ? [
-          NFTUtils.encodeCollection(
-            NFTUtils.collectionFromNFT(this.symbol, firstNFT, this.version),
-            this.version
-          )
-        ]
-      : [];
-
-    const batchMethods = [
-      ...collectionToMint.map(this.toRemark),
-      ...remarks.map(this.toRemark),
-      ...(await this.canSupport())
-    ];
-    console.log('batchMethods', batchMethods);
-    const rmrkService = getInstance();
 
     try {
-      const tx = await exec(
-        this.accountId,
-        this.password,
-        api.tx.utility.batchAll,
-        [batchMethods],
-        async result => {
-          console.log(`Current status is`, result);
-          if (result.status.isFinalized) {
-            console.log(`finalized status is`, result);
-            console.log(
-              `Transaction finalized at blockHash ${result.status.asFinalized}`
-            );
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(
-              result.status.asFinalized
-            );
-            const blockNumber = header.number.toString();
-            for (const [index, rmrk] of [
-              ...collectionToMint,
-              ...remarks
-            ].entries()) {
-              this.isLoading = true;
-              try {
-                const res = await rmrkService?.resolve(
-                  rmrk,
-                  this.accountId,
-                  blockNumber
-                );
-                showNotification(
-                  `[TEXTILE] ${res?._id}`,
-                  notificationTypes.success
-                );
-                console.log('res', index, res);
-              } catch (e) {
-                console.warn(`Failed Indexing ${index} with err ${e}`);
-              }
-              this.isLoading = false;
-            }
-          }
-        }
-      );
-      console.warn('TX IN', tx);
-      showNotification(`[CHAIN] Waiting to finalize block and save to TEXTILE`);
+      const metadata = await this.constructMeta();
+      const mint = NFTUtils.createNFT(this.accountId, this.alreadyMinted + 1, this.selectedCollection.symbol, this.nft.name, metadata)
+      const mintString = NFTUtils.encodeNFT(mint, this.version)
     } catch (e) {
       showNotification(e, notificationTypes.danger);
       this.isLoading = false;
     }
   }
-  validate(): boolean {
-    console.log('KKT', this.added);
-    for (const nft of this.added) {
-      try {
-        Consolidator.nftValid(nft);
-      } catch (e) {
-        showNotification(`${e}`, notificationTypes.warn);
-        return false;
+
+
+    public async constructMeta(): Promise<string> {
+    if (!this.nft.file) {
+      throw new ReferenceError('No file found!');
+    }
+
+    const meta: NFTMetadata = {
+      name: this.nft.name,
+      description: this.nft.description,
+      attributes: [
+        ...(this.nft?.tags || []),
+        ...nsfwAttribute(this.nft.nsfw),
+        ...offsetAttribute(this.hasCarbonOffset)
+      ],
+      external_url: `https://nft.kodadot.xyz`,
+      type: this.nft.file.type
+    };
+
+    try {
+      const fileHash = await pinFile(this.nft.file);
+
+      if (!secondaryFileVisible(this.nft.file)) {
+        meta.image = unSanitizeIpfsUrl(fileHash);
+      } else {
+        meta.animation_url = unSanitizeIpfsUrl(fileHash);
+        if (this.nft.secondFile) {
+          const coverImageHash = await pinFile(this.nft.secondFile);
+          meta.image = unSanitizeIpfsUrl(coverImageHash);
+        }
       }
+
+      // TODO: upload meta to IPFS
+      const metaHash = await pinJson(meta);
+      return unSanitizeIpfsUrl(metaHash);
+    } catch (e) {
+      throw new ReferenceError(e.message);
     }
-
-    return true;
-  }
-
-  protected handleAdd() {
-    const rmrk = emptyObject<NFTAndMeta>();
-    rmrk.collection = this.oneByOne
-      ? generateId(this.accountId, this.symbol)
-      : this.selectedCollection?.id || '';
-    rmrk.sn = this.calculateSerialNumber(this.added.length);
-    rmrk.meta = emptyObject<NFTMetadata>();
-    rmrk.transferable = 1;
-    rmrk.name = '';
-    this.added.push(rmrk);
-    this.images.push(null);
-    this.animated.push(null);
-  }
-
-  protected hadleItemRemoval(index: number) {
-    this.added.splice(index, 1);
-    this.added.forEach((nft, i) => (nft.sn = this.calculateSerialNumber(i)));
-    for (let i = index; i < this.added.length; i++) {
-      this.$set(this.images, i, this.images[i + 1]);
-      this.$set(this.animated, i, this.animated[i + 1]);
-    }
-    this.$set(this.images, this.added.length, null);
-    this.$set(this.animated, this.added.length, null);
   }
 
   protected calculateSerialNumber(index: number) {
