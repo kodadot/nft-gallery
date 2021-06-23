@@ -70,6 +70,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
+import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils';
 import {
   defaultSortBy,
 } from '@/components/rmrk/utils';
@@ -101,23 +102,44 @@ const eq = (tab: string) => (el: string) => tab === el;
     return {
       meta: [
         {
+          property: 'og:title',
+          vmid: 'og:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'og:description',
+          vmid: 'og:description',
+          content: this.firstNFTData.description as string || 'Find more NFTs from this creator'
+        },
+        {
           property: 'og:image',
           vmid: 'og:image',
-          content: this.firstNFT as string
+          content: this.firstNFTData.image as string || this.defaultNFTImage as string
         },
         { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'twitter:card', content: 'summary_large_image' },
+        {
+          property: 'twitter:title',
+          vmid: 'twitter:title',
+          content: 'NFT Artist Profile on KodaDot'
+        },
+        {
+          property: 'twitter:description',
+          vmid: 'twitter:description',
+          content: this.firstNFTData.description as string || 'Find more NFTs from this creator'
+        },
         {
           property: 'twitter:image',
           vmid: 'twitter:image',
-          content: this.firstNFT as string
+          content: this.firstNFTData.image as string || this.defaultNFTImage as string
         },
-        { property: 'twitter:card', content: 'summary_large_image' }
       ]
     };
   }
 })
 export default class Profile extends Vue {
   public activeTab: string = 'nft';
+  public firstNFTData: any = {};
   protected id: string = '';
   protected isLoading: boolean = false;
   protected collections: CollectionWithMeta[] = [];
@@ -136,7 +158,7 @@ export default class Profile extends Vue {
   private currentCollectionPage = 1;
   private totalCollections = 0;
 
-  public async mounted() {
+  public async created() {
     await this.fetchProfile();
   }
 
@@ -164,6 +186,11 @@ export default class Profile extends Vue {
 
   get collectionOffset() {
     return this.currentCollectionPage * this.first - this.first;
+  }
+
+  get defaultNFTImage() {
+    const url = new URL(window.location.href);
+    return `${url.protocol}//${url.hostname}` + require('@/assets/kodadot_logo_v1_transparent_400px.png');
   }
 
   protected async fetchProfile() {
@@ -226,7 +253,11 @@ export default class Profile extends Vue {
     this.web = (this.$refs['identity'] as Identity).web as string;
     this.legal = (this.$refs['identity'] as Identity).legal as string;
 
-    console.log(this.email, this.twitter);
+    const meta = await fetchNFTMetadata(this.nfts[0])
+    this.firstNFTData = {
+      ...meta,
+      image: sanitizeIpfsUrl(meta.image || ''),
+    }
   }
 
   protected async handleResult({ data }: any) {
@@ -234,21 +265,9 @@ export default class Profile extends Vue {
     this.nfts = data.nFTEntities.nodes;
   }
 
-    protected async handleCollectionResult({ data }: any) {
+  protected async handleCollectionResult({ data }: any) {
     this.totalCollections = data.collectionEntities.totalCount;
-    console.log(data)
     this.collections = data.collectionEntities.nodes;
-  }
-
-  get firstNFT() {
-    if (this.nfts !== undefined && this.nfts.length !== 0) {
-      const firstNft = this.nfts.find(
-        nft => nft.image && nft.type && nft.type.includes('image')
-      );
-      if (firstNft !== undefined) return firstNft.image;
-    }
-    const url = new URL(window.location.href);
-    return `${url.protocol}${url.hostname}/img/kodadot_logo_v1_transparent_400px.56bb186b.png}`;
   }
 
   public checkActiveTab() {
