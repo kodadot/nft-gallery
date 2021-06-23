@@ -67,7 +67,7 @@ export enum MediaType {
   TEXT = 'Text',
   IFRAME = 'IFrame',
   UNKNOWN = '',
-  OBJECT = "Object"
+  OBJECT = 'Object'
 }
 
 export interface RMRK {
