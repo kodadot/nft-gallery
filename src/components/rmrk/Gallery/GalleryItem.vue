@@ -147,8 +147,6 @@ import axios from 'axios';
         { property: 'og:image', content: (image)},
         { property: 'og:video', content: (this.meta.image as string) },
         { property: 'og:author', content: (this.nft.currentOwner as string) },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
         { property: 'twitter:description', content: (this.meta.description as string) },
         { property: 'twitter:image', content: (image)},
