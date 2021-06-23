@@ -215,6 +215,10 @@ export const resolveMedia = (mimeType?: string): MediaType => {
     return MediaType.IFRAME
   }
 
+  if (/^application\/pdf/.test(mimeType)) {
+    return MediaType.OBJECT
+  }
+
   const match = mimeType.match(/^[a-z]+/);
 
   if (!match) {
