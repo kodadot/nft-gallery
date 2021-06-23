@@ -19,6 +19,8 @@
         v-model="image"
         label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
         expanded
+        preview
+        accept="image/png, image/jpeg, image/gif"
       />
 
       <b-field grouped :label="$i18n.t('Name')">
@@ -143,7 +145,7 @@ export default class CreateCollection extends Mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.accountId && this.image);
+    return !(name && symbol && (this.unlimited || max) && this.accountId && this.image);
   }
 
   public constructRmrkMint(metadata: string): Collection {
