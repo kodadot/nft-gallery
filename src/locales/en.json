@@ -159,6 +159,7 @@
     "post": "Post NFT to Subsocial to enable comments",
     "reply": "Reply to this comment",
     "addComment": "Add comment",
-    "searchPost": "Searching for the post"
+    "searchPost": "Searching for the post",
+    "autoFaucet": "Click to obtain SUB from faucet"
   }
 }
