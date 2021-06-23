@@ -64,6 +64,7 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
 
   protected async handlePost() {
     try {
+      this.initTransactionLoader();
       const ss = await resolveSubsocialApi();
       const args = await this.buildParams();
       const api = await ss.substrate.api;
@@ -79,22 +80,28 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
         cb as any,
         finalArgs,
         txCb(
-          async blockHash => {
-            execResultValue(tx);
-            showNotification(blockHash.toString(), notificationTypes.info);
-
-            showNotification(
-              `[SUBSOCIAL] ${this.nft.name}`,
-              notificationTypes.success
-            );
-            this.isLoading = false;
-          },
+          () => null,
           err => {
             execResultValue(tx);
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
             this.isLoading = false;
           },
-          res => this.resolveStatus(res.status)
+          res => {
+            this.resolveStatus(res.status)
+            if (res.status.isInBlock) {
+              execResultValue(tx);
+              showNotification(
+                res.status.asInBlock.toString(),
+                notificationTypes.info
+              );
+              showNotification(
+              `[SUBSOCIAL] ${this.nft.name}`,
+              notificationTypes.success
+            );
+            this.$emit('input');
+            this.isLoading = false;
+            }
+          }
           )
       );
     } catch (e) {
@@ -104,7 +111,7 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
 
   // Subsocial does not show source so far
   protected forceHackNftUrl() {
-    return `${this.meta.description}\n\n[View this NFT on KodaDot](${this.url})`;
+    return `${this.meta.description}\n\n[View this NFT on KodaDot](${this.url}${this.nft.id})`;
   }
 }
 </script>

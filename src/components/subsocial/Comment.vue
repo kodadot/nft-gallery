@@ -101,7 +101,6 @@ export default class Comment extends Mixins(TransactionMixin) {
   public async mounted() {
     if (this.account) {
       const profile = await findProfile(this.account)
-      console.log(profile, 'profile');
       if (profile) {
         this.profile = profile
       }
@@ -130,12 +129,10 @@ export default class Comment extends Mixins(TransactionMixin) {
   }
 
   get isDownVote() {
-    console.log('down', this.reaction === ReactionType.Downvote)
     return this.reaction === ReactionType.Downvote
   }
 
   get isUpvote() {
-    console.log('up', this.reaction === ReactionType.Upvote)
     return this.reaction === ReactionType.Upvote
   }
 
@@ -183,24 +180,29 @@ export default class Comment extends Mixins(TransactionMixin) {
 
       const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args,
       txCb(
-          async blockHash => {
-            execResultValue(tx);
-            showNotification(blockHash.toString(), notificationTypes.info);
-
-            showNotification(
-              `[SUBSOCIAL] ${this.postId}`,
-              notificationTypes.success
-            );
-            this.isLoading = false;
-            notif.close()
-            this.checkIfReacted(this.accountId)
-            this.$emit('change')
-          },
+          () => null,
           err => {
             execResultValue(tx);
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
             notif.close()
             this.isLoading = false;
+          },
+          res => {
+            if (res.status.isInBlock) {
+              execResultValue(tx);
+              showNotification(
+                res.status.asInBlock.toString(),
+                notificationTypes.info
+              );
+              showNotification(
+                `[SUBSOCIAL] ${this.postId}`,
+                notificationTypes.success
+              );
+              this.isLoading = false;
+              notif.close()
+              this.checkIfReacted(this.accountId)
+              this.$emit('change')
+            }
           }
         ));
 

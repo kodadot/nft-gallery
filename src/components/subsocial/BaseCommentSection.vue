@@ -9,7 +9,7 @@
       <FaucetLink v-else />
       <BasePostReply v-if="postId && this.balance && !actionDisabled" :postId="postId" @submit="reloadComments" />
     </template>
-    <CreatePost v-if="!postId && accountId && !disabled" :nft="nft" :meta="meta" />
+    <CreatePost v-if="!postId && accountId && !disabled" :nft="nft" :meta="meta" @input="handlePost" />
     <CommentWrapper  v-if="postId" :postId="postId" :actionDisabled="disabled"  />
   </div>
 </template>
@@ -23,6 +23,8 @@ import { NFT, NFTMetadata } from '../rmrk/service/scheme';
 import { searchPost } from '@/proxy';
 import { SUBSOCIAL_KODA_SPACE, subSocialStore } from './utils';
 import { setMany, get } from 'idb-keyval';
+import { Debounce } from 'vue-debounce-decorator';
+import { showNotification } from '@/utils/notification';
 
 const components = {
   CommentWrapper: () => import('./CommentWrapper.vue'),
@@ -99,6 +101,12 @@ export default class BaseCommentSection extends Vue {
     const post = this.postId;
     this.postId = '';
     this.postId = post;
+  }
+
+  @Debounce(1000)
+  protected handlePost() {
+    showNotification(this.$t('subsocial.searchPost').toString())
+    this.searchForPost(this.nftId)
   }
 
   @Watch('accountId', { immediate: true })
