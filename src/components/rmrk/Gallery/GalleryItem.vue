@@ -104,7 +104,7 @@
           </template>
         </div>
       </div>
-      <hr />
+      <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
 
@@ -292,6 +292,11 @@ export default class GalleryItem extends Vue {
 
 <style lang="scss">
 @import "@/styles/variables";
+
+hr.comment-divider {
+  border-top: 1px solid lightpink;
+  border-bottom: 1px solid lightpink;
+}
 
 .gallery-item {
   .nft-title {
