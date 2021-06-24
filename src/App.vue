@@ -22,6 +22,7 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import isShareMode from '@/utils/isShareMode'
 import coingecko from '@/coingecko'
+import correctFormat from '@/utils/ss58Format'
 
 @Component<Dashboard>({
   metaInfo() {
@@ -54,7 +55,7 @@ export default class Dashboard extends Vue {
   public async loadKeyring(): Promise<void> {
     const isDevelopment = process.env.VUE_APP_KEYRING === 'true'
     keyring.loadAll({
-      ss58Format: isDevelopment ? 0 : this.ss58Format || 42,
+      ss58Format: correctFormat(this.ss58Format),
       type: 'sr25519',
       isDevelopment,
     });

@@ -11,6 +11,7 @@ import {
 import api from '@/fetch';
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/RmrkService';
 import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme';
+import { justHash } from '@/utils/ipfs';
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
@@ -23,6 +24,14 @@ export const ipfsProviders: Record<ProviderKeyType, string> = {
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
   kodadot: 'https://kodadot.mypinata.cloud/',
+}
+
+export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => {
+  if (justHash(ipfsHash)) {
+    return `${resolveProvider(provider)}ipfs/${ipfsHash}`
+  }
+
+  return ipfsHash
 }
 
 const resolveProvider = (key: ProviderKeyType = 'kodadot') => ipfsProviders[key]

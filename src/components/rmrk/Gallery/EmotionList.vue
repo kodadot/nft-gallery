@@ -60,6 +60,6 @@ export default class extends Vue {
 }
 
 #emoji-box {
-  border: 2px solid $primary; 
+  border: 2px solid $primary;
 }
 </style>
