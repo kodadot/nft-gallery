@@ -14,6 +14,7 @@ const AudioMedia = () => import('./AudioMedia.vue')
 const JsonMedia = () => import('./JsonMedia.vue')
 const ModelMedia = () => import('./ModelMedia.vue')
 const IFrameMedia = () => import('./IFrameMedia.vue')
+const ObjectMedia = () => import('./ObjectMedia.vue')
 const Media = () => import('./Unknown.vue')
 const SUFFIX = 'Media'
 @Component({
@@ -24,6 +25,7 @@ const SUFFIX = 'Media'
     JsonMedia,
     ModelMedia,
     IFrameMedia,
+    ObjectMedia,
     Media
   }
 })

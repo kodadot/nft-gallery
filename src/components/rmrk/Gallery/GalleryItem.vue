@@ -104,7 +104,10 @@
           </template>
         </div>
       </div>
+      <hr class="comment-divider" />
+      <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
+
   </div>
 </template>
 
@@ -117,12 +120,12 @@ import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
-import AvailableActions from './AvailableActions.vue';
+// import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import Money from '@/components/shared/format/Money.vue';
-import Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-import Name from '@/components/rmrk/Gallery/Item/Name.vue';
+// import Money from '@/components/shared/format/Money.vue';
+// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
+// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
+// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql'
@@ -144,8 +147,6 @@ import axios from 'axios';
         { property: 'og:image', content: (image)},
         { property: 'og:video', content: (this.meta.image as string) },
         { property: 'og:author', content: (this.nft.currentOwner as string) },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:site', content: '@KodaDot' },
         { property: 'twitter:title', content: (this.nft.name as string) },
         { property: 'twitter:description', content: (this.meta.description as string) },
         { property: 'twitter:image', content: (image)},
@@ -154,15 +155,16 @@ import axios from 'axios';
   },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions,
-    Facts,
+    AvailableActions: () => import('./AvailableActions.vue'),
+    Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
-    Money,
-    Name,
-    Sharing,
+    Money: () => import('@/components/shared/format/Money.vue'),
+    Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
+    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
-    PackSaver: () => import('../Pack/PackSaver.vue')
+    PackSaver: () => import('../Pack/PackSaver.vue'),
+    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue')
   }
 })
 export default class GalleryItem extends Vue {
@@ -233,8 +235,9 @@ export default class GalleryItem extends Vue {
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
+        console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
         );
       }
@@ -290,6 +293,11 @@ export default class GalleryItem extends Vue {
 
 <style lang="scss">
 @import "@/styles/variables";
+
+hr.comment-divider {
+  border-top: 1px solid lightpink;
+  border-bottom: 1px solid lightpink;
+}
 
 .gallery-item {
   .nft-title {
