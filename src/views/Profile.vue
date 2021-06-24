@@ -252,17 +252,19 @@ export default class Profile extends Vue {
     this.riot = (this.$refs['identity'] as Identity).riot as string;
     this.web = (this.$refs['identity'] as Identity).web as string;
     this.legal = (this.$refs['identity'] as Identity).legal as string;
-
-    const meta = await fetchNFTMetadata(this.nfts[0])
-    this.firstNFTData = {
-      ...meta,
-      image: sanitizeIpfsUrl(meta.image || ''),
-    }
   }
 
   protected async handleResult({ data }: any) {
     this.total = data.nFTEntities.totalCount;
     this.nfts = data.nFTEntities.nodes;
+
+    if (!this.firstNFTData.image) {
+      const meta = await fetchNFTMetadata(this.nfts[0])
+      this.firstNFTData = {
+        ...meta,
+        image: sanitizeIpfsUrl(meta.image || ''),
+      }
+    }
   }
 
   protected async handleCollectionResult({ data }: any) {
