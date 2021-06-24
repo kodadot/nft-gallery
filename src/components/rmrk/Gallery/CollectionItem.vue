@@ -49,12 +49,12 @@ const components = {
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [
         { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-        { property: 'og:title', content: 'KodaDot cares about environmental impact'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
-        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:title', content: this.collection.name || 'KodaDot cares about environmental impact'},
+        { property: 'og:image', content: this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: this.meta.description || 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:title', content: this.collection.name || 'KodaDOT cares about environmental impact'},
+        { property: 'twitter:description', content: this.meta.description || 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:image', content: this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   },
@@ -89,7 +89,7 @@ export default class CollectionItem extends Vue {
         variables: {
           id: this.id
         },
-        update: ({ collectionEntity }) => { console.log(collectionEntity); return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+        update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
         result: () => this.fetchMetadata()
       })
   }
@@ -104,35 +104,6 @@ export default class CollectionItem extends Vue {
       }
     }
   }
-
-  // public async mounted() {
-  // this.checkId();
-  // const rmrkService = getInstance();
-  // if (!rmrkService || !this.id) {
-  //   return;
-  // }
-
-  // this.isLoading = true;
-
-  // try {
-  //   this.collection = await rmrkService.getCollectionById(this.id).then(sanitizeImage);
-  //   this.collections = await rmrkService
-  //       .getNFTsForCollection(this.id)
-  //       .then(sanitizeObjectArray)
-  //       .then(defaultSortBy);
-  //   // this.collectionMeta();
-  //   // const collections = await rmrkService.getCollectionListForAccount(
-  //   //   this.id
-  //   // ).then(defaultSortBy);
-
-  //   // console.log(packs)
-  // } catch (e) {
-  //   showNotification(`${e}`, notificationTypes.danger);
-  //   console.warn(e);
-  // }
-
-  //   this.isLoading = false;
-  // }
 
   public checkId() {
     if (this.$route.params.id) {
