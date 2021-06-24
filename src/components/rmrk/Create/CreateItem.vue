@@ -98,9 +98,9 @@ export default class CreateItem extends Vue {
 
 
   @Prop(Number) public max!: number;
-  @Prop() public alreadyMinted!: number;
+  @Prop(Number) public alreadyMinted!: number;
 
-    get fileType() {
+  get fileType() {
     return resolveMedia(this.vFile?.type);
   }
 

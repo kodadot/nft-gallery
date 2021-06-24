@@ -27,24 +27,17 @@
             </option>
           </b-select>
           <Tooltip
-            :label="$i18n.t('Select collection where do you want mint your token')"
+            :label="
+              $i18n.t('Select collection where do you want mint your token')
+            "
           />
         </b-field>
       </template>
-      <b-field>
-        <PasswordInput
-          v-if="canSubmit"
-          v-model="password"
-          :account="accountId"
-        />
-      </b-field>
       <h6 v-if="selectedCollection" class="subtitle is-6">
         You have minted {{ selectedCollection.alreadyMinted }} out of
         {{ selectedCollection.max || Infinity }}
       </h6>
-      <CreateItem
-        v-bind.sync="nft"
-      />
+      <CreateItem v-bind.sync="nft" />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -99,7 +92,7 @@ import CreateItem from './CreateItem.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import { Collection, NFT, NFTMetadata, MintNFT } from '../service/scheme';
@@ -113,11 +106,16 @@ import Consolidator, {
 } from '@/components/rmrk/service/Consolidator';
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { supportTx, MaybeFile, calculateCost } from '@/utils/support';
+import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
 import collectionForMint from '@/queries/collectionForMint.graphql';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
-import { nsfwAttribute, offsetAttribute, secondaryFileVisible } from './mintUtils'
+import {
+  nsfwAttribute,
+  offsetAttribute,
+  secondaryFileVisible,
+  toRemark
+} from './mintUtils';
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -144,16 +142,19 @@ type MintedCollection = {
     Loader: () => import('@/components/shared/Loader.vue')
   }
 })
-export default class CreateToken extends Mixins(RmrkVersionMixin, TransactionMixin) {
-    protected nft: MintNFT = {
+export default class CreateToken extends Mixins(
+  RmrkVersionMixin,
+  TransactionMixin
+) {
+  protected nft: MintNFT = {
     name: '',
     description: '',
     edition: 1,
     tags: [],
     nsfw: false,
     price: '',
-    file: undefined,
-  }
+    file: undefined
+  };
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
 
@@ -195,19 +196,16 @@ export default class CreateToken extends Mixins(RmrkVersionMixin, TransactionMix
       data: { collectionEntities }
     } = collections;
 
-    this.collections = collectionEntities.nodes
-      ?.map((ce: any) => ({
-        ...ce,
-        alreadyMinted: ce.nfts?.totalCount
-      }))
-      // .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
+    this.collections = collectionEntities.nodes?.map((ce: any) => ({
+      ...ce,
+      alreadyMinted: ce.nfts?.totalCount
+    }));
+    // .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
   }
-
 
   get disabled() {
-    return !(this.nft.name && this.nft.file && this.selectedCollection)
+    return !(this.nft.name && this.nft.file && this.selectedCollection);
   }
-
 
   private calculatePrice() {
     // this.filePrice = calculateCost([this.nft.file, this.nft.secondFile].filter(a => typeof a !== 'undefined'));
@@ -233,27 +231,104 @@ export default class CreateToken extends Mixins(RmrkVersionMixin, TransactionMix
     return [];
   }
 
+  protected async canOffset() {
+    if (this.hasCarbonOffset) {
+      return [await offsetTx(1)];
+    }
+
+    return [];
+  }
+
   protected async submit() {
     if (!this.selectedCollection) {
-      throw ReferenceError('[MINT] Unable to mint without collection')
+      throw ReferenceError('[MINT] Unable to mint without collection');
     }
 
     this.isLoading = true;
     this.status = 'loader.ipfs';
     const { api } = Connector.getInstance();
+    const { alreadyMinted, symbol } = this.selectedCollection;
 
     try {
       const metadata = await this.constructMeta();
-      const mint = NFTUtils.createNFT(this.accountId, this.alreadyMinted + 1, this.selectedCollection.symbol, this.nft.name, metadata)
-      const mintString = NFTUtils.encodeNFT(mint, this.version)
+      // missin possibility to handle more than one remark
+
+      const mint = NFTUtils.createMultipleNFT(
+        this.nft.edition,
+        this.accountId,
+        symbol,
+        this.nft.name,
+        metadata,
+        alreadyMinted
+      );
+      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
+
+      const isSingle =
+        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
+
+      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll;
+      const args = isSingle
+        ? mintString[0]
+        : [
+            ...mintString.map(this.toRemark),
+            ...(await this.canSupport()),
+            ...(await this.canOffset())
+          ];
+
+      console.log(mintString, mint);
+
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
+
+            // if (this.price) {
+            //   this.listForSale(result.nfts, blockNumber);
+            // }
+
+            showNotification(
+              `[NFT] Saved ${this.nft.edition} entries in block ${blockNumber}`,
+              notificationTypes.success
+            );
+
+            this.isLoading = false;
+          },
+          dispatchError => {
+            execResultValue(tx);
+            if (dispatchError.isModule) {
+              const decoded = api.registry.findMetaError(
+                dispatchError.asModule
+              );
+              const { documentation, name, section } = decoded;
+              showNotification(
+                `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+                notificationTypes.danger
+              );
+            } else {
+              showNotification(
+                `[ERR] ${dispatchError.toString()}`,
+                notificationTypes.danger
+              );
+            }
+
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
+      );
     } catch (e) {
-      showNotification(e, notificationTypes.danger);
+      showNotification(e.toString(), notificationTypes.danger);
       this.isLoading = false;
     }
   }
 
-
-    public async constructMeta(): Promise<string> {
+  public async constructMeta(): Promise<string> {
     if (!this.nft.file) {
       throw new ReferenceError('No file found!');
     }

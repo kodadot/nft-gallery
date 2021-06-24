@@ -1,6 +1,7 @@
 import { Attribute } from '../service/scheme';
 import { MediaType } from '../types';
 import { resolveMedia } from '../utils';
+import Connector from '@vue-polkadot/vue-api'
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {
   if (!nsfw) {
@@ -21,4 +22,15 @@ export function offsetAttribute(hasCarbonOffset: boolean): Attribute[] {
 export function secondaryFileVisible(file?: Blob) {
   const fileType = resolveMedia(file?.type);
   return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType);
+}
+
+export function toRemark(rmrk: string | string[]) {
+  const { api } = Connector.getInstance()
+  const remark = api.tx.system.remark
+
+  if (Array.isArray(rmrk)) {
+    return rmrk.map(remark)
+  }
+
+  return remark(rmrk)
 }

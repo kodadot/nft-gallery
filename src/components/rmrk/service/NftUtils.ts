@@ -104,6 +104,10 @@ class NFTUtils {
     }
   }
 
+  public static createMultipleNFT(max: number, caller: string, symbol: string, name: string, metadata: string, offset: number = 0): NFT[] {
+    return Array(max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i + offset, symbol, name, metadata))
+  }
+
   public static upperTrim(name: string, slug?: boolean) {
     const result = name.trim().toUpperCase()
     return slug ? slugify(result, '_') : result
@@ -124,6 +128,7 @@ class NFTUtils {
   public static decodeAndConvert(rmrkString: string) {
     return NFTUtils.convert(NFTUtils.decodeRmrk(rmrkString))
   }
+
 
   public static generateRemarks(mint: SimpleNFT, caller: string, version: string = '1.0.0', encode?: boolean): MintType | string[] {
     const collection = NFTUtils.createCollection(caller, mint.symbol, mint.name, mint.metadata, mint.max, version);
