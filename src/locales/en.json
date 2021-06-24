@@ -138,7 +138,8 @@
     "block": "(2/3) Transaction in block",
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
-    "constructTx": "Constructing transaction"
+    "constructTx": "Constructing transaction",
+    "sign": "Waiting for response from singer"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
@@ -147,5 +148,18 @@
   "Partnerships & Ambassadors": "Partnerships & Ambassadors",
   "theatre": "theatre",
   "view": "view",
-  "price": "price"
+  "price": "price",
+  "subsocial": {
+    "showComments": "Show comments",
+    "noComment": "There are currently no comments for this post!",
+    "comments": "Comment section by SubSocial",
+    "faucet": "You have no funds. Click here to visit faucet",
+    "balance": "Current balance",
+    "logIn": "You have to be logged in to vote and comment.",
+    "post": "Post NFT to Subsocial to enable comments",
+    "reply": "Reply to this comment",
+    "addComment": "Add comment",
+    "searchPost": "Searching for the post",
+    "autoFaucet": "Click to obtain SUB from faucet"
+  }
 }

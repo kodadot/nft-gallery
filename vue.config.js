@@ -36,9 +36,10 @@ module.exports = {
         .end()
       .rule('mjs$')
       .test(/\.mjs$/)
+      .type('javascript/auto')
       .include.add(/node_modules/)
       .end()
-      .type('javascript/auto')
+
 
   },
 
@@ -46,6 +47,15 @@ module.exports = {
     resolve: {
       // .mjs needed for https://github.com/graphql/graphql-js/issues/1272
       extensions: ['*', '.mjs', '.js', '.vue', '.json']
+    },
+    module: {
+      rules: [ // fixes https://github.com/graphql/graphql-js/issues/1272
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto'
+        }
+      ]
     }
   },
 
