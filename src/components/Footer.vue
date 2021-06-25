@@ -5,6 +5,19 @@
         <ul class="footer__list icons__list">
           <li class="icons__list-item">
             <a
+              href="https://kodadot.substack.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <b-icon
+                icon="envelope"
+                size="is-small"
+              >
+              </b-icon>
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
               href="https://medium.com/kodadot"
               target="_blank"
               rel="noopener noreferrer"
@@ -68,6 +81,20 @@
               <b-icon
                 pack="fab"
                 icon="reddit-alien"
+                size="is-medium"
+              >
+              </b-icon>
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <b-icon
+                pack="fab"
+                icon="youtube"
                 size="is-medium"
               >
               </b-icon>
