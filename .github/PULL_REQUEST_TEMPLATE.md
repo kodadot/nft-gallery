@@ -1,6 +1,6 @@
 **Thank you for your contribution** to the KodaDot NFT gallery.
-Let's do quick check before merge, 
-because your contribution will be eternal part of community codebase.
+Let's do a quick check before the merge. 
+Your contribution will be an eternal part of the community codebase
 
 ### Before submitting this PR, please make sure:
 - [ ] Your code builds clean without any erros or warnigns
