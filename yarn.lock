@@ -1009,11 +1009,6 @@
     buffer "^5.4.3"
     seedrandom "^3.0.5"
 
-"@edgeware/node-types@^3.5.1-erup-4":
-  version "3.5.1-erup-4"
-  resolved "https://registry.yarnpkg.com/@edgeware/node-types/-/node-types-3.5.1-erup-4.tgz#802ad24359546de58f02c79e88036eaa2ac2f1dc"
-  integrity sha512-10xPby539QLqsL543HljhBYnm8YvzU6dVWVWk4QkW/PKdPYsZY4MN7zZWRhertKl1HU3CibCgH0hJNWO8IjAsg==
-
 "@fortawesome/fontawesome-common-types@^0.2.35":
   version "0.2.35"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.35.tgz#01dd3d054da07a00b764d78748df20daf2b317e9"
@@ -2109,12 +2104,11 @@
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.2.tgz#808c9fa7e4517274ed555fa158f2de4b4f468e71"
   integrity sha512-HrCIVMLjE1MOozVoD86622S7aunluLb2PJdPfb3nYiEtohm8mIB/vyv0Fd37AdeMFrTUQXEunw78YloMA3Qilg==
 
-"@vue-polkadot/vue-api@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.34.tgz#51f0769bf29a03f7a8b2afb2e8c7178cc398e01f"
-  integrity sha512-38Ge2EJErkUpmq010sitUcEC6GxzROKGIlKVugjg9aRAz7teTokFD+jyBQGB87s64P/cRIVulkBF/uTpLLNL5w==
+"@vue-polkadot/vue-api@0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.35.tgz#cb1c0154421e24b302f20075cd460b97951e6088"
+  integrity sha512-keDt+vEcyZTVtn8MYj/zOUmDJ9g/vnuW99jDyAPfnAycjAP0sk+urarlHZ12tFEvKySqxhfTNJXbSPchyvrPAQ==
   dependencies:
-    "@edgeware/node-types" "^3.5.1-erup-4"
     "@polkadot/api" "^4.15.1"
 
 "@vue-polkadot/vue-settings@^0.0.17":

@@ -6,7 +6,7 @@
           size="is-small"
           v-clipboard:copy="realworldFullPathShare"
           @click="toast('URL copied to clipboard')"
-          class="share__button"
+          class="share__root share__button"
         >
           <b-icon
             size="is-medium"
@@ -151,7 +151,7 @@
           </template>
           <b-button
             type="is-dark"
-            class="share__button"
+            class="share__root share__button"
             size="is-small"
             @click="active = !active"
             @focusout="active = !active"
@@ -235,55 +235,66 @@ export default class Sharing extends Vue {
 <style lang="scss">
   @import "@/styles/variables";
 
-  .share {
-    &__button {
-      color: $primary;
-      background: transparent;
-      border: none;
-      margin: 5px;
+.share {
+  box-shadow: 0px 0px 5px 0.5px #d32e79;
 
-      &:hover,
-      &:focus {
-        &:not(:active) {
-          box-shadow: none;
-          // box-shadow: 0px 0px 5px 0.5px #d32e79;
-        }
-      }
+  &__button {
+    color: $primary;
+    background: transparent;
+    border: none;
+    margin: 5px;
 
-      & > span {
-        display: flex;
-        align-items: center;
+    &:hover{
+      color: $grey;
+    }
+
+    &:focus {
+      &:not(:active) {
+        //box-shadow: 0px 0px 5px 0.5px #d32e79;
       }
     }
 
-    &__tooltip {
+    & > span {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__tooltip {
+    width: 100%;
+
+    .tooltip-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
       width: 100%;
+      min-width: 162px;
+      max-width: 300px;
 
+      &:before {
+        display: none;
+      }
+    }
+
+    .tooltip-trigger {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &.is-light  {
       .tooltip-content {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        width: 100%;
-        min-width: 162px;
-        max-width: 300px;
-
-        &:before {
-          display: none;
-        }
-      }
-
-      .tooltip-trigger {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      &.is-light  {
-        .tooltip-content {
-          background-color: $white;
-        }
+        background-color: $white;
       }
     }
   }
+
+  .share__root{
+    &:hover {
+      color: $primary;
+    }
+  }
+  
+}
 </style>

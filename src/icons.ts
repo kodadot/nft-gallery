@@ -40,7 +40,8 @@ import {
   faFacebook, faFacebookMessenger,
   faTelegramPlane, faMedium, faWhatsapp,
   faPinterest, faWpexplorer, faDiscord,
-  faRedditAlien
+  faRedditAlien,
+  faYoutube
 } from '@fortawesome/free-brands-svg-icons';
 
 import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -87,7 +88,9 @@ library.add(
   faPinterest, faMedium,
   faAngleLeft, faAngleRight,
   faReply, faThumbsUp, faThumbsDown,
-  faExternalLinkSquareAlt
+  faExternalLinkSquareAlt,
+  faYoutube
+
   );
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
