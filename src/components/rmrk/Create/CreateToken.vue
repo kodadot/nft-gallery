@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="box">
-      <b-loading
-        is-full-page
-        v-model="isLoading"
-        :can-cancel="true"
-      ></b-loading>
+      <Loader v-model="isLoading" :status="status" />
       <b-field>
         <Auth />
       </b-field>
@@ -37,7 +33,7 @@
         You have minted {{ selectedCollection.alreadyMinted }} out of
         {{ selectedCollection.max || Infinity }}
       </h6>
-      <CreateItem v-bind.sync="nft" />
+      <CreateItem v-if="selectedCollection" v-bind.sync="nft" :max="selectedCollection.max" :alreadyMinted="selectedCollection.alreadyMinted" />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -169,17 +165,9 @@ export default class CreateToken extends Mixins(
     return this.$store.getters.getAuthAddress;
   }
 
-  public created() {
-    if (this.accountId) {
-      this.fetchCollections();
-    }
-  }
-
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
-      console.log('calling fetch', value);
-
       this.fetchCollections();
     }
   }
@@ -189,7 +177,8 @@ export default class CreateToken extends Mixins(
       query: collectionForMint,
       variables: {
         account: this.accountId
-      }
+      },
+      fetchPolicy: "network-only"
     });
 
     const {

@@ -4,6 +4,7 @@
       v-model="vFile"
       label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
       expanded
+      preview
     />
 
     <b-field grouped :label="$i18n.t('Name')">
@@ -31,7 +32,7 @@
         placeholder="1 is minumum"
         expanded
         :min="1"
-        :max="Infinity"
+        :max="clickableMax"
       ></b-numberinput>
       <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
     </b-field>
@@ -111,6 +112,10 @@ export default class CreateItem extends Vue {
 
   get hasPrice() {
     return Number(this.vPrice)
+  }
+
+  get clickableMax() {
+    return (this.max || Infinity) - this.alreadyMinted
   }
 
 
