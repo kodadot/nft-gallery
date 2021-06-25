@@ -70,150 +70,88 @@ export default class GalleryCard extends Vue {
 </script>
 
 <style lang="scss">
-.gallery {
-  @media screen and (max-width: 1023px) {
-    padding: 0 15px;
-  }
 
-  &__image-wrapper {
-    position: relative;
-    margin: auto;
-    padding-top: 100%;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  &__image {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    border-radius: 8px;
-    top: 50%;
-    transition: all 0.3s;
-    display: block;
-    width: 100%;
-    height: auto;
-    transform: scale(1) translateY(-50%);
-  }
-
-  .ff-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow: hidden;
-
-    .ff-overlay {
-      z-index: 2;
-    }
-
-    .ff-image,
-    .ff-canvas {
-      top: 50%;
-      height: auto;
-      transform: translateY(-50%);
-      transition: all 0.3s !important;
-    }
-  }
+.nft-card {
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 2px 5px 0.5px #d32e79;
 
   .has-text-overflow-ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #fff;
   }
 
-  .is-float-right {
-    float: right;
-  }
-
-  .is-color-pink {
-    color: #d32e79;
-  }
-
-  .is-absolute {
-    position: absolute;
-  }
-
-  .nft-collection-counter {
-    top: 5px;
-    right: -5px;
-  }
-
-  .columns {
-    padding-top: 10px;
-
-    .card {
+  &__skeleton {
+    .ff-canvas {
       border-radius: 8px;
-      position: relative;
-      overflow: hidden;
+    }
 
-      &-image {
-        .ff-canvas {
-          border-radius: 8px;
-        }
+    &__emotes {
+      position: absolute;
+      background-color: #d32e79;
+      border-radius: 4px;
+      padding: 3px 8px;
+      color: #fff;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      z-index: 3;
+      transition: all 0.3s;
+    }
 
-        &__emotes {
-          position: absolute;
-          background-color: #d32e79;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          top: 10px;
-          right: 10px;
-          font-size: 14px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
+    &__price {
+      position: absolute;
+      background-color: #363636;
+      border-radius: 4px;
+      padding: 3px 8px;
+      color: #fff;
+      bottom: 10px;
+      left: 10px;
+      font-size: 14px;
+      z-index: 3;
+      transition: all 0.3s;
+    }
+  }
 
-        &__price {
-          position: absolute;
-          background-color: #363636;
-          border-radius: 4px;
-          padding: 3px 8px;
-          color: #fff;
-          bottom: 10px;
-          left: 10px;
-          font-size: 14px;
-          z-index: 3;
-          transition: all 0.3s;
-        }
-      }
+  @media screen and (min-width: 1024px) {
+    .card-content {
+      position: absolute;
+      bottom: -45px;
+      left: 0;
+      width: 100%;
+      transition: all 0.3s;
+      background: #fff;
+      opacity: 0;
+    }
 
-      @media screen and (min-width: 1024px) {
-        &-content {
-          position: absolute;
-          bottom: -45px;
-          left: 0;
-          width: 100%;
-          transition: all 0.3s;
-          background: #fff;
-          opacity: 0;
-        }
+    &:hover .card-content {
+      bottom: 0;
+      opacity: 1;
+      z-index: 2;
+      background: #000 !important;
+    }
 
-        &:hover .card-content {
-          bottom: 0;
-          opacity: 1;
-          z-index: 2;
-        }
+    &:hover .card-image img {
+      transition: all 0.3s !important;
+      transform: scale(1.1) translateY(-5%);
+    }
 
-        &:hover .gallery__image-wrapper img {
-          transform: scale(1.1) translateY(-50%);
-        }
+    &:hover .ff-canvas {
+      transform: scale(1.1) translateY(-50%);
+    }
 
-        &:hover .ff-canvas {
-          transform: scale(1.1) translateY(-50%);
-        }
+    &:hover .card-image__emotes {
+      top: 15px;
+      right: 15px;
+    }
 
-        &:hover .card-image__emotes {
-          top: 15px;
-          right: 15px;
-        }
-
-        &:hover .card-image__price {
-          bottom: 62px;
-        }
-      }
+    &:hover .card-image__price {
+      bottom: 62px;
     }
   }
 }
+
 </style>
