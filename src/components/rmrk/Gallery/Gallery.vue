@@ -382,7 +382,7 @@ export default class Gallery extends Vue {
 
         &__emotes {
           position: absolute;
-          background-color: #fff;
+          background-color: #d32e79;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
