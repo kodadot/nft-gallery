@@ -1,5 +1,3 @@
-Thank you for your contribution to the KodaDot NFT gallery.
-
 ### Before submitting this PR, please make sure:
 - [ ] Your code builds clean without any erros or warnigns
 - [ ] You've posted screenshot of demonstrated change in this PR
