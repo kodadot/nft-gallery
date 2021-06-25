@@ -4,7 +4,7 @@ Your contribution will be an eternal part of the community codebase
 
 ### Before submitting this PR, please make sure:
 - [ ] Code builds clean without any erros or warnings
-- [ ] Merged recent default branch, **main** and you have no conflicts
+- [ ] Merged recent default branch -- **main** and I've no conflicts
 - [ ] Didn't break any original functionality
 
 ### Optional
@@ -12,14 +12,14 @@ Your contribution will be an eternal part of the community codebase
 
 ### PR type
 - [ ] Bugfix
-- [x] Feature
+- [ ] Feature
 - [ ] Refactoring
 
 ### If issue contains bounty label ($,$$,$$$)
 - Your KSM address: <Kusama_address>
 
 ### Community participation
-- [ ] Are you on KodaDot Discord? If no, [let's join - https://discord.gg/35hzy2dXXh](https://discord.gg/35hzy2dXXh)
+- [ ] Are you at KodaDot Discord? If no, [let's join us - https://discord.gg/35hzy2dXXh](https://discord.gg/35hzy2dXXh)
 
 ### Screenshot
 - [ ] Whenever your fix will change **something** on UI, a screenshot is more than welcome
