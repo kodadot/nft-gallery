@@ -2,11 +2,15 @@
   <div class="profile-wrapper container">
     <div class="columns">
       <div class="column">
-        <p class="title">
-          <b-icon pack="fas" icon="ghost"></b-icon>
-            <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity ref="identity" :address="id" :inline="true"
-            /></a>
+
+        <div class="columns">
+          <div class="column title">
+            <b-icon pack="fas" icon="ghost"></b-icon>
+              <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
+                ><Identity ref="identity" :address="id" :inline="true"
+              /></a>
+        </div>
+          <div class="column">
             <OnChainProperty
               v-bind:email="email"
               v-bind:twitter="twitter"
@@ -14,8 +18,9 @@
               v-bind:legal="legal"
               v-bind:riot="riot"
                 />
-          </p>
+          </div>
       </div>
+    </div>
       <div class="column is-2">
         <Sharing
           v-if="!sharingVisible"

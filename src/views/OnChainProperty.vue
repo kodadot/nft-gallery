@@ -1,5 +1,5 @@
 <template>
-	<div class="block">
+	<div class="d-flex flex-row">
 <!-- 		 <b-icon class="property"
 	    	v-if="legalVerified"
 	      size="is-medium"
@@ -8,16 +8,22 @@
 	    >
 	  	</b-icon>
  -->
-		<b-tooltip :label="email" position="is-top">
+ 		<span v-for="(item, index) in icons" :key="index">
+		<b-tooltip class="p-2"
+		 :label="icons[index].label"
+		  position="is-top"
+		  v-clipboard:copy="icons[index].label"
+		  >
 			<b-icon class="property"
-					v-if="emailVerified"
-		      size="is-medium"
-		      pack="fas"
-		      icon="envelope"
+		      :pack="icons[index].pack"
+		      :icon="icons[index].icon"
+		      :size="icons[index].size"
+		  		@click.native="toast('Copied to clipboard')"
 		    >
 		    </b-icon>
-		</b-tooltip>
-		<b-tooltip :label="twitter" position="is-top">
+		</b-tooltip> 			
+ 		</span>
+<!-- 		<b-tooltip :label="twitter" position="is-top">
 			<a :href="`https://twitter.com/${twitter}`">
 		    <b-icon class="property"
 		    	v-if="twitterVerified"
@@ -46,7 +52,7 @@
 	    >
 	  	</b-icon>
 	  </b-tooltip>
-	  	<!-- <b-icon class="property"
+ -->	  	<!-- <b-icon class="property"
 	    	v-if="webVerified"
 	      size="is-medium"
 	      pack="fas"
@@ -84,15 +90,22 @@ export default class OnChainProperty extends Vue{
 	@Prop() public web!: string ;
 	@Prop() public riot!: string ;
 	@Prop() public legal!: string ;
+	public icons: any = [];
 	protected id: string = '';
 
 	public async mounted(){
+		console.log(this.email);
 		await this.fetchProfile();
 	}
 
 	protected async fetchProfile(){
 		this.id = shortAddress(this.$route.params.id);
-	}
+		this.emailVerified();
+		this.twitterVerified();
+		this.webVerified();
+		this.riotVerified();
+		this.legalVerified();
+	}	
 
 
 	private verify(content: Property){
@@ -102,44 +115,79 @@ export default class OnChainProperty extends Vue{
 		return true;
 	}
 
-	get emailVerified(){
+	private emailVerified(){
 		console.log(this.email);
-		return this.verify(this.email);
+		if(this.verify(this.email)){
+			this.icons.push({
+				'label': this.email,
+				'pack': 'fas',
+				'icon': 'envelope',
+				'size': 'is-medium'
+			});
+		}
 	}
 
-	get twitterVerified(){
+	private twitterVerified(){
 		console.log(this.twitter);
-		return this.verify(this.twitter);
+		if(this.verify(this.twitter)){
+			this.icons.push({
+				'label': this.twitter,
+				'pack': 'fab',
+				'icon': 'twitter',
+				'size': 'is-medium'
+			});
+		}
 	}
 
-	get riotVerified(){
-		return this.verify(this.riot);
+	private riotVerified(){
+		// console.log(this.riot);
+		if(this.verify(this.riot)){
+			this.icons.push({
+				'label': this.riot,
+				'pack': 'fas',
+				'icon': 'comment-alt',
+				'size': 'is-medium'
+			});
+		}
 	}
 
-	get webVerified(){
-		return this.verify(this.web);
+	private webVerified(){
+		// console.log(this.web);
+		if(this.verify(this.web)){
+			this.icons.push({
+				'label': this.web,
+				'pack': 'fas',
+				'icon': 'link',
+				'size': 'is-medium'
+			});
+		}
 	}
 
-	get legalVerified(){
-		console.log(this.legal);
-		return this.verify(this.legal);
+	private legalVerified(){
+		// console.log(this.legal);
+		if(this.verify(this.legal)){
+			this.icons.push({
+				'label': this.legal,
+				'pack': 'fas',
+				'icon': 'users',
+				'size': 'is-medium'
+			});
+		}
 	}
+
+	public toast(message: string): void {
+		console.log('here');
+    this.$buefy.toast.open(message);
+  }
 
 };
 
 </script>
 
 <style>
-.block{
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 60%;
-}
 .property{
   color : #d32e79;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 </style>
