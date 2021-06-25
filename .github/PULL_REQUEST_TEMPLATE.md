@@ -3,21 +3,17 @@ Let's do a quick check before the merge.
 Your contribution will be an eternal part of the community codebase
 
 ### Before submitting this PR, please make sure:
-- [ ] Your code builds clean without any erros or warnigns
+- [ ] Code builds clean without any erros or warnings
 - [ ] Merged recent default branch, **main** and you have no conflicts
 - [ ] Didn't break any original functionality
 
 ### Optional
-- [ ] You've posted a screenshot of demonstrated change in this PR
 - [ ] You've tested it on mobile and everything works
 
 ### PR type
 - [ ] Bugfix
-- [ ] Feature
+- [x] Feature
 - [ ] Refactoring
-
-### What's new? (may be part of changelog)
-- closes #<issue_number> - <Brief_description_how_you_made_fix>
 
 ### If issue contains bounty label ($,$$,$$$)
 - Your KSM address: <Kusama_address>
