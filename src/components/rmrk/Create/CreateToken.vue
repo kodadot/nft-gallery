@@ -91,7 +91,7 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { Collection, NFT, NFTMetadata, MintNFT } from '../service/scheme';
+import { Collection, NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme';
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
@@ -105,6 +105,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
 import collectionForMint from '@/queries/collectionForMint.graphql';
 import TransactionMixin from '@/utils/mixins/txMixin';
+import ChainMixin from '@/utils/mixins/chainMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
 import {
   nsfwAttribute,
@@ -112,6 +113,8 @@ import {
   secondaryFileVisible,
   toRemark
 } from './mintUtils';
+import { formatBalance } from '@polkadot/util';
+import { DispatchError } from '@polkadot/types/interfaces';
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -140,7 +143,8 @@ type MintedCollection = {
 })
 export default class CreateToken extends Mixins(
   RmrkVersionMixin,
-  TransactionMixin
+  TransactionMixin,
+  ChainMixin
 ) {
   protected nft: MintNFT = {
     name: '',
@@ -264,8 +268,6 @@ export default class CreateToken extends Mixins(
             ...(await this.canOffset())
           ];
 
-      console.log(mintString, mint);
-
       const tx = await exec(
         this.accountId,
         '',
@@ -277,38 +279,23 @@ export default class CreateToken extends Mixins(
             const header = await api.rpc.chain.getHeader(blockHash);
             const blockNumber = header.number.toString();
 
-            // if (this.price) {
-            //   this.listForSale(result.nfts, blockNumber);
-            // }
-
             showNotification(
               `[NFT] Saved ${this.nft.edition} entries in block ${blockNumber}`,
               notificationTypes.success
             );
 
             this.isLoading = false;
+
+            if (this.nft.price) {
+              this.listForSale(mint, blockNumber);
+            }
           },
           dispatchError => {
             execResultValue(tx);
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              );
-              const { documentation, name, section } = decoded;
-              showNotification(
-                `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
-                notificationTypes.danger
-              );
-            } else {
-              showNotification(
-                `[ERR] ${dispatchError.toString()}`,
-                notificationTypes.danger
-              );
-            }
-
+            this.onTxError(dispatchError);
             this.isLoading = false;
           },
-          res => this.resolveStatus(res.status)
+          res => this.resolveStatus(res.status, true)
         )
       );
     } catch (e) {
@@ -357,6 +344,94 @@ export default class CreateToken extends Mixins(
 
   protected calculateSerialNumber(index: number) {
     return String(index + this.alreadyMinted + 1).padStart(16, '0');
+  }
+
+
+  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
+    try {
+    const { api } = Connector.getInstance();
+    this.isLoading = true;
+
+    const { version } = this;
+    const { price } = this.nft
+    showNotification(
+      `[APP] Listing NFT to sale for ${formatBalance(price, {
+        decimals: this.decimals,
+        withUnit: this.unit
+      })}`
+    );
+
+    const onlyNfts = remarks
+
+      .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+      .map(nft =>
+        NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+      );
+
+    if (!onlyNfts.length) {
+      showNotification('Can not list empty NFTs', notificationTypes.danger);
+      return;
+    }
+
+    const cb = api.tx.utility.batchAll;
+    const args = onlyNfts.map(this.toRemark);
+
+    const tx = await exec(
+      this.accountId,
+      '',
+      cb,
+      [args],
+      txCb(
+        async blockHash => {
+          execResultValue(tx);
+          const header = await api.rpc.chain.getHeader(blockHash);
+          const blockNumber = header.number.toString();
+
+          showNotification(
+            `[LIST] Saved prices for ${
+              onlyNfts.length
+            } NFTs with tag ${formatBalance(price, {
+              decimals: this.decimals,
+              withUnit: this.unit
+            })} in block ${blockNumber}`,
+            notificationTypes.success
+          );
+
+          this.isLoading = false;
+        },
+        dispatchError => {
+          execResultValue(tx);
+          this.onTxError(dispatchError);
+          this.isLoading = false;
+        },
+        res => this.resolveStatus(res.status)
+      )
+    );
+
+    } catch (e) {
+      showNotification(e.message, notificationTypes.danger)
+    }
+
+  }
+
+
+    protected onTxError(dispatchError: DispatchError): void {
+    const { api } = Connector.getInstance();
+    if (dispatchError.isModule) {
+      const decoded = api.registry.findMetaError(dispatchError.asModule);
+      const { documentation, name, section } = decoded;
+      showNotification(
+        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        notificationTypes.danger
+      );
+    } else {
+      showNotification(
+        `[ERR] ${dispatchError.toString()}`,
+        notificationTypes.danger
+      );
+    }
+
+    this.isLoading = false;
   }
 }
 </script>
