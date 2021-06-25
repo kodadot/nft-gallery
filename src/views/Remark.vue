@@ -3,7 +3,7 @@
     <div class="column is-7 is-offset-3">
       <section>
         <br>
-        <b-tabs type="is-toggle" v-model="activeTab" destroy-on-hide expanded>
+        <b-tabs v-model="activeTab" destroy-on-hide expanded>
           <b-tab-item v-for="x in components" :key="x" :label="x">
             <component v-bind:is="x"></component>
           </b-tab-item>

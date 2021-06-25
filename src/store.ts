@@ -6,6 +6,7 @@ import Connector from '@vue-polkadot/vue-api';
 import IdentityModule from './vuex/IdentityModule';
 import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { changeCurrentColor } from '@/colors'
+import correctFormat from './utils/ss58Format';
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -26,7 +27,7 @@ const apiPlugin = (store: any) => {
     console.log('[API] Connect to <3', store.state.setting.apiUrl,
       { chainSS58, chainDecimals, chainTokens, genesisHash});
     store.commit('setChainProperties', {
-      ss58Format: chainSS58 || 42,
+      ss58Format: correctFormat(chainSS58),
       tokenDecimals: chainDecimals[0] || 12,
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || ''
