@@ -33,7 +33,12 @@
         You have minted {{ selectedCollection.alreadyMinted }} out of
         {{ selectedCollection.max || Infinity }}
       </h6>
-      <CreateItem v-if="selectedCollection" v-bind.sync="nft" :max="selectedCollection.max" :alreadyMinted="selectedCollection.alreadyMinted" />
+      <CreateItem
+        v-if="selectedCollection"
+        v-bind.sync="nft"
+        :max="selectedCollection.max"
+        :alreadyMinted="selectedCollection.alreadyMinted"
+      />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -91,7 +96,13 @@ import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
-import { Collection, NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme';
+import {
+  Collection,
+  NFT,
+  NFTMetadata,
+  MintNFT,
+  getNftId
+} from '../service/scheme';
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
@@ -152,7 +163,7 @@ export default class CreateToken extends Mixins(
     edition: 1,
     tags: [],
     nsfw: false,
-    price: '',
+    price: 0,
     file: undefined,
     secondFile: undefined
   };
@@ -183,18 +194,21 @@ export default class CreateToken extends Mixins(
       variables: {
         account: this.accountId
       },
-      fetchPolicy: "network-only"
+      fetchPolicy: 'network-only'
     });
 
     const {
       data: { collectionEntities }
     } = collections;
 
-    this.collections = collectionEntities.nodes?.map((ce: any) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.totalCount
-    }))
-    .filter((ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0);
+    this.collections = collectionEntities.nodes
+      ?.map((ce: any) => ({
+        ...ce,
+        alreadyMinted: ce.nfts?.totalCount
+      }))
+      .filter(
+        (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
+      );
   }
 
   get disabled() {
@@ -204,7 +218,11 @@ export default class CreateToken extends Mixins(
   @Watch('nft.file')
   @Watch('nft.secondFile')
   private calculatePrice() {
-    this.filePrice = calculateCost(([this.nft.file, this.nft.secondFile] as MaybeFile []).filter(a => typeof a !== 'undefined'));
+    this.filePrice = calculateCost(
+      ([this.nft.file, this.nft.secondFile] as MaybeFile[]).filter(
+        a => typeof a !== 'undefined'
+      )
+    );
   }
 
   private toRemark(remark: string) {
@@ -214,7 +232,12 @@ export default class CreateToken extends Mixins(
 
   protected async canSupport() {
     if (this.hasSupport) {
-      return [await supportTx([this.nft.file as MaybeFile, this.nft.secondFile as MaybeFile])]
+      return [
+        await supportTx([
+          this.nft.file as MaybeFile,
+          this.nft.secondFile as MaybeFile
+        ])
+      ];
     }
 
     return [];
@@ -342,76 +365,72 @@ export default class CreateToken extends Mixins(
     return String(index + this.alreadyMinted + 1).padStart(16, '0');
   }
 
-
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
-    const { api } = Connector.getInstance();
-    this.isLoading = true;
+      const { api } = Connector.getInstance();
+      this.isLoading = true;
 
-    const { version } = this;
-    const { price } = this.nft
-    showNotification(
-      `[APP] Listing NFT to sale for ${formatBalance(price, {
-        decimals: this.decimals,
-        withUnit: this.unit
-      })}`
-    );
-
-    const onlyNfts = remarks
-
-      .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-      .map(nft =>
-        NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+      const { version } = this;
+      const { price } = this.nft;
+      showNotification(
+        `[APP] Listing NFT to sale for ${formatBalance(price, {
+          decimals: this.decimals,
+          withUnit: this.unit
+        })}`
       );
 
-    if (!onlyNfts.length) {
-      showNotification('Can not list empty NFTs', notificationTypes.danger);
-      return;
-    }
+      const onlyNfts = remarks
 
-    const cb = api.tx.utility.batchAll;
-    const args = onlyNfts.map(this.toRemark);
+        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map(nft =>
+          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+        );
 
-    const tx = await exec(
-      this.accountId,
-      '',
-      cb,
-      [args],
-      txCb(
-        async blockHash => {
-          execResultValue(tx);
-          const header = await api.rpc.chain.getHeader(blockHash);
-          const blockNumber = header.number.toString();
+      if (!onlyNfts.length) {
+        showNotification('Can not list empty NFTs', notificationTypes.danger);
+        return;
+      }
 
-          showNotification(
-            `[LIST] Saved prices for ${
-              onlyNfts.length
-            } NFTs with tag ${formatBalance(price, {
-              decimals: this.decimals,
-              withUnit: this.unit
-            })} in block ${blockNumber}`,
-            notificationTypes.success
-          );
+      const cb = api.tx.utility.batchAll;
+      const args = onlyNfts.map(this.toRemark);
 
-          this.isLoading = false;
-        },
-        dispatchError => {
-          execResultValue(tx);
-          this.onTxError(dispatchError);
-          this.isLoading = false;
-        },
-        res => this.resolveStatus(res.status)
-      )
-    );
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
+            showNotification(
+              `[LIST] Saved prices for ${
+                onlyNfts.length
+              } NFTs with tag ${formatBalance(price, {
+                decimals: this.decimals,
+                withUnit: this.unit
+              })} in block ${blockNumber}`,
+              notificationTypes.success
+            );
+
+            this.isLoading = false;
+          },
+          dispatchError => {
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
+      );
     } catch (e) {
-      showNotification(e.message, notificationTypes.danger)
+      showNotification(e.message, notificationTypes.danger);
     }
-
   }
 
-
-    protected onTxError(dispatchError: DispatchError): void {
+  protected onTxError(dispatchError: DispatchError): void {
     const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule);

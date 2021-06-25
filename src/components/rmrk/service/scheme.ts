@@ -40,7 +40,7 @@ export interface MintNFT {
   nsfw: boolean;
   file?: Blob;
   secondFile?: Blob;
-  price: string;
+  price: string | number;
 }
 
 export interface State {
