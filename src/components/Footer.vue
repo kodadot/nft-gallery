@@ -11,7 +11,7 @@
             >
               <b-icon
                 icon="envelope"
-                size="is-medium"
+                size="is-small"
               >
               </b-icon>
             </a>
