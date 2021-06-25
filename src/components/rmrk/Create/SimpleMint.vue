@@ -353,6 +353,8 @@ export default class SimpleMint extends Mixins(
 
           if (this.price) {
             this.listForSale(result.nfts, blockNumber);
+          } else {
+            this.navigateToDetail(result.nfts[0], blockNumber);
           }
 
           showNotification(
@@ -487,6 +489,8 @@ export default class SimpleMint extends Mixins(
           );
 
           this.isLoading = false;
+          // TODO: V1
+          // this.navigateToDetail(remarks.filter(), originalBlockNumber);
         },
         dispatchError => {
           execResultValue(tx);
@@ -578,6 +582,12 @@ export default class SimpleMint extends Mixins(
   private toRemark(remark: string) {
     const { api } = Connector.getInstance();
     return api.tx.system.remark(remark);
+  }
+
+  protected navigateToDetail(nft: NFT, blockNumber: string) {
+    showNotification('You will go to the detail in 2 seconds')
+    const go = () => this.$router.push({ name: 'nftDetail', params: { id: getNftId(nft, blockNumber) }, query: { message: 'congrats' } })
+    setTimeout(go, 2000)
   }
 }
 </script>
