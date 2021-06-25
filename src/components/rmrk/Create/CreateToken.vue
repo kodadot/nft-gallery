@@ -307,6 +307,8 @@ export default class CreateToken extends Mixins(
 
             if (this.nft.price) {
               this.listForSale(mint, blockNumber);
+            } else {
+              this.navigateToDetail(mint[0], blockNumber);
             }
           },
           dispatchError => {
@@ -416,6 +418,7 @@ export default class CreateToken extends Mixins(
             );
 
             this.isLoading = false;
+            this.navigateToDetail(remarks[0], originalBlockNumber);
           },
           dispatchError => {
             execResultValue(tx);
@@ -447,6 +450,12 @@ export default class CreateToken extends Mixins(
     }
 
     this.isLoading = false;
+  }
+
+  protected navigateToDetail(nft: NFT, blockNumber: string) {
+    showNotification('You will go to the detail in 2 seconds')
+    const go = () => this.$router.push({ name: 'nftDetail', params: { id: getNftId(nft, blockNumber) }, query: { message: 'congrats' } })
+    setTimeout(go, 2000)
   }
 }
 </script>

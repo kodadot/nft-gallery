@@ -121,7 +121,9 @@
   "mint": {
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about"
+    "estimated": "Transaction fees will cost about",
+    "success": "Congrats to your new NFT(s)",
+    "shareWithFriends": "Share {0} with your friends"
   },
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
@@ -139,7 +141,8 @@
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from singer"
+    "sign": "Waiting for response from singer",
+    "ipfs": "Uploading data to IPFS"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
