@@ -153,7 +153,8 @@ export default class CreateToken extends Mixins(
     tags: [],
     nsfw: false,
     price: '',
-    file: undefined
+    file: undefined,
+    secondFile: undefined
   };
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
@@ -192,22 +193,18 @@ export default class CreateToken extends Mixins(
     this.collections = collectionEntities.nodes?.map((ce: any) => ({
       ...ce,
       alreadyMinted: ce.nfts?.totalCount
-    }));
-    // .filter((ce: MintedCollection) => ce.max > ce.alreadyMinted);
+    }))
+    .filter((ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0);
   }
 
   get disabled() {
     return !(this.nft.name && this.nft.file && this.selectedCollection);
   }
 
+  @Watch('nft.file')
+  @Watch('nft.secondFile')
   private calculatePrice() {
-    // this.filePrice = calculateCost([this.nft.file, this.nft.secondFile].filter(a => typeof a !== 'undefined'));
-  }
-
-  private toMintFormat(nft: NFT) {
-    return `RMRK::MINTNFT::${this.version}::${encodeURIComponent(
-      JSON.stringify(nft)
-    )}`;
+    this.filePrice = calculateCost(([this.nft.file, this.nft.secondFile] as MaybeFile []).filter(a => typeof a !== 'undefined'));
   }
 
   private toRemark(remark: string) {
@@ -217,8 +214,7 @@ export default class CreateToken extends Mixins(
 
   protected async canSupport() {
     if (this.hasSupport) {
-      // return [await supportTx([...this.images, ...this.animated])];
-      return [];
+      return [await supportTx([this.nft.file as MaybeFile, this.nft.secondFile as MaybeFile])]
     }
 
     return [];
