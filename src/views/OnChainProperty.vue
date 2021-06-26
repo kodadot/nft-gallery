@@ -23,49 +23,6 @@
 		    </b-icon>
 		</b-tooltip> 			
  		</span>
-<!-- 		<b-tooltip :label="twitter" position="is-top">
-			<a :href="`https://twitter.com/${twitter}`">
-		    <b-icon class="property"
-		    	v-if="twitterVerified"
-		      size="is-medium"
-		      pack="fab"
-		      icon="twitter"
-		    >
-		    </b-icon>
-		  </a>
-	  </b-tooltip>
- 	  <b-tooltip :label="riot" position="is-top">
- 	    <b-icon class="property"
- 	    	v-if="riotVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="comment-alt"
-	    >
-	    </b-icon>
-	  </b-tooltip>
-	  <b-tooltip :label="web" position="is-top">
-	    <b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon>
-	  </b-tooltip>
- -->	  	<!-- <b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon>
-	  	<b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon> -->
 	</div>
 </template>
 
@@ -84,7 +41,6 @@ const components = {
 
 export default class OnChainProperty extends Vue{
 
-	// @Prop() public properties!: {[key: string]: any};
 	@Prop() public twitter!: string;
 	@Prop() public email!: string;
 	@Prop() public web!: string ;
@@ -93,13 +49,13 @@ export default class OnChainProperty extends Vue{
 	public icons: any = [];
 	protected id: string = '';
 
-	public async mounted(){
-		console.log(this.email);
+	public async created(){
 		await this.fetchProfile();
 	}
 
 	protected async fetchProfile(){
 		this.id = shortAddress(this.$route.params.id);
+		// console.log(this.id)
 		this.emailVerified();
 		this.twitterVerified();
 		this.webVerified();
@@ -115,8 +71,8 @@ export default class OnChainProperty extends Vue{
 		return true;
 	}
 
-	private emailVerified(){
-		console.log(this.email);
+	private async emailVerified(){
+		// console.log(this.email);
 		if(this.verify(this.email)){
 			this.icons.push({
 				'label': this.email,
@@ -128,7 +84,7 @@ export default class OnChainProperty extends Vue{
 	}
 
 	private twitterVerified(){
-		console.log(this.twitter);
+		// console.log(this.twitter);
 		if(this.verify(this.twitter)){
 			this.icons.push({
 				'label': this.twitter,
@@ -176,8 +132,32 @@ export default class OnChainProperty extends Vue{
 	}
 
 	public toast(message: string): void {
-		console.log('here');
     this.$buefy.toast.open(message);
+  }
+
+  @Watch('email')
+  async watchEmail(newEmail: string, oldEmail: string){
+  	this.emailVerified();
+  }
+
+  @Watch('twitter')
+  async watchTwitter(newTwitter: string, oldTwitter: string){
+  	this.twitterVerified();
+  }
+
+  @Watch('web')
+  async watchWeb(newWeb: string, oldWeb: string){
+  	this.webVerified();
+  }
+
+  @Watch('riot')
+  async watchRiot(newRiot: string, oldRiot: string){
+  	this.riotVerified();
+  }
+
+  @Watch('legal')
+  async watchLegal(newLegal: string, oldLegal: string){
+  	this.legalVerified();
   }
 
 };
