@@ -55,7 +55,7 @@ export default class OnChainProperty extends Vue{
 
 	protected async fetchProfile(){
 		this.id = shortAddress(this.$route.params.id);
-		// console.log(this.id)
+
 		this.emailVerified();
 		this.twitterVerified();
 		this.webVerified();
@@ -65,14 +65,12 @@ export default class OnChainProperty extends Vue{
 
 
 	private verify(content: Property){
-		// console.log(this.id, content)
 		if(!content || content === this.id)
 			return false;
 		return true;
 	}
 
 	private async emailVerified(){
-		// console.log(this.email);
 		if(this.verify(this.email)){
 			this.icons.push({
 				'label': this.email,
@@ -84,7 +82,6 @@ export default class OnChainProperty extends Vue{
 	}
 
 	private twitterVerified(){
-		// console.log(this.twitter);
 		if(this.verify(this.twitter)){
 			this.icons.push({
 				'label': this.twitter,
@@ -96,7 +93,6 @@ export default class OnChainProperty extends Vue{
 	}
 
 	private riotVerified(){
-		// console.log(this.riot);
 		if(this.verify(this.riot)){
 			this.icons.push({
 				'label': this.riot,
@@ -108,7 +104,6 @@ export default class OnChainProperty extends Vue{
 	}
 
 	private webVerified(){
-		// console.log(this.web);
 		if(this.verify(this.web)){
 			this.icons.push({
 				'label': this.web,
@@ -120,7 +115,6 @@ export default class OnChainProperty extends Vue{
 	}
 
 	private legalVerified(){
-		// console.log(this.legal);
 		if(this.verify(this.legal)){
 			this.icons.push({
 				'label': this.legal,
