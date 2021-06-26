@@ -15,57 +15,14 @@
 		  v-clipboard:copy="icons[index].label"
 		  >
 			<b-icon class="property"
+		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		      :size="icons[index].size"
 		  		@click.native="toast('Copied to clipboard')"
 		    >
 		    </b-icon>
 		</b-tooltip> 			
  		</span>
-<!-- 		<b-tooltip :label="twitter" position="is-top">
-			<a :href="`https://twitter.com/${twitter}`">
-		    <b-icon class="property"
-		    	v-if="twitterVerified"
-		      size="is-medium"
-		      pack="fab"
-		      icon="twitter"
-		    >
-		    </b-icon>
-		  </a>
-	  </b-tooltip>
- 	  <b-tooltip :label="riot" position="is-top">
- 	    <b-icon class="property"
- 	    	v-if="riotVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="comment-alt"
-	    >
-	    </b-icon>
-	  </b-tooltip>
-	  <b-tooltip :label="web" position="is-top">
-	    <b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon>
-	  </b-tooltip>
- -->	  	<!-- <b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon>
-	  	<b-icon class="property"
-	    	v-if="webVerified"
-	      size="is-medium"
-	      pack="fas"
-	      icon="link"
-	    >
-	  	</b-icon> -->
 	</div>
 </template>
 
@@ -84,7 +41,6 @@ const components = {
 
 export default class OnChainProperty extends Vue{
 
-	// @Prop() public properties!: {[key: string]: any};
 	@Prop() public twitter!: string;
 	@Prop() public email!: string;
 	@Prop() public web!: string ;
@@ -93,13 +49,13 @@ export default class OnChainProperty extends Vue{
 	public icons: any = [];
 	protected id: string = '';
 
-	public async mounted(){
-		console.log(this.email);
+	public async created(){
 		await this.fetchProfile();
 	}
 
 	protected async fetchProfile(){
 		this.id = shortAddress(this.$route.params.id);
+
 		this.emailVerified();
 		this.twitterVerified();
 		this.webVerified();
@@ -109,75 +65,93 @@ export default class OnChainProperty extends Vue{
 
 
 	private verify(content: Property){
-		// console.log(this.id, content)
 		if(!content || content === this.id)
 			return false;
 		return true;
 	}
 
-	private emailVerified(){
-		console.log(this.email);
+	private async emailVerified(){
 		if(this.verify(this.email)){
 			this.icons.push({
 				'label': this.email,
 				'pack': 'fas',
 				'icon': 'envelope',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
 
 	private twitterVerified(){
-		console.log(this.twitter);
 		if(this.verify(this.twitter)){
 			this.icons.push({
 				'label': this.twitter,
+				'size': 'is-large',
 				'pack': 'fab',
 				'icon': 'twitter',
-				'size': 'is-medium'
 			});
 		}
 	}
 
 	private riotVerified(){
-		// console.log(this.riot);
 		if(this.verify(this.riot)){
 			this.icons.push({
 				'label': this.riot,
 				'pack': 'fas',
 				'icon': 'comment-alt',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
 
 	private webVerified(){
-		// console.log(this.web);
 		if(this.verify(this.web)){
 			this.icons.push({
 				'label': this.web,
 				'pack': 'fas',
 				'icon': 'link',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
 
 	private legalVerified(){
-		// console.log(this.legal);
 		if(this.verify(this.legal)){
 			this.icons.push({
 				'label': this.legal,
 				'pack': 'fas',
 				'icon': 'users',
-				'size': 'is-medium'
+				'size': 'is-large',
 			});
 		}
 	}
 
 	public toast(message: string): void {
-		console.log('here');
     this.$buefy.toast.open(message);
+  }
+
+  @Watch('email')
+  async watchEmail(newEmail: string, oldEmail: string){
+  	this.emailVerified();
+  }
+
+  @Watch('twitter')
+  async watchTwitter(newTwitter: string, oldTwitter: string){
+  	this.twitterVerified();
+  }
+
+  @Watch('web')
+  async watchWeb(newWeb: string, oldWeb: string){
+  	this.webVerified();
+  }
+
+  @Watch('riot')
+  async watchRiot(newRiot: string, oldRiot: string){
+  	this.riotVerified();
+  }
+
+  @Watch('legal')
+  async watchLegal(newLegal: string, oldLegal: string){
+  	this.legalVerified();
   }
 
 };
@@ -187,7 +161,8 @@ export default class OnChainProperty extends Vue{
 <style>
 .property{
   color : #d32e79;
-  vertical-align: top;
+  display: flex;
+  align-items: flex-start;
 }
 
 </style>

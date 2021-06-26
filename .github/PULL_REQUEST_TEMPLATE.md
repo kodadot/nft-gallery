@@ -8,12 +8,15 @@ Your contribution will be an eternal part of the community codebase
 - [ ] Didn't break any original functionality
 
 ### Optional
-- [ ] You've tested it on mobile and everything works
+- [ ] I've tested it on mobile and everything works
 
 ### PR type
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Refactoring
+
+### What's new? (may be part of changelog)
+- closes #<issue_number> - <Brief_description_how_you_fixed_it>
 
 ### If issue contains bounty label ($,$$,$$$)
 - Your KSM address: <Kusama_address>
