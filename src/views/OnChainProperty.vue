@@ -15,9 +15,9 @@
 		  v-clipboard:copy="icons[index].label"
 		  >
 			<b-icon class="property"
+		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		      :size="icons[index].size"
 		  		@click.native="toast('Copied to clipboard')"
 		    >
 		    </b-icon>
@@ -76,7 +76,7 @@ export default class OnChainProperty extends Vue{
 				'label': this.email,
 				'pack': 'fas',
 				'icon': 'envelope',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
@@ -85,9 +85,9 @@ export default class OnChainProperty extends Vue{
 		if(this.verify(this.twitter)){
 			this.icons.push({
 				'label': this.twitter,
+				'size': 'is-large',
 				'pack': 'fab',
 				'icon': 'twitter',
-				'size': 'is-medium'
 			});
 		}
 	}
@@ -98,7 +98,7 @@ export default class OnChainProperty extends Vue{
 				'label': this.riot,
 				'pack': 'fas',
 				'icon': 'comment-alt',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
@@ -109,7 +109,7 @@ export default class OnChainProperty extends Vue{
 				'label': this.web,
 				'pack': 'fas',
 				'icon': 'link',
-				'size': 'is-medium'
+				'size': 'is-medium',
 			});
 		}
 	}
@@ -120,7 +120,7 @@ export default class OnChainProperty extends Vue{
 				'label': this.legal,
 				'pack': 'fas',
 				'icon': 'users',
-				'size': 'is-medium'
+				'size': 'is-large',
 			});
 		}
 	}
@@ -161,7 +161,8 @@ export default class OnChainProperty extends Vue{
 <style>
 .property{
   color : #d32e79;
-  vertical-align: top;
+  display: flex;
+  align-items: flex-start;
 }
 
 </style>
