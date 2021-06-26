@@ -38,31 +38,26 @@ export default class Identity extends Mixins(InlineMixin) {
   get name(): Address {
     // console.log('get name -> identityInfo', this.identityInfo);
     const name = this.handleRaw(this.identityInfo?.display);
-    // console.log('get name -> name', name);
     return name as string || this.address
   }
 
   get email(): Address {
     const email = this.handleRaw(this.identityInfo?.email);
-    // console.log('Email', email);
-    return email as string || 'email';
+    return email as string || '';
   }
 
   get web(): Address {
     const web = this.handleRaw(this.identityInfo?.web);
-    // console.log('Email', web);
     return web as string || '';
   }
 
   get twitter(): Address {
     const twitter = this.handleRaw(this.identityInfo?.twitter);
-    // console.log('Email', twitter);
-    return twitter as string || 'twitter';
+    return twitter as string || '';
   }
 
   get riot(): Address {
     const riot = this.handleRaw(this.identityInfo?.riot);
-    // console.log('Email', riot);
     return riot as string || '';
   }
 
@@ -78,7 +73,6 @@ export default class Identity extends Mixins(InlineMixin) {
 
   @Watch('address')
   async watchAddress(newAddress: Address,  oldAddress: Address) {
-    console.log('@Watch(address)', newAddress);
 
     if ((newAddress && !oldAddress) || (oldAddress !== newAddress)) {
       this.identity = await this.identityOf(newAddress)
@@ -87,7 +81,6 @@ export default class Identity extends Mixins(InlineMixin) {
 
 
   public async created() {
-    console.log('this.address', this.address);
     this.identity = await this.identityOf(this.address)
     ;
   }
@@ -107,7 +100,7 @@ export default class Identity extends Mixins(InlineMixin) {
 
    return await this.$store.dispatch('fetchIdentity', address)
     .then(() => this.$store.getters.getIdentityFor(address))
-    .then(id => { console.log('identity', identity); return id || emptyObject<Registration>()  })
+    .then(id => { return id || emptyObject<Registration>()  })
   }
 
   private handleRaw(display: Data): Address {
