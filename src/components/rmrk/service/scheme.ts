@@ -68,6 +68,7 @@ export interface NFTMetadata extends Metadata {
   animation_url?: string;
   youtube_url?: string;
   type?: string;
+  image_ar?: string;
 }
 
 

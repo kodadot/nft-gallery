@@ -82,6 +82,7 @@
           passiveMessage="I don't want to have carbonless NFT"
         />
       </b-field>
+      <ArweaveUploadSwitch  v-model="arweaveUpload" />
     </div>
   </div>
 </template>
@@ -104,7 +105,7 @@ import {
   getNftId
 } from '../service/scheme';
 import { pinFile, pinJson } from '@/proxy';
-import { unSanitizeIpfsUrl } from '@/utils/ipfs';
+import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import slugify from 'slugify';
 import { fetchCollectionMetadata } from '../utils';
@@ -149,7 +150,8 @@ type MintedCollection = {
     Support,
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
-    Loader: () => import('@/components/shared/Loader.vue')
+    Loader: () => import('@/components/shared/Loader.vue'),
+    ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')
   }
 })
 export default class CreateToken extends Mixins(
@@ -176,6 +178,7 @@ export default class CreateToken extends Mixins(
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
   private filePrice: number = 0;
+  protected arweaveUpload = false;
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -347,6 +350,7 @@ export default class CreateToken extends Mixins(
 
       if (!secondaryFileVisible(this.nft.file)) {
         meta.image = unSanitizeIpfsUrl(fileHash);
+        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
       } else {
         meta.animation_url = unSanitizeIpfsUrl(fileHash);
         if (this.nft.secondFile) {
