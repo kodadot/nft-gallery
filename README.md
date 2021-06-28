@@ -1,24 +1,27 @@
-# 🖼👀 NFT Market/Gallery on Kusama & Polkadot
+# NFT Explorer for Kusama & Polkadot ecosystem
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 [![DeepScan grade](https://deepscan.io/api/teams/13903/projects/16948/branches/372223/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13903&pid=16948&bid=372223)
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-## Social medias
-* [KodaDot Discord](https://discord.gg/u6ymnbz4PR)
-* [telegram.me/kodadot](https://t.me/kodadot)
-* [twitter.com/@KodaDot](https://twitter.com/KodaDot).
+## 🧫 Culture - where you can read our recent updates
+* [Discord](https://discord.gg/u6ymnbz4PR)
+* [Telegram](https://t.me/kodadot)
+* [Twitter](https://twitter.com/KodaDot)
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
-## Readings 📚
+## 📚 Writings by KodaDot team members
+* [Client-first NFT gallery: Technical examination](https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97)
+* [How to Embed your NFT on Kusama through KodaDot](https://medium.com/kodadot/how-to-embed-your-nft-on-kusama-through-kodadot-ee52c2384b0d)
+* [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
 * [The First Multilingual NFT Gallery in Polkadot ecosystem running live on Kusama](https://medium.com/kodadot/the-first-multilingual-nft-gallery-in-polkadot-ecosystem-running-live-on-kusama-b8f7566770be)
 * [Read our story, how we started.](https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856)
-* [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
 
-## Demo version ▶️
 
-* 👩‍✈️[Stable release](https://nft.kodadot.xyz/)
+## Working version ▶️
+
+* [Explore and Mint NFTs](https://nft.kodadot.xyz/)
 
 ## Development 🏗
 
