@@ -1,134 +1,123 @@
 <template>
-  <div class="card create-token-card">
+  <div>
+    <MetadataUpload
+      v-model="vFile"
+      label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+      expanded
+      preview
+    />
 
-    <div class="card-content">
-      <b-field>
-        <b-button type="is-danger" icon-left="times" outlined @click="removeToken" />
-      </b-field>
-      <b-field label="Id">
-        <b-input v-model="nftId" disabled></b-input>
-      </b-field>
-      <b-field :label="$i18n.t('Serial Number')">
-        <b-input v-model="serialNumber" disabled></b-input>
-      </b-field>
-      <b-field :label="$i18n.t('Collection')">
-        <b-input v-model="view.collection" disabled></b-input>
-      </b-field>
-      <b-field :label="$i18n.t('Name')">
-        <b-input v-model="view.name" expanded></b-input>
-        <Tooltip :label="$i18n.t('Name of your token')" />
-      </b-field>
-      <!-- <b-field>
-        <b-switch :true-value="1" :false-value="0"
-            v-model="view.transferable" disabled>
-          {{ $t('Transferable is by default') }}
-        </b-switch>
-      </b-field> -->
-      <!-- <b-field v-if="view.transferable" label="Price">
-        <b-input v-model="view.price" ></b-input>
-      </b-field> -->
-      <b-field>
-        <b-switch v-model="uploadMode"
-          :rounded="false">
-          {{ uploadMode ? 'Upload through KodaDot' : 'IPFS hash' }}
-        </b-switch>
-      </b-field>
-    <template v-if="uploadMode">
-      <b-field label="Description">
-        <b-input
-        v-model="view.meta.description"
-          maxlength="500"
-          type="textarea"
-        ></b-input>
-      </b-field>
-      <MetadataUpload v-model="image" :label="$i18n.t('Click to add image')" />
-      <b-field>
-        <b-switch v-model="hasAnimated"
-          :rounded="false">
-          Animated multimedia (audio/video/3d model)
-        </b-switch>
-      </b-field>
-      <MetadataUpload v-if="hasAnimated" v-model="animated" :label="$i18n.t('Add Animated File')" />
-
-      <b-field :label="$i18n.t('Image data')">
-        <b-input v-model="view.meta.image_data"></b-input>
-      </b-field>
-    </template>
-
-    <b-field v-else :label="$i18n.t('Metadata IPFS Hash')">
-      <b-input v-model="view.metadata"></b-input>
+    <b-field grouped :label="$i18n.t('Name')">
+      <b-input
+        placeholder="Name your NFT"
+        v-model="vName"
+        expanded
+        class="mr-0"
+        spellcheck="true"
+      ></b-input>
+      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
     </b-field>
-    </div>
+    <b-field :label="$i18n.t('Collection description')" class="mb-0">
+      <b-input
+        v-model="vDescription"
+        maxlength="500"
+        type="textarea"
+        placeholder="Describe your NFT"
+        spellcheck="true"
+      ></b-input>
+    </b-field>
+    <b-field grouped :label="$i18n.t('Edition')">
+      <b-numberinput
+        v-model="vEdition"
+        placeholder="1 is minumum"
+        expanded
+        :min="1"
+        :max="clickableMax"
+      ></b-numberinput>
+      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+    </b-field>
+    <MetadataUpload
+      v-if="secondaryFileVisible"
+      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
+      v-model="vSecondFile"
+      icon="file-image"
+      preview
+      accept="image/png, image/jpeg, image/gif"
+      expanded
+    />
+    <AttributeTagInput
+      v-model="vTags"
+      placeholder="Get discovered easier through tags"
+    />
+
+    <b-field>
+      <b-switch v-model="vNsfw" :rounded="false">
+        {{ vNsfw ? "NSFW" : "SFW" }}
+      </b-switch>
+    </b-field>
+
+    <BalanceInput v-model="vPrice" label="Price" />
+    <b-message
+      v-if="hasPrice"
+      icon="exclamation-triangle"
+      class="mt-3 has-text-primary"
+      title="Additional transaction"
+      type="is-primary"
+      has-icon
+      aria-close-label="Close message"
+    >
+      <span class="has-text-primary"
+        >Setting the price now requires making an additional transaction.</span
+      >
+    </b-message>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { NFT, NFTMetadata } from '../service/scheme';
-import { emptyObject } from '@/utils/empty';
-import { client } from '@/textile';
-import MetadataUpload from './MetadataUpload.vue'
-import Tooltip from '@/components/shared/Tooltip.vue';
-import slugify from 'slugify'
-
-interface NFTAndMeta extends NFT {
-  meta: NFTMetadata
-}
+import { Component, Prop, Vue, PropSync } from 'vue-property-decorator';
+import { Attribute } from '../service/scheme';
+import { resolveMedia } from '../utils';
+import { MediaType } from '../types';
 
 @Component({
   components: {
-    MetadataUpload,
-    Tooltip
+    AttributeTagInput: () => import('./AttributeTagInput.vue'),
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    MetadataUpload: () => import('./DropUpload.vue'),
+    Tooltip: () => import('@/components/shared/Tooltip.vue'),
   }
 })
 export default class CreateItem extends Vue {
-  @Prop() public index!: number;
-  @Prop() public alreadyMinted!: number;
-  @Prop() public view!: NFTAndMeta;
-  private hasAnimated: boolean = false;
-  private uploadMode: boolean = true;
-  private image: Blob | null = null;
-  private animated: Blob | null = null;
+  @PropSync('name', { type: String }) vName!: string
+  @PropSync('description', { type: String }) vDescription!: string
+  @PropSync('edition', { type: Number }) vEdition!: number;
+  @PropSync('nsfw', { type: Boolean }) vNsfw!: boolean;
+  @PropSync('price', { type: Number }) vPrice!: string | number;
+  @PropSync('tags', { type: Array }) vTags!: Attribute[];
+  @PropSync('file', { type: Blob }) vFile!: Blob | null;
+  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null;
 
-  get nftId(): string {
-    const {collection, name } = this.view
-    return `${collection}-${slugify(name || '', '_').toUpperCase()}-${this.serialNumber}`
+
+  @Prop(Number) public max!: number;
+  @Prop(Number) public alreadyMinted!: number;
+
+  get fileType() {
+    return resolveMedia(this.vFile?.type);
   }
 
-  get serialNumber(): string {
-    return String(this.index + 1 + this.alreadyMinted).padStart(16, '0');
+  get secondaryFileVisible() {
+    const fileType = this.fileType;
+    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType);
   }
 
-  @Emit('remove')
-  public removeToken() {
-    return this.index
+  get hasPrice() {
+    return Number(this.vPrice)
   }
 
-  private async m() {
-    const c = await client();
+  get clickableMax() {
+    return (this.max || Infinity) - this.alreadyMinted
   }
 
-  @Emit('update')
-  private updateItem() {
-    return { index: this.index, view: {
-      ...this.view,
-      id: this.nftId
-    } }
-  }
-
-  @Watch('animated')
-  private animatedUpload(val: Blob, oldVal: Blob | null) {
-    if (val && !oldVal) {
-      this.$emit('animated', { image: val, index: this.index })
-    }
-  }
-
-  @Watch('image')
-  private imageUpload(val: Blob, oldVal: Blob | null) {
-    if (val && !oldVal) {
-      this.$emit('upload', { image: val, index: this.index })
-    }
-  }
 
 }
 </script>

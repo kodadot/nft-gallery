@@ -33,7 +33,7 @@
               <b-tag type="is-dark" v-for="(tag, index) in tags" :key="index">{{tag}}</b-tag>
             </b-taglist>
           </p>
-          <ArweaveLink v-if="nft.imageArId" :id="nft.imageArId" label="image" />
+          <ArweaveLink v-if="meta.image_ar" :id="meta.image_ar" label="image" />
           <ArweaveLink v-if="nft.animationArId" :id="nft.animationArId" label="animated" />
           <p v-if="imageId" class="subtitle is-size-6"  >
             <b>IPFS</b>:

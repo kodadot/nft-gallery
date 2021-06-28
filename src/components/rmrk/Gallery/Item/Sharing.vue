@@ -15,7 +15,7 @@
           </b-icon>
         </b-button>
       </div>
-      <div class="card-footer-item">
+      <div class="card-footer-item" v-if="!onlyCopyLink">
         <b-tooltip
           class="share__tooltip"
           :triggers="['click']"
@@ -177,6 +177,7 @@ import { IFrame, emptyIframe } from '../../types';
 export default class Sharing extends Vue {
   @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string;
   @Prop({ default: () => emptyIframe }) iframe!: IFrame;
+  @Prop(Boolean) onlyCopyLink!: boolean;
 
   private active: boolean = false;
 

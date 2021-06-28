@@ -1,5 +1,5 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import keyring from '@polkadot/ui-keyring';
+import keyring, { Keyring } from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';
@@ -75,6 +75,13 @@ export default class WithKeyring extends Vue {
 
   public vueU8aToHex(publicKey: Uint8Array): string {
     return u8aToHex(publicKey);
+  }
+
+  @Watch('ss58Format')
+  handleChange(val: string) {
+    console.log('ss58Format', val)
+    // https://github.com/polkadot-js/ui/pull/494
+    keyring.setSS58Format(Number(val))
   }
 
   // public passwordRequired(address: string): boolean {

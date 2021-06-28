@@ -1,13 +1,26 @@
  <template>
   <div class="wrapper section no-padding-desktop gallery-item mb-6">
+
     <div class="container">
+      <b-message type="is-primary" v-if="message">
+        <div class="columns">
+        <div class="column is-four-fifths">
+        <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
+        <p class="subtitle is-size-5 has-text-black">{{ $t('mint.shareWithFriends', [nft.name]) }} △</p>
+        </div>
+        <div class="column">
+          <Sharing  onlyCopyLink/>
+        </div>
+        </div>
+
+      </b-message>
       <div class="columns">
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
               <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
-                <div class="image-preview" :class="{fullscreen: isFullScreenView}">
+                <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
-                    v-if="!isLoading && imageVisible"
+                    v-if="!isLoading && imageVisible && !meta.animation_url"
                     :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
@@ -133,6 +146,7 @@ import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
 import axios from 'axios';
+import { exist } from './Search/exist';
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -179,6 +193,7 @@ export default class GalleryItem extends Vue {
   public mimeType: string = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
   public emotes: Emote[] = []
+  public message: string = '';
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -192,6 +207,14 @@ export default class GalleryItem extends Vue {
       return;
     }
 
+    exist(this.$route.query.message, (val) => {
+      this.message = val === 'congrats' ? val : ''
+      this.$router.replace(
+        { query: null } as any
+        );
+    });
+
+
     try {
       // const nft = await rmrkService.getNFT(this.id);
      this.$apollo.addSmartQuery('nft',{
@@ -199,7 +222,7 @@ export default class GalleryItem extends Vue {
         variables: {
           id: this.id
         },
-        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity.emotes?.nodes }),
+        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
         result: () => this.fetchMetadata(),
         pollInterval: 5000
       })
@@ -232,12 +255,13 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
+      console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
         console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
         );
       }
@@ -307,10 +331,6 @@ hr.comment-divider {
   .gallery-item__skeleton {
     width: 95%;
     margin: auto;
-  }
-
-  .withPicture {
-    margin: 0.75em 0;
   }
 
   .image-wrapper {
