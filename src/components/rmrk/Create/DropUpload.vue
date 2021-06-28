@@ -4,7 +4,9 @@
       <section class="section">
         <div class="content has-text-centered">
           <p>
-            <b-icon :icon="icon" size="is-large"> </b-icon>
+            <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+            <img v-if="url && !hasError" :src="url" @error="hasError = true" />
+            <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
           </p>
           <p v-if="!file">{{ label }}</p>
           <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
@@ -28,8 +30,11 @@ export default class extends Vue {
   @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
   @Prop({ default: 'upload' }) public icon!: string;
   @Prop(Boolean) public expanded!: boolean;
+  @Prop(Boolean) public preview!: boolean;
   @Prop(String) public accept!: string;
   private file: Blob | null = null;
+  protected url: string = '';
+  protected hasError: boolean = false;
 
   @Watch('file')
   public createInput(file: Blob): void {
@@ -40,6 +45,10 @@ export default class extends Vue {
     };
     this.$emit('input', file);
     console.log(file.size);
+    if (this.preview) {
+      this.url = URL.createObjectURL(file);
+      this.hasError = false;
+    }
     reader.readAsText(file);
   }
 

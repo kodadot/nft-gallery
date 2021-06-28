@@ -146,6 +146,7 @@
               passiveMessage="I don't want to have carbonless NFT"
             />
           </b-field>
+          <ArweaveUploadSwitch  v-model="arweaveUpload" />
         </div>
       </section>
     </div>
@@ -167,28 +168,34 @@ import exec, {
 import { notificationTypes, showNotification } from '@/utils/notification';
 import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { Attribute, SimpleNFT, NFTMetadata, NFT, getNftId } from '../service/scheme';
+import {
+  Attribute,
+  SimpleNFT,
+  NFTMetadata,
+  NFT,
+  getNftId
+} from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
 import { pinFile, pinJson } from '@/proxy';
-import {  formatBalance } from '@polkadot/util';
-import {
-  generateId
-} from '@/components/rmrk/service/Consolidator';
+import { formatBalance } from '@polkadot/util';
+import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
+import { ipfsToArweave } from '@/utils/ipfs'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip,
+  Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support,
   AttributeTagInput: () => import('./AttributeTagInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Loader: () => import('@/components/shared/Loader.vue')
+  Loader: () => import('@/components/shared/Loader.vue'),
+  ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')
 };
 
 @Component<SimpleMint>({
@@ -250,6 +257,7 @@ export default class SimpleMint extends Mixins(
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
   protected status = '';
+  protected arweaveUpload = false;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -353,6 +361,8 @@ export default class SimpleMint extends Mixins(
 
           if (this.price) {
             this.listForSale(result.nfts, blockNumber);
+          } else {
+            this.navigateToDetail(result.nfts[0], blockNumber);
           }
 
           showNotification(
@@ -439,67 +449,67 @@ export default class SimpleMint extends Mixins(
 
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
-    const { api } = Connector.getInstance();
-    this.isLoading = true;
+      const { api } = Connector.getInstance();
+      this.isLoading = true;
 
-    const { price, version } = this;
-    showNotification(
-      `[APP] Listing NFT to sale for ${formatBalance(price, {
-        decimals: this.decimals,
-        withUnit: this.unit
-      })}`
-    );
-
-    const onlyNfts = remarks
-      .filter(NFTUtils.isNFT)
-      .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-      .map(nft =>
-        NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+      const { price, version } = this;
+      showNotification(
+        `[APP] Listing NFT to sale for ${formatBalance(price, {
+          decimals: this.decimals,
+          withUnit: this.unit
+        })}`
       );
 
-    if (!onlyNfts.length) {
-      showNotification('Can not list empty NFTs', notificationTypes.danger);
-      return;
-    }
+      const onlyNfts = remarks
+        .filter(NFTUtils.isNFT)
+        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map(nft =>
+          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+        );
 
-    const cb = api.tx.utility.batchAll;
-    const args = onlyNfts.map(this.toRemark);
+      if (!onlyNfts.length) {
+        showNotification('Can not list empty NFTs', notificationTypes.danger);
+        return;
+      }
 
-    const tx = await exec(
-      this.accountId,
-      '',
-      cb,
-      [args],
-      txCb(
-        async blockHash => {
-          execResultValue(tx);
-          const header = await api.rpc.chain.getHeader(blockHash);
-          const blockNumber = header.number.toString();
+      const cb = api.tx.utility.batchAll;
+      const args = onlyNfts.map(this.toRemark);
 
-          showNotification(
-            `[LIST] Saved prices for ${
-              this.rmrkMint.max
-            } NFTs with tag ${formatBalance(price, {
-              decimals: this.decimals,
-              withUnit: this.unit
-            })} in block ${blockNumber}`,
-            notificationTypes.success
-          );
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
-          this.isLoading = false;
-        },
-        dispatchError => {
-          execResultValue(tx);
-          this.onTxError(dispatchError);
-          this.isLoading = false;
-        }
-      )
-    );
+            showNotification(
+              `[LIST] Saved prices for ${
+                this.rmrkMint.max
+              } NFTs with tag ${formatBalance(price, {
+                decimals: this.decimals,
+                withUnit: this.unit
+              })} in block ${blockNumber}`,
+              notificationTypes.success
+            );
 
+            this.isLoading = false;
+            // TODO: V1
+            // this.navigateToDetail(remarks.filter(), originalBlockNumber);
+          },
+          dispatchError => {
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
+          }
+        )
+      );
     } catch (e) {
-      showNotification(e.message, notificationTypes.danger)
+      showNotification(e.message, notificationTypes.danger);
     }
-
   }
 
   public nsfwAttribute(): Attribute[] {
@@ -543,6 +553,7 @@ export default class SimpleMint extends Mixins(
 
       if (!this.secondaryFileVisible) {
         this.meta.image = unSanitizeIpfsUrl(fileHash);
+        this.meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
       } else {
         this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
         if (this.secondFile) {
@@ -578,6 +589,17 @@ export default class SimpleMint extends Mixins(
   private toRemark(remark: string) {
     const { api } = Connector.getInstance();
     return api.tx.system.remark(remark);
+  }
+
+  protected navigateToDetail(nft: NFT, blockNumber: string) {
+    showNotification('You will go to the detail in 2 seconds');
+    const go = () =>
+      this.$router.push({
+        name: 'nftDetail',
+        params: { id: getNftId(nft, blockNumber) },
+        query: { message: 'congrats' }
+      });
+    setTimeout(go, 2000);
   }
 }
 </script>

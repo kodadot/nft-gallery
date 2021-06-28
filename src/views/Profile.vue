@@ -31,7 +31,6 @@
     </div>
     <b-tabs
       :class="{ 'invisible-tab': sharingVisible }"
-      type="is-boxed"
       v-model="activeTab"
       expanded
       destroy-on-hide

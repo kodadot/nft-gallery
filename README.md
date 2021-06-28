@@ -251,3 +251,13 @@ export default class Summary extends Vue {
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Generating changelog
+
+To generate changelog use github cli
+List only merged, if you need limit use `-L`
+
+```
+gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
+```

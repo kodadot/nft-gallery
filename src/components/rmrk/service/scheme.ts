@@ -32,6 +32,17 @@ export interface SimpleNFT {
   metadata: string;
 }
 
+export interface MintNFT {
+  name: string;
+  edition: number;
+  tags: Attribute[];
+  description: string;
+  nsfw: boolean;
+  file?: Blob;
+  secondFile?: Blob;
+  price: string | number;
+}
+
 export interface State {
   getAllCollections(): Promise<Collection[]>;
   getNFTsForCollection(id: string): Promise<NFT[]>;
@@ -57,6 +68,7 @@ export interface NFTMetadata extends Metadata {
   animation_url?: string;
   youtube_url?: string;
   type?: string;
+  image_ar?: string;
 }
 
 

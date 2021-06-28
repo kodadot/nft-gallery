@@ -1,0 +1,15 @@
+
+
+query mintedCollectionListByAccount($account: String!) {
+  collectionEntities(
+    filter: { issuer: { equalTo: $account } }
+    orderBy: NAME_ASC
+  ) {
+    totalCount
+    nodes {
+      id
+      name
+      symbol
+    }
+  }
+}

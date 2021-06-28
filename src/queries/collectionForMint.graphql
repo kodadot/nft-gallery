@@ -10,6 +10,7 @@ query collectionForMint($account: String!) {
       name
       max
       metadata
+      symbol
       nfts {
         totalCount
       }
