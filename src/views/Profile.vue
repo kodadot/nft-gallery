@@ -36,9 +36,9 @@
       destroy-on-hide
       size="is-medium"
     >
-      <b-tab-item :label="`NFTs - ${total}`" value="nft">
+      <b-tab-item :label="`Created NFTs - ${total}`" value="nft">
         <template #header>
-          NFTs - {{ total }}
+          Created - {{ total }}
         </template>
         <Pagination :total="total"
           v-model="currentValue" />
@@ -46,6 +46,17 @@
         <Pagination class="pt-5 pb-5"
           :total="total"
           v-model="currentValue" />
+      </b-tab-item>
+      <b-tab-item :label="`Owned NFTs - ${total}`" value="ownedNft">
+        <template #header>
+          Owned - {{ totalOwned }}
+        </template>
+        <Pagination :total="totalOwned"
+          v-model="currentOwnedValue" />
+        <GalleryCardList :items="ownedNfts" />
+        <Pagination class="pt-5 pb-5"
+          :total="totalOwned"
+          v-model="currentOwnedValue" />
       </b-tab-item>
       <b-tab-item :label="`Collections - ${totalCollections}`" value="collection">
         <Pagination
@@ -88,6 +99,7 @@ import Identity from '../components/shared/format/Identity.vue';
 import shouldUpdate from '@/utils/shouldUpdate';
 import nftList from '@/queries/nftListByAccount.graphql';
 import collectionList from '@/queries/collectionListByAccount.graphql';
+import nftListByIssuer from '@/queries/nftListByIssuer.graphql';
 
 const components = {
   GalleryCardList: () =>
@@ -148,6 +160,7 @@ export default class Profile extends Vue {
   protected isLoading: boolean = false;
   protected collections: CollectionWithMeta[] = [];
   protected nfts: NFTWithMeta[] = [];
+  protected ownedNfts: NFTWithMeta[] = [];
   protected packs: Pack[] = [];
   protected name: string = '';
   // protected property: {[key: string]: any} = {};
@@ -161,6 +174,8 @@ export default class Profile extends Vue {
   private total = 0;
   private currentCollectionPage = 1;
   private totalCollections = 0;
+  private currentOwnedValue = 1;
+  private totalOwned = 0;
 
   public async created() {
     await this.fetchProfile();
@@ -207,7 +222,7 @@ export default class Profile extends Vue {
 
     try {
       this.$apollo.addSmartQuery('nfts', {
-        query: nftList,
+        query: nftListByIssuer,
         manual: true,
         // update: ({ nFTEntities }) => nFTEntities.nodes,
         loadingKey: 'isLoading',
@@ -218,7 +233,24 @@ export default class Profile extends Vue {
             first: this.first,
             offset: this.offset
           };
-        }
+        },
+        fetchPolicy: 'cache-and-network'
+      });
+
+      this.$apollo.addSmartQuery('ownedNfts', {
+        query: nftList,
+        manual: true,
+        // update: ({ nFTEntities }) => nFTEntities.nodes,
+        loadingKey: 'isLoading',
+        result: this.handleOwnedResult,
+        variables: () => {
+          return {
+            account: this.id,
+            first: this.first,
+            offset: this.offset
+          };
+        },
+        fetchPolicy: 'cache-and-network'
       });
 
       this.$apollo.addSmartQuery('collections', {
@@ -233,8 +265,11 @@ export default class Profile extends Vue {
             first: this.first,
             offset: this.collectionOffset
           };
-        }
+        },
+        fetchPolicy: 'cache-and-network'
       });
+
+
       // this.nftMeta();
       // this.collections = await rmrkService
       //   .getCollectionListForAccount(this.id)
@@ -269,6 +304,11 @@ export default class Profile extends Vue {
         image: sanitizeIpfsUrl(meta.image || ''),
       }
     }
+  }
+
+    protected async handleOwnedResult({ data }: any) {
+    this.totalOwned = data.nFTEntities.totalCount;
+    this.ownedNfts = data.nFTEntities.nodes;
   }
 
   protected async handleCollectionResult({ data }: any) {
