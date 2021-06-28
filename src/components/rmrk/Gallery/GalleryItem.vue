@@ -310,10 +310,6 @@ hr.comment-divider {
     margin: auto;
   }
 
-  .withPicture {
-    margin: 0.75em 0;
-  }
-
   .image-wrapper {
     position: relative;
     margin: 30px auto;
