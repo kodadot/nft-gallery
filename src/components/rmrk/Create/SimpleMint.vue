@@ -147,6 +147,12 @@
             />
           </b-field>
           <ArweaveUploadSwitch  v-model="arweaveUpload" />
+          <b-field>
+            <b-switch v-model="hasToS"
+              :rounded="false">
+              I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)
+            </b-switch>
+          </b-field>
         </div>
       </section>
     </div>
@@ -251,6 +257,7 @@ export default class SimpleMint extends Mixins(
   private secondFile: Blob | null = null;
   private isLoading: boolean = false;
   private password: string = '';
+  private hasToS: boolean = false;
   private hasSupport: boolean = true;
   private nsfw: boolean = false;
   private price: number = 0;
@@ -289,7 +296,7 @@ export default class SimpleMint extends Mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.accountId && this.file);
+    return !(name && symbol && max && this.hasToS && this.accountId && this.file);
   }
 
   protected async estimateTx() {
