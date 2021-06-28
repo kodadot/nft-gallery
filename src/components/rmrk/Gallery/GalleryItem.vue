@@ -7,7 +7,7 @@
               <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
                 <div class="image-preview" :class="{fullscreen: isFullScreenView}">
                   <b-image
-                    v-if="!isLoading && imageVisible"
+                    v-if="!isLoading && imageVisible && !meta.animation_url"
                     :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
                     alt="KodaDot NFT minted multimedia"
@@ -232,12 +232,13 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
+      console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
         console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
         );
       }
@@ -307,10 +308,6 @@ hr.comment-divider {
   .gallery-item__skeleton {
     width: 95%;
     margin: auto;
-  }
-
-  .withPicture {
-    margin: 0.75em 0;
   }
 
   .image-wrapper {
