@@ -150,7 +150,7 @@
           <b-field>
             <b-switch v-model="hasToS"
               :rounded="false">
-              I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)
+              {{ $t("termOfService.accept") }}
             </b-switch>
           </b-field>
         </div>
