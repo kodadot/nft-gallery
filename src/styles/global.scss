@@ -97,4 +97,19 @@ body {
     .message.is-primary {
         background-color: #ffebfa !important;
     }
+
+    .button.is-text {
+      &:hover {
+        background-color: #363636;
+      }
+
+      &:focus {
+        background-color: #363636;
+        border: none;
+      }
+    }
+
+    .icon.is-primary {
+        color: #db2980 !important;
+    }
 }

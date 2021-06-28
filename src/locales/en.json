@@ -123,7 +123,8 @@
     "estimate": "Show me the transaction fees",
     "estimated": "Transaction fees will cost about",
     "success": "Congrats to your new NFT(s)",
-    "shareWithFriends": "Share {0} with your friends"
+    "shareWithFriends": "Share {0} with your friends",
+    "unlimited": "Unlimited items in in your collection"
   },
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
@@ -164,5 +165,9 @@
     "addComment": "Add comment",
     "searchPost": "Searching for the post",
     "autoFaucet": "Click to obtain SUB from faucet"
+  },
+  "arweave": {
+    "uploadYes": "Upload NFT image to Arweave",
+    "uploadNo": "Do not use Arweave"
   }
 }

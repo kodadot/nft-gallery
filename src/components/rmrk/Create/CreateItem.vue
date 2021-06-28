@@ -60,7 +60,7 @@
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
-      class="mt-3"
+      class="mt-3 has-text-primary"
       title="Additional transaction"
       type="is-primary"
       has-icon

@@ -58,6 +58,7 @@
         <b-button
           type="is-text"
           icon-left="calculator"
+          @click="estimateTx"
           :disabled="disabled"
           :loading="isLoading"
           outlined
@@ -94,7 +95,7 @@ import CreateItem from './CreateItem.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
+import exec, { execResultValue, txCb, estimate } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { getInstance, RmrkType } from '../service/RmrkService';
 import {
@@ -435,6 +436,40 @@ export default class CreateToken extends Mixins(
     } catch (e) {
       showNotification(e.message, notificationTypes.danger);
     }
+  }
+
+
+  protected async estimateTx() {
+    this.isLoading = true;
+    const { accountId, version } = this;
+    const { api } = Connector.getInstance();
+
+  const mint = NFTUtils.createMultipleNFT(
+        this.nft.edition,
+        this.accountId,
+        this.selectedCollection?.symbol || '',
+        this.nft.name,
+        unSanitizeIpfsUrl(''),
+        this.alreadyMinted
+      );
+      const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
+
+      const isSingle =
+        remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
+    const cb = api.tx.utility.batchAll;
+
+
+    const args = !this.hasSupport
+      ? remarks.map(this.toRemark)
+      : [
+          ...remarks.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset())
+        ];
+
+    this.estimated = await estimate(this.accountId, cb, [args]);
+
+    this.isLoading = false;
   }
 
   protected onTxError(dispatchError: DispatchError): void {

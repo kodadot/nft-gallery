@@ -553,7 +553,7 @@ export default class SimpleMint extends Mixins(
 
       if (!this.secondaryFileVisible) {
         this.meta.image = unSanitizeIpfsUrl(fileHash);
-        this.meta.image_ar = await ipfsToArweave(fileHash);
+        this.meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
       } else {
         this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
         if (this.secondFile) {
