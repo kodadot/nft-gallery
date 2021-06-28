@@ -237,7 +237,7 @@ export default class GalleryItem extends Vue {
         this.mimeType = headers['content-type'];
         console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.IMAGE, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
+        this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
         );
       }
