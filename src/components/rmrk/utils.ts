@@ -221,7 +221,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   }
 
   if (/^image\/svg\+xml/.test(mimeType)) {
-    return MediaType.IFRAME
+    return MediaType.IMAGE
   }
 
   if (/^application\/pdf/.test(mimeType)) {
