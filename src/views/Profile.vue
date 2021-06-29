@@ -32,7 +32,6 @@
       :class="{ 'invisible-tab': sharingVisible }"
       v-model="activeTab"
       expanded
-      destroy-on-hide
       size="is-medium"
     >
       <b-tab-item value="nft">
