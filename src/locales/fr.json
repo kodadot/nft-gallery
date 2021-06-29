@@ -130,5 +130,8 @@
   },
   "nft": {
     "carbonless": "Ce NFT est sans carbone"
+  },
+  "termOfService" : {
+    "accept": "Je confirme que je détiens tous les droits d'auteur sur le bien numérique soumis (ou que j'ai l'autorisation suffisante du propriétaire pour utiliser le bien)"
   }
 }

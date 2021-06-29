@@ -170,6 +170,9 @@
     "uploadYes": "Upload NFT image to Arweave",
     "uploadNo": "Do not use Arweave"
   },
+  "termOfService" : {
+    "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
+  },
   "profile": {
     "created": "Created",
     "collected": "Collected",
