@@ -1,3 +1,4 @@
+import { Row } from '@/components/spotlight/types'
 import M, { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
@@ -49,6 +50,23 @@ export const basicAggregation = (): Aggregator => {
   return new Aggregator(agg);
 }
 
+export const spotlightAggregation = (): Aggregator => {
+  const agg: Aggregation = [
+    {
+      $group: {
+        // _id: { image: '$id' },
+        _id: '$id',
+        id: { $first: '$id' },
+        unique: { $sum: '$unique' },
+        sold: { $sum: '$sold' },
+        total: { $sum: '$total' }
+      }
+    }
+  ]
+
+  return new Aggregator(agg);
+}
+
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
   const query = basicFilterQuery(value)
   return query.find(nfts).all()
@@ -76,6 +94,11 @@ export const basicAggQuery = (nfts: NFTWithMeta[]) => {
   return query.run(nfts)
 }
 
+
+export const spotlightAggQuery = (nfts: Row[]) => {
+  const query = spotlightAggregation()
+  return query.run(nfts)
+}
 
 
 // dev sort({ age: 1 })

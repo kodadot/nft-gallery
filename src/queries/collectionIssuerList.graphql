@@ -1,0 +1,15 @@
+query collectionIssuerList {
+  collectionEntities {
+    nodes {
+      issuer
+      nfts {
+        totalCount
+        nodes {
+          issuer
+          currentOwner
+          metadata
+        }
+      }
+    }
+  }
+}

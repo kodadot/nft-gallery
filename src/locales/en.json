@@ -177,5 +177,15 @@
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold"
+  },
+  "spotlight": {
+    "id": "User",
+    "sold": "Sold",
+    "unique": "Unique",
+    "total": "Total",
+    "averagePrice": "Average price",
+    "count": "Collection count",
+    "collectors": "Collectors",
+    "rank": "Rank"
   }
 }
