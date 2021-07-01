@@ -16,7 +16,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Column, Row } from './types'
-import { columns } from './utils'
+import { columns, nftFn } from './utils'
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
 import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
 
@@ -32,11 +32,6 @@ export default class SpotlightTable extends Vue {
   protected columns: Column[] = columns;
   protected isLoading: boolean = false;
 
-  protected nftFn = (a: any): Row => ({ id: a.issuer, total: a.nfts.totalCount, sold: a.nfts.nodes.reduce(this.someFn, 0), unique: a.nfts.nodes.reduce(this.otherFn, new Set()).size })
-
-  protected otherFn = (acc: Set<string>, val: { metadata: string }) => acc.add(val.metadata)
-  protected someFn = (acc: number, val: { issuer: string, currentOwner: string }) => val.issuer !== val.currentOwner ? acc + 1 : acc
-
 
   async created() {
     const collections = await this.$apollo.query({
@@ -49,8 +44,8 @@ export default class SpotlightTable extends Vue {
 
 
 
-    this.data = spotlightAggQuery(collectionEntities?.nodes?.map(this.nftFn)) as Row[];
-    (window as any).cc = this.data;
+    this.data = spotlightAggQuery(collectionEntities?.nodes?.map(nftFn)) as Row[];
+    // (window as any).cc = this.data;
 
 
   //   this.data  = [

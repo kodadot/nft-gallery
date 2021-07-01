@@ -8,6 +8,7 @@ query collectionIssuerList {
           issuer
           currentOwner
           metadata
+          price
         }
       }
     }

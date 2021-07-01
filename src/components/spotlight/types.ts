@@ -1,7 +1,7 @@
 import { TranslateResult } from 'vue-i18n';
 
 export type Column = {
-  field: string;
+  field: keyof Row;
   label: string | TranslateResult;
   width?: number;
   numeric?: boolean;
@@ -12,5 +12,16 @@ export type Row = {
   id: string;
   unique: number;
   sold: number;
-  total: number
+  total: number,
+  averagePrice: number,
+  count: number,
+  collectors: number;
+  rank: number
+}
+
+export type SimpleSpotlightNFT = {
+  issuer: string;
+  currentOwner: string;
+  metadata: string;
+  price: number;
 }
