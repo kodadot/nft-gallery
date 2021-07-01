@@ -163,7 +163,7 @@ export default class Gallery extends Vue {
     type: '',
     sortBy: { blockNumber: -1 }
   };
-  private first = 20;
+  private first = 21;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
   private currentValue = 1;
   private total = 0;
@@ -225,6 +225,8 @@ export default class Gallery extends Vue {
       ...e,
       emoteCount: e.emotes?.totalCount
     }));
+
+    console.log(this.nfts)
 
     const storedMetadata = await getMany(
       this.nfts.map(({ metadata }: any) => metadata)
