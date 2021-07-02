@@ -1,26 +1,9 @@
 <template>
-  <div class="columns">
+  <div class="columns mb-1">
     <div class="column is-8 is-offset-2">
       <section>
         <br />
         <SpotlightTable />
-        <!-- <section class="hero is-dark">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-12">
-              <li
-                v-for="c in creators"
-                :key="c">
-                  <router-link :to="{ name: 'profile', params: { id: c } }">
-                    <Identity :address="c" :inline="true" />
-                  </router-link>
-              </li>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
       </section>
     </div>
   </div>

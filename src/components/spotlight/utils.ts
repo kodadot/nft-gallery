@@ -26,6 +26,7 @@ export const nftFn = (a: any): Row => ({
   rank: 1
 })
 
-const averageFn = (acc: number, val: SimpleSpotlightNFT) => (acc + Number(formatBalance(val.price, store.getters.getChainProperties.tokenDecimals, false, true))) / 2;
+const formatNumber = (val: SimpleSpotlightNFT) => Number(formatBalance(val.price, store.getters.getChainProperties.tokenDecimals, false, true))
+const averageFn = (acc: number, val: SimpleSpotlightNFT) => (acc + formatNumber(val)) / 2;
 const uniqueFn = (acc: Set<string>, val: SimpleSpotlightNFT) => acc.add(val.metadata)
 const soldFn = (acc: number, val: SimpleSpotlightNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc

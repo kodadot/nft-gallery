@@ -186,6 +186,7 @@
     "averagePrice": "Average price",
     "count": "Collection count",
     "collectors": "Collectors",
-    "rank": "Rank"
+    "rank": "Rank",
+    "empty": "Empty"
   }
 }
