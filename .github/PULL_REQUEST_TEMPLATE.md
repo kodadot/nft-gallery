@@ -3,9 +3,9 @@ Let's do a quick check before the merge.
 Your contribution will be an eternal part of the community codebase
 
 ### Before submitting this PR, please make sure:
-- [ ] Code builds clean without any erros or warnings
-- [ ] Merged recent default branch -- **main** and I've no conflicts
-- [ ] Didn't break any original functionality
+- [ ] Code builds clean without any errors or warnings
+- [ ] I've merged recent default branch -- **main** and I've no conflicts
+- [ ] I didn't break any original functionality
 
 ### Optional
 - [ ] I've tested it on mobile and everything works
@@ -15,7 +15,7 @@ Your contribution will be an eternal part of the community codebase
 - [ ] Feature
 - [ ] Refactoring
 
-### What's new? (may be part of changelog)
+### What's new? (maybe part of changelog)
 - closes #<issue_number> - <Brief_description_how_you_fixed_it>
 
 ### If issue contains bounty label ($,$$,$$$)
