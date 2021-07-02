@@ -62,8 +62,12 @@ export const spotlightAggregation = (): Aggregator => {
         total: { $sum: '$total' },
         averagePrice: { $avg: '$averagePrice' },
         count: { $sum: '$count' },
-        collectors: { $sum: '$collectors' }
+        // collectors: { $setUnion: '$collectors' }, // TODO: Do not know how
+        rank: { $sum: '$rank' }
       }
+    },
+    {
+      $sort: { rank: -1 }
     }
   ]
 

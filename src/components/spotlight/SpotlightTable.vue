@@ -10,7 +10,7 @@
     >
       <b-table-column field="id" :label="$t('spotlight.id')" width="9em" v-slot="props">
         <router-link :to="{ name: 'profile', params: { id: props.row.id } }">
-          <Identity :address="props.row.id" :inline="true" />
+          <Identity :address="props.row.id" inline noOverflow />
         </router-link>
       </b-table-column>
 
@@ -18,6 +18,7 @@
         field="sold"
         :label="$t('spotlight.sold')"
         v-slot="props"
+        sortable
       >
         {{ props.row.sold }}
       </b-table-column>
@@ -26,6 +27,7 @@
         field="unique"
         :label="$t('spotlight.unique')"
         v-slot="props"
+        sortable
       >
         {{ props.row.unique }}
       </b-table-column>
@@ -34,6 +36,7 @@
         field="total"
         :label="$t('spotlight.total')"
         v-slot="props"
+        sortable
       >
         {{ props.row.total }}
       </b-table-column>
@@ -42,6 +45,7 @@
         field="averagePrice"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
+        sortable
       >
         {{ Math.ceil(props.row.averagePrice * 100) / 100 }}
       </b-table-column>
@@ -50,21 +54,24 @@
         field="count"
         :label="$t('spotlight.count')"
         v-slot="props"
+        sortable
       >
         {{ props.row.count }}
       </b-table-column>
 
 
       <b-table-column
-        field="collectors"
-        :label="$t('spotlight.collectors')"
+        field="rank"
+        :label="$t('spotlight.rank')"
         v-slot="props"
+        sortable
       >
-        {{ props.row.collectors }}
+        {{ Math.ceil(props.row.rank * 100) / 100 }}
       </b-table-column>
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
+        <div v-else class="has-text-centered">{{ $t('spotlight.empty') }}</div>
       </template>
 
       <template #empty>

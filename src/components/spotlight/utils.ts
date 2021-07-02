@@ -15,18 +15,26 @@ export const columns: Column[] = [
 ]
 
 
-export const nftFn = (a: any): Row => ({
-  id: a.issuer,
-  total: a.nfts.totalCount,
-  sold: a.nfts.nodes.reduce(soldFn, 0),
-  unique: a.nfts.nodes.reduce(uniqueFn, new Set()).size,
-  averagePrice: a.nfts.nodes.reduce(averageFn, 0),
-  count: 1,
-  collectors: 1,
-  rank: 1
-})
+export const nftFn = (a: any): Row => {
+  const sold = a.nfts.nodes.reduce(soldFn, 0);
+  const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size;
+  const total = a.nfts.totalCount;
+  return {
+    id: a.issuer,
+    total,
+    sold,
+    unique,
+    averagePrice: a.nfts.nodes.reduce(sumFn, 0) / (a.nfts.nodes.length || 1),
+    count: 1,
+    collectors: 0, // a.nfts.nodes.reduce(uniqueCollectorFn, new Set()),
+    rank: sold * (unique / total)
+  };
+};
 
 const formatNumber = (val: SimpleSpotlightNFT) => Number(formatBalance(val.price, store.getters.getChainProperties.tokenDecimals, false, true))
-const averageFn = (acc: number, val: SimpleSpotlightNFT) => (acc + formatNumber(val)) / 2;
+const sumFn = (acc: number, val: SimpleSpotlightNFT) => {
+  return acc + formatNumber(val);
+}
+// const uniqueCollectorFn = (acc: Set<string>, val: SimpleSpotlightNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
 const uniqueFn = (acc: Set<string>, val: SimpleSpotlightNFT) => acc.add(val.metadata)
 const soldFn = (acc: number, val: SimpleSpotlightNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
