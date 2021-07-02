@@ -6,8 +6,8 @@
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity ref="identity" :address="id" :inline="true"
-            /></a>
+              ><Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+            </a>
           </div>
           <div class="column">
             <OnChainProperty
@@ -293,12 +293,12 @@ export default class Profile extends Vue {
       console.warn(e);
     }
     // this.isLoading = false;
-    this.name = (this.$refs['identity'] as Identity)?.name as string;
-    this.email = (this.$refs['identity'] as Identity)?.email as string;
-    this.twitter = (this.$refs['identity'] as Identity)?.twitter as string;
-    this.riot = (this.$refs['identity'] as Identity)?.riot as string;
-    this.web = (this.$refs['identity'] as Identity)?.web as string;
-    this.legal = (this.$refs['identity'] as Identity)?.legal as string;
+    // this.name = (this.$refs['identity'] as Identity)?.name as string;
+    // this.email = (this.$refs['identity'] as Identity)?.email as string;
+    // this.twitter = (this.$refs['identity'] as Identity)?.twitter as string;
+    // this.riot = (this.$refs['identity'] as Identity)?.riot as string;
+    // this.web = (this.$refs['identity'] as Identity)?.web as string;
+    // this.legal = (this.$refs['identity'] as Identity)?.legal as string;
   }
 
   protected async handleResult({ data }: any) {
@@ -317,6 +317,14 @@ export default class Profile extends Vue {
       this.totalCollections = data.collectionEntities.totalCount;
       this.collections = data.collectionEntities.nodes;
     }
+  }
+
+  protected handleIdentity(identityFields: Record<string, string>) {
+    this.email = identityFields?.email as string;
+    this.twitter = identityFields?.twitter as string;
+    this.riot = identityFields?.riot as string;
+    this.web = identityFields?.web as string;
+    this.legal = identityFields?.legal as string;
   }
 
   public checkActiveTab() {

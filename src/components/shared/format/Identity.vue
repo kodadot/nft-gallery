@@ -5,20 +5,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator';
+import { Component, Prop, Watch, Mixins, Emit } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId';
 import { hexToString, isHex } from '@polkadot/util';
 import { emptyObject } from '@/utils/empty';
 import { Data } from '@polkadot/types';
-import { AnyJson } from '@polkadot/types/types';
 import shortAddress from '@/utils/shortAddress';
 import { get, set, update } from 'idb-keyval';
 import { identityStore } from '@/utils/idbStore'
 import shouldUpdate from '@/utils/shouldUpdate';
-import { Optional } from '@/components/subsocial/types';
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -58,6 +55,10 @@ export default class Identity extends Mixins(InlineMixin) {
 
     if (!identity) {
       return await this.fetchIdentity(address)
+    }
+
+    if (this.emit) {
+      this.emitIdentityChange(identity)
     }
 
     return identity;
