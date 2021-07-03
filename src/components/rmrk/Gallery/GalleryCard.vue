@@ -88,6 +88,7 @@ export default class GalleryCard extends Vue {
     .ff-canvas {
       border-radius: 8px;
     }
+  	transition: all 0.3s;
 
     &__emotes {
       position: absolute;
@@ -122,9 +123,12 @@ export default class GalleryCard extends Vue {
       bottom: -45px;
       left: 0;
       width: 100%;
-      transition: all 0.3s;
       background: #fff;
       opacity: 0;
+    }
+
+    .card-image img {
+      transition: all 0.3s ease;
     }
 
     &:hover .card-content {
@@ -135,7 +139,6 @@ export default class GalleryCard extends Vue {
     }
 
     &:hover .card-image img {
-      transition: all 0.3s !important;
       transform: scale(1.1) translateY(-5%);
     }
 
