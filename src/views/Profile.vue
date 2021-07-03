@@ -208,8 +208,19 @@ export default class Profile extends Vue {
   readonly nftListCollected = nftListCollected;
   readonly nftListSold = nftListSold;
 
-  public async created() {
+  public async mounted() {
     await this.fetchProfile();
+
+  }
+
+  public async updated(){
+    this.name = (this.$refs['identity'] as Identity)?.name as string;
+    this.email = (this.$refs['identity'] as Identity)?.email as string;
+    this.twitter = (this.$refs['identity'] as Identity)?.twitter as string;
+    this.riot = (this.$refs['identity'] as Identity)?.riot as string;
+    this.web = (this.$refs['identity'] as Identity)?.web as string;
+    this.legal = (this.$refs['identity'] as Identity)?.legal as string;
+    
   }
 
   public checkId() {
@@ -293,12 +304,7 @@ export default class Profile extends Vue {
       console.warn(e);
     }
     // this.isLoading = false;
-    this.name = (this.$refs['identity'] as Identity)?.name as string;
-    this.email = (this.$refs['identity'] as Identity)?.email as string;
-    this.twitter = (this.$refs['identity'] as Identity)?.twitter as string;
-    this.riot = (this.$refs['identity'] as Identity)?.riot as string;
-    this.web = (this.$refs['identity'] as Identity)?.web as string;
-    this.legal = (this.$refs['identity'] as Identity)?.legal as string;
+
   }
 
   protected async handleResult({ data }: any) {
