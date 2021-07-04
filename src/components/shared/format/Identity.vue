@@ -24,7 +24,6 @@ const components = {}
 
 @Component({ components })
 export default class Identity extends Mixins(InlineMixin) {
-  // @Prop({ default: false }) inline!: boolean;
   @Prop() public address!: Address;
   @Prop(Boolean) public verticalAlign!: boolean;
   @Prop(Boolean) public noOwerflow!: boolean;
