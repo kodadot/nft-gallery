@@ -90,16 +90,13 @@
 
 <script lang="ts" >
 import { Component, Watch, Mixins } from 'vue-property-decorator';
-import { emptyObject } from '@/utils/empty';
 import CreateItem from './CreateItem.vue';
 import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, { execResultValue, txCb, estimate } from '@/utils/transactionExecutor';
 import { notificationTypes, showNotification } from '@/utils/notification';
-import { getInstance, RmrkType } from '../service/RmrkService';
 import {
-  Collection,
   NFT,
   NFTMetadata,
   MintNFT,
@@ -108,11 +105,6 @@ import {
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
-import slugify from 'slugify';
-import { fetchCollectionMetadata } from '../utils';
-import Consolidator, {
-  generateId
-} from '@/components/rmrk/service/Consolidator';
 import NFTUtils from '../service/NftUtils';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
@@ -124,7 +116,6 @@ import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
-  toRemark
 } from './mintUtils';
 import { formatBalance } from '@polkadot/util';
 import { DispatchError } from '@polkadot/types/interfaces';
