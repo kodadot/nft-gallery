@@ -9,7 +9,7 @@ import {
   MediaType
 } from './types';
 import api from '@/fetch';
-import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/RmrkService';
+import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/scheme';
 import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme';
 import { justHash } from '@/utils/ipfs';
 

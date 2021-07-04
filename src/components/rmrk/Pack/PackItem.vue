@@ -23,7 +23,7 @@
 import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '../service/RmrkService';
+// import { getInstance } from '../service/RmrkService';
 import { CompletePack } from '../service/scheme';
 import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
 import isShareMode from '@/utils/isShareMode';
@@ -57,31 +57,31 @@ export default class PackItem extends Vue {
   }
 
 
-  public async mounted() {
-  this.checkId();
-  const rmrkService = getInstance();
-  if (!rmrkService || !this.id) {
-    return;
-  }
+  // public async mounted() {
+  // this.checkId();
+  // // const rmrkService = getInstance();
+  // if (!rmrkService || !this.id) {
+  //   return;
+  // }
 
 
-  this.isLoading = true;
+  // this.isLoading = true;
 
-  try {
-    this.pack = await rmrkService.getCompletePack(this.id);
-    this.nftMeta();
-    // const collections = await rmrkService.getCollectionListForAccount(
-    //   this.id
-    // ).then(defaultSortBy);
+  // try {
+  //   this.pack = await rmrkService.getCompletePack(this.id);
+  //   this.nftMeta();
+  //   // const collections = await rmrkService.getCollectionListForAccount(
+  //   //   this.id
+  //   // ).then(defaultSortBy);
 
-    // console.log(packs)
-  } catch (e) {
-    showNotification(`${e}`, notificationTypes.danger);
-    console.warn(e);
-  }
+  //   // console.log(packs)
+  // } catch (e) {
+  //   showNotification(`${e}`, notificationTypes.danger);
+  //   console.warn(e);
+  // }
 
-    this.isLoading = false;
-  }
+  //   this.isLoading = false;
+  // }
 
   public checkId() {
     if (this.$route.params.id) {

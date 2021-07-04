@@ -98,10 +98,9 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { getInstance } from '@/components/rmrk/service/RmrkService';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils';
-import { defaultSortBy } from '@/components/rmrk/utils';
+
 import {
   CollectionWithMeta,
   NFTWithMeta,
@@ -196,9 +195,7 @@ export default class Profile extends Vue {
   private first = 20;
   private total = 0;
   private currentCollectionPage = 1;
-  private totalCollections = 0;
-  private currentOwnedValue = 1;
-  private totalOwned = 0;
+  protected totalCollections = 0;
 
   protected totalCreated = 0;
   protected totalCollected = 0;
@@ -220,7 +217,7 @@ export default class Profile extends Vue {
     this.riot = (this.$refs['identity'] as Identity)?.riot as string;
     this.web = (this.$refs['identity'] as Identity)?.web as string;
     this.legal = (this.$refs['identity'] as Identity)?.legal as string;
-    
+
   }
 
   public checkId() {
@@ -260,10 +257,6 @@ export default class Profile extends Vue {
   protected async fetchProfile() {
     this.checkId();
     this.checkActiveTab();
-    const rmrkService = getInstance();
-    if (!rmrkService || !this.id) {
-      return;
-    }
 
     try {
       this.$apollo.addSmartQuery('collections', {
