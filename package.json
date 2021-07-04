@@ -30,7 +30,6 @@
     "@subsocial/api": "^0.5.8",
     "@subsocial/types": "^0.5.8",
     "@subsocial/utils": "^0.4.39",
-    "@textile/hub": "^6.1.2",
     "@types/file-saver": "^2.0.2",
     "@vue-polkadot/vue-api": "0.0.35",
     "@vue-polkadot/vue-settings": "^0.0.17",

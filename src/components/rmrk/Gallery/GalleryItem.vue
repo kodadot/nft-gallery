@@ -74,7 +74,7 @@
           </div>
 
           <template v-if="detailVisible && !nft.burned">
-            <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" />
+            <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
             <b-collapse class="card mb-4" animation="slide"
                 aria-id="contentIdForA11y3" :open="false">
                 <template #trigger="props">
@@ -126,7 +126,6 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator';
-import { getInstance } from '@/components/rmrk/service/RmrkService';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
@@ -177,7 +176,7 @@ import { exist } from './Search/exist';
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
-    PackSaver: () => import('../Pack/PackSaver.vue'),
+    // PackSaver: () => import('../Pack/PackSaver.vue'),
     BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue')
   }
 })
@@ -201,12 +200,6 @@ export default class GalleryItem extends Vue {
 
   public async created() {
     this.checkId();
-    const rmrkService = getInstance();
-    console.log('rmrkService', rmrkService)
-    if (!rmrkService || !this.id) {
-      return;
-    }
-
     exist(this.$route.query.message, (val) => {
       this.message = val === 'congrats' ? val : ''
       this.$router.replace(
@@ -358,8 +351,9 @@ hr.comment-divider {
 
         img.fullscreen-image {
           display: block;
-          width: auto !important;
-          height: 100% !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow:auto;
           position: absolute;
           top: 0;
           left: 50%;

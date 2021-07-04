@@ -24,11 +24,8 @@ Vue.use(VueSocialSharing)
 Vue.use(VueApollo)
 
 import Connector from '@vue-polkadot/vue-api';
-import { client, keyInfo } from '@/textile'
-import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
 import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
-import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
 import mingo from 'mingo'
@@ -56,20 +53,15 @@ Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector;
 (window as any).K = keyring;
-(window as any).T = client;
-(window as any).R = getInstance;
 (window as any).W = web3FromAddress;
 (window as any).mingo = mingo;
 (window as any).api = api;
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
 (window as any).S = { get, set, getMany };
-// (window as any).SS = resolveSubsocialApi;
-// (window as any).migrateCollection = migrateCollection;
-// (window as any).migrateNFT = migrateNFT;
 
 (async () => {
-  await createInstance(keyInfo, getPrefixByStoreUrl());
+  // await createInstance(keyInfo, getPrefixByStoreUrl());
   await enableExtension();
 })()
 // Connector.createInstance(store.state.setting.apiUrl);

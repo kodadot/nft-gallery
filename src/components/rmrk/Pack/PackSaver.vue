@@ -37,17 +37,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import { getInstance, RmrkType } from '../service/RmrkService';
-import shouldUpdate from '@/utils/shouldUpdate';
-import groupBy from '@/utils/groupBy';
-import { Debounce } from 'vue-debounce-decorator'
-
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Pack } from '@/components/rmrk/service/scheme';
-import { emptyObject } from '@/utils/empty';
+
 
 @Component
 export default class PackSaver extends Vue {
@@ -60,63 +52,63 @@ export default class PackSaver extends Vue {
   private newPackName = '';
   protected isLoading = false;
 
-  protected async addPack() {
-    const rmrkService = getInstance();
-    const pack = emptyObject<Pack>();
-    pack.nfts = { [this.nftId]: true }
-    pack.name = this.newPackName
+  // protected async addPack() {
+  //   const rmrkService = getInstance();
+  //   const pack = emptyObject<Pack>();
+  //   pack.nfts = { [this.nftId]: true }
+  //   pack.name = this.newPackName
 
-    this.isLoading = true;
+  //   this.isLoading = true;
 
-    try {
-      const persisted = await rmrkService?.createPack(pack, this.accountId);
-      this.$set(this.menus, this.menus.length, persisted);
-      this.$set(this.currentMenu, this.currentMenu.length, persisted?._id);
-      showNotification(`[Textile] Saved pack ${persisted?.name}`);
-      this.newPackName = ''
+  //   try {
+  //     const persisted = await rmrkService?.createPack(pack, this.accountId);
+  //     this.$set(this.menus, this.menus.length, persisted);
+  //     this.$set(this.currentMenu, this.currentMenu.length, persisted?._id);
+  //     showNotification(`[Textile] Saved pack ${persisted?.name}`);
+  //     this.newPackName = ''
 
-    } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger);
-      console.error(e);
-    }
+  //   } catch (e) {
+  //     showNotification(`[ERR] ${e}`, notificationTypes.danger);
+  //     console.error(e);
+  //   }
 
-    this.isLoading = false
+  //   this.isLoading = false
 
-  }
+  // }
 
-  @Debounce(1500)
-  protected handleInput(value: string[]) {
-    console.log('new value is,', value, 'database has', this.savedMenu)
-    const changeLog: Record<string, boolean> = {...this.savedMenu};
-    Object.keys(changeLog).forEach(m => {
-      changeLog[m] = false
-    })
+  // @Debounce(1500)
+  // protected handleInput(value: string[]) {
+  //   console.log('new value is,', value, 'database has', this.savedMenu)
+  //   const changeLog: Record<string, boolean> = {...this.savedMenu};
+  //   Object.keys(changeLog).forEach(m => {
+  //     changeLog[m] = false
+  //   })
 
-    value.forEach(id => changeLog[id] = true)
-    console.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
-    this.submit(changeLog)
-  }
+  //   value.forEach(id => changeLog[id] = true)
+  //   console.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
+  //   this.submit(changeLog)
+  // }
 
-  protected async submit(changeLog: Record<string, boolean>) {
-      const rmrkService = getInstance();
-      try {
-        const persisted = await rmrkService?.addNFTToPacks(this.nftId, changeLog, this.accountId);
-        if (Object.keys(persisted || {}).length) {
-          this.savedMenu = {...persisted}
-          showNotification(`[Textile] packs updated`);
-        }
-      } catch (e) {
-        showNotification(`[ERR] ${e}`, notificationTypes.danger);
-        console.error(e);
-      }
-  }
+  // protected async submit(changeLog: Record<string, boolean>) {
+  //     const rmrkService = getInstance();
+  //     try {
+  //       const persisted = await rmrkService?.addNFTToPacks(this.nftId, changeLog, this.accountId);
+  //       if (Object.keys(persisted || {}).length) {
+  //         this.savedMenu = {...persisted}
+  //         showNotification(`[Textile] packs updated`);
+  //       }
+  //     } catch (e) {
+  //       showNotification(`[ERR] ${e}`, notificationTypes.danger);
+  //       console.error(e);
+  //     }
+  // }
 
-  public mounted() {
-    if (this.accountId) {
-      // fugly hack to avoid race conditions on texile
-      setTimeout(() => this.fetchPacksForUser(this.accountId), 1000)
-    }
-  }
+  // public mounted() {
+  //   if (this.accountId) {
+  //     // fugly hack to avoid race conditions on texile
+  //     setTimeout(() => this.fetchPacksForUser(this.accountId), 1000)
+  //   }
+  // }
 
   // private async submit(rmrk: string) {
   //   const { api } = Connector.getInstance();
@@ -143,25 +135,25 @@ export default class PackSaver extends Vue {
   //   }
   // }
 
-  async fetchPacksForUser(id: string) {
-    const rmrkService = getInstance();
-    try {
-      const packs = await rmrkService?.getPackListForAccount(id);
-      console.log(packs);
-      this.menus = packs || [];
-      this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
-      this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
-    } catch (e) {
-      console.warn(`[Pack] unable to fetch appreciations ${e}`);
-    }
-  }
+//   async fetchPacksForUser(id: string) {
+//     const rmrkService = getInstance();
+//     try {
+//       const packs = await rmrkService?.getPackListForAccount(id);
+//       console.log(packs);
+//       this.menus = packs || [];
+//       this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
+//       this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
+//     } catch (e) {
+//       console.warn(`[Pack] unable to fetch appreciations ${e}`);
+//     }
+//   }
 
-  @Watch('accountId')
-  protected watchAccountId(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.fetchPacksForUser(val);
-    }
-  }
+//   @Watch('accountId')
+//   protected watchAccountId(val: string, oldVal: string) {
+//     if (shouldUpdate(val, oldVal)) {
+//       this.fetchPacksForUser(val);
+//     }
+//   }
 }
 </script>
 
