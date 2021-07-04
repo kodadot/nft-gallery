@@ -5,6 +5,10 @@ export interface CompletePack extends BasePack {
   nfts: NFT[];
 }
 
+export type RmrkType = RmrkWithMetaType | Emotion | Pack
+export type RmrkWithMetaType = CollectionWithMeta | NFTWithMeta
+export type CollectionOrNFT = Collection | NFT
+
 export interface CompletePackWithItemMeta extends BasePack {
   collections: CollectionWithMeta[];
   nfts: NFTWithMeta[];

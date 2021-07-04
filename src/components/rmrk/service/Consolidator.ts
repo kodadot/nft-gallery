@@ -1,4 +1,4 @@
-import { RmrkType } from './RmrkService';
+import { RmrkType } from './scheme';
 import { RmrkEvent, RmrkInteraction } from '../types';
 import { Collection, NFT } from './scheme';
 import { u8aToHex } from '@polkadot/util';
