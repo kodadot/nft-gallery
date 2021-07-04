@@ -8,7 +8,7 @@
       paginated
       show-detail-icon
     >
-      <b-table-column field="id" :label="$t('spotlight.id')" width="9em" v-slot="props">
+      <b-table-column class="super-long" field="id" :label="$t('spotlight.id')" width="9em" v-slot="props">
         <router-link :to="{ name: 'profile', params: { id: props.row.id } }">
           <Identity :address="props.row.id" inline noOverflow />
         </router-link>
@@ -118,3 +118,9 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   }
 }
 </script>
+<style scoped>
+.super-long {
+  max-width: 9em;
+
+}
+</style>

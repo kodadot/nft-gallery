@@ -179,7 +179,7 @@
     "sold": "Sold"
   },
   "spotlight": {
-    "id": "User",
+    "id": "Creator",
     "sold": "Sold",
     "unique": "Unique",
     "total": "Total",
