@@ -26,3 +26,5 @@
     Content-Security-Policy = "frame-ancestors 'self';"
     # Basic one if one above won't work
     # Content-Security-Policy = "default-src 'self';"
+    # For future testing, refer to https://github.com/kodadot/nft-gallery/issues/540
+    # Permissions-Policy = "interest-cohort=()"
