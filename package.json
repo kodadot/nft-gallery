@@ -35,7 +35,7 @@
     "@vue-polkadot/vue-settings": "^0.0.17",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
-    "buefy": "^0.9.7",
+    "buefy": "^0.9.8",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
     "freezeframe": "^5.0.2",

@@ -6,7 +6,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 */
 @Component
 export default class InlineMixin extends Vue {
-  @Prop({ default: false }) inline!: boolean
+  @Prop(Boolean) inline!: boolean
 
   get is() {
     return this.inline ? 'span' : 'div'
