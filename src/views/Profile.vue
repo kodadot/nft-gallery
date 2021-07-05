@@ -210,16 +210,6 @@ export default class Profile extends Vue {
 
   }
 
-  public async updated(){
-    this.name = (this.$refs['identity'] as Identity)?.name as string;
-    this.email = (this.$refs['identity'] as Identity)?.email as string;
-    this.twitter = (this.$refs['identity'] as Identity)?.twitter as string;
-    this.riot = (this.$refs['identity'] as Identity)?.riot as string;
-    this.web = (this.$refs['identity'] as Identity)?.web as string;
-    this.legal = (this.$refs['identity'] as Identity)?.legal as string;
-
-  }
-
   public checkId() {
     if (this.$route.params.id) {
       this.id = this.$route.params.id;

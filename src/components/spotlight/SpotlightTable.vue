@@ -8,7 +8,12 @@
       paginated
       show-detail-icon
     >
-      <b-table-column class="super-long" field="id" :label="$t('spotlight.id')" width="9em" v-slot="props">
+      <b-table-column
+        cell-class="short-identity__table"
+        field="id"
+        :label="$t('spotlight.id')"
+        v-slot="props"
+      >
         <router-link :to="{ name: 'profile', params: { id: props.row.id } }">
           <Identity :address="props.row.id" inline noOverflow />
         </router-link>
@@ -59,7 +64,6 @@
         {{ props.row.count }}
       </b-table-column>
 
-
       <b-table-column
         field="rank"
         :label="$t('spotlight.rank')"
@@ -71,11 +75,11 @@
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
-        <div v-else class="has-text-centered">{{ $t('spotlight.empty') }}</div>
+        <div v-else class="has-text-centered">{{ $t("spotlight.empty") }}</div>
       </template>
 
       <template #empty>
-        <div class="has-text-centered">{{ $t('spotlight.empty') }}</div>
+        <div class="has-text-centered">{{ $t("spotlight.empty") }}</div>
       </template>
     </b-table>
   </div>
@@ -88,6 +92,7 @@ import { columns, nftFn } from './utils';
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
 import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
 import TransactionMixin from '@/utils/mixins/txMixin';
+import { denyList } from '@/costants';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -103,7 +108,10 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   async created() {
     this.isLoading = true;
     const collections = await this.$apollo.query({
-      query: collectionIssuerList
+      query: collectionIssuerList,
+      variables: {
+        denyList
+      }
     });
 
     const {
@@ -118,9 +126,10 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   }
 }
 </script>
-<style scoped>
-.super-long {
-  max-width: 9em;
-
-}
+<style>
+  .short-identity__table {
+    max-width: 12em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>

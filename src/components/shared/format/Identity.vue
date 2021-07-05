@@ -82,7 +82,7 @@ export default class Identity extends Mixins(InlineMixin) {
   protected async fetchIdentity(address: string): Promise<IdentityFields> {
     const { api } = Connector.getInstance()
 
-    const optionIdentity = await api.query.identity?.identityOf(address)
+    const optionIdentity = await api?.query.identity?.identityOf(address)
     const identity = optionIdentity?.unwrapOrDefault()
 
 
