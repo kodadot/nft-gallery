@@ -1,6 +1,7 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign }">
     {{ name | toString }}
+    {{ twitter | toString }}
   </component>
 </template>
 
@@ -38,6 +39,7 @@ export default class Identity extends Mixins(InlineMixin) {
   get name(): Address {
     // console.log('get name -> identityInfo', this.identityInfo);
     const name = this.handleRaw(this.identityInfo?.display);
+    console.log(name)
     return name as string || this.address
   }
 
@@ -53,6 +55,7 @@ export default class Identity extends Mixins(InlineMixin) {
 
   get twitter(): Address {
     const twitter = this.handleRaw(this.identityInfo?.twitter);
+    console.log(twitter)
     return twitter as string || '';
   }
 
