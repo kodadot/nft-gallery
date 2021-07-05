@@ -122,7 +122,6 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
       collectionEntities?.nodes?.map(nftFn)
     ) as Row[];
     this.isLoading = false;
-    // (window as any).cc = this.data;
   }
 }
 </script>
