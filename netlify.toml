@@ -23,4 +23,6 @@
     # Prevent browsers from incorrectly detecting non-scripts as scripts
     X-Content-Type-Options = "nosniff"
     # Block site from being framed with X-Frame-Options and CSP
-    ## Content-Security-Policy = "frame-ancestors 'self'"
+    Content-Security-Policy = "frame-ancestors 'self';"
+    # Basic one if one above won't work
+    # Content-Security-Policy = "default-src 'self';"
