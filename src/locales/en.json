@@ -133,7 +133,8 @@
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
-    "burned": "NFT is burned"
+    "burned": "NFT is burned",
+    "description": "NFT description"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
