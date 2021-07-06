@@ -32,30 +32,8 @@ export default class Identity extends Mixins(InlineMixin) {
 
   get name(): Address {
     // console.log('get name -> identityInfo', this.identityInfo);
-<<<<<<< HEAD
-    const name = this.handleRaw(this.identityInfo?.display);
-    console.log(name)
-    return name as string || this.address
-  }
-
-  get email(): Address {
-    const email = this.handleRaw(this.identityInfo?.email);
-    return email as string || '';
-  }
-
-  get web(): Address {
-    const web = this.handleRaw(this.identityInfo?.web);
-    return web as string || '';
-  }
-
-  get twitter(): Address {
-    const twitter = this.handleRaw(this.identityInfo?.twitter);
-    console.log(twitter)
-    return twitter as string || '';
-=======
     const name = this.identity.display
     return name as string || shortAddress(this.resolveAddress(this.address))
->>>>>>> main
   }
 
   @Watch('address', { immediate: true })
