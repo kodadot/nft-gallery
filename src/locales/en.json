@@ -177,5 +177,16 @@
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold"
+  },
+  "spotlight": {
+    "id": "Creator",
+    "sold": "Sold",
+    "unique": "Unique",
+    "total": "Total",
+    "averagePrice": "Ø price",
+    "count": "Σ collection",
+    "collectors": "Collectors",
+    "rank": "Rank",
+    "empty": "Empty"
   }
 }

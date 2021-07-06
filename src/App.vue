@@ -65,9 +65,7 @@ export default class Dashboard extends Vue {
     await cryptoWaitReady();
     console.log('wasmCrypto loaded');
     this.loadKeyring();
-    console.log('keyring init');
     this.$store.commit('keyringLoaded');
-    console.log('keyring loaded');
   }
 
   public async getKsmPrice(): Promise<void> {

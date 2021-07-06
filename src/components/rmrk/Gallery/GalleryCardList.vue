@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { RmrkType } from '@/components/rmrk/service/RmrkService';
+import { RmrkType } from '@/components/rmrk/service/scheme';
 
 const components = {
   GalleryCard: () => import('./GalleryCard.vue')

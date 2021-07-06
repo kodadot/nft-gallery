@@ -1,42 +1,38 @@
 <template>
-  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign }">
+  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }">
     {{ name | toString }}
   </component>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
+import { Component, Prop, Watch, Mixins, Emit } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId';
 import { hexToString, isHex } from '@polkadot/util';
 import { emptyObject } from '@/utils/empty';
 import { Data } from '@polkadot/types';
-import { AnyJson } from '@polkadot/types/types';
 import shortAddress from '@/utils/shortAddress';
+import { get, set, update } from 'idb-keyval';
+import { identityStore } from '@/utils/idbStore'
+import shouldUpdate from '@/utils/shouldUpdate';
 
 type Address = string | GenericAccountId | undefined
+type IdentityFields = Record<string, string>
 
 const components = {}
 
 @Component({ components })
 export default class Identity extends Mixins(InlineMixin) {
-  // @Prop({ default: false }) inline!: boolean;
   @Prop() public address!: Address;
-  @Prop() public verticalAlign!: boolean;
-  private identity: Registration = emptyObject<Registration>();
-
-  get identityInfo(): IdentityInfo {
-    return this.identity?.info
-  }
-
-  // get is() {
-  //   return this.inline ? 'span' : 'div'
-  // }
+  @Prop(Boolean) public verticalAlign!: boolean;
+  @Prop(Boolean) public noOwerflow!: boolean;
+  @Prop(Boolean) public emit!: boolean;
+  private identity: IdentityFields = emptyObject<IdentityFields>();
 
   get name(): Address {
     // console.log('get name -> identityInfo', this.identityInfo);
+<<<<<<< HEAD
     const name = this.handleRaw(this.identityInfo?.display);
     console.log(name)
     return name as string || this.address
@@ -56,56 +52,40 @@ export default class Identity extends Mixins(InlineMixin) {
     const twitter = this.handleRaw(this.identityInfo?.twitter);
     console.log(twitter)
     return twitter as string || '';
+=======
+    const name = this.identity.display
+    return name as string || shortAddress(this.resolveAddress(this.address))
+>>>>>>> main
   }
 
-  get riot(): Address {
-    const riot = this.handleRaw(this.identityInfo?.riot);
-    return riot as string || '';
-  }
-
-  get legal(): Address{
-    const legal = this.handleRaw(this.identityInfo?.legal);
-    return legal as string || '';
-  }
-  // get image(): Address {
-  //   const image = this.handleRaw(this.identityInfo?.image);
-  //   // console.log('Email', image);
-  //   return image || '';
-  // }
-
-  @Watch('address')
+  @Watch('address', { immediate: true })
   async watchAddress(newAddress: Address,  oldAddress: Address) {
-
-    if ((newAddress && !oldAddress) || (oldAddress !== newAddress)) {
-      this.identity = await this.identityOf(newAddress)
+    if (shouldUpdate(newAddress, oldAddress)) {
+      this.identityOf(newAddress).then(id => this.identity = id)
     }
   }
 
 
-  public async created() {
-    this.identity = await this.identityOf(this.address)
-    ;
-  }
-
-  public async identityOf(account: Address): Promise<Registration> {
+  public async identityOf(account: Address): Promise<IdentityFields> {
     if (!account) {
-      return Promise.resolve(emptyObject<Registration>())
+      return Promise.resolve(emptyObject<IdentityFields>())
     }
 
-    const address: string = account instanceof GenericAccountId ? account.toString() : account;
-    const identity = this.$store.getters.getIdentityFor(address)
+    const address: string = this.resolveAddress(account)
+    const identity = await get(address, identityStore)
 
-    if (identity) {
-      return Promise.resolve(identity)
+    if (!identity) {
+      return await this.fetchIdentity(address)
     }
 
+    if (this.emit) {
+      this.emitIdentityChange(identity)
+    }
 
-   return await this.$store.dispatch('fetchIdentity', address)
-    .then(() => this.$store.getters.getIdentityFor(address))
-    .then(id => { return id || emptyObject<Registration>()  })
+    return identity;
   }
 
-  private handleRaw(display: Data): Address {
+  private handleRaw(display: Data): string {
     if (display?.isRaw) {
       return display.asRaw.toHuman() as string;
     }
@@ -114,11 +94,45 @@ export default class Identity extends Mixins(InlineMixin) {
       return hexToString((display as any)?.Raw)
     }
 
-    return shortAddress(this.resolveAddress(this.address))
+    return display?.toString();
   }
 
   private resolveAddress(account: Address): string {
     return account instanceof GenericAccountId ? account.toString() : account || '';
+  }
+
+  protected async fetchIdentity(address: string): Promise<IdentityFields> {
+    const { api } = Connector.getInstance()
+
+    const optionIdentity = await api?.query.identity?.identityOf(address)
+    const identity = optionIdentity?.unwrapOrDefault()
+
+
+    if (!identity.size) {
+      console.warn('[IDENTITY] NO', address)
+      return emptyObject<IdentityFields>();
+    }
+
+
+    const final = Array.from(identity.info)
+    .filter(([_, value]) => !Array.isArray(value) && !value.isEmpty)
+    .reduce((acc, [key, value]) => {
+      acc[key] = this.handleRaw(value as Data)
+      return acc;
+    }, {} as IdentityFields)
+
+    update(address, () => final, identityStore)
+
+    if (this.emit) {
+      this.emitIdentityChange(final)
+    }
+
+    return final
+  }
+
+  @Emit('change')
+  emitIdentityChange(final: IdentityFields) {
+    return final
   }
 }
 </script>
@@ -127,5 +141,9 @@ export default class Identity extends Mixins(InlineMixin) {
 .aligned {
   vertical-align: middle;
   display: inline-block;
+}
+
+.overflowWrap {
+  overflow-wrap: break-word;
 }
 </style>
