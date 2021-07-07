@@ -31,8 +31,7 @@
           {{ $t('owner') }}
         </p>
         <p class="subtitle is-size-6">
-          <ProfileLink :address="nft.currentOwner" />
-          <ProfileTwitterLink :address="nft.currentOwner" />
+          <ProfileLink :address="nft.currentOwner" :showTwitter="true"/>
           <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
           <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
         </p>
@@ -48,8 +47,7 @@ import { emptyObject } from '@/utils/empty';
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  ProfileTwitterLink: () => import('@/components/rmrk/Profile/ProfileTwitterLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 }
 
 @Component({ components })
