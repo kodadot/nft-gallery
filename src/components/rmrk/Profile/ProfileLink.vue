@@ -10,9 +10,9 @@
       </a>
     </template>
   </LinkResolver>
-  <div v-if="showTwitter">
+  <template v-if="showTwitter">
     <Identity :address="address" :inline="true" :showTwitter="showTwitter" :verticalAlign="true" />
-	</div>
+	</template>
 </div>
 
 </template>
