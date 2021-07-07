@@ -1,7 +1,7 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }">
     <template v-if="showTwitter">
-      <a :href="`https://twitter.com/${twitter}`" target="_blank" rel="noopener noreferrer" v-if="twitter">
+      <a :href="`https://twitter.com/${twitter}`" class="pt-2" target="_blank" rel="noopener noreferrer" v-if="twitter">
         {{ twitter | toString }}
         <b-icon
           pack="fab"
