@@ -51,7 +51,7 @@ export default class Identity extends Mixins(InlineMixin) {
   get twitter(): Address {
     // console.log('get twitter -> identityInfo', this.identityInfo);
     const twitter = this.identity.twitter
-    return twitter as string || shortAddress(this.resolveAddress(this.address))
+    return twitter as string || ''
   }
 
   @Watch('address', { immediate: true })
