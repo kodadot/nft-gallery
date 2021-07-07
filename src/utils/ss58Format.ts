@@ -1,6 +1,5 @@
 
 const correctFormat = (ss58?: number | string | null): number => {
-  console.log(ss58)
   switch (typeof ss58) {
     case 'number':
       return ss58

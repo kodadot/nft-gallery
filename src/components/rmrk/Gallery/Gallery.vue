@@ -1,5 +1,6 @@
 <template>
   <div class="gallery container">
+    <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
@@ -43,7 +44,8 @@
               <div class="card-content">
                 <span
                   v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered" id="hover-title"
+                  class="title mb-0 is-4 has-text-centered"
+                  id="hover-title"
                   :title="nft.name"
                 >
                   <router-link
@@ -104,21 +106,22 @@ import { SearchQuery } from './Search/types';
 
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { getMany, update } from 'idb-keyval';
+import { denyList } from '@/constants';
+import { $limit } from 'mingo/operators/pipeline';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
 
-const controlFilters = [
-  { name: { notLikeInsensitive: `%Penis%` } },
-]
+const controlFilters = [{ name: { notLikeInsensitive: `%Penis%` } }];
 
 type NFTType = NFTWithMeta;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Pagination: () => import('./Pagination.vue')
+  Pagination: () => import('./Pagination.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 };
 
 @Component<Gallery>({
@@ -157,13 +160,12 @@ const components = {
 export default class Gallery extends Vue {
   private nfts: NFT[] = [];
   private meta: Metadata[] = [];
-  private isLoading: boolean = false;
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: { blockNumber: -1 }
   };
-  private first = 20;
+  private first = 30;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
   private currentValue = 1;
   private total = 0;
@@ -176,6 +178,10 @@ export default class Gallery extends Vue {
   //     }
   //   }
   // }
+
+  get isLoading() {
+    return this.$apollo.queries.nfts.loading
+  }
 
   get offset() {
     return this.currentValue * this.first - this.first;
@@ -192,31 +198,17 @@ export default class Gallery extends Vue {
         return {
           first: this.first,
           offset: this.offset,
+          denyList,
           search: this.searchQuery.search
             ? [
-                ...controlFilters,
                 {
                   name: { likeInsensitive: `%${this.searchQuery.search}%` }
-                  // or: [
-                  //   {
-                  //     instance: {
-                  //       likeInsensitive: `%${this.searchQuery.search}%`
-                  //     }
-                  //   },
-                  //   {
-                  //     collectionId: {
-                  //       likeInsensitive: `%${this.searchQuery.search}%`
-                  //     }
-                  //   }
-                  // ]
                 }
               ]
-            : controlFilters
+            : []
         };
       }
     });
-
-    this.isLoading = false;
   }
 
   protected async handleResult({ data }: any) {
@@ -231,7 +223,6 @@ export default class Gallery extends Vue {
     );
 
     storedMetadata.forEach(async (m, i) => {
-      console.log(m)
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(this.nfts[i]);
@@ -252,6 +243,57 @@ export default class Gallery extends Vue {
         });
       }
     });
+
+
+    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first));
+  }
+
+  public async prefetchPage(offset: number, prefetchLimit: number) {
+    try {
+      const nfts = this.$apollo.query({
+        query: nftListWithSearch,
+        variables: {
+          first: this.first,
+          offset,
+          denyList,
+          search: this.searchQuery.search
+            ? [
+                {
+                  name: { likeInsensitive: `%${this.searchQuery.search}%` }
+                }
+              ]
+            : []
+        }
+      });
+
+      const {
+        data: {
+          nFTEntities: { nodes: nftList }
+        }
+      } = await nfts;
+
+      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata));
+
+      const storedMetadata = await storedPromise;
+
+      storedMetadata.forEach(async (m, i) => {
+        if (!m) {
+          try {
+            const meta = await fetchNFTMetadata(nftList[i]);
+            update(nftList[i].metadata, () => meta);
+          } catch (e) {
+            console.warn('[ERR] unable to get metadata');
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+    } finally {
+      if (offset <= prefetchLimit) {
+        this.prefetchPage(offset + this.first, prefetchLimit)
+      }
+    }
+
   }
 
   get results() {
@@ -447,5 +489,4 @@ export default class Gallery extends Vue {
     }
   }
 }
-
 </style>

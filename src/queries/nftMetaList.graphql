@@ -1,0 +1,13 @@
+query nftMetaList($first: Int!, $offset: Int) {
+  nFTEntities(
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+    filter: { name: { notLike: "%Kanaria%" } }
+  ) {
+    totalCount
+    nodes {
+      metadata
+    }
+  }
+}

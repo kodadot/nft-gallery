@@ -293,11 +293,13 @@ export default class Profile extends Vue {
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
       const nfts = data.nFTEntities.nodes;
-      const meta = await fetchNFTMetadata(nfts[0]);
-      this.firstNFTData = {
-        ...meta,
-        image: sanitizeIpfsUrl(meta.image || '')
-      };
+      if (nfts?.length) {
+        const meta = await fetchNFTMetadata(nfts[0]);
+        this.firstNFTData = {
+          ...meta,
+          image: sanitizeIpfsUrl(meta.image || '')
+        };
+      }
     }
   }
 

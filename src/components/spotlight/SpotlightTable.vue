@@ -92,7 +92,7 @@ import { columns, nftFn } from './utils';
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
 import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
 import TransactionMixin from '@/utils/mixins/txMixin';
-import { denyList } from '@/costants';
+import { denyList } from '@/constants';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),

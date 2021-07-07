@@ -28,7 +28,7 @@ import SettingChooserDevelopment from '@/components/settings/SettingChooserDevel
 export default class General extends Vue {
 
   // DEV: Not happy about this
-  private refresh() {
+  protected refresh() {
     window.sessionStorage.removeItem('vuex');
     window.location.reload();
   }
