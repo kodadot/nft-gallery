@@ -1,5 +1,6 @@
 <template>
   <div class="gallery container">
+    <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
@@ -119,7 +120,8 @@ const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  Pagination: () => import('./Pagination.vue')
+  Pagination: () => import('./Pagination.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 };
 
 @Component<Gallery>({
@@ -158,13 +160,12 @@ const components = {
 export default class Gallery extends Vue {
   private nfts: NFT[] = [];
   private meta: Metadata[] = [];
-  private isLoading: boolean = false;
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: { blockNumber: -1 }
   };
-  private first = 20;
+  private first = 30;
   private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
   private currentValue = 1;
   private total = 0;
@@ -177,6 +178,10 @@ export default class Gallery extends Vue {
   //     }
   //   }
   // }
+
+  get isLoading() {
+    return this.$apollo.queries.nfts.loading
+  }
 
   get offset() {
     return this.currentValue * this.first - this.first;
@@ -204,8 +209,6 @@ export default class Gallery extends Vue {
         };
       }
     });
-
-    this.isLoading = false;
   }
 
   protected async handleResult({ data }: any) {

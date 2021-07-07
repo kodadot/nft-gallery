@@ -61,7 +61,6 @@ export default class GalleryCard extends Vue {
       } else {
         const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT)
         this.image = sanitizeIpfsUrl(m.image || '')
-        console.log(this.image, this.metadata);
         update(this.metadata, () => m)
       }
     }

@@ -188,7 +188,7 @@ export default class Landing extends Vue {
     const nfts = this.$apollo.query({
       query: nftListWithSearch,
       variables: {
-        first: 20,
+        first: 30,
         offset: 0,
         denyList,
         search: []
