@@ -113,7 +113,7 @@ export default class Identity extends Mixins(InlineMixin) {
     const final = Array.from(identity.info)
     .filter(([_, value]) => !Array.isArray(value) && !value.isEmpty)
     .reduce((acc, [key, value]) => {
-      acc[key] = this.handleRaw(value as Data)
+      acc[key] = this.handleRaw(value as unknown as Data)
       return acc;
     }, {} as IdentityFields)
 
