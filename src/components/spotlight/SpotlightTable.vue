@@ -66,7 +66,7 @@
 
       <b-table-column
         field="rank"
-        :label="$t('spotlight.score')"
+        :label="$t('spotlight.rank')"
         v-slot="props"
         sortable
       >
