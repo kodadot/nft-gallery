@@ -31,13 +31,13 @@
                   type="is-primary"
                 />
             </template>
-            <!-- <b-dropdown-item // doesn't work now, Viki will fix
+            <b-dropdown-item
               aria-role="listitem"
             >
               <router-link :to="{ name: 'rmrk'}">
                 {{ $t('Classic') }}
               </router-link>
-            </b-dropdown-item> -->
+            </b-dropdown-item>
             <b-dropdown-item
               aria-role="listitem"
             >
