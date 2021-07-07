@@ -1,4 +1,5 @@
 <template>
+<div>
   <LinkResolver class="profile-link__wrapper" route="profile" :param="address" link="u">
     <Identity :address="address" :inline="true" :verticalAlign="true" />
     <template v-slot:extra>
@@ -9,6 +10,11 @@
       </a>
     </template>
   </LinkResolver>
+  <div class="pt-2" v-if="showTwitter">
+    <Identity :address="address" :inline="true" :showTwitter="showTwitter" :verticalAlign="true" />
+	</div>
+</div>
+
 </template>
 
 <script lang="ts" >
@@ -23,6 +29,7 @@ const components = {
 @Component({ components })
 export default class ProfileLink extends Mixins(InlineMixin) {
   @Prop() public address!: string;
+  @Prop() public showTwitter!: boolean;
 
 }
 </script>

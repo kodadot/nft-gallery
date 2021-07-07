@@ -1,11 +1,5 @@
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
-import { Compact } from '@polkadot/types';
-import { Balance } from '@polkadot/types/interfaces';
-
-const M_LENGTH = 6 + 1;
-const K_LENGTH = 3 + 1;
-
 
 function format(balance: number | string | BN | BigInt, decimals: number = 12, withUnit?: boolean | string, withSi?: boolean ) {
   try {

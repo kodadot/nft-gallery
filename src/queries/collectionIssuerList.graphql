@@ -1,0 +1,16 @@
+query collectionIssuerList($denyList: [String!]) {
+  collectionEntities(filter: { issuer: { notIn: $denyList } }) {
+    nodes {
+      issuer
+      nfts {
+        totalCount
+        nodes {
+          issuer
+          currentOwner
+          metadata
+          price
+        }
+      }
+    }
+  }
+}

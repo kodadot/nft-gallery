@@ -24,11 +24,8 @@ Vue.use(VueSocialSharing)
 Vue.use(VueApollo)
 
 import Connector from '@vue-polkadot/vue-api';
-import { client, keyInfo } from '@/textile'
-import { createInstance, getInstance, migrateCollection, migrateNFT } from '@/components/rmrk/service/RmrkService'
 import { enableExtension } from './extension'
 import { web3FromAddress } from '@polkadot/extension-dapp';
-import { getPrefixByStoreUrl } from '@/utils/chain'
 import 'setimmediate';
 import i18n from './i18n'
 import mingo from 'mingo'
@@ -40,7 +37,8 @@ import { set, get, getMany } from 'idb-keyval';
 
 import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
-import { $sum, $first, $push } from 'mingo/operators/accumulator'
+import { $sum, $first, $push, $avg } from 'mingo/operators/accumulator'
+// import { $setUnion } from 'mingo/operators/expression/set'
 import apolloClient from './subquery';
 import { resolveSubsocialApi } from './components/subsocial/api';
 // import { resolveSubsocialApi } from '@/components/subsocial/api';
@@ -48,26 +46,22 @@ import { resolveSubsocialApi } from './components/subsocial/api';
 // ensure the required operators are preloaded prior to using them.
 type OperatorMap = Record<string, any> ;
 useOperators(OperatorType.PIPELINE, { $match, $group, $project } as OperatorMap)
-useOperators(OperatorType.ACCUMULATOR, { $sum, $first, $push } as OperatorMap)
+useOperators(OperatorType.ACCUMULATOR, { $sum, $first, $push, $avg } as OperatorMap)
+// useOperators(OperatorType.EXPRESSION, { $setUnion } as OperatorMap)
 
 Vue.filter('shortAddress', shortAddress);
 
 (window as any).C = Connector;
 (window as any).K = keyring;
-(window as any).T = client;
-(window as any).R = getInstance;
 (window as any).W = web3FromAddress;
 (window as any).mingo = mingo;
 (window as any).api = api;
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
 (window as any).S = { get, set, getMany };
-// (window as any).SS = resolveSubsocialApi;
-// (window as any).migrateCollection = migrateCollection;
-// (window as any).migrateNFT = migrateNFT;
 
 (async () => {
-  await createInstance(keyInfo, getPrefixByStoreUrl());
+  // await createInstance(keyInfo, getPrefixByStoreUrl());
   await enableExtension();
 })()
 // Connector.createInstance(store.state.setting.apiUrl);

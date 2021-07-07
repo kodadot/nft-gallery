@@ -17,10 +17,12 @@
       </div>
       <div class="card-footer-item" v-if="!onlyCopyLink">
         <b-tooltip
+          position="is-left"
           class="share__tooltip"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
           :active="active"
+          multilined
         >
           <template v-slot:content>
             <ShareNetwork
@@ -52,7 +54,7 @@
               >
               </b-icon>
             </ShareNetwork>
-            <ShareNetwork
+            <!-- <ShareNetwork
               tag="button"
               class="button share__button is-medium"
               network="line"
@@ -65,7 +67,7 @@
                 icon="line"
               >
               </b-icon>
-            </ShareNetwork>
+            </ShareNetwork> -->
             <ShareNetwork
               tag="button"
               class="button share__button is-medium"
@@ -201,9 +203,9 @@ export default class Sharing extends Vue {
     return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`;
   }
 
-  get linemeUri() {
-    return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
-  }
+  // get linemeUri() {
+  //   return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
+  // }
 
   get width() {
     return this.iframe.width || '480px'
@@ -270,7 +272,7 @@ export default class Sharing extends Vue {
       flex-wrap: wrap;
       justify-content: space-around;
       width: 100%;
-      min-width: 162px;
+      min-width: 200px;
       max-width: 300px;
 
       &:before {
@@ -296,6 +298,6 @@ export default class Sharing extends Vue {
       color: $primary;
     }
   }
-  
+
 }
 </style>

@@ -4,7 +4,7 @@ import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme';
 import slugify from 'slugify';
-import { RmrkWithMetaType } from './RmrkService';
+import { RmrkWithMetaType } from './scheme';
 
 export type MintType = {
   collection: Collection

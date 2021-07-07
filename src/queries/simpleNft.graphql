@@ -1,0 +1,6 @@
+fragment simpleNft on NFTEntity {
+  id
+  name
+  metadata
+  burned
+}

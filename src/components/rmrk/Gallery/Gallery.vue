@@ -229,7 +229,9 @@ export default class Gallery extends Vue {
     const storedMetadata = await getMany(
       this.nfts.map(({ metadata }: any) => metadata)
     );
+
     storedMetadata.forEach(async (m, i) => {
+      console.log(m)
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(this.nfts[i]);

@@ -1,31 +1,20 @@
 <template>
-  <div>
-    <section class="hero is-dark">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-12">
-              <li
-                v-for="c in creators"
-                :key="c">
-                  <router-link :to="{ name: 'profile', params: { id: c } }">
-                    <Identity :address="c" :inline="true" />
-                  </router-link>
-              </li>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="columns mb-1">
+    <div class="column is-8 is-offset-2">
+      <section>
+        <br />
+        <SpotlightTable />
+      </section>
+    </div>
   </div>
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator';
 
-
 @Component<Leaderboard>({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue')
+    Identity: () => import('@/components/shared/format/Identity.vue'),
+    SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue')
   }
 })
 export default class Leaderboard extends Vue {
@@ -48,8 +37,10 @@ export default class Leaderboard extends Vue {
     'HRL2QctmfjgFPLCSaiDJThYShQy7V4KvJqLWCY6pga6AEnE',
     'Gskn3eRyr3tDiKxhzU1MPG4ha8RFTBG9ft3C6Rrn3kGJMXn',
     'EB1oqZ5MEnEwxhJ5DySCH3pyY55a2CUDfAbYKmLz2QcqWgx',
+    'Eki6rrJtqfF5RA7gshbe9twhL3umQRebqdWxRkUoLRtofHv',
+    'DFxLeonhy3wNSDPVh5uqyai31vsMp2rY7SSJiM7dK6WQSgn'
     // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
     // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
-  ]
+  ];
 }
 </script>
