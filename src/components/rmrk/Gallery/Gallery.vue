@@ -43,7 +43,8 @@
               <div class="card-content">
                 <span
                   v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered" id="hover-title"
+                  class="title mb-0 is-4 has-text-centered"
+                  id="hover-title"
                   :title="nft.name"
                 >
                   <router-link
@@ -104,14 +105,13 @@ import { SearchQuery } from './Search/types';
 
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { getMany, update } from 'idb-keyval';
+import { denyList } from '@/constants';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
 
-const controlFilters = [
-  { name: { notLikeInsensitive: `%Penis%` } },
-]
+const controlFilters = [{ name: { notLikeInsensitive: `%Penis%` } }];
 
 type NFTType = NFTWithMeta;
 const components = {
@@ -192,26 +192,14 @@ export default class Gallery extends Vue {
         return {
           first: this.first,
           offset: this.offset,
+          denyList,
           search: this.searchQuery.search
             ? [
-                ...controlFilters,
                 {
                   name: { likeInsensitive: `%${this.searchQuery.search}%` }
-                  // or: [
-                  //   {
-                  //     instance: {
-                  //       likeInsensitive: `%${this.searchQuery.search}%`
-                  //     }
-                  //   },
-                  //   {
-                  //     collectionId: {
-                  //       likeInsensitive: `%${this.searchQuery.search}%`
-                  //     }
-                  //   }
-                  // ]
                 }
               ]
-            : controlFilters
+            : []
         };
       }
     });
@@ -231,7 +219,6 @@ export default class Gallery extends Vue {
     );
 
     storedMetadata.forEach(async (m, i) => {
-      console.log(m)
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(this.nfts[i]);
@@ -252,6 +239,55 @@ export default class Gallery extends Vue {
         });
       }
     });
+
+    console.log('RESULT[]\n\n\n\n\n', this.offset)
+    for (let i = this.currentValue; i < this.currentValue + 10; i++ ) {
+      this.prefetchPage(i * this.first);
+    }
+  }
+
+  public async prefetchPage(offset: number) {
+    try {
+      const nfts = this.$apollo.query({
+        query: nftListWithSearch,
+        variables: {
+          first: this.first,
+          offset,
+          denyList,
+          search: this.searchQuery.search
+            ? [
+                {
+                  name: { likeInsensitive: `%${this.searchQuery.search}%` }
+                }
+              ]
+            : []
+        }
+      });
+
+      const {
+        data: {
+          nFTEntities: { nodes: nftList }
+        }
+      } = await nfts;
+
+      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata));
+
+      const storedMetadata = await storedPromise;
+
+      storedMetadata.forEach(async (m, i) => {
+        if (!m) {
+          try {
+            const meta = await fetchNFTMetadata(nftList[i]);
+            update(nftList[i].metadata, () => meta);
+          } catch (e) {
+            console.warn('[ERR] unable to get metadata');
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+    }
+
   }
 
   get results() {
@@ -447,5 +483,4 @@ export default class Gallery extends Vue {
     }
   }
 }
-
 </style>
