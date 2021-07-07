@@ -1,6 +1,17 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }">
-    {{ name | toString }}
+    <template v-if="showTwitter && twitter">
+      <a :href="`https://twitter.com/${twitter}`" target="_blank" rel="noopener noreferrer">
+        {{ twitter | toString }}
+        <b-icon
+          pack="fab"
+          icon="twitter"
+        ></b-icon>
+      </a>
+    </template>
+    <template v-else>
+      {{ name | toString }}
+    </template>
   </component>
 </template>
 
@@ -28,12 +39,19 @@ export default class Identity extends Mixins(InlineMixin) {
   @Prop(Boolean) public verticalAlign!: boolean;
   @Prop(Boolean) public noOwerflow!: boolean;
   @Prop(Boolean) public emit!: boolean;
+  @Prop(Boolean) public showTwitter!: boolean;
   private identity: IdentityFields = emptyObject<IdentityFields>();
 
   get name(): Address {
     // console.log('get name -> identityInfo', this.identityInfo);
     const name = this.identity.display
     return name as string || shortAddress(this.resolveAddress(this.address))
+  }
+
+  get twitter(): Address {
+    // console.log('get twitter -> identityInfo', this.identityInfo);
+    const twitter = this.identity.twitter
+    return twitter as string || shortAddress(this.resolveAddress(this.address))
   }
 
   @Watch('address', { immediate: true })
