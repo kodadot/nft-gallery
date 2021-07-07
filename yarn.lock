@@ -943,7 +943,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.9", "@babel/runtime@^7.14.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.9", "@babel/runtime@^7.3.4", "@babel/runtime@^7.8.4":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.5.tgz#665450911c6031af38f81db530f387ec04cd9a98"
   integrity sha512-121rumjddw9c3NCQ55KGkyE1h/nzWhU/owjhw0l4mQrkzz4x9SGS1X8gFLraHwX7td3Yo4QTL+qj0NcIzN87BA==
@@ -1303,12 +1303,12 @@
   dependencies:
     "@babel/runtime" "^7.14.5"
 
-"@polkadot/networks@^6.2.1":
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-6.7.1.tgz#7100b15f2f1e678aa5567afbe0c1ca1c690b9c83"
-  integrity sha512-9A2GX9Wyc6yoqRGjuxHAEDntsoiCJ9Jv9oocbmTF6/wVb3lK1Si0p4nLfsNCtIYXibbYP2jkyMj5rP10bY3bgw==
+"@polkadot/networks@^6.11.1":
+  version "6.11.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-6.11.1.tgz#8fd189593f6ee4f8bf64378d0aaae09e39a37d35"
+  integrity sha512-0C6Ha2kvr42se3Gevx6UhHzv3KnPHML0N73Amjwvdr4y0HLZ1Nfw+vcm5yqpz5gpiehqz97XqFrsPRauYdcksQ==
   dependencies:
-    "@babel/runtime" "^7.14.0"
+    "@babel/runtime" "^7.14.6"
 
 "@polkadot/rpc-core@4.15.1":
   version "4.15.1"
@@ -1816,12 +1816,12 @@
   dependencies:
     "@polkadot/api" "^4.15.1"
 
-"@vue-polkadot/vue-settings@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.17.tgz#293e65f9b6d82d23e35a7510142be50f8bde4cdb"
-  integrity sha512-tTdPAItOF5gQw8Cr7v9015sG5QuaRNeCzqV2rOrhokb0jNF8/ohq7tNRFHmZXtoSizsk1M3E0V+k+0k3CGTC5w==
+"@vue-polkadot/vue-settings@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.18.tgz#27710027a78faf7a96c088a99206ff6220339480"
+  integrity sha512-7V5Y+UM53xa2zJY7rj3/cE4GgnYDShDGCySQN4rOu7WdeJwu6a19h344xJl+okUcAQ06nx31eTDxNtZJkRi6SQ==
   dependencies:
-    "@polkadot/networks" "^6.2.1"
+    "@polkadot/networks" "^6.11.1"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
