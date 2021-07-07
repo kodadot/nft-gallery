@@ -24,7 +24,7 @@ export const nftFn = (a: any): Row => {
     total,
     sold,
     unique,
-    averagePrice: a.nfts.nodes.reduce(sumFn, 0) / (a.nfts.nodes.length || 1),
+    averagePrice: a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1),
     count: 1,
     collectors: 0, // a.nfts.nodes.reduce(uniqueCollectorFn, new Set()),
     rank: sold * (unique / total)
@@ -38,3 +38,4 @@ const sumFn = (acc: number, val: SimpleSpotlightNFT) => {
 // const uniqueCollectorFn = (acc: Set<string>, val: SimpleSpotlightNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
 const uniqueFn = (acc: Set<string>, val: SimpleSpotlightNFT) => acc.add(val.metadata)
 const soldFn = (acc: number, val: SimpleSpotlightNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
+const onlyOwned = ({ issuer, currentOwner }: SimpleSpotlightNFT) => issuer === currentOwner;
