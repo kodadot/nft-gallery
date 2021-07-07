@@ -31,13 +31,13 @@
                   type="is-primary"
                 />
             </template>
-            <!-- <b-dropdown-item // doesn't work now, Viki will fix
+            <b-dropdown-item
               aria-role="listitem"
             >
               <router-link :to="{ name: 'rmrk'}">
                 {{ $t('Classic') }}
               </router-link>
-            </b-dropdown-item> -->
+            </b-dropdown-item>
             <b-dropdown-item
               aria-role="listitem"
             >
@@ -132,186 +132,17 @@
             Kodadot Github
           </b-button>
         </div>
-        <!-- <div class="tile is-ancestor">
-          <div class="tile is-parent is-vertical">
-            <div class="tile is-child">
-              <h2 class="title is-3">
-                <b-icon
-                  pack="fas"
-                  icon="camera-retro">
-                </b-icon>
-                  <router-link :to="{ name: 'nftRare', }">
-                    Rare solo feed
-                  </router-link>
-              </h2>
-              <h2 class="title is-3">
-                <b-icon
-                  pack="fas"
-                  icon="ghost"
-                ></b-icon>
-                  Creators Spotlight
-              </h2>
-              <h2 class="subtitle is-4">
-                <li
-                  v-for="c in creators"
-                  :key="c">
-                    <router-link :to="{ name: 'profile', params: { id: c } }">
-                      <Identity :address="c" :inline="true" />
-                    </router-link>
-                  </li>
-              </h2>
-            </div>
-            <div class="tile is-child">
-              <h2 class="title is-3">
-                <b-icon
-                  pack="fab"
-                  icon="telegram-plane"
-                ></b-icon>
-                  Community
-              </h2>
-              <h2 class="subtitle is-4">
-                <li
-                  v-for="community in publicCommunity"
-                  :key="community[0]">
-                    <a :href="community[1]">{{ community[0] }}</a>
-                </li>
-              </h2>
-              <h2 class="title is-4">
-                <a href="https://nft.kodadot.xyz/rmrk/collection/10D77F8B699437BB50-KODA" target="_blank">
-                  <b-icon
-                    pack="far"
-                    icon="comment-dots">
-                  </b-icon>
-                  {{ $t('Tutorial: How to mint NFT') }}
-                </a>
-              </h2>
-              <h2 class="title is-4">
-                <a href="https://stakenode.medium.com/dont-panic-and-mint-your-nft-s-on-kodadot-kusama-polkadot-first-nft-explorer-4273f789e585" target="_blank">
-                  <b-icon
-                    pack="far"
-                    icon="comment-dots">
-                  </b-icon>
-                  {{ $t('Tutorial: Mint your NFTs on KodaDot') }}
-                </a>
-              </h2>
-              <h2 class="title is-4">
-                <router-link :to="{ name: 'rmrkFaq' }">
-                  <b-icon
-                    icon="question">
-                  </b-icon>
-                  {{ $t('New here? We have F.A.Q.') }}
-                </router-link>
-              </h2>
-            </div>
-          </div>
-            <div class="tile is-parent is-vertical">
-              <div class="tile is-child">
-                <h2 class="title">
-                  <b-icon icon="flask"></b-icon>
-                  We are wandering new avenues of NFT experience.
-                </h2>
-                <h2 class="title">
-                  <b-icon icon="leaf"></b-icon>
-                  <router-link :to="{ name: 'carbonless'}">
-                    Carbonless NFT movement
-                  </router-link>
-                </h2>
-                <h2 class="title">
-                  <b-icon icon="leaf"></b-icon>
-                  <router-link :to="{ name: 'sustainability'}">
-                    Sustainability program
-                  </router-link>
-                </h2>
-                <h2 class="title">
-                  <b-icon icon="leaf"></b-icon>
-                  <router-link :to="{ name: 'esSustainability'}">
-                    Sustentabilidad de KodaDot
-                  </router-link>
-                </h2>
-              </div>
-            <div class="tile is-child">
-              <h2 class="title">
-                <a href="https://t.me/kodadot" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="telegram">
-                  </b-icon>
-                  KodaDot
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://www.reddit.com/r/KodaDot/" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="reddit-alien">
-                  </b-icon>
-                  r/KodaDot
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://twitter.com/KodaDot" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="twitter">
-                  </b-icon>
-                  @KodaDot
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://discord.gg/u6ymnbz4PR" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="discord">
-                  </b-icon>
-                  KodaDot Community Discord
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="medium">
-                  </b-icon>
-                  {{ $t('Read our story, how we started.') }}
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="medium">
-                  </b-icon>
-                  {{ $t('Traverse to the prime show') }}
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="medium">
-                  </b-icon>
-                  {{ $t('Client-first NFT gallery: Technical examination') }}
-                </a>
-              </h2>
-              <h2 class="title">
-                <a href="https://twitter.com/metaprime_net" target="_blank">
-                  <b-icon
-                    pack="fab"
-                    icon="twitter">
-                  </b-icon>
-                  {{ $t('NFT-focused infrastracture @Metaprime_net') }}
-                </a>
-              </h2>
-              </div>
-            </div>
-        </div> -->
       </div>
     </div>
   </section>
 </template>
+
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import gql from 'graphql-tag'
+import { Component, Vue } from 'vue-property-decorator';
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
+import { denyList } from '@/constants';
+import { getMany, update } from 'idb-keyval';
+import { fetchNFTMetadata } from '../rmrk/utils';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -329,17 +160,7 @@ const components = {
       ]
     }
   },
-  components,
-  apollo: {
-    count: {
-      query: gql`query listed {
-      collectionEntities {
-        totalCount
-	    }
-    }`,
-    update: data => data.collectionEntities.totalCount
-    }
-  }
+  components
 })
 export default class Landing extends Vue {
 
@@ -359,18 +180,44 @@ export default class Landing extends Vue {
     ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
   ]
 
-  public creators: any = [
-    'Dx6nVUy6f2znn4ZwNZ3TGbEyUz3FLbCRGQGKAut4LxjCVRs',
-    'J6mwrrDE5ZywDe8T4mWgsdgHCcrDcrVtoGh37i7PSaZARRs',
-    'FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5',
-    'DmUVjSi8id22vcH26btyVsVq39p8EVPiepdBEYhzoLL8Qby',
-    'CxQJNQeowRUJBgUHQpspudWy4BU6Rk2u93yDZEKe6GzcLDe',
-    'GHuTwhh9txr69tHBM2f1mPE6tWn9XCYKMi3nRNFrYvGv9Yy',
-    'CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd',
-    // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
-    // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
-  ]
+  public mounted() {
+    this.fetchFirstGalleryPage();
+  }
 
+  public async fetchFirstGalleryPage() {
+    const nfts = this.$apollo.query({
+      query: nftListWithSearch,
+      variables: {
+        first: 30,
+        offset: 0,
+        denyList,
+        search: []
+      }
+    });
+
+    const {
+      data: { nFTEntities: { nodes: nftList } }
+    } = await nfts;
+
+    const storedPromise = getMany(
+      nftList.map(({ metadata }: any) => metadata)
+    );
+
+    const storedMetadata = await storedPromise;
+
+    storedMetadata.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchNFTMetadata(nftList[i]);
+          update(nftList[i].metadata, () => meta);
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata');
+        }
+      }
+    });
+
+
+  }
 }
 </script>
 

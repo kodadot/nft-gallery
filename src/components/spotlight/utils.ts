@@ -11,7 +11,7 @@ export const columns: Column[] = [
   { field: 'averagePrice', label: i18n.t('spotlight.averagePrice'), numeric: true },
   { field: 'count', label: i18n.t('spotlight.count'), numeric: true },
   { field: 'collectors', label: i18n.t('spotlight.collectors'), numeric: true },
-  { field: 'rank', label: i18n.t('spotlight.rank'), numeric: true },
+  { field: 'rank', label: i18n.t('spotlight.score'), numeric: true },
 ]
 
 
