@@ -106,6 +106,7 @@ import { SearchQuery } from './Search/types';
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { getMany, update } from 'idb-keyval';
 import { denyList } from '@/constants';
+import { $limit } from 'mingo/operators/pipeline';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -240,13 +241,11 @@ export default class Gallery extends Vue {
       }
     });
 
-    console.log('RESULT[]\n\n\n\n\n', this.offset)
-    for (let i = this.currentValue; i < this.currentValue + 10; i++ ) {
-      this.prefetchPage(i * this.first);
-    }
+
+    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first));
   }
 
-  public async prefetchPage(offset: number) {
+  public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
       const nfts = this.$apollo.query({
         query: nftListWithSearch,
@@ -286,6 +285,10 @@ export default class Gallery extends Vue {
       });
     } catch (e) {
       console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+    } finally {
+      if (offset <= prefetchLimit) {
+        this.prefetchPage(offset + this.first, prefetchLimit)
+      }
     }
 
   }
