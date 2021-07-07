@@ -8,7 +8,7 @@
       </div>
       <div class="column">
         <p class="subtitle">
-          Creator <ProfileLink :address="issuer" :inline="true" />
+          Creator <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
         </p>
         <p class="subtitle" v-if="owner">
           Owner <ProfileLink :address="owner" :inline="true" />

@@ -17,7 +17,7 @@
       ></b-input>
       <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
     </b-field>
-    <b-field :label="$i18n.t('Collection description')" class="mb-0">
+    <b-field :label="$i18n.t('nft.description')" class="mb-0">
       <b-input
         v-model="vDescription"
         maxlength="500"
