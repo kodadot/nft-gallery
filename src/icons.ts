@@ -17,7 +17,10 @@ import {
   faShareAlt, faExclamationTriangle,
   faCalendar, faCalculator, faEnvelope,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
-  faAngleLeft, faAngleRight, faReply, faExternalLinkSquareAlt, faEyeSlash, faArrowUp
+  faAngleLeft, faAngleRight, faReply,
+  faExternalLinkSquareAlt,
+  faEyeSlash, faArrowUp,
+
 } from '@fortawesome/free-solid-svg-icons';
 
 // throws error, idk why

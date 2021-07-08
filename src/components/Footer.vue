@@ -11,7 +11,7 @@
             >
               <b-icon
                 icon="envelope"
-                size="is-small"
+                size="is-medium"
               >
               </b-icon>
             </a>
@@ -46,6 +46,20 @@
           </li>
           <li class="icons__list-item">
             <a
+              href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <b-icon
+                pack="fab"
+                icon="youtube"
+                size="is-medium"
+              >
+              </b-icon>
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
               href="https://t.me/kodadot"
               target="_blank"
               rel="noopener noreferrer"
@@ -72,6 +86,7 @@
               </b-icon>
             </a>
           </li>
+
           <li class="icons__list-item">
             <a
               href="https://www.reddit.com/r/KodaDot/"
@@ -81,20 +96,6 @@
               <b-icon
                 pack="fab"
                 icon="reddit-alien"
-                size="is-medium"
-              >
-              </b-icon>
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
-              href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <b-icon
-                pack="fab"
-                icon="youtube"
                 size="is-medium"
               >
               </b-icon>
