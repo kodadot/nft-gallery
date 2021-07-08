@@ -4,7 +4,7 @@
       <div class="card-image" v-if="image">
         <b-image
           :src="image"
-          :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+          :src-fallback="placeholder"
           :alt="name || 'Simple image'"
           ratio="1by1"
         ></b-image>
@@ -12,7 +12,7 @@
 
       <div v-else class="card-image">
         <b-image
-          :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+          :src="placeholder"
           alt="Simple image"
           ratio="1by1"
         ></b-image>
@@ -52,7 +52,7 @@ export default class GalleryCard extends Vue {
   @Prop() public price!: string;
   @Prop() public metadata!: string;
 
-  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
+  private placeholder = require('@/assets/koda300x300.svg');
 
   async mounted() {
     if (this.metadata) {

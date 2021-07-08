@@ -166,18 +166,9 @@ export default class Gallery extends Vue {
     sortBy: { blockNumber: -1 }
   };
   private first = 12;
-  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
+  private placeholder = require('@/assets/koda300x300.svg');
   private currentValue = 1;
   private total = 0;
-
-  // public mounted() {
-  //   window.onscroll = () => {
-  //     const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight;
-  //     if (bottomOfWindow) {
-  //       console.log('!!!!!!!!!!!!!!!! [END]')
-  //     }
-  //   }
-  // }
 
   get isLoading() {
     return this.$apollo.queries.nfts.loading
