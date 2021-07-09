@@ -6,6 +6,7 @@ import Connector from '@vue-polkadot/vue-api';
 import IdentityModule from './vuex/IdentityModule';
 import { changeCurrentColor } from '@/colors'
 import correctFormat from './utils/ss58Format';
+import basilisk from './components/nft/basilisk';
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -52,7 +53,11 @@ const myPlugin = (store: any) => {
   store.subscribeAction(({type, payload}: ChangeUrlAction, _: any) => {
     if (type === 'setApiUrl' && payload) {
       store.commit('setLoading', true)
-      Api().connect(payload)
+      if (payload.match('ws://127.0.0.1:9988')) {
+        Api().connect(payload, { types: basilisk })
+      } else {
+        Api().connect(payload)
+      }
     }
   })
 };

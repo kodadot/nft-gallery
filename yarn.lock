@@ -1814,10 +1814,10 @@
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.2.tgz#808c9fa7e4517274ed555fa158f2de4b4f468e71"
   integrity sha512-HrCIVMLjE1MOozVoD86622S7aunluLb2PJdPfb3nYiEtohm8mIB/vyv0Fd37AdeMFrTUQXEunw78YloMA3Qilg==
 
-"@vue-polkadot/vue-api@0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.35.tgz#cb1c0154421e24b302f20075cd460b97951e6088"
-  integrity sha512-keDt+vEcyZTVtn8MYj/zOUmDJ9g/vnuW99jDyAPfnAycjAP0sk+urarlHZ12tFEvKySqxhfTNJXbSPchyvrPAQ==
+"@vue-polkadot/vue-api@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.39.tgz#5c9036e038b19a4c48378bc0669a77d193d8b6e3"
+  integrity sha512-UwqXOesvss7Ku1r5silXCS7VADCthwPJXk7UaaaVQKeUARJvrffgNQie61fdPfySB9nX8h0oyHm599NFs4Z3nw==
   dependencies:
     "@polkadot/api" "^4.15.1"
 

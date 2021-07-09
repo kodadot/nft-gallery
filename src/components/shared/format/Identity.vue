@@ -104,7 +104,7 @@ export default class Identity extends Mixins(InlineMixin) {
     const identity = optionIdentity?.unwrapOrDefault()
 
 
-    if (!identity.size) {
+    if (!identity?.size) {
       console.warn('[IDENTITY] NO', address)
       return emptyObject<IdentityFields>();
     }

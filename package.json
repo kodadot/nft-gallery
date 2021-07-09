@@ -31,7 +31,7 @@
     "@subsocial/types": "^0.5.8",
     "@subsocial/utils": "^0.4.39",
     "@types/file-saver": "^2.0.2",
-    "@vue-polkadot/vue-api": "0.0.35",
+    "@vue-polkadot/vue-api": "^0.0.39",
     "@vue-polkadot/vue-settings": "^0.0.18",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
