@@ -5,7 +5,7 @@
         <b-image
           :src="image"
           :src-fallback="placeholder"
-          alt="Simple image"
+          :alt="title || 'Simple image'"
           ratio="1by1"
         ></b-image>
       </div>
@@ -46,6 +46,7 @@ export default class GalleryCard extends Vue {
   @Prop() public id!: string;
   @Prop() public name!: string;
   protected image: string = '';
+  protected title: string = '';
   @Prop() public emoteCount!: string | number;
   @Prop() public imageType!: string;
   @Prop() public price!: string;
@@ -58,9 +59,11 @@ export default class GalleryCard extends Vue {
       const meta = await get(this.metadata);
       if (meta) {
         this.image = sanitizeIpfsUrl(meta.image)
+        this.title = meta.name
       } else {
         const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT)
         this.image = sanitizeIpfsUrl(m.image || '')
+        this.title = m.name
         update(this.metadata, () => m)
       }
     }
