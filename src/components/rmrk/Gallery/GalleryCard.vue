@@ -4,15 +4,15 @@
       <div class="card-image" v-if="image">
         <b-image
           :src="image"
-          :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-          alt="Simple image"
+          :src-fallback="placeholder"
+          :alt="title || 'Simple image'"
           ratio="1by1"
         ></b-image>
       </div>
 
       <div v-else class="card-image">
         <b-image
-          :src="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+          :src="placeholder"
           alt="Simple image"
           ratio="1by1"
         ></b-image>
@@ -46,21 +46,24 @@ export default class GalleryCard extends Vue {
   @Prop() public id!: string;
   @Prop() public name!: string;
   protected image: string = '';
+  protected title: string = '';
   @Prop() public emoteCount!: string | number;
   @Prop() public imageType!: string;
   @Prop() public price!: string;
   @Prop() public metadata!: string;
 
-  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
+  private placeholder = require('@/assets/koda300x300.svg');
 
   async mounted() {
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
         this.image = sanitizeIpfsUrl(meta.image)
+        this.title = meta.name
       } else {
         const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT)
         this.image = sanitizeIpfsUrl(m.image || '')
+        this.title = m.name
         update(this.metadata, () => m)
       }
     }

@@ -74,12 +74,12 @@ Vue.use(Buefy, {
   defaultFieldLabelPosition: 'inside',
   customIconPacks: {
     fas: {
-      sizes: {
-        'default': '',
-        'is-small': '1x',
-        'is-medium': '2x',
-        'is-large': '3x',
-      },
+      // sizes: {
+      //   'default': '',
+      //   'is-small': '1x',
+      //   'is-medium': '2x',
+      //   'is-large': '3x',
+      // },
     },
   },
 });
