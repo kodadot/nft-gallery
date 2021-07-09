@@ -240,7 +240,7 @@ export default class Profile extends Vue {
     const url = new URL(window.location.href);
     return (
       `${url.protocol}//${url.hostname}` +
-      require('@/assets/kodadot_logo_v1_transparent_400px.png')
+      require('@/assets/koda300x300.svg')
     );
   }
 
