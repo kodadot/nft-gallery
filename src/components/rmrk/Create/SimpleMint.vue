@@ -504,8 +504,12 @@ export default class SimpleMint extends Mixins(
             );
 
             this.isLoading = false;
-            // TODO: V1
-            // this.navigateToDetail(remarks.filter(), originalBlockNumber);
+            const firstNft = remarks.find(NFTUtils.isNFT);
+
+            if (firstNft) {
+              this.navigateToDetail(firstNft, originalBlockNumber);
+            }
+
           },
           dispatchError => {
             execResultValue(tx);
