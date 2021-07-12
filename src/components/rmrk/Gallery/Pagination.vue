@@ -12,6 +12,7 @@
     aria-previous-label="Previous page"
     aria-page-label="Page"
     aria-current-label="Current page"
+    @change="scrollTop"
   >
   </b-pagination>
 </template>
@@ -29,7 +30,7 @@ export default class Pagination extends Vue {
   @Prop({ default: 20 }) public perPage!: number;
   @Prop(Boolean) replace!: boolean;
 
-    public mounted() {
+  public mounted() {
     exist(this.$route.query.page, (val) => { this.current = Number(val) });
     // console.log('query', this.$route.query)
     // if (
@@ -40,6 +41,12 @@ export default class Pagination extends Vue {
     // }
   }
 
+  public scrollTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 
   get current() {
     return this.value
