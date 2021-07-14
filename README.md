@@ -100,7 +100,7 @@ If you feel awesome and want to support us in a small way, please consider starr
 
 
 ## 🐳 Docker
-If you want just to try out our KodaDot on Kusama and have full local setup with local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed. We have are building [images from develop and master branch](https://hub.docker.com/r/yangwao/kodadot/tags?page=1&ordering=last_updated)
+If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed. We have are building [images from develop and master branch](https://hub.docker.com/r/yangwao/kodadot/tags?page=1&ordering=last_updated)
 
 ```
 docker-compose pull && docker-compose up
@@ -134,7 +134,7 @@ this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [refere
 ```
 
 #### Using reactive properties
-Some of the properies on the component needs to be automatically updated (currentBlock)
+Some of the properties on the component needs to be automatically updated (currentBlock)
 
 Usage:
 ```html
@@ -168,7 +168,7 @@ git clone https://github.com/kodadot/nft-gallery.git
 touch .env.local
 ```
 
-in `.env.local` add folloving urls:
+in `.env.local` add following urls:
 ```bash
 VUE_APP_KEYRING=true
 VUE_APP_I18N_LOCALE=en
@@ -222,7 +222,7 @@ this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [refere
 ```
 
 #### Using reactive properties
-Some of the properies on the component needs to be automatically updated (currentBlock)
+Some of the properties on the component needs to be automatically updated (currentBlock)
 
 Usage:
 ```html
