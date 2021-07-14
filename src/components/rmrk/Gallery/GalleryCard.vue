@@ -78,7 +78,7 @@ export default class GalleryCard extends Vue {
   private placeholder = require('@/assets/koda300x300.svg');
 
   async mounted() {
-    console.log(this.price);
+
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
