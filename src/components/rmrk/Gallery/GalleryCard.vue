@@ -1,7 +1,7 @@
 <template>
   <div class="card nft-card">
     <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
-      <div class="card-image gallery__image-wrapper" v-if="image">
+      <div class="card-image" v-if="image">
         <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{
@@ -15,10 +15,9 @@
           :alt="title || 'Simple image'"
           ratio="1by1"
         ></b-image>
-
-        <span v-if="price > 0" class="card-image__price">
-          <Money :value="price" inline />
-        </span>
+          <span v-if="price > 0" class="card-image__price">
+            <Money :value="price" inline />
+          </span>
       </div>
 
       <div v-else class="card-image">
@@ -28,7 +27,7 @@
             emoteCount
           }}</span>
         </span>
-   
+
         <b-image
           :src="placeholder"
           alt="Simple image"
@@ -38,7 +37,6 @@
         <span v-if="price > 0" class="card-image__price">
           <Money :value="price" inline />
         </span>
-
       </div>
 
       <div class="card-content">
@@ -80,7 +78,7 @@ export default class GalleryCard extends Vue {
   private placeholder = require('@/assets/koda300x300.svg');
 
   async mounted() {
-    
+    console.log(this.price);
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
@@ -121,7 +119,7 @@ export default class GalleryCard extends Vue {
     .card-image{
       &__emotes {
         position: absolute;
-        background-color: #fff;
+        background-color: #d32e79;
         border-radius: 4px;
         padding: 3px 8px;
         color: #fff;
@@ -146,6 +144,7 @@ export default class GalleryCard extends Vue {
       }
     }
   }
+  
   .card-image__emotes__count {
     vertical-align: text-bottom;
   }
