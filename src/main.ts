@@ -33,6 +33,7 @@ import api from './fetch'
 import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
 import axios from 'axios'
 import { set, get, getMany } from 'idb-keyval';
+import { ContractPromise } from '@polkadot/api-contract';
 
 
 import { useOperators, OperatorType } from 'mingo/core'
@@ -59,6 +60,7 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).P = { baseIpfsPrice, cost, getFileSize, supportTx};
 (window as any).axios = axios;
 (window as any).S = { get, set, getMany };
+(window as any).CP = ContractPromise;
 
 (async () => {
   // await createInstance(keyInfo, getPrefixByStoreUrl());
