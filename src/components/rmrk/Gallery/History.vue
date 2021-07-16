@@ -72,7 +72,6 @@ export default class History extends Vue{
   protected data: any = [];
 
   public async created(){
-    console.log('History', this.events);
     this.createTable();
   }
   protected createTable(){
@@ -115,8 +114,6 @@ export default class History extends Vue{
 
       this.data.push(event);
     }
-
-    console.log(this.data);
   }
   protected parseDate(date: Date){
     return date.toUTCString();
