@@ -132,7 +132,7 @@ export default class History extends Vue{
 </script>
 <style>
   .short-identity__table {
-    max-width: 12em;
+    max-width: 50em;
     overflow: hidden;
     text-overflow: ellipsis;
   }
