@@ -39,6 +39,7 @@
               </button>
           </div>
       </div>
+      
       <div class="columns">
         <div class="column is-6">
           <Appreciation :emotes="nft.emotes"
@@ -54,7 +55,7 @@
           <p class="label">
             {{ $t('legend')}}
           </p>
-
+      
           <div class="subtitle is-size-7">
             <p v-if="!isLoading"
               class="subtitle is-size-5">
@@ -64,6 +65,7 @@
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
         </div>
+      
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
@@ -117,6 +119,9 @@
           </template>
         </div>
       </div>
+      <div>
+        <History v-if="!isLoading" :events="nft.events"/>
+      </div>
       <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
@@ -140,7 +145,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 
 import isShareMode from '@/utils/isShareMode';
-import nftById from '@/queries/nftById.graphql'
+import nftById from '@/queries/nftById.graphql';
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
@@ -171,6 +176,7 @@ import { exist } from './Search/exist';
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
@@ -237,7 +243,7 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
-    console.log(this.nft.emotes);
+    // console.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
@@ -248,7 +254,7 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
-      console.log(this.meta)
+      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
