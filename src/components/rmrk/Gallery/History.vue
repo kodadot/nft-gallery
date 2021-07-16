@@ -114,6 +114,7 @@ export default class History extends Vue{
 
       this.data.push(event);
     }
+    this.data = this.data.reverse();
   }
   protected parseDate(date: Date){
     return date.toUTCString();
