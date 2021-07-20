@@ -10,6 +10,7 @@
       cell-class="short-identity__table"
       field= 'Type'
       label= 'Type'
+      centered
       v-slot="props"
       >
       {{props.row.Type}}
@@ -18,6 +19,7 @@
       cell-class="short-identity__table"
       field= 'From'
       label= 'From'
+      centered
       v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.From } }">
@@ -28,6 +30,7 @@
       cell-class="short-identity__table"
       field= 'To'
       label= 'To'
+      centered
       v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.To } }">
@@ -38,6 +41,7 @@
       cell-class="short-identity__table"
       field= 'Amount'
       label= 'Amount'
+      centered
       v-slot="props"
       >
       {{props.row.Amount}}
@@ -46,6 +50,7 @@
       cell-class="short-identity__table"
       field= 'Date'
       label= 'Date'
+      centered
       v-slot="props"
       >
       {{props.row.Date}}      
@@ -85,12 +90,12 @@ export default class History extends Vue{
       if(newEvent['interaction'] === 'MINTNFT'){
         event['Type'] = 'CREATE';
         event['From'] = newEvent['caller'];
-        event['To'] = 'NA';
+        event['To'] = '';
       }
       else if(newEvent['interaction'] === 'LIST'){
         event['Type'] = 'SET-PRICE';
         event['From'] = newEvent['caller'];
-        event['To'] = 'NA';
+        event['To'] = '';
         prevOwner = event['From'];
         curPrice = newEvent['meta'];
       }
@@ -117,7 +122,8 @@ export default class History extends Vue{
     this.data = this.data.reverse();
   }
   protected parseDate(date: Date){
-    return date.toUTCString();
+    const utcDate: string = date.toUTCString(); 
+    return utcDate.substring(4);
   }
 
   @Watch('events')
