@@ -14,7 +14,7 @@ export default [
     component: User,
     children: [
       { path: '', component: rmrkFaq },
-      { path: ':item', component: ContractGalleryItem },
+      { path: ':item', name: 'superDetail', component: ContractGalleryItem },
     ]
   },
 

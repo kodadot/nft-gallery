@@ -71,8 +71,8 @@
         <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
             <div class="price-block__original"><Money :value="nft.price" inline /></div>
-
             <div class="label">{{ $t('price') }}</div>
+            <div class="subtitle is-size-6" v-if="royalty">⊃ royalty <b><Money :value="royalty" inline /></b></div>
           </div>
 
           <template v-if="detailVisible && !nft.burned">
@@ -141,17 +141,16 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 
 import isShareMode from '@/utils/isShareMode';
-import nftById from '@/queries/nftById.graphql'
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
 import axios from 'axios';
-import { exist } from './Search/exist';
 import { ContractPromise } from '@polkadot/api-contract';
 import abi from '../Create/abi'
 import Connector from '@vue-polkadot/vue-api';
-import { ContractExecResult } from '@polkadot/types/interfaces';
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
+import BN from 'bn.js';
+import { BN_HUNDRED } from '@polkadot/util';
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -201,6 +200,7 @@ export default class GalleryItem extends Vue {
   public message: string = '';
   protected itemId: string = '';
   protected contract: ContractPromise | null = null;
+  public royalty: string = '';
 
 
   get accountId() {
@@ -240,14 +240,17 @@ export default class GalleryItem extends Vue {
       const currentOwnerP = contract.query.ownerOf(acc, defaultOptions, nftId);
       const issuerP = contract.query.owner(acc, defaultOptions);
       const priceP = contract.query.priceOf(acc, defaultOptions, nftId);
+      const royaltyP = contract.query.royaltyOf(acc, defaultOptions, nftId);
 
       const meta = await metaP.then(this.getContractResult);
       const currentOwner = await currentOwnerP.then(this.getContractResult);
       const issuer = await issuerP.then(this.getContractResult);
-      const price = await priceP.then(res => {
-        res.result.isOk && console.log(res.output);
-       return res.result.isOk ? res.output?.toString() : ''
-      });
+      const price = await priceP.then(res =>  res.result.isOk ? res.output?.toString() as string : '0')
+
+
+      const royalty = await royaltyP.then(this.getContractResult);
+      console.log(royalty)
+      this.royalty = new BN(price).div(BN_HUNDRED).mul(new BN(royalty)).toString()
 
       console.log(meta, currentOwner, issuer, price);
 
@@ -263,7 +266,7 @@ export default class GalleryItem extends Vue {
         collection: this.id,
         issuer,
         currentOwner,
-        price,
+        price: new BN(price || 0).add(new BN(this.royalty)).toString(),
       }
 
     } catch (e) {

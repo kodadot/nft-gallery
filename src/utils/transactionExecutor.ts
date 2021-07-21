@@ -7,6 +7,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces';
 import { ContractTx } from '@polkadot/api-contract/base/types';
 import { ContractOptions } from '@polkadot/api-contract/types';
+import { ContractSubmittableResult } from '@polkadot/api-contract/base/Contract';
 
 export type ExecResult = (() => void) | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -44,8 +45,8 @@ const exec = async (account: KeyringAccount | string, password: string | null, c
 };
 
 
-export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: DispatchError) => void, onResult: (result: ISubmittableResult) => void = console.log, successOnBlock?: boolean) =>
-  (result: ISubmittableResult) => {
+export const txCb = (onSuccess: (blockHash: Hash, events?: any[]) => void, onError: (err: DispatchError) => void, onResult: (result: ISubmittableResult) => void = console.log, successOnBlock?: boolean) =>
+  (result: ContractSubmittableResult | ISubmittableResult) => {
     onResult(result);
     if (result.dispatchError) {
       console.warn(`[EXEC] dispatchError`, result);
@@ -55,7 +56,7 @@ export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: Dispat
     if (successOnBlock ? result.status.isInBlock : result.status.isFinalized) {
       console.log(`[EXEC] Finalized`, result);
       // console.log(`[EXEC] blockHash ${result.status.asFinalized}`);
-      onSuccess(successOnBlock ? result.status.asInBlock : result.status.asFinalized)
+      onSuccess(successOnBlock ? result.status.asInBlock : result.status.asFinalized, successOnBlock ?  (result as ContractSubmittableResult).contractEvents : [])
     }
   }
 

@@ -49,12 +49,13 @@ import abi from '../Create/abi';
 import { ContractTx } from '@polkadot/api-contract/base/types';
 import TransactionMixin from '@/utils/mixins/txMixin';
 
-const ownerActions = ['SEND', 'CONSUME', 'LIST'];
+const ownerActions = ['SEND', 'CONSUME', 'LIST', 'ROYALTY'];
 const buyActions = ['BUY'];
 
 const needMeta: Record<string, string> = {
   SEND: 'AddressInput',
-  LIST: 'BalanceInput'
+  LIST: 'BalanceInput',
+  ROYALTY: 'b-numberinput'
 };
 
 type DescriptionTuple = [string, string] | [string];
@@ -62,10 +63,11 @@ const iconResolver: Record<string, DescriptionTuple> = {
   SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
   LIST: ['is-dark'],
-  BUY: ['is-success is-dark']
+  BUY: ['is-success is-dark'],
+  ROYALTY: ['is-ghost is-dark']
 };
 
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '' | 'ROYALTY';
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -197,7 +199,12 @@ export default class AvailableActions extends Mixins(
           options: defaultContractOptions,
           cb: contract.tx.burn
         };
-
+      case 'ROYALTY':
+        return {
+          params: [this.nftId, this.meta],
+          options: defaultContractOptions,
+          cb: contract.tx.setRoyalty
+        };
       default:
         throw new ReferenceError('[Contract] no method');
     }
@@ -233,6 +240,7 @@ export default class AvailableActions extends Mixins(
             );
 
             const a = () => this.$emit('change');
+            this.handleAction('')
 
             setTimeout(a, 1000);
 

@@ -15,6 +15,14 @@
             <Auth />
           </b-field>
 
+          <b-field label="Contract address">
+            <b-input
+              placeholder="Address of your ERC-721 contract"
+              v-model="contractAddr"
+              expanded
+            />
+          </b-field>
+
           <MetadataUpload
             v-model="file"
             label="Drop your NFT here or click to upload. We support various media types (image/png, image/jpeg, image/gif)"
@@ -185,6 +193,7 @@ export default class ContractMint extends Mixins(
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
   protected arweaveUpload = false;
+  protected contractAddr: string = '';
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -218,12 +227,16 @@ export default class ContractMint extends Mixins(
 
   protected async sub() {
     this.isLoading = true;
-    const { accountId, version } = this;
+    const { accountId, contractAddr } = this;
     const { api } = Connector.getInstance();
 
     try {
-          const meta = await this.constructMeta();
-    const contractAddr = '15rd4kN3htRYJdPSAAvswNWskBQn5tBfwKZHxuWeFQsE8VeA'
+      if (!contractAddr) {
+        throw new ReferenceError('[NO CONTRACT]')
+      }
+
+    const meta = await this.constructMeta();
+    // const contractAddr = '15rd4kN3htRYJdPSAAvswNWskBQn5tBfwKZHxuWeFQsE8VeA'
     const contract = new ContractPromise(api, abi, contractAddr)
     const cb = contract.tx.mint;
     const params: ContractParams = {
@@ -237,7 +250,7 @@ export default class ContractMint extends Mixins(
       cb,
       params,
       txCb(
-        async blockHash => {
+        async (blockHash, events) => {
           execResultValue(tx);
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
@@ -246,6 +259,16 @@ export default class ContractMint extends Mixins(
             `[NFT] Saved entries in block ${blockNumber}`,
             notificationTypes.success
           );
+
+          console.log(events)
+
+          if (events && Array.isArray(events)) {
+            const event = events.find(e => e.event.identifier === 'Transfer')
+            console.log(event, event.args[2].toNumber())
+            if (event) {
+              this.navigateToDetail(event.args[2].toNumber())
+            }
+          }
 
           this.isLoading = false;
         },
@@ -396,12 +419,12 @@ export default class ContractMint extends Mixins(
     return api.tx.system.remark(remark);
   }
 
-  protected navigateToDetail(nft: NFT, blockNumber: string) {
+  protected navigateToDetail(tokenId: string) {
     showNotification('You will go to the detail in 2 seconds');
     const go = () =>
       this.$router.push({
-        name: 'nftDetail',
-        params: { id: getNftId(nft, blockNumber) },
+        name: 'superDetail',
+        params: { id: this.contractAddr, item: tokenId },
         query: { message: 'congrats' }
       });
     setTimeout(go, 2000);
