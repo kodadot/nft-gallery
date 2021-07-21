@@ -209,7 +209,10 @@ export default class AvailableActions extends Mixins(
     const { api } = Connector.getInstance();
 
     try {
-      const contractAddr = '14m5YhugGDxHGeoyw6qGDZCLvp6N9KxbswgxT4ntoK2koJxb';
+      const contractAddr = this.contractId;
+      if (!contractAddr) {
+        throw new ReferenceError('[NO CONTRACT]')
+      }
       const contract = new ContractPromise(api, abi, contractAddr);
       const { cb, ...rest } = this.getAction(contract);
 
