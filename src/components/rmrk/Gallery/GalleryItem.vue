@@ -52,7 +52,7 @@
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
-          <p class="label">
+          <p class="label" v-if="meta.description">
             {{ $t('legend')}}
           </p>
       

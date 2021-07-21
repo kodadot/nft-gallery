@@ -10,7 +10,6 @@
       cell-class="short-identity__table"
       field= 'Type'
       label= 'Type'
-      centered
       v-slot="props"
       >
       {{props.row.Type}}
@@ -19,7 +18,6 @@
       cell-class="short-identity__table"
       field= 'From'
       label= 'From'
-      centered
       v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.From } }">
@@ -30,7 +28,6 @@
       cell-class="short-identity__table"
       field= 'To'
       label= 'To'
-      centered
       v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.To } }">
@@ -41,7 +38,6 @@
       cell-class="short-identity__table"
       field= 'Amount'
       label= 'Amount'
-      centered
       v-slot="props"
       >
       {{props.row.Amount}}
@@ -50,7 +46,6 @@
       cell-class="short-identity__table"
       field= 'Date'
       label= 'Date'
-      centered
       v-slot="props"
       >
       {{props.row.Date}}      
