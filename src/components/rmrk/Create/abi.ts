@@ -146,6 +146,112 @@ export default {
         selector: '0x240f21b7'
       },
       {
+        mutates: true,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          },
+          {
+            type: {
+              type: 4,
+              displayName: ['u8']
+            },
+            name: 'amount'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['setRoyalty'],
+        selector: '0xefc206f7'
+      },
+      {
+        mutates: true,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          },
+          {
+            type: {
+              type: 1,
+              displayName: ['string']
+            },
+            name: 'data'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['emote'],
+        selector: '0x1aeb77e9'
+      },
+      {
+        mutates: true,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          },
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'amount'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['list'],
+        selector: '0x832a283f'
+      },
+      {
+        mutates: true,
+        payable: true,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['buy'],
+        selector: '0x15d62801'
+      },
+      {
+        mutates: true,
+        payable: true,
+        args: [
+          {
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
+            name: 'to'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['send'],
+        selector: '0xe6faf2c0'
+      },
+      {
         mutates: false,
         payable: false,
         args: [
@@ -240,6 +346,73 @@ export default {
         docs: [''],
         name: ['tokenURI'],
         selector: '0x97731a4e'
+      },
+      {
+        mutates: false,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          }
+        ],
+        returnType: {
+          type: 5,
+          displayName: ['u128']
+        },
+        docs: [''],
+        name: ['priceOf'],
+        selector: '0xdb1de8ae'
+      },
+      {
+        mutates: false,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
+            name: 'to'
+          },
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          }
+        ],
+        returnType: {
+          type: 1,
+          displayName: ['string']
+        },
+        docs: [''],
+        name: ['emoteOf'],
+        selector: '0x85167098'
+      },
+      {
+        mutates: false,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          }
+        ],
+        returnType: {
+          type: 1,
+          displayName: ['string']
+        },
+        docs: [''],
+        name: ['royaltyOf'],
+        selector: '0x7343cd3c'
       },
       {
         mutates: false,
@@ -447,6 +620,30 @@ export default {
               type: 2,
               displayName: ['AccountId']
             },
+            name: 'to'
+          },
+          {
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            name: 'tokenId'
+          }
+        ],
+        returnType: null,
+        docs: [''],
+        name: ['transfer'],
+        selector: '0x84a15da1'
+      },
+      {
+        mutates: true,
+        payable: false,
+        args: [
+          {
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
             name: 'from'
           },
           {
@@ -573,6 +770,105 @@ export default {
             },
             docs: [''],
             name: 'approved'
+          }
+        ],
+        docs: []
+      },
+      {
+        name: 'Emoted',
+        args: [
+          {
+            indexed: true,
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
+            docs: [''],
+            name: 'from'
+          },
+          {
+            indexed: true,
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            docs: [''],
+            name: 'tokenId'
+          },
+          {
+            indexed: false,
+            type: {
+              type: 1,
+              displayName: ['string']
+            },
+            docs: [''],
+            name: 'emote'
+          }
+        ],
+        docs: []
+      },
+      {
+        name: 'RoyaltySet',
+        args: [
+          {
+            indexed: true,
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
+            docs: [''],
+            name: 'from'
+          },
+          {
+            indexed: true,
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            docs: [''],
+            name: 'tokenId'
+          },
+          {
+            indexed: true,
+            type: {
+              type: 4,
+              displayName: ['u8']
+            },
+            docs: [''],
+            name: 'amount'
+          }
+        ],
+        docs: []
+      },
+      {
+        name: 'Listed',
+        args: [
+          {
+            indexed: true,
+            type: {
+              type: 2,
+              displayName: ['AccountId']
+            },
+            docs: [''],
+            name: 'from'
+          },
+          {
+            indexed: true,
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            docs: [''],
+            name: 'tokenId'
+          },
+          {
+            indexed: true,
+            type: {
+              type: 5,
+              displayName: ['u128']
+            },
+            docs: [''],
+            name: 'amount'
           }
         ],
         docs: []
@@ -778,7 +1074,7 @@ export default {
             },
             {
               name: 'value',
-              type: 19
+              type: 15
             }
           ]
         }
@@ -786,8 +1082,17 @@ export default {
     },
     {
       def: {
-        sequence: {
-          type: 15
+        composite: {
+          fields: [
+            {
+              name: 'key_index',
+              type: 5
+            },
+            {
+              name: 'value',
+              type: 5
+            }
+          ]
         }
       }
     }
@@ -1166,6 +1471,51 @@ export default {
                       key:
                         '0xbed35488cae3b861966602b30315229566e68d7166c1f54ccdd8fc08fcf13820',
                       ty: 18
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          name: '_balances',
+          layout: {
+            struct: {
+              fields: [
+                {
+                  name: 'values',
+                  layout: {
+                    offset:
+                      '0x0d9640ff52037011985cf4f388e0e70786910be803d1687e0cfbaf8996574160',
+                    strategy: {
+                      hasher: 'Blake2x256',
+                      prefix:
+                        '0x0d9640ff52037011985cf4f388e0e70786910be803d1687e0cfbaf8996574160',
+                      postfix: ''
+                    },
+                    layout: {
+                      key:
+                        '0x072f1fc5daf9e283e9462b542cf755ad4c554f898d080a6160572a4f354a96fe',
+                      ty: 5
+                    }
+                  }
+                },
+                {
+                  name: 'values',
+                  layout: {
+                    offset:
+                      '0x0d9640ff52037011985cf4f388e0e70786910be803d1687e0cfbaf8996574160',
+                    strategy: {
+                      hasher: 'Blake2x256',
+                      prefix:
+                        '0x0d9640ff52037011985cf4f388e0e70786910be803d1687e0cfbaf8996574160',
+                      postfix: ''
+                    },
+                    layout: {
+                      key:
+                        '0x457197399668fa71500aa0dba4f29d13193aa7c99f55faecc51ebe9bca322bdc',
+                      ty: 5
                     }
                   }
                 }

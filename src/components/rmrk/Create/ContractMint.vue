@@ -223,7 +223,7 @@ export default class ContractMint extends Mixins(
 
     try {
           const meta = await this.constructMeta();
-    const contractAddr = '16R9XLiX8fufc5wjpUn9bpVUAYKGDzEd4DP2qbaLyaEbRzRv'
+    const contractAddr = '15rd4kN3htRYJdPSAAvswNWskBQn5tBfwKZHxuWeFQsE8VeA'
     const contract = new ContractPromise(api, abi, contractAddr)
     const cb = contract.tx.mint;
     const params: ContractParams = {

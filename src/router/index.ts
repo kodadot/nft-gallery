@@ -8,6 +8,7 @@ import Transfer from '@/router/transfer';
 import Toolbox from '@/router/toolbox';
 import Rmrk from '@/router/rmrk';
 import Profile from '@/router/profile';
+import Contracts from './contracts';
 
 const Landing = () => import('@/components/landing/Landing.vue');
 const Sustainability = () => import('@/components/landing/Sustainability.vue');
@@ -57,6 +58,7 @@ export default new Router({
     ...Toolbox,
     ...Rmrk,
     ...Profile,
+    ...Contracts,
     {
 			path: '/settings',
       name: 'settings',

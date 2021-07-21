@@ -60,10 +60,5 @@ export default [
     path: '/rmrk/mint',
     name: 'simpleMint',
     component: SimpleMint
-  },
-  {
-    path: '/new',
-    name: 'contractMint',
-    component: ContractMint
-  },
+  }
 ];
