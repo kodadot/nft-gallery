@@ -2,20 +2,41 @@
   <div class="card nft-card">
     <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
       <div class="card-image" v-if="image">
+        <span v-if="emoteCount" class="card-image__emotes">
+          <b-icon icon="heart" />
+          <span class="card-image__emotes__count">{{
+            emoteCount
+          }}</span>
+        </span>
+
         <b-image
           :src="image"
           :src-fallback="placeholder"
           :alt="title || 'Simple image'"
           ratio="1by1"
         ></b-image>
+          <span v-if="price > 0" class="card-image__price">
+            <Money :value="price" inline />
+          </span>
       </div>
 
       <div v-else class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
+          <b-icon icon="heart" />
+          <span class="card-image__emotes__count">{{
+            emoteCount
+          }}</span>
+        </span>
+
         <b-image
           :src="placeholder"
           alt="Simple image"
           ratio="1by1"
         ></b-image>
+
+        <span v-if="price > 0" class="card-image__price">
+          <Money :value="price" inline />
+        </span>
       </div>
 
       <div class="card-content">
@@ -36,7 +57,9 @@ import { sanitizeIpfsUrl, fetchNFTMetadata } from '../utils';
 import { NFT } from '../service/scheme';
 
 const components = {
-  LinkResolver: () => import('@/components/shared/LinkResolver.vue')
+  LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+
 };
 
 @Component({ components })
@@ -55,6 +78,7 @@ export default class GalleryCard extends Vue {
   private placeholder = require('@/assets/koda300x300.svg');
 
   async mounted() {
+
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
@@ -92,31 +116,37 @@ export default class GalleryCard extends Vue {
     }
   	transition: all 0.3s;
 
-    &__emotes {
-      position: absolute;
-      background-color: #d32e79;
-      border-radius: 4px;
-      padding: 3px 8px;
-      color: #fff;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      z-index: 3;
-      transition: all 0.3s;
-    }
+    .card-image{
+      &__emotes {
+        position: absolute;
+        background-color: #d32e79;
+        border-radius: 4px;
+        padding: 3px 8px;
+        color: #fff;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        z-index: 3;
+        transition: all 0.3s;
+      }
 
-    &__price {
-      position: absolute;
-      background-color: #363636;
-      border-radius: 4px;
-      padding: 3px 8px;
-      color: #fff;
-      bottom: 10px;
-      left: 10px;
-      font-size: 14px;
-      z-index: 3;
-      transition: all 0.3s;
+      &__price {
+        position: absolute;
+        background-color: #363636;
+        border-radius: 4px;
+        padding: 3px 8px;
+        color: #fff;
+        bottom: 10px;
+        left: 10px;
+        font-size: 14px;
+        z-index: 3;
+        transition: all 0.3s ease;
+      }
     }
+  }
+  
+  .card-image__emotes__count {
+    vertical-align: text-bottom;
   }
 
   @media screen and (min-width: 1024px) {
