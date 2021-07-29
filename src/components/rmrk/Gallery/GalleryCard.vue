@@ -1,6 +1,6 @@
 <template>
   <div class="card nft-card">
-    <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
+    <LinkResolver class="nft-card__skeleton" :route="type" :param="{ id: collection, item: id }" :link="link" tag="div" >
       <div class="card-image" v-if="image">
         <b-image
           :src="image"
@@ -51,6 +51,11 @@ export default class GalleryCard extends Vue {
   @Prop() public imageType!: string;
   @Prop() public price!: string;
   @Prop() public metadata!: string;
+  @Prop() public collection!: string;
+
+  get params(): object {
+    return this.collection ? { id: this.collection, item: this.id } : { id: this.id };
+  }
 
   private placeholder = require('@/assets/koda300x300.svg');
 

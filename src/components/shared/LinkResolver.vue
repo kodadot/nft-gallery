@@ -1,7 +1,7 @@
 <template>
   <component :is="is">
     <template v-if="profileMode">
-      <router-link :to="{ name: route, params: { id: param } }" :tag="tag">
+      <router-link :to="{ name: route, params: urlParam }" :tag="tag">
         <slot />
       </router-link>
       <slot name="extra" />
@@ -24,7 +24,11 @@ export default class LinkResolver extends Mixins(InlineMixin) {
   @Prop({ default: 'nftDetail' }) public route!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop({ default: 'a' }) public tag!: string;
-  @Prop({}) public param!: string;
+  @Prop({ default: '' }) public param!: string | object;
+
+  get urlParam(): object {
+    return typeof this.param === 'object' ? this.param : { id: this.param };
+  }
 
   get profileMode() {
     return !isShareMode;

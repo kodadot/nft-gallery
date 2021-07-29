@@ -24,6 +24,11 @@
           </template>
           <b-navbar-item
             tag="router-link"
+            :to="{ name: 'contractMint'}">
+            {{ $t('Contract') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
             :to="{ name: 'rmrk'}">
             {{ $t('Classic') }}
           </b-navbar-item>

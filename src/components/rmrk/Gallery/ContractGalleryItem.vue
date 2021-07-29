@@ -102,7 +102,7 @@
                       :accountId="accountId"
                       :currentOwnerId="nft.currentOwner"
                       :price="nft.price"
-                      :nftId="nft.id"
+                      :nftId="itemId"
                       :contractId="id"
                       :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
                       @change="loadMagic"
@@ -225,6 +225,7 @@ export default class GalleryItem extends Vue {
     const { api } = Connector.getInstance();
 
     try {
+      console.log('loading magic', this.itemId);
       const nftId = this.itemId || 0;
       this.nftId = nftId;
 
@@ -263,7 +264,7 @@ export default class GalleryItem extends Vue {
 
       this.nft  = {
         ...nft,
-        collection: this.id,
+        collectionId: this.id,
         issuer,
         currentOwner,
         price: new BN(price || 0).add(new BN(this.royalty)).toString(),
