@@ -12,6 +12,41 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component<Leaderboard>({
+  metaInfo() {
+    return {
+      meta: [
+        {
+          property: 'og:title',
+          content: 'KodaDot | Kusama NFT Market explorer'
+        },
+        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
+        {
+          property: 'og:description',
+          content: 'Discover new artists based on the ranking'
+        },
+        {
+          property: 'og:site_name',
+          content: 'Low fees and low carbon minting'
+        },
+        {
+          property: 'og:image',
+          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+        },
+        {
+          property: 'twitter:title',
+          content: 'NFT artist ranking'
+        },
+        {
+          property: 'twitter:description',
+          content: 'Discover new artists based on the ranking'
+        },
+        {
+          property: 'twitter:image',
+          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+        }
+      ]
+    };
+  },
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue')
