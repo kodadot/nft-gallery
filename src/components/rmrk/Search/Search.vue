@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
 const components = {
   FilterBar: () => import('@/components/rmrk/Search/FilterBar.vue'),

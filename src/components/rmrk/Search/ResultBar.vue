@@ -1,6 +1,6 @@
 <template>
   <h2 class="has-text-weight-bold is-size-4">
-    Creators
+    Creators  🔍
   </h2>
 </template>
 
