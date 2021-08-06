@@ -1,34 +1,34 @@
 <template>
   <div>
-    <div>
-      <b-button type="is-primary" class="ml-2 my-2">
+    <section>
+      <b-button type="is-info" class="ml-2 my-2">
         Discover
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Editions
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Undiscovered creators
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Creators
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Collectors
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Tags
       </b-button>    
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Top OBJKTs
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         Top secondary market
       </b-button>
-      <b-button type="is-primary" class="ml-2 my-2">
+      <b-button type="is-info" class="ml-2 my-2">
         TRY v2.0
       </b-button>
-    </div>
+    </section>
     <hr />
   </div>
 </template>
