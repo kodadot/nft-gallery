@@ -41,7 +41,7 @@
       </div>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :emotes="nft.emotes"
+          <Appreciation :emotes="emotes"
             :accountId="accountId"
             :currentOwnerId="nft.currentOwner"
             :nftId="nftId"
@@ -217,12 +217,13 @@ export default class GalleryItem extends Vue {
 
   public async created() {
     this.checkId();
-    this.loadMagic()
+    setTimeout(() => this.loadMagic(), 1000);
   }
 
   public async loadMagic() {
 
     const { api } = Connector.getInstance();
+    await api?.isReady;
 
     try {
       console.log('loading magic', this.itemId);
@@ -242,11 +243,13 @@ export default class GalleryItem extends Vue {
       const issuerP = contract.query.owner(acc, defaultOptions);
       const priceP = contract.query.priceOf(acc, defaultOptions, nftId);
       const royaltyP = contract.query.royaltyOf(acc, defaultOptions, nftId);
+      const emoteP: Promise<string> = this.accountId ? contract.query.emoteOf(acc, defaultOptions, this.accountId, nftId).then(this.getContractResult) : Promise.resolve('');
 
       const meta = await metaP.then(this.getContractResult);
       const currentOwner = await currentOwnerP.then(this.getContractResult);
       const issuer = await issuerP.then(this.getContractResult);
       const price = await priceP.then(res =>  res.result.isOk ? res.output?.toString() as string : '0')
+      const emote = await emoteP;
 
 
       const royalty = await royaltyP.then(this.getContractResult);
@@ -267,8 +270,10 @@ export default class GalleryItem extends Vue {
         collectionId: this.id,
         issuer,
         currentOwner,
-        price: new BN(price || 0).add(new BN(this.royalty)).toString(),
+        price: new BN(price || 0).add(new BN(this.royalty)).toString()
       }
+
+      this.emotes = emote ? [{ value: emote, caller: this.accountId }] : []
 
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
