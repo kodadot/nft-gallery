@@ -39,15 +39,17 @@
               </button>
           </div>
       </div>
-      
+
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :emotes="nft.emotes"
+          <Appreciation
+            v-if="accountId"
+            :emotes="nft.emotes"
             :accountId="accountId"
             :currentOwnerId="nft.currentOwner"
             :nftId="nft.id"
-            :burned="nft.burned" />
-
+            :burned="nft.burned"
+          />
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -55,7 +57,7 @@
           <p class="label" v-if="meta.description">
             {{ $t('legend')}}
           </p>
-      
+
           <div class="subtitle is-size-7">
             <p v-if="!isLoading"
               class="subtitle is-size-5">
@@ -65,7 +67,7 @@
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
         </div>
-      
+
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
