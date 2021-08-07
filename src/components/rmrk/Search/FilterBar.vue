@@ -4,7 +4,7 @@
       v-for="(category, key) in categories"
       v-bind:key="key"
       @click="selectCategory(category)"
-      type="is-info"
+      :type="selectedCategory == category ? 'is-link' : 'is-primary'"
       class="ml-2 my-2"
     >
       {{ category }}
@@ -19,9 +19,11 @@ import { Categories } from './helper';
 @Component({})
 export default class FilterBar extends Vue {
   private categories = Categories;
+  private selectedCategory: string = '';
 
   @Emit('select')
   public selectCategory(category: string) {
+    this.selectedCategory = category;
     return category;
   }
 }
