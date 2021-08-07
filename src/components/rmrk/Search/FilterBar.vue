@@ -1,23 +1,34 @@
 <template>
-  <div>
+  <div class="card mb-4 p-4">
     <b-button
       v-for="(category, key) in categories"
       v-bind:key="key"
+      @click="selectCategory(category)"
       type="is-info"
       class="ml-2 my-2"
     >
       {{ category }}
     </b-button>
-    <hr />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Emit, Vue } from 'vue-property-decorator';
 import { Categories } from './helper';
 
 @Component({})
 export default class FilterBar extends Vue {
   private categories = Categories;
+
+  @Emit('select')
+  public selectCategory(category: string) {
+    return category;
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+.card {
+  box-shadow: 0px 0px 5px 0.5px #d32e79;
+}
+</style>
