@@ -20,7 +20,7 @@ export default class WithKeyring extends Vue {
   protected keyringLoaded: boolean = false;
   protected keyringAccounts: KeyringPair[] = [];
   protected importedAccounts: InjectedAccountWithMeta[] = [];
-  protected keys: any = '';
+  // protected keys: any = '';
 
   public async mountWasmCrypto(): Promise<void> {
     await cryptoWaitReady();
@@ -31,7 +31,7 @@ export default class WithKeyring extends Vue {
 
   public async loadKeyring(): Promise<void> {
     this.keyringLoaded = true;
-    this.keys = keyring;
+    // this.keys = keyring;
     this.mapAccounts();
     await this.extensionAccounts();
   }
@@ -82,6 +82,7 @@ export default class WithKeyring extends Vue {
     console.log('ss58Format', val)
     // https://github.com/polkadot-js/ui/pull/494
     keyring.setSS58Format(Number(val))
+    this.loadKeyring();
   }
 
   // public passwordRequired(address: string): boolean {
