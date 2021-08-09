@@ -131,7 +131,7 @@ export default class Search extends Vue {
 	private placeholder = require("@/assets/koda300x300.svg");
 
 	get isLoading() {
-		return false;
+		return this.$apollo.loading;
 	}
 
 	get offset() {
@@ -145,6 +145,7 @@ export default class Search extends Vue {
 	@Emit("selectSearch")
 	@Debounce(400)
 	private async selectSearch(search: string) {
+		this.initialParams();
 		this.search = search;
 		await this.fetchSearchItems();
 	}
@@ -171,6 +172,13 @@ export default class Search extends Vue {
 	@Debounce(100)
 	private selectVariety(variety: string) {
 		this.variety = variety;
+	}
+
+	private initialParams() {
+		this.first = 12;
+		this.currentValue = 1;
+		this.total = 0;
+		this.nfts = [];
 	}
 
 	protected async fetchSearchItems() {
