@@ -4,7 +4,7 @@ KodaDot NFT gallery has plan to be community-owned.
 We are welcoming community contribution from you.
 Take a sneak peak on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR. 
 When everything went well, chances that you will be rewarded are high.
-For better coordination, feel free to join our [Anteriors channel](https://t.me/joinchat/PBLZLs6SFcI3ZmFk) - for first 100 invited, then will link probably expire
+For better coordination, feel free to join our [Anteriors channel on Discord](https://discord.gg/KkctBVQ8kP)
 
 ## Getting started
 
