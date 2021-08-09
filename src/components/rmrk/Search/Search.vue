@@ -14,8 +14,17 @@
 
 <script lang="ts">
 import { Component, Vue, Emit } from "vue-property-decorator";
+import { NFTWithMeta, NFT, Metadata } from "../service/scheme";
 import { Debounce } from "vue-debounce-decorator";
+import { denyList } from "@/constants";
 import nftListWithSearch from "@/queries/nftListWithSearch.graphql";
+import { getMany, update } from "idb-keyval";
+import { fetchNFTMetadata, sanitizeIpfsUrl } from "../utils";
+import { basicAggQuery } from "../Gallery/Search/query";
+
+interface Image extends HTMLImageElement {
+	ffInitialized: boolean;
+}
 
 const components = {
 	SearchBar: () => import("@/components/rmrk/Search/SearchBar.vue"),
@@ -32,10 +41,22 @@ export default class Search extends Vue {
 	private filter: string = "";
 	private condition: string = "";
 	private variety: string = "";
-	private searchResult = [];
+	private nfts: NFT[] = [];
+	private first = 12;
+	private currentValue = 1;
+	private total = 0;
+	private placeholder = require("@/assets/koda300x300.svg");
 
 	get isLoading() {
 		return false;
+	}
+
+	get offset() {
+		return this.currentValue * this.first - this.first;
+	}
+
+	get results() {
+		return basicAggQuery(this.nfts as NFTWithMeta[]);
 	}
 
 	@Emit("selectSearch")
@@ -74,10 +95,12 @@ export default class Search extends Vue {
 		this.$apollo.addSmartQuery("nfts", {
 			query: nftListWithSearch,
 			manual: true,
-			loadingKey: "isLoading",
 			result: this.handleResult,
 			variables: () => {
 				return {
+					first: this.first,
+					offset: this.offset,
+					denyList,
 					search: this.search
 						? [
 								{
@@ -92,6 +115,43 @@ export default class Search extends Vue {
 
 	protected async handleResult({ data }: any) {
 		console.log("search result", data);
+		this.total = data.nFTEntities.totalCount;
+		this.nfts = data.nFTEntities.nodes.map((e: any) => ({
+			...e,
+			emoteCount: e.emotes?.totalCount,
+		}));
+
+		const storedMetadata = await getMany(
+			this.nfts.map(({ metadata }: any) => metadata)
+		);
+
+		storedMetadata.forEach(async (m, i) => {
+			if (!m) {
+				try {
+					const meta = await fetchNFTMetadata(this.nfts[i]);
+					Vue.set(this.nfts, i, {
+						...this.nfts[i],
+						...meta,
+						image: sanitizeIpfsUrl(meta.image || ""),
+					});
+				} catch (e) {
+					console.warn("[ERR] unable to get metadata");
+				}
+			} else {
+				Vue.set(this.nfts, i, {
+					...this.nfts[i],
+					...m,
+					image: sanitizeIpfsUrl(m.image || ""),
+				});
+			}
+		});
+
+		console.log("handle result nfts", this.nfts);
+	}
+
+	onError(e: Event) {
+		const target = e.target as Image;
+		target.src = this.placeholder;
 	}
 }
 </script>
