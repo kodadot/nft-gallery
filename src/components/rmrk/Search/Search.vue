@@ -8,8 +8,8 @@
 		/>
     <ConditionBar @selectCondition="selectCondition" />
     <VarietyBar @selectVariety="selectVariety" />
-		<Gallery />
-		{{ search }} | {{ medium }} | {{ filter }} || {{ condition }} | {{ variety }}
+		<ResultBar />
+		{{ search }} | {{ medium }} | {{ filter }} | {{ condition }} | {{ variety }}
 
   </div>
 </template>
@@ -22,7 +22,7 @@ const components = {
 	SearchBar: () => import("@/components/rmrk/Search/SearchBar.vue"),
 	ConditionBar: () => import("@/components/rmrk/Search/ConditionBar.vue"),
 	VarietyBar: () => import("@/components/rmrk/Search/VarietyBar.vue"),
-	Gallery: () => import("@/components/rmrk/Search/Gallery.vue"),
+	ResultBar: () => import("@/components/rmrk/Search/ResultBar.vue"),
 	Loader: () => import("@/components/shared/Loader.vue"),
 };
 

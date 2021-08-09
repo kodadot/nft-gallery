@@ -1,11 +1,11 @@
 <template>
   <div>
-    Gallery View
+    Result Bar
   </div>
 </template>
 
 <script lang="ts">
 import { Vue } from "vue-property-decorator";
 
-export default class Gallery extends Vue {}
+export default class ResultBar extends Vue {}
 </script>
