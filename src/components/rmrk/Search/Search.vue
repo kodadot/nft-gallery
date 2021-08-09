@@ -1,6 +1,7 @@
 <template>
   <div class="container">
 		<Loader :value="isLoading" />
+		<SearchBar />
     <FilterBar @selectCategory="selectCategory" />
     <ResultBar :category="category" />
     <QueryBar @selectQuery="selectQuery" />
@@ -8,10 +9,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch, Emit } from "vue-property-decorator";
+import { Component, Vue, Emit } from "vue-property-decorator";
 import { Debounce } from "vue-debounce-decorator";
 
 const components = {
+	SearchBar: () => import("@/components/rmrk/Search/SearchBar.vue"),
 	FilterBar: () => import("@/components/rmrk/Search/FilterBar.vue"),
 	ResultBar: () => import("@/components/rmrk/Search/ResultBar.vue"),
 	QueryBar: () => import("@/components/rmrk/Search/QueryBar.vue"),
