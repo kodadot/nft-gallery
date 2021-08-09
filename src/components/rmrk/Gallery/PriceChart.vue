@@ -1,0 +1,137 @@
+<template>
+  <div>
+    <p class="label">
+      {{ $t('Price Chart')}}
+    </p>
+    <div id="chart" ref="chart" class="echart"></div>
+  </div>
+</template>
+
+<script lang="ts">
+
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+
+import * as ECharts from 'echarts';
+import { formatDate } from '@polkadot/util';
+
+const components = {
+  // chart: () => ECharts,
+ };
+
+@Component({ components })
+
+export default class PriceChart extends Vue{
+
+  @Prop() public priceData!: any[];
+  // @Prop() public eventData!: Date[];
+
+  protected chartOptionsLine: any = {};
+  // protected date: any = [];
+  // protected UTCDate: any = {};
+
+  public async mounted(){
+    // console.log(this.priceData)
+    this.priceChart();
+  }
+
+  protected priceChart(){
+    // this.createDate();
+    // console.log(this.date)
+    const Chart = ECharts.init(this.$refs.chart as HTMLElement);
+    this.chartOptionsLine = {
+      tooltip :{
+        trigger : 'item',
+        formatter: (params: { data: string[]; }) => {
+          const date = this.parseDate(params.data[0] as unknown as Date)
+          const price = params.data[1] + ' KSM';
+          return '<center>' + date + '<br>' + price + '</center>';
+        },
+        backgroundColor: '#363636',
+        textStyle:{
+          color : '#fff',
+          fontFamily: 'Fira Code',
+        },
+      },
+      xAxis:{
+        type: 'time',
+        boundaryGap: false,
+        axisLabel:{
+          fontFamily: 'Fira Code',
+          color: '#fff', 
+        },
+      },
+      yAxis:{
+        type: 'value',
+        axisLabel:{
+          formatter : '{value} KSM',
+          fontFamily: 'Fira Code',
+          color: '#fff', 
+        }
+      },
+      dataZoom: {
+        type: 'slider',
+        bottom: '2%',
+      },
+      series:[{
+        name:'priceHistory',
+        type: 'line',
+        smooth: 'true',
+        lineStyle:{
+          color : '#d32e79',
+        },
+        data: this.priceData,
+      },
+      ]
+    }
+    this.chartOptionsLine && Chart.setOption(this.chartOptionsLine);
+  }
+
+  // protected createDate(){
+  //   this.eventData.forEach(time =>{
+  //     const date = this.formatDate(time);
+  //     this.date.push(date);
+  //     this.UTCDate[date] = this.parseDate(time)
+  //   });
+  //   // console.log(this.date)
+  // }
+  protected parseDate(date: Date){
+    const utcDate: string = date.toUTCString(); 
+    return utcDate.substring(4);
+  }
+
+  protected formatDate(date: Date){
+    const yyyy = date.getUTCFullYear();
+    const mm = this.padDigits(date.getUTCMonth()+1);
+    const dd = this.padDigits(date.getUTCDate());
+    const hrs = this.padDigits(date.getUTCHours());
+    const mins = this.padDigits(date.getUTCMinutes());
+    const secs = this.padDigits(date.getUTCSeconds());
+    const YYYY_MM_DD_HRS_MINS_SECS = yyyy+'/'+mm+'/'+dd+'\n'+hrs+':'+mins+':'+secs;
+    return YYYY_MM_DD_HRS_MINS_SECS;
+  }
+
+  protected padDigits(time : number){
+    return time.toString().padStart(2, '0');
+  }
+
+  @Watch('priceData')
+  async watchData(newPriceData: string[], oldPriceData: string[]){
+    // console.log(this.priceData)
+  	this.priceChart();
+  }
+  // @Watch('eventData')
+  // async watchEvent(newEventData: Date[], oldEventData: Date[]){
+  //   // console.log(this.priceData)
+  // 	this.priceChart();
+  // }
+}
+
+</script>
+
+<style>
+#chart {
+  width: 100%;
+  height: 400px;
+}
+
+</style>
