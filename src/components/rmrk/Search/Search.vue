@@ -173,7 +173,6 @@ export default class Search extends Vue {
 		this.variety = variety;
 	}
 
-	@Debounce(100)
 	protected async fetchSearchItems() {
 		this.$apollo.addSmartQuery("nfts", {
 			query: nftListWithSearch,
