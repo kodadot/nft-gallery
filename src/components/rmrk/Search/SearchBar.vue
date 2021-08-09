@@ -45,14 +45,36 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { Filters, Mediums } from "./helper";
 
+@Component
 export default class SearchBar extends Vue {
-	private search: string = "";
+	set search(value) {
+		this.$emit("selectSearch", value);
+	}
+
+	get search() {
+		return "";
+	}
+
+	set medium(value) {
+		this.$emit("selectMedium", value);
+	}
+
+	get medium() {
+		return "";
+	}
+
+	set filter(value) {
+		this.$emit("selectFilter", value);
+	}
+
+	get filter() {
+		return "";
+	}
+
 	private mediums = Mediums;
 	private filters = Filters;
-	private medium: string = "";
-	private filter: string = "";
 }
 </script>
