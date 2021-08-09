@@ -12,7 +12,6 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
 import * as ECharts from 'echarts';
-import { formatDate } from '@polkadot/util';
 
 const components = {
   // chart: () => ECharts,
@@ -38,52 +37,53 @@ export default class PriceChart extends Vue{
     // this.createDate();
     // console.log(this.date)
     const Chart = ECharts.init(this.$refs.chart as HTMLElement);
-    this.chartOptionsLine = {
-      tooltip :{
-        trigger : 'item',
-        formatter: (params: { data: string[]; }) => {
-          const date = this.parseDate(params.data[0] as unknown as Date)
-          const price = params.data[1] + ' KSM';
-          return '<center>' + date + '<br>' + price + '</center>';
+    Chart.setOption(
+      {
+        tooltip :{
+          trigger : 'item',
+          formatter: (params: { data: string[]; }) => {
+            const date = this.parseDate(params.data[0] as unknown as Date)
+            const price = params.data[1] + ' KSM';
+            return '<center>' + date + '<br>' + price + '</center>';
+          },
+          backgroundColor: '#363636',
+          textStyle:{
+            color : '#fff',
+            fontFamily: 'Fira Code',
+          },
         },
-        backgroundColor: '#363636',
-        textStyle:{
-          color : '#fff',
-          fontFamily: 'Fira Code',
+        xAxis:{
+          type: 'time',
+          boundaryGap: false,
+          axisLabel:{
+            fontFamily: 'Fira Code',
+            color: '#fff', 
+          },
         },
-      },
-      xAxis:{
-        type: 'time',
-        boundaryGap: false,
-        axisLabel:{
-          fontFamily: 'Fira Code',
-          color: '#fff', 
+        yAxis:{
+          type: 'value',
+          axisLabel:{
+            formatter : '{value} KSM',
+            fontFamily: 'Fira Code',
+            color: '#fff', 
+          }
         },
-      },
-      yAxis:{
-        type: 'value',
-        axisLabel:{
-          formatter : '{value} KSM',
-          fontFamily: 'Fira Code',
-          color: '#fff', 
-        }
-      },
-      dataZoom: {
-        type: 'slider',
-        bottom: '2%',
-      },
-      series:[{
-        name:'priceHistory',
-        type: 'line',
-        smooth: 'true',
-        lineStyle:{
-          color : '#d32e79',
+        dataZoom: {
+          type: 'slider',
+          bottom: '2%',
         },
-        data: this.priceData,
-      },
-      ]
-    }
-    this.chartOptionsLine && Chart.setOption(this.chartOptionsLine);
+        series:[{
+          name:'priceHistory',
+          type: 'line',
+          smooth: 'true',
+          lineStyle:{
+            color : '#d32e79',
+          },
+          data: this.priceData,
+        },
+        ]
+      }
+    );
   }
 
   // protected createDate(){
