@@ -9,14 +9,13 @@
     <ConditionBar @selectCondition="selectCondition" />
     <VarietyBar @selectVariety="selectVariety" />
 		<ResultBar />
-		{{ search }} | {{ medium }} | {{ filter }} | {{ condition }} | {{ variety }}
-
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Emit } from "vue-property-decorator";
 import { Debounce } from "vue-debounce-decorator";
+import nftListWithSearch from "@/queries/nftListWithSearch.graphql";
 
 const components = {
 	SearchBar: () => import("@/components/rmrk/Search/SearchBar.vue"),
@@ -33,19 +32,17 @@ export default class Search extends Vue {
 	private filter: string = "";
 	private condition: string = "";
 	private variety: string = "";
+	private searchResult = [];
 
 	get isLoading() {
 		return false;
 	}
 
-	get results() {
-		return [];
-	}
-
 	@Emit("selectSearch")
 	@Debounce(400)
-	private selectSearch(search: string) {
+	private async selectSearch(search: string) {
 		this.search = search;
+		await this.fetchSearchItems();
 	}
 
 	@Emit("selectMedium")
@@ -63,15 +60,38 @@ export default class Search extends Vue {
 	@Emit("selectCondition")
 	@Debounce(100)
 	private selectCondition(condition: string) {
-		console.log("select rmrk condition", condition);
 		this.condition = condition;
 	}
 
 	@Emit("selectVariety")
 	@Debounce(100)
 	private selectVariety(variety: string) {
-		console.log("select rmrk variety", variety);
 		this.variety = variety;
+	}
+
+	@Debounce(100)
+	protected async fetchSearchItems() {
+		this.$apollo.addSmartQuery("nfts", {
+			query: nftListWithSearch,
+			manual: true,
+			loadingKey: "isLoading",
+			result: this.handleResult,
+			variables: () => {
+				return {
+					search: this.search
+						? [
+								{
+									name: { likeInsensitive: `%${this.search}%` },
+								},
+						  ]
+						: [],
+				};
+			},
+		});
+	}
+
+	protected async handleResult({ data }: any) {
+		console.log("search result", data);
 	}
 }
 </script>
