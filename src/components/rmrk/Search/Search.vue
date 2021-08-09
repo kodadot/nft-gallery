@@ -196,7 +196,6 @@ export default class Search extends Vue {
 	}
 
 	protected async handleResult({ data }: any) {
-		console.log("search result", data);
 		this.total = data.nFTEntities.totalCount;
 		this.nfts = data.nFTEntities.nodes.map((e: any) => ({
 			...e,
