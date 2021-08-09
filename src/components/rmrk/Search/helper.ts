@@ -1,22 +1,35 @@
-export const Categories:string[] = [
-  'Discover',
+export const Conditions: string[] = [
+  'POPULAR',
   'Editions',
-  'Undiscovered creators',
-  'Creators',
-  'Collectors',
-  'Tags',
-  'Top OBJKTs',
-  'Top secondary market',
-  'TRY v2.0'
+  'RECENTLY SOLD',
+  'NEW',
+  'ON SALE'
 ];
 
-export const QueryTags:string[] = [
-  '1-5',
-  '5-10',
-  '10-20',
-  '20-50',
-  '50-200',
-  '200-1000',
-  '1000-5000',
-  '>5000'
+export const Varities: string[] = [
+  'ARTWORKS',
+  'CREATORS',
+  'COLLECTORS'
+];
+
+export const Mediums: string[] = [
+  'ANIMATION',
+  'ILLUSTRATION',
+  'CCALLIGRAPHY',
+  'PHOTOGRAPHY',
+  'MUSIC',
+  'FASHION',
+  'SPATIAL',
+  'PHYSICAL OBJECTS',
+  'TEXT',
+  'PAINTING'
+];
+
+export const Filters: string[] = [
+  'PRICE (HIGH/LOW)',
+  'PRICE (LOW/HIGH)',
+  'EDITIONS (MORE/LESS)',
+  'EDITIONS (LESS/MORE)',
+  'AGE (NEW/OLD)',
+  'AGE (OLD/NEW)'
 ];

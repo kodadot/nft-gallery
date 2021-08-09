@@ -2,9 +2,9 @@
   <div class="container">
 		<Loader :value="isLoading" />
 		<SearchBar />
-    <FilterBar @selectCategory="selectCategory" />
-    <ResultBar :category="category" />
-    <QueryBar @selectQuery="selectQuery" />
+    <ConditionBar @selectCondition="selectCondition" />
+    <VarietyBar @selectVariety="selectVariety" />
+		<Gallery />
   </div>
 </template>
 
@@ -14,16 +14,16 @@ import { Debounce } from "vue-debounce-decorator";
 
 const components = {
 	SearchBar: () => import("@/components/rmrk/Search/SearchBar.vue"),
-	FilterBar: () => import("@/components/rmrk/Search/FilterBar.vue"),
-	ResultBar: () => import("@/components/rmrk/Search/ResultBar.vue"),
-	QueryBar: () => import("@/components/rmrk/Search/QueryBar.vue"),
+	ConditionBar: () => import("@/components/rmrk/Search/ConditionBar.vue"),
+	VarietyBar: () => import("@/components/rmrk/Search/VarietyBar.vue"),
+	Gallery: () => import("@/components/rmrk/Search/Gallery.vue"),
 	Loader: () => import("@/components/shared/Loader.vue"),
 };
 
 @Component({ components })
 export default class Search extends Vue {
-	private category: string = "";
-	private query: string = "";
+	private condition: string = "";
+	private variety: string = "";
 
 	get isLoading() {
 		return false;
@@ -33,16 +33,16 @@ export default class Search extends Vue {
 		return [];
 	}
 
-	@Emit("selectCategory")
-	private selectCategory(category: string) {
-		console.log("select rmrk category", category);
-		this.category = category;
+	@Emit("selectCondition")
+	private selectCondition(condition: string) {
+		console.log("select rmrk condition", condition);
+		this.condition = condition;
 	}
 
-	@Emit("selectQuery")
-	private selectQuery(query: string) {
-		console.log("select rmrk query", query);
-		this.query = query;
+	@Emit("selectVariety")
+	private selectVariety(variety: string) {
+		console.log("select rmrk variety", variety);
+		this.variety = variety;
 	}
 }
 </script>
