@@ -129,6 +129,7 @@ export default class Search extends Vue {
 	private currentValue = 1;
 	private total = 0;
 	private placeholder = require("@/assets/koda300x300.svg");
+	private searchQuery = {};
 
 	get isLoading() {
 		return this.$apollo.loading;
@@ -235,7 +236,58 @@ export default class Search extends Vue {
 			}
 		});
 
+		this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first);
+
 		console.log("handle result nfts", this.nfts);
+	}
+
+	public async prefetchPage(offset: number, prefetchLimit: number) {
+		try {
+			const nfts = this.$apollo.query({
+				query: nftListWithSearch,
+				variables: {
+					first: this.first,
+					offset,
+					denyList,
+					search: this.search
+						? [
+								{
+									name: { likeInsensitive: `%${this.search}` },
+								},
+						  ]
+						: [],
+				},
+			});
+
+			const {
+				data: {
+					nFTEntities: { node: nftList },
+				},
+			} = await nfts;
+
+			const storedPromise = getMany(
+				nftList.map(({ metadata }: any) => metadata)
+			);
+
+			const storedMetadata = await storedPromise;
+
+			storedMetadata.forEach(async (m, i) => {
+				if (!m) {
+					try {
+						const meta = await fetchNFTMetadata(nftList[i]);
+						update(nftList[i].metadata, () => meta);
+					} catch (e) {
+						console.warn("[ERR] unable to get metadata");
+					}
+				}
+			});
+		} catch (error) {
+			console.warn("[PRETETCH] Unable to fetch", offset, error.message);
+		} finally {
+			if (offset <= prefetchLimit) {
+				this.prefetchPage(offset + this.first, prefetchLimit);
+			}
+		}
 	}
 
 	setFreezeframe() {
