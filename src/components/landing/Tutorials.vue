@@ -12,30 +12,36 @@
                   </span>
                 </h2>
                 <div class="is-flex-inline is-align-items-start is-flex-direction-column">
-                  <router-link :to="{name: 'createAccount'}">
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a href="https://www.youtube.com/watch?v=iG8iQrONnYo&t=21s">
                     <b-button
                       type="is-primary"
                       class="mb-6"
                     >
                       1. Create polkadot js account
                     </b-button>
-                  </router-link>
-                  <router-link :to="{name: 'createAccount'}">
+                  </a>
+                  <!-- </router-link> -->
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a href="https://www.youtube.com/watch?v=cYaZWDzU1Yc">
                     <b-button
                       type="is-primary"
                       class="mb-6"
                     >
                       2. Get KSM
                     </b-button>
-                  </router-link>
-                  <router-link :to="{name: 'createAccount'}">
+                  </a>
+                  <!-- </router-link> -->
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a href="https://www.youtube.com/watch?v=pPsbQyJRGVQ&t=1s">
                     <b-button
                       type="is-primary"
                       class="mb-6"
                     >
                       3. Minting
                     </b-button>
-                  </router-link>
+                  </a>
+                  <!-- </router-link> -->
                 </div>
               </div>
             </div>
@@ -46,13 +52,10 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
-
+import { Component, Vue } from "vue-property-decorator";
 
 @Component<Tutorials>({
-  components: {}
+	components: {},
 })
-export default class Tutorials extends Vue {
-
-}
+export default class Tutorials extends Vue {}
 </script>
