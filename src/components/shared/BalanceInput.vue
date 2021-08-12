@@ -52,7 +52,7 @@ export default class BalanceInput extends Vue {
   }
 
   protected mapper(unit: Unit) {
-    if (unit.name === 'Decimal') {
+    if (unit.name === 'KSM' && this.unit) {
       return { ...unit, name: this.unit }
     }
     return unit
