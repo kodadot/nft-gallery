@@ -355,6 +355,7 @@ hr.comment-divider {
     }
 
     .image-preview {
+      position: relative;
       &.fullscreen {
         position: fixed;
         width: 100%;
