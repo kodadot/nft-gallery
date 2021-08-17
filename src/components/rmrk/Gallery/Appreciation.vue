@@ -7,7 +7,7 @@
       @click="showDialog = !showDialog"
     />
     <VEmojiPicker
-      v-show="showDialog"
+      v-show="showDialog && accountId"
       labelSearch="Search your emote"
       @select="onSelectEmoji"
       class="emote-picker"
