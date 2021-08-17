@@ -149,6 +149,13 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   z-index: 1;
 }
 
+.emoji-picker {
+  --ep-color-bg: #000 !important;
+  --ep-color-border: #db2980 !important;
+  --ep-color-sbg: #000 !important;
+  --ep-color-active: #db2980 !important;
+}
+
 .nft-appreciation__main {
   min-height: 40px;
 }
