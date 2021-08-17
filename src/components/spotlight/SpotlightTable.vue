@@ -1,5 +1,11 @@
 <template>
   <div>
+    <b-field>
+      <b-switch v-model="isShowIdentity" :rounded="false">
+        Show Only Accounts With Identity
+      </b-switch>
+    </b-field>
+    
     <b-table
       :data="data"
       hoverable
@@ -86,49 +92,65 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { Column, Row } from './types';
-import { columns, nftFn } from './utils';
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import { denyList } from '@/constants';
+import { Component, Prop, Vue, Mixins, Watch } from "vue-property-decorator";
+import { Column, Row } from "./types";
+import { columns, nftFn } from "./utils";
+import collectionIssuerList from "@/queries/collectionIssuerList.graphql";
+import { spotlightAggQuery } from "../rmrk/Gallery/Search/query";
+import TransactionMixin from "@/utils/mixins/txMixin";
+import { denyList } from "@/constants";
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-  SpotlightDetail: () => import('./SpotlightDetail.vue')
+	Identity: () => import("@/components/shared/format/Identity.vue"),
+	SpotlightDetail: () => import("./SpotlightDetail.vue"),
 };
 
 @Component({ components })
 export default class SpotlightTable extends Mixins(TransactionMixin) {
-  @Prop() public value!: any;
-  protected data: Row[] = [];
-  protected columns: Column[] = columns;
+	@Prop() public value!: any;
+	protected data: Row[] = [];
+	protected columns: Column[] = columns;
+	public isShowIdentity: boolean = true;
 
-  async created() {
-    this.isLoading = true;
-    const collections = await this.$apollo.query({
-      query: collectionIssuerList,
-      variables: {
-        denyList
-      }
-    });
+	async created() {
+		this.isShowIdentity = true;
+		await this.fetchData();
+	}
 
-    const {
-      data: { collectionEntities }
-    } = collections;
+	protected async fetchData() {
+		this.isLoading = true;
 
-    this.data = spotlightAggQuery(
-      collectionEntities?.nodes?.map(nftFn)
-    ) as Row[];
-    this.isLoading = false;
-  }
+		this.data = [];
+		this.columns = [];
+
+		const collections = await this.$apollo.query({
+			query: collectionIssuerList,
+			variables: {
+				denyList,
+			},
+		});
+
+		const {
+			data: { collectionEntities },
+		} = collections;
+
+		this.data = spotlightAggQuery(
+			collectionEntities?.nodes?.map(nftFn)
+		) as Row[];
+
+		this.isLoading = false;
+	}
+
+	@Watch("isShowIdentity")
+	async filterData() {
+		await this.fetchData();
+	}
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.short-identity__table {
+	max-width: 12em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 </style>
