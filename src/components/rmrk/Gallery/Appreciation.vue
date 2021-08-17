@@ -1,13 +1,14 @@
 <template>
-  <div class="nft-appreciation__main mb-4">
+  <div class="nft-appreciation__main mb-4 is-flex">
     <Loader v-model="isLoading" :status="status" />
     <b-button
+      v-if="accountId"
       class="nft-appreciation__button"
       icon-left="heart"
       @click="showDialog = !showDialog"
     />
     <VEmojiPicker
-      v-show="showDialog && accountId"
+      v-show="showDialog"
       labelSearch="Search your emote"
       @select="onSelectEmoji"
       class="emote-picker"
@@ -173,10 +174,6 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   border-radius: 0;
   border: 2px solid $primary;
   color: $primary;
-}
-
-.nft-emotion__main {
-  padding-left: 60px;
-  margin-top: -40px;
+  margin-right: 15px;
 }
 </style>
