@@ -26,14 +26,6 @@
                     alt="KodaDot NFT minted multimedia"
                     ratio="1by1"
                   ></b-image>
-
-                  <span v-if="nft.emoteCount" class="card-image__emotes">
-                    <b-icon icon="heart" />
-                    <span class="card-image__emotes__count">
-                      {{ nft.emoteCount }}
-                    </span>
-                  </span>
-
                   <img class="fullscreen-image" :src="meta.image || require('@/assets/koda300x300.svg')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
                   <MediaResolver v-if="meta.animation_url" :class="{ withPicture: imageVisible }" :src="meta.animation_url" :mimeType="mimeType" />
@@ -253,6 +245,8 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
+    // console.log(this.nft);
+
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
       const meta = m ? m : await fetchNFTMetadata(this.nft)
@@ -262,6 +256,7 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
+      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
@@ -275,8 +270,6 @@ export default class GalleryItem extends Vue {
       if (!m) {
         set(this.nft.metadata, meta)
       }
-
-      this.nft.emoteCount = this.nft.emotes?.length;
     }
   }
 
@@ -355,7 +348,6 @@ hr.comment-divider {
     }
 
     .image-preview {
-      position: relative;
       &.fullscreen {
         position: fixed;
         width: 100%;
@@ -485,23 +477,5 @@ hr.comment-divider {
     }
   }
 
-  .card-image {
-    &__emotes {
-      position: absolute;
-      background-color: #d32e79;
-      border-radius: 4px;
-      padding: 3px 8px;
-      color: #fff;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      z-index: 3;
-      transition: all 0.3s;
-    }
-  }
-
-  .card-image__emotes__count {
-    vertical-align: text-bottom;
-  }
 }
 </style>
