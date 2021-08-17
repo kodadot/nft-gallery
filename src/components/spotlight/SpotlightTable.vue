@@ -1,7 +1,12 @@
 <template>
   <div>
+    <b-field grouped group-multiline>
+        <div class="control is-flex">
+            <b-switch v-model="toggleUsersWithName">Creators with names</b-switch>
+        </div>
+    </b-field>
     <b-table
-      :data="data"
+      :data="toggleUsersWithName ? [] : data"
       hoverable
       :loading="isLoading"
       detailed
@@ -104,6 +109,8 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   @Prop() public value!: any;
   protected data: Row[] = [];
   protected columns: Column[] = columns;
+  protected usersWithName: Row[] = [];
+  protected toggleUsersWithName: boolean = false;
 
   async created() {
     this.isLoading = true;
@@ -121,6 +128,8 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
     this.data = spotlightAggQuery(
       collectionEntities?.nodes?.map(nftFn)
     ) as Row[];
+    window.console.log(collectionEntities)
+    window.console.log(this.data)
     this.isLoading = false;
   }
 }
