@@ -43,7 +43,6 @@
       <div class="columns">
         <div class="column is-6">
           <Appreciation
-            v-if="accountId"
             :emotes="nft.emotes"
             :accountId="accountId"
             :currentOwnerId="nft.currentOwner"
