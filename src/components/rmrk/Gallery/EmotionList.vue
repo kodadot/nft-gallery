@@ -1,7 +1,7 @@
 <template>
   <div class="columns is-mobile is-multiline is-gapless nft-emotion__main">
     <div
-      class="column is-one-fifth nft-emotion__column"
+      class="column nft-emotion__column"
       v-for="emoji in emojis"
       :key="emoji.key"
     >
