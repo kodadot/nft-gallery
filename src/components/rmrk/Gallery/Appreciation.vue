@@ -147,6 +147,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 
 .emote-picker {
   position: absolute;
+  left: 50px;
   z-index: 1;
 }
 
