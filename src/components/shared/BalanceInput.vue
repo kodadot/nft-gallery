@@ -14,71 +14,72 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import Balance from '@/params/components/Balance.vue';
-import { units as defaultUnits } from '@/params/constants';
-import { Unit } from '@/params/types';
-import shouldUpdate from '@/utils/shouldUpdate';
-import { Debounce } from 'vue-debounce-decorator';
+import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
+import Balance from "@/params/components/Balance.vue";
+import { units as defaultUnits } from "@/params/constants";
+import { Unit } from "@/params/types";
+import shouldUpdate from "@/utils/shouldUpdate";
+import { Debounce } from "vue-debounce-decorator";
 
-const components = { Balance }
+const components = { Balance };
 
 type BalanceType = {
-  balance: number;
-}
+	balance: number;
+};
 
 @Component({ components })
 export default class BalanceInput extends Vue {
-  private value: number = 0;
-  protected units: Unit[] = defaultUnits;
-  private selectedUnit: number = 1;
-  @Prop({ default: 'balance' }) public label!: string;
+	private value: number = 0;
+	protected units: Unit[] = defaultUnits;
+	private selectedUnit: number = 1;
+	@Prop({ default: "balance" }) public label!: string;
 
+	get chainProperties() {
+		return this.$store.getters.getChainProperties;
+	}
 
-  get chainProperties() {
-    return this.$store.getters.getChainProperties;
-  }
+	get decimals(): number {
+		return this.chainProperties.tokenDecimals;
+	}
 
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
-  }
+	get unit(): string {
+		return this.chainProperties.tokenSymbol;
+	}
 
-  get unit(): string {
-    return this.chainProperties.tokenSymbol
-  }
+	get calculatedBalance() {
+		return this.value * 10 ** this.decimals * this.selectedUnit;
+	}
 
-  get calculatedBalance() {
-    return this.value * (10**this.decimals) * this.selectedUnit
-  }
-
-  protected mapper(unit: Unit) {
+	protected mapper(unit: Unit) {
+		/*
     if (unit.name === 'KSM' && this.unit) {
       return { ...unit, name: this.unit }
     }
-    return unit
-  }
+    */
+		return unit;
+	}
 
-  public mounted() {
-    this.units = defaultUnits.map(this.mapper);
-  }
+	public mounted() {
+		this.units = defaultUnits.map(this.mapper);
+	}
 
-  // @Watch('$store.getters.getChainProperties.tokenSymbol')
-  // protected updateUnit(val: string, oldVal: string) {
-  //   console.log('@Watch(unit)', val, oldVal)
-  //   if (shouldUpdate(val, oldVal)) {
-  //     this.units = defaultUnits.map(u => {
-  //       if (u.name === '-') {
-  //         return { ...u, name: val }
-  //       }
-  //       return u
-  //     })
-  //   }
-  // }
+	// @Watch('$store.getters.getChainProperties.tokenSymbol')
+	// protected updateUnit(val: string, oldVal: string) {
+	//   console.log('@Watch(unit)', val, oldVal)
+	//   if (shouldUpdate(val, oldVal)) {
+	//     this.units = defaultUnits.map(u => {
+	//       if (u.name === '-') {
+	//         return { ...u, name: val }
+	//       }
+	//       return u
+	//     })
+	//   }
+	// }
 
-  @Debounce(200)
-  @Emit('input')
-  public handleInput() {
-    return this.calculatedBalance;
-  }
+	@Debounce(200)
+	@Emit("input")
+	public handleInput() {
+		return this.calculatedBalance;
+	}
 }
 </script>
