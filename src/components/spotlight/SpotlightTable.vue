@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-field>
-      <b-switch v-model="isShowIdentity" :rounded="false">
+      <b-switch v-model="isShowIdentity" @input="filterData()" :rounded="false">
         Show Only Accounts With Identity
       </b-switch>
     </b-field>
@@ -100,6 +100,11 @@ import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import { denyList } from '@/constants';
 
+import { GenericAccountId } from '@polkadot/types/generic/AccountId';
+import { get } from 'idb-keyval';
+import { identityStore } from '@/utils/idbStore';
+type Address = string | GenericAccountId | undefined;
+
 const components = {
 	Identity: () => import('@/components/shared/format/Identity.vue'),
 	SpotlightDetail: () => import('./SpotlightDetail.vue'),
@@ -134,16 +139,44 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 			data: { collectionEntities },
 		} = collections;
 
-		this.data = spotlightAggQuery(
+		let filterData: Row[] = [];
+
+		filterData = spotlightAggQuery(
 			collectionEntities?.nodes?.map(nftFn)
 		) as Row[];
+
+		let filterIndex = 0;
+
+		for (let index = 0; index < filterData.length; index++) {
+			const result = await this.identityOf(filterData[index].id);
+
+			if (this.isShowIdentity) {
+				if (result.display) {
+					this.data[filterIndex++] = filterData[index];
+				}
+			} else {
+				this.data[index] = filterData[index];
+			}
+		}
 
 		this.isLoading = false;
 	}
 
-	@Watch('isShowIdentity')
-	async filterData() {
+	public async filterData() {
 		await this.fetchData();
+	}
+
+	public async identityOf(account: Address) {
+		const address: string = this.resolveAddress(account);
+		const identity = await get(address, identityStore);
+
+		return identity;
+	}
+
+	private resolveAddress(account: Address): string {
+		return account instanceof GenericAccountId
+			? account.toString()
+			: account || '';
 	}
 }
 </script>
