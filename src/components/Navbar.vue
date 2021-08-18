@@ -63,6 +63,11 @@
             {{ $t('Settings') }}
           </b-navbar-item>
       </b-navbar-dropdown>
+      <b-navbar-item
+        tag='router-link'
+        :to="{ name: 'tutorials'}">
+        {{ $t('Tutorial') }}
+      </b-navbar-item>
     </template>
     <template v-slot:end>
       <LocaleChanger />
