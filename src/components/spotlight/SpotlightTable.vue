@@ -92,17 +92,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins, Watch } from "vue-property-decorator";
-import { Column, Row } from "./types";
-import { columns, nftFn } from "./utils";
-import collectionIssuerList from "@/queries/collectionIssuerList.graphql";
-import { spotlightAggQuery } from "../rmrk/Gallery/Search/query";
-import TransactionMixin from "@/utils/mixins/txMixin";
-import { denyList } from "@/constants";
+import { Component, Prop, Vue, Mixins, Watch } from 'vue-property-decorator';
+import { Column, Row } from './types';
+import { columns, nftFn } from './utils';
+import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
+import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
+import TransactionMixin from '@/utils/mixins/txMixin';
+import { denyList } from '@/constants';
 
 const components = {
-	Identity: () => import("@/components/shared/format/Identity.vue"),
-	SpotlightDetail: () => import("./SpotlightDetail.vue"),
+	Identity: () => import('@/components/shared/format/Identity.vue'),
+	SpotlightDetail: () => import('./SpotlightDetail.vue'),
 };
 
 @Component({ components })
@@ -141,7 +141,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 		this.isLoading = false;
 	}
 
-	@Watch("isShowIdentity")
+	@Watch('isShowIdentity')
 	async filterData() {
 		await this.fetchData();
 	}
