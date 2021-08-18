@@ -156,6 +156,8 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   --ep-color-border: #db2980 !important;
   --ep-color-sbg: #000 !important;
   --ep-color-active: #db2980 !important;
+  border-width: $button-border-width !important;
+  border-radius: 0 !important;
 }
 
 .nft-appreciation__main {
