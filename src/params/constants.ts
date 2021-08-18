@@ -7,7 +7,6 @@ export const units: Unit[] = [
   { name: 'nano', value: 1e-9 },
   { name: 'micro', value: 1e-6 },
   { name: 'mili', value: 1e-3 },
-  { name: 'KSM', value: 1 },
   { name: 'Kilo', value: 1e3 },
   { name: 'Mega', value: 1e6 },
   { name: 'Giga', value: 1e9 },
