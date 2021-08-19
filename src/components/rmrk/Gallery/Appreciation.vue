@@ -65,7 +65,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   }
 
   get emotions(): Record<string, string | number> {
-    this.emotes.map((e, index) => this.emotes[index].value = e.value.toUpperCase())
+    this.emotes.map((e, index) => this.emotes[index].value = e.value.toUpperCase());
     return groupBy(this.emotes || [], 'value');
   }
 
