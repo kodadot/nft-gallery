@@ -2,11 +2,11 @@
   <div>
     <b-field>
         <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithName" :rounded="false">Show Only Accounts With Identity</b-switch>
+            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
         </div>
     </b-field>
     <b-table
-      :data="toggleUsersWithName ? filterData : data"
+      :data="toggleUsersWithIdentity ? filterData : data"
       hoverable
       detailed
       paginated
@@ -122,7 +122,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   protected filterData: Row[] = [];
   protected columns: Column[] = columns;
   protected usersWithName: Row[] = [];
-  protected toggleUsersWithName: boolean = false;
+  protected toggleUsersWithIdentity: boolean = false;
 
   async created() {
     this.isLoading = true;
