@@ -2,13 +2,12 @@
   <div>
     <b-field>
         <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithName" :rounded="false">Creators with names</b-switch>
+            <b-switch v-model="toggleUsersWithName" :rounded="false">Show Only Accounts With Identity</b-switch>
         </div>
     </b-field>
     <b-table
       :data="toggleUsersWithName ? filterData : data"
       hoverable
-      :loading="isLoading"
       detailed
       paginated
       show-detail-icon
@@ -142,23 +141,12 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
       collectionEntities?.nodes?.map(nftFn)
     ) as Row[];
 
-
-		// this.filterData = spotlightAggQuery(
-		// 	collectionEntities?.nodes?.map(nftFn)
-		// ) as Row[];
-
-    // window.console.log(this.filterData)
-
-		let filterIndex = 0;
-		for (let index = 0; index < this.data.length; index++) {
-			const result = await this.identityOf(this.data[index].id);
-      console.log(result)
-      if (result) {
-
-        // this.data[filterIndex++] = this.filterData[index];
-        this.filterData[index] = this.data[filterIndex++]
-      }
+	for (let index = 0; index < this.data.length; index++) {
+		const result = await this.identityOf(this.data[index].id);
+		if (result && Object.keys(result).length) {
+			this.filterData[index] = this.data[index];
 		}
+	}
 
     this.isLoading = false;
   }
