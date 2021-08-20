@@ -140,12 +140,12 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
       collectionEntities?.nodes?.map(nftFn)
     ) as Row[];
 
-	for (let index = 0; index < this.data.length; index++) {
-		const result = await this.identityOf(this.data[index].id);
-		if (result && Object.keys(result).length) {
-			this.usersWithIdentity[index] = this.data[index];
-		}
-	}
+    for (let index = 0; index < this.data.length; index++) {
+      const result = await this.identityOf(this.data[index].id);
+      if (result && Object.keys(result).length) {
+        this.usersWithIdentity[index] = this.data[index];
+      }
+    }
 
     this.isLoading = false;
   }
