@@ -6,7 +6,7 @@
         </div>
     </b-field>
     <b-table
-      :data="toggleUsersWithIdentity ? filterData : data"
+      :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
       detailed
       paginated
@@ -119,9 +119,8 @@ const components = {
 export default class SpotlightTable extends Mixins(TransactionMixin) {
   @Prop() public value!: any;
   protected data: Row[] = [];
-  protected filterData: Row[] = [];
   protected columns: Column[] = columns;
-  protected usersWithName: Row[] = [];
+  protected usersWithIdentity: Row[] = [];
   protected toggleUsersWithIdentity: boolean = false;
 
   async created() {
@@ -144,7 +143,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 	for (let index = 0; index < this.data.length; index++) {
 		const result = await this.identityOf(this.data[index].id);
 		if (result && Object.keys(result).length) {
-			this.filterData[index] = this.data[index];
+			this.usersWithIdentity[index] = this.data[index];
 		}
 	}
 
