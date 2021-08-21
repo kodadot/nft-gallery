@@ -92,22 +92,22 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins, Watch } from 'vue-property-decorator';
-import { Column, Row } from './types';
-import { columns, nftFn } from './utils';
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import { denyList } from '@/constants';
+import { Component, Prop, Vue, Mixins, Watch } from "vue-property-decorator";
+import { Column, Row } from "./types";
+import { columns, nftFn } from "./utils";
+import collectionIssuerList from "@/queries/collectionIssuerList.graphql";
+import { spotlightAggQuery } from "../rmrk/Gallery/Search/query";
+import TransactionMixin from "@/utils/mixins/txMixin";
+import { denyList } from "@/constants";
 
-import { GenericAccountId } from '@polkadot/types/generic/AccountId';
-import { get } from 'idb-keyval';
-import { identityStore } from '@/utils/idbStore';
+import { GenericAccountId } from "@polkadot/types/generic/AccountId";
+import { get } from "idb-keyval";
+import { identityStore } from "@/utils/idbStore";
 type Address = string | GenericAccountId | undefined;
 
 const components = {
-	Identity: () => import('@/components/shared/format/Identity.vue'),
-	SpotlightDetail: () => import('./SpotlightDetail.vue'),
+	Identity: () => import("@/components/shared/format/Identity.vue"),
+	SpotlightDetail: () => import("./SpotlightDetail.vue"),
 };
 
 @Component({ components })
@@ -151,7 +151,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 			const result = await this.identityOf(filterData[index].id);
 
 			if (this.isShowIdentity) {
-				if (result.display) {
+				if (result && Object.keys(result).length !== 0) {
 					this.data[filterIndex++] = filterData[index];
 				}
 			} else {
@@ -176,7 +176,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 	private resolveAddress(account: Address): string {
 		return account instanceof GenericAccountId
 			? account.toString()
-			: account || '';
+			: account || "";
 	}
 }
 </script>
