@@ -151,15 +151,15 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   }
 
   public async identityOf(account: Address) {
-		const address: string = this.resolveAddress(account);
-		const identity = await get(address, identityStore);
-		return identity;
+	  const address: string = this.resolveAddress(account);
+	  const identity = await get(address, identityStore);
+	  return identity;
 	}
 
 	private resolveAddress(account: Address): string {
-		return account instanceof GenericAccountId
-			? account.toString()
-			: account || '';
+	  return account instanceof GenericAccountId
+	    ? account.toString()
+	    : account || '';
 	}
 }
 </script>
