@@ -135,7 +135,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
+import { NFT, NFTMetadata, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
