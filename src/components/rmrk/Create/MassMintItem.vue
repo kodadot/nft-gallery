@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <figure class="image">
+      <figure class="image" >
         <img
           :src="url"
           alt="Placeholder image"
@@ -9,12 +9,12 @@
       </figure>
     </div>
     <div class="card-content">
-      <p class="title is-6">{{ file.name }}</p>
+      <p class="title is-6">{{ nft.file.name }}</p>
       <div class="content">
         <b-field :label="$i18n.t('Collection description')" >
         <b-input
               placeholder="Name your NFT"
-              v-model="name"
+              v-model="vName"
               expanded
               class="mr-0"
               spellcheck="true"
@@ -22,14 +22,14 @@
             </b-field>
         <b-field :label="$i18n.t('Collection description')" >
             <b-input
-              v-model="description"
+              v-model="vDescription"
               maxlength="500"
               type="textarea"
               placeholder="Describe your NFT"
               spellcheck="true"
             ></b-input>
           </b-field>
-          <BalanceInput @input="updateMeta" label="Price" />
+          <BalanceInput v-model="vPrice" label="Price" :calculate="false" />
       </div>
     </div>
     <div class="card-footer">
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, PropSync } from 'vue-property-decorator';
 import { MassMintNFT } from '../service/scheme';
 import shouldUpdate from '@/utils/shouldUpdate';
 
@@ -51,27 +51,29 @@ import shouldUpdate from '@/utils/shouldUpdate';
 })
 export default class MassMintItem extends Vue {
   @Prop() public nft!: MassMintNFT;
-  protected name: string = '';
-  protected description: string = '';
-  protected image!: File;
-  protected price: string | number = '0';
+  @PropSync('name', { type: String }) vName!: string
+  @PropSync('description', { type: String }) vDescription!: string
+  @PropSync('price', { type: Number }) vPrice!: number;
+  // protected description: string = '';
+  // protected image!: File;
+  // protected price: number = 0;
   @Prop() public file!: File;
 
-  protected updateMeta(value: number) {
-    this.price = value;
-  }
 
   get url() {
-    return URL.createObjectURL(this.file);
+    return URL.createObjectURL(this.nft.file);
   }
 
-  @Watch('nft')
-  protected onMassMintNftChanged(value: MassMintNFT, oldValue: MassMintNFT) {
+  // @Watch('nft')
+  // protected onMassMintNftChanged(value: MassMintNFT, oldValue: MassMintNFT) {
+  //   console.log('onMassMintNftChanged', value, oldValue);
+  //   if (shouldUpdate(value, oldValue)) {
+  //     this.name = value.name;
+  //     this.description = value.description;
+  //     this.price = value.price;
+  //   }
+  // }
 
-      this.name = value.name;
-      this.description = value.description;
-      this.price = value.price;
 
-  }
 }
 </script>

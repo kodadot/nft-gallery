@@ -89,7 +89,7 @@ export interface PackMetadata {
 export type MassMintNFT = {
   name: string;
   description: string;
-  price: string | number;
+  price: number;
   file?: File;
 }
 

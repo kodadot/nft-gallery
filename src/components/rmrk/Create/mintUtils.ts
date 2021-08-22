@@ -64,7 +64,7 @@ function toMassMint(mints: string[][]) {
     massMintNFTs[fileName] = {
       name,
       description: rest.join('\n'),
-      price: Number(price) * 10 ** 12
+      price: Number(price),
     };
   }
 

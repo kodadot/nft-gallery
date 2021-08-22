@@ -49,8 +49,8 @@
           </p>
 
           <hr />
-          <b-field v-for="file in files" :key="file.name">
-            <MassMintItem :file="file" :nft="getData(file.name)" />
+          <b-field v-for="(file, index) in massMints" :key="file.name">
+            <MassMintItem v-bind.sync="massMints[index]" :nft="file" :file="file.file" />
           </b-field>
 
 
@@ -113,9 +113,7 @@
 
 <script lang="ts">
 import { Component, Mixins, Watch } from 'vue-property-decorator';
-import { MediaType } from '../types';
 import { emptyObject } from '@/utils/empty';
-import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, {
@@ -222,7 +220,6 @@ export default class MassMint extends Mixins(
   protected parsedCommands: Record<string, MassMintNFT> = {};
   protected massMints: MassMintNFT[] = [];
 
-
   protected updateMeta(value: number) {
     console.log(typeof value, value);
     this.price = value;
@@ -239,14 +236,15 @@ export default class MassMint extends Mixins(
     this.status = 'Transforming...';
     (window as any).j = this.commands
     const parsed = massMintParser(this.commands);
-    this.parsedCommands = parsed;
+    this.massMints = this.massMints.map(item => ({ ...item, ...(parsed[item.file?.name || item.name] || {}) }))
+
     this.isLoading = false;
 
   }
 
   @Watch('files')
   public onFilesChange(files: File[]) {
-    files.forEach(({ name }) => this.$set(this.parsedCommands, name, {} as MassMintNFT));
+    this.massMints = files.map<MassMintNFT>((file) => ({ name: file.name, description: '', price: 0, file }));
   }
 
   getData(fileName: string) {
