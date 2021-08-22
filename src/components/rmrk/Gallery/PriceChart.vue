@@ -57,15 +57,21 @@ export default class PriceChart extends Vue{
           boundaryGap: false,
           axisLabel:{
             fontFamily: 'Fira Code',
-            color: '#fff', 
+            color: '#fff',
           },
         },
         yAxis:{
           type: 'value',
           axisLabel:{
-            formatter : '{value} KSM',
+            formatter : '{value}',
             fontFamily: 'Fira Code',
             color: '#fff', 
+          },
+          name: 'KSM',
+          nameGap: 10,
+          nameTextStyle:{
+            color : '#fff',
+            fontFamily: 'Fira Code',
           }
         },
         dataZoom: {

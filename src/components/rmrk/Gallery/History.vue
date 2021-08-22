@@ -1,59 +1,63 @@
 <template>
-  <div>
+  <div class="columns">
     <p class="label">
       {{ $t('History')}}
     </p>
-    <b-table :data="data"
-      hoverable
-    >
+    <div class="column is-7">
+      <b-table :data="data"
+        hoverable
+      >
+        <b-table-column
+        cell-class="short-identity__table"
+        field= 'Type'
+        label= 'Type'
+        v-slot="props"
+        >
+        {{props.row.Type}}
+        </b-table-column>
       <b-table-column
-      cell-class="short-identity__table"
-      field= 'Type'
-      label= 'Type'
-      v-slot="props"
-      >
-      {{props.row.Type}}
+        cell-class="short-identity__table"
+        field= 'From'
+        label= 'From'
+        v-slot="props"
+        >
+          <router-link :to="{ name: 'profile', params: { id: props.row.From } }">
+            <Identity :address="props.row.From" inline noOverflow />
+          </router-link>
+      </b-table-column> 
+      <b-table-column
+        cell-class="short-identity__table"
+        field= 'To'
+        label= 'To'
+        v-slot="props"
+        >
+          <router-link :to="{ name: 'profile', params: { id: props.row.To } }">
+            <Identity :address="props.row.To" inline noOverflow />
+          </router-link>
       </b-table-column>
-    <b-table-column
-      cell-class="short-identity__table"
-      field= 'From'
-      label= 'From'
-      v-slot="props"
-      >
-        <router-link :to="{ name: 'profile', params: { id: props.row.From } }">
-          <Identity :address="props.row.From" inline noOverflow />
-        </router-link>
-    </b-table-column> 
-    <b-table-column
-      cell-class="short-identity__table"
-      field= 'To'
-      label= 'To'
-      v-slot="props"
-      >
-        <router-link :to="{ name: 'profile', params: { id: props.row.To } }">
-          <Identity :address="props.row.To" inline noOverflow />
-        </router-link>
-    </b-table-column>
-    <b-table-column
-      cell-class="short-identity__table"
-      field= 'Amount'
-      label= 'Amount'
-      v-slot="props"
-      >
-      {{props.row.Amount}}
-    </b-table-column>
-    <b-table-column
-      cell-class="short-identity__table"
-      field= 'Date'
-      label= 'Date'
-      v-slot="props"
-      >
-      {{props.row.Date}}      
-    </b-table-column>
+      <b-table-column
+        cell-class="short-identity__table"
+        field= 'Amount'
+        label= 'Amount'
+        v-slot="props"
+        >
+        {{props.row.Amount}}
+      </b-table-column>
+      <b-table-column
+        cell-class="short-identity__table"
+        field= 'Date'
+        label= 'Date'
+        v-slot="props"
+        >
+        {{props.row.Date}}      
+      </b-table-column>
 
 
-    </b-table>
-    <PriceChart :priceData="priceData"/>
+      </b-table>
+    </div>
+    <div class="column is-5">
+      <PriceChart :priceData="priceData"/>
+    </div>
   </div> 
 </template>   
 
