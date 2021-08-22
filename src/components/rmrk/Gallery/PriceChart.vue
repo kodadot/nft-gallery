@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="price-chart">
     <p class="label">
       {{ $t('Price Chart')}}
     </p>
@@ -25,8 +25,21 @@ export default class PriceChart extends Vue{
   // @Prop() public eventData!: Date[];
 
   protected chartOptionsLine: any = {};
+  protected Chart!: ECharts.ECharts;
   // protected date: any = [];
   // protected UTCDate: any = {};
+
+  protected myEventHandler(){
+    // console.log(document.documentElement.clientWidth);
+    const x = document.documentElement.clientWidth;
+    if(x > 769)
+      this.Chart.resize({width: Math.min(x/2.5, 400), height: 400});
+    else
+      this.Chart.resize({width: x, height: 400});
+  }
+  public async created(){
+    window.addEventListener('resize', this.myEventHandler);
+  }
 
   public async mounted(){
     // console.log(this.priceData)
@@ -35,9 +48,9 @@ export default class PriceChart extends Vue{
 
   protected priceChart(){
     // this.createDate();
-    // console.log(this.date)
-    const Chart = ECharts.init(this.$refs.chart as HTMLElement);
-    Chart.setOption(
+    // console.log(document.documentElement.clientWidth);
+    this.Chart = ECharts.init(this.$refs.chart as HTMLElement);
+    this.Chart.setOption(
       {
         tooltip :{
           trigger : 'item',
@@ -90,6 +103,9 @@ export default class PriceChart extends Vue{
         ]
       }
     );
+    const x = document.documentElement.clientWidth;
+
+    this.Chart.resize({width: x/3, height: 400});
   }
 
   // protected createDate(){
@@ -135,9 +151,9 @@ export default class PriceChart extends Vue{
 </script>
 
 <style>
-#chart {
-  width: 100%;
+
+/* #chart {
   height: 400px;
-}
+} */
 
 </style>
