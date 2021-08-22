@@ -11,33 +11,35 @@
                     Tutorials
                   </span>
                 </h2>
-                <div class="is-flex-inline is-align-items-start is-flex-direction-column">
+                <div
+                  class="is-flex-inline is-align-items-start is-flex-direction-column"
+                >
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
-                  <a target="_blank" href="https://www.youtube.com/watch?v=iG8iQrONnYo">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
+                  <a
+                    target="_blank"
+                    href="https://www.youtube.com/watch?v=iG8iQrONnYo"
+                  >
+                    <b-button type="is-primary" class="mb-6">
                       {{ $t("tutorial.create") }}
                     </b-button>
                   </a>
                   <!-- </router-link> -->
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
-                  <a target="_blank" href="https://www.youtube.com/watch?v=cYaZWDzU1Yc">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
+                  <a
+                    target="_blank"
+                    href="https://www.youtube.com/watch?v=cYaZWDzU1Yc"
+                  >
+                    <b-button type="is-primary" class="mb-6">
                       {{ $t("tutorial.ksm") }}
                     </b-button>
                   </a>
                   <!-- </router-link> -->
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
-                  <a target="_blank" href="https://www.youtube.com/watch?v=pPsbQyJRGVQ">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
+                  <a
+                    target="_blank"
+                    href="https://www.youtube.com/watch?v=pPsbQyJRGVQ"
+                  >
+                    <b-button type="is-primary" class="mb-6">
                       {{ $t("tutorial.mint") }}
                     </b-button>
                   </a>
@@ -52,10 +54,8 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
-@Component<Tutorials>({
-	components: {},
-})
+@Component
 export default class Tutorials extends Vue {}
 </script>
