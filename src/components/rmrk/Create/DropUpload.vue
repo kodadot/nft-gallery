@@ -5,10 +5,12 @@
         <div class="content has-text-centered">
           <p>
             <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
+            <b-icon v-else-if="Array.isArray(file)" icon="plus" size="is-large" />
             <img v-if="url && !hasError" :src="url" @error="hasError = true" />
             <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
           </p>
           <p v-if="!file">{{ label }}</p>
+          <p v-else-if="Array.isArray(file)">Nice you added <b>{{ file.length }}</b> NFTs. Click or drop to add more!</p>
           <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
         </div>
       </section>

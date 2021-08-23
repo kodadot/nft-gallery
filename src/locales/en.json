@@ -117,7 +117,10 @@
     "estimated": "Transaction fees will cost about",
     "success": "Congrats to your new NFT(s)",
     "shareWithFriends": "Share {0} with your friends",
-    "unlimited": "Unlimited items in in your collection"
+    "unlimited": "Unlimited items in in your collection",
+    "mass": "NFT mass minter",
+    "command": "List of commands for mass mint",
+    "transform": "Transform commands in NFT"
   },
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",

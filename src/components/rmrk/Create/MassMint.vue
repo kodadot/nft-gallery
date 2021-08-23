@@ -3,9 +3,7 @@
     <div class="column is-7 is-offset-3">
       <section>
         <br />
-        <Loader v-model="isLoading" :status="status" >
-          ahoj
-        </Loader>
+        <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
             {{ $t("mint.mass") }}
