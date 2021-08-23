@@ -1,12 +1,8 @@
 {
   "defaultSeverity": "warning",
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "linterOptions": {
-    "exclude": [
-      "node_modules/**"
-    ]
+    "exclude": ["node_modules/**"]
   },
   "rules": {
     "indent": [true, "tab", 1],
@@ -20,6 +16,7 @@
     "max-classes-per-file": [true, 2],
     "no-string-literal": false,
     "no-unused-expression": [true, "allow-fast-null-checks"],
-    "no-empty-interface": false
+    "no-empty-interface": false,
+    "semicolon": [true, "always"]
   }
 }
