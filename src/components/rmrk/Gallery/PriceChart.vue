@@ -33,7 +33,7 @@ export default class PriceChart extends Vue{
     // console.log(document.documentElement.clientWidth);
     const x = document.documentElement.clientWidth;
     if(x > 769)
-      this.Chart.resize({width: Math.min(x/2.5, 400), height: 400});
+      this.Chart.resize({width: Math.min(x/2.7, 400), height: 400});
     else
       this.Chart.resize({width: x, height: 400});
   }
@@ -105,7 +105,10 @@ export default class PriceChart extends Vue{
     );
     const x = document.documentElement.clientWidth;
 
-    this.Chart.resize({width: x/3, height: 400});
+    if(x > 769)
+      this.Chart.resize({width: Math.min(x/2.7, 400), height: 400});
+    else
+      this.Chart.resize({width: x, height: 400});
   }
 
   // protected createDate(){
