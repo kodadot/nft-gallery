@@ -51,9 +51,9 @@ export default class PriceChart extends Vue {
 				formatter: (params: { data: string[] }) => {
 					const date = this.parseDate(
 						params.data[0] as unknown as Date
-					)
-					const price = params.data[1] + ' KSM'
-					return '<center>' + date + '<br>' + price + '</center>'
+					);
+					const price = params.data[1] + ' KSM';
+					return '<center>' + date + '<br>' + price + '</center>';
 				},
 				backgroundColor: '#363636',
 				textStyle: {
