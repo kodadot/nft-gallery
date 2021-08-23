@@ -238,7 +238,7 @@ export default class GalleryItem extends Vue {
       // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
-      console.warn(e);
+      // console.warn(e);
     }
 
     this.isLoading = false;
@@ -260,7 +260,7 @@ export default class GalleryItem extends Vue {
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
-        console.log(this.mimeType)
+        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
