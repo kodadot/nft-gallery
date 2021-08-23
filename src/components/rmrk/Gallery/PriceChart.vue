@@ -8,43 +8,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
-import * as ECharts from 'echarts'
+import * as ECharts from 'echarts';
 
 const components = {
 	// chart: () => ECharts,
-}
+};
 
 @Component({ components })
 export default class PriceChart extends Vue {
-	@Prop() public priceData!: any[]
+	@Prop() public priceData!: any[];
 	// @Prop() public eventData!: Date[];
 
-	protected chartOptionsLine: any = {}
-	protected Chart!: ECharts.ECharts
+	protected chartOptionsLine: any = {};
+	protected Chart!: ECharts.ECharts;
 	// protected date: any = [];
 	// protected UTCDate: any = {};
 
 	protected onWindowResize() {
 		if (this.Chart != null && this.Chart != undefined) {
-			this.Chart.resize({ width: 'auto', height: 400 })
+			this.Chart.resize({ width: 'auto', height: 400 });
 		}
 	}
 
 	public async created() {
-		window.addEventListener('resize', this.onWindowResize)
+		window.addEventListener('resize', this.onWindowResize);
 	}
 
 	public async mounted() {
 		// console.log(this.priceData)
-		this.priceChart()
+		this.priceChart();
 	}
 
 	protected priceChart() {
 		// this.createDate();
 		// console.log(document.documentElement.clientWidth);
-		this.Chart = ECharts.init(this.$refs.chart as HTMLElement)
+		this.Chart = ECharts.init(this.$refs.chart as HTMLElement);
 		this.Chart.setOption({
 			tooltip: {
 				trigger: 'item',
@@ -98,36 +98,36 @@ export default class PriceChart extends Vue {
 					data: this.priceData,
 				},
 			],
-		})
+		});
 
-		this.Chart.resize({ width: 'auto', height: 400 })
+		this.Chart.resize({ width: 'auto', height: 400 });
 	}
 
 	protected parseDate(date: Date) {
-		const utcDate: string = date.toUTCString()
-		return utcDate.substring(4)
+		const utcDate: string = date.toUTCString();
+		return utcDate.substring(4);
 	}
 
 	protected formatDate(date: Date) {
-		const yyyy = date.getUTCFullYear()
-		const mm = this.padDigits(date.getUTCMonth() + 1)
-		const dd = this.padDigits(date.getUTCDate())
-		const hrs = this.padDigits(date.getUTCHours())
-		const mins = this.padDigits(date.getUTCMinutes())
-		const secs = this.padDigits(date.getUTCSeconds())
+		const yyyy = date.getUTCFullYear();
+		const mm = this.padDigits(date.getUTCMonth() + 1);
+		const dd = this.padDigits(date.getUTCDate());
+		const hrs = this.padDigits(date.getUTCHours());
+		const mins = this.padDigits(date.getUTCMinutes());
+		const secs = this.padDigits(date.getUTCSeconds());
 		const YYYY_MM_DD_HRS_MINS_SECS =
-			yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' + mins + ':' + secs
-		return YYYY_MM_DD_HRS_MINS_SECS
+			yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' + mins + ':' + secs;
+		return YYYY_MM_DD_HRS_MINS_SECS;
 	}
 
 	protected padDigits(time: number) {
-		return time.toString().padStart(2, '0')
+		return time.toString().padStart(2, '0');
 	}
 
 	@Watch('priceData')
 	async watchData(newPriceData: string[], oldPriceData: string[]) {
 		// console.log(this.priceData)
-		this.priceChart()
+		this.priceChart();
 	}
 }
 </script>
