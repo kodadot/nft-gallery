@@ -6,17 +6,34 @@
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
-            {{ $t('mint.mass') }}
+            {{ $t("mint.mass") }}
           </p>
-          <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
-          <b-field>
-            <div>
-              {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
-            </div>
-          </b-field>
           <b-field>
             <Auth />
           </b-field>
+
+          <template v-if="accountId">
+            <b-field :label="$i18n.t('Collection')">
+              <b-select
+                placeholder="Select a collection"
+                v-model="selectedCollection"
+                expanded
+              >
+                <option
+                  v-for="option in collections"
+                  :value="option"
+                  :key="option.id"
+                >
+                  {{ option.name }} {{ option.id }}
+                  {{ option.alreadyMinted }}/{{ option.max || Infinity }}
+                </option>
+              </b-select>
+            </b-field>
+          </template>
+          <h6 v-if="selectedCollection" class="subtitle is-6">
+            You have minted {{ selectedCollection.alreadyMinted }} out of
+            {{ selectedCollection.max || Infinity }}
+          </h6>
 
           <MetadataUpload
             v-model="files"
@@ -25,22 +42,17 @@
             multiple
           />
 
-
           <b-field :label="$i18n.t('mint.command')">
             <b-input
               v-model="commands"
               type="textarea"
+              lines="20"
               placeholder="Add commands for your NFTs"
               spellcheck="true"
             ></b-input>
           </b-field>
           <b-field>
-            <b-button
-              type="is-info"
-
-              @click="transform"
-              outlined
-            >
+            <b-button type="is-info" @click="transform" outlined>
               {{ $t("mint.transform") }}
             </b-button>
           </b-field>
@@ -50,9 +62,13 @@
 
           <hr />
           <b-field v-for="(file, index) in massMints" :key="file.name">
-            <MassMintItem v-bind.sync="massMints[index]" :nft="file" :file="file.file" />
+            <MassMintItem
+              v-bind.sync="massMints[index]"
+              :nft="file"
+              :file="file.file"
+              @remove="hadleItemRemoval"
+            />
           </b-field>
-
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
@@ -98,10 +114,8 @@
               passiveMessage="I don't want to have carbonless NFT"
             />
           </b-field>
-          <ArweaveUploadSwitch  v-model="arweaveUpload" />
           <b-field>
-            <b-switch v-model="hasToS"
-              :rounded="false">
+            <b-switch v-model="hasToS" :rounded="false">
               {{ $t("termOfService.accept") }}
             </b-switch>
           </b-field>
@@ -140,8 +154,20 @@ import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
-import { ipfsToArweave } from '@/utils/ipfs'
+import { ipfsToArweave } from '@/utils/ipfs';
 import { massMintParser } from './mintUtils';
+import TransactionMixin from '@/utils/mixins/txMixin';
+import infiniteCollectionByAccount from '@/queries/infiniteCollectionByAccount.graphql';
+import shouldUpdate from '@/utils/shouldUpdate';
+
+type MintedCollection = {
+  id: string;
+  name: string;
+  alreadyMinted: number;
+  max: number;
+  metadata: string;
+  symbol: string;
+};
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -154,7 +180,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
-  MassMintItem: () => import('./MassMintItem.vue'),
+  MassMintItem: () => import('./MassMintItem.vue')
 };
 
 @Component<MassMint>({
@@ -197,7 +223,8 @@ const components = {
 })
 export default class MassMint extends Mixins(
   SubscribeMixin,
-  RmrkVersionMixin
+  RmrkVersionMixin,
+  TransactionMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -205,20 +232,17 @@ export default class MassMint extends Mixins(
   };
   private meta: NFTMetadata = emptyObject<NFTMetadata>();
   protected commands: string = '';
-  private uploadMode: boolean = true;
-  private files: File[] = []
-  private isLoading: boolean = false;
+  private files: File[] = [];
   private password: string = '';
   private hasToS: boolean = false;
   private hasSupport: boolean = true;
-  private nsfw: boolean = false;
   private price: number = 0;
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
-  protected status = '';
   protected arweaveUpload = false;
-  protected parsedCommands: Record<string, MassMintNFT> = {};
   protected massMints: MassMintNFT[] = [];
+  protected collections: MintedCollection[] = [];
+  private selectedCollection: MintedCollection | null = null;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -231,26 +255,59 @@ export default class MassMint extends Mixins(
     }
   }
 
+  public async fetchCollections() {
+    const collections = await this.$apollo.query({
+      query: infiniteCollectionByAccount,
+      variables: {
+        account: this.accountId
+      },
+      fetchPolicy: 'network-only'
+    });
+
+    const {
+      data: { collectionEntities }
+    } = collections;
+
+    this.collections = collectionEntities.nodes
+      ?.map((ce: any) => ({
+        ...ce,
+        alreadyMinted: ce.nfts?.totalCount
+      }))
+      .filter(
+        (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
+      );
+  }
+
+  @Watch('accountId', { immediate: true })
+  hasAccount(value: string, oldVal: string) {
+    if (shouldUpdate(value, oldVal)) {
+      this.fetchCollections();
+    }
+  }
+
   public transform() {
-    this.isLoading = true;
-    this.status = 'Transforming...';
-    (window as any).j = this.commands
+    showNotification('Parsing commands...', notificationTypes.info);
     const parsed = massMintParser(this.commands);
-    this.massMints = this.massMints.map(item => ({ ...item, ...(parsed[item.file?.name || item.name] || {}) }))
-
-    this.isLoading = false;
-
+    this.massMints = this.massMints.map(item => ({
+      ...item,
+      ...(parsed[item.file?.name || item.name] || {})
+    }));
+    showNotification('Command parsed!', notificationTypes.success);
   }
 
   @Watch('files')
   public onFilesChange(files: File[]) {
-    this.massMints = files.map<MassMintNFT>((file) => ({ name: file.name, description: '', price: 0, file }));
+    this.massMints = files.map<MassMintNFT>(file => ({
+      name: file.name,
+      description: '',
+      price: 0,
+      file
+    }));
   }
 
-  getData(fileName: string) {
-    return this.parsedCommands[fileName];
+  protected hadleItemRemoval(index: number) {
+    this.massMints.splice(index, 1);
   }
-
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -261,57 +318,35 @@ export default class MassMint extends Mixins(
   }
 
   get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.hasToS && this.accountId && this.files);
+    return !(
+      this.massMints.length &&
+      this.selectedCollection &&
+      this.hasToS
+    );
   }
 
-  protected async estimateTx() {
-    this.isLoading = true;
-    const { accountId, version } = this;
-    const { api } = Connector.getInstance();
-
-    const result = NFTUtils.generateRemarks(this.rmrkMint, accountId, version);
-    const cb = api.tx.utility.batchAll;
-    const remarks: string[] = Array.isArray(result)
-      ? result
-      : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
-        ];
-
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
-
-    this.estimated = await estimate(this.accountId, cb, [args]);
-
-    this.isLoading = false;
-  }
+  protected async estimateTx() {}
 
   protected async sub() {
+    if (!this.selectedCollection) {
+      throw ReferenceError('[MASS MINT] Unable to mint without collection');
+    }
+
     this.isLoading = true;
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
-
+    const { symbol, alreadyMinted } = this.selectedCollection;
+    // TODO: incorect implementation
     const meta = await this.constructMeta();
-    this.rmrkMint.metadata = meta;
 
-    const result = NFTUtils.generateRemarks(
-      this.rmrkMint,
-      accountId,
-      version
-    ) as MintType;
+    const mint = this.massMints.map((e, i) =>
+      NFTUtils.createNFT(accountId, i + alreadyMinted, symbol, name, meta[i])
+    );
+    const remarks: string[] = mint.map(nft =>
+      NFTUtils.encodeNFT(nft, this.version)
+    );
+
     const cb = api.tx.utility.batchAll;
-    const remarks: string[] = Array.isArray(result)
-      ? result
-      : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
-        ];
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
@@ -333,9 +368,7 @@ export default class MassMint extends Mixins(
           const blockNumber = header.number.toString();
 
           if (this.price) {
-            this.listForSale(result.nfts, blockNumber);
-          } else {
-            this.navigateToDetail(result.nfts[0], blockNumber);
+            this.listForSale(mint, blockNumber);
           }
 
           showNotification(
@@ -475,7 +508,6 @@ export default class MassMint extends Mixins(
             if (firstNft) {
               this.navigateToDetail(firstNft, originalBlockNumber);
             }
-
           },
           dispatchError => {
             execResultValue(tx);
@@ -487,14 +519,6 @@ export default class MassMint extends Mixins(
     } catch (e) {
       showNotification(e.message, notificationTypes.danger);
     }
-  }
-
-  public nsfwAttribute(): Attribute[] {
-    if (!this.nsfw) {
-      return [];
-    }
-
-    return [{ trait_type: 'NSFW', value: Number(this.nsfw) }];
   }
 
   public offsetAttribute(): Attribute[] {
@@ -509,29 +533,27 @@ export default class MassMint extends Mixins(
     return calculateCost(this.files);
   }
 
-  public async constructMeta(): Promise<string> {
-    if (!this.files) {
-      throw new ReferenceError('No file found!');
-    }
-
-    this.meta = {
-      ...this.meta,
-      attributes: [
-        ...(this.rmrkMint?.tags || []),
-        ...this.nsfwAttribute(),
-        ...this.offsetAttribute()
-      ],
-      external_url: `https://nft.kodadot.xyz`,
-      // type: this.files.type
-    };
-
+  public async constructMeta(): Promise<string[]> {
     try {
-      const fileHash = '' // await pinFile(this.files);
-      this.meta.image = unSanitizeIpfsUrl(fileHash);
-      this.meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
+      const files = this.massMints.map(mint => pinFile(mint.file as File));
+      const hashes = await Promise.all(files).then(files =>
+        files.map(unSanitizeIpfsUrl)
+      );
 
-      const metaHash = await pinJson(this.meta);
-      return unSanitizeIpfsUrl(metaHash);
+      const metaList = this.massMints
+        .map((mint, i) => ({
+          name: mint.name,
+          description: mint.description,
+          image: hashes[i],
+          external_url: `https://nft.kodadot.xyz`,
+          type: mint.file?.type
+        }))
+        .map(pinJson);
+
+      const meta = await Promise.all(metaList).then(metaList =>
+        metaList.map(unSanitizeIpfsUrl)
+      );
+      return meta;
     } catch (e) {
       throw new ReferenceError(e.message);
     }
