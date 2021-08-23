@@ -3,7 +3,9 @@
     <div class="column is-7 is-offset-3">
       <section>
         <br />
-        <Loader v-model="isLoading" :status="status" />
+        <Loader v-model="isLoading" :status="status" >
+          ahoj
+        </Loader>
         <div class="box">
           <p class="title is-size-3">
             {{ $t("mint.mass") }}
@@ -337,10 +339,12 @@ export default class MassMint extends Mixins(
     const { api } = Connector.getInstance();
     const { symbol, alreadyMinted } = this.selectedCollection;
     // TODO: incorect implementation
+    this.initTransactionLoader();
+    this.status = 'loader.ipfs'
     const meta = await this.constructMeta();
 
     const mint = this.massMints.map((e, i) =>
-      NFTUtils.createNFT(accountId, i + alreadyMinted, symbol, name, meta[i])
+      NFTUtils.createNFT(accountId, i + alreadyMinted, symbol, e.name, meta[i])
     );
     const remarks: string[] = mint.map(nft =>
       NFTUtils.encodeNFT(nft, this.version)
@@ -535,25 +539,47 @@ export default class MassMint extends Mixins(
 
   public async constructMeta(): Promise<string[]> {
     try {
-      const files = this.massMints.map(mint => pinFile(mint.file as File));
-      const hashes = await Promise.all(files).then(files =>
-        files.map(unSanitizeIpfsUrl)
-      );
-
-      const metaList = this.massMints
-        .map((mint, i) => ({
+      const list: string[] = [];
+      let counter = 1;
+      const total = this.massMints.length;
+      for (const mint of this.massMints) {
+        this.status = ['loader.uploading', [counter, total]];
+        const fileHashPromise = pinFile(mint.file as File).then(unSanitizeIpfsUrl);
+        const fileHash = await fileHashPromise;
+        const meta = {
           name: mint.name,
           description: mint.description,
-          image: hashes[i],
+          image: fileHash,
           external_url: `https://nft.kodadot.xyz`,
           type: mint.file?.type
-        }))
-        .map(pinJson);
+        }
+        const ipfsPromise = pinJson(meta).then(unSanitizeIpfsUrl);
+        const ipfs = await ipfsPromise;
+        list.push(ipfs);
+        counter++;
+      }
 
-      const meta = await Promise.all(metaList).then(metaList =>
-        metaList.map(unSanitizeIpfsUrl)
-      );
-      return meta;
+      return list;
+
+      // const files = this.massMints.map(mint => pinFile(mint.file as File));
+      // const hashes = await Promise.all(files).then(files =>
+      //   files.map(unSanitizeIpfsUrl)
+      // );
+
+      // const metaList = this.massMints
+      //   .map((mint, i) => ({
+      //     name: mint.name,
+      //     description: mint.description,
+      //     image: hashes[i],
+      //     external_url: `https://nft.kodadot.xyz`,
+      //     type: mint.file?.type
+      //   }))
+      //   .map(pinJson);
+
+      // const meta = await Promise.all(metaList).then(metaList =>
+      //   metaList.map(unSanitizeIpfsUrl)
+      // );
+      // return meta;
     } catch (e) {
       throw new ReferenceError(e.message);
     }

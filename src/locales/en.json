@@ -137,7 +137,8 @@
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction",
     "sign": "Waiting for response from singer",
-    "ipfs": "Uploading data to IPFS"
+    "ipfs": "Uploading data to IPFS",
+    "uploading": "({0}/{1}) Uploading data to IPFS"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
