@@ -10,7 +10,7 @@
         <!-- <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span> -->
       </span>
       <template v-else>
-        <b-button type="is-primary" class="navbar__button ml-3 my-3">Log in</b-button>
+        <b-button type="is-primary" class="navbar__button ml-3 my-3" @click="checkExtension()">Log in</b-button>
       </template>
     </template>
 
@@ -55,7 +55,7 @@
       </b-button>
     </b-dropdown-item>
     <b-dropdown-item
-      v-if="changeAccount || !account"
+      v-if="!isExtension && (changeAccount || !account)"
       custom
       aria-role="menuitem"
     >
@@ -65,6 +65,23 @@
         :tooltipVisible="false"
       />
     </b-dropdown-item>
+    <template v-if="isExtension && (changeAccount || !account)">
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://polkadot.js.org/extension/" target="_blank" class="is-flex is-align-items-center pl-3">
+          Inspiration
+        </a>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" target="_blank" class="is-flex is-align-items-center pl-3">
+          Link to chrome
+        </a>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" target="_blank" class="is-flex is-align-items-center pl-3">
+          Link to firefox
+        </a>
+      </b-dropdown-item>
+    </template>
   </b-dropdown>
 </template>
 
@@ -82,6 +99,7 @@ const components = {
 export default class NavbarProfileDropdown extends Vue {
   @Prop() public value!: any;
   protected changeAccount: boolean = false;
+  protected isExtension: boolean = false;
 
   set account(account: string) {
     console.log('setAuth', account);
@@ -90,6 +108,13 @@ export default class NavbarProfileDropdown extends Vue {
 
   get account() {
     return this.$store.getters.getAuthAddress;
+  }
+
+  checkExtension() {
+    if (!(window as any).injectedWeb3['polkadot-js']) {
+      this.isExtension = true;
+      this.$buefy.toast.open('You need to install the browser extension - polkadot.js!');
+    }
   }
 }
 </script>
