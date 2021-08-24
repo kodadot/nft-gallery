@@ -68,7 +68,7 @@
     <template v-if="isExtension && (changeAccount || !account)">
       <b-dropdown-item has-link aria-role="menuitem">
         <a href="https://polkadot.js.org/extension/" target="_blank" class="is-flex is-align-items-center pl-3">
-          Inspiration
+          Inspiration extension
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
@@ -113,7 +113,10 @@ export default class NavbarProfileDropdown extends Vue {
   checkExtension() {
     if (!(window as any).injectedWeb3['polkadot-js']) {
       this.isExtension = true;
-      this.$buefy.toast.open('You need to install the browser extension - polkadot.js!');
+      this.$buefy.toast.open({
+        message:  'You need to install the browser extension - polkadot.js!',
+        duration: 90000
+      });
     }
   }
 }
