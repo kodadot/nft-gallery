@@ -7,7 +7,7 @@
       <slot name="extra" />
     </template>
     <template v-else>
-      <a :href="hrefLink" target="_blank" rel="noopener">
+      <a :href="hrefLink" target="_blank" rel="noopener noreferrer">
         <slot />
       </a>
     </template>
