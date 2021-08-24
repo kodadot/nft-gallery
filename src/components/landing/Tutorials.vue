@@ -17,6 +17,7 @@
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=iG8iQrONnYo"
                   >
                     <b-button type="is-primary" class="mb-6">
@@ -27,6 +28,7 @@
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=cYaZWDzU1Yc"
                   >
                     <b-button type="is-primary" class="mb-6">
@@ -37,6 +39,7 @@
                   <!-- <router-link :to="{name: 'createAccount'}"> -->
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=pPsbQyJRGVQ"
                   >
                     <b-button type="is-primary" class="mb-6">
