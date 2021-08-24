@@ -32,13 +32,13 @@
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://twitter.com/kodadot" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://twitter.com/kodadot" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">
           <b-icon pack="fab" icon="twitter" class="mr-1"> </b-icon>
           <strong>KodaDot</strong>
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://discord.gg/u6ymnbz4PR" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://discord.gg/u6ymnbz4PR" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">
           <b-icon pack="fab" icon="discord" class="mr-1"> </b-icon>
           <strong>Discord</strong>
         </a>

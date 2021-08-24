@@ -53,18 +53,15 @@
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
-          <p class="label" v-if="meta.description">
-            {{ $t('legend')}}
-          </p>
-
-          <div class="subtitle is-size-7">
-            <p v-if="!isLoading"
-              class="subtitle is-size-5">
+          <div v-if="meta.description" class="block">
+            <p class="label">{{ $t('legend')}}</p>
+            <p v-if="!isLoading" class="subtitle is-size-5">
               {{ meta.description }}
-              <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
+
+          <History v-if="!isLoading" :events="nft.events"/>
         </div>
 
         <div class="column is-3 is-offset-3" v-if="detailVisible">
@@ -120,9 +117,7 @@
           </template>
         </div>
       </div>
-      <div>
-        <History v-if="!isLoading" :events="nft.events"/>
-      </div>
+
       <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
@@ -134,7 +129,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
+import { NFT, NFTMetadata, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
@@ -237,7 +232,7 @@ export default class GalleryItem extends Vue {
       // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
-      console.warn(e);
+      // console.warn(e);
     }
 
     this.isLoading = false;
@@ -259,7 +254,7 @@ export default class GalleryItem extends Vue {
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
-        console.log(this.mimeType)
+        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType

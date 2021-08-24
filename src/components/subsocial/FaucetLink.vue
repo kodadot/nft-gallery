@@ -1,5 +1,5 @@
 <template>
-  <a v-if="!email" href="https://app.subsocial.network/faucet" target="_blank">{{ $t('subsocial.faucet') }}</a>
+  <a v-if="!email" href="https://app.subsocial.network/faucet" target="_blank" rel="noopener noreferrer">{{ $t('subsocial.faucet') }}</a>
   <a v-else @click="askFaucet" type="is-ghost">{{ $t('subsocial.autoFaucet') }}</a>
 </template>
 
