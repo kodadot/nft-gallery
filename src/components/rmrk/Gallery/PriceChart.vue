@@ -27,7 +27,7 @@ export default class PriceChart extends Vue {
 	// protected UTCDate: any = {};
 
 	protected onWindowResize() {
-		if (this.Chart != null && this.Chart != undefined) {
+		if (this.Chart) {
 			this.Chart.resize({ width: 'auto', height: 400 });
 		}
 	}
