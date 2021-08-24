@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="block">
     <p class="label">
       {{ $t('History') }}
     </p>

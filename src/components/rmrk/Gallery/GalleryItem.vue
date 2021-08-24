@@ -53,15 +53,10 @@
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
-          <p class="label" v-if="meta.description">
-            {{ $t('legend')}}
-          </p>
-
-          <div class="subtitle is-size-7">
-            <p v-if="!isLoading"
-              class="subtitle is-size-5">
+          <div v-if="meta.description" class="block">
+            <p class="label">{{ $t('legend')}}</p>
+            <p v-if="!isLoading" class="subtitle is-size-5">
               {{ meta.description }}
-              <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
