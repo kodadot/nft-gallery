@@ -72,12 +72,16 @@ export default class PriceChart extends Vue {
 			yAxis: {
 				type: 'value',
 				axisLabel: {
-					formatter: '{value}',
+					formatter: '{value} KSM',
 					fontFamily: 'Fira Code',
 					color: '#fff',
 				},
-				name: 'KSM',
-				nameGap: 10,
+				splitLine: {
+					lineStyle: {
+					  color: '#f8f8f8',
+					  opacity: '.2'
+					}
+				},
 				nameTextStyle: {
 					color: '#fff',
 					fontFamily: 'Fira Code',
