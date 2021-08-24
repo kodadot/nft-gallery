@@ -23,6 +23,27 @@ export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
 
+  try {
+    const { status, data } = await api.post('pinFile', formData, {
+      headers: {
+        'Content-Type': `multipart/form-data;`
+      }
+    });
+    console.log('[PROXY] Pin Image', status, data);
+    if (status < 400) {
+      return data.IpfsHash;
+    } else {
+      throw new Error('Unable to PIN for reasons');
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const pinFileViaSlate = async (file: Blob): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
   const SLATE_URL = 'https://uploads.slate.host/api/public'
 
   try {
