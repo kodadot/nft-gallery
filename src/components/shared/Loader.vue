@@ -15,7 +15,7 @@ type TranslationWithArg = [string, Values];
 
 @Component({})
 export default class Loader extends Vue {
-  @Prop(String) public status!: string | TranslationWithArg;
+  @Prop() public status!: string | TranslationWithArg;
   @Prop(Boolean) public value!: boolean;
 
   protected placeholder = require('@/assets/infinity.svg');
