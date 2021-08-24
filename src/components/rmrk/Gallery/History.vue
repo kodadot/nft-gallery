@@ -3,7 +3,7 @@
     <p class="label">
       {{ $t('History') }}
     </p>
-    <b-table :data="data" hoverable>
+    <b-table :data="data" class="mb-4" hoverable>
       <b-table-column
         cell-class="short-identity__table"
         field="Type"
