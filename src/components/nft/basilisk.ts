@@ -42,9 +42,6 @@ export default {
   ClassId: 'u64',
   TokenId: 'u64',
   ClassData: {
-    name: 'Vec<u8>',
-    max: 'u16',
-    symbol: 'Vec<u8>',
     is_pool: 'bool'
   },
   TokenData: {

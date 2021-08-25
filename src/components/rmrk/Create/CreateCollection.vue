@@ -103,7 +103,7 @@ import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost } from '@/utils/support';
-import NFTUtils from '../service/NftUtils';
+import NFTUtils from '@/components/bsx/NftUtils'
 import TransactionMixin from '@/utils/mixins/txMixin';
 
 const components = {
@@ -146,18 +146,6 @@ export default class CreateCollection extends Mixins(
     return !(name && symbol && (this.unlimited || max) && this.accountId && this.image);
   }
 
-  public constructRmrkMint(metadata: string): Collection {
-    const { symbol, name, max } = this.rmrkMint;
-    const count = this.unlimited ? 0 : max;
-    return NFTUtils.createCollection(
-      this.accountId,
-      symbol,
-      name,
-      metadata,
-      count
-    );
-  }
-
   get filePrice() {
     return calculateCost(this.image);
   }
@@ -168,9 +156,10 @@ export default class CreateCollection extends Mixins(
     }
 
     this.meta = {
+      ...this.rmrkMint,
       ...this.meta,
       attributes: [],
-      external_url: `https://nft.kodadot.xyz`
+      external_url: `https://bsx.kodadot.xyz`
     };
 
     // TODO: upload image to IPFS
@@ -195,28 +184,25 @@ export default class CreateCollection extends Mixins(
     return api.tx.system.remark(remark);
   }
 
-  private async submit() {
+  protected async submit() {
     this.isLoading = true;
     this.status = 'loader.ipfs';
     const { api } = Connector.getInstance();
     const metadata = await this.constructMeta();
-    const mint = this.constructRmrkMint(metadata);
-    const mintString = NFTUtils.encodeCollection(mint, this.version);
+
+
+    const mint = NFTUtils.createCollection(metadata);
 
     try {
-      showNotification(mintString);
-      const cb = !this.hasSupport
-        ? api.tx.system.remark
-        : api.tx.utility.batchAll;
-      const args = !this.hasSupport
-        ? mintString
-        : [this.toRemark(mintString), ...(await this.canSupport())];
+      showNotification(this.rmrkMint.name);
+      const cb = api.tx.nft.createClass
 
+      const args = mint
       const tx = await exec(
         this.accountId,
         '',
         cb,
-        [args],
+        args,
         txCb(
           async blockHash => {
             execResultValue(tx);

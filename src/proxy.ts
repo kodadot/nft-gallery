@@ -21,7 +21,7 @@ export const pinJson = async (object: any) => {
 
 export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
-  formData.append('data', file);
+  formData.append('file', file);
 
   const SLATE_URL = 'https://uploads.slate.host/api/public'
 

@@ -34,10 +34,7 @@
         {{ selectedCollection.max || Infinity }}
       </h6>
       <CreateItem
-        v-if="selectedCollection"
         v-bind.sync="nft"
-        :max="selectedCollection.max"
-        :alreadyMinted="selectedCollection.alreadyMinted"
       />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
