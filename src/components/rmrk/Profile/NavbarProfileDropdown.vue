@@ -67,17 +67,17 @@
     </b-dropdown-item>
     <template v-if="isExtension && (changeAccount || !account)">
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://polkadot.js.org/extension/" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://polkadot.js.org/extension/" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
           Inspiration extension
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
           Link to chrome
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
           Link to firefox
         </a>
       </b-dropdown-item>
