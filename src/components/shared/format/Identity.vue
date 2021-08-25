@@ -1,7 +1,7 @@
 <template>
-  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }">
-    <template v-if="showTwitter">
-      <a :href="`https://twitter.com/${twitter}`" class="pt-2" target="_blank" rel="noopener noreferrer" v-if="twitter">
+  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }" v-if="(showTwitter && twitter) || !showTwitter">
+    <template v-if="showTwitter && twitter">
+      <a :href="`https://twitter.com/${twitter}`" class="pt-2" target="_blank" rel="noopener noreferrer">
         {{ twitter | toString }}
         <b-icon
           pack="fab"
@@ -15,7 +15,7 @@
   </component>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Watch, Mixins, Emit } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
 import InlineMixin from '@/utils/mixins/inlineMixin'
@@ -28,10 +28,10 @@ import { get, set, update } from 'idb-keyval';
 import { identityStore } from '@/utils/idbStore'
 import shouldUpdate from '@/utils/shouldUpdate';
 
-type Address = string | GenericAccountId | undefined
-type IdentityFields = Record<string, string>
+type Address = string | GenericAccountId | undefined;
+type IdentityFields = Record<string, string>;
 
-const components = {}
+const components = {};
 
 @Component({ components })
 export default class Identity extends Mixins(InlineMixin) {
@@ -43,39 +43,36 @@ export default class Identity extends Mixins(InlineMixin) {
   private identity: IdentityFields = emptyObject<IdentityFields>();
 
   get name(): Address {
-    // console.log('get name -> identityInfo', this.identityInfo);
-    const name = this.identity.display
-    return name as string || shortAddress(this.resolveAddress(this.address))
+    const name = this.identity.display;
+    return name as string || shortAddress(this.resolveAddress(this.address));
   }
 
   get twitter(): Address {
-    // console.log('get twitter -> identityInfo', this.identityInfo);
-    const twitter = this.identity.twitter
-    return twitter as string || ''
+    const twitter = this.identity.twitter;
+    return twitter as string || '';
   }
 
   @Watch('address', { immediate: true })
   async watchAddress(newAddress: Address,  oldAddress: Address) {
     if (shouldUpdate(newAddress, oldAddress)) {
-      this.identityOf(newAddress).then(id => this.identity = id)
+      this.identityOf(newAddress).then(id => this.identity = id);
     }
   }
 
-
   public async identityOf(account: Address): Promise<IdentityFields> {
     if (!account) {
-      return Promise.resolve(emptyObject<IdentityFields>())
+      return Promise.resolve(emptyObject<IdentityFields>());
     }
 
-    const address: string = this.resolveAddress(account)
-    const identity = await get(address, identityStore)
+    const address: string = this.resolveAddress(account);
+    const identity = await get(address, identityStore);
 
     if (!identity) {
-      return await this.fetchIdentity(address)
+      return await this.fetchIdentity(address);
     }
 
     if (this.emit) {
-      this.emitIdentityChange(identity)
+      this.emitIdentityChange(identity);
     }
 
     return identity;
@@ -87,7 +84,7 @@ export default class Identity extends Mixins(InlineMixin) {
     }
 
     if (isHex((display as any)?.Raw)) {
-      return hexToString((display as any)?.Raw)
+      return hexToString((display as any)?.Raw);
     }
 
     return display?.toString();
@@ -98,37 +95,34 @@ export default class Identity extends Mixins(InlineMixin) {
   }
 
   protected async fetchIdentity(address: string): Promise<IdentityFields> {
-    const { api } = Connector.getInstance()
+    const { api } = Connector.getInstance();
 
-    const optionIdentity = await api?.query.identity?.identityOf(address)
-    const identity = optionIdentity?.unwrapOrDefault()
-
+    const optionIdentity = await api?.query.identity?.identityOf(address);
+    const identity = optionIdentity?.unwrapOrDefault();
 
     if (!identity?.size) {
-      console.warn('[IDENTITY] NO', address)
       return emptyObject<IdentityFields>();
     }
-
 
     const final = Array.from(identity.info)
     .filter(([_, value]) => !Array.isArray(value) && !value.isEmpty)
     .reduce((acc, [key, value]) => {
       acc[key] = this.handleRaw(value as unknown as Data)
       return acc;
-    }, {} as IdentityFields)
+    }, {} as IdentityFields);
 
-    update(address, () => final, identityStore)
+    update(address, () => final, identityStore);
 
     if (this.emit) {
-      this.emitIdentityChange(final)
+      this.emitIdentityChange(final);
     }
 
-    return final
+    return final;
   }
 
   @Emit('change')
   emitIdentityChange(final: IdentityFields) {
-    return final
+    return final;
   }
 }
 </script>

@@ -5,8 +5,12 @@
         <div class="columns">
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
-            <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+            <a
+              :href="`https://kusama.subscan.io/account/${id}`"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
           </div>
           <div class="column">
@@ -240,7 +244,7 @@ export default class Profile extends Vue {
     const url = new URL(window.location.href);
     return (
       `${url.protocol}//${url.hostname}` +
-      require('@/assets/kodadot_logo_v1_transparent_400px.png')
+      require('@/assets/koda300x300.svg')
     );
   }
 

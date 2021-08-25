@@ -4,7 +4,7 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
-        <Pagination simple :total="total" v-model="currentValue" replace />
+        <Pagination simple :total="total" v-model="currentValue" replace class="is-pulled-right" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -166,18 +166,9 @@ export default class Gallery extends Vue {
     sortBy: { blockNumber: -1 }
   };
   private first = 12;
-  private placeholder = require('@/assets/kodadot_logo_v1_transparent_400px.png');
+  private placeholder = require('@/assets/koda300x300.svg');
   private currentValue = 1;
   private total = 0;
-
-  // public mounted() {
-  //   window.onscroll = () => {
-  //     const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight;
-  //     if (bottomOfWindow) {
-  //       console.log('!!!!!!!!!!!!!!!! [END]')
-  //     }
-  //   }
-  // }
 
   get isLoading() {
     return this.$apollo.queries.nfts.loading

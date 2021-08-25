@@ -21,12 +21,12 @@
                 <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
-                    :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')"
-                    :src-fallback="require('@/assets/kodadot_logo_v1_transparent_400px.png')"
+                    :src="meta.image || require('@/assets/koda300x300.svg')"
+                    :src-fallback="require('@/assets/koda300x300.svg')"
                     alt="KodaDot NFT minted multimedia"
                     ratio="1by1"
                   ></b-image>
-                  <img class="fullscreen-image" :src="meta.image || require('@/assets/kodadot_logo_v1_transparent_400px.png')" alt="KodaDot NFT minted multimedia">
+                  <img class="fullscreen-image" :src="meta.image || require('@/assets/koda300x300.svg')" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
                   <MediaResolver v-if="meta.animation_url" :class="{ withPicture: imageVisible }" :src="meta.animation_url" :mimeType="mimeType" />
                 </div>
@@ -39,31 +39,31 @@
               </button>
           </div>
       </div>
+
       <div class="columns">
         <div class="column is-6">
-          <Appreciation :emotes="nft.emotes"
+          <Appreciation
+            :emotes="nft.emotes"
             :accountId="accountId"
             :currentOwnerId="nft.currentOwner"
             :nftId="nft.id"
-            :burned="nft.burned" />
-
+            :burned="nft.burned"
+          />
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
 
-          <p class="label">
-            {{ $t('legend')}}
-          </p>
-
-          <div class="subtitle is-size-7">
-            <p v-if="!isLoading"
-              class="subtitle is-size-5">
+          <div v-if="meta.description" class="block">
+            <p class="label">{{ $t('legend')}}</p>
+            <p v-if="!isLoading" class="subtitle is-size-5">
               {{ meta.description }}
-              <!-- <markdown-it-vue-light class="md-body" :content="nft.description"/> -->
             </p>
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
+
+          <History v-if="!isLoading" :events="nft.events"/>
         </div>
+
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
@@ -117,6 +117,7 @@
           </template>
         </div>
       </div>
+
       <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" />
     </div>
@@ -128,7 +129,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFT, NFTMetadata, Emotion, Emote } from '../service/scheme';
+import { NFT, NFTMetadata, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
@@ -140,7 +141,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 
 import isShareMode from '@/utils/isShareMode';
-import nftById from '@/queries/nftById.graphql'
+import nftById from '@/queries/nftById.graphql';
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
@@ -171,6 +172,7 @@ import { exist } from './Search/exist';
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
@@ -230,14 +232,14 @@ export default class GalleryItem extends Vue {
       // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn);
-      console.warn(e);
+      // console.warn(e);
     }
 
     this.isLoading = false;
   }
 
   public async fetchMetadata() {
-    console.log(this.nft.emotes);
+    // console.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
@@ -248,11 +250,11 @@ export default class GalleryItem extends Vue {
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
-      console.log(this.meta)
+      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url);
         this.mimeType = headers['content-type'];
-        console.log(this.mimeType)
+        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType);
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType

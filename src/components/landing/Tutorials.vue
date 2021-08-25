@@ -11,31 +11,42 @@
                     Tutorials
                   </span>
                 </h2>
-                <div class="is-flex-inline is-align-items-start is-flex-direction-column">
-                  <router-link :to="{name: 'createAccount'}">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
-                      1. Create polkadot js account
+                <div
+                  class="is-flex-inline is-align-items-start is-flex-direction-column"
+                >
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.youtube.com/watch?v=iG8iQrONnYo"
+                  >
+                    <b-button type="is-primary" class="mb-6">
+                      {{ $t("tutorial.create") }}
                     </b-button>
-                  </router-link>
-                  <router-link :to="{name: 'createAccount'}">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
-                      2. Get KSM
+                  </a>
+                  <!-- </router-link> -->
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.youtube.com/watch?v=cYaZWDzU1Yc"
+                  >
+                    <b-button type="is-primary" class="mb-6">
+                      {{ $t("tutorial.ksm") }}
                     </b-button>
-                  </router-link>
-                  <router-link :to="{name: 'createAccount'}">
-                    <b-button
-                      type="is-primary"
-                      class="mb-6"
-                    >
-                      3. Minting
+                  </a>
+                  <!-- </router-link> -->
+                  <!-- <router-link :to="{name: 'createAccount'}"> -->
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.youtube.com/watch?v=pPsbQyJRGVQ"
+                  >
+                    <b-button type="is-primary" class="mb-6">
+                      {{ $t("tutorial.mint") }}
                     </b-button>
-                  </router-link>
+                  </a>
+                  <!-- </router-link> -->
                 </div>
               </div>
             </div>
@@ -48,11 +59,6 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator';
 
-
-@Component<Tutorials>({
-  components: {}
-})
-export default class Tutorials extends Vue {
-
-}
+@Component
+export default class Tutorials extends Vue {}
 </script>

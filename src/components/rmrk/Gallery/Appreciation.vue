@@ -1,7 +1,8 @@
 <template>
-  <div class="nft-appreciation__main mb-4">
+  <div class="nft-appreciation__main mb-4 is-flex">
     <Loader v-model="isLoading" :status="status" />
     <b-button
+      v-if="accountId"
       class="nft-appreciation__button"
       icon-left="heart"
       @click="showDialog = !showDialog"
@@ -64,6 +65,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   }
 
   get emotions(): Record<string, string | number> {
+    this.emotes?.map((e, index) => this.emotes[index].value = e.value.toUpperCase());
     return groupBy(this.emotes || [], 'value');
   }
 
@@ -146,7 +148,17 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 
 .emote-picker {
   position: absolute;
+  left: 50px;
   z-index: 1;
+}
+
+.emoji-picker {
+  --ep-color-bg: #000 !important;
+  --ep-color-border: #db2980 !important;
+  --ep-color-sbg: #000 !important;
+  --ep-color-active: #db2980 !important;
+  border-width: $button-border-width !important;
+  border-radius: 0 !important;
 }
 
 .nft-appreciation__main {
@@ -166,10 +178,6 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   border-radius: 0;
   border: 2px solid $primary;
   color: $primary;
-}
-
-.nft-emotion__main {
-  padding-left: 60px;
-  margin-top: -40px;
+  margin-right: 15px;
 }
 </style>

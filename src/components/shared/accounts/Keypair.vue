@@ -73,7 +73,7 @@
             <router-link :to="{name:'transferFrom', params:{ from: address}}">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Send</b-button>
             </router-link>
-            <a :href="getExplorerUrl(address)" target="_blank">
+            <a :href="getExplorerUrl(address)" target="_blank" rel="noopener noreferrer">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>
@@ -86,7 +86,7 @@
             <router-link :to="{name:'transferTo', params:{ to: address}}">
               <b-button type="is-dark" icon-left="paper-plane" outlined>Deposit</b-button>
             </router-link>
-            <a :href="getExplorerUrl(address)" target="_blank">
+            <a :href="getExplorerUrl(address)" target="_blank" rel="noopener noreferrer">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
           </b-field>

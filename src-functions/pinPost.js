@@ -4,7 +4,7 @@ exports.handler = async (event, context) => {
 
 
   // const location = event.queryStringParameters.location || "home";
-  const BASE_URL = 'https://staging.subsocial.network/offchain/v1/ipfs/add';
+  const BASE_URL = 'https://app.subsocial.network/offchain/v1/ipfs/add';
   const object = event.body;
 
   try {
