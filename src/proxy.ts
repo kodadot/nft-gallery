@@ -21,7 +21,7 @@ export const pinJson = async (object: any) => {
 
 export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('data', file);
 
   const SLATE_URL = 'https://uploads.slate.host/api/public'
 
@@ -29,7 +29,7 @@ export const pinFile = async (file: Blob): Promise<string> => {
     const { status, data } = await Axios.post(SLATE_URL, formData, {
       headers: {
         'Content-Type': `multipart/form-data`,
-        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`
+        Authorization: `${process.env.VUE_APP_SLATE_KEY}`
       }
     });
     console.log('[PROXY] SLATE Image', status, data);

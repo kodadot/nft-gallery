@@ -55,7 +55,6 @@
         <b-button
           type="is-text"
           icon-left="calculator"
-          @click="estimateTx"
           :disabled="disabled"
           :loading="isLoading"
           outlined
@@ -102,7 +101,7 @@ import {
 import { pinFile, pinJson } from '@/proxy';
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
-import NFTUtils from '../service/NftUtils';
+import NFTUtils from '@/components/bsx/NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
 import collectionForMint from '@/queries/collectionForMint.graphql';
@@ -204,7 +203,7 @@ export default class CreateToken extends Mixins(
   }
 
   get disabled() {
-    return !(this.nft.name && this.nft.file && this.selectedCollection);
+    return !(this.nft.name && this.nft.file);
   }
 
   @Watch('nft.file')
@@ -244,46 +243,29 @@ export default class CreateToken extends Mixins(
   }
 
   protected async submit() {
-    if (!this.selectedCollection) {
-      throw ReferenceError('[MINT] Unable to mint without collection');
-    }
+    // if (!this.selectedCollection) {
+    //   throw ReferenceError('[MINT] Unable to mint without collection');
+    // }
 
     this.isLoading = true;
     this.status = 'loader.ipfs';
     const { api } = Connector.getInstance();
-    const { alreadyMinted, symbol } = this.selectedCollection;
 
     try {
       const metadata = await this.constructMeta();
       // missin possibility to handle more than one remark
 
-      const mint = NFTUtils.createMultipleNFT(
-        this.nft.edition,
-        this.accountId,
-        symbol,
-        this.nft.name,
-        metadata,
-        alreadyMinted
-      );
-      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
+      const mint = NFTUtils.createNFT(1, metadata, this.nft.edition);
 
-      const isSingle =
-        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
+      const cb = api.tx.nft.mint
+      const args = mint
 
-      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll;
-      const args = isSingle
-        ? mintString[0]
-        : [
-            ...mintString.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset())
-          ];
 
       const tx = await exec(
         this.accountId,
         '',
         cb,
-        [args],
+        args,
         txCb(
           async blockHash => {
             execResultValue(tx);
@@ -297,11 +279,6 @@ export default class CreateToken extends Mixins(
 
             this.isLoading = false;
 
-            if (this.nft.price) {
-              this.listForSale(mint, blockNumber);
-            } else {
-              this.navigateToDetail(mint[0], blockNumber);
-            }
           },
           dispatchError => {
             execResultValue(tx);
@@ -327,8 +304,6 @@ export default class CreateToken extends Mixins(
       description: this.nft.description,
       attributes: [
         ...(this.nft?.tags || []),
-        ...nsfwAttribute(this.nft.nsfw),
-        ...offsetAttribute(this.hasCarbonOffset)
       ],
       external_url: `https://nft.kodadot.xyz`,
       type: this.nft.file.type
@@ -337,16 +312,18 @@ export default class CreateToken extends Mixins(
     try {
       const fileHash = await pinFile(this.nft.file);
 
-      if (!secondaryFileVisible(this.nft.file)) {
-        meta.image = unSanitizeIpfsUrl(fileHash);
-        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
-      } else {
-        meta.animation_url = unSanitizeIpfsUrl(fileHash);
-        if (this.nft.secondFile) {
-          const coverImageHash = await pinFile(this.nft.secondFile);
-          meta.image = unSanitizeIpfsUrl(coverImageHash);
-        }
-      }
+      // if (!secondaryFileVisible(this.nft.file)) {
+      //   meta.image = unSanitizeIpfsUrl(fileHash);
+      //   meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
+      // } else {
+      //   meta.animation_url = unSanitizeIpfsUrl(fileHash);
+      //   if (this.nft.secondFile) {
+      //     const coverImageHash = await pinFile(this.nft.secondFile);
+      //     meta.image = unSanitizeIpfsUrl(coverImageHash);
+      //   }
+      // }
+
+      meta.image = unSanitizeIpfsUrl(fileHash);
 
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(meta);
@@ -360,105 +337,6 @@ export default class CreateToken extends Mixins(
     return String(index + this.alreadyMinted + 1).padStart(16, '0');
   }
 
-  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
-    try {
-      const { api } = Connector.getInstance();
-      this.isLoading = true;
-
-      const { version } = this;
-      const { price } = this.nft;
-      showNotification(
-        `[APP] Listing NFT to sale for ${formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: this.unit
-        })}`
-      );
-
-      const onlyNfts = remarks
-
-        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        .map(nft =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
-        );
-
-      if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger);
-        return;
-      }
-
-      const cb = api.tx.utility.batchAll;
-      const args = onlyNfts.map(this.toRemark);
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [args],
-        txCb(
-          async blockHash => {
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(blockHash);
-            const blockNumber = header.number.toString();
-
-            showNotification(
-              `[LIST] Saved prices for ${
-                onlyNfts.length
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit
-              })} in block ${blockNumber}`,
-              notificationTypes.success
-            );
-
-            this.isLoading = false;
-            this.navigateToDetail(remarks[0], originalBlockNumber);
-          },
-          dispatchError => {
-            execResultValue(tx);
-            this.onTxError(dispatchError);
-            this.isLoading = false;
-          },
-          res => this.resolveStatus(res.status)
-        )
-      );
-    } catch (e) {
-      showNotification(e.message, notificationTypes.danger);
-    }
-  }
-
-
-  protected async estimateTx() {
-    this.isLoading = true;
-    const { accountId, version } = this;
-    const { api } = Connector.getInstance();
-
-  const mint = NFTUtils.createMultipleNFT(
-        this.nft.edition,
-        this.accountId,
-        this.selectedCollection?.symbol || '',
-        this.nft.name,
-        unSanitizeIpfsUrl(''),
-        this.alreadyMinted
-      );
-      const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
-
-      const isSingle =
-        remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
-    const cb = api.tx.utility.batchAll;
-
-
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
-
-    this.estimated = await estimate(this.accountId, cb, [args]);
-
-    this.isLoading = false;
-  }
 
   protected onTxError(dispatchError: DispatchError): void {
     const { api } = Connector.getInstance();
