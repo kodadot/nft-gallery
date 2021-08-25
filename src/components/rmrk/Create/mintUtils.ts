@@ -36,7 +36,7 @@ export function toRemark(rmrk: string | string[]) {
   return remark(rmrk);
 }
 
-export function massMintParser(text: string): any {
+export function massMintParser(text: string): Record<string, MassMintNFT> {
   let lines = text.split('\n');
   let index = lines.indexOf('');
   const res: string[][] = [];
@@ -69,4 +69,43 @@ function toMassMint(mints: string[][]) {
   }
 
   return massMintNFTs;
+}
+
+export const isRangeSyntax = (text: string) => {
+  const r = /^\d+-\d*\n/
+  return r.test(text);
+}
+
+function isSpecialMassMintSyntax(text: string) {
+ return isRangeSyntax(text)
+}
+
+export function between(x: number, min: string | number, max: string | number = Infinity) {
+  return x >= min && x < max;
+}
+
+export function isMatchAll(text: string) {
+  return /^\.\.\.\n/.test(text)
+}
+
+export const replaceIndex = (line: string, replaceWith: string | number) => hasIndex(line) ? line.replace(/{i}/, String(replaceWith)) : line;
+
+const hasIndex = (line: string) => {
+  const r = /{i}/
+  return r.test(line)
+}
+
+export function toRange(line: string): [number, number] | null {
+  const r = /^(\d+)-(\d*)\n?$/
+  const match = r.exec(line)
+  if (!match) {
+    return null
+  }
+
+  const [, min, max] = match
+  return [Number(min), Number(max) || Infinity]
+}
+
+export function fromRange(min: number, max: number) {
+  return `${min}-${max === Infinity ? '' : max}`
 }

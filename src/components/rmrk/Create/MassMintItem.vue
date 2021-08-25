@@ -33,14 +33,14 @@
       </div>
     </div>
     <div class="card-footer">
-      <a href="#" class="card-footer-item">Remove</a>
+      <a @click="remove" class="card-footer-item">Remove</a>
 
     </div>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, PropSync } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, PropSync, Emit } from 'vue-property-decorator';
 import { MassMintNFT } from '../service/scheme';
 import shouldUpdate from '@/utils/shouldUpdate';
 
@@ -57,12 +57,19 @@ export default class MassMintItem extends Vue {
   // protected description: string = '';
   // protected image!: File;
   // protected price: number = 0;
+  @Prop(Number) public index!: number;
   @Prop() public file!: File;
 
 
   get url() {
     return URL.createObjectURL(this.nft.file);
   }
+
+  @Emit('remove')
+  protected remove() {
+    return this.index;
+  }
+
 
   // @Watch('nft')
   // protected onMassMintNftChanged(value: MassMintNFT, oldValue: MassMintNFT) {

@@ -60,6 +60,7 @@
           />
 
           <b-field :label="$i18n.t('mint.command')">
+
             <b-input
               v-model="commands"
               type="textarea"
@@ -74,13 +75,14 @@
             </b-button>
           </b-field>
           <p class="title is-size-4">
-            Minted pieces
+            NFTs to mint ({{ massMints.length }} pieces)
           </p>
 
           <hr />
-          <b-field v-for="(file, index) in massMints" :key="file.name">
+          <b-field v-for="(file, index) in massMints" :key="index">
             <MassMintItem
               v-bind.sync="massMints[index]"
+              :index="index"
               :nft="file"
               :file="file.file"
               @remove="hadleItemRemoval"
@@ -172,10 +174,11 @@ import { resolveMedia } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
 import { ipfsToArweave } from '@/utils/ipfs';
-import { massMintParser } from './mintUtils';
+import { massMintParser, isMatchAll, replaceIndex, isRangeSyntax, toRange, between, fromRange } from './mintUtils';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import infiniteCollectionByAccount from '@/queries/infiniteCollectionByAccount.graphql';
 import shouldUpdate from '@/utils/shouldUpdate';
+import { parse } from 'graphql';
 
 type MintedCollection = {
   id: string;
@@ -304,11 +307,43 @@ export default class MassMint extends Mixins(
 
   public transform() {
     showNotification('Parsing commands...', notificationTypes.info);
-    const parsed = massMintParser(this.commands);
-    this.massMints = this.massMints.map(item => ({
+    if (isMatchAll(this.commands)) {
+      const parsed = massMintParser(this.commands);
+      const applyForAll = parsed['...'];
+      this.massMints = this.massMints.map((item, index) => ({
+      ...item,
+      ...applyForAll,
+      description: replaceIndex(applyForAll.description, index + 1),
+      name: replaceIndex(applyForAll.name, index + 1)
+    }));
+    } else if (isRangeSyntax(this.commands)) {
+      const parsed = massMintParser(this.commands);
+      const ranges: [number, number][] = Object.keys(parsed).map(toRange).filter(Boolean) as [number, number][];
+      this.massMints = this.massMints.map((item, index) => {
+        const range = ranges.find(([min, max]) => between(index + 1, min, max));
+        if (range) {
+          const key = fromRange(...range);
+          const parsedItem = parsed[key];
+          return {
+            ...item,
+            ...parsedItem,
+            description: replaceIndex(item.description, index + 1),
+            name: replaceIndex(item.name, index + 1)
+          };
+        }
+
+        return item;
+      });
+      // go through each item and apply the range
+    } else {
+      const parsed = massMintParser(this.commands);
+      this.massMints = this.massMints.map(item => ({
       ...item,
       ...(parsed[item.file?.name || item.name] || {})
     }));
+    }
+
+
     showNotification('Command parsed!', notificationTypes.success);
   }
 
