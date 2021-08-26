@@ -21,7 +21,7 @@ export const pinJson = async (object: any) => {
 
 export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('data', file);
 
   try {
     const { status, data } = await api.post('pinFile', formData, {

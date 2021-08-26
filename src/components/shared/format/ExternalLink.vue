@@ -1,5 +1,5 @@
 <template>
-  <a :href="id ? url+id : url" target="_blank">
+  <a :href="id ? url+id : url" target="_blank" rel="noopener noreferrer">
      <slot></slot>
   </a>
 </template>
