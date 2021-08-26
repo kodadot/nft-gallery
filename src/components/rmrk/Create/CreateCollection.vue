@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+    <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
         {{ $t("context") }}
@@ -111,7 +111,8 @@ const components = {
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue')
+  Support: () => import('@/components/shared/Support.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 };
 
 @Component({ components })
