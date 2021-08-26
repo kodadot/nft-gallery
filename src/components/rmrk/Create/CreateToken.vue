@@ -98,7 +98,7 @@ import {
   MintNFT,
   getNftId
 } from '../service/scheme';
-import { pinFile, pinJson } from '@/proxy';
+import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs';
 import PasswordInput from '@/components/shared/PasswordInput.vue';
 import NFTUtils from '@/components/bsx/NftUtils'
@@ -115,6 +115,7 @@ import {
 } from './mintUtils';
 import { formatBalance } from '@polkadot/util';
 import { DispatchError } from '@polkadot/types/interfaces';
+import { APIKeys, pinFile as pinFileToIPFS  } from '@/pinata';
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -310,20 +311,13 @@ export default class CreateToken extends Mixins(
     };
 
     try {
-      const fileHash = await pinFile(this.nft.file);
-
-      // if (!secondaryFileVisible(this.nft.file)) {
-      //   meta.image = unSanitizeIpfsUrl(fileHash);
-      //   meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
-      // } else {
-      //   meta.animation_url = unSanitizeIpfsUrl(fileHash);
-      //   if (this.nft.secondFile) {
-      //     const coverImageHash = await pinFile(this.nft.secondFile);
-      //     meta.image = unSanitizeIpfsUrl(coverImageHash);
-      //   }
-      // }
+      const keys: APIKeys = await getKey(this.accountId);
+      const fileHash = await pinFileToIPFS(this.nft.file, keys);
 
       meta.image = unSanitizeIpfsUrl(fileHash);
+
+      revokeKey(keys.pinata_api_key)
+      .then(console.log, console.warn);
 
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(meta);
