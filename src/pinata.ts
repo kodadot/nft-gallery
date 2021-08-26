@@ -3,6 +3,11 @@ import { extractCid, justHash } from './utils/ipfs';
 
 export const BASE_URL = 'https://api.pinata.cloud/pinning/';
 
+export type APIKeys = {
+  pinata_api_key: string;
+  pinata_api_secret: string;
+}
+
 const api = Axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -25,14 +30,16 @@ export const pinJson = async (object: any) => {
   }
 };
 
-export const pinFile = async (file: Blob): Promise<string> => {
+export const pinFile = async (file: Blob, keys: APIKeys): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
 
   try {
     const { status, data } = await api.post('pinFileToIPFS', formData, {
       headers: {
-        'Content-Type': `multipart/form-data;`
+        'Content-Type': `multipart/form-data;`,
+        pinata_api_key: keys.pinata_api_key,
+        pinata_secret_api_key: keys.pinata_api_secret
       }
     });
     console.log('[PINATA] Pin Image', status, data);
