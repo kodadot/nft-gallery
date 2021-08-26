@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { APIKeys, pinFile as pinFileToIPFS } from './pinata';
 import { extractCid, justHash } from './utils/ipfs';
 
 export const BASE_URL = `${window.location.origin}/.netlify/functions/`;
@@ -19,9 +20,67 @@ export const pinJson = async (object: any) => {
   }
 };
 
+export const getKey = async (address: string) => {
+  try {
+    const { status, data } = await api.get('getKey', { params: { address }});
+    console.log('[PROXY] Obtain', status);
+    if (status < 400) {
+      return data;
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const revokeKey = async (key: string) => {
+  try {
+    const { status, data } = await api.get('revokeKey', { params: { key }});
+    console.log('[PROXY] Revoke', status);
+    if (status < 400) {
+      return data as APIKeys;
+    }
+  } catch (e) {
+    throw e;
+  }
+
+  throw new Error('Key not found');
+};
+
+export const pinFileDirect = async (file: Blob): Promise<string> => {
+  try {
+    const keys: APIKeys = await getKey(`${file.type}::${file.size}`);
+    const cid = await pinFileToIPFS(file, keys)
+    revokeKey(keys.pinata_api_key).then(console.log, console.warn);
+    return cid;
+  } catch (e) {
+    throw e;
+  }
+};
+
 export const pinFile = async (file: Blob): Promise<string> => {
   const formData = new FormData();
   formData.append('data', file);
+
+  try {
+    const { status, data } = await api.post('pinFile', formData, {
+      headers: {
+        'Content-Type': `multipart/form-data;`
+      }
+    });
+    console.log('[PROXY] Pin Image', status, data);
+    if (status < 400) {
+      return data.IpfsHash;
+    } else {
+      throw new Error('Unable to PIN for reasons');
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const pinFileViaSlate = async (file: Blob): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
 
   const SLATE_URL = 'https://uploads.slate.host/api/public'
 
