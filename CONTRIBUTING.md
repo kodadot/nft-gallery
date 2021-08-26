@@ -32,9 +32,11 @@ To create your KSM address in safely and long-term manner, we reccomend you to g
 
 ### Bounty levels
 During writing this, usual structure is per label on issue is
+
 - $ - 50-100 USD
 - $$ - 150-300 USD
-- $$$ - 450-600 USD 
+- $$$ - 450-600 USD
+  
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels) 
 
 # Learn more about contributing: 
