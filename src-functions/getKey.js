@@ -35,7 +35,6 @@ exports.handler = async (event) => {
     if (status < 400) {
       return {
         statusCode: status,
-        // body: JSON.stringify({ pinata_api_key: data.pinata_api_key, pinata_api_secret: data.pinata_api_secret }),
         body: JSON.stringify(data),
       };
     }
