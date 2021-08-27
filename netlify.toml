@@ -1,0 +1,30 @@
+[build]
+  # This will be your default build command.
+  command = "npm run build"
+  # This is where Netlify will look for your lambda functions.
+  functions = "functions"
+  # This is the directory that you are publishing from.
+  publish = "dist"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    # Referrer Policy is a new header that allows a site to control how much information the browser includes with navigations away from a document and should be set by all sites.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Don't load any resource type not explicitly enabled
+    # Disable plugins like Flash or Silverlight
+    # Load images, scripts, stylesheets and fonts from self    
+    ## Content-Security-Policy = "upgrade-insecure-requests" <- this did not work tho
+    # Prevent browsers from incorrectly detecting non-scripts as scripts
+    X-Content-Type-Options = "nosniff"
+    # Block site from being framed with X-Frame-Options and CSP
+    Content-Security-Policy = "frame-ancestors 'self';"
+    # Basic one if one above won't work
+    # Content-Security-Policy = "default-src 'self';"
+    # For future testing, refer to https://github.com/kodadot/nft-gallery/issues/540
+    # Permissions-Policy = "interest-cohort=()"
