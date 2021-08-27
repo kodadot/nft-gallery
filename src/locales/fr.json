@@ -85,9 +85,9 @@
     "a": {
       "1": {
         "m": "@.md:faq.a.1.l1 Vous pouvez en obtenir par le biais de notre @.md:faq.a.1.l2 fonction ou @.md:faq.a.1.l3",
-		"l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
-		"l2": "[Credit](/#/rmrk/credit)",
-		"l3": "[par échange de garde](https://www.binance.com/en/register?ref=T1JB89F0)."
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Credit](/#/rmrk/credit)",
+        "l3": "[par échange de garde](https://www.binance.com/en/register?ref=T1JB89F0)."
       },
       "2": {
         "m": "Nous vous recommandons d'utiliser l'@.md:faq.a.2.l1 pour l'instant. Plus tard, nous prévoyons d'ajouter une expérience mobile d'abord. Dans tous les cas, <b> sauvegardez votre graine, c'est votre droit de propriété et le type de valeur.</b>",
@@ -95,25 +95,25 @@
       },
       "3": {
         "m": "Cliquez sur @.md:faq.a.3.l1 Vous devez d'abord monnayer votre collection, puis le jeton. Si vous voulez filmer cela, envoyez-nous un DM!",
-		"l1": "[Créer](/#/rmrk/create)."
+        "l1": "[Créer](/#/rmrk/create)."
       },
       "4": {
         "m": "Il est largement soutenu sur les échanges populaires. La liquidité quotidienne sur les bourses est d'environ 200 millions de dollars au moment où nous écrivons ces lignes et 1 $KSM se négocie à environ 100 dollars."
       },
       "5": {
         "m": "Nous avons une intégration avec @.md:faq.a.5.l1, cliquez sur @.md:faq.a.1.l2  dans la barre de navigation. Vous pouvez utiliser Revolut, Virement bancaire manuel, Carte de débit et Apple Pay pour recharger votre adresse KSM. Vous pouvez @.md:faq.a.5.l2",
-		"l1": "[Ramp.network](https://ramp.network)",
-		"l2": "[acheter $KSM dans Binance](https://www.binance.com/en/register?ref=T1JB89F0)"
+        "l1": "[Ramp.network](https://ramp.network)",
+        "l2": "[acheter $KSM dans Binance](https://www.binance.com/en/register?ref=T1JB89F0)"
       },
       "6": {
         "m": "Pour obtenir les meilleurs tarifs, vous pouvez @.md:faq.a.6.l1 Pour une meilleure expérience @.md:faq.a.6.l2 Si vous @.md:faq.a.6.l2",
-		"l1": "[utiliser les services de change de la liste](https://www.coingecko.com/en/coins/kusama).",
-		"l2": "[nous vous recommandons d'utiliser Binance](@.common:links.binance_exchange.href).",
-		"l3": "[recherchez un échange simple, essayez SimpleSwap](https://simpleswap.io/?ref=6cc6e0c538ad)."
+        "l1": "[utiliser les services de change de la liste](https://www.coingecko.com/en/coins/kusama).",
+        "l2": "[nous vous recommandons d'utiliser Binance](@.common:links.binance_exchange.href).",
+        "l3": "[recherchez un échange simple, essayez SimpleSwap](https://simpleswap.io/?ref=6cc6e0c538ad)."
       },
-     "7": {
+      "7": {
         "m": "Tout d'abord, vous devez installer l'@.md:faq.a.2.l1, <b>sauvegardez votre graine</b>. Ensuite, vous rechargez l'adresse de votre portefeuille grace à notre fonction @.md:faq.a.1.l2 Une fois que vous avez les fonds, allez à @.md:faq.a.3.l1, créer Collection. Attendez que la collection soit frappée, puis allez à @.md:faq.a.7.l1 and Mint votre tout premier jeton ! Si vous avez eu des problèmes, nous travaillons sur notre flux d'UX. Le code de KodaDot a environ un mois d'âge et il y a encore des possibilités d'amélioration, supportez-nous, nous ne sommes qu'une équipe de deux. Bonne frappe de la monnaie 😌",
-		"l1": "[Créer Token](/#/rmrk/create)"
+        "l1": "[Créer Token](/#/rmrk/create)"
       },
       "8": {
         "m": "Nous explorons les possibilités, nous prévoyons en fait de rechercher activement à ce sujet dans notre étape 2"
@@ -126,30 +126,30 @@
       },
       "11": {
         "m": "La meilleure façon de procéder est d'utiliser le @.md:faq.a.11.l1 et de rechercher votre adresse. @.md:faq.a.11.l2",
-		"l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
-		"l2": "[Vous pouvez trouver un exemple de la façon dont NFT frappe dans l'explorateur, lorsque vous regardez les extrinsèques.](@.common:links.kusama_scanner.extrinsic.href)"
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[Vous pouvez trouver un exemple de la façon dont NFT frappe dans l'explorateur, lorsque vous regardez les extrinsèques.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "12": {
         "m": "Pour l'instant, nous sommes conscients que les États-Unis ne sont pas soutenus, mais que tous les pays devraient travailler, @.md:faq.a.12.l1 Cela échappe à notre contrôle en ce moment.",
-		"l1": "[liste complète des pays soutenus](@.common:links.ramp_network.supported_countries.href)."
+        "l1": "[liste complète des pays soutenus](@.common:links.ramp_network.supported_countries.href)."
       },
       "13": {
         "m": "Pour l'instant, vous utiliserez LIST dans les Actions."
       },
       "14": {
         "m": "Pour l'instant, nous n'avons pas de logique de chaîne, mais nous prévoyons de mettre en œuvre quelque chose de grand, bientôt. @.md:faq.a.14.l1",
-		"l1": "[Restez avec nous et suivez-nous @KodaDot !](@.common:links.kodadot_social.twitter.href)"
+        "l1": "[Restez avec nous et suivez-nous @KodaDot !](@.common:links.kodadot_social.twitter.href)"
       },
       "15": {
         "m": "Nous sommes en train de mettre en place une vue de la collection, des ensembles de vues de la collection. @.md:faq.a.14.l1"
       },
       "16": {
         "m": "C'est ce cœur 🖤 sous le jeton NFT. Nous sommes @.md:faq.a.16.l1 qui fonctionne comme des appréciations. Sa fonction est de découvrir le prix de votre travail.",
-		"l1":"[auteurs d'origine d'EMOTE au standard RMRK](@.common:links.rmrk_spec_emote_issue.href)"
+        "l1": "[auteurs d'origine d'EMOTE au standard RMRK](@.common:links.rmrk_spec_emote_issue.href)"
       },
       "17": {
         "m": "En ce moment, nous avons @.md:faq.a.17.l1 Nous recherchons activement des options de financement, nous pourrions éventuellement lever des fonds privés. DMs nous, si vous êtes intéressés par une vente privée.",
-		"l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
       },
       "18": {
         "m": "Nous avons seulement un canal privé pour les créateurs de NFT, DM nous si tu es créateur de NFT !"
@@ -162,16 +162,16 @@
       },
       "21": {
         "m": "Allez voir @.md:faq.a.21.l1 et voyez là le bouton <b>Mettre à jour les métadonnées</b>, puis rafraîchissez votre fenêtre, devrait fonctionner avec les types de chaîne récents.",
-		"l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
       },
       "22": {
         "m": "Vérifiez si vous avez des $KSM <b>transférables</b> sur votre compte, non mis en jeu. C'est différent. Vous pouvez le vérifier dans @.md:faq.a.22.l1 et à balances déplier, vous pouvez voir là montant <b>transférable</b>",
-		"l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
       },
-	  "23": {
-		"m": "Vous pouvez en savoir plus sur @.md:faq.a.23.l1",
-		"l1":"[comment définir l'identité sur le réseau Kusama](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
-	  }
+      "23": {
+        "m": "Vous pouvez en savoir plus sur @.md:faq.a.23.l1",
+        "l1": "[comment définir l'identité sur le réseau Kusama](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
     }
   },
   "sort": {
