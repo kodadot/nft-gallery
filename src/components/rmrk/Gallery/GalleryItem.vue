@@ -68,31 +68,16 @@
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
+            <div class="label">{{ $t('price') }}</div>
             <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
             <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
-            <div class="label">{{ $t('price') }}</div>
           </div>
 
           <template v-if="detailVisible && !nft.burned">
             <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
-            <b-collapse class="card mb-4" animation="slide"
-                aria-id="contentIdForA11y3" :open="false">
-                <template #trigger="props">
-                  <div
-                    class="card-header"
-                    role="button"
-                    aria-controls="contentIdForA11y3">
-                    <p class="card-header-title">
-                      {{ $t('actions') }}
-                    </p>
-                    <a class="card-header-icon">
-                      <b-icon
-                        :icon="props.open ? 'chevron-up' : 'chevron-down'">
-                      </b-icon>
-                    </a>
-                  </div>
-                </template>
-                <div class="card-content">
+            <div class="card mb-4" aria-id="contentIdForA11y3">
+              <div class="card-content">
+                  <div class="label ">{{ $t('actions') }}</div>
                   <div class="content">
                     <p class="subtitle">
                       <Auth />
@@ -107,7 +92,7 @@
                     </p>
                   </div>
                 </div>
-            </b-collapse>
+              </div>
           </template>
 
           <Sharing />
@@ -453,6 +438,11 @@ hr.comment-divider {
       &-title {
         color: $scheme-invert;
       }
+    }
+
+    &-content {
+      padding-left: 1rem;
+      padding-top: 1rem;
     }
 
     &-footer {

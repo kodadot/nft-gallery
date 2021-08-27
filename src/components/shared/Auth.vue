@@ -62,6 +62,7 @@ export default class Auth extends Vue {
 .auth-avatar {
   display: flex;
   flex-direction: row;
+  margin-bottom: 1rem;
 }
 
 .auth-avatar-title {
