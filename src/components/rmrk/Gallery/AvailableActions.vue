@@ -43,7 +43,7 @@ type DescriptionTuple = [string, string] | [string];
 const iconResolver: Record<string, DescriptionTuple> = {
   SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
-  LIST: ['is-dark'],
+  LIST: ['is-light'],
   BUY: ['is-success is-dark']
 };
 
