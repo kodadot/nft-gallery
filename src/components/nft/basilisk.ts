@@ -6,6 +6,7 @@ export default {
   Amount: 'i128',
   AmountOf: 'Amount',
   Address: 'AccountId',
+  AssetNativeLocation: 'u8',
   OrmlAccountData: {
     free: 'Balance',
     frozen: 'Balance',
