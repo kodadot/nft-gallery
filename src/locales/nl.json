@@ -21,20 +21,6 @@
   "facts": "feiten",
   "instance": "instance",
   "Instance": "Instance",
-<<<<<<< HEAD:dashboard/src/locales/nl.json
-  "context": "Context",
-  "using": "using",
-  "computed id": "Computed id",
-  "content": "Content",
-  "create collection": "Create Collection",
-  "Owner address of minted art": "Owner address of minted art",
-  "Name you want to show in gallery view": "Name you want to show in gallery view",
-  "Symbol you want to trade it under": "Symbol you want to trade it under",
-  "Describe your collection, it will show under collection view": "Describe your collection, it will show under collection view",
-  "Add collection cover which will show up at collection view": "Add collection cover which will show up at collection view",
-  "Select collection where do you want mint your token": "Select collection where do you want mint your token",
-  "Maximum NFTs in collection": "Maximum NFTs in collection",
-=======
   "context": "context",
   "using": "gebruik makend van",
   "computed id": "berekend id",
@@ -54,7 +40,6 @@
     "Selecteer collectie waarnaar je jouw token wil minten",
   "Maximum NFTs in collection":
     "Maximale NFTs in collectie",
->>>>>>> main:src/locales/nl.json
   "Account": "Account",
   "Name": "Naam",
   "Symbol": "Symbool",
@@ -63,7 +48,6 @@
   "Metadata IPFS Hash": "Metadata IPFS Hash",
   "Add Token": "Voeg token toe",
   "Mint": "Mint",
-<<<<<<< HEAD:dashboard/src/locales/nl.json
   "Transferable is by default": "Transferable is by default",
   "Serial Number": "Serial Number",
   "Name of your token": "Name of your token",
@@ -176,9 +160,7 @@
         "m": "You can learn more <a href=\"@.common:links.kusama_network.docs.mirror_learn_identity.href\">how to set identity on Kusama network</a>"
       }
     }
-  }
-}
-=======
+  },
   "Transferable is by default": "Trasfereerbaar is by default",
   "Serial Number": "Serie Nummer",
   "Name of your token": "Naam van je token",
@@ -240,4 +222,3 @@
   "FAQQ22": "['I've got \"Low balance error\"",
   "FAQA22": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> and at balances unfold, you can see there <b>Transferable</b> amount."
 }
->>>>>>> main:src/locales/nl.json

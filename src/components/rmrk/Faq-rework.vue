@@ -1,30 +1,37 @@
 <template>
-  <div>
-    <div class="box">
-      <p class="title">
-        {{ $t('Frequently Asked Question') }}
+  <div class="box container">
+    <h2 class="heading text-bold uppercase mb-6">
+      <span class="text__stroked heading heading-is-6">
+       {{ $t('Frequently Asked Question') }}
+      </span>
+    </h2>
+    <p class="faq__box heading heading-is-2 text-bold is-flex-inline mb-6">
+      No time for reading? <br>
+      No problem. Check out <br>
+      <router-link :to="{name: 'tutorials'}">
+        Our tutorials.
+      </router-link>
+    </p>
+    <div v-for="qa in faqQuestionsAnswers"
+      v-bind:key="qa[0]">
+      <h3 class="title heading heading-is-2 max-w-600">
+        {{$t(qa[0])}}
+      </h3>
+      <p class="subtitle">
+        <span v-html="qa[1]"></span>
       </p>
-      <div v-for="qa in faqQuestionsAnswers"
-        v-bind:key="qa[0]">
-        <p class="title">
-          {{$t(qa[0])}}
-        </p>
-        <p class="subtitle">
-          <span v-html="qa[1]"></span>
-        </p>
-        <br>
-      </div>
+      <br>
     </div>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import i18n from '@/i18n';
 
-function i18nLoadQandA(): Array<any> {
+function i18nLoadQandA(): any {
   let i: number;
-  let qa: Array<any> = [];
+  const qa: any = [];
   for (i = 1; i < 24; i++) {
     qa.push([
       i18n.t(`faq.q.${i}`),

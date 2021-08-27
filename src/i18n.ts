@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import VueI18n, { LocaleMessages } from 'vue-i18n'
-import store from '@/store'
-import MarkdownIt from 'markdown-it';
+// import md from 'markdown-it-vue'
 
 // File containing data common to ALL
 // languages
-const allLangDataFile = "all_lang.json";
+const allLangDataFile = 'all_lang.json';
 
 // Data common to ALL languages
 const commonData = require('./locales/' + allLangDataFile);
@@ -34,8 +33,8 @@ function loadLocaleMessages (): LocaleMessages {
 // toto moze brat vue s vuexu teoretisch
 // const locale = store.getters.getUserLang;
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'nl',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'nl',
+  locale: process.env.VUE_APP_I18N_LOCALE || 'fr',
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'fr',
   modifiers: {
     md: (str) => md.renderInline(str),
     common: (str) => str.split('.').reduce((o,i)=>o[i], commonData),
