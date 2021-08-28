@@ -1,6 +1,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 export class ClassData {
+  // tslint:disable
   is_pool: boolean = true;
 }
 

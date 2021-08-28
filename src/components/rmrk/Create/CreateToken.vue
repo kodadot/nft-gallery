@@ -17,9 +17,7 @@
               :value="option"
               :key="option.id"
             >
-              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
-                option.max || Infinity
-              }}
+              {{ option.id }} ({{ option.alreadyMinted }})
             </option>
           </b-select>
           <Tooltip
@@ -104,7 +102,7 @@ import PasswordInput from '@/components/shared/PasswordInput.vue';
 import NFTUtils from '@/components/bsx/NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
-import collectionForMint from '@/queries/collectionForMint.graphql';
+import collectionForMint from '@/queries/bsx/collectionForMint.graphql';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import ChainMixin from '@/utils/mixins/chainMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
@@ -123,11 +121,10 @@ interface NFTAndMeta extends NFT {
 
 type MintedCollection = {
   id: string;
-  name: string;
+  // name: string;
   alreadyMinted: number;
-  max: number;
   metadata: string;
-  symbol: string;
+  // symbol: string;
 };
 
 @Component({
@@ -181,6 +178,7 @@ export default class CreateToken extends Mixins(
   }
 
   public async fetchCollections() {
+    console.log('fetchCollections')
     const collections = await this.$apollo.query({
       query: collectionForMint,
       variables: {
@@ -198,9 +196,6 @@ export default class CreateToken extends Mixins(
         ...ce,
         alreadyMinted: ce.nfts?.totalCount
       }))
-      .filter(
-        (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
-      );
   }
 
   get disabled() {

@@ -234,7 +234,7 @@ import { TokenInfoOf } from '@/components/bsx/types';
   },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./ContractActions.vue'),
+    AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     Money: () => import('@/components/shared/format/Money.vue'),

@@ -180,22 +180,18 @@ export default class CreateCollection extends Mixins(
     return [];
   }
 
-  private toRemark(remark: string) {
-    const { api } = Connector.getInstance();
-    return api.tx.system.remark(remark);
-  }
-
   protected async submit() {
     this.isLoading = true;
     this.status = 'loader.ipfs';
-    const { api } = Connector.getInstance();
-    const metadata = await this.constructMeta();
 
-
-    const mint = NFTUtils.createCollection(metadata);
 
     try {
       showNotification(this.rmrkMint.name);
+      const metadata = await this.constructMeta();
+      // const metadata = 'ipfs://snek'
+      const mint = NFTUtils.createCollection(metadata);
+
+      const { api } = Connector.getInstance();
       const cb = api.tx.nft.createClass
 
       const args = mint
