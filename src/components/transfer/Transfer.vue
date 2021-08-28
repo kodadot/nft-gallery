@@ -28,7 +28,7 @@
         @click="shipIt">
 				Make Transfer
       </b-button>
-      <b-button v-if="tx" tag="a" target="_blank" :href="getExplorerUrl(tx)"
+      <b-button v-if="tx" tag="a" target="_blank" rel="noopener noreferrer" :href="getExplorerUrl(tx)"
         icon-left="external-link-alt">
         View {{ tx.slice(0, 10) }}
       </b-button>

@@ -18,7 +18,9 @@
         + `&hostLogoUrl=https://nft.kodadot.xyz/kodadot_logo_v1_transparent_400px.png`
         + `&finalUrl=https://nft.kodadot.xyz`
         + `hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`"
-        target="_blank" >
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Buy Kusama
       </b-button><br>
     </div>

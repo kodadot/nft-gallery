@@ -5,8 +5,12 @@
         <div class="columns">
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
-            <a :href="`https://kusama.subscan.io/account/${id}`" target="_blank"
-              ><Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+            <a
+              :href="`https://kusama.subscan.io/account/${id}`"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
           </div>
           <div class="column">

@@ -1,9 +1,13 @@
 <template>
   <div>
+    <b-field>
+        <div class="control is-flex">
+            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
+        </div>
+    </b-field>
     <b-table
-      :data="data"
+      :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
-      :loading="isLoading"
       detailed
       paginated
       show-detail-icon
@@ -14,9 +18,10 @@
         :label="$t('spotlight.id')"
         v-slot="props"
       >
-        <router-link :to="{ name: 'profile', params: { id: props.row.id } }">
+        <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
           <Identity :address="props.row.id" inline noOverflow />
         </router-link>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -25,7 +30,8 @@
         v-slot="props"
         sortable
       >
-        {{ props.row.sold }}
+        <template v-if="!isLoading">{{ props.row.sold }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -34,7 +40,8 @@
         v-slot="props"
         sortable
       >
-        {{ props.row.unique }}
+        <template v-if="!isLoading">{{ props.row.unique }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -43,7 +50,8 @@
         v-slot="props"
         sortable
       >
-        {{ props.row.total }}
+        <template v-if="!isLoading">{{ props.row.total }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -52,7 +60,8 @@
         v-slot="props"
         sortable
       >
-        {{ Math.ceil(props.row.averagePrice * 100) / 100 }}
+        <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -61,7 +70,8 @@
         v-slot="props"
         sortable
       >
-        {{ props.row.count }}
+        <template v-if="!isLoading">{{ props.row.count }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
@@ -70,7 +80,8 @@
         v-slot="props"
         sortable
       >
-        {{ Math.ceil(props.row.rank * 100) / 100 }}
+        <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <template #detail="props">
@@ -79,7 +90,8 @@
       </template>
 
       <template #empty>
-        <div class="has-text-centered">{{ $t("spotlight.empty") }}</div>
+        <div v-if="!isLoading" class="has-text-centered">{{ $t("spotlight.empty") }}</div>
+        <b-skeleton :active="isLoading"> </b-skeleton>
       </template>
     </b-table>
   </div>
@@ -93,6 +105,10 @@ import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
 import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import { denyList } from '@/constants';
+import { GenericAccountId } from '@polkadot/types/generic/AccountId';
+import { get } from 'idb-keyval';
+import { identityStore } from '@/utils/idbStore';
+type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -104,6 +120,8 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   @Prop() public value!: any;
   protected data: Row[] = [];
   protected columns: Column[] = columns;
+  protected usersWithIdentity: Row[] = [];
+  protected toggleUsersWithIdentity: boolean = false;
 
   async created() {
     this.isLoading = true;
@@ -121,8 +139,28 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
     this.data = spotlightAggQuery(
       collectionEntities?.nodes?.map(nftFn)
     ) as Row[];
+
+    for (let index = 0; index < this.data.length; index++) {
+      const result = await this.identityOf(this.data[index].id);
+      if (result && Object.keys(result).length) {
+        this.usersWithIdentity[index] = this.data[index];
+      }
+    }
+
     this.isLoading = false;
   }
+
+  public async identityOf(account: Address) {
+	  const address: string = this.resolveAddress(account);
+	  const identity = await get(address, identityStore);
+	  return identity;
+	}
+
+	private resolveAddress(account: Address): string {
+	  return account instanceof GenericAccountId
+	    ? account.toString()
+	    : account || '';
+	}
 }
 </script>
 <style>

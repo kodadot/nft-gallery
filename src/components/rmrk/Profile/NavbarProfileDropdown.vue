@@ -10,7 +10,7 @@
         <!-- <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span> -->
       </span>
       <template v-else>
-        <b-button type="is-primary" class="navbar__button ml-3 my-3">Log in</b-button>
+        <b-button type="is-primary" class="navbar__button ml-3 my-3" @click="checkExtension()">Log in</b-button>
       </template>
     </template>
 
@@ -32,13 +32,13 @@
       </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://twitter.com/kodadot" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://twitter.com/kodadot" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">
           <b-icon pack="fab" icon="twitter" class="mr-1"> </b-icon>
           <strong>KodaDot</strong>
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a href="https://discord.gg/u6ymnbz4PR" target="_blank" class="is-flex is-align-items-center pl-3">
+        <a href="https://discord.gg/u6ymnbz4PR" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">
           <b-icon pack="fab" icon="discord" class="mr-1"> </b-icon>
           <strong>Discord</strong>
         </a>
@@ -55,7 +55,7 @@
       </b-button>
     </b-dropdown-item>
     <b-dropdown-item
-      v-if="changeAccount || !account"
+      v-if="!isExtension && (changeAccount || !account)"
       custom
       aria-role="menuitem"
     >
@@ -65,6 +65,23 @@
         :tooltipVisible="false"
       />
     </b-dropdown-item>
+    <template v-if="isExtension && (changeAccount || !account)">
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://polkadot.js.org/extension/" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
+          Install Desktop Wallet Extension
+        </a>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
+          Install Chrome Wallet Extension
+        </a>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" rel="noopener noreferrer" target="_blank" class="is-flex is-align-items-center pl-3">
+          Install Firefox Wallet Extension
+        </a>
+      </b-dropdown-item>
+    </template>
   </b-dropdown>
 </template>
 
@@ -82,6 +99,7 @@ const components = {
 export default class NavbarProfileDropdown extends Vue {
   @Prop() public value!: any;
   protected changeAccount: boolean = false;
+  protected isExtension: boolean = false;
 
   set account(account: string) {
     console.log('setAuth', account);
@@ -90,6 +108,16 @@ export default class NavbarProfileDropdown extends Vue {
 
   get account() {
     return this.$store.getters.getAuthAddress;
+  }
+
+  checkExtension() {
+    if (!(window as any).injectedWeb3['polkadot-js']) {
+      this.isExtension = true;
+      this.$buefy.toast.open({
+        message:  'You need to install the browser extension - polkadot.js!',
+        duration: 90000
+      });
+    }
   }
 }
 </script>

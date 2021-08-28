@@ -40,7 +40,7 @@
             <ol>
               <li v-for="gw in gwList"
               :key="gw">
-                <a :href="gw+imageId" target="_blank">Gateway</a>
+                <a :href="gw+imageId" target="_blank" rel="noopener noreferrer">Gateway</a>
               </li>
             </ol>
           </p>

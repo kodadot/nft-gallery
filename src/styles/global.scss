@@ -112,4 +112,11 @@ body {
     .icon.is-primary {
         color: #db2980 !important;
     }
+    .navbar-start  {
+        .router-link-active {
+            color: $primary;
+            background-color: #121212;
+        }
+    }
+
 }

@@ -62,7 +62,7 @@ export default class OnChainProperty extends Vue{
 		return true;
 	}
 
-	private async emailVerified(){
+	private emailVerified(){
 		if(this.verify(this.email)){
 			this.icons.push({
 				'label': this.email,
@@ -100,7 +100,7 @@ export default class OnChainProperty extends Vue{
 			this.icons.push({
 				'label': this.web,
 				'pack': 'fas',
-				'icon': 'link',
+				'icon': 'globe',
 				'size': 'is-large',
 			});
 		}
@@ -111,15 +111,20 @@ export default class OnChainProperty extends Vue{
 			this.icons.push({
 				'label': this.legal,
 				'pack': 'fas',
-				'icon': 'users',
+				'icon': 'user',
 				'size': 'is-large',
 			});
 		}
 	}
 
 	public toast(message: string): void {
-    this.$buefy.toast.open(message);
+		this.$buefy.toast.open(message);
   }
+
+	@Watch('legal')
+	async watchLegal(newLegal: string, oldLegal: string){
+		this.legalVerified();
+	}
 
   @Watch('email')
   async watchEmail(newEmail: string, oldEmail: string){
@@ -141,10 +146,6 @@ export default class OnChainProperty extends Vue{
   	this.riotVerified();
   }
 
-  @Watch('legal')
-  async watchLegal(newLegal: string, oldLegal: string){
-  	this.legalVerified();
-  }
 
 };
 

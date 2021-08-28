@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+    <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
         {{ $t("context") }}
@@ -98,7 +98,7 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { Collection, CollectionMetadata } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson } from '@/proxy';
+import { pinFile, pinJson, pinFileDirect } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
@@ -111,7 +111,8 @@ const components = {
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue')
+  Support: () => import('@/components/shared/Support.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 };
 
 @Component({ components })
@@ -174,7 +175,7 @@ export default class CreateCollection extends Mixins(
     };
 
     // TODO: upload image to IPFS
-    const imageHash = await pinFile(this.image);
+    const imageHash = await pinFileDirect(this.image);
     this.meta.image = unSanitizeIpfsUrl(imageHash);
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta);

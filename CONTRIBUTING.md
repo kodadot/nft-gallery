@@ -4,7 +4,7 @@ KodaDot NFT gallery has plan to be community-owned.
 We are welcoming community contribution from you.
 Take a sneak peak on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR. 
 When everything went well, chances that you will be rewarded are high.
-For better coordination, feel free to join our [Anteriors channel](https://t.me/joinchat/PBLZLs6SFcI3ZmFk) - for first 100 invited, then will link probably expire
+For better coordination, feel free to join our [Development channel -Anteriors- on Discord](https://discord.gg/KkctBVQ8kP)
 
 ## Getting started
 
@@ -23,7 +23,23 @@ When you're done making changes and you'd like to propose them for review, use t
 ### Your PR is merged!
 Congratulations! The whole GitHub community thanks you. ✨
 
-Learn more about contributing: 
+## Rewards
+In way to scale our developemtn and operations, we prefer paid trial from start to get know developers more better, how they are fit to the team. More your PRs gets merged to main branch, more-likely you'll be part of inner team. On-demand, or part-time contributions are welcome as well and will be rewarded. 
+Because KodaDot started on [Kusama.network](https://kusama.network), we prefer pay out your work in KSM which is native cryptocurrency of Kusama network, canary network with value in [Polkadot.network](https://polkadot.network). 
+
+### Creating your KSM address
+To create your KSM address in safely and long-term manner, we reccomend you to get [Polkadot.js wallet browser extension](https://guide.kusama.network/docs/learn-account-generation/#polkadotjs-browser-plugin). You can [learn more about creating KSM address process at official Kusama Guide](https://guide.kusama.network/docs/learn-account-generation/)
+
+### Bounty levels
+During writing this, usual structure is per label on issue is
+
+- $ - 50-100 USD
+- $$ - 150-300 USD
+- $$$ - 450-600 USD
+  
+You can [check recent labels](https://github.com/kodadot/nft-gallery/labels) 
+
+# Learn more about contributing: 
 
 ## Types of contributions 📝
 You can contribute to the GitHub Docs content and site in several ways. This repo is a place to discuss and collaborate on docs.github.com! Our small, but mighty 💪 docs team is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
