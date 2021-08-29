@@ -25,28 +25,28 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import i18n from '@/i18n'
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import i18n from '@/i18n';
 
 @Component({})
 export default class Faq extends Vue {
-	public faqQuestionsAnswers: any = []
+	public faqQuestionsAnswers: any = [];
 
 	@Watch('$i18n.locale')
 	public i18nLoadQandA(): any {
-		let i: number
-		const qa: any = []
+		let i: number;
+		const qa: any = [];
 		for (i = 1; i < 24; i++) {
-			qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
+			qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)]);
 		}
 
-    this.faqQuestionsAnswers = qa;
+		this.faqQuestionsAnswers = qa;
 	}
 
 	public async mounted() {
-    if (this.faqQuestionsAnswers) {
-      this.i18nLoadQandA()
-    }
+		if (this.faqQuestionsAnswers) {
+			this.i18nLoadQandA()
+		}
 	}
 }
 </script>
