@@ -26,20 +26,13 @@
   "computed id": "Máy chủ ID",
   "content": "Nội dung",
   "create collection": "Tạo bộ sưu tập",
-  "Owner address of minted art":
-    "Địa chỉ chủ sở hữu của nghệ thuật đúc",
-  "Name you want to show in gallery view":
-    "Tên bạn muốn hiển thị trong thư viện",
-  "Symbol you want to trade it under":
-    "Biểu tượng bạn muốn giao dịch",
-  "Describe your collection, it will show under collection view":
-    "Mô tả bộ sưu tập của bạn, nó sẽ hiển thị dưới chế độ xem bộ sưu tập",
-  "Add collection cover which will show up at collection view":
-    "Thêm bìa bộ sưu tập sẽ hiển thị ở chế độ xem bộ sưu tập",
-  "Select collection where do you want mint your token":
-    "Chọn bộ sưu tập mà bạn muốn đúc mã thông báo của mình",
-  "Maximum NFTs in collection":
-    "NFT tối đa trong bộ sưu tập",
+  "Owner address of minted art": "Địa chỉ chủ sở hữu của nghệ thuật đúc",
+  "Name you want to show in gallery view": "Tên bạn muốn hiển thị trong thư viện",
+  "Symbol you want to trade it under": "Biểu tượng bạn muốn giao dịch",
+  "Describe your collection, it will show under collection view": "Mô tả bộ sưu tập của bạn, nó sẽ hiển thị dưới chế độ xem bộ sưu tập",
+  "Add collection cover which will show up at collection view": "Thêm bìa bộ sưu tập sẽ hiển thị ở chế độ xem bộ sưu tập",
+  "Select collection where do you want mint your token": "Chọn bộ sưu tập mà bạn muốn đúc mã thông báo của mình",
+  "Maximum NFTs in collection": "NFT tối đa trong bộ sưu tập",
   "Account": "Tài khoản",
   "Name": "Tên",
   "Symbol": "Biểu tượng",
@@ -51,8 +44,7 @@
   "Transferable is by default": "Có thể chuyển nhượng theo mặc định",
   "Serial Number": "Số sê-ri",
   "Name of your token": "Tên mã thông báo của bạn",
-  "Instance_tooltip":
-    "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
+  "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Upload will upload your image of the NFT": "Tải lên sẽ tải hình ảnh NFT của bạn",
   "Click to add image": "Nhấp để thêm hình ảnh",
   "Add Animated File": "Thêm tệp Hoạt Hình",
@@ -64,48 +56,123 @@
   "Feedback? We\\'d be happy to discuss it.": "Phản hồi? Chúng tôi rất vui lòng khi thảo luận về nó.",
   "Read our story, how we started.": "Đọc câu chuyện của chúng tôi và cách mà chúng tôi bắt đầu.",
   "Frequently Asked Question": "Câu hỏi thường gặp",
-  "FAQQ1": "Đồng xu nào được sử dụng cho NFTs?",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. Bạn có thể có nó thông qua <a href=\"#/rmrk/credit\">Credit</a> tính năng hoặc <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">thông qua trao đổi giam giữ</a>.",
-  "FAQQ2": "Tôi cần ví gì để đúc mã thông báo, mua và thu thập?",
-  "FAQA2": "Chúng tôi khuyên bạn nên sử dụng <a href=\"https://polkadot.js.org/extension/\">Polkadot Extension for now</a>. Sau này, chúng tôi dự định thêm trải nghiệm ưu tiên trên thiết bị di động. Trong tất cả trường hợp, <b>backup your seed, it\\s your owners right and sort of value.</b>",
-  "FAQQ3": "Làm thế nào để tôi sẽ đúc công việc của tôi?",
-  "FAQA3": "Bạn sẽ đi đến <a href=\"/#/rmrk/create\">Create</a>. Trước tiên, bạn cần tạo Bộ sưu tập của mình rồi đến Mã thông báo. Nếu bạn muốn quay video đó, hãy gửi tin nhắn trực tiếp cho chúng tôi!",
-  "FAQQ4": "Làm cách nào để giao dịch KSM cho tác phẩm nghệ thuật của tôi?",
-  "FAQA4": "Nó được hỗ trợ rộng rãi trên các sàn giao dịch phổ biến. Thanh khoản hàng ngày trên các sàn giao dịch là khoảng 200 triệu đô la tại thời điểm viết bài và 1 đô la KSM được giao dịch với giá ~ 100 đô la.",
-  "FAQQ5": "Làm cách nào tôi có thể mua KSM với tư cách là người mới tham gia?",
-  "FAQA5": "Chúng tôi đã tích hợp với <a href=\"https://ramp.network\">Ramp.network</a>, bấm vào <a href=\"#/rmrk/credit\">Credit in navbar</a>. Bạn có thể sử dụng Revolut, Chuyển khoản ngân hàng thủ công, Thẻ ghi nợ và Apple Pay để nạp tiền vào địa chỉ KSM của mình. Bạn có thể <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">mua $KSM tại Binance</a>",
-  "FAQQ6": "Làm cách nào để mua KSM với ETH, DAI, BTC ..?",
-  "FAQA6": "Để có mức giá tốt nhất, bạn có thể <a href=\"https://www.coingecko.com/en/coins/kusama\">use custodial exchange from list</a>. Để có trải nghiệm tốt nhất  <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">chúng tôi khuyên bạn nên sử dụng Binance</a>. Nếu bạn <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\">tìm kiếm giao dịch đơn giản, hãy thử SimpleSwap</a>.",
-  "FAQQ7": "Quy trình khi tôi là người tạo NFT là gì?",
-  "FAQA7": "Trước hết, bạn cần cài đặt<a href=\"https://polkadot.js.org/extension/\">Polkadot Extension</a>, <b>backup your seed</b>. Sau đó, bạn nạp tiền vào địa chỉ ví của mình thông qua<a href=\"#/rmrk/credit\">Credit</a> chức năng. Khi bạn có tiền, hãy đến <a href=\"/#/rmrk/create\">Create</a>, tạo Bộ sưu tập. Chờ cho đến khi Bộ sưu tập được đúc xong, sau đó bạn đi tới <a href=\"/#/rmrk/create\">Create Token</a> và Đúc mã thông báo đầu tiên của bạn! Nếu bạn gặp sự cố , chúng tôi sẽ làm việc trên UX-flow của chúng tôi. KodaDot có mã khoảng tháng tuổi và vẫn còn chỗ để cải thiện, thông cảm cho chúng tôi, team của chúng tôi chỉ có 2 người. Happy Minting 😌",
-  "FAQQ8": "Tôi có thể sử dụng cái này trong thế giới ảo không?",
-  "FAQA8": "Chúng tôi đang khám phá các khả năng, chúng tôi thực sự có kế hoạch tích cực nghiên cứu về điều này trong cột mốc 2 của chúng tôi",
-  "FAQQ9": "Tôi gặp lỗi, làm thế nào để giải quyết chúng?",
-  "FAQA9": "Chúng tôi đang cố gắng cung cấp các bản cập nhật gia tăng hàng ngày và sửa lỗi sớm nhất có thể. Chúng tôi có thể xuất bản phiên bản mới và trình duyệt của bạn đã lưu vào bộ đệm cũ. Nếu bạn đang gặp vấn đề <b>Windows</b>, giữ xuống <b>Ctrl và ấn phím F5</b>. <b>Mac users</b>, giữ xuống <b>CMD và Shift và rồi ấn R</b>. Nếu điều này không hữu ích, DMs trên Twitter với ảnh chụp màn hình đang mở bảng điều khiển dành cho nhà phát triển. ",
-  "FAQQ10": "SEND, CONSUME, LIST nghĩa là gì?",
-  "FAQA10": "SEND là sẽ gửi nó cho ai đó, CONSUME là sẽ đốt nó, LIST là sẽ niêm yết nó để bán cho ai đó có thể mua nó từ bạn.",
-  "FAQQ11": "Tôi đã đúc NFT, nhưng tôi không thấy nó trong thư viện, nó ở đâu?",
-  "FAQA11": "Cách tốt nhất là kiểm tra <a href=\"https://kusama.subscan.io/\">Subscan Explorer</a> và kiểm tra địa chỉ của bạn. <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">Bạn có thể tìm thấy ví dụ về cách NFT đúc trông như thế nào thông qua trình thám hiểm, khi bạn xem xét ngoại vi.</a>",
-  "FAQQ12": "Những quốc gia nào hỗ trợ tiền pháp định trên đoạn đường nối? ?",
-  "FAQA12": "Hiện tại, chúng tôi biết rằng Hoa Kỳ không được hỗ trợ, tất cả các quốc gia khác sẽ hoạt động, <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\">danh sách đầy đủ các quốc gia được hỗ trợ</a>. Điều này nằm ngoài tầm kiểm soát của chúng tôi bây giờ. ",
-  "FAQQ13": "Tôi sẽ bán mã thông báo của mình như thế nào?",
-  "FAQA13": "Ngay bây giờ, bạn sẽ sử dụng LIST trong Hành động.",
-  "FAQQ14": "Cài đặt luồng tiền bản quyền?",
-  "FAQA14": "Hiện tại, chúng tôi không có logic chuỗi, nhưng chúng tôi có kế hoạch triển khai điều gì đó tuyệt vời trong thời gian sớm nhất. <a href=\"https://twitter.com/kodadot\">Ở lại với chúng tôi và theo dõi chúng tôi @KodaDot!</a>",
-  "FAQQ15": "Làm thế nào tôi có thể tạo cửa hàng riêng?",
-  "FAQA15": "Chúng tôi đang triển khai chế độ xem bộ sưu tập, các nhóm chế độ xem bộ sưu tập. <a href=\"https://twitter.com/kodadot\">Ở lại với chúng tôi và theo dõi chúng tôi @KodaDot!</a>",
-  "FAQQ16": "Appreaciations hoạt động như thế nào?",
-  "FAQA16": "Đó là trái tim 🖤 bên dưới mã thông báo NFT . Chúng tôi là <a href=\"https://github.com/Swader/rmrk-spec/issues/10\">tác giả gốc của EMOTE trong tiêu chuẩn RMRK</a> hoạt động giống như sự cảm kích. Chức năng của nó là khám phá giá cho công việc của bạn.",
-  "FAQQ17": "Bạn có được tài trợ không?",
-  "FAQA17": "Ngay bây giờ, chúng tôi có<a href=\"https://kusama.polkassembly.io/post/384\">Tài trợ của Kusama Treasury cho Cột mốc 1</a>. Chúng tôi đang tích cực tìm kiếm các phương án tài trợ, cuối cùng chúng tôi sẽ huy động vốn tư nhân. DMs chúng tôi, nếu bạn quan tâm đến việc bán riêng.",
-  "FAQQ18": "Bạn có kênh Telegram không?",
-  "FAQA18": "Chúng tôi chỉ có kênh riêng dành cho người tạo NFT, hãy gửi tin nhắn trực tiếp cho chúng tôi nếu bạn là người tạo NFT!",
-  "FAQQ19": "Bạn sẽ có chế độ AR / VR hoặc triển khai?",
-  "FAQA19": "Vâng, đó là một phần của Mốc 2 của chúng tôi, hãy chú ý theo dõi!",
-  "FAQQ20": "Cách mở bảng điều khiển dành cho nhà phát triển?",
-  "FAQA20": "Nếu bạn đang sử dụng Mac, trên Chrome nhấn <b>Option, CMD, J</b>, trên Firefox <b>Command + Option + K</b>.",
-  "FAQQ21": "Làm cách nào để cập nhật siêu dữ liệu cho tiện ích mở rộng?",
-  "FAQA21": "Đi đến <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Cài đặ > Metadata</a> và xem nút ở đó <b>Update metadata</b>, sau đó làm mới cửa sổ của bạn, sẽ hoạt động với các loại chuỗi gần đây ",
-  "FAQQ22": "['Tôi gặp phải  \"Lỗi số dư thấp\" ",
-  "FAQA22": "Kiểm tra xem bạn có <b>transferable</b> $ KSM trong tài khoản của mình hay không. Đó là sự khác biệt. Bạn có thể kiểm tra nó tại <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Tài khoản<a/> và khi số dư mở ra, bạn có thể thấy <b>Transferable</b> số lượng ở đó."
+  "faq": {
+    "q": {
+      "1": "Đồng xu nào được sử dụng cho NFTs?",
+      "2": "Tôi cần ví gì để đúc mã thông báo, mua và thu thập?",
+      "3": "Làm thế nào để tôi sẽ đúc công việc của tôi?",
+      "4": "Làm cách nào để giao dịch KSM cho tác phẩm nghệ thuật của tôi?",
+      "5": "Làm cách nào tôi có thể mua KSM với tư cách là người mới tham gia?",
+      "6": "Làm cách nào để mua KSM với ETH, DAI, BTC ..?",
+      "7": "Quy trình khi tôi là người tạo NFT là gì?",
+      "8": "Tôi có thể sử dụng cái này trong thế giới ảo không?",
+      "9": "Tôi gặp lỗi, làm thế nào để giải quyết chúng?",
+      "10": "SEND, CONSUME, LIST nghĩa là gì?",
+      "11": "Tôi đã đúc NFT, nhưng tôi không thấy nó trong thư viện, nó ở đâu?",
+      "12": "Những quốc gia nào hỗ trợ tiền pháp định trên đoạn đường nối? ?",
+      "13": "Tôi sẽ bán mã thông báo của mình như thế nào?",
+      "14": "Cài đặt luồng tiền bản quyền?",
+      "15": "Làm thế nào tôi có thể tạo cửa hàng riêng?",
+      "16": "Appreaciations hoạt động như thế nào?",
+      "17": "Bạn có được tài trợ không?",
+      "18": "Bạn có kênh Telegram không?",
+      "19": "Bạn sẽ có chế độ AR / VR hoặc triển khai?",
+      "20": "Cách mở bảng điều khiển dành cho nhà phát triển?",
+      "21": "Làm cách nào để cập nhật siêu dữ liệu cho tiện ích mở rộng?",
+      "22": "Tôi gặp phải  \"Lỗi số dư thấp\" ",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 Bạn có thể có nó thông qua @.md:faq.a.1.l2 tính năng hoặc @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Credit](@.common:links.rmrk_credit.href)",
+        "l3": "[thông qua trao đổi giam giữ](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "Chúng tôi khuyên bạn nên sử dụng @.md:faq.a.2.l1 Sau này, chúng tôi dự định thêm trải nghiệm ưu tiên trên thiết bị di động. Trong tất cả trường hợp, <b>backup your seed, it\\s your owners right and sort of value.</b>",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "Bạn sẽ đi đến @.md:faq.a.3.l1 Trước tiên, bạn cần tạo Bộ sưu tập của mình rồi đến Mã thông báo. Nếu bạn muốn quay video đó, hãy gửi tin nhắn trực tiếp cho chúng tôi!",
+        "l1": "[Create](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "Nó được hỗ trợ rộng rãi trên các sàn giao dịch phổ biến. Thanh khoản hàng ngày trên các sàn giao dịch là khoảng 200 triệu đô la tại thời điểm viết bài và 1 đô la KSM được giao dịch với giá ~ 100 đô la. @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "Chúng tôi đã tích hợp với @.md:faq.a.5.l1, bấm vào @.md:faq.a.1.l2 in navbar. Bạn có thể sử dụng Revolut, Chuyển khoản ngân hàng thủ công, Thẻ ghi nợ và Apple Pay để nạp tiền vào địa chỉ KSM của mình. Bạn có thể @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[mua $KSM tại Binance](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "Để có mức giá tốt nhất, bạn có thể @.md:faq.a.6.l1 Để có trải nghiệm tốt nhất @.md:faq.a.6.l2 Nếu bạn @.md:faq.a.6.l3",
+        "l1": "[use custodial exchange from list](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[chúng tôi khuyên bạn nên sử dụng Binance](@.common:links.binance_exchange.href).",
+        "l3": "[tìm kiếm giao dịch đơn giản, hãy thử SimpleSwap](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "First of all, you need to install @.md:faq.a.2.l1, <b>backup your seed</b>. Sau đó, bạn nạp tiền vào địa chỉ ví của mình thông qua @.md:faq.a.1.l2 chức năng. Khi bạn có tiền, hãy đến @.md:faq.a.3.l1, tạo Bộ sưu tập. Chờ cho đến khi Bộ sưu tập được đúc xong, sau đó bạn đi tới @.md:faq.a.7.l1 và Đúc mã thông báo đầu tiên của bạn! Nếu bạn gặp sự cố , chúng tôi sẽ làm việc trên UX-flow của chúng tôi. KodaDot có mã khoảng tháng tuổi và vẫn còn chỗ để cải thiện, thông cảm cho chúng tôi, team của chúng tôi chỉ có 2 người. Happy Minting 😌",
+        "l1": "[Create Token](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "Chúng tôi đang khám phá các khả năng, chúng tôi thực sự có kế hoạch tích cực nghiên cứu về điều này trong cột mốc 2 của chúng tôi"
+      },
+      "9": {
+        "m": "Chúng tôi đang cố gắng cung cấp các bản cập nhật gia tăng hàng ngày và sửa lỗi sớm nhất có thể. Chúng tôi có thể xuất bản phiên bản mới và trình duyệt của bạn đã lưu vào bộ đệm cũ. Nếu bạn đang gặp vấn đề <b>Windows</b>, giữ xuống <b>Ctrl và ấn phím F5</b>. <b>Mac users</b>, giữ xuống <b>CMD và Shift và rồi ấn R</b>. Nếu điều này không hữu ích, DMs trên Twitter với ảnh chụp màn hình đang mở bảng điều khiển dành cho nhà phát triển."
+      },
+      "10": {
+        "m": "SEND là sẽ gửi nó cho ai đó, CONSUME là sẽ đốt nó, LIST là sẽ niêm yết nó để bán cho ai đó có thể mua nó từ bạn."
+      },
+      "11": {
+        "m": "Cách tốt nhất là kiểm tra @.md:faq.a.11.l1 và kiểm tra địa chỉ của bạn. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[Bạn có thể tìm thấy ví dụ về cách NFT đúc trông như thế nào thông qua trình thám hiểm, khi bạn xem xét ngoại vi.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "Hiện tại, chúng tôi biết rằng Hoa Kỳ không được hỗ trợ, tất cả các quốc gia khác sẽ hoạt động, @.md:faq.a.12.l1 Điều này nằm ngoài tầm kiểm soát của chúng tôi bây giờ.",
+        "l1": "[danh sách đầy đủ các quốc gia được hỗ trợ](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "Ngay bây giờ, bạn sẽ sử dụng LIST trong Hành động."
+      },
+      "14": {
+        "m": "Hiện tại, chúng tôi không có logic chuỗi, nhưng chúng tôi có kế hoạch triển khai điều gì đó tuyệt vời trong thời gian sớm nhất. @.md:faq.a.14.l1",
+        "l1": "[Ở lại với chúng tôi và theo dõi chúng tôi @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "Chúng tôi đang triển khai chế độ xem bộ sưu tập, các nhóm chế độ xem bộ sưu tập. @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "Đó là trái tim 🖤 bên dưới mã thông báo NFT. Chúng tôi là @.md:faq.a.16.l1 hoạt động giống như sự cảm kích. Chức năng của nó là khám phá giá cho công việc của bạn.",
+        "l1": "[tác giả gốc của EMOTE trong tiêu chuẩn RMRK](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "Ngay bây giờ, chúng tôi có @.md:faq.a.17.l1 Chúng tôi đang tích cực tìm kiếm các phương án tài trợ, cuối cùng chúng tôi sẽ huy động vốn tư nhân. DMs chúng tôi, nếu bạn quan tâm đến việc bán riêng.",
+        "l1": "[Tài trợ của Kusama Treasury cho Cột mốc 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "Chúng tôi chỉ có kênh riêng dành cho người tạo NFT, hãy gửi tin nhắn trực tiếp cho chúng tôi nếu bạn là người tạo NFT!"
+      },
+      "19": {
+        "m": "Vâng, đó là một phần của Mốc 2 của chúng tôi, hãy chú ý theo dõi!"
+      },
+      "20": {
+        "m": "Nếu bạn đang sử dụng Mac, trên Chrome nhấn <b>Option, CMD, J</b>, trên Firefox <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Đi đến @.md:faq.a.21.l1  và xem nút ở đó <b>Update metadata</b>, sau đó làm mới cửa sổ của bạn, sẽ hoạt động với các loại chuỗi gần đây",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Kiểm tra xem bạn có <b>transferable</b> $ KSM trong tài khoản của mình hay không. Đó là sự khác biệt. Bạn có thể kiểm tra nó tại @.md:faq.a.22.l1 và khi số dư mở ra, bạn có thể thấy <b>Transferable</b> số lượng ở đó.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  }
 }
