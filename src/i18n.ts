@@ -15,11 +15,7 @@ const allLangDataFile = 'all_lang.json';
 const commonData = require('./locales/' + allLangDataFile);
 
 function loadLocaleMessages(): LocaleMessages {
-  const locales = require.context(
-    './locales',
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i
-  );
+  const locales = require.context('./locales', true, /[A-Za-z0-9-_,\s]+\.json$/i);
   const messages: LocaleMessages = {};
   locales.keys().forEach(key => {
     if (key === allLangDataFile) {
