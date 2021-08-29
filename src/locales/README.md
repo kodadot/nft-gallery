@@ -1,4 +1,4 @@
-### From Terminal and see changes local
+## From Terminal and see changes local
 
 How to check your translations locally?
 
@@ -18,7 +18,7 @@ Particular commands you need to write to your terminal
 10. Once you are done, [make pull-request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 
-### Translate from Browser
+## Translate from Browser
 
 We've [made video how to translate from the browser](https://t.me/kodadot_translators/97).
 
