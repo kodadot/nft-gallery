@@ -16,7 +16,7 @@
       <b-collapse :open="true" :id="qa[0]">
         <template #trigger="props">
           <div class="is-flex title">
-            <a class="card-header-icon has-text-primary">
+            <a class="card-header-icon has-text-primary" :href="'#'+qa[0]">
               <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'"> </b-icon>
             </a>
             <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
