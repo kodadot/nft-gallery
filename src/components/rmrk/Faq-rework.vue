@@ -13,12 +13,24 @@
       </router-link>
     </p>
     <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]">
-      <h3 class="title heading heading-is-2 max-w-600">
-        {{ qa[0] }}
-      </h3>
-      <p class="subtitle">
-        <span v-html="qa[1]"></span>
-      </p>
+      <b-collapse :open="true">
+        <template #trigger="props">
+          <div class="is-flex title">
+            <h3 class="heading heading-is-2 max-w-600">
+              {{ qa[0] }}
+            </h3>
+            <a class="card-header-icon">
+              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'"> </b-icon>
+            </a>
+          </div>
+        </template>
+        <div class="content">
+          <p class="subtitle">
+            <span v-html="qa[1]"></span>
+          </p>
+        </div>
+      </b-collapse>
+
       <br />
     </div>
   </div>
