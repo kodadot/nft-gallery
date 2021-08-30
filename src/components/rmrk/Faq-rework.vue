@@ -16,12 +16,12 @@
       <b-collapse :open="true">
         <template #trigger="props">
           <div class="is-flex title">
+            <a class="card-header-icon has-text-primary">
+              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'"> </b-icon>
+            </a>
             <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
               {{ qa[0] }}
             </h3>
-            <a class="card-header-icon">
-              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'"> </b-icon>
-            </a>
           </div>
         </template>
         <div class="content">
