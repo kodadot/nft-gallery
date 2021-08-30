@@ -14,7 +14,7 @@
         <div class="column is-4" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
             <router-link
-              :to="{ name: 'nftDetail', params: { id: nft.id } }"
+              :to="{ name: 'superDetail', params: { id: nft.collectionId, item: nft.id } }"
               tag="div"
               class="nft-card__skeleton"
             >
@@ -50,7 +50,7 @@
                 >
                   <router-link
                     v-if="nft.count < 2"
-                    :to="{ name: 'nftDetail', params: { id: nft.id } }"
+                    :to="{ name: 'superDetail', params: { id: nft.collectionId, item: nft.id } }"
                   >
                     <div>
                       <div class="has-text-overflow-ellipsis middle">
@@ -104,7 +104,7 @@ import Freezeframe from 'freezeframe';
 import 'lazysizes';
 import { SearchQuery } from './Search/types';
 
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
+import nftListWithSearch from '@/queries/bsx/nftListWithSearch.graphql';
 import { getMany, update } from 'idb-keyval';
 import { denyList } from '@/constants';
 import { $limit } from 'mingo/operators/pipeline';
@@ -112,8 +112,6 @@ import { $limit } from 'mingo/operators/pipeline';
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
-
-const controlFilters = [{ name: { notLikeInsensitive: `%Penis%` } }];
 
 type NFTType = NFTWithMeta;
 const components = {
@@ -206,7 +204,7 @@ export default class Gallery extends Vue {
     this.total = data.nFTEntities.totalCount;
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
-      emoteCount: e.emotes?.totalCount
+      id: e.id.split('-')[1],
     }));
 
     const storedMetadata = await getMany(

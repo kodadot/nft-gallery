@@ -32,6 +32,7 @@
         {{ selectedCollection.max || Infinity }}
       </h6>
       <CreateItem
+        v-if="selectedCollection"
         v-bind.sync="nft"
       />
       <b-field>
@@ -239,9 +240,9 @@ export default class CreateToken extends Mixins(
   }
 
   protected async submit() {
-    // if (!this.selectedCollection) {
-    //   throw ReferenceError('[MINT] Unable to mint without collection');
-    // }
+    if (!this.selectedCollection) {
+      throw ReferenceError('[MINT] Unable to mint without collection');
+    }
 
     this.isLoading = true;
     this.status = 'loader.ipfs';
@@ -249,9 +250,10 @@ export default class CreateToken extends Mixins(
 
     try {
       const metadata = await this.constructMeta();
+      // const metadata = 'ipfs://snek'
       // missin possibility to handle more than one remark
 
-      const mint = NFTUtils.createNFT(1, metadata, this.nft.edition);
+      const mint = NFTUtils.createNFT(this.selectedCollection.id, metadata, this.nft.edition);
 
       const cb = api.tx.nft.mint
       const args = mint
