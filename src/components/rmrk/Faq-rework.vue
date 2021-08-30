@@ -16,7 +16,7 @@
       <b-collapse :open="true">
         <template #trigger="props">
           <div class="is-flex title">
-            <h3 class="title heading heading-is-2 max-w-600">
+            <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
               {{ qa[0] }}
             </h3>
             <a class="card-header-icon">
