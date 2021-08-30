@@ -12,8 +12,8 @@
         Our tutorials.
       </router-link>
     </p>
-    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]">
-      <b-collapse :open="true">
+    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
+      <b-collapse :open="true" :id="qa[0]">
         <template #trigger="props">
           <div class="is-flex title">
             <a class="card-header-icon has-text-primary">
@@ -30,8 +30,6 @@
           </p>
         </div>
       </b-collapse>
-
-      <br />
     </div>
   </div>
 </template>
