@@ -9,13 +9,9 @@ const md = MarkdownIt({
   breaks: false
 });
 
-// File containing data common to ALL languages
-const allLangDataFile = 'all_lang.json';
-
-// Data common to ALL languages
-// const commonData = require('./locales/' + allLangDataFile);
-
 function loadLocaleMessages(): LocaleMessages {
+  // File containing data common to ALL languages
+  const allLangDataFile = 'all_lang.json';
   const locales = require.context('./locales', true, /[A-Za-z0-9-_,\s]+\.json$/i);
   const messages: LocaleMessages = {};
   locales.keys().forEach(key => {
