@@ -13,7 +13,6 @@
         </div>
       </section>
     </b-upload>
-    <Tooltip iconsize="is-medium" label="Upload your image of the NFT" />
   </b-field>
 </template>
 

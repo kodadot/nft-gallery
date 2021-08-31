@@ -12,6 +12,7 @@
             v-model="selectedCollection"
             expanded
           >
+            <option disabled selected value=""> -- </option>
             <option
               v-for="option in collections"
               :value="option"
