@@ -13,10 +13,10 @@
       </router-link>
     </p>
     <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
-      <b-collapse :open="true" :id="qa[0]">
+      <b-collapse :open="false" :id="qa[0].replace(/ /g, '-')">
         <template #trigger="props">
           <div class="is-flex title">
-            <a class="card-header-icon has-text-primary" :href="'#'+qa[0]">
+            <a class="card-header-icon has-text-primary" :href="'#' + qa[0].replace(/ /g, '-')">
               <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'"> </b-icon>
             </a>
             <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
@@ -57,6 +57,20 @@ export default class Faq extends Vue {
     if (this.faqQuestionsAnswers) {
       this.i18nLoadQandA();
     }
+
+    this.$nextTick(() => {
+      // smooth scroll to #
+      if (this.$route.hash) {
+        const el = document.getElementById(this.$route.hash.slice(0, 1));
+        const headerOffset = 76;
+        let elementPosition = el?.getBoundingClientRect().top;
+        let offsetPosition = elementPosition ? elementPosition - headerOffset : elementPosition;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+      }
+    })
   }
 }
 </script>
