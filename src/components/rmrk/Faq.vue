@@ -67,8 +67,8 @@ export default class Faq extends Vue {
       if (this.$route.hash) {
         const el = document.getElementById(this.$route.hash.slice(0, 1));
         const headerOffset = 76;
-        let elementPosition = el?.getBoundingClientRect().top;
-        let offsetPosition = elementPosition
+        const elementPosition = el?.getBoundingClientRect().top;
+        const offsetPosition = elementPosition
           ? elementPosition - headerOffset
           : elementPosition;
         window.scrollTo({
