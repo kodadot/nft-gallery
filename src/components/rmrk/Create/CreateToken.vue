@@ -472,9 +472,9 @@ export default class CreateToken extends Mixins(
     const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { documentation, name, section } = decoded;
+      const { docs, name, section } = decoded;
       showNotification(
-        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
       );
     } else {
