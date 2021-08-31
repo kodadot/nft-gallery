@@ -113,7 +113,7 @@ export default class Reply extends Mixins(TransactionMixin) {
           }
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       console.error(
         `[SUBSOCIAL] Unable to reply ${this.postId} with reaction ${this.message},\nREASON: ${e}`
       );

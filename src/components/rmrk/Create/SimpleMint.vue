@@ -398,7 +398,7 @@ export default class SimpleMint extends Mixins(
           res => this.resolveStatus(res.status)
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(e.toString(), notificationTypes.danger);
       this.isLoading = false;
     }
@@ -498,7 +498,7 @@ export default class SimpleMint extends Mixins(
           }
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(e.message, notificationTypes.danger);
     }
   }
@@ -560,7 +560,7 @@ export default class SimpleMint extends Mixins(
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(this.meta);
       return unSanitizeIpfsUrl(metaHash);
-    } catch (e) {
+    } catch (e: any) {
       throw new ReferenceError(e.message);
     }
   }

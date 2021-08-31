@@ -254,7 +254,7 @@ export default class CreateCollection extends Mixins(
           res => this.resolveStatus(res.status)
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger);
       console.error(e);
       this.isLoading = false;
