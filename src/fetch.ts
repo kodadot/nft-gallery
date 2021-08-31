@@ -21,7 +21,7 @@ const api = Axios.create({
     try {
       const { headers } = await api.head(assetUrl);
       return headers['content-type'];
-    } catch (e) {
+    } catch (e: any) {
       console.warn(`[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`)
       return undefined
     }

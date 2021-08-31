@@ -277,7 +277,7 @@ export default class Gallery extends Vue {
           }
         }
       });
-    } catch (e) {
+    } catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {

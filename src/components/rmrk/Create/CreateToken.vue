@@ -316,7 +316,7 @@ export default class CreateToken extends Mixins(
           res => this.resolveStatus(res.status, true)
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(e.toString(), notificationTypes.danger);
       this.isLoading = false;
     }
@@ -360,7 +360,7 @@ export default class CreateToken extends Mixins(
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(meta);
       return unSanitizeIpfsUrl(metaHash);
-    } catch (e) {
+    } catch (e: any) {
       throw new ReferenceError(e.message);
     }
   }
@@ -430,7 +430,7 @@ export default class CreateToken extends Mixins(
           res => this.resolveStatus(res.status)
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(e.message, notificationTypes.danger);
     }
   }

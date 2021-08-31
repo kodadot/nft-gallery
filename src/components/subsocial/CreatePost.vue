@@ -104,7 +104,7 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
           }
           )
       );
-    } catch (e) {
+    } catch (e: any) {
       showNotification(`[POST] ${e.message}`, notificationTypes.warn);
     }
   }
