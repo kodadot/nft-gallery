@@ -1821,10 +1821,10 @@
   dependencies:
     "@polkadot/api" "^4.15.1"
 
-"@vue-polkadot/vue-settings@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.18.tgz#27710027a78faf7a96c088a99206ff6220339480"
-  integrity sha512-7V5Y+UM53xa2zJY7rj3/cE4GgnYDShDGCySQN4rOu7WdeJwu6a19h344xJl+okUcAQ06nx31eTDxNtZJkRi6SQ==
+"@vue-polkadot/vue-settings@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.19.tgz#73d6852c6b1651af71ef8ed11996a15b4d450329"
+  integrity sha512-Q38lH/nRVfaSAj2N1Dz4X5kFzxELXaC2jYzyifyuA6zi3BznH5PtAbuFvyc+T+assuv+7OsO3AoKiqB4Lp00fg==
   dependencies:
     "@polkadot/networks" "^6.11.1"
 
@@ -4768,7 +4768,7 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^5.0.0:
+echarts@^5.0.0, echarts@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/echarts/-/echarts-5.1.2.tgz#aa1ab0cef5b74fa2f7c620261a5f286893d30fd1"
   integrity sha512-okUhO4sw22vwZp+rTPNjd/bvTdpug4K4sHNHyrV8NdAncIX9/AarlolFqtJCAYKGFYhUBNjIWu1EznFrSWTFxg==
