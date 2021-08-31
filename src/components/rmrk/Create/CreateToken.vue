@@ -12,6 +12,7 @@
             v-model="selectedCollection"
             expanded
           >
+            <option disabled selected value=""> -- </option>
             <option
               v-for="option in collections"
               :value="option"
@@ -472,9 +473,9 @@ export default class CreateToken extends Mixins(
     const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { documentation, name, section } = decoded;
+      const { docs, name, section } = decoded;
       showNotification(
-        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
       );
     } else {

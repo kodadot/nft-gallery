@@ -2,7 +2,7 @@
   <div>
     <MetadataUpload
       v-model="vFile"
-      label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+      label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
       preview
     />

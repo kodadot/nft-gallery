@@ -1,6 +1,6 @@
 <template>
   <div class="columns mb-6">
-    <div class="column is-7 is-offset-3">
+    <div class="column is-6 is-offset-3">
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
@@ -21,7 +21,7 @@
 
           <MetadataUpload
             v-model="file"
-            label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+            label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
             expanded
             preview
           />
@@ -408,9 +408,9 @@ export default class SimpleMint extends Mixins(
     const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { documentation, name, section } = decoded;
+      const { docs, name, section } = decoded;
       showNotification(
-        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
       );
     } else {

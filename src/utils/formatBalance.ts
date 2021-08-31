@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import { formatBalance } from '@polkadot/util';
 
-function format(balance: number | string | BN | BigInt, decimals: number = 12, withUnit?: boolean | string, withSi?: boolean ) {
+function format(balance: number | string | BN | bigint, decimals: number = 12, withUnit?: boolean | string, withSi?: boolean ) {
   try {
     return formatBalance(balance, { decimals , withUnit , forceUnit: '-', withSi })
   } catch (e) {
