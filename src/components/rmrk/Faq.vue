@@ -66,7 +66,7 @@ export default class Faq extends Vue {
       // smooth scroll to #
       if (this.$route.hash) {
         const el = document.getElementById(this.$route.hash.slice(0, 1));
-        const headerOffset = 76;
+        const headerOffset = 110;
         const elementPosition = el?.getBoundingClientRect().top;
         const offsetPosition = elementPosition
           ? elementPosition - headerOffset
@@ -80,3 +80,11 @@ export default class Faq extends Vue {
   }
 }
 </script>
+
+<style scoped>
+/* CSS hack to scroll under navbar */
+.collapse {
+  padding-top: 110px;
+  margin-top: -110px;
+}
+</style>
