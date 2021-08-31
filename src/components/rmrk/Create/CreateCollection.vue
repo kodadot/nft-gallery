@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading is-full-page v-model="isLoading" :can-cancel="true"></b-loading>
+    <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
         {{ $t("context") }}
@@ -17,15 +17,15 @@
 
       <MetadataUpload
         v-model="image"
-        label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+        label="Drop collection logo here or click to upload. We support various media types (PNG, JPEG, GIF, SVG)"
         expanded
         preview
-        accept="image/png, image/jpeg, image/gif"
+        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
       />
 
       <b-field grouped :label="$i18n.t('Name')">
         <b-input
-          placeholder="Name your NFT"
+          placeholder="Name your collection"
           v-model="rmrkMint.name"
           expanded
           class="mr-0"
@@ -61,7 +61,7 @@
           v-model="meta.description"
           maxlength="500"
           type="textarea"
-          placeholder="Describe your NFT"
+          placeholder="Describe your collection"
           spellcheck="true"
         ></b-input>
       </b-field>
@@ -98,7 +98,7 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin';
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
 import { Collection, CollectionMetadata } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson } from '@/proxy';
+import { pinFile, pinJson, pinFileDirect } from '@/proxy';
 import { decodeAddress } from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
@@ -111,7 +111,8 @@ const components = {
   MetadataUpload: () => import('./DropUpload.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue')
+  Support: () => import('@/components/shared/Support.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 };
 
 @Component({ components })
@@ -174,7 +175,7 @@ export default class CreateCollection extends Mixins(
     };
 
     // TODO: upload image to IPFS
-    const imageHash = await pinFile(this.image);
+    const imageHash = await pinFileDirect(this.image);
     this.meta.image = unSanitizeIpfsUrl(imageHash);
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta);
@@ -236,9 +237,9 @@ export default class CreateCollection extends Mixins(
               const decoded = api.registry.findMetaError(
                 dispatchError.asModule
               );
-              const { documentation, name, section } = decoded;
+              const { docs, name, section } = decoded;
               showNotification(
-                `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+                `[ERR] ${section}.${name}: ${docs.join(' ')}`,
                 notificationTypes.danger
               );
             } else {

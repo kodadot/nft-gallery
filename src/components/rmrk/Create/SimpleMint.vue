@@ -1,6 +1,6 @@
 <template>
   <div class="columns mb-6">
-    <div class="column is-7 is-offset-3">
+    <div class="column is-6 is-offset-3">
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
@@ -21,8 +21,9 @@
 
           <MetadataUpload
             v-model="file"
-            label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+            label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
             expanded
+            preview
           />
 
           <b-field grouped :label="$i18n.t('Name')">
@@ -74,6 +75,7 @@
             icon="file-image"
             accept="image/png, image/jpeg, image/gif"
             expanded
+            preview
           />
           <AttributeTagInput
             v-model="rmrkMint.tags"
@@ -146,10 +148,9 @@
               passiveMessage="I don't want to have carbonless NFT"
             />
           </b-field>
-          <ArweaveUploadSwitch  v-model="arweaveUpload" />
+          <ArweaveUploadSwitch v-model="arweaveUpload" />
           <b-field>
-            <b-switch v-model="hasToS"
-              :rounded="false">
+            <b-switch v-model="hasToS" :rounded="false">
               {{ $t("termOfService.accept") }}
             </b-switch>
           </b-field>
@@ -182,14 +183,16 @@ import {
   getNftId
 } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson } from '@/proxy';
+import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
 import { formatBalance } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import { resolveMedia } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
-import { ipfsToArweave } from '@/utils/ipfs'
+import { ipfsToArweave } from '@/utils/ipfs';
+import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata';
+import TransactionMixin from '@/utils/mixins/txMixin';
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -244,7 +247,8 @@ const components = {
 })
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
-  RmrkVersionMixin
+  RmrkVersionMixin,
+  TransactionMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -255,7 +259,6 @@ export default class SimpleMint extends Mixins(
   private uploadMode: boolean = true;
   private file: Blob | null = null;
   private secondFile: Blob | null = null;
-  private isLoading: boolean = false;
   private password: string = '';
   private hasToS: boolean = false;
   private hasSupport: boolean = true;
@@ -263,7 +266,6 @@ export default class SimpleMint extends Mixins(
   private price: number = 0;
   private estimated: string = '';
   private hasCarbonOffset: boolean = true;
-  protected status = '';
   protected arweaveUpload = false;
 
   protected updateMeta(value: number) {
@@ -296,7 +298,14 @@ export default class SimpleMint extends Mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint;
-    return !(name && symbol && max && this.hasToS && this.accountId && this.file);
+    return !(
+      name &&
+      symbol &&
+      max &&
+      this.hasToS &&
+      this.accountId &&
+      this.file
+    );
   }
 
   protected async estimateTx() {
@@ -328,108 +337,80 @@ export default class SimpleMint extends Mixins(
 
   protected async sub() {
     this.isLoading = true;
+    this.status = 'loader.ipfs';
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
 
-    const meta = await this.constructMeta();
-    this.rmrkMint.metadata = meta;
+    try {
+      const meta = await this.constructMeta();
+      this.rmrkMint.metadata = meta;
 
-    const result = NFTUtils.generateRemarks(
-      this.rmrkMint,
-      accountId,
-      version
-    ) as MintType;
-    const cb = api.tx.utility.batchAll;
-    const remarks: string[] = Array.isArray(result)
-      ? result
-      : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
-        ];
+      const result = NFTUtils.generateRemarks(
+        this.rmrkMint,
+        accountId,
+        version
+      ) as MintType;
+      const cb = api.tx.utility.batchAll;
+      const remarks: string[] = Array.isArray(result)
+        ? result
+        : [
+            NFTUtils.toString(result.collection, version),
+            ...result.nfts.map(nft => NFTUtils.toString(nft, version))
+          ];
 
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
+      const args = !this.hasSupport
+        ? remarks.map(this.toRemark)
+        : [
+            ...remarks.map(this.toRemark),
+            ...(await this.canSupport()),
+            ...(await this.canOffset())
+          ];
 
-    const tx = await exec(
-      this.accountId,
-      '',
-      cb,
-      [args],
-      txCb(
-        async blockHash => {
-          execResultValue(tx);
-          const header = await api.rpc.chain.getHeader(blockHash);
-          const blockNumber = header.number.toString();
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
-          if (this.price) {
-            this.listForSale(result.nfts, blockNumber);
-          } else {
-            this.navigateToDetail(result.nfts[0], blockNumber);
-          }
+            if (this.price) {
+              this.listForSale(result.nfts, blockNumber);
+            } else {
+              this.navigateToDetail(result.nfts[0], blockNumber);
+            }
 
-          showNotification(
-            `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
-            notificationTypes.success
-          );
-
-          this.isLoading = false;
-        },
-        dispatchError => {
-          execResultValue(tx);
-          if (dispatchError.isModule) {
-            const decoded = api.registry.findMetaError(dispatchError.asModule);
-            const { documentation, name, section } = decoded;
             showNotification(
-              `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
-              notificationTypes.danger
+              `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
+              notificationTypes.success
             );
-          } else {
-            showNotification(
-              `[ERR] ${dispatchError.toString()}`,
-              notificationTypes.danger
-            );
-          }
 
-          this.isLoading = false;
-        },
-        res => {
-          if (res.status.isReady) {
-            this.status = 'loader.casting';
-            return;
-          }
-
-          if (res.status.isInBlock) {
-            this.status = 'loader.block';
-            return;
-          }
-
-          if (res.status.isFinalized) {
-            this.status = 'loader.finalized';
-            return;
-          }
-
-          this.status = '';
-        }
-      )
-    );
-
-    // check validity
-    // PIN Image
-    // Construct and pin JSON
+            this.isLoading = false;
+          },
+          dispatchError => {
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
+      );
+    } catch (e) {
+      showNotification(e.toString(), notificationTypes.danger);
+      this.isLoading = false;
+    }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
     const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
       const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { documentation, name, section } = decoded;
+      const { docs, name, section } = decoded;
       showNotification(
-        `[ERR] ${section}.${name}: ${documentation.join(' ')}`,
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
       );
     } else {
@@ -509,7 +490,6 @@ export default class SimpleMint extends Mixins(
             if (firstNft) {
               this.navigateToDetail(firstNft, originalBlockNumber);
             }
-
           },
           dispatchError => {
             execResultValue(tx);
@@ -560,19 +540,23 @@ export default class SimpleMint extends Mixins(
     };
 
     try {
-      const fileHash = await pinFile(this.file);
+      const keys: APIKeys = await getKey(this.accountId);
+      const fileHash = await pinFileToIPFS(this.file, keys);
 
       if (!this.secondaryFileVisible) {
         this.meta.image = unSanitizeIpfsUrl(fileHash);
-        this.meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
+        this.meta.image_ar = this.arweaveUpload
+          ? await ipfsToArweave(fileHash)
+          : '';
       } else {
         this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
         if (this.secondFile) {
-          const coverImageHash = await pinFile(this.secondFile);
+          const coverImageHash = await pinFileToIPFS(this.secondFile, keys);
           this.meta.image = unSanitizeIpfsUrl(coverImageHash);
         }
       }
 
+      revokeKey(keys.pinata_api_key).then(console.log, console.warn);
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(this.meta);
       return unSanitizeIpfsUrl(metaHash);

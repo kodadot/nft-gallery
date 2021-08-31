@@ -55,6 +55,14 @@ export default class WithKeyring extends Vue {
     }
 
     this.importedAccounts = await web3Accounts({ ss58Format: correctFormat(this.ss58Format) >= 0 ? correctFormat(this.ss58Format) : correctFormat(this.prefixByStore)  });
+
+    if (!this.accountId && this.importedAccounts?.length && !process.env.VUE_APP_KEYRING) {
+      this.$store.dispatch('setAuth', { address: this.importedAccounts[0]?.address });
+    }
+  }
+
+  get accountId() {
+    return this.$store.getters.getAuthAddress;
   }
 
   get prefixByStore() {

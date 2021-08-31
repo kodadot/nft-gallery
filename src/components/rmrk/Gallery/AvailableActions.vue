@@ -3,6 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
+      outlined
       @click="handleAction(action)">
         {{ action }}
       </b-button>
@@ -42,7 +43,7 @@ type DescriptionTuple = [string, string] | [string];
 const iconResolver: Record<string, DescriptionTuple> = {
   SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
-  LIST: ['is-dark'],
+  LIST: ['is-light'],
   BUY: ['is-success is-dark']
 };
 
