@@ -17,15 +17,15 @@
 
       <MetadataUpload
         v-model="image"
-        label="Drop your NFT here or click to upload. We support various media types (bmp/ gif/ jpeg/ png/ svg/ tiff/ webp/ mp4/ ogv/ quicktime/ webm/ glb/ flac/ mp3/ json)"
+        label="Drop collection logo here or click to upload. We support various media types (PNG, JPEG, GIF, SVG)"
         expanded
         preview
-        accept="image/png, image/jpeg, image/gif"
+        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
       />
 
       <b-field grouped :label="$i18n.t('Name')">
         <b-input
-          placeholder="Name your NFT"
+          placeholder="Name your collection"
           v-model="rmrkMint.name"
           expanded
           class="mr-0"
@@ -61,7 +61,7 @@
           v-model="meta.description"
           maxlength="500"
           type="textarea"
-          placeholder="Describe your NFT"
+          placeholder="Describe your collection"
           spellcheck="true"
         ></b-input>
       </b-field>

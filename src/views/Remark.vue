@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-7 is-offset-3">
+    <div class="column is-6 is-offset-3">
       <section>
         <br>
         <b-tabs v-model="activeTab" destroy-on-hide expanded>
