@@ -182,7 +182,7 @@ export default class Extrinsics extends Vue {
         this.showNotification(hash.toHex(), this.snackbarTypes.success);
         console.log('tx', hash.toHex());
         this.tx = hash.toHex();
-      } catch (e) {
+      } catch (e: any) {
         this.showNotification(e, this.snackbarTypes.danger);
       }
 

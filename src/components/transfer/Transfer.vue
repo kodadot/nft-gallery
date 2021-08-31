@@ -109,7 +109,7 @@ export default class Transfer extends Vue {
         console.log([this.accountTo.address, this.balance])
         const tx = await exec(this.accountFrom.address, this.password, api.tx.balances.transfer, [this.accountTo.address, this.balance?.toString()]);
         showNotification(execResultValue(tx), this.snackbarTypes.success);
-      } catch (e) {
+      } catch (e: any) {
         console.error('[ERR: TRANSFER SUBMIT]', e)
         showNotification(e.message, this.snackbarTypes.danger);
       }
