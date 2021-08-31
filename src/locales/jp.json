@@ -56,48 +56,123 @@
   "Feedback? We\\'d be happy to discuss it.": "フィードバックがありますか？ディスカッション大歓迎です。",
   "Read our story, how we started.": "このプロジェクトをスタートした私たちのストーリーはこちら。",
   "Frequently Asked Question": "FAQ（良くある質問）",
-  "FAQQ1": "どの様なコインがNFTとして使われていますか？",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. は、我々の<a href=\"#/rmrk/credit\">クレジット</a> 機能か または <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">カストディー取引所から手に入れることができます</a>.",
-  "FAQQ2": "ミント、購入、収集するにはどのようなウォレットが必要ですか？",
-  "FAQA2": " <a href=\"https://polkadot.js.org/extension/\">今はPolkadot Extension</a>をお勧めします。 モバイルファーストな体験ができる様に現在準備をしています。 常に, <b>シードをバックアップすることを忘れないでください。</b>",
-  "FAQQ3": "どうすれば自分の制作物をミントできますか？",
-  "FAQA3": " <a href=\"/#/rmrk/create\">作成</a>ボタンをクリックしてください。. まず、コレクションをミントした後で、トークンをミントする必要があります。",
-  "FAQQ4": "どうやって私のアートワークのKSMをミントできますか？",
-  "FAQA4": "有名な取引所で広く取り扱われています。1日のリキディティは２００億ドル前後で１KSMは百ドルで取引されています。",
-  "FAQQ5": "初心者はどうやってKusamaを購入すれば良いですか？",
-  "FAQA5": "私たちは <a href=\"https://ramp.network\">Ramp.network</a>を導入しています。 <a href=\"#/rmrk/credit\">ナビゲーションバーのクレジットボタン</a>をクリックしてください。. Revolut, 銀行送金, デビットカード、 Apple Payを使うことで  KSMアドレスにチャージできます。 また、<a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">バイナンスで $KSM を購入</a>することもできます",
-  "FAQQ6": "ETH, DAI, BTCでkusamaを買うことができますか？",
-  "FAQA6": "ベストなレートで購入するには <a href=\"https://www.coingecko.com/en/coins/kusama\">リストに記載のカストディー取引所</a>を使うことをお勧めします。手早く入手したい場合には <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">バイナンスをお勧めいたします</a>. もしあなたが <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\">シンプルにトレードしたい場合,  SimpleSwapを試してください。</a>.",
-  "FAQQ7": "NFTクリエイターになるための手順を教えてください。",
-  "FAQA7": "まず、 <a href=\"https://polkadot.js.org/extension/\">Polkadot Extension</a>をインストールしてください, <b>シードパスワードを必ずバックアップしてください</b>. その後、あなたのウォレットアドレスに <a href=\"#/rmrk/credit\">クレジット</a> 機能を使ってKusamaをチャージしてください。Kusamaが手に入ったら, <a href=\"/#/rmrk/create\">作成</a>ボンタンをクリックして, コレクションを作りましょう. コレクションがミントされるのを待ってから、 <a href=\"/#/rmrk/create\">トークン作成</a> を行ってください。そうすることで一つ目のトークンをミントすることができます。現在UIの流れを調整中ですが、何か不具合があるかもしれません。 KodaDotはまだ作り始めて1ヶ月しか経っておらず改善点がたくさんあります。また、我々のチームは二人だけなのです。ミントを楽しんでいただけると幸いです。😌",
-  "FAQQ8": "これをバーチャル世界で使うことはできますか？",
-  "FAQA8": "現在可能性を探っています。Milestone2で検討する予定です。",
-  "FAQQ9": "エラーが見つかりました、どうやって修正すれば良いですか？",
-  "FAQA9": "我々は最速で修正を行い、毎日継続したアップデートを行なっています。もしかすると、我々は新しいバージョンをパブリッシュしていますが、あなたのブラウザのキャッシュデータが古い可能性があります。 <b>Windows</b>の場合<b>Ctrl を押しながら F5を押してみてください。</b>. <b>Mac</b>の場合、<b>CMD と Shift を押しながら R　を押してください。</b>. もしこれでも改善しなければ開発者向けコンソールを開き、スクリーンショットをとって、私たちのツイッターアカウントに連絡してください。.",
-  "FAQQ10": " SEND, CONSUME, LIST とはどういう意味ですか？",
-  "FAQA10": "SENDとは誰かに送ること, CONSUME とはバーンすること, LIST とは誰かがあなたから購入できる様に出品することを意味します。",
-  "FAQQ11": "NFTをミントしたのにギャラリーで見れません、どこに行ってしまったのでしょう？",
-  "FAQA11": "最も良い方法は <a href=\"https://kusama.subscan.io/\">エクスプローラーを使って</a> あなたのアドレスを検索することです。 <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">ミントされたNFTはこの様に表示されます。</a>",
-  "FAQQ12": "Rampではどの国のfiat通貨がサポートされていますか？",
-  "FAQA12": "現在USはサポート外ですが、その他の全ての国はサポート対象です。<a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\">対象国のリストはこちらです。</a>この対象国に関しては外部サービスのため、我々のサポート外です。",
-  "FAQQ13": "どの様にしてトークンを販売することができますか？",
-  "FAQA13": "アクションメニューに表示されているLISTボタンをクリックしてください。",
-  "FAQQ14": "ロイヤリティを設定することはできますか？",
-  "FAQA14": "現在のところチェーンロジックを導入していませんが、そのうちもっと良い機能を導入する予定です！ <a href=\"https://twitter.com/kodadot\">最新情報は @KodaDot　をフォローしてください。</a>",
-  "FAQQ15": "どうやって独自のショップを作ることができますか？",
-  "FAQA15": "コレクションビューとコレクションセットビューがありまっす。 <a href=\"https://twitter.com/kodadot\">私たちのツイッターアカウントをフォローしてください。 @KodaDot!</a>",
-  "FAQQ16": "appreciationとはどの様な機能ですか？?",
-  "FAQA16": " NFTトークンを使った気持ち🖤の表現です。. 私たちはアプリケーションとして動作する<a href=\"https://github.com/Swader/rmrk-spec/issues/10\"> RMRK 仕様のEMOTEを開発しました。</a> この機能を使うことであなたの作業に対する対価を図ることができます。",
-  "FAQQ17": "出資を受けていますか？",
-  "FAQA17": "現在私たちはMilestone1に向けて<a href=\"https://kusama.polkassembly.io/post/384\">Kusama Treasury Fund</a>より出資を受けています。私たちはその他の出資を受ける方法を模索しています。個人的な出資を受ける可能性もあります。 興味があればDMを送ってください。",
-  "FAQQ18": "テレグラムチャンネルはありますか？",
-  "FAQA18": "NFTクリエイターのためのプライベートチャンネルがあります。興味があればDMを送ってください。",
-  "FAQQ19": "AR/VR モードはありますか？",
-  "FAQA19": "Milestone2で対応を予定しています。",
-  "FAQQ20": "どうやって開発者コンソールを開きますか？",
-  "FAQA20": "MACのChromeの場合：<b>Option、CMD、J</b>、Firefoxの場合：<b>Command + Option + K</b>です。",
-  "FAQQ21": "エクステンションのメタデータをアップデートするにはどうしたらいいですか？",
-  "FAQA21": " <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.ioの Settings > Metadataを開いてください。</a> そして <b>Update metadata</b>ボタンをクリックして、ウィンドウをリフレッシュしてください。 最近使ったチェーンタイプで動作するはずです。",
-  "FAQQ22": "\"Low balance error\"が表示されます",
-  "FAQA22": " <b>転送可能な</b> $KSM があなたのアカウントにあるか確認してください。ステークしているものを使うことはできません。<a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> から確認することができます。balances欄を開くことで<b>転送可能な</b> 金額を確認できます。"
+  "faq": {
+    "q": {
+      "1": "どの様なコインがNFTとして使われていますか？",
+      "2": "ミント、購入、収集するにはどのようなウォレットが必要ですか？",
+      "3": "どうすれば自分の制作物をミントできますか？",
+      "4": "どうやって私のアートワークのKSMをミントできますか？",
+      "5": "初心者はどうやってKusamaを購入すれば良いですか？",
+      "6": "ETH, DAI, BTCでkusamaを買うことができますか？",
+      "7": "NFTクリエイターになるための手順を教えてください。",
+      "8": "これをバーチャル世界で使うことはできますか？",
+      "9": "エラーが見つかりました、どうやって修正すれば良いですか？",
+      "10": " SEND, CONSUME, LIST とはどういう意味ですか？",
+      "11": "NFTをミントしたのにギャラリーで見れません、どこに行ってしまったのでしょう？",
+      "12": "Rampではどの国のfiat通貨がサポートされていますか？",
+      "13": "どの様にしてトークンを販売することができますか？",
+      "14": "ロイヤリティを設定することはできますか？",
+      "15": "どうやって独自のショップを作ることができますか？",
+      "16": "appreciationとはどの様な機能ですか？?",
+      "17": "出資を受けていますか？",
+      "18": "テレグラムチャンネルはありますか？",
+      "19": "AR/VR モードはありますか？",
+      "20": "どうやって開発者コンソールを開きますか？",
+      "21": "エクステンションのメタデータをアップデートするにはどうしたらいいですか？",
+      "22": "\"Low balance error\"が表示されます",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 は、我々の @.md:faq.a.1.l2 機能か または @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[クレジット](@.common:links.rmrk_credit.href)",
+        "l3": "[カストディー取引所から手に入れることができます](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "@.md:faq.a.2.l1 をお勧めします。 モバイルファーストな体験ができる様に現在準備をしています。 常に, <b>シードをバックアップすることを忘れないでください。</b>",
+        "l1": "[今はPolkadot Extension](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "@.md:faq.a.3.l1 ボタンをクリックしてください。. まず、コレクションをミントした後で、トークンをミントする必要があります。",
+        "l1": "[作成](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "有名な取引所で広く取り扱われています。1日のリキディティは２００億ドル前後で１KSMは百ドルで取引されています。 @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "私たちは  @.md:faq.a.5.l1 を導入しています。 @.md:faq.a.1.l2 in navbar. をクリックしてください。. Revolut, 銀行送金, デビットカード、 Apple Payを使うことで  KSMアドレスにチャージできます。 また、 @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[バイナンスで $KSM を購入</a>することもできます](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "ベストなレートで購入するには @.md:faq.a.6.l1 を使うことをお勧めします。手早く入手したい場合には @.md:faq.a.6.l2 もしあなたが @.md:faq.a.6.l3",
+        "l1": "[リストに記載のカストディー取引所](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[バイナンスをお勧めいたします](@.common:links.binance_exchange.href).",
+        "l3": "[シンプルにトレードしたい場合,  SimpleSwapを試してください。](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "まず、 @.md:faq.a.2.l1 をインストールしてください, <b>シードパスワードを必ずバックアップしてください</b>. その後、あなたのウォレットアドレスに @.md:faq.a.1.l2 機能を使ってKusamaをチャージしてください。Kusamaが手に入ったら, @.md:faq.a.3.l1,  を行ってください。そうすることで一つ目のトークンをミントすることができます。現在UIの流れを調整中ですが、何か不具合があるかもしれません。 KodaDotはまだ作り始めて1ヶ月しか経っておらず改善点がたくさんあります。また、我々のチームは二人だけなのです。ミントを楽しんでいただけると幸いです。😌",
+        "l1": "[トークン作成](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "現在可能性を探っています。Milestone2で検討する予定です。"
+      },
+      "9": {
+        "m": "我々は最速で修正を行い、毎日継続したアップデートを行なっています。もしかすると、我々は新しいバージョンをパブリッシュしていますが、あなたのブラウザのキャッシュデータが古い可能性があります。 <b>Windows</b>の場合<b>Ctrl を押しながら F5を押してみてください。</b>. <b>Mac</b>の場合、<b>CMD と Shift を押しながら R　を押してください。</b>. もしこれでも改善しなければ開発者向けコンソールを開き、スクリーンショットをとって、私たちのツイッターアカウントに連絡してください。."
+      },
+      "10": {
+        "m": "SENDとは誰かに送ること, CONSUME とはバーンすること, LIST とは誰かがあなたから購入できる様に出品することを意味します。"
+      },
+      "11": {
+        "m": "最も良い方法は @.md:faq.a.11.l1 あなたのアドレスを検索することです。 @.md:faq.a.11.l2",
+        "l1": "[エクスプローラーを使って](@.common:links.kusama_scanner.href)",
+        "l2": "[ミントされたNFTはこの様に表示されます。](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "現在USはサポート外ですが、その他の全ての国はサポート対象です。@.md:faq.a.12.l1 この対象国に関しては外部サービスのため、我々のサポート外です。",
+        "l1": "[対象国のリストはこちらです。](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "アクションメニューに表示されているLISTボタンをクリックしてください。"
+      },
+      "14": {
+        "m": "現在のところチェーンロジックを導入していませんが、そのうちもっと良い機能を導入する予定です！ @.md:faq.a.14.l1",
+        "l1": "[私たちのツイッターアカウントをフォローしてください。 @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "コレクションビューとコレクションセットビューがありまっす。 @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "NFTトークンを使った気持ち🖤の表現です。. 私たちはアプリケーションとして動作する @.md:faq.a.16.l1 この機能を使うことであなたの作業に対する対価を図ることができます。",
+        "l1": "[RMRK 仕様のEMOTEを開発しました。](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "現在私たちはMilestone1に向けて @.md:faq.a.17.l1 より出資を受けています。私たちはその他の出資を受ける方法を模索しています。個人的な出資を受ける可能性もあります。 興味があればDMを送ってください。",
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "NFTクリエイターのためのプライベートチャンネルがあります。興味があればDMを送ってください。"
+      },
+      "19": {
+        "m": "Milestone2で対応を予定しています。"
+      },
+      "20": {
+        "m": "MACのChromeの場合：<b>Option、CMD、J</b>、Firefoxの場合：<b>Command + Option + K</b>です。"
+      },
+      "21": {
+        "m": "Go to @.md:faq.a.21.l1 そして <b>Update metadata</b>ボタンをクリックして、ウィンドウをリフレッシュしてください。 最近使ったチェーンタイプで動作するはずです。",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "<b>転送可能な</b> $KSM があなたのアカウントにあるか確認してください。ステークしているものを使うことはできません。@.md:faq.a.22.l1 から確認することができます。balances欄を開くことで<b>転送可能な</b> 金額を確認できます。",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  }
 }

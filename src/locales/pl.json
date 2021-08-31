@@ -26,20 +26,13 @@
   "computed id": "Identyfikator",
   "content": "Zawartość",
   "create collection": "Utwórz Album",
-  "Owner address of minted art":
-    "Adres twórcy",
-  "Name you want to show in gallery view":
-    "Nazwa która ma się wyświetlać w Galerii",
-  "Symbol you want to trade it under":
-    "Symbol handlowy",
-  "Describe your collection, it will show under collection view":
-    "Opisz swój album, opis pojawi się pod prezentacją",
-  "Add collection cover which will show up at collection view":
-    "Dodaj zdjęcie przewodnie które będzie wizytówką albumu",
-  "Select collection where do you want mint your token":
-    "Wybór kolekcji / albumu do której przypisać token",
-  "Maximum NFTs in collection":
-    "Maksymalna liczba NFT",
+  "Owner address of minted art": "Adres twórcy",
+  "Name you want to show in gallery view": "Nazwa która ma się wyświetlać w Galerii",
+  "Symbol you want to trade it under": "Symbol handlowy",
+  "Describe your collection, it will show under collection view": "Opisz swój album, opis pojawi się pod prezentacją",
+  "Add collection cover which will show up at collection view": "Dodaj zdjęcie przewodnie które będzie wizytówką albumu",
+  "Select collection where do you want mint your token": "Wybór kolekcji / albumu do której przypisać token",
+  "Maximum NFTs in collection": "Maksymalna liczba NFT",
   "Account": "Konto",
   "Name": "Nazwa",
   "Symbol": "Symbol",
@@ -51,8 +44,7 @@
   "Transferable is by default": "Do przesłania",
   "Serial Number": "Numer Seryjny",
   "Name of your token": "Nazwa tokena",
-  "Instance_tooltip":
-    "Znacznik jest jak identyfikator dla NFT, wyróżnienie go na rynku. To \"skrócona nazwa\"",
+  "Instance_tooltip": "Znacznik jest jak identyfikator dla NFT, wyróżnienie go na rynku. To \"skrócona nazwa\"",
   "Upload will upload your image of the NFT": "Załaduj - doda zdjęcie twojego NFT",
   "Click to add image": "Kilknij aby dodać zdjęcie",
   "Add Animated File": "Dodaj Animację",
@@ -64,48 +56,123 @@
   "Feedback? We\\'d be happy to discuss it.": "Podziel się swoim komentarzem lub opinią",
   "Read our story, how we started.": "Jak to się wszystko zaczęło...",
   "Frequently Asked Question": "Najważniejsze Pytania",
-  "FAQQ1": "Jakiego tokenu potrzebuję do stworzenia NFT?",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. Do kupienia tutaj <a href=\"#/rmrk/credit\">Credit</a> albo <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">poprzez standardową giełdę</a>.",
-  "FAQQ2": "Jakiego portfela potrzebuje do stworzenia, zakupu i obsługi?",
-  "FAQA2": "Zalecamy korzystanie z <a href=\"https://polkadot.js.org/extension/\">Polkadot Extension </a>. Wersja mobilna w przygotowaniu. We wszystkich przypadkach zalecamy, <b>Zapisz swoje klucze i przechowuj w bezpiecznym miejscu, To najbardziej wrażliwe dane twojego portfela</b>",
-  "FAQQ3": "Jak stworzyć moje prace?",
-  "FAQA3": "Najpierw udaj sie tutaj <a href=\"/#/rmrk/create\">Create</a>. W pierwszej kolejności stwórz swój Album a następnie Token. Jeżeli chcialbyś to udokumentować, czekamy na info!",
-  "FAQQ4": "Jak moge sprzedać swoje prace / kolekcje?",
-  "FAQA4": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów.",
-  "FAQQ5": "Gdzie mogę kupić token $KSM?",
-  "FAQA5": "Poprzez integrację z <a href=\"https://ramp.network\">Ramp.network</a>, Kliknij na <a href=\"#/rmrk/credit\">Środki</a>. Możesz użyć Revolut, standardowego przelewu bankowego, Karty Kredytowej, Apple Pay żeby zasilić swoje konto $KSM . Możesz również zakupić przez Binance <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">Kup $KSM na Binance</a>",
-  "FAQQ6": "Jak mogę kupić $KSM za $ETH, $BTC lub $DAI?",
-  "FAQA6": "Najlepsze oferty znajdziesz na <a href=\"https://www.coingecko.com/en/coins/kusama\"> na gieldach z tej listy </a>. Najwiecej par walutowych znajdziesz na <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">polecamy korzystanie z Binance</a>. Zapraszamy również <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\"> do skorzystania z SimpleSwap</a>.",
-  "FAQQ7": "Jaki dokładnie proces powinienem przejść przy tworzeniu NFT?",
-  "FAQA7": "W pierwszej kolejności zainstaluj <a href=\"https://polkadot.js.org/extension/\">Polkadot Extension</a>, <b>zapisz klucze i seed</b>. Następnie zasil swoje konto w sekcji <a href=\"#/rmrk/credit\">Dostępne środki</a>. Po zasileniu konta, poprzez sekcję <a href=\"/#/rmrk/create\">Utwórz</a>, stwórz swoją Kolekcję / Album. Poczekaj aż Kolekcja / Album zostaną stworzone i następnie w sekcji <a href=\"/#/rmrk/create\">Utwórz Token</a> stwórz swój pierwszy token! W przypadku jakichkolwiek problemów prosimy o kontakt, jesteśmy w trakcie prac nad naszym Interfejsem. Prosimy o wyrozumiałość, jesteśmy we wczesnej fazie rozwoju i cieszymy się że mamy tyle do odkrycia. Zapraszamy do wspólpracy, jesteśmy otwarci na wszelkie propozycje i wsparcie. Owocnego Tworzenia! 😌",
-  "FAQQ8": "Czy można używać tego w świecie wirtualnym?",
-  "FAQA8": "Jesteśmy w trakcie badania wszystkich możliwości zastosowania technologi VR i jest to kolejnym etapem założonego planu rozwoju projektu",
-  "FAQQ9": "Jak sobie radzić w przypadku błedów ?",
-  "FAQA9": "Staramy się reagować na wszystkie zgłaszane kwestie na bieżąco i cały czas pracujemy nad aktualizacjami. W przypadku problemów z połączeniem przyczyną może być kwestis cache. W takim przypadku, jeśli korzystasz z <b>Windows</b>, przytrzymaj <b>Ctrl i naciśnij F5</b>. <b>Jeśli używasz Mac'a</b>, przytrzymaj <b>CMD i Shift a następnie naciśnij R</b>.Jeśli te rozwiązaia nie pomogą, prosimy o kontakt na Twitterze z przeslanym zrzutem ekranu z stanu konsoli.",
-  "FAQQ10": "Co oznaczają pojęcia SEND, CONSUME, LIST?",
-  "FAQA10": "SEND to opcja wysłania do innego użytkownika, CONSUME oznacza spalenie przedmiotu, LIST oznacza wystawienie do sprzedaży.",
-  "FAQQ11": "Stworzyłem NFT ale nie widzę go w galerii, gdzie zatem mam szukać?",
-  "FAQA11": "Najlepszym sposobem jest sprawdzenie poprzez <a href=\"https://kusama.subscan.io/\">Subscan Explorer</a>i wpisanie swojego adresu. <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">Przykład jak wygląda wytworzone NFT w przeglądarce blockchaina .</a>",
-  "FAQQ12": "Dla jakich krajów dostępna jest opcja FIAT?",
-  "FAQA12": "Niestety obywatele Stanów Zjednoczonych są wyłączeni z obsługi, we wszystkuch innych krajach opcja powinna być dostępna, <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\">lista krajów z dostępem do funkcji</a>. Niestety nie mamy wpływu na ten element",
-  "FAQQ13": "W jaki sposób mogę sprzedać swój token?",
-  "FAQA13": "W tej chwili, za pomoca opcji LIST w panelu Dostępne opcje.",
-  "FAQQ14": "Jak wygląda kwestia praw autorskich?",
-  "FAQA14": "Pracujemy nad kwestiami logiki łańcucha i zabezpieczeń i już niebawem będziemy w stanie przedstawić nasze rozwiązania.<a href=\"https://twitter.com/kodadot\">Zapraszamy do obserwacji naszego konta na Twitter @KodaDot!</a>",
-  "FAQQ15": "Jak mogę stworzyć własny sklep?",
-  "FAQA15": "Jesteśmy w trakcie prac nad udostępnieniem takich opcji już niebawem. <a href=\"https://twitter.com/kodadot\">Zapraszamy do obserwacji naszego konta na Twitter @KodaDot!</a>",
-  "FAQQ16": "Na jakiej zasadzie rozwiązana jest kwestia atrakcyjności i oceniania przedmiotów",
-  "FAQA16": "Poprzez to serce 🖤 znajdujące sie pod NFT. Jesteśmy autorami <a href=\"https://github.com/Swader/rmrk-spec/issues/10\">systemu EMOTE w standardzie RMRK</a> który działą jak system nagradzania lub popularności przedmiotu. To jakby funkcja odzwierciedlająca możliwą wycenę.",
-  "FAQQ17": "Czy otrzymalicie jakies wsparie finansowe na rozwój projektu?",
-  "FAQA17": "Do tej pory otrzymaliśmy <a href=\"https://kusama.polkassembly.io/post/384\">Kusama Treasury funding for Milestone 1</a>. Cały czas aktywnie poszukujemy możliwości finansowania naszego projektu, bierzemy rownież pod uwagę opcje otwarcia się na wsparcie prywatnych inwestorów. Prośmy o kontakt w przypdaku zainteresowania wsparciem inwestycyjnym projektu",
-  "FAQQ18": "Czy macie swój kanał Telegram?",
-  "FAQA18": "W tej chwili mamy zamkniętą grupę dla autorów kolekcji, jeżeli chciałbyś dołączyć lub jesteś autorem, zapraszamy do kontaktu!",
-  "FAQQ19": "Czy zamierzacie wprowadzić opcję AR/VR?",
-  "FAQA19": "Tak, jak najbardziej, to kolejny etap - Milestone 2, planowanego rozwoju projektu!",
-  "FAQQ20": "Jak otworzyć konsole w statusie developerskim?",
-  "FAQA20": "Jeżeli korzystasz z Mac'a i Chrome, naciśnij <b>Option, CMD, J</b>, W przupadku Firefox'a <b>Command + Option + K</b>.",
-  "FAQQ21": "Jak zaktualizować metadane do rozszerzenia",
-  "FAQA21": "Udaj sie na <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a>i zrób to za pomocą przycisku <b>Update metadata</b>, następnie odswież okno przeglądarki i aplikacja powinna ponownie ączyć się z dostępnymi sieciami",
-  "FAQQ22": "Wyskakuje mi błąd \"Low balance error\"",
-  "FAQA22": "Sprawdź czy na pewno masz <b>dostępne do transferu</b> $KSM na swoim koncie,i czy nie są zablokowane w stejku. Status dostępnych środków do transferu możesz sprawdzic przez <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> i sprawdzić dostępnośc klikając na <b>Transferable</b> kwotę."
+  "faq": {
+    "q": {
+      "1": "Jakiego tokenu potrzebuję do stworzenia NFT?",
+      "2": "Jakiego portfela potrzebuje do stworzenia, zakupu i obsługi?",
+      "3": "Jak stworzyć moje prace?",
+      "4": "Jak moge sprzedać swoje prace / kolekcje?",
+      "5": "Gdzie mogę kupić token $KSM?",
+      "6": "Jak mogę kupić $KSM za $ETH, $BTC lub $DAI?",
+      "7": "Jaki dokładnie proces powinienem przejść przy tworzeniu NFT?",
+      "8": "Czy można używać tego w świecie wirtualnym?",
+      "9": "Jak sobie radzić w przypadku błedów ?",
+      "10": "Co oznaczają pojęcia SEND, CONSUME, LIST?",
+      "11": "Stworzyłem NFT ale nie widzę go w galerii, gdzie zatem mam szukać?",
+      "12": "Dla jakich krajów dostępna jest opcja FIAT?",
+      "13": "W jaki sposób mogę sprzedać swój token?",
+      "14": "Jak wygląda kwestia praw autorskich?",
+      "15": "Jak mogę stworzyć własny sklep?",
+      "16": "Na jakiej zasadzie rozwiązana jest kwestia atrakcyjności i oceniania przedmiotów",
+      "17": "Czy otrzymalicie jakies wsparie finansowe na rozwój projektu?",
+      "18": "Czy macie swój kanał Telegram?",
+      "19": "Czy zamierzacie wprowadzić opcję AR/VR?",
+      "20": "Jak otworzyć konsole w statusie developerskim?",
+      "21": "Jak zaktualizować metadane do rozszerzenia",
+      "22": "Wyskakuje mi błąd \"Low balance error\"",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 Do kupienia tutaj @.md:faq.a.1.l2 albo @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Środki](@.common:links.rmrk_credit.href)",
+        "l3": "[poprzez standardową giełdę](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "Zalecamy korzystanie z @.md:faq.a.2.l1 Wersja mobilna w przygotowaniu. We wszystkich przypadkach zalecamy, <b>Zapisz swoje klucze i przechowuj w bezpiecznym miejscu, To najbardziej wrażliwe dane twojego portfela</b>",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "Najpierw udaj sie tutaj @.md:faq.a.3.l1 W pierwszej kolejności stwórz swój Album a następnie Token. Jeżeli chcialbyś to udokumentować, czekamy na info!",
+        "l1": "[Create](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "Handel odbywa się na popularnych giełdach, dzienna płynność na gieldzie to około $200 Milionów Dolarów, cena tokena KSM to $200 Dolarów. @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "Poprzez integrację z @.md:faq.a.5.l1, Kliknij na @.md:faq.a.1.l2  Możesz użyć Revolut, standardowego przelewu bankowego, Karty Kredytowej, Apple Pay żeby zasilić swoje konto $KSM . Możesz również zakupić przez Binance @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[Kup $KSM na Binance](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "Najlepsze oferty znajdziesz na @.md:faq.a.6.l1 Najwiecej par walutowych znajdziesz na @.md:faq.a.6.l2 Zapraszamy również @.md:faq.a.6.l3",
+        "l1": "[na gieldach z tej listy](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[polecamy korzystanie z Binance](@.common:links.binance_exchange.href).",
+        "l3": "[do skorzystania z SimpleSwap](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "W pierwszej kolejności zainstaluj @.md:faq.a.2.l1, <b>zapisz klucze i seed</b>. Następnie zasil swoje konto w sekcji @.md:faq.a.1.l2 Po zasileniu konta, poprzez sekcję @.md:faq.a.3.l1, stwórz swoją Kolekcję / Album. Poczekaj aż Kolekcja / Album zostaną stworzone i następnie w sekcji @.md:faq.a.7.l1 stwórz swój pierwszy token! W przypadku jakichkolwiek problemów prosimy o kontakt, jesteśmy w trakcie prac nad naszym Interfejsem. Prosimy o wyrozumiałość, jesteśmy we wczesnej fazie rozwoju i cieszymy się że mamy tyle do odkrycia. Zapraszamy do wspólpracy, jesteśmy otwarci na wszelkie propozycje i wsparcie. Owocnego Tworzenia! 😌",
+        "l1": "[Utwórz Token](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "Jesteśmy w trakcie badania wszystkich możliwości zastosowania technologi VR i jest to kolejnym etapem założonego planu rozwoju projektu"
+      },
+      "9": {
+        "m": "Staramy się reagować na wszystkie zgłaszane kwestie na bieżąco i cały czas pracujemy nad aktualizacjami. W przypadku problemów z połączeniem przyczyną może być kwestis cache. W takim przypadku, jeśli korzystasz z <b>Windows</b>, przytrzymaj <b>Ctrl i naciśnij F5</b>. <b>Jeśli używasz Mac'a</b>, przytrzymaj <b>CMD i Shift a następnie naciśnij R</b>.Jeśli te rozwiązaia nie pomogą, prosimy o kontakt na Twitterze z przeslanym zrzutem ekranu z stanu konsoli."
+      },
+      "10": {
+        "m": "SEND to opcja wysłania do innego użytkownika, CONSUME oznacza spalenie przedmiotu, LIST oznacza wystawienie do sprzedaży."
+      },
+      "11": {
+        "m": "Najlepszym sposobem jest sprawdzenie poprzez @.md:faq.a.11.l1 i wpisanie swojego adresu. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[Przykład jak wygląda wytworzone NFT w przeglądarce blockchaina.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "Niestety obywatele Stanów Zjednoczonych są wyłączeni z obsługi, we wszystkuch innych krajach opcja powinna być dostępna, @.md:faq.a.12.l1 Niestety nie mamy wpływu na ten element",
+        "l1": "[lista krajów z dostępem do funkcji](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "W tej chwili, za pomoca opcji LIST w panelu Dostępne opcje."
+      },
+      "14": {
+        "m": "Pracujemy nad kwestiami logiki łańcucha i zabezpieczeń i już niebawem będziemy w stanie przedstawić nasze rozwiązania. @.md:faq.a.14.l1",
+        "l1": "[Zapraszamy do obserwacji naszego konta na Twitter @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "Jesteśmy w trakcie prac nad udostępnieniem takich opcji już niebawem. @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "Poprzez to serce 🖤 znajdujące sie pod NFT. Jesteśmy autorami @.md:faq.a.16.l1 który działą jak system nagradzania lub popularności przedmiotu. To jakby funkcja odzwierciedlająca możliwą wycenę.",
+        "l1": "[systemu EMOTE w standardzie RMRK](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "Do tej pory otrzymaliśmy @.md:faq.a.17.l1 Cały czas aktywnie poszukujemy możliwości finansowania naszego projektu, bierzemy rownież pod uwagę opcje otwarcia się na wsparcie prywatnych inwestorów. Prośmy o kontakt w przypdaku zainteresowania wsparciem inwestycyjnym projektu",
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "W tej chwili mamy zamkniętą grupę dla autorów kolekcji, jeżeli chciałbyś dołączyć lub jesteś autorem, zapraszamy do kontaktu!"
+      },
+      "19": {
+        "m": "Tak, jak najbardziej, to kolejny etap - Milestone 2, planowanego rozwoju projektu!"
+      },
+      "20": {
+        "m": "Jeżeli korzystasz z Mac'a i Chrome, naciśnij <b>Option, CMD, J</b>, W przupadku Firefox'a <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Udaj sie na @.md:faq.a.21.l1 i zrób to za pomocą przycisku <b>Update metadata</b>, następnie odswież okno przeglądarki i aplikacja powinna ponownie ączyć się z dostępnymi sieciami",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Sprawdź czy na pewno masz <b>dostępne do transferu</b> $KSM na swoim koncie,i czy nie są zablokowane w stejku. Status dostępnych środków do transferu możesz sprawdzic przez @.md:faq.a.22.l1 i sprawdzić dostępnośc klikając na <b>Transferable</b> kwotę.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  }
 }
