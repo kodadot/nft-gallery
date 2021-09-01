@@ -23,7 +23,7 @@
           </b-field>
 
           <b-field>
-            <BalanceInput v-model="price" label="Price" :calculate="false" />
+            <BalanceInput v-model="price" label="Amount" :calculate="false" />
           </b-field>
 
           <b-field>
