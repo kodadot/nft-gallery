@@ -1,184 +1,196 @@
 <template>
-  <div id="transfer">
-    <DisabledInput v-if="conn.chainName"
-      label="Chain" :value="conn.chainName" />
-    <DisabledInput v-if="conn.blockNumber"
-      label="Best Block" :value="conn.blockNumber" />
-		<b-field v-else>
-			<p class="has-text-danger">You are not connected.
-				<router-link :to="{ name: 'settings' }">
-				Go to settings and pick node</router-link>
-			</p>
-		</b-field>
-    <Dropdown mode='accounts' :externalAddress="transfer.from"
-			@selected="handleAccountSelectionFrom" />
-    <Dropdown :externalAddress="transfer.to"
-			@selected="handleAccountSelectionTo" />
-    <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
-    <b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal>
-      </b-input>
-    </b-field>
-      <div class="transaction buttons">
-      <b-button
-        type="is-primary"
-        icon-left="paper-plane"
-        outlined
-        :disabled="!accountFrom"
-        @click="shipIt">
-				Make Transfer
-      </b-button>
-      <b-button v-if="tx" tag="a" target="_blank" rel="noopener noreferrer" :href="getExplorerUrl(tx)"
-        icon-left="external-link-alt">
-        View {{ tx.slice(0, 10) }}
-      </b-button>
+  <div class="columns mb-6">
+    <div class="column is-6 is-offset-3">
+      <section>
+        <br />
+        <Loader v-model="isLoading" :status="status" />
+        <div class="box">
+          <p class="title is-size-3">
+            Transfer {{ unit }}
+          </p>
+
+          <b-field>
+            <Auth />
+          </b-field>
+
+          <b-field>
+            {{ $t("general.balance") }}
+            <Money :value="balance" inline />
+          </b-field>
+
+          <b-field>
+            <AddressInput v-model="destinationAddress" />
+          </b-field>
+
+          <b-field>
+            <BalanceInput v-model="price" label="Amount" :calculate="false" />
+          </b-field>
+
+          <b-field>
+            <b-button
+              type="is-primary"
+              icon-left="paper-plane"
+              :loading="isLoading"
+              :disabled="disabled"
+              @click="submit"
+              outlined
+            >
+              {{ $t("general.submit") }}
+            </b-button>
+          </b-field>
+        </div>
+      </section>
     </div>
   </div>
 </template>
+
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
-import Selection from '@/components/extrinsics/Selection.vue';
-import Balance from '@/params/components/Balance.vue';
-import Account from '@/params/components/Account.vue';
-import { KeyringPair } from '@polkadot/keyring/types';
-import Dropdown from '@/components/shared/Dropdown.vue';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Mixins, Watch } from 'vue-property-decorator';
 import Connector from '@vue-polkadot/vue-api';
-import { urlBuilderTransaction } from '@/utils/explorerGuide';
-import shortAddress from '@/utils/shortAddress';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
-import { showNotification } from '@/utils/notification';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
+import TransactionMixin from '@/utils/mixins/txMixin';
+import AuthMixin from '@/utils/mixins/authMixin';
+import shouldUpdate from '@/utils/shouldUpdate';
+import ChainMixin from '@/utils/mixins/chainMixin';
+import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
+import { calculateBalance } from '@/utils/formatBalance';
+import correctFormat from '@/utils/ss58Format';
+import { checkAddress } from '@polkadot/util-crypto';
 
 @Component({
   components: {
-    Identicon,
-    Selection,
-    Balance,
-    Account,
-    Dropdown,
-    DisabledInput,
-  },
+    Auth: () => import('@/components/shared/Auth.vue'),
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    Loader: () => import('@/components/shared/Loader.vue'),
+    AddressInput: () => import('@/components/shared/AddressInput.vue'),
+    Money: () => import('@/components/shared/format/Money.vue')
+  }
 })
-export default class Transfer extends Vue {
-  public theme: string = 'substrate';
-  public tx: string = '';
-  public password: string = '';
-  public transfer: any = {
-    from: null,
-    fromBalance: null,
-    to: null,
-    toBalance: null,
-    amountVisible: null,
-    amount: null };
-  public keyringAccounts: any = [];
-  public conn: any = { blockNumber: '', chainName: ''};
-  private balance = 0;
-  private accountFrom: any = null;
-  private accountTo: any = null;
+export default class Transfer extends Mixins(
+  TransactionMixin,
+  AuthMixin,
+  ChainMixin
+) {
+  protected balance: string = '0';
+  protected destinationAddress: string = '';
+  protected price: number = 0;
 
-  private snackbarTypes = {
-    success: {
-      type: 'is-success',
-      actionText: 'View',
-      onAction: () => window.open(this.getExplorerUrl(this.tx), '_blank'),
-    },
-    info: {
-      type: 'is-info',
-      actionText: 'OK',
-    },
-    danger: {
-      type: 'is-danger',
-      actionText: 'Oh no!',
-    },
-  };
-
-  getExplorerUrl(value: string) {
-    return urlBuilderTransaction(value,
-      this.$store.state.explorer.chain,
-      this.$store.state.explorer.provider)
+  get disabled(): boolean {
+    return !this.destinationAddress || !this.price || !this.accountId;
   }
 
+  protected created() {
+    this.checkQueryParams();
+  }
 
+  protected checkQueryParams() {
+    const { query } = this.$route;
 
-  public async shipIt(): Promise<void> {
-    const { api } = Connector.getInstance();
-      try {
-        showNotification('Dispatched');
-        console.log([this.accountTo.address, this.balance])
-        const tx = await exec(this.accountFrom.address, this.password, api.tx.balances.transfer, [this.accountTo.address, this.balance?.toString()]);
-        showNotification(execResultValue(tx), this.snackbarTypes.success);
-      } catch (e: any) {
-        console.error('[ERR: TRANSFER SUBMIT]', e)
-        showNotification(e.message, this.snackbarTypes.danger);
+    if (query.target) {
+      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format));
+      if (valid) {
+        this.destinationAddress = query.target as string;
       }
-  }
 
-  @Watch('$store.state.keyringLoaded')
-  public mapAccounts(): void {
-    if (this.isKeyringLoaded() === true) {
-      this.keyringAccounts = keyring.getPairs();
+      if (err) {
+        showNotification(`Unable to parse target ${err}`,notificationTypes.warn);
+      }
+    }
+
+    if (query.amount) {
+      this.price = Number(query.amount);
     }
   }
 
-  public isKeyringLoaded() {
-    return this.$store.state.keyringLoaded;
-  }
+  public async submit(): Promise<void> {
+    showNotification('Dispatched');
+    this.initTransactionLoader();
 
-  public getIconTheme() {
-    this.theme = this.$store.state.setting.icon;
-  }
+    try {
+      const { api } = Connector.getInstance();
+      const cb = api.tx.balances.transfer;
+      const arg = [this.destinationAddress, calculateBalance(this.price, this.decimals)];
 
-  public async loadExternalInfo() {
-    if ((this as any).$http.api) {
-      const apiBestNumber = await (this as any).$http.api.derive.chain.bestNumber();
-      this.conn.blockNumber = await apiBestNumber.toString();
-      const apiResponse = await (this as any).$http.api.rpc.system.chain();
-      this.conn.chainName = await apiResponse.toString();
+      const tx = await exec(this.accountId, '', cb, arg,
+      txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
+
+            showNotification(
+              `[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
+              notificationTypes.success
+            );
+
+            this.destinationAddress = '';
+            this.price = 0;
+            this.$router.push(this.$route.path);
+
+            this.isLoading = false;
+          },
+          dispatchError => {
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
+      );
+    } catch (e) {
+      console.error('[ERR: TRANSFER SUBMIT]', e);
+      if (e instanceof Error) {
+        showNotification(e.message, notificationTypes.danger);
+      }
     }
   }
 
-  public handleAccountSelectionFrom(account: KeyringPair) {
-    this.accountFrom = account;
-  }
-
-  public handleAccountSelectionTo(account: KeyringPair) {
-    this.accountTo = account;
-  }
-
-  public handleValue(value: any) {
-    Object.keys(value).map((item) => {
-      (this as any)[item] = value[item];
-    });
-  }
-
-  public externalURI() {
-    if (this.$route.params.from) {
-      this.transfer.from = this.$route.params.from;
+    protected onTxError(dispatchError: DispatchError): void {
+    const { api } = Connector.getInstance();
+    if (dispatchError.isModule) {
+      const decoded = api.registry.findMetaError(dispatchError.asModule);
+      const { docs, name, section } = decoded;
+      showNotification(
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
+        notificationTypes.danger
+      );
+    } else {
+      showNotification(
+        `[ERR] ${dispatchError.toString()}`,
+        notificationTypes.danger
+      );
     }
-    if (this.$route.params.to) {
-      this.transfer.to = this.$route.params.to;
+
+    this.isLoading = false;
+  }
+
+  @Watch('accountId', { immediate: true })
+  hasAccount(value: string, oldVal: string) {
+    if (shouldUpdate(value, oldVal)) {
+      this.loadBalance();
     }
   }
 
-  public mounted(): void {
-    this.mapAccounts();
-    this.getIconTheme();
-    this.loadExternalInfo();
-    this.externalURI();
-  }
+  async loadBalance() {
+    if (!this.accountId || !this.unit) {
+      return;
+    }
 
+    await new Promise(a => setTimeout(a, 1000));
+    const { api } = Connector.getInstance();
+
+    try {
+      const cb = api.query.system.account;
+      const arg = this.accountId;
+      const result: AccountInfo = await cb<AccountInfo>(arg);
+      this.balance = result.data.free.toString();
+    } catch (e) {
+      console.error('[ERR: BALANCE]', e);
+    }
+  }
 }
 </script>
 
 <style scoped>
-.transaction.buttons {
-  margin-top: 1em;
-  float: right;
-}
-
-.password-wrapper {
-  margin-top: 1em;
-}
 </style>

@@ -3,7 +3,6 @@ import Router from 'vue-router';
 Vue.use(Router);
 import { apiEnabled } from '@/routeGuard';
 
-import Accounts from '@/router/accounts';
 import Transfer from '@/router/transfer';
 import Toolbox from '@/router/toolbox';
 import Rmrk from '@/router/rmrk';
@@ -52,7 +51,6 @@ export default new Router({
       name: 'esCarbonless',
       component: EsCarbonless,
     },
-    ...Accounts,
     ...Transfer,
     ...Toolbox,
     ...Rmrk,
