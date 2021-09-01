@@ -1,65 +1,58 @@
 <template>
-  <div class="card">
-    <div class="card-image">
-      <figure class="image" >
-        <img
-          :src="url"
-          alt="Placeholder image"
-        />
+  <div class="columns">
+    <div class="column is-one-quarter">
+      <figure class="image">
+        <img :src="url" alt="Placeholder image" />
       </figure>
-    </div>
-    <div class="card-content">
-      <p class="title is-6">{{ nft.file.name }}</p>
-      <div class="content">
-        <b-field :label="$i18n.t('Collection description')" >
-        <b-input
-              placeholder="Name your NFT"
-              v-model="vName"
-              expanded
-              class="mr-0"
-              spellcheck="true"
-            ></b-input>
-            </b-field>
-        <b-field :label="$i18n.t('Collection description')" >
-            <b-input
-              v-model="vDescription"
-              maxlength="500"
-              type="textarea"
-              placeholder="Describe your NFT"
-              spellcheck="true"
-            ></b-input>
-          </b-field>
-          <BalanceInput v-model="vPrice" label="Price" :calculate="false" />
-      </div>
-    </div>
-    <div class="card-footer">
+      <p class="mt-1 title is-6">{{ nft.file.name }}</p>
       <a @click="remove" class="card-footer-item">Remove</a>
-
+    </div>
+    <div class="column">
+      <b-field :label="$i18n.t('Collection description')">
+        <b-input
+          placeholder="Name your NFT"
+          v-model="vName"
+          expanded
+          class="mr-0"
+          spellcheck="true"
+        ></b-input>
+      </b-field>
+      <b-field :label="$i18n.t('Collection description')">
+        <b-input
+          v-model="vDescription"
+          maxlength="500"
+          type="textarea"
+          placeholder="Describe your NFT"
+          spellcheck="true"
+        ></b-input>
+      </b-field>
+      <BalanceInput v-model="vPrice" label="Price" :calculate="false" />
     </div>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, PropSync, Emit } from 'vue-property-decorator';
+import {
+  Component,
+  Prop,
+  Vue,
+  PropSync,
+  Emit
+} from 'vue-property-decorator';
 import { MassMintNFT } from '../service/scheme';
-import shouldUpdate from '@/utils/shouldUpdate';
 
 @Component({
   components: {
-    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue')
   }
 })
 export default class MassMintItem extends Vue {
   @Prop() public nft!: MassMintNFT;
-  @PropSync('name', { type: String }) vName!: string
-  @PropSync('description', { type: String }) vDescription!: string
+  @PropSync('name', { type: String }) vName!: string;
+  @PropSync('description', { type: String }) vDescription!: string;
   @PropSync('price', { type: Number }) vPrice!: number;
-  // protected description: string = '';
-  // protected image!: File;
-  // protected price: number = 0;
   @Prop(Number) public index!: number;
   @Prop() public file!: File;
-
 
   get url() {
     return URL.createObjectURL(this.nft.file);
@@ -70,17 +63,6 @@ export default class MassMintItem extends Vue {
     return this.index;
   }
 
-
-  // @Watch('nft')
-  // protected onMassMintNftChanged(value: MassMintNFT, oldValue: MassMintNFT) {
-  //   console.log('onMassMintNftChanged', value, oldValue);
-  //   if (shouldUpdate(value, oldValue)) {
-  //     this.name = value.name;
-  //     this.description = value.description;
-  //     this.price = value.price;
-  //   }
-  // }
-
-
 }
 </script>
+

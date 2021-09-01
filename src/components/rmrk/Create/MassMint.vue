@@ -54,9 +54,10 @@
 
           <MetadataUpload
             v-model="files"
-            label="Drop all NFT images here. Currently images are supported (png/ jpeg/ webp/ gif/)"
+            label="Drop all NFT images here. Currently images are supported (PNG, JPEG, GIF, SVG)"
             expanded
             multiple
+            accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
           />
 
           <b-field :label="$i18n.t('mint.command')">
@@ -87,6 +88,7 @@
               :file="file.file"
               @remove="hadleItemRemoval"
             />
+            <hr style="opacity: 0.1;"/>
           </b-field>
 
           <b-field>
