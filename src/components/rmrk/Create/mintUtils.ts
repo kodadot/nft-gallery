@@ -64,7 +64,7 @@ function toMassMint(mints: string[][]) {
     massMintNFTs[fileName] = {
       name,
       description: rest.join('\n'),
-      price: Number(price),
+      price: Number(price)
     };
   }
 
@@ -72,40 +72,45 @@ function toMassMint(mints: string[][]) {
 }
 
 export const isRangeSyntax = (text: string) => {
-  const r = /^\d+-\d*\n/
+  const r = /^\d+-\d*\n/;
   return r.test(text);
-}
+};
 
 function isSpecialMassMintSyntax(text: string) {
- return isRangeSyntax(text)
+  return isRangeSyntax(text);
 }
 
-export function between(x: number, min: string | number, max: string | number = Infinity) {
+export function between(
+  x: number,
+  min: string | number,
+  max: string | number = Infinity
+) {
   return x >= min && x < max;
 }
 
 export function isMatchAll(text: string) {
-  return /^\.\.\.\n/.test(text)
+  return /^\.\.\.\n/.test(text);
 }
 
-export const replaceIndex = (line: string, replaceWith: string | number) => hasIndex(line) ? line.replace(/{i}/, String(replaceWith)) : line;
+export const replaceIndex = (line: string, replaceWith: string | number) =>
+  hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line;
 
 const hasIndex = (line: string) => {
-  const r = /{i}/
-  return r.test(line)
-}
+  const r = /{i}/;
+  return r.test(line);
+};
 
 export function toRange(line: string): [number, number] | null {
-  const r = /^(\d+)-(\d*)\n?$/
-  const match = r.exec(line)
+  const r = /^(\d+)-(\d*)\n?$/;
+  const match = r.exec(line);
   if (!match) {
-    return null
+    return null;
   }
 
-  const [, min, max] = match
-  return [Number(min), Number(max) || Infinity]
+  const [, min, max] = match;
+  return [Number(min), Number(max) || Infinity];
 }
 
 export function fromRange(min: number, max: number) {
-  return `${min}-${max === Infinity ? '' : max}`
+  return `${min}-${max === Infinity ? '' : max}`;
 }

@@ -318,47 +318,62 @@ export default class MassMint extends Mixins(
     }
   }
 
+  protected matchAllParser() {
+    const parsed = massMintParser(this.commands);
+    const applyForAll = parsed['...'];
+    this.massMints = this.massMints.map((item, index) => ({
+      ...item,
+      ...applyForAll,
+      description: replaceIndex(applyForAll.description, index + 1),
+      name: replaceIndex(applyForAll.name, index + 1)
+    }));
+  }
+
+  protected rangeParser() {
+    const parsed = massMintParser(this.commands);
+    const ranges: [number, number][] = Object.keys(parsed)
+      .map(toRange)
+      .filter(Boolean) as [number, number][];
+    this.massMints = this.massMints.map((item, index) => {
+      const range = ranges.find(([min, max]) => between(index + 1, min, max));
+      if (range) {
+        const key = fromRange(...range);
+        const parsedItem = parsed[key];
+        return {
+          ...item,
+          ...parsedItem,
+          description: replaceIndex(item.description, index + 1),
+          name: replaceIndex(item.name, index + 1)
+        };
+      }
+
+      return item;
+    });
+  }
+
+  protected standardParser() {
+    const parsed = massMintParser(this.commands);
+    this.massMints = this.massMints.map(item => ({
+      ...item,
+      ...(parsed[item.file?.name || item.name] || {})
+    }));
+  }
+
   public transform() {
     showNotification('Parsing commands...', notificationTypes.info);
-    if (isMatchAll(this.commands)) {
-      const parsed = massMintParser(this.commands);
-      const applyForAll = parsed['...'];
-      this.massMints = this.massMints.map((item, index) => ({
-        ...item,
-        ...applyForAll,
-        description: replaceIndex(applyForAll.description, index + 1),
-        name: replaceIndex(applyForAll.name, index + 1)
-      }));
-    } else if (isRangeSyntax(this.commands)) {
-      const parsed = massMintParser(this.commands);
-      const ranges: [number, number][] = Object.keys(parsed)
-        .map(toRange)
-        .filter(Boolean) as [number, number][];
-      this.massMints = this.massMints.map((item, index) => {
-        const range = ranges.find(([min, max]) => between(index + 1, min, max));
-        if (range) {
-          const key = fromRange(...range);
-          const parsedItem = parsed[key];
-          return {
-            ...item,
-            ...parsedItem,
-            description: replaceIndex(item.description, index + 1),
-            name: replaceIndex(item.name, index + 1)
-          };
-        }
 
-        return item;
-      });
-      // go through each item and apply the range
-    } else {
-      const parsed = massMintParser(this.commands);
-      this.massMints = this.massMints.map(item => ({
-        ...item,
-        ...(parsed[item.file?.name || item.name] || {})
-      }));
+    try {
+      if (isMatchAll(this.commands)) {
+        this.matchAllParser();
+      } else if (isRangeSyntax(this.commands)) {
+        this.rangeParser();
+      } else {
+        this.standardParser();
+      }
+      showNotification('Command parsed!', notificationTypes.success);
+    } catch (e) {
+      showNotification(e.message, notificationTypes.danger);
     }
-
-    showNotification('Command parsed!', notificationTypes.success);
   }
 
   @Watch('files')
@@ -403,7 +418,6 @@ export default class MassMint extends Mixins(
     this.initTransactionLoader();
     this.status = 'loader.ipfs';
 
-    // TODO: incorect implementation
     const meta = await this.constructMeta();
 
     const mint = this.massMints.map((e, i) =>
@@ -550,7 +564,7 @@ export default class MassMint extends Mixins(
       }
 
       this.isLoading = true;
-      this.status = 'loader.casting'
+      this.status = 'loader.casting';
       const cb = api.tx.utility.batchAll;
       const args = onlyNfts.map(this.toRemark);
 
