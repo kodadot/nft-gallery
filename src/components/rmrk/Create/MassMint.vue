@@ -166,19 +166,17 @@ import {
   MassMintNFT
 } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson } from '@/proxy';
+import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
 import { formatBalance } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
-import { resolveMedia } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
-import { ipfsToArweave } from '@/utils/ipfs';
 import { massMintParser, isMatchAll, replaceIndex, isRangeSyntax, toRange, between, fromRange } from './mintUtils';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import infiniteCollectionByAccount from '@/queries/infiniteCollectionByAccount.graphql';
 import shouldUpdate from '@/utils/shouldUpdate';
-import { parse } from 'graphql';
+import { APIKeys, pinFile as pinFileToIPFS  } from '@/pinata';
 
 type MintedCollection = {
   id: string;
@@ -388,11 +386,12 @@ export default class MassMint extends Mixins(
 
     this.isLoading = true;
     const { accountId, version } = this;
-    const { api } = Connector.getInstance();
     const { symbol, alreadyMinted } = this.selectedCollection;
-    // TODO: incorect implementation
+
     this.initTransactionLoader();
     this.status = 'loader.ipfs'
+
+    // TODO: incorect implementation
     const meta = await this.constructMeta();
 
     const mint = this.massMints.map((e, i) =>
@@ -401,6 +400,9 @@ export default class MassMint extends Mixins(
     const remarks: string[] = mint.map(nft =>
       NFTUtils.encodeNFT(nft, this.version)
     );
+
+    this.status = 'loader.sign'
+    const { api } = Connector.getInstance();
 
     const cb = api.tx.utility.batchAll;
 
@@ -428,7 +430,7 @@ export default class MassMint extends Mixins(
           }
 
           showNotification(
-            `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
+            `[NFT] Saved ${mint.length} entries in block ${blockNumber}`,
             notificationTypes.success
           );
 
@@ -592,11 +594,19 @@ export default class MassMint extends Mixins(
   public async constructMeta(): Promise<string[]> {
     try {
       const list: string[] = [];
-      let counter = 1;
+      let counter = 0;
+      let keys: APIKeys = emptyObject();
       const total = this.massMints.length;
       for (const mint of this.massMints) {
-        this.status = ['loader.uploading', [counter, total]];
-        const fileHashPromise = pinFile(mint.file as File).then(unSanitizeIpfsUrl);
+        this.status = ['loader.uploading', [counter + 1, total]];
+        if (counter % 2 === 0) {
+          if (keys.pinata_api_key) {
+            await revokeKey(keys.pinata_api_key);
+          }
+          keys = await getKey(this.accountId);
+        }
+        const fileHashPromise = pinFileToIPFS(mint.file as File, keys).then(unSanitizeIpfsUrl);
+
         const fileHash = await fileHashPromise;
         const meta = {
           name: mint.name,
@@ -610,6 +620,8 @@ export default class MassMint extends Mixins(
         list.push(ipfs);
         counter++;
       }
+
+      revokeKey(keys.pinata_api_key).then(console.log, console.warn);
 
       return list;
 
