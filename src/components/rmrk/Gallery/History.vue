@@ -76,13 +76,10 @@ export default class History extends Vue {
 	protected priceData: any = [];
 	// protected eventData: Date[] = [];
 
-	public async created() {
-		this.createTable();
-	}
-
 	protected createTable() {
 		let prevOwner: string = '';
 		let curPrice: string = '0.0000000';
+
 		for (const newEvent of this.events) {
 			const event: any = {};
 
@@ -162,9 +159,10 @@ export default class History extends Vue {
 	}
 
 	@Watch('events')
-	async watchEvent(newEvent: [], oldEvent: []) {
-		// console.log(this.events)
-		this.createTable();
+	public async watchEvent() {
+    if (this.events) {
+      this.createTable();
+    }
 	}
 }
 </script>
