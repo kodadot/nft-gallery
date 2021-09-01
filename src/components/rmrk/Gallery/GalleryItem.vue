@@ -69,7 +69,10 @@
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="price-block" v-if="hasPrice">
             <div class="label">{{ $t('price') }}</div>
-            <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
+            <div class="price-block__container">
+              <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
+              <b-button type="is-warning" outlined @click="handleUnlist">{{ $t('Unlist') }}</b-button>
+            </div>
             <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
           </div>
 
@@ -82,6 +85,7 @@
                     <p class="subtitle">
                       <Auth />
                       <AvailableActions
+                      ref="actions"
                       :accountId="accountId"
                       :currentOwnerId="nft.currentOwner"
                       :price="nft.price"
@@ -118,7 +122,7 @@ import { NFT, NFTMetadata, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
-// import AvailableActions from './AvailableActions.vue';
+import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
 // import Money from '@/components/shared/format/Money.vue';
 // import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
@@ -292,6 +296,12 @@ export default class GalleryItem extends Vue {
       showNotification(`INSTANCE REMOVED`, notificationTypes.warn)
     }
   }
+
+  protected handleUnlist() {
+    //call unlist function from the AvailableActions component
+    (this.$refs.actions as AvailableActions).unlistNft();
+  }
+
 }
 </script>
 
@@ -406,6 +416,12 @@ hr.comment-divider {
       font-size: 24px;
       text-transform: uppercase;
       font-weight: 500;
+    }
+
+    &__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     &__exchange {

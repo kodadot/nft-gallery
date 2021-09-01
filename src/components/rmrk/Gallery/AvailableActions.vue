@@ -252,6 +252,12 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     });
   }
 
+  unlistNft() {
+    // change the selected action to list and change meta value to 0
+    this.selectedAction = 'LIST';
+    this.meta = 0;
+    this.submit();
+  }
 }
 </script>
 
