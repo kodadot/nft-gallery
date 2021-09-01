@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+import correctFormat from '@/utils/ss58Format';
 import { checkAddress } from '@polkadot/util-crypto';
 import { Debounce } from 'vue-debounce-decorator';
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
@@ -21,7 +22,7 @@ export default class AddressInput extends Vue {
   @Debounce(500)
   @Emit('input')
   protected handleInput(value: string) {
-    const [valid, err] = checkAddress(value, process.env.VUE_APP_KEYRING === 'true' ? 0 : this.ss58Format);
+    const [valid, err] = checkAddress(value, correctFormat(this.ss58Format));
     this.err = err;
 
     if (valid) {

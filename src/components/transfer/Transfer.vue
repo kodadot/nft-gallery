@@ -32,6 +32,8 @@
               type="is-primary"
               icon-left="paper-plane"
               :loading="isLoading"
+              :disabled="disabled"
+              @click="submit"
               outlined
             >
               {{ $t("general.submit") }}
@@ -53,7 +55,7 @@ import AuthMixin from '@/utils/mixins/authMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
 import ChainMixin from '@/utils/mixins/chainMixin';
 import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
-import { formatBalance } from '@polkadot/util';
+import formatBalance from '@/utils/formatBalance';
 
 @Component({
   components: {
@@ -72,7 +74,10 @@ export default class Transfer extends Mixins(
   private balance: string = '0';
   protected destinationAddress: string = '';
   protected price: number = 0;
-  protected api = Connector.getInstance();
+
+  get disabled(): boolean {
+    return !this.destinationAddress || !this.price || !this.accountId;
+  }
 
   protected updateMeta(value: number) {
     console.log(typeof value, value);
@@ -80,10 +85,11 @@ export default class Transfer extends Mixins(
   }
 
   public async submit(): Promise<void> {
-    const { api } = Connector.getInstance();
-    try {
-      showNotification('Dispatched');
+    showNotification('Dispatched');
+    this.initTransactionLoader();
 
+    try {
+      const { api } = Connector.getInstance();
       const cb = api.tx.balances.transfer;
       const arg = [this.destinationAddress, this.price];
 
@@ -95,9 +101,11 @@ export default class Transfer extends Mixins(
             const blockNumber = header.number.toString();
 
             showNotification(
-              `[${this.unit}] Transfered ${formatBalance(this.balance, undefined, this.decimals)} in block ${blockNumber}`,
+              `[${this.unit}] Transfered ${formatBalance(this.price, this.decimals, this.unit)} in block ${blockNumber}`,
               notificationTypes.success
             );
+
+            this.destinationAddress = '';
 
             this.isLoading = false;
           },
@@ -136,7 +144,7 @@ export default class Transfer extends Mixins(
     this.isLoading = false;
   }
 
-  @Watch('accountId')
+  @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
       this.loadBalance();
@@ -144,11 +152,13 @@ export default class Transfer extends Mixins(
   }
 
   async loadBalance() {
-    if (!this.accountId) {
+    if (!this.accountId || !this.unit) {
       return;
     }
 
-    const { api } = this.api;
+    await new Promise(a => setTimeout(a, 1000));
+    const { api } = Connector.getInstance();
+
     try {
       const cb = api.query.system.account;
       const arg = this.accountId;
