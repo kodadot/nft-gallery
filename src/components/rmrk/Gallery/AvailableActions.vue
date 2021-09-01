@@ -8,7 +8,7 @@
         {{ action }}
       </b-button>
     </div>
-    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
+    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError />
     <b-button
       v-if="showSubmit"
       type="is-primary"

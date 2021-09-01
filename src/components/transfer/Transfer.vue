@@ -6,7 +6,6 @@
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
-            <!-- {{ $t('mint.context') }} -->
             Transfer {{ unit }}
           </p>
 
@@ -24,7 +23,7 @@
           </b-field>
 
           <b-field>
-            <BalanceInput @input="updateMeta" label="Price" />
+            <BalanceInput v-model="price" label="Price" :calculate="false" />
           </b-field>
 
           <b-field>
@@ -55,7 +54,9 @@ import AuthMixin from '@/utils/mixins/authMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
 import ChainMixin from '@/utils/mixins/chainMixin';
 import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
-import formatBalance from '@/utils/formatBalance';
+import { calculateBalance } from '@/utils/formatBalance';
+import correctFormat from '@/utils/ss58Format';
+import { checkAddress } from '@polkadot/util-crypto';
 
 @Component({
   components: {
@@ -71,7 +72,7 @@ export default class Transfer extends Mixins(
   AuthMixin,
   ChainMixin
 ) {
-  private balance: string = '0';
+  protected balance: string = '0';
   protected destinationAddress: string = '';
   protected price: number = 0;
 
@@ -79,9 +80,27 @@ export default class Transfer extends Mixins(
     return !this.destinationAddress || !this.price || !this.accountId;
   }
 
-  protected updateMeta(value: number) {
-    console.log(typeof value, value);
-    this.price = value;
+  protected created() {
+    this.checkQueryParams();
+  }
+
+  protected checkQueryParams() {
+    const { query } = this.$route;
+
+    if (query.target) {
+      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format));
+      if (valid) {
+        this.destinationAddress = query.target as string;
+      }
+
+      if (err) {
+        showNotification(`Unable to parse target ${err}`,notificationTypes.warn);
+      }
+    }
+
+    if (query.amount) {
+      this.price = Number(query.amount);
+    }
   }
 
   public async submit(): Promise<void> {
@@ -91,7 +110,7 @@ export default class Transfer extends Mixins(
     try {
       const { api } = Connector.getInstance();
       const cb = api.tx.balances.transfer;
-      const arg = [this.destinationAddress, this.price];
+      const arg = [this.destinationAddress, calculateBalance(this.price, this.decimals)];
 
       const tx = await exec(this.accountId, '', cb, arg,
       txCb(
@@ -101,11 +120,13 @@ export default class Transfer extends Mixins(
             const blockNumber = header.number.toString();
 
             showNotification(
-              `[${this.unit}] Transfered ${formatBalance(this.price, this.decimals, this.unit)} in block ${blockNumber}`,
+              `[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
               notificationTypes.success
             );
 
             this.destinationAddress = '';
+            this.price = 0;
+            this.$router.push(this.$route.path);
 
             this.isLoading = false;
           },

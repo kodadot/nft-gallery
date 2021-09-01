@@ -11,21 +11,8 @@ function format(balance: number | string | BN | bigint, decimals: number = 12, w
 
 }
 
-// Legacy
-// const format = (balance: Compact<any> | BN | string, currency: string, withSi?: boolean): string => {
-//   const value = typeof balance === 'object' ? balance.toString() : balance;
-
-//   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
-//   // console.log(`${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`);
-
-//   const isShort = withSi && prefix.length >= K_LENGTH;
-
-//   if (prefix.length > M_LENGTH) {
-//     return `${formatBalance(value.substring(0, value.length-12)).replace('Unit','')} ${currency}`;
-//   }
-
-//   return `${!isShort && value ? prefix : '0'}.000${''.slice(-3) } ${currency}`
-
-// }
+export function calculateBalance(value: number, decimals: number = 12) {
+  return value * Math.pow(10, decimals)
+}
 
 export default format
