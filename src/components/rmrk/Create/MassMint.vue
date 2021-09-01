@@ -4,22 +4,27 @@
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
-        <b-message title="Message" type="is-info" aria-close-label="Close message">
-            Mass mint is a feature that allows you to mint multiple tokens at once.
+        <b-message
+          title="Message"
+          type="is-info"
+          aria-close-label="Close message"
+        >
+          Mass mint is a feature that allows you to mint multiple tokens at
+          once.
+          <br />
+          It is recommended to use this feature with caution.
+          <br />
+          Syntax:
+          <br />
+          <code>
+            File name (e.g awesome_1.jpg)
             <br />
-            It is recommended to use this feature with caution.
+            Name of the NFT (e.g Awesome Token)
             <br />
-            Syntax:
+            Price of the token (e.g 0.01)
             <br />
-            <code>
-              File name (e.g awesome_1.jpg)
-              <br />
-               Name of the NFT (e.g Awesome Token)
-              <br />
-               Price of the token (e.g 0.01)
-              <br />
-               Mutliline description of the token (e.g This is an awesome token)
-            </code>
+            Mutliline description of the token (e.g This is an awesome token)
+          </code>
         </b-message>
         <div class="box">
           <p class="title is-size-3">
@@ -61,7 +66,6 @@
           />
 
           <b-field :label="$i18n.t('mint.command')">
-
             <b-input
               v-model="commands"
               type="textarea"
@@ -88,7 +92,7 @@
               :file="file.file"
               @remove="hadleItemRemoval"
             />
-            <hr style="opacity: 0.1;"/>
+            <hr style="opacity: 0.1;" />
           </b-field>
 
           <b-field>
@@ -174,11 +178,20 @@ import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
-import { massMintParser, isMatchAll, replaceIndex, isRangeSyntax, toRange, between, fromRange } from './mintUtils';
+import {
+  massMintParser,
+  isMatchAll,
+  replaceIndex,
+  isRangeSyntax,
+  toRange,
+  between,
+  fromRange
+} from './mintUtils';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import infiniteCollectionByAccount from '@/queries/infiniteCollectionByAccount.graphql';
 import shouldUpdate from '@/utils/shouldUpdate';
-import { APIKeys, pinFile as pinFileToIPFS  } from '@/pinata';
+import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata';
+import { calculateBalance } from '@/utils/formatBalance';
 
 type MintedCollection = {
   id: string;
@@ -311,14 +324,16 @@ export default class MassMint extends Mixins(
       const parsed = massMintParser(this.commands);
       const applyForAll = parsed['...'];
       this.massMints = this.massMints.map((item, index) => ({
-      ...item,
-      ...applyForAll,
-      description: replaceIndex(applyForAll.description, index + 1),
-      name: replaceIndex(applyForAll.name, index + 1)
-    }));
+        ...item,
+        ...applyForAll,
+        description: replaceIndex(applyForAll.description, index + 1),
+        name: replaceIndex(applyForAll.name, index + 1)
+      }));
     } else if (isRangeSyntax(this.commands)) {
       const parsed = massMintParser(this.commands);
-      const ranges: [number, number][] = Object.keys(parsed).map(toRange).filter(Boolean) as [number, number][];
+      const ranges: [number, number][] = Object.keys(parsed)
+        .map(toRange)
+        .filter(Boolean) as [number, number][];
       this.massMints = this.massMints.map((item, index) => {
         const range = ranges.find(([min, max]) => between(index + 1, min, max));
         if (range) {
@@ -338,11 +353,10 @@ export default class MassMint extends Mixins(
     } else {
       const parsed = massMintParser(this.commands);
       this.massMints = this.massMints.map(item => ({
-      ...item,
-      ...(parsed[item.file?.name || item.name] || {})
-    }));
+        ...item,
+        ...(parsed[item.file?.name || item.name] || {})
+      }));
     }
-
 
     showNotification('Command parsed!', notificationTypes.success);
   }
@@ -370,11 +384,7 @@ export default class MassMint extends Mixins(
   }
 
   get disabled(): boolean {
-    return !(
-      this.massMints.length &&
-      this.selectedCollection &&
-      this.hasToS
-    );
+    return !(this.massMints.length && this.selectedCollection && this.hasToS);
   }
 
   protected async estimateTx() {
@@ -391,7 +401,7 @@ export default class MassMint extends Mixins(
     const { symbol, alreadyMinted } = this.selectedCollection;
 
     this.initTransactionLoader();
-    this.status = 'loader.ipfs'
+    this.status = 'loader.ipfs';
 
     // TODO: incorect implementation
     const meta = await this.constructMeta();
@@ -403,7 +413,7 @@ export default class MassMint extends Mixins(
       NFTUtils.encodeNFT(nft, this.version)
     );
 
-    this.status = 'loader.sign'
+    this.status = 'loader.sign';
     const { api } = Connector.getInstance();
 
     const cb = api.tx.utility.batchAll;
@@ -427,9 +437,16 @@ export default class MassMint extends Mixins(
           const header = await api.rpc.chain.getHeader(blockHash);
           const blockNumber = header.number.toString();
 
-          if (this.price) {
-            this.listForSale(mint, blockNumber);
-          }
+          this.listForSale(
+            mint.map((e, i) => ({
+              ...e,
+              price: calculateBalance(
+                this.massMints[i].price,
+                this.decimals
+              ).toString()
+            })),
+            blockNumber
+          );
 
           showNotification(
             `[NFT] Saved ${mint.length} entries in block ${blockNumber}`,
@@ -516,21 +533,15 @@ export default class MassMint extends Mixins(
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
       const { api } = Connector.getInstance();
-      this.isLoading = true;
-
-      const { price, version } = this;
-      showNotification(
-        `[APP] Listing NFT to sale for ${formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: this.unit
-        })}`
-      );
+      const { version } = this;
+      showNotification(`[APP] Listing NFT for sale...`);
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
+        .filter(nft => nft.price && nft.price !== '0')
         .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
         .map(nft =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+          NFTUtils.createInteraction('LIST', version, nft.id, String(nft.price))
         );
 
       if (!onlyNfts.length) {
@@ -538,6 +549,8 @@ export default class MassMint extends Mixins(
         return;
       }
 
+      this.isLoading = true;
+      this.status = 'loader.casting'
       const cb = api.tx.utility.batchAll;
       const args = onlyNfts.map(this.toRemark);
 
@@ -553,12 +566,7 @@ export default class MassMint extends Mixins(
             const blockNumber = header.number.toString();
 
             showNotification(
-              `[LIST] Saved prices for ${
-                this.rmrkMint.max
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit
-              })} in block ${blockNumber}`,
+              `[LIST] Saved prices for ${onlyNfts.length} NFTs with in block ${blockNumber}`,
               notificationTypes.success
             );
 
@@ -607,7 +615,9 @@ export default class MassMint extends Mixins(
           }
           keys = await getKey(this.accountId);
         }
-        const fileHashPromise = pinFileToIPFS(mint.file as File, keys).then(unSanitizeIpfsUrl);
+        const fileHashPromise = pinFileToIPFS(mint.file as File, keys).then(
+          unSanitizeIpfsUrl
+        );
 
         const fileHash = await fileHashPromise;
         const meta = {
@@ -616,7 +626,7 @@ export default class MassMint extends Mixins(
           image: fileHash,
           external_url: `https://nft.kodadot.xyz`,
           type: mint.file?.type
-        }
+        };
         const ipfsPromise = pinJson(meta).then(unSanitizeIpfsUrl);
         const ipfs = await ipfsPromise;
         list.push(ipfs);

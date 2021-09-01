@@ -3,7 +3,7 @@
     <b-field :label="$t(label)" class="balance">
       <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0"/>
       <p class="control balance">
-        <b-select v-model="selectedUnit" @input="handleInput">
+        <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
             {{ u.name }}
           </option>
