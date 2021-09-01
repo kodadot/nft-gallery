@@ -7,10 +7,5 @@ export default [
     name: 'toolbox',
     component: Toolbox
     // beforeEnter: apiEnabled,
-  },
-  {
-    path: '/toolbox/:tab/:data',
-    name: 'toolboxHash',
-    component: Toolbox,
   }
 ];

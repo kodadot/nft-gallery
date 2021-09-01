@@ -260,5 +260,9 @@
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
     "mint": "3. Minting"
+  },
+  "general": {
+    "balance": "Balance",
+    "submit": "Submit"
   }
 }
