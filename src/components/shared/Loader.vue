@@ -15,7 +15,7 @@ export default class Loader extends Vue {
   @Prop(String) public status!: string;
   @Prop(Boolean) public value!: boolean;
 
-  protected placeholder = require('@/assets/infinity.svg');
+  protected placeholder = '/infinity.svg';
 
   get isLoading() {
     return this.value;
