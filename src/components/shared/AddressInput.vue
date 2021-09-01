@@ -37,7 +37,7 @@ export default class AddressInput extends Vue {
     const [, err] = checkAddress(value, correctFormat(this.ss58Format));
     this.err = value ? err : '';
 
-    return this.emptyOnError ? '' : value;
+    return this.emptyOnError && this.err ? '' : value;
   }
 
   get ss58Format(): number {
