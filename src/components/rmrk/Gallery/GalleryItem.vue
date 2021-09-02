@@ -71,7 +71,7 @@
             <div class="label">{{ $t('price') }}</div>
             <div class="price-block__container">
               <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
-              <b-button type="is-warning" outlined @click="handleUnlist">{{ $t('Unlist') }}</b-button>
+              <b-button v-if="nft.currentOwner === accountId" type="is-warning" outlined @click="handleUnlist">{{ $t('Unlist') }}</b-button>
             </div>
             <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
           </div>
