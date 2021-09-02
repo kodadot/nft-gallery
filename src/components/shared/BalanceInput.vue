@@ -1,9 +1,9 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="$t(label)" class="balance">
-      <b-input v-model="value" @input="handleInput" type="number" step="0.001" min="0"/>
+      <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0"/>
       <p class="control balance">
-        <b-select v-model="selectedUnit" @input="handleInput">
+        <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
             {{ u.name }}
           </option>
@@ -14,12 +14,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Emit, Mixins } from 'vue-property-decorator';
 import Balance from '@/params/components/Balance.vue';
 import { units as defaultUnits } from '@/params/constants';
 import { Unit } from '@/params/types';
 import shouldUpdate from '@/utils/shouldUpdate';
 import { Debounce } from 'vue-debounce-decorator';
+import ChainMixin from '@/utils/mixins/chainMixin';
 
 const components = { Balance }
 
@@ -28,27 +29,27 @@ type BalanceType = {
 }
 
 @Component({ components })
-export default class BalanceInput extends Vue {
-  private value: number = 0;
+export default class BalanceInput extends Mixins(ChainMixin) {
+  @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
   private selectedUnit: number = 1;
   @Prop({ default: 'balance' }) public label!: string;
+  @Prop({ default: true }) public calculate!: boolean;
 
-
-  get chainProperties() {
-    return this.$store.getters.getChainProperties;
+  get inputValue(): number {
+    return this.value;
   }
 
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
+  set inputValue(value: number) {
+    this.handleInput(value);
   }
 
-  get unit(): string {
-    return this.chainProperties.tokenSymbol
+  formatSelectedValue(value: number): number {
+    return  value * (10**this.decimals) * this.selectedUnit
   }
 
   get calculatedBalance() {
-    return this.value * (10**this.decimals) * this.selectedUnit
+    return this.formatSelectedValue(this.inputValue)
   }
 
   protected mapper(unit: Unit) {
@@ -62,23 +63,10 @@ export default class BalanceInput extends Vue {
     this.units = defaultUnits.map(this.mapper);
   }
 
-  // @Watch('$store.getters.getChainProperties.tokenSymbol')
-  // protected updateUnit(val: string, oldVal: string) {
-  //   console.log('@Watch(unit)', val, oldVal)
-  //   if (shouldUpdate(val, oldVal)) {
-  //     this.units = defaultUnits.map(u => {
-  //       if (u.name === '-') {
-  //         return { ...u, name: val }
-  //       }
-  //       return u
-  //     })
-  //   }
-  // }
-
   @Debounce(200)
   @Emit('input')
-  public handleInput() {
-    return this.calculatedBalance;
+  public handleInput(value: number) {
+    return this.calculate ? this.formatSelectedValue(value) : value;
   }
 }
 </script>

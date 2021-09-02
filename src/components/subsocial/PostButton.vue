@@ -2,7 +2,7 @@
   <b-button @click="$emit('click')">
     <span :style="{ display: 'flex' }">
       <figure class="image is-24x24 mr-2">
-        <img :src="require('@/assets/subsocial.svg')" />
+        <img src="/subsocial.svg" />
       </figure>
       <span>{{ $t("subsocial.post") }}</span>
     </span>

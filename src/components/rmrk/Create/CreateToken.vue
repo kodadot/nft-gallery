@@ -142,7 +142,6 @@ type MintedCollection = {
     PasswordInput,
     Tooltip,
     Support,
-    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')

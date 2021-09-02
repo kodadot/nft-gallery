@@ -8,7 +8,7 @@
         {{ action }}
       </b-button>
     </div>
-    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
+    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError />
     <b-button
       v-if="showSubmit"
       type="is-primary"
@@ -252,6 +252,12 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     });
   }
 
+  unlistNft() {
+    // change the selected action to list and change meta value to 0
+    this.selectedAction = 'LIST';
+    this.meta = 0;
+    this.submit();
+  }
 }
 </script>
 
