@@ -75,7 +75,7 @@ export default class GalleryCard extends Vue {
   @Prop() public price!: string;
   @Prop() public metadata!: string;
 
-  private placeholder = require('@/assets/koda300x300.svg');
+  private placeholder = '/koda300x300.svg';
 
   async mounted() {
 
@@ -144,7 +144,7 @@ export default class GalleryCard extends Vue {
       }
     }
   }
-  
+
   .card-image__emotes__count {
     vertical-align: text-bottom;
   }

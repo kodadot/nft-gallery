@@ -5,7 +5,7 @@
       <template v-slot:extra>
         <a :href="`https://kusama.subscan.io/account/${address}`" target="_blank" rel="noopener noreferrer">
           <figure class="image is-24x24 subscan__less-margin">
-            <img alt="subscan" :src="require('@/assets/subscan.svg')" />
+            <img alt="subscan" src="/subscan.svg" />
           </figure>
         </a>
       </template>

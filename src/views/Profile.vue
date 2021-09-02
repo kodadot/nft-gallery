@@ -243,8 +243,7 @@ export default class Profile extends Vue {
   get defaultNFTImage() {
     const url = new URL(window.location.href);
     return (
-      `${url.protocol}//${url.hostname}` +
-      require('@/assets/koda300x300.svg')
+      `${url.protocol}//${url.hostname}/koda300x300.svg`
     );
   }
 
