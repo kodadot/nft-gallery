@@ -21,12 +21,12 @@
                 <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
-                    :src="meta.image || '/koda300x300.svg'"
-                    :src-fallback="'/koda300x300.svg'"
+                    :src="meta.image || '/placeholder.svg'"
+                    src-fallback="/placeholder.svg'"
                     alt="KodaDot NFT minted multimedia"
                     ratio="1by1"
                   ></b-image>
-                  <img class="fullscreen-image" :src="meta.image || '/koda300x300.svg'" alt="KodaDot NFT minted multimedia">
+                  <img class="fullscreen-image" :src="meta.image || '/placeholder.svg'" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
                   <MediaResolver v-if="meta.animation_url" :class="{ withPicture: imageVisible }" :src="meta.animation_url" :mimeType="mimeType" />
                 </div>
@@ -298,7 +298,7 @@ export default class GalleryItem extends Vue {
   }
 
   protected handleUnlist() {
-    //call unlist function from the AvailableActions component
+    // call unlist function from the AvailableActions component
     (this.$refs.actions as AvailableActions).unlistNft();
   }
 
