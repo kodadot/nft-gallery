@@ -105,4 +105,7 @@ export default new Router({
 			component: FourZeroFour,
 		},
   ],
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  }
 });
