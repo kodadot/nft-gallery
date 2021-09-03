@@ -163,20 +163,23 @@ export default class Summary extends Vue {
 
 # 🏃‍♀️ Quick Setup
 
+Here is a quick setup guide for the project.
+
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git
 touch .env.local
 ```
 
-in `.env.local` add following urls:
+in `.env.local` add following properties:
 ```bash
 VUE_APP_KEYRING=true
 VUE_APP_I18N_LOCALE=en
 VUE_APP_I18N_FALLBACK_LOCALE=en
-VUE_APP_SLATE_KEY=
-VUE_APP_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick
+VUE_APP_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick-west
 ```
-you can obtain api key for slate [here](slate.host)
+[You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
+
+If you want to access Kusama's GraphQL API, **remove** `-west` from `VUE_APP_SUBQUERY_URL`
 
 > to run UI
 
@@ -191,6 +194,13 @@ yarn start
 ```bash
 yarn lambda
 ```
+
+### Caveats:
+Netlify functions are **unable** to read `.env.local`.
+Therefore, you need to manually update pinata keys in each function.
+Functions are located in `src-functions/`
+
+[You can obtain Master Pinata Keys here](https://app.pinata.cloud/keys)
 
 ## Running local Polkadot and subquery nodes
 
