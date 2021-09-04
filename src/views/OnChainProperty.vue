@@ -2,6 +2,7 @@
 	<div class="d-flex flex-row">
  		<span v-for="(item, index) in icons" :key="index">
 		<b-tooltip class="p-2"
+		 v-if="icons[index].icon !== 'twitter'"
 		 :label="icons[index].label"
 		  position="is-top"
 		  v-clipboard:copy="icons[index].label"
@@ -10,7 +11,20 @@
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		  		@click.native="toast('Copied to clipboard')"
+		  		@click.native="toast('Copied to clipboard', icons[index])"
+		    >
+		    </b-icon>
+		</b-tooltip>
+		<b-tooltip class="p-2"
+		 v-else
+		 :label="icons[index].label"
+		  position="is-top"
+		  >
+			<b-icon class="property"
+		      :size="icons[index].size"
+		      :pack="icons[index].pack"
+		      :icon="icons[index].icon"
+		  		@click.native="navigateToTwitter(icons[index].label)"
 		    >
 		    </b-icon>
 		</b-tooltip> 			
@@ -119,7 +133,11 @@ export default class OnChainProperty extends Vue{
 
 	public toast(message: string): void {
 		this.$buefy.toast.open(message);
-  }
+  	}
+
+	public navigateToTwitter(handle: string): void {
+		window.open('http://twitter.com/' + handle.replace(/@/, ''), '_blank');
+	}
 
 	@Watch('legal')
 	async watchLegal(newLegal: string, oldLegal: string){
