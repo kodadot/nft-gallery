@@ -199,12 +199,13 @@ export default class CreateCollection extends Mixins(
   private async submit() {
     this.isLoading = true;
     this.status = 'loader.ipfs';
-    const { api } = Connector.getInstance();
-    const metadata = await this.constructMeta();
-    const mint = this.constructRmrkMint(metadata);
-    const mintString = NFTUtils.encodeCollection(mint, this.version);
 
     try {
+      const metadata = await this.constructMeta();
+      const mint = this.constructRmrkMint(metadata);
+      const mintString = NFTUtils.encodeCollection(mint, this.version);
+
+      const { api } = Connector.getInstance();
       showNotification(mintString);
       const cb = !this.hasSupport
         ? api.tx.system.remark
