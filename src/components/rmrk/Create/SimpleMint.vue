@@ -437,9 +437,6 @@ export default class SimpleMint extends Mixins(
 
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
-      const { api } = Connector.getInstance();
-      this.isLoading = true;
-
       const { price, version } = this;
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
@@ -459,6 +456,9 @@ export default class SimpleMint extends Mixins(
         showNotification('Can not list empty NFTs', notificationTypes.danger);
         return;
       }
+
+      this.isLoading = true;
+      const { api } = Connector.getInstance();
 
       const cb = api.tx.utility.batchAll;
       const args = onlyNfts.map(this.toRemark);
