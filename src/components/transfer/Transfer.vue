@@ -48,7 +48,7 @@
               @click="getExplorerUrl"
               outlined
             >
-              {{ $t("View Transaction") }}
+              {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
             </b-button>
           </b-field>
         </div>
