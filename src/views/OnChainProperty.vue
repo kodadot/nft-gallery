@@ -11,7 +11,7 @@
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		  		@click.native="toast('Copied to clipboard', icons[index])"
+		  		@click.native="toast('Copied to clipboard')"
 		    >
 		    </b-icon>
 		</b-tooltip>
@@ -136,7 +136,7 @@ export default class OnChainProperty extends Vue{
   	}
 
 	public navigateToTwitter(handle: string): void {
-		window.open('http://twitter.com/' + handle.replace(/@/, ''), '_blank');
+		window.open('https://twitter.com/' + handle.replace(/@/, ''), '_blank');
 	}
 
 	@Watch('legal')
