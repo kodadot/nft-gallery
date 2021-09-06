@@ -56,7 +56,7 @@
       </b-switch>
     </b-field>
 
-    <BalanceInput v-model="vPrice" label="Price" />
+    <BalanceInput @input="updateMeta" label="Price" />
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
@@ -100,6 +100,11 @@ export default class CreateItem extends Vue {
 
   @Prop(Number) public max!: number;
   @Prop(Number) public alreadyMinted!: number;
+
+  protected updateMeta(value: number) {
+    console.log(typeof value, value);
+    this.vPrice = value;
+  }
 
   get fileType() {
     return resolveMedia(this.vFile?.type);
