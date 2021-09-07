@@ -5,9 +5,12 @@
         <br />
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
-          <p class="title is-size-3">
+          <div class="info">
+            <p class="title is-size-3">
             Transfer {{ unit }}
-          </p>
+            </p>
+            <span class="info--currentPrice" title='Current price'>${{this.$store.getters.getCurrentKSMValue}} </span>
+          </div>
 
           <b-field>
             <Auth />
@@ -37,6 +40,16 @@
             >
               {{ $t("general.submit") }}
             </b-button>
+             <b-button
+              v-if="transactionValue"
+              type="is-success"
+              class="tx"
+              icon-left="external-link-alt"
+              @click="getExplorerUrl"
+              outlined
+            >
+              {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
+            </b-button>
           </b-field>
         </div>
       </section>
@@ -57,6 +70,7 @@ import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
 import { calculateBalance } from '@/utils/formatBalance';
 import correctFormat from '@/utils/ss58Format';
 import { checkAddress } from '@polkadot/util-crypto';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -74,6 +88,7 @@ export default class Transfer extends Mixins(
 ) {
   protected balance: string = '0';
   protected destinationAddress: string = '';
+  protected transactionValue: string = '';
   protected price: number = 0;
 
   get disabled(): boolean {
@@ -129,6 +144,7 @@ export default class Transfer extends Mixins(
             this.$router.push(this.$route.path);
 
             this.isLoading = false;
+            this.transactionValue = blockHash.toHex();
           },
           dispatchError => {
             execResultValue(tx);
@@ -165,6 +181,12 @@ export default class Transfer extends Mixins(
     this.isLoading = false;
   }
 
+  protected getExplorerUrl() {
+    const url =  urlBuilderTransaction(this.transactionValue,
+      this.$store.getters.getCurrentChain, 'subscan');
+    window.open(url, '_blank');
+  }
+
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
@@ -192,5 +214,20 @@ export default class Transfer extends Mixins(
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/styles/variables';
+   .info {
+     display: flex;
+     align-items: center;
+     &--currentPrice {
+        margin-bottom: 1.5rem;
+        margin-left: 1.5rem;
+        color: $primary;
+        font-size: 1.5rem;
+        font-weight: 600;
+     }
+    }
+    .tx {
+       margin-left: 1rem;
+    }
 </style>
