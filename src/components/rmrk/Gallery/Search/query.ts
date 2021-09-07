@@ -29,6 +29,11 @@ const queryOf = (criteria: QueryType) => new Query(criteria)
 export const basicAggregation = (): Aggregator => {
   const agg: Aggregation = [
     {
+      $match: {
+        burned: { $ne: true }
+      }
+    },
+    {
       $group: {
         _id: { image: '$image', collection: '$collection' },
         // _id: '$image',

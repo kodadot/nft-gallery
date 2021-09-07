@@ -217,8 +217,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getChainProperties: ({chainProperties}) => chainProperties,
-    getUserLang: ({ language }) => language.userLang || 'en'
+    getChainProperties: ({ chainProperties }) => chainProperties,
+    getUserLang: ({ language }) => language.userLang || 'en',
+    getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
+    getCurrentChain: ({ explorer }) => explorer.chain
   },
   modules: {
     setting: SettingModule,
