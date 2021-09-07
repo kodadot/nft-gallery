@@ -99,6 +99,14 @@ export default new Router({
         window.location.href = 'https://tally.so/r/mVP06w'
       }
     },
+    {
+      path: '/permafrost',
+      name: 'permafrost',
+      component: {},
+      beforeEnter(to, from, next) {
+        window.location.href = 'https://discord.gg/88da2MEfU9'
+      }
+    },
 		{
 			path: '*',
 			name: 'FourZeroFour',
