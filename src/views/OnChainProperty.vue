@@ -11,7 +11,7 @@
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		  		@click.native="toast('Copied to clipboard')"
+		  		@click.native="toast('Copied to clipboard', icons[index])"
 		    >
 		    </b-icon>
 		</b-tooltip>
@@ -27,7 +27,7 @@
 		  		@click.native="navigateToTwitter(icons[index].label)"
 		    >
 		    </b-icon>
-		</b-tooltip> 			
+		</b-tooltip> 					
  		</span>
 	</div>
 </template>
