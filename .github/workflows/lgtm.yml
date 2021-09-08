@@ -2,7 +2,7 @@
 
 name: lgtm
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -27,7 +27,7 @@ jobs:
         uses: micnncim/action-lgtm-reaction@v0.6.0
         with:
           # Trigger comment on issue to send reaction
-          trigger: "^lgtm$"
+          trigger: "lgtm$"
           # Whether the original comment is overridden
           overide: false
           # Source providing LGTM image
