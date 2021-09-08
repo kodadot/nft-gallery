@@ -4,14 +4,14 @@
 		<b-tooltip class="p-2"
 		 :label="icons[index].label"
 		  position="is-top"
-		  v-clipboard:copy="icons[index].label"
 		  >
 			<b-icon class="property"
 			   v-if="icons[index].icon !== 'twitter'"
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		  		@click.native="toast('Copied to clipboard', icons[index])"
+			   v-clipboard:copy="icons[index].label"
+		  	  @click.native="toast('Copied to clipboard', icons[index])"
 		    >
 		    </b-icon>
 			<b-icon class="property"
