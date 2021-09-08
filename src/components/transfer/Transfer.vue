@@ -24,10 +24,14 @@
           <b-field>
             <AddressInput v-model="destinationAddress" />
           </b-field>
-
-          <b-field>
-            <BalanceInput v-model="price" label="Amount" :calculate="false" />
-          </b-field>
+          <div class="box--container">
+           <b-field>
+            <BalanceInput v-model="price" label="Amount" :calculate="false" @input="onAmountFieldChange"/>
+           </b-field>
+           <b-field>
+            <BalanceInput v-model="usdValue" :showUsdLabel="true" @input="onUSDFieldChange" label="USD Value (approx)" :calculate="false" />
+           </b-field>
+          </div>
 
           <b-field>
             <b-button
@@ -90,6 +94,7 @@ export default class Transfer extends Mixins(
   protected destinationAddress: string = '';
   protected transactionValue: string = '';
   protected price: number = 0;
+  protected usdValue: number = 0;
 
   get disabled(): boolean {
     return !this.destinationAddress || !this.price || !this.accountId;
@@ -97,6 +102,24 @@ export default class Transfer extends Mixins(
 
   protected created() {
     this.checkQueryParams();
+  }
+
+  protected onAmountFieldChange() {
+    /* calculating usd value on the basis of price entered */
+    if (this.price) {
+      this.usdValue = Number(Math.ceil(this.$store.getters.getCurrentKSMValue * this.price));
+    } else {
+      this.usdValue = 0;
+    }
+  }
+
+  protected onUSDFieldChange() {
+    /* calculating price value on the basis of usd entered */
+    if (this.usdValue) {
+      this.price = Math.ceil((this.usdValue / this.$store.getters.getCurrentKSMValue) * 100)/100;
+    } else {
+      this.price = 0;
+    }
   }
 
   protected checkQueryParams() {
@@ -141,6 +164,7 @@ export default class Transfer extends Mixins(
 
             this.destinationAddress = '';
             this.price = 0;
+            this.usdValue = 0;
             this.$router.push(this.$route.path);
 
             this.isLoading = false;
@@ -229,5 +253,14 @@ export default class Transfer extends Mixins(
     }
     .tx {
        margin-left: 1rem;
+    }
+    .box {
+      &--container {
+        display: flex;
+        justify-content: space-between;
+        @media screen and (max-width: 1023px) {
+         flex-direction: column;
+        }
+      }
     }
 </style>
