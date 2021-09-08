@@ -2,32 +2,27 @@
 	<div class="d-flex flex-row">
  		<span v-for="(item, index) in icons" :key="index">
 		<b-tooltip class="p-2"
-		 v-if="icons[index].icon !== 'twitter'"
 		 :label="icons[index].label"
 		  position="is-top"
 		  v-clipboard:copy="icons[index].label"
 		  >
 			<b-icon class="property"
+			   v-if="icons[index].icon !== 'twitter'"
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
 		  		@click.native="toast('Copied to clipboard', icons[index])"
 		    >
 		    </b-icon>
-		</b-tooltip>
-		<b-tooltip class="p-2"
-		 v-else
-		 :label="icons[index].label"
-		  position="is-top"
-		  >
 			<b-icon class="property"
+			   v-else
 		      :size="icons[index].size"
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
-		  		@click.native="navigateToTwitter(icons[index].label)"
+		  	  @click.native="navigateToTwitter(icons[index].label)"
 		    >
 		    </b-icon>
-		</b-tooltip> 					
+		</b-tooltip>		
  		</span>
 	</div>
 </template>
