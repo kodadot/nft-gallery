@@ -11,7 +11,7 @@
 		      :pack="icons[index].pack"
 		      :icon="icons[index].icon"
 			   v-clipboard:copy="icons[index].label"
-		  	  @click.native="toast('Copied to clipboard', icons[index])"
+		  	  @click.native="toast('Copied to clipboard')"
 		    >
 		    </b-icon>
 			<b-icon class="property"
