@@ -59,6 +59,16 @@
             ></b-input>
           </b-field>
 
+          <b-field grouped :label="$i18n.t('Edition')">
+            <b-numberinput
+              v-model="rmrkMint.max"
+              placeholder="1 is minumum"
+              expanded
+              :min="1"
+            ></b-numberinput>
+            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+          </b-field>
+
           <AttributeTagInput
             v-model="rmrkMint.tags"
             placeholder="Get discovered easier through tags"
@@ -439,7 +449,7 @@ export default class PermaMint extends Mixins(
       ...this.meta,
       name,
       attributes: [
-        ...(this.rmrkMint?.tags.map(t => t.trait_type ? t : ({ ...t, trait_type: '' })) || []),
+        ...(this.rmrkMint?.tags || []).map(t => t.trait_type ? t : ({ ...t, trait_type: '' })),
         ...this.nsfwAttribute(),
         ...this.offsetAttribute()
       ],
