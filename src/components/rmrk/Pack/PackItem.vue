@@ -94,14 +94,14 @@ export default class PackItem extends Vue {
   }
 
   nftMeta() {
-    this.pack.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-      const res = await call;
-      Vue.set(this.pack.nfts, index, {
-        ...this.pack.nfts[index],
-        ...res,
-        image: sanitizeIpfsUrl(res.image || '')
-      });
-    });
+    // this.pack.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
+    //   const res = await call;
+    //   Vue.set(this.pack.nfts, index, {
+    //     ...this.pack.nfts[index],
+    //     ...res,
+    //     image: sanitizeIpfsUrl(res.image || '')
+    //   });
+    // });
   }
 }
 </script>
