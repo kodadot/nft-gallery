@@ -4,7 +4,7 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
-        <Pagination simple :total="total" v-model="currentValue" replace class="is-pulled-right" />
+        <Pagination simple :total="total" v-model="currentValue" replace class="is-right" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
