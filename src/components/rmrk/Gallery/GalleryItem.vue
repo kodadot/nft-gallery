@@ -232,10 +232,10 @@ export default class GalleryItem extends Vue {
 
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
-      const meta = m ? m : await fetchNFTMetadata(this.nft)
+      const meta = m ? m : await fetchNFTMetadata(this.nft, 'permafrost')
       this.meta = {
         ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
+        image: sanitizeIpfsUrl(meta.image || '', 'arweave'),
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 
