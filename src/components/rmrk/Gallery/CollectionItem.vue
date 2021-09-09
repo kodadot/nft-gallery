@@ -67,7 +67,8 @@ import { CollectionMetadata } from '../types';
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  Money: () => import('@/components/shared/format/Money.vue')
 };
 @Component<CollectionItem>({
   metaInfo() {
@@ -111,7 +112,7 @@ export default class CollectionItem extends Vue {
     return !isShareMode
   }
 
-	  get collectionLength() {
+	get collectionLength() {
     return this.collection.nfts.length;
   }
 
@@ -131,9 +132,7 @@ export default class CollectionItem extends Vue {
 
   get collectionTradedVol() {
     let collectedNFT = this.collection.nfts
-      .map(nft => {
-        return nft.events.filter(e => e.interaction === 'BUY');
-      })
+      .map(nft => nft.events.filter(e => e.interaction === 'BUY'))
       .filter(arr => arr.length).length;
     return collectedNFT;
   }
