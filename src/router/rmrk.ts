@@ -8,6 +8,7 @@ const PackItem = () => import('@/components/rmrk/Pack/PackItem.vue')
 const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vue')
 const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
+const PermaMint = () => import('@/components/rmrk/Create/PermaMint.vue')
 
 export default [
   {
@@ -59,5 +60,10 @@ export default [
     path: '/rmrk/mint',
     name: 'simpleMint',
     component: SimpleMint
+  },
+  {
+    path: '/permafrost/create',
+    name: 'permafrost',
+    component: PermaMint
   },
 ];
