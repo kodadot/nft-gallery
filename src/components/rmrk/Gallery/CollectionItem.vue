@@ -36,7 +36,7 @@
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Owners</p>
-					<p class="title">{{collectionSoldedNFT}}</p>
+					<p class="title">{{collectionTradedVol}}</p>
 				</div>
 			</div>
 			<div class="level-item has-text-centered">
@@ -48,7 +48,7 @@
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Volume traded</p>
-					<p class="title"><Money :value="collectionSoldedNFT * collectionFloorPrice" inline /></p>
+					<p class="title"><Money :value="collectionTradedVolumeNumber" inline /></p>
 				</div>
 			</div>
 		</nav>
@@ -166,7 +166,18 @@ export default class CollectionItem extends Vue {
   }
 
   get collectionTradedVol() {
-    return Math.floor(Math.random() * 10)
+    let collectedNFT = this.collection.nfts.map(nft => {
+      return nft.events.filter(e => e.interaction === 'BUY')
+    }).filter(arr => arr.length).length
+    return collectedNFT
+  }
+
+  get collectionTradedVolumeNumber() {
+    let nftsEvents = this.collection.nfts.map(nft => nft.events)
+    let sum = nftsEvents.map(event => event.filter(e => e.interaction === 'BUY')).map((item, key) => {
+      return item.length && nftsEvents[key].find(e => e.interaction === 'LIST' ).meta
+    }).reduce((a, b) => Number(a) + Number(b), 0)
+    return sum
   }
 
 	get sharingVisible() {
