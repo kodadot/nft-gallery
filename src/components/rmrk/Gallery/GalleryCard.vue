@@ -53,7 +53,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { get, update } from 'idb-keyval';
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '../utils';
+import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils';
 import { NFT } from '../service/scheme';
 
 const components = {
@@ -82,11 +82,11 @@ export default class GalleryCard extends Vue {
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
-        this.image = sanitizeIpfsUrl(meta.image)
+        this.image = getSanitizer(meta.image || '')(meta.image || '')
         this.title = meta.name
       } else {
-        const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT)
-        this.image = sanitizeIpfsUrl(m.image || '')
+        const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT, getSanitizer(this.metadata, undefined, 'permafrost'))
+        this.image = getSanitizer(meta.image || '')(meta.image || '')
         this.title = m.name
         update(this.metadata, () => m)
       }
