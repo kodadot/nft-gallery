@@ -98,7 +98,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '../utils';
 import { basicAggQuery } from './Search/query';
 import Freezeframe from 'freezeframe';
 import 'lazysizes';
@@ -216,11 +216,11 @@ export default class Gallery extends Vue {
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(this.nfts[i]);
+          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'));
           Vue.set(this.nfts, i, {
             ...this.nfts[i],
             ...meta,
-            image: sanitizeIpfsUrl(meta.image || '')
+            image: getSanitizer(meta.image || '')(meta.image || '')
           });
           update(this.nfts[i].metadata, () => meta);
         } catch (e) {
@@ -230,7 +230,7 @@ export default class Gallery extends Vue {
         Vue.set(this.nfts, i, {
           ...this.nfts[i],
           ...m,
-          image: sanitizeIpfsUrl(m.image || '')
+          image: getSanitizer(m.image || '')(m.image || '')
         });
       }
     });
