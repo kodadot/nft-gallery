@@ -24,7 +24,6 @@
             label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP)"
             expanded
             preview
-            accept="image/png, image/jpeg, image/gif, video/quicktime, image/svg+xml"
           />
 
           <b-field grouped :label="$i18n.t('Name')">
