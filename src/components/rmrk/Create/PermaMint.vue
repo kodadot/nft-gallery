@@ -59,6 +59,16 @@
             ></b-input>
           </b-field>
 
+          <b-field grouped :label="$i18n.t('Edition')">
+            <b-numberinput
+              v-model="rmrkMint.max"
+              placeholder="1 is minumum"
+              expanded
+              :min="1"
+            ></b-numberinput>
+            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+          </b-field>
+
           <AttributeTagInput
             v-model="rmrkMint.tags"
             placeholder="Get discovered easier through tags"
