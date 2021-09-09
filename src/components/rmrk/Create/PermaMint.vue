@@ -439,7 +439,7 @@ export default class PermaMint extends Mixins(
       ...this.meta,
       name,
       attributes: [
-        ...(this.rmrkMint?.tags.map(t => t.trait_type ? t : ({ ...t, trait_type: '' })) || []),
+        ...(this.rmrkMint?.tags || []).map(t => t.trait_type ? t : ({ ...t, trait_type: '' })),
         ...this.nsfwAttribute(),
         ...this.offsetAttribute()
       ],
