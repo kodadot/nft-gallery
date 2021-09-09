@@ -16,7 +16,7 @@ import { justHash } from '@/utils/ipfs';
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
 
-export type ProviderKeyType = IPFSProviders | ArweaveProviders
+export type ProviderKeyType = IPFSProviders
 export type ArweaveProviders = 'permafrost' | 'arweave'
 export type IPFSProviders = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
 
@@ -29,9 +29,11 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
-  permafrost: process.env.FROST_URL + '/meta/',
-  arweave: 'https://arweave.net/',
+  permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
+  arweave: process.env.VUE_APP_AR_URL || 'https://arweave.net/',
 }
+
+export type SanitizerFunc = (url: string) => string
 
 
 
@@ -43,7 +45,8 @@ export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => 
   return ipfsHash
 }
 
-const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key as IPFSProviders] || arweaveProviders[key as ArweaveProviders]
+const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
+const resolveArProvider = (key: ArweaveProviders = 'arweave'): string => arweaveProviders[key]
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]]);
@@ -65,19 +68,19 @@ export const fetchCollectionMetadata = (
 
 export const fetchNFTMetadata = (
   rmrk: NFT,
-  provider?: ProviderKeyType
-): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, provider)
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl
+): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchMetadata = async <T>(
   rmrk: RmrkType | CollectionOrNFT,
-  provider?: ProviderKeyType
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<T> => {
   try {
     if (!rmrk.metadata) {
       return emptyObject<T>();
     }
 
-    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.metadata, provider));
+    const { status, data } = await api.get(sanitizer(rmrk.metadata));
     console.log('IPFS data', status, data);
     if (status < 400) {
       return data as T;
@@ -119,12 +122,25 @@ const unSanitizeUrl = (url: string, prefix: string) => {
 
 const ar = /^ar:\/\//
 
-export const sanitizeArweaveUrl = (url: string, provider?: ProviderKeyType) => {
+export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => {
   if (ar.test(url)) {
-    return url.replace(ar, provider || 'arweave')
+    return url.replace(ar, resolveArProvider(provider))
   }
 
   return url
+}
+
+export const isIpfsUrl = (url: string) => {
+  return /^ipfs:\/\//.test(url)
+}
+
+
+export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProvider?: ArweaveProviders): SanitizerFunc => {
+  if (isIpfsUrl(url)) {
+    return link => sanitizeIpfsUrl(link, ipfsProvider)
+  }
+
+  return link => sanitizeArweaveUrl(link, arProvider)
 }
 
 export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
@@ -138,7 +154,7 @@ export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => 
     return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`);
   }
 
-  return sanitizeArweaveUrl(ipfsUrl, provider);
+  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders);
 };
 
 export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {

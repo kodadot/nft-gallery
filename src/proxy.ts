@@ -125,9 +125,6 @@ export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: s
 
   formData.append('collection', collection);
 
-  formData.append('collection', collection);
-  formData.append('instance', '1');
-
   try {
     const { status, data } = await Axios.post(PERMAFROST_URL + '/store', formData, {
       headers: {

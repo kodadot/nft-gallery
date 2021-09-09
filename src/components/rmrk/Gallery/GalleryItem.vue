@@ -119,7 +119,7 @@ import { Component, Vue } from 'vue-property-decorator';
 // import MarkdownItVueLight from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFT, NFTMetadata, Emote } from '../service/scheme';
-import { sanitizeIpfsUrl, resolveMedia } from '../utils';
+import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils';
 import { emptyObject } from '@/utils/empty';
 
 import AvailableActions from './AvailableActions.vue';
@@ -232,10 +232,14 @@ export default class GalleryItem extends Vue {
 
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
-      const meta = m ? m : await fetchNFTMetadata(this.nft, 'permafrost')
+
+      const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'));
+      console.log(meta);
+
+      const imageSanitizer = getSanitizer(meta.image);
       this.meta = {
         ...meta,
-        image: sanitizeIpfsUrl(meta.image || '', 'arweave'),
+        image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
       }
 

@@ -24,7 +24,7 @@
             label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP)"
             expanded
             preview
-            accept="image/png, image/jpeg, image/gif"
+            accept="image/png, image/jpeg, image/gif, video/quicktime, image/svg+xml"
           />
 
           <b-field grouped :label="$i18n.t('Name')">
@@ -207,7 +207,7 @@ export default class PermaMint extends Mixins(
   private nsfw: boolean = false;
   private price: number = 0;
   private estimated: string = '';
-  private hasCarbonOffset: boolean = true;
+  private hasCarbonOffset: boolean = false;
   protected arweaveUpload = false;
 
   protected updateMeta(value: number) {
@@ -432,16 +432,19 @@ export default class PermaMint extends Mixins(
       throw new ReferenceError('No file found!');
     }
 
+    const { name, description } = this.rmrkMint
+
     this.meta = {
-      ...this.rmrkMint,
+      description,
       ...this.meta,
+      name,
       attributes: [
-        ...(this.rmrkMint?.tags || []),
+        ...(this.rmrkMint?.tags.map(t => t.trait_type ? t : ({ ...t, trait_type: '' })) || []),
         ...this.nsfwAttribute(),
         ...this.offsetAttribute()
       ],
       external_url: `https://nft.kodadot.xyz`,
-      type: this.file.type
+      type: this.file.type,
     };
 
     try {

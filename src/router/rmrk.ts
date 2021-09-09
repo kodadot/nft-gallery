@@ -62,7 +62,7 @@ export default [
     component: SimpleMint
   },
   {
-    path: '/rmrk/permamint',
+    path: '/permafrost/create',
     name: 'permafrost',
     component: PermaMint
   },
