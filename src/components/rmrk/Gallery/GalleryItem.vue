@@ -298,7 +298,7 @@ export default class GalleryItem extends Vue {
   }
 
   protected handleUnlist() {
-    //call unlist function from the AvailableActions component
+    // call unlist function from the AvailableActions component
     (this.$refs.actions as AvailableActions).unlistNft();
   }
 
