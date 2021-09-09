@@ -35,6 +35,7 @@ export default class Money extends Vue {
   }
 
   public mounted() {
+    console.log(this.value)
     if (this.showFiatValue) {
       this.getFiatValue()
     }

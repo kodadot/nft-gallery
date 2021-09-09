@@ -36,19 +36,19 @@
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Owners</p>
-					<p class="title">123</p>
+					<p class="title">{{collectionSoldedNFT}}</p>
 				</div>
 			</div>
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Floor price</p>
-					<p class="title">{{collectionFloorPrice}}</p>
+					<p class="title"><Money :value="collectionFloorPrice" inline /></p>
 				</div>
 			</div>
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Volume traded</p>
-					<p class="title">789</p>
+					<p class="title"><Money :value="collectionSoldedNFT * collectionFloorPrice" inline /></p>
 				</div>
 			</div>
 		</nav>
@@ -73,6 +73,7 @@ const components = {
 		import('@/components/rmrk/Gallery/GalleryCardList.vue'),
 	Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
 	ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
 }
 
 @Component<CollectionItem>({
@@ -157,8 +158,15 @@ export default class CollectionItem extends Vue {
   }
 
   get collectionFloorPrice() {
-    console.log(this.collection.nfts.map(nft => parseFloat(nft.price.substring(0, 6))).filter(price => price !== 0))
-    return Math.min(...this.collection.nfts.map(nft => parseFloat(nft.price.substring(0, 6))).filter(price => price !== 0))
+    return Math.min(...this.collection.nfts.map(nft => nft.price).filter(price => price !== '0'))
+  }
+
+  get collectionSoldedNFT() {
+    return this.collection.nfts.map(nft => nft.price).filter(price => price == 0).length
+  }
+
+  get collectionTradedVol() {
+    return Math.floor(Math.random() * 10)
   }
 
 	get sharingVisible() {
