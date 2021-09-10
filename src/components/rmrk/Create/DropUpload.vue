@@ -35,6 +35,25 @@ export default class extends Vue {
   protected url: string = '';
   protected hasError: boolean = false;
 
+
+  public created() {
+    document.addEventListener('paste', this.onPasteImage);
+  }
+
+  public beforeDestroy() {
+    document.removeEventListener('paste', this.onPasteImage);
+  }
+
+  public onPasteImage(pasteEvent :ClipboardEvent) {
+    /* handling paste logic */
+    let item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
+    if (item && item?.type.indexOf("image") === 0) {
+      const blob = item.getAsFile();
+      this.file = blob;
+      this.createInput(blob);
+    }
+  }
+
   @Watch('file')
   public createInput(file: Blob): void {
     const reader = new FileReader();
