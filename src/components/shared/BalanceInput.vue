@@ -3,13 +3,12 @@
     <b-field :label="$t(label)" class="balance">
       <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0"/>
       <p class="control balance">
-        <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput" v-if="!showUsdLabel">
+        <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
             {{ u.name }}
           </option>
         </b-select>
       </p>
-      <div class="option" v-if="showUsdLabel">USD</div>
     </b-field>
   </div>
 </template>
@@ -36,7 +35,6 @@ export default class BalanceInput extends Mixins(ChainMixin) {
   private selectedUnit: number = 1;
   @Prop({ default: 'balance' }) public label!: string;
   @Prop({ default: true }) public calculate!: boolean;
-  @Prop({ default: false }) public showUsdLabel!: boolean;
 
   get inputValue(): number {
     return this.value;
@@ -72,13 +70,3 @@ export default class BalanceInput extends Mixins(ChainMixin) {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/styles/variables';
-  .option {
-    border: 1px solid #fff;
-    display: flex;
-    align-items: center;
-    padding: 0rem 2.3rem;
-  }
-</style>

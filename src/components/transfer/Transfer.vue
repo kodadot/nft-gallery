@@ -29,7 +29,7 @@
             <BalanceInput v-model="price" label="Amount" :calculate="false" @input="onAmountFieldChange"/>
            </b-field>
            <b-field>
-            <BalanceInput v-model="usdValue" :showUsdLabel="true" @input="onUSDFieldChange" label="USD Value (approx)" :calculate="false" />
+            <ReadOnlyBalanceInput v-model="usdValue" @input="onUSDFieldChange" labelInput="USD Value (approx)" label="USD" />
            </b-field>
           </div>
 
@@ -75,11 +75,12 @@ import { calculateBalance } from '@/utils/formatBalance';
 import correctFormat from '@/utils/ss58Format';
 import { checkAddress } from '@polkadot/util-crypto';
 import { urlBuilderTransaction } from '@/utils/explorerGuide';
-
+import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 @Component({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue')
@@ -107,7 +108,7 @@ export default class Transfer extends Mixins(
   protected onAmountFieldChange() {
     /* calculating usd value on the basis of price entered */
     if (this.price) {
-      this.usdValue = Number(Math.ceil(this.$store.getters.getCurrentKSMValue * this.price));
+      this.usdValue = calculateUsdFromKsm(this.$store.getters.getCurrentKSMValue, this.price);
     } else {
       this.usdValue = 0;
     }
@@ -116,7 +117,7 @@ export default class Transfer extends Mixins(
   protected onUSDFieldChange() {
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
-      this.price = Math.ceil((this.usdValue / this.$store.getters.getCurrentKSMValue) * 100)/100;
+      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue);
     } else {
       this.price = 0;
     }
