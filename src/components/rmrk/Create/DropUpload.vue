@@ -44,10 +44,10 @@ export default class extends Vue {
     document.removeEventListener('paste', this.onPasteImage);
   }
 
-  public onPasteImage(pasteEvent :ClipboardEvent) {
+  public onPasteImage(pasteEvent: ClipboardEvent) {
     /* handling paste logic */
     let item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
-    if (item && item?.type.indexOf("image") === 0) {
+    if (item?.type.indexOf("image") === 0) {
       const blob = item.getAsFile();
       this.file = blob;
       this.createInput(blob);
