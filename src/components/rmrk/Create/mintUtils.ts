@@ -85,7 +85,7 @@ export function between(
   min: string | number,
   max: string | number = Infinity
 ) {
-  return x >= min && x < max;
+  return x >= min && x <= max;
 }
 
 export function isMatchAll(text: string) {
