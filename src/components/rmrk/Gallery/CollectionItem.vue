@@ -92,12 +92,16 @@ const components = {
 export default class CollectionItem extends Vue {
   private id: string = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private nfts: NFTWithMeta[] = [];
+  // private nfts: NFTWithMeta[] = [];
   private isLoading: boolean = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
 
 	get name() {
     return this.collection.name || this.id
+  }
+
+  get nfts() {
+    return this.collection.nfts || []
   }
 
   get issuer() {
@@ -113,38 +117,37 @@ export default class CollectionItem extends Vue {
   }
 
 	get collectionLength() {
-    return this.collection.nfts.length;
+    return this.nfts.length;
   }
 
   get collectionFloorPrice() {
     return Math.min(
-      ...this.collection.nfts
-        .map(nft => nft.price)
-        .filter(price => price !== '0')
+      ...this.nfts
+        .map(nft => Number(nft.price))
+        .filter(price => price !== 0)
     );
   }
 
   get collectionSoldedNFT() {
-    return this.collection.nfts
+    return this.nfts
       .map(nft => nft.price)
-      .filter(price => price == 0).length;
+      .filter(price => price === '0').length;
   }
 
   get collectionTradedVol() {
-    let collectedNFT = this.collection.nfts
-      .map(nft => nft.events.filter(e => e.interaction === 'BUY'))
+    return this.nfts
+      .map(nft => nft.events.filter((e: { interaction: string; }) => e.interaction === 'BUY'))
       .filter(arr => arr.length).length;
-    return collectedNFT;
   }
 
   get collectionTradedVolumeNumber() {
-    let nftsEvents = this.collection.nfts.map(nft => nft.events);
-    let sum = nftsEvents
-      .map(event => event.filter(e => e.interaction === 'BUY'))
+    const nftsEvents = this.nfts.map(nft => nft.events);
+    const sum = nftsEvents
+      .map(event => event.filter((e: { interaction: string; }) => e.interaction === 'BUY'))
       .map((item, key) => {
         return (
           item.length &&
-          nftsEvents[key].find(e => e.interaction === 'LIST').meta
+          nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
         );
       })
       .reduce((a, b) => Number(a) + Number(b), 0);

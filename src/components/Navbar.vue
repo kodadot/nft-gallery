@@ -34,6 +34,11 @@
             :to="{ name: 'simpleMint'}">
             {{ $t('Simple') }}
           </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'permafrost'}">
+            {{ $t('Permafrost') }}
+          </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"

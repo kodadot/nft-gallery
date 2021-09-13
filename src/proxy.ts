@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { NFT, NFTMetadata } from './components/rmrk/service/scheme';
 import { APIKeys, pinFile as pinFileToIPFS } from './pinata';
 import { extractCid, justHash } from './utils/ipfs';
 
@@ -97,6 +98,44 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
       return data.data.cid;
     } else {
       throw new Error('Unable to PIN for reasons');
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+const PERMAFROST_URL = process.env.VUE_APP_PERMAFROST_URL
+export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: string): Promise<string> => {
+
+  if (!PERMAFROST_URL) {
+    throw new Error('No Permafrost URL set')
+  }
+
+  const formData = new FormData();
+  formData.append('avatar', file);
+
+  Object.entries(nftMeta).forEach(([key, value]) => {
+    if (key === 'attributes') {
+      formData.append('attributes', JSON.stringify(value));
+    } else {
+      formData.append(key, value);
+    }
+
+  });
+
+  formData.append('collection', collection);
+
+  try {
+    const { status, data } = await Axios.post(PERMAFROST_URL + '/store', formData, {
+      headers: {
+        'Content-Type': `multipart/form-data`,
+      }
+    });
+    console.log('[PROXY] Permafrost', status, data);
+    if (status < 400) {
+      return data.arweaveId
+    } else {
+      throw new Error('Unable to store for reasons');
     }
   } catch (e) {
     throw e;

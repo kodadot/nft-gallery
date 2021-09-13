@@ -11,6 +11,7 @@ query collectionById($id: String!) {
         price
         burned
         events
+        currentOwner
       }
     }
   }
