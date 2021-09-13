@@ -15,7 +15,7 @@ Thank you for your contribution to the KodaDot NFT gallery.
 - [ ] Refactoring
 
 ### What's new? (may be part of changelog)
-- closes #<issue_number> - <Brief_description_how_you_fixed_it>
+- closes #<issue_number> - <Brief_description_how_you've_fixed_it>
 
 ### If issue had bounty label ($,$$,$$$)
-- Your KSM address: <Kusama_address> 
+- Fill up your KSM address: https://nft.kodadot.xyz/transfer/?target=<Kusama_Address> 
