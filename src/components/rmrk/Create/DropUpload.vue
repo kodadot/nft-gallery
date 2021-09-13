@@ -10,7 +10,7 @@
             <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
           </p>
           <p v-if="!file">{{ label }}</p>
-          <p v-else-if="Array.isArray(file)">Nice you added <b>{{ file.length }}</b> NFTs. Click or drop to add more!</p>
+          <p v-else-if="Array.isArray(file)">Click or drop to add more!</p>
           <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
         </div>
       </section>
@@ -40,10 +40,25 @@ export default class extends Vue {
 
   @Watch('file')
   public createInput(file: Blob | Blob[]): void {
+    if (Array.isArray(file) && this.multiple) {
+      this.handleMultipleFilesUpload(file);
+    } else if (file) {
+      this.handleSingleFileUpload(file as Blob);
+    }
+  }
+
+  handleSingleFileUpload(file: Blob): void {
     this.$emit('input', file);
     if (this.preview && !this.multiple) {
       this.url = URL.createObjectURL(file);
       this.hasError = false;
+    }
+  }
+
+  handleMultipleFilesUpload(files: Blob[]): void {
+    if (files.length > 0) {
+      this.$emit('input', files);
+      setTimeout(() => this.file = [], 1000);
     }
   }
 

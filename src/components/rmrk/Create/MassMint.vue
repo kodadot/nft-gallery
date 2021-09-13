@@ -1,6 +1,6 @@
 <template>
   <div class="columns mb-6">
-    <div class="column is-7 is-offset-3">
+    <div class="column is-6 is-offset-3">
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
@@ -84,7 +84,7 @@
           </p>
 
           <hr />
-          <b-field v-for="(file, index) in massMints" :key="index">
+          <div v-for="(file, index) in massMints" :key="index">
             <MassMintItem
               v-bind.sync="massMints[index]"
               :index="index"
@@ -93,7 +93,7 @@
               @remove="hadleItemRemoval"
             />
             <hr style="opacity: 0.1;" />
-          </b-field>
+          </div>
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
@@ -172,8 +172,7 @@ import {
   MassMintNFT
 } from '../service/scheme';
 import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
-import { formatBalance } from '@polkadot/util';
+import { pinJson, getKey, revokeKey } from '@/proxy';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
 import NFTUtils, { MintType } from '../service/NftUtils';
@@ -372,19 +371,21 @@ export default class MassMint extends Mixins(
       }
       showNotification('Command parsed!', notificationTypes.success);
     } catch (e) {
-
       showNotification((e as Error).message, notificationTypes.danger);
     }
   }
 
   @Watch('files')
   public onFilesChange(files: File[]) {
-    this.massMints = files.map<MassMintNFT>(file => ({
+    showNotification(`Added files ${files.length}`, notificationTypes.info);
+    const massMints = files.map<MassMintNFT>(file => ({
       name: file.name,
       description: '',
       price: 0,
       file
     }));
+
+    this.massMints = [...this.massMints, ...massMints];
   }
 
   protected hadleItemRemoval(index: number) {
@@ -413,105 +414,82 @@ export default class MassMint extends Mixins(
     }
 
     this.isLoading = true;
-    const { accountId, version } = this;
+    const { accountId } = this;
     const { symbol, alreadyMinted } = this.selectedCollection;
 
     this.initTransactionLoader();
     this.status = 'loader.ipfs';
 
-    const meta = await this.constructMeta();
+    try {
+      const meta = await this.constructMeta();
 
-    const mint = this.massMints.map((e, i) =>
-      NFTUtils.createNFT(accountId, i + alreadyMinted, symbol, e.name, meta[i])
-    );
-    const remarks: string[] = mint.map(nft =>
-      NFTUtils.encodeNFT(nft, this.version)
-    );
+      const mint = this.massMints.map((e, i) =>
+        NFTUtils.createNFT(
+          accountId,
+          i + alreadyMinted,
+          symbol,
+          e.name,
+          meta[i]
+        )
+      );
+      const remarks: string[] = mint.map(nft =>
+        NFTUtils.encodeNFT(nft, this.version)
+      );
 
-    this.status = 'loader.sign';
-    const { api } = Connector.getInstance();
+      this.status = 'loader.sign';
+      const { api } = Connector.getInstance();
 
-    const cb = api.tx.utility.batchAll;
+      const cb = api.tx.utility.batchAll;
 
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
+      const args = !this.hasSupport
+        ? remarks.map(this.toRemark)
+        : [
+            ...remarks.map(this.toRemark),
+            ...(await this.canSupport()),
+            ...(await this.canOffset())
+          ];
 
-    const tx = await exec(
-      this.accountId,
-      '',
-      cb,
-      [args],
-      txCb(
-        async blockHash => {
-          execResultValue(tx);
-          const header = await api.rpc.chain.getHeader(blockHash);
-          const blockNumber = header.number.toString();
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
-          this.listForSale(
-            mint.map((e, i) => ({
-              ...e,
-              price: calculateBalance(
-                this.massMints[i].price,
-                this.decimals
-              ).toString()
-            })),
-            blockNumber
-          );
-
-          showNotification(
-            `[NFT] Saved ${mint.length} entries in block ${blockNumber}`,
-            notificationTypes.success
-          );
-
-          this.isLoading = false;
-        },
-        dispatchError => {
-          execResultValue(tx);
-          if (dispatchError.isModule) {
-            const decoded = api.registry.findMetaError(dispatchError.asModule);
-            const { docs, name, section } = decoded;
-            showNotification(
-              `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-              notificationTypes.danger
+            this.listForSale(
+              mint.map((e, i) => ({
+                ...e,
+                price: calculateBalance(
+                  this.massMints[i].price,
+                  this.decimals
+                ).toString()
+              })),
+              blockNumber
             );
-          } else {
+
             showNotification(
-              `[ERR] ${dispatchError.toString()}`,
-              notificationTypes.danger
+              `[NFT] Saved ${mint.length} entries in block ${blockNumber}`,
+              notificationTypes.success
             );
-          }
 
-          this.isLoading = false;
-        },
-        res => {
-          if (res.status.isReady) {
-            this.status = 'loader.casting';
-            return;
-          }
-
-          if (res.status.isInBlock) {
-            this.status = 'loader.block';
-            return;
-          }
-
-          if (res.status.isFinalized) {
-            this.status = 'loader.finalized';
-            return;
-          }
-
-          this.status = '';
-        }
-      )
-    );
-
-    // check validity
-    // PIN Image
-    // Construct and pin JSON
+            this.isLoading = false;
+          },
+          dispatchError => {
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
+          },
+          res => this.resolveStatus(res.status)
+        )
+      );
+    } catch (e: any) {
+      showNotification(e.toString(), notificationTypes.danger);
+      this.isLoading = false;
+    }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
@@ -651,26 +629,6 @@ export default class MassMint extends Mixins(
       revokeKey(keys.pinata_api_key).then(console.log, console.warn);
 
       return list;
-
-      // const files = this.massMints.map(mint => pinFile(mint.file as File));
-      // const hashes = await Promise.all(files).then(files =>
-      //   files.map(unSanitizeIpfsUrl)
-      // );
-
-      // const metaList = this.massMints
-      //   .map((mint, i) => ({
-      //     name: mint.name,
-      //     description: mint.description,
-      //     image: hashes[i],
-      //     external_url: `https://nft.kodadot.xyz`,
-      //     type: mint.file?.type
-      //   }))
-      //   .map(pinJson);
-
-      // const meta = await Promise.all(metaList).then(metaList =>
-      //   metaList.map(unSanitizeIpfsUrl)
-      // );
-      // return meta;
     } catch (e) {
       throw new ReferenceError((e as Error).message);
     }

@@ -7,7 +7,7 @@
       <p class="mt-1 title is-6">{{ nft.file.name }}</p>
       <a @click="remove" class="card-footer-item">Remove</a>
     </div>
-    <div class="column">
+    <div class="column is-three-quarters">
       <b-field :label="$i18n.t('Collection description')">
         <b-input
           placeholder="Name your NFT"
