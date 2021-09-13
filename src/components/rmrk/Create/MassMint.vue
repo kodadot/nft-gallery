@@ -56,94 +56,100 @@
             You have minted {{ selectedCollection.alreadyMinted }} out of
             {{ selectedCollection.max || Infinity }}
           </h6>
-
-          <MetadataUpload
-            v-model="files"
-            label="Drop all NFT images here. Currently images are supported (PNG, JPEG, GIF, SVG)"
-            expanded
-            multiple
-            accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
-          />
-
-          <b-field :label="$i18n.t('mint.command')">
-            <b-input
-              v-model="commands"
-              type="textarea"
-              lines="20"
-              placeholder="Add commands for your NFTs"
-              spellcheck="true"
-            ></b-input>
+          <b-field v-if="!selectedCollection && !collections.length">
+            <NoCollection label="helper.noInfinityCollections" />
           </b-field>
-          <b-field>
-            <b-button type="is-info" @click="transform" outlined>
-              {{ $t("mint.transform") }}
-            </b-button>
-          </b-field>
-          <p class="title is-size-4">
-            NFTs to mint ({{ massMints.length }} pieces)
-          </p>
 
-          <hr />
-          <div v-for="(file, index) in massMints" :key="index">
-            <MassMintItem
-              v-bind.sync="massMints[index]"
-              :index="index"
-              :nft="file"
-              :file="file.file"
-              @remove="hadleItemRemoval"
+          <template v-if="selectedCollection">
+            <MetadataUpload
+              v-model="files"
+              label="Drop all NFT images here. Currently images are supported (PNG, JPEG, GIF, SVG)"
+              expanded
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
             />
-            <hr style="opacity: 0.1;" />
-          </div>
 
-          <b-field>
-            <PasswordInput v-model="password" :account="accountId" />
-          </b-field>
-          <b-field>
-            <b-button
-              type="is-primary"
-              icon-left="paper-plane"
-              @click="sub"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined
-            >
-              {{ $t("mint.submit") }}
-            </b-button>
-          </b-field>
-          <b-field>
-            <b-button
-              type="is-text"
-              icon-left="calculator"
-              @click="estimateTx"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined
-            >
-              <template v-if="!estimated">
-                {{ $t("mint.estimate") }}
-              </template>
-              <template v-else>
-                {{ $t("mint.estimated") }}
-                <Money :value="estimated" inline />
-              </template>
-            </b-button>
-          </b-field>
-          <b-field>
-            <Support v-model="hasSupport" :price="filePrice" />
-          </b-field>
-          <b-field>
-            <Support
-              v-model="hasCarbonOffset"
-              :price="1"
-              activeMessage="I'm making carbonless NFT"
-              passiveMessage="I don't want to have carbonless NFT"
-            />
-          </b-field>
-          <b-field>
-            <b-switch v-model="hasToS" :rounded="false">
-              {{ $t("termOfService.accept") }}
-            </b-switch>
-          </b-field>
+            <b-field :label="$i18n.t('mint.command')">
+              <b-input
+                v-model="commands"
+                type="textarea"
+                lines="20"
+                placeholder="Add commands for your NFTs"
+                spellcheck="true"
+              ></b-input>
+            </b-field>
+            <b-field>
+              <b-button type="is-info" @click="transform" outlined>
+                {{ $t("mint.transform") }}
+              </b-button>
+            </b-field>
+            <p class="title is-size-4">
+              NFTs to mint ({{ massMints.length }} pieces)
+            </p>
+
+            <hr />
+
+            <div v-for="(file, index) in massMints" :key="index">
+              <MassMintItem
+                v-bind.sync="massMints[index]"
+                :index="index"
+                :nft="file"
+                :file="file.file"
+                @remove="hadleItemRemoval"
+              />
+              <hr style="opacity: 0.1;" />
+            </div>
+
+            <b-field>
+              <PasswordInput v-model="password" :account="accountId" />
+            </b-field>
+            <b-field>
+              <b-button
+                type="is-primary"
+                icon-left="paper-plane"
+                @click="sub"
+                :disabled="disabled"
+                :loading="isLoading"
+                outlined
+              >
+                {{ $t("mint.submit") }}
+              </b-button>
+            </b-field>
+            <b-field>
+              <b-button
+                type="is-text"
+                icon-left="calculator"
+                @click="estimateTx"
+                :disabled="disabled"
+                :loading="isLoading"
+                outlined
+              >
+                <template v-if="!estimated">
+                  {{ $t("mint.estimate") }}
+                </template>
+                <template v-else>
+                  {{ $t("mint.estimated") }}
+                  <Money :value="estimated" inline />
+                </template>
+              </b-button>
+            </b-field>
+            <b-field>
+              <Support v-model="hasSupport" :price="filePrice" />
+            </b-field>
+            <b-field>
+              <Support
+                v-model="hasCarbonOffset"
+                :price="1"
+                activeMessage="I'm making carbonless NFT"
+                passiveMessage="I don't want to have carbonless NFT"
+              />
+            </b-field>
+            <b-field>
+              <b-switch v-model="hasToS" :rounded="false">
+                {{ $t("termOfService.accept") }}
+              </b-switch>
+            </b-field>
+          </template>
         </div>
       </section>
     </div>
@@ -212,7 +218,8 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
-  MassMintItem: () => import('./MassMintItem.vue')
+  MassMintItem: () => import('./MassMintItem.vue'),
+  NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue')
 };
 
 @Component<MassMint>({
@@ -345,7 +352,6 @@ export default class MassMint extends Mixins(
           name: replaceIndex(parsedItem.name, index + 1)
         };
       }
-
       return item;
     });
   }
@@ -389,7 +395,9 @@ export default class MassMint extends Mixins(
   }
 
   protected hadleItemRemoval(index: number) {
+    showNotification(`Removing ${index + 1} (${this.massMints[index].name})`, notificationTypes.info);
     this.massMints.splice(index, 1);
+
   }
 
   get accountId() {
@@ -486,8 +494,8 @@ export default class MassMint extends Mixins(
           res => this.resolveStatus(res.status)
         )
       );
-    } catch (e: any) {
-      showNotification(e.toString(), notificationTypes.danger);
+    } catch (e) {
+      showNotification((e as Error).toString(), notificationTypes.danger);
       this.isLoading = false;
     }
   }
