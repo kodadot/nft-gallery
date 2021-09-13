@@ -1,4 +1,10 @@
-Thank you for your contribution to the KodaDot NFT gallery.
+Thank you for your contribution to the KodaDot NFT gallery, 
+we really appreciate your contribution!
+
+### PR type
+- [ ] Bugfix
+- [ ] Feature
+- [ ] Refactoring
 
 ### Before submitting this PR, please make sure:
 - [ ] Your code builds clean without any erros or warnigns
@@ -8,14 +14,11 @@ Thank you for your contribution to the KodaDot NFT gallery.
 
 ### Optional
 - [ ] You've tested it on mobile
-
-### PR type
-- [ ] Bugfix
-- [ ] Feature
-- [ ] Refactoring
+- [ ] Are there any edge cases? Name if any 
 
 ### What's new? (may be part of changelog)
 - closes #<issue_number> - <Brief_description_how_you've_fixed_it>
 
 ### If issue had bounty label ($,$$,$$$)
-- Fill up your KSM address: https://nft.kodadot.xyz/transfer/?target=<Kusama_Address> 
+- Fill up your KSM address: https://kodadot.xyz/transfer/?target=<Kusama_Address> 
+
