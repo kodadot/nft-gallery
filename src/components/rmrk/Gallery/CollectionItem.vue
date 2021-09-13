@@ -21,34 +21,7 @@
       </div>
     </div>
 
-		<div class="level">
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Items</p>
-          <p class="title">{{ collectionLength }}</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Owners</p>
-          <p class="title">{{ collectionTradedVol }}</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Floor price</p>
-          <p class="title"><Money :value="collectionFloorPrice" inline /></p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Volume traded</p>
-          <p class="title">
-            <Money :value="collectionTradedVolumeNumber" inline />
-          </p>
-        </div>
-      </div>
-    </div>
+    <CollectionActivity :nfts="collection.nfts" />
 
     <GalleryCardList :items="collection.nfts" />
 
@@ -66,9 +39,9 @@ import collectionById from '@/queries/collectionById.graphql'
 import { CollectionMetadata } from '../types';
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  Money: () => import('@/components/shared/format/Money.vue')
 };
 @Component<CollectionItem>({
   metaInfo() {
@@ -110,48 +83,6 @@ export default class CollectionItem extends Vue {
 
   get owner() {
     return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
-  }
-
-  get sharingVisible() {
-    return !isShareMode
-  }
-
-	get collectionLength() {
-    return this.nfts.length;
-  }
-
-  get collectionFloorPrice() {
-    return Math.min(
-      ...this.nfts
-        .map(nft => Number(nft.price))
-        .filter(price => price !== 0)
-    );
-  }
-
-  get collectionSoldedNFT() {
-    return this.nfts
-      .map(nft => nft.price)
-      .filter(price => price === '0').length;
-  }
-
-  get collectionTradedVol() {
-    return this.nfts
-      .map(nft => nft.events.filter((e: { interaction: string; }) => e.interaction === 'BUY'))
-      .filter(arr => arr.length).length;
-  }
-
-  get collectionTradedVolumeNumber() {
-    const nftsEvents = this.nfts.map(nft => nft.events);
-    const sum = nftsEvents
-      .map(event => event.filter((e: { interaction: string; }) => e.interaction === 'BUY'))
-      .map((item, key) => {
-        return (
-          item.length &&
-          nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
-        );
-      })
-      .reduce((a, b) => Number(a) + Number(b), 0);
-    return sum;
   }
 
   public created() {
