@@ -342,8 +342,8 @@ export default class MassMint extends Mixins(
         return {
           ...item,
           ...parsedItem,
-          description: replaceIndex(item.description, index + 1),
-          name: replaceIndex(item.name, index + 1)
+          description: replaceIndex(parsedItem.description, index + 1),
+          name: replaceIndex(parsedItem.name, index + 1)
         };
       }
 
