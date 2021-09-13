@@ -88,7 +88,7 @@ export default class GalleryCard extends Vue {
         this.title = meta.name
       } else {
         const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT, getSanitizer(this.metadata, undefined, 'permafrost'))
-        this.image = getSanitizer(meta.image || '')(meta.image || '')
+        this.image = getSanitizer(m.image || '')(m.image || '')
         this.title = m.name
         update(this.metadata, () => m)
       }
