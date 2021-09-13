@@ -4,7 +4,7 @@ import { formatBalance } from '@polkadot/util';
 function format(balance: number | string | BN | bigint, decimals: number = 12, withUnit?: boolean | string, withSi?: boolean ) {
   try {
     return formatBalance(balance, { decimals , withUnit , forceUnit: '-', withSi })
-  } catch (e) {
+  } catch (e: any) {
     console.error('[FORMAT BALANCE]', e.message, String(balance), typeof balance, decimals, withUnit)
     return ''
   }

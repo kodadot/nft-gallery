@@ -1,7 +1,7 @@
 <template>
   <ExternalLink :url="link" :id="id" class="is-flex">
     <figure class="image is-24x24 icon__less-margin">
-      <img :src="require('@/assets/arweave.svg')" />
+      <img src="/arweave.svg" />
     </figure>
     <b class="is-align-self-center">View {{ label }} on Arweave</b>
   </ExternalLink>

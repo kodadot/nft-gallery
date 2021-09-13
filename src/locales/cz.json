@@ -26,20 +26,13 @@
   "computed id": "id počítače",
   "content": "obsah",
   "create collection": "vytvořit kolekci",
-  "Owner address of minted art":
-    "Adresa vlastníka vytvořeného díla",
-  "Name you want to show in gallery view":
-    "Jméno, které chcete použít v zobrazení galerie",
-  "Symbol you want to trade it under":
-    "Symbol, pod kterým chcete obchodovat",
-  "Describe your collection, it will show under collection view":
-    "Popište svoji kolekci, popis se ukáže pod zobrazením kolekce",
-  "Add collection cover which will show up at collection view":
-    "Přidejte cover kolekce, který se ukáže při zobrazení kolekce",
-  "Select collection where do you want mint your token":
-    "Zvolte kolekci, ve které chcete vytvořit svůj token",
-  "Maximum NFTs in collection":
-    "Maximum NFTs v kolekci",
+  "Owner address of minted art": "Adresa vlastníka vytvořeného díla",
+  "Name you want to show in gallery view": "Jméno, které chcete použít v zobrazení galerie",
+  "Symbol you want to trade it under": "Symbol, pod kterým chcete obchodovat",
+  "Describe your collection, it will show under collection view": "Popište svoji kolekci, popis se ukáže pod zobrazením kolekce",
+  "Add collection cover which will show up at collection view": "Přidejte cover kolekce, který se ukáže při zobrazení kolekce",
+  "Select collection where do you want mint your token": "Zvolte kolekci, ve které chcete vytvořit svůj token",
+  "Maximum NFTs in collection": "Maximum NFTs v kolekci",
   "Account": "Účet",
   "Name": "Jméno",
   "Symbol": "Symbol",
@@ -63,48 +56,123 @@
   "Feedback? We\\'d be happy to discuss it.": "Máte zpětnou vazbu? Rádi to prodiskutujeme.",
   "Read our story, how we started.": "Přečtěte si náš příběh, jak jsme začali.",
   "Frequently Asked Question": "Často kladené otázky",
-  "FAQQ1": "Který coin se používá pro NFTs?",
-  "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. Můžete je dostat skrze náš <a href=\"#/rmrk/credit\">Kredit</a> , nebo <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">skrze centralizovanou burzu</a>.",
-  "FAQQ2": "Jakou peněženku potřebuji pro vytváření, kupování a sbírání?",
-  "FAQA2": "Doporučujeme prozatím používat <a href=\"https://polkadot.js.org/extension/\">Polkadot Rozšíření</a>. Později plánujeme přidat mobile-first řešení. V každém případě, <b>zálohujte váš seed, je to vaše vlastnictví a úložiště hodnot.</b>",
-  "FAQQ3": "Jak přidám svoje díla?",
-  "FAQA3": "Jděte na <a href=\"/#/rmrk/create\">Vytvořit</a>. Nejdřív musíte vytvořit svou Kolekci a potom Token. Pokud potřebujete video, napište nám zprávu!",
-  "FAQQ4": "Jak mohu směnit KSM pro moje dílo?",
-  "FAQA4": "KSM je široce dostupné na známých burzách. Denní likvidita na burzách je v době psaní těchto odpovědí okolo $200M a 1 $KSM se obchoduje okolo ~ $220.",
-  "FAQQ5": "Jak mohu koupit KSM jako nováček?",
-  "FAQA5": "Jsme spojeni s <a href=\"https://ramp.network\">Ramp.network</a>, klickněte na <a href=\"#/rmrk/credit\">Kredit v navigační liště</a>. Pro doplnění vaší KSM adresy můžete použít Revolut, bankovní převod, Debetní Kartu a Apple Pay. Můžete <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">zakoupit $KSM na Binance</a>",
-  "FAQQ6": "Jak mohu zakoupit KSM s ETH, DAI, BTC..?",
-  "FAQA6": "Pro nejlepší sazby, můžete <a href=\"https://www.coingecko.com/en/coins/kusama\">použít centralizovanou burzu ze seznamu</a>. Pro nejpohodlnější nákup <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">vám doporučujeme použít Binance</a>. Pokud <a href=\"https://simpleswap.io/?ref=6cc6e0c538ad\">chcete pouze jednoduchý převod, zkuste SimpleSwap</a>.",
-  "FAQQ7": "Jak to funguje, když jsem tvůrce NFT?",
-  "FAQA7": "Zaprvé, musíte si nainstalovat <a href=\"https://polkadot.js.org/extension/\">Polkadot Rozšíření</a>, <b>zálohovat svůj seed</b>. Potom nabijete svou peněženku skrze náš <a href=\"#/rmrk/credit\">Kredit</a> . Když už máte prostředky, přejděte na <a href=\"/#/rmrk/create\">Vytvořit</a>, vytvořte Kolekci. Počkejte, dokud není Kolekce vytvořena, potom jděte na <a href=\"/#/rmrk/create\">Vytvořit Token</a> vytvořte svůj úplně první token! Pokud máte problém, pracujeme na vylepšení uživatelské zkušenosti. KodaDot má pouze mesíc starý kód a je zde mnoho místa na vylepšení, měte strpení, jsme pouze 2 členný team. Úspěšné vytváření 😌",
-  "FAQQ8": "Je to použitelné ve virtuálních světech?",
-  "FAQA8": "Prozkoumáváme možnosti, plánujeme se tomu aktivně věnovat v našem milníku č. 2",
-  "FAQQ9": "Narazil jsem na chybu, jak to vyřešit?",
-  "FAQA9": "Snažíme se postupně aktualizovat aplikaci na denní bázi a opravovat chyby, jak je to jen možné. Možná příčina je aktualizace na novou verzi, zatím co prohlížeč má načtenou ještě tu starou. Pokud jste na <b>Windows</b>, zkuste podržet <b>Ctrl a stisknout F5</b>. <b>uživatelé Mac</b>, podržet <b>CMD a Shift a potom stisknout R</b>. Pokud to nepomohlo, napište nám na Twitteru s přiloženým screenshotem kde je otevřená konzole pro vývojáře.",
-  "FAQQ10": "Co znamená SEND, CONSUME, LIST?",
-  "FAQA10": "SEND někomu odesílá, CONSUME spálí, LIST zalistuje pro prodej, aby od vás mohl někdo kupovat.",
-  "FAQQ11": "Vytvořil jsem NFT, ale nevidím ho v galerii, kde je?",
-  "FAQA11": "Nejlepší je zkusit skrze <a href=\"https://kusama.subscan.io/\">Průzkumník Subscan</a> a vyhledat svou adresu. <a href=\"https://kusama.subscan.io/extrinsic/6095478-1\">Když se podíváte na extrinsics, najdete příklad jak vytvořené NFT vypadá v průzkumníku.</a>",
-  "FAQQ12": "Z jakých zemí akceptuje fiat on-ramp?",
-  "FAQA12": "Prozatím jsme si vědomi, že US není podporováno, všechny ostatní země by měly fungovat, <a href=\"https://support.ramp.network/en/article/what-countries-do-you-support-1ua7sn1/\">kompletní seznam akceptovaných zemí</a>. Toto prozatím nemůžeme nijak ovlivnit.",
-  "FAQQ13": "Jak mohu prodat svůj token?",
-  "FAQA13": "Prozatím použijte LIST v Akcích.",
-  "FAQQ14": "Nastavení poplatků za streamování?",
-  "FAQA14": "Prozatím nemáme žádnou chain logic, ale brzy plánujeme implementovat něco skvělého. <a href=\"https://twitter.com/kodadot\">Zůstaňte s námi a sledujte nás @KodaDot!</a>",
-  "FAQQ15": "Jak můžu založit svůj obchod?",
-  "FAQA15": "Právě implementujeme pohled na kolekci, soubory pohledů na kolekci. <a href=\"https://twitter.com/kodadot\">Zůstaňte s námi a sledujte nás @KodaDot!</a>",
-  "FAQQ16": "Jak fungují ocenění?",
-  "FAQA16": "To jsou srdce 🖤 pod NFT tokenem. Jsme <a href=\"https://github.com/Swader/rmrk-spec/issues/10\">původní autoři EMOTE v RMRK standardu</a> který funguje jako ocenění. Jeho funkcí je nalezení ceny pro vaše dílo.",
-  "FAQQ17": "Jste financovaní?",
-  "FAQA17": "Prozatím máme <a href=\"https://kusama.polkassembly.io/post/384\">Kusama Treasury financování pro Milník č. 1</a>. Aktivně sledujeme možnosti financování, případne bychom vybrali privátní prostředky. Napište nám, pokud máte zájem o privátní prodej.",
-  "FAQQ18": "Máte Telegram?",
-  "FAQA18": "Máme poze privátní pro tvůrce NFT, napište nám, pokud jste tvůrce NFT!",
-  "FAQQ19": "Budete mít AR/VR mód, nebo implementaci?",
-  "FAQA19": "Ano, je to součástí Milníku č. 2, buďte připraveni!",
-  "FAQQ20": "Jak otevřít vývojářskou konzoli?",
-  "FAQA20": "Pokud jste na Macu, v Chromu stiskněte <b>Option, CMD, J</b>, ve Firefoxu <b>Command + Option + K</b>.",
-  "FAQQ21": "Jak aktualizuji metadata pro rozšíření?",
-  "FAQA21": "Jděte na <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/settings/metadata\">Dotapps.io, Settings > Metadata</a> a uvidíte tlačítko <b>Update metadata</b>, potom aktualizujte své okno a mělo by to fungovat se současnými typy chainů",
-  "FAQQ22": "Objevila se mi \"Low balance error\"",
-  "FAQA22": "Zkontrolujte jestli máte <b>přenositelné</b> $KSM na vašem účtu, ne stakované. To je rozdíl. Můžete to zkontrolovat na <a href=\"https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts\">Dotapps.io > Accounts<a/> a jak se načtou zůstatky, uvidíte tam množství <b>Transferable</b>."
+  "faq": {
+    "q": {
+      "1": "Který coin se používá pro NFTs?",
+      "2": "Jakou peněženku potřebuji pro vytváření, kupování a sbírání?",
+      "3": "Jak přidám svoje díla?",
+      "4": "Jak mohu směnit KSM pro moje dílo?",
+      "5": "Jak mohu koupit KSM jako nováček?",
+      "6": "Jak mohu zakoupit KSM s ETH, DAI, BTC..?",
+      "7": "Jak to funguje, když jsem tvůrce NFT?",
+      "8": "Je to použitelné ve virtuálních světech?",
+      "9": "Narazil jsem na chybu, jak to vyřešit?",
+      "10": "Co znamená SEND, CONSUME, LIST?",
+      "11": "Vytvořil jsem NFT, ale nevidím ho v galerii, kde je?",
+      "12": "Z jakých zemí akceptuje fiat on-ramp?",
+      "13": "Jak mohu prodat svůj token?",
+      "14": "Nastavení poplatků za streamování?",
+      "15": "Jak můžu založit svůj obchod?",
+      "16": "Jak fungují ocenění?",
+      "17": "Jste financovaní?",
+      "18": "Máte Telegram?",
+      "19": "Budete mít AR/VR mód, nebo implementaci?",
+      "20": "Jak otevřít vývojářskou konzoli?",
+      "21": "Jak aktualizuji metadata pro rozšíření?",
+      "22": "Objevila se mi \"Low balance error\"",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 Můžete je dostat skrze náš @.md:faq.a.1.l2 , nebo @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Kredit](@.common:links.rmrk_credit.href)",
+        "l3": "[skrze centralizovanou burzu](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "Doporučujeme prozatím používat @.md:faq.a.2.l1 Později plánujeme přidat mobile-first řešení. V každém případě, <b>zálohujte váš seed, je to vaše vlastnictví a úložiště hodnot.</b>",
+        "l1": "[Polkadot Rozšíření](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "Jděte na @.md:faq.a.3.l1 Nejdřív musíte vytvořit svou Kolekci a potom Token. Pokud potřebujete video, napište nám zprávu!",
+        "l1": "[Vytvořit](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "KSM je široce dostupné na známých burzách. Denní likvidita na burzách je v době psaní těchto odpovědí okolo $200M a 1 $KSM se obchoduje okolo ~ $220. @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "Jsme spojeni s @.md:faq.a.5.l1, klickněte na  @.md:faq.a.1.l2 v navigační liště. Pro doplnění vaší KSM adresy můžete použít Revolut, bankovní převod, Debetní Kartu a Apple Pay. Můžete @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[zakoupit $KSM na Binance](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "Pro nejlepší sazby, můžete @.md:faq.a.6.l1 Pro nejpohodlnější nákup @.md:faq.a.6.l2 Pokud @.md:faq.a.6.l3",
+        "l1": "[použít centralizovanou burzu ze seznamu](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[vám doporučujeme použít Binance](@.common:links.binance_exchange.href).",
+        "l3": "[chcete pouze jednoduchý převod, zkuste SimpleSwap](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "Zaprvé, musíte si nainstalovat @.md:faq.a.2.l1, <b>zálohovat svůj seed</b>. Potom nabijete svou peněženku skrze náš @.md:faq.a.1.l2 Když už máte prostředky, přejděte na @.md:faq.a.3.l1, vytvořte svůj úplně první token! Pokud máte problém, pracujeme na vylepšení uživatelské zkušenosti. KodaDot má pouze mesíc starý kód a je zde mnoho místa na vylepšení, měte strpení, jsme pouze 2 členný team. Úspěšné vytváření 😌",
+        "l1": "[Create Token](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "Prozkoumáváme možnosti, plánujeme se tomu aktivně věnovat v našem milníku č. 2"
+      },
+      "9": {
+        "m": "Snažíme se postupně aktualizovat aplikaci na denní bázi a opravovat chyby, jak je to jen možné. Možná příčina je aktualizace na novou verzi, zatím co prohlížeč má načtenou ještě tu starou. Pokud jste na <b>Windows</b>, zkuste podržet <b>Ctrl a stisknout F5</b>. <b>uživatelé Mac</b>, podržet <b>CMD a Shift a potom stisknout R</b>. Pokud to nepomohlo, napište nám na Twitteru s přiloženým screenshotem kde je otevřená konzole pro vývojáře."
+      },
+      "10": {
+        "m": "SEND někomu odesílá, CONSUME spálí, LIST zalistuje pro prodej, aby od vás mohl někdo kupovat."
+      },
+      "11": {
+        "m": "Nejlepší je zkusit skrze @.md:faq.a.11.l1 a vyhledat svou adresu. @.md:faq.a.11.l2",
+        "l1": "[Průzkumník Subscan](@.common:links.kusama_scanner.href)",
+        "l2": "[Když se podíváte na extrinsics, najdete příklad jak vytvořené NFT vypadá v průzkumníku.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "Prozatím jsme si vědomi, že US není podporováno, všechny ostatní země by měly fungovat, @.md:faq.a.12.l1 Toto prozatím nemůžeme nijak ovlivnit.",
+        "l1": "[kompletní seznam akceptovaných zemí](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "Prozatím použijte LIST v Akcích."
+      },
+      "14": {
+        "m": "Prozatím nemáme žádnou chain logic, ale brzy plánujeme implementovat něco skvělého. @.md:faq.a.14.l1",
+        "l1": "[Zůstaňte s námi a sledujte nás @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "Právě implementujeme pohled na kolekci, soubory pohledů na kolekci. @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "To jsou srdce 🖤 pod NFT tokenem. Jsme @.md:faq.a.16.l1 který funguje jako ocenění. Jeho funkcí je nalezení ceny pro vaše dílo.",
+        "l1": "[původní autoři EMOTE v RMRK standardu](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "Prozatím máme @.md:faq.a.17.l1 Aktivně sledujeme možnosti financování, případne bychom vybrali privátní prostředky. Napište nám, pokud máte zájem o privátní prodej.",
+        "l1": "[Kusama Treasury financování pro Milník č. 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "Máme poze privátní pro tvůrce NFT, napište nám, pokud jste tvůrce NFT!"
+      },
+      "19": {
+        "m": "Ano, je to součástí Milníku č. 2, buďte připraveni!"
+      },
+      "20": {
+        "m": "Pokud jste na Macu, v Chromu stiskněte <b>Option, CMD, J</b>, ve Firefoxu <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Jděte na @.md:faq.a.21.l1 a uvidíte tlačítko <b>Update metadata</b>, potom aktualizujte své okno a mělo by to fungovat se současnými typy chainů",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Zkontrolujte jestli máte <b>přenositelné</b> $KSM na vašem účtu, ne stakované. To je rozdíl. Můžete to zkontrolovat na @.md:faq.a.22.l1 a jak se načtou zůstatky, uvidíte tam množství <b>Transferable</b>.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  }
 }

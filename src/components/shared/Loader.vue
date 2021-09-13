@@ -18,7 +18,7 @@ export default class Loader extends Vue {
   @Prop() public status!: string | TranslationWithArg;
   @Prop(Boolean) public value!: boolean;
 
-  protected placeholder = require('@/assets/infinity.svg');
+  protected placeholder = '/infinity.svg';
 
   get translation() {
     return typeof this.status === 'string' ? this.$t(this.status) : this.$t(...this.status);

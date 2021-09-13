@@ -14,12 +14,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Emit, Mixins } from 'vue-property-decorator';
 import Balance from '@/params/components/Balance.vue';
 import { units as defaultUnits } from '@/params/constants';
 import { Unit } from '@/params/types';
 import shouldUpdate from '@/utils/shouldUpdate';
 import { Debounce } from 'vue-debounce-decorator';
+import ChainMixin from '@/utils/mixins/chainMixin';
 
 const components = { Balance }
 
@@ -28,8 +29,8 @@ type BalanceType = {
 }
 
 @Component({ components })
-export default class BalanceInput extends Vue {
-  @Prop(Number) value!: number;
+export default class BalanceInput extends Mixins(ChainMixin) {
+  @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
   private selectedUnit: number = 1;
   @Prop({ default: 'balance' }) public label!: string;
@@ -41,18 +42,6 @@ export default class BalanceInput extends Vue {
 
   set inputValue(value: number) {
     this.handleInput(value);
-  }
-
-  get chainProperties() {
-    return this.$store.getters.getChainProperties;
-  }
-
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
-  }
-
-  get unit(): string {
-    return this.chainProperties.tokenSymbol
   }
 
   formatSelectedValue(value: number): number {
@@ -73,19 +62,6 @@ export default class BalanceInput extends Vue {
   public mounted() {
     this.units = defaultUnits.map(this.mapper);
   }
-
-  // @Watch('$store.getters.getChainProperties.tokenSymbol')
-  // protected updateUnit(val: string, oldVal: string) {
-  //   console.log('@Watch(unit)', val, oldVal)
-  //   if (shouldUpdate(val, oldVal)) {
-  //     this.units = defaultUnits.map(u => {
-  //       if (u.name === '-') {
-  //         return { ...u, name: val }
-  //       }
-  //       return u
-  //     })
-  //   }
-  // }
 
   @Debounce(200)
   @Emit('input')

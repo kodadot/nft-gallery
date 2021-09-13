@@ -6,6 +6,7 @@ query nftListCollected($account: String!, $first: Int!, $offset: Int) {
       issuer: { notEqualTo: $account }
       currentOwner: { equalTo: $account }
       name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
     }
     orderBy: BLOCK_NUMBER_DESC
     first: $first

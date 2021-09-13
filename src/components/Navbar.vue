@@ -36,6 +36,11 @@
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
+            :to="{ name: 'permafrost'}">
+            {{ $t('Permafrost') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
             :to="{ name: 'massMint'}">
             {{ $t('Mass') }}
           </b-navbar-item>
@@ -66,6 +71,11 @@
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
+            :to="{ name: 'transfer'}">
+            {{ $t('Transfer') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
             :to="{ name: 'settings'}">
             {{ $t('Settings') }}
           </b-navbar-item>
@@ -88,7 +98,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import LocaleChanger from '@/components/shared/SwitchLocale.vue';
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
-import i18n from '@/i18n.ts';
+import i18n from '@/i18n';
 
 @Component({
   components: {

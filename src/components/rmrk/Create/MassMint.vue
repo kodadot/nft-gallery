@@ -372,7 +372,8 @@ export default class MassMint extends Mixins(
       }
       showNotification('Command parsed!', notificationTypes.success);
     } catch (e) {
-      showNotification(e.message, notificationTypes.danger);
+
+      showNotification((e as Error).message, notificationTypes.danger);
     }
   }
 
@@ -599,7 +600,7 @@ export default class MassMint extends Mixins(
         )
       );
     } catch (e) {
-      showNotification(e.message, notificationTypes.danger);
+      showNotification((e as Error).message, notificationTypes.danger);
     }
   }
 
@@ -671,7 +672,7 @@ export default class MassMint extends Mixins(
       // );
       // return meta;
     } catch (e) {
-      throw new ReferenceError(e.message);
+      throw new ReferenceError((e as Error).message);
     }
   }
 

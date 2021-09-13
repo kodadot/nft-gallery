@@ -35,7 +35,7 @@ export default class TxButton extends Vue {
       const tx = await exec(account, password, callback, params);
       showNotification(execResultValue(tx), notificationTypes.success);
       this.handleProcessed(tx);
-    } catch (e) {
+    } catch (e: any) {
       showNotification(e, notificationTypes.danger);
       this.handleProcessed(e);
     }

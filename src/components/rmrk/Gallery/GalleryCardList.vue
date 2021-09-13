@@ -10,8 +10,9 @@
                    :type="type"
                    :link="link"
                    :metadata="nft.metadata"
-                   :price="nft.price" 
+                   :price="nft.price"
                    :emoteCount="nft.emoteCount"
+                   :currentOwner="nft.currentOwner"
       />
     </div>
   </div>

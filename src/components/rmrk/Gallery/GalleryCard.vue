@@ -1,5 +1,5 @@
 <template>
-  <div class="card nft-card">
+  <div class="card nft-card" :class="{'is-current-owner': accountIsCurrentOwner()}">
     <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
       <div class="card-image" v-if="image">
         <span v-if="emoteCount" class="card-image__emotes">
@@ -51,9 +51,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { get, update } from 'idb-keyval';
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '../utils';
+import shouldUpdate from '@/utils/shouldUpdate';
+import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils';
 import { NFT } from '../service/scheme';
 
 const components = {
@@ -74,23 +75,39 @@ export default class GalleryCard extends Vue {
   @Prop() public imageType!: string;
   @Prop() public price!: string;
   @Prop() public metadata!: string;
+  @Prop() public currentOwner!: string;
 
-  private placeholder = require('@/assets/koda300x300.svg');
+  private placeholder = '/koda300x300.svg';
 
   async mounted() {
 
     if (this.metadata) {
       const meta = await get(this.metadata);
       if (meta) {
-        this.image = sanitizeIpfsUrl(meta.image)
+        this.image = getSanitizer(meta.image || '')(meta.image || '')
         this.title = meta.name
       } else {
-        const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT)
-        this.image = sanitizeIpfsUrl(m.image || '')
+        const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT, getSanitizer(this.metadata, undefined, 'permafrost'))
+        this.image = getSanitizer(meta.image || '')(meta.image || '')
         this.title = m.name
         update(this.metadata, () => m)
       }
     }
+  }
+
+  @Watch('accountId', { immediate: true })
+  hasAccount(value: string, oldVal: string) {
+    if (shouldUpdate(value, oldVal)) {
+      this.accountIsCurrentOwner();
+    }
+  }
+
+  get accountId() {
+    return this.$store.getters.getAuthAddress;
+  }
+
+  public accountIsCurrentOwner() {
+    return this.accountId === this.currentOwner
   }
 }
 </script>
@@ -102,6 +119,10 @@ export default class GalleryCard extends Vue {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 2px 5px 0.5px #d32e79;
+
+  &.is-current-owner {
+    box-shadow: 0px 2px 5px 0.5px #41b883;
+  }
 
   .has-text-overflow-ellipsis {
     overflow: hidden;
@@ -144,7 +165,7 @@ export default class GalleryCard extends Vue {
       }
     }
   }
-  
+
   .card-image__emotes__count {
     vertical-align: text-bottom;
   }

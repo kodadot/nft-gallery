@@ -4,7 +4,6 @@ import VuexPersist from 'vuex-persist';
 import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
 import IdentityModule from './vuex/IdentityModule';
-import { changeCurrentColor } from '@/colors'
 import correctFormat from './utils/ss58Format';
 
 const vuexLocalStorage = new VuexPersist({
@@ -29,7 +28,7 @@ const apiPlugin = (store: any) => {
       ss58Format: correctFormat(chainSS58),
       tokenDecimals: chainDecimals[0] || 12,
       tokenSymbol: chainTokens[0] || 'Unit',
-      genesisHash: genesisHash || ''
+      genesisHash: genesisHash || '',
     })
 
     const nodeInfo = store.getters.availableNodes
@@ -218,8 +217,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getChainProperties: ({chainProperties}) => chainProperties,
-    getUserLang: ({ language }) => language.userLang || 'en'
+    getChainProperties: ({ chainProperties }) => chainProperties,
+    getUserLang: ({ language }) => language.userLang || 'en',
+    getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
+    getCurrentChain: ({ explorer }) => explorer.chain
   },
   modules: {
     setting: SettingModule,

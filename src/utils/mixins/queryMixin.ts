@@ -52,7 +52,7 @@ export default class QueryMixin extends Vue {
     this.random = [...this.random, key];
     this.keys[key.name] = this.defaultValues.length - 1;
     this.subscribe(method, key.name, args, this.magic(key.name, this.keys[key.name], unwrap), isConst);
-    } catch (e) {
+    } catch (e: any) {
       console.warn(e.message)
     }
   }

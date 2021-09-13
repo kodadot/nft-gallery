@@ -7,7 +7,7 @@
         <div class="box">
           <p class="title is-size-3">
             <!-- {{ $t('mint.context') }} -->
-            Create NFT Collectibles
+            Create NFT using PermaFrost
           </p>
           <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
           <b-field>
@@ -21,7 +21,7 @@
 
           <MetadataUpload
             v-model="file"
-            label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+            label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP)"
             expanded
             preview
           />
@@ -68,25 +68,10 @@
             <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
           </b-field>
 
-          <MetadataUpload
-            v-if="secondaryFileVisible"
-            label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
-            v-model="secondFile"
-            icon="file-image"
-            accept="image/png, image/jpeg, image/gif"
-            expanded
-            preview
-          />
           <AttributeTagInput
             v-model="rmrkMint.tags"
             placeholder="Get discovered easier through tags"
           />
-
-          <b-field>
-            <b-switch v-model="nsfw" :rounded="false">
-              {{ nsfw ? "NSFW" : "SFW" }}
-            </b-switch>
-          </b-field>
 
           <BalanceInput @input="updateMeta" label="Price" />
           <b-message
@@ -120,36 +105,6 @@
             </b-button>
           </b-field>
           <b-field>
-            <b-button
-              type="is-text"
-              icon-left="calculator"
-              @click="estimateTx"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined
-            >
-              <template v-if="!estimated">
-                {{ $t("mint.estimate") }}
-              </template>
-              <template v-else>
-                {{ $t("mint.estimated") }}
-                <Money :value="estimated" inline />
-              </template>
-            </b-button>
-          </b-field>
-          <b-field>
-            <Support v-model="hasSupport" :price="filePrice" />
-          </b-field>
-          <b-field>
-            <Support
-              v-model="hasCarbonOffset"
-              :price="1"
-              activeMessage="I'm making carbonless NFT"
-              passiveMessage="I don't want to have carbonless NFT"
-            />
-          </b-field>
-          <ArweaveUploadSwitch v-model="arweaveUpload" />
-          <b-field>
             <b-switch v-model="hasToS" :rounded="false">
               {{ $t("termOfService.accept") }}
             </b-switch>
@@ -162,9 +117,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { MediaType } from '../types';
 import { emptyObject } from '@/utils/empty';
-import Tooltip from '@/components/shared/Tooltip.vue';
 import Support from '@/components/shared/Support.vue';
 import Connector from '@vue-polkadot/vue-api';
 import exec, {
@@ -182,16 +135,14 @@ import {
   NFT,
   getNftId
 } from '../service/scheme';
-import { unSanitizeIpfsUrl } from '@/utils/ipfs';
-import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
+import { permaStore } from '@/proxy';
 import { formatBalance } from '@polkadot/util';
 import { generateId } from '@/components/rmrk/service/Consolidator';
 import { supportTx, calculateCost, offsetTx } from '@/utils/support';
-import { resolveMedia } from '../utils';
+import { resolveMedia, unSanitizeArweaveId } from '../utils';
 import NFTUtils, { MintType } from '../service/NftUtils';
 import { DispatchError } from '@polkadot/types/interfaces';
-import { ipfsToArweave } from '@/utils/ipfs';
-import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata';
+
 import TransactionMixin from '@/utils/mixins/txMixin';
 
 const components = {
@@ -207,7 +158,7 @@ const components = {
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')
 };
 
-@Component<SimpleMint>({
+@Component<PermaMint>({
   metaInfo() {
     return {
       meta: [
@@ -245,7 +196,7 @@ const components = {
   },
   components
 })
-export default class SimpleMint extends Mixins(
+export default class PermaMint extends Mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin
@@ -261,11 +212,11 @@ export default class SimpleMint extends Mixins(
   private secondFile: Blob | null = null;
   private password: string = '';
   private hasToS: boolean = false;
-  private hasSupport: boolean = true;
+  private hasSupport: boolean = false;
   private nsfw: boolean = false;
   private price: number = 0;
   private estimated: string = '';
-  private hasCarbonOffset: boolean = true;
+  private hasCarbonOffset: boolean = false;
   protected arweaveUpload = false;
 
   protected updateMeta(value: number) {
@@ -273,19 +224,8 @@ export default class SimpleMint extends Mixins(
     this.price = value;
   }
 
-  public created() {
-    if (!this.accountId) {
-      console.warn('Should Redirect to /rmrk/new');
-    }
-  }
-
   get fileType() {
     return resolveMedia(this.file?.type);
-  }
-
-  get secondaryFileVisible() {
-    const fileType = this.fileType;
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType);
   }
 
   get accountId() {
@@ -308,36 +248,9 @@ export default class SimpleMint extends Mixins(
     );
   }
 
-  protected async estimateTx() {
-    this.isLoading = true;
-    const { accountId, version } = this;
-    const { api } = Connector.getInstance();
-
-    const result = NFTUtils.generateRemarks(this.rmrkMint, accountId, version);
-    const cb = api.tx.utility.batchAll;
-    const remarks: string[] = Array.isArray(result)
-      ? result
-      : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
-        ];
-
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
-
-    this.estimated = await estimate(this.accountId, cb, [args]);
-
-    this.isLoading = false;
-  }
-
   protected async sub() {
     this.isLoading = true;
-    this.status = 'loader.ipfs';
+    this.status = 'loader.arweave';
     const { accountId, version } = this;
     const { api } = Connector.getInstance();
 
@@ -528,38 +441,25 @@ export default class SimpleMint extends Mixins(
       throw new ReferenceError('No file found!');
     }
 
+    const { name, description } = this.rmrkMint
+
     this.meta = {
+      description,
       ...this.meta,
+      name,
       attributes: [
-        ...(this.rmrkMint?.tags || []),
+        ...(this.rmrkMint?.tags || []).map(t => t.trait_type ? t : ({ ...t, trait_type: '' })),
         ...this.nsfwAttribute(),
         ...this.offsetAttribute()
       ],
       external_url: `https://nft.kodadot.xyz`,
-      type: this.file.type
+      type: this.file.type,
     };
 
     try {
-      const keys: APIKeys = await getKey(this.accountId);
-      const fileHash = await pinFileToIPFS(this.file, keys);
-
-      if (!this.secondaryFileVisible) {
-        this.meta.image = unSanitizeIpfsUrl(fileHash);
-        this.meta.image_ar = this.arweaveUpload
-          ? await ipfsToArweave(fileHash)
-          : '';
-      } else {
-        this.meta.animation_url = unSanitizeIpfsUrl(fileHash);
-        if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, keys);
-          this.meta.image = unSanitizeIpfsUrl(coverImageHash);
-        }
-      }
-
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn);
       // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta);
-      return unSanitizeIpfsUrl(metaHash);
+      const metaHash = await permaStore(this.meta, this.file, this.rmrkId);
+      return unSanitizeArweaveId(metaHash);
     } catch (e: any) {
       throw new ReferenceError(e.message);
     }

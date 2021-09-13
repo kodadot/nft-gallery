@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         Authorization: `Bearer ${process.env.PINATA_MASTER}`
       },
     });
-    console.log('[PINATA] Generate Key', status, data);
+    console.log('[PINATA] Generate Key', status);
 
     if (status < 400) {
       return {
