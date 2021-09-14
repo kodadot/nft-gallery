@@ -32,7 +32,7 @@
 import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { Component, Vue } from 'vue-property-decorator';
-import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
+import { CollectionWithMeta, Collection } from '../service/scheme';
 import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
 import isShareMode from '@/utils/isShareMode';
 import collectionById from '@/queries/collectionById.graphql'
@@ -65,7 +65,6 @@ const components = {
 export default class CollectionItem extends Vue {
   private id: string = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  // private nfts: NFTWithMeta[] = [];
   private isLoading: boolean = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
 
