@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { NFT } from '@/components/rmrk/service/scheme'
 
 const components = {
