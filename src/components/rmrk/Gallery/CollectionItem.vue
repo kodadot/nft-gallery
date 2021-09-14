@@ -85,6 +85,10 @@ export default class CollectionItem extends Vue {
     return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
   }
 
+  get sharingVisible() {
+    return !isShareMode
+  }
+
   public created() {
     this.checkId();
     this.$apollo.addSmartQuery('collection',{
