@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import { NFT } from '@/components/rmrk/service/scheme';
+import { NFT } from '@/components/rmrk/service/scheme'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -53,7 +53,7 @@ export default class extends Vue {
     return Math.min(
       ...this.nfts
         .map(nft => Number(nft.price))
-        .filter(price => price !== 0)
+        .filter(price => price > 0)
     );
   }
 
