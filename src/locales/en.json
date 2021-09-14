@@ -276,5 +276,29 @@
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "clickToCreate": "Click here to create collection"
+  },
+  "massMint": {
+    "tutorial": {
+      "basic": {
+        "title": "Basic mass mint",
+        "description": "This is the basic mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      },
+      "range": {
+        "title": "Mass mint range",
+        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      },
+      "all": {
+        "title": "Mass mint all",
+        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      }
+    },
+    "syntax": {
+      "file": "File name (e.g awesome_1.jpg)",
+      "name": "Name of the NFT (e.g Awesome Token)",
+      "amount": "Price of the token (e.g 0.01)",
+      "description": "Mutliline description of the token (e.g This is an awesome token)",
+      "range": "Range of the tokens (e.g 1-5)",
+      "all": "Apply to all tokens (use three dots: ...)"
+    }
   }
 }

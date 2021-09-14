@@ -4,28 +4,7 @@
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
-        <b-message
-          title="Message"
-          type="is-info"
-          aria-close-label="Close message"
-        >
-          Mass mint is a feature that allows you to mint multiple tokens at
-          once.
-          <br />
-          It is recommended to use this feature with caution.
-          <br />
-          Syntax:
-          <br />
-          <code>
-            File name (e.g awesome_1.jpg)
-            <br />
-            Name of the NFT (e.g Awesome Token)
-            <br />
-            Price of the token (e.g 0.01)
-            <br />
-            Mutliline description of the token (e.g This is an awesome token)
-          </code>
-        </b-message>
+        <Tutorial />
         <div class="box">
           <p class="title is-size-3">
             {{ $t("mint.mass") }}
@@ -219,7 +198,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
   MassMintItem: () => import('./MassMintItem.vue'),
-  NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue')
+  NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue'),
+  Tutorial: () => import('./MassMintTutorial.vue'),
 };
 
 @Component<MassMint>({
