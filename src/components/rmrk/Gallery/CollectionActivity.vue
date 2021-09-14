@@ -29,6 +29,14 @@
 					</p>
 				</div>
 			</div>
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">24h Volume traded</p>
+					<p class="title">
+						<Money :value="collectionDailyTradedVolumeNumber" inline />
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -44,6 +52,11 @@ const components = {
 @Component({components})
 export default class extends Vue {
   @Prop() public nfts!: NFT[];
+  public yesterdayDate: Date = new Date(Date.now() - 86400000);
+
+  get nftsEvents() {
+    return this.nfts.map(nft => nft.events);
+  }
 
 	get collectionLength() {
     return this.nfts.length;
@@ -70,13 +83,29 @@ export default class extends Vue {
   }
 
   get collectionTradedVolumeNumber() {
-    const nftsEvents = this.nfts.map(nft => nft.events);
-    const sum = nftsEvents
+    const sum = this.nftsEvents
       .map(event => event.filter((e: { interaction: string; }) => e.interaction === 'BUY'))
       .map((item, key) => {
         return (
           item.length &&
-          nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
+          this.nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
+        );
+      })
+      .reduce((a, b) => Number(a) + Number(b), 0);
+    return sum;
+  }
+
+  get collectionDailyTradedVolumeNumber() {
+    const sum = this.nftsEvents
+      .map(event => event.filter((e: { interaction: string; timestamp: Date }) => {
+        return (
+          e.interaction === 'BUY' && new Date(e.timestamp) >= this.yesterdayDate
+        );
+      }))
+      .map((item, key) => {
+        return (
+          item.length &&
+          this.nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
         );
       })
       .reduce((a, b) => Number(a) + Number(b), 0);
