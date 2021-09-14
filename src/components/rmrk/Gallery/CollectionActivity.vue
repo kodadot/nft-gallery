@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="level mb-4">
+		<div class="level mb-4" v-if="nfts">
 			<div class="level-item has-text-centered">
 				<div>
 					<p class="heading">Items</p>
