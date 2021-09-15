@@ -92,6 +92,7 @@ class NFTUtils {
     const collectionId = generateId(caller, trimmedSymbol)
     const sn = NFTUtils.nftSerialNumber(index)
     return {
+      events: [],
       name: name.trim(),
       instance,
       transferable: 1,

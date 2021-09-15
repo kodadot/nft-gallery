@@ -21,6 +21,8 @@
       </div>
     </div>
 
+    <CollectionActivity :nfts="collection.nfts" />
+
     <GalleryCardList :items="collection.nfts" />
 
   </div>
@@ -30,18 +32,17 @@
 import { emptyObject } from '@/utils/empty';
 import { notificationTypes, showNotification } from '@/utils/notification';
 import { Component, Vue } from 'vue-property-decorator';
-import { CollectionWithMeta, NFTWithMeta, Collection } from '../service/scheme';
+import { CollectionWithMeta, Collection } from '../service/scheme';
 import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
 import isShareMode from '@/utils/isShareMode';
 import collectionById from '@/queries/collectionById.graphql'
 import { CollectionMetadata } from '../types';
-
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 };
-
 @Component<CollectionItem>({
   metaInfo() {
     return {
@@ -64,12 +65,15 @@ const components = {
 export default class CollectionItem extends Vue {
   private id: string = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private nfts: NFTWithMeta[] = [];
   private isLoading: boolean = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
 
-  get name() {
+	get name() {
     return this.collection.name || this.id
+  }
+
+  get nfts() {
+    return this.collection.nfts || []
   }
 
   get issuer() {
