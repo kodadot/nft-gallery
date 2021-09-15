@@ -117,7 +117,7 @@ export interface Arweave {
 }
 
 export interface CollectionWithMeta extends Collection, CollectionMetadata, Arweave {
-
+  nfts?: NFT[]
 }
 
 export interface NFTWithMeta extends NFT, NFTMetadata, Arweave {
@@ -154,6 +154,7 @@ export interface Collection {
 }
 
 export interface NFT {
+  events: any;
   name: string;
   instance: string;
   transferable: number;
