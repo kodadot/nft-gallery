@@ -26,7 +26,7 @@ import Tooltip from '@/components/shared/Tooltip.vue';
   }
 })
 export default class extends Vue {
-  @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
+  @Prop({ default: 'Drop your NFT here or click to upload or simply paste image from clipboard' }) public label!: string;
   @Prop({ default: 'upload' }) public icon!: string;
   @Prop(Boolean) public expanded!: boolean;
   @Prop(Boolean) public preview!: boolean;
@@ -46,8 +46,8 @@ export default class extends Vue {
 
   public onPasteImage(pasteEvent: ClipboardEvent) {
     /* handling paste logic */
-    let item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
-    if (item?.type.indexOf("image") === 0) {
+    const item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
+    if (item?.type.indexOf('image') === 0) {
       const blob = item.getAsFile();
       this.file = blob;
       this.createInput(blob);

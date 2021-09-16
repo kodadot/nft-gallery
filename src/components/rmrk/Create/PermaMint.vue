@@ -21,7 +21,7 @@
 
           <MetadataUpload
             v-model="file"
-            label="Drop your NFT here or click to upload. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP)"
+            label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP)"
             expanded
             preview
           />
