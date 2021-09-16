@@ -46,8 +46,8 @@ export default class extends Vue {
 
   public onPasteImage(pasteEvent: ClipboardEvent) {
     /* handling paste logic */
-    let item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
-    if (item?.type.indexOf("image") === 0) {
+    const item :DataTransferItem | any = pasteEvent?.clipboardData?.items[0];
+    if (item?.type.indexOf('image') === 0) {
       const blob = item.getAsFile();
       this.file = blob;
       this.createInput(blob);
