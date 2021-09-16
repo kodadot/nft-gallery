@@ -26,7 +26,7 @@ import Tooltip from '@/components/shared/Tooltip.vue';
   }
 })
 export default class extends Vue {
-  @Prop({ default: 'Drop your NFT here or click to upload' }) public label!: string;
+  @Prop({ default: 'Drop your NFT here or click to upload or simply paste image from clipboard' }) public label!: string;
   @Prop({ default: 'upload' }) public icon!: string;
   @Prop(Boolean) public expanded!: boolean;
   @Prop(Boolean) public preview!: boolean;
