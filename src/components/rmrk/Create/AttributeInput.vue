@@ -1,7 +1,7 @@
 <template>
   <b-field grouped>
     <p class="control">
-      <b-button @click="remove" icon-left="times" />
+      <b-button size="is-medium" @click="remove" icon-left="times" />
     </p>
     <b-field label="Type" expanded>
       <b-input
@@ -23,13 +23,7 @@
 </template>
 
 <script lang="ts" >
-import {
-  Component,
-  Vue,
-  PropSync,
-  Prop,
-  Emit
-} from 'vue-property-decorator';
+import { Component, Vue, PropSync, Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class AttributeInput extends Vue {
