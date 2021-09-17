@@ -1,11 +1,17 @@
 <template>
   <div class="pack-item-wrapper container">
-    <div class="columns">
-      <div class="column">
-        <h1 class="title">
-          Collection {{ name }}
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <figure class="image container is-128x128">
+          <img class="is-rounded" :src="image">
+        </figure>
+        <h1 class="title is-2 mt-2">
+          {{ name }}
         </h1>
       </div>
+    </div>
+
+    <div class="columns">
       <div class="column">
         <p class="subtitle">
           Creator <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
@@ -22,6 +28,14 @@
     </div>
 
     <CollectionActivity :nfts="collection.nfts" />
+
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <p class="content">
+          {{ description }}
+        </p>
+      </div>
+    </div>
 
     <GalleryCardList :items="collection.nfts" />
 
@@ -67,6 +81,14 @@ export default class CollectionItem extends Vue {
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading: boolean = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+
+  get image() {
+    return this.meta.image || ''
+  }
+
+  get description() {
+    return this.meta.description || ''
+  }
 
 	get name() {
     return this.collection.name || this.id
