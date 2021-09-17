@@ -9,7 +9,7 @@
 			</div>
 			<div class="level-item has-text-centered">
 				<div>
-					<p class="heading">Owners</p>
+					<p class="heading">Owned</p>
 					<p class="title">{{ collectionSoldedNFT }}</p>
 				</div>
 			</div>
