@@ -1,4 +1,4 @@
-import { Row } from '@/components/spotlight/types'
+import { Row } from '@/components/Rankings/types'
 import M, { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
@@ -79,6 +79,31 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg);
 }
 
+export const rankingsAggregation = (): Aggregator => {
+  const agg: Aggregation = [
+    {
+      $group: {
+        // _id: { image: '$id' },
+        _id: '$id',
+        id: { $first: '$id' },
+        unique: { $sum: '$unique' },
+        sold: { $sum: '$sold' },
+        total: { $sum: '$total' },
+        averagePrice: { $avg: '$averagePrice' },
+        count: { $sum: '$count' },
+        // owned: { $sum: '$currentOwner' },
+        collectors: { $sum: '$collectors' }, // TODO: Do not know how
+        rank: { $sum: '$rank' }
+      }
+    },
+    {
+      $sort: { rank: -1 }
+    }
+  ];
+
+  return new Aggregator(agg);
+}
+
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
   const query = basicFilterQuery(value)
   return query.find(nfts).all()
@@ -109,6 +134,12 @@ export const basicAggQuery = (nfts: NFTWithMeta[]) => {
 
 export const spotlightAggQuery = (nfts: Row[]) => {
   const query = spotlightAggregation()
+  return query.run(nfts)
+}
+
+export const rankingsAggQuery = (nfts: Row[]) => {
+  const query = rankingsAggregation()
+  console.log(nfts)
   return query.run(nfts)
 }
 

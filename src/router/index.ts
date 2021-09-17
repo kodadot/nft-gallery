@@ -16,6 +16,7 @@ const EsCarbonless = () => import('@/components/landing/EsCarbonless.vue');
 const Settings = () => import('@/views/Settings.vue');
 const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Spotlight = () => import('@/components/landing/Spotlight.vue');
+const Rankings = () => import('@/components/landing/Rankings.vue');
 const About = () => import('@/components/landing/About.vue');
 const Contact = () => import('@/components/landing/Contact.vue');
 const Partnership = () => import('@/components/landing/Partnership.vue');
@@ -70,6 +71,11 @@ export default new Router({
       path: '/spotlight',
       name: 'spotlight',
       component: Spotlight,
+    },
+    {
+      path: '/rankings',
+      name: 'rankings',
+      component: Rankings,
     },
     {
       path: '/about',
