@@ -22,8 +22,8 @@ export const nftFn = (a: any): Row => {
   const sold = a.nfts.nodes.reduce(soldFn, 0);
   const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size;
   const total = a.nfts.totalCount;
-  console.log(a.nfts.nodes);
-  console.log(a.nfts.nodes.filter(onlyEvents));
+  // console.log(a.nfts.nodes);
+  // console.log(a.nfts.nodes.filter(onlyEvents));
   return {
     id: a.issuer,
     total,

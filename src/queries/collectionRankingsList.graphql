@@ -1,3 +1,5 @@
+#import "./collection.graphql"
+
 query collectionIssuerList($denyList: [String!]) {
   collectionEntities(filter: { issuer: { notIn: $denyList } }) {
     nodes {
@@ -9,8 +11,10 @@ query collectionIssuerList($denyList: [String!]) {
           currentOwner
           metadata
           price
+          events
         }
       }
+      ...collection
     }
   }
 }

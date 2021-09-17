@@ -8,14 +8,12 @@
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
-      detailed
       paginated
-      show-detail-icon
     >
       <b-table-column
         cell-class="short-identity__table"
         field="id"
-        :label="$t('spotlight.id')"
+        label="test"
         v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
@@ -84,11 +82,6 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <template #detail="props">
-        <!-- <SpotlightDetail v-if="props.row.total" :account="props.row.id" /> -->
-        <div class="has-text-centered">{{ $t("spotlight.empty") }}</div>
-      </template>
-
       <template #empty>
         <div v-if="!isLoading" class="has-text-centered">{{ $t("spotlight.empty") }}</div>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -101,7 +94,7 @@
 import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
 import { Column, Row } from './types';
 import { columns, nftFn } from './utils';
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
+import collectionRankingsList from '@/queries/collectionRankingsList.graphql';
 import { rankingsAggQuery } from '../rmrk/Gallery/Search/query';
 import TransactionMixin from '@/utils/mixins/txMixin';
 import { denyList } from '@/constants';
@@ -112,7 +105,6 @@ type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  // SpotlightDetail: () => import('./SpotlightDetail.vue')
 };
 
 @Component({ components })
@@ -126,7 +118,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   async created() {
     this.isLoading = true;
     const collections = await this.$apollo.query({
-      query: collectionIssuerList,
+      query: collectionRankingsList,
       variables: {
         denyList
       }

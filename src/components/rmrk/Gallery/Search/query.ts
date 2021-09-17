@@ -139,7 +139,7 @@ export const spotlightAggQuery = (nfts: Row[]) => {
 
 export const rankingsAggQuery = (nfts: Row[]) => {
   const query = rankingsAggregation()
-  console.log(nfts)
+  // console.log(nfts)
   return query.run(nfts)
 }
 
