@@ -4,6 +4,10 @@
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
+        <router-link :to="`rmrk/u/${destinationAddress}`" class="linkartist"  v-if="this.$route.query.target">
+          <b-icon icon="chevron-left" size="is-small" class="linkartist--icon"></b-icon>
+           Go to artist's profile
+        </router-link>
         <div class="box">
           <div class="info">
             <p class="title is-size-3">
@@ -15,6 +19,17 @@
           <b-field>
             <Auth />
           </b-field>
+          <div class="box--target-info" v-if="this.$route.query.target">
+            Your donation will be sent to: 
+            <a
+              :href="`https://kusama.subscan.io/account/${destinationAddress}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="box--target-info--url"
+            >
+              <Identity ref="identity" :address="destinationAddress" inline />
+            </a>
+          </div>
 
           <b-field>
             {{ $t("general.balance") }}
@@ -81,6 +96,7 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
     Auth: () => import('@/components/shared/Auth.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
+    Identity: () => import('@/components/shared/format/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue')
@@ -139,6 +155,12 @@ export default class Transfer extends Mixins(
 
     if (query.amount) {
       this.price = Number(query.amount);
+    }
+
+    if (query.usdamount) {
+      this.usdValue = Number(query.usdamount);
+      // getting ksm value from the usd value
+      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue);
     }
   }
 
@@ -262,6 +284,20 @@ export default class Transfer extends Mixins(
         @media screen and (max-width: 1023px) {
          flex-direction: column;
         }
+      }
+      &--target-info {
+        margin-bottom: 0.8rem;
+        &--url {
+          font-weight: bold;
+        }
+      }
+    }
+    .linkartist {
+      padding-left: 1.25rem;
+      display: flex;
+      align-items: center; 
+      &--icon {
+        margin-right: 0.5rem;
       }
     }
 </style>
