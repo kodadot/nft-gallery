@@ -13,7 +13,7 @@
       <b-table-column
         cell-class="short-identity__table"
         field="id"
-        label="test"
+        label="Collection"
         v-slot="props"
       >
         <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">

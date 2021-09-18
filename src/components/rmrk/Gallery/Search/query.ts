@@ -93,7 +93,8 @@ export const rankingsAggregation = (): Aggregator => {
         count: { $sum: '$count' },
         // owned: { $sum: '$currentOwner' },
         collectors: { $sum: '$collectors' }, // TODO: Do not know how
-        rank: { $sum: '$rank' }
+        rank: { $sum: '$rank' },
+        name: { $first: '$name' }
       }
     },
     {
