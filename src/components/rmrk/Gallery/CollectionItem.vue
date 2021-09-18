@@ -2,10 +2,16 @@
   <div class="pack-item-wrapper container">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
-        <figure class="image container is-128x128">
-          <img class="is-rounded" :src="image">
-        </figure>
-        <h1 class="title is-2 mt-2">
+        <div class="container image is-128x128 mb-2">
+          <b-image
+            v-if="!isLoading"
+            :src="image"
+            :alt="name"
+            ratio="1by1"
+            rounded
+          ></b-image>
+        </div>
+        <h1 class="title is-2">
           {{ name }}
         </h1>
       </div>
@@ -111,6 +117,7 @@ export default class CollectionItem extends Vue {
   }
 
   public created() {
+    this.isLoading = true;
     this.checkId();
     this.$apollo.addSmartQuery('collection',{
         query: collectionById,
@@ -120,6 +127,7 @@ export default class CollectionItem extends Vue {
         update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
         result: () => this.fetchMetadata()
       })
+    this.isLoading = false;
   }
 
   public async fetchMetadata() {
