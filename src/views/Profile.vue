@@ -12,6 +12,7 @@
             >
               <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
+            <DonationButton :address="id" />
           </div>
           <div class="column">
             <OnChainProperty
@@ -127,7 +128,9 @@ const components = {
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
-    import('@/components/rmrk/Gallery/PaginatedCardList.vue')
+    import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
+  DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+
 };
 
 const eq = (tab: string) => (el: string) => tab === el;
