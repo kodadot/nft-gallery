@@ -124,7 +124,7 @@
           </div>
           <b-button
             tag="a"
-            href="https://github.com/kodadot"
+            href="https://github.com/kodadot/nft-gallery/issues/new/choose"
             target="_blank"
             rel="noopener noreferrer"
             type="is-primary"
