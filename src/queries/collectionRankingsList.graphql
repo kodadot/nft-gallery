@@ -1,7 +1,11 @@
 #import "./collection.graphql"
 
 query collectionIssuerList($denyList: [String!]) {
-  collectionEntities(filter: { issuer: { notIn: $denyList } }) {
+  collectionEntities(
+    filter: { issuer: { notIn: $denyList }, currentOwner: { isNull: false } }
+    first: 10
+    orderBy: CURRENT_OWNER_DESC
+  ) {
     nodes {
       issuer
       nfts {

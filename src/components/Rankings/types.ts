@@ -14,9 +14,10 @@ export type Row = {
   sold: number;
   total: number;
   averagePrice: number;
-  count: number;
   collectors: number;
   rank: number;
+  uniqueCollectors: number;
+  name: string;
 };
 
 export type SimpleRankingsNFT = {

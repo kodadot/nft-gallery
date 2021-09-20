@@ -16,8 +16,8 @@
         label="Collection"
         v-slot="props"
       >
-        <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
-          <Identity :address="props.row.id" inline noOverflow />
+        <router-link :to="{ name: 'collectionDetail', params: { id: props.row.id } }" v-if="!isLoading">
+          {{ props.row.name }}
         </router-link>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -59,16 +59,6 @@
         sortable
       >
         <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <b-table-column
-        field="count"
-        :label="$t('spotlight.count')"
-        v-slot="props"
-        sortable
-      >
-        <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
