@@ -67,6 +67,11 @@ export default new Vuex.Store({
     chainProperties: {},
     explorer: {},
     lang: {},
+    indexer: {
+      indexerHealthy: true,
+      lastProcessedHeight: undefined,
+      lastProcessedTimestamp: undefined,
+    },
     language: {
       userLang: process.env.VUE_APP_I18N_LOCALE || 'en',
       langsFlags: [
@@ -209,18 +214,26 @@ export default new Vuex.Store({
     },
     setFiatPrice(state: any, data) {
       state.fiatPrice = Object.assign({}, state.fiatPrice, data)
+    },
+    setIndexerStatus(state: any, data) {
+      state.indexer = Object.assign({}, state.indexer, data)
     }
   },
   actions: {
     setFiatPrice({ commit }: any, data) {
       commit('setFiatPrice', data);
+    },
+    upateIndexerStatus({ commit }: any, data) {
+      commit('setIndexerStatus', data)
     }
+
   },
   getters: {
     getChainProperties: ({ chainProperties }) => chainProperties,
     getUserLang: ({ language }) => language.userLang || 'en',
     getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
-    getCurrentChain: ({ explorer }) => explorer.chain
+    getCurrentChain: ({ explorer }) => explorer.chain,
+    getIndexer: ({ indexer }) => indexer
   },
   modules: {
     setting: SettingModule,
