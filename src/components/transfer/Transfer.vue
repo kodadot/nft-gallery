@@ -22,12 +22,12 @@
           <div class="box--target-info" v-if="this.$route.query.target">
             Your donation will be sent to: 
             <a
-              :href="`https://kusama.subscan.io/account/${destinationAddress}`"
+              :href="`https://kusama.subscan.io/account/${this.$route.query.target}`"
               target="_blank"
               rel="noopener noreferrer"
               class="box--target-info--url"
             >
-              <Identity ref="identity" :address="destinationAddress" inline />
+              <Identity ref="identity" :address="this.$route.query.target" inline />
             </a>
           </div>
 
@@ -70,6 +70,20 @@
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
             </b-button>
           </b-field>
+          <div v-if="transactionValue && this.$route.query.donation">
+            <div>Congratulations for supporting      
+            <Identity ref="identity" :address="this.$route.query.target" inline />
+            </div>
+            <b-button
+              type="is-info"
+              class="tweetBtn"
+              icon-left="share-square"
+              @click="shareInTweet"
+              outlined
+             >
+             {{$t("Tweet about your awesome donation")}}
+            </b-button>
+          </div>
         </div>
       </section>
     </div>
@@ -188,7 +202,7 @@ export default class Transfer extends Mixins(
             this.destinationAddress = '';
             this.price = 0;
             this.usdValue = 0;
-            if (this.$route.query) {
+            if (this.$route.query && !this.$route.query.donation) {
               this.$router.push(this.$route.path);
             }
 
@@ -229,9 +243,19 @@ export default class Transfer extends Mixins(
     this.isLoading = false;
   }
 
-  protected getExplorerUrl() {
-    const url =  urlBuilderTransaction(this.transactionValue,
+  protected getUrl() {
+    return urlBuilderTransaction(this.transactionValue,
       this.$store.getters.getCurrentChain, 'subscan');
+  }
+
+  protected getExplorerUrl() {
+    const url =  this.getUrl();
+    window.open(url, '_blank');
+  }
+
+  protected shareInTweet() {
+    const text = 'I just helped a really cool artist by donating. Check it out here:'
+    const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`;
     window.open(url, '_blank');
   }
 
@@ -277,6 +301,9 @@ export default class Transfer extends Mixins(
     }
     .tx {
        margin-left: 1rem;
+    }
+    .tweetBtn {
+       margin-top: 0.5rem;
     }
     .box {
       &--container {
