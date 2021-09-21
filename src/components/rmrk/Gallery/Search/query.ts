@@ -94,11 +94,15 @@ export const rankingsAggregation = (): Aggregator => {
         // owned: { $sum: '$currentOwner' },
         collectors: { $sum: '$collectors' }, // TODO: Do not know how
         rank: { $sum: '$rank' },
-        name: { $first: '$name' }
+        name: { $first: '$name' },
+        metadata: { $first: '$metadata' }
       }
     },
     {
-      $sort: { rank: -1 }
+      $sort: { rank: -1 },
+    },
+    {
+      $limit: 10
     }
   ];
 

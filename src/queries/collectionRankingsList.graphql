@@ -2,9 +2,9 @@
 
 query collectionIssuerList($denyList: [String!]) {
   collectionEntities(
-    filter: { issuer: { notIn: $denyList }, currentOwner: { isNull: false } }
-    first: 10
-    orderBy: CURRENT_OWNER_DESC
+    filter: {
+		issuer: { notIn: $denyList },
+	}
   ) {
     nodes {
       issuer

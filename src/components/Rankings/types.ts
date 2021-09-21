@@ -11,6 +11,8 @@ export type Column = {
 export type Row = {
   id: string;
   unique: number;
+  image: any;
+  metadata: string;
   sold: number;
   total: number;
   averagePrice: number;

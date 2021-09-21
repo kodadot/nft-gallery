@@ -21,15 +21,15 @@ export const nftFn = (a: any): Row => {
   const uniqueCollectors = a.nfts.nodes.reduce(uniqueCollectorFn, new Set()).size;
   const total = a.nfts.totalCount;
   const averagePrice = a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
-  // const metaImage = fetchMetadataImage(a);
+  // const metaImage = fetchMetadataImage(a); DO NOT!
 
-  // console.log(metaImage);
+  // console.log(a.nfts.nodes.reduce(soldFn, new Set()));
   // console.log(a.nfts.nodes.filter(onlyEvents));
-  console.log(a.nfts.nodes)
   return {
     id: a.id,
     name: a.name,
-    // image: metaImage,
+    image: '', // NOPE
+    metadata: a.metadata,
     total,
     sold,
     unique,
@@ -41,7 +41,7 @@ export const nftFn = (a: any): Row => {
 };
 
 const fetchMetadataImage = async (collection: any) => {
-  console.log(collection)
+  // console.log(collection)
   const meta = await fetchCollectionMetadata(collection)
   const image = sanitizeIpfsUrl(meta.image || '')
   return image
@@ -62,3 +62,12 @@ const uniqueFn = (acc: Set<string>, val: SimpleRankingsNFT) => acc.add(val.metad
 const uniqueCollectorFn = (acc: Set<string>, val: SimpleRankingsNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
 const onlyOwned = ({ issuer, currentOwner }: SimpleRankingsNFT) => issuer === currentOwner;
 const onlyEvents = ({events}: SimpleRankingsNFT) => events
+// const flootPrice = (nfts: SimpleRankingsNFT) => Math.min(nfts)
+
+//   get collectionFloorPrice() {
+//     return Math.min(
+//       ...this.nfts
+//         .map(nft => Number(nft.price))
+//         .filter(price => price > 0)
+//     );
+//   }
