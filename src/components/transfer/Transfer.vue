@@ -70,7 +70,7 @@ import TransactionMixin from '@/utils/mixins/txMixin';
 import AuthMixin from '@/utils/mixins/authMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
 import ChainMixin from '@/utils/mixins/chainMixin';
-import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
+import { DispatchError } from '@polkadot/types/interfaces';
 import { calculateBalance } from '@/utils/formatBalance';
 import correctFormat from '@/utils/ss58Format';
 import { checkAddress } from '@polkadot/util-crypto';
@@ -230,8 +230,8 @@ export default class Transfer extends Mixins(
     try {
       const cb = api.query.system.account;
       const arg = this.accountId;
-      const result: AccountInfo = await cb<AccountInfo>(arg);
-      this.balance = result.data.free.toString();
+      const result = await cb(arg);
+      this.balance = (result as any).data.free.toString();
     } catch (e) {
       console.error('[ERR: BALANCE]', e);
     }
