@@ -72,7 +72,7 @@
           </b-field>
           <div v-if="transactionValue && this.$route.query.donation">
             <div>Congratulations for supporting      
-            <Identity ref="identity" :address="this.$route.query.target" inline />
+             <Identity ref="identity" :address="this.$route.query.target" inline />
             </div>
             <b-button
               type="is-info"
