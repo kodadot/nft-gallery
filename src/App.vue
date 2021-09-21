@@ -6,7 +6,7 @@
       min-h-full
     "
   >
-    <Navbar v-if="isNavbarVisible"/>
+    <Navbar v-if="isNavbarVisible" />
     <main class="is-flex-grow-1 mt-6">
       <router-view />
     </main>
@@ -20,9 +20,10 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
-import isShareMode from '@/utils/isShareMode'
-import coingecko from '@/coingecko'
-import correctFormat from '@/utils/ss58Format'
+import isShareMode from '@/utils/isShareMode';
+import coingecko from '@/coingecko';
+import correctFormat from '@/utils/ss58Format';
+import checkIndexer from '@/queries/checkIndexer.graphql';
 
 @Component<Dashboard>({
   metaInfo() {
@@ -30,13 +31,13 @@ import correctFormat from '@/utils/ss58Format'
       title: 'KodaDot - Kusama NFT Market Explorer',
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [
-      { property: 'og:type', content: 'website'},
-      // { property: 'og:url', content: 'https://nft.kodadot.xyz'},
-      { property: 'og:locale', content: 'en_US'},
-      { property: 'twitter:card', content: 'summary_large_image' },
-      { property: 'twitter:site', content: '@KodaDot' },
+        { property: 'og:type', content: 'website' },
+        // { property: 'og:url', content: 'https://nft.kodadot.xyz'},
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'twitter:card', content: 'summary_large_image' },
+        { property: 'twitter:site', content: '@KodaDot' }
       ]
-    }
+    };
   },
   components: {
     Navbar,
@@ -49,15 +50,15 @@ export default class Dashboard extends Vue {
   }
 
   get ss58Format(): number {
-    return this.chainProperties?.ss58Format
+    return this.chainProperties?.ss58Format;
   }
 
   public async loadKeyring(): Promise<void> {
-    const isDevelopment = process.env.VUE_APP_KEYRING === 'true'
+    const isDevelopment = process.env.VUE_APP_KEYRING === 'true';
     keyring.loadAll({
       ss58Format: correctFormat(this.ss58Format),
       type: 'sr25519',
-      isDevelopment,
+      isDevelopment
     });
   }
 
@@ -75,25 +76,46 @@ export default class Dashboard extends Vue {
           ids: 'kusama',
           vs_currencies: 'usd'
         }
-      })
+      });
 
       this.$store.dispatch('setFiatPrice', data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   public mounted(): void {
     this.mountWasmCrypto();
+    this.fetchIndexer();
     this.getKsmPrice();
   }
 
+  private async fetchIndexer() {
+    const indexer = this.$apollo.query({
+      query: checkIndexer
+    });
+
+    const {
+      data: { _metadata: data }
+    } = await indexer;
+
+    console.log(
+      `
+    %cIndexer:
+    Health: ${data?.indexerHealthy ? '❤️' : '💀'}
+    Last: ${new Date(Number(data?.lastProcessedTimestamp))}
+    `,
+      'background: #222; color: #bada55; padding: 0.3em'
+    );
+    this.$store.dispatch('upateIndexerStatus', data);
+  }
+
   get isNavbarVisible() {
-    return !isShareMode
+    return !isShareMode;
   }
 }
 </script>
 
 <style lang="scss">
-@import './styles';
+@import "./styles";
 </style>
