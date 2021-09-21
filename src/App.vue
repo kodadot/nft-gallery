@@ -113,6 +113,7 @@ export default class Dashboard extends Vue {
     } catch (error) {
       const type = {
         indefinite: true,
+        position: 'is-top-right',
         message: `
         <p class="title is-3">Indexer Error</p>
     <p class="subtitle">Indexer is not working properly
@@ -123,7 +124,7 @@ export default class Dashboard extends Vue {
         type: 'is-danger',
         hasIcon: true
       };
-      showNotification('', type);
+      this.$buefy.snackbar.open(type as any);
       // this.$router.push({ name: 'error' });
       console.warn('Do something', error);
     }
