@@ -4,6 +4,7 @@
     icon-left="gift"
     outlined
     @click="goToTransfer"
+    class="donation-btn"
   >
     {{ $t("Gift 10$") }}
   </b-button>
@@ -25,3 +26,10 @@ export default class DonationButton extends Vue {
 }
 </script>
 
+<style lang="scss" scoped>
+@import "@/styles/variables";
+
+.donation-btn {
+  margin-bottom: 1.5rem;
+}
+</style>

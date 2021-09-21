@@ -165,7 +165,7 @@ export default class Transfer extends Mixins(
   }
 
   public async submit(): Promise<void> {
-    showNotification('Dispatched');
+    showNotification(`${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`);
     this.initTransactionLoader();
 
     try {

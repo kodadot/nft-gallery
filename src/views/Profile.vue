@@ -2,7 +2,7 @@
   <div class="profile-wrapper container">
     <div class="columns">
       <div class="column">
-        <div class="columns">
+        <div class="columns content-container">
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a
@@ -12,8 +12,8 @@
             >
               <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
-            <DonationButton :address="id" />
           </div>
+            <DonationButton :address="id" />
           <div class="column">
             <OnChainProperty
               v-bind:email="email"
@@ -352,5 +352,14 @@ export default class Profile extends Vue {
 .tab-counter::before {
   content: " - ";
   white-space: pre;
+}
+
+.title {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+
+.content-container {
+  align-items: center;
 }
 </style>
