@@ -154,7 +154,7 @@ export default class Transfer extends Mixins(
       const tx = await exec(this.accountId, '', cb, arg,
       txCb(
           async blockHash => {
-            execResultValue(tx);
+            this.transactionValue = execResultValue(tx);
             const header = await api.rpc.chain.getHeader(blockHash);
             const blockNumber = header.number.toString();
 
@@ -166,10 +166,11 @@ export default class Transfer extends Mixins(
             this.destinationAddress = '';
             this.price = 0;
             this.usdValue = 0;
-            this.$router.push(this.$route.path);
+            if (this.$route.query) {
+              this.$router.push(this.$route.path);
+            }
 
             this.isLoading = false;
-            this.transactionValue = blockHash.toHex();
           },
           dispatchError => {
             execResultValue(tx);
