@@ -70,7 +70,7 @@ import TransactionMixin from '@/utils/mixins/txMixin';
 import AuthMixin from '@/utils/mixins/authMixin';
 import shouldUpdate from '@/utils/shouldUpdate';
 import ChainMixin from '@/utils/mixins/chainMixin';
-import { AccountInfo, DispatchError } from '@polkadot/types/interfaces';
+import { DispatchError } from '@polkadot/types/interfaces';
 import { calculateBalance } from '@/utils/formatBalance';
 import correctFormat from '@/utils/ss58Format';
 import { checkAddress } from '@polkadot/util-crypto';
