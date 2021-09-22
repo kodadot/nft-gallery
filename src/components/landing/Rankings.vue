@@ -2,7 +2,9 @@
   <div class="columns mb-1">
     <div class="column is-8 is-offset-2">
       <section>
-        <br />
+        <h1 class="title is-4">Top Collection</h1>
+        <p class="subtitle is-size-7">The top NFTs on RMRK, ranked by score, volume, floor price and other statistics.</p>
+
         <RankingsTable />
       </section>
     </div>

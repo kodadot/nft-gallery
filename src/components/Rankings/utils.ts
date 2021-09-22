@@ -2,7 +2,6 @@ import i18n from '@/i18n';
 import { Column, Row, SimpleRankingsNFT } from './types';
 import formatBalance from '@/utils/formatBalance';
 import store from '@/store';
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '@/components/rmrk/utils';
 
 export const columns: Column[] = [
   { field: 'id', label: i18n.t('spotlight.id') },
@@ -23,29 +22,35 @@ export const nftFn = (a: any): Row => {
   const averagePrice = a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
   // const metaImage = fetchMetadataImage(a); DO NOT!
 
-  // console.log(a.nfts.nodes.reduce(soldFn, new Set()));
-  // console.log(a.nfts.nodes.filter(onlyEvents));
+  const floorPrice = Math.min(
+    ...a.nfts.nodes.map((nft: SimpleRankingsNFT) => Number(nft.price)).filter((price: number) => price > 0)
+  );
+  const events = a.nfts.nodes.filter(onlyEvents);
+  const volume = events.map(onlyBuyEvents)
+    .map((item: any, key: number) => {
+      return (item.length && events[key]?.events?.find((e: {interaction: string}) => {
+        return e.interaction === 'LIST';
+      }).meta);
+    })
+    .reduce((a: number, b: number) => Number(a) + Number(b), 0);;
+
   return {
     id: a.id,
     name: a.name,
     image: '', // NOPE
     metadata: a.metadata,
+    volume,
     total,
     sold,
     unique,
     uniqueCollectors,
     averagePrice,
+    floorPrice,
     collectors: 0, // a.nfts.nodes.reduce(uniqueCollectorFn, new Set()),
     rank: sold * (unique / total)
   };
 };
 
-const fetchMetadataImage = async (collection: any) => {
-  // console.log(collection)
-  const meta = await fetchCollectionMetadata(collection)
-  const image = sanitizeIpfsUrl(meta.image || '')
-  return image
-}
 
 const formatNumber = (val: SimpleRankingsNFT) =>
   Number(
@@ -62,6 +67,8 @@ const uniqueFn = (acc: Set<string>, val: SimpleRankingsNFT) => acc.add(val.metad
 const uniqueCollectorFn = (acc: Set<string>, val: SimpleRankingsNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
 const onlyOwned = ({ issuer, currentOwner }: SimpleRankingsNFT) => issuer === currentOwner;
 const onlyEvents = ({events}: SimpleRankingsNFT) => events
+const onlyBuyEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
+const onlyListEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'LIST')
 // const flootPrice = (nfts: SimpleRankingsNFT) => Math.min(nfts)
 
 //   get collectionFloorPrice() {

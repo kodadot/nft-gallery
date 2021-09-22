@@ -1,23 +1,23 @@
 <template>
   <div>
-    <b-field>
+    <!-- <b-field>
         <div class="control is-flex">
             <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
         </div>
-    </b-field>
+    </b-field> -->
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
-      paginated
     >
       <b-table-column
-        cell-class="short-identity__table is-vcentered"
+        cell-class="is-vcentered"
         field="id"
         label="N°"
         v-slot="props"
       >
         {{ data.indexOf(props.row) + 1}}
       </b-table-column>
+
       <b-table-column
         field="image"
         label=""
@@ -32,11 +32,12 @@
             ratio="1by1"
             rounded
           ></b-image>
+          <b-skeleton :active="isLoading" circle width="48px" height="48px"> </b-skeleton>
         </div>
       </b-table-column>
 
       <b-table-column
-        cell-class="short-identity__table is-vcentered"
+        cell-class="is-vcentered"
         field="id"
         label="Collection"
         v-slot="props"
@@ -48,13 +49,42 @@
       </b-table-column>
 
       <b-table-column
-        field="unique"
-        :label="$t('spotlight.unique')"
+        field="rank"
+        :label="$t('spotlight.score')"
         v-slot="props"
         sortable
+        numeric
         cell-class="is-vcentered"
       >
-        <template v-if="!isLoading">{{ props.row.unique }}</template>
+        <template v-if="!isLoading">{{ Math.ceil(props.row.rank) }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <Money :value="props.row.volume" inline />
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="floorPrice"
+        label="Floor price"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <Money :value="props.row.floorPrice" inline />
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -63,13 +93,14 @@
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
         sortable
+        numeric
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         v-slot="props"
@@ -79,11 +110,11 @@
       >
         <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
+      </b-table-column> -->
 
       <b-table-column
         field="sold"
-        :label="$t('spotlight.sold')"
+        label="Collected"
         v-slot="props"
         sortable
         numeric
@@ -132,6 +163,7 @@ type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
 };
 
 @Component({ components })
@@ -148,15 +180,16 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
     const collections = await this.$apollo.query({
       query: collectionRankingsList,
       variables: {
-        denyList
+        denyList: [
+          ...denyList,
+          'FA3C2e9shL7xYpeA2HN8J2uuxrZ8hRNqKUvKVVyRAAUSfGq' // khala gems
+        ]
       }
     });
 
     const {
       data: { collectionEntities }
     } = collections;
-
-    // console.log(collectionEntities?.nodes)
 
     this.data = rankingsAggQuery(
       collectionEntities?.nodes?.map(nftFn)
@@ -194,15 +227,10 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 
   public async fetchMetadataImage(metadata: any) {
     const meta = await fetchCollectionMetadata({metadata} as Collection)
-    console.log(meta)
     return sanitizeIpfsUrl(meta.image || '')
   }
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+
 </style>

@@ -50,6 +50,11 @@
         :to="{ name: 'spotlight'}">
         {{ $t('Spotlight') }}
       </b-navbar-item>
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'rankings'}">
+        Rankings
+      </b-navbar-item>
       <b-navbar-dropdown
           arrowless
           collapsible

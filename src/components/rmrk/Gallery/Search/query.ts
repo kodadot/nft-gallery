@@ -90,12 +90,14 @@ export const rankingsAggregation = (): Aggregator => {
         sold: { $sum: '$sold' },
         total: { $sum: '$total' },
         averagePrice: { $avg: '$averagePrice' },
+        floorPrice: { $sum: '$floorPrice' },
         count: { $sum: '$count' },
         // owned: { $sum: '$currentOwner' },
         collectors: { $sum: '$collectors' }, // TODO: Do not know how
         rank: { $sum: '$rank' },
+        volume: { $sum: '$volume' },
         name: { $first: '$name' },
-        metadata: { $first: '$metadata' }
+        metadata: { $first: '$metadata' },
       }
     },
     {
@@ -144,7 +146,6 @@ export const spotlightAggQuery = (nfts: Row[]) => {
 
 export const rankingsAggQuery = (nfts: Row[]) => {
   const query = rankingsAggregation()
-  // console.log(nfts)
   return query.run(nfts)
 }
 

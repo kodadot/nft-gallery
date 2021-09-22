@@ -15,7 +15,9 @@ export type Row = {
   metadata: string;
   sold: number;
   total: number;
+  volume: number;
   averagePrice: number;
+  floorPrice: number;
   collectors: number;
   rank: number;
   uniqueCollectors: number;
