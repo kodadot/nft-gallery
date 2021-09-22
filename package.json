@@ -5,14 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "netlify-lambda build src-functions && vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "lambda": "netlify-lambda serve src-functions",
-    "start": "vue-cli-service serve",
-    "sitemap": "vue-cli-service sitemap"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "sitemap": "vue-cli-service sitemap",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -69,12 +67,17 @@
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.4",
     "@types/webpack": "^4.4.0",
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-pwa": "^4.5.11",
     "@vue/cli-plugin-typescript": "^4.2.3",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
     "@vue/cli-service": "^4.2.3",
+    "@vue/test-utils": "^1.0.3",
     "all-contributors-cli": "^6.20.0",
+    "chai": "^4.1.2",
     "netlify-lambda": "^2.0.14",
     "sass": "^1.35.1",
     "sass-loader": "^10.2",
@@ -83,5 +86,8 @@
     "vue-cli-plugin-i18n": "^1.0.1",
     "vue-debounce-decorator": "^1.0.1",
     "vue-template-compiler": "^2.6.12"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
