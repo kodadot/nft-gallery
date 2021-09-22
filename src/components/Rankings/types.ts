@@ -16,6 +16,8 @@ export type Row = {
   sold: number;
   total: number;
   volume: number;
+  weeklyVolume: number;
+  monthlyVolume: number;
   averagePrice: number;
   floorPrice: number;
   collectors: number;

@@ -1,12 +1,7 @@
 <template>
   <div>
-    <!-- <b-field>
-        <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
-        </div>
-    </b-field> -->
     <b-table
-      :data="toggleUsersWithIdentity ? usersWithIdentity : data"
+      :data="data"
       hoverable
     >
       <b-table-column
@@ -75,6 +70,36 @@
       </b-table-column>
 
       <b-table-column
+        field="weeklyVolume"
+        label="7d %"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <!-- <Money :value="props.row.weeklyVolume" inline /> -->
+          <div v-html="displayVolumePercent(props.row.weeklyVolume, props.row.volume)"></div>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="monthlyVolume"
+        label="30d %"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <!-- <Money :value="props.row.monthlyVolume" inline /> -->
+          <div v-html="displayVolumePercent(props.row.monthlyVolume, props.row.volume)"></div>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="floorPrice"
         label="Floor price"
         v-slot="props"
@@ -88,7 +113,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         field="averagePrice"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
@@ -97,18 +122,6 @@
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <!-- <b-table-column
-        field="rank"
-        :label="$t('spotlight.score')"
-        v-slot="props"
-        sortable
-        numeric
-        cell-class="is-vcentered"
-      >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column> -->
 
@@ -172,7 +185,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   protected data: Row[] = [];
   protected columns: Column[] = columns;
   protected usersWithIdentity: Row[] = [];
-  protected toggleUsersWithIdentity: boolean = false;
+
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
 
   async created() {
@@ -228,6 +241,17 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   public async fetchMetadataImage(metadata: any) {
     const meta = await fetchCollectionMetadata({metadata} as Collection)
     return sanitizeIpfsUrl(meta.image || '')
+  }
+
+  public displayVolumePercent(firstVolume: number, volume: number) {
+    const vol = (firstVolume / volume) * 100
+    if (vol == 0) {
+      return '---'
+    }
+    const volumePercent = Math.ceil(vol * 100) / 100
+    return volumePercent ?
+      `<div style="color: #41b883"> +${volumePercent}%</div>` :
+      `<div class="has-text-danger"> -${volumePercent}%</div>` ;
   }
 }
 </script>

@@ -32,7 +32,41 @@ export const nftFn = (a: any): Row => {
         return e.interaction === 'LIST';
       }).meta);
     })
-    .reduce((a: number, b: number) => Number(a) + Number(b), 0);;
+    .reduce((a: number, b: number) => Number(a) + Number(b), 0);
+    const weeklyVolume = events
+      .map((event: []) => {
+        return event.events.filter((e: { interaction: string; timestamp: Date }) => {
+          return (
+            e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
+          );
+        });
+      })
+      .map((item: any, key: number) => {
+        return (
+          item.length &&
+          events[key]?.events?.find((e: { interaction: string }) => {
+            return e.interaction === 'LIST';
+          }).meta
+        );
+      })
+      .reduce((a: number, b: number) => Number(a) + Number(b), 0);
+    const monthlyVolume = events
+      .map((event: []) => {
+        return event.events.filter((e: { interaction: string; timestamp: Date }) => {
+          return (
+            e.interaction === 'BUY' && new Date(e.timestamp) >= lastmonthDate
+          );
+        });
+      })
+      .map((item: any, key: number) => {
+        return (
+          item.length &&
+          events[key]?.events?.find((e: { interaction: string }) => {
+            return e.interaction === 'LIST';
+          }).meta
+        );
+      })
+      .reduce((a: number, b: number) => Number(a) + Number(b), 0);
 
   return {
     id: a.id,
@@ -46,6 +80,8 @@ export const nftFn = (a: any): Row => {
     uniqueCollectors,
     averagePrice,
     floorPrice,
+    weeklyVolume,
+    monthlyVolume,
     collectors: 0, // a.nfts.nodes.reduce(uniqueCollectorFn, new Set()),
     rank: sold * (unique / total)
   };
@@ -70,11 +106,22 @@ const onlyEvents = ({events}: SimpleRankingsNFT) => events
 const onlyBuyEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 const onlyListEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'LIST')
 // const flootPrice = (nfts: SimpleRankingsNFT) => Math.min(nfts)
-
-//   get collectionFloorPrice() {
-//     return Math.min(
-//       ...this.nfts
-//         .map(nft => Number(nft.price))
-//         .filter(price => price > 0)
-//     );
-//   }
+const lastweekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 7));
+const lastmonthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30));
+console.log(lastmonthDate)
+// const collectionDailyTradedVolumeNumber = () => {
+//   const sum = this.nftsEvents
+//     .map(event => event.filter((e: { interaction: string; timestamp: Date }) => {
+//       return (
+//         e.interaction === 'BUY' && new Date(e.timestamp) >= this.yesterdayDate
+//       );
+//     }))
+//     .map((item, key) => {
+//       return (
+//         item.length &&
+//         this.nftsEvents[key].find((e: { interaction: string; }) => e.interaction === 'LIST').meta
+//       );
+//     })
+//     .reduce((a, b) => Number(a) + Number(b), 0);
+//   return sum;
+// }

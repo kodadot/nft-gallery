@@ -96,6 +96,8 @@ export const rankingsAggregation = (): Aggregator => {
         collectors: { $sum: '$collectors' }, // TODO: Do not know how
         rank: { $sum: '$rank' },
         volume: { $sum: '$volume' },
+        weeklyVolume: { $sum: '$weeklyVolume' },
+        monthlyVolume: { $sum: '$monthlyVolume' },
         name: { $first: '$name' },
         metadata: { $first: '$metadata' },
       }
