@@ -70,8 +70,8 @@
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
             </b-button>
           </b-field>
-          <div v-if="transactionValue && this.$route.query.donation">
-            <div>Congratulations for supporting      
+          <div v-if="transactionValue && this.$route.query.donation || true">
+            <div class="congrats">🎉 Congratulations for supporting      
              <Identity ref="identity" :address="this.$route.query.target" inline />
             </div>
             <b-button
@@ -254,7 +254,7 @@ export default class Transfer extends Mixins(
   }
 
   protected shareInTweet() {
-    const text = 'I just helped a really cool artist by donating. Check it out here:'
+    const text = 'I have just helped a really cool creator by donating. Check my donation proof:'
     const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`;
     window.open(url, '_blank');
   }
@@ -327,5 +327,8 @@ export default class Transfer extends Mixins(
       &--icon {
         margin-right: 0.5rem;
       }
+    }
+    .congrats {
+      font-size: 1.3rem;
     }
 </style>
