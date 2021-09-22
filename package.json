@@ -79,6 +79,7 @@
     "all-contributors-cli": "^6.20.0",
     "chai": "^4.1.2",
     "netlify-lambda": "^2.0.14",
+    "null-loader": "^4.0.1",
     "sass": "^1.35.1",
     "sass-loader": "^10.2",
     "tslint": "^6.1.0",
