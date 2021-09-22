@@ -1,5 +1,5 @@
 query checkIndexer {
-  _metadata {
+  _meta {
     indexerHealthy
     lastProcessedHeight
     lastProcessedTimestamp
