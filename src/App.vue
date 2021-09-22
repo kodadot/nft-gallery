@@ -98,7 +98,7 @@ export default class Dashboard extends Vue {
       });
 
       const {
-        data: { _metadata: data }
+        data: { _meta: data }
       } = await indexer;
 
       console.log(
