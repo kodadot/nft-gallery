@@ -51,30 +51,6 @@
           :account="id"
         />
       </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
-        />
-      </b-tab-item>
-      <b-tab-item value="sold">
-        <template #header>
-          {{ $t("profile.sold") }}
-          <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          @change="totalSold = $event"
-          :account="id"
-        />
-      </b-tab-item>
       <b-tab-item
         :label="`Collections - ${totalCollections}`"
         value="collection"
@@ -89,6 +65,30 @@
           class="pt-5 pb-5"
           :total="totalCollections"
           v-model="currentCollectionPage"
+        />
+      </b-tab-item>
+      <b-tab-item value="sold">
+        <template #header>
+          {{ $t("profile.sold") }}
+          <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+        </template>
+        <PaginatedCardList
+          :id="id"
+          :query="nftListSold"
+          @change="totalSold = $event"
+          :account="id"
+        />
+      </b-tab-item>
+      <b-tab-item value="collected">
+        <template #header>
+          {{ $t("profile.collected") }}
+          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+        </template>
+        <PaginatedCardList
+          :id="id"
+          :query="nftListCollected"
+          @change="totalCollected = $event"
+          :account="id"
         />
       </b-tab-item>
 
