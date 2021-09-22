@@ -70,8 +70,8 @@
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
             </b-button>
           </b-field>
-          <div v-if="transactionValue && this.$route.query.donation || true">
-            <div class="congrats">🎉 Congratulations for supporting      
+          <div v-if="transactionValue && this.$route.query.donation">
+            <div class="is-size-5">🎉 Congratulations for supporting      
              <Identity ref="identity" :address="this.$route.query.target" inline />
             </div>
             <b-button
@@ -327,8 +327,5 @@ export default class Transfer extends Mixins(
       &--icon {
         margin-right: 0.5rem;
       }
-    }
-    .congrats {
-      font-size: 1.3rem;
     }
 </style>

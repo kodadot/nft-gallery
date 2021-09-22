@@ -2,7 +2,7 @@
   <div class="profile-wrapper container">
     <div class="columns">
       <div class="column">
-        <div class="columns content-container">
+        <div class="columns is-align-items-center">
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a
@@ -357,9 +357,5 @@ export default class Profile extends Vue {
 .title {
   flex-grow: 0;
   flex-basis: auto;
-}
-
-.content-container {
-  align-items: center;
 }
 </style>

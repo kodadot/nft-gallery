@@ -19,8 +19,8 @@ export default class DonationButton extends Vue {
 
   public goToTransfer() {
     this.$router.push({
-      name: "transfer",
-      query: { target: this.address, usdamount: "10", donation: 'true' },
+      name: 'transfer',
+      query: { target: this.address, usdamount: '10', donation: 'true' },
     });
   }
 }
