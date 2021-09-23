@@ -239,12 +239,12 @@ export default class Sharing extends Vue {
   @import "@/styles/variables";
 
 .share {
-  border-radius: 0 !important;
+  border-radius: 0;
   box-shadow: none;
-  border: 2px solid $primary!important;
+  border: 2px solid $primary;
 
   .card-footer {
-    border: none!important;
+    border: none;
     &-item:not(:last-child){
       border-right-color: $primary;
      }
