@@ -468,6 +468,11 @@ hr.comment-divider {
       padding-top: 1rem;
     }
 
+    &-footer {
+      &-item{
+         padding: .75rem!important;
+      }
+    }
   }
 
   &.no-padding-desktop {

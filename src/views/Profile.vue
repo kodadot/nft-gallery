@@ -1,6 +1,6 @@
 <template>
   <div class="profile-wrapper container">
-    <div class="columns">
+    <div class="columns is-align-items-center">
       <div class="column">
         <div class="columns is-align-items-center">
           <div class="column title">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-2">
+      <div class="column is-2 mb-5">
         <Sharing
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
