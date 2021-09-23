@@ -1,5 +1,5 @@
 <template>
-  <div class="card share">
+  <div class="share">
     <footer class="card-footer">
       <div class="card-footer-item" @click="toast('URL copied to clipboard')">
         <b-button
