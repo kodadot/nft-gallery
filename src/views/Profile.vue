@@ -2,7 +2,7 @@
   <div class="profile-wrapper container">
     <div class="columns">
       <div class="column">
-        <div class="columns">
+        <div class="columns is-align-items-center">
           <div class="column title">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a
@@ -13,6 +13,7 @@
               <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
           </div>
+            <DonationButton :address="id" />
           <div class="column">
             <OnChainProperty
               v-bind:email="email"
@@ -127,7 +128,9 @@ const components = {
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
-    import('@/components/rmrk/Gallery/PaginatedCardList.vue')
+    import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
+  DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+
 };
 
 const eq = (tab: string) => (el: string) => tab === el;
@@ -349,5 +352,10 @@ export default class Profile extends Vue {
 .tab-counter::before {
   content: " - ";
   white-space: pre;
+}
+
+.title {
+  flex-grow: 0;
+  flex-basis: auto;
 }
 </style>
