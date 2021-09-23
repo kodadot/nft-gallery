@@ -468,14 +468,6 @@ hr.comment-divider {
       padding-top: 1rem;
     }
 
-    &-footer {
-      border-radius: none;
-      border-top: none;
-
-      &-item:not(:last-child){
-        border-right-color: $primary;
-      }
-    }
   }
 
   &.no-padding-desktop {
