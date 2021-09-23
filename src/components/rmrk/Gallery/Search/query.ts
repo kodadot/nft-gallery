@@ -79,7 +79,7 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg);
 }
 
-export const rankingsAggregation = (): Aggregator => {
+export const rankingsAggregation = (limit: number = 10): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
@@ -106,7 +106,7 @@ export const rankingsAggregation = (): Aggregator => {
       $sort: { rank: -1 },
     },
     {
-      $limit: 10
+      $limit: limit
     }
   ];
 
@@ -146,8 +146,8 @@ export const spotlightAggQuery = (nfts: Row[]) => {
   return query.run(nfts)
 }
 
-export const rankingsAggQuery = (nfts: Row[]) => {
-  const query = rankingsAggregation()
+export const rankingsAggQuery = (limit: number, nfts: Row[]) => {
+  const query = rankingsAggregation(limit)
   return query.run(nfts)
 }
 
