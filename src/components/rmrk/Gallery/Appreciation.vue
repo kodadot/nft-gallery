@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-appreciation__main mb-4 is-flex">
+  <div class="nft-appreciation__main is-flex">
     <Loader v-model="isLoading" :status="status" />
     <IndexerGuard>
       <b-button
@@ -162,10 +162,6 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
   --ep-color-active: #db2980 !important;
   border-width: $button-border-width !important;
   border-radius: 0 !important;
-}
-
-.nft-appreciation__main {
-  min-height: 40px;
 }
 
 .nft-appreciation__column {

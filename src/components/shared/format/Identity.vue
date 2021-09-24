@@ -1,12 +1,14 @@
 <template>
   <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }" v-if="(showTwitter && twitter) || !showTwitter">
     <template v-if="showTwitter && twitter">
-      <a :href="`https://twitter.com/${twitter}`" class="pt-2" target="_blank" rel="noopener noreferrer">
-        {{ twitter | toString }}
+      <a :href="`https://twitter.com/${twitter}`" class="twitter-link" target="_blank" rel="noopener noreferrer">
         <b-icon
           pack="fab"
           icon="twitter"
         ></b-icon>
+        <span class="aligned">
+          {{ twitter | toString }}
+        </span>
       </a>
     </template>
     <template v-else>
@@ -131,6 +133,15 @@ export default class Identity extends Mixins(InlineMixin) {
 .aligned {
   vertical-align: middle;
   display: inline-block;
+}
+
+.twitter-link {
+  line-height: 20px;
+}
+
+.twitter-link .icon {
+  vertical-align: middle;
+  margin: auto .5em auto 0;
 }
 
 .overflowWrap {
