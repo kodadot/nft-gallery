@@ -469,11 +469,8 @@ hr.comment-divider {
     }
 
     &-footer {
-      border-radius: none;
-      border-top: none;
-
-      &-item:not(:last-child){
-        border-right-color: $primary;
+      &-item{
+         padding: .75rem!important;
       }
     }
   }
