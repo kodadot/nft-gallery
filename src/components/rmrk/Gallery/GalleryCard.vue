@@ -1,6 +1,6 @@
 <template>
   <div class="card nft-card" :class="{'is-current-owner': accountIsCurrentOwner()}">
-    <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="div" >
+    <LinkResolver class="nft-card__skeleton" :route="type" :param="id" :link="link" tag="a" >
       <div class="card-image" v-if="image">
         <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
