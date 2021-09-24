@@ -9,7 +9,8 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "lambda": "netlify-lambda serve src-functions",
     "start": "vue-cli-service serve",
-    "sitemap": "vue-cli-service sitemap"
+    "sitemap": "vue-cli-service sitemap",
+    "build:report": "vue-cli-service build --report"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -36,8 +37,8 @@
     "@vue-polkadot/vue-settings": "^0.0.19",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
-    "buefy": "^0.9.8",
-    "echarts": "^5.1.2",
+    "buefy": "^0.9.10",
+    "echarts": "^5.2.1",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
     "freezeframe": "^5.0.2",
