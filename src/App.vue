@@ -24,6 +24,7 @@ import isShareMode from '@/utils/isShareMode';
 import coingecko from '@/coingecko';
 import correctFormat from '@/utils/ss58Format';
 import checkIndexer from '@/queries/checkIndexer.graphql';
+import { showNotification } from './utils/notification';
 
 @Component<Dashboard>({
   metaInfo() {
@@ -91,23 +92,42 @@ export default class Dashboard extends Vue {
   }
 
   private async fetchIndexer() {
-    const indexer = this.$apollo.query({
-      query: checkIndexer
-    });
+    try {
+      const indexer = this.$apollo.query({
+        query: checkIndexer
+      });
 
-    const {
-      data: { _metadata: data }
-    } = await indexer;
+      const {
+        data: { _meta: data }
+      } = await indexer;
 
-    console.log(
-      `
+      console.log(
+        `
     %cIndexer:
     Health: ${data?.indexerHealthy ? '❤️' : '💀'}
     Last: ${new Date(Number(data?.lastProcessedTimestamp))}
     `,
-      'background: #222; color: #bada55; padding: 0.3em'
-    );
-    this.$store.dispatch('upateIndexerStatus', data);
+        'background: #222; color: #bada55; padding: 0.3em'
+      );
+      this.$store.dispatch('upateIndexerStatus', data);
+    } catch (error) {
+      const type = {
+        indefinite: true,
+        position: 'is-top-right',
+        message: `
+        <p class="title is-3">Indexer Error</p>
+    <p class="subtitle">Indexer is not working properly
+    <a target="_blank" rel="noopener noreferrer"  href="https://explorer.subquery.network/subquery/vikiival/magick">and you can check the status here</a></p>
+    <p class="subtitle">If you think this should't happen, report us by
+      <a target="_blank" rel="noopener noreferrer"  href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title=">creating bug issue with steps to reproduce and screenshot.</a></p>
+        `,
+        type: 'is-danger',
+        hasIcon: true
+      };
+      this.$buefy.snackbar.open(type as any);
+      // this.$router.push({ name: 'error' });
+      console.warn('Do something', error);
+    }
   }
 
   get isNavbarVisible() {

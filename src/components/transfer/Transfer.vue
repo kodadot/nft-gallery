@@ -4,6 +4,10 @@
       <section>
         <br />
         <Loader v-model="isLoading" :status="status" />
+        <router-link :to="`rmrk/u/${destinationAddress}`" class="linkartist"  v-if="this.$route.query.target">
+          <b-icon icon="chevron-left" size="is-small" class="linkartist--icon"></b-icon>
+           Go to artist's profile
+        </router-link>
         <div class="box">
           <div class="info">
             <p class="title is-size-3">
@@ -15,6 +19,17 @@
           <b-field>
             <Auth />
           </b-field>
+          <div class="box--target-info" v-if="this.$route.query.target">
+            Your donation will be sent to: 
+            <a
+              :href="`https://kusama.subscan.io/account/${this.$route.query.target}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="box--target-info--url"
+            >
+              <Identity ref="identity" :address="this.$route.query.target" inline />
+            </a>
+          </div>
 
           <b-field>
             {{ $t("general.balance") }}
@@ -55,6 +70,20 @@
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
             </b-button>
           </b-field>
+          <div v-if="transactionValue && this.$route.query.donation">
+            <div class="is-size-5">🎉 Congratulations for supporting      
+             <Identity ref="identity" :address="this.$route.query.target" inline />
+            </div>
+            <b-button
+              type="is-info"
+              class="tweetBtn"
+              icon-left="share-square"
+              @click="shareInTweet"
+              outlined
+             >
+             {{$t("Tweet about your awesome donation")}}
+            </b-button>
+          </div>
         </div>
       </section>
     </div>
@@ -81,6 +110,7 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
     Auth: () => import('@/components/shared/Auth.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
+    Identity: () => import('@/components/shared/format/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue')
@@ -140,10 +170,16 @@ export default class Transfer extends Mixins(
     if (query.amount) {
       this.price = Number(query.amount);
     }
+
+    if (query.usdamount) {
+      this.usdValue = Number(query.usdamount);
+      // getting ksm value from the usd value
+      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue);
+    }
   }
 
   public async submit(): Promise<void> {
-    showNotification('Dispatched');
+    showNotification(`${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`);
     this.initTransactionLoader();
 
     try {
@@ -154,7 +190,7 @@ export default class Transfer extends Mixins(
       const tx = await exec(this.accountId, '', cb, arg,
       txCb(
           async blockHash => {
-            execResultValue(tx);
+            this.transactionValue = execResultValue(tx);
             const header = await api.rpc.chain.getHeader(blockHash);
             const blockNumber = header.number.toString();
 
@@ -166,10 +202,11 @@ export default class Transfer extends Mixins(
             this.destinationAddress = '';
             this.price = 0;
             this.usdValue = 0;
-            this.$router.push(this.$route.path);
+            if (this.$route.query && !this.$route.query.donation) {
+              this.$router.push(this.$route.path);
+            }
 
             this.isLoading = false;
-            this.transactionValue = blockHash.toHex();
           },
           dispatchError => {
             execResultValue(tx);
@@ -206,9 +243,19 @@ export default class Transfer extends Mixins(
     this.isLoading = false;
   }
 
-  protected getExplorerUrl() {
-    const url =  urlBuilderTransaction(this.transactionValue,
+  protected getUrl() {
+    return urlBuilderTransaction(this.transactionValue,
       this.$store.getters.getCurrentChain, 'subscan');
+  }
+
+  protected getExplorerUrl() {
+    const url =  this.getUrl();
+    window.open(url, '_blank');
+  }
+
+  protected shareInTweet() {
+    const text = 'I have just helped a really cool creator by donating. Check my donation proof:'
+    const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`;
     window.open(url, '_blank');
   }
 
@@ -255,6 +302,9 @@ export default class Transfer extends Mixins(
     .tx {
        margin-left: 1rem;
     }
+    .tweetBtn {
+       margin-top: 0.5rem;
+    }
     .box {
       &--container {
         display: flex;
@@ -262,6 +312,20 @@ export default class Transfer extends Mixins(
         @media screen and (max-width: 1023px) {
          flex-direction: column;
         }
+      }
+      &--target-info {
+        margin-bottom: 0.8rem;
+        &--url {
+          font-weight: bold;
+        }
+      }
+    }
+    .linkartist {
+      padding-left: 1.25rem;
+      display: flex;
+      align-items: center; 
+      &--icon {
+        margin-right: 0.5rem;
       }
     }
 </style>

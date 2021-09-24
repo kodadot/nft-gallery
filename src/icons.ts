@@ -6,7 +6,7 @@ import {
   faTrash, faCloudDownloadAlt, faKey,
   faExternalLinkAlt, faUpload, faUsers,
   faQuestionCircle, faMinus, faSearch,
-  faInfoCircle, faChevronDown, faChevronUp,
+  faInfoCircle, faChevronDown, faChevronUp, faChevronLeft,
   faHeart, faCaretDown, faInfo,
   faShareSquare, faCopy, faBookmark,
   faLink, faLanguage,
@@ -18,7 +18,7 @@ import {
   faCalendar, faCalculator, faEnvelope,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faAngleLeft, faAngleRight, faReply,
-  faExternalLinkSquareAlt,
+  faExternalLinkSquareAlt, faGift,
   faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle,
 
 } from '@fortawesome/free-solid-svg-icons';
@@ -44,7 +44,7 @@ library.add(
   faKey, faExternalLinkAlt, faUpload,
   faUsers, faQuestionCircle, faMinus,
   faSearch, faInfoCircle, faChevronDown,
-  faChevronUp, faHeart,
+  faChevronUp, faChevronLeft, faHeart,
   faCaretDown, faInfo, faShareSquare,
   faBookmark, faLink,
   faLanguage, faQuestion, faEye,
@@ -58,7 +58,7 @@ library.add(
   faExclamationTriangle, faCalculator,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
-  faExclamationCircle,
+  faExclamationCircle, faGift,
 
   // Social
   faTwitter, faTelegram, faFacebook,

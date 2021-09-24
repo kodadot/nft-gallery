@@ -22,6 +22,7 @@ const Contact = () => import('@/components/landing/Contact.vue');
 const Partnership = () => import('@/components/landing/Partnership.vue');
 const Tutorials = () => import('@/components/landing/Tutorials.vue');
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
+const Error = () => import('@/components/Error.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
@@ -112,6 +113,11 @@ export default new Router({
       beforeEnter(to, from, next) {
         window.location.href = 'https://discord.gg/88da2MEfU9'
       }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: Error,
     },
 		{
 			path: '*',
