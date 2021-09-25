@@ -25,6 +25,7 @@
                     src-fallback="/placeholder.svg'"
                     alt="KodaDot NFT minted multimedia"
                     ratio="1by1"
+                    @error="onImageError"
                   ></b-image>
                   <img class="fullscreen-image" :src="meta.image || '/placeholder.svg'" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
@@ -241,7 +242,7 @@ export default class GalleryItem extends Vue {
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image, 'pinata')
       }
 
       // console.log(this.meta)
