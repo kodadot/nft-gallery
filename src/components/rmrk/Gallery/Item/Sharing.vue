@@ -234,7 +234,7 @@ export default class Sharing extends Vue {
     this.openFallbackShareTooltip();
     if (navigator.share) {
       const shareData = {
-        title: "KodaDot",
+        title: 'KodaDot',
         text: this.label,
         url: this.realworldFullPath,
       };
