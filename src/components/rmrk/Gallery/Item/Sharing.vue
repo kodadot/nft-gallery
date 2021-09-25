@@ -14,7 +14,7 @@
           </b-icon>
         </b-button>
       </div>
-      <div class="card-footer-item" v-if="!onlyCopyLink" @click="active = !active" @focusout="active = !active">
+      <div class="card-footer-item" v-if="!onlyCopyLink" @click="shareTooltip" @focusout="openFallbackShareTooltip">
         <b-tooltip
           position="is-left"
           class="share__tooltip"
@@ -228,6 +228,29 @@ export default class Sharing extends Vue {
 
   public toast(message: string): void {
     this.$buefy.toast.open(message);
+  }
+
+  public async shareTooltip() {
+    this.openFallbackShareTooltip();
+    if (navigator.share) {
+      const shareData = {
+        title: "KodaDot",
+        text: this.label,
+        url: this.realworldFullPath,
+      };
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
+  public openFallbackShareTooltip() {
+    // only call this when share api is not available, example on web
+    if (!navigator.share) {
+      this.active = !this.active;
+    }
   }
 }
 </script>
