@@ -56,9 +56,7 @@
 
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend')}}</p>
-            <p v-if="!isLoading" class="subtitle is-size-5">
-              {{ meta.description }}
-            </p>
+            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description" />
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
@@ -119,8 +117,6 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator';
-// import MarkdownItVueLight from 'markdown-it-vue';
-import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import { NFT, NFTMetadata, Emote } from '../service/scheme';
 import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils';
 import { emptyObject } from '@/utils/empty';
@@ -131,6 +127,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 // import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 // import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
+// import VueMarkdown from 'vue-markdown-render'
 
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql';
@@ -172,7 +169,8 @@ import { exist } from './Search/exist';
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
+    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+    VueMarkdown: () => import('vue-markdown-render')
   }
 })
 export default class GalleryItem extends Vue {
