@@ -8,7 +8,6 @@ export const columns: Column[] = [
   { field: 'rank', label: i18n.t('spotlight.score'), numeric: true },
   { field: 'unique', label: i18n.t('spotlight.unique'), numeric: true },
   { field: 'averagePrice', label: 'Floor price', numeric: true},
-  // { field: 'uniqueCollectors', label: i18n.t('spotlight.collectors'), numeric: true },
   { field: 'collectors', label: i18n.t('spotlight.collectors'), numeric: true },
   { field: 'sold', label: i18n.t('spotlight.sold'), numeric: true },
   { field: 'total', label: i18n.t('spotlight.total'), numeric: true }
@@ -35,11 +34,13 @@ export const nftFn = (a: any): Row => {
     .reduce((a: number, b: number) => Number(a) + Number(b), 0);
     const weeklyVolume = events
       .map((event: []) => {
-        return event.events.filter((e: { interaction: string; timestamp: Date }) => {
-          return (
-            e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
-          );
-        });
+        return event.events.filter(
+          (e: { interaction: string; timestamp: Date }) => {
+            return (
+              e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
+            );
+          }
+        );
       })
       .map((item: any, key: number) => {
         return (
@@ -49,7 +50,8 @@ export const nftFn = (a: any): Row => {
           }).meta
         );
       })
-      .reduce((a: number, b: number) => Number(a) + Number(b), 0);
+      .reduce((a: number, b: number): number => Number(a) + Number(b), 0);
+
     const monthlyVolume = events
       .map((event: []) => {
         return event.events.filter((e: { interaction: string; timestamp: Date }) => {
@@ -58,7 +60,7 @@ export const nftFn = (a: any): Row => {
           );
         });
       })
-      .map((item: any, key: number) => {
+      .map((item: any, key: number): any => {
         return (
           item.length &&
           events[key]?.events?.find((e: { interaction: string }) => {
@@ -66,7 +68,7 @@ export const nftFn = (a: any): Row => {
           }).meta
         );
       })
-      .reduce((a: number, b: number) => Number(a) + Number(b), 0);
+      .reduce((a: number, b: number): number => Number(a) + Number(b), 0);
 
   return {
     id: a.id,
@@ -105,6 +107,14 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleRankingsNFT) => issuer === cu
 const onlyEvents = ({events}: SimpleRankingsNFT) => events
 const onlyBuyEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 const onlyListEvents = ({events}: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'LIST')
+const onlyListMetaFn = (item: any, key: number) => {
+  return (
+    item.length &&
+    events[key]?.events?.find((e: { interaction: string }) => {
+      return e.interaction === 'LIST';
+    }).meta
+  );
+};
 // const flootPrice = (nfts: SimpleRankingsNFT) => Math.min(nfts)
 const lastweekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 7));
 const lastmonthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30));

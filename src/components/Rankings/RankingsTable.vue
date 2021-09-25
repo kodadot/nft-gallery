@@ -19,6 +19,7 @@
 				type="is-outlined"
 			>100</b-radio-button>
 		</b-field>
+
 		<b-table :data="data" hoverable>
 			<b-table-column
 				cell-class="is-vcentered"
@@ -222,7 +223,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 	protected data: Row[] = []
 	protected columns: Column[] = columns
 	protected usersWithIdentity: Row[] = []
-  protected nbRows: number = 10
+	protected nbRows: number = 10
 
 	public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
