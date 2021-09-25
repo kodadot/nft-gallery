@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "netlify-lambda build src-functions && vue-cli-service build",
+    "build": "netlify-lambda build src-functions && vue-cli-service build --report",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "lambda": "netlify-lambda serve src-functions",
@@ -20,7 +20,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^2.0.2",
-    "@google/model-viewer": "^1.7.2",
+    "@google/model-viewer": "^1.8.0",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/types": "6.0.5",
     "@polkadot/types-known": "6.0.5",
