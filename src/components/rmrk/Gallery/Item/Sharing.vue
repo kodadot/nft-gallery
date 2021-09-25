@@ -1,11 +1,10 @@
 <template>
-  <div class="card share">
+  <div class="share">
     <footer class="card-footer">
-      <div class="card-footer-item">
+      <div class="card-footer-item" @click="toast('URL copied to clipboard')">
         <b-button
           size="is-small"
           v-clipboard:copy="realworldFullPathShare"
-          @click="toast('URL copied to clipboard')"
           class="share__root share__button"
         >
           <b-icon
@@ -15,7 +14,7 @@
           </b-icon>
         </b-button>
       </div>
-      <div class="card-footer-item" v-if="!onlyCopyLink">
+      <div class="card-footer-item" v-if="!onlyCopyLink" @click="active = !active" @focusout="active = !active">
         <b-tooltip
           position="is-left"
           class="share__tooltip"
@@ -155,8 +154,6 @@
             type="is-dark"
             class="share__root share__button"
             size="is-small"
-            @click="active = !active"
-            @focusout="active = !active"
           >
             <b-icon
               size="is-large"
@@ -239,8 +236,25 @@ export default class Sharing extends Vue {
   @import "@/styles/variables";
 
 .share {
-  box-shadow: 0px 0px 5px 0.5px #d32e79;
+  border-radius: 0;
+  box-shadow: none;
+  border: 2px solid $primary;
 
+  .card-footer {
+    border: none;
+    &-item:not(:last-child){
+      border-right-color: $primary;
+     }
+    &-item {
+      padding: 0rem  1rem;
+      cursor: pointer;
+      &:hover {
+        .share__root {
+          color: $primary;
+        }
+      }
+    }
+  }
   &__button {
     color: $primary;
     background: transparent;

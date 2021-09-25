@@ -37,9 +37,7 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <p class="content">
-          {{ description }}
-        </p>
+        <VueMarkdown :source="description" />
       </div>
     </div>
 
@@ -62,6 +60,7 @@ const components = {
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  VueMarkdown: () => import('vue-markdown-render')
 };
 @Component<CollectionItem>({
   metaInfo() {

@@ -11,7 +11,7 @@
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
-      <Identity :address="address" :inline="true" :showTwitter="showTwitter" :verticalAlign="true" />
+      <Identity :address="address" :showTwitter="showTwitter" :verticalAlign="true" class="pt-2" />
     </template>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default class ProfileLink extends Mixins(InlineMixin) {
 
 <style scoped>
 .subscan__less-margin {
-  margin: auto 0.5em;
+  margin: auto .5em auto 0;
 }
 
 .profile-link__wrapper {

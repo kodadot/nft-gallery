@@ -12,7 +12,7 @@
 
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class DonationButton extends Vue {
   @Prop() public address!: string;
@@ -20,7 +20,7 @@ export default class DonationButton extends Vue {
   public goToTransfer() {
     this.$router.push({
       name: 'transfer',
-      query: { target: this.address, usdamount: '10', donation: 'true' },
+      query: { target: this.address, usdamount: '10', donation: 'true' }
     });
   }
 }

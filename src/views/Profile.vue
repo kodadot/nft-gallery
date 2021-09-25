@@ -1,9 +1,9 @@
 <template>
   <div class="profile-wrapper container">
-    <div class="columns">
+    <div class="is-flex is-align-items-center container-mobile">
       <div class="column">
         <div class="columns is-align-items-center">
-          <div class="column title">
+          <div class="column title column-mobile">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a
               :href="`https://kusama.subscan.io/account/${id}`"
@@ -13,8 +13,10 @@
               <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
           </div>
+          <div class="column-mobile">
             <DonationButton :address="id" />
-          <div class="column">
+          </div>
+          <div class="column column-mobile">
             <OnChainProperty
               v-bind:email="email"
               v-bind:twitter="twitter"
@@ -25,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-2">
+      <div class="column is-2 mb-5 share-mobile ">
         <Sharing
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
@@ -357,5 +359,21 @@ export default class Profile extends Vue {
 .title {
   flex-grow: 0;
   flex-basis: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .column-mobile {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container-mobile {
+    flex-direction: column;
+  }
+
+  .share-mobile {
+    width: 100%;
+  }
 }
 </style>
