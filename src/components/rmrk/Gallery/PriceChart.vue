@@ -10,7 +10,19 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
-import * as ECharts from 'echarts';
+import * as ECharts from 'echarts/core';
+import { GridComponent } from 'echarts/components';
+import { LineChart } from 'echarts/charts';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TooltipComponent } from 'echarts/components';
+
+ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent]);
+
+// type EChartsOption = ECharts.ComposeOption<
+//   GridComponentOption | LineSeriesOption
+// >;
+
 
 const components = {
 	// chart: () => ECharts,
