@@ -20,7 +20,6 @@ export type Row = {
   monthlyVolume: number;
   averagePrice: number;
   floorPrice: number;
-  collectors: number;
   rank: number;
   uniqueCollectors: number;
   name: string;

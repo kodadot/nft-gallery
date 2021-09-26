@@ -93,7 +93,6 @@ export const rankingsAggregation = (limit: number = 10): Aggregator => {
         floorPrice: { $sum: '$floorPrice' },
         count: { $sum: '$count' },
         // owned: { $sum: '$currentOwner' },
-        collectors: { $sum: '$collectors' }, // TODO: Do not know how
         rank: { $sum: '$rank' },
         volume: { $sum: '$volume' },
         weeklyVolume: { $sum: '$weeklyVolume' },
