@@ -127,10 +127,6 @@ export default class History extends Vue {
 		}
 
 		this.data = this.data.reverse();
-		this.priceData.push([
-			new Date(),
-			this.formatPrice(this.data[0]['Amount']),
-		]);
 	}
 
 	protected parseDate(date: Date) {
