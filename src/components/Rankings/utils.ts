@@ -1,5 +1,5 @@
 import i18n from '@/i18n';
-import { Column, Row, SimpleRankingsNFT } from './types';
+import { Column, RowRanking, SimpleRankingsNFT } from './types';
 import formatBalance from '@/utils/formatBalance';
 import store from '@/store';
 
@@ -12,7 +12,7 @@ export const columns: Column[] = [
 	{ field: 'total', label: i18n.t('spotlight.total'), numeric: true }
 ];
 
-export const nftFn = (a: any): Row => {
+export const nftFn = (a: any): RowRanking => {
 	const sold = a.nfts.nodes.reduce(soldFn, 0);
 	const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size;
 	const uniqueCollectors = a.nfts.nodes.reduce(uniqueCollectorFn, new Set()).size;

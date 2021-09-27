@@ -1,4 +1,5 @@
-import { Row } from '@/components/Rankings/types'
+import { Row } from '@/components/spotlight/types'
+import { RowRanking } from '@/components/Rankings/types'
 import M, { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
@@ -145,7 +146,7 @@ export const spotlightAggQuery = (nfts: Row[]) => {
   return query.run(nfts)
 }
 
-export const rankingsAggQuery = (limit: number, nfts: Row[]) => {
+export const rankingsAggQuery = (limit: number, nfts: RowRanking[]) => {
   const query = rankingsAggregation(limit)
   return query.run(nfts)
 }

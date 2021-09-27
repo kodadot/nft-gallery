@@ -1,14 +1,14 @@
 import { TranslateResult } from 'vue-i18n';
 
 export type Column = {
-  field: keyof Row;
+  field: keyof RowRanking;
   label: string | TranslateResult;
   width?: number;
   numeric?: boolean;
   centered?: boolean;
 };
 
-export type Row = {
+export type RowRanking = {
   id: string;
   unique: number;
   image: any;

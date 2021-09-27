@@ -194,23 +194,15 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
-import { Column, Row } from './types'
+import { Column, RowRanking } from './types'
 import { columns, nftFn } from './utils'
 import collectionRankingsList from '@/queries/collectionRankingsList.graphql'
 import { rankingsAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { denyList } from '@/constants'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { get } from 'idb-keyval'
-import { identityStore } from '@/utils/idbStore'
-import {
-	sanitizeIpfsUrl,
-	fetchCollectionMetadata,
-} from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
 import { emptyObject } from '@/utils/empty'
-
-type Address = string | GenericAccountId | undefined
 
 const components = {
 	Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -220,9 +212,9 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends Mixins(TransactionMixin) {
 	@Prop() public value!: any
-	protected data: Row[] = []
+	protected data: RowRanking[] = []
 	protected columns: Column[] = columns
-	protected usersWithIdentity: Row[] = []
+	protected usersWithIdentity: RowRanking[] = []
 	protected nbRows: number = 10
 
 	public meta: NFTMetadata = emptyObject<NFTMetadata>()
@@ -250,7 +242,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 		this.data = rankingsAggQuery(
       limit,
 			collectionEntities?.nodes?.map(nftFn)
-		) as Row[]
+		) as RowRanking[]
 
 		// fetch metadata for images
 		for (let index = 0; index < this.data.length; index++) {
