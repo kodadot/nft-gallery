@@ -16,8 +16,9 @@ import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TooltipComponent } from 'echarts/components';
+import { DataZoomComponent } from 'echarts/components';
 
-ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent]);
+ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent]);
 
 // type EChartsOption = ECharts.ComposeOption<
 //   GridComponentOption | LineSeriesOption
