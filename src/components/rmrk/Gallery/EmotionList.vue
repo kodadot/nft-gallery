@@ -2,7 +2,7 @@
   <div class="columns is-mobile is-multiline is-gapless nft-emotion__main mb-4" v-show="emoji">
     <div
       class="column nft-emotion__column"
-      v-for="emoji in emojis"
+      v-for="emoji in emotes"
       :key="emoji.key"
     >
       <b-tag id="emoji-box" type="is-dark is-large">
@@ -30,11 +30,10 @@ interface Emoji {
 }
 
 @Component
-export default class extends Vue {
-  private value2: any;
+export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion;
 
-  get emojis(): Emoji[] {
+  get emotes(): Emoji[] {
     return Object.entries(this.emotions).map(([key, emotions]) => ({
       key,
       count: emotions.length,
