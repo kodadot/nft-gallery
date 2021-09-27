@@ -229,6 +229,10 @@ export default class GalleryItem extends Vue {
     this.isLoading = false;
   }
 
+  onImageError(e: any) {
+    console.warn('Image error',e)
+  }
+
   public async fetchMetadata() {
     // console.log(this.nft);
 
@@ -354,13 +358,14 @@ hr.comment-divider {
 
         img.fullscreen-image {
           display: block;
-          width: 100% !important;
-          height: auto !important;
+          width: auto !important;
+          height: 100% !important;
           overflow:auto;
           position: absolute;
           top: 0;
           left: 50%;
           transform: translate(-50%, 0);
+          overflow-y: hidden;
         }
 
         .image {
