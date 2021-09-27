@@ -97,7 +97,6 @@ const soldFn = (acc: number, val: SimpleRankingsNFT) => val.issuer !== val.curre
 const uniqueFn = (acc: Set<string>, val: SimpleRankingsNFT) => acc.add(val.metadata);
 const uniqueCollectorFn = (acc: Set<string>, val: SimpleRankingsNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
 const onlyOwned = ({ issuer, currentOwner }: SimpleRankingsNFT) => issuer === currentOwner;
-const onlyEvents = ({ events }: SimpleRankingsNFT) => events
 const onlyBuyEvents = ({ events }: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 const reducer = (a: number, b: number): number => Number(a) + Number(b)

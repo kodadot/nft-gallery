@@ -193,7 +193,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
 import { Column, RowRanking } from './types'
 import { columns, nftFn } from './utils'
 import collectionRankingsList from '@/queries/collectionRankingsList.graphql'
