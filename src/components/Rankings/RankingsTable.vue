@@ -252,12 +252,8 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 			collectionEntities?.nodes?.map(nftFn)
 		) as Row[]
 
-		// TODO: fetch metadata for images
+		// fetch metadata for images
 		for (let index = 0; index < this.data.length; index++) {
-			// const result = await this.identityOf(this.data[index].id);
-			// if (result && Object.keys(result).length) {
-			//   this.usersWithIdentity[index] = this.data[index];
-			// }
 			const image = await this.fetchMetadataImage(
 				this.data[index].metadata
 			)
@@ -278,26 +274,14 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
     this.fetchCollectionsRankings(Number(value))
   }
 
-	public async identityOf(account: Address) {
-		const address: string = this.resolveAddress(account)
-		const identity = await get(address, identityStore)
-		return identity
-	}
-
-	private resolveAddress(account: Address): string {
-		return account instanceof GenericAccountId
-			? account.toString()
-			: account || ''
-	}
-
 	public async fetchMetadataImage(metadata: any) {
 		const meta = await fetchCollectionMetadata({ metadata } as Collection)
 		return sanitizeIpfsUrl(meta.image || '')
 	}
 
-	public displayVolumePercent(firstVolume: number, volume: number) {
-		const vol = (firstVolume / volume) * 100
-		if (vol == 0) {
+	public displayVolumePercent(firstVolume: number, volumeTotal: number) {
+		const vol = (firstVolume / volumeTotal) * 100
+		if (vol === 0) {
 			return '---'
 		}
 		const volumePercent = Math.ceil(vol * 100) / 100

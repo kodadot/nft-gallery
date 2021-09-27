@@ -20,11 +20,11 @@ export const nftFn = (a: any): Row => {
 	const averagePrice = a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
 	// const metaImage = fetchMetadataImage(a); DO NOT!
   // const collectionEvents = a.nfts.nodes.filter(onlyEvents);
+	const collectionNfts = a.nfts.nodes;
 
 	const floorPrice = Math.min(
-		...a.nfts.nodes.map((nft: SimpleRankingsNFT) => Number(nft.price)).filter((price: number) => price > 0)
+		...collectionNfts.map((nft: SimpleRankingsNFT) => Number(nft.price)).filter((price: number) => price > 0)
 	);
-	const collectionNfts = a.nfts.nodes;
 
 	const volume = collectionNfts
     .map(onlyBuyEvents)
@@ -34,7 +34,6 @@ export const nftFn = (a: any): Row => {
       );
     })
     .reduce(reducer, 0);
-
 
 	const weeklyVolume = collectionNfts
     .map((nft: SimpleRankingsNFT) => nft.events.filter(
