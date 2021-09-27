@@ -2,7 +2,7 @@
   <b-image
     :src="src"
     :alt="mimeType"
-    ratio="1by1"
+    class="nft-image"
   ></b-image>
 </template>
 

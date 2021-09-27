@@ -334,7 +334,10 @@ hr.comment-divider {
     margin: 30px auto;
     width: 100%;
 
-    .image {
+    .nft-image img {
+      max-height: 530px;
+      width: auto!important;
+      margin: auto;
       border: 2px solid $primary;
     }
 
