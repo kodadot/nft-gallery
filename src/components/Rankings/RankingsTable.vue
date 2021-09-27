@@ -193,13 +193,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Column, RowRanking } from './types'
 import { columns, nftFn } from './utils'
 import collectionRankingsList from '@/queries/collectionRankingsList.graphql'
 import { rankingsAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
-import TransactionMixin from '@/utils/mixins/txMixin'
 import { denyList } from '@/constants'
 import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
 import { emptyObject } from '@/utils/empty'
@@ -210,12 +209,12 @@ const components = {
 }
 
 @Component({ components })
-export default class SpotlightTable extends Mixins(TransactionMixin) {
-	@Prop() public value!: any
+export default class RankingsTable extends Vue{
 	protected data: RowRanking[] = []
 	protected columns: Column[] = columns
 	protected usersWithIdentity: RowRanking[] = []
 	protected nbRows: number = 10
+  public isLoading = false;
 
 	public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
@@ -228,10 +227,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 		const collections = await this.$apollo.query({
 			query: collectionRankingsList,
 			variables: {
-				denyList: [
-					...denyList,
-					'FA3C2e9shL7xYpeA2HN8J2uuxrZ8hRNqKUvKVVyRAAUSfGq', // khala gems
-				],
+				denyList,
 			},
 		})
 
