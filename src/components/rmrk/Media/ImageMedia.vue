@@ -1,7 +1,9 @@
 <template>
-  <figure class="image is-1by1 nft-image">
-    <img :src="src" :alt="mimeType" />
-  </figure>
+  <b-image
+    :src="src"
+    :alt="mimeType"
+    ratio="1by1"
+  ></b-image>
 </template>
 
 <script lang="ts" >
