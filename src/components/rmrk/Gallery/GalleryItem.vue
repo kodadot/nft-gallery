@@ -358,8 +358,9 @@ hr.comment-divider {
 
         img.fullscreen-image {
           display: block;
-          width: auto !important;
-          height: 100% !important;
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
           overflow:auto;
           position: absolute;
           top: 0;
