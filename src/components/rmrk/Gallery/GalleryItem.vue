@@ -17,7 +17,7 @@
       <div class="columns">
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
-              <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
+              <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
                 <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
@@ -344,6 +344,12 @@ hr.comment-divider {
 
     .fullscreen-image {
       display: none;
+    }
+
+    .is-theatre {
+      .image-media__image {
+        object-fit: contain;
+      }
     }
 
     .image-preview {
