@@ -17,7 +17,7 @@
       <div class="columns">
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
-              <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
+              <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
                 <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
@@ -229,6 +229,10 @@ export default class GalleryItem extends Vue {
     this.isLoading = false;
   }
 
+  onImageError(e: any) {
+    console.warn('Image error',e)
+  }
+
   public async fetchMetadata() {
     // console.log(this.nft);
 
@@ -342,6 +346,7 @@ hr.comment-divider {
       display: none;
     }
 
+
     .image-preview {
       &.fullscreen {
         position: fixed;
@@ -354,13 +359,15 @@ hr.comment-divider {
 
         img.fullscreen-image {
           display: block;
-          width: 100% !important;
-          height: auto !important;
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
           overflow:auto;
           position: absolute;
           top: 0;
           left: 50%;
           transform: translate(-50%, 0);
+          overflow-y: hidden;
         }
 
         .image {
