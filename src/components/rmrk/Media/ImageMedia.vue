@@ -13,8 +13,12 @@ export default class ImageMedia extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
   figure > img.image-media__image {
     object-fit: cover;
+  }
+
+  .is-theatre .image-media__image {
+    object-fit: contain;
   }
 </style>

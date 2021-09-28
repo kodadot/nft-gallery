@@ -346,11 +346,6 @@ hr.comment-divider {
       display: none;
     }
 
-    .is-theatre {
-      .image-media__image {
-        object-fit: contain;
-      }
-    }
 
     .image-preview {
       &.fullscreen {
