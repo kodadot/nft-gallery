@@ -18,7 +18,7 @@
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
               <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
-                <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
+                <div v-orientation class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
                     :src="meta.image || '/placeholder.svg'"
@@ -136,6 +136,7 @@ import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
 import axios from 'axios';
 import { exist } from './Search/exist';
+import Orientation from '@/directives/DeviceOrientation';
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -171,7 +172,10 @@ import { exist } from './Search/exist';
     BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
-  }
+  },
+    directives: {
+    orientation: Orientation
+  },
 })
 export default class GalleryItem extends Vue {
   private id: string = '';
