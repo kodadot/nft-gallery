@@ -25,6 +25,7 @@
                     nft.emoteCount
                   }}</span>
                 </span>
+                <!-- <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" /> -->
                 <figure class="gallery__image-wrapper">
                   <img
                     :src="placeholder"
@@ -122,6 +123,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 };
 
 @Component<Gallery>({
@@ -462,6 +464,7 @@ export default class Gallery extends Vue {
 
         &:hover .gallery__image-wrapper img {
           transform: scale(1.1) translateY(-50%);
+          transition: transform 0.3s linear;
         }
 
         &:hover .ff-canvas {
