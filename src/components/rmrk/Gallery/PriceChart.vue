@@ -80,7 +80,7 @@ export default class PriceChart extends Vue {
 				axisLabel: {
 					fontFamily: 'Fira Code',
 					color: '#fff',
-          hideOverlap: true
+          hideOverlap: true,
 				},
 			},
 			yAxis: {
