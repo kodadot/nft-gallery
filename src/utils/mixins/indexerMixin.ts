@@ -1,4 +1,4 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 /*
 * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
 * usage import Component, { mixins } from 'vue-class-component';
@@ -6,11 +6,11 @@ import { Component, Vue } from 'vue-property-decorator';
 */
 @Component
 export default class IndexerMixin extends Vue {
-  get indexer() {
-    return this.$store.getters.getIndexer;
-  }
+	get indexer() {
+		return this.$store.getters.getIndexer
+	}
 
-  get healthy(): number {
-    return this.indexer.indexerHealthy;
-  }
+	get healthy(): number {
+		return this.indexer.indexerHealthy
+	}
 }

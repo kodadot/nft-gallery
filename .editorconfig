@@ -13,18 +13,18 @@ charset = utf-8
 
 # Indentation override for all JS
 [**.js]
-indent_style = space
+indent_style = tab
 indent_size = 2
 quote_type = single
 
 # Indentation override for all VUE
 [**.vue]
-indent_style = space
+indent_style = tab
 indent_size = 2
 quote_type = single
 
 # Indentation override for all TS
 [**.ts]
-indent_style = space
+indent_style = tab
 indent_size = 2
 quote_type = single

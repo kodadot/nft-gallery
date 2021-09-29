@@ -13,17 +13,17 @@ export let ipfs: SubsocialIpfsApi
  * (includes Substrate and IPFS connections).
  */
 export const resolveSubsocialApi = async () => {
-  // Connect to Subsocial's Substrate node:
-  if (!subsocial) {
-    const api = await Api.connect(process.env.VUE_APP_SUBSOCIAL_URL)
-    subsocial = new SubsocialApi({
-      substrateApi: api,
-      ...ipfsConfig
-    })
+	// Connect to Subsocial's Substrate node:
+	if (!subsocial) {
+		const api = await Api.connect(process.env.VUE_APP_SUBSOCIAL_URL)
+		subsocial = new SubsocialApi({
+			substrateApi: api,
+			...ipfsConfig
+		})
 
-    substrate = subsocial.substrate
-    ipfs = subsocial.ipfs
-  }
+		substrate = subsocial.substrate
+		ipfs = subsocial.ipfs
+	}
 
-  return subsocial
+	return subsocial
 }
