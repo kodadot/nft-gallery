@@ -10,7 +10,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 const components = {
-	ExternalLink: () => import('@/components/shared/format/ExternalLink.vue')
+  ExternalLink: () => import('@/components/shared/format/ExternalLink.vue')
 }
 
 @Component({ components })

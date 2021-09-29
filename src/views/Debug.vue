@@ -1,29 +1,29 @@
 <template>
-	<div>
-		<b-tabs v-model="activeTab" multiline >
-			<b-tab-item label="Accounts">
-				<AccountsInfo />
-			</b-tab-item>
-			<b-tab-item label="Staking">
-				<StakerInfo />
-			</b-tab-item>
-			<!-- <b-tab-item label="Payouts">
+  <div>
+    <b-tabs v-model="activeTab" multiline >
+      <b-tab-item label="Accounts">
+        <AccountsInfo />
+      </b-tab-item>
+      <b-tab-item label="Staking">
+        <StakerInfo />
+      </b-tab-item>
+      <!-- <b-tab-item label="Payouts">
 
-			</b-tab-item>
-			<b-tab-item label="Payouts">
+      </b-tab-item>
+      <b-tab-item label="Payouts">
 
-			</b-tab-item>
-			<b-tab-item label="Targets">
+      </b-tab-item>
+      <b-tab-item label="Targets">
 
-			</b-tab-item>
-			<b-tab-item label="Waiting">
+      </b-tab-item>
+      <b-tab-item label="Waiting">
 
-			</b-tab-item>
-			<b-tab-item label="Validator stats">
+      </b-tab-item>
+      <b-tab-item label="Validator stats">
 
-			</b-tab-item> -->
-		</b-tabs>
-	</div>
+      </b-tab-item> -->
+    </b-tabs>
+  </div>
 </template>
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
@@ -33,32 +33,32 @@ import AccountsInfo from '@/components/staking/AccountsInfo.vue'
 import StakerInfo from '@/components/staking/StakerInfo.vue'
 
 @Component({
-	components: {
-		Overview,
-		AccountsInfo,
-		StakerInfo,
-	}
+  components: {
+    Overview,
+    AccountsInfo,
+    StakerInfo,
+  }
 })
 export default class Debug extends Vue {
-	private activeTab = 0;
-	private stakingOverview: any = [];
-	private stashIds: any = [];
-	private validators: any = [];
-	private next: any = [];
-	private subs: any[] = [];
+  private activeTab = 0;
+  private stakingOverview: any = [];
+  private stashIds: any = [];
+  private validators: any = [];
+  private next: any = [];
+  private subs: any[] = [];
 
-	public async mounted() {
-		const { api } = Connector.getInstance()
-		// const stashes: any;
-		// this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
-		// this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
-		// this.stashIds = stashes.map((accountId: any) => accountId.toString())
-		// this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
-		// this.next = this.stashIds.fi/lter((address: any) => !this.stakingOverview.validators.includes(address as any))
-	}
+  public async mounted() {
+    const { api } = Connector.getInstance()
+    // const stashes: any;
+    // this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
+    // this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
+    // this.stashIds = stashes.map((accountId: any) => accountId.toString())
+    // this.validators = this.stakingOverview.validators.map((a: any) => a.toString());
+    // this.next = this.stashIds.fi/lter((address: any) => !this.stakingOverview.validators.includes(address as any))
+  }
 
-	private beforeDestroy() {
-		this.subs.forEach((sub) => sub())
-	}
+  private beforeDestroy() {
+    this.subs.forEach((sub) => sub())
+  }
 }
 </script>

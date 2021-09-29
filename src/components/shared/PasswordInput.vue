@@ -27,13 +27,13 @@ export default class PasswordInput extends Vue {
   // }
 
   get accountLocked(): boolean | string {
-  	return this.account && isAccountLocked(this.account)
+    return this.account && isAccountLocked(this.account)
   }
 
 
   @Emit('input')
   private handlePassword(password: string) {
-  	return password
+    return password
   }
 
 }

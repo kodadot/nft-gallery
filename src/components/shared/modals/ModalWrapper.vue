@@ -40,11 +40,11 @@ export default class ModalWrapper extends Vue {
   private isModalActive = false;
 
   get buttonType() {
-  	return this.type || 'is-primary'
+    return this.type || 'is-primary'
   }
 
   protected handleOpen() {
-  	this.isModalActive = true
+    this.isModalActive = true
   }
 }
 </script>

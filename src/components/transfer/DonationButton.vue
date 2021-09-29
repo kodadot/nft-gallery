@@ -18,10 +18,10 @@ export default class DonationButton extends Vue {
   @Prop() public address!: string;
 
   public goToTransfer() {
-  	this.$router.push({
-  		name: 'transfer',
-  		query: { target: this.address, usdamount: '10', donation: 'true' }
-  	})
+    this.$router.push({
+      name: 'transfer',
+      query: { target: this.address, usdamount: '10', donation: 'true' }
+    })
   }
 }
 </script>

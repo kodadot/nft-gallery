@@ -20,16 +20,16 @@ export default class Support extends Vue {
   @Prop({ default: '' }) public type!: string;
 
   get rounded() {
-  	return round(this.price)
+    return round(this.price)
   }
 
   get model() {
-  	return this.value
+    return this.value
   }
 
 
   set model(value: boolean) {
-  	this.$emit('input', value)
+    this.$emit('input', value)
   }
 }
 </script>

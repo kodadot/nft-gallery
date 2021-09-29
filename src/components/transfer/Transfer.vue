@@ -106,20 +106,20 @@ import { checkAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 @Component({
-	components: {
-		Auth: () => import('@/components/shared/Auth.vue'),
-		BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-		ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
-		Identity: () => import('@/components/shared/format/Identity.vue'),
-		Loader: () => import('@/components/shared/Loader.vue'),
-		AddressInput: () => import('@/components/shared/AddressInput.vue'),
-		Money: () => import('@/components/shared/format/Money.vue')
-	}
+  components: {
+    Auth: () => import('@/components/shared/Auth.vue'),
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
+    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Loader: () => import('@/components/shared/Loader.vue'),
+    AddressInput: () => import('@/components/shared/AddressInput.vue'),
+    Money: () => import('@/components/shared/format/Money.vue')
+  }
 })
 export default class Transfer extends Mixins(
-	TransactionMixin,
-	AuthMixin,
-	ChainMixin
+  TransactionMixin,
+  AuthMixin,
+  ChainMixin
 ) {
   protected balance = '0';
   protected destinationAddress = '';
@@ -128,160 +128,160 @@ export default class Transfer extends Mixins(
   protected usdValue = 0;
 
   get disabled(): boolean {
-  	return !this.destinationAddress || !this.price || !this.accountId
+    return !this.destinationAddress || !this.price || !this.accountId
   }
 
   protected created() {
-  	this.checkQueryParams()
+    this.checkQueryParams()
   }
 
   protected onAmountFieldChange() {
-  	/* calculating usd value on the basis of price entered */
-  	if (this.price) {
-  		this.usdValue = calculateUsdFromKsm(this.$store.getters.getCurrentKSMValue, this.price)
-  	} else {
-  		this.usdValue = 0
-  	}
+    /* calculating usd value on the basis of price entered */
+    if (this.price) {
+      this.usdValue = calculateUsdFromKsm(this.$store.getters.getCurrentKSMValue, this.price)
+    } else {
+      this.usdValue = 0
+    }
   }
 
   protected onUSDFieldChange() {
-  	/* calculating price value on the basis of usd entered */
-  	if (this.usdValue) {
-  		this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
-  	} else {
-  		this.price = 0
-  	}
+    /* calculating price value on the basis of usd entered */
+    if (this.usdValue) {
+      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+    } else {
+      this.price = 0
+    }
   }
 
   protected checkQueryParams() {
-  	const { query } = this.$route
+    const { query } = this.$route
 
-  	if (query.target) {
-  		const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
-  		if (valid) {
-  			this.destinationAddress = query.target as string
-  		}
+    if (query.target) {
+      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
+      if (valid) {
+        this.destinationAddress = query.target as string
+      }
 
-  		if (err) {
-  			showNotification(`Unable to parse target ${err}`,notificationTypes.warn)
-  		}
-  	}
+      if (err) {
+        showNotification(`Unable to parse target ${err}`,notificationTypes.warn)
+      }
+    }
 
-  	if (query.amount) {
-  		this.price = Number(query.amount)
-  	}
+    if (query.amount) {
+      this.price = Number(query.amount)
+    }
 
-  	if (query.usdamount) {
-  		this.usdValue = Number(query.usdamount)
-  		// getting ksm value from the usd value
-  		this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
-  	}
+    if (query.usdamount) {
+      this.usdValue = Number(query.usdamount)
+      // getting ksm value from the usd value
+      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+    }
   }
 
   public async submit(): Promise<void> {
-  	showNotification(`${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
-  	this.initTransactionLoader()
+    showNotification(`${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
+    this.initTransactionLoader()
 
-  	try {
-  		const { api } = Connector.getInstance()
-  		const cb = api.tx.balances.transfer
-  		const arg = [this.destinationAddress, calculateBalance(this.price, this.decimals)]
+    try {
+      const { api } = Connector.getInstance()
+      const cb = api.tx.balances.transfer
+      const arg = [this.destinationAddress, calculateBalance(this.price, this.decimals)]
 
-  		const tx = await exec(this.accountId, '', cb, arg,
-  			txCb(
-  				async blockHash => {
-  					this.transactionValue = execResultValue(tx)
-  					const header = await api.rpc.chain.getHeader(blockHash)
-  					const blockNumber = header.number.toString()
+      const tx = await exec(this.accountId, '', cb, arg,
+        txCb(
+          async blockHash => {
+            this.transactionValue = execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
-  					showNotification(
-  						`[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
-  						notificationTypes.success
-  					)
+            showNotification(
+              `[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
+              notificationTypes.success
+            )
 
-  					this.destinationAddress = ''
-  					this.price = 0
-  					this.usdValue = 0
-  					if (this.$route.query && !this.$route.query.donation) {
-  						this.$router.push(this.$route.path)
-  					}
+            this.destinationAddress = ''
+            this.price = 0
+            this.usdValue = 0
+            if (this.$route.query && !this.$route.query.donation) {
+              this.$router.push(this.$route.path)
+            }
 
-  					this.isLoading = false
-  				},
-  				dispatchError => {
-  					execResultValue(tx)
-  					this.onTxError(dispatchError)
-  					this.isLoading = false
-  				},
-  				res => this.resolveStatus(res.status)
-  			)
-  		)
-  	} catch (e) {
-  		console.error('[ERR: TRANSFER SUBMIT]', e)
-  		if (e instanceof Error) {
-  			showNotification(e.message, notificationTypes.danger)
-  		}
-  	}
+            this.isLoading = false
+          },
+          dispatchError => {
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
+          },
+          res => this.resolveStatus(res.status)
+        )
+      )
+    } catch (e) {
+      console.error('[ERR: TRANSFER SUBMIT]', e)
+      if (e instanceof Error) {
+        showNotification(e.message, notificationTypes.danger)
+      }
+    }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
-  	const { api } = Connector.getInstance()
-  	if (dispatchError.isModule) {
-  		const decoded = api.registry.findMetaError(dispatchError.asModule)
-  		const { docs, name, section } = decoded
-  		showNotification(
-  			`[ERR] ${section}.${name}: ${docs.join(' ')}`,
-  			notificationTypes.danger
-  		)
-  	} else {
-  		showNotification(
-  			`[ERR] ${dispatchError.toString()}`,
-  			notificationTypes.danger
-  		)
-  	}
+    const { api } = Connector.getInstance()
+    if (dispatchError.isModule) {
+      const decoded = api.registry.findMetaError(dispatchError.asModule)
+      const { docs, name, section } = decoded
+      showNotification(
+        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
+        notificationTypes.danger
+      )
+    } else {
+      showNotification(
+        `[ERR] ${dispatchError.toString()}`,
+        notificationTypes.danger
+      )
+    }
 
-  	this.isLoading = false
+    this.isLoading = false
   }
 
   protected getUrl() {
-  	return urlBuilderTransaction(this.transactionValue,
-  		this.$store.getters.getCurrentChain, 'subscan')
+    return urlBuilderTransaction(this.transactionValue,
+      this.$store.getters.getCurrentChain, 'subscan')
   }
 
   protected getExplorerUrl() {
-  	const url =  this.getUrl()
-  	window.open(url, '_blank')
+    const url =  this.getUrl()
+    window.open(url, '_blank')
   }
 
   protected shareInTweet() {
-  	const text = 'I have just helped a really cool creator by donating. Check my donation proof:'
-  	const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`
-  	window.open(url, '_blank')
+    const text = 'I have just helped a really cool creator by donating. Check my donation proof:'
+    const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`
+    window.open(url, '_blank')
   }
 
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
-  	if (shouldUpdate(value, oldVal)) {
-  		this.loadBalance()
-  	}
+    if (shouldUpdate(value, oldVal)) {
+      this.loadBalance()
+    }
   }
 
   async loadBalance() {
-  	if (!this.accountId || !this.unit) {
-  		return
-  	}
+    if (!this.accountId || !this.unit) {
+      return
+    }
 
-  	await new Promise(a => setTimeout(a, 1000))
-  	const { api } = Connector.getInstance()
+    await new Promise(a => setTimeout(a, 1000))
+    const { api } = Connector.getInstance()
 
-  	try {
-  		const cb = api.query.system.account
-  		const arg = this.accountId
-  		const result = await cb(arg)
-  		this.balance = (result as any).data.free.toString()
-  	} catch (e) {
-  		console.error('[ERR: BALANCE]', e)
-  	}
+    try {
+      const cb = api.query.system.account
+      const arg = this.accountId
+      const result = await cb(arg)
+      this.balance = (result as any).data.free.toString()
+    } catch (e) {
+      console.error('[ERR: BALANCE]', e)
+    }
   }
 }
 </script>

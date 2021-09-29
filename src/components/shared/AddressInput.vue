@@ -20,28 +20,28 @@ export default class AddressInput extends Vue {
   @Prop(Boolean) public emptyOnError!: boolean;
 
   get inputValue(): string {
-  	return this.value
+    return this.value
   }
 
   set inputValue(value: string) {
-  	this.handleInput(value)
+    this.handleInput(value)
   }
 
   get type() {
-  	return this.err ? 'is-danger': ''
+    return this.err ? 'is-danger': ''
   }
 
   @Debounce(500)
   @Emit('input')
   protected handleInput(value: string) {
-  	const [, err] = checkAddress(value, correctFormat(this.ss58Format))
-  	this.err = value ? err : ''
+    const [, err] = checkAddress(value, correctFormat(this.ss58Format))
+    this.err = value ? err : ''
 
-  	return this.emptyOnError && this.err ? '' : value
+    return this.emptyOnError && this.err ? '' : value
   }
 
   get ss58Format(): number {
-  	return this.$store.getters.getChainProperties?.ss58Format
+    return this.$store.getters.getChainProperties?.ss58Format
   }
 }
 </script>

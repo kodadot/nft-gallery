@@ -23,9 +23,9 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
-	components: {
-		DisabledInput,
-	}
+  components: {
+    DisabledInput,
+  }
 })
 export default class Collapse extends Vue {
   private isOpen = false
@@ -34,7 +34,7 @@ export default class Collapse extends Vue {
   @Prop() private content: any;
 
   public async mounted() {
-  	this.isOpen = this.open
+    this.isOpen = this.open
   }
 }
 </script>

@@ -21,8 +21,8 @@ import { Component, Prop, Mixins } from 'vue-property-decorator'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 
 const components = {
-	Identity: () => import('@/components/shared/format/Identity.vue'),
-	LinkResolver: () => import('@/components/shared/LinkResolver.vue')
+  Identity: () => import('@/components/shared/format/Identity.vue'),
+  LinkResolver: () => import('@/components/shared/LinkResolver.vue')
 }
 
 @Component({ components })

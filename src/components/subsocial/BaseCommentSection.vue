@@ -27,10 +27,10 @@ import { Debounce } from 'vue-debounce-decorator'
 import { showNotification } from '@/utils/notification'
 
 const components = {
-	CommentWrapper: () => import('./CommentWrapper.vue'),
-	BasePostReply: () => import('./Reply.vue'),
-	FaucetLink: () => import('./FaucetLink.vue'),
-	CreatePost: () => import('./CreatePost.vue')
+  CommentWrapper: () => import('./CommentWrapper.vue'),
+  BasePostReply: () => import('./Reply.vue'),
+  FaucetLink: () => import('./FaucetLink.vue'),
+  CreatePost: () => import('./CreatePost.vue')
 }
 
 type ElasticResult = {
@@ -42,8 +42,8 @@ type ElasticResult = {
 }
 
 @Component({
-	name: 'BaseCommentSection',
-	components
+  name: 'BaseCommentSection',
+  components
 })
 export default class BaseCommentSection extends Vue {
   @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
@@ -53,74 +53,74 @@ export default class BaseCommentSection extends Vue {
   protected balance = '';
 
   get accountId() {
-  	return this.$store.getters.getAuthAddress
+    return this.$store.getters.getAuthAddress
   }
 
   get nftId() {
-  	return this.nft.name
+    return this.nft.name
   }
 
   protected async checkIfPoor(address: string) {
-  	const ss = await resolveSubsocialApi()
-  	const api = await ss.substrate.api;
-  	(window as any).SS = ss
-  	const balance = await api.derive.balances.all(address)
-  	this.actionDisabled = balance.freeBalance.ltn(0.05)
-  	this.balance = balance.freeBalance?.toHuman()
-  	console.log('balance', balance.freeBalance?.toHuman())
+    const ss = await resolveSubsocialApi()
+    const api = await ss.substrate.api;
+    (window as any).SS = ss
+    const balance = await api.derive.balances.all(address)
+    this.actionDisabled = balance.freeBalance.ltn(0.05)
+    this.balance = balance.freeBalance?.toHuman()
+    console.log('balance', balance.freeBalance?.toHuman())
   }
 
   protected async searchForPost(name = 'Something is in KodaDot kitchen') {
-  	const cache = await get(name, subSocialStore)
+    const cache = await get(name, subSocialStore)
 
-  	if (cache) {
-  		this.postId = cache
-  		return
-  	}
+    if (cache) {
+      this.postId = cache
+      return
+    }
 
-  	const ss = await resolveSubsocialApi()
-  	const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
-  	const p = await ss.findPublicPosts([...posts as any])
-  	const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
-  	await setMany(toStore, subSocialStore)
+    const ss = await resolveSubsocialApi()
+    const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
+    const p = await ss.findPublicPosts([...posts as any])
+    const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
+    await setMany(toStore, subSocialStore)
 
-  	const x = await get(name, subSocialStore)
+    const x = await get(name, subSocialStore)
 
-  	this.postId = x || ''
+    this.postId = x || ''
 
-  	// const res: ElasticResult[] = await searchPost(encodeURI(name))
-  	// const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
-  	// this.postId = found?._id || '';
+    // const res: ElasticResult[] = await searchPost(encodeURI(name))
+    // const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
+    // this.postId = found?._id || '';
   }
 
   get disabled() {
-  	return this.actionDisabled || !this.accountId
+    return this.actionDisabled || !this.accountId
   }
 
   reloadComments() {
-  	const post = this.postId
-  	this.postId = ''
-  	this.postId = post
+    const post = this.postId
+    this.postId = ''
+    this.postId = post
   }
 
   @Debounce(1000)
   protected handlePost() {
-  	showNotification(this.$t('subsocial.searchPost').toString())
-  	this.searchForPost(this.nftId)
+    showNotification(this.$t('subsocial.searchPost').toString())
+    this.searchForPost(this.nftId)
   }
 
   @Watch('accountId', { immediate: true })
   protected onAccountChange(val: string, oldVal: string) {
-  	if (shouldUpdate(val, oldVal)) {
-  		this.checkIfPoor(val)
-  	}
+    if (shouldUpdate(val, oldVal)) {
+      this.checkIfPoor(val)
+    }
   }
 
   @Watch('nftId', { immediate: true })
   protected onNftId(val: string, oldVal: string) {
-  	if (shouldUpdate(val, oldVal)) {
-  		this.searchForPost(val)
-  	}
+    if (shouldUpdate(val, oldVal)) {
+      this.searchForPost(val)
+    }
   }
 
 }

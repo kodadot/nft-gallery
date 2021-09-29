@@ -22,25 +22,25 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
 @Component({})
 export default class extends Vue {
   private allTags: string[] = [
-  	'audio',
-  	'video',
-  	'image',
-  	'gif',
-  	'svg'
+    'audio',
+    'video',
+    'image',
+    'gif',
+    'svg'
   ];
   @Prop() public value!: string;
 
   get tags() {
-  	return this.value ? this.value.split('|') : []
+    return this.value ? this.value.split('|') : []
   }
 
   set tags(value: string[]) {
-  	this.handleInput(value)
+    this.handleInput(value)
   }
 
   @Emit('input')
   handleInput(value: string[]) {
-  	return value.join('|')
+    return value.join('|')
   }
 }
 </script>

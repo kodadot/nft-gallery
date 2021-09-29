@@ -1,12 +1,12 @@
 import { emptyObject } from '@/utils/empty'
 import { hexToString, isHex } from '@polkadot/util'
 import {
-	RMRK,
-	RmrkMint,
-	RmrkView,
-	RmrkEvent,
-	CollectionMetadata,
-	MediaType
+  RMRK,
+  RmrkMint,
+  RmrkView,
+  RmrkEvent,
+  CollectionMetadata,
+  MediaType
 } from './types'
 import api from '@/fetch'
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/scheme'
@@ -21,16 +21,16 @@ export type ArweaveProviders = 'permafrost' | 'arweave'
 export type IPFSProviders = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
-	pinata: 'https://kodadot.mypinata.cloud/',
-	cloudflare: 'https://cloudflare-ipfs.com/',
-	ipfs: DEFAULT_IPFS_PROVIDER,
-	dweb: 'https://dweb.link/',
-	kodadot: 'https://kodadot.mypinata.cloud/',
+  pinata: 'https://kodadot.mypinata.cloud/',
+  cloudflare: 'https://cloudflare-ipfs.com/',
+  ipfs: DEFAULT_IPFS_PROVIDER,
+  dweb: 'https://dweb.link/',
+  kodadot: 'https://kodadot.mypinata.cloud/',
 }
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
-	permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
-	arweave: process.env.VUE_APP_AR_URL+ '/' || 'https://arweave.net/',
+  permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
+  arweave: process.env.VUE_APP_AR_URL+ '/' || 'https://arweave.net/',
 }
 
 export type SanitizerFunc = (url: string) => string
@@ -38,197 +38,197 @@ export type SanitizerFunc = (url: string) => string
 
 
 export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => {
-	if (justHash(ipfsHash)) {
-		return `${resolveProvider(provider)}ipfs/${ipfsHash}`
-	}
+  if (justHash(ipfsHash)) {
+    return `${resolveProvider(provider)}ipfs/${ipfsHash}`
+  }
 
-	return ipfsHash
+  return ipfsHash
 }
 
 const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string => arweaveProviders[key]
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
-	const res = a.map((k, i) => [k, b[i]])
+  const res = a.map((k, i) => [k, b[i]])
 
-	if (cb) {
-		return res.map(cb)
-	}
+  if (cb) {
+    return res.map(cb)
+  }
 
-	return res
+  return res
 }
 
 export const fetchPackMetadata = (
-	rmrk: RmrkType
+  rmrk: RmrkType
 ): Promise<PackMetadata> => fetchMetadata<PackMetadata>(rmrk)
 
 export const fetchCollectionMetadata = (
-	rmrk: Collection
+  rmrk: Collection
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const fetchNFTMetadata = (
-	rmrk: NFT,
-	sanitizer: SanitizerFunc = sanitizeIpfsUrl
+  rmrk: NFT,
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchMetadata = async <T>(
-	rmrk: RmrkType | CollectionOrNFT,
-	sanitizer: SanitizerFunc = sanitizeIpfsUrl
+  rmrk: RmrkType | CollectionOrNFT,
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<T> => {
-	try {
-		if (!rmrk.metadata) {
-			return emptyObject<T>()
-		}
+  try {
+    if (!rmrk.metadata) {
+      return emptyObject<T>()
+    }
 
-		const { status, data } = await api.get(sanitizer(rmrk.metadata))
-		console.log('IPFS data', status, data)
-		if (status < 400) {
-			return data as T
-		}
-	} catch (e) {
-		console.warn('IPFS Err', e)
-	}
+    const { status, data } = await api.get(sanitizer(rmrk.metadata))
+    console.log('IPFS data', status, data)
+    if (status < 400) {
+      return data as T
+    }
+  } catch (e) {
+    console.warn('IPFS Err', e)
+  }
 
-	return emptyObject<T>()
+  return emptyObject<T>()
 }
 
 export const fetchRmrkMeta = async (
-	rmrk: RMRK
+  rmrk: RMRK
 ): Promise<CollectionMetadata> => {
-	try {
-		if (!rmrk.view.metadata) {
-			return emptyObject<CollectionMetadata>()
-		}
+  try {
+    if (!rmrk.view.metadata) {
+      return emptyObject<CollectionMetadata>()
+    }
 
-		const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata))
-		console.log('IPFS data', status, data)
-		if (status < 400) {
-			return data as CollectionMetadata
-		}
-	} catch (e) {
-		console.warn('IPFS Err', e)
-	}
+    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata))
+    console.log('IPFS data', status, data)
+    if (status < 400) {
+      return data as CollectionMetadata
+    }
+  } catch (e) {
+    console.warn('IPFS Err', e)
+  }
 
-	return emptyObject<CollectionMetadata>()
+  return emptyObject<CollectionMetadata>()
 }
 
 export const unSanitizeArweaveId = (url: string) => {
-	return unSanitizeUrl(url, 'ar://')
+  return unSanitizeUrl(url, 'ar://')
 }
 
 const unSanitizeUrl = (url: string, prefix: string) => {
-	return `${prefix}${url}`
+  return `${prefix}${url}`
 }
 
 const ar = /^ar:\/\//
 
 export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => {
-	if (ar.test(url)) {
-		return url.replace(ar, resolveArProvider(provider))
-	}
+  if (ar.test(url)) {
+    return url.replace(ar, resolveArProvider(provider))
+  }
 
-	return url
+  return url
 }
 
 export const isIpfsUrl = (url: string) => {
-	return /^ipfs:\/\//.test(url)
+  return /^ipfs:\/\//.test(url)
 }
 
 
 export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProvider?: ArweaveProviders): SanitizerFunc => {
-	if (isIpfsUrl(url)) {
-		return link => sanitizeIpfsUrl(link, ipfsProvider)
-	}
+  if (isIpfsUrl(url)) {
+    return link => sanitizeIpfsUrl(link, ipfsProvider)
+  }
 
-	return link => sanitizeArweaveUrl(link, arProvider)
+  return link => sanitizeArweaveUrl(link, arProvider)
 }
 
 export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
-	const rr = /^ipfs:\/\/ipfs/
-	if (rr.test(ipfsUrl)) {
-		return ipfsUrl.replace('ipfs://', resolveProvider(provider))
-	}
+  const rr = /^ipfs:\/\/ipfs/
+  if (rr.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
+  }
 
-	const r = /^ipfs:\/\//
-	if (r.test(ipfsUrl)) {
-		return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
-	}
+  const r = /^ipfs:\/\//
+  if (r.test(ipfsUrl)) {
+    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
+  }
 
-	return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
+  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
 
 export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {
-	return {
-		...instance,
-		image: sanitizeIpfsUrl(instance.image || '', provider)
-	}
+  return {
+    ...instance,
+    image: sanitizeIpfsUrl(instance.image || '', provider)
+  }
 }
 
 export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: ProviderKeyType): T[] {
-	return instances.map(i => sanitizeImage(i, provider))
+  return instances.map(i => sanitizeImage(i, provider))
 }
 
 export function mapPriceToNumber(instances: NFTWithMeta[], provider?: ProviderKeyType): any[] {
-	return instances.map(i => ({...i, price: Number(i.price || 0)}))
+  return instances.map(i => ({...i, price: Number(i.price || 0)}))
 }
 
 export const decodeRmrkString = (rmrkString: string): RMRK => {
-	const value = decode(
-		isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
-	)
+  const value = decode(
+    isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
+  )
 
-	return getRmrk(value)
+  return getRmrk(value)
 }
 // 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export const getRmrk = (rmrkString: string): RMRK => {
-	const action: RmrkEvent | null = getAction(rmrkString)
+  const action: RmrkEvent | null = getAction(rmrkString)
 
-	if (!action) {
-		console.warn('NO RMRK STRING', rmrkString)
-		return emptyObject<RMRK>()
-	}
+  if (!action) {
+    console.warn('NO RMRK STRING', rmrkString)
+    return emptyObject<RMRK>()
+  }
 
-	const rmrk: RMRK = emptyObject<RMRK>()
-	rmrk.event = action
+  const rmrk: RMRK = emptyObject<RMRK>()
+  rmrk.event = action
 
-	const view = getView(rmrkString)
+  const view = getView(rmrkString)
 
-	if (!view) {
-		console.warn('NO RMRK VIEW', rmrkString)
-		return emptyObject<RMRK>()
-	}
+  if (!view) {
+    console.warn('NO RMRK VIEW', rmrkString)
+    return emptyObject<RMRK>()
+  }
 
-	rmrk.view = view
+  rmrk.view = view
 
-	return rmrk
+  return rmrk
 }
 
 export const getAction = (rmrkString: string): RmrkEvent | null => {
-	if (RmrkEventRegex.MINT.test(rmrkString)) {
-		return RmrkEvent.MINT
-	}
+  if (RmrkEventRegex.MINT.test(rmrkString)) {
+    return RmrkEvent.MINT
+  }
 
-	if (RmrkEventRegex.MINTNFT.test(rmrkString)) {
-		return RmrkEvent.MINTNFT
-	}
+  if (RmrkEventRegex.MINTNFT.test(rmrkString)) {
+    return RmrkEvent.MINTNFT
+  }
 
-	return null
+  return null
 }
 
 export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
-	const value: RmrkMint | RmrkView | null = unwrap(rmrkString)
-	return value
+  const value: RmrkMint | RmrkView | null = unwrap(rmrkString)
+  return value
 }
 
 export const unwrap = (rmrkString: string): any | null => {
-	const rr = /{.*}/
-	const match = rmrkString.match(rr)
+  const rr = /{.*}/
+  const match = rmrkString.match(rr)
 
-	if (!match) {
-		return null
-	}
+  if (!match) {
+    return null
+  }
 
-	return JSON.parse(match[0])
+  return JSON.parse(match[0])
 }
 
 class RmrkEventRegex {
@@ -237,60 +237,60 @@ class RmrkEventRegex {
 }
 
 export const isEmpty = (rmrk: RMRK): boolean => {
-	return !rmrk.event
+  return !rmrk.event
 }
 
 export const equals = (first: RMRK, second: RMRK): boolean => {
-	if (first.event !== second.event) {
-		return false
-	}
+  if (first.event !== second.event) {
+    return false
+  }
 
-	return true
+  return true
 }
 
 export const resolveMedia = (mimeType?: string): MediaType => {
-	if (!mimeType) {
-		return MediaType.UNKNOWN
-	}
+  if (!mimeType) {
+    return MediaType.UNKNOWN
+  }
 
-	if (/^application\/json/.test(mimeType)) {
-		return MediaType.MODEL
-	}
+  if (/^application\/json/.test(mimeType)) {
+    return MediaType.MODEL
+  }
 
-	if (/^application\/octet-stream/.test(mimeType)) {
-		return MediaType.MODEL
-	}
+  if (/^application\/octet-stream/.test(mimeType)) {
+    return MediaType.MODEL
+  }
 
-	if (/^text\/html/.test(mimeType)) {
-		return MediaType.IFRAME
-	}
+  if (/^text\/html/.test(mimeType)) {
+    return MediaType.IFRAME
+  }
 
-	if (/^image\/svg\+xml/.test(mimeType)) {
-		return MediaType.IMAGE
-	}
+  if (/^image\/svg\+xml/.test(mimeType)) {
+    return MediaType.IMAGE
+  }
 
-	if (/^application\/pdf/.test(mimeType)) {
-		return MediaType.OBJECT
-	}
+  if (/^application\/pdf/.test(mimeType)) {
+    return MediaType.OBJECT
+  }
 
-	const match = mimeType.match(/^[a-z]+/)
+  const match = mimeType.match(/^[a-z]+/)
 
-	if (!match) {
-		return MediaType.UNKNOWN
-	}
+  if (!match) {
+    return MediaType.UNKNOWN
+  }
 
-	const prefix = match[0].toUpperCase()
+  const prefix = match[0].toUpperCase()
 
-	let result = MediaType.UNKNOWN
+  let result = MediaType.UNKNOWN
 
-	Object.entries(MediaType).forEach(([type, value]) => {
-		if (type === prefix) {
-			result = value
-			return
-		}
-	})
+  Object.entries(MediaType).forEach(([type, value]) => {
+    if (type === prefix) {
+      result = value
+      return
+    }
+  })
 
-	return result
+  return result
 }
 
 export const decode = (value: string) => decodeURIComponent(value)
@@ -301,18 +301,18 @@ export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
 
 export const isJsonGltf = (value: any): boolean => {
-	try {
-		if (!(value['asset'] && /^2\.[0-9]$/.test(value['asset']['version']))) {
-			return false
-		}
+  try {
+    if (!(value['asset'] && /^2\.[0-9]$/.test(value['asset']['version']))) {
+      return false
+    }
 
-		if (!(value['buffers'] && /^data:application\/octet/.test(value['buffers'][0]['uri']))) {
-			return false
-		}
+    if (!(value['buffers'] && /^data:application\/octet/.test(value['buffers'][0]['uri']))) {
+      return false
+    }
 
-		return true
-	} catch (e) {
-		console.warn(`Unable to decide on isJsonGltf ${e}`)
-		return false
-	}
+    return true
+  } catch (e) {
+    console.warn(`Unable to decide on isJsonGltf ${e}`)
+    return false
+  }
 }

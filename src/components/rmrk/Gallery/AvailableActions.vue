@@ -35,24 +35,24 @@ const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
 
 const needMeta: Record<string, string> = {
-	SEND: 'AddressInput',
-	LIST: 'BalanceInput'
+  SEND: 'AddressInput',
+  LIST: 'BalanceInput'
 }
 
 type DescriptionTuple = [string, string] | [string];
 const iconResolver: Record<string, DescriptionTuple> = {
-	SEND: ['is-info is-dark'],
-	CONSUME: ['is-danger'],
-	LIST: ['is-light'],
-	BUY: ['is-success is-dark']
+  SEND: ['is-info is-dark'],
+  CONSUME: ['is-danger'],
+  LIST: ['is-light'],
+  BUY: ['is-success is-dark']
 }
 
 type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
 
 const components = {
-	BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-	AddressInput: () => import('@/components/shared/AddressInput.vue'),
-	Loader: () => import('@/components/shared/Loader.vue')
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  AddressInput: () => import('@/components/shared/AddressInput.vue'),
+  Loader: () => import('@/components/shared/Loader.vue')
 }
 
 @Component({ components })
@@ -68,195 +68,195 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   protected status = ''
 
   get actions() {
-  	return this.isOwner
-  		? ownerActions
-  		: this.isAvailableToBuy
-  			? buyActions
-  			: []
+    return this.isOwner
+      ? ownerActions
+      : this.isAvailableToBuy
+        ? buyActions
+        : []
   }
 
   get showSubmit() {
-  	return this.selectedAction && (!this.showMeta || this.metaValid)
+    return this.selectedAction && (!this.showMeta || this.metaValid)
   }
 
   get metaValid() {
-  	if (typeof this.meta === 'number') {
-  		return this.meta >= 0
-  	}
+    if (typeof this.meta === 'number') {
+      return this.meta >= 0
+    }
 
-  	return this.meta
+    return this.meta
   }
 
   get showMeta() {
-  	return needMeta[this.selectedAction]
+    return needMeta[this.selectedAction]
   }
 
   protected iconType(value: string) {
-  	return iconResolver[value]
+    return iconResolver[value]
   }
 
   protected handleAction(action: Action) {
-  	if (shouldUpdate(action,  this.selectedAction)) {
-  		this.selectedAction = action
-  	} else {
-  		this.selectedAction = ''
-  		this.meta = ''
-  	}
+    if (shouldUpdate(action,  this.selectedAction)) {
+      this.selectedAction = action
+    } else {
+      this.selectedAction = ''
+      this.meta = ''
+    }
   }
 
   get isOwner() {
-  	console.log(
-  		'{ currentOwnerId, accountId }',
-  		this.currentOwnerId,
-  		this.accountId
-  	)
+    console.log(
+      '{ currentOwnerId, accountId }',
+      this.currentOwnerId,
+      this.accountId
+    )
 
-  	return (
-  		this.currentOwnerId &&
+    return (
+      this.currentOwnerId &&
       this.accountId &&
       this.currentOwnerId === this.accountId
-  	)
+    )
   }
 
   get isAvailableToBuy() {
-  	const { price, accountId } = this
-  	return accountId && Number(price) > 0
+    const { price, accountId } = this
+    return accountId && Number(price) > 0
   }
 
   private handleSelect(value: Action) {
-  	this.selectedAction = value
-  	this.meta = ''
+    this.selectedAction = value
+    this.meta = ''
   }
 
   private constructRmrk(): string {
-  	const { selectedAction, version, meta, nftId } = this
-  	return `RMRK::${selectedAction}::${version}::${nftId}${
-  		this.metaValid ? '::' + meta : ''
-  	}`
+    const { selectedAction, version, meta, nftId } = this
+    return `RMRK::${selectedAction}::${version}::${nftId}${
+      this.metaValid ? '::' + meta : ''
+    }`
   }
 
   get isBuy() {
-  	return this.selectedAction === 'BUY'
+    return this.selectedAction === 'BUY'
   }
 
   get isConsume() {
-  	return this.selectedAction === 'CONSUME'
+    return this.selectedAction === 'CONSUME'
   }
 
   get isList() {
-  	return this.selectedAction === 'LIST'
+    return this.selectedAction === 'LIST'
   }
 
   get isSend() {
-  	return this.selectedAction === 'SEND'
+    return this.selectedAction === 'SEND'
   }
 
   protected updateMeta(value: string | number) {
-  	console.log(typeof value, value)
-  	this.meta = value
+    console.log(typeof value, value)
+    this.meta = value
   }
 
   protected async checkBuyBeforeSubmit() {
-  	const nft = await this.$apollo.query({
-  		query: nftById,
-  		variables: {
-  			id: this.nftId
-  		},
-  	})
+    const nft = await this.$apollo.query({
+      query: nftById,
+      variables: {
+        id: this.nftId
+      },
+    })
 
-  	const { data: {nFTEntity} } = nft
+    const { data: {nFTEntity} } = nft
 
-  	if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price === 0 || nFTEntity.price !== this.price ) {
-  		showNotification(
-  			`[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-  			notificationTypes.warn
-  		)
-  		throw new ReferenceError('NFT has changed')
-  	}
+    if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price === 0 || nFTEntity.price !== this.price ) {
+      showNotification(
+        `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
+        notificationTypes.warn
+      )
+      throw new ReferenceError('NFT has changed')
+    }
 
   }
 
   protected async submit() {
-  	const { api } = Connector.getInstance()
-  	const rmrk = this.constructRmrk()
-  	this.isLoading = true
+    const { api } = Connector.getInstance()
+    const rmrk = this.constructRmrk()
+    this.isLoading = true
 
-  	try {
-  		showNotification(rmrk)
-  		console.log('submit', rmrk)
-  		const isBuy = this.isBuy
-  		const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-  		const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
+    try {
+      showNotification(rmrk)
+      console.log('submit', rmrk)
+      const isBuy = this.isBuy
+      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
+      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
 
-  		if (isBuy) {
-  			await this.checkBuyBeforeSubmit()
-  		}
+      if (isBuy) {
+        await this.checkBuyBeforeSubmit()
+      }
 
-  		const tx = await exec(this.accountId, '', cb, [arg], txCb(
-  			async (blockHash) => {
-  				execResultValue(tx)
-  				showNotification(blockHash.toString(), notificationTypes.info)
-  				if (this.isConsume) {
-  					this.unpinNFT()
-  				}
+      const tx = await exec(this.accountId, '', cb, [arg], txCb(
+        async (blockHash) => {
+          execResultValue(tx)
+          showNotification(blockHash.toString(), notificationTypes.info)
+          if (this.isConsume) {
+            this.unpinNFT()
+          }
 
-  				showNotification(
-  					`[${this.selectedAction}] ${this.nftId}`,
-  					notificationTypes.success
-  				)
-  				this.selectedAction = ''
-  				this.isLoading = false
-  			},
-  			err => {
-  				execResultValue(tx)
-  				showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-  				this.selectedAction = ''
-  				this.isLoading = false
-  			},
-  			res => {
-  				if (res.status.isReady) {
-  					this.status = 'loader.casting'
-  					return
-  				}
+          showNotification(
+            `[${this.selectedAction}] ${this.nftId}`,
+            notificationTypes.success
+          )
+          this.selectedAction = ''
+          this.isLoading = false
+        },
+        err => {
+          execResultValue(tx)
+          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+          this.selectedAction = ''
+          this.isLoading = false
+        },
+        res => {
+          if (res.status.isReady) {
+            this.status = 'loader.casting'
+            return
+          }
 
-  				if (res.status.isInBlock) {
-  					this.status = 'loader.block'
-  					return
-  				}
+          if (res.status.isInBlock) {
+            this.status = 'loader.block'
+            return
+          }
 
-  				if (res.status.isFinalized) {
-  					this.status = 'loader.finalized'
-  					return
-  				}
+          if (res.status.isFinalized) {
+            this.status = 'loader.finalized'
+            return
+          }
 
-  				this.status = ''
-  			}
-  		))
+          this.status = ''
+        }
+      ))
 
-  	} catch (e) {
-  		showNotification(`[ERR] ${e}`, notificationTypes.danger)
-  		console.error(e)
-  		this.isLoading = false
-  	}
+    } catch (e) {
+      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      console.error(e)
+      this.isLoading = false
+    }
   }
 
   protected unpinNFT() {
-  	this.ipfsHashes.forEach(async hash => {
-  		if (hash) {
-  			try {
-  				await unpin(hash)
-  			} catch (e) {
-  				console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
-  			}
-  		}
-  	})
+    this.ipfsHashes.forEach(async hash => {
+      if (hash) {
+        try {
+          await unpin(hash)
+        } catch (e) {
+          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+        }
+      }
+    })
   }
 
   unlistNft() {
-  	// change the selected action to list and change meta value to 0
-  	this.selectedAction = 'LIST'
-  	this.meta = 0
-  	this.submit()
+    // change the selected action to list and change meta value to 0
+    this.selectedAction = 'LIST'
+    this.meta = 0
+    this.submit()
   }
 }
 </script>

@@ -9,6 +9,6 @@ export default class InlineMixin extends Vue {
   @Prop(Boolean) inline!: boolean
 
   get is() {
-  	return this.inline ? 'span' : 'div'
+    return this.inline ? 'span' : 'div'
   }
 }

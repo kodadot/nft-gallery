@@ -25,101 +25,101 @@ const Error = () => import('@/components/Error.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
-	mode: 'history',
-	routes: [
-		{
-			path: '/',
-			name: 'landing',
-			component: Landing,
-		},
-		{
-			path: '/sustainability',
-			name: 'sustainability',
-			component: Sustainability,
-		},
-		{
-			path: '/es/sustainability',
-			name: 'esSustainability',
-			component: EsSustainability,
-		},
-		{
-			path: '/carbonless',
-			name: 'carbonless',
-			component: Carbonless,
-		},
-		{
-			path: '/es/MovimientoNFTSinEmisionesDeCarbono',
-			name: 'esCarbonless',
-			component: EsCarbonless,
-		},
-		...Transfer,
-		...Toolbox,
-		...Rmrk,
-		...Profile,
-		{
-			path: '/settings',
-			name: 'settings',
-			component: Settings
-		},
-		{
-			path: '/extrinsics',
-			name: 'extrinsics',
-			component: Extrinsics,
-			beforeEnter: apiEnabled,
-		},
-		{
-			path: '/spotlight',
-			name: 'spotlight',
-			component: Spotlight,
-		},
-		{
-			path: '/about',
-			name: 'about',
-			component: About,
-		},
-		{
-			path: '/contact',
-			name: 'contact',
-			component: Contact,
-		},
-		{
-			path: '/partnership',
-			name: 'partnership',
-			component: Partnership,
-		},
-		{
-			path: '/tutorials',
-			name: 'tutorials',
-			component: Tutorials,
-		},
-		{
-			path: '/grants',
-			name: 'grants',
-			component: {},
-			beforeEnter(to, from, next) {
-				window.location.href = 'https://tally.so/r/mVP06w'
-			}
-		},
-		{
-			path: '/permafrost',
-			name: 'permafrost',
-			component: {},
-			beforeEnter(to, from, next) {
-				window.location.href = 'https://discord.gg/88da2MEfU9'
-			}
-		},
-		{
-			path: '/error',
-			name: 'error',
-			component: Error,
-		},
-		{
-			path: '*',
-			name: 'FourZeroFour',
-			component: FourZeroFour,
-		},
-	],
-	scrollBehavior() {
-		return { x: 0, y: 0 }
-	}
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'landing',
+      component: Landing,
+    },
+    {
+      path: '/sustainability',
+      name: 'sustainability',
+      component: Sustainability,
+    },
+    {
+      path: '/es/sustainability',
+      name: 'esSustainability',
+      component: EsSustainability,
+    },
+    {
+      path: '/carbonless',
+      name: 'carbonless',
+      component: Carbonless,
+    },
+    {
+      path: '/es/MovimientoNFTSinEmisionesDeCarbono',
+      name: 'esCarbonless',
+      component: EsCarbonless,
+    },
+    ...Transfer,
+    ...Toolbox,
+    ...Rmrk,
+    ...Profile,
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
+    },
+    {
+      path: '/extrinsics',
+      name: 'extrinsics',
+      component: Extrinsics,
+      beforeEnter: apiEnabled,
+    },
+    {
+      path: '/spotlight',
+      name: 'spotlight',
+      component: Spotlight,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Contact,
+    },
+    {
+      path: '/partnership',
+      name: 'partnership',
+      component: Partnership,
+    },
+    {
+      path: '/tutorials',
+      name: 'tutorials',
+      component: Tutorials,
+    },
+    {
+      path: '/grants',
+      name: 'grants',
+      component: {},
+      beforeEnter(to, from, next) {
+        window.location.href = 'https://tally.so/r/mVP06w'
+      }
+    },
+    {
+      path: '/permafrost',
+      name: 'permafrost',
+      component: {},
+      beforeEnter(to, from, next) {
+        window.location.href = 'https://discord.gg/88da2MEfU9'
+      }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: Error,
+    },
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
+    },
+  ],
+  scrollBehavior() {
+    return { x: 0, y: 0 }
+  }
 })

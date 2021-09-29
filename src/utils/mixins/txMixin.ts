@@ -8,30 +8,30 @@ import { Component, Vue } from 'vue-property-decorator'
 */
 @Component
 export default class TransactionMixin extends Vue {
-	public status = ''
-	public isLoading = false;
+  public status = ''
+  public isLoading = false;
 
-	public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean) {
-		if (status.isReady) {
-			this.status = 'loader.casting'
-			return
-		}
+  public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean) {
+    if (status.isReady) {
+      this.status = 'loader.casting'
+      return
+    }
 
-		if (status.isInBlock) {
-			this.status = 'loader.block'
-			return
-		}
+    if (status.isInBlock) {
+      this.status = 'loader.block'
+      return
+    }
 
-		if (status.isFinalized) {
-			this.status = omitFinalized ? '' : 'loading.finalized'
-			return
-		}
+    if (status.isFinalized) {
+      this.status = omitFinalized ? '' : 'loading.finalized'
+      return
+    }
 
-		this.status = ''
-	}
+    this.status = ''
+  }
 
-	public initTransactionLoader() {
-		this.isLoading = true
-		this.status = 'loader.sign'
-	}
+  public initTransactionLoader() {
+    this.isLoading = true
+    this.status = 'loader.sign'
+  }
 }

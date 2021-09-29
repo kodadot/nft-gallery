@@ -19,12 +19,12 @@ export default class Unknown extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-  	console.log('Unknown', { [this.argument.name.toString()]: value })
-  	this.$emit('selected', { [this.argument.name.toString()]: value })
+    console.log('Unknown', { [this.argument.name.toString()]: value })
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-  	return this.defaultValue ? JSON.stringify(this.defaultValue, null, 2) : DEFAULT
+    return this.defaultValue ? JSON.stringify(this.defaultValue, null, 2) : DEFAULT
   }
 
 }

@@ -13,10 +13,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
-	name: 'Option',
-	components: {
-		ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue'),
-	}
+  name: 'Option',
+  components: {
+    ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue'),
+  }
 })
 export default class Option extends Vue {
   @Prop() public argument!: any;
@@ -24,11 +24,11 @@ export default class Option extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   get value() {
-  	return this.defaultValue && Object.fromEntries(Array.from(this.defaultValue.value))
+    return this.defaultValue && Object.fromEntries(Array.from(this.defaultValue.value))
   }
 
   get arg() {
-  	return this.argument && { ...this.argument.sub, name: this.argument.name }
+    return this.argument && { ...this.argument.sub, name: this.argument.name }
   }
 
 }

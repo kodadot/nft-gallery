@@ -29,11 +29,11 @@ export default class VoteThreshold extends Vue {
 
 
   get selected() {
-  	return this.defaultValue || ''
+    return this.defaultValue || ''
   }
 
   set selected(value) {
-  	this.$emit('selected', { [this.argument.name.toString()]: value })
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
 }

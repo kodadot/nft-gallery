@@ -117,53 +117,53 @@ const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
 type NFTType = NFTWithMeta;
 const components = {
-	GalleryCardList: () => import('./GalleryCardList.vue'),
-	Search: () => import('./Search/SearchBar.vue'),
-	Money: () => import('@/components/shared/format/Money.vue'),
-	Pagination: () => import('./Pagination.vue'),
-	Loader: () => import('@/components/shared/Loader.vue'),
+  GalleryCardList: () => import('./GalleryCardList.vue'),
+  Search: () => import('./Search/SearchBar.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  Pagination: () => import('./Pagination.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component<Gallery>({
-	metaInfo() {
-		return {
-			meta: [
-				{
-					property: 'og:title',
-					content: 'Low minting fees and carbonless NFTs'
-				},
-				{
-					property: 'og:image',
-					content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-				},
-				{
-					property: 'og:description',
-					content: 'Buy Carbonless NFTs on Kusama'
-				},
-				{
-					property: 'twitter:title',
-					content: 'Low minting fees and carbonless NFTs'
-				},
-				{
-					property: 'twitter:description',
-					content: 'Buy Carbonless NFTs on Kusama'
-				},
-				{
-					property: 'twitter:image',
-					content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-				}
-			]
-		}
-	},
-	components
+  metaInfo() {
+    return {
+      meta: [
+        {
+          property: 'og:title',
+          content: 'Low minting fees and carbonless NFTs'
+        },
+        {
+          property: 'og:image',
+          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
+        },
+        {
+          property: 'og:description',
+          content: 'Buy Carbonless NFTs on Kusama'
+        },
+        {
+          property: 'twitter:title',
+          content: 'Low minting fees and carbonless NFTs'
+        },
+        {
+          property: 'twitter:description',
+          content: 'Buy Carbonless NFTs on Kusama'
+        },
+        {
+          property: 'twitter:image',
+          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
+        }
+      ]
+    }
+  },
+  components
 })
 export default class Gallery extends Vue {
   private nfts: NFT[] = [];
   private meta: Metadata[] = [];
   private searchQuery: SearchQuery = {
-  	search: '',
-  	type: '',
-  	sortBy: { blockNumber: -1 }
+    search: '',
+    type: '',
+    sortBy: { blockNumber: -1 }
   };
   private first = 12;
   private placeholder = '/koda300x300.svg';
@@ -171,153 +171,153 @@ export default class Gallery extends Vue {
   private total = 0;
 
   get isLoading() {
-  	return this.$apollo.queries.nfts.loading
+    return this.$apollo.queries.nfts.loading
   }
 
   get offset() {
-  	return this.currentValue * this.first - this.first
+    return this.currentValue * this.first - this.first
   }
 
   public async created() {
-  	this.$apollo.addSmartQuery('nfts', {
-  		query: nftListWithSearch,
-  		manual: true,
-  		// update: ({ nFTEntities }) => nFTEntities.nodes,
-  		loadingKey: 'isLoading',
-  		result: this.handleResult,
-  		variables: () => {
-  			return {
-  				first: this.first,
-  				offset: this.offset,
-  				denyList,
-  				search: this.searchQuery.search
-  					? [
-  						{
-  							name: { likeInsensitive: `%${this.searchQuery.search}%` }
-  						}
-  					]
-  					: []
-  			}
-  		}
-  	})
+    this.$apollo.addSmartQuery('nfts', {
+      query: nftListWithSearch,
+      manual: true,
+      // update: ({ nFTEntities }) => nFTEntities.nodes,
+      loadingKey: 'isLoading',
+      result: this.handleResult,
+      variables: () => {
+        return {
+          first: this.first,
+          offset: this.offset,
+          denyList,
+          search: this.searchQuery.search
+            ? [
+              {
+                name: { likeInsensitive: `%${this.searchQuery.search}%` }
+              }
+            ]
+            : []
+        }
+      }
+    })
   }
 
   protected async handleResult({ data }: any) {
-  	this.total = data.nFTEntities.totalCount
-  	this.nfts = data.nFTEntities.nodes.map((e: any) => ({
-  		...e,
-  		emoteCount: e.emotes?.totalCount
-  	}))
+    this.total = data.nFTEntities.totalCount
+    this.nfts = data.nFTEntities.nodes.map((e: any) => ({
+      ...e,
+      emoteCount: e.emotes?.totalCount
+    }))
 
-  	const storedMetadata = await getMany(
-  		this.nfts.map(({ metadata }: any) => metadata)
-  	)
+    const storedMetadata = await getMany(
+      this.nfts.map(({ metadata }: any) => metadata)
+    )
 
-  	storedMetadata.forEach(async (m, i) => {
-  		if (!m) {
-  			try {
-  				const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
-  				Vue.set(this.nfts, i, {
-  					...this.nfts[i],
-  					...meta,
-  					image: getSanitizer(meta.image || '')(meta.image || '')
-  				})
-  				update(this.nfts[i].metadata, () => meta)
-  			} catch (e) {
-  				console.warn('[ERR] unable to get metadata')
-  			}
-  		} else {
-  			Vue.set(this.nfts, i, {
-  				...this.nfts[i],
-  				...m,
-  				image: getSanitizer(m.image || '')(m.image || '')
-  			})
-  		}
-  	})
+    storedMetadata.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
+          Vue.set(this.nfts, i, {
+            ...this.nfts[i],
+            ...meta,
+            image: getSanitizer(meta.image || '')(meta.image || '')
+          })
+          update(this.nfts[i].metadata, () => meta)
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata')
+        }
+      } else {
+        Vue.set(this.nfts, i, {
+          ...this.nfts[i],
+          ...m,
+          image: getSanitizer(m.image || '')(m.image || '')
+        })
+      }
+    })
 
 
-  	this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
-  	try {
-  		const nfts = this.$apollo.query({
-  			query: nftListWithSearch,
-  			variables: {
-  				first: this.first,
-  				offset,
-  				denyList,
-  				search: this.searchQuery.search
-  					? [
-  						{
-  							name: { likeInsensitive: `%${this.searchQuery.search}%` }
-  						}
-  					]
-  					: []
-  			}
-  		})
+    try {
+      const nfts = this.$apollo.query({
+        query: nftListWithSearch,
+        variables: {
+          first: this.first,
+          offset,
+          denyList,
+          search: this.searchQuery.search
+            ? [
+              {
+                name: { likeInsensitive: `%${this.searchQuery.search}%` }
+              }
+            ]
+            : []
+        }
+      })
 
-  		const {
-  			data: {
-  				nFTEntities: { nodes: nftList }
-  			}
-  		} = await nfts
+      const {
+        data: {
+          nFTEntities: { nodes: nftList }
+        }
+      } = await nfts
 
-  		const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata))
 
-  		const storedMetadata = await storedPromise
+      const storedMetadata = await storedPromise
 
-  		storedMetadata.forEach(async (m, i) => {
-  			if (!m) {
-  				try {
-  					const meta = await fetchNFTMetadata(nftList[i])
-  					update(nftList[i].metadata, () => meta)
-  				} catch (e) {
-  					console.warn('[ERR] unable to get metadata')
-  				}
-  			}
-  		})
-  	} catch (e: any) {
-  		console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
-  	} finally {
-  		if (offset <= prefetchLimit) {
-  			this.prefetchPage(offset + this.first, prefetchLimit)
-  		}
-  	}
+      storedMetadata.forEach(async (m, i) => {
+        if (!m) {
+          try {
+            const meta = await fetchNFTMetadata(nftList[i])
+            update(nftList[i].metadata, () => meta)
+          } catch (e) {
+            console.warn('[ERR] unable to get metadata')
+          }
+        }
+      })
+    } catch (e: any) {
+      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+    } finally {
+      if (offset <= prefetchLimit) {
+        this.prefetchPage(offset + this.first, prefetchLimit)
+      }
+    }
 
   }
 
   get results() {
-  	// if (this.searchQuery) {
-  	//   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
-  	// }
+    // if (this.searchQuery) {
+    //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
+    // }
 
-  	return basicAggQuery(this.nfts as NFTWithMeta[])
+    return basicAggQuery(this.nfts as NFTWithMeta[])
 
-  	// return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+    // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
   setFreezeframe() {
-  	document.addEventListener('lazybeforeunveil', async e => {
-  		const target = e.target as Image
-  		const type = target.dataset.type as string
-  		const isGif = type === 'image/gif'
+    document.addEventListener('lazybeforeunveil', async e => {
+      const target = e.target as Image
+      const type = target.dataset.type as string
+      const isGif = type === 'image/gif'
 
-  		if (isGif && !target.ffInitialized) {
-  			const ff = new Freezeframe(target, {
-  				trigger: false,
-  				overlay: true,
-  				warnings: false
-  			})
+      if (isGif && !target.ffInitialized) {
+        const ff = new Freezeframe(target, {
+          trigger: false,
+          overlay: true,
+          warnings: false
+        })
 
-  			target.ffInitialized = true
-  		}
-  	})
+        target.ffInitialized = true
+      }
+    })
   }
 
   onError(e: Event) {
-  	const target = e.target as Image
-  	target.src = this.placeholder
+    const target = e.target as Image
+    target.src = this.placeholder
   }
 }
 </script>

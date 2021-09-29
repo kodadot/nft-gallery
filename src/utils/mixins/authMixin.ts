@@ -9,7 +9,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class AuthMixin extends Vue {
 
-	get accountId() {
-		return this.$store.getters.getAuthAddress
-	}
+  get accountId() {
+    return this.$store.getters.getAuthAddress
+  }
 }

@@ -14,11 +14,11 @@ export default class ProgressBar extends Vue {
   @Prop() public max: any;
 
   get actualValue() {
-  	return toNumber(this.value)
+    return toNumber(this.value)
   }
 
   get maxValue() {
-  	return toNumber(this.max)
+    return toNumber(this.max)
   }
 }
 </script>

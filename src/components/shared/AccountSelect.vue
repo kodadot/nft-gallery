@@ -22,9 +22,9 @@ import { KeyringPair } from '@polkadot/keyring/types'
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
 
 @Component({
-	components: {
-		Tooltip
-	}
+  components: {
+    Tooltip
+  }
 })
 export default class AccountSelect extends Mixins(WithKeyring) {
   private tooltip = 'Owner\'s address of minted art';
@@ -35,20 +35,20 @@ export default class AccountSelect extends Mixins(WithKeyring) {
 
 
   get options() {
-  	return this.allAcctounts()
+    return this.allAcctounts()
   }
 
   get account(): string {
-  	return typeof this.value === 'string' ? this.value : this.value.address
+    return typeof this.value === 'string' ? this.value : this.value.address
   }
 
   set account(accountValue: string) {
-  	console.log('this._account', accountValue)
-  	if (this.asKeyring) {
-  		this.$emit('input', this.getPair(accountValue))
-  	} else {
-  		this.$emit('input', accountValue)
-  	}
+    console.log('this._account', accountValue)
+    if (this.asKeyring) {
+      this.$emit('input', this.getPair(accountValue))
+    } else {
+      this.$emit('input', accountValue)
+    }
 
   }
 

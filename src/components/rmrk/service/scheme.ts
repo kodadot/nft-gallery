@@ -186,34 +186,34 @@ export interface Pack extends BasePack {
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
-	return `${blocknumber ? blocknumber + '-' : '' }${nft.collection}-${nft.instance || nft.name}-${nft.sn}`
+  return `${blocknumber ? blocknumber + '-' : '' }${nft.collection}-${nft.instance || nft.name}-${nft.sn}`
 }
 
 export const computeAndUpdateNft = (nft: NFT, blocknumber?: string | number): NFT => {
-	const id = getNftId(nft, blocknumber)
-	return {
-		...nft,
-		_id: id,
-		id
-	}
+  const id = getNftId(nft, blocknumber)
+  return {
+    ...nft,
+    _id: id,
+    id
+  }
 }
 
 export const computeAndUpdateCollection = (collection: Collection): Collection => {
-	return {
-		...collection,
-		_id: collection.id
-	}
+  return {
+    ...collection,
+    _id: collection.id
+  }
 }
 
 export const mergeCollection = (collection: Collection, metadata: CollectionMetadata, shouldSanitize = false): CollectionWithMeta => ({
-	...collection,
-	...metadata,
-	image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
+  ...collection,
+  ...metadata,
+  image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
 })
 
 
 export const mergeNFT = (nft: NFT, metadata: NFTMetadata, shouldSanitize = false): NFTWithMeta => ({
-	...nft,
-	...metadata,
-	image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
+  ...nft,
+  ...metadata,
+  image: shouldSanitize ? sanitizeIpfsUrl(metadata.image || '') : metadata.image
 })

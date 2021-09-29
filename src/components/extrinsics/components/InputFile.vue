@@ -35,11 +35,11 @@ export default class InputFile extends Vue {
 
   @Watch('toImport')
   public createInput(file: any): void {
-  	const reader = new FileReader()
-  	reader.onload = () => {
-  		this.account = reader.result
-  	}
-  	reader.readAsText(file)
+    const reader = new FileReader()
+    reader.onload = () => {
+      this.account = reader.result
+    }
+    reader.readAsText(file)
   }
 
 }

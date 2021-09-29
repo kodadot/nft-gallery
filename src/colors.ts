@@ -73,97 +73,97 @@ export { emptyColor }
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, any> = [
-	['acala mandala pc1', chainRoccoAcala],
-	['acala mandala pc2', chainRoccoAcala],
-	['Ares PC1', chainRoccoAres],
-	['Bit.Country Tewai Chain', chainBitCountry],
-	['Bifrost PC1', chainRoccoBifrost],
-	['Darwinia Crab', chainCrab],
-	['Clover', chainClover],
-	['crust maxwell', chainCrust],
-	['Crust PC1', chainCrust],
-	['ChainX', chainChainx],
-	['darwinia cc1', chainDarwinia],
-	['Darwinia PC2', chainRoccoDarwinia],
-	['DataHighway', chainRoccoDataHighway],
-	['Encointer PC1', nodeEncointerNotee],
-	['hanonycash', chainHanonycash],
-	['HydraDX Hydrate', chainHydrate],
-	['IntegriTEE PC1', chainIntegritee],
-	['Idavoll', chainIdavoll],
-	['Jupiter Testnet', chainJupiter],
-	['KILT Testnet', chainKilt],
-	['KILT Collator Rococo', chainKilt],
-	['Kulupu', chainKulupu],
-	['Kusama', chainKusama],
-	['Kusama CC1', chainKusama],
-	['Kusama CC2', chainKusama],
-	['Kusama CC3', chainKusama],
-	['laminar turbulence pc1', chainRococoLaminar],
-	['Moonbase Alpha', nodeMoonbeam],
-	['Phala poc 3', chainPhala],
-	['Phala PC1', chainPhala],
-	['Plasm', chainPlasm],
-	['Plasm PC2', chainPlasm],
-	['PolkaBTC', chainPolkabtc],
-	['PolkaBTC Staging', chainPolkabtc],
-	['Polkadex Testnet', chainPolkadex],
-	['Polkadot', chainPolkadot],
-	['Polkadot CC1', chainPolkadot],
-	['Rococo', chainRocco],
-	['Tick', chainRoccoTick],
-	['Track', chainRoccoTrack],
-	['Trick', chainRoccoTrick],
-	['Westend', chainWestend],
-	['Galois', chainGalois],
-	['ZΞRO Alphaville', chainZero],
-	['Zenlink PC1', chainZenlink],
-	['Uniarts', chainUniarts],
-	['SubDAO PC1', chainSubDAO]
+  ['acala mandala pc1', chainRoccoAcala],
+  ['acala mandala pc2', chainRoccoAcala],
+  ['Ares PC1', chainRoccoAres],
+  ['Bit.Country Tewai Chain', chainBitCountry],
+  ['Bifrost PC1', chainRoccoBifrost],
+  ['Darwinia Crab', chainCrab],
+  ['Clover', chainClover],
+  ['crust maxwell', chainCrust],
+  ['Crust PC1', chainCrust],
+  ['ChainX', chainChainx],
+  ['darwinia cc1', chainDarwinia],
+  ['Darwinia PC2', chainRoccoDarwinia],
+  ['DataHighway', chainRoccoDataHighway],
+  ['Encointer PC1', nodeEncointerNotee],
+  ['hanonycash', chainHanonycash],
+  ['HydraDX Hydrate', chainHydrate],
+  ['IntegriTEE PC1', chainIntegritee],
+  ['Idavoll', chainIdavoll],
+  ['Jupiter Testnet', chainJupiter],
+  ['KILT Testnet', chainKilt],
+  ['KILT Collator Rococo', chainKilt],
+  ['Kulupu', chainKulupu],
+  ['Kusama', chainKusama],
+  ['Kusama CC1', chainKusama],
+  ['Kusama CC2', chainKusama],
+  ['Kusama CC3', chainKusama],
+  ['laminar turbulence pc1', chainRococoLaminar],
+  ['Moonbase Alpha', nodeMoonbeam],
+  ['Phala poc 3', chainPhala],
+  ['Phala PC1', chainPhala],
+  ['Plasm', chainPlasm],
+  ['Plasm PC2', chainPlasm],
+  ['PolkaBTC', chainPolkabtc],
+  ['PolkaBTC Staging', chainPolkabtc],
+  ['Polkadex Testnet', chainPolkadex],
+  ['Polkadot', chainPolkadot],
+  ['Polkadot CC1', chainPolkadot],
+  ['Rococo', chainRocco],
+  ['Tick', chainRoccoTick],
+  ['Track', chainRoccoTrack],
+  ['Trick', chainRoccoTrick],
+  ['Westend', chainWestend],
+  ['Galois', chainGalois],
+  ['ZΞRO Alphaville', chainZero],
+  ['Zenlink PC1', chainZenlink],
+  ['Uniarts', chainUniarts],
+  ['SubDAO PC1', chainSubDAO]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
-	...colors,
-	[chain.toLowerCase()]: color
+  ...colors,
+  [chain.toLowerCase()]: color
 }), {})
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
-	['Bit.Country Node', nodeBitCountry],
-	['Bifrost Node', nodeBifrost],
-	['Canvas Node', nodeCanvas],
-	['centrifuge chain', nodeCentrifuge],
-	['Centrifuge Chain Node', nodeCentrifuge],
-	['edgeware node', nodeEdgeware],
-	['Encointer Node', nodeEncointerNotee],
-	['Encointer Node noTEE', nodeEncointerNotee],
-	['Encointer Node TEE proxy', nodeEncointerTeeproxy],
-	['Equilibrium node', nodeEquilibrium],
-	['Jupiter Node', nodeJupiter],
-	['nodle chain node', nodeNodle],
-	['Polkadex Node', nodePolkadex],
-	['SORA-staging Node', nodeSora],
-	['Stafi node', nodeStafi],
-	['subsocial node', nodeSubsocial],
-	['SUBZΞRO', nodeZero],
-	['Ternoa Node', nodeTernoa],
-	['Zenlink Collator', nodeZenlink],
-	['SubDAO Collator', nodeSubDAO]
-	// ['node template', emptyColor],
-	// ['parity polkadot', emptyColor],
-	// ['substrate node', emptyColor]
+  ['Bit.Country Node', nodeBitCountry],
+  ['Bifrost Node', nodeBifrost],
+  ['Canvas Node', nodeCanvas],
+  ['centrifuge chain', nodeCentrifuge],
+  ['Centrifuge Chain Node', nodeCentrifuge],
+  ['edgeware node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['Equilibrium node', nodeEquilibrium],
+  ['Jupiter Node', nodeJupiter],
+  ['nodle chain node', nodeNodle],
+  ['Polkadex Node', nodePolkadex],
+  ['SORA-staging Node', nodeSora],
+  ['Stafi node', nodeStafi],
+  ['subsocial node', nodeSubsocial],
+  ['SUBZΞRO', nodeZero],
+  ['Ternoa Node', nodeTernoa],
+  ['Zenlink Collator', nodeZenlink],
+  ['SubDAO Collator', nodeSubDAO]
+  // ['node template', emptyColor],
+  // ['parity polkadot', emptyColor],
+  // ['substrate node', emptyColor]
 ].reduce((colors, [node, color]): Record<string, any> => ({
-	...colors,
-	[node.toLowerCase().replace(/-/g, ' ')]: color
+  ...colors,
+  [node.toLowerCase().replace(/-/g, ' ')]: color
 }), {})
 
 
 function sanitize (value?: string): string {
-	return value?.toLowerCase().replace('-', ' ') || ''
+  return value?.toLowerCase().replace('-', ' ') || ''
 }
 
 export function getSystemChainColor (systemChain: string, systemName: string): string | undefined {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-	return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)]
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)]
 }
 
 const kodaDotGreen = '#41b883'
@@ -173,13 +173,13 @@ let currentColor = kodaDotGreen
 export const getCurrentColor = () => currentColor
 
 export const changeCurrentColor = async () => {
-	const { api } = Connector.getInstance()
-	try {
-		const chain = await api.rpc.system.chain()
-		const node = await api.rpc.system.name()
-		currentColor = getSystemChainColor(chain.toHuman(), node.toHuman()) || kodaDotGreen
-		return currentColor
-	} catch (e) {
-		console.warn('[COLORS] NO collor for this chain')
-	}
+  const { api } = Connector.getInstance()
+  try {
+    const chain = await api.rpc.system.chain()
+    const node = await api.rpc.system.name()
+    currentColor = getSystemChainColor(chain.toHuman(), node.toHuman()) || kodaDotGreen
+    return currentColor
+  } catch (e) {
+    console.warn('[COLORS] NO collor for this chain')
+  }
 }

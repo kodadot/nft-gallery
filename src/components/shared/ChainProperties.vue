@@ -5,19 +5,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Balance extends Vue {
   private chainProperties = null;
 
   get chainProps() {
-  	return this.chainProperties
+    return this.chainProperties
   }
 
   public async mounted(): Promise<void> {
-  	const { api } = (this as any).$http
-  	this.chainProperties = await api.registry.getChainProperties()
+    const { api } = (this as any).$http
+    this.chainProperties = await api.registry.getChainProperties()
   }
 }
 

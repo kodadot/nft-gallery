@@ -23,27 +23,27 @@ export default class TxButton extends Vue {
   @Prop({ default: '' }) public password!: string;
 
   public async shipIt() {
-  	const { api } = (this as any).$http
+    const { api } = (this as any).$http
 
-  	if (!api) {
-  		return
-  	}
+    if (!api) {
+      return
+    }
 
-  	try {
-  		showNotification('Dispatched')
-  		const { account, password, callback, params } = this
-  		const tx = await exec(account, password, callback, params)
-  		showNotification(execResultValue(tx), notificationTypes.success)
-  		this.handleProcessed(tx)
-  	} catch (e: any) {
-  		showNotification(e, notificationTypes.danger)
-  		this.handleProcessed(e)
-  	}
+    try {
+      showNotification('Dispatched')
+      const { account, password, callback, params } = this
+      const tx = await exec(account, password, callback, params)
+      showNotification(execResultValue(tx), notificationTypes.success)
+      this.handleProcessed(tx)
+    } catch (e: any) {
+      showNotification(e, notificationTypes.danger)
+      this.handleProcessed(e)
+    }
   }
 
   @Emit('processed')
   public handleProcessed(state: any) {
-  	return state
+    return state
   }
 }
 </script>

@@ -29,32 +29,32 @@ export default class ReadOnlyBalanceInput extends Mixins(ChainMixin) {
   @Prop({ default: 'balance' }) public labelInput!: string;
 
   get inputValue(): number {
-  	return this.value
+    return this.value
   }
 
   set inputValue(value: number) {
-  	this.handleInput(value)
+    this.handleInput(value)
   }
 
   formatSelectedValue(value: number): number {
-  	return value * 10 ** this.decimals * this.selectedUnit
+    return value * 10 ** this.decimals * this.selectedUnit
   }
 
   protected mapper(unit: Unit) {
-  	if (unit.name === '-') {
-  		return { ...unit, name: this.unit }
-  	}
-  	return unit
+    if (unit.name === '-') {
+      return { ...unit, name: this.unit }
+    }
+    return unit
   }
 
   public mounted() {
-  	this.units = defaultUnits.map(this.mapper)
+    this.units = defaultUnits.map(this.mapper)
   }
 
   @Debounce(200)
   @Emit('input')
   public handleInput(value: number) {
-  	return value
+    return value
   }
 }
 </script>

@@ -31,11 +31,11 @@ const valueOf = ({value}: Attribute) => String(value)
 @Component({})
 export default class extends Vue {
   private allTags: string[] = [
-  	'audio',
-  	'video',
-  	'image',
-  	'music',
-  	'abstract'
+    'audio',
+    'video',
+    'image',
+    'music',
+    'abstract'
   ];
   @Prop() public value!: Attribute[];
   @Prop({ default: 3 }) public max!: string | number;
@@ -43,16 +43,16 @@ export default class extends Vue {
   @Prop(Boolean) public simple!: boolean
 
   get tags() {
-  	return this.simple ? (this.value || []) as any[] as string[] : (this.value || []).map(valueOf)
+    return this.simple ? (this.value || []) as any[] as string[] : (this.value || []).map(valueOf)
   }
 
   set tags(value: string[]) {
-  	this.handleInput(value)
+    this.handleInput(value)
   }
 
   @Emit('input')
   handleInput(value: string[]) {
-  	return this.simple ? value : value.map(v => ({ value: v }))
+    return this.simple ? value : value.map(v => ({ value: v }))
   }
 }
 </script>

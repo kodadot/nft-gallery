@@ -55,7 +55,7 @@ import { extractCid } from '@/utils/ipfs'
 import { NFT, NFTMetadata } from '../../service/scheme'
 import { emptyObject } from '@/utils/empty'
 const components = {
-	ArweaveLink: () => import('@/components/shared/ArweaveLink.vue')
+  ArweaveLink: () => import('@/components/shared/ArweaveLink.vue')
 }
 
 @Component({ components })
@@ -65,27 +65,27 @@ export default class Facts extends Vue {
   public multimediaCid = '';
   public showGwLinks = false;
   public gwList: any = [
-  	'https://kodadot.mypinata.cloud/ipfs/',
-  	'https://cloudflare-ipfs.com/ipfs/',
-  	'https://gateway.ipfs.io/ipfs/',
-  	'https://ipfs.fleek.co/ipfs/',
-  	'https://dweb.link/ipfs/'
+    'https://kodadot.mypinata.cloud/ipfs/',
+    'https://cloudflare-ipfs.com/ipfs/',
+    'https://gateway.ipfs.io/ipfs/',
+    'https://ipfs.fleek.co/ipfs/',
+    'https://dweb.link/ipfs/'
   ];
 
   get tags() {
-  	return this.meta.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
+    return this.meta.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)
   }
 
 
   get imageId() {
-  	return extractCid(this.meta.image)
+    return extractCid(this.meta.image)
   }
 
 // public created() {
-	//   console.log(this.nft)
-	//   this.multimediaCid = extractCid(this.nft.image);
-	//   this.showGwLinks = true;
-	// }
+  //   console.log(this.nft)
+  //   this.multimediaCid = extractCid(this.nft.image);
+  //   this.showGwLinks = true;
+  // }
 }
 </script>
 <style scoped lang="scss">

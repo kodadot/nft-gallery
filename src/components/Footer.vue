@@ -130,26 +130,26 @@ interface Menu {
   url: string;
 }
 @Component({
-	components: {}
+  components: {}
 })
 export default class Footer extends Vue {
   public menu: Menu[] = [
-  	{
-  		name: i18n.t('About'),
-  		url: '/about'
-  	},
-  	{
-  		name: i18n.t('FAQ'),
-  		url: '/rmrk/faq'
-  	},
-  	// {
-  	//   name: i18n.t('Contact'),
-  	//   url: '/contact'
-  	// },
-  	{
-  		name: i18n.t('Partnerships & Ambassadors'),
-  		url: '/partnership'
-  	}
+    {
+      name: i18n.t('About'),
+      url: '/about'
+    },
+    {
+      name: i18n.t('FAQ'),
+      url: '/rmrk/faq'
+    },
+    // {
+    //   name: i18n.t('Contact'),
+    //   url: '/contact'
+    // },
+    {
+      name: i18n.t('Partnerships & Ambassadors'),
+      url: '/partnership'
+    }
   ]
 }
 </script>

@@ -34,11 +34,11 @@ export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion;
 
   get emotes(): Emoji[] {
-  	return Object.entries(this.emotions).map(([key, emotions]) => ({
-  		key,
-  		count: emotions.length,
-  		issuers: emotions.map(issuerId)
-  	}))
+    return Object.entries(this.emotions).map(([key, emotions]) => ({
+      key,
+      count: emotions.length,
+      issuers: emotions.map(issuerId)
+    }))
   }
 }
 </script>

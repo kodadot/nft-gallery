@@ -13,7 +13,7 @@ import Identicon from '@polkadot/vue-identicon'
 
 
 @Component({ components: {
-	Identicon
+  Identicon
 } })
 export default class Avatar extends Vue {
   @Prop({ default: '' }) public value!: string;

@@ -84,7 +84,7 @@ export interface IFrame {
 }
 
 export const emptyIframe: IFrame = {
-	width: '480px',
-	height: '840px'
+  width: '480px',
+  height: '840px'
 }
 

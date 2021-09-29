@@ -8,7 +8,7 @@
     >
       Click me!
     </button>
-		<slot></slot>
+    <slot></slot>
   </b-collapse>
 </div>
 </template>

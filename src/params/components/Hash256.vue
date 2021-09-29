@@ -19,13 +19,13 @@ export default class Hash256 extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-  	console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-  	this.$emit('selected', { [this.argument.name.toString()]: value })
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-  	return this.defaultValue ? this.defaultValue : DEFAULT
+    return this.defaultValue ? this.defaultValue : DEFAULT
   }
 
 

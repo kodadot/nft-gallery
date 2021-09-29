@@ -18,21 +18,21 @@ type FileType = MaybeFile | MaybeFile[]
 export const sizeOf = (file: Blob | number): number => typeof file === 'number' ? file : file.size
 
 export const getFileSize = (file: Blob | number) => {
-	const size = sizeOf(file)
-	const res = ( size / BYTES ** 2 )
+  const size = sizeOf(file)
+  const res = ( size / BYTES ** 2 )
 
-	// Minu
-	if (res <= MINUMUM_MB_STORAGE) {
-		return 0.01
-	}
+  // Minu
+  if (res <= MINUMUM_MB_STORAGE) {
+    return 0.01
+  }
 
-	return res / BYTES
+  return res / BYTES
 }
 
 // size in gb // yields in cents
 export const baseIpfsPrice = (file: Blob | number) => {
-	const fileSize = getFileSize(file)
-	return IPFS_REPLICATIONS * MONTHS * fileSize * IPFS_PRICE
+  const fileSize = getFileSize(file)
+  return IPFS_REPLICATIONS * MONTHS * fileSize * IPFS_PRICE
 }
 
 export const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
@@ -42,65 +42,65 @@ const justFile = (file: MaybeFile): boolean =>  !!file
 
 
 export const calculateCost = (files: FileType) => {
-	if (Array.isArray(files)) {
-		const allReadyAdded: Record<string, boolean> = {}
-		return files
-			.filter(justFile)
-			.filter(f => {
-				if (f instanceof File) {
-					if (allReadyAdded[f.name]) {
-						return false
-					}
+  if (Array.isArray(files)) {
+    const allReadyAdded: Record<string, boolean> = {}
+    return files
+      .filter(justFile)
+      .filter(f => {
+        if (f instanceof File) {
+          if (allReadyAdded[f.name]) {
+            return false
+          }
 
-					allReadyAdded[f.name] = true
-					return true
-				}
+          allReadyAdded[f.name] = true
+          return true
+        }
 
-				return true
-			})
-			.map(f => baseIpfsPrice(f as Blob))
-			.reduce(sum, 0)
-	}
+        return true
+      })
+      .map(f => baseIpfsPrice(f as Blob))
+      .reduce(sum, 0)
+  }
 
-	return files ? baseIpfsPrice(files) : 0
+  return files ? baseIpfsPrice(files) : 0
 }
 
 export const cost = async (files: FileType): Promise<number> => {
-	const ksmPrice = await getKSMUSD()
-	console.log(calculateCost(files) / ksmPrice)
-	const decimals = store.getters.getChainProperties?.tokenDecimals
-	return Math.round(calculateCost(files) / ksmPrice * 10 ** decimals)
+  const ksmPrice = await getKSMUSD()
+  console.log(calculateCost(files) / ksmPrice)
+  const decimals = store.getters.getChainProperties?.tokenDecimals
+  return Math.round(calculateCost(files) / ksmPrice * 10 ** decimals)
 }
 
 export const supportTx = async (files:FileType) => {
-	const { api } = Connector.getInstance()
-	return api.tx.balances.transfer(resolveSupportAddress(), await cost(files))
+  const { api } = Connector.getInstance()
+  return api.tx.balances.transfer(resolveSupportAddress(), await cost(files))
 }
 
 export const somePercentFromTX = (price: number | string) => {
-	const { api } = Connector.getInstance()
-	const fee = Number(price) * PERCENT
-	return api.tx.balances.transfer(resolveSupportAddress() , fee)
+  const { api } = Connector.getInstance()
+  const fee = Number(price) * PERCENT
+  return api.tx.balances.transfer(resolveSupportAddress() , fee)
 }
 
 export const resolveSupportAddress = () => {
-	const ss58Format = store.getters.getChainProperties?.ss58Format
-	return Number(ss58Format) === 2 ? KODADOT_DAO : pubKeyToAddress(BACKUP_PUBKEY)
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+  return Number(ss58Format) === 2 ? KODADOT_DAO : pubKeyToAddress(BACKUP_PUBKEY)
 }
 
 export const resolveOffsetAddress = () => {
-	const ss58Format = store.getters.getChainProperties?.ss58Format
-	return Number(ss58Format) === 2 ? OFFSET_DAO : pubKeyToAddress(BACKUP_PUBKEY)
+  const ss58Format = store.getters.getChainProperties?.ss58Format
+  return Number(ss58Format) === 2 ? OFFSET_DAO : pubKeyToAddress(BACKUP_PUBKEY)
 }
 
 export const offsetTx = async (price: number) => {
-	const { api } = Connector.getInstance()
-	return api.tx.balances.transfer(resolveSupportAddress(), await offsetCost(price))
+  const { api } = Connector.getInstance()
+  return api.tx.balances.transfer(resolveSupportAddress(), await offsetCost(price))
 }
 
 export const offsetCost = async (price: number): Promise<number> => {
-	const ksmPrice = await getKSMUSD()
-	console.log(price / ksmPrice)
-	const decimals = store.getters.getChainProperties?.tokenDecimals
-	return Math.round(price / ksmPrice * 10 ** decimals)
+  const ksmPrice = await getKSMUSD()
+  console.log(price / ksmPrice)
+  const decimals = store.getters.getChainProperties?.tokenDecimals
+  return Math.round(price / ksmPrice * 10 ** decimals)
 }

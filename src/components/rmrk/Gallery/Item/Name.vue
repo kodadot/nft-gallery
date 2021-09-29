@@ -55,7 +55,7 @@ import { emptyObject } from '@/utils/empty'
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
-	ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
 }
 
 @Component({ components })
@@ -64,11 +64,11 @@ export default class Name extends Vue {
   @Prop() public isLoading!: boolean;
 
   get detailVisible() {
-  	return !isShareMode
+    return !isShareMode
   }
 
   get carbonlessBadge() {
-  	return this.nft.attributes?.some(({trait_type, value}) => trait_type === 'carbonless' && value)
+    return this.nft.attributes?.some(({trait_type, value}) => trait_type === 'carbonless' && value)
   }
 }
 </script>

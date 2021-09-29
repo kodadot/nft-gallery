@@ -24,7 +24,7 @@
                 que analice las Emisiones de Carbono y ayudar a hacer forestaciones impulsando a que sean la nueva normalidad y de facil acceso.  Para poner en marcha este esfuerzo, nos hemos asociado con Offsetra que permite a los usuarios a apoyar <i>"proyectos de alta calidad a favor del clima mediante la compra de creditos de compensacion de carbono"</i>.
                 <br><br>
                 Los créditos de compensación de Carbono provienen de una variedad de proyectos orientados a la sostentabilidad. Offsetra solo obtiene compensaciones de proyectos validados y verificados bajo estrictos estándares reconocidos internacionalmente.Puede encontrar más informacion sobre el proceso de <br>Offsetra's
-                disponible <a href="https://offsetra.com/">en su sitio web</a>.</br>
+                disponible <a href="https://offsetra.com/">en su sitio web</a>.<br>
               </p><br>
               <h1 class="title is-4">
                 Acciones Humildes
@@ -44,7 +44,7 @@
                 <b><a href="https://yangwao.medium.com/planet-terraformation-forest-as-a-service-94a2633ad011">
                 Terraformation of Planet Earth</a></b>
                 donde se puede participar en distintas áreas para poseer parte del bosque, e incluso introducir el concepto de <b>Forest as a Service</b>. La imaginación es el límite.
-              </p></br>
+              </p><br>
               <h1 class="title is-4">
                 No somos los únicos y eso es genial
               </h1>
@@ -85,22 +85,22 @@ import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsCarbonless>({
-	metaInfo() {
-		return {
-			title: 'KodaDOT se preocupa por el impacto medioambiental',
-			titleTemplate: '%s | NFT bajos en carbono',
-			meta: [
-				{ name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
-				{ property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-				{ property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
-				{ property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-				{ property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
-				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-			]
-		}
-	},
-	components: {}
+  metaInfo() {
+    return {
+      title: 'KodaDOT se preocupa por el impacto medioambiental',
+      titleTemplate: '%s | NFT bajos en carbono',
+      meta: [
+        { name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
+        { property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
+        { property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+        { property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+      ]
+    }
+  },
+  components: {}
 })
 export default class EsCarbonless extends Vue {
 

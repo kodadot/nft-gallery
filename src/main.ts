@@ -61,27 +61,27 @@ Vue.filter('shortAddress', shortAddress);
 (window as any).S = { get, set, getMany };
 
 (async () => {
-	// await createInstance(keyInfo, getPrefixByStoreUrl());
-	await enableExtension()
+  // await createInstance(keyInfo, getPrefixByStoreUrl());
+  await enableExtension()
 })()
 // Connector.createInstance(store.state.setting.apiUrl);
 Vue.prototype.$http = Connector.getInstance()
 
 
 Vue.use(Buefy, {
-	defaultIconPack: 'fas',
-	defaultIconComponent: 'vue-fontawesome',
-	defaultFieldLabelPosition: 'inside',
-	customIconPacks: {
-		fas: {
-			// sizes: {
-			//   'default': '',
-			//   'is-small': '1x',
-			//   'is-medium': '2x',
-			//   'is-large': '3x',
-			// },
-		},
-	},
+  defaultIconPack: 'fas',
+  defaultIconComponent: 'vue-fontawesome',
+  defaultFieldLabelPosition: 'inside',
+  customIconPacks: {
+    fas: {
+      // sizes: {
+      //   'default': '',
+      //   'is-small': '1x',
+      //   'is-medium': '2x',
+      //   'is-large': '3x',
+      // },
+    },
+  },
 })
 
 Vue.filter('formatBalance', formatBalance)
@@ -94,15 +94,15 @@ Vue.filter('toSanitizedUrl', toSanitizedUrl)
 Vue.use(VueClipboard)
 
 const apolloProvider = new VueApollo({
-	defaultClient: apolloClient,
+  defaultClient: apolloClient,
 })
 
 Vue.config.productionTip = false
 
 new Vue({
-	router,
-	store,
-	apolloProvider,
-	i18n,
-	render: (h) => h(App)
+  router,
+  store,
+  apolloProvider,
+  i18n,
+  render: (h) => h(App)
 }).$mount('#app')

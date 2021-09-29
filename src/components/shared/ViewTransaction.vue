@@ -9,13 +9,13 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 export default class ViewTransaction extends Vue {
-	@Prop({ default: '' }) public tx = '';
+  @Prop({ default: '' }) public tx = '';
 
-	getExplorerUrl(value: string) {
-		return urlBuilderTransaction(value,
-			this.$store.state.explorer.chain,
-			this.$store.state.explorer.provider)
-	}
+  getExplorerUrl(value: string) {
+    return urlBuilderTransaction(value,
+      this.$store.state.explorer.chain,
+      this.$store.state.explorer.provider)
+  }
 
 }
 </script>

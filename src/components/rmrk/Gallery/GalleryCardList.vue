@@ -23,7 +23,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
 
 const components = {
-	GalleryCard: () => import('./GalleryCard.vue')
+  GalleryCard: () => import('./GalleryCard.vue')
 }
 
 @Component({ components })

@@ -32,9 +32,9 @@ import Balance from './Balance.vue'
 import Vue, { VueConstructor } from 'vue'
 
 @Component({
-	components: {
-		Balance,
-	},
+  components: {
+    Balance,
+  },
 })
 class Selection extends WithKeyring {
   @Prop({ default: 'all' }) public mode!: string;
@@ -43,32 +43,32 @@ class Selection extends WithKeyring {
   private selectedAccount = '';
 
   get accounts() {
-  	return this.keyringAccounts.filter((acc) => !acc.meta.isTesting)
+    return this.keyringAccounts.filter((acc) => !acc.meta.isTesting)
   }
 
   get selected() {
-  	return this.selectedAccount
+    return this.selectedAccount
   }
 
   set selected(address: string) {
-  	console.log('selected', address)
-  	this.selectedAccount = address
-  	this.onSelectedAccount(address)
+    console.log('selected', address)
+    this.selectedAccount = address
+    this.onSelectedAccount(address)
   }
 
   @Emit('selected')
   public onSelectedAccount(address: string) {
-  	return this.getPair(address)
+    return this.getPair(address)
   }
 
   public mounted(): void {
-  	this.gotKeys(this.mode)
+    this.gotKeys(this.mode)
   }
 
   private gotKeys(mode: string): void {
-  	if (mode === 'accounts') {
-  		this.label = 'From Accounts'
-  	}
+    if (mode === 'accounts') {
+      this.label = 'From Accounts'
+    }
   }
 }
 

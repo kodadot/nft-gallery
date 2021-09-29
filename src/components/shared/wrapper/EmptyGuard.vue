@@ -16,11 +16,11 @@ export default class EmptyGuard extends Vue {
     @Prop() public label!: string;
 
     get isNotEmpty() {
-    	return this.lenghtOf(this.array)
+      return this.lenghtOf(this.array)
     }
 
     private lenghtOf(array: any[]) {
-    	return (array && array.length) || 0
+      return (array && array.length) || 0
     }
 
 

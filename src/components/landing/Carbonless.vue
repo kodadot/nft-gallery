@@ -40,7 +40,7 @@
                 Carbon offset credits come from a variety of sustainability-oriented projects.
                 Offsetra only sources offsets from validated and verified projects under strict
                 internationally recognized standards. You can find more information on <br>Offsetra's
-                process is available <a href="https://offsetra.com/">on their website</a>.</br>
+                process is available <a href="https://offsetra.com/">on their website</a>.<br>
               </p><br>
               <h1 class="title is-4">
                 Humble actions
@@ -73,7 +73,7 @@
                 Terraformation of Planet Earth</a></b>
                 where one could participate in fashion to own part of the forest, probably introduce
                 the concept of <b>Forest as a Service</b>. Imagination is the limit.
-              </p></br>
+              </p><br>
               <h1 class="title is-4">
                 We are not only one and that's great
               </h1>
@@ -120,22 +120,22 @@ import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<Carbonless>({
-	metaInfo() {
-		return {
-			title: 'KodaDot cares about environmental impact',
-			titleTemplate: '%s | Low Carbon NFTs',
-			meta: [
-				{ name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-				{ property: 'og:title', content: 'KodaDot cares about environmental impact'},
-				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-				{ property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
-				{ property: 'twitter:title', content: 'KodaDot cares about environmental impact'},
-				{ property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-			]
-		}
-	},
-	components: {}
+  metaInfo() {
+    return {
+      title: 'KodaDot cares about environmental impact',
+      titleTemplate: '%s | Low Carbon NFTs',
+      meta: [
+        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
+        { property: 'og:title', content: 'KodaDot cares about environmental impact'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:title', content: 'KodaDot cares about environmental impact'},
+        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+      ]
+    }
+  },
+  components: {}
 })
 export default class Carbonless extends Vue {
 

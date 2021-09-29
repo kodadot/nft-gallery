@@ -25,13 +25,13 @@ export default class AddOption extends Vue {
 
   @Emit('add')
   public onAddedOption() {
-  	const { text, value } = this
-  	this.toast(this.toastMessage)
-  	return { text: `${text} (${value})`, value }
+    const { text, value } = this
+    this.toast(this.toastMessage)
+    return { text: `${text} (${value})`, value }
   }
 
   public toast(message: string): void {
-  	this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message)
   }
 }
 </script>

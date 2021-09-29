@@ -41,103 +41,103 @@ interface TypeToComponent {
 }
 
 const components: ComponentMap = ([
-	{ c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
-	{ c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
-	{ c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
-	{ c: Bool, t: ['bool'] },
-	{ c: Bytes, t: ['Bytes'] },
-	{ c: Call, t: ['Call', 'Proposal'] },
-	{ c: Code, t: ['Code'] },
-	{ c: DispatchError, t: ['DispatchError'] },
-	{ c: Raw, t: ['Raw', 'Keys'] },
-	{ c: Enum, t: ['Enum'] },
-	{ c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
-	{ c: Hash512, t: ['H512', 'Signature'] },
-	{ c: KeyValue, t: ['KeyValue'] },
-	{ c: KeyValueArray, t: ['Vec<KeyValue>'] },
-	{ c: Moment, t: ['Moment', 'MomentOf'] },
-	{ c: Null, t: ['Null'] },
-	{ c: OpaqueCall, t: ['OpaqueCall'] },
-	{ c: Option, t: ['Option'] },
-	{ c: TextField, t: ['String', 'Text'] },
-	{ c: Struct, t: ['Struct'] },
-	{ c: Tuple, t: ['Tuple'] },
-	{ c: Vector, t: ['Vec'] },
-	{ c: Vote, t: ['Vote'] },
-	{ c: VoteThreshold, t: ['VoteThreshold'] },
-	{ c: Unknown, t: ['Unknown'] },
+  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
+  { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
+  { c: Bool, t: ['bool'] },
+  { c: Bytes, t: ['Bytes'] },
+  { c: Call, t: ['Call', 'Proposal'] },
+  { c: Code, t: ['Code'] },
+  { c: DispatchError, t: ['DispatchError'] },
+  { c: Raw, t: ['Raw', 'Keys'] },
+  { c: Enum, t: ['Enum'] },
+  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash512, t: ['H512', 'Signature'] },
+  { c: KeyValue, t: ['KeyValue'] },
+  { c: KeyValueArray, t: ['Vec<KeyValue>'] },
+  { c: Moment, t: ['Moment', 'MomentOf'] },
+  { c: Null, t: ['Null'] },
+  { c: OpaqueCall, t: ['OpaqueCall'] },
+  { c: Option, t: ['Option'] },
+  { c: TextField, t: ['String', 'Text'] },
+  { c: Struct, t: ['Struct'] },
+  { c: Tuple, t: ['Tuple'] },
+  { c: Vector, t: ['Vec'] },
+  { c: Vote, t: ['Vote'] },
+  { c: VoteThreshold, t: ['VoteThreshold'] },
+  { c: Unknown, t: ['Unknown'] },
 ] as TypeToComponent[]).reduce((componentList, { c, t }): ComponentMap => {
-	t.forEach((type): void => {
-		componentList[type] = c
-	})
+  t.forEach((type): void => {
+    componentList[type] = c
+  })
 
-	return componentList
+  return componentList
 }, {} as unknown as ComponentMap)
 
 const getType = (({ displayName, info, sub, type }: any): string => {
-	if (displayName) {
-		return displayName
-	}
+  if (displayName) {
+    return displayName
+  }
 
-	switch (info) {
-	case TypeDefInfo.Compact:
-		return (sub as TypeDef).type
+  switch (info) {
+  case TypeDefInfo.Compact:
+    return (sub as TypeDef).type
 
-	case TypeDefInfo.Option:
-		return 'Option'
+  case TypeDefInfo.Option:
+    return 'Option'
 
-	case TypeDefInfo.Enum:
-		return 'Enum'
+  case TypeDefInfo.Enum:
+    return 'Enum'
 
-	case TypeDefInfo.Struct:
-		return 'Struct'
+  case TypeDefInfo.Struct:
+    return 'Struct'
 
-	case TypeDefInfo.Tuple:
-		if (components[type] === Account) {
-			return type
-		}
-		return 'Tuple'
+  case TypeDefInfo.Tuple:
+    if (components[type] === Account) {
+      return type
+    }
+    return 'Tuple'
 
-	case TypeDefInfo.Vec:
-		return ['Vec<KeyValue>'].includes(type)
-			? 'Vec<KeyValue>'
-			: 'Vec'
+  case TypeDefInfo.Vec:
+    return ['Vec<KeyValue>'].includes(type)
+      ? 'Vec<KeyValue>'
+      : 'Vec'
 
-	default:
-		return type
-	}
+  default:
+    return type
+  }
 })
 
 export default function findComponent(def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
-	console.log(def)
+  console.log(def)
 
-	const findOne = (componentType: string): Vue.Component | null => {
-		return overrides[componentType] || components[componentType]
-	}
+  const findOne = (componentType: string): Vue.Component | null => {
+    return overrides[componentType] || components[componentType]
+  }
 
-	const type = getType(def)
+  const type = getType(def)
 
-	let Component = findOne(type)
+  let Component = findOne(type)
 
-	if (!Component) {
-		try {
-			const instance = createType(registry, type as any)
-			const raw = getTypeDef(instance.toRawType())
+  if (!Component) {
+    try {
+      const instance = createType(registry, type as any)
+      const raw = getTypeDef(instance.toRawType())
 
-			Component = findOne(getType(raw))
-			if (Component) {
-				return Component
-			} else if (instance instanceof BN) {
-				return Amount
-			} else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
-				return findComponent(raw, overrides)
-			}
-		} catch (error) {
-			// console.error(error.message);
-		}
+      Component = findOne(getType(raw))
+      if (Component) {
+        return Component
+      } else if (instance instanceof BN) {
+        return Amount
+      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+        return findComponent(raw, overrides)
+      }
+    } catch (error) {
+      // console.error(error.message);
+    }
 
-		console.warn(`Cannot find Component for ${type}, defaulting to Unknown`)
-	}
+    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`)
+  }
 
-	return Component || Unknown
+  return Component || Unknown
 }

@@ -26,10 +26,10 @@ import registry from '@/params/components/typeRegistry'
 import { ITuple } from '@polkadot/types/types'
 
 @Component({
-	name: 'Tuple',
-	components: {
-		ArgumentHandler: () => import('../../components/extrinsics/ArgumentHandler.vue'),
-	}
+  name: 'Tuple',
+  components: {
+    ArgumentHandler: () => import('../../components/extrinsics/ArgumentHandler.vue'),
+  }
 })
 export default class Tuple extends Vue {
   @Prop() public argument!: any;
@@ -40,38 +40,38 @@ export default class Tuple extends Vue {
   private results: any[] = [];
 
   public unwrapTuple(argument: any): any {
-  	return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
+    return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
   }
 
   public enhanceTypeDef(argument: any, index: number) {
-  	console.log('Tuple', argument)
+    console.log('Tuple', argument)
 
-  	return {
-  		...getTypeDef(createType(registry, argument.type).toRawType()),
-  		...argument,
-  		name: index,
-  	}
+    return {
+      ...getTypeDef(createType(registry, argument.type).toRawType()),
+      ...argument,
+      name: index,
+    }
   }
 
   get titleVisible() {
-  	return !this.disabled && isNaN(Number(this.argument.name))
+    return !this.disabled && isNaN(Number(this.argument.name))
   }
 
   @Emit('selected')
   public selected(argument: any) {
-  	Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
-  	return { [this.argument.name.toString()]: this.results }
+    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
+    return { [this.argument.name.toString()]: this.results }
   }
 
   public mounted() {
-  	this.fields = this.unwrapTuple(this.argument)
-  	if (this.defaultValue) {
-  		this.defaultValue.map(() => this.results.push(null))
-  	}
+    this.fields = this.unwrapTuple(this.argument)
+    if (this.defaultValue) {
+      this.defaultValue.map(() => this.results.push(null))
+    }
   }
 
   public getDefaultValue(index: number) {
-  	return this.defaultValue && this.defaultValue[index]
+    return this.defaultValue && this.defaultValue[index]
   }
 
 }

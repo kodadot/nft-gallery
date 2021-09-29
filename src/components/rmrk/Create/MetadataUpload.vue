@@ -18,7 +18,7 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({ components: {
-	Tooltip
+  Tooltip
 } })
 export default class  extends Vue {
   @Prop({default: 'Add Multimedia' }) public label!: string;
@@ -27,22 +27,22 @@ export default class  extends Vue {
 
   @Watch('file')
   public createInput(file: Blob): void {
-  	const reader = new FileReader()
-  	reader.onload = () => {
-  		// this.handleSelection(reader.result)
-  		// console.log(reader.si);
+    const reader = new FileReader()
+    reader.onload = () => {
+      // this.handleSelection(reader.result)
+      // console.log(reader.si);
 
 
-  	}
-  	this.$emit('input', file)
-  	console.log(file.size)
-  	reader.readAsText(file)
+    }
+    this.$emit('input', file)
+    console.log(file.size)
+    reader.readAsText(file)
 
   }
 
   @Emit('change')
   public handleSelection(value: string | ArrayBuffer | null) {
-  	return value
+    return value
   }
 }
 </script>

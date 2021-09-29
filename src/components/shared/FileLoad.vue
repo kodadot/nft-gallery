@@ -38,21 +38,21 @@ export default class FileLoad extends Vue {
   @PropSync('accountToImport', { type: String }) private account!: any;
 
   public readAccount(address: string): string {
-  	if (address) {
-  		this.uiReader = JSON.parse(address)
-  		return `${this.uiReader.address.slice(0, 6)}...${this.uiReader.address.slice(-6)}
+    if (address) {
+      this.uiReader = JSON.parse(address)
+      return `${this.uiReader.address.slice(0, 6)}...${this.uiReader.address.slice(-6)}
         ${this.uiReader.meta.name}`
-  	}
-  	return ''
+    }
+    return ''
   }
 
   @Watch('toImport')
   public createInput(file: any): void {
-  	const reader = new FileReader()
-  	reader.onload = () => {
-  		this.account = reader.result
-  	}
-  	reader.readAsText(file)
+    const reader = new FileReader()
+    reader.onload = () => {
+      this.account = reader.result
+    }
+    reader.readAsText(file)
   }
 
 }

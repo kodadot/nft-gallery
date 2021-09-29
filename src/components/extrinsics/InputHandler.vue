@@ -16,13 +16,13 @@ export default class ArgumentHandler extends Vue {
   @Prop() public argument!: any;
 
   set arg(value) {
-  	console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-  	this.$emit('selected', { [this.argument.name.toString()]: value })
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-  	return ''
+    return ''
   }
 
 

@@ -33,7 +33,7 @@ export default class AttributeInput extends Vue {
 
   @Emit('remove')
   protected remove() {
-  	return this.index
+    return this.index
   }
 }
 </script>

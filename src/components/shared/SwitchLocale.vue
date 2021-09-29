@@ -28,19 +28,19 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 @Component({})
 export default class LocaleChanger extends Vue {
 
-	get langsFlags() {
-		return this.$store.state.language.langsFlags
-	}
+  get langsFlags() {
+    return this.$store.state.language.langsFlags
+  }
 
-	get userLang() {
-		this.$i18n.locale = this.$store.getters.getUserLang
-		return this.$store.getters.getUserLang
-	}
+  get userLang() {
+    this.$i18n.locale = this.$store.getters.getUserLang
+    return this.$store.getters.getUserLang
+  }
 
-	setUserLang(value: string) {
-		this.$store.commit('setLanguage', { 'userLang': value})
-		this.$i18n.locale = value
-	}
+  setUserLang(value: string) {
+    this.$store.commit('setLanguage', { 'userLang': value})
+    this.$i18n.locale = value
+  }
 }
 </script>
 

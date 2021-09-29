@@ -26,9 +26,9 @@ import { emptyObject } from '@/utils/empty'
 import MediaResolver from './MediaResolver.vue'
 
 @Component({
-	components: {
-		MediaResolver
-	}
+  components: {
+    MediaResolver
+  }
 })
 export default class RmrkNftView extends Vue {
   @Prop() public rmrk!: RMRK;
@@ -37,31 +37,31 @@ export default class RmrkNftView extends Vue {
   private metadata: CollectionMetadata = emptyObject<CollectionMetadata>();
 
   get visible() {
-  	return !isEmpty(this.rmrk)
+    return !isEmpty(this.rmrk)
   }
 
   @Watch('rmrk')
   private async updateMeta(newRmrk: RMRK, oldRmrk: RMRK) {
-  	console.log(
-  		'🚀 ~ file: RmrkNftView.vue ~ line 22 ~ RmrkNftView ~ updateMeta ~ updateMeta',
-  		newRmrk
-  	)
+    console.log(
+      '🚀 ~ file: RmrkNftView.vue ~ line 22 ~ RmrkNftView ~ updateMeta ~ updateMeta',
+      newRmrk
+    )
 
-  	if (isEmpty(newRmrk)) {
-  		return
-  	}
+    if (isEmpty(newRmrk)) {
+      return
+    }
 
-  	this.metadata = await fetchRmrkMeta(newRmrk)
+    this.metadata = await fetchRmrkMeta(newRmrk)
 
-  	if (this.metadata.image) {
-  		this.image = this.metadata.image.replace('ipfs://', 'https://ipfs.io/')
-  	}
+    if (this.metadata.image) {
+      this.image = this.metadata.image.replace('ipfs://', 'https://ipfs.io/')
+    }
 
-  	this.metadata.attributes.forEach(attr => {
-  		if (attr.trait_type === 'Art media type') {
-  			this.mimeType = String(attr.value)
-  		}
-  	})
+    this.metadata.attributes.forEach(attr => {
+      if (attr.trait_type === 'Art media type') {
+        this.mimeType = String(attr.value)
+      }
+    })
 
   }
 }

@@ -27,11 +27,11 @@ export default class LinkResolver extends Mixins(InlineMixin) {
   @Prop({}) public param!: string;
 
   get profileMode() {
-  	return !isShareMode
+    return !isShareMode
   }
 
   get hrefLink() {
-  	return `${window.location.origin}/${this.link}/${this.param}`
+    return `${window.location.origin}/${this.link}/${this.param}`
   }
 }
 </script>

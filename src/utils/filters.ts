@@ -8,26 +8,26 @@ export const toNumber = (value: BN | number): number => BN.isBN(value) ? Number(
 export const toString = (value: any) => (value && value.toString()) || ''
 
 export const toPercent = (value: number | undefined | BN): string => {
-	if (!value) {
-		return EMPTY
-	}
+  if (!value) {
+    return EMPTY
+  }
 
-	if (isNumber(value)) {
-		return Number.isInteger(value) ? `${value}.00 %` : `${value} %`
-	}
+  if (isNumber(value)) {
+    return Number.isInteger(value) ? `${value}.00 %` : `${value} %`
+  }
 
-	if (BN.isBN(value)) {
-		return `${value.toString()} %`
-	}
+  if (BN.isBN(value)) {
+    return `${value.toString()} %`
+  }
 
-	return EMPTY
+  return EMPTY
 }
 
 export const truncateStr = (s: string, maxLen  = 20): string => {
-	if (s.length <= maxLen) {
-		return s
-	}
-	return s.substring(0, maxLen) + '...'
+  if (s.length <= maxLen) {
+    return s
+  }
+  return s.substring(0, maxLen) + '...'
 }
 
 export const toSanitizedUrl = (value: string) => sanitizeIpfsUrl(value)

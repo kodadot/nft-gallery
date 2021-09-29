@@ -19,19 +19,19 @@ import SettingChooserExplorer from '@/components/settings/SettingChooserExplorer
 import SettingChooserDevelopment from '@/components/settings/SettingChooserDevelopment.vue'
 
 @Component({
-	components: {
-		SettingChooser,
-		SettingChooserExplorer,
-		SettingChooserDevelopment
-	},
+  components: {
+    SettingChooser,
+    SettingChooserExplorer,
+    SettingChooserDevelopment
+  },
 })
 export default class General extends Vue {
 
-	// DEV: Not happy about this
-	protected refresh() {
-		window.sessionStorage.removeItem('vuex')
-		window.location.reload()
-	}
+  // DEV: Not happy about this
+  protected refresh() {
+    window.sessionStorage.removeItem('vuex')
+    window.location.reload()
+  }
 
 }
 </script>

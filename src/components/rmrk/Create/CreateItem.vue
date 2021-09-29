@@ -80,12 +80,12 @@ import { resolveMedia } from '../utils'
 import { MediaType } from '../types'
 
 @Component({
-	components: {
-		AttributeTagInput: () => import('./AttributeTagInput.vue'),
-		BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-		MetadataUpload: () => import('./DropUpload.vue'),
-		Tooltip: () => import('@/components/shared/Tooltip.vue'),
-	}
+  components: {
+    AttributeTagInput: () => import('./AttributeTagInput.vue'),
+    BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+    MetadataUpload: () => import('./DropUpload.vue'),
+    Tooltip: () => import('@/components/shared/Tooltip.vue'),
+  }
 })
 export default class CreateItem extends Vue {
   @PropSync('name', { type: String }) vName!: string
@@ -102,25 +102,25 @@ export default class CreateItem extends Vue {
   @Prop(Number) public alreadyMinted!: number;
 
   protected updateMeta(value: number) {
-  	console.log(typeof value, value)
-  	this.vPrice = value
+    console.log(typeof value, value)
+    this.vPrice = value
   }
 
   get fileType() {
-  	return resolveMedia(this.vFile?.type)
+    return resolveMedia(this.vFile?.type)
   }
 
   get secondaryFileVisible() {
-  	const fileType = this.fileType
-  	return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+    const fileType = this.fileType
+    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
   }
 
   get hasPrice() {
-  	return Number(this.vPrice)
+    return Number(this.vPrice)
   }
 
   get clickableMax() {
-  	return (this.max || Infinity) - this.alreadyMinted
+    return (this.max || Infinity) - this.alreadyMinted
   }
 
 

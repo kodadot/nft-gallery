@@ -6,15 +6,15 @@ import { Component, Vue } from 'vue-property-decorator'
 */
 @Component
 export default class ChainMixin extends Vue {
-	get chainProperties() {
-		return this.$store.getters.getChainProperties
-	}
+  get chainProperties() {
+    return this.$store.getters.getChainProperties
+  }
 
-	get decimals(): number {
-		return this.chainProperties.tokenDecimals
-	}
+  get decimals(): number {
+    return this.chainProperties.tokenDecimals
+  }
 
-	get unit(): string {
-		return this.chainProperties.tokenSymbol
-	}
+  get unit(): string {
+    return this.chainProperties.tokenSymbol
+  }
 }

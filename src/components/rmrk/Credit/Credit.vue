@@ -35,7 +35,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
 
 const components = {
-	AccountSelect
+  AccountSelect
 }
 
 @Component({ components })

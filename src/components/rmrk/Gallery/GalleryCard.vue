@@ -58,8 +58,8 @@ import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils'
 import { NFT } from '../service/scheme'
 
 const components = {
-	LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
-	Money: () => import('@/components/shared/format/Money.vue'),
+  LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
 
 }
 
@@ -81,33 +81,33 @@ export default class GalleryCard extends Vue {
 
   async mounted() {
 
-  	if (this.metadata) {
-  		const meta = await get(this.metadata)
-  		if (meta) {
-  			this.image = getSanitizer(meta.image || '')(meta.image || '')
-  			this.title = meta.name
-  		} else {
-  			const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT, getSanitizer(this.metadata, undefined, 'permafrost'))
-  			this.image = getSanitizer(m.image || '')(m.image || '')
-  			this.title = m.name
-  			update(this.metadata, () => m)
-  		}
-  	}
+    if (this.metadata) {
+      const meta = await get(this.metadata)
+      if (meta) {
+        this.image = getSanitizer(meta.image || '')(meta.image || '')
+        this.title = meta.name
+      } else {
+        const m = await fetchNFTMetadata({ metadata: this.metadata } as NFT, getSanitizer(this.metadata, undefined, 'permafrost'))
+        this.image = getSanitizer(m.image || '')(m.image || '')
+        this.title = m.name
+        update(this.metadata, () => m)
+      }
+    }
   }
 
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
-  	if (shouldUpdate(value, oldVal)) {
-  		this.accountIsCurrentOwner()
-  	}
+    if (shouldUpdate(value, oldVal)) {
+      this.accountIsCurrentOwner()
+    }
   }
 
   get accountId() {
-  	return this.$store.getters.getAuthAddress
+    return this.$store.getters.getAuthAddress
   }
 
   public accountIsCurrentOwner() {
-  	return this.accountId === this.currentOwner
+    return this.accountId === this.currentOwner
   }
 }
 </script>
@@ -135,7 +135,7 @@ export default class GalleryCard extends Vue {
     .ff-canvas {
       border-radius: 8px;
     }
-  	transition: all 0.3s;
+    transition: all 0.3s;
 
     .card-image{
       &__emotes {

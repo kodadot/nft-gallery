@@ -34,7 +34,7 @@
                 <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
                  medida que nuevas funciones en KodaDot vayan apareciendo</a> y estamos  <b>tratando de invitar a mas desarrolladores a nuestros circulos poniendo recompensas en problemas</b>.
                 Cualquiera podrá unirse y ayudar con nuestro esfuerzo.
-              </p></br>
+              </p><br>
               <p>
                 Como nos gustaría establecer nuestro vector de acumulación para el fondo de sostenibilidad e introducir  <b>una pequeña tarifa gracias a que podra mintear su obra</b> a través de KodaDot, agregaremos un botón en el que aún puede optar por no participar voluntariamente y poder mintear su obra sin apoyarnos en lo absoluto.
               </p><br>
@@ -52,10 +52,10 @@
                 <a href="https://dictionary.reverso.net/spanish-definition/sustentabilidad">Definicion de Sustentabilidad</a>
               </h1>
               <h1 class="subtitle">sustantivo</h1>
-              <p>
+              <ul>
                 <li>Es la abilidad de sostener o apoyar.</li>
                 <li>Ciencia Ambiental. Es la cualidad de no ser dañino al Ambiente o estar agotando los recursos naturales por lo tanto se estaria apoyando el balance ecologico a una visión a largo plazo.</li>
-              </p>
+              </ul>
             </div>
           </div>
         </div>
@@ -69,18 +69,18 @@ import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsSustainibility>({
-	metaInfo() {
-		return {
-			meta: [
-				{ property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
-				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-				{ property: 'og:description', content: 'KodaDot: Sustainibility mission'},
-				{ property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
-				{ property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
-				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-			]
-		}
-	}
+  metaInfo() {
+    return {
+      meta: [
+        { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
+        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
+        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
+        { property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
+        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+      ]
+    }
+  }
 })
 export default class EsSustainibility extends Vue {
 

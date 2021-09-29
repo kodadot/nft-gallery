@@ -32,31 +32,31 @@ export default class Reader extends Vue {
 
 
   private handleRmrk() {
-  	const { rmrkString, blockNumber, hash, handleRmrkString } = this
-  	if (rmrkString) {
-  		handleRmrkString(rmrkString)
-  		return
-  	}
+    const { rmrkString, blockNumber, hash, handleRmrkString } = this
+    if (rmrkString) {
+      handleRmrkString(rmrkString)
+      return
+    }
 
-  	if (blockNumber) {
-  		// pass
-  		return
-  	}
+    if (blockNumber) {
+      // pass
+      return
+    }
 
-  	if (hash) {
-  		// pass
-  		return
-  	}
+    if (hash) {
+      // pass
+      return
+    }
   }
 
   private handleRmrkString(rmrkString: string) {
-  	this.rmrkView = decodeRmrkString(rmrkString)
-  	console.log(this.rmrkView)
+    this.rmrkView = decodeRmrkString(rmrkString)
+    console.log(this.rmrkView)
   }
 
   get disabled() {
-  	const { rmrkString, blockNumber, hash } = this
-  	return !(rmrkString || blockNumber || hash)
+    const { rmrkString, blockNumber, hash } = this
+    return !(rmrkString || blockNumber || hash)
   }
 }
 </script>

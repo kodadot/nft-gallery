@@ -33,11 +33,11 @@ import PasswordInput from '@/components/shared/PasswordInput.vue'
 import { emptyObject } from '@/utils/empty'
 
 @Component({
-	components: {
-		DisabledInput,
-		AccountSelect,
-		PasswordInput
-	}
+  components: {
+    DisabledInput,
+    AccountSelect,
+    PasswordInput
+  }
 })
 export default class SignMessage extends Vue {
   private password: any = '';
@@ -49,29 +49,29 @@ export default class SignMessage extends Vue {
   private currentPair: any = null;
 
   get isHexData(): string {
-  	return String(isHex(this.input))
+    return String(isHex(this.input))
   }
 
   get accountFrom(): boolean {
-  	return !!this.account.address
+    return !!this.account.address
   }
 
   private signData(): void {
-  	if (this.password) {
-  		this.account.decodePkcs8(this.password)
-  	}
+    if (this.password) {
+      this.account.decodePkcs8(this.password)
+    }
 
-  	this.signature = u8aToHex(
-  		this.account.sign(
-  			isHex(this.input)
-  				? hexToU8a(this.input)
-  				: stringToU8a(this.input)
-  		)
-  	)
+    this.signature = u8aToHex(
+      this.account.sign(
+        isHex(this.input)
+          ? hexToU8a(this.input)
+          : stringToU8a(this.input)
+      )
+    )
   }
 
   private toast(message: string): void {
-  	this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message)
   }
 }
 </script>

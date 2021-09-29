@@ -9,61 +9,61 @@ export type APIKeys = {
 }
 
 const api = Axios.create({
-	baseURL: BASE_URL,
-	headers: {
-		'Content-Type': 'application/json',
-		pinata_api_key: process.env.VUE_APP_PINATA_API_KEY,
-		pinata_secret_api_key: process.env.VUE_APP_PINATA_SECRET_API_KEY
-	},
-	withCredentials: false
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    pinata_api_key: process.env.VUE_APP_PINATA_API_KEY,
+    pinata_secret_api_key: process.env.VUE_APP_PINATA_SECRET_API_KEY
+  },
+  withCredentials: false
 })
 
 export const pinJson = async (object: any) => {
-	try {
-		const { status, data } = await api.post('pinJSONToIPFS', object)
-		console.log('[PINATA] Pin Image', status, data)
-		if (status < 400) {
-			return data.IpfsHash
-		}
-	} catch (e) {
-		throw e
-	}
+  try {
+    const { status, data } = await api.post('pinJSONToIPFS', object)
+    console.log('[PINATA] Pin Image', status, data)
+    if (status < 400) {
+      return data.IpfsHash
+    }
+  } catch (e) {
+    throw e
+  }
 }
 
 export const pinFile = async (file: Blob, keys: APIKeys): Promise<string> => {
-	const formData = new FormData()
-	formData.append('file', file)
+  const formData = new FormData()
+  formData.append('file', file)
 
-	try {
-		const { status, data } = await api.post('pinFileToIPFS', formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data;',
-				pinata_api_key: keys.pinata_api_key,
-				pinata_secret_api_key: keys.pinata_api_secret
-			}
-		})
-		console.log('[PINATA] Pin Image', status, data)
-		if (status < 400) {
-			return data.IpfsHash
-		} else {
-			throw new Error('Unable to PIN for reasons')
-		}
-	} catch (e) {
-		throw e
-	}
+  try {
+    const { status, data } = await api.post('pinFileToIPFS', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data;',
+        pinata_api_key: keys.pinata_api_key,
+        pinata_secret_api_key: keys.pinata_api_secret
+      }
+    })
+    console.log('[PINATA] Pin Image', status, data)
+    if (status < 400) {
+      return data.IpfsHash
+    } else {
+      throw new Error('Unable to PIN for reasons')
+    }
+  } catch (e) {
+    throw e
+  }
 }
 
 export const unpin = async (ipfsLink: string) => {
-	const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
-	try {
-		const { status, data } = await api.delete(`unpin/${hash}`)
-		console.log('[PINATA] Pin Image', status, data)
-		if (status < 400) {
-			return data
-		}
-	} catch (e) {
-		throw e
-	}
+  const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
+  try {
+    const { status, data } = await api.delete(`unpin/${hash}`)
+    console.log('[PINATA] Pin Image', status, data)
+    if (status < 400) {
+      return data
+    }
+  } catch (e) {
+    throw e
+  }
 }
 
 

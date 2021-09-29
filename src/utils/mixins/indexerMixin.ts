@@ -6,11 +6,11 @@ import { Component, Vue } from 'vue-property-decorator'
 */
 @Component
 export default class IndexerMixin extends Vue {
-	get indexer() {
-		return this.$store.getters.getIndexer
-	}
+  get indexer() {
+    return this.$store.getters.getIndexer
+  }
 
-	get healthy(): number {
-		return this.indexer.indexerHealthy
-	}
+  get healthy(): number {
+    return this.indexer.indexerHealthy
+  }
 }

@@ -24,9 +24,9 @@ import { blake2AsHex } from '@polkadot/util-crypto'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
-	components: {
-		DisabledInput,
-	}
+  components: {
+    DisabledInput,
+  }
 })
 export default class HashDataMessage extends Vue {
 
@@ -35,21 +35,21 @@ export default class HashDataMessage extends Vue {
   private hashedData = '';
 
   private hashData(): void {
-  	this.hashedData = blake2AsHex(
-  		isHex(this.data)
-  			? hexToU8a(this.data)
-  			: stringToU8a(this.data),
-  		256)
+    this.hashedData = blake2AsHex(
+      isHex(this.data)
+        ? hexToU8a(this.data)
+        : stringToU8a(this.data),
+      256)
   }
 
   private isHexData(): void {
-  	this.inputDataCheck = isHex(this.data)
-  		? 'Yes'
-  		: 'No'
+    this.inputDataCheck = isHex(this.data)
+      ? 'Yes'
+      : 'No'
   }
 
   private toast(message: string): void {
-  	this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message)
   }
 }
 </script>

@@ -20,17 +20,17 @@ export default class FileUpload extends Vue {
   private bytes: any = null;
 
   set file(file: any) {
-  	this.bytes = file
-  	const reader = new FileReader()
-  	reader.onload = () => {
-  		this.$emit('uploaded', reader.result)
-  	}
-  	reader.readAsText(file)
+    this.bytes = file
+    const reader = new FileReader()
+    reader.onload = () => {
+      this.$emit('uploaded', reader.result)
+    }
+    reader.readAsText(file)
   }
 
 
   get file(): any {
-  	return this.bytes
+    return this.bytes
   }
 
 }

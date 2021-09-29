@@ -37,7 +37,7 @@ export default class ViewModel extends Vue {
   //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }
 
   get poster() {
-  	return ''
+    return ''
   }
 }
 </script>
