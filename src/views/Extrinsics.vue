@@ -191,7 +191,7 @@ export default class Extrinsics extends Vue {
 
   private argMapper(arg: any): any {
     const accessor: string = arg.name.toString();
-    // @ts-ignore: Method has always value
+    // Method has always value
     return this.selectedArguments[accessor];
   }
 
