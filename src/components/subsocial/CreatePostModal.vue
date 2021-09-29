@@ -10,16 +10,16 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 const components = {
-  ModalWrapper: () => import('@/components/shared/modals/ModalWrapper.vue'),
-  PostButton: () => import('./PostButton.vue')
-};
+	ModalWrapper: () => import('@/components/shared/modals/ModalWrapper.vue'),
+	PostButton: () => import('./PostButton.vue')
+}
 
 @Component({
-  name: 'CreatePostModal',
-  components
+	name: 'CreatePostModal',
+	components
 })
 export default class CreatePostModal extends Vue {
 

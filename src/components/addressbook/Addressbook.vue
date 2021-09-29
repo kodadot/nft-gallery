@@ -35,63 +35,63 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
-import Keypair from '../shared/accounts/Keypair.vue';
-import { mapState } from 'vuex';
+import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
+import keyring from '@polkadot/ui-keyring'
+import Keypair from '../shared/accounts/Keypair.vue'
+import { mapState } from 'vuex'
 
 @Component({
-  components: {
-    Identicon,
-    Keypair,
-  },
+	components: {
+		Identicon,
+		Keypair,
+	},
 })
 
 export default class AddressBook extends Vue {
   public searchFilter: string = ''.toLowerCase();
-  public newName: string = '';
+  public newName = '';
   public keyringAccounts: any = [];
-  public theme: string = 'substrate';
+  public theme = 'substrate';
 
   public filterByName(searchFilter: string): void {
-    for (const acc of this.keyringAccounts) {
-      if (searchFilter.length === 0) {
-        acc.visible = true;
-      }
+  	for (const acc of this.keyringAccounts) {
+  		if (searchFilter.length === 0) {
+  			acc.visible = true
+  		}
 
-      if (acc.meta.name.toLowerCase().includes(searchFilter)
+  		if (acc.meta.name.toLowerCase().includes(searchFilter)
         || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
-          return result || tag.toLowerCase().includes(searchFilter); }) ) {
-        acc.visible = true;
-      } else {
-        acc.visible = false;
-      }
-    }
+        	return result || tag.toLowerCase().includes(searchFilter) }) ) {
+  			acc.visible = true
+  		} else {
+  			acc.visible = false
+  		}
+  	}
   }
 
 
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
-    if (this.isKeyringLoaded()) {
-      this.keyringAccounts = keyring.getPairs();
-    }
+  	if (this.isKeyringLoaded()) {
+  		this.keyringAccounts = keyring.getPairs()
+  	}
   }
 
   public isKeyringLoaded() {
-    return this.$store.state.keyringLoaded;
+  	return this.$store.state.keyringLoaded
   }
 
   public getIconTheme() {
-    this.theme = this.$store.state.setting.icon;
+  	this.theme = this.$store.state.setting.icon
   }
 
   public mounted(): void {
-    this.isKeyringLoaded();
-    this.mapAccounts();
-    this.getIconTheme();
-    this.filterByName(this.searchFilter);
+  	this.isKeyringLoaded()
+  	this.mapAccounts()
+  	this.getIconTheme()
+  	this.filterByName(this.searchFilter)
   }
 
 }

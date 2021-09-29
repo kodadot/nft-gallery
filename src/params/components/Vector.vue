@@ -24,16 +24,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { createType, getTypeDef } from '@polkadot/types';
-import findComponent from '@/params/components/findComponent';
-import registry from '@/params/components/typeRegistry';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { createType, getTypeDef } from '@polkadot/types'
+import findComponent from '@/params/components/findComponent'
+import registry from '@/params/components/typeRegistry'
 
 @Component({
-  name: 'Vector',
-  components: {
-    ArgumentHandler: () => import('../../components/extrinsics/ArgumentHandler.vue'),
-  },
+	name: 'Vector',
+	components: {
+		ArgumentHandler: () => import('../../components/extrinsics/ArgumentHandler.vue'),
+	},
 })
 export default class Vector extends Vue {
   @Prop() public argument!: any;
@@ -44,37 +44,37 @@ export default class Vector extends Vue {
   private results: any[] = [];
 
   public enhanceTypeDef(argument: any, index: number) {
-    return {
-      ...getTypeDef(createType(registry, argument.type).toRawType()),
-      ...argument,
-      name: index,
-    };
+  	return {
+  		...getTypeDef(createType(registry, argument.type).toRawType()),
+  		...argument,
+  		name: index,
+  	}
   }
 
   @Emit('selected')
   public selected(argument: any) {
-    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg]);
-    return { [this.argument.name.toString()]: this.results };
+  	Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
+  	return { [this.argument.name.toString()]: this.results }
   }
 
   public mounted() {
-    if (this.defaultValue) {
-      this.defaultValue.map((val) => this.add());
-    }
+  	if (this.defaultValue) {
+  		this.defaultValue.map((val) => this.add())
+  	}
   }
 
   public getDefaultValue(index: number) {
-    return this.defaultValue && this.defaultValue[index];
+  	return this.defaultValue && this.defaultValue[index]
   }
 
   private add() {
-    this.fields.push({ ...this.argument.sub });
-    this.results.push(null);
+  	this.fields.push({ ...this.argument.sub })
+  	this.results.push(null)
   }
 
   private remove() {
-    this.fields.pop();
-    this.results.pop();
+  	this.fields.pop()
+  	this.results.pop()
   }
 }
 </script>

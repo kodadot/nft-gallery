@@ -15,48 +15,48 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { RMRK } from '../types'
 import { decodeRmrkString } from '../utils'
-import { emptyObject } from '@/utils/empty';
+import { emptyObject } from '@/utils/empty'
 import RmrkNftView from './RmrkNftView.vue'
 
 const components = { RmrkNftView }
 
 @Component({ components })
 export default class Reader extends Vue {
-  private rmrkString: string = '';
-  private blockNumber: string = '';
-  private hash: string = '';
+  private rmrkString = '';
+  private blockNumber = '';
+  private hash = '';
   private rmrkView: RMRK = emptyObject<RMRK>();
 
 
   private handleRmrk() {
-    const { rmrkString, blockNumber, hash, handleRmrkString } = this
-    if (rmrkString) {
-      handleRmrkString(rmrkString)
-      return
-    }
+  	const { rmrkString, blockNumber, hash, handleRmrkString } = this
+  	if (rmrkString) {
+  		handleRmrkString(rmrkString)
+  		return
+  	}
 
-    if (blockNumber) {
-      // pass
-      return
-    }
+  	if (blockNumber) {
+  		// pass
+  		return
+  	}
 
-    if (hash) {
-      // pass
-      return
-    }
+  	if (hash) {
+  		// pass
+  		return
+  	}
   }
 
   private handleRmrkString(rmrkString: string) {
-    this.rmrkView = decodeRmrkString(rmrkString)
-    console.log(this.rmrkView)
+  	this.rmrkView = decodeRmrkString(rmrkString)
+  	console.log(this.rmrkView)
   }
 
   get disabled() {
-    const { rmrkString, blockNumber, hash } = this
-    return !(rmrkString || blockNumber || hash)
+  	const { rmrkString, blockNumber, hash } = this
+  	return !(rmrkString || blockNumber || hash)
   }
 }
 </script>

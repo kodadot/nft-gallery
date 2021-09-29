@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import AddOption from './AddOption.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import AddOption from './AddOption.vue'
 
 @Component({
-  components: {
-    AddOption,
-  },
+	components: {
+		AddOption,
+	},
 })
 export default class SettingChooser extends Vue {
   @Prop() public label!: string;
@@ -31,23 +31,23 @@ export default class SettingChooser extends Vue {
   @Prop() public addMethod!: string;
 
   get options() {
-    return this.$store.getters[this.selector];
+  	return this.$store.getters[this.selector]
   }
 
   get selected() {
-    return this.$store.getters.getSettings[this.defaultValue];
+  	return this.$store.getters.getSettings[this.defaultValue]
   }
 
   set selected(value) {
-    this.$store.dispatch(this.setter, value);
+  	this.$store.dispatch(this.setter, value)
   }
 
   get hasAdd() {
-    return this.addOption;
+  	return this.addOption
   }
 
   public handleAddedOption(nodeOption: any) {
-    this.$store.dispatch(this.addMethod, nodeOption);
+  	this.$store.dispatch(this.addMethod, nodeOption)
   }
 }
 </script>

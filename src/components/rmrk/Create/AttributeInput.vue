@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, PropSync, Prop, Emit } from 'vue-property-decorator';
+import { Component, Vue, PropSync, Prop, Emit } from 'vue-property-decorator'
 
 @Component
 export default class AttributeInput extends Vue {
@@ -33,7 +33,7 @@ export default class AttributeInput extends Vue {
 
   @Emit('remove')
   protected remove() {
-    return this.index;
+  	return this.index
   }
 }
 </script>

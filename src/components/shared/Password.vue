@@ -5,17 +5,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 export default class Password extends Vue {
   @Prop() public value!: string;
 
   get password() {
-    return this.value;
+  	return this.value
   }
 
   set password(value: string) {
-    this.$emit('input', value)
+  	this.$emit('input', value)
   }
 }
 </script>

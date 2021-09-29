@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import ArgumentHandler from './ArgumentHandler.vue';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import ArgumentHandler from './ArgumentHandler.vue'
 
 @Component({
-  components: {
-    ArgumentHandler,
-  },
+	components: {
+		ArgumentHandler,
+	},
 })
 export default class Arguments extends Vue {
   @Prop() public args!: any[];
@@ -29,23 +29,23 @@ export default class Arguments extends Vue {
   @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public getDefaultValue(index: number) {
-    if (this.defaultValues) {
-      try {
-        return this.defaultValues[index].toJSON();
-      } catch (e) {
-        return this.defaultValues[index];
-      }
-    }
+  	if (this.defaultValues) {
+  		try {
+  			return this.defaultValues[index].toJSON()
+  		} catch (e) {
+  			return this.defaultValues[index]
+  		}
+  	}
   }
 
   @Emit('selected')
   private selected(value: any) {
-    return value;
+  	return value
   }
 
   @Emit('action')
   private action(value: any) {
-    return value;
+  	return value
   }
 
 }

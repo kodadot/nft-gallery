@@ -3,35 +3,35 @@
  		<span v-for="(item, index) in icons" :key="index">
 		<b-tooltip class="p-2"
 		 :label="icons[index].label"
-		  position="is-top"
-		  >
+			position="is-top"
+			>
 			<b-icon class="property"
-			   v-if="icons[index].icon !== 'twitter'"
-		      :size="icons[index].size"
-		      :pack="icons[index].pack"
-		      :icon="icons[index].icon"
-			   v-clipboard:copy="icons[index].label"
-              @click.native="icons[index].icon === 'envelope'
-              ? openMail(icons[index].label)
-              : toast('Copied to clipboard')">
-            </b-icon>
+				 v-if="icons[index].icon !== 'twitter'"
+					:size="icons[index].size"
+					:pack="icons[index].pack"
+					:icon="icons[index].icon"
+				 v-clipboard:copy="icons[index].label"
+							@click.native="icons[index].icon === 'envelope'
+							? openMail(icons[index].label)
+							: toast('Copied to clipboard')">
+						</b-icon>
 			<b-icon class="property"
-			   v-else
-		      :size="icons[index].size"
-		      :pack="icons[index].pack"
-		      :icon="icons[index].icon"
-		  	  @click.native="navigateToTwitter(icons[index].label)"
-		    >
-		    </b-icon>
-		</b-tooltip>		
+				 v-else
+					:size="icons[index].size"
+					:pack="icons[index].pack"
+					:icon="icons[index].icon"
+					@click.native="navigateToTwitter(icons[index].label)"
+				>
+				</b-icon>
+		</b-tooltip>
  		</span>
 	</div>
 </template>
 
 <script lang="ts">
 
-import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
-import shortAddress from '@/utils/shortAddress';
+import { Component, Vue, Prop, Watch} from 'vue-property-decorator'
+import shortAddress from '@/utils/shortAddress'
 
 type Property = string | undefined;
 
@@ -49,27 +49,27 @@ export default class OnChainProperty extends Vue{
 	@Prop() public riot!: string ;
 	@Prop() public legal!: string ;
 	public icons: any = [];
-	protected id: string = '';
+	protected id = '';
 
 	public async created(){
-		await this.fetchProfile();
+		await this.fetchProfile()
 	}
 
 	protected async fetchProfile(){
-		this.id = shortAddress(this.$route.params.id);
+		this.id = shortAddress(this.$route.params.id)
 
-		this.legalVerified();
-		this.emailVerified();
-		this.twitterVerified();
-		this.webVerified();
-		this.riotVerified();
-	}	
+		this.legalVerified()
+		this.emailVerified()
+		this.twitterVerified()
+		this.webVerified()
+		this.riotVerified()
+	}
 
 
 	private verify(content: Property){
 		if(!content || content === this.id)
-			return false;
-		return true;
+			return false
+		return true
 	}
 
 	private emailVerified(){
@@ -79,7 +79,7 @@ export default class OnChainProperty extends Vue{
 				'pack': 'fas',
 				'icon': 'envelope',
 				'size': 'is-large',
-			});
+			})
 		}
 	}
 
@@ -90,7 +90,7 @@ export default class OnChainProperty extends Vue{
 				'size': 'is-large',
 				'pack': 'fab',
 				'icon': 'twitter',
-			});
+			})
 		}
 	}
 
@@ -101,7 +101,7 @@ export default class OnChainProperty extends Vue{
 				'pack': 'fas',
 				'icon': 'comment-alt',
 				'size': 'is-large',
-			});
+			})
 		}
 	}
 
@@ -112,7 +112,7 @@ export default class OnChainProperty extends Vue{
 				'pack': 'fas',
 				'icon': 'globe',
 				'size': 'is-large',
-			});
+			})
 		}
 	}
 
@@ -123,57 +123,57 @@ export default class OnChainProperty extends Vue{
 				'pack': 'fas',
 				'icon': 'user',
 				'size': 'is-large',
-			});
+			})
 		}
 	}
 
 	public toast(message: string): void {
-		this.$buefy.toast.open(message);
-  	}
-
-	public navigateToTwitter(handle: string): void {
-		window.open('https://twitter.com/' + handle.replace(/@/, ''), '_blank');
+		this.$buefy.toast.open(message)
 	}
 
-    public openMail(handle: string): void {
-      location.href = `mailto:${handle}?subject=I%20like%20your%20Creation%20on%20KodaDot&body=Hey%2C%20I've%20found%20your%20creation%20on%20KodaDot%20interesting.%0D%0ACan%20you%20please%20tell%20me%20more%20about%20it%3F`;
-    }
+	public navigateToTwitter(handle: string): void {
+		window.open('https://twitter.com/' + handle.replace(/@/, ''), '_blank')
+	}
 
-  @Watch('legal')
-  async watchLegal(newLegal: string, oldLegal: string) {
-    this.legalVerified();
-  }
+	public openMail(handle: string): void {
+		location.href = `mailto:${handle}?subject=I%20like%20your%20Creation%20on%20KodaDot&body=Hey%2C%20I've%20found%20your%20creation%20on%20KodaDot%20interesting.%0D%0ACan%20you%20please%20tell%20me%20more%20about%20it%3F`
+	}
 
-  @Watch('email')
-  async watchEmail(newEmail: string, oldEmail: string){
-  	this.emailVerified();
-  }
+	@Watch('legal')
+	async watchLegal(newLegal: string, oldLegal: string) {
+		this.legalVerified()
+	}
 
-  @Watch('twitter')
-  async watchTwitter(newTwitter: string, oldTwitter: string){
-  	this.twitterVerified();
-  }
+	@Watch('email')
+	async watchEmail(newEmail: string, oldEmail: string){
+		this.emailVerified()
+	}
 
-  @Watch('web')
-  async watchWeb(newWeb: string, oldWeb: string){
-  	this.webVerified();
-  }
+	@Watch('twitter')
+	async watchTwitter(newTwitter: string, oldTwitter: string){
+		this.twitterVerified()
+	}
 
-  @Watch('riot')
-  async watchRiot(newRiot: string, oldRiot: string){
-  	this.riotVerified();
-  }
+	@Watch('web')
+	async watchWeb(newWeb: string, oldWeb: string){
+		this.webVerified()
+	}
+
+	@Watch('riot')
+	async watchRiot(newRiot: string, oldRiot: string){
+		this.riotVerified()
+	}
 
 
-};
+}
 
 </script>
 
 <style>
 .property{
-  color : #d32e79;
-  display: flex;
-  align-items: flex-start;
+	color : #d32e79;
+	display: flex;
+	align-items: flex-start;
 }
 
 </style>

@@ -19,22 +19,22 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
-  components: {
-    DisabledInput,
-  }
+	components: {
+		DisabledInput,
+	}
 })
 export default class Collapse extends Vue {
-  private isOpen: boolean = false
+  private isOpen = false
   @Prop({default: false}) private open!: boolean;
   @Prop({default: 'title'}) private title!: string;
   @Prop() private content: any;
 
   public async mounted() {
-    this.isOpen = this.open;
+  	this.isOpen = this.open
   }
 }
 </script>

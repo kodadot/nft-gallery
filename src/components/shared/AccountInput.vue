@@ -49,16 +49,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator';
-import WithKeyring from '../../utils/WithKeyring';
-import Balance from './Balance.vue';
-import AccountNameTag from './AccountNameTag.vue';
+import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator'
+import WithKeyring from '../../utils/WithKeyring'
+import Balance from './Balance.vue'
+import AccountNameTag from './AccountNameTag.vue'
 
 @Component({
 	components: {
-    Balance,
-    Dropdown,
-    AccountNameTag,
+		Balance,
+		Dropdown,
+		AccountNameTag,
 	},
 })
 export default class Dropdown extends WithKeyring {
@@ -66,51 +66,51 @@ export default class Dropdown extends WithKeyring {
   @Prop({ default: 'all' }) public mode!: string;
   @Prop() public externalAddress!: string;
 
-	private position: string = 'is-left';
-  private selectedMetaName: string = '';
-  private selectedAccount: string = '';
-	private label: string = 'To Contacts';
-	private tooltip: string = 'Select a contact you want to send funds to.';
+	private position = 'is-left';
+  private selectedMetaName = '';
+  private selectedAccount = '';
+	private label = 'To Contacts';
+	private tooltip = 'Select a contact you want to send funds to.';
 
 	get accounts() {
-    // return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
-    return this.keyringAccounts;
+		// return this.keyringAccounts.filter((acc) => !acc.meta.isTesting);
+		return this.keyringAccounts
 	}
 
-  get selected() {
-		return this.selectedAccount;
-  }
+	get selected() {
+		return this.selectedAccount
+	}
 
 	set selected(address: string) {
-		this.selectedAccount = address;
-		this.onSelectedAccount(address);
+		this.selectedAccount = address
+		this.onSelectedAccount(address)
 	}
 
 	@Emit('selected')
 	public onSelectedAccount(address: string) {
-    const acc = this.getPair(address);
-    this.selectedMetaName = (acc.meta.name as string);
-    (window as any).acc = acc;
-		return this.getPair(address);
+		const acc = this.getPair(address)
+		this.selectedMetaName = (acc.meta.name as string);
+		(window as any).acc = acc
+		return this.getPair(address)
 	}
 
   @Watch('externalAddress')
-  public loadAddress(): void {
-    this.selectedAccount = this.externalAddress;
-  }
+	public loadAddress(): void {
+		this.selectedAccount = this.externalAddress
+	}
 
-	public mounted(): void {
-    this.gotKeys(this.mode);
-    if (this.externalAddress) {
-      this.selectedAccount = this.externalAddress;
-    }
+  public mounted(): void {
+  	this.gotKeys(this.mode)
+  	if (this.externalAddress) {
+  		this.selectedAccount = this.externalAddress
+  	}
   }
 
   private gotKeys(mode: string): void {
-		if (mode === 'accounts') {
-			this.label = 'From Accounts';
-			this.tooltip = 'The account you will send funds from.';
-		}
+  	if (mode === 'accounts') {
+  		this.label = 'From Accounts'
+  		this.tooltip = 'The account you will send funds from.'
+  	}
   }
 }
 

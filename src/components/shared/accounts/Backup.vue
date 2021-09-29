@@ -33,16 +33,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
-import FileSaver from 'file-saver';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
+import keyring from '@polkadot/ui-keyring'
+import FileSaver from 'file-saver'
 
 
 @Component({
-  components: {
-    Identicon,
-  },
+	components: {
+		Identicon,
+	},
 })
 export default class Backup extends Vue {
   @Prop(String) public address!: string;
@@ -50,34 +50,34 @@ export default class Backup extends Vue {
   @Prop({ default: 64 }) public size!: number;
 
 
-  public password: string = '';
-  public isPassValid: boolean = false;
+  public password = '';
+  public isPassValid = false;
   public validatePassword(password: string): boolean {
-    return this.isPassValid = keyring.isPassValid(password);
+  	return this.isPassValid = keyring.isPassValid(password)
   }
 
   public shortAddress(address: string): string {
-    if (address) {
-      return `${address.slice(0, 6)}...${address.slice(-6)}`;
-    }
-    return '';
+  	if (address) {
+  		return `${address.slice(0, 6)}...${address.slice(-6)}`
+  	}
+  	return ''
   }
 
   public makeBackup(address: string, password: string): void {
-    if (!address) {
-      return;
-    }
+  	if (!address) {
+  		return
+  	}
 
-    try {
-      const addressKeyring = address && keyring.getPair(address);
-      const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
-      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+  	try {
+  		const addressKeyring = address && keyring.getPair(address)
+  		const json = addressKeyring && keyring.backupAccount(addressKeyring, password)
+  		const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' })
 
-      FileSaver.saveAs(blob, `${address}.json`);
-    } catch (error) {
-      console.error(error);
-      return;
-    }
+  		FileSaver.saveAs(blob, `${address}.json`)
+  	} catch (error) {
+  		console.error(error)
+  		return
+  	}
   }
 }
 </script>

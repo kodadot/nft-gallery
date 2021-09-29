@@ -138,83 +138,83 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
-import { denyList } from '@/constants';
-import { getMany, update } from 'idb-keyval';
-import { fetchNFTMetadata } from '../rmrk/utils';
+import { Component, Vue } from 'vue-property-decorator'
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import { denyList } from '@/constants'
+import { getMany, update } from 'idb-keyval'
+import { fetchNFTMetadata } from '../rmrk/utils'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-};
+	Identity: () => import('@/components/shared/format/Identity.vue'),
+}
 @Component<Landing>({
-  metaInfo() {
-    return {
-      meta: [
-        { property: 'og:title', content: 'KodaDot - Kusama NFT Market explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
-        { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
-    }
-  },
-  components
+	metaInfo() {
+		return {
+			meta: [
+				{ property: 'og:title', content: 'KodaDot - Kusama NFT Market explorer'},
+				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+				{ property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
+				{ property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+				{ property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
+				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+			]
+		}
+	},
+	components
 })
 export default class Landing extends Vue {
 
   public publicCommunity: any = [
-    ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
-    // ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
-    ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
-    ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
-    ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
-    ['🇷🇺 Russia', 'https://t.me/kodadotru'],
-    ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
-    ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
-    ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
-    ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
-    // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
-    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
+  	['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
+  	// ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
+  	['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
+  	['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
+  	['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
+  	['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
+  	['🇷🇺 Russia', 'https://t.me/kodadotru'],
+  	['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
+  	['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
+  	['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
+  	['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
+  	// ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
+  	['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
   ]
 
   public mounted() {
-    this.fetchFirstGalleryPage();
+  	this.fetchFirstGalleryPage()
   }
 
   public async fetchFirstGalleryPage() {
-    const nfts = this.$apollo.query({
-      query: nftListWithSearch,
-      variables: {
-        first: 12,
-        offset: 0,
-        denyList,
-        search: []
-      }
-    });
+  	const nfts = this.$apollo.query({
+  		query: nftListWithSearch,
+  		variables: {
+  			first: 12,
+  			offset: 0,
+  			denyList,
+  			search: []
+  		}
+  	})
 
-    const {
-      data: { nFTEntities: { nodes: nftList } }
-    } = await nfts;
+  	const {
+  		data: { nFTEntities: { nodes: nftList } }
+  	} = await nfts
 
-    const storedPromise = getMany(
-      nftList.map(({ metadata }: any) => metadata)
-    );
+  	const storedPromise = getMany(
+  		nftList.map(({ metadata }: any) => metadata)
+  	)
 
-    const storedMetadata = await storedPromise;
+  	const storedMetadata = await storedPromise
 
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(nftList[i]);
-          update(nftList[i].metadata, () => meta);
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata');
-        }
-      }
-    });
+  	storedMetadata.forEach(async (m, i) => {
+  		if (!m) {
+  			try {
+  				const meta = await fetchNFTMetadata(nftList[i])
+  				update(nftList[i].metadata, () => meta)
+  			} catch (e) {
+  				console.warn('[ERR] unable to get metadata')
+  			}
+  		}
+  	})
 
 
   }

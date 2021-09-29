@@ -14,36 +14,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
-  components: {
-    DisabledInput
-  },
+	components: {
+		DisabledInput
+	},
 })
 export default class Summary extends Vue {
   private readonly emptyChainProperties: any =  {
-        ss58Format: '',
-        tokenDecimals: '',
-        genesisHash: '',
-        tokenSymbol:''
-    }
+  	ss58Format: '',
+  	tokenDecimals: '',
+  	genesisHash: '',
+  	tokenSymbol:''
+  }
   public chainProperties: any = this.emptyChainProperties;
-  public loading: boolean = false;
+  public loading = false;
 
   @Watch('$store.state.chainProperties')
   public mapProp(): void {
-    this.chainProperties = {...this.emptyChainProperties, ...this.$store.state.chainProperties};
+  	this.chainProperties = {...this.emptyChainProperties, ...this.$store.state.chainProperties}
   }
 
   @Watch('$store.state.loading')
   public mapLoading(): void {
-    this.loading = this.$store.state.loading
+  	this.loading = this.$store.state.loading
   }
 
   public async mounted() {
-    this.mapProp();
+  	this.mapProp()
   }
 
 

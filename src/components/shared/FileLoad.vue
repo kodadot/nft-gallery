@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator'
 
 @Component
 export default class FileLoad extends Vue {
@@ -38,21 +38,21 @@ export default class FileLoad extends Vue {
   @PropSync('accountToImport', { type: String }) private account!: any;
 
   public readAccount(address: string): string {
-    if (address) {
-      this.uiReader = JSON.parse(address);
-      return `${this.uiReader.address.slice(0, 6)}...${this.uiReader.address.slice(-6)}
-        ${this.uiReader.meta.name}`;
-    }
-    return '';
+  	if (address) {
+  		this.uiReader = JSON.parse(address)
+  		return `${this.uiReader.address.slice(0, 6)}...${this.uiReader.address.slice(-6)}
+        ${this.uiReader.meta.name}`
+  	}
+  	return ''
   }
 
   @Watch('toImport')
   public createInput(file: any): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.account = reader.result;
-    };
-    reader.readAsText(file);
+  	const reader = new FileReader()
+  	reader.onload = () => {
+  		this.account = reader.result
+  	}
+  	reader.readAsText(file)
   }
 
 }

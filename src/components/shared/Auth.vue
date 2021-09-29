@@ -17,43 +17,43 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import Connector from '@vue-polkadot/vue-api';
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import Connector from '@vue-polkadot/vue-api'
 
 const components = {
-  Avatar: () => import('@/components/shared/Avatar.vue'),
-  AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-  Money: () => import('@/components/shared/format/Money.vue')
-};
+	Avatar: () => import('@/components/shared/Avatar.vue'),
+	AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
+	Identity: () => import('@/components/shared/format/Identity.vue'),
+	Money: () => import('@/components/shared/format/Money.vue')
+}
 
 @Component({ components })
 export default class Auth extends Vue {
   @Prop({ default: 24 }) public size!: number;
-  private balance: string = '';
+  private balance = '';
 
   public mounted() {
-    if (this.account) {
-      this.$emit('input', this.account);
-      // this.calculateBalance(this.account);
-    }
+  	if (this.account) {
+  		this.$emit('input', this.account)
+  		// this.calculateBalance(this.account);
+  	}
   }
 
   set account(account: string) {
-    console.log('setAuth', account);
-    this.$store.dispatch('setAuth', { address: account });
-    // this.calculateBalance(account);
+  	console.log('setAuth', account)
+  	this.$store.dispatch('setAuth', { address: account })
+  	// this.calculateBalance(account);
   }
 
   get account() {
-    return this.$store.getters.getAuthAddress;
+  	return this.$store.getters.getAuthAddress
   }
 
   protected async calculateBalance(account: string) {
-    console.log('calling balance', account)
-    const { api } = Connector.getInstance();
-    const balance = await api?.query.system.account(account);
-    this.balance = balance?.data.free.toString();
+  	console.log('calling balance', account)
+  	const { api } = Connector.getInstance()
+  	const balance = await api?.query.system.account(account)
+  	this.balance = balance?.data.free.toString()
   }
 }
 </script>

@@ -65,22 +65,22 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsSustainibility>({
-  metaInfo() {
-    return {
-      meta: [
-        { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
-    }
-  }
+	metaInfo() {
+		return {
+			meta: [
+				{ property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
+				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+				{ property: 'og:description', content: 'KodaDot: Sustainibility mission'},
+				{ property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
+				{ property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
+				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+			]
+		}
+	}
 })
 export default class EsSustainibility extends Vue {
 

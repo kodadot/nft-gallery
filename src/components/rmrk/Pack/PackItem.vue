@@ -20,40 +20,40 @@
 </template>
 
 <script lang="ts" >
-import { emptyObject } from '@/utils/empty';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { emptyObject } from '@/utils/empty'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 // import { getInstance } from '../service/RmrkService';
-import { CompletePack } from '../service/scheme';
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils';
-import isShareMode from '@/utils/isShareMode';
+import { CompletePack } from '../service/scheme'
+import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils'
+import isShareMode from '@/utils/isShareMode'
 
 const components = {
-  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
-};
+	GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+	Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+	ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+}
 
 @Component({ components })
 export default class PackItem extends Vue {
-  private id: string = '';
+  private id = '';
   private pack: CompletePack = emptyObject<CompletePack>();
-  private isLoading: boolean = false;
+  private isLoading = false;
 
   get name() {
-    return this.pack.name || this.id
+  	return this.pack.name || this.id
   }
 
   get owner() {
-    return this.pack.owner || ''
+  	return this.pack.owner || ''
   }
 
   get nfts() {
-    return this.pack.nfts || [];
+  	return this.pack.nfts || []
   }
 
   get sharingVisible() {
-    return !isShareMode
+  	return !isShareMode
   }
 
 
@@ -84,24 +84,24 @@ export default class PackItem extends Vue {
   // }
 
   public checkId() {
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id;
-    }
+  	if (this.$route.params.id) {
+  		this.id = this.$route.params.id
+  	}
   }
 
   get iframeSettings() {
-    return { width: '100%', height: '100vh' }
+  	return { width: '100%', height: '100vh' }
   }
 
   nftMeta() {
-    // this.pack.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
-    //   const res = await call;
-    //   Vue.set(this.pack.nfts, index, {
-    //     ...this.pack.nfts[index],
-    //     ...res,
-    //     image: sanitizeIpfsUrl(res.image || '')
-    //   });
-    // });
+  	// this.pack.nfts.map(fetchNFTMetadata).forEach(async (call, index) => {
+  	//   const res = await call;
+  	//   Vue.set(this.pack.nfts, index, {
+  	//     ...this.pack.nfts[index],
+  	//     ...res,
+  	//     image: sanitizeIpfsUrl(res.image || '')
+  	//   });
+  	// });
   }
 }
 </script>

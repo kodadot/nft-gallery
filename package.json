@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "netlify-lambda build src-functions && vue-cli-service build --report",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "lambda": "netlify-lambda serve src-functions",
     "start": "vue-cli-service serve",

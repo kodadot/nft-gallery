@@ -38,7 +38,7 @@
               </h1>
               <p>
                 Nuestro inicio es añadir un interruptor a la interfaz en donde se mintean los NFTs en donde cada artista elige puede elegir si quiere apoyar a los créditos de Carbono o no. Estaremos añadiendo la etiqueta <b>🌱 carbonless</b>
-                al NFT donde luego podría rastrearse a través de la Interfaz de búsqueda y revisarse en la blockchain. Por lo tanto, los coleccionistas pueden encontrar innovador el coleccionar NFTs Carbonless. Una vez que Offsetra (u otros socios) descubran una forma de realizar pagos fiduciarios de Kusama para que se realicen las compensaciones de carbono, haremos una integración completa criptográfica nativa de extremo a extremo junto con ellos, por lo que cada NFT consistirá en un hash que dependa de Carbon Credit. 
+                al NFT donde luego podría rastrearse a través de la Interfaz de búsqueda y revisarse en la blockchain. Por lo tanto, los coleccionistas pueden encontrar innovador el coleccionar NFTs Carbonless. Una vez que Offsetra (u otros socios) descubran una forma de realizar pagos fiduciarios de Kusama para que se realicen las compensaciones de carbono, haremos una integración completa criptográfica nativa de extremo a extremo junto con ellos, por lo que cada NFT consistirá en un hash que dependa de Carbon Credit.
 
                 Para llevar la visión a Casa, estamos realmente ansiosos por trabajar junto con
                 <b><a href="https://yangwao.medium.com/planet-terraformation-forest-as-a-service-94a2633ad011">
@@ -81,26 +81,26 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsCarbonless>({
-  metaInfo() {
-    return {
-      title: 'KodaDOT se preocupa por el impacto medioambiental',
-      titleTemplate: '%s | NFT bajos en carbono',
-      meta: [
-        { name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
-        { property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
-        { property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-        { property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
-    }
-  },
-  components: {}
+	metaInfo() {
+		return {
+			title: 'KodaDOT se preocupa por el impacto medioambiental',
+			titleTemplate: '%s | NFT bajos en carbono',
+			meta: [
+				{ name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
+				{ property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+				{ property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+				{ property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
+				{ property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+				{ property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
+				{ property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+			]
+		}
+	},
+	components: {}
 })
 export default class EsCarbonless extends Vue {
 

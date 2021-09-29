@@ -53,15 +53,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
-import { u8aToString } from '@polkadot/util';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
+import keyring from '@polkadot/ui-keyring'
+import { u8aToString } from '@polkadot/util'
 
 @Component({
-  components: {
-    Identicon,
-  }
+	components: {
+		Identicon,
+	}
 })
 export default class CardRecentEvent extends Vue {
   @Prop({ default: 48 }) public size!: number;
@@ -72,16 +72,16 @@ export default class CardRecentEvent extends Vue {
   @Prop() public event!: any;
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message);
+  	this.$buefy.toast.open(message)
   }
 
   private validateAddress(address: string): boolean {
-    try {
-      const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  	try {
+  		const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address))
+  		return true
+  	} catch (error) {
+  		return false
+  	}
   }
 }
 </script>

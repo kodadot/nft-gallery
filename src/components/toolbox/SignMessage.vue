@@ -23,55 +23,55 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { KeyringPair } from '@polkadot/keyring/types';
-import keyring from '@polkadot/ui-keyring';
-import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { KeyringPair } from '@polkadot/keyring/types'
+import keyring from '@polkadot/ui-keyring'
+import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
-import PasswordInput from '@/components/shared/PasswordInput.vue';
-import { emptyObject } from '@/utils/empty';
+import PasswordInput from '@/components/shared/PasswordInput.vue'
+import { emptyObject } from '@/utils/empty'
 
 @Component({
-  components: {
-    DisabledInput,
-    AccountSelect,
-    PasswordInput
-  }
+	components: {
+		DisabledInput,
+		AccountSelect,
+		PasswordInput
+	}
 })
 export default class SignMessage extends Vue {
   private password: any = '';
   private address: any = '';
-  private input: string = '';
+  private input = '';
   private signature: any = '';
-  private inputDataCheck: string = 'No';
+  private inputDataCheck = 'No';
   private account: KeyringPair = emptyObject<KeyringPair>();
   private currentPair: any = null;
 
   get isHexData(): string {
-    return String(isHex(this.input))
+  	return String(isHex(this.input))
   }
 
   get accountFrom(): boolean {
-    return !!this.account.address
+  	return !!this.account.address
   }
 
   private signData(): void {
-    if (this.password) {
-      this.account.decodePkcs8(this.password)
-    }
+  	if (this.password) {
+  		this.account.decodePkcs8(this.password)
+  	}
 
-    this.signature = u8aToHex(
-      this.account.sign(
-        isHex(this.input)
-          ? hexToU8a(this.input)
-          : stringToU8a(this.input)
-      )
-    )
+  	this.signature = u8aToHex(
+  		this.account.sign(
+  			isHex(this.input)
+  				? hexToU8a(this.input)
+  				: stringToU8a(this.input)
+  		)
+  	)
   }
 
   private toast(message: string): void {
-    this.$buefy.toast.open(message);
+  	this.$buefy.toast.open(message)
   }
 }
 </script>

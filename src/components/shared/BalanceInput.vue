@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit, Mixins } from 'vue-property-decorator';
-import Balance from '@/params/components/Balance.vue';
-import { units as defaultUnits } from '@/params/constants';
-import { Unit } from '@/params/types';
-import shouldUpdate from '@/utils/shouldUpdate';
-import { Debounce } from 'vue-debounce-decorator';
-import ChainMixin from '@/utils/mixins/chainMixin';
+import { Component, Prop, Vue, Watch, Emit, Mixins } from 'vue-property-decorator'
+import Balance from '@/params/components/Balance.vue'
+import { units as defaultUnits } from '@/params/constants'
+import { Unit } from '@/params/types'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { Debounce } from 'vue-debounce-decorator'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 const components = { Balance }
 
@@ -32,41 +32,41 @@ type BalanceType = {
 export default class BalanceInput extends Mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
-  private selectedUnit: number = 1;
+  private selectedUnit = 1;
   @Prop({ default: 'balance' }) public label!: string;
   @Prop({ default: true }) public calculate!: boolean;
 
   get inputValue(): number {
-    return this.value;
+  	return this.value
   }
 
   set inputValue(value: number) {
-    this.handleInput(value);
+  	this.handleInput(value)
   }
 
   formatSelectedValue(value: number): number {
-    return  value * (10**this.decimals) * this.selectedUnit
+  	return  value * (10**this.decimals) * this.selectedUnit
   }
 
   get calculatedBalance() {
-    return this.formatSelectedValue(this.inputValue)
+  	return this.formatSelectedValue(this.inputValue)
   }
 
   protected mapper(unit: Unit) {
-    if (unit.name === '-') {
-      return { ...unit, name: this.unit }
-    }
-    return unit
+  	if (unit.name === '-') {
+  		return { ...unit, name: this.unit }
+  	}
+  	return unit
   }
 
   public mounted() {
-    this.units = defaultUnits.map(this.mapper);
+  	this.units = defaultUnits.map(this.mapper)
   }
 
   @Debounce(200)
   @Emit('input')
   public handleInput(value: number) {
-    return this.calculate ? this.formatSelectedValue(value) : value;
+  	return this.calculate ? this.formatSelectedValue(value) : value
   }
 }
 </script>

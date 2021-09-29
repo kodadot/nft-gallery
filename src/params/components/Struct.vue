@@ -13,16 +13,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { createType, getTypeDef } from '@polkadot/types';
-import findComponent from '@/params/components/findComponent';
-import registry from '@/params/components/typeRegistry';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { createType, getTypeDef } from '@polkadot/types'
+import findComponent from '@/params/components/findComponent'
+import registry from '@/params/components/typeRegistry'
 
 @Component({
-  name: 'Struct',
-  components: {
-    ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue')
-  },
+	name: 'Struct',
+	components: {
+		ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue')
+	},
 })
 export default class Struct extends Vue {
   @Prop() public argument!: any;
@@ -30,35 +30,35 @@ export default class Struct extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   get fields(): any[] {
-    return this.argument && this.argument.sub || [];
+  	return this.argument && this.argument.sub || []
   }
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+  	console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+  	this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-    return '';
+  	return ''
   }
 
   public getDefaultName(index: number) {
-    return Object.keys(this.defaultValue || {})[index] || index;
+  	return Object.keys(this.defaultValue || {})[index] || index
   }
 
   public getDefaultValue(index: number) {
-    return Object.values(this.defaultValue || {})[index] || index;
+  	return Object.values(this.defaultValue || {})[index] || index
   }
 
   public enhanceTypeDef(argument: any, index: number) {
-    console.log(this.defaultValue)
-    return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: this.getDefaultName(index) };
+  	console.log(this.defaultValue)
+  	return { ...getTypeDef(createType(registry, argument.type).toRawType()), ...argument, name: this.getDefaultName(index) }
   }
 
   public selected(argument: any) {
-    const component = findComponent(argument);
-    return component;
+  	const component = findComponent(argument)
+  	return component
   }
 }
 </script>

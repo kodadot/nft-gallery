@@ -54,8 +54,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 @Component
 export default class Card extends Vue {
@@ -67,9 +67,9 @@ export default class Card extends Vue {
   @Prop(String) public lifetime!: string;
 
   getExplorerUrl(value: string) {
-    return urlBuilderBlockNumber(value,
-      this.$store.state.explorer.chain,
-      this.$store.state.explorer.provider)
+  	return urlBuilderBlockNumber(value,
+  		this.$store.state.explorer.chain,
+  		this.$store.state.explorer.provider)
   }
 }
 </script>

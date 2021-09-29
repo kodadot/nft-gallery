@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { Attribute } from '../service/scheme';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Attribute } from '../service/scheme'
 
 const components = {
-  AttributeInput: () => import('./AttributeInput.vue')
-};
+	AttributeInput: () => import('./AttributeInput.vue')
+}
 
 @Component({ components })
 export default class extends Vue {
@@ -46,30 +46,30 @@ export default class extends Vue {
   protected attributes: Attribute[] = [];
 
   addAttribute() {
-    if (!this.max || (this.max && this.attributes.length < this.max)) {
-      this.attributes.push({
-        value: '',
-        trait_type: ''
-      });
-    }
+  	if (!this.max || (this.max && this.attributes.length < this.max)) {
+  		this.attributes.push({
+  			value: '',
+  			trait_type: ''
+  		})
+  	}
   }
 
   get disabled() {
-    return this.max > 0 && this.attributes.length === this.max;
+  	return this.max > 0 && this.attributes.length === this.max
   }
 
   removeAttribute(index: number) {
-    this.attributes.splice(index, 1);
+  	this.attributes.splice(index, 1)
   }
 
   @Watch('attributes', { deep: true })
   onAttributesChange(attributes: Attribute[]) {
-    this.handleInput(attributes);
+  	this.handleInput(attributes)
   }
 
   @Emit('input')
   handleInput(attributes: Attribute[]) {
-    return attributes;
+  	return attributes
   }
 }
 </script>

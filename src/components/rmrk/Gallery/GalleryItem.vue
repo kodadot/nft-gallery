@@ -116,200 +116,200 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
-import { NFT, NFTMetadata, Emote } from '../service/scheme';
-import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils';
-import { emptyObject } from '@/utils/empty';
+import { Component, Vue } from 'vue-property-decorator'
+import { NFT, NFTMetadata, Emote } from '../service/scheme'
+import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils'
+import { emptyObject } from '@/utils/empty'
 
-import AvailableActions from './AvailableActions.vue';
-import { notificationTypes, showNotification } from '@/utils/notification';
+import AvailableActions from './AvailableActions.vue'
+import { notificationTypes, showNotification } from '@/utils/notification'
 // import Money from '@/components/shared/format/Money.vue';
 // import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 // import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 // import VueMarkdown from 'vue-markdown-render'
 
-import isShareMode from '@/utils/isShareMode';
-import nftById from '@/queries/nftById.graphql';
-import { fetchNFTMetadata } from '../utils';
-import { get, set } from 'idb-keyval';
-import { MediaType } from '../types';
-import axios from 'axios';
-import { exist } from './Search/exist';
+import isShareMode from '@/utils/isShareMode'
+import nftById from '@/queries/nftById.graphql'
+import { fetchNFTMetadata } from '../utils'
+import { get, set } from 'idb-keyval'
+import { MediaType } from '../types'
+import axios from 'axios'
+import { exist } from './Search/exist'
 
 @Component<GalleryItem>({
-  metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`;
-    return {
-      title: this.nft.name,
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: (this.meta.description as string) },
-        { property: 'og:title', content: (this.nft.name as string) },
-        { property: 'og:description', content: (this.meta.description as string) },
-        { property: 'og:image', content: (image)},
-        { property: 'og:video', content: (this.meta.image as string) },
-        { property: 'og:author', content: (this.nft.currentOwner as string) },
-        { property: 'twitter:title', content: (this.nft.name as string) },
-        { property: 'twitter:description', content: (this.meta.description as string) },
-        { property: 'twitter:image', content: (image)},
-      ]
-    }
-  },
-  components: {
-    Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
-    Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
-    History: () => import('@/components/rmrk/Gallery/History.vue'),
-    Money: () => import('@/components/shared/format/Money.vue'),
-    Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
-    Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-    Appreciation: () => import('./Appreciation.vue'),
-    MediaResolver: () => import('../Media/MediaResolver.vue'),
-    // PackSaver: () => import('../Pack/PackSaver.vue'),
-    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    VueMarkdown: () => import('vue-markdown-render')
-  }
+	metaInfo() {
+		const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`
+		return {
+			title: this.nft.name,
+			titleTemplate: '%s | Low Carbon NFTs',
+			meta: [
+				{ name: 'description', content: (this.meta.description as string) },
+				{ property: 'og:title', content: (this.nft.name as string) },
+				{ property: 'og:description', content: (this.meta.description as string) },
+				{ property: 'og:image', content: (image)},
+				{ property: 'og:video', content: (this.meta.image as string) },
+				{ property: 'og:author', content: (this.nft.currentOwner as string) },
+				{ property: 'twitter:title', content: (this.nft.name as string) },
+				{ property: 'twitter:description', content: (this.meta.description as string) },
+				{ property: 'twitter:image', content: (image)},
+			]
+		}
+	},
+	components: {
+		Auth: () => import('@/components/shared/Auth.vue'),
+		AvailableActions: () => import('./AvailableActions.vue'),
+		Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
+		// MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
+		History: () => import('@/components/rmrk/Gallery/History.vue'),
+		Money: () => import('@/components/shared/format/Money.vue'),
+		Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
+		Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
+		Appreciation: () => import('./Appreciation.vue'),
+		MediaResolver: () => import('../Media/MediaResolver.vue'),
+		// PackSaver: () => import('../Pack/PackSaver.vue'),
+		BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
+		IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+		VueMarkdown: () => import('vue-markdown-render')
+	}
 })
 export default class GalleryItem extends Vue {
-  private id: string = '';
+  private id = '';
   // private accountId: string = '';
-  private passsword: string = '';
+  private passsword = '';
   private nft: NFT = emptyObject<NFT>();
-  private imageVisible: boolean = true;
-  private viewMode: string = 'default';
-  private isFullScreenView: boolean = false;
-  public isLoading: boolean = true;
-  public mimeType: string = '';
+  private imageVisible = true;
+  private viewMode = 'default';
+  private isFullScreenView = false;
+  public isLoading = true;
+  public mimeType = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
   public emotes: Emote[] = []
-  public message: string = '';
+  public message = '';
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+  	return this.$store.getters.getAuthAddress
   }
 
   public async created() {
-    this.checkId();
-    exist(this.$route.query.message, (val) => {
-      this.message = val === 'congrats' ? val : ''
-      this.$router.replace(
+  	this.checkId()
+  	exist(this.$route.query.message, (val) => {
+  		this.message = val === 'congrats' ? val : ''
+  		this.$router.replace(
         { query: null } as any
-        );
-    });
+  		)
+  	})
 
 
-    try {
-      // const nft = await rmrkService.getNFT(this.id);
-     this.$apollo.addSmartQuery('nft',{
-        query: nftById,
-        variables: {
-          id: this.id
-        },
-        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
-        result: () => this.fetchMetadata(),
-        pollInterval: 5000
-      })
+  	try {
+  		// const nft = await rmrkService.getNFT(this.id);
+  		this.$apollo.addSmartQuery('nft',{
+  			query: nftById,
+  			variables: {
+  				id: this.id
+  			},
+  			update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
+  			result: () => this.fetchMetadata(),
+  			pollInterval: 5000
+  		})
 
-      // console.log(nft);
+  		// console.log(nft);
 
-      // this.nft = {
-      //   ...nft,
-      //   image: sanitizeIpfsUrl(nft.image || ''),
-      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      // };
-      // }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn);
-      // console.warn(e);
-    }
+  		// this.nft = {
+  		//   ...nft,
+  		//   image: sanitizeIpfsUrl(nft.image || ''),
+  		//   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
+  		// };
+  		// }
+  	} catch (e) {
+  		showNotification(`${e}`, notificationTypes.warn)
+  		// console.warn(e);
+  	}
 
-    this.isLoading = false;
+  	this.isLoading = false
   }
 
   onImageError(e: any) {
-    console.warn('Image error',e)
+  	console.warn('Image error',e)
   }
 
   public async fetchMetadata() {
-    // console.log(this.nft);
+  	// console.log(this.nft);
 
-    if (this.nft['metadata'] && !this.meta['image']) {
-      const m = await get(this.nft.metadata)
+  	if (this.nft['metadata'] && !this.meta['image']) {
+  		const m = await get(this.nft.metadata)
 
-      const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'));
-      console.log(meta);
+  		const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'))
+  		console.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image);
-      this.meta = {
-        ...meta,
-        image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image, 'pinata')
-      }
+  		const imageSanitizer = getSanitizer(meta.image)
+  		this.meta = {
+  			...meta,
+  			image: imageSanitizer(meta.image),
+  			animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image, 'pinata')
+  		}
 
-      // console.log(this.meta)
-      if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url);
-        this.mimeType = headers['content-type'];
-        // console.log(this.mimeType)
-        const mediaType = resolveMedia(this.mimeType);
-        this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
-          t => t === mediaType
-        );
-      }
+  		// console.log(this.meta)
+  		if (this.meta.animation_url && !this.mimeType) {
+  			const { headers } = await axios.head(this.meta.animation_url)
+  			this.mimeType = headers['content-type']
+  			// console.log(this.mimeType)
+  			const mediaType = resolveMedia(this.mimeType)
+  			this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
+  				t => t === mediaType
+  			)
+  		}
 
-      if (!m) {
-        set(this.nft.metadata, meta)
-      }
-    }
+  		if (!m) {
+  			set(this.nft.metadata, meta)
+  		}
+  	}
   }
 
   public checkId() {
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id;
-    }
+  	if (this.$route.params.id) {
+  		this.id = this.$route.params.id
+  	}
   }
 
   public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default';
+  	this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
   }
 
   public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView;
+  	this.isFullScreenView = !this.isFullScreenView
   }
 
   public minimize(): void {
-    this.isFullScreenView = false;
+  	this.isFullScreenView = false
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message);
+  	this.$buefy.toast.open(message)
   }
 
   get hasPrice() {
-    return Number(this.nft.price) > 0;
+  	return Number(this.nft.price) > 0
   }
 
   get nftId() {
-    const { id } = this.nft;
-    return id;
+  	const { id } = this.nft
+  	return id
   }
 
   get detailVisible() {
-    return !isShareMode
+  	return !isShareMode
   }
 
   protected handleAction(deleted: boolean) {
-    if (deleted) {
-      showNotification(`INSTANCE REMOVED`, notificationTypes.warn)
-    }
+  	if (deleted) {
+  		showNotification('INSTANCE REMOVED', notificationTypes.warn)
+  	}
   }
 
   protected handleUnlist() {
-    // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft();
+  	// call unlist function from the AvailableActions component
+  	(this.$refs.actions as AvailableActions).unlistNft()
   }
 
 }

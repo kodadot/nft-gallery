@@ -98,22 +98,22 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { Column, Row } from './types';
-import { columns, nftFn } from './utils';
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import { denyList } from '@/constants';
-import { GenericAccountId } from '@polkadot/types/generic/AccountId';
-import { get } from 'idb-keyval';
-import { identityStore } from '@/utils/idbStore';
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+import { Column, Row } from './types'
+import { columns, nftFn } from './utils'
+import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
+import { spotlightAggQuery } from '../rmrk/Gallery/Search/query'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import { denyList } from '@/constants'
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { get } from 'idb-keyval'
+import { identityStore } from '@/utils/idbStore'
 type Address = string | GenericAccountId | undefined;
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-  SpotlightDetail: () => import('./SpotlightDetail.vue')
-};
+	Identity: () => import('@/components/shared/format/Identity.vue'),
+	SpotlightDetail: () => import('./SpotlightDetail.vue')
+}
 
 @Component({ components })
 export default class SpotlightTable extends Mixins(TransactionMixin) {
@@ -121,46 +121,46 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   protected data: Row[] = [];
   protected columns: Column[] = columns;
   protected usersWithIdentity: Row[] = [];
-  protected toggleUsersWithIdentity: boolean = false;
+  protected toggleUsersWithIdentity = false;
 
   async created() {
-    this.isLoading = true;
-    const collections = await this.$apollo.query({
-      query: collectionIssuerList,
-      variables: {
-        denyList
-      }
-    });
+  	this.isLoading = true
+  	const collections = await this.$apollo.query({
+  		query: collectionIssuerList,
+  		variables: {
+  			denyList
+  		}
+  	})
 
-    const {
-      data: { collectionEntities }
-    } = collections;
+  	const {
+  		data: { collectionEntities }
+  	} = collections
 
-    this.data = spotlightAggQuery(
-      collectionEntities?.nodes?.map(nftFn)
-    ) as Row[];
+  	this.data = spotlightAggQuery(
+  		collectionEntities?.nodes?.map(nftFn)
+  	) as Row[]
 
-    for (let index = 0; index < this.data.length; index++) {
-      const result = await this.identityOf(this.data[index].id);
-      if (result && Object.keys(result).length) {
-        this.usersWithIdentity[index] = this.data[index];
-      }
-    }
+  	for (let index = 0; index < this.data.length; index++) {
+  		const result = await this.identityOf(this.data[index].id)
+  		if (result && Object.keys(result).length) {
+  			this.usersWithIdentity[index] = this.data[index]
+  		}
+  	}
 
-    this.isLoading = false;
+  	this.isLoading = false
   }
 
   public async identityOf(account: Address) {
-	  const address: string = this.resolveAddress(account);
-	  const identity = await get(address, identityStore);
-	  return identity;
-	}
+	  const address: string = this.resolveAddress(account)
+	  const identity = await get(address, identityStore)
+	  return identity
+  }
 
-	private resolveAddress(account: Address): string {
+  private resolveAddress(account: Address): string {
 	  return account instanceof GenericAccountId
 	    ? account.toString()
-	    : account || '';
-	}
+	    : account || ''
+  }
 }
 </script>
 <style>

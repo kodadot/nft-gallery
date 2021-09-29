@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { isAccountLocked } from '@/utils/account'
 
 @Component
@@ -27,13 +27,13 @@ export default class PasswordInput extends Vue {
   // }
 
   get accountLocked(): boolean | string {
-    return this.account && isAccountLocked(this.account)
+  	return this.account && isAccountLocked(this.account)
   }
 
 
   @Emit('input')
   private handlePassword(password: string) {
-    return password;
+  	return password
   }
 
 }

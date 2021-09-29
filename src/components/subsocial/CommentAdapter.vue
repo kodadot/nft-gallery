@@ -8,77 +8,77 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { PostType } from './types'
-import { resolveSubsocialApi } from './api';
+import { resolveSubsocialApi } from './api'
 
 const components = {
-  Comment: () => import('./Comment.vue'),
-  CommentWrapper: () => import('./CommentWrapper.vue'),
-  Reply: () => import('./Reply.vue'),
+	Comment: () => import('./Comment.vue'),
+	CommentWrapper: () => import('./CommentWrapper.vue'),
+	Reply: () => import('./Reply.vue'),
 }
 
 @Component({
-  name: 'CommentAdapter',
-  components
+	name: 'CommentAdapter',
+	components
 })
 export default class CommentAdapter extends Vue {
   @Prop() public comment!: PostType;
   @Prop(Number) public index!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
-  protected postId: string = '';
-  protected replyVisible: boolean = false;
+  protected postId = '';
+  protected replyVisible = false;
 
   get message() {
-    return this.comment?.content?.body
+  	return this.comment?.content?.body
   }
 
   get account() {
-    return this.commentStruct?.owner.toHuman()
+  	return this.commentStruct?.owner.toHuman()
   }
 
   get spaceId() {
-    return this.commentStruct?.space_id.toHuman();
+  	return this.commentStruct?.space_id.toHuman()
   }
 
   get canReply() {
-    return this.replyVisible
+  	return this.replyVisible
   }
 
   get extension() {
-    const extension = this.commentStruct?.extension
-    return (extension?.isComment && extension?.asComment) || (extension as any).Comment
+  	const extension = this.commentStruct?.extension
+  	return (extension?.isComment && extension?.asComment) || (extension as any).Comment
   }
 
   get commentStruct() {
-    return this.comment?.struct
+  	return this.comment?.struct
   }
 
   get upvotes() {
-    return this.commentStruct?.upvotes_count.toNumber()
+  	return this.commentStruct?.upvotes_count.toNumber()
   }
 
   get downvotes() {
-    return this.commentStruct?.downvotes_count.toNumber()
+  	return this.commentStruct?.downvotes_count.toNumber()
   }
 
   get replyCount() {
-    return this.commentStruct?.replies_count.toNumber()
+  	return this.commentStruct?.replies_count.toNumber()
   }
 
   reloadComments() {
-    this.replyVisible = false;
-    const post = this.postId;
-    this.postId = '';
-    setTimeout(() => this.postId = post, 500)
+  	this.replyVisible = false
+  	const post = this.postId
+  	this.postId = ''
+  	setTimeout(() => this.postId = post, 500)
   }
 
   refetch() {
-    this.$emit('change', this.index)
+  	this.$emit('change', this.index)
   }
 
   public async mounted() {
-    this.postId = this.comment?.struct.id.toString() || '';
+  	this.postId = this.comment?.struct.id.toString() || ''
   }
 
 }

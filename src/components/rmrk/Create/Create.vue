@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import CreateCollection from './CreateCollection.vue'
 
 @Component({
-  components: {
-    CreateCollection
-  }
+	components: {
+		CreateCollection
+	}
 })
 export default class Create extends Vue {
 }

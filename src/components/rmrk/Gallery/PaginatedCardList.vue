@@ -11,14 +11,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { DocumentNode } from 'graphql';
-import { NFTWithMeta } from '../service/scheme';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { DocumentNode } from 'graphql'
+import { NFTWithMeta } from '../service/scheme'
 
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
-  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue')
-};
+	GalleryCardList: () => import('./GalleryCardList.vue'),
+	Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue')
+}
 
 @Component({ components })
 export default class PaginatedCardList extends Vue {
@@ -35,33 +35,33 @@ export default class PaginatedCardList extends Vue {
   protected items: NFTWithMeta[] = [];
 
   get offset() {
-    return this.currentValue * this.first - this.first;
+  	return this.currentValue * this.first - this.first
   }
 
   created() {
-    this.$apollo.addSmartQuery('items', {
-        query: this.query,
-        manual: true,
-        // update: ({ nFTEntities }) => nFTEntities.nodes,
-        loadingKey: 'isLoading',
-        result: this.handleResult,
-        variables: () => {
-          return {
-            account: this.account,
-            first: this.first,
-            offset: this.offset
-          };
-        },
-        fetchPolicy: 'cache-and-network'
-      });
+  	this.$apollo.addSmartQuery('items', {
+  		query: this.query,
+  		manual: true,
+  		// update: ({ nFTEntities }) => nFTEntities.nodes,
+  		loadingKey: 'isLoading',
+  		result: this.handleResult,
+  		variables: () => {
+  			return {
+  				account: this.account,
+  				first: this.first,
+  				offset: this.offset
+  			}
+  		},
+  		fetchPolicy: 'cache-and-network'
+  	})
   }
 
   protected async handleResult({ data }: any) {
-    if (data) {
-      this.total = data.nFTEntities.totalCount;
-      this.items = data.nFTEntities.nodes;
-      this.$emit('change', this.total);
-    }
+  	if (data) {
+  		this.total = data.nFTEntities.totalCount
+  		this.items = data.nFTEntities.nodes
+  		this.$emit('change', this.total)
+  	}
   }
 
 

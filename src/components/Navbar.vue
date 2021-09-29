@@ -89,68 +89,68 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import LocaleChanger from '@/components/shared/SwitchLocale.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
-import i18n from '@/i18n';
+import i18n from '@/i18n'
 
 @Component({
-  components: {
-    LocaleChanger,
-    NavbarProfileDropdown
-  }
+	components: {
+		LocaleChanger,
+		NavbarProfileDropdown
+	}
 })
 export default class NavbarMenu extends Vue {
   private color: string = getCurrentColor()
   public navbar: any = [
-    {
-      name: i18n.t('Gallery'),
-      tag: 'router-link',
-      to: { name: 'nft' },
-      strong: true
-    },
+  	{
+  		name: i18n.t('Gallery'),
+  		tag: 'router-link',
+  		to: { name: 'nft' },
+  		strong: true
+  	},
   ]
   public navbarExtra: any = [
-    {
-      name: i18n.t('Accounts'),
-      icon: 'users',
-      to: { name: 'accounts' },
-      tag: 'router-link',
-    },
-    {
-      name: i18n.t('Credit'),
-      icon: 'users',
-      to: { name: 'rmrkCredit' },
-      tag: 'router-link',
-      strong: true
-    },
-    {
-      name: i18n.t('Transfer'),
-      icon: 'paper-plane',
-      to: { name: 'transfer' },
-      tag: 'router-link',
-    },
-    {
-      name: i18n.t('Settings'),
-      icon: 'cogs',
-      tag: 'router-link',
-      to: { name: 'settings' },
-    },
+  	{
+  		name: i18n.t('Accounts'),
+  		icon: 'users',
+  		to: { name: 'accounts' },
+  		tag: 'router-link',
+  	},
+  	{
+  		name: i18n.t('Credit'),
+  		icon: 'users',
+  		to: { name: 'rmrkCredit' },
+  		tag: 'router-link',
+  		strong: true
+  	},
+  	{
+  		name: i18n.t('Transfer'),
+  		icon: 'paper-plane',
+  		to: { name: 'transfer' },
+  		tag: 'router-link',
+  	},
+  	{
+  		name: i18n.t('Settings'),
+  		icon: 'cogs',
+  		tag: 'router-link',
+  		to: { name: 'settings' },
+  	},
   ]
   private navbarExternal: any = [
-    {
-      name: 'Twitter',
-      tag: 'a',
-      href: 'https://twitter.com/Kodadot'
-    }
+  	{
+  		name: 'Twitter',
+  		tag: 'a',
+  		href: 'https://twitter.com/Kodadot'
+  	}
   ]
 
-  // get chainColor() {
-  //   return {
-  //     'border-bottom': `4px ${this.color} solid`
-  //   }
-  // }
+	// get chainColor() {
+	//   return {
+	//     'border-bottom': `4px ${this.color} solid`
+	//   }
+	// }
 }
 </script>
 

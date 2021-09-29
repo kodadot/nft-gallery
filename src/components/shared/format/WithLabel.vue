@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
-  name: 'WithLabel'
+	name: 'WithLabel'
 })
 export default class WithLabel extends Vue {
   @Prop(String) readonly label: string | undefined;

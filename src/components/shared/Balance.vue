@@ -8,26 +8,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Connector from '@vue-polkadot/vue-api';
-import formatBalance from '../../utils/formatBalance';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import Connector from '@vue-polkadot/vue-api'
+import formatBalance from '../../utils/formatBalance'
 import Money from '@/components/shared/format/Money.vue'
 
 @Component({
-  components: {
-    Money
-  }
+	components: {
+		Money
+	}
 })
 export default class Balance extends Vue {
   @Prop() public account!: string;
-  private currentBalance: string = '0';
+  private currentBalance = '0';
 
 
   @Watch('account')
   public async onAccountChange(value: string) {
-    const { api } = Connector.getInstance();
-    const { nonce, data: balance } = await api.query.system.account(value);
-    this.currentBalance = balance.free?.toString();
+  	const { api } = Connector.getInstance()
+  	const { nonce, data: balance } = await api.query.system.account(value)
+  	this.currentBalance = balance.free?.toString()
   }
 }
 </script>
