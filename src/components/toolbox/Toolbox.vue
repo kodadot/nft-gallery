@@ -23,7 +23,7 @@ import VerifySignature from './VerifySignature.vue'
 import HashData from './HashData.vue'
 import ConvertAddress from './ConvertAddress.vue'
 
-const currentTabs = {
+const currentTabs: any = {
   hash: 0,
   sign: 1,
   verify: 2,

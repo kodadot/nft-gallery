@@ -49,15 +49,15 @@
 </template>
 
 <script lang="ts">
-import Selection from '../components/extrinsics/Selection.vue'
-import Executor from '../components/extrinsics/Executor.vue'
-import Argurments from '../components/extrinsics/Arguments.vue'
-import { Prop, Vue, Component } from 'vue-property-decorator'
-import { KeyringPair } from '@polkadot/keyring/types'
-import InputFile from '../components/extrinsics/components/InputFile.vue'
-import keyring from '@polkadot/ui-keyring'
-import Dropdown from '@/components/shared/Dropdown.vue'
-import { urlBuilderTransaction } from '@/utils/explorerGuide'
+import Selection from '../components/extrinsics/Selection.vue';
+import Executor from '../components/extrinsics/Executor.vue';
+import Argurments from '../components/extrinsics/Arguments.vue';
+import { Prop, Vue, Component } from 'vue-property-decorator';
+import { KeyringPair } from '@polkadot/keyring/types';
+import InputFile from '../components/extrinsics/components/InputFile.vue';
+import keyring from '@polkadot/ui-keyring';
+import Dropdown from '@/components/shared/Dropdown.vue';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
 
 @Component({
   components: {
@@ -71,26 +71,26 @@ import { urlBuilderTransaction } from '@/utils/explorerGuide'
 export default class Extrinsics extends Vue {
 
   get sections() {
-    return Object.keys((this as any).$http.api.tx)
+    return Object.keys((this as any).$http.api.tx);
   }
 
   get methods() {
     return this.fnSection
       ? Object.keys((this as any).$http.api.tx[this.fnSection])
-      : []
+      : [];
   }
-  private isValid = false;
-  private isValidUnsigned = false;
+  private isValid: boolean = false;
+  private isValidUnsigned: boolean = false;
   private method = null;
   // private apiDefaultTxSudo = apiDefaultTxSudo;
   // private methods =
   private fnSection = '';
   private fnMethod = '';
   private args: any[] = [];
-  private selectedArguments = {};
+  private selectedArguments: any = {};
   private account: any = null;
-  private password = '';
-  private tx = '';
+  private password: string = '';
+  private tx: string = '';
   private conn: any = {
     blockNumber: '',
     chain: '',
@@ -121,41 +121,41 @@ export default class Extrinsics extends Vue {
   }
 
   public handleSectionSelection(value: string) {
-    this.fnSection = value
+    this.fnSection = value;
   }
 
   public handleMethodSelection(value: string) {
-    this.fnMethod = value
-    this.args = (this as any).$http.api.tx[this.fnSection][value].meta.args
+    this.fnMethod = value;
+    this.args = (this as any).$http.api.tx[this.fnSection][value].meta.args;
   }
 
   public handleSelectedArguments(value: any) {
     this.selectedArguments = {
       ...this.selectedArguments,
       ...value,
-    }
+    };
   }
 
   public handleAccountSelection(account: KeyringPair) {
-    console.log('account', account)
+    console.log('account', account);
 
-    this.account = account
+    this.account = account;
   }
 
   // TODO: https://polkadot.js.org/api/examples/promise/06_make_transfer/
   public async submitTx() {
-    const { api } = (this as any).$http
-    console.log('here', (api && this.account && this.fnMethod && this.fnSection))
+    const { api } = (this as any).$http;
+    console.log('here', (api && this.account && this.fnMethod && this.fnSection));
     if (api && this.account && this.fnMethod && this.fnSection) {
-      const args = this.args.map(this.argMapper)
-      console.log(args)
-      const func = api.tx[this.fnSection][this.fnMethod](...args)
+      const args = this.args.map(this.argMapper);
+      console.log(args);
+      const func = api.tx[this.fnSection][this.fnMethod](...args);
       try {
-        console.log('func is ', func)
-        const hash = await func.signAndSend(this.account)
-        console.log('Transfer sent with hash', hash.toHex())
+        console.log('func is ', func);
+        const hash = await func.signAndSend(this.account);
+        console.log('Transfer sent with hash', hash.toHex());
       } catch (e) {
-        console.warn('Err occ', e)
+        console.warn('Err occ', e);
 
       }
 
@@ -164,35 +164,35 @@ export default class Extrinsics extends Vue {
 
   public async shipIt(): Promise<void> {
     if ((this as any).$http.api) {
-      const apiResponse = await (this as any).$http.api.rpc.system.chain()
-      this.conn.chainName = await apiResponse.toString()
-      const args = this.args.map(this.argMapper)
+      const apiResponse = await (this as any).$http.api.rpc.system.chain();
+      this.conn.chainName = await apiResponse.toString();
+      const args = this.args.map(this.argMapper);
       try {
-        this.showNotification('Dispatched')
+        this.showNotification('Dispatched');
         const transfer = await (this as any).$http.api.tx[this.fnSection][this.fnMethod](
           ...args,
-        )
+        );
         const nonce = await (this as any).$http.api.query.system.accountNonce(
           this.account.address,
-        )
-        const alicePair = keyring.getPair(this.account.address)
-        alicePair.decodePkcs8(this.password)
-        console.log(await nonce.toString())
-        const hash = await transfer.signAndSend(alicePair, { nonce })
-        this.showNotification(hash.toHex(), this.snackbarTypes.success)
-        console.log('tx', hash.toHex())
-        this.tx = hash.toHex()
+        );
+        const alicePair = keyring.getPair(this.account.address);
+        alicePair.decodePkcs8(this.password);
+        console.log(await nonce.toString());
+        const hash = await transfer.signAndSend(alicePair, { nonce });
+        this.showNotification(hash.toHex(), this.snackbarTypes.success);
+        console.log('tx', hash.toHex());
+        this.tx = hash.toHex();
       } catch (e: any) {
-        this.showNotification(e, this.snackbarTypes.danger)
+        this.showNotification(e, this.snackbarTypes.danger);
       }
 
     }
   }
 
   private argMapper(arg: any): any {
-    const accessor: string = arg.name.toString()
-    // Method has always value
-    return this.selectedArguments[accessor]
+    const accessor: string = arg.name.toString();
+    // @ts-ignore: Method has always value
+    return this.selectedArguments[accessor];
   }
 
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
@@ -202,7 +202,7 @@ export default class Extrinsics extends Vue {
       position: 'is-top-right',
       queue: false,
       ...params,
-    })
+    });
   }
 
   // private getExtrinsic() {
