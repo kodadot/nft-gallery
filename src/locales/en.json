@@ -81,8 +81,8 @@
       "20": "How to open developer console?",
       "21": "How do I update metadata for extension?",
       "22": "I've got \"Low balance error\"",
-      "23": "How do I set identity?"
-      "24": "Is there official KodaDot token?",
+      "23": "How do I set identity?",
+      "24": "Is there official KodaDot token?"
     },
     "a": {
       "1": {
@@ -177,7 +177,7 @@
       },
       "24": {
 	      "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
-      },
+      }
   },
   "sort": {
     "created": "New first",
