@@ -18,17 +18,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Vote extends Vue {
 
   get selected() {
-    return '';
+    return ''
   }
 
   set selected(value: any) {
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   @Prop() public argument!: any;

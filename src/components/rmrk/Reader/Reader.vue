@@ -15,19 +15,19 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { RMRK } from '../types'
 import { decodeRmrkString } from '../utils'
-import { emptyObject } from '@/utils/empty';
+import { emptyObject } from '@/utils/empty'
 import RmrkNftView from './RmrkNftView.vue'
 
 const components = { RmrkNftView }
 
 @Component({ components })
 export default class Reader extends Vue {
-  private rmrkString: string = '';
-  private blockNumber: string = '';
-  private hash: string = '';
+  private rmrkString = '';
+  private blockNumber = '';
+  private hash = '';
   private rmrkView: RMRK = emptyObject<RMRK>();
 
 

@@ -96,23 +96,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
-import Connector from '@vue-polkadot/vue-api';
-import formatBalance from '@/utils/formatBalance';
-import { urlBuilderAccount } from '@/utils/explorerGuide';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
+import keyring from '@polkadot/ui-keyring'
+import Connector from '@vue-polkadot/vue-api'
+import formatBalance from '@/utils/formatBalance'
+import { urlBuilderAccount } from '@/utils/explorerGuide'
 import Money from '@/components/shared/format/Money.vue'
 
 const components = { Identicon, Money }
 
 @Component({ components })
 export default class Keypair extends Vue {
-  public nonce: string = '-';
-  public balanceAvailable: string = '';
-  public isEditingName: boolean = false;
-  public isEditingTags: boolean = false;
-  public newName: string = '';
+  public nonce = '-';
+  public balanceAvailable = '';
+  public isEditingName = false;
+  public isEditingTags = false;
+  public newName = '';
   public newTags: any = null;
   private subs: any[] = [];
   private chainProperties: any;
@@ -134,85 +134,85 @@ export default class Keypair extends Vue {
   }
 
   get balance() {
-    return formatBalance(this.balanceAvailable, this.tokenSymbol, false);
+    return formatBalance(this.balanceAvailable, this.tokenSymbol, false)
   }
 
   public editName(): void {
-    this.isEditingName = true;
-    this.newName = this.meta.name;
+    this.isEditingName = true
+    this.newName = this.meta.name
   }
 
   public editTags(): void {
-    this.isEditingTags = true;
+    this.isEditingTags = true
 
     if (this.meta.tags && this.meta.tags.length === 0) {
-      this.newTags = [];
+      this.newTags = []
     }
 
     if (this.meta.tags !== null) {
-      this.newTags = this.meta.tags.join(', ');
+      this.newTags = this.meta.tags.join(', ')
     }
   }
 
   @Emit()
   public saveName(): void {
-    const meta = { name: this.newName, whenEdited: Date.now() };
+    const meta = { name: this.newName, whenEdited: Date.now() }
 
-    const currentKeyring = keyring.getPair(this.address);
-    keyring.saveAccountMeta(currentKeyring, meta);
-    this.isEditingName = false;
+    const currentKeyring = keyring.getPair(this.address)
+    keyring.saveAccountMeta(currentKeyring, meta)
+    this.isEditingName = false
   }
 
   @Emit()
   public saveTags(): void {
     if (this.newTags !== null) {
       this.newTags = this.newTags.split(',')
-      .map((item: string) => item.trim())
-      .filter((item: string) => item);
+        .map((item: string) => item.trim())
+        .filter((item: string) => item)
     }
 
     if (this.newTags && this.newTags.length === 0) {
-      this.newTags = [];
+      this.newTags = []
     }
 
     const meta = { tags: this.newTags,
-      whenEdited: Date.now() };
+      whenEdited: Date.now() }
 
-    const currentKeyring = keyring.getPair(this.address);
-    keyring.saveAccountMeta(currentKeyring, meta);
-    this.isEditingTags = false;
+    const currentKeyring = keyring.getPair(this.address)
+    keyring.saveAccountMeta(currentKeyring, meta)
+    this.isEditingTags = false
   }
 
   @Emit()
   public forgetAccount(address: string): void {
-    keyring.forgetAccount(address);
+    keyring.forgetAccount(address)
   }
 
   public shortAddress(address: string): string {
     if (address) {
-      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+      return `${address.slice(0, 6)}...${address.slice(-6)}`
     }
-    return '';
+    return ''
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message);
+    this.$buefy.toast.open(message)
   }
 
   public async loadExternalInfo() {
-    const { api } = Connector.getInstance();
-    const { nonce, data: balance } = await api.query.system.account(this.address);
-    this.balanceAvailable = balance.free.toString();
-    this.nonce = nonce.toString();
-    console.log(this.balanceAvailable);
+    const { api } = Connector.getInstance()
+    const { nonce, data: balance } = await api.query.system.account(this.address)
+    this.balanceAvailable = balance.free.toString()
+    this.nonce = nonce.toString()
+    console.log(this.balanceAvailable)
   }
 
   public mounted(): void {
-    this.loadExternalInfo();
+    this.loadExternalInfo()
   }
 
   public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.forEach((sub) => sub())
   }
 }
 </script>

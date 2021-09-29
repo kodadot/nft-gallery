@@ -2,38 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { ComponentMap } from '../types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types'
+import { ComponentMap } from '../types'
 
-import BN from 'bn.js';
-import { createType, getTypeDef } from '@polkadot/types';
-import registry from './typeRegistry';
+import BN from 'bn.js'
+import { createType, getTypeDef } from '@polkadot/types'
+import registry from './typeRegistry'
 
-import Account from './Account.vue';
-import Amount from './Amount.vue';
-import Balance from './Balance.vue';
-import Bool from './Bool.vue';
-import Bytes from './Bytes.vue';
-import Call from './Call.vue';
-import Code from './Code.vue';
-import DispatchError from './DispatchError.vue';
-import Enum from './Enum.vue';
-import Hash256 from './Hash256.vue';
-import Hash512 from './Hash512.vue';
-import KeyValue from './KeyValue.vue';
-import KeyValueArray from './KeyValueArray.vue';
-import Moment from './Moment.vue';
-import Null from './Null.vue';
-import OpaqueCall from './OpaqueCall.vue';
-import Option from './Option.vue';
-import Raw from './Raw.vue';
-import Struct from './Struct.vue';
-import TextField from './TextField.vue';
-import Tuple from './Tuple.vue';
-import Unknown from './Unknown.vue';
-import Vector from './Vector.vue';
-import Vote from './Vote.vue';
-import VoteThreshold from './VoteThreshold.vue';
+import Account from './Account.vue'
+import Amount from './Amount.vue'
+import Balance from './Balance.vue'
+import Bool from './Bool.vue'
+import Bytes from './Bytes.vue'
+import Call from './Call.vue'
+import Code from './Code.vue'
+import DispatchError from './DispatchError.vue'
+import Enum from './Enum.vue'
+import Hash256 from './Hash256.vue'
+import Hash512 from './Hash512.vue'
+import KeyValue from './KeyValue.vue'
+import KeyValueArray from './KeyValueArray.vue'
+import Moment from './Moment.vue'
+import Null from './Null.vue'
+import OpaqueCall from './OpaqueCall.vue'
+import Option from './Option.vue'
+import Raw from './Raw.vue'
+import Struct from './Struct.vue'
+import TextField from './TextField.vue'
+import Tuple from './Tuple.vue'
+import Unknown from './Unknown.vue'
+import Vector from './Vector.vue'
+import Vote from './Vote.vue'
+import VoteThreshold from './VoteThreshold.vue'
 
 interface TypeToComponent {
   c: Vue.Component;
@@ -68,76 +68,76 @@ const components: ComponentMap = ([
   { c: Unknown, t: ['Unknown'] },
 ] as TypeToComponent[]).reduce((componentList, { c, t }): ComponentMap => {
   t.forEach((type): void => {
-    componentList[type] = c;
-  });
+    componentList[type] = c
+  })
 
-  return componentList;
-}, {} as unknown as ComponentMap);
+  return componentList
+}, {} as unknown as ComponentMap)
 
 const getType = (({ displayName, info, sub, type }: any): string => {
   if (displayName) {
-    return displayName;
+    return displayName
   }
 
   switch (info) {
-    case TypeDefInfo.Compact:
-      return (sub as TypeDef).type;
+  case TypeDefInfo.Compact:
+    return (sub as TypeDef).type
 
-    case TypeDefInfo.Option:
-      return 'Option';
+  case TypeDefInfo.Option:
+    return 'Option'
 
-    case TypeDefInfo.Enum:
-      return 'Enum';
+  case TypeDefInfo.Enum:
+    return 'Enum'
 
-    case TypeDefInfo.Struct:
-      return 'Struct';
+  case TypeDefInfo.Struct:
+    return 'Struct'
 
-    case TypeDefInfo.Tuple:
-      if (components[type] === Account) {
-        return type;
-      }
-      return 'Tuple';
+  case TypeDefInfo.Tuple:
+    if (components[type] === Account) {
+      return type
+    }
+    return 'Tuple'
 
-    case TypeDefInfo.Vec:
-      return ['Vec<KeyValue>'].includes(type)
-        ? 'Vec<KeyValue>'
-        : 'Vec';
+  case TypeDefInfo.Vec:
+    return ['Vec<KeyValue>'].includes(type)
+      ? 'Vec<KeyValue>'
+      : 'Vec'
 
-    default:
-      return type;
+  default:
+    return type
   }
-});
+})
 
 export default function findComponent(def: TypeDef, overrides: ComponentMap = {}): Vue.Component {
-  console.log(def);
+  console.log(def)
 
   const findOne = (componentType: string): Vue.Component | null => {
-    return overrides[componentType] || components[componentType];
-  };
+    return overrides[componentType] || components[componentType]
+  }
 
-  const type = getType(def);
+  const type = getType(def)
 
-  let Component = findOne(type);
+  let Component = findOne(type)
 
   if (!Component) {
     try {
-      const instance = createType(registry, type as any);
-      const raw = getTypeDef(instance.toRawType());
+      const instance = createType(registry, type as any)
+      const raw = getTypeDef(instance.toRawType())
 
-      Component = findOne(getType(raw));
+      Component = findOne(getType(raw))
       if (Component) {
-        return Component;
+        return Component
       } else if (instance instanceof BN) {
-        return Amount;
+        return Amount
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
-        return findComponent(raw, overrides);
+        return findComponent(raw, overrides)
       }
     } catch (error) {
       // console.error(error.message);
     }
 
-    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
+    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`)
   }
 
-  return Component || Unknown;
+  return Component || Unknown
 }

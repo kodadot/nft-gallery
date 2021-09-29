@@ -38,11 +38,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import keyring from '@polkadot/ui-keyring';
-import Keypair from '../shared/accounts/Keypair.vue';
-import { u8aToHex } from '@polkadot/util';
-import Connector from '@vue-polkadot/vue-api';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import keyring from '@polkadot/ui-keyring'
+import Keypair from '../shared/accounts/Keypair.vue'
+import { u8aToHex } from '@polkadot/util'
+import Connector from '@vue-polkadot/vue-api'
 
 @Component({
   components: {
@@ -52,8 +52,8 @@ import Connector from '@vue-polkadot/vue-api';
 export default class Accounts extends Vue {
   private chainProperties: any;
   public searchFilter: string = ''.toLowerCase();
-  public theme: string = 'substrate';
-  public modal: object = {
+  public theme = 'substrate';
+  public modal: any = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },
@@ -63,21 +63,21 @@ export default class Accounts extends Vue {
   ];
 
   public vueU8aToHex(publicKey: Uint8Array): string {
-    return u8aToHex(publicKey);
+    return u8aToHex(publicKey)
   }
 
   public filterByName(searchFilter: string): void {
     for (const acc of this.keyringAccounts) {
       if (searchFilter.length === 0) {
-        acc.visible = true;
+        acc.visible = true
       }
 
       if (acc.meta.name.toLowerCase().includes(searchFilter)
         || acc.meta.tags && acc.meta.tags.reduce((result: boolean, tag: string): boolean => {
-          return result || tag.toLowerCase().includes(searchFilter); }) ) {
-        acc.visible = true;
+          return result || tag.toLowerCase().includes(searchFilter) }) ) {
+        acc.visible = true
       } else {
-        acc.visible = false;
+        acc.visible = false
       }
     }
   }
@@ -87,24 +87,24 @@ export default class Accounts extends Vue {
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
     if (this.isKeyringLoaded()) {
-      this.keyringAccounts = keyring.getPairs();
+      this.keyringAccounts = keyring.getPairs()
       // this.keyringAccountsFilter = keyring.getPairs();
     }
   }
 
   public isKeyringLoaded() {
-    return this.$store.state.keyringLoaded;
+    return this.$store.state.keyringLoaded
   }
 
   public getIconTheme() {
-    this.theme = this.$store.state.setting.icon;
+    this.theme = this.$store.state.setting.icon
   }
 
   public async mounted(): Promise<void> {
-    this.isKeyringLoaded();
-    this.mapAccounts();
-    this.getIconTheme();
-    this.filterByName(this.searchFilter);
+    this.isKeyringLoaded()
+    this.mapAccounts()
+    this.getIconTheme()
+    this.filterByName(this.searchFilter)
   }
 }
 </script>

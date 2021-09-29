@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { RmrkType } from '@/components/rmrk/service/scheme';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { RmrkType } from '@/components/rmrk/service/scheme'
 
 const components = {
   GalleryCard: () => import('./GalleryCard.vue')
-};
+}
 
 @Component({ components })
 export default class GalleryCardList extends Vue {

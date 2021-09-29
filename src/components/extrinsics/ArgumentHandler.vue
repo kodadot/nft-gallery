@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import findComponent from '@/params/components/findComponent';
-import { createType, getTypeDef } from '@polkadot/types';
-import registry from '@/params/components/typeRegistry';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import findComponent from '@/params/components/findComponent'
+import { createType, getTypeDef } from '@polkadot/types'
+import registry from '@/params/components/typeRegistry'
 
 @Component({
   name: 'ArgumentHandler',
@@ -29,11 +29,11 @@ export default class ArgumentHandler extends Vue {
   @Prop({ default: false }) public readonly actionVisible!: boolean;
 
   public enhanceTypeDef(argument: any) {
-    console.log(argument.type);
+    console.log(argument.type)
 
     try {
       const type = createType(registry, argument.type).toRawType()
-      return this.typeDefOf(argument, type);
+      return this.typeDefOf(argument, type)
     } catch (error) {
       console.warn(error)
       return this.typeDefOf(argument, argument.type)
@@ -45,18 +45,18 @@ export default class ArgumentHandler extends Vue {
     return {
       ...getTypeDef(type),
       ...argument,
-    };
+    }
   }
 
   public selected(argument: any) {
-    const component = findComponent(argument);
-    return component;
+    const component = findComponent(argument)
+    return component
   }
 
   @Emit('selected')
   private handleSelected(value: any) {
-    console.log('ArgumentHandler', value);
-    return value;
+    console.log('ArgumentHandler', value)
+    return value
   }
 
   @Emit('action')

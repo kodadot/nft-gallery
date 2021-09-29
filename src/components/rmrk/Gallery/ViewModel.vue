@@ -20,13 +20,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import '@google/model-viewer';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import '@google/model-viewer'
 
 
 
-const testSrc = 'http://localhost:8000/Astronaut.glb';
-const testIosSrc = 'http://localhost:8000/Astronaut.usdz';
+const testSrc = 'http://localhost:8000/Astronaut.glb'
+const testIosSrc = 'http://localhost:8000/Astronaut.usdz'
 
 @Component({})
 export default class ViewModel extends Vue {
@@ -37,7 +37,7 @@ export default class ViewModel extends Vue {
   //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }
 
   get poster() {
-    return '';
+    return ''
   }
 }
 </script>

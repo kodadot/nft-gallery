@@ -1,11 +1,11 @@
-import axios from "axios"
+import axios from 'axios'
 
 exports.handler = async (event, context) => {
 
 
   // const location = event.queryStringParameters.location || "home";
-  const BASE_URL = 'https://api.pinata.cloud/pinning/pinJSONToIPFS';
-  const object = event.body;
+  const BASE_URL = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
+  const object = event.body
 
   try {
     const { status, data } = await axios.post(BASE_URL, object, {
@@ -14,14 +14,14 @@ exports.handler = async (event, context) => {
         pinata_api_key: process.env.PINATA_API_KEY,
         pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
       },
-    });
-    console.log('[PINATA] Pin JSON', status, data);
+    })
+    console.log('[PINATA] Pin JSON', status, data)
 
     if (status < 400) {
       return {
         statusCode: status,
         body: JSON.stringify(data),
-      };
+      }
     }
 
 
@@ -30,14 +30,14 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       body: e.message,
-    };
+    }
   }
 
   return {
     statusCode: status,
     body: JSON.stringify({}),
-  };
+  }
 
 
-};
+}
 

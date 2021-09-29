@@ -18,10 +18,10 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
-import { blake2AsHex } from '@polkadot/util-crypto';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { hexToU8a, isHex, stringToU8a } from '@polkadot/util'
+import { blake2AsHex } from '@polkadot/util-crypto'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
   components: {
@@ -30,9 +30,9 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
 })
 export default class HashDataMessage extends Vue {
 
-  private data: string = '';
-  private inputDataCheck: string = 'No';
-  private hashedData: string = '';
+  private data = '';
+  private inputDataCheck = 'No';
+  private hashedData = '';
 
   private hashData(): void {
     this.hashedData = blake2AsHex(
@@ -45,11 +45,11 @@ export default class HashDataMessage extends Vue {
   private isHexData(): void {
     this.inputDataCheck = isHex(this.data)
       ? 'Yes'
-      : 'No';
+      : 'No'
   }
 
   private toast(message: string): void {
-    this.$buefy.toast.open(message);
+    this.$buefy.toast.open(message)
   }
 }
 </script>

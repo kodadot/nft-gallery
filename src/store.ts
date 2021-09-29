@@ -1,15 +1,15 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import VuexPersist from 'vuex-persist';
-import SettingModule from '@vue-polkadot/vue-settings';
-import Connector from '@vue-polkadot/vue-api';
-import IdentityModule from './vuex/IdentityModule';
-import correctFormat from './utils/ss58Format';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import VuexPersist from 'vuex-persist'
+import SettingModule from '@vue-polkadot/vue-settings'
+import Connector from '@vue-polkadot/vue-api'
+import IdentityModule from './vuex/IdentityModule'
+import correctFormat from './utils/ss58Format'
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
   storage: window.sessionStorage,
-});
+})
 
 interface ChangeUrlAction {
   type: string;
@@ -23,7 +23,7 @@ const apiPlugin = (store: any) => {
     const { chainSS58, chainDecimals, chainTokens  } = api.registry
     const {genesisHash} = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl,
-      { chainSS58, chainDecimals, chainTokens, genesisHash});
+      { chainSS58, chainDecimals, chainTokens, genesisHash})
     store.commit('setChainProperties', {
       ss58Format: correctFormat(chainSS58),
       tokenDecimals: chainDecimals[0] || 12,
@@ -32,13 +32,13 @@ const apiPlugin = (store: any) => {
     })
 
     const nodeInfo = store.getters.availableNodes
-        .filter((o:any) => o.value === store.state.setting.apiUrl)
-        .map((o:any) => {return o.info})[0]
+      .filter((o:any) => o.value === store.state.setting.apiUrl)
+      .map((o:any) => {return o.info})[0]
     store.commit('setExplorer', { 'chain': nodeInfo })
   })
   Api().on('error', async (error: Error) => {
-    store.commit('setError', error);
-    console.warn('[API] error', error);
+    store.commit('setError', error)
+    console.warn('[API] error', error)
     // Api().disconnect()
   })
 }
@@ -54,11 +54,11 @@ const myPlugin = (store: any) => {
       Api().connect(payload)
     }
   })
-};
+}
 
 // TODO: create instance of Texitle here as plugin
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -188,7 +188,7 @@ export default new Vuex.Store({
   },
   mutations: {
     keyringLoaded(state: any) {
-      state.keyringLoaded = true;
+      state.keyringLoaded = true
     },
     setChainProperties(state: any, data) {
       state.chainProperties = Object.assign({}, data)
@@ -206,11 +206,11 @@ export default new Vuex.Store({
       state.explorerOptions = Object.assign({}, data)
     },
     setLoading(state: any, toggleTo: boolean) {
-      state.loading = toggleTo;
+      state.loading = toggleTo
     },
     setError(state: any, error: Error) {
-      state.loading = false;
-      state.error = error.message;
+      state.loading = false
+      state.error = error.message
     },
     setFiatPrice(state: any, data) {
       state.fiatPrice = Object.assign({}, state.fiatPrice, data)
@@ -221,7 +221,7 @@ export default new Vuex.Store({
   },
   actions: {
     setFiatPrice({ commit }: any, data) {
-      commit('setFiatPrice', data);
+      commit('setFiatPrice', data)
     },
     upateIndexerStatus({ commit }: any, data) {
       commit('setIndexerStatus', data)
@@ -240,4 +240,4 @@ export default new Vuex.Store({
     identity: IdentityModule,
   },
   plugins: [vuexLocalStorage.plugin, apiPlugin, myPlugin ],
-});
+})

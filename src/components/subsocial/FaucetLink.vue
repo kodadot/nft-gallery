@@ -4,16 +4,16 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins, Watch } from 'vue-property-decorator';
-import AuthMixin from '@/utils/mixins/authMixin';
-import shouldUpdate from '@/utils/shouldUpdate';
-import Connector from '@vue-polkadot/vue-api';
-import { requestFaucet } from '@/proxy';
-import { showNotification, notificationTypes } from '@/utils/notification';
+import { Component, Prop, Vue, Mixins, Watch } from 'vue-property-decorator'
+import AuthMixin from '@/utils/mixins/authMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
+import Connector from '@vue-polkadot/vue-api'
+import { requestFaucet } from '@/proxy'
+import { showNotification, notificationTypes } from '@/utils/notification'
 
 @Component({})
 export default class FaucetLink extends Mixins(AuthMixin) {
-  protected email: string = '';
+  protected email = '';
 
   protected async askFaucet() {
     try {
@@ -24,9 +24,9 @@ export default class FaucetLink extends Mixins(AuthMixin) {
         showNotification(`[Faucet] Check your mail\n${this.email}`, notificationTypes.info)
       }
     } catch (e) {
-        showNotification('[Faucet] At least you tried :/\nClick again to visit official faucet', notificationTypes.warn)
+      showNotification('[Faucet] At least you tried :/\nClick again to visit official faucet', notificationTypes.warn)
     } finally {
-      this.email = '';
+      this.email = ''
     }
   }
 

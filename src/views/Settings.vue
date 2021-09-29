@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import General from '@/components/settings/General.vue';
-import Metadata from '@/components/metadata/Metadata.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import General from '@/components/settings/General.vue'
+import Metadata from '@/components/metadata/Metadata.vue'
 
 @Component({
   components: {
@@ -23,7 +23,7 @@ import Metadata from '@/components/metadata/Metadata.vue';
   },
 })
 export default class Settings extends Vue {
-  private activeTab: number = 0;
+  private activeTab = 0;
 
 
 }

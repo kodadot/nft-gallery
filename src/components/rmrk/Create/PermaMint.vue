@@ -116,34 +116,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator';
-import { emptyObject } from '@/utils/empty';
-import Support from '@/components/shared/Support.vue';
-import Connector from '@vue-polkadot/vue-api';
+import { Component, Mixins } from 'vue-property-decorator'
+import { emptyObject } from '@/utils/empty'
+import Support from '@/components/shared/Support.vue'
+import Connector from '@vue-polkadot/vue-api'
 import exec, {
   execResultValue,
   txCb,
   estimate
-} from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import SubscribeMixin from '@/utils/mixins/subscribeMixin';
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+} from '@/utils/transactionExecutor'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import {
   Attribute,
   SimpleNFT,
   NFTMetadata,
   NFT,
   getNftId
-} from '../service/scheme';
-import { permaStore } from '@/proxy';
-import { formatBalance } from '@polkadot/util';
-import { generateId } from '@/components/rmrk/service/Consolidator';
-import { supportTx, calculateCost, offsetTx } from '@/utils/support';
-import { resolveMedia, unSanitizeArweaveId } from '../utils';
-import NFTUtils, { MintType } from '../service/NftUtils';
-import { DispatchError } from '@polkadot/types/interfaces';
+} from '../service/scheme'
+import { permaStore } from '@/proxy'
+import { formatBalance } from '@polkadot/util'
+import { generateId } from '@/components/rmrk/service/Consolidator'
+import { supportTx, calculateCost, offsetTx } from '@/utils/support'
+import { resolveMedia, unSanitizeArweaveId } from '../utils'
+import NFTUtils, { MintType } from '../service/NftUtils'
+import { DispatchError } from '@polkadot/types/interfaces'
 
-import TransactionMixin from '@/utils/mixins/txMixin';
+import TransactionMixin from '@/utils/mixins/txMixin'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -156,7 +156,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')
-};
+}
 
 @Component<PermaMint>({
   metaInfo() {
@@ -192,7 +192,7 @@ const components = {
           content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
         }
       ]
-    };
+    }
   },
   components
 })
@@ -207,37 +207,37 @@ export default class PermaMint extends Mixins(
   };
   private meta: NFTMetadata = emptyObject<NFTMetadata>();
   // private accountId: string = '';
-  private uploadMode: boolean = true;
+  private uploadMode = true;
   private file: Blob | null = null;
   private secondFile: Blob | null = null;
-  private password: string = '';
-  private hasToS: boolean = false;
-  private hasSupport: boolean = false;
-  private nsfw: boolean = false;
-  private price: number = 0;
-  private estimated: string = '';
-  private hasCarbonOffset: boolean = false;
+  private password = '';
+  private hasToS = false;
+  private hasSupport = false;
+  private nsfw = false;
+  private price = 0;
+  private estimated = '';
+  private hasCarbonOffset = false;
   protected arweaveUpload = false;
 
   protected updateMeta(value: number) {
-    console.log(typeof value, value);
-    this.price = value;
+    console.log(typeof value, value)
+    this.price = value
   }
 
   get fileType() {
-    return resolveMedia(this.file?.type);
+    return resolveMedia(this.file?.type)
   }
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   get rmrkId(): string {
-    return generateId(this.accountId, this.rmrkMint?.symbol || '');
+    return generateId(this.accountId, this.rmrkMint?.symbol || '')
   }
 
   get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint;
+    const { name, symbol, max } = this.rmrkMint
     return !(
       name &&
       symbol &&
@@ -245,39 +245,39 @@ export default class PermaMint extends Mixins(
       this.hasToS &&
       this.accountId &&
       this.file
-    );
+    )
   }
 
   protected async sub() {
-    this.isLoading = true;
-    this.status = 'loader.arweave';
-    const { accountId, version } = this;
-    const { api } = Connector.getInstance();
+    this.isLoading = true
+    this.status = 'loader.arweave'
+    const { accountId, version } = this
+    const { api } = Connector.getInstance()
 
     try {
-      const meta = await this.constructMeta();
-      this.rmrkMint.metadata = meta;
+      const meta = await this.constructMeta()
+      this.rmrkMint.metadata = meta
 
       const result = NFTUtils.generateRemarks(
         this.rmrkMint,
         accountId,
         version
-      ) as MintType;
-      const cb = api.tx.utility.batchAll;
+      ) as MintType
+      const cb = api.tx.utility.batchAll
       const remarks: string[] = Array.isArray(result)
         ? result
         : [
-            NFTUtils.toString(result.collection, version),
-            ...result.nfts.map(nft => NFTUtils.toString(nft, version))
-          ];
+          NFTUtils.toString(result.collection, version),
+          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
+        ]
 
       const args = !this.hasSupport
         ? remarks.map(this.toRemark)
         : [
-            ...remarks.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset())
-          ];
+          ...remarks.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset())
+        ]
 
       const tx = await exec(
         this.accountId,
@@ -286,95 +286,95 @@ export default class PermaMint extends Mixins(
         [args],
         txCb(
           async blockHash => {
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(blockHash);
-            const blockNumber = header.number.toString();
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
             if (this.price) {
-              this.listForSale(result.nfts, blockNumber);
+              this.listForSale(result.nfts, blockNumber)
             } else {
-              this.navigateToDetail(result.nfts[0], blockNumber);
+              this.navigateToDetail(result.nfts[0], blockNumber)
             }
 
             showNotification(
               `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
               notificationTypes.success
-            );
+            )
 
-            this.isLoading = false;
+            this.isLoading = false
           },
           dispatchError => {
-            execResultValue(tx);
-            this.onTxError(dispatchError);
-            this.isLoading = false;
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
           },
           res => this.resolveStatus(res.status)
         )
-      );
+      )
     } catch (e: any) {
-      showNotification(e.toString(), notificationTypes.danger);
-      this.isLoading = false;
+      showNotification(e.toString(), notificationTypes.danger)
+      this.isLoading = false
     }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance();
+    const { api } = Connector.getInstance()
     if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { docs, name, section } = decoded;
+      const decoded = api.registry.findMetaError(dispatchError.asModule)
+      const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
-      );
+      )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
         notificationTypes.danger
-      );
+      )
     }
 
-    this.isLoading = false;
+    this.isLoading = false
   }
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties;
+    return this.$store.getters.getChainProperties
   }
 
   get decimals(): number {
-    return this.chainProperties.tokenDecimals;
+    return this.chainProperties.tokenDecimals
   }
 
   get unit(): string {
-    return this.chainProperties.tokenSymbol;
+    return this.chainProperties.tokenSymbol
   }
 
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
-      const { price, version } = this;
+      const { price, version } = this
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
           withUnit: this.unit
         })}`
-      );
+      )
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
         .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
         .map(nft =>
           NFTUtils.createInteraction('LIST', version, nft.id, String(price))
-        );
+        )
 
       if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger);
-        return;
+        showNotification('Can not list empty NFTs', notificationTypes.danger)
+        return
       }
 
-      this.isLoading = true;
-      const { api } = Connector.getInstance();
+      this.isLoading = true
+      const { api } = Connector.getInstance()
 
-      const cb = api.tx.utility.batchAll;
-      const args = onlyNfts.map(this.toRemark);
+      const cb = api.tx.utility.batchAll
+      const args = onlyNfts.map(this.toRemark)
 
       const tx = await exec(
         this.accountId,
@@ -383,9 +383,9 @@ export default class PermaMint extends Mixins(
         [args],
         txCb(
           async blockHash => {
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(blockHash);
-            const blockNumber = header.number.toString();
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
             showNotification(
               `[LIST] Saved prices for ${
@@ -395,50 +395,50 @@ export default class PermaMint extends Mixins(
                 withUnit: this.unit
               })} in block ${blockNumber}`,
               notificationTypes.success
-            );
+            )
 
-            this.isLoading = false;
-            const firstNft = remarks.find(NFTUtils.isNFT);
+            this.isLoading = false
+            const firstNft = remarks.find(NFTUtils.isNFT)
 
             if (firstNft) {
-              this.navigateToDetail(firstNft, originalBlockNumber);
+              this.navigateToDetail(firstNft, originalBlockNumber)
             }
           },
           dispatchError => {
-            execResultValue(tx);
-            this.onTxError(dispatchError);
-            this.isLoading = false;
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
           }
         )
-      );
+      )
     } catch (e: any) {
-      showNotification(e.message, notificationTypes.danger);
+      showNotification(e.message, notificationTypes.danger)
     }
   }
 
   public nsfwAttribute(): Attribute[] {
     if (!this.nsfw) {
-      return [];
+      return []
     }
 
-    return [{ trait_type: 'NSFW', value: Number(this.nsfw) }];
+    return [{ trait_type: 'NSFW', value: Number(this.nsfw) }]
   }
 
   public offsetAttribute(): Attribute[] {
     if (!this.hasCarbonOffset) {
-      return [];
+      return []
     }
 
-    return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }];
+    return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }]
   }
 
   get filePrice() {
-    return calculateCost(this.file);
+    return calculateCost(this.file)
   }
 
   public async constructMeta(): Promise<string> {
     if (!this.file) {
-      throw new ReferenceError('No file found!');
+      throw new ReferenceError('No file found!')
     }
 
     const { name, description } = this.rmrkMint
@@ -452,49 +452,49 @@ export default class PermaMint extends Mixins(
         ...this.nsfwAttribute(),
         ...this.offsetAttribute()
       ],
-      external_url: `https://nft.kodadot.xyz`,
+      external_url: 'https://nft.kodadot.xyz',
       type: this.file.type,
-    };
+    }
 
     try {
       // TODO: upload meta to IPFS
-      const metaHash = await permaStore(this.meta, this.file, this.rmrkId);
-      return unSanitizeArweaveId(metaHash);
+      const metaHash = await permaStore(this.meta, this.file, this.rmrkId)
+      return unSanitizeArweaveId(metaHash)
     } catch (e: any) {
-      throw new ReferenceError(e.message);
+      throw new ReferenceError(e.message)
     }
   }
 
   protected async canSupport() {
     if (this.hasSupport && this.file) {
-      return [await supportTx(this.file)];
+      return [await supportTx(this.file)]
     }
 
-    return [];
+    return []
   }
 
   protected async canOffset() {
     if (this.hasCarbonOffset) {
-      return [await offsetTx(1)];
+      return [await offsetTx(1)]
     }
 
-    return [];
+    return []
   }
 
   private toRemark(remark: string) {
-    const { api } = Connector.getInstance();
-    return api.tx.system.remark(remark);
+    const { api } = Connector.getInstance()
+    return api.tx.system.remark(remark)
   }
 
   protected navigateToDetail(nft: NFT, blockNumber: string) {
-    showNotification('You will go to the detail in 2 seconds');
+    showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
         name: 'nftDetail',
         params: { id: getNftId(nft, blockNumber) },
         query: { message: 'congrats' }
-      });
-    setTimeout(go, 2000);
+      })
+    setTimeout(go, 2000)
   }
 }
 </script>

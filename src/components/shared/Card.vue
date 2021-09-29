@@ -54,8 +54,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 @Component
 export default class Card extends Vue {

@@ -34,13 +34,13 @@
                 <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
                  medida que nuevas funciones en KodaDot vayan apareciendo</a> y estamos  <b>tratando de invitar a mas desarrolladores a nuestros circulos poniendo recompensas en problemas</b>.
                 Cualquiera podrá unirse y ayudar con nuestro esfuerzo.
-              </p></br>
+              </p><br>
               <p>
                 Como nos gustaría establecer nuestro vector de acumulación para el fondo de sostenibilidad e introducir  <b>una pequeña tarifa gracias a que podra mintear su obra</b> a través de KodaDot, agregaremos un botón en el que aún puede optar por no participar voluntariamente y poder mintear su obra sin apoyarnos en lo absoluto.
               </p><br>
               <p>
                 Para <b>devolver valor a la comunidad</b>, estamos a punto de establecer
-                <b><a href="https://hackmd.io/cy3jpAhvR-S32SUiMqEabg?edit">un programa para el apoyo a los artistas </a></b> el cual fluirá de regreso a los artistas. Estamos tratando de crear un ciclo de acumulacion de autorefuerzo, donde usted, como creador que apoya la galería de KodaDot, el apoyo regresará y será destinado a nuevos artistas, creando así efectos de red para los primeros usuarios y la próxima ola de adoptantes, etc., Que luego podrían ser autopropulsados ​​en algún momento si logramos desarrollar la estategia correcta.  Solo necesitamos jugar un poco más con las curvas de flujo correctas.  Es un experimento.
+                <b><a href="https://hackmd.io/cy3jpAhvR-S32SUiMqEabg?edit">un programa para el apoyo a los artistas </a></b> el cual fluirá de regreso a los artistas. Estamos tratando de crear un ciclo de acumulacion de autorefuerzo, donde usted, como creador que apoya la galería de KodaDot, el apoyo regresará y será destinado a nuevos artistas, creando así efectos de red para los primeros usuarios y la próxima ola de adoptantes, etc., Que luego podrían ser autopropulsados en algún momento si logramos desarrollar la estategia correcta.  Solo necesitamos jugar un poco más con las curvas de flujo correctas.  Es un experimento.
               </p><br>
               <p>
                 Los poseedores actuales de multisig son los fundadores de KodaDot --
@@ -52,10 +52,10 @@
                 <a href="https://dictionary.reverso.net/spanish-definition/sustentabilidad">Definicion de Sustentabilidad</a>
               </h1>
               <h1 class="subtitle">sustantivo</h1>
-              <p>
+              <ul>
                 <li>Es la abilidad de sostener o apoyar.</li>
                 <li>Ciencia Ambiental. Es la cualidad de no ser dañino al Ambiente o estar agotando los recursos naturales por lo tanto se estaria apoyando el balance ecologico a una visión a largo plazo.</li>
-              </p>
+              </ul>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsSustainibility>({

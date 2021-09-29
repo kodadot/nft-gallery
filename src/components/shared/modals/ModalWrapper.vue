@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
 @Component
 export default class ModalWrapper extends Vue {
@@ -37,14 +37,14 @@ export default class ModalWrapper extends Vue {
   @Prop(String) public type!: string;
   @Prop(Boolean) public expanded!: boolean;
   @Prop(Boolean) public isRight!: boolean;
-  private isModalActive: boolean = false;
+  private isModalActive = false;
 
   get buttonType() {
-    return this.type || 'is-primary';
+    return this.type || 'is-primary'
   }
 
   protected handleOpen() {
-    this.isModalActive = true;
+    this.isModalActive = true
   }
 }
 </script>
