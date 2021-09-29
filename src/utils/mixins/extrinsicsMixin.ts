@@ -10,8 +10,8 @@ export default class ExtrinsicMixin extends Vue {
   private fnSection = '';
   private fnMethod = '';
   private args: any[] = [];
-  private selectedArguments = {};
-  private section = {}
+  private selectedArguments: any = {};
+  private section: any = {}
 
   get sections() {
     return Object.keys(this.section).sort()

@@ -87,7 +87,7 @@ export default class Extrinsics extends Vue {
   private fnSection = '';
   private fnMethod = '';
   private args: any[] = [];
-  private selectedArguments = {};
+  private selectedArguments: any = {};
   private account: any = null;
   private password = '';
   private tx = '';
