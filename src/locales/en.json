@@ -93,7 +93,7 @@
       },
       "2": {
         "m": "We reccommend you to use @.md:faq.a.2.l1 for now. Later we plan to add mobile-first experience. In all cases, backup your seed, it's your owners right and sort of value.",
-		"l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
       },
       "3": {
         "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us!",
@@ -101,22 +101,22 @@
       },
       "4": {
         "m": "Its supported widely on popular exchanges. At time of writing this FAQ, <b>2nd February</b>, daily liqudity on exchanges is around $200M at time of writing and 1 $KSM is traded for ~ $100. @.md:faq.a.4.l1",
-		"l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
       },
       "5": {
         "m": "We have integration with @.md:faq.a.5.l1, click on @.md:faq.a.1.l2 in navbar. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can @.md:faq.a.5.l2",
-		"l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
         "l2": "[buy $KSM at Binance](@.common:links.binance_exchange.href)"
       },
       "6": {
         "m": "For best rates, you can @.md:faq.a.6.l1 For best experience @.md:faq.a.6.l2 If you are @.md:faq.a.6.l3",
-		"l1": "[use custodial exchange from list](@.common:links.coingecko_ksm_price.href).",
+        "l1": "[use custodial exchange from list](@.common:links.coingecko_ksm_price.href).",
         "l2": "[we reccommend you to use Binance](@.common:links.binance_exchange.href).",
         "l3": "[looking for simple trade, try SimpleSwap](@.common:links.simpleswap_exchange.href)."
       },
       "7": {
         "m": "First of all, you need to install @.md:faq.a.2.l1, <b>backup your seed</b>. Then you top up your wallet address through our @.md:faq.a.1.l2 feature. Once you have funds, head to @.md:faq.a.3.l1, create Collection. Wait till Collection is minted, then you go to @.md:faq.a.7.l1 and Mint your very first token! If you had issues, we are working on our UX-flow. KodaDot has around month old code and there is still room to improve, bear with us, we are just team of two. Happy Minting 😌",
-		"l1": "[Create Token](@.common:links.rmrk_create.href)"
+        "l1": "[Create Token](@.common:links.rmrk_create.href)"
       },
       "8": {
         "m": "We are exploring possibilities, we actually plan to actively research on this in our milestone 2"
@@ -129,30 +129,30 @@
       },
       "11": {
         "m": "Best way is to check through @.md:faq.a.11.l1 and lookup your address. @.md:faq.a.11.l2",
-		"l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
         "l2": "[You can find example how minted NFT looks through explorer, when you look on extrinsics.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "12": {
         "m": "Right now, we are aware that US is not supported, other all countries should work, @.md:faq.a.12.l1 This is out of our control right now.",
-		"l1": "[full list of supported countries](@.common:links.ramp_network.supported_countries.href)."
+        "l1": "[full list of supported countries](@.common:links.ramp_network.supported_countries.href)."
       },
       "13": {
         "m": "Right now, you will use LIST in Actions."
       },
       "14": {
         "m": "Right now, we don't have chain logic, but we plan to implement something great, soon. @.md:faq.a.14.l1",
-		"l1": "[Stay with us and follow us @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+        "l1": "[Stay with us and follow us @KodaDot!](@.common:links.kodadot_social.twitter.href)"
       },
       "15": {
         "m": "We are implementing collection view, sets of collection view. @.md:faq.a.14.l1"
       },
       "16": {
         "m": "It's that heart 🖤 under NFT token. We are @.md:faq.a.16.l1 which works like appreciations. It's function is price discovery for your work.",
-		"l1": "[origin authors of EMOTE in RMRK standard](@.common:links.rmrk_spec_emote_issue.href)"
+        "l1": "[origin authors of EMOTE in RMRK standard](@.common:links.rmrk_spec_emote_issue.href)"
       },
       "17": {
         "m": "Right now, we have @.md:faq.a.17.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
-		"l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
       },
       "18": {
         "m": "We have only private channel for NFT creators, DM us if you are NFT creator!"
@@ -165,20 +165,20 @@
       },
       "21": {
         "m": "Go to @.md:faq.a.21.l1 and see there button <b>Update metadata</b>, then refresh your window, should be working with recent chain types",
-		"l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
       },
       "22": {
         "m": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at @.md:faq.a.22.l1 and at balances unfold, you can see there <b>Transferable</b> amount.",
-		"l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
       },
       "23": {
         "m": "You can learn more @.md:faq.a.23.l1",
-		"l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
       },
       "24": {
-	    "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+        "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
       }
-	}
+    }
   },
   "sort": {
     "created": "New first",
