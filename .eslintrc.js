@@ -22,6 +22,7 @@ module.exports = {
   ],
   'rules': {
     'no-trailing-spaces': 'error',
+    'no-useless-catch': 1,
     'no-var': 'error',
     'indent': [
       'error', 2

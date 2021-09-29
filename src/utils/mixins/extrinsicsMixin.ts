@@ -23,7 +23,7 @@ export default class ExtrinsicMixin extends Vue {
 
   get methods() {
     return this.fnSection
-    // @ts-ignore: Method has always value
+    // Method has always value
       ? Object.keys(this.section[this.fnSection]).sort()
       : []
   }
@@ -57,18 +57,18 @@ export default class ExtrinsicMixin extends Vue {
   }
 
   protected getSection(): any {
-    // @ts-ignore: Method has always value
+    // Method has always value
     return this.section[this.fnSection][this.fnMethod]
   }
 
   protected getFnSection(): any {
-    // @ts-ignore: Method has always value
+    // Method has always value
     return this.section[this.fnSection]
   }
 
   protected argMapper(arg: any): any {
     const accessor: string = arg.name.toString()
-    // @ts-ignore: Method has always value
+    // Method has always value
     return this.selectedArguments[accessor]
   }
 

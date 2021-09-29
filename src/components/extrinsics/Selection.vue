@@ -6,14 +6,12 @@
     :placeholder="label"
     expanded
     >
-      <option v-if="mode === 'all'"
-        v-for="acc in accounts"
+      <option v-for="acc in modeAllAccounts"
         v-bind:key="acc.address"
         :value="acc.address"
       >{{ acc.meta.name }} - {{ acc.address }}
       </option>
-      <option v-if="mode === 'accounts' && !acc.meta.isExternal"
-        v-for="acc in accounts"
+      <option v-for="acc in modeAccountsExternal"
         v-bind:key="acc.address"
         :value="acc.address"
       >{{ acc.meta.name }} - {{ acc.address }}
@@ -44,6 +42,14 @@ class Selection extends WithKeyring {
 
   get accounts() {
     return this.keyringAccounts.filter((acc) => !acc.meta.isTesting)
+  }
+
+  get modeAllAccounts() {
+    return this.mode === 'all' && this.accounts
+  }
+
+  get modeAccountsExternal () {
+    return this.mode === 'accounts' && this.keyringAccounts.filter((acc) => !acc.meta.isTesting && !acc.meta.isExternal)
   }
 
   get selected() {

@@ -12,14 +12,14 @@
             aria-controls="contentIdForA11y2">
             <strong>{{ title }}</strong>
         </div>
-        <div class="panel-block" v-for="n in content">
+        <div class="panel-block" v-for="(n, index) in content" :key="index">
           <DisabledInput :label="n[0]" :value="n[1]" />
         </div>
     </b-collapse>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({

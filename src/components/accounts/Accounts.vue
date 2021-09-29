@@ -53,7 +53,7 @@ export default class Accounts extends Vue {
   private chainProperties: any;
   public searchFilter: string = ''.toLowerCase();
   public theme = 'substrate';
-  public modal: object = {
+  public modal: any = {
     create: false, import: false, backup: false, changePass: false };
   public keyringAccounts: any = [
     { address: '', meta: { name: ''}, publicKey: '', type: '' },

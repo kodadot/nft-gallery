@@ -53,7 +53,6 @@ export default class ToolBox extends Vue {
 
   private updateActiveTab(value: string) {
     console.log('TAB', value)
-    // @ts-ignore
     this.activeTab = currentTabs[value] || 0
   }
 }

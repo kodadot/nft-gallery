@@ -40,7 +40,7 @@
               </p><br>
               <p>
                 Para <b>devolver valor a la comunidad</b>, estamos a punto de establecer
-                <b><a href="https://hackmd.io/cy3jpAhvR-S32SUiMqEabg?edit">un programa para el apoyo a los artistas </a></b> el cual fluirá de regreso a los artistas. Estamos tratando de crear un ciclo de acumulacion de autorefuerzo, donde usted, como creador que apoya la galería de KodaDot, el apoyo regresará y será destinado a nuevos artistas, creando así efectos de red para los primeros usuarios y la próxima ola de adoptantes, etc., Que luego podrían ser autopropulsados ​​en algún momento si logramos desarrollar la estategia correcta.  Solo necesitamos jugar un poco más con las curvas de flujo correctas.  Es un experimento.
+                <b><a href="https://hackmd.io/cy3jpAhvR-S32SUiMqEabg?edit">un programa para el apoyo a los artistas </a></b> el cual fluirá de regreso a los artistas. Estamos tratando de crear un ciclo de acumulacion de autorefuerzo, donde usted, como creador que apoya la galería de KodaDot, el apoyo regresará y será destinado a nuevos artistas, creando así efectos de red para los primeros usuarios y la próxima ola de adoptantes, etc., Que luego podrían ser autopropulsados en algún momento si logramos desarrollar la estategia correcta.  Solo necesitamos jugar un poco más con las curvas de flujo correctas.  Es un experimento.
               </p><br>
               <p>
                 Los poseedores actuales de multisig son los fundadores de KodaDot --
