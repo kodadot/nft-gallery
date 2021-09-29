@@ -176,8 +176,8 @@
 		"l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
       },
       "24": {
-	"m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
-    }
+	      "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+      },
   },
   "sort": {
     "created": "New first",
