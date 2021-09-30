@@ -173,7 +173,7 @@ import Orientation from '@/directives/DeviceOrientation';
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
   },
-    directives: {
+  directives: {
     orientation: Orientation
   },
 })
