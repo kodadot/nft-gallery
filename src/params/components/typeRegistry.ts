@@ -1,5 +1,5 @@
-import { TypeRegistry } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types'
 
-const registry = new TypeRegistry();
+const registry = new TypeRegistry()
 
-export default registry;
+export default registry

@@ -36,10 +36,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { Debounce } from 'vue-debounce-decorator';
-import { SortBy } from './types';
-import shouldUpdate from '@/utils/shouldUpdate';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
+import { SortBy } from './types'
+import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
 
 @Component({
@@ -53,52 +53,52 @@ export default class SearchBar extends Vue {
   @Prop() public search!: string;
   @Prop() public type!: string;
   @Prop() public sortBy!: SortBy;
-  private isVisible: boolean = false;
+  private isVisible = false;
   private currentValue = 1;
   private total = 0;
 
   public mounted() {
-    exist(this.$route.query.search, this.updateSearch);
-    exist(this.$route.query.type, this.updateType);
+    exist(this.$route.query.search, this.updateSearch)
+    exist(this.$route.query.type, this.updateType)
   }
 
   get searchQuery() {
-    return this.search;
+    return this.search
   }
 
   set searchQuery(value: string) {
-    this.updateSearch(value);
+    this.updateSearch(value)
   }
 
   get typeQuery() {
-    return this.type;
+    return this.type
   }
 
   set typeQuery(value: string) {
-    this.updateType(value);
+    this.updateType(value)
   }
 
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string) {
-    this.replaceUrl(value, 'type');
-    return value;
+    this.replaceUrl(value, 'type')
+    return value
   }
 
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: SortBy) {
-    console.log('Debounced', value);
+    console.log('Debounced', value)
     // this.replaceUrl(value)
-    return value;
+    return value
   }
 
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string) {
-    console.log('Debounced', value);
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value);
-    return value;
+    console.log('Debounced', value)
+    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    return value
   }
 
   @Debounce(100)
@@ -108,7 +108,7 @@ export default class SearchBar extends Vue {
         name: 'nft',
         query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */);
+      .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>

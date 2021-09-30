@@ -20,7 +20,7 @@ export default class Money extends Vue {
   @Prop({default: ''}) readonly showFiatValue!: string
 
   private readonly coinId: string = 'kusama'
-  private fiatValue: number = 0
+  private fiatValue = 0
 
   get chainProperties() {
     return this.$store.getters.getChainProperties
@@ -47,7 +47,7 @@ export default class Money extends Vue {
       if (price) {
         this.fiatValue = price * Number(this.value)
       } else {
-        const { data } = await coingecko.get(`/simple/price`, {
+        const { data } = await coingecko.get('/simple/price', {
           params: {
             ids: this.coinId,
             vs_currencies: this.showFiatValue
@@ -56,7 +56,7 @@ export default class Money extends Vue {
 
         // 420 * 10 ** 12
         this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
-        this.$store.dispatch('setFiatPrice', data);
+        this.$store.dispatch('setFiatPrice', data)
       }
     } catch (error) {
       console.log(error)

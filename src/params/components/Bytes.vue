@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import FileUpload from './FileUpload.vue';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import FileUpload from './FileUpload.vue'
 
 @Component({
   name: 'Bytes',
@@ -33,25 +33,25 @@ export default class Bytes extends Vue {
   @Prop({ default: false }) public readonly disabled!: boolean;
   @Prop({ default: null }) public readonly defaultValue!: any;
 
-  private uploadEnabled: boolean = false;
+  private uploadEnabled = false;
 
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : '0x';
+    return this.defaultValue ? this.defaultValue : '0x'
   }
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
-    this.selected(value);
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
+    this.selected(value)
   }
 
   @Emit('selected')
   public selected(value: any) {
-    return { [this.argument.name.toString()]: value };
+    return { [this.argument.name.toString()]: value }
   }
 
   private enableUpload() {
-    this.uploadEnabled = true;
+    this.uploadEnabled = true
   }
 }
 </script>

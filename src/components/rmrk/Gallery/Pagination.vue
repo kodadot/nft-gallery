@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { exist } from './Search/exist';
-import { Debounce } from 'vue-debounce-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { exist } from './Search/exist'
+import { Debounce } from 'vue-debounce-decorator'
 
 @Component({})
 export default class Pagination extends Vue {
@@ -31,7 +31,7 @@ export default class Pagination extends Vue {
   @Prop(Boolean) replace!: boolean;
 
   public mounted() {
-    exist(this.$route.query.page, (val) => { this.current = Number(val) });
+    exist(this.$route.query.page, (val) => { this.current = Number(val) })
     // console.log('query', this.$route.query)
     // if (
     //   this.$route.query.search &&
@@ -45,7 +45,7 @@ export default class Pagination extends Vue {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
-    });
+    })
   }
 
   get current() {
@@ -65,7 +65,7 @@ export default class Pagination extends Vue {
         name: 'nft',
         query: { ...this.$route.query, [key]: value }
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */);
+      .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>

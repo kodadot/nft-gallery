@@ -16,19 +16,19 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
-import { resolveSubsocialApi } from './api';
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
+import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
+import { resolveSubsocialApi } from './api'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
   notificationTypes,
   showNotification,
   infiniteNotif
-} from '@/utils/notification';
-import { subsocialAddress } from './utils';
-import { Comment } from '@subsocial/types/substrate/classes';
-import { PostId } from '@subsocial/types/substrate/interfaces';
-import { pinSubSocialPost } from '@/proxy';
-import TransactionMixin from '@/utils/mixins/txMixin';
+} from '@/utils/notification'
+import { subsocialAddress } from './utils'
+import { Comment } from '@subsocial/types/substrate/classes'
+import { PostId } from '@subsocial/types/substrate/interfaces'
+import { pinSubSocialPost } from '@/proxy'
+import TransactionMixin from '@/utils/mixins/txMixin'
 
 @Component({
   components: {
@@ -36,52 +36,52 @@ import TransactionMixin from '@/utils/mixins/txMixin';
   }
 })
 export default class Reply extends Mixins(TransactionMixin) {
-  protected message: string = '';
+  protected message = '';
   @Prop(String) public postId!: string;
   @Prop() public extension!: Comment | null;
 
   public async mounted() {
-    const ss = await resolveSubsocialApi();
-    const api = await ss.substrate.api;
+    const ss = await resolveSubsocialApi()
+    const api = await ss.substrate.api
     const cb = api.tx.posts.createPost;
     (window as any).post = cb;
-    (window as any).ipfs = ss.ipfs;
+    (window as any).ipfs = ss.ipfs
   }
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   protected async buildParams() {
-    const { postId: parentId, extension: comment } = this;
+    const { postId: parentId, extension: comment } = this
     const commentExt = comment
       ? {
-          parent_id: parentId,
-          root_post_id: comment.root_post_id
-        }
-      : { parent_id: null, root_post_id: parentId };
+        parent_id: parentId,
+        root_post_id: comment.root_post_id
+      }
+      : { parent_id: null, root_post_id: parentId }
 
-    const newExtension = { Comment: commentExt };
-    const cid = await pinSubSocialPost({ body: this.message });
+    const newExtension = { Comment: commentExt }
+    const cid = await pinSubSocialPost({ body: this.message })
 
-    return [null, newExtension, { IPFS: cid }];
+    return [null, newExtension, { IPFS: cid }]
   }
 
   protected async addComment() {
-    const ss = await resolveSubsocialApi();
+    const ss = await resolveSubsocialApi()
     if (!this.postId) {
-      showNotification('No postId for Item!', notificationTypes.warn);
-      return;
+      showNotification('No postId for Item!', notificationTypes.warn)
+      return
     }
 
-    const notif = infiniteNotif(`[SUBSOCIAL] Commenting post ${this.postId}`);
+    const notif = infiniteNotif(`[SUBSOCIAL] Commenting post ${this.postId}`)
 
     try {
-      const args = await this.buildParams();
-      this.initTransactionLoader();
-      showNotification('Dispatched');
-      const api = await ss.substrate.api;
-      const cb = api.tx.posts.createPost;
+      const args = await this.buildParams()
+      this.initTransactionLoader()
+      showNotification('Dispatched')
+      const api = await ss.substrate.api
+      const cb = api.tx.posts.createPost
       const tx = await exec(
         subsocialAddress(this.accountId),
         '',
@@ -90,36 +90,36 @@ export default class Reply extends Mixins(TransactionMixin) {
         txCb(
           () => null,
           err => {
-            execResultValue(tx);
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
-            notif.close();
-            this.isLoading = false;
+            execResultValue(tx)
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+            notif.close()
+            this.isLoading = false
           },
           res => {
             if (res.status.isInBlock) {
-              execResultValue(tx);
+              execResultValue(tx)
               showNotification(
                 res.status.asInBlock.toString(),
                 notificationTypes.info
-              );
+              )
               showNotification(
                 `[SUBSOCIAL] ${this.postId}`,
                 notificationTypes.success
-              );
-              this.isLoading = false;
-              notif.close();
-              this.$emit('submit');
+              )
+              this.isLoading = false
+              notif.close()
+              this.$emit('submit')
             }
           }
         )
-      );
+      )
     } catch (e: any) {
       console.error(
         `[SUBSOCIAL] Unable to reply ${this.postId} with reaction ${this.message},\nREASON: ${e}`
-      );
-      showNotification(e.message, notificationTypes.danger);
-      this.isLoading = false;
-      notif.close();
+      )
+      showNotification(e.message, notificationTypes.danger)
+      this.isLoading = false
+      notif.close()
     }
   }
 }

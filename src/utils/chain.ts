@@ -1,4 +1,4 @@
-import { ENDPOINTS } from '@vue-polkadot/vue-settings';
+import { ENDPOINTS } from '@vue-polkadot/vue-settings'
 import store from '@/store'
 
 const prefixes: Record<string, number> = {
@@ -56,8 +56,8 @@ const prefixes: Record<string, number> = {
 const reduceKnownPrefixes = (arr: any[]): Record<string, number> => arr.reduce((acc, { network, prefix }) => Object.assign(acc, { [network]: prefix  }) ,{})
 
 export const getPrefixByStoreUrl = (): string | undefined => {
-  const apiUrl = store.getters.getSettings?.apiUrl;
-  console.log('getPrefixByStoreUrl', apiUrl);
+  const apiUrl = store.getters.getSettings?.apiUrl
+  console.log('getPrefixByStoreUrl', apiUrl)
 
   if (!apiUrl) {
     return 'undefined'
@@ -67,7 +67,7 @@ export const getPrefixByStoreUrl = (): string | undefined => {
 }
 
 export const getChainPrefixByUrl = (url: string): string | undefined => {
-  const option =  ENDPOINTS.find(({ value }) => value === url);
+  const option =  ENDPOINTS.find(({ value }) => value === url)
   if (!option) {
     return undefined
   }

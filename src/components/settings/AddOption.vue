@@ -14,24 +14,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Emit, Prop } from 'vue-property-decorator';
+import { Component, Vue, Provide, Emit, Prop } from 'vue-property-decorator'
 
 @Component
 export default class AddOption extends Vue {
   @Prop() public label!: string;
-  @Provide() private value: string = '';
-  @Provide() private text: string = '';
-  private toastMessage: string = 'Address has been added to the list';
+  @Provide() private value = '';
+  @Provide() private text = '';
+  private toastMessage = 'Address has been added to the list';
 
   @Emit('add')
   public onAddedOption() {
-    const { text, value } = this;
-    this.toast(this.toastMessage);
-    return { text: `${text} (${value})`, value };
+    const { text, value } = this
+    this.toast(this.toastMessage)
+    return { text: `${text} (${value})`, value }
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message);
+    this.$buefy.toast.open(message)
   }
 }
 </script>

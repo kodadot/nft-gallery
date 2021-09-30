@@ -95,25 +95,25 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
-import { NFTWithMeta, NFT, Metadata } from '../service/scheme';
-import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '../utils';
-import { basicAggQuery } from './Search/query';
-import Freezeframe from 'freezeframe';
-import 'lazysizes';
-import { SearchQuery } from './Search/types';
+import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
+import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '../utils'
+import { basicAggQuery } from './Search/query'
+import Freezeframe from 'freezeframe'
+import 'lazysizes'
+import { SearchQuery } from './Search/types'
 
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
-import { getMany, update } from 'idb-keyval';
-import { denyList } from '@/constants';
-import { $limit } from 'mingo/operators/pipeline';
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import { getMany, update } from 'idb-keyval'
+import { denyList } from '@/constants'
+import { $limit } from 'mingo/operators/pipeline'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
 
-const controlFilters = [{ name: { notLikeInsensitive: `%Penis%` } }];
+const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
 type NFTType = NFTWithMeta;
 const components = {
@@ -122,7 +122,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-};
+}
 
 @Component<Gallery>({
   metaInfo() {
@@ -153,7 +153,7 @@ const components = {
           content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
         }
       ]
-    };
+    }
   },
   components
 })
@@ -175,7 +175,7 @@ export default class Gallery extends Vue {
   }
 
   get offset() {
-    return this.currentValue * this.first - this.first;
+    return this.currentValue * this.first - this.first
   }
 
   public async created() {
@@ -192,51 +192,51 @@ export default class Gallery extends Vue {
           denyList,
           search: this.searchQuery.search
             ? [
-                {
-                  name: { likeInsensitive: `%${this.searchQuery.search}%` }
-                }
-              ]
+              {
+                name: { likeInsensitive: `%${this.searchQuery.search}%` }
+              }
+            ]
             : []
-        };
+        }
       }
-    });
+    })
   }
 
   protected async handleResult({ data }: any) {
-    this.total = data.nFTEntities.totalCount;
+    this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e.emotes?.totalCount
-    }));
+    }))
 
     const storedMetadata = await getMany(
       this.nfts.map(({ metadata }: any) => metadata)
-    );
+    )
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'));
+          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
           Vue.set(this.nfts, i, {
             ...this.nfts[i],
             ...meta,
             image: getSanitizer(meta.image || '')(meta.image || '')
-          });
-          update(this.nfts[i].metadata, () => meta);
+          })
+          update(this.nfts[i].metadata, () => meta)
         } catch (e) {
-          console.warn('[ERR] unable to get metadata');
+          console.warn('[ERR] unable to get metadata')
         }
       } else {
         Vue.set(this.nfts, i, {
           ...this.nfts[i],
           ...m,
           image: getSanitizer(m.image || '')(m.image || '')
-        });
+        })
       }
-    });
+    })
 
 
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first));
+    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
@@ -249,34 +249,34 @@ export default class Gallery extends Vue {
           denyList,
           search: this.searchQuery.search
             ? [
-                {
-                  name: { likeInsensitive: `%${this.searchQuery.search}%` }
-                }
-              ]
+              {
+                name: { likeInsensitive: `%${this.searchQuery.search}%` }
+              }
+            ]
             : []
         }
-      });
+      })
 
       const {
         data: {
           nFTEntities: { nodes: nftList }
         }
-      } = await nfts;
+      } = await nfts
 
-      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata));
+      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata))
 
-      const storedMetadata = await storedPromise;
+      const storedMetadata = await storedPromise
 
       storedMetadata.forEach(async (m, i) => {
         if (!m) {
           try {
-            const meta = await fetchNFTMetadata(nftList[i]);
-            update(nftList[i].metadata, () => meta);
+            const meta = await fetchNFTMetadata(nftList[i])
+            update(nftList[i].metadata, () => meta)
           } catch (e) {
-            console.warn('[ERR] unable to get metadata');
+            console.warn('[ERR] unable to get metadata')
           }
         }
-      });
+      })
     } catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
@@ -292,32 +292,32 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(this.nfts as NFTWithMeta[]);
+    return basicAggQuery(this.nfts as NFTWithMeta[])
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
   setFreezeframe() {
     document.addEventListener('lazybeforeunveil', async e => {
-      const target = e.target as Image;
-      const type = target.dataset.type as string;
-      const isGif = type === 'image/gif';
+      const target = e.target as Image
+      const type = target.dataset.type as string
+      const isGif = type === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
         const ff = new Freezeframe(target, {
           trigger: false,
           overlay: true,
           warnings: false
-        });
+        })
 
-        target.ffInitialized = true;
+        target.ffInitialized = true
       }
-    });
+    })
   }
 
   onError(e: Event) {
-    const target = e.target as Image;
-    target.src = this.placeholder;
+    const target = e.target as Image
+    target.src = this.placeholder
   }
 }
 </script>

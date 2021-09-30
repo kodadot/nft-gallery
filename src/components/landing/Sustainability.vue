@@ -49,7 +49,7 @@
                 new features is popping up</a> and we are <b>trying invite more developers
                 to our circles by putting bounties on issues</b>.
                 Anyone can join and help with our efforts.
-              </p></br>
+              </p><br>
               <p>
                 As we would like to establish our accrual vector for sustainibility fund
                 and introduce <b>small fee through minting</b> through KodaDot,
@@ -78,10 +78,10 @@
                 <a href="https://www.dictionary.com/browse/sustainability">Definition of Sustainability</a>
               </h1>
               <h1 class="subtitle">noun</h1>
-              <p>
+              <ul>
                 <li>the ability to be sustained, supported, upheld, or confirmed.</li>
                 <li>Environmental Science. the quality of not being harmful to the environment or depleting natural resources, and thereby supporting long-term ecological balance:</li>
-              </p>
+              </ul>
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<Sustainibility>({

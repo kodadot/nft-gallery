@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import SettingChooser from '../settings/SettingChooser.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import SettingChooser from '../settings/SettingChooser.vue'
 import SettingChooserExplorer from '@/components/settings/SettingChooserExplorer.vue'
 import SettingChooserDevelopment from '@/components/settings/SettingChooserDevelopment.vue'
 
@@ -29,8 +29,8 @@ export default class General extends Vue {
 
   // DEV: Not happy about this
   protected refresh() {
-    window.sessionStorage.removeItem('vuex');
-    window.location.reload();
+    window.sessionStorage.removeItem('vuex')
+    window.location.reload()
   }
 
 }

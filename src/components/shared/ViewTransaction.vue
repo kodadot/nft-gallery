@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { urlBuilderTransaction } from '@/utils/explorerGuide';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 export default class ViewTransaction extends Vue {
-	@Prop({ default: '' }) public tx: string = '';
+  @Prop({ default: '' }) public tx = '';
 
   getExplorerUrl(value: string) {
     return urlBuilderTransaction(value,

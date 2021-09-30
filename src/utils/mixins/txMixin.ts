@@ -1,5 +1,5 @@
-import { ExtrinsicStatus } from '@polkadot/types/interfaces';
-import { Component, Vue } from 'vue-property-decorator';
+import { ExtrinsicStatus } from '@polkadot/types/interfaces'
+import { Component, Vue } from 'vue-property-decorator'
 
 /*
 * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -13,25 +13,25 @@ export default class TransactionMixin extends Vue {
 
   public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean) {
     if (status.isReady) {
-      this.status = 'loader.casting';
-      return;
+      this.status = 'loader.casting'
+      return
     }
 
     if (status.isInBlock) {
-      this.status = 'loader.block';
-      return;
+      this.status = 'loader.block'
+      return
     }
 
     if (status.isFinalized) {
-      this.status = omitFinalized ? '' : 'loading.finalized';
-      return;
+      this.status = omitFinalized ? '' : 'loading.finalized'
+      return
     }
 
-    this.status = '';
+    this.status = ''
   }
 
   public initTransactionLoader() {
-    this.isLoading = true;
-    this.status = 'loader.sign';
+    this.isLoading = true
+    this.status = 'loader.sign'
   }
 }
