@@ -202,6 +202,7 @@ import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { denyList } from '@/constants'
 import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
 import { emptyObject } from '@/utils/empty'
+import { get, set } from 'idb-keyval'
 
 const components = {
 	Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -213,7 +214,7 @@ export default class RankingsTable extends Vue{
 	protected data: RowRanking[] = []
 	protected columns: Column[] = columns
 	protected usersWithIdentity: RowRanking[] = []
-	protected nbRows: number = 10
+	protected nbRows: string = '10'
   public isLoading = false;
 
 	public meta: NFTMetadata = emptyObject<NFTMetadata>()
@@ -263,7 +264,11 @@ export default class RankingsTable extends Vue{
   }
 
 	public async fetchMetadataImage(metadata: any) {
-		const meta = await fetchCollectionMetadata({ metadata } as Collection)
+    const m = await get(metadata)
+    const meta = m ? m : await fetchCollectionMetadata({ metadata } as Collection)
+    if (!m) {
+      set(metadata, meta)
+    }
 		return sanitizeIpfsUrl(meta.image || '')
 	}
 
@@ -279,5 +284,11 @@ export default class RankingsTable extends Vue{
 	}
 }
 </script>
-<style>
+<style lang="scss">
+@import '@/styles/variables';
+
+.b-radio.is-selected {
+  color: #000;
+  background-color: $primary;
+}
 </style>
