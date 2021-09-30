@@ -1,199 +1,199 @@
 <template>
-	<div>
-		<b-field position="is-right">
-			<b-radio-button
-				v-model="nbRows"
-				native-value="10"
-				type="is-outlined"
-			>10</b-radio-button>
+  <div>
+    <b-field position="is-right">
+      <b-radio-button
+        v-model="nbRows"
+        native-value="10"
+        type="is-outlined"
+      >10</b-radio-button>
 
-			<b-radio-button
-				v-model="nbRows"
-				native-value="50"
-				type="is-outlined"
-			>50</b-radio-button>
+      <b-radio-button
+        v-model="nbRows"
+        native-value="50"
+        type="is-outlined"
+      >50</b-radio-button>
 
-			<b-radio-button
-				v-model="nbRows"
-				native-value="100"
-				type="is-outlined"
-			>100</b-radio-button>
-		</b-field>
+      <b-radio-button
+        v-model="nbRows"
+        native-value="100"
+        type="is-outlined"
+      >100</b-radio-button>
+    </b-field>
 
-		<b-table :data="data" hoverable>
-			<b-table-column
-				cell-class="is-vcentered"
-				field="id"
-				label="N°"
-				v-slot="props"
-			>
-				{{ data.indexOf(props.row) + 1 }}
-			</b-table-column>
+    <b-table :data="data" hoverable>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="id"
+        label="N°"
+        v-slot="props"
+      >
+        {{ data.indexOf(props.row) + 1 }}
+      </b-table-column>
 
-			<b-table-column
-				field="image"
-				label=""
-				v-slot="props"
-				cell-class="is-vcentered"
-			>
-				<div class="container image is-48x48 mb-2">
-					<b-image
-						v-if="!isLoading"
-						:src="props.row.image"
-						:alt="props.row.name"
-						ratio="1by1"
-						rounded
-					></b-image>
-					<b-skeleton
-						:active="isLoading"
-						circle
-						width="48px"
-						height="48px"
-					>
-					</b-skeleton>
-				</div>
-			</b-table-column>
+      <b-table-column
+        field="image"
+        label=""
+        v-slot="props"
+        cell-class="is-vcentered"
+      >
+        <div class="container image is-48x48 mb-2">
+          <b-image
+            v-if="!isLoading"
+            :src="props.row.image"
+            :alt="props.row.name"
+            ratio="1by1"
+            rounded
+          ></b-image>
+          <b-skeleton
+            :active="isLoading"
+            circle
+            width="48px"
+            height="48px"
+          >
+          </b-skeleton>
+        </div>
+      </b-table-column>
 
-			<b-table-column
-				cell-class="is-vcentered"
-				field="id"
-				label="Collection"
-				v-slot="props"
-			>
-				<router-link
-					:to="{
-						name: 'collectionDetail',
-						params: { id: props.row.id },
-					}"
-					v-if="!isLoading"
-				>
-					{{ props.row.name }}
-				</router-link>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="id"
+        label="Collection"
+        v-slot="props"
+      >
+        <router-link
+          :to="{
+            name: 'collectionDetail',
+            params: { id: props.row.id },
+          }"
+          v-if="!isLoading"
+        >
+          {{ props.row.name }}
+        </router-link>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="rank"
-				:label="$t('spotlight.score')"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">{{
-					Math.ceil(props.row.rank)
-				}}</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="rank"
+        :label="$t('spotlight.score')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{
+          Math.ceil(props.row.rank)
+        }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="volume"
-				label="Volume"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">
-					<Money :value="props.row.volume" inline />
-				</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <Money :value="props.row.volume" inline />
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="weeklyVolume"
-				label="7d %"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">
-					<!-- <Money :value="props.row.weeklyVolume" inline /> -->
-					<div
-						v-html="
-							displayVolumePercent(
-								props.row.weeklyVolume,
-								props.row.volume
-							)
-						"
-					></div>
-				</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="weeklyVolume"
+        label="7d %"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <!-- <Money :value="props.row.weeklyVolume" inline /> -->
+          <div
+            v-html="
+              displayVolumePercent(
+                props.row.weeklyVolume,
+                props.row.volume
+              )
+            "
+          ></div>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="monthlyVolume"
-				label="30d %"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">
-					<!-- <Money :value="props.row.monthlyVolume" inline /> -->
-					<div
-						v-html="
-							displayVolumePercent(
-								props.row.monthlyVolume,
-								props.row.volume
-							)
-						"
-					></div>
-				</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="monthlyVolume"
+        label="30d %"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <!-- <Money :value="props.row.monthlyVolume" inline /> -->
+          <div
+            v-html="
+              displayVolumePercent(
+                props.row.monthlyVolume,
+                props.row.volume
+              )
+            "
+          ></div>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="floorPrice"
-				label="Floor price"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">
-					<Money :value="props.row.floorPrice" inline />
-				</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="floorPrice"
+        label="Floor price"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">
+          <Money :value="props.row.floorPrice" inline />
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="sold"
-				label="Collected"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">{{ props.row.sold }}</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="sold"
+        label="Collected"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.sold }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<b-table-column
-				field="total"
-				:label="$t('spotlight.total')"
-				v-slot="props"
-				sortable
-				numeric
-				cell-class="is-vcentered"
-			>
-				<template v-if="!isLoading">{{ props.row.total }}</template>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</b-table-column>
+      <b-table-column
+        field="total"
+        :label="$t('spotlight.total')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.total }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
 
-			<template #empty>
-				<div v-if="!isLoading" class="has-text-centered">
-					{{ $t('spotlight.empty') }}
-				</div>
-				<b-skeleton :active="isLoading"> </b-skeleton>
-			</template>
-		</b-table>
-	</div>
+      <template #empty>
+        <div v-if="!isLoading" class="has-text-centered">
+          {{ $t('spotlight.empty') }}
+        </div>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Column, RowRanking } from './types'
 import { columns, nftFn } from './utils'
 import collectionRankingsList from '@/queries/collectionRankingsList.graphql'
@@ -205,56 +205,56 @@ import { emptyObject } from '@/utils/empty'
 import { get, set } from 'idb-keyval'
 
 const components = {
-	Identity: () => import('@/components/shared/format/Identity.vue'),
-	Money: () => import('@/components/shared/format/Money.vue'),
+  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
 }
 
 @Component({ components })
 export default class RankingsTable extends Vue{
-	protected data: RowRanking[] = []
-	protected columns: Column[] = columns
-	protected usersWithIdentity: RowRanking[] = []
-	protected nbRows: string = '10'
+  protected data: RowRanking[] = []
+  protected columns: Column[] = columns
+  protected usersWithIdentity: RowRanking[] = []
+  protected nbRows = '10'
   public isLoading = false;
 
-	public meta: NFTMetadata = emptyObject<NFTMetadata>()
+  public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
-	async created() {
-		await this.fetchCollectionsRankings()
-	}
+  async created() {
+    await this.fetchCollectionsRankings()
+  }
 
-  public async fetchCollectionsRankings(limit: number = 10) {
+  public async fetchCollectionsRankings(limit = 10) {
     this.isLoading = true
-		const collections = await this.$apollo.query({
-			query: collectionRankingsList,
-			variables: {
-				denyList,
-			},
-		})
+    const collections = await this.$apollo.query({
+      query: collectionRankingsList,
+      variables: {
+        denyList,
+      },
+    })
 
-		const {
-			data: { collectionEntities },
-		} = collections
+    const {
+      data: { collectionEntities },
+    } = collections
 
-		this.data = rankingsAggQuery(
+    this.data = rankingsAggQuery(
       limit,
-			collectionEntities?.nodes?.map(nftFn)
-		) as RowRanking[]
+      collectionEntities?.nodes?.map(nftFn)
+    ) as RowRanking[]
 
-		// fetch metadata for images
-		for (let index = 0; index < this.data.length; index++) {
-			const image = await this.fetchMetadataImage(
-				this.data[index].metadata
-			)
+    // fetch metadata for images
+    for (let index = 0; index < this.data.length; index++) {
+      const image = await this.fetchMetadataImage(
+        this.data[index].metadata
+      )
 
-			if (image) {
-				this.data[index].image = image
-			}
-		}
+      if (image) {
+        this.data[index].image = image
+      }
+    }
 
-		console.log(this.data)
+    console.log(this.data)
 
-		this.isLoading = false
+    this.isLoading = false
   }
 
   @Watch('nbRows')
@@ -263,25 +263,25 @@ export default class RankingsTable extends Vue{
     this.fetchCollectionsRankings(Number(value))
   }
 
-	public async fetchMetadataImage(metadata: any) {
+  public async fetchMetadataImage(metadata: any) {
     const m = await get(metadata)
     const meta = m ? m : await fetchCollectionMetadata({ metadata } as Collection)
     if (!m) {
       set(metadata, meta)
     }
-		return sanitizeIpfsUrl(meta.image || '')
-	}
+    return sanitizeIpfsUrl(meta.image || '')
+  }
 
-	public displayVolumePercent(firstVolume: number, volumeTotal: number) {
-		const vol = (firstVolume / volumeTotal) * 100
-		if (vol === 0) {
-			return '---'
-		}
-		const volumePercent = Math.ceil(vol * 100) / 100
-		return volumePercent
-			? `<div style="color: #41b883"> +${volumePercent}%</div>`
-			: `<div class="has-text-danger"> -${volumePercent}%</div>`
-	}
+  public displayVolumePercent(firstVolume: number, volumeTotal: number) {
+    const vol = (firstVolume / volumeTotal) * 100
+    if (vol === 0) {
+      return '---'
+    }
+    const volumePercent = Math.ceil(vol * 100) / 100
+    return volumePercent
+      ? `<div style="color: #41b883"> +${volumePercent}%</div>`
+      : `<div class="has-text-danger"> -${volumePercent}%</div>`
+  }
 }
 </script>
 <style lang="scss">

@@ -80,7 +80,7 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg)
 }
 
-export const rankingsAggregation = (limit: number = 10): Aggregator => {
+export const rankingsAggregation = (limit = 10): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
@@ -108,9 +108,9 @@ export const rankingsAggregation = (limit: number = 10): Aggregator => {
     {
       $limit: limit
     }
-  ];
+  ]
 
-  return new Aggregator(agg);
+  return new Aggregator(agg)
 }
 
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {

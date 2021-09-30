@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component<Rankings>({
   metaInfo() {
@@ -45,7 +45,7 @@ import { Component, Vue } from 'vue-property-decorator';
           content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
         }
       ]
-    };
+    }
   },
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
