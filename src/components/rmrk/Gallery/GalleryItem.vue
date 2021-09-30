@@ -136,7 +136,7 @@ import { get, set } from 'idb-keyval'
 import { MediaType } from '../types'
 import axios from 'axios'
 import { exist } from './Search/exist'
-import Orientation from '@/directives/DeviceOrientation';
+import Orientation from '@/directives/DeviceOrientation'
 
 @Component<GalleryItem>({
   metaInfo() {
