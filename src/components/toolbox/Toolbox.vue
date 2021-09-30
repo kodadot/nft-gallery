@@ -17,18 +17,18 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import SignMessage from './SignMessage.vue';
-import VerifySignature from './VerifySignature.vue';
-import HashData from './HashData.vue';
-import ConvertAddress from './ConvertAddress.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import SignMessage from './SignMessage.vue'
+import VerifySignature from './VerifySignature.vue'
+import HashData from './HashData.vue'
+import ConvertAddress from './ConvertAddress.vue'
 
-const currentTabs = {
+const currentTabs: any = {
   hash: 0,
   sign: 1,
   verify: 2,
   convert: 3
-};
+}
 
 @Component({
   components: {
@@ -39,7 +39,7 @@ const currentTabs = {
   }
 })
 export default class ToolBox extends Vue {
-  private activeTab: number = 0;
+  private activeTab = 0;
 
   private mounted() {
     const value = this.$route.params.tab
@@ -48,13 +48,12 @@ export default class ToolBox extends Vue {
 
   @Watch('$route.params.tab')
   handleActiveTab(value: string) {
-    this.updateActiveTab(value);
+    this.updateActiveTab(value)
   }
 
   private updateActiveTab(value: string) {
-    console.log('TAB', value);
-    // @ts-ignore
-    this.activeTab = currentTabs[value] || 0;
+    console.log('TAB', value)
+    this.activeTab = currentTabs[value] || 0
   }
 }
 </script>

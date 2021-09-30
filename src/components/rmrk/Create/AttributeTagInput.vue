@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { Attribute } from '../service/scheme';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Attribute } from '../service/scheme'
 
 const valueOf = ({value}: Attribute) => String(value)
 

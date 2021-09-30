@@ -6,4 +6,4 @@ export default [
     name: 'profile',
     component: Profile,
   }
-];
+]

@@ -15,23 +15,23 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { resolveSubsocialApi } from './api';
-import shouldUpdate from '@/utils/shouldUpdate';
-import { emptyObject } from '@/utils/empty';
-import { NFT, NFTMetadata } from '../rmrk/service/scheme';
-import { searchPost } from '@/proxy';
-import { SUBSOCIAL_KODA_SPACE, subSocialStore } from './utils';
-import { setMany, get } from 'idb-keyval';
-import { Debounce } from 'vue-debounce-decorator';
-import { showNotification } from '@/utils/notification';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { resolveSubsocialApi } from './api'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { emptyObject } from '@/utils/empty'
+import { NFT, NFTMetadata } from '../rmrk/service/scheme'
+import { searchPost } from '@/proxy'
+import { SUBSOCIAL_KODA_SPACE, subSocialStore } from './utils'
+import { setMany, get } from 'idb-keyval'
+import { Debounce } from 'vue-debounce-decorator'
+import { showNotification } from '@/utils/notification'
 
 const components = {
   CommentWrapper: () => import('./CommentWrapper.vue'),
   BasePostReply: () => import('./Reply.vue'),
   FaucetLink: () => import('./FaucetLink.vue'),
   CreatePost: () => import('./CreatePost.vue')
-};
+}
 
 type ElasticResult = {
   _id: string;
@@ -48,12 +48,12 @@ type ElasticResult = {
 export default class BaseCommentSection extends Vue {
   @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
   @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
-  protected postId: string = '';
-  protected actionDisabled: boolean = false;
-  protected balance: string = '';
+  protected postId = '';
+  protected actionDisabled = false;
+  protected balance = '';
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   get nftId() {
@@ -61,24 +61,24 @@ export default class BaseCommentSection extends Vue {
   }
 
   protected async checkIfPoor(address: string) {
-    const ss = await resolveSubsocialApi();
+    const ss = await resolveSubsocialApi()
     const api = await ss.substrate.api;
-    (window as any).SS = ss;
-    const balance = await api.derive.balances.all(address);
-    this.actionDisabled = balance.freeBalance.ltn(0.05);
-    this.balance = balance.freeBalance?.toHuman();
-    console.log('balance', balance.freeBalance?.toHuman());
+    (window as any).SS = ss
+    const balance = await api.derive.balances.all(address)
+    this.actionDisabled = balance.freeBalance.ltn(0.05)
+    this.balance = balance.freeBalance?.toHuman()
+    console.log('balance', balance.freeBalance?.toHuman())
   }
 
-  protected async searchForPost(name: string = 'Something is in KodaDot kitchen') {
-    const cache = await get(name, subSocialStore);
+  protected async searchForPost(name = 'Something is in KodaDot kitchen') {
+    const cache = await get(name, subSocialStore)
 
     if (cache) {
-      this.postId = cache;
-      return;
+      this.postId = cache
+      return
     }
 
-    const ss = await resolveSubsocialApi();
+    const ss = await resolveSubsocialApi()
     const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
     const p = await ss.findPublicPosts([...posts as any])
     const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
@@ -98,9 +98,9 @@ export default class BaseCommentSection extends Vue {
   }
 
   reloadComments() {
-    const post = this.postId;
-    this.postId = '';
-    this.postId = post;
+    const post = this.postId
+    this.postId = ''
+    this.postId = post
   }
 
   @Debounce(1000)
@@ -112,14 +112,14 @@ export default class BaseCommentSection extends Vue {
   @Watch('accountId', { immediate: true })
   protected onAccountChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.checkIfPoor(val);
+      this.checkIfPoor(val)
     }
   }
 
   @Watch('nftId', { immediate: true })
   protected onNftId(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.searchForPost(val);
+      this.searchForPost(val)
     }
   }
 

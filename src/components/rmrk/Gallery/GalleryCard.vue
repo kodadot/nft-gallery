@@ -51,17 +51,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { get, update } from 'idb-keyval';
-import shouldUpdate from '@/utils/shouldUpdate';
-import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils';
-import { NFT } from '../service/scheme';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { get, update } from 'idb-keyval'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils'
+import { NFT } from '../service/scheme'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 
-};
+}
 
 @Component({ components })
 export default class GalleryCard extends Vue {
@@ -69,8 +69,8 @@ export default class GalleryCard extends Vue {
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public id!: string;
   @Prop() public name!: string;
-  protected image: string = '';
-  protected title: string = '';
+  protected image = '';
+  protected title = '';
   @Prop() public emoteCount!: string | number;
   @Prop() public imageType!: string;
   @Prop() public price!: string;
@@ -82,7 +82,7 @@ export default class GalleryCard extends Vue {
   async mounted() {
 
     if (this.metadata) {
-      const meta = await get(this.metadata);
+      const meta = await get(this.metadata)
       if (meta) {
         this.image = getSanitizer(meta.image || '')(meta.image || '')
         this.title = meta.name
@@ -98,12 +98,12 @@ export default class GalleryCard extends Vue {
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
-      this.accountIsCurrentOwner();
+      this.accountIsCurrentOwner()
     }
   }
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   public accountIsCurrentOwner() {
@@ -135,7 +135,7 @@ export default class GalleryCard extends Vue {
     .ff-canvas {
       border-radius: 8px;
     }
-  	transition: all 0.3s;
+    transition: all 0.3s;
 
     .card-image{
       &__emotes {

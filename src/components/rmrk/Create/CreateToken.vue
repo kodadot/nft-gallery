@@ -90,37 +90,37 @@
 </template>
 
 <script lang="ts" >
-import { Component, Watch, Mixins } from 'vue-property-decorator';
-import CreateItem from './CreateItem.vue';
-import Tooltip from '@/components/shared/Tooltip.vue';
-import Support from '@/components/shared/Support.vue';
-import Connector from '@vue-polkadot/vue-api';
-import exec, { execResultValue, txCb, estimate } from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification } from '@/utils/notification';
+import { Component, Watch, Mixins } from 'vue-property-decorator'
+import CreateItem from './CreateItem.vue'
+import Tooltip from '@/components/shared/Tooltip.vue'
+import Support from '@/components/shared/Support.vue'
+import Connector from '@vue-polkadot/vue-api'
+import exec, { execResultValue, txCb, estimate } from '@/utils/transactionExecutor'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NFT,
   NFTMetadata,
   MintNFT,
   getNftId
-} from '../service/scheme';
-import { pinFile, pinJson, getKey, revokeKey } from '@/proxy';
-import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs';
-import PasswordInput from '@/components/shared/PasswordInput.vue';
-import NFTUtils from '../service/NftUtils';
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
-import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support';
-import collectionForMint from '@/queries/collectionForMint.graphql';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import ChainMixin from '@/utils/mixins/chainMixin';
-import shouldUpdate from '@/utils/shouldUpdate';
+} from '../service/scheme'
+import { pinFile, pinJson, getKey, revokeKey } from '@/proxy'
+import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
+import PasswordInput from '@/components/shared/PasswordInput.vue'
+import NFTUtils from '../service/NftUtils'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support'
+import collectionForMint from '@/queries/collectionForMint.graphql'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
-} from './mintUtils';
-import { formatBalance } from '@polkadot/util';
-import { DispatchError } from '@polkadot/types/interfaces';
-import { APIKeys, pinFile as pinFileToIPFS  } from '@/pinata';
+} from './mintUtils'
+import { formatBalance } from '@polkadot/util'
+import { DispatchError } from '@polkadot/types/interfaces'
+import { APIKeys, pinFile as pinFileToIPFS  } from '@/pinata'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -165,22 +165,22 @@ export default class CreateToken extends Mixins(
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
 
-  private password: string = '';
+  private password = '';
   private alreadyMinted = 0;
-  private hasSupport: boolean = true;
-  private estimated: string = '';
-  private hasCarbonOffset: boolean = true;
-  private filePrice: number = 0;
+  private hasSupport = true;
+  private estimated = '';
+  private hasCarbonOffset = true;
+  private filePrice = 0;
   protected arweaveUpload = false;
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
-      this.fetchCollections();
+      this.fetchCollections()
     }
   }
 
@@ -191,11 +191,11 @@ export default class CreateToken extends Mixins(
         account: this.accountId
       },
       fetchPolicy: 'network-only'
-    });
+    })
 
     const {
       data: { collectionEntities }
-    } = collections;
+    } = collections
 
     this.collections = collectionEntities.nodes
       ?.map((ce: any) => ({
@@ -204,11 +204,11 @@ export default class CreateToken extends Mixins(
       }))
       .filter(
         (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
-      );
+      )
   }
 
   get disabled() {
-    return !(this.nft.name && this.nft.file && this.selectedCollection);
+    return !(this.nft.name && this.nft.file && this.selectedCollection)
   }
 
   @Watch('nft.file')
@@ -218,12 +218,12 @@ export default class CreateToken extends Mixins(
       ([this.nft.file, this.nft.secondFile] as MaybeFile[]).filter(
         a => typeof a !== 'undefined'
       )
-    );
+    )
   }
 
   private toRemark(remark: string) {
-    const { api } = Connector.getInstance();
-    return api.tx.system.remark(remark);
+    const { api } = Connector.getInstance()
+    return api.tx.system.remark(remark)
   }
 
   protected async canSupport() {
@@ -233,32 +233,32 @@ export default class CreateToken extends Mixins(
           this.nft.file as MaybeFile,
           this.nft.secondFile as MaybeFile
         ])
-      ];
+      ]
     }
 
-    return [];
+    return []
   }
 
   protected async canOffset() {
     if (this.hasCarbonOffset) {
-      return [await offsetTx(1)];
+      return [await offsetTx(1)]
     }
 
-    return [];
+    return []
   }
 
   protected async submit() {
     if (!this.selectedCollection) {
-      throw ReferenceError('[MINT] Unable to mint without collection');
+      throw ReferenceError('[MINT] Unable to mint without collection')
     }
 
-    this.isLoading = true;
-    this.status = 'loader.ipfs';
-    const { api } = Connector.getInstance();
-    const { alreadyMinted, symbol } = this.selectedCollection;
+    this.isLoading = true
+    this.status = 'loader.ipfs'
+    const { api } = Connector.getInstance()
+    const { alreadyMinted, symbol } = this.selectedCollection
 
     try {
-      const metadata = await this.constructMeta();
+      const metadata = await this.constructMeta()
       // missin possibility to handle more than one remark
 
       const mint = NFTUtils.createMultipleNFT(
@@ -268,20 +268,20 @@ export default class CreateToken extends Mixins(
         this.nft.name,
         metadata,
         alreadyMinted
-      );
-      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
+      )
+      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
 
       const isSingle =
-        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
+        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
 
-      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll;
+      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
       const args = isSingle
         ? mintString[0]
         : [
-            ...mintString.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset())
-          ];
+          ...mintString.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset())
+        ]
 
       const tx = await exec(
         this.accountId,
@@ -290,40 +290,40 @@ export default class CreateToken extends Mixins(
         [args],
         txCb(
           async blockHash => {
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(blockHash);
-            const blockNumber = header.number.toString();
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
             showNotification(
               `[NFT] Saved ${this.nft.edition} entries in block ${blockNumber}`,
               notificationTypes.success
-            );
+            )
 
-            this.isLoading = false;
+            this.isLoading = false
 
             if (this.nft.price) {
-              this.listForSale(mint, blockNumber);
+              this.listForSale(mint, blockNumber)
             } else {
-              this.navigateToDetail(mint[0], blockNumber);
+              this.navigateToDetail(mint[0], blockNumber)
             }
           },
           dispatchError => {
-            execResultValue(tx);
-            this.onTxError(dispatchError);
-            this.isLoading = false;
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
           },
           res => this.resolveStatus(res.status, true)
         )
-      );
+      )
     } catch (e: any) {
-      showNotification(e.toString(), notificationTypes.danger);
-      this.isLoading = false;
+      showNotification(e.toString(), notificationTypes.danger)
+      this.isLoading = false
     }
   }
 
   public async constructMeta(): Promise<string> {
     if (!this.nft.file) {
-      throw new ReferenceError('No file found!');
+      throw new ReferenceError('No file found!')
     }
 
     const meta: NFTMetadata = {
@@ -334,68 +334,68 @@ export default class CreateToken extends Mixins(
         ...nsfwAttribute(this.nft.nsfw),
         ...offsetAttribute(this.hasCarbonOffset)
       ],
-      external_url: `https://nft.kodadot.xyz`,
+      external_url: 'https://nft.kodadot.xyz',
       type: this.nft.file.type
-    };
+    }
 
     try {
-      const keys: APIKeys = await getKey(this.accountId);
-      const fileHash = await pinFileToIPFS(this.nft.file, keys);
+      const keys: APIKeys = await getKey(this.accountId)
+      const fileHash = await pinFileToIPFS(this.nft.file, keys)
 
       if (!secondaryFileVisible(this.nft.file)) {
-        meta.image = unSanitizeIpfsUrl(fileHash);
-        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : '';
+        meta.image = unSanitizeIpfsUrl(fileHash)
+        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : ''
       } else {
-        meta.animation_url = unSanitizeIpfsUrl(fileHash);
+        meta.animation_url = unSanitizeIpfsUrl(fileHash)
         if (this.nft.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, keys);
-          meta.image = unSanitizeIpfsUrl(coverImageHash);
+          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, keys)
+          meta.image = unSanitizeIpfsUrl(coverImageHash)
         }
       }
 
       revokeKey(keys.pinata_api_key)
-      .then(console.log, console.warn);
+        .then(console.log, console.warn)
 
       // TODO: upload meta to IPFS
-      const metaHash = await pinJson(meta);
-      return unSanitizeIpfsUrl(metaHash);
+      const metaHash = await pinJson(meta)
+      return unSanitizeIpfsUrl(metaHash)
     } catch (e: any) {
-      throw new ReferenceError(e.message);
+      throw new ReferenceError(e.message)
     }
   }
 
   protected calculateSerialNumber(index: number) {
-    return String(index + this.alreadyMinted + 1).padStart(16, '0');
+    return String(index + this.alreadyMinted + 1).padStart(16, '0')
   }
 
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
     try {
-      const { api } = Connector.getInstance();
-      this.isLoading = true;
+      const { api } = Connector.getInstance()
+      this.isLoading = true
 
-      const { version } = this;
-      const { price } = this.nft;
+      const { version } = this
+      const { price } = this.nft
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
           withUnit: this.unit
         })}`
-      );
+      )
 
       const onlyNfts = remarks
 
         .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
         .map(nft =>
           NFTUtils.createInteraction('LIST', version, nft.id, String(price))
-        );
+        )
 
       if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger);
-        return;
+        showNotification('Can not list empty NFTs', notificationTypes.danger)
+        return
       }
 
-      const cb = api.tx.utility.batchAll;
-      const args = onlyNfts.map(this.toRemark);
+      const cb = api.tx.utility.batchAll
+      const args = onlyNfts.map(this.toRemark)
 
       const tx = await exec(
         this.accountId,
@@ -404,9 +404,9 @@ export default class CreateToken extends Mixins(
         [args],
         txCb(
           async blockHash => {
-            execResultValue(tx);
-            const header = await api.rpc.chain.getHeader(blockHash);
-            const blockNumber = header.number.toString();
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
             showNotification(
               `[LIST] Saved prices for ${
@@ -416,75 +416,75 @@ export default class CreateToken extends Mixins(
                 withUnit: this.unit
               })} in block ${blockNumber}`,
               notificationTypes.success
-            );
+            )
 
-            this.isLoading = false;
-            this.navigateToDetail(remarks[0], originalBlockNumber);
+            this.isLoading = false
+            this.navigateToDetail(remarks[0], originalBlockNumber)
           },
           dispatchError => {
-            execResultValue(tx);
-            this.onTxError(dispatchError);
-            this.isLoading = false;
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
           },
           res => this.resolveStatus(res.status)
         )
-      );
+      )
     } catch (e: any) {
-      showNotification(e.message, notificationTypes.danger);
+      showNotification(e.message, notificationTypes.danger)
     }
   }
 
 
   protected async estimateTx() {
-    this.isLoading = true;
-    const { accountId, version } = this;
-    const { api } = Connector.getInstance();
+    this.isLoading = true
+    const { accountId, version } = this
+    const { api } = Connector.getInstance()
 
-  const mint = NFTUtils.createMultipleNFT(
-        this.nft.edition,
-        this.accountId,
-        this.selectedCollection?.symbol || '',
-        this.nft.name,
-        unSanitizeIpfsUrl(''),
-        this.alreadyMinted
-      );
-      const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version));
+    const mint = NFTUtils.createMultipleNFT(
+      this.nft.edition,
+      this.accountId,
+      this.selectedCollection?.symbol || '',
+      this.nft.name,
+      unSanitizeIpfsUrl(''),
+      this.alreadyMinted
+    )
+    const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
 
-      const isSingle =
-        remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset);
-    const cb = api.tx.utility.batchAll;
+    const isSingle =
+        remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
+    const cb = api.tx.utility.batchAll
 
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
       : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ];
+        ...remarks.map(this.toRemark),
+        ...(await this.canSupport()),
+        ...(await this.canOffset())
+      ]
 
-    this.estimated = await estimate(this.accountId, cb, [args]);
+    this.estimated = await estimate(this.accountId, cb, [args])
 
-    this.isLoading = false;
+    this.isLoading = false
   }
 
   protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance();
+    const { api } = Connector.getInstance()
     if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule);
-      const { docs, name, section } = decoded;
+      const decoded = api.registry.findMetaError(dispatchError.asModule)
+      const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
-      );
+      )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
         notificationTypes.danger
-      );
+      )
     }
 
-    this.isLoading = false;
+    this.isLoading = false
   }
 
   protected navigateToDetail(nft: NFT, blockNumber: string) {

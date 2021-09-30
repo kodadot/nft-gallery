@@ -31,15 +31,15 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import AccountSelect from '@/components/shared/AccountSelect.vue';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import AccountSelect from '@/components/shared/AccountSelect.vue'
 
 const components = {
   AccountSelect
-};
+}
 
 @Component({ components })
 export default class Credit extends Vue {
-  private accountId: string = '';
+  private accountId = '';
 }
 </script>

@@ -8,16 +8,16 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 const components = {
   ExternalLink: () => import('@/components/shared/format/ExternalLink.vue')
-};
+}
 
 @Component({ components })
 export default class ArweaveLink extends Vue {
   @Prop() public id!: string;
   @Prop({ default: 'content' }) public label!: string;
-  protected link: string = 'https://viewblock.io/arweave/tx/';
+  protected link = 'https://viewblock.io/arweave/tx/';
 }
 </script>
 

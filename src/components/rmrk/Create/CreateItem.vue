@@ -74,10 +74,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, PropSync } from 'vue-property-decorator';
-import { Attribute } from '../service/scheme';
-import { resolveMedia } from '../utils';
-import { MediaType } from '../types';
+import { Component, Prop, Vue, PropSync } from 'vue-property-decorator'
+import { Attribute } from '../service/scheme'
+import { resolveMedia } from '../utils'
+import { MediaType } from '../types'
 
 @Component({
   components: {
@@ -102,17 +102,17 @@ export default class CreateItem extends Vue {
   @Prop(Number) public alreadyMinted!: number;
 
   protected updateMeta(value: number) {
-    console.log(typeof value, value);
-    this.vPrice = value;
+    console.log(typeof value, value)
+    this.vPrice = value
   }
 
   get fileType() {
-    return resolveMedia(this.vFile?.type);
+    return resolveMedia(this.vFile?.type)
   }
 
   get secondaryFileVisible() {
-    const fileType = this.fileType;
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType);
+    const fileType = this.fileType
+    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
   }
 
   get hasPrice() {

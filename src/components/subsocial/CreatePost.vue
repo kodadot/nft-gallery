@@ -6,22 +6,22 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { pinSubSocialPost } from '@/proxy';
-import { emptyObject } from '@/utils/empty';
-import { NFT, NFTMetadata } from '../rmrk/service/scheme';
-import { extractCid } from '@/utils/ipfs';
-import { SUBSOCIAL_KODA_SPACE, subsocialAddress } from './utils';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import AuthMixin from '@/utils/mixins/authMixin';
-import { resolveSubsocialApi } from './api';
-import exec, { txCb, execResultValue } from '@/utils/transactionExecutor';
-import { showNotification, notificationTypes } from '@/utils/notification';
+import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+import { pinSubSocialPost } from '@/proxy'
+import { emptyObject } from '@/utils/empty'
+import { NFT, NFTMetadata } from '../rmrk/service/scheme'
+import { extractCid } from '@/utils/ipfs'
+import { SUBSOCIAL_KODA_SPACE, subsocialAddress } from './utils'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
+import { resolveSubsocialApi } from './api'
+import exec, { txCb, execResultValue } from '@/utils/transactionExecutor'
+import { showNotification, notificationTypes } from '@/utils/notification'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   PostButton: () => import('./PostButton.vue')
-};
+}
 
 type Post = {
   title: string;
@@ -43,8 +43,8 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
   public url!: string;
 
   protected async buildParams() {
-    const { name, id } = this.nft;
-    const { image, attributes } = this.meta;
+    const { name, id } = this.nft
+    const { image, attributes } = this.meta
 
     const post: Post = {
       title: name,
@@ -52,27 +52,27 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
       body: this.forceHackNftUrl(),
       tags: attributes.map(({ value }) => String(value)),
       canonical: `${this.url}${id}`
-    };
+    }
 
-    const newExtension = { RegularPost: null };
-    const cid = await pinSubSocialPost(post);
+    const newExtension = { RegularPost: null }
+    const cid = await pinSubSocialPost(post)
 
-    const args = [SUBSOCIAL_KODA_SPACE, newExtension, { IPFS: cid }];
+    const args = [SUBSOCIAL_KODA_SPACE, newExtension, { IPFS: cid }]
 
-    return args;
+    return args
   }
 
   protected async handlePost() {
     try {
-      this.initTransactionLoader();
-      const ss = await resolveSubsocialApi();
-      const args = await this.buildParams();
-      const api = await ss.substrate.api;
+      this.initTransactionLoader()
+      const ss = await resolveSubsocialApi()
+      const args = await this.buildParams()
+      const api = await ss.substrate.api
       const address = subsocialAddress(this.accountId)
 
       const isFollower = await ss.substrate.isSpaceFollower(address, SUBSOCIAL_KODA_SPACE as any)
 
-      const cb = isFollower ? api.tx.posts.createPost : api.tx.utility.batch;
+      const cb = isFollower ? api.tx.posts.createPost : api.tx.utility.batch
       const finalArgs = isFollower ? args : [[api.tx.spaceFollows.followSpace(SUBSOCIAL_KODA_SPACE), api.tx.posts.createPost(...args)]]
       const tx = await exec(
         subsocialAddress(this.accountId),
@@ -82,36 +82,36 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
         txCb(
           () => null,
           err => {
-            execResultValue(tx);
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
-            this.isLoading = false;
+            execResultValue(tx)
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+            this.isLoading = false
           },
           res => {
             this.resolveStatus(res.status)
             if (res.status.isInBlock) {
-              execResultValue(tx);
+              execResultValue(tx)
               showNotification(
                 res.status.asInBlock.toString(),
                 notificationTypes.info
-              );
+              )
               showNotification(
-              `[SUBSOCIAL] ${this.nft.name}`,
-              notificationTypes.success
-            );
-            this.$emit('input');
-            this.isLoading = false;
+                `[SUBSOCIAL] ${this.nft.name}`,
+                notificationTypes.success
+              )
+              this.$emit('input')
+              this.isLoading = false
             }
           }
-          )
-      );
+        )
+      )
     } catch (e: any) {
-      showNotification(`[POST] ${e.message}`, notificationTypes.warn);
+      showNotification(`[POST] ${e.message}`, notificationTypes.warn)
     }
   }
 
   // Subsocial does not show source so far
   protected forceHackNftUrl() {
-    return `${this.meta.description}\n\n[View this NFT on KodaDot](${this.url}${this.nft.id})`;
+    return `${this.meta.description}\n\n[View this NFT on KodaDot](${this.url}${this.nft.id})`
   }
 }
 </script>

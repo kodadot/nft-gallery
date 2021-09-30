@@ -84,8 +84,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, PropSync, Vue, Watch, Emit } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
+import { Component, Prop, PropSync, Vue, Watch, Emit } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
 @Component({
   components: {
     Identicon,
@@ -101,17 +101,17 @@ export default class TxPicker extends Vue {
   @Prop({ default: 56 }) public size!: number;
 
   @PropSync('address', { type: String }) public pickedAddress!: string;
-  private pickedMetaName: string = '';
+  private pickedMetaName = '';
   public shortAddress(address: string): string {
     if (address) {
-      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+      return `${address.slice(0, 6)}...${address.slice(-6)}`
     }
-    return '';
+    return ''
   }
 
   public setMeta(metaName: string) {
-    this.pickedMetaName = metaName;
-    return this.pickedMetaName;
+    this.pickedMetaName = metaName
+    return this.pickedMetaName
   }
 }
 </script>

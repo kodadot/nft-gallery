@@ -6,7 +6,7 @@ import { NFTWithMeta } from '../../service/scheme'
 import { SortBy, QueryType, SearchQuery } from './types'
 
 export const basicFilterQuery = (value: string): Query => {
-  const rr: RegExp = new RegExp(value, 'i')
+  const rr = new RegExp(value, 'i')
   const criteria: QueryType = basicCriteria(rr)
 
   return new Query(criteria)
@@ -53,7 +53,7 @@ export const basicAggregation = (): Aggregator => {
     }
   ]
 
-  return new Aggregator(agg);
+  return new Aggregator(agg)
 }
 
 export const spotlightAggregation = (): Aggregator => {
@@ -77,7 +77,7 @@ export const spotlightAggregation = (): Aggregator => {
     }
   ]
 
-  return new Aggregator(agg);
+  return new Aggregator(agg)
 }
 
 export const rankingsAggregation = (limit: number = 10): Aggregator => {
@@ -122,7 +122,7 @@ export const expandedFilter = (value: SearchQuery, nfts: NFTWithMeta[]): any[] =
   // if (sort) {
   //   return query.find(nfts).sort(sort).all()
   // }
-  const rr: RegExp = new RegExp(value.search, 'i')
+  const rr = new RegExp(value.search, 'i')
   const additionalQuery = value.type ? [{ type: { $regex: new RegExp(value.type, 'i')} }] as any : []
   const criteria: QueryType = basicCriteria(rr, additionalQuery)
 

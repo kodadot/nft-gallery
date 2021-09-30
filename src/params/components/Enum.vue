@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Enum extends Vue {
@@ -30,16 +30,16 @@ export default class Enum extends Vue {
   private selectedMethod = null;
 
   public mounted() {
-    console.log('ENUM defaultValue', this.defaultValue);
+    console.log('ENUM defaultValue', this.defaultValue)
 
   }
 
   get selected() {
-    return  this.defaultValue || this.selectedMethod;
+    return  this.defaultValue || this.selectedMethod
   }
 
   set selected(value) {
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 }
 </script>

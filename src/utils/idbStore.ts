@@ -1,3 +1,3 @@
-import { createStore } from 'idb-keyval';
+import { createStore } from 'idb-keyval'
 
 export const identityStore = createStore('identity', 'keyval')

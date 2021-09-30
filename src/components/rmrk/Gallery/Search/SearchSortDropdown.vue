@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { SortType } from './types';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { SortType } from './types'
 
 type Sort = Record<string, SortType>
 
 @Component({})
 export default class SearchSortDropdown extends Vue {
-  private selectedAction: string = 'sort.created';
+  private selectedAction = 'sort.created';
   private sortActions: Sort = {
     'sort.created': { field: 'blockNumber', value: -1 },
     'sort.old': { field: 'blockNumber', value: 1 },
@@ -32,7 +32,7 @@ export default class SearchSortDropdown extends Vue {
   }
 
   handleSelect(name: string) {
-    this.selectedAction = name;
+    this.selectedAction = name
     this.handleInput(this.sortActions[name])
   }
 

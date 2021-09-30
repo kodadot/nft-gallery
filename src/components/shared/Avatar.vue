@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Identicon from '@polkadot/vue-identicon';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import Identicon from '@polkadot/vue-identicon'
 
 
 @Component({ components: {
