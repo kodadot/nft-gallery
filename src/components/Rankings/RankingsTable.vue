@@ -201,6 +201,7 @@ import { rankingsAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { denyList } from '@/constants'
 import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import { get, set } from 'idb-keyval'
 
@@ -220,7 +221,10 @@ export default class RankingsTable extends Vue{
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
   async created() {
-    await this.fetchCollectionsRankings()
+    exist(this.$route.query.rows, (val) => {
+      this.nbRows = val
+    })
+    await this.fetchCollectionsRankings(Number(this.nbRows))
   }
 
   public async fetchCollectionsRankings(limit = 10) {
@@ -259,7 +263,10 @@ export default class RankingsTable extends Vue{
 
   @Watch('nbRows')
   public onTopRowsChange(value: string) {
-    console.log(value)
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: { rows: value },
+    })
     this.fetchCollectionsRankings(Number(value))
   }
 
