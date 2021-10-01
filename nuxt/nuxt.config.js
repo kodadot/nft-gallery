@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nft-gallery-nuxt',
+    title: 'KodaDot - Polkadot / Kusama NFT Explorer',
     htmlAttrs: {
       lang: 'en'
     },
