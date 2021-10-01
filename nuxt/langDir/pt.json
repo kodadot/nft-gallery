@@ -1,0 +1,178 @@
+{
+  "translation": "tradução",
+  "create": "criar",
+  "Create": "Criar",
+  "credit": "crédito",
+  "Credit": "Crédito",
+  "gallery": "galeria",
+  "Gallery": "Galeria",
+  "accounts": "contas",
+  "Accounts": "Contas",
+  "transfer": "transferir",
+  "Transfer": "Transferir",
+  "settings": "definições",
+  "Settings": "Definições",
+  "first NFT market explorer on Kusama and Polkadot": "primeiro explorador de mercado NFT em Kusama e Polkadot",
+  "legend": "lenda",
+  "collection": "coleção",
+  "Collection": "Coleção",
+  "owner": "dono",
+  "actions": "ações",
+  "facts": "factos",
+  "instance": "instância",
+  "Instance": "Instância",
+  "context": "contexto",
+  "using": "usando",
+  "computed id": "id computado",
+  "content": "conteúdo",
+  "create collection": "criar coleção",
+  "Owner address of minted art": "Endereço de arte cunhada do dono",
+  "Name you want to show in gallery view": "Nome que pretende mostrar na visualização da galeria",
+  "Symbol you want to trade it under": "Símbolo que deseja negociar",
+  "Describe your collection, it will show under collection view": "Descreva a sua coleção, será mostrado na vista da coleção",
+  "Add collection cover which will show up at collection view": "Adicione uma capa para a coleção que será mostrada na vista da coleção",
+  "Select collection where do you want mint your token": "Selecione a coleção onde deseja cunhar o seu token",
+  "Maximum NFTs in collection": "Máximo de NFTs na coleção",
+  "Account": "Conta",
+  "Name": "Nome",
+  "Symbol": "Símbolo",
+  "Description": "Descrição",
+  "Multimedia data": "Dados multimédia",
+  "Metadata IPFS Hash": "Hash de metadados IPFS",
+  "Add Token": "Adicionar Token",
+  "Mint": "Cunhar",
+  "Transferable is by default": "Transferível está ativo por defeito",
+  "Serial Number": "Número de série",
+  "Name of your token": "Nome do seu token",
+  "Instance_tooltip": "A instância é como o identificador de um NFT, como um ticker do marketplace. É como uma \"abreviatura computer-friendly\"",
+  "Upload will upload your image of the NFT": "Upload irá carregar a sua imagem do NFT",
+  "Click to add image": "Clique para adicionar imagem",
+  "Add Animated File": "Adicione um Ficheiro Animado",
+  "Image data": "Dados da imagem",
+  "Explorer": "Explorador",
+  "Gallery of NFT Tokens and Collectibles": "Galeria de Tokens e Colecionáveis NFT",
+  "Create your NFT Token & Collectibles": "Crise o seu Token e Colecionáveis NFT",
+  "New here? We have F.A.Q.": "Novo por aqui? Nós temos um F.A.Q.",
+  "Feedback? We\\'d be happy to discuss it.": "Comentários? Nós gostaríamos de os ouvir.",
+  "Read our story, how we started.": "Leia a nossa história, como começamos.",
+  "Frequently Asked Question": "Perguntas Frequentes",
+  "faq": {
+    "q": {
+      "1": "Que moeda é usada para NFTs?",
+      "2": "Que carteira preciso para cunhar, comprar e colecionar?",
+      "3": "Como vou cunhar o meu trabalho?",
+      "4": "Como posso trocar KSM pela minha obra?",
+      "5": "Como posso comprar KSM como recém-chegado?",
+      "6": "Como posso comprar KSM com ETH, DAI, BTC..?",
+      "7": "Qual é o fluxo quando sou um criador NFT?",
+      "8": "Posso usar isto em mundos virtuais?",
+      "9": "Tenho erros, como resolvê-los?",
+      "10": "O que significa SEND, CONSUME, LIST?",
+      "11": "Cunhei NFT, mas não o vejo na galeria, onde está?",
+      "12": "Quais países oferecem suporte on-ramp?",
+      "13": "Como irei vender o meu token?",
+      "14": "Configurações de streams de royalties?",
+      "15": "Como posso criar a minha loja?",
+      "16": "Como funcionam as apreciações?",
+      "17": "Estão financiados?",
+      "18": "Têm canal de Telegram?",
+      "19": "Você terá um modo ou implementação de AR / VR?",
+      "20": "Como abrir a console de desenvolvedor?",
+      "21": "Como atualizo os metadados da extensão?",
+      "22": "Tenho um erro de saldo baixo!",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 Pode obter através da funcionalidade de @.md:faq.a.1.l2 ou @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Credito](@.common:links.rmrk_credit.href)",
+        "l3": "[através de uma plataforma de troca](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "Recomendamos que utilize @.md:faq.a.2.l1 por agora. Posteriormente planeamos adicionar uma experiência responsiva. Em qualquer cenário, <b>faça backup dos seus dados, é o seu direito como proprietário.</b>",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "Você irá até ao menu @.md:faq.a.3.l1 Primeiro precisará de cunhar a sua Coleção e depois o seu Token. Se necessitar de um vídeo, envie-nos uma mensagem!",
+        "l1": "[Criar](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "É amplamente apoiado em trocas populares. A liquidez diária nas bolsas é de cerca de 200$ milhões no momento da escrita e 1$ KSM é negociado por aproximadamente 100$. @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "Temos integração com @.md:faq.a.5.l1, clique em @.md:faq.a.1.l2 na barra de navegação. Pode utilizar Revolut, transferência manual de um banco, cartão de débito e Apple Pay para recarregar seu endereço KSM. Pode ainda @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[comprar $KSM no Binance](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "Para melhores taxas, pode @.md:faq.a.6.l1 Para melhor experiência @.md:faq.a.6.l2 Se está à @.md:faq.a.6.l3",
+        "l1": "[utilizar troca de custódia da lista](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[nós recomendamos que utilize Binance](@.common:links.binance_exchange.href).",
+        "l3": "[procura de uma troca simples, tente o SimpleSwap](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "Primeiramente, necessita de instalar a @.md:faq.a.2.l1, <b>e fazer backup do seu seed</b>. Depois carrega o endereço da sua carteira através da nossa funcionalidade de @.md:faq.a.1.l2 Quando tiver fundos, navegue até @.md:faq.a.3.l1, crie uma Coleção. Aguarde até que a Coleção seja cunhada, depois vá até @.md:faq.a.7.l1 e cunhe o seu primeiro token! Se teve problemas, estamos a trabalhar no nosso fluxo UX. KodaDot tem código desenvolvimento há apenas um mês e há ainda espaço para melhorar, conte connosco, somos uma equipa apenas de dois. Boa Cunhagem! 😌",
+        "l1": "[Criar Token](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "Estamos a explorar possibilidades, na verdade planeamos pesquisar ativamente sobre isso na nossa próxima milestone"
+      },
+      "9": {
+        "m": "Estamos a tentar fornecer atualizações incrementais diariamente e correções o mais rápido possível. Podemos ter publicado uma nova versão e o seu navegador ter armazenado em cache a antiga. Se está em <b>Windows</b>, tente pressionar <b>Ctrl e simultaneamento o F5</b>. <b>Utilizadores Mac</b>, pressione <b>CMD e Shift e de seguida pressione R</b>. Se isto não ajudar, envie-nos uma mensagem privada no Twitter com uma imagem com a consola de desenvolvimento aberta."
+      },
+      "10": {
+        "m": "SEND enviará para outra pessoa, CONSUME irá queimá-lo, LIST irá listar para venda para que alguém possa comprar."
+      },
+      "11": {
+        "m": "A melhor maneira é verificar através do @.md:faq.a.11.l1 e procurar o seu endereço. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[Pode encontrar exemplos de como um NFT cunhado aparece, quando você olha para extrínsecos.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "No momento, estamos cientes de que os EUA não são suportados, mas os outros países devem funcionar, @.md:faq.a.12.l1 Isto não é do nosso controlo neste momento.",
+        "l1": "[lista completa de países com suporte](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "Neste momento, irá usar a opção LIST nas Ações."
+      },
+      "14": {
+        "m": "No momento, não temos lógica em cadeia, mas planeamos implementar algo ótimo brevemente. @.md:faq.a.14.l1",
+        "l1": "[Continue connosco e siga-nos em @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "Estamos a implementar a visão de coleção e os conjuntos de visão de coleção. @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "É o coração 🖤 debaixo do token NFT. Nós somos @.md:faq.a.16.l1 que funcionam como apreciações. A sua função é a descoberta de preços para o seu trabalho.",
+        "l1": "[autores originais de EMOTE dentro dos standards RMRK](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "Neste momento, temos o @.md:faq.a.17.l1 Estamos a procurar ativamente opções de financiamento e, eventualmente, abriríamos a fundos privados. Envie-nos uma mensagem se estiver interessado numa venda privada.",
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "Apenas temos um canal privado para criadores NFT, envie-nos uma mensagem se é um deles!"
+      },
+      "19": {
+        "m": "Sim, isso faz parte do nosso Milestone 2, fique atento!"
+      },
+      "20": {
+        "m": "Se está num Mac, no Chrome pressione <b>Opção, CMD, J</b>, Firefox <b>Comando + Opção + K</b>."
+      },
+      "21": {
+        "m": "Vá até @.md:faq.a.21.l1 e carregue no botão <b>Update metadata</b>, depois atualize a sua janela, deve estar a trabalhar com tipos de cadeia recentes",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Verifique se possui $KSM <b>transferível</b> na sua conta, não em 'stake'. Isso é diferente. Pode verificar em @.md:faq.a.22.l1 e em 'balances unfold', pode verificar o saldo <b>Transferível</b>.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  }
+}

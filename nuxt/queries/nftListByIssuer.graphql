@@ -1,0 +1,19 @@
+#import "./nft.graphql"
+
+query nftListByIssuer($account: String!, $first: Int!, $offset: Int) {
+  nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+  ) {
+    totalCount
+    nodes {
+      ...nft
+    }
+  }
+}

@@ -1,0 +1,7 @@
+query checkIndexer {
+  _meta {
+    indexerHealthy
+    lastProcessedHeight
+    lastProcessedTimestamp
+  }
+}

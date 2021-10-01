@@ -1,0 +1,18 @@
+#import "./collection.graphql"
+
+query collectionById($id: String!) {
+  collectionEntity(id: $id) {
+    ...collection
+    nfts(filter: { burned: { distinctFrom: true } }) {
+      nodes {
+        id
+        metadata
+        name
+        price
+        burned
+        events
+        currentOwner
+      }
+    }
+  }
+}
