@@ -40,7 +40,7 @@ export default {
     }
 
     el.onLeave = () => {
-      el.style.transform = 'rotateX(0deg) rotateY(0deg)'
+      el.style.removeProperty('transform')
     }
     if (binding.value) {
       registerEvents(el)
