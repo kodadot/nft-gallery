@@ -1,9 +1,10 @@
 <template>
   <div>
-    <Pagination :total="total" v-model="currentValue" />
+    <Pagination replace :total="total" v-model="currentValue" />
     <GalleryCardList :items="items" />
     <Pagination
       class="pt-5 pb-5"
+      replace
       :total="total"
       v-model="currentValue"
     />
