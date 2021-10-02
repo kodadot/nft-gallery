@@ -3,8 +3,8 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <b-field class="column is-4 mb-0 is-offset-2 is-narrow">
-        <Pagination simple :total="total" v-model="currentValue" replace class="is-right" />
+      <b-field class="column is-4 mb-0 is-narrow">
+        <Pagination simple :total="total" v-model="currentValue" replace  />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -163,7 +163,8 @@ export default class Gallery extends Vue {
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
-    sortBy: { blockNumber: -1 }
+    sortBy: 'BLOCK_NUMBER_DESC',
+    onlyListed: false,
   };
   private first = 12;
   private placeholder = '/koda300x300.svg';
@@ -190,6 +191,7 @@ export default class Gallery extends Vue {
           first: this.first,
           offset: this.offset,
           denyList,
+          orderBy: this.searchQuery.sortBy,
           search: this.searchQuery.search
             ? [
               {
@@ -239,6 +241,7 @@ export default class Gallery extends Vue {
     this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
+
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
       const nfts = this.$apollo.query({
@@ -247,6 +250,7 @@ export default class Gallery extends Vue {
           first: this.first,
           offset,
           denyList,
+          orderBy: this.searchQuery.sortBy,
           search: this.searchQuery.search
             ? [
               {

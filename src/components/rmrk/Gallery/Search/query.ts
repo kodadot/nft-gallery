@@ -92,11 +92,11 @@ export const expandedFilter = (value: SearchQuery, nfts: NFTWithMeta[]): any[] =
   const additionalQuery = value.type ? [{ type: { $regex: new RegExp(value.type, 'i')} }] as any : []
   const criteria: QueryType = basicCriteria(rr, additionalQuery)
 
-  let cursor = queryOf(criteria).find(nfts)
+  const cursor = queryOf(criteria).find(nfts)
 
-  if (value.sortBy) {
-    cursor = cursor.sort(value.sortBy)
-  }
+  // if (value.sortBy) {
+  //   cursor = cursor.sort(value.sortBy)
+  // }
 
   return cursor.all()
 }
