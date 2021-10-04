@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 import { blake2AsU8a } from '@polkadot/util-crypto/blake2'
 import { encodeAddress } from '@polkadot/keyring'

@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Vue, Emit } from 'vue-property-decorator'
 import { SortType } from './types'
 
 type Sort = Record<string, SortType>

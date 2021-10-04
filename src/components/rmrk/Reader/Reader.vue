@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { RMRK } from '../types'
 import { decodeRmrkString } from '../utils'
 import { emptyObject } from '@/utils/empty'

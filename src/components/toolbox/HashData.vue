@@ -18,7 +18,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util'
 import { blake2AsHex } from '@polkadot/util-crypto'
 import DisabledInput from '@/components/shared/DisabledInput.vue'

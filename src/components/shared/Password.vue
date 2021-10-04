@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Vue, Prop } from 'vue-property-decorator'
 
 export default class Password extends Vue {
   @Prop() public value!: string;

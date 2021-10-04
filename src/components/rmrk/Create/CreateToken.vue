@@ -103,7 +103,7 @@ import {
   MintNFT,
   getNftId
 } from '../service/scheme'
-import { pinFile, pinJson, getKey, revokeKey } from '@/proxy'
+import { pinJson, getKey, revokeKey } from '@/proxy'
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils from '../service/NftUtils'

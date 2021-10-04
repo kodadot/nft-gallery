@@ -8,9 +8,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { PostType } from './types'
-import { resolveSubsocialApi } from './api'
 
 const components = {
   Comment: () => import('./Comment.vue'),

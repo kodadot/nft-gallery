@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
 
 
   const query = event.queryStringParameters.query

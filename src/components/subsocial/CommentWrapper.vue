@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import { resolveSubsocialApi, subsocial } from './api'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { resolveSubsocialApi } from './api'
 import { PostType } from './types'
 import BN from 'bn.js'
 

@@ -16,8 +16,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import { Component, Vue } from 'vue-property-decorator'
 import Storage from '@/components/storage/Storage.vue'
 import Constants from '@/components/storage/Constants.vue'
 import Raw from '@/components/storage/Raw.vue'
