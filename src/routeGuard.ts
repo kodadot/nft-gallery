@@ -1,10 +1,9 @@
 import Connector from '@vue-polkadot/vue-api'
 import { NotificationProgrammatic as Notification } from 'buefy'
 
-export const apiEnabled = (next: Function): boolean => {
+export const apiEnabled = (next: any): void => {
   if (Connector.getInstance().api) {
     next()
-    return true
   } else {
     next({ name: 'landing' })
     Notification.open({
@@ -14,6 +13,5 @@ export const apiEnabled = (next: Function): boolean => {
       type: 'is-danger',
       position: 'is-top-right',
     })
-    return false
   }
 }
