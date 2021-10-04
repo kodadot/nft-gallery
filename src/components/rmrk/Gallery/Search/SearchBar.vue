@@ -11,7 +11,6 @@
             expanded>
           </b-input>
         </b-field>
-        <!-- disabled bc Viki needs add basic queries -->
         <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
@@ -37,7 +36,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit, PropSync } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
@@ -54,7 +53,7 @@ export default class SearchBar extends Vue {
   @Prop(String) public search!: string;
   @Prop(String) public type!: string;
   @Prop(String) public sortBy!: string;
-  @PropSync('onlyListed', { type: Boolean }) vListed!: boolean
+  @Prop(Boolean) public listed!: boolean;
 
   protected isVisible = false;
 
@@ -62,9 +61,19 @@ export default class SearchBar extends Vue {
     exist(this.$route.query.search, this.updateSearch)
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
+    exist(this.$route.query.listed, this.updateListed)
   }
 
-  get searchQuery() {
+  get vListed(): boolean {
+    return this.listed
+  }
+
+  set vListed(listed: boolean) {
+    this.updateListed(listed)
+  }
+
+
+  get searchQuery(): string {
     return this.search
   }
 
@@ -72,12 +81,20 @@ export default class SearchBar extends Vue {
     this.updateSearch(value)
   }
 
-  get typeQuery() {
+  get typeQuery(): string {
     return this.type
   }
 
   set typeQuery(value: string) {
     this.updateType(value)
+  }
+
+  @Emit('update:listed')
+  @Debounce(50)
+  updateListed(value: string | boolean): boolean {
+    const v = String(value)
+    this.replaceUrl(v, 'listed')
+    return v === 'true'
   }
 
   @Emit('update:type')
@@ -108,7 +125,7 @@ export default class SearchBar extends Vue {
     this.$router
       .replace({
         name: 'nft',
-        query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
+        query: { ...this.$route.query, search: this.searchQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }

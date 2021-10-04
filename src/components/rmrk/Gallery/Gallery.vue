@@ -164,7 +164,7 @@ export default class Gallery extends Vue {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
-    onlyListed: false,
+    listed: false,
   };
   private first = 12;
   private placeholder = '/koda300x300.svg';
@@ -192,13 +192,7 @@ export default class Gallery extends Vue {
           offset: this.offset,
           denyList,
           orderBy: this.searchQuery.sortBy,
-          search: this.searchQuery.search
-            ? [
-              {
-                name: { likeInsensitive: `%${this.searchQuery.search}%` }
-              }
-            ]
-            : []
+          search: this.buildSearchParam()
         }
       }
     })
@@ -251,13 +245,7 @@ export default class Gallery extends Vue {
           offset,
           denyList,
           orderBy: this.searchQuery.sortBy,
-          search: this.searchQuery.search
-            ? [
-              {
-                name: { likeInsensitive: `%${this.searchQuery.search}%` }
-              }
-            ]
-            : []
+          search: this.buildSearchParam()
         }
       })
 
@@ -289,6 +277,24 @@ export default class Gallery extends Vue {
       }
     }
 
+  }
+
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params = []
+
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+      })
+    }
+
+    if (this.searchQuery.listed) {
+      params.push({
+        price: { greaterThan: '0' }
+      })
+    }
+
+    return params
   }
 
   get results() {

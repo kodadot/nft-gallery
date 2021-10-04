@@ -11,6 +11,6 @@ export type SearchQuery = {
   search: string;
   type?: string;
   sortBy?: string;
-  onlyListed: boolean;
+  listed: boolean;
 }
 
