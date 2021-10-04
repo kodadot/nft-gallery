@@ -1,9 +1,9 @@
 import { Row } from '@/components/spotlight/types'
-import { RowRanking } from '@/components/Rankings/types'
-import M, { Query, Aggregator } from 'mingo'
+import { RowSeries } from '@/components/series/types'
+import { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
-import { SortBy, QueryType, SearchQuery } from './types'
+import { QueryType, SearchQuery } from './types'
 
 export const basicFilterQuery = (value: string): Query => {
   const rr = new RegExp(value, 'i')
@@ -80,7 +80,7 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg)
 }
 
-export const rankingsAggregation = (limit = 10): Aggregator => {
+export const seriesAggregation = (limit = 10): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
@@ -146,8 +146,8 @@ export const spotlightAggQuery = (nfts: Row[]) => {
   return query.run(nfts)
 }
 
-export const rankingsAggQuery = (limit: number, nfts: RowRanking[]) => {
-  const query = rankingsAggregation(limit)
+export const seriesAggQuery = (limit: number, nfts: RowSeries[]) => {
+  const query = seriesAggregation(limit)
   return query.run(nfts)
 }
 

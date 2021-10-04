@@ -1,5 +1,5 @@
 import i18n from '@/i18n'
-import { Column, RowRanking, SimpleRankingsNFT } from './types'
+import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import store from '@/store'
 
@@ -12,7 +12,7 @@ export const columns: Column[] = [
   { field: 'total', label: i18n.t('spotlight.total'), numeric: true }
 ]
 
-export const nftFn = (a: any): RowRanking => {
+export const nftFn = (a: any): RowSeries => {
   const sold = a.nfts.nodes.reduce(soldFn, 0)
   const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size
   const uniqueCollectors = a.nfts.nodes.reduce(uniqueCollectorFn, new Set()).size
@@ -23,7 +23,7 @@ export const nftFn = (a: any): RowRanking => {
   const collectionNfts = a.nfts.nodes
 
   const floorPrice = Math.min(
-    ...collectionNfts.map((nft: SimpleRankingsNFT) => Number(nft.price)).filter((price: number) => price > 0)
+    ...collectionNfts.map((nft: SimpleSeriesNFT) => Number(nft.price)).filter((price: number) => price > 0)
   )
 
   const volume = collectionNfts
@@ -36,7 +36,7 @@ export const nftFn = (a: any): RowRanking => {
     .reduce(reducer, 0)
 
   const weeklyVolume = collectionNfts
-    .map((nft: SimpleRankingsNFT) => nft.events.filter(
+    .map((nft: SimpleSeriesNFT) => nft.events.filter(
       (e: { interaction: string; timestamp: Date; }) => {
         return (
           e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
@@ -51,7 +51,7 @@ export const nftFn = (a: any): RowRanking => {
     .reduce(reducer, 0)
 
   const monthlyVolume = collectionNfts
-    .map((nft: SimpleRankingsNFT) => nft.events.filter(
+    .map((nft: SimpleSeriesNFT) => nft.events.filter(
       (e: { interaction: string; timestamp: Date; }) => {
         return (
           e.interaction === 'BUY' && new Date(e.timestamp) >= lastmonthDate
@@ -83,7 +83,7 @@ export const nftFn = (a: any): RowRanking => {
   }
 }
 
-const formatNumber = (val: SimpleRankingsNFT) =>
+const formatNumber = (val: SimpleSeriesNFT) =>
   Number(
     formatBalance(
       val.price,
@@ -92,12 +92,12 @@ const formatNumber = (val: SimpleRankingsNFT) =>
       true
     )
   )
-const sumFn = (acc: number, val: SimpleRankingsNFT) => acc + formatNumber(val)
-const soldFn = (acc: number, val: SimpleRankingsNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
-const uniqueFn = (acc: Set<string>, val: SimpleRankingsNFT) => acc.add(val.metadata)
-const uniqueCollectorFn = (acc: Set<string>, val: SimpleRankingsNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
-const onlyOwned = ({ issuer, currentOwner }: SimpleRankingsNFT) => issuer === currentOwner
-const onlyBuyEvents = ({ events }: SimpleRankingsNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
+const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)
+const soldFn = (acc: number, val: SimpleSeriesNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
+const uniqueFn = (acc: Set<string>, val: SimpleSeriesNFT) => acc.add(val.metadata)
+const uniqueCollectorFn = (acc: Set<string>, val: SimpleSeriesNFT) => val.issuer !== val.currentOwner ? acc.add(val.currentOwner) : acc
+const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) => issuer === currentOwner
+const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 const reducer = (a: number, b: number): number => Number(a) + Number(b)
 

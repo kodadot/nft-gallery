@@ -22,7 +22,7 @@ const Partnership = () => import('@/components/landing/Partnership.vue')
 const Tutorials = () => import('@/components/landing/Tutorials.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
-const Rankings = () => import('@/components/landing/Rankings.vue')
+const Series = () => import('@/components/landing/Series.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
@@ -74,9 +74,9 @@ export default new Router({
       component: Spotlight,
     },
     {
-      path: '/rankings',
-      name: 'rankings',
-      component: Rankings,
+      path: '/series-insights',
+      name: 'series',
+      component: Series,
     },
     {
       path: '/about',

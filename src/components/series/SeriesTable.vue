@@ -193,11 +193,11 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import { Column, RowRanking } from './types'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Column, RowSeries } from './types'
 import { columns, nftFn } from './utils'
-import collectionRankingsList from '@/queries/collectionRankingsList.graphql'
-import { rankingsAggQuery } from '../rmrk/Gallery/Search/query'
+import collectionSeriesList from '@/queries/collectionSeriesList.graphql'
+import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { denyList } from '@/constants'
 import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
@@ -211,10 +211,10 @@ const components = {
 }
 
 @Component({ components })
-export default class RankingsTable extends Vue{
-  protected data: RowRanking[] = []
+export default class SeriesTable extends Vue{
+  protected data: RowSeries[] = []
   protected columns: Column[] = columns
-  protected usersWithIdentity: RowRanking[] = []
+  protected usersWithIdentity: RowSeries[] = []
   protected nbRows = '10'
   public isLoading = false;
 
@@ -224,13 +224,13 @@ export default class RankingsTable extends Vue{
     exist(this.$route.query.rows, (val) => {
       this.nbRows = val
     })
-    await this.fetchCollectionsRankings(Number(this.nbRows))
+    await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  public async fetchCollectionsRankings(limit = 10) {
+  public async fetchCollectionsSeries(limit = 10) {
     this.isLoading = true
     const collections = await this.$apollo.query({
-      query: collectionRankingsList,
+      query: collectionSeriesList,
       variables: {
         denyList,
       },
@@ -240,10 +240,10 @@ export default class RankingsTable extends Vue{
       data: { collectionEntities },
     } = collections
 
-    this.data = rankingsAggQuery(
+    this.data = seriesAggQuery(
       limit,
       collectionEntities?.nodes?.map(nftFn)
-    ) as RowRanking[]
+    ) as RowSeries[]
 
     // fetch metadata for images
     for (let index = 0; index < this.data.length; index++) {
@@ -267,7 +267,7 @@ export default class RankingsTable extends Vue{
       name: String(this.$route.name),
       query: { rows: value },
     })
-    this.fetchCollectionsRankings(Number(value))
+    this.fetchCollectionsSeries(Number(value))
   }
 
   public async fetchMetadataImage(metadata: any) {

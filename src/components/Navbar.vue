@@ -52,8 +52,8 @@
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'rankings'}">
-        Rankings
+        :to="{ name: 'series'}">
+        Series
       </b-navbar-item>
       <b-navbar-dropdown
           arrowless

@@ -4,14 +4,14 @@
         <h1 class="title is-2">Top Collection</h1>
         <p class="subtitle is-size-5">The top NFTs on RMRK, ranked by score, volume, floor price and other statistics.</p>
 
-        <RankingsTable />
+        <SeriesTable />
       </section>
   </div>
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component<Rankings>({
+@Component<Series>({
   metaInfo() {
     return {
       meta: [
@@ -49,8 +49,8 @@ import { Component, Vue } from 'vue-property-decorator'
   },
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
-    RankingsTable: () => import('@/components/Rankings/RankingsTable.vue')
+    SeriesTable: () => import('@/components/series/SeriesTable.vue')
   }
 })
-export default class Rankings extends Vue {}
+export default class Series extends Vue {}
 </script>

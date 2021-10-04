@@ -1,14 +1,14 @@
 import { TranslateResult } from 'vue-i18n'
 
 export type Column = {
-  field: keyof RowRanking;
+  field: keyof RowSeries;
   label: string | TranslateResult;
   width?: number;
   numeric?: boolean;
   centered?: boolean;
 };
 
-export type RowRanking = {
+export type RowSeries = {
   id: string;
   unique: number;
   image: any;
@@ -25,7 +25,7 @@ export type RowRanking = {
   name: string;
 };
 
-export type SimpleRankingsNFT = {
+export type SimpleSeriesNFT = {
   issuer: string;
   currentOwner: string;
   metadata: string;
