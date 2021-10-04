@@ -1,10 +1,6 @@
 import {
-  web3Accounts,
   web3Enable,
-  web3FromAddress,
-  web3ListRpcProviders,
-  web3UseRpcProvider,
-  isWeb3Injected
+  web3FromAddress
 } from '@polkadot/extension-dapp'
 
 

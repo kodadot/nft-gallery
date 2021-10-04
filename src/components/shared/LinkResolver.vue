@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import isShareMode from '@/utils/isShareMode'
 

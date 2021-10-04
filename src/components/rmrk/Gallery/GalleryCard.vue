@@ -54,7 +54,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { sanitizeIpfsUrl, fetchNFTMetadata, getSanitizer } from '../utils'
+import { fetchNFTMetadata, getSanitizer } from '../utils'
 import { NFT } from '../service/scheme'
 
 const components = {

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import { resolveSubsocialApi } from './api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
@@ -26,7 +26,6 @@ import {
 } from '@/utils/notification'
 import { subsocialAddress } from './utils'
 import { Comment } from '@subsocial/types/substrate/classes'
-import { PostId } from '@subsocial/types/substrate/interfaces'
 import { pinSubSocialPost } from '@/proxy'
 import TransactionMixin from '@/utils/mixins/txMixin'
 

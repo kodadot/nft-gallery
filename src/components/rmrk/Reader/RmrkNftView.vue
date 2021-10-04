@@ -21,7 +21,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { RMRK, CollectionMetadata } from '../types'
-import { fetchRmrkMeta, isEmpty, equals } from '../utils'
+import { fetchRmrkMeta, isEmpty } from '../utils'
 import { emptyObject } from '@/utils/empty'
 import MediaResolver from './MediaResolver.vue'
 

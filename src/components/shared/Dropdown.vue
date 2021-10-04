@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Emit, Watch } from 'vue-property-decorator'
 import WithKeyring from '../../utils/WithKeyring'
 import Balance from './Balance.vue'
 import AccountNameTag from './AccountNameTag.vue'

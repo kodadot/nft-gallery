@@ -121,7 +121,7 @@
 import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
 import keyring from '@polkadot/ui-keyring'
 import Identicon from '@polkadot/vue-identicon'
-import { keyExtractSuri, mnemonicGenerate,
+import { mnemonicGenerate,
   mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto'
 import { isHex, u8aToHex } from '@polkadot/util'
 

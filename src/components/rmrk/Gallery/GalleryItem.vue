@@ -118,7 +118,7 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue'
