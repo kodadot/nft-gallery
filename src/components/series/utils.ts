@@ -15,12 +15,13 @@ export const columns: Column[] = [
 export const nftFn = (a: any): RowSeries => {
   const sold = a.nfts.nodes.reduce(soldFn, 0)
   const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size
-  const uniqueCollectors = a.nfts.nodes.reduce(uniqueCollectorFn, new Set()).size
+  const uniqueCollectors = a.nfts.nodes.filter(onlyOwned)
   const total = a.nfts.totalCount
   const averagePrice = a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
   // const metaImage = fetchMetadataImage(a); DO NOT!
   // const collectionEvents = a.nfts.nodes.filter(onlyEvents);
   const collectionNfts = a.nfts.nodes
+
 
   const floorPrice = Math.min(
     ...collectionNfts.map((nft: SimpleSeriesNFT) => Number(nft.price)).filter((price: number) => price > 0)
