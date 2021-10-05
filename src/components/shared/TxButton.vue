@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
+import { Vue, Prop, Emit } from 'vue-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import exec, { execResultValue } from '@/utils/transactionExecutor'
 import { KeyringAccount } from '@/types'

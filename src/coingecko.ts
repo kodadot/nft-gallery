@@ -11,8 +11,6 @@ const api = Axios.create({
 })
 
 
-
-
 export const getKSMUSD = async (): Promise<number> => {
   const coinId = 'kusama'
   try {

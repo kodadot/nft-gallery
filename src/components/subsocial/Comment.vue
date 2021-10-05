@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
 import { findProfile, subsocialAddress } from './utils'
 import { ProfileContentType, ReactionType } from './types'
 import { ipfsHashToUrl } from '@/components/rmrk/utils'
@@ -46,11 +46,8 @@ import { formatAccount } from '@/utils/account'
 import { resolveSubsocialApi } from './api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification, infiniteNotif } from '@/utils/notification'
-import { ReactionKind } from '@subsocial/types/substrate/classes'
 import TransactionMixin from '@/utils/mixins/txMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { Reaction } from '@subsocial/types/substrate/interfaces'
 
 
 const components = {

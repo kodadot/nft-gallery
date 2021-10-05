@@ -98,7 +98,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
-import { fetchNFTMetadata, getSanitizer, sanitizeIpfsUrl } from '../utils'
+import { fetchNFTMetadata, getSanitizer } from '../utils'
 import { basicAggQuery } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
@@ -107,7 +107,6 @@ import { SearchQuery } from './Search/types'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 import { denyList } from '@/constants'
-import { $limit } from 'mingo/operators/pipeline'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;

@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator'
+import { Vue, Component, PropSync, Watch } from 'vue-property-decorator'
 
 @Component
 export default class FileLoad extends Vue {

@@ -21,8 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
-import { u8aToString } from '@polkadot/util'
+import { Component, Vue, Emit } from 'vue-property-decorator'
 import keyring from '@polkadot/ui-keyring'
 import FileLoad from '../FileLoad.vue'
 

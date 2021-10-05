@@ -96,7 +96,7 @@ export default new Router({
       path: '/grants',
       name: 'grants',
       component: {},
-      beforeEnter(to, from, next) {
+      beforeEnter() {
         window.location.href = 'https://tally.so/r/mVP06w'
       }
     },
@@ -104,7 +104,7 @@ export default new Router({
       path: '/permafrost',
       name: 'permafrost',
       component: {},
-      beforeEnter(to, from, next) {
+      beforeEnter() {
         window.location.href = 'https://discord.gg/88da2MEfU9'
       }
     },

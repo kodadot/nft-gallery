@@ -52,7 +52,7 @@
 import Selection from '../components/extrinsics/Selection.vue'
 import Executor from '../components/extrinsics/Executor.vue'
 import Argurments from '../components/extrinsics/Arguments.vue'
-import { Prop, Vue, Component } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import { KeyringPair } from '@polkadot/keyring/types'
 import InputFile from '../components/extrinsics/components/InputFile.vue'
 import keyring from '@polkadot/ui-keyring'

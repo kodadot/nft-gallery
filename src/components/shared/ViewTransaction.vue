@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Prop } from 'vue-property-decorator'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 export default class ViewTransaction extends Vue {

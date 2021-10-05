@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import SignMessage from './SignMessage.vue'
 import VerifySignature from './VerifySignature.vue'
 import HashData from './HashData.vue'

@@ -56,7 +56,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
-import { u8aToString } from '@polkadot/util'
 
 @Component({
   components: {
