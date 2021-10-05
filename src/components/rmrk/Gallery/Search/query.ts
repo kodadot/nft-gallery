@@ -1,8 +1,9 @@
 import { Row } from '@/components/spotlight/types'
-import M, { Query, Aggregator } from 'mingo'
+import { RowSeries } from '@/components/series/types'
+import { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
-import { SortBy, QueryType, SearchQuery } from './types'
+import { QueryType, SearchQuery } from './types'
 
 export const basicFilterQuery = (value: string): Query => {
   const rr = new RegExp(value, 'i')
@@ -79,6 +80,40 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg)
 }
 
+export const seriesAggregation = (limit = 10): Aggregator => {
+  const agg: Aggregation = [
+    {
+      $group: {
+        // _id: { image: '$id' },
+        _id: '$id',
+        id: { $first: '$id' },
+        unique: { $sum: '$unique' },
+        uniqueCollectors: { $sum: '$uniqueCollectors' },
+        sold: { $sum: '$sold' },
+        total: { $sum: '$total' },
+        averagePrice: { $avg: '$averagePrice' },
+        floorPrice: { $sum: '$floorPrice' },
+        count: { $sum: '$count' },
+        // owned: { $sum: '$currentOwner' },
+        rank: { $sum: '$rank' },
+        volume: { $sum: '$volume' },
+        weeklyVolume: { $sum: '$weeklyVolume' },
+        monthlyVolume: { $sum: '$monthlyVolume' },
+        name: { $first: '$name' },
+        metadata: { $first: '$metadata' },
+      }
+    },
+    {
+      $sort: { rank: -1 },
+    },
+    {
+      $limit: limit
+    }
+  ]
+
+  return new Aggregator(agg)
+}
+
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
   const query = basicFilterQuery(value)
   return query.find(nfts).all()
@@ -109,6 +144,11 @@ export const basicAggQuery = (nfts: NFTWithMeta[]) => {
 
 export const spotlightAggQuery = (nfts: Row[]) => {
   const query = spotlightAggregation()
+  return query.run(nfts)
+}
+
+export const seriesAggQuery = (limit: number, nfts: RowSeries[]) => {
+  const query = seriesAggregation(limit)
   return query.run(nfts)
 }
 
