@@ -107,7 +107,6 @@ export default class SearchBar extends Vue {
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
-    console.log('Debounced', value)
     this.replaceUrl(value, 'sort')
     return value
   }
@@ -115,7 +114,6 @@ export default class SearchBar extends Vue {
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string): string {
-    console.log('Debounced', value)
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
     return value
   }
