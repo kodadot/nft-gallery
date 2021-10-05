@@ -181,12 +181,13 @@
     }
   },
   "sort": {
-    "created": "New first",
-    "old": "Old first",
-    "lastChanged": "Last interacted",
-    "leastChanged": "Long time no interaction",
-    "priceDown": "From most expensive",
-    "priceUp": "From cheaper"
+    "BLOCK_NUMBER_DESC": "New first",
+    "BLOCK_NUMBER_ASC": "Old first",
+    "UPDATED_AT_DESC": "Last interacted",
+    "UPDATED_AT_ASC": "Long time no interaction",
+    "PRICE_DESC": "From most expensive",
+    "PRICE_ASC": "From cheaper",
+    "listed": "Buy now"
   },
   "mint": {
     "submit": "Click to create NFT(s)",

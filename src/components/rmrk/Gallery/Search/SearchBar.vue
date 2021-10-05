@@ -11,8 +11,7 @@
             expanded>
           </b-input>
         </b-field>
-        <!-- disabled bc Viki needs add basic queries -->
-        <!-- <b-field class="column is-3 mb-0">
+        <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
             aria-controls="contentIdForA11y1"
@@ -20,16 +19,17 @@
             type="is-primary"
             expanded
             @click="isVisible = !isVisible"
-            disabled
           />
-        </b-field> -->
+        </b-field>
         <slot />
       </div>
 
-      <div v-if="isVisible" class="columns">
-        <Sort class="column is-2 mb-0" @input="updateSortBy" />
-        <TypeTagInput class="column" v-model="typeQuery" />
-      </div>
+      <transition  name="fade">
+        <div v-if="isVisible" class="columns">
+          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
+        </div>
+      </transition>
 
     </div>
   </div>
@@ -38,7 +38,6 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import { SortBy } from './types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
 
@@ -46,23 +45,35 @@ import { exist } from './exist'
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
     TypeTagInput: () => import('./TypeTagInput.vue'),
-    Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue')
+    Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue')
   }
 })
 export default class SearchBar extends Vue {
-  @Prop() public search!: string;
-  @Prop() public type!: string;
-  @Prop() public sortBy!: SortBy;
-  private isVisible = false;
-  private currentValue = 1;
-  private total = 0;
+  @Prop(String) public search!: string;
+  @Prop(String) public type!: string;
+  @Prop(String) public sortBy!: string;
+  @Prop(Boolean) public listed!: boolean;
 
-  public mounted() {
+  protected isVisible = false;
+
+  public mounted(): void {
     exist(this.$route.query.search, this.updateSearch)
     exist(this.$route.query.type, this.updateType)
+    exist(this.$route.query.sort, this.updateSortBy)
+    exist(this.$route.query.listed, this.updateListed)
   }
 
-  get searchQuery() {
+  get vListed(): boolean {
+    return this.listed
+  }
+
+  set vListed(listed: boolean) {
+    this.updateListed(listed)
+  }
+
+
+  get searchQuery(): string {
     return this.search
   }
 
@@ -70,7 +81,7 @@ export default class SearchBar extends Vue {
     this.updateSearch(value)
   }
 
-  get typeQuery() {
+  get typeQuery(): string {
     return this.type
   }
 
@@ -78,43 +89,61 @@ export default class SearchBar extends Vue {
     this.updateType(value)
   }
 
+  @Emit('update:listed')
+  @Debounce(50)
+  updateListed(value: string | boolean): boolean {
+    const v = String(value)
+    this.replaceUrl(v, 'listed')
+    return v === 'true'
+  }
+
   @Emit('update:type')
   @Debounce(50)
-  updateType(value: string) {
+  updateType(value: string): string {
     this.replaceUrl(value, 'type')
     return value
   }
 
   @Emit('update:sortBy')
   @Debounce(400)
-  updateSortBy(value: SortBy) {
-    console.log('Debounced', value)
-    // this.replaceUrl(value)
+  updateSortBy(value: string): string {
+    this.replaceUrl(value, 'sort')
     return value
   }
 
   @Emit('update:search')
   @Debounce(400)
-  updateSearch(value: string) {
-    console.log('Debounced', value)
+  updateSearch(value: string): string {
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
     return value
   }
 
   @Debounce(100)
-  replaceUrl(value: string, key = 'search') {
+  replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
         name: 'nft',
-        query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
+        query: { ...this.$route.query, search: this.searchQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+@import '@/styles/variables';
+
 .card {
-  box-shadow: 0px 0px 5px 0.5px #d32e79;
+  box-shadow: 0px 0px 5px 0.5px $primary;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
