@@ -36,7 +36,7 @@
         v-slot="props"
         cell-class="is-vcentered"
       >
-        <div class="container image is-48x48 mb-2">
+        <div class="image is-48x48 mb-2">
           <b-image
             v-if="!isLoading"
             :src="props.row.image"
@@ -100,7 +100,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         field="weeklyVolume"
         label="7d %"
         v-slot="props"
@@ -109,7 +109,6 @@
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <!-- <Money :value="props.row.weeklyVolume" inline /> -->
           <div
             v-html="
               displayVolumePercent(
@@ -131,7 +130,6 @@
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <!-- <Money :value="props.row.monthlyVolume" inline /> -->
           <div
             v-html="
               displayVolumePercent(
@@ -142,7 +140,7 @@
           ></div>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
+      </b-table-column> -->
 
       <b-table-column
         field="floorPrice"
@@ -184,7 +182,7 @@
 
       <b-table-column
         field="total"
-        :label="$t('spotlight.total')"
+        label="Assets"
         v-slot="props"
         sortable
         numeric
