@@ -184,19 +184,19 @@ export const mutations = {
     keyringLoaded(state: any) {
       state.keyringLoaded = true;
     },
-    setChainProperties(state: any, data) {
+    setChainProperties(state: any, data : any) {
       state.chainProperties = Object.assign({}, data)
     },
-    setDevelopment(state: any, data) {
+    setDevelopment(state: any, data : any) {
       state.development = Object.assign(state.development, data)
     },
-    setExplorer(state: any, data) {
+    setExplorer(state: any, data : any) {
       state.explorer = Object.assign(state.explorer, data)
     },
-    setLanguage(state: any, data) {
+    setLanguage(state: any, data : any) {
       state.language = Object.assign(state.language, data)
     },
-    setExplorerOptions(state: any, data) {
+    setExplorerOptions(state: any, data : any) {
       state.explorerOptions = Object.assign({}, data)
     },
     setLoading(state: any, toggleTo: boolean) {
@@ -206,29 +206,31 @@ export const mutations = {
       state.loading = false;
       state.error = error.message;
     },
-    setFiatPrice(state: any, data) {
+    setFiatPrice(state: any, data : any) {
       state.fiatPrice = Object.assign({}, state.fiatPrice, data)
     },
-    setIndexerStatus(state: any, data) {
+    setIndexerStatus(state: any, data : any) {
       state.indexer = Object.assign({}, state.indexer, data)
     }
   }
 
 export const  actions = {
-    setFiatPrice({ commit }: any, data) {
+    setFiatPrice({ commit }: any, data : any) {
       commit('setFiatPrice', data);
     },
-    upateIndexerStatus({ commit }: any, data) {
+    upateIndexerStatus({ commit }: any, data : any) {
       commit('setIndexerStatus', data)
     }
   }
 
 export const  getters = {
-  getChainProperties: ({ chainProperties }) => chainProperties,
-  getUserLang: ({ language }) => language.userLang || 'en',
-  getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
-  getCurrentChain: ({ explorer }) => explorer.chain,
-  getIndexer: ({ indexer }) => indexer
+  getChainProperties: ({ chainProperties } : any ) => chainProperties,
+  getChainProperties58Format: ({ chainProperties } : any ) => chainProperties.ss58Format,
+  getChainPropertiesTokenDecimals: ({ chainProperties } : any ) => chainProperties.tokenDecimals,
+  getUserLang: ({ language } : any) => language.userLang || 'en',
+  getCurrentKSMValue: ({ fiatPrice } : any) => fiatPrice['kusama']['usd'],
+  getCurrentChain: ({ explorer } : any) => explorer.chain,
+  getIndexer: ({ indexer } : any) => indexer
 }
-  
+
 export const plugins = [vuexLocalStorage.plugin, apiPlugin, myPlugin ]

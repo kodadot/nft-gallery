@@ -68,8 +68,8 @@ export const calculateCost = (files: FileType) => {
 export const cost = async (files: FileType): Promise<number> => {
   const ksmPrice = await getKSMUSD();
   console.log(calculateCost(files) / ksmPrice);
-  const decimals = store.getters.getChainProperties?.tokenDecimals
-  return Math.round(calculateCost(files) / ksmPrice * 10 ** decimals);
+  const decimals = store.getters.getChainPropertiesTokenDecimals
+  return Math.round(calculateCost(files) / ksmPrice * 10 ** <any>decimals);
 }
 
 export const supportTx = async (files:FileType) => {
@@ -84,12 +84,12 @@ export const somePercentFromTX = (price: number | string) => {
 }
 
 export const resolveSupportAddress = () => {
-  const ss58Format = store.getters.getChainProperties?.ss58Format
+  const ss58Format = store.getters.getChainProperties58Format
   return Number(ss58Format) === 2 ? KODADOT_DAO : pubKeyToAddress(BACKUP_PUBKEY)
 }
 
 export const resolveOffsetAddress = () => {
-  const ss58Format = store.getters.getChainProperties?.ss58Format
+  const ss58Format = store.getters.getChainProperties58Format
   return Number(ss58Format) === 2 ? OFFSET_DAO : pubKeyToAddress(BACKUP_PUBKEY)
 }
 
@@ -101,6 +101,6 @@ export const offsetTx = async (price: number) => {
 export const offsetCost = async (price: number): Promise<number> => {
   const ksmPrice = await getKSMUSD();
   console.log(price / ksmPrice);
-  const decimals = store.getters.getChainProperties?.tokenDecimals
-  return Math.round(price / ksmPrice * 10 ** decimals);
+  const decimals = store.getters.getChainPropertiesTokenDecimals
+  return Math.round(price / ksmPrice * 10 ** <any>decimals);
 }

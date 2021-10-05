@@ -179,95 +179,96 @@
 	      "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
       }
   },
-  "sort": {
+    "sort": {
     "created": "New first",
     "old": "Old first",
     "lastChanged": "Last interacted",
     "leastChanged": "Long time no interaction",
     "priceDown": "From most expensive",
     "priceUp": "From cheaper"
-  },
-  "mint": {
-    "submit": "Click to create NFT(s)",
-    "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about",
-    "success": "Congrats to your new NFT(s)",
-    "shareWithFriends": "Share {0} with your friends",
-    "unlimited": "Unlimited items in in your collection"
-  },
-  "tooltip": {
-    "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
-    "name": "NFT will be visible under this name in gallery",
-    "edition": "Number of copies"
-  },
-  "nft": {
-    "carbonless": "This NFT is carbonless",
-    "burned": "NFT is burned",
-    "description": "NFT description"
-  },
-  "loader": {
-    "casting": "(1/3) Casting the tx to blockchain",
-    "finalized": "(3/3) Finalized",
-    "block": "(2/3) Transaction in block",
-    "pinImage": "Pinning Image",
-    "pinMeta": "Pinning Metadata",
-    "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from singer",
-    "ipfs": "Uploading data to IPFS",
-    "arweave": "Storing data via PermaFrost"
-  },
-  "Spotlight": "Spotlight",
-  "Simple": "Simple",
-  "About": "About",
-  "FAQ": "FAQ",
-  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
-  "theatre": "theatre",
-  "view": "view",
-  "price": "price",
-  "subsocial": {
-    "showComments": "Show comments",
-    "noComment": "There are currently no comments for this post!",
-    "comments": "Comment section by SubSocial",
-    "faucet": "You have no funds. Click here to visit faucet",
-    "balance": "Current balance",
-    "logIn": "You have to be logged in to vote and comment.",
-    "post": "Post NFT to Subsocial to enable comments",
-    "reply": "Reply to this comment",
-    "addComment": "Add comment",
-    "searchPost": "Searching for the post",
-    "autoFaucet": "Click to obtain SUB from faucet"
-  },
-  "arweave": {
-    "uploadYes": "Upload NFT image to Arweave",
-    "uploadNo": "Do not use Arweave"
-  },
-  "termOfService": {
-    "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
-  },
-  "profile": {
-    "created": "Created",
-    "collected": "Collected",
-    "sold": "Sold"
-  },
-  "spotlight": {
-    "id": "Creator",
-    "sold": "Sold",
-    "unique": "Unique",
-    "total": "Total",
-    "averagePrice": "Ø price",
-    "count": "Σ collection",
-    "collectors": "Collectors",
-    "score": "Score",
-    "empty": "Empty"
-  },
-  "tutorial": {
-    "create": "1. Create polkadot js account",
-    "ksm": "2. Get KSM",
-    "mint": "3. Minting"
-  },
-  "general": {
-    "balance": "Balance",
-    "submit": "Submit",
-    "indexerReadOnly": "App is in read only mode, try reload app or visit Discord"
+    },
+    "mint": {
+      "submit": "Click to create NFT(s)",
+      "estimate": "Show me the transaction fees",
+      "estimated": "Transaction fees will cost about",
+      "success": "Congrats to your new NFT(s)",
+      "shareWithFriends": "Share {0} with your friends",
+      "unlimited": "Unlimited items in in your collection"
+    },
+    "tooltip": {
+      "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
+      "name": "NFT will be visible under this name in gallery",
+      "edition": "Number of copies"
+    },
+    "nft": {
+      "carbonless": "This NFT is carbonless",
+      "burned": "NFT is burned",
+      "description": "NFT description"
+    },
+    "loader": {
+      "casting": "(1/3) Casting the tx to blockchain",
+      "finalized": "(3/3) Finalized",
+      "block": "(2/3) Transaction in block",
+      "pinImage": "Pinning Image",
+      "pinMeta": "Pinning Metadata",
+      "constructTx": "Constructing transaction",
+      "sign": "Waiting for response from singer",
+      "ipfs": "Uploading data to IPFS",
+      "arweave": "Storing data via PermaFrost"
+    },
+    "Spotlight": "Spotlight",
+    "Simple": "Simple",
+    "About": "About",
+    "FAQ": "FAQ",
+    "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+    "theatre": "theatre",
+    "view": "view",
+    "price": "price",
+    "subsocial": {
+      "showComments": "Show comments",
+      "noComment": "There are currently no comments for this post!",
+      "comments": "Comment section by SubSocial",
+      "faucet": "You have no funds. Click here to visit faucet",
+      "balance": "Current balance",
+      "logIn": "You have to be logged in to vote and comment.",
+      "post": "Post NFT to Subsocial to enable comments",
+      "reply": "Reply to this comment",
+      "addComment": "Add comment",
+      "searchPost": "Searching for the post",
+      "autoFaucet": "Click to obtain SUB from faucet"
+    },
+    "arweave": {
+      "uploadYes": "Upload NFT image to Arweave",
+      "uploadNo": "Do not use Arweave"
+    },
+    "termOfService": {
+      "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
+    },
+    "profile": {
+      "created": "Created",
+      "collected": "Collected",
+      "sold": "Sold"
+    },
+    "spotlight": {
+      "id": "Creator",
+      "sold": "Sold",
+      "unique": "Unique",
+      "total": "Total",
+      "averagePrice": "Ø price",
+      "count": "Σ collection",
+      "collectors": "Collectors",
+      "score": "Score",
+      "empty": "Empty"
+    },
+    "tutorial": {
+      "create": "1. Create polkadot js account",
+      "ksm": "2. Get KSM",
+      "mint": "3. Minting"
+    },
+    "general": {
+      "balance": "Balance",
+      "submit": "Submit",
+      "indexerReadOnly": "App is in read only mode, try reload app or visit Discord"
+    }
   }
 }

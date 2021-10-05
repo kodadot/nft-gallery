@@ -18,7 +18,7 @@ export const execResultValue = (execResult: ExecResult): string => {
   return execResult
 }
 
-const exec = async (account: KeyringAccount | string, password: string | null, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[], statusCb?: Callback<any>): Promise<ExecResult> => {
+const exec = async (account: KeyringAccount | string, password: string | null, callback: (...params: any[]) => SubmittableExtrinsic<'promise'>, params: any[], statusCb: Callback<any>): Promise<ExecResult> => {
 	try {
     const transfer = await callback(...params);
     const address = typeof account === 'string' ? account : account.address;

@@ -35,21 +35,21 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
     return address
   }
 
-  const ss58Format = store.getters.getChainProperties?.ss58Format
+  const ss58Format = store.getters.getChainProperties58Format
 
-  return encodeAddress(decodeAddress(address, ss58Format));
+  return encodeAddress(decodeAddress(address, <any>ss58Format));
 
 }
 
 export const pubKeyToAddress = (publicKey: string) => {
-  const ss58Format = store.getters.getChainProperties?.ss58Format
-  return encodeAddress(publicKey, ss58Format);
+  const ss58Format = store.getters.getChainProperties58Format
+  return encodeAddress(publicKey, <any>ss58Format);
 }
 
 export const formatAccount = (account: KeyringAccount | string, format?: Prefix) => {
   const address = accountToAddress(account);
-  const ss58Format = format ? format : store.getters.getChainProperties?.ss58Format
-  return encodeAddress(decodeAddress(address), ss58Format);
+  const ss58Format = format ? format : store.getters.getChainProperties58Format
+  return encodeAddress(decodeAddress(address), <any>ss58Format);
 }
 
 export default passwordRequired
