@@ -48,6 +48,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/buefy
     'nuxt-buefy',
+    '@nuxtjs/apollo',
     '@nuxtjs/i18n',
   ],
 
@@ -73,7 +74,15 @@ export default {
     }
   },
 
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://api.subquery.network/sq/vikiival/magick'
+      }
+    }
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
 }
