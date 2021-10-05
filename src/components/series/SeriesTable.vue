@@ -172,7 +172,7 @@
 
       <b-table-column
         field="uniqueCollectors"
-        label="Uniq colector"
+        label="Owners"
         v-slot="props"
         sortable
         numeric
@@ -267,8 +267,6 @@ export default class SeriesTable extends Vue{
         this.data[index].image = image
       }
     }
-
-    console.log(this.data)
 
     this.isLoading = false
   }
