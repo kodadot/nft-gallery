@@ -10,6 +10,7 @@ export type SortBy = Record<string, number>;
 export type SearchQuery = {
   search: string;
   type?: string;
-  sortBy?: SortBy;
+  sortBy?: string;
+  listed: boolean;
 }
 

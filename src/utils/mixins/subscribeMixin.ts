@@ -1,4 +1,4 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 // declare type UnsubscribePromise = Promise<Unsubscribe>;
 declare type Unsubscribe = () => void;
 
@@ -16,6 +16,6 @@ export default class SubscribeMixin extends Vue {
   }
 
   public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.forEach((sub) => sub())
   }
 }

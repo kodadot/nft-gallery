@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import shouldUpdate from '@/utils/shouldUpdate';
-import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import shouldUpdate from '@/utils/shouldUpdate'
+import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
 
 const components = {
   GalleryCard: () => import('@/components/rmrk/Gallery/GalleryCard.vue')
@@ -33,7 +33,7 @@ export default class SpotlightDetail extends Vue {
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop(String) public account!: string;
   protected nfts: NftSimpleView[] = [];
-  protected isLoading: boolean = true;
+  protected isLoading = true;
 
 
   protected async fetchNFT(account: string) {
@@ -44,13 +44,13 @@ export default class SpotlightDetail extends Vue {
         first: 4
       },
       fetchPolicy: 'network-only'
-    });
+    })
 
     const {
       data: { nFTEntities }
-    } = nfts;
+    } = nfts
 
-    this.nfts = nFTEntities?.nodes || [];
+    this.nfts = nFTEntities?.nodes || []
   }
 
   @Watch('account', { immediate: true })

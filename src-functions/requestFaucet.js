@@ -1,37 +1,37 @@
-import axios from "axios"
+import axios from 'axios'
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
 
 
-  const address = event.queryStringParameters.address;
-  const email = event.queryStringParameters.email;
+  const address = event.queryStringParameters.address
+  const email = event.queryStringParameters.email
 
   if (!email || !address) {
     return {
       statusCode: 403,
-      body: `Cannot search without query`,
-    };
+      body: 'Cannot search without query',
+    }
   }
 
-  const BASE_URL = `https://app.subsocial.network/offchain/v1/offchain/faucet/confirm`;
+  const BASE_URL = 'https://app.subsocial.network/offchain/v1/offchain/faucet/confirm'
 
   const object = {
     account: address,
     email
-  };
+  }
 
   try {
     const { status, data } = await axios.post(BASE_URL, object, {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
-    console.log('[SUBSOCIAL] Faucet', status);
+    })
+    console.log('[SUBSOCIAL] Faucet', status)
 
     return {
       statusCode: status,
       body: JSON.stringify(data),
-    };
+    }
 
 
   } catch (e) {
@@ -39,8 +39,8 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       body: e.message,
-    };
+    }
   }
 
-};
+}
 

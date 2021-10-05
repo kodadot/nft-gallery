@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from 'axios'
 
-exports.handler = async (event, context) => {
+exports.handler = async () => {
 
-  const BASE_URL = `https://api.pinata.cloud/data/testAuthentication`;
-  const { PINATA_API_KEY, PINATA_SECRET_API_KEY } = process.env;
+  const BASE_URL = 'https://api.pinata.cloud/data/testAuthentication'
+  const { PINATA_API_KEY, PINATA_SECRET_API_KEY } = process.env
 
   console.log(PINATA_API_KEY, PINATA_SECRET_API_KEY)
 
@@ -13,13 +13,13 @@ exports.handler = async (event, context) => {
         pinata_api_key: PINATA_API_KEY,
         pinata_secret_api_key: PINATA_SECRET_API_KEY,
       },
-    });
-    console.log('[PINATA] TEST', status, data);
+    })
+    console.log('[PINATA] TEST', status, data)
 
     return {
       statusCode: status,
       body: JSON.stringify(data),
-    };
+    }
 
 
   } catch (e) {
@@ -27,8 +27,8 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       body: e.message,
-    };
+    }
   }
 
-};
+}
 

@@ -23,18 +23,18 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component({})
 export default class LocaleChanger extends Vue {
 
   get langsFlags() {
-    return this.$store.state.language.langsFlags;
+    return this.$store.state.language.langsFlags
   }
 
   get userLang() {
-    this.$i18n.locale = this.$store.getters.getUserLang;
-    return this.$store.getters.getUserLang;
+    this.$i18n.locale = this.$store.getters.getUserLang
+    return this.$store.getters.getUserLang
   }
 
   setUserLang(value: string) {

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, ModelSync } from 'vue-property-decorator';
+import { Component, Vue, ModelSync } from 'vue-property-decorator'
 
 @Component({})
 export default class ArweaveUploadSwitch extends Vue {

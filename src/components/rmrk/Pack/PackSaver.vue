@@ -37,8 +37,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Pack } from '@/components/rmrk/service/scheme';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Pack } from '@/components/rmrk/service/scheme'
 
 
 @Component
@@ -135,18 +135,18 @@ export default class PackSaver extends Vue {
   //   }
   // }
 
-//   async fetchPacksForUser(id: string) {
-//     const rmrkService = getInstance();
-//     try {
-//       const packs = await rmrkService?.getPackListForAccount(id);
-//       console.log(packs);
-//       this.menus = packs || [];
-//       this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
-//       this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
-//     } catch (e) {
-//       console.warn(`[Pack] unable to fetch appreciations ${e}`);
-//     }
-//   }
+  //   async fetchPacksForUser(id: string) {
+  //     const rmrkService = getInstance();
+  //     try {
+  //       const packs = await rmrkService?.getPackListForAccount(id);
+  //       console.log(packs);
+  //       this.menus = packs || [];
+  //       this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
+  //       this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
+  //     } catch (e) {
+  //       console.warn(`[Pack] unable to fetch appreciations ${e}`);
+  //     }
+  //   }
 
 //   @Watch('accountId')
 //   protected watchAccountId(val: string, oldVal: string) {
