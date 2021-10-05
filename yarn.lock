@@ -1138,13 +1138,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.14.6":
-  version "7.14.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.6.tgz#535203bc0892efc7dec60bdc27b2ecf6e409062d"
-  integrity sha512-/PCB2uJ7oM44tz8YhC4Z/6PeOKXp4K588f+5M3clr1M4zbqztlo0XEfJ2LEzj/FgwfgGcIdl8n7YYjTCI0BYwg==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime@^7.14.8", "@babel/runtime@^7.15.3":
   version "7.15.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.3.tgz#2e1c2880ca118e5b2f9988322bd8a7656a32502b"
@@ -1552,13 +1545,6 @@
   integrity sha512-V+IagmVtaoDwR6zA+8R4JeihuTVJlheeYbDJyYCIyS9WtYImb5c7j/83XzoGicx+2auc+rwK2dH8hxHboi8Quw==
   dependencies:
     "@babel/runtime" "^7.15.4"
-
-"@polkadot/networks@^6.11.1":
-  version "6.11.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-6.11.1.tgz#8fd189593f6ee4f8bf64378d0aaae09e39a37d35"
-  integrity sha512-0C6Ha2kvr42se3Gevx6UhHzv3KnPHML0N73Amjwvdr4y0HLZ1Nfw+vcm5yqpz5gpiehqz97XqFrsPRauYdcksQ==
-  dependencies:
-    "@babel/runtime" "^7.14.6"
 
 "@polkadot/rpc-core@6.0.5":
   version "6.0.5"
@@ -2153,12 +2139,12 @@
   dependencies:
     "@polkadot/api" "6.0.5"
 
-"@vue-polkadot/vue-settings@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.19.tgz#73d6852c6b1651af71ef8ed11996a15b4d450329"
-  integrity sha512-Q38lH/nRVfaSAj2N1Dz4X5kFzxELXaC2jYzyifyuA6zi3BznH5PtAbuFvyc+T+assuv+7OsO3AoKiqB4Lp00fg==
+"@vue-polkadot/vue-settings@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.20.tgz#95cad9b9210435a24b933a3478c3c1b851e71658"
+  integrity sha512-Wr62VBfMJ3avbtkBGmuurQVtm3++1taji7dYxXC+toKWX5P5jJQrp1c0oUoZ1DlZQmoDgAnRLkXiBEeza9yRlg==
   dependencies:
-    "@polkadot/networks" "^6.11.1"
+    "@polkadot/networks" "^7.4.1"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
