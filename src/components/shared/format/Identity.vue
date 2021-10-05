@@ -26,7 +26,7 @@ import { hexToString, isHex } from '@polkadot/util'
 import { emptyObject } from '@/utils/empty'
 import { Data } from '@polkadot/types'
 import shortAddress from '@/utils/shortAddress'
-import { get, set, update } from 'idb-keyval'
+import { get, update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import shouldUpdate from '@/utils/shouldUpdate'
 

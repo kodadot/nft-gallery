@@ -109,14 +109,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
-
-import {
-  CollectionWithMeta,
-  NFTWithMeta,
-  Pack
-} from '@/components/rmrk/service/scheme'
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
-import Identity from '../components/shared/format/Identity.vue'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'

@@ -164,7 +164,6 @@
 import { Component, Mixins } from 'vue-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
-import Tooltip from '@/components/shared/Tooltip.vue'
 import Support from '@/components/shared/Support.vue'
 import Connector from '@vue-polkadot/vue-api'
 import exec, {
@@ -183,7 +182,7 @@ import {
   getNftId
 } from '../service/scheme'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinFile, pinJson, getKey, revokeKey } from '@/proxy'
+import { pinJson, getKey, revokeKey } from '@/proxy'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost, offsetTx } from '@/utils/support'

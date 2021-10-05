@@ -14,19 +14,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Emit, Mixins } from 'vue-property-decorator'
 import Balance from '@/params/components/Balance.vue'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
 const components = { Balance }
-
-type BalanceType = {
-  balance: number;
-}
 
 @Component({ components })
 export default class BalanceInput extends Mixins(ChainMixin) {

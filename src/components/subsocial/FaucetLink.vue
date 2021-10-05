@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins, Watch } from 'vue-property-decorator'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@vue-polkadot/vue-api'

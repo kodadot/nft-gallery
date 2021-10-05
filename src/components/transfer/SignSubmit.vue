@@ -38,7 +38,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
 import Selection from '@/components/extrinsics/Selection.vue'

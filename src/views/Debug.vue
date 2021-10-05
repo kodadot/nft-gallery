@@ -26,7 +26,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import Overview from '@/components/staking/Overview.vue'
 import Connector from '@vue-polkadot/vue-api'
 import AccountsInfo from '@/components/staking/AccountsInfo.vue'
