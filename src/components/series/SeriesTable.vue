@@ -36,7 +36,7 @@
         v-slot="props"
         cell-class="is-vcentered"
       >
-        <div class="container image is-48x48 mb-2">
+        <div class="image is-48x48 mb-2">
           <b-image
             v-if="!isLoading"
             :src="props.row.image"
@@ -182,7 +182,7 @@
 
       <b-table-column
         field="total"
-        :label="$t('spotlight.total')"
+        label="Assets"
         v-slot="props"
         sortable
         numeric
