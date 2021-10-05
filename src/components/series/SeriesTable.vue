@@ -100,7 +100,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         field="weeklyVolume"
         label="7d %"
         v-slot="props"
@@ -109,7 +109,6 @@
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <!-- <Money :value="props.row.weeklyVolume" inline /> -->
           <div
             v-html="
               displayVolumePercent(
@@ -120,9 +119,9 @@
           ></div>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
+      </b-table-column> -->
 
-      <b-table-column
+      <!-- <b-table-column
         field="monthlyVolume"
         label="30d %"
         v-slot="props"
@@ -131,7 +130,6 @@
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <!-- <Money :value="props.row.monthlyVolume" inline /> -->
           <div
             v-html="
               displayVolumePercent(
@@ -142,7 +140,7 @@
           ></div>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
+      </b-table-column> -->
 
       <b-table-column
         field="floorPrice"
