@@ -138,10 +138,6 @@
 </template>
 
 <script lang="ts">
-
-export default {
-  name: 'LandingPage',
-}
 import { Component, Vue } from 'vue-property-decorator';
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { denyList } from '@/constants';
