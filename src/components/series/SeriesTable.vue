@@ -270,6 +270,9 @@ export default class SeriesTable extends Vue {
     exist(this.$route.query.rows, (val) => {
       this.nbRows = val
     })
+    exist(this.$route.query.period, (val) => {
+      this.nbDays = val
+    })
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
@@ -320,7 +323,6 @@ export default class SeriesTable extends Vue {
       name: String(this.$route.name),
       query: { ...this.$route.query, period: value },
     }).catch((e) => console.warn(e))
-    this.fetchCollectionsSeries(Number(value))
   }
 
   public async fetchMetadataImage(metadata: any) {
