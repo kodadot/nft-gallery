@@ -34,35 +34,48 @@ export const nftFn = (a: any): RowSeries => {
     })
     .reduce(reducer, 0)
 
-  const weeklyVolume = collectionNfts
-    .map((nft: SimpleSeriesNFT) => nft.events.filter(
-      (e: { interaction: string; timestamp: Date; }) => {
+  const dailyVolume = collectionNfts
+    .map((nft: SimpleSeriesNFT) =>
+      nft.events.filter((e: { interaction: string; timestamp: Date }) => {
         return (
-          e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
-        )
-      }
-    ))
+          e.interaction === 'BUY' && new Date(e.timestamp) <= yesterdayDate
+        );
+      })
+    )
     .map((item: any, key: number) => {
       return (
         item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
-      )
+      );
     })
-    .reduce(reducer, 0)
+    .reduce(reducer, 0);
 
-  const monthlyVolume = collectionNfts
-    .map((nft: SimpleSeriesNFT) => nft.events.filter(
-      (e: { interaction: string; timestamp: Date; }) => {
+  const weeklyVolume = collectionNfts
+    .map((nft: SimpleSeriesNFT) =>
+      nft.events.filter((e: { interaction: string; timestamp: Date }) => {
         return (
-          e.interaction === 'BUY' && new Date(e.timestamp) >= lastmonthDate
-        )
-      }
-    ))
-    .map((item: any, key: number): any => {
+          e.interaction === 'BUY' && new Date(e.timestamp) <= lastweekDate
+        );
+      })
+    )
+    .map((item: any, key: number) => {
       return (
         item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
-      )
+      );
     })
-    .reduce(reducer, 0)
+    .reduce(reducer, 0);
+
+  const monthlyVolume = collectionNfts
+    .map((nft: SimpleSeriesNFT) =>
+      nft.events.filter((e: { interaction: string; timestamp: Date }) => {
+        return e.interaction === 'BUY' && new Date(e.timestamp) <= lastmonthDate;
+      })
+    )
+    .map((item: any, key: number) => {
+      return (
+        item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
+      );
+    })
+    .reduce(reducer, 0);
 
   return {
     id: a.id,
@@ -76,10 +89,11 @@ export const nftFn = (a: any): RowSeries => {
     uniqueCollectors,
     averagePrice,
     floorPrice,
+    dailyVolume,
     weeklyVolume,
     monthlyVolume,
     rank: sold * (unique / total)
-  }
+  };
 }
 
 const formatNumber = (val: SimpleSeriesNFT) =>
@@ -99,5 +113,6 @@ const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { inter
 const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 const reducer = (a: number, b: number): number => Number(a) + Number(b)
 
+const yesterdayDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 1))
 const lastweekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 7))
 const lastmonthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30))

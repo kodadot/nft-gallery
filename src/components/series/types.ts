@@ -16,6 +16,7 @@ export type RowSeries = {
   sold: number;
   total: number;
   volume: number;
+  dailyVolume: number;
   weeklyVolume: number;
   monthlyVolume: number;
   averagePrice: number;
