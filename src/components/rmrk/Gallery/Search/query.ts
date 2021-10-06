@@ -104,7 +104,7 @@ export const seriesAggregation = (limit = 10): Aggregator => {
       }
     },
     {
-      $sort: { rank: -1 },
+      $sort: { volume: -1 },
     },
     {
       $limit: limit
