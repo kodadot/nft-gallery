@@ -68,8 +68,12 @@ export default class WithKeyring extends Vue {
     return this.$store.getters.getAuthAddress;
   }
 
+  get getSettings() {
+    return this.$store.getters.getSettings?.apiUrl;
+  }
+
   get prefixByStore() {
-    return correctFormat(getPrefixByStoreUrl())
+    return correctFormat(getPrefixByStoreUrl(this.getSettings()))
   }
 
   public allAcctounts(): KeyringAccount[] {

@@ -55,10 +55,7 @@ const prefixes: Record<string, number> = {
 // DEV: from import known from '@polkadot/networks';
 const reduceKnownPrefixes = (arr: any[]): Record<string, number> => arr.reduce((acc, { network, prefix }) => Object.assign(acc, { [network]: prefix  }) ,{})
 
-export const getPrefixByStoreUrl = (): string | undefined => {
-  const apiUrl = store.getters.getSettings?.apiUrl;
-  console.log('getPrefixByStoreUrl', apiUrl);
-
+export const getPrefixByStoreUrl = (apiUrl : any): string | undefined => {
   if (!apiUrl) {
     return 'undefined'
   }

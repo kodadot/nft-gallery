@@ -86,7 +86,7 @@ export default class Dashboard extends Vue {
 
   private async fetchIndexer() {
     try {
-      const indexer = this.$apollo.query({
+      const indexer = this.$nuxt.context.app.apolloProvider.defaultClient.query({
         query: checkIndexer
       });
 
