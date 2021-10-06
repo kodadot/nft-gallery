@@ -310,7 +310,7 @@ export default class SeriesTable extends Vue {
     this.$router.replace({
       name: String(this.$route.name),
       query: { ...this.$route.query, rows: value },
-    }).catch(() => {})
+    }).catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(value))
   }
 
@@ -318,8 +318,8 @@ export default class SeriesTable extends Vue {
   public onTopDaysChange(value: string) {
     this.$router.replace({
       name: String(this.$route.name),
-      query: { ...this.$route.query, perod: value },
-    }).catch(() => {})
+      query: { ...this.$route.query, period: value },
+    }).catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(value))
   }
 
