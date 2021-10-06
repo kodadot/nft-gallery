@@ -262,6 +262,10 @@
     "score": "Score",
     "empty": "Empty"
   },
+  "series": {
+	"title": "Top Collection",
+	"subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics."
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",

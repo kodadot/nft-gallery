@@ -31,7 +31,7 @@
       </b-field>
     </b-field>
 
-    <b-table :data="data" hoverable>
+    <b-table :data="data" backend-sorting @sort="onSort" hoverable>
       <b-table-column
         cell-class="is-vcentered"
         field="id"
@@ -239,7 +239,7 @@
 
 <script lang="ts" >
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { Column, RowSeries } from './types'
+import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
 import collectionSeriesList from '@/queries/collectionSeriesList.graphql'
 import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
@@ -262,7 +262,8 @@ export default class SeriesTable extends Vue {
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
   protected nbRows = '10'
-  public isLoading = false;
+  protected sortBy: SortType = { field: 'volume', value: -1 }
+  public isLoading = false
 
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
@@ -276,7 +277,7 @@ export default class SeriesTable extends Vue {
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  public async fetchCollectionsSeries(limit = 10) {
+  public async fetchCollectionsSeries(limit = 10, sort: SortType = this.sortBy) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSeriesList,
@@ -291,6 +292,7 @@ export default class SeriesTable extends Vue {
 
     this.data = seriesAggQuery(
       limit,
+      sort,
       collectionEntities?.nodes?.map(nftFn)
     ) as RowSeries[]
 
@@ -306,6 +308,11 @@ export default class SeriesTable extends Vue {
     }
 
     this.isLoading = false
+  }
+
+  public onSort(field: string, order: string) {
+    let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
+    this.fetchCollectionsSeries(Number(this.nbRows), sort)
   }
 
   @Watch('nbRows')

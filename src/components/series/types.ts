@@ -8,6 +8,11 @@ export type Column = {
   centered?: boolean;
 };
 
+export type SortType = {
+  field: string;
+  value: -1 | 1;
+};
+
 export type RowSeries = {
   id: string;
   unique: number;
