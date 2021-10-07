@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Unit } from '../types';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Unit } from '../types'
 
 
 @Component
@@ -40,7 +40,7 @@ export default class Bool extends Vue {
   }
 
   set selected(value: any) {
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
 }

@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import ArgumentHandler from './ArgumentHandler.vue';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import ArgumentHandler from './ArgumentHandler.vue'
 
 @Component({
   components: {
@@ -31,21 +31,21 @@ export default class Arguments extends Vue {
   public getDefaultValue(index: number) {
     if (this.defaultValues) {
       try {
-        return this.defaultValues[index].toJSON();
+        return this.defaultValues[index].toJSON()
       } catch (e) {
-        return this.defaultValues[index];
+        return this.defaultValues[index]
       }
     }
   }
 
   @Emit('selected')
   private selected(value: any) {
-    return value;
+    return value
   }
 
   @Emit('action')
   private action(value: any) {
-    return value;
+    return value
   }
 
 }

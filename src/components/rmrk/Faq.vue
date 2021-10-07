@@ -39,8 +39,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import i18n from '@/i18n';
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import i18n from '@/i18n'
 
 @Component({})
 export default class Faq extends Vue {
@@ -48,35 +48,35 @@ export default class Faq extends Vue {
 
   @Watch('$i18n.locale')
   public i18nLoadQandA(): any {
-    let i: number;
-    const qa: any = [];
+    let i: number
+    const qa: any = []
     for (i = 1; i < 24; i++) {
-      qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)]);
+      qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
     }
 
-    this.faqQuestionsAnswers = qa;
+    this.faqQuestionsAnswers = qa
   }
 
   public async mounted() {
     if (this.faqQuestionsAnswers) {
-      this.i18nLoadQandA();
+      this.i18nLoadQandA()
     }
 
     this.$nextTick(() => {
       // smooth scroll to #
       if (this.$route.hash) {
-        const el = document.getElementById(this.$route.hash.slice(0, 1));
-        const headerOffset = 110;
-        const elementPosition = el?.getBoundingClientRect().top;
+        const el = document.getElementById(this.$route.hash.slice(0, 1))
+        const headerOffset = 110
+        const elementPosition = el?.getBoundingClientRect().top
         const offsetPosition = elementPosition
           ? elementPosition - headerOffset
-          : elementPosition;
+          : elementPosition
         window.scrollTo({
           top: offsetPosition,
           behavior: 'smooth'
-        });
+        })
       }
-    });
+    })
   }
 }
 </script>

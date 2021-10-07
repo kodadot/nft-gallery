@@ -23,14 +23,13 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { KeyringPair } from '@polkadot/keyring/types';
-import keyring from '@polkadot/ui-keyring';
-import { isHex, u8aToHex, hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Vue} from 'vue-property-decorator'
+import { KeyringPair } from '@polkadot/keyring/types'
+import { isHex, u8aToHex, hexToU8a, stringToU8a } from '@polkadot/util'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
-import PasswordInput from '@/components/shared/PasswordInput.vue';
-import { emptyObject } from '@/utils/empty';
+import PasswordInput from '@/components/shared/PasswordInput.vue'
+import { emptyObject } from '@/utils/empty'
 
 @Component({
   components: {
@@ -42,9 +41,9 @@ import { emptyObject } from '@/utils/empty';
 export default class SignMessage extends Vue {
   private password: any = '';
   private address: any = '';
-  private input: string = '';
+  private input = '';
   private signature: any = '';
-  private inputDataCheck: string = 'No';
+  private inputDataCheck = 'No';
   private account: KeyringPair = emptyObject<KeyringPair>();
   private currentPair: any = null;
 
@@ -71,7 +70,7 @@ export default class SignMessage extends Vue {
   }
 
   private toast(message: string): void {
-    this.$buefy.toast.open(message);
+    this.$buefy.toast.open(message)
   }
 }
 </script>

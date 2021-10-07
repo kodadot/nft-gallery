@@ -1,8 +1,8 @@
 #import "./nft.graphql"
 
-query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityFilter!]) {
+query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityFilter!], $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC) {
   nFTEntities(
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
     filter: {

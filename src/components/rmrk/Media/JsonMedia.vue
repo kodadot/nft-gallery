@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import api from '@/fetch';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import api from '@/fetch'
 
 @Component({})
 export default class Unknown extends Vue {
@@ -21,12 +21,12 @@ export default class Unknown extends Vue {
 
   private async mounted() {
     if (this.src) {
-      const { data } = await api.get(this.src);
-      console.log('data', data);
+      const { data } = await api.get(this.src)
+      console.log('data', data)
       this.data = Object.entries(data).map(([key, value]) => ({
         key,
         value: JSON.stringify(value)
-      }));
+      }))
     }
   }
 }

@@ -215,9 +215,18 @@ Moreover please add this to your `.env.local`
 VUE_APP_SUBQUERY_URL=http://localhost:3000
 ```
 
-### Lints and fixes files
+### Linting code
+#### Show all problems
+```bash
+yarn lint
 ```
-yarn run lint
+#### Show only errors
+```bash
+yarn lint --quiet
+```
+#### Fix errors
+```bash
+yarn lint --fix
 ```
 
 ### Dev hints

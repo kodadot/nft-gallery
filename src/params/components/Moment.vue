@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Moment extends Vue {
@@ -19,13 +19,13 @@ export default class Moment extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : '';
+    return this.defaultValue ? this.defaultValue : ''
   }
 
 

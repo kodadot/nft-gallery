@@ -17,13 +17,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-import InlineMixin from '@/utils/mixins/inlineMixin';
+import { Component, Prop, Mixins } from 'vue-property-decorator'
+import InlineMixin from '@/utils/mixins/inlineMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   LinkResolver: () => import('@/components/shared/LinkResolver.vue')
-};
+}
 
 @Component({ components })
 export default class ProfileLink extends Mixins(InlineMixin) {

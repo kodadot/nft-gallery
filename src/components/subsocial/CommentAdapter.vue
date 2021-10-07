@@ -8,9 +8,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { PostType } from './types'
-import { resolveSubsocialApi } from './api';
 
 const components = {
   Comment: () => import('./Comment.vue'),
@@ -26,8 +25,8 @@ export default class CommentAdapter extends Vue {
   @Prop() public comment!: PostType;
   @Prop(Number) public index!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
-  protected postId: string = '';
-  protected replyVisible: boolean = false;
+  protected postId = '';
+  protected replyVisible = false;
 
   get message() {
     return this.comment?.content?.body
@@ -38,7 +37,7 @@ export default class CommentAdapter extends Vue {
   }
 
   get spaceId() {
-    return this.commentStruct?.space_id.toHuman();
+    return this.commentStruct?.space_id.toHuman()
   }
 
   get canReply() {
@@ -67,9 +66,9 @@ export default class CommentAdapter extends Vue {
   }
 
   reloadComments() {
-    this.replyVisible = false;
-    const post = this.postId;
-    this.postId = '';
+    this.replyVisible = false
+    const post = this.postId
+    this.postId = ''
     setTimeout(() => this.postId = post, 500)
   }
 
@@ -78,7 +77,7 @@ export default class CommentAdapter extends Vue {
   }
 
   public async mounted() {
-    this.postId = this.comment?.struct.id.toString() || '';
+    this.postId = this.comment?.struct.id.toString() || ''
   }
 
 }

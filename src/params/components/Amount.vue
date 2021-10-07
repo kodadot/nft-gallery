@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { isHex, hexToBn } from '@polkadot/util';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { isHex, hexToBn } from '@polkadot/util'
 
 @Component
 export default class Amount extends Vue {
@@ -20,21 +20,21 @@ export default class Amount extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
     const defaultValue = isHex(this.defaultValue)
-     ? hexToBn(this.defaultValue as string).toString()
-     : this.defaultValue;
+      ? hexToBn(this.defaultValue as string).toString()
+      : this.defaultValue
 
 
-    console.log(this.defaultValue, isHex(this.defaultValue));
+    console.log(this.defaultValue, isHex(this.defaultValue))
 
 
-    return defaultValue ? defaultValue : 0;
+    return defaultValue ? defaultValue : 0
   }
 
 

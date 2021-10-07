@@ -1,21 +1,21 @@
 export const unSanitizeIpfsUrl = (url: string) => {
-  return `ipfs://ipfs/${url}`;
-};
+  return `ipfs://ipfs/${url}`
+}
 
 export const justHash = (ipfsLink?: string): boolean => {
-  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '');
-};
+  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '')
+}
 
-const cidRegex: RegExp = /ipfs\/([a-zA-Z0-9]+)\/?$/;
+const cidRegex = /ipfs\/([a-zA-Z0-9]+)\/?$/
 export const extractCid = (ipfsLink?: string): string => {
   if (!ipfsLink) {
-    return '';
+    return ''
   }
 
-  const match = ipfsLink.match(cidRegex);
+  const match = ipfsLink.match(cidRegex)
 
-  return match ? match[1] : '';
-};
+  return match ? match[1] : ''
+}
 
 type IpfsToArweaveType = {
   arweaveId: string;

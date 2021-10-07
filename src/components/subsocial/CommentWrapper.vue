@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { resolveSubsocialApi, subsocial } from './api'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { resolveSubsocialApi } from './api'
 import { PostType } from './types'
-import BN from 'bn.js';
+import BN from 'bn.js'
 
 const components = {
   CommentAdapter: () => import('./CommentAdapter.vue')
@@ -29,12 +29,12 @@ export default class CommentWrapper extends Vue {
   @Prop(Boolean) public nested!: boolean;
   @Prop(Boolean) public actionDisabled!: boolean;
   protected comments: PostType[] = [];
-  protected commentsVisible: boolean = false;
-  protected loading: boolean = false;
+  protected commentsVisible = false;
+  protected loading = false;
   protected replyCount = 0;
 
   public async mounted() {
-    const ss = await resolveSubsocialApi();
+    const ss = await resolveSubsocialApi()
 
     if (this.postId) {
       if (!this.nested) {
@@ -49,9 +49,9 @@ export default class CommentWrapper extends Vue {
   }
 
   protected async reloadComment(index: number) {
-    const commentId = this.comments[index]?.struct.id;
-    const ss = await resolveSubsocialApi();
-    const comment = await ss.findPublicPost(commentId as any);
+    const commentId = this.comments[index]?.struct.id
+    const ss = await resolveSubsocialApi()
+    const comment = await ss.findPublicPost(commentId as any)
     console.log('Updated comment', comment)
     this.$set(this.comments, index, comment)
   }

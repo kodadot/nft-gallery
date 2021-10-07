@@ -1,5 +1,5 @@
 
-import { CommonData,  PostContent } from '@subsocial/types';
+import { CommonData,  PostContent } from '@subsocial/types'
 import { Post } from '@subsocial/types/substrate/interfaces'
 import { ProfileContent } from '@subsocial/types/offchain'
 
