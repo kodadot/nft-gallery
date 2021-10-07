@@ -26,17 +26,6 @@
                   }}</span>
                 </span>
                 <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <!-- <figure class="gallery__image-wrapper">
-                  <img
-                    :src="placeholder"
-                    :data-src="nft.image"
-                    :data-type="nft.type"
-                    :alt="nft.name"
-                    class="lazyload gallery__image"
-                    :class="{ 'card-image__burned': nft.burned }"
-                    @error="onError"
-                  />
-                </figure> -->
                 <span v-if="nft.price > 0" class="card-image__price">
                   <Money :value="nft.price" inline />
                 </span>

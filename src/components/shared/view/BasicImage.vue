@@ -1,11 +1,12 @@
 <template>
   <b-image
     :src="src"
-    src-fallback="/placeholder.svg'"
-    alt="KodaDot NFT minted multimedia"
+    src-fallback="/placeholder.svg"
+    :alt="alt"
     ratio="1by1"
     @error="onImageError"
     :class="customClass"
+    :rounded="rounded"
   >
     <template #placeholder>
       <b-skeleton class="skeleton-placeholder" height="100%"></b-skeleton>
@@ -18,12 +19,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class BasicImage extends Vue {
-  @Prop({ type: String, required: true }) public src!: string;
+  @Prop({ type: String }) public src!: string;
   @Prop(String) public customClass!: string;
   @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: string;
+  @Prop(Boolean) public rounded!: boolean;
 
-  public onImageError(event: unknown): void {
-    console.log('Unable to load ', this.src , event)
+  public onImageError(event: unknown, src: string): void {
+    console.log('Unable to load ', src)
   }
 
 }
