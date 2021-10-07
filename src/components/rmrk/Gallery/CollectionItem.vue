@@ -68,7 +68,7 @@ const components = {
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render')
+  VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
   metaInfo() {
