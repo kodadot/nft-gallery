@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main mb-4" v-show="emoji">
+  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main mb-4" v-show="emotes">
     <div
       class="column nft-emotion__column"
       v-for="emoji in emotes"
