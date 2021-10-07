@@ -10,6 +10,7 @@
       hoverable
       detailed
       paginated
+      pagination-position="top"
       show-detail-icon
     >
       <b-table-column
