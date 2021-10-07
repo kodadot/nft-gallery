@@ -78,10 +78,15 @@
       <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
-        v-slot="props"
         sortable
+        numeric
       >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
+        <template v-slot:header="{column}">
+          <b-tooltip label="sold * (unique / total)" append-to-body dashed>
+            {{column.label}}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
