@@ -14,17 +14,18 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class BasicImage extends Vue {
-  @Prop({ type: String, required: true }) public src!: any;
-  @Prop(String) public customClass!: any;
-  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: any;
+  @Prop({ type: String, required: true }) public src!: string;
+  @Prop(String) public customClass!: string;
+  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: string;
 
-  public onImageError(event: any) {
-    console.log('Unable to load ', this.src , event,);
+  public onImageError(event: unknown): void {
+    console.log('Unable to load ', this.src , event)
   }
+
 }
 </script>
 
