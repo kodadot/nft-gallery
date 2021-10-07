@@ -341,10 +341,6 @@ export default class Gallery extends Vue {
   }
 
   .card-image img {
-    bottom: 0 !important;
-    left: 0 !important;
-    position: absolute !important;
-    right: 0 !important;
     border-radius: 8px;
     top: 50%;
     transition: all 0.3s;
