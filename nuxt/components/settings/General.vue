@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import SettingChooser from '../settings/SettingChooser.vue';
+import SettingChooser from '@/components/settings/SettingChooser.vue';
 import SettingChooserExplorer from '@/components/settings/SettingChooserExplorer.vue'
 import SettingChooserDevelopment from '@/components/settings/SettingChooserDevelopment.vue'
 

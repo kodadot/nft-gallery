@@ -123,7 +123,7 @@ export default class NavbarProfileDropdown extends Vue {
 </script>
 
 <style lang="scss">
-@import "bulma/bulma.sass";
+@import "bulma/sass/utilities/mixins.sass";
 
 .navbar {
   &__identity {

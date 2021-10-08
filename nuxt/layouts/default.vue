@@ -128,7 +128,3 @@ export default class Dashboard extends Vue {
   }
 }
 </script>
-
-<style lang="scss">
-@import "./styles";
-</style>

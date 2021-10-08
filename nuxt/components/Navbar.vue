@@ -26,23 +26,23 @@
           </template>
           <b-navbar-item
             tag="router-link"
-            :to="{ name: 'rmrk'}">
+            :to="{ name: 'rmrk-create'}">
             {{ $t('Classic') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
-            :to="{ name: 'simpleMint'}">
+            :to="{ name: 'rmrk-mint'}">
             {{ $t('Simple') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
-            :to="{ name: 'permafrost'}">
+            :to="{ name: 'permafrost-create'}">
             {{ $t('Permafrost') }}
           </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'nft'}">
+        :to="{ name: 'rmrk-gallery'}">
         {{ $t('Gallery') }}
       </b-navbar-item>
       <b-navbar-item
@@ -56,12 +56,12 @@
           label="Extra">
           <b-navbar-item
             tag="router-link"
-            :to="{ name: 'rmrkCredit' }">
+            :to="{ name: 'rmrk-credit' }">
             {{ $t('Credit') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
-            :to="{ name: 'rmrkFaq'}">
+            :to="{ name: 'rmrk-faq'}">
             {{ $t('FAQ') }}
           </b-navbar-item>
           <b-navbar-item
@@ -81,64 +81,77 @@
         {{ $t('Tutorial') }}
       </b-navbar-item>
     </template>
-    <!-- <template v-slot:end>
+    <template v-slot:end>
       <LocaleChanger />
       <NavbarProfileDropdown />
-    </template> -->
+    </template>
   </b-navbar>
 </template>
 
 <script lang="ts">
-// import LocaleChanger from '@/components/shared/SwitchLocale.vue';
-// import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import { Component, Vue } from 'vue-property-decorator';
+import LocaleChanger from '@/components/shared/SwitchLocale.vue';
+import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import { getCurrentColor } from '@/colors'
+import i18n from '@/i18n';
 
-export default {
-  name: 'Navbar'
+@Component({
+components: {
+  LocaleChanger,
+  NavbarProfileDropdown
 }
+})
+export default class NavbarMenu extends Vue {
+private color: string = getCurrentColor()
+public navbar: any = [
+  {
+    name: i18n.t('Gallery'),
+    tag: 'router-link',
+    to: { name: 'nft' },
+    strong: true
+  },
+]
+public navbarExtra: any = [
+  {
+    name: i18n.t('Accounts'),
+    icon: 'users',
+    to: { name: 'accounts' },
+    tag: 'router-link',
+  },
+  {
+    name: i18n.t('Credit'),
+    icon: 'users',
+    to: { name: 'rmrkCredit' },
+    tag: 'router-link',
+    strong: true
+  },
+  {
+    name: i18n.t('Transfer'),
+    icon: 'paper-plane',
+    to: { name: 'transfer' },
+    tag: 'router-link',
+  },
+  {
+    name: i18n.t('Settings'),
+    icon: 'cogs',
+    tag: 'router-link',
+    to: { name: 'settings' },
+  },
+]
+private navbarExternal: any = [
+  {
+    name: 'Twitter',
+    tag: 'a',
+    href: 'https://twitter.com/Kodadot'
+  }
+]
 
-// export default class NavbarMenu extends Vue {
-//   public navbar: any = [
-//     {
-//       name: i18n.t('Gallery'),
-//       tag: 'router-link',
-//       to: { name: 'nft' },
-//       strong: true
-//     },
-//   ]
-//   public navbarExtra: any = [
-//     {
-//       name: i18n.t('Accounts'),
-//       icon: 'users',
-//       to: { name: 'accounts' },
-//       tag: 'router-link',
-//     },
-//     {
-//       name: i18n.t('Credit'),
-//       icon: 'users',
-//       to: { name: 'rmrkCredit' },
-//       tag: 'router-link',
-//       strong: true
-//     },
-//     {
-//       name: i18n.t('Transfer'),
-//       icon: 'paper-plane',
-//       to: { name: 'transfer' },
-//       tag: 'router-link',
-//     },
-//     {
-//       name: i18n.t('Settings'),
-//       icon: 'cogs',
-//       tag: 'router-link',
-//       to: { name: 'settings' },
-//     },
-//   ]
-
-//   // get chainColor() {
-//   //   return {
-//   //     'border-bottom': `4px ${this.color} solid`
-//   //   }
-//   // }
+// get chainColor() {
+//   return {
+//     'border-bottom': `4px ${this.color} solid`
+//   }
 // }
+}
 </script>
 
 <style lang="scss">
