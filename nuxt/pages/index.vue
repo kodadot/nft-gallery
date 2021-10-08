@@ -139,14 +139,11 @@
 
 <script lang="ts">
 
-export default {
-  name: 'LandingPage',
-}
 import { Component, Vue } from 'vue-property-decorator';
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
 import { denyList } from '@/constants';
 import { getMany, update } from 'idb-keyval';
-import { fetchNFTMetadata } from '../rmrk/utils';
+import { fetchNFTMetadata } from '@/components/rmrk/utils';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),

@@ -15,6 +15,7 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "noImplicitAny": false,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -25,8 +26,11 @@
       ]
     },
     "types": [
+      "webpack",
+      "webpack-env",
       "@nuxt/types",
-      "@types/node"
+      "@types/node",
+      "vue-apollo"
     ]
   },
   "exclude": [

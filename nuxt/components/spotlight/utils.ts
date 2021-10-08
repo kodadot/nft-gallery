@@ -1,7 +1,7 @@
 import i18n from '@/i18n';
 import { Column, Row, SimpleSpotlightNFT } from './types';
 import formatBalance from '@/utils/formatBalance'
-import store from '@/store'
+import * as store from '@/store'
 
 export const columns: Column[] = [
   { field: 'id', label: i18n.t('spotlight.id') },
