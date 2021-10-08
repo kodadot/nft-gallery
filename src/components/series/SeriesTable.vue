@@ -342,7 +342,7 @@ export default class SeriesTable extends Vue {
   }
 
   public displayVolumePercent(priceNow: number, priceAgo: number) {
-    const vol = ((priceNow - priceAgo) / priceNow) * 100
+    const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol))) {
       return '---'
     }

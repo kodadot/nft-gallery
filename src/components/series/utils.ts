@@ -64,6 +64,9 @@ export const nftFn = (a: any): RowSeries => {
     })
     .reduce(reducer, 0)
 
+    // console.log(weeklyVolume, weeklyrangeVolume)
+    // console.log(((weeklyVolume - weeklyrangeVolume) / weeklyrangeVolume) * 100);
+
   const monthlyVolume = collectionNfts
     .map((nft: SimpleSeriesNFT) =>
       nft.events.filter((e: { interaction: string; timestamp: Date }) => {
@@ -114,5 +117,8 @@ const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 const reducer = (a: number, b: number): number => Number(a) + Number(b)
 
 const yesterdayDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 1))
+const daybeforeyesterdayDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 2))
 const lastweekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 7))
+const last2weekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 14))
 const lastmonthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30))
+const last2monthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 60))
