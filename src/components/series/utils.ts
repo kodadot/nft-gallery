@@ -2,6 +2,9 @@ import i18n from '@/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import store from '@/store'
+import { getVolume, pairListBuyEvent } from '@/utils/math'
+import { Interaction } from '../rmrk/service/scheme'
+import { isAfter, isEqual, subDays, parseISO } from 'date-fns'
 
 export const columns: Column[] = [
   { field: 'id', label: i18n.t('spotlight.id') },
@@ -25,44 +28,17 @@ export const nftFn = (a: any): RowSeries => {
     ...collectionNfts.map((nft: SimpleSeriesNFT) => Number(nft.price)).filter((price: number) => price > 0)
   )
 
-  const volume = collectionNfts
-    .map(onlyBuyEvents)
-    .map((item: any, key: number) => {
-      return (
-        item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
-      )
-    })
-    .reduce(reducer, 0)
+  // console.log(buyEvents)
 
-  const weeklyVolume = collectionNfts
-    .map((nft: SimpleSeriesNFT) => nft.events.filter(
-      (e: { interaction: string; timestamp: Date; }) => {
-        return (
-          e.interaction === 'BUY' && new Date(e.timestamp) >= lastweekDate
-        )
-      }
-    ))
-    .map((item: any, key: number) => {
-      return (
-        item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
-      )
-    })
-    .reduce(reducer, 0)
+  // const volume = 0
+  const weeklyVolume = 0
+  const monthlyVolume = 0
 
-  const monthlyVolume = collectionNfts
-    .map((nft: SimpleSeriesNFT) => nft.events.filter(
-      (e: { interaction: string; timestamp: Date; }) => {
-        return (
-          e.interaction === 'BUY' && new Date(e.timestamp) >= lastmonthDate
-        )
-      }
-    ))
-    .map((item: any, key: number): any => {
-      return (
-        item.length && collectionNfts[key]?.events?.find(onlyListEvents).meta
-      )
-    })
-    .reduce(reducer, 0)
+  const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()
+  const volume =  Number(getVolume(buyEvents))
+  // const weeklyVolume = getVolume(buyEvents.filter(after(lastweekDate)))
+  // const monthlyVolume = getVolume(buyEvents.filter(after(lastmonthDate)))
+
 
   return {
     id: a.id,
@@ -95,9 +71,11 @@ const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)
 const soldFn = (acc: number, val: SimpleSeriesNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
 const uniqueFn = (acc: Set<string>, val: SimpleSeriesNFT) => acc.add(val.metadata)
 const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) => issuer === currentOwner
-const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
-const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
-const reducer = (a: number, b: number): number => Number(a) + Number(b)
+// const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
+// const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
+// const reducer = (a: number, b: number): number => Number(a) + Number(b)
+const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
 
-const lastweekDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 7))
-const lastmonthDate: Date = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30))
+const after = (date: Date) => (event: Interaction) => isAfter(parseISO(event.timestamp), date) || isEqual(parseISO(event.timestamp), date)
+const lastweekDate: Date = subDays(new Date(), 7)
+const lastmonthDate: Date = subDays(new Date(), 30)
