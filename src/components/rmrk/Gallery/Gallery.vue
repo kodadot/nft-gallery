@@ -25,17 +25,7 @@
                     nft.emoteCount
                   }}</span>
                 </span>
-                <figure class="gallery__image-wrapper">
-                  <img
-                    :src="placeholder"
-                    :data-src="nft.image"
-                    :data-type="nft.type"
-                    :alt="nft.name"
-                    class="lazyload gallery__image"
-                    :class="{ 'card-image__burned': nft.burned }"
-                    @error="onError"
-                  />
-                </figure>
+                <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
                 <span v-if="nft.price > 0" class="card-image__price">
                   <Money :value="nft.price" inline />
                 </span>
@@ -121,6 +111,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component<Gallery>({
@@ -349,18 +340,14 @@ export default class Gallery extends Vue {
     cursor: pointer;
   }
 
-  &__image {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
+  .card-image img {
     border-radius: 8px;
     top: 50%;
     transition: all 0.3s;
     display: block;
     width: 100%;
     height: auto;
-    transform: scale(1) translateY(-50%);
+    transform: scale(1);
   }
 
   .ff-container {
@@ -470,11 +457,12 @@ export default class Gallery extends Vue {
         }
 
         &:hover .gallery__image-wrapper img {
-          transform: scale(1.1) translateY(-50%);
+          transform: scale(1.1);
+          transition: transform 0.3s linear;
         }
 
         &:hover .ff-canvas {
-          transform: scale(1.1) translateY(-50%);
+          transform: scale(1.1);
         }
 
         &:hover .card-image__emotes {
