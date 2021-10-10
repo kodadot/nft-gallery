@@ -1,10 +1,10 @@
 <template>
   <component :is="is">
     <template v-if="profileMode">
+      <slot name="extra" />
       <router-link :to="{ name: route, params: { id: param } }" :tag="tag">
         <slot />
       </router-link>
-      <slot name="extra" />
     </template>
     <template v-else>
       <a :href="hrefLink" target="_blank" rel="noopener noreferrer">
@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
-import InlineMixin from '@/utils/mixins/inlineMixin';
-import isShareMode from '@/utils/isShareMode';
+import { Component, Prop, Mixins } from 'vue-property-decorator'
+import InlineMixin from '@/utils/mixins/inlineMixin'
+import isShareMode from '@/utils/isShareMode'
 
 @Component
 export default class LinkResolver extends Mixins(InlineMixin) {
@@ -27,11 +27,11 @@ export default class LinkResolver extends Mixins(InlineMixin) {
   @Prop({}) public param!: string;
 
   get profileMode() {
-    return !isShareMode;
+    return !isShareMode
   }
 
   get hrefLink() {
-    return `${window.location.origin}/${this.link}/${this.param}`;
+    return `${window.location.origin}/${this.link}/${this.param}`
   }
 }
 </script>

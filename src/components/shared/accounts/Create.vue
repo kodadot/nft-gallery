@@ -118,12 +118,12 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
-import keyring from '@polkadot/ui-keyring';
-import Identicon from '@polkadot/vue-identicon';
-import { keyExtractSuri, mnemonicGenerate,
-  mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { isHex, u8aToHex } from '@polkadot/util';
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
+import keyring from '@polkadot/ui-keyring'
+import Identicon from '@polkadot/vue-identicon'
+import { mnemonicGenerate,
+  mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto'
+import { isHex, u8aToHex } from '@polkadot/util'
 
 @Component({
   components: {
@@ -144,15 +144,15 @@ export default class Create extends Vue {
     ],
   };
 
-  public canSave: boolean = false;
-  public uniqueAddress: boolean = true;
-  public isAddressValid: boolean = false;
-  public isNameValid: boolean = false;
-  public isValidMnemonic: boolean = false;
-  public isValidRawSeed: boolean = false;
-  public isSeedValid: boolean = false;
-  public isPassValid: boolean = false;
-  public seedType: string = 'mnemonic';
+  public canSave = false;
+  public uniqueAddress = true;
+  public isAddressValid = false;
+  public isNameValid = false;
+  public isValidMnemonic = false;
+  public isValidRawSeed = false;
+  public isSeedValid = false;
+  public isPassValid = false;
+  public seedType = 'mnemonic';
   public keyringAccounts: any = [{
     address: '',
     meta: { name: ''},
@@ -171,83 +171,83 @@ export default class Create extends Vue {
   };
 
   public checkAccountName(): boolean {
-    return this.isNameValid = this.newAccount.name.length > 0;
+    return this.isNameValid = this.newAccount.name.length > 0
   }
 
   public shortAddress(address: string): string {
     if (address) {
-      return `${address.slice(0, 6)}...${address.slice(-6)}`;
+      return `${address.slice(0, 6)}...${address.slice(-6)}`
     }
-    return '';
+    return ''
   }
 
   public validateSeed(): boolean {
-    return this.isSeedValid = this.validateMnemonic() && this.validateRawSeed();
+    return this.isSeedValid = this.validateMnemonic() && this.validateRawSeed()
   }
 
   public validateMnemonic(): boolean {
-    return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed);
+    return this.isValidMnemonic = mnemonicValidate(this.newAccount.mnemonicSeed)
   }
 
   public validatePassword(password: string): boolean {
-    return this.isPassValid = this.newAccount.password.length > 0 && keyring.isPassValid(password);
+    return this.isPassValid = this.newAccount.password.length > 0 && keyring.isPassValid(password)
   }
 
   public dropdownClick(type: string): void {
     if (type === 'raw') {
-      this.generateSeed('raw');
-      this.addressFromSeed('raw');
-      this.validateRawSeed();
-      this.validateSeed();
+      this.generateSeed('raw')
+      this.addressFromSeed('raw')
+      this.validateRawSeed()
+      this.validateSeed()
     }
     if (type === 'mnemonic') {
-      this.generateSeed('mnemonic');
-      this.addressFromSeed('mnemonic');
-      this.validateMnemonic();
-      this.validateSeed();
+      this.generateSeed('mnemonic')
+      this.addressFromSeed('mnemonic')
+      this.validateMnemonic()
+      this.validateSeed()
     }
   }
 
   public generateSeed(type: string): string {
     if (this.mode === 'accounts') {
       if (type === 'mnemonic') {
-        return this.newAccount.mnemonicSeed = mnemonicGenerate();
+        return this.newAccount.mnemonicSeed = mnemonicGenerate()
       }
       if (type === 'raw') {
-        return this.newAccount.rawSeed = u8aToHex(randomAsU8a());
+        return this.newAccount.rawSeed = u8aToHex(randomAsU8a())
       }
     }
-    return '';
+    return ''
   }
 
   public isHexSeed(seed: string): boolean {
-    return isHex(seed) && seed.length === 66;
+    return isHex(seed) && seed.length === 66
   }
 
   public validateRawSeed(): boolean {
     return this.isValidRawSeed = ((this.newAccount.rawSeed.length > 0)
-      && (this.newAccount.rawSeed.length <= 32)) || this.isHexSeed(this.newAccount.rawSeed);
+      && (this.newAccount.rawSeed.length <= 32)) || this.isHexSeed(this.newAccount.rawSeed)
   }
 
   public validateAddress(address: string): void {
     try {
-      const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address));
-      this.isAddressValid = keyring.isAvailable(keyringmagic);
+      const keyringmagic = keyring.encodeAddress(keyring.decodeAddress(address))
+      this.isAddressValid = keyring.isAvailable(keyringmagic)
     } catch (error) {
-      this.isAddressValid = false;
+      this.isAddressValid = false
     }
   }
 
   public checkAlreadyPresentAddress(address: string): void {
     if (this.mode === 'addressbook') {
-      const keyringAddrs = Object.values(keyring.getAccounts());
-      const alreadyExists = keyringAddrs.find((acc) => acc.address === address);
+      const keyringAddrs = Object.values(keyring.getAccounts())
+      const alreadyExists = keyringAddrs.find((acc) => acc.address === address)
       if (alreadyExists) {
-        this.toast('Already have same address in Keyring');
-        this.uniqueAddress = false;
+        this.toast('Already have same address in Keyring')
+        this.uniqueAddress = false
       }
       if (!alreadyExists) {
-        this.uniqueAddress = true;
+        this.uniqueAddress = true
       }
     }
   }
@@ -255,24 +255,24 @@ export default class Create extends Vue {
   public validateSave(): void {
     if (this.mode === 'addressbook') {
       this.canSave = this.newAccount.address.length > 0 && this.isAddressValid
-        && this.uniqueAddress && this.isNameValid;
+        && this.uniqueAddress && this.isNameValid
     }
 
     if (this.mode === 'accounts') {
-      this.canSave = this.isNameValid && this.isPassValid;
+      this.canSave = this.isNameValid && this.isPassValid
     }
   }
 
   public toast(message: string): void {
     this.$buefy.toast.open({
       message,
-      type: 'is-warning'});
+      type: 'is-warning'})
   }
 
   @Watch('$store.state.keyringLoaded')
   public mapAccounts(): void {
     if (this.isKeyringLoaded()) {
-      this.keyringAccounts = keyring.getPairs();
+      this.keyringAccounts = keyring.getPairs()
     }
   }
 
@@ -285,27 +285,27 @@ export default class Create extends Vue {
         name: this.newAccount.name,
         tags: (this.newAccount.tags != null)?
           this.newAccount.tags.split(',')
-          .map((item: string) => item.trim())
-          .filter((item: string) => item) : null,
-        whenCreated: Date.now() };
+            .map((item: string) => item.trim())
+            .filter((item: string) => item) : null,
+        whenCreated: Date.now() }
       if (this.mode === 'accounts') {
         if (this.seedType === 'mnemonic') {
           const { json, pair } =
             keyring.addUri(`${this.newAccount.mnemonicSeed}${this.newAccount.derivationPath}`,
-            this.newAccount.password, meta, this.keypairType.selected);
+              this.newAccount.password, meta, this.keypairType.selected)
         }
         if (this.seedType === 'raw') {
           const { json, pair } =
             keyring.addUri(`${this.newAccount.rawSeed}${this.newAccount.derivationPath}`,
-            this.newAccount.password, meta, this.keypairType.selected);
+              this.newAccount.password, meta, this.keypairType.selected)
         }
       }
       if (this.mode === 'addressbook') {
-        const { json, pair } = keyring.addExternal(this.newAccount.address, meta);
+        const { json, pair } = keyring.addExternal(this.newAccount.address, meta)
       }
 
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -315,34 +315,34 @@ export default class Create extends Vue {
       if (type === 'mnemonic') {
         return this.newAccount.address =
         keyring.createFromUri(`${this.newAccount.mnemonicSeed.trim()}${this.newAccount.derivationPath}`,
-          {}, this.keypairType.selected).address;
+          {}, this.keypairType.selected).address
       }
       if (type === 'raw') {
         return this.newAccount.address =
         keyring.createFromUri(`${this.newAccount.rawSeed.trim()}${this.newAccount.derivationPath}`,
-          {}, this.keypairType.selected).address;
+          {}, this.keypairType.selected).address
       }
     }
-    return '';
+    return ''
   }
 
   public isKeyringLoaded() {
-    return this.$store.state.keyringLoaded;
+    return this.$store.state.keyringLoaded
   }
 
   public coldStart(): void {
-    this.generateSeed('raw');
-    this.generateSeed('mnemonic');
-    this.validateMnemonic();
-    this.validateSeed();
+    this.generateSeed('raw')
+    this.generateSeed('mnemonic')
+    this.validateMnemonic()
+    this.validateSeed()
     if (this.isKeyringLoaded()) {
-      this.addressFromSeed('raw');
-      this.addressFromSeed('mnemonic');
+      this.addressFromSeed('raw')
+      this.addressFromSeed('mnemonic')
     }
   }
   public mounted(): void {
-    this.coldStart();
-    this.mapAccounts();
+    this.coldStart()
+    this.mapAccounts()
   }
 }
 </script>

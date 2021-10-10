@@ -1,8 +1,8 @@
-import { RmrkType } from './scheme';
-import { RmrkEvent, RmrkInteraction } from '../types';
-import { Collection, NFT } from './scheme';
-import { u8aToHex } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/keyring';
+import { RmrkType } from './scheme'
+import { RmrkEvent, RmrkInteraction } from '../types'
+import { Collection, NFT } from './scheme'
+import { u8aToHex } from '@polkadot/util'
+import { decodeAddress } from '@polkadot/keyring'
 
 const nftSchema: Record<keyof NFT, boolean> = {
   name: true,
@@ -24,12 +24,12 @@ const nftSchema: Record<keyof NFT, boolean> = {
 
 export default class Consolidator {
   public static isPermitedInteraction(): boolean {
-    return true;
+    return true
   }
 
   public static canTransfer(nft: NFT) {
     if (!nft.transferable) {
-      throw new ValidationError(`NFT ${nft._id} is not transferable`);
+      throw new ValidationError(`NFT ${nft._id} is not transferable`)
     }
   }
 
@@ -39,19 +39,19 @@ export default class Consolidator {
 
   public static consolidate(action: RmrkEvent | string, nft: NFT, previousOwner: string, caller: string): boolean  {
     switch(action) {
-      case RmrkEvent.BUY:
-        return Consolidator.canBuy(nft, previousOwner)
-        case RmrkEvent.CONSUME:
-          return Consolidator.canConsume(nft, caller)
-      default:
-        console.warn(`[CONSOLIDATOR] NO consolidation for interaction ${action}`)
+    case RmrkEvent.BUY:
+      return Consolidator.canBuy(nft, previousOwner)
+    case RmrkEvent.CONSUME:
+      return Consolidator.canConsume(nft, caller)
+    default:
+      console.warn(`[CONSOLIDATOR] NO consolidation for interaction ${action}`)
     }
 
     return true
   }
 
   private static canBuy(nft: NFT, previousOwner: string) {
-    return Consolidator.isAvailableForSale(nft, previousOwner);
+    return Consolidator.isAvailableForSale(nft, previousOwner)
   }
 
   private static canConsume(nft: NFT, caller: string) {
@@ -82,11 +82,11 @@ export default class Consolidator {
     const generatedId = caller.startsWith('0x') ? caller : generateId(
       accountIdToPubKey(caller),
       collection.symbol
-    );
+    )
     if (!Consolidator.callerEquals(collection._id, generatedId)) {
       throw new ValidationError(
         `Collection id missmatch ${collection._id} vs ${generatedId}`
-      );
+      )
     }
   }
 
@@ -95,7 +95,7 @@ export default class Consolidator {
     interaction: RmrkInteraction,
     caller: string
   ): boolean {
-    return true;
+    return true
   }
 
   // public static validate() {}
@@ -104,7 +104,7 @@ export default class Consolidator {
     if (!caller) {
       throw new ValidationError(
         `Unknown caller, doing ${interaction.toString()}`
-      );
+      )
     }
   }
 
@@ -112,7 +112,7 @@ export default class Consolidator {
     if (!Consolidator.callerEquals(collection.issuer, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not issuer of ${collection._id}.\n Issuer is ${collection.issuer}!`
-      );
+      )
     }
   }
 
@@ -120,12 +120,12 @@ export default class Consolidator {
     if (!Consolidator.callerEquals(nft.currentOwner, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not owner of ${nft._id}.\n Owner is ${nft.currentOwner}!`
-      );
+      )
     }
   }
 
   private static callerEquals(ownerId: string, caller: string): boolean {
-    return ownerId === caller;
+    return ownerId === caller
   }
 
 
@@ -143,7 +143,7 @@ export default class Consolidator {
 }
 
 function accountIdToPubKey(accountId: string) {
-  return (accountId && u8aToHex(decodeAddress(accountId))) || '';
+  return (accountId && u8aToHex(decodeAddress(accountId))) || ''
 }
 
 export function generateId(caller: string, symbol: string): string {
@@ -151,18 +151,18 @@ export function generateId(caller: string, symbol: string): string {
     return ''
   }
 
-  const pubkey = caller.startsWith('0x') ? caller : accountIdToPubKey(caller);
+  const pubkey = caller.startsWith('0x') ? caller : accountIdToPubKey(caller)
   return (
     pubkey?.substr(2, 10) +
     pubkey?.substring(pubkey.length - 8) +
     '-' +
     (symbol || '')
-  ).toUpperCase();
+  ).toUpperCase()
 }
 
 class ValidationError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = 'ValidationError';
+    super(message)
+    this.name = 'ValidationError'
   }
 }

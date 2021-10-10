@@ -1,7 +1,7 @@
 const Transfer = () =>
   import(
     /* webpackChunkName:'transfer' */ '@/components/transfer/Transfer.vue'
-  );
+  )
 
 export default [
   {
@@ -9,4 +9,4 @@ export default [
     name: 'transfer',
     component: Transfer
   }
-];
+]

@@ -17,7 +17,7 @@
       <div class="columns">
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
-              <div class="column" :class="{ 'is-12': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
+              <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
                 <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
@@ -25,6 +25,7 @@
                     src-fallback="/placeholder.svg'"
                     alt="KodaDot NFT minted multimedia"
                     ratio="1by1"
+                    @error="onImageError"
                   ></b-image>
                   <img class="fullscreen-image" :src="meta.image || '/placeholder.svg'" alt="KodaDot NFT minted multimedia">
                   <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
@@ -55,9 +56,7 @@
 
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend')}}</p>
-            <p v-if="!isLoading" class="subtitle is-size-5">
-              {{ meta.description }}
-            </p>
+            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description" />
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
@@ -117,31 +116,30 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
-// import MarkdownItVueLight from 'markdown-it-vue';
-import 'markdown-it-vue/dist/markdown-it-vue-light.css'
-import { NFT, NFTMetadata, Emote } from '../service/scheme';
-import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils';
-import { emptyObject } from '@/utils/empty';
+import { Component, Vue } from 'vue-property-decorator'
+import { NFT, NFTMetadata, Emote } from '../service/scheme'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
+import { emptyObject } from '@/utils/empty'
 
-import AvailableActions from './AvailableActions.vue';
-import { notificationTypes, showNotification } from '@/utils/notification';
+import AvailableActions from './AvailableActions.vue'
+import { notificationTypes, showNotification } from '@/utils/notification'
 // import Money from '@/components/shared/format/Money.vue';
 // import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 // import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
+// import VueMarkdown from 'vue-markdown-render'
 
-import isShareMode from '@/utils/isShareMode';
-import nftById from '@/queries/nftById.graphql';
-import { fetchNFTMetadata } from '../utils';
-import { get, set } from 'idb-keyval';
-import { MediaType } from '../types';
-import axios from 'axios';
-import { exist } from './Search/exist';
+import isShareMode from '@/utils/isShareMode'
+import nftById from '@/queries/nftById.graphql'
+import { fetchNFTMetadata } from '../utils'
+import { get, set } from 'idb-keyval'
+import { MediaType } from '../types'
+import axios from 'axios'
+import { exist } from './Search/exist'
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`;
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',
@@ -171,40 +169,41 @@ import { exist } from './Search/exist';
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
+    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+    VueMarkdown: () => import('vue-markdown-render')
   }
 })
 export default class GalleryItem extends Vue {
-  private id: string = '';
+  private id = '';
   // private accountId: string = '';
-  private passsword: string = '';
+  private passsword = '';
   private nft: NFT = emptyObject<NFT>();
-  private imageVisible: boolean = true;
-  private viewMode: string = 'default';
-  private isFullScreenView: boolean = false;
-  public isLoading: boolean = true;
-  public mimeType: string = '';
+  private imageVisible = true;
+  private viewMode = 'default';
+  private isFullScreenView = false;
+  public isLoading = true;
+  public mimeType = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
   public emotes: Emote[] = []
-  public message: string = '';
+  public message = '';
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   public async created() {
-    this.checkId();
+    this.checkId()
     exist(this.$route.query.message, (val) => {
       this.message = val === 'congrats' ? val : ''
       this.$router.replace(
         { query: null } as any
-        );
-    });
+      )
+    })
 
 
     try {
       // const nft = await rmrkService.getNFT(this.id);
-     this.$apollo.addSmartQuery('nft',{
+      this.$apollo.addSmartQuery('nft',{
         query: nftById,
         variables: {
           id: this.id
@@ -223,11 +222,15 @@ export default class GalleryItem extends Vue {
       // };
       // }
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn);
+      showNotification(`${e}`, notificationTypes.warn)
       // console.warn(e);
     }
 
-    this.isLoading = false;
+    this.isLoading = false
+  }
+
+  onImageError(e: any) {
+    console.warn('Image error',e)
   }
 
   public async fetchMetadata() {
@@ -236,25 +239,25 @@ export default class GalleryItem extends Vue {
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
 
-      const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'));
-      console.log(meta);
+      const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'))
+      console.log(meta)
 
-      const imageSanitizer = getSanitizer(meta.image);
+      const imageSanitizer = getSanitizer(meta.image)
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image, 'pinata')
       }
 
       // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url);
-        this.mimeType = headers['content-type'];
+        const { headers } = await axios.head(this.meta.animation_url)
+        this.mimeType = headers['content-type']
         // console.log(this.mimeType)
-        const mediaType = resolveMedia(this.mimeType);
+        const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
-        );
+        )
       }
 
       if (!m) {
@@ -265,33 +268,33 @@ export default class GalleryItem extends Vue {
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id;
+      this.id = this.$route.params.id
     }
   }
 
   public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default';
+    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
   }
 
   public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView;
+    this.isFullScreenView = !this.isFullScreenView
   }
 
   public minimize(): void {
-    this.isFullScreenView = false;
+    this.isFullScreenView = false
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message);
+    this.$buefy.toast.open(message)
   }
 
   get hasPrice() {
-    return Number(this.nft.price) > 0;
+    return Number(this.nft.price) > 0
   }
 
   get nftId() {
-    const { id } = this.nft;
-    return id;
+    const { id } = this.nft
+    return id
   }
 
   get detailVisible() {
@@ -300,13 +303,13 @@ export default class GalleryItem extends Vue {
 
   protected handleAction(deleted: boolean) {
     if (deleted) {
-      showNotification(`INSTANCE REMOVED`, notificationTypes.warn)
+      showNotification('INSTANCE REMOVED', notificationTypes.warn)
     }
   }
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft();
+    (this.$refs.actions as AvailableActions).unlistNft()
   }
 
 }
@@ -343,6 +346,7 @@ hr.comment-divider {
       display: none;
     }
 
+
     .image-preview {
       &.fullscreen {
         position: fixed;
@@ -355,13 +359,15 @@ hr.comment-divider {
 
         img.fullscreen-image {
           display: block;
-          width: 100% !important;
-          height: auto !important;
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
           overflow:auto;
           position: absolute;
           top: 0;
           left: 50%;
           transform: translate(-50%, 0);
+          overflow-y: hidden;
         }
 
         .image {
@@ -469,11 +475,8 @@ hr.comment-divider {
     }
 
     &-footer {
-      border-radius: none;
-      border-top: none;
-
-      &-item:not(:last-child){
-        border-right-color: $primary;
+      &-item{
+         padding: .75rem!important;
       }
     }
   }

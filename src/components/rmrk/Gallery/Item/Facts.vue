@@ -50,20 +50,20 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { extractCid } from '@/utils/ipfs';
-import { NFT, NFTMetadata } from '../../service/scheme';
-import { emptyObject } from '@/utils/empty';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { extractCid } from '@/utils/ipfs'
+import { NFT, NFTMetadata } from '../../service/scheme'
+import { emptyObject } from '@/utils/empty'
 const components = {
   ArweaveLink: () => import('@/components/shared/ArweaveLink.vue')
-};
+}
 
 @Component({ components })
 export default class Facts extends Vue {
   @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
   @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
-  public multimediaCid: string = '';
-  public showGwLinks: boolean = false;
+  public multimediaCid = '';
+  public showGwLinks = false;
   public gwList: any = [
     'https://kodadot.mypinata.cloud/ipfs/',
     'https://cloudflare-ipfs.com/ipfs/',
@@ -78,7 +78,7 @@ export default class Facts extends Vue {
 
 
   get imageId() {
-    return extractCid(this.meta.image);
+    return extractCid(this.meta.image)
   }
 
 // public created() {

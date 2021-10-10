@@ -1,9 +1,9 @@
 <template>
   <div class="profile-wrapper container">
-    <div class="columns">
+    <div class="is-flex is-align-items-center container-mobile">
       <div class="column">
-        <div class="columns">
-          <div class="column title">
+        <div class="columns is-align-items-center">
+          <div class="column title column-mobile">
             <b-icon pack="fas" icon="ghost"></b-icon>
             <a
               :href="`https://kusama.subscan.io/account/${id}`"
@@ -13,7 +13,10 @@
               <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
           </div>
-          <div class="column">
+          <div class="column-mobile">
+            <DonationButton :address="id" />
+          </div>
+          <div class="column column-mobile">
             <OnChainProperty
               v-bind:email="email"
               v-bind:twitter="twitter"
@@ -24,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-2">
+      <div class="column is-2 mb-5 share-mobile ">
         <Sharing
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
@@ -51,16 +54,21 @@
           :account="id"
         />
       </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
+      <b-tab-item
+        :label="`Collections - ${totalCollections}`"
+        value="collection"
+      >
+        <Pagination replace :total="totalCollections" v-model="currentCollectionPage" />
+        <GalleryCardList
+          :items="collections"
+          type="collectionDetail"
+          link="rmrk/collection"
+        />
+        <Pagination
+          replace
+          class="pt-5 pb-5"
+          :total="totalCollections"
+          v-model="currentCollectionPage"
         />
       </b-tab-item>
       <b-tab-item value="sold">
@@ -75,20 +83,16 @@
           :account="id"
         />
       </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
-      >
-        <Pagination :total="totalCollections" v-model="currentCollectionPage" />
-        <GalleryCardList
-          :items="collections"
-          type="collectionDetail"
-          link="rmrk/collection"
-        />
-        <Pagination
-          class="pt-5 pb-5"
-          :total="totalCollections"
-          v-model="currentCollectionPage"
+      <b-tab-item value="collected">
+        <template #header>
+          {{ $t("profile.collected") }}
+          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+        </template>
+        <PaginatedCardList
+          :id="id"
+          :query="nftListCollected"
+          @change="totalCollected = $event"
+          :account="id"
         />
       </b-tab-item>
 
@@ -101,23 +105,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils';
-
-import {
-  CollectionWithMeta,
-  NFTWithMeta,
-  Pack
-} from '@/components/rmrk/service/scheme';
-import isShareMode from '@/utils/isShareMode';
-import Identity from '../components/shared/format/Identity.vue';
-import shouldUpdate from '@/utils/shouldUpdate';
-import collectionList from '@/queries/collectionListByAccount.graphql';
-import nftListByIssuer from '@/queries/nftListByIssuer.graphql';
-import nftListCollected from '@/queries/nftListCollected.graphql';
-import nftListSold from '@/queries/nftListSold.graphql';
-import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql';
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
+import isShareMode from '@/utils/isShareMode'
+import shouldUpdate from '@/utils/shouldUpdate'
+import collectionList from '@/queries/collectionListByAccount.graphql'
+import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/nftListCollected.graphql'
+import nftListSold from '@/queries/nftListSold.graphql'
+import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -127,10 +126,12 @@ const components = {
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
-    import('@/components/rmrk/Gallery/PaginatedCardList.vue')
-};
+    import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
+  DonationButton: () => import('@/components/transfer/DonationButton.vue'),
 
-const eq = (tab: string) => (el: string) => tab === el;
+}
+
+const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
   components,
@@ -178,23 +179,23 @@ const eq = (tab: string) => (el: string) => tab === el;
             (this.defaultNFTImage as string)
         }
       ]
-    };
+    }
   }
 })
 export default class Profile extends Vue {
-  public activeTab: string = 'nft';
+  public activeTab = 'nft';
   public firstNFTData: any = {};
-  protected id: string = '';
-  protected isLoading: boolean = false;
+  protected id = '';
+  protected isLoading = false;
   protected collections: CollectionWithMeta[] = [];
   protected packs: Pack[] = [];
-  protected name: string = '';
+  protected name = '';
   // protected property: {[key: string]: any} = {};
-  protected email: string = '';
-  protected twitter: string = '';
-  protected web: string = '';
-  protected legal: string = '';
-  protected riot: string = '';
+  protected email = '';
+  protected twitter = '';
+  protected web = '';
+  protected legal = '';
+  protected riot = '';
   private currentValue = 1;
   private first = 20;
   private total = 0;
@@ -210,46 +211,48 @@ export default class Profile extends Vue {
   readonly nftListSold = nftListSold;
 
   public async mounted() {
-    await this.fetchProfile();
-
+    await this.fetchProfile()
+    exist(this.$route.query.tab, (val) => {
+      this.activeTab = val
+    })
   }
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id;
+      this.id = this.$route.params.id
     }
   }
 
   get sharingVisible() {
-    return isShareMode;
+    return isShareMode
   }
 
   get customUrl() {
-    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
+    return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
   get iframeSettings() {
-    return { width: '100%', height: '100vh', customUrl: this.customUrl };
+    return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
   get offset() {
-    return this.currentValue * this.first - this.first;
+    return this.currentValue * this.first - this.first
   }
 
   get collectionOffset() {
-    return this.currentCollectionPage * this.first - this.first;
+    return this.currentCollectionPage * this.first - this.first
   }
 
   get defaultNFTImage() {
-    const url = new URL(window.location.href);
+    const url = new URL(window.location.href)
     return (
       `${url.protocol}//${url.hostname}/koda300x300.svg`
-    );
+    )
   }
 
   protected async fetchProfile() {
-    this.checkId();
-    this.checkActiveTab();
+    this.checkId()
+    this.checkActiveTab()
 
     try {
       this.$apollo.addSmartQuery('collections', {
@@ -263,10 +266,10 @@ export default class Profile extends Vue {
             account: this.id,
             first: this.first,
             offset: this.collectionOffset
-          };
+          }
         },
         fetchPolicy: 'cache-and-network'
-      });
+      })
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
@@ -276,18 +279,18 @@ export default class Profile extends Vue {
         variables: () => {
           return {
             account: this.id
-          };
+          }
         },
         fetchPolicy: 'cache-and-network'
-      });
+      })
 
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
       // console.log(packs)
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger);
-      console.warn(e);
+      showNotification(`${e}`, notificationTypes.danger)
+      console.warn(e)
     }
     // this.isLoading = false;
 
@@ -295,30 +298,30 @@ export default class Profile extends Vue {
 
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
-      const nfts = data.nFTEntities.nodes;
+      const nfts = data.nFTEntities.nodes
       if (nfts?.length) {
-        const meta = await fetchNFTMetadata(nfts[0]);
+        const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
           ...meta,
           image: sanitizeIpfsUrl(meta.image || '')
-        };
+        }
       }
     }
   }
 
   protected async handleCollectionResult({ data }: any) {
     if (data) {
-      this.totalCollections = data.collectionEntities.totalCount;
-      this.collections = data.collectionEntities.nodes;
+      this.totalCollections = data.collectionEntities.totalCount
+      this.collections = data.collectionEntities.nodes
     }
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
-    this.email = identityFields?.email as string;
-    this.twitter = identityFields?.twitter as string;
-    this.riot = identityFields?.riot as string;
-    this.web = identityFields?.web as string;
-    this.legal = identityFields?.legal as string;
+    this.email = identityFields?.email as string
+    this.twitter = identityFields?.twitter as string
+    this.riot = identityFields?.riot as string
+    this.web = identityFields?.web as string
+    this.legal = identityFields?.legal as string
   }
 
   public checkActiveTab() {
@@ -326,14 +329,24 @@ export default class Profile extends Vue {
       this.$route.params.tab &&
       ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))
     ) {
-      this.activeTab = this.$route.params.tab;
+      this.activeTab = this.$route.params.tab
+    }
+  }
+
+  @Watch('activeTab')
+  protected onTabChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.$router.replace({
+        name: String(this.$route.name),
+        query: { tab: val },
+      })
     }
   }
 
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.fetchProfile();
+      this.fetchProfile()
     }
   }
 }
@@ -349,5 +362,26 @@ export default class Profile extends Vue {
 .tab-counter::before {
   content: " - ";
   white-space: pre;
+}
+
+.title {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .column-mobile {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container-mobile {
+    flex-direction: column;
+  }
+
+  .share-mobile {
+    width: 100%;
+  }
 }
 </style>

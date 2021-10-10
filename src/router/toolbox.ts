@@ -1,5 +1,5 @@
 const Toolbox = () =>
-  import(/* webpackChunkName:'toolbox' */ '@/components/toolbox/Toolbox.vue');
+  import(/* webpackChunkName:'toolbox' */ '@/components/toolbox/Toolbox.vue')
 
 export default [
   {
@@ -8,4 +8,4 @@ export default [
     component: Toolbox
     // beforeEnter: apiEnabled,
   }
-];
+]

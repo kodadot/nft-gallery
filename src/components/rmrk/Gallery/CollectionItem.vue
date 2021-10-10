@@ -19,12 +19,20 @@
 
     <div class="columns">
       <div class="column">
-        <p class="subtitle">
-          Creator <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
-        </p>
-        <p class="subtitle" v-if="owner">
-          Owner <ProfileLink :address="owner" :inline="true" />
-        </p>
+        <div class="label">
+          {{ $t('creator') }}
+        </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+        </div>
+      </div>
+      <div class="column" v-if="owner">
+        <div class="label">
+          {{ $t('owner') }}
+        </div>
+        <div class="subtitle">
+          <ProfileLink :address="owner" :inline="true" />
+        </div>
       </div>
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
@@ -37,9 +45,7 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <p class="content">
-          {{ description }}
-        </p>
+        <VueMarkdown :source="description" />
       </div>
     </div>
 
@@ -49,20 +55,21 @@
 </template>
 
 <script lang="ts" >
-import { emptyObject } from '@/utils/empty';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import { Component, Vue } from 'vue-property-decorator';
-import { CollectionWithMeta, Collection } from '../service/scheme';
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
-import isShareMode from '@/utils/isShareMode';
+import { emptyObject } from '@/utils/empty'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { Component, Vue } from 'vue-property-decorator'
+import { CollectionWithMeta, Collection } from '../service/scheme'
+import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
+import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
-import { CollectionMetadata } from '../types';
+import { CollectionMetadata } from '../types'
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-};
+  VueMarkdown: () => import('vue-markdown-render'),
+}
 @Component<CollectionItem>({
   metaInfo() {
     return {
@@ -83,9 +90,9 @@ const components = {
   },
   components })
 export default class CollectionItem extends Vue {
-  private id: string = '';
+  private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private isLoading: boolean = false;
+  private isLoading = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
 
   get image() {
@@ -96,7 +103,7 @@ export default class CollectionItem extends Vue {
     return this.meta.description || ''
   }
 
-	get name() {
+  get name() {
     return this.collection.name || this.id
   }
 
@@ -117,17 +124,17 @@ export default class CollectionItem extends Vue {
   }
 
   public created() {
-    this.isLoading = true;
-    this.checkId();
+    this.isLoading = true
+    this.checkId()
     this.$apollo.addSmartQuery('collection',{
-        query: collectionById,
-        variables: {
-          id: this.id
-        },
-        update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
-        result: () => this.fetchMetadata()
-      })
-    this.isLoading = false;
+      query: collectionById,
+      variables: {
+        id: this.id
+      },
+      update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+      result: () => this.fetchMetadata()
+    })
+    this.isLoading = false
   }
 
   public async fetchMetadata() {
@@ -143,7 +150,7 @@ export default class CollectionItem extends Vue {
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id;
+      this.id = this.$route.params.id
     }
   }
 
@@ -153,17 +160,17 @@ export default class CollectionItem extends Vue {
 
   collectionMeta(collection: Collection) {
     fetchCollectionMetadata(collection)
-    .then(
-      meta => this.collection = {
-        ...collection,
-        ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
-      },
-      e => {
-        showNotification(`${e}`, notificationTypes.danger);
-        console.warn(e);
-      }
-    )
+      .then(
+        meta => this.collection = {
+          ...collection,
+          ...meta,
+          image: sanitizeIpfsUrl(meta.image || ''),
+        },
+        e => {
+          showNotification(`${e}`, notificationTypes.danger)
+          console.warn(e)
+        }
+      )
   }
 }
 </script>

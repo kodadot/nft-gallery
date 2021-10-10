@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 const Overview = () => import('@/components/staking/Overview.vue')
 const Actions = () => import('@/components/staking/Actions/Actions.vue')
 const Targets = () => import('@/components/staking/Targets/Targets.vue')
@@ -24,7 +24,7 @@ const Payouts = () => import('@/components/staking/Payouts/Payouts.vue')
   }
 })
 export default class TreasuryWrapper extends Vue {
-  public activeTab: number = 0;
+  public activeTab = 0;
 
   public components: string[] = ['Overview', 'Actions', 'Targets', 'Waiting', 'Payouts']
 }

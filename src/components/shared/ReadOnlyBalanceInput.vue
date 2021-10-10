@@ -14,54 +14,47 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Emit, Mixins } from 'vue-property-decorator';
-import Balance from '@/params/components/Balance.vue';
-import { units as defaultUnits } from '@/params/constants';
-import { Unit } from '@/params/types';
-import { Debounce } from 'vue-debounce-decorator';
-import ChainMixin from '@/utils/mixins/chainMixin';
+import { Component, Prop, Emit, Mixins } from 'vue-property-decorator'
+import { units as defaultUnits } from '@/params/constants'
+import { Unit } from '@/params/types'
+import { Debounce } from 'vue-debounce-decorator'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
-const components = { Balance };
-
-type BalanceType = {
-  balance: number;
-};
-
-@Component({ components })
+@Component
 export default class ReadOnlyBalanceInput extends Mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
-  private selectedUnit: number = 1;
+  private selectedUnit = 1;
   @Prop({ default: 'USD' }) public label!: string;
   @Prop({ default: 'balance' }) public labelInput!: string;
 
   get inputValue(): number {
-    return this.value;
+    return this.value
   }
 
   set inputValue(value: number) {
-    this.handleInput(value);
+    this.handleInput(value)
   }
 
   formatSelectedValue(value: number): number {
-    return value * 10 ** this.decimals * this.selectedUnit;
+    return value * 10 ** this.decimals * this.selectedUnit
   }
 
   protected mapper(unit: Unit) {
     if (unit.name === '-') {
-      return { ...unit, name: this.unit };
+      return { ...unit, name: this.unit }
     }
-    return unit;
+    return unit
   }
 
   public mounted() {
-    this.units = defaultUnits.map(this.mapper);
+    this.units = defaultUnits.map(this.mapper)
   }
 
   @Debounce(200)
   @Emit('input')
   public handleInput(value: number) {
-    return value;
+    return value
   }
 }
 </script>

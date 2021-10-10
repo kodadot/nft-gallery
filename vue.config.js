@@ -40,8 +40,8 @@ module.exports = {
       .rule('graphql')
       .test(/\.(graphql|gql)$/)
       .use('graphql-tag/loader')
-        .loader('graphql-tag/loader')
-        .end()
+      .loader('graphql-tag/loader')
+      .end()
       .rule('mjs$')
       .test(/\.mjs$/)
       .type('javascript/auto')
@@ -83,16 +83,16 @@ module.exports = {
       },
       pretty: true,
       urls: [
-          '/',
-          '/rmrk/rare',
-          '/rmrk/gallery',
-          '/rmrk/mint',
-          '/rmrk/create',
-          '/rmrk/credit',
-          '/rmrk/faq',
-          '/carbonless',
-          '/sustainability'
+        '/',
+        '/rmrk/rare',
+        '/rmrk/gallery',
+        '/rmrk/mint',
+        '/rmrk/create',
+        '/rmrk/credit',
+        '/rmrk/faq',
+        '/carbonless',
+        '/sustainability'
       ]
     }
   }
-};
+}
