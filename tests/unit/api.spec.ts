@@ -5,7 +5,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 const WS_URL = 'ws://127.0.0.1:9944';
 
-describe('API TEST', (): void => {
+describe.skip('API TEST', (): void => {
   let api: ApiPromise;
   const keyring = new Keyring({ type: 'sr25519' });
   let alice: KeyringPair;
