@@ -1,4 +1,5 @@
 import { TranslateResult } from 'vue-i18n'
+import { Interaction } from '../rmrk/service/scheme'
 
 export type Column = {
   field: keyof RowSeries;
@@ -13,6 +14,8 @@ export type SortType = {
   value: -1 | 1;
 };
 
+type VolumeType = number | bigint;
+
 export type RowSeries = {
   id: string;
   unique: number;
@@ -20,10 +23,10 @@ export type RowSeries = {
   metadata: string;
   sold: number;
   total: number;
-  volume: number;
-  dailyVolume: number;
-  weeklyVolume: number;
-  monthlyVolume: number;
+  volume: VolumeType;
+  dailyVolume: VolumeType;
+  weeklyVolume: VolumeType;
+  monthlyVolume: VolumeType;
   averagePrice: number;
   floorPrice: number;
   rank: number;
@@ -36,5 +39,5 @@ export type SimpleSeriesNFT = {
   currentOwner: string;
   metadata: string;
   price: number;
-  events: [];
+  events: Interaction[];
 };
