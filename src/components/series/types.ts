@@ -27,6 +27,9 @@ export type RowSeries = {
   dailyVolume: VolumeType;
   weeklyVolume: VolumeType;
   monthlyVolume: VolumeType;
+  dailyrangeVolume: VolumeType;
+  weeklyrangeVolume: VolumeType;
+  monthlyrangeVolume: VolumeType;
   averagePrice: number;
   floorPrice: number;
   rank: number;

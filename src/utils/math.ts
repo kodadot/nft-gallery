@@ -1,5 +1,5 @@
 import { Interaction } from '@/components/rmrk/service/scheme'
-import { isAfter, isEqual, parseISO } from 'date-fns'
+import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
 
 export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   const res: Interaction[] = []
@@ -28,5 +28,7 @@ export function getVolume(events: Interaction[]): bigint {
 }
 
 export const after = (date: Date) => (event: Interaction): boolean =>
-  isAfter(parseISO(event.timestamp), date) ||
-  isEqual(parseISO(event.timestamp), date)
+  isAfter(parseISO(event.timestamp), date)
+
+export const before = (date: Date) => (event: Interaction): boolean =>
+  isBefore(parseISO(event.timestamp), date)

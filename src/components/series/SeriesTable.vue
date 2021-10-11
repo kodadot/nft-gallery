@@ -110,8 +110,8 @@
           <div
             v-html="
               displayVolumePercent(
-                props.row.volume,
-                props.row.dailyVolume
+                props.row.dailyVolume,
+                props.row.dailyrangeVolume
               )
             "
           ></div>
@@ -132,8 +132,8 @@
           <div
             v-html="
               displayVolumePercent(
-                props.row.volume,
-                props.row.weeklyVolume
+                props.row.weeklyVolume,
+                props.row.weeklyrangeVolume
               )
             "
           ></div>
@@ -154,8 +154,8 @@
           <div
             v-html="
               displayVolumePercent(
-                props.row.volume,
-                props.row.monthlyVolume
+                props.row.monthlyVolume,
+                props.row.monthlyrangeVolume
               )
             "
           ></div>
@@ -307,6 +307,8 @@ export default class SeriesTable extends Vue {
       }
     }
 
+    console.log(this.data)
+
     this.isLoading = false
   }
 
@@ -342,6 +344,7 @@ export default class SeriesTable extends Vue {
   }
 
   public displayVolumePercent(priceNow: number, priceAgo: number) {
+    console.log(priceNow, priceAgo, priceNow > priceAgo)
     const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol))) {
       return '---'

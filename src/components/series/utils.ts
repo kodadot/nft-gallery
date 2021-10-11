@@ -2,7 +2,7 @@ import i18n from '@/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import store from '@/store'
-import { getVolume, pairListBuyEvent, after } from '@/utils/math'
+import { getVolume, pairListBuyEvent, after, before } from '@/utils/math'
 import { startOfToday, subDays } from 'date-fns'
 
 
@@ -33,6 +33,9 @@ export const nftFn = (a: any): RowSeries => {
   const dailyVolume = Number(getVolume(buyEvents.filter(after(yesterdayDate))))
   const weeklyVolume = Number(getVolume(buyEvents.filter(after(lastweekDate))))
   const monthlyVolume = Number(getVolume(buyEvents.filter(after(lastmonthDate))))
+  const dailyrangeVolume = Number(getVolume(buyEvents.filter(before(yesterdayDate) && after(sub2dayDate))))
+  const weeklyrangeVolume = Number(getVolume(buyEvents.filter(before(lastweekDate) && after(last2weekDate))))
+  const monthlyrangeVolume = Number(getVolume(buyEvents.filter(before(lastmonthDate) && after(last2monthDate))))
 
   return {
     id: a.id,
@@ -49,6 +52,9 @@ export const nftFn = (a: any): RowSeries => {
     dailyVolume,
     weeklyVolume,
     monthlyVolume,
+    dailyrangeVolume,
+    weeklyrangeVolume,
+    monthlyrangeVolume,
     rank: sold * (unique / total)
   }
 }
@@ -75,3 +81,6 @@ const today = startOfToday()
 const yesterdayDate: Date = subDays(today, 1)
 const lastweekDate: Date = subDays(today, 7)
 const lastmonthDate: Date = subDays(today, 30)
+const sub2dayDate: Date = subDays(today, 2)
+const last2weekDate: Date = subDays(today, 14)
+const last2monthDate: Date = subDays(today, 60)

@@ -99,6 +99,9 @@ export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
         dailyVolume: { $sum: '$dailyVolume' },
         weeklyVolume: { $sum: '$weeklyVolume' },
         monthlyVolume: { $sum: '$monthlyVolume' },
+        dailyrangeVolume: { $sum: '$dailyrangeVolume' },
+        weeklyrangeVolume: { $sum: '$weeklyrangeVolume' },
+        monthlyrangeVolume: { $sum: '$monthlyrangeVolume' },
         name: { $first: '$name' },
         metadata: { $first: '$metadata' }
       }
