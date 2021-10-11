@@ -66,7 +66,7 @@
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
-          <div class="price-block" v-if="hasPrice">
+          <div class="price-block mb-4" v-if="hasPrice">
             <div class="label">{{ $t('price') }}</div>
             <div class="price-block__container">
               <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
@@ -100,8 +100,8 @@
               </div>
           </template>
 
-          <Sharing />
-          <br>
+          <Sharing class="mb-4" />
+
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
           </template>
