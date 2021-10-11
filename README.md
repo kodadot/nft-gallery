@@ -280,3 +280,5 @@ List only merged, if you need limit use `-L`
 ```
 gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
 ```
+
+Love PermaFrost 👀
