@@ -1,10 +1,5 @@
 <template>
   <div>
-    <b-field>
-        <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
-        </div>
-    </b-field>
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
@@ -13,6 +8,15 @@
       pagination-position="top"
       show-detail-icon
     >
+      <template v-slot:top-left>
+        <b-field>
+          <div class="control is-flex">
+            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+              {{ $t('spotlight.filter_accounts') }}
+            </b-switch>
+          </div>
+        </b-field>
+      </template>
       <b-table-column
         cell-class="short-identity__table"
         field="id"
