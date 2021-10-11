@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main mb-4" v-show="emotes">
+  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main" v-show="emotes">
     <div
       class="column nft-emotion__column"
       v-for="emoji in emotes"
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Emotion } from '../service/scheme'
 
 const issuerId = (emotion: Emotion) => emotion.issuer
@@ -59,6 +59,7 @@ export default class EmotionList extends Vue {
 }
 
 #emoji-box {
+  margin-bottom: 1rem;
   border: 2px solid $primary;
 }
 </style>
