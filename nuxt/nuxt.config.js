@@ -29,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/main'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -49,7 +50,10 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/buefy
     ['nuxt-buefy', {
-      css: false
+      css: false,
+      defaultIconPack: 'fas',
+      defaultIconComponent: 'vue-fontawesome',
+      defaultFieldLabelPosition: 'inside'
     }],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',

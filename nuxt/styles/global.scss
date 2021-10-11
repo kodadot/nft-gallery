@@ -1,3 +1,9 @@
+html, body, div#__nuxt, div#__layout {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
 body {
     .button {
         text-transform: uppercase;

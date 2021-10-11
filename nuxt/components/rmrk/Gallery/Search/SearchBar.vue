@@ -105,7 +105,7 @@ export default class SearchBar extends Vue {
   replaceUrl(value: string, key = 'search') {
     this.$router
       .replace({
-        name: 'nft',
+        name: 'rmrk-gallery',
         query: { ...this.$route.query, search: this.searchQuery, type: this.typeQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */);
