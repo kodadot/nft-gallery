@@ -252,6 +252,7 @@
     "sold": "Sold"
   },
   "spotlight": {
+	"filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
     "unique": "Unique",
