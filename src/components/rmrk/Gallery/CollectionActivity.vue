@@ -44,7 +44,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { pairListBuyEvent } from '@/utils/math';
+import { after, getVolume, pairListBuyEvent } from '@/utils/math'
+import { subDays } from 'date-fns'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue')
@@ -53,7 +54,7 @@ const components = {
 @Component({ components })
 export default class extends Vue {
   @Prop() public nfts!: NFT[];
-  public yesterdayDate: Date = new Date(Date.now() - 86400000);
+  public yesterdayDate: Date = subDays(Date.now(), 1);
 
   get saleEvents(): Interaction[] {
     return this.nfts
@@ -87,23 +88,12 @@ export default class extends Vue {
       .filter(arr => arr.length).length
   }
 
-  get collectionTradedVolumeNumber(): bigint{
-    const sum = this.saleEvents
-      .map(x => x.meta)
-      .map(x => BigInt(x || 0))
-      .reduce((acc, cur) => acc + cur, BigInt(0))
-
-    return sum
+  get collectionTradedVolumeNumber(): bigint {
+    return getVolume(this.saleEvents)
   }
 
   get collectionDailyTradedVolumeNumber(): bigint {
-    const sum = this.saleEvents
-      .filter(e => new Date(e.timestamp) >= this.yesterdayDate)
-      .map(x => x.meta)
-      .map(x => BigInt(x || 0))
-      .reduce((acc, cur) => acc + cur, BigInt(0))
-
-    return sum
+    return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
   }
 }
 </script>

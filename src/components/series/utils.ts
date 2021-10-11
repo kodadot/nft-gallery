@@ -2,9 +2,9 @@ import i18n from '@/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import store from '@/store'
-import { getVolume, pairListBuyEvent } from '@/utils/math'
-import { Interaction } from '../rmrk/service/scheme'
-import { isAfter, isEqual, subDays, parseISO } from 'date-fns'
+import { getVolume, pairListBuyEvent, after } from '@/utils/math'
+import { startOfToday, subDays } from 'date-fns'
+
 
 export const columns: Column[] = [
   { field: 'id', label: i18n.t('spotlight.id') },
@@ -28,17 +28,10 @@ export const nftFn = (a: any): RowSeries => {
     ...collectionNfts.map((nft: SimpleSeriesNFT) => Number(nft.price)).filter((price: number) => price > 0)
   )
 
-  // console.log(buyEvents)
-
-  // const volume = 0
-  const weeklyVolume = 0
-  const monthlyVolume = 0
-
   const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()
   const volume =  Number(getVolume(buyEvents))
-  // const weeklyVolume = getVolume(buyEvents.filter(after(lastweekDate)))
-  // const monthlyVolume = getVolume(buyEvents.filter(after(lastmonthDate)))
-
+  const weeklyVolume = Number(getVolume(buyEvents.filter(after(lastweekDate))))
+  const monthlyVolume = Number(getVolume(buyEvents.filter(after(lastmonthDate))))
 
   return {
     id: a.id,
@@ -76,6 +69,6 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) => issuer === curr
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)
 const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
 
-const after = (date: Date) => (event: Interaction) => isAfter(parseISO(event.timestamp), date) || isEqual(parseISO(event.timestamp), date)
-const lastweekDate: Date = subDays(new Date(), 7)
-const lastmonthDate: Date = subDays(new Date(), 30)
+const today = startOfToday()
+const lastweekDate: Date = subDays(today, 7)
+const lastmonthDate: Date = subDays(today, 30)
