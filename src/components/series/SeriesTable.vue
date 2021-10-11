@@ -85,7 +85,7 @@
 
       <b-table-column
         field="volume"
-        label="Volume"
+        :label="$t('series.volume')"
         v-slot="props"
         sortable
         numeric
@@ -165,7 +165,7 @@
 
       <b-table-column
         field="floorPrice"
-        label="Floor price"
+        :label="$t('series.floorprice')"
         v-slot="props"
         sortable
         numeric
@@ -179,7 +179,7 @@
 
       <b-table-column
         field="uniqueCollectors"
-        label="Owners"
+        :label="$t('series.owners')"
         v-slot="props"
         sortable
         numeric
@@ -191,7 +191,7 @@
 
       <b-table-column
         field="sold"
-        label="Collected"
+        :label="$t('series.collected')"
         v-slot="props"
         sortable
         numeric
@@ -203,7 +203,7 @@
 
       <b-table-column
         field="total"
-        label="Assets"
+        :label="$t('series.assets')"
         v-slot="props"
         sortable
         numeric
