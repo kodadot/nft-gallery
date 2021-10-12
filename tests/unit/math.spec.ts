@@ -30,7 +30,7 @@ describe('MATHEMATICS TEST', (): void => {
       .reduce((acc, cur) => acc + cur, BigInt(0))
 
     const result = formatBalance(value, 12, true)
-    const eq = '0.5056 Unit'
+    const eq = '0.4860 Unit'
     expect(result).to.equal(eq)
   })
 })
