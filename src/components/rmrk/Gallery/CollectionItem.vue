@@ -75,7 +75,7 @@ const components = {
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
-  Search: () => import('./Search/SearchBar.vue'),
+  Search: () => import('./Search/SearchBarCollection.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
