@@ -1,5 +1,5 @@
-import { emptyObject } from '@/utils/empty';
-import { hexToString, isHex } from '@polkadot/util';
+import { emptyObject } from '@/utils/empty'
+import { hexToString, isHex } from '@polkadot/util'
 import {
   RMRK,
   RmrkMint,
@@ -7,14 +7,14 @@ import {
   RmrkEvent,
   CollectionMetadata,
   MediaType
-} from './types';
-import api from '@/fetch';
-import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/scheme';
-import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme';
-import { justHash } from '@/utils/ipfs';
+} from './types'
+import api from '@/fetch'
+import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/scheme'
+import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
+import { justHash } from '@/utils/ipfs'
 
 export const SQUARE = '::'
-export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/';
+export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 
 export type ProviderKeyType = IPFSProviders
 export type ArweaveProviders = 'permafrost' | 'arweave'
@@ -49,7 +49,7 @@ const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProvid
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string => arweaveProviders[key]
 
 export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
-  const res = a.map((k, i) => [k, b[i]]);
+  const res = a.map((k, i) => [k, b[i]])
 
   if (cb) {
     return res.map(cb)
@@ -77,19 +77,19 @@ export const fetchMetadata = async <T>(
 ): Promise<T> => {
   try {
     if (!rmrk.metadata) {
-      return emptyObject<T>();
+      return emptyObject<T>()
     }
 
-    const { status, data } = await api.get(sanitizer(rmrk.metadata));
-    console.log('IPFS data', status, data);
+    const { status, data } = await api.get(sanitizer(rmrk.metadata))
+    console.log('IPFS data', status, data)
     if (status < 400) {
-      return data as T;
+      return data as T
     }
   } catch (e) {
-    console.warn('IPFS Err', e);
+    console.warn('IPFS Err', e)
   }
 
-  return emptyObject<T>();
+  return emptyObject<T>()
 }
 
 export const fetchRmrkMeta = async (
@@ -97,24 +97,24 @@ export const fetchRmrkMeta = async (
 ): Promise<CollectionMetadata> => {
   try {
     if (!rmrk.view.metadata) {
-      return emptyObject<CollectionMetadata>();
+      return emptyObject<CollectionMetadata>()
     }
 
-    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata));
-    console.log('IPFS data', status, data);
+    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata))
+    console.log('IPFS data', status, data)
     if (status < 400) {
-      return data as CollectionMetadata;
+      return data as CollectionMetadata
     }
   } catch (e) {
-    console.warn('IPFS Err', e);
+    console.warn('IPFS Err', e)
   }
 
-  return emptyObject<CollectionMetadata>();
-};
+  return emptyObject<CollectionMetadata>()
+}
 
 export const unSanitizeArweaveId = (url: string) => {
   return unSanitizeUrl(url, 'ar://')
-};
+}
 
 const unSanitizeUrl = (url: string, prefix: string) => {
   return `${prefix}${url}`
@@ -144,18 +144,18 @@ export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProv
 }
 
 export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
-  const rr = /^ipfs:\/\/ipfs/;
+  const rr = /^ipfs:\/\/ipfs/
   if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', resolveProvider(provider));
+    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
   }
 
-  const r = /^ipfs:\/\//;
+  const r = /^ipfs:\/\//
   if (r.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`);
+    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
   }
 
-  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders);
-};
+  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
+}
 
 export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {
   return {
@@ -175,61 +175,61 @@ export function mapPriceToNumber(instances: NFTWithMeta[], provider?: ProviderKe
 export const decodeRmrkString = (rmrkString: string): RMRK => {
   const value = decode(
     isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
-  );
+  )
 
-  return getRmrk(value);
-};
+  return getRmrk(value)
+}
 // 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export const getRmrk = (rmrkString: string): RMRK => {
-  const action: RmrkEvent | null = getAction(rmrkString);
+  const action: RmrkEvent | null = getAction(rmrkString)
 
   if (!action) {
-    console.warn('NO RMRK STRING', rmrkString);
-    return emptyObject<RMRK>();
+    console.warn('NO RMRK STRING', rmrkString)
+    return emptyObject<RMRK>()
   }
 
-  const rmrk: RMRK = emptyObject<RMRK>();
-  rmrk.event = action;
+  const rmrk: RMRK = emptyObject<RMRK>()
+  rmrk.event = action
 
-  const view = getView(rmrkString);
+  const view = getView(rmrkString)
 
   if (!view) {
-    console.warn('NO RMRK VIEW', rmrkString);
-    return emptyObject<RMRK>();
+    console.warn('NO RMRK VIEW', rmrkString)
+    return emptyObject<RMRK>()
   }
 
-  rmrk.view = view;
+  rmrk.view = view
 
-  return rmrk;
-};
+  return rmrk
+}
 
 export const getAction = (rmrkString: string): RmrkEvent | null => {
   if (RmrkEventRegex.MINT.test(rmrkString)) {
-    return RmrkEvent.MINT;
+    return RmrkEvent.MINT
   }
 
   if (RmrkEventRegex.MINTNFT.test(rmrkString)) {
-    return RmrkEvent.MINTNFT;
+    return RmrkEvent.MINTNFT
   }
 
-  return null;
-};
+  return null
+}
 
 export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
-  const value: RmrkMint | RmrkView | null = unwrap(rmrkString);
-  return value;
-};
+  const value: RmrkMint | RmrkView | null = unwrap(rmrkString)
+  return value
+}
 
 export const unwrap = (rmrkString: string): any | null => {
-  const rr: RegExp = /{.*}/;
-  const match = rmrkString.match(rr);
+  const rr = /{.*}/
+  const match = rmrkString.match(rr)
 
   if (!match) {
-    return null;
+    return null
   }
 
-  return JSON.parse(match[0]);
-};
+  return JSON.parse(match[0])
+}
 
 class RmrkEventRegex {
   static MINTNFT = /^rmrk::MINTNFT::/;
@@ -237,28 +237,28 @@ class RmrkEventRegex {
 }
 
 export const isEmpty = (rmrk: RMRK): boolean => {
-  return !rmrk.event;
-};
+  return !rmrk.event
+}
 
 export const equals = (first: RMRK, second: RMRK): boolean => {
   if (first.event !== second.event) {
-    return false;
+    return false
   }
 
-  return true;
-};
+  return true
+}
 
 export const resolveMedia = (mimeType?: string): MediaType => {
   if (!mimeType) {
-    return MediaType.UNKNOWN;
+    return MediaType.UNKNOWN
   }
 
   if (/^application\/json/.test(mimeType)) {
-    return MediaType.MODEL;
+    return MediaType.MODEL
   }
 
   if (/^application\/octet-stream/.test(mimeType)) {
-    return MediaType.MODEL;
+    return MediaType.MODEL
   }
 
   if (/^text\/html/.test(mimeType)) {
@@ -273,27 +273,27 @@ export const resolveMedia = (mimeType?: string): MediaType => {
     return MediaType.OBJECT
   }
 
-  const match = mimeType.match(/^[a-z]+/);
+  const match = mimeType.match(/^[a-z]+/)
 
   if (!match) {
-    return MediaType.UNKNOWN;
+    return MediaType.UNKNOWN
   }
 
-  const prefix = match[0].toUpperCase();
+  const prefix = match[0].toUpperCase()
 
-  let result = MediaType.UNKNOWN;
+  let result = MediaType.UNKNOWN
 
   Object.entries(MediaType).forEach(([type, value]) => {
     if (type === prefix) {
-      result = value;
-      return;
+      result = value
+      return
     }
-  });
+  })
 
-  return result;
-};
+  return result
+}
 
-export const decode = (value: string) => decodeURIComponent(value);
+export const decode = (value: string) => decodeURIComponent(value)
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)

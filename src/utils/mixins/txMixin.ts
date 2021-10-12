@@ -1,6 +1,6 @@
-import { ExtrinsicStatus } from '@polkadot/types/interfaces';
-import { Values } from 'vue-i18n';
-import { Component, Vue } from 'vue-property-decorator';
+import { ExtrinsicStatus } from '@polkadot/types/interfaces'
+import { Values } from 'vue-i18n'
+import { Component, Vue } from 'vue-property-decorator'
 
 type TranslationWithArg = [string, Values];
 
@@ -14,27 +14,27 @@ export default class TransactionMixin extends Vue {
   public status: string | TranslationWithArg = ''
   public isLoading = false;
 
-  public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean) {
+  public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean): void {
     if (status.isReady) {
-      this.status = 'loader.casting';
-      return;
+      this.status = 'loader.casting'
+      return
     }
 
     if (status.isInBlock) {
-      this.status = 'loader.block';
-      return;
+      this.status = 'loader.block'
+      return
     }
 
     if (status.isFinalized) {
-      this.status = omitFinalized ? '' : 'loading.finalized';
-      return;
+      this.status = omitFinalized ? '' : 'loading.finalized'
+      return
     }
 
-    this.status = '';
+    this.status = ''
   }
 
-  public initTransactionLoader() {
-    this.isLoading = true;
-    this.status = 'loader.sign';
+  public initTransactionLoader(): void {
+    this.isLoading = true
+    this.status = 'loader.sign'
   }
 }

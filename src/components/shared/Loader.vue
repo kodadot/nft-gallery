@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Values } from 'vue-i18n';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Values } from 'vue-i18n'
 
 type TranslationWithArg = [string, Values];
 
@@ -21,15 +21,15 @@ export default class Loader extends Vue {
   protected placeholder = '/infinity.svg';
 
   get translation() {
-    return typeof this.status === 'string' ? this.$t(this.status) : this.$t(...this.status);
+    return typeof this.status === 'string' ? this.$t(this.status) : this.$t(...this.status)
   }
 
   get isLoading() {
-    return this.value;
+    return this.value
   }
 
   set isLoading(value: boolean) {
-    this.$emit('input', value);
+    this.$emit('input', value)
   }
 }
 </script>

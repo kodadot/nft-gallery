@@ -11,19 +11,19 @@
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
-      <Identity :address="address" :inline="true" :showTwitter="showTwitter" :verticalAlign="true" />
+      <Identity :address="address" :showTwitter="showTwitter" :verticalAlign="true" class="pt-2" />
     </template>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-import InlineMixin from '@/utils/mixins/inlineMixin';
+import { Component, Prop, Mixins } from 'vue-property-decorator'
+import InlineMixin from '@/utils/mixins/inlineMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   LinkResolver: () => import('@/components/shared/LinkResolver.vue')
-};
+}
 
 @Component({ components })
 export default class ProfileLink extends Mixins(InlineMixin) {
@@ -34,7 +34,7 @@ export default class ProfileLink extends Mixins(InlineMixin) {
 
 <style scoped>
 .subscan__less-margin {
-  margin: auto 0.5em;
+  margin: auto .5em auto 0;
 }
 
 .profile-link__wrapper {

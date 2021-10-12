@@ -39,6 +39,10 @@ During writing this, usual structure is per label on issue is
   
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels) 
 
+## Hiring process
+
+After you've completed few PRs, which we're merged to the upstream, you will be eglible to join our closer team. We are happy to give you **one-two long-term tasks** to see how good is your talent on complicated, complex and more difficult issue. Process behind is to see if we click together as part of team in long-run. We are curious on your character, acting and helping out others if they have issue. From this phase we can guarantee you payroll, that we will private discuss based on your location, skillset, past experience and code quality delivered.
+
 # Learn more about contributing: 
 
 ## Types of contributions 📝

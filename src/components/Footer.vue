@@ -121,8 +121,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/i18n';
+import { Component, Vue } from 'vue-property-decorator'
+import i18n from '@/i18n'
 import { TranslateResult } from 'vue-i18n/types'
 
 interface Menu {

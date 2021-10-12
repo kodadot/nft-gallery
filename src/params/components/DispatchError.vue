@@ -1,9 +1,9 @@
 <template>
-  <div>DispatchError works!</div>
+	<div>DispatchError works!</div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class DispatchError extends Vue {

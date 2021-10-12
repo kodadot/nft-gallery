@@ -19,10 +19,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { RMRK, CollectionMetadata } from '../types';
-import { fetchRmrkMeta, isEmpty, equals } from '../utils';
-import { emptyObject } from '@/utils/empty';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { RMRK, CollectionMetadata } from '../types'
+import { fetchRmrkMeta, isEmpty } from '../utils'
+import { emptyObject } from '@/utils/empty'
 import MediaResolver from './MediaResolver.vue'
 
 @Component({
@@ -32,8 +32,8 @@ import MediaResolver from './MediaResolver.vue'
 })
 export default class RmrkNftView extends Vue {
   @Prop() public rmrk!: RMRK;
-  private image: string = ''
-  private mimeType: string = ''
+  private image = ''
+  private mimeType = ''
   private metadata: CollectionMetadata = emptyObject<CollectionMetadata>();
 
   get visible() {
@@ -45,13 +45,13 @@ export default class RmrkNftView extends Vue {
     console.log(
       '🚀 ~ file: RmrkNftView.vue ~ line 22 ~ RmrkNftView ~ updateMeta ~ updateMeta',
       newRmrk
-    );
+    )
 
     if (isEmpty(newRmrk)) {
-      return;
+      return
     }
 
-    this.metadata = await fetchRmrkMeta(newRmrk);
+    this.metadata = await fetchRmrkMeta(newRmrk)
 
     if (this.metadata.image) {
       this.image = this.metadata.image.replace('ipfs://', 'https://ipfs.io/')

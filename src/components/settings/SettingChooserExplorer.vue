@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({})
 export default class SettingChooserExplorer extends Vue {
@@ -25,15 +25,15 @@ export default class SettingChooserExplorer extends Vue {
   @Prop() public addMethod!: string;
 
   get options() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector];
+    return this.$store.state.explorerOptions.availableOptions[this.selector]
   }
 
   get selected() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector][this.defaultValue].value;
+    return this.$store.state.explorerOptions.availableOptions[this.selector][this.defaultValue].value
   }
 
   set selected(value) {
-    this.$store.commit(this.setter, { [this.selector]: value });
+    this.$store.commit(this.setter, { [this.selector]: value })
   }
 
   public async mounted() {

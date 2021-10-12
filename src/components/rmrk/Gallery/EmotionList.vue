@@ -1,8 +1,8 @@
 <template>
-  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main">
+  <div class="columns is-mobile is-multiline is-gapless nft-emotion__main" v-show="emotes">
     <div
       class="column nft-emotion__column"
-      v-for="emoji in emojis"
+      v-for="emoji in emotes"
       :key="emoji.key"
     >
       <b-tag id="emoji-box" type="is-dark is-large">
@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { Emotion } from '../service/scheme';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Emotion } from '../service/scheme'
 
-const issuerId = (emotion: Emotion) => emotion.issuer;
+const issuerId = (emotion: Emotion) => emotion.issuer
 
 interface GroupedEmotion {
   [x: string]: Emotion[];
@@ -30,16 +30,15 @@ interface Emoji {
 }
 
 @Component
-export default class extends Vue {
-  private value2: any;
+export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion;
 
-  get emojis(): Emoji[] {
+  get emotes(): Emoji[] {
     return Object.entries(this.emotions).map(([key, emotions]) => ({
       key,
       count: emotions.length,
       issuers: emotions.map(issuerId)
-    }));
+    }))
   }
 }
 </script>
@@ -60,6 +59,7 @@ export default class extends Vue {
 }
 
 #emoji-box {
+  margin-bottom: 1rem;
   border: 2px solid $primary;
 }
 </style>

@@ -1,6 +1,6 @@
-import { emptyObject } from '@/utils/empty';
-import { Registration, IdentityInfo } from '@polkadot/types/interfaces/identity/types';
-import Connector from '@vue-polkadot/vue-api';
+import { emptyObject } from '@/utils/empty'
+import { Registration } from '@polkadot/types/interfaces/identity/types'
+import Connector from '@vue-polkadot/vue-api'
 import Vue from 'vue'
 
 
@@ -26,14 +26,14 @@ export interface IdenityRequest {
 const defaultState: IdentityStruct = {
   identities: {},
   auth: emptyObject<Auth>()
-};
+}
 
 
 const IdentityModule = {
   state: { ...defaultState },
   mutations: {
     addIdentity(state: IdentityStruct, identityRequest: IdenityRequest) {
-      const { address, identity  } = identityRequest;
+      const { address, identity  } = identityRequest
       if (!state.identities[address]) {
         Vue.set(state.identities, address, identity)
       }
@@ -45,13 +45,13 @@ const IdentityModule = {
   },
   actions: {
     setIdentity({commit}: any, identityRequest: IdenityRequest) {
-      commit('addIdentity', identityRequest);
+      commit('addIdentity', identityRequest)
     },
     async fetchIdentity({dispatch}: any, address: string) {
       const { api } = Connector.getInstance()
       try {
         const optionIdentity = await api?.isReady
-        .then((a) => a?.query.identity?.identityOf(address))
+          .then((a) => a?.query.identity?.identityOf(address))
         const identity = optionIdentity?.unwrapOr(null)
         if (identity) {
           dispatch('setIdentity', { address, identity })
@@ -64,20 +64,20 @@ const IdentityModule = {
       commit('addAuth', authRequest)
     }
   },
- getters: {
-  availableIdentities(state: IdentityStruct): IdentityMap {
-     return state.identities
-   },
-   getIdentityFor(state: IdentityStruct): (address: string) => Registration | undefined {
-    return (address: string) => state.identities[address];
-  },
-  getAuth(state: IdentityStruct): Auth {
-    return state.auth
-  },
-  getAuthAddress(state: IdentityStruct): string {
-    return state.auth.address
+  getters: {
+    availableIdentities(state: IdentityStruct): IdentityMap {
+      return state.identities
+    },
+    getIdentityFor(state: IdentityStruct): (address: string) => Registration | undefined {
+      return (address: string) => state.identities[address]
+    },
+    getAuth(state: IdentityStruct): Auth {
+      return state.auth
+    },
+    getAuthAddress(state: IdentityStruct): string {
+      return state.auth.address
+    }
   }
- }
 }
 
 

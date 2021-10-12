@@ -26,11 +26,11 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Overview from '@/components/staking/Overview.vue';
-import Connector from '@vue-polkadot/vue-api';
-import AccountsInfo from '@/components/staking/AccountsInfo.vue';
-import StakerInfo from '@/components/staking/StakerInfo.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import Overview from '@/components/staking/Overview.vue'
+import Connector from '@vue-polkadot/vue-api'
+import AccountsInfo from '@/components/staking/AccountsInfo.vue'
+import StakerInfo from '@/components/staking/StakerInfo.vue'
 
 @Component({
   components: {
@@ -40,7 +40,7 @@ import StakerInfo from '@/components/staking/StakerInfo.vue';
   }
 })
 export default class Debug extends Vue {
-  private activeTab: number = 0;
+  private activeTab = 0;
   private stakingOverview: any = [];
   private stashIds: any = [];
   private validators: any = [];
@@ -48,7 +48,7 @@ export default class Debug extends Vue {
   private subs: any[] = [];
 
   public async mounted() {
-    const { api } = Connector.getInstance();
+    const { api } = Connector.getInstance()
     // const stashes: any;
     // this.subs.push(await api.derive.staking.overview((value: any) => this.stakingOverview = value));
     // this.subs.push(await api.derive.staking.stashes((value: any) => stashes = value));
@@ -58,7 +58,7 @@ export default class Debug extends Vue {
   }
 
   private beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.forEach((sub) => sub())
   }
 }
 </script>
