@@ -39,8 +39,8 @@ import {
   Vue,
   PropSync,
   Emit
-} from 'vue-property-decorator';
-import { MassMintNFT } from '../service/scheme';
+} from 'vue-property-decorator'
+import { MassMintNFT } from '../service/scheme'
 
 @Component({
   components: {
@@ -56,12 +56,12 @@ export default class MassMintItem extends Vue {
   @Prop() public file!: File;
 
   get url() {
-    return URL.createObjectURL(this.nft.file);
+    return URL.createObjectURL(this.nft.file)
   }
 
   @Emit('remove')
   protected remove() {
-    return this.index;
+    return this.index
   }
 
 }

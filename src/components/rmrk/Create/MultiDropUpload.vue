@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import Tooltip from '@/components/shared/Tooltip.vue';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({
   components: {
@@ -33,28 +33,28 @@ export default class extends Vue {
   @Prop(Boolean) public preview!: boolean;
   @Prop(String) public accept!: string;
   private file: Blob | null = null;
-  protected url: string = '';
-  protected hasError: boolean = false;
+  protected url = '';
+  protected hasError = false;
 
   @Watch('file')
   public createInput(file: Blob): void {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = () => {
       // this.handleSelection(reader.result)
       // console.log(reader.si);
-    };
-    this.$emit('input', file);
-    console.log(file.size);
-    if (this.preview) {
-      this.url = URL.createObjectURL(file);
-      this.hasError = false;
     }
-    reader.readAsText(file);
+    this.$emit('input', file)
+    console.log(file.size)
+    if (this.preview) {
+      this.url = URL.createObjectURL(file)
+      this.hasError = false
+    }
+    reader.readAsText(file)
   }
 
   @Emit('change')
   public handleSelection(value: string | ArrayBuffer | null) {
-    return value;
+    return value
   }
 }
 </script>
