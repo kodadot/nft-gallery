@@ -122,7 +122,7 @@ export default class SearchBar extends Vue {
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: 'nft',
+        name: String(this.$route.name),
         query: { ...this.$route.query, search: this.searchQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
