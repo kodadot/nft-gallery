@@ -29,11 +29,11 @@ module.exports = {
 
   chainWebpack: config => {
     if (process.env.NODE_ENV === 'test') {
-      const scssRule = config.module.rule('scss');
-      scssRule.uses.clear();
+      const scssRule = config.module.rule('scss')
+      scssRule.uses.clear()
       scssRule
         .use('null-loader')
-        .loader('null-loader');
+        .loader('null-loader')
     }
     // ...other chains
     config.module // fixes https://github.com/graphql/graphql-js/issues/1272
