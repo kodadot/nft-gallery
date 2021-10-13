@@ -1,26 +1,37 @@
 <template>
   <div>
-    <b-field position="is-right">
-      <b-radio-button
-        v-model="nbRows"
-        native-value="10"
-        type="is-outlined"
-      >10</b-radio-button>
+    <b-field grouped>
+      <b-field position="is-left" expanded>
+        <b-radio-button
+          v-model="nbDays"
+          native-value="24"
+          type="is-outlined"
+        >24h</b-radio-button>
 
-      <b-radio-button
-        v-model="nbRows"
-        native-value="50"
-        type="is-outlined"
-      >50</b-radio-button>
+        <b-radio-button
+          v-model="nbDays"
+          native-value="7"
+          type="is-outlined"
+        >7d</b-radio-button>
 
-      <b-radio-button
-        v-model="nbRows"
-        native-value="100"
-        type="is-outlined"
-      >100</b-radio-button>
+        <b-radio-button
+          v-model="nbDays"
+          native-value="30"
+          type="is-outlined"
+        >30d</b-radio-button>
+      </b-field>
+
+      <b-field class="has-text-right" expanded>
+          <b-select v-model="nbRows">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+          </b-select>
+      </b-field>
     </b-field>
 
-    <b-table :data="data" hoverable>
+    <b-table :data="data" backend-sorting @sort="onSort" hoverable>
       <b-table-column
         cell-class="is-vcentered"
         field="id"
@@ -73,22 +84,8 @@
       </b-table-column>
 
       <b-table-column
-        field="rank"
-        :label="$t('spotlight.score')"
-        v-slot="props"
-        sortable
-        numeric
-        cell-class="is-vcentered"
-      >
-        <template v-if="!isLoading">{{
-          Math.ceil(props.row.rank)
-        }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <b-table-column
         field="volume"
-        label="Volume"
+        :label="$t('series.volume')"
         v-slot="props"
         sortable
         numeric
@@ -100,51 +97,75 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <!-- <b-table-column
+      <b-table-column
+        field="dailyVolume"
+        label="24h %"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+        :visible="nbDays === '24'"
+      >
+        <template v-if="!isLoading">
+          <div
+            v-html="
+              displayVolumePercent(
+                props.row.dailyVolume,
+                props.row.dailyrangeVolume
+              )
+            "
+          ></div>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="weeklyVolume"
         label="7d %"
         v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
+        :visible="nbDays === '7'"
       >
         <template v-if="!isLoading">
           <div
             v-html="
               displayVolumePercent(
                 props.row.weeklyVolume,
-                props.row.volume
+                props.row.weeklyrangeVolume
               )
             "
           ></div>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column> -->
+      </b-table-column>
 
-      <!-- <b-table-column
+      <b-table-column
         field="monthlyVolume"
         label="30d %"
         v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
+        :visible="nbDays === '30'"
       >
         <template v-if="!isLoading">
           <div
             v-html="
               displayVolumePercent(
                 props.row.monthlyVolume,
-                props.row.volume
+                props.row.monthlyrangeVolume
               )
             "
           ></div>
         </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column> -->
+      </b-table-column>
 
       <b-table-column
         field="floorPrice"
-        label="Floor price"
+        :label="$t('series.floorprice')"
         v-slot="props"
         sortable
         numeric
@@ -157,20 +178,8 @@
       </b-table-column>
 
       <b-table-column
-        field="sold"
-        label="Collected"
-        v-slot="props"
-        sortable
-        numeric
-        cell-class="is-vcentered"
-      >
-        <template v-if="!isLoading">{{ props.row.sold }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <b-table-column
         field="uniqueCollectors"
-        label="Owners"
+        :label="$t('series.owners')"
         v-slot="props"
         sortable
         numeric
@@ -181,14 +190,40 @@
       </b-table-column>
 
       <b-table-column
+        field="sold"
+        :label="$t('series.collected')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.sold }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="total"
-        label="Assets"
+        :label="$t('series.assets')"
         v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">{{ props.row.total }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="rank"
+        :label="$t('spotlight.score')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{
+          Math.ceil(props.row.rank)
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -204,7 +239,7 @@
 
 <script lang="ts" >
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { Column, RowSeries } from './types'
+import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
 import collectionSeriesList from '@/queries/collectionSeriesList.graphql'
 import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
@@ -221,12 +256,14 @@ const components = {
 }
 
 @Component({ components })
-export default class SeriesTable extends Vue{
+export default class SeriesTable extends Vue {
   protected data: RowSeries[] = []
   protected columns: Column[] = columns
   protected usersWithIdentity: RowSeries[] = []
+  protected nbDays = '7'
   protected nbRows = '10'
-  public isLoading = false;
+  protected sortBy: SortType = { field: 'volume', value: -1 }
+  public isLoading = false
 
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
@@ -234,10 +271,13 @@ export default class SeriesTable extends Vue{
     exist(this.$route.query.rows, (val) => {
       this.nbRows = val
     })
+    exist(this.$route.query.period, (val) => {
+      this.nbDays = val
+    })
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  public async fetchCollectionsSeries(limit = 10) {
+  public async fetchCollectionsSeries(limit = 10, sort: SortType = this.sortBy) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSeriesList,
@@ -252,6 +292,7 @@ export default class SeriesTable extends Vue{
 
     this.data = seriesAggQuery(
       limit,
+      sort,
       collectionEntities?.nodes?.map(nftFn)
     ) as RowSeries[]
 
@@ -269,13 +310,26 @@ export default class SeriesTable extends Vue{
     this.isLoading = false
   }
 
+  public onSort(field: string, order: string) {
+    let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
+    this.fetchCollectionsSeries(Number(this.nbRows), sort)
+  }
+
   @Watch('nbRows')
   public onTopRowsChange(value: string) {
     this.$router.replace({
       name: String(this.$route.name),
-      query: { rows: value },
-    })
+      query: { ...this.$route.query, rows: value },
+    }).catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(value))
+  }
+
+  @Watch('nbDays')
+  public onTopDaysChange(value: string) {
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: { ...this.$route.query, period: value },
+    }).catch((e) => console.warn(e))
   }
 
   public async fetchMetadataImage(metadata: any) {
@@ -287,15 +341,15 @@ export default class SeriesTable extends Vue{
     return sanitizeIpfsUrl(meta.image || '')
   }
 
-  public displayVolumePercent(firstVolume: number, volumeTotal: number) {
-    const vol = (firstVolume / volumeTotal) * 100
-    if (vol === 0) {
+  public displayVolumePercent(priceNow: number, priceAgo: number) {
+    const vol = ((priceNow - priceAgo) / priceAgo) * 100
+    if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
       return '---'
     }
-    const volumePercent = Math.ceil(vol * 100) / 100
-    return volumePercent
+    const volumePercent = Math.round(vol * 100) / 100
+    return volumePercent > 0
       ? `<div style="color: #41b883"> +${volumePercent}%</div>`
-      : `<div class="has-text-danger"> -${volumePercent}%</div>`
+      : `<div class="has-text-danger"> ${volumePercent}%</div>`
   }
 }
 </script>

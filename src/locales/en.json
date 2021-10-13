@@ -187,7 +187,7 @@
     "UPDATED_AT_ASC": "Long time no interaction",
     "PRICE_DESC": "From most expensive",
     "PRICE_ASC": "From cheaper",
-    "listed": "Buy now"
+    "listed": "BUY NOW"
   },
   "mint": {
     "submit": "Click to create NFT(s)",
@@ -262,6 +262,15 @@
     "collectors": "Collectors",
     "score": "Score",
     "empty": "Empty"
+  },
+  "series": {
+	"title": "Top Collection",
+	"subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+	"assets": "Assets",
+	"collected": "Collected",
+	"floorprice": "Floor price",
+	"owners": "Owners",
+	"volume": "Volume"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",

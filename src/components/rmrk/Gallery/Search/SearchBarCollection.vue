@@ -1,37 +1,43 @@
 <template>
-  <div class="card mb-3 mt-5">
-    <div class="card-content ">
-      <div class="columns">
-        <b-field class="column is-6 mb-0">
-          <b-input
-            placeholder="Search..."
-            type="search"
-            v-model="searchQuery"
-            icon="search"
-            expanded>
-          </b-input>
-        </b-field>
-        <b-field class="column is-3 mb-0">
-          <b-button
-            label="Sort & Filter"
-            aria-controls="contentIdForA11y1"
-            icon-right="caret-down"
-            type="is-primary"
-            expanded
-            @click="isVisible = !isVisible"
-          />
-        </b-field>
-        <slot />
+  <div class="box mb-3 mt-5">
+    <b-field grouped>
+      <b-field>
+        <b-button
+          aria-controls="contentIdForA11y1"
+          label="Filter"
+          icon-left="filter"
+          type="is-primary"
+          expanded
+          @click="isVisible = !isVisible"
+        />
+      </b-field>
+      <b-field expanded>
+        <b-input
+          placeholder="Search..."
+          type="search"
+          v-model="searchQuery"
+          icon="search"
+          expanded
+        >
+        </b-input>
+      </b-field>
+      <BasicSwitch
+        class="is-flex"
+        v-model="vListed"
+        label="sort.listed"
+        size="is-medium"
+      />
+    </b-field>
+    <slot />
+
+    <transition name="fade">
+      <div v-if="isVisible">
+        <Sort
+          :value="sortBy"
+          @input="updateSortBy"
+        />
       </div>
-
-      <transition  name="fade">
-        <div v-if="isVisible" class="columns">
-          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
-        </div>
-      </transition>
-
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -46,16 +52,16 @@ import { exist } from './exist'
     Sort: () => import('./SearchSortDropdown.vue'),
     TypeTagInput: () => import('./TypeTagInput.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue')
-  }
+    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  },
 })
 export default class SearchBar extends Vue {
-  @Prop(String) public search!: string;
-  @Prop(String) public type!: string;
-  @Prop(String) public sortBy!: string;
-  @Prop(Boolean) public listed!: boolean;
+  @Prop(String) public search!: string
+  @Prop(String) public type!: string
+  @Prop(String) public sortBy!: string
+  @Prop(Boolean) public listed!: boolean
 
-  protected isVisible = false;
+  protected isVisible = false
 
   public mounted(): void {
     exist(this.$route.query.search, this.updateSearch)
@@ -71,7 +77,6 @@ export default class SearchBar extends Vue {
   set vListed(listed: boolean) {
     this.updateListed(listed)
   }
-
 
   get searchQuery(): string {
     return this.search
@@ -123,7 +128,11 @@ export default class SearchBar extends Vue {
     this.$router
       .replace({
         name: String(this.$route.name),
-        query: { ...this.$route.query, search: this.searchQuery, [key]: value }
+        query: {
+          ...this.$route.query,
+          search: this.searchQuery,
+          [key]: value,
+        },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
