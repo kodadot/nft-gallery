@@ -1,8 +1,8 @@
 <template>
   <div class="container mb-1">
       <section>
-        <h1 class="title is-2">Top Collection</h1>
-        <p class="subtitle is-size-5">The top NFTs on RMRK, ranked by score, volume, floor price and other statistics.</p>
+        <h1 class="title is-2">{{ $t('series.title') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
 
         <SeriesTable />
       </section>
