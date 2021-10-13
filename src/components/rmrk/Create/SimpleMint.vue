@@ -424,7 +424,9 @@ export default class SimpleMint extends Mixins(
               notificationTypes.success
             )
 
-            this.isLoading = false
+            if (!this.batchAdresses || !this.price) {
+              this.isLoading = false
+            }
           },
           dispatchError => {
             execResultValue(tx)
@@ -463,7 +465,7 @@ export default class SimpleMint extends Mixins(
       }
 
       const outOfTheNamesForTheRemarks = addresses.map((addr, index) => NFTUtils.createInteraction('SEND', version, onlyNfts[index].id, String(addr)))
-      const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('SEND', version, nft.id, String(price))) : []
+      const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
 
 
       this.isLoading = true
