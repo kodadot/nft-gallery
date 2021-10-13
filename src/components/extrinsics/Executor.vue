@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Executor extends Vue {
@@ -25,11 +25,11 @@ export default class Executor extends Vue {
   @Prop() public label!: string;
 
   get selected() {
-    return this.selectedMethod;
+    return this.selectedMethod
   }
 
   set selected(value) {
-    this.$emit('selected', value);
+    this.$emit('selected', value)
   }
 
   private selectedMethod = null;

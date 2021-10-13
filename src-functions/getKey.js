@@ -1,14 +1,14 @@
-import axios from "axios"
+import axios from 'axios'
 
 exports.handler = async (event) => {
-  const BASE_URL = 'https://api.pinata.cloud/users/generateApiKey';
-  const keyName = event.queryStringParameters.address;
+  const BASE_URL = 'https://api.pinata.cloud/users/generateApiKey'
+  const keyName = event.queryStringParameters.address
 
   if (!keyName) {
     return {
       statusCode: 403,
-      body: `Cannot get key without address`,
-    };
+      body: 'Cannot get key without address',
+    }
   }
 
   const object = {
@@ -29,14 +29,14 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.PINATA_MASTER}`
       },
-    });
-    console.log('[PINATA] Generate Key', status);
+    })
+    console.log('[PINATA] Generate Key', status)
 
     if (status < 400) {
       return {
         statusCode: status,
         body: JSON.stringify(data),
-      };
+      }
     }
 
 
@@ -45,12 +45,12 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       body: e.message,
-    };
+    }
   }
 
   return {
     statusCode: status,
     body: JSON.stringify({}),
-  };
-};
+  }
+}
 

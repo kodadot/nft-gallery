@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
 import {
   faPaperPlane, faFileImage, faPlus,
@@ -19,12 +19,12 @@ import {
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faAngleLeft, faAngleRight, faReply,
   faExternalLinkSquareAlt, faGift,
-  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle,
+  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter,
 
-} from '@fortawesome/free-solid-svg-icons';
+} from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
-import { faCommentDots, faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { faCommentDots, faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons'
 
 import {
   faTwitter, faLine, faTelegram,
@@ -33,9 +33,9 @@ import {
   faPinterest, faWpexplorer, faDiscord,
   faRedditAlien,
   faYoutube
-} from '@fortawesome/free-brands-svg-icons';
+} from '@fortawesome/free-brands-svg-icons'
 
-import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 library.add(
   faPaperPlane, faFileImage, faPlus,
@@ -58,7 +58,7 @@ library.add(
   faExclamationTriangle, faCalculator,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
-  faExclamationCircle, faGift,
+  faExclamationCircle, faFilter, faGift,
 
   // Social
   faTwitter, faTelegram, faFacebook,
@@ -70,8 +70,8 @@ library.add(
   faExternalLinkSquareAlt,
   faYoutube
 
-  );
+)
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.component('vue-fontawesome', FontAwesomeIcon)

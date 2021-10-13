@@ -14,32 +14,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { isHex, hexToString, hexToBn, hexToNumber } from '@polkadot/util';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { isHex, hexToString, hexToBn, hexToNumber } from '@polkadot/util'
 import { units as defaultUnits } from '@/params/constants'
 
 @Component
 export default class Balance extends Vue {
 
   set arg(value: number) {
-    this.value = value;
-    this.handleSelected();
+    this.value = value
+    this.handleSelected()
   }
 
   get arg() {
     const defaultValue = this.defaultValue && isHex(this.defaultValue)
-     ? hexToBn(this.defaultValue as string).toString()
-     : this.defaultValue;
+      ? hexToBn(this.defaultValue as string).toString()
+      : this.defaultValue
 
     if (defaultValue !== null && typeof defaultValue === 'object') {
       return defaultValue.toString()
     }
 
-    return defaultValue || this.value;
+    return defaultValue || this.value
   }
 
   get chainProps() {
-    return this.chainProperties;
+    return this.chainProperties
   }
 
   get units() {
@@ -58,7 +58,7 @@ export default class Balance extends Vue {
       { name: 'Exa', value: 1e21 * this.getChainDecimalsMultiplier()},
       { name: 'Zeta', value: 1e24 * this.getChainDecimalsMultiplier()},
       { name: 'Yotta', value: 1e27 * this.getChainDecimalsMultiplier()},
-    ];
+    ]
   }
 
   @Prop() public argument!: any;
@@ -71,11 +71,11 @@ export default class Balance extends Vue {
   private unitsSelected: number = 1e3*this.getChainDecimalsMultiplier();
 
   private getTokenSymbol(): string {
-    this.chainProperties = this.$store.state.chainProperties;
+    this.chainProperties = this.$store.state.chainProperties
     if (this.chainProperties !== '-') {
-      return this.chainProperties.tokenSymbol;
+      return this.chainProperties.tokenSymbol
     }
-    return '-';
+    return '-'
   }
 
   private getChainDecimalsMultiplier(): number {
@@ -84,12 +84,12 @@ export default class Balance extends Vue {
 
   @Watch('unitsSelected')
   private function() {
-    this.handleSelected();
+    this.handleSelected()
   }
 
   @Emit('selected')
   private handleSelected() {
-    return { [this.argument.name.toString()]: this.arg * this.unitsSelected };
+    return { [this.argument.name.toString()]: this.arg * this.unitsSelected }
   }
 }
 </script>

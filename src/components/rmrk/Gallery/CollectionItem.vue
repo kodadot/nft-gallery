@@ -49,27 +49,34 @@
       </div>
     </div>
 
+    <Search v-bind.sync="searchQuery" />
+
     <GalleryCardList :items="collection.nfts" />
 
   </div>
 </template>
 
 <script lang="ts" >
-import { emptyObject } from '@/utils/empty';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import { Component, Vue } from 'vue-property-decorator';
-import { CollectionWithMeta, Collection } from '../service/scheme';
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils';
-import isShareMode from '@/utils/isShareMode';
+import { emptyObject } from '@/utils/empty'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { Component, Vue } from 'vue-property-decorator'
+import { CollectionWithMeta, Collection } from '../service/scheme'
+import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
+import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
-import { CollectionMetadata } from '../types';
+import { CollectionMetadata } from '../types'
+import { NFT } from '@/components/rmrk/service/scheme'
+import { SearchQuery } from './Search/types'
+
+
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render')
-};
+  VueMarkdown: () => import('vue-markdown-render'),
+  Search: () => import('./Search/SearchBarCollection.vue'),
+}
 @Component<CollectionItem>({
   metaInfo() {
     return {
@@ -90,51 +97,79 @@ const components = {
   },
   components })
 export default class CollectionItem extends Vue {
-  private id: string = '';
+  private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private isLoading: boolean = false;
+  private isLoading = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: 'BLOCK_NUMBER_DESC',
+    listed: false,
+  };
 
-  get image() {
+  get image(): string {
     return this.meta.image || ''
   }
 
-  get description() {
+  get description(): string {
     return this.meta.description || ''
   }
 
-	get name() {
+  get name(): string {
     return this.collection.name || this.id
   }
 
-  get nfts() {
+  get nfts(): NFT[] {
     return this.collection.nfts || []
   }
 
-  get issuer() {
+  get issuer(): string {
     return this.collection.issuer || ''
   }
 
-  get owner() {
+  get owner(): string {
     return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
   }
 
-  get sharingVisible() {
+  get sharingVisible(): boolean {
     return !isShareMode
   }
 
-  public created() {
-    this.isLoading = true;
-    this.checkId();
-    this.$apollo.addSmartQuery('collection',{
-        query: collectionById,
-        variables: {
-          id: this.id
-        },
-        update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
-        result: () => this.fetchMetadata()
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params = []
+
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
       })
-    this.isLoading = false;
+    }
+
+    if (this.searchQuery.listed) {
+      params.push({
+        price: { greaterThan: '0' }
+      })
+    }
+
+    return params
+  }
+
+  public created() {
+    this.isLoading = true
+    this.checkId()
+    this.$apollo.addSmartQuery('collection', {
+      query: collectionById,
+      variables: () => {
+        return {
+          id: this.id,
+          orderBy: this.searchQuery.sortBy,
+          search: this.buildSearchParam()
+        }
+      },
+      update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+      result: () => this.fetchMetadata(),
+    })
+    this.isLoading = false
   }
 
   public async fetchMetadata() {
@@ -150,7 +185,7 @@ export default class CollectionItem extends Vue {
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id;
+      this.id = this.$route.params.id
     }
   }
 
@@ -160,17 +195,17 @@ export default class CollectionItem extends Vue {
 
   collectionMeta(collection: Collection) {
     fetchCollectionMetadata(collection)
-    .then(
-      meta => this.collection = {
-        ...collection,
-        ...meta,
-        image: sanitizeIpfsUrl(meta.image || ''),
-      },
-      e => {
-        showNotification(`${e}`, notificationTypes.danger);
-        console.warn(e);
-      }
-    )
+      .then(
+        meta => this.collection = {
+          ...collection,
+          ...meta,
+          image: sanitizeIpfsUrl(meta.image || ''),
+        },
+        e => {
+          showNotification(`${e}`, notificationTypes.danger)
+          console.warn(e)
+        }
+      )
   }
 }
 </script>

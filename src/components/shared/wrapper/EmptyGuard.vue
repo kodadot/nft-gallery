@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class EmptyGuard extends Vue {
@@ -16,12 +16,12 @@ export default class EmptyGuard extends Vue {
     @Prop() public label!: string;
 
     get isNotEmpty() {
-      return this.lenghtOf(this.array);
+      return this.lenghtOf(this.array)
     }
 
-   private lenghtOf(array: any[]) {
-    return (array && array.length) || 0;
-  }
+    private lenghtOf(array: any[]) {
+      return (array && array.length) || 0
+    }
 
 
 }

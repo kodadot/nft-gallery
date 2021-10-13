@@ -1,4 +1,4 @@
-const Remark = () => import('@/views/Remark.vue');
+const Remark = () => import('@/views/Remark.vue')
 const Gallery = () => import('@/components/rmrk/Gallery/Gallery.vue')
 const GalleryItem = () => import('@/components/rmrk/Gallery/GalleryItem.vue')
 const rmrkCredit = () => import('@/components/rmrk/Credit/Credit.vue')
@@ -66,4 +66,4 @@ export default [
     name: 'permafrost',
     component: PermaMint
   },
-];
+]
