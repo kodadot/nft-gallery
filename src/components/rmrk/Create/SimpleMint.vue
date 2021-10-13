@@ -123,6 +123,7 @@
                   spellcheck="true"
                 ></b-input>
               </b-field>
+              <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
           </b-field>
           <b-field>
@@ -224,7 +225,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
   CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue')
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component<SimpleMint>({
@@ -288,6 +290,7 @@ export default class SimpleMint extends Mixins(
   private hasCarbonOffset = true;
   protected arweaveUpload = false;
   protected batchAdresses = '';
+  protected postfix = false;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)
@@ -382,8 +385,11 @@ export default class SimpleMint extends Mixins(
       const result = NFTUtils.generateRemarks(
         this.rmrkMint,
         accountId,
-        version
+        version,
+        false,
+        this.postfix ? (name: string, index: number) => `${name} #${index + 1}` : undefined
       ) as MintType
+
       const cb = api.tx.utility.batchAll
       const remarks: string[] = Array.isArray(result)
         ? result
