@@ -270,8 +270,6 @@ export default class SeriesTable extends Vue {
   protected nbRows = '10'
   protected sortBy: SortType = { field: 'volume', value: -1 }
   public isLoading = false
-  // public defaultSort = sortBy.field
-  public defaultSortDirection = 'desc'
 
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
