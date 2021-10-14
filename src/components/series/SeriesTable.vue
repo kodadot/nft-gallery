@@ -34,7 +34,7 @@
     <b-table
       :data="data"
       :default-sort="sortBy.field"
-      :default-sort-direction="String(sortBy.value)"
+      :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
       backend-sorting @sort="onSort"
       hoverable
     >
