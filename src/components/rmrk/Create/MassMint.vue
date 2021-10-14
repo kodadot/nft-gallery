@@ -259,7 +259,7 @@ export default class MassMint extends Mixins(
   private estimated = '';
   private hasCarbonOffset = true;
   protected arweaveUpload = false;
-  protected massMints: MassMintNFT[] = [];
+  public massMints: MassMintNFT[] = [];
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
 
