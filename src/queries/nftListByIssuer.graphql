@@ -1,13 +1,20 @@
 #import "./nft.graphql"
 
-query nftListByIssuer($account: String!, $first: Int!, $offset: Int) {
+query nftListByIssuer(
+  $account: String!
+  $first: Int!
+  $offset: Int
+  $search: [NFTEntityFilter!]
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   nFTEntities(
     filter: {
       issuer: { equalTo: $account }
       name: { notLike: "%Kanaria%" }
       burned: { distinctFrom: true }
+      and: $search
     }
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
   ) {
