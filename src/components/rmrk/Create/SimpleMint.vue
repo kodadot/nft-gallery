@@ -211,7 +211,9 @@ import { DispatchError } from '@polkadot/types/interfaces'
 import { ipfsToArweave } from '@/utils/ipfs'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
 import TransactionMixin from '@/utils/mixins/txMixin'
-import { isAddress } from '@polkadot/util-crypto'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import correctFormat from '@/utils/ss58Format'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -270,7 +272,8 @@ const components = {
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
   RmrkVersionMixin,
-  TransactionMixin
+  TransactionMixin,
+  ChainMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -364,10 +367,14 @@ export default class SimpleMint extends Mixins(
     return this.parseAddresses.length <= this.rmrkMint.max
   }
 
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
   get parseAddresses(): string[] {
     const { batchAdresses } = this
     const addresses = batchAdresses.split('\n').map(x => x.split('-')).filter(x => x.length).map(x => x[1]).filter(x => x).map(a => a.trim())
-    const onlyValid = addresses.filter(a => isAddress(a))
+    const onlyValid = addresses.filter(a => isAddress(a)).map(a => encodeAddress(a, correctFormat(this.ss58Format)))
 
     return onlyValid
   }
