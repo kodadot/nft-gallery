@@ -51,7 +51,7 @@ export default class MassMintItem extends Vue {
   @Prop() public nft!: MassMintNFT;
   @PropSync('name', { type: String }) vName!: string;
   @PropSync('description', { type: String }) vDescription!: string;
-  @PropSync('price', { type: Number }) vPrice!: number;
+  @PropSync('meta', { type: [Number, String] }) vPrice!: number;
   @Prop(Number) public index!: number;
   @Prop() public file!: File;
 

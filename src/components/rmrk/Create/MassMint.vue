@@ -169,7 +169,10 @@ import {
   isRangeSyntax,
   toRange,
   between,
-  fromRange
+  fromRange,
+  processRangeSyntax,
+  processMatchAllSyntax,
+  processFiles
 } from './mintUtils'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import infiniteCollectionByAccount from '@/queries/infiniteCollectionByAccount.graphql'
@@ -304,36 +307,14 @@ export default class MassMint extends Mixins(
     }
   }
 
-  protected matchAllParser() {
+  protected matchAllParser(): void {
     const parsed = massMintParser(this.commands)
-    const applyForAll = parsed['...']
-    this.massMints = this.massMints.map((item, index) => ({
-      ...item,
-      ...applyForAll,
-      description: replaceIndex(applyForAll.description, index + 1),
-      name: replaceIndex(applyForAll.name, index + 1)
-    }))
+    this.massMints = processMatchAllSyntax(this.massMints, parsed)
   }
 
-  protected rangeParser() {
+  protected rangeParser(): void {
     const parsed = massMintParser(this.commands)
-    const ranges: [number, number][] = Object.keys(parsed)
-      .map(toRange)
-      .filter(Boolean) as [number, number][]
-    this.massMints = this.massMints.map((item, index) => {
-      const range = ranges.find(([min, max]) => between(index + 1, min, max))
-      if (range) {
-        const key = fromRange(...range)
-        const parsedItem = parsed[key]
-        return {
-          ...item,
-          ...parsedItem,
-          description: replaceIndex(parsedItem.description, index + 1),
-          name: replaceIndex(parsedItem.name, index + 1)
-        }
-      }
-      return item
-    })
+    this.massMints = processRangeSyntax(this.massMints, parsed)
   }
 
   protected standardParser() {
@@ -364,12 +345,7 @@ export default class MassMint extends Mixins(
   @Watch('files')
   public onFilesChange(files: File[]) {
     showNotification(`Added files ${files.length}`, notificationTypes.info)
-    const massMints = files.map<MassMintNFT>(file => ({
-      name: file.name,
-      description: '',
-      price: 0,
-      file
-    }))
+    const massMints = processFiles(files)
 
     this.massMints = [...this.massMints, ...massMints]
   }
@@ -452,7 +428,7 @@ export default class MassMint extends Mixins(
               mint.map((e, i) => ({
                 ...e,
                 price: calculateBalance(
-                  this.massMints[i].price,
+                  Number(this.massMints[i].meta),
                   this.decimals
                 ).toString()
               })),

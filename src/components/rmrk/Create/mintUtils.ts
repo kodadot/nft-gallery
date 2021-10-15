@@ -2,6 +2,8 @@ import { Attribute, MassMintNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import Connector from '@vue-polkadot/vue-api'
+import { min } from 'date-fns'
+type Range = [number, number]
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {
   if (!nsfw) {
@@ -54,7 +56,7 @@ function toMassMint(mints: string[][]) {
   const massMintNFTs: Record<string, MassMintNFT> = {}
   for (const mint of mints) {
     if (mint.length < 4) {
-      console.warn(`Invalid mint: ${mint}`)
+      console.error(`Invalid mint: ${mint.length}`)
       continue
     }
 
@@ -63,35 +65,32 @@ function toMassMint(mints: string[][]) {
     massMintNFTs[fileName] = {
       name,
       description: rest.join('\n'),
-      price: Number(price)
+      meta: Number(price)
     }
   }
 
   return massMintNFTs
 }
 
-export const isRangeSyntax = (text: string) => {
+export const isRangeSyntax = (text: string): boolean => {
   const r = /^\d+-\d*\n/
   return r.test(text)
 }
 
-function isSpecialMassMintSyntax(text: string) {
-  return isRangeSyntax(text)
-}
 
 export function between(
   x: number,
   min: string | number,
   max: string | number = Infinity
-) {
+): boolean {
   return x >= min && x <= max
 }
 
-export function isMatchAll(text: string) {
+export function isMatchAll(text: string): boolean {
   return /^\.\.\.\n/.test(text)
 }
 
-export const replaceIndex = (line: string, replaceWith: string | number) =>
+export const replaceIndex = (line: string, replaceWith: string | number): string =>
   hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line
 
 const hasIndex = (line: string) => {
@@ -99,7 +98,20 @@ const hasIndex = (line: string) => {
   return r.test(line)
 }
 
-export function toRange(line: string): [number, number] | null {
+export const skipProcess = (line: string): boolean => {
+  const r = /^-/
+  return r.test(line)
+}
+
+const correctText = (original: string, parsed: string): string => {
+  if (skipProcess(parsed)) {
+    return original
+  }
+
+  return parsed
+}
+
+export function toRange(line: string): Range | null {
   const r = /^(\d+)-(\d*)\n?$/
   const match = r.exec(line)
   if (!match) {
@@ -110,6 +122,48 @@ export function toRange(line: string): [number, number] | null {
   return [Number(min), Number(max) || Infinity]
 }
 
-export function fromRange(min: number, max: number) {
+export function fromRange(min: number, max: number): string {
   return `${min}-${max === Infinity ? '' : max}`
+}
+
+export function getRange(parsed:  Record<string, MassMintNFT>): Range[] {
+  return Object.keys(parsed).map(toRange).filter(Boolean) as Range[]
+}
+
+
+export function processRangeSyntax(massMints: MassMintNFT[], parsed: Record<string, MassMintNFT>): MassMintNFT[] {
+  const ranges = getRange(parsed)
+  return massMints.map((item, index) => {
+    const range = ranges.find(([min, max]) => between(index + 1, min, max))
+    if (range) {
+      const key = fromRange(...range)
+      const parsedItem = parsed[key]
+      return {
+        ...item,
+        ...parsedItem,
+        description: replaceIndex(correctText(item.description, parsedItem.description), index + 1),
+        name: replaceIndex(correctText(item.name, parsedItem.name), index + 1)
+      }
+    }
+    return item
+  })
+}
+
+export function processMatchAllSyntax(massMints: MassMintNFT[], parsed: Record<string, MassMintNFT>): MassMintNFT[] {
+  const applyForAll = parsed['...']
+  return massMints.map((item, index) => ({
+    ...item,
+    ...applyForAll,
+    description: replaceIndex(correctText(item.description, applyForAll.description), index + 1),
+    name: replaceIndex(correctText(item.name, applyForAll.name), index + 1)
+  }))
+}
+
+export function processFiles(files: File[]): MassMintNFT[] {
+  return files.map<MassMintNFT>(file => ({
+    name: file.name,
+    description: '',
+    meta: 0,
+    file
+  }))
 }
