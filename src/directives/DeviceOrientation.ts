@@ -14,6 +14,7 @@ const onMoveMobile = (event: DeviceMotionEvent, el: HTMLElement) => {
   const xdeg = (accelerationX as number) / 10
   const ydeg = (accelerationY as number) / 10
   el.style.transform = `rotateX(${ydeg * 20}deg) rotateY(${xdeg * 20}deg)`
+  el.style.removeProperty('transition')
 }
 
 const registerEvents = (el: any) => {
@@ -41,6 +42,7 @@ export default {
 
     el.onLeave = () => {
       el.style.removeProperty('transform')
+      el.style.transition = 'transform 1s'
     }
     if (binding.value) {
       registerEvents(el)
