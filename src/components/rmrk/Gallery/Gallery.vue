@@ -292,8 +292,6 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    console.log(this.nfts)
-
     return basicAggQuery(this.nfts as NFTWithMeta[])
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
