@@ -85,7 +85,7 @@
               </b-button>
             </div>
           </div>
-          <div class="column has-text-right">
+          <div class="column has-text-right has-text-left-mobile">
             <iframe src="https://discord.com/widget?id=840514076538830888&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
