@@ -79,6 +79,7 @@ export default class History extends Vue {
   protected createTable() {
     let prevOwner = ''
     let curPrice = '0.0000000'
+    this.data = []
 
     for (const newEvent of this.events) {
       const event: any = {}
