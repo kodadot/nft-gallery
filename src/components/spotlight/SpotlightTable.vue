@@ -80,6 +80,16 @@
       </b-table-column>
 
       <b-table-column
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable
+      >
+        <template v-if="!isLoading"><Money :value="props.row.volume" inline /></template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         sortable
@@ -122,6 +132,7 @@ type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue')
 }
 
