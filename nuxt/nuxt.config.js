@@ -24,12 +24,17 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-      'styles/index.scss'
+    'styles/index.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/main'
+    '~/plugins/filters',
+    '~/plugins/globalVariables',
+    '~/plugins/metaInfo',
+    '~/plugins/vueAudioVisual',
+    '~/plugins/vueClipboard',
+    '~/plugins/vueSocialSharing',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -91,10 +96,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-      extend (config, { isDev, isClient }) {
-          config.node = {
-              fs: 'empty'
-          }
+    extend (config, { isDev, isClient }) {
+      config.node = {
+        fs: 'empty'
       }
+    }
   },
 }
