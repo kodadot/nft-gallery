@@ -18,7 +18,6 @@
         </b-field>
       </template>
       <b-table-column
-        cell-class="short-identity__table"
         field="id"
         :label="$t('spotlight.id')"
         v-slot="props"
@@ -185,9 +184,4 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>
