@@ -1,17 +1,22 @@
 <template>
   <div>
-    <b-field>
-        <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
-        </div>
-    </b-field>
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
       detailed
       paginated
+      pagination-position="top"
       show-detail-icon
     >
+      <template v-slot:top-left>
+        <b-field>
+          <div class="control is-flex">
+            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+              {{ $t('spotlight.filter_accounts') }}
+            </b-switch>
+          </div>
+        </b-field>
+      </template>
       <b-table-column
         cell-class="short-identity__table"
         field="id"
@@ -77,10 +82,15 @@
       <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
-        v-slot="props"
         sortable
+        numeric
       >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
+        <template v-slot:header="{column}">
+          <b-tooltip label="sold * (unique / total)" append-to-body dashed>
+            {{column.label}}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -98,7 +108,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import { Column, Row } from './types'
 import { columns, nftFn } from './utils'
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql'

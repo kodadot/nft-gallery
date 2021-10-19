@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { extractCid } from '@/utils/ipfs'
 import { NFT, NFTMetadata } from '../../service/scheme'
 import { emptyObject } from '@/utils/empty'

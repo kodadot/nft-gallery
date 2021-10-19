@@ -5,21 +5,22 @@
       v-for="nft in items"
       :key="nft.id"
     >
-      <GalleryCard :id="nft.id"
-                   :name="nft.name"
-                   :type="type"
-                   :link="link"
-                   :metadata="nft.metadata"
-                   :price="nft.price"
-                   :emoteCount="nft.emoteCount"
-                   :currentOwner="nft.currentOwner"
+      <GalleryCard
+        :id="nft.id"
+        :name="nft.name"
+        :type="type"
+        :link="link"
+        :metadata="nft.metadata"
+        :price="nft.price"
+        :emoteCount="nft.emoteCount"
+        :currentOwner="nft.currentOwner"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
 
 const components = {

@@ -22,6 +22,7 @@ const Partnership = () => import('@/components/landing/Partnership.vue')
 const Tutorials = () => import('@/components/landing/Tutorials.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
+const Series = () => import('@/components/landing/Series.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
@@ -73,6 +74,11 @@ export default new Router({
       component: Spotlight,
     },
     {
+      path: '/series-insights',
+      name: 'series',
+      component: Series,
+    },
+    {
       path: '/about',
       name: 'about',
       component: About,
@@ -96,7 +102,7 @@ export default new Router({
       path: '/grants',
       name: 'grants',
       component: {},
-      beforeEnter(to, from, next) {
+      beforeEnter() {
         window.location.href = 'https://tally.so/r/mVP06w'
       }
     },
@@ -104,7 +110,7 @@ export default new Router({
       path: '/permafrost',
       name: 'permafrost',
       component: {},
-      beforeEnter(to, from, next) {
+      beforeEnter() {
         window.location.href = 'https://discord.gg/88da2MEfU9'
       }
     },

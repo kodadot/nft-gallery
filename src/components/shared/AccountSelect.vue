@@ -15,11 +15,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins, Emit } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring'
 import Tooltip from '@/components/shared/Tooltip.vue'
-import { KeyringPair } from '@polkadot/keyring/types'
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
 
 @Component({
   components: {

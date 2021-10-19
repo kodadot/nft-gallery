@@ -5,15 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "netlify-lambda build src-functions && vue-cli-service build --report",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "lambda": "netlify-lambda serve src-functions",
     "start": "vue-cli-service serve",
     "sitemap": "vue-cli-service sitemap",
     "build:report": "vue-cli-service build --report"
-  },
-  "engines": {
-    "node": ">=14.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -29,15 +27,13 @@
     "@polkadot/util": "^7.4.1",
     "@polkadot/util-crypto": "^7.4.1",
     "@polkadot/vue-identicon": "^0.85.4",
-    "@subsocial/api": "0.6.3-dev.1",
-    "@subsocial/types": "0.6.3-dev.1",
-    "@subsocial/utils": "0.6.3-dev.1",
     "@types/file-saver": "^2.0.2",
     "@vue-polkadot/vue-api": "0.0.46",
-    "@vue-polkadot/vue-settings": "^0.0.19",
+    "@vue-polkadot/vue-settings": "^0.0.20",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
     "buefy": "^0.9.10",
+    "date-fns": "^2.25.0",
     "echarts": "^5.2.1",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
@@ -70,6 +66,8 @@
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.4",
     "@types/markdown-it": "^12.2.1",
     "@types/webpack": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
@@ -77,17 +75,24 @@
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-pwa": "^4.5.11",
     "@vue/cli-plugin-typescript": "^4.2.3",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
     "@vue/cli-service": "^4.2.3",
+    "@vue/test-utils": "^1.0.3",
     "all-contributors-cli": "^6.20.0",
+    "chai": "^4.1.2",
     "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.18.0",
     "netlify-lambda": "^2.0.14",
+    "null-loader": "^4.0.1",
     "sass": "^1.35.1",
     "sass-loader": "^10.2",
     "typescript": "^4.4.2",
     "vue-cli-plugin-i18n": "^1.0.1",
     "vue-debounce-decorator": "^1.0.1",
     "vue-template-compiler": "^2.6.12"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

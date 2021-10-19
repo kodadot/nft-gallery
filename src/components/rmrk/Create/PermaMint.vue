@@ -122,8 +122,7 @@ import Support from '@/components/shared/Support.vue'
 import Connector from '@vue-polkadot/vue-api'
 import exec, {
   execResultValue,
-  txCb,
-  estimate
+  txCb
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'

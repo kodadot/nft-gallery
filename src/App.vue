@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import keyring from '@polkadot/ui-keyring'
 import Navbar from './components/Navbar.vue'
@@ -98,7 +98,7 @@ export default class Dashboard extends Vue {
       })
 
       const {
-        data: { _meta: data }
+        data: { _metadata: data }
       } = await indexer
 
       console.log(

@@ -1,8 +1,9 @@
 import { Row } from '@/components/spotlight/types'
-import M, { Query, Aggregator } from 'mingo'
+import { RowSeries, SortType } from '@/components/series/types'
+import { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
-import { SortBy, QueryType, SearchQuery } from './types'
+import { QueryType, SearchQuery } from './types'
 
 export const basicFilterQuery = (value: string): Query => {
   const rr = new RegExp(value, 'i')
@@ -79,6 +80,43 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg)
 }
 
+export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
+  const agg: Aggregation = [
+    {
+      $group: {
+        // _id: { image: '$id' },
+        _id: '$id',
+        id: { $first: '$id' },
+        unique: { $sum: '$unique' },
+        uniqueCollectors: { $sum: '$uniqueCollectors' },
+        sold: { $sum: '$sold' },
+        total: { $sum: '$total' },
+        averagePrice: { $avg: '$averagePrice' },
+        floorPrice: { $sum: '$floorPrice' },
+        count: { $sum: '$count' },
+        rank: { $sum: '$rank' },
+        volume: { $sum: '$volume' },
+        dailyVolume: { $sum: '$dailyVolume' },
+        weeklyVolume: { $sum: '$weeklyVolume' },
+        monthlyVolume: { $sum: '$monthlyVolume' },
+        dailyrangeVolume: { $sum: '$dailyrangeVolume' },
+        weeklyrangeVolume: { $sum: '$weeklyrangeVolume' },
+        monthlyrangeVolume: { $sum: '$monthlyrangeVolume' },
+        name: { $first: '$name' },
+        metadata: { $first: '$metadata' }
+      }
+    },
+    {
+      $sort: { [sort['field']]: sort['value'] }
+    },
+    {
+      $limit: limit
+    }
+  ]
+
+  return new Aggregator(agg)
+}
+
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
   const query = basicFilterQuery(value)
   return query.find(nfts).all()
@@ -92,11 +130,11 @@ export const expandedFilter = (value: SearchQuery, nfts: NFTWithMeta[]): any[] =
   const additionalQuery = value.type ? [{ type: { $regex: new RegExp(value.type, 'i')} }] as any : []
   const criteria: QueryType = basicCriteria(rr, additionalQuery)
 
-  let cursor = queryOf(criteria).find(nfts)
+  const cursor = queryOf(criteria).find(nfts)
 
-  if (value.sortBy) {
-    cursor = cursor.sort(value.sortBy)
-  }
+  // if (value.sortBy) {
+  //   cursor = cursor.sort(value.sortBy)
+  // }
 
   return cursor.all()
 }
@@ -109,6 +147,11 @@ export const basicAggQuery = (nfts: NFTWithMeta[]) => {
 
 export const spotlightAggQuery = (nfts: Row[]) => {
   const query = spotlightAggregation()
+  return query.run(nfts)
+}
+
+export const seriesAggQuery = (limit: number, sort: SortType, nfts: RowSeries[]) => {
+  const query = seriesAggregation(limit, sort)
   return query.run(nfts)
 }
 

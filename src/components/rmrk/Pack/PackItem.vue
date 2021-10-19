@@ -21,11 +21,9 @@
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 // import { getInstance } from '../service/RmrkService';
 import { CompletePack } from '../service/scheme'
-import { fetchNFTMetadata, sanitizeIpfsUrl } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 
 const components = {

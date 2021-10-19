@@ -19,7 +19,7 @@ import {
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faAngleLeft, faAngleRight, faReply,
   faExternalLinkSquareAlt, faGift,
-  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle,
+  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter,
 
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -58,7 +58,7 @@ library.add(
   faExclamationTriangle, faCalculator,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
-  faExclamationCircle, faGift,
+  faExclamationCircle, faFilter, faGift,
 
   // Social
   faTwitter, faTelegram, faFacebook,

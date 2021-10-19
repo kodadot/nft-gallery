@@ -52,6 +52,7 @@
           :query="nftListByIssuer"
           @change="totalCreated = $event"
           :account="id"
+          :showSearchBar="true"
         />
       </b-tab-item>
       <b-tab-item
@@ -109,14 +110,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
-
-import {
-  CollectionWithMeta,
-  NFTWithMeta,
-  Pack
-} from '@/components/rmrk/service/scheme'
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
-import Identity from '../components/shared/format/Identity.vue'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
@@ -229,27 +224,27 @@ export default class Profile extends Vue {
     }
   }
 
-  get sharingVisible() {
+  get sharingVisible(): boolean {
     return isShareMode
   }
 
-  get customUrl() {
+  get customUrl(): string {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
-  get iframeSettings() {
+  get iframeSettings(): {width: string, height: string, customUrl: string} {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
-  get offset() {
+  get offset(): number {
     return this.currentValue * this.first - this.first
   }
 
-  get collectionOffset() {
+  get collectionOffset(): number {
     return this.currentCollectionPage * this.first - this.first
   }
 
-  get defaultNFTImage() {
+  get defaultNFTImage(): string {
     const url = new URL(window.location.href)
     return (
       `${url.protocol}//${url.hostname}/koda300x300.svg`

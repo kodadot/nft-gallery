@@ -56,7 +56,7 @@
 
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend')}}</p>
-            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description" />
+            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
@@ -66,7 +66,7 @@
         <div class="column is-3 is-offset-3" v-if="detailVisible">
 
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
-          <div class="price-block" v-if="hasPrice">
+          <div class="price-block mb-4" v-if="hasPrice">
             <div class="label">{{ $t('price') }}</div>
             <div class="price-block__container">
               <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
@@ -100,16 +100,16 @@
               </div>
           </template>
 
-          <Sharing />
-          <br>
+          <Sharing class="mb-4" />
+
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
           </template>
         </div>
       </div>
 
-      <hr class="comment-divider" />
-      <BaseCommentSection :nft="nft" :meta="meta" />
+      <!-- <hr class="comment-divider" />
+      <BaseCommentSection :nft="nft" :meta="meta" /> -->
     </div>
 
   </div>
@@ -118,7 +118,7 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, isIpfsUrl, sanitizeArweaveUrl, getSanitizer } from '../utils'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue'
@@ -169,7 +169,6 @@ import Orientation from '@/directives/DeviceOrientation'
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
-    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
   },

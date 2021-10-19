@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { NFT, NFTMetadata } from './components/rmrk/service/scheme'
+import { NFTMetadata } from './components/rmrk/service/scheme'
 import { APIKeys, pinFile as pinFileToIPFS } from './pinata'
 import { extractCid, justHash } from './utils/ipfs'
 
