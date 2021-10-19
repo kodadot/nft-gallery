@@ -18,14 +18,14 @@ const onMoveMobile = (event: DeviceMotionEvent, el: HTMLElement) => {
 }
 
 const registerEvents = (el: any) => {
-  el.addEventListener('mousemove', el.onMove)
-  el.addEventListener('mouseleave', el.onLeave)
+  window.addEventListener('mousemove', el.onMove)
+  window.addEventListener('mouseleave', el.onLeave)
   window.addEventListener('devicemotion', el.onMoveMobile)
 }
 
 const unRegisterEvents = (el: any) => {
-  el.removeEventListener('mousemove', el.onMove)
-  el.removeEventListener('mouseleave', el.onLeave)
+  window.removeEventListener('mousemove', el.onMove)
+  window.removeEventListener('mouseleave', el.onLeave)
   window.removeEventListener('devicemotion', el.onMoveMobile)
   el.parentElement!.classList.remove('orientation')
 }
@@ -41,8 +41,9 @@ export default {
     }
 
     el.onLeave = () => {
-      el.style.removeProperty('transform')
-      el.style.transition = 'transform 1s'
+      unRegisterEvents(el)
+      // el.style.removeProperty('transform')
+      // el.style.transition = 'transform 1s'
     }
     if (binding.value) {
       registerEvents(el)
