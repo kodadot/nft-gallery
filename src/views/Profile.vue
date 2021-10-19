@@ -1,33 +1,36 @@
 <template>
   <div class="profile-wrapper container">
-    <div class="is-flex is-align-items-center container-mobile">
-      <div class="column">
-        <div class="columns is-align-items-center">
-          <div class="column title column-mobile">
-            <b-icon pack="fas" icon="ghost"></b-icon>
-            <a
-              :href="`https://kusama.subscan.io/account/${id}`"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
-            </a>
-          </div>
-          <div class="column-mobile">
-            <DonationButton :address="id" />
-          </div>
-          <div class="column column-mobile">
-            <OnChainProperty
-              v-bind:email="email"
-              v-bind:twitter="twitter"
-              v-bind:web="web"
-              v-bind:legal="legal"
-              v-bind:riot="riot"
-            />
-          </div>
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <div class="container image is-64x64 mb-2">
+          <Avatar :value="id" />
         </div>
+        <h1 class="title is-2">
+          <a
+            :href="`https://kusama.subscan.io/account/${id}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+          </a>
+        </h1>
       </div>
-      <div class="column is-2 mb-5 share-mobile ">
+    </div>
+
+    <div class="columns">
+      <div class="column has-text-centered-mobile">
+        <DonationButton :address="id" />
+      </div>
+      <div class="column has-text-centered-mobile">
+        <OnChainProperty
+          v-bind:email="email"
+          v-bind:twitter="twitter"
+          v-bind:web="web"
+          v-bind:legal="legal"
+          v-bind:riot="riot"
+        />
+      </div>
+      <div class="column is-2 mb-5 share-mobile">
         <Sharing
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
@@ -35,6 +38,7 @@
         />
       </div>
     </div>
+
     <b-tabs
       :class="{ 'invisible-tab': sharingVisible }"
       v-model="activeTab"
@@ -129,6 +133,7 @@ const components = {
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  Avatar: () => import('@/components/shared/Avatar.vue'),
 
 }
 
