@@ -28,6 +28,7 @@ const unRegisterEvents = (el: any) => {
   window.removeEventListener('mouseleave', el.onLeave)
   window.removeEventListener('devicemotion', el.onMoveMobile)
   el.parentElement!.classList.remove('orientation')
+  el.style.removeProperty('transform')
 }
 
 export default {
@@ -42,7 +43,6 @@ export default {
 
     el.onLeave = () => {
       unRegisterEvents(el)
-      // el.style.removeProperty('transform')
       // el.style.transition = 'transform 1s'
     }
     if (binding.value) {
