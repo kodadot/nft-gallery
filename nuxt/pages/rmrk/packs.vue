@@ -1,17 +1,17 @@
 <template>
-  <PermaMint />
+  <Packs />
 </template>
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import PermaMint from '@/components/rmrk/Create/PermaMint.vue'
+import Packs from '@/components/rmrk/Pack/Packs.vue'
 
 @Component({
   components: {
-    PermaMint
+    Packs
   }
 })
 
-export default class PermaMintPage extends Vue {
+export default class PacksPage extends Vue {
 }
 </script>

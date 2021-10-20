@@ -24,12 +24,15 @@
           </span>
         </h2>
         <div class="buttons">
-          <b-dropdown aria-role="list" class="mr-2">
+          <b-dropdown
+            aria-role="list"
+            class="mr-2"
+          >
             <template #trigger>
-                <b-button
-                  label="Create"
-                  type="is-primary"
-                />
+              <b-button
+                label="Create"
+                type="is-primary"
+              />
             </template>
             <b-dropdown-item
               aria-role="listitem"
@@ -47,37 +50,37 @@
             </b-dropdown-item>
           </b-dropdown>
           <b-button
-              tag="router-link"
-              to="/rmrk/gallery"
-              type="is-primary"
+            tag="router-link"
+            to="/rmrk/gallery"
+            type="is-primary"
           >
             Gallery
           </b-button>
           <b-button
-              tag="router-link"
-              to="/spotlight"
-              type="is-primary"
+            tag="router-link"
+            to="/spotlight"
+            type="is-primary"
           >
             Spotlight
           </b-button>
           <b-button
-              tag="router-link"
-              to="/about"
-              type="is-primary"
+            tag="router-link"
+            to="/about"
+            type="is-primary"
           >
             About
           </b-button>
           <b-button
-              tag="router-link"
-              to="/rmrk/faq"
-              type="is-primary"
+            tag="router-link"
+            to="/rmrk/faq"
+            type="is-primary"
           >
             Faq
           </b-button>
           <b-button
-              tag="router-link"
-              to="/grants"
-              type="is-primary"
+            tag="router-link"
+            to="/grants"
+            type="is-primary"
           >
             Grants
           </b-button>
@@ -139,15 +142,15 @@
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator';
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
-import { denyList } from '@/constants';
-import { getMany, update } from 'idb-keyval';
-import { fetchNFTMetadata } from '@/components/rmrk/utils';
+import { Component, Vue } from 'vue-property-decorator'
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import { denyList } from '@/constants'
+import { getMany, update } from 'idb-keyval'
+import { fetchNFTMetadata } from '@/components/rmrk/utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-};
+}
 @Component<Landing>({
   metaInfo() {
     return {
@@ -182,7 +185,7 @@ export default class Landing extends Vue {
   ]
 
   public mounted() {
-    this.fetchFirstGalleryPage();
+    this.fetchFirstGalleryPage()
   }
 
   public async fetchFirstGalleryPage() {
@@ -194,28 +197,28 @@ export default class Landing extends Vue {
         denyList,
         search: []
       }
-    });
+    })
 
     const {
       data: { nFTEntities: { nodes: nftList } }
-    } = await nfts;
+    } = await nfts
 
     const storedPromise = getMany(
       nftList.map(({ metadata }: any) => metadata)
-    );
+    )
 
-    const storedMetadata = await storedPromise;
+    const storedMetadata = await storedPromise
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(nftList[i]);
-          update(nftList[i].metadata, () => meta);
+          const meta = await fetchNFTMetadata(nftList[i])
+          update(nftList[i].metadata, () => meta)
         } catch (e) {
-          console.warn('[ERR] unable to get metadata');
+          console.warn('[ERR] unable to get metadata')
         }
       }
-    });
+    })
 
 
   }

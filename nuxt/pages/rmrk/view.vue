@@ -1,17 +1,17 @@
 <template>
-  <PermaMint />
+  <ViewModel />
 </template>
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import PermaMint from '@/components/rmrk/Create/PermaMint.vue'
+import ViewModel from '@/components/rmrk/Gallery/ViewModel.vue'
 
 @Component({
   components: {
-    PermaMint
+    ViewModel
   }
 })
 
-export default class PermaMintPage extends Vue {
+export default class ViewPage extends Vue {
 }
 </script>

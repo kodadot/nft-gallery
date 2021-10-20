@@ -1,15 +1,15 @@
 <template>
-    <Sustainability />
+  <Sustainability />
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 import Sustainability from '@/components/landing/Sustainability.vue'
 
 @Component({
-    components: {
-      Sustainability
-    }
+  components: {
+    Sustainability
+  }
 })
 
 export default class SustainabilityPage extends Vue {

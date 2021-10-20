@@ -1,15 +1,15 @@
 <template>
-    <Faq />
+  <Faq />
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 import Faq from '@/components/rmrk/Faq.vue'
 
 @Component({
-    components: {
-      Faq
-    }
+  components: {
+    Faq
+  }
 })
 
 export default class FaqePage extends Vue {

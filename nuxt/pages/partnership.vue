@@ -1,15 +1,15 @@
 <template>
-    <Partnership />
+  <Partnership />
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 import Partnership from '@/components/landing/Partnership.vue'
 
 @Component({
-    components: {
-      Partnership
-    }
+  components: {
+    Partnership
+  }
 })
 
 export default class PartnershipPage extends Vue {
