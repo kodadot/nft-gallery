@@ -30,7 +30,7 @@
           v-bind:riot="riot"
         />
       </div>
-      <div class="column is-2 mb-5 share-mobile">
+      <div class="column is-narrow">
         <Sharing
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
