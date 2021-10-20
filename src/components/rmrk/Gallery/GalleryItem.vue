@@ -56,7 +56,7 @@
 
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend')}}</p>
-            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description" />
+            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
@@ -108,8 +108,8 @@
         </div>
       </div>
 
-      <hr class="comment-divider" />
-      <BaseCommentSection :nft="nft" :meta="meta" />
+      <!-- <hr class="comment-divider" />
+      <BaseCommentSection :nft="nft" :meta="meta" /> -->
     </div>
 
   </div>
@@ -168,7 +168,6 @@ import { exist } from './Search/exist'
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
-    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
   }

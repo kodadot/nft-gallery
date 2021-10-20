@@ -63,50 +63,50 @@ export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
   }
 
   protected async handlePost() {
-    try {
-      this.initTransactionLoader()
-      const ss = await resolveSubsocialApi()
-      const args = await this.buildParams()
-      const api = await ss.substrate.api
-      const address = subsocialAddress(this.accountId)
+    // try {
+    //   this.initTransactionLoader()
+    //   const ss = await resolveSubsocialApi()
+    //   const args = await this.buildParams()
+    //   const api = await ss.substrate.api
+    //   const address = subsocialAddress(this.accountId)
 
-      const isFollower = await ss.substrate.isSpaceFollower(address, SUBSOCIAL_KODA_SPACE as any)
+    //   const isFollower = await ss.substrate.isSpaceFollower(address, SUBSOCIAL_KODA_SPACE as any)
 
-      const cb = isFollower ? api.tx.posts.createPost : api.tx.utility.batch
-      const finalArgs = isFollower ? args : [[api.tx.spaceFollows.followSpace(SUBSOCIAL_KODA_SPACE), api.tx.posts.createPost(...args)]]
-      const tx = await exec(
-        subsocialAddress(this.accountId),
-        '',
-        cb as any,
-        finalArgs,
-        txCb(
-          () => null,
-          err => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.isLoading = false
-          },
-          res => {
-            this.resolveStatus(res.status)
-            if (res.status.isInBlock) {
-              execResultValue(tx)
-              showNotification(
-                res.status.asInBlock.toString(),
-                notificationTypes.info
-              )
-              showNotification(
-                `[SUBSOCIAL] ${this.nft.name}`,
-                notificationTypes.success
-              )
-              this.$emit('input')
-              this.isLoading = false
-            }
-          }
-        )
-      )
-    } catch (e: any) {
-      showNotification(`[POST] ${e.message}`, notificationTypes.warn)
-    }
+    //   const cb = isFollower ? api.tx.posts.createPost : api.tx.utility.batch
+    //   const finalArgs = isFollower ? args : [[api.tx.spaceFollows.followSpace(SUBSOCIAL_KODA_SPACE), api.tx.posts.createPost(...args)]]
+    //   const tx = await exec(
+    //     subsocialAddress(this.accountId),
+    //     '',
+    //     cb as any,
+    //     finalArgs,
+    //     txCb(
+    //       () => null,
+    //       err => {
+    //         execResultValue(tx)
+    //         showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+    //         this.isLoading = false
+    //       },
+    //       res => {
+    //         this.resolveStatus(res.status)
+    //         if (res.status.isInBlock) {
+    //           execResultValue(tx)
+    //           showNotification(
+    //             res.status.asInBlock.toString(),
+    //             notificationTypes.info
+    //           )
+    //           showNotification(
+    //             `[SUBSOCIAL] ${this.nft.name}`,
+    //             notificationTypes.success
+    //           )
+    //           this.$emit('input')
+    //           this.isLoading = false
+    //         }
+    //       }
+    //     )
+    //   )
+    // } catch (e: any) {
+    //   showNotification(`[POST] ${e.message}`, notificationTypes.warn)
+    // }
   }
 
   // Subsocial does not show source so far

@@ -25,7 +25,6 @@ import {
   infiniteNotif
 } from '@/utils/notification'
 import { subsocialAddress } from './utils'
-import { Comment } from '@subsocial/types/substrate/classes'
 import { pinSubSocialPost } from '@/proxy'
 import TransactionMixin from '@/utils/mixins/txMixin'
 
@@ -37,14 +36,12 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 export default class Reply extends Mixins(TransactionMixin) {
   protected message = '';
   @Prop(String) public postId!: string;
-  @Prop() public extension!: Comment | null;
+  @Prop() public extension!: any | null;
 
   public async mounted() {
-    const ss = await resolveSubsocialApi()
-    const api = await ss.substrate.api
-    const cb = api.tx.posts.createPost;
-    (window as any).post = cb;
-    (window as any).ipfs = ss.ipfs
+    // const ss = await resolveSubsocialApi()
+    // const api = await ss.substrate.api
+    // const cb = api.tx.posts.createPost;
   }
 
   get accountId() {
@@ -66,60 +63,60 @@ export default class Reply extends Mixins(TransactionMixin) {
     return [null, newExtension, { IPFS: cid }]
   }
 
-  protected async addComment() {
-    const ss = await resolveSubsocialApi()
-    if (!this.postId) {
-      showNotification('No postId for Item!', notificationTypes.warn)
-      return
-    }
+  // protected async addComment() {
+  //   const ss = await resolveSubsocialApi()
+  //   if (!this.postId) {
+  //     showNotification('No postId for Item!', notificationTypes.warn)
+  //     return
+  //   }
 
-    const notif = infiniteNotif(`[SUBSOCIAL] Commenting post ${this.postId}`)
+  //   const notif = infiniteNotif(`[SUBSOCIAL] Commenting post ${this.postId}`)
 
-    try {
-      const args = await this.buildParams()
-      this.initTransactionLoader()
-      showNotification('Dispatched')
-      const api = await ss.substrate.api
-      const cb = api.tx.posts.createPost
-      const tx = await exec(
-        subsocialAddress(this.accountId),
-        '',
-        cb as any,
-        args,
-        txCb(
-          () => null,
-          err => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            notif.close()
-            this.isLoading = false
-          },
-          res => {
-            if (res.status.isInBlock) {
-              execResultValue(tx)
-              showNotification(
-                res.status.asInBlock.toString(),
-                notificationTypes.info
-              )
-              showNotification(
-                `[SUBSOCIAL] ${this.postId}`,
-                notificationTypes.success
-              )
-              this.isLoading = false
-              notif.close()
-              this.$emit('submit')
-            }
-          }
-        )
-      )
-    } catch (e: any) {
-      console.error(
-        `[SUBSOCIAL] Unable to reply ${this.postId} with reaction ${this.message},\nREASON: ${e}`
-      )
-      showNotification(e.message, notificationTypes.danger)
-      this.isLoading = false
-      notif.close()
-    }
-  }
+  //   try {
+  //     const args = await this.buildParams()
+  //     this.initTransactionLoader()
+  //     showNotification('Dispatched')
+  //     const api = await ss.substrate.api
+  //     const cb = api.tx.posts.createPost
+  //     const tx = await exec(
+  //       subsocialAddress(this.accountId),
+  //       '',
+  //       cb as any,
+  //       args,
+  //       txCb(
+  //         () => null,
+  //         err => {
+  //           execResultValue(tx)
+  //           showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+  //           notif.close()
+  //           this.isLoading = false
+  //         },
+  //         res => {
+  //           if (res.status.isInBlock) {
+  //             execResultValue(tx)
+  //             showNotification(
+  //               res.status.asInBlock.toString(),
+  //               notificationTypes.info
+  //             )
+  //             showNotification(
+  //               `[SUBSOCIAL] ${this.postId}`,
+  //               notificationTypes.success
+  //             )
+  //             this.isLoading = false
+  //             notif.close()
+  //             this.$emit('submit')
+  //           }
+  //         }
+  //       )
+  //     )
+  //   } catch (e: any) {
+  //     console.error(
+  //       `[SUBSOCIAL] Unable to reply ${this.postId} with reaction ${this.message},\nREASON: ${e}`
+  //     )
+  //     showNotification(e.message, notificationTypes.danger)
+  //     this.isLoading = false
+  //     notif.close()
+  //   }
+  // }
 }
 </script>
