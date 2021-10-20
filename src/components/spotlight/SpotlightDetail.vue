@@ -6,7 +6,16 @@
     v-for="nft in nfts"
     :key="nft.id"
   >
-    <GalleryCard :id="nft.id" :name="nft.name" :type="type" :link="link" :metadata="nft.metadata" />
+    <GalleryCard
+      :id="nft.id"
+      :name="nft.name"
+      :type="type"
+      :link="link"
+      :metadata="nft.metadata"
+      :price="nft.price"
+      :emoteCount="nft.emoteCount"
+      :currentOwner="nft.currentOwner"
+    />
   </div>
 </div>
 </div>
