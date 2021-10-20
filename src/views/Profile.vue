@@ -21,7 +21,7 @@
       <div class="column has-text-centered-mobile">
         <DonationButton :address="id" />
       </div>
-      <div class="column has-text-centered-mobile">
+      <div class="column has-text-centered">
         <OnChainProperty
           v-bind:email="email"
           v-bind:twitter="twitter"
@@ -30,12 +30,14 @@
           v-bind:riot="riot"
         />
       </div>
-      <div class="column is-narrow">
-        <Sharing
-          v-if="!sharingVisible"
-          label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings"
-        />
+      <div class="column has-text-right-tablet">
+        <div class="share-mobile">
+          <Sharing
+            v-if="!sharingVisible"
+            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings"
+          />
+        </div>
       </div>
     </div>
 
@@ -373,6 +375,11 @@ export default class Profile extends Vue {
 .title {
   flex-grow: 0;
   flex-basis: auto;
+}
+
+.share-mobile {
+  width: 50%;
+  margin-left: auto;
 }
 
 @media only screen and (max-width: 768px) {
