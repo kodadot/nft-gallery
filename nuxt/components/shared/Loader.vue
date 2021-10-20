@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({})
 export default class Loader extends Vue {
@@ -18,11 +18,11 @@ export default class Loader extends Vue {
   protected placeholder = '/infinity.svg';
 
   get isLoading() {
-    return this.value;
+    return this.value
   }
 
   set isLoading(value: boolean) {
-    this.$emit('input', value);
+    this.$emit('input', value)
   }
 }
 </script>

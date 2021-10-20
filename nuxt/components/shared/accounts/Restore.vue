@@ -21,10 +21,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { u8aToString } from '@polkadot/util';
-import keyring from '@polkadot/ui-keyring';
-import FileLoad from '../FileLoad.vue';
+import { Component, Vue, Emit } from 'vue-property-decorator'
+import keyring from '@polkadot/ui-keyring'
+import FileLoad from '../FileLoad.vue'
 
 @Component({
   components: {
@@ -32,19 +31,19 @@ import FileLoad from '../FileLoad.vue';
   },
 })
 export default class Restore extends Vue {
-  public accountToImport: string = '';
-  public password: string = '';
-  public isPassValid: boolean = false;
+  public accountToImport = '';
+  public password = '';
+  public isPassValid = false;
   public validatePassword(password: string): boolean {
-    return this.isPassValid = keyring.isPassValid(password);
+    return this.isPassValid = keyring.isPassValid(password)
   }
   @Emit()
   public OnRestore(): void {
     try {
-      const json = JSON.parse(this.accountToImport);
-      const pair = keyring.restoreAccount(json, this.password);
+      const json = JSON.parse(this.accountToImport)
+      const pair = keyring.restoreAccount(json, this.password)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 }

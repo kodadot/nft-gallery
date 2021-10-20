@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator'
 
 @Component
 export default class InputFile extends Vue {
@@ -35,11 +35,11 @@ export default class InputFile extends Vue {
 
   @Watch('toImport')
   public createInput(file: any): void {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = () => {
-      this.account = reader.result;
-    };
-    reader.readAsText(file);
+      this.account = reader.result
+    }
+    reader.readAsText(file)
   }
 
 }

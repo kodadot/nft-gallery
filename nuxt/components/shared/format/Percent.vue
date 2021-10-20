@@ -3,16 +3,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { mapGetters } from 'vuex'
-
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Money extends Vue {
   @Prop({default: 0}) readonly value: number | string | undefined;
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties;
+    return this.$store.getters.getChainProperties
   }
 }
 

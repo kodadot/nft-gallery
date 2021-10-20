@@ -8,13 +8,13 @@
     >
       Click me!
     </button>
-		<slot></slot>
+    <slot></slot>
   </b-collapse>
 </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class CollapseWrapper extends Vue {

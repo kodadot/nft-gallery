@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import IndexerMixin from '@/utils/mixins/indexerMixin';
-import { Component, Mixins, Prop } from 'vue-property-decorator';
+import IndexerMixin from '@/utils/mixins/indexerMixin'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
 
 @Component
 export default class EmptyGuard extends Mixins(IndexerMixin) {

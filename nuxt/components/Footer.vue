@@ -121,8 +121,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import i18n from '@/i18n';
+import { Component, Vue } from 'vue-property-decorator'
+import i18n from '@/i18n'
 import { TranslateResult } from 'vue-i18n/types'
 
 interface Menu {
@@ -133,24 +133,24 @@ interface Menu {
   components: {}
 })
 export default class Footer extends Vue {
-    public menu: Menu[] = [
-        {
-            name: i18n.t('About'),
-            url: '/about'
-        },
-        {
-            name: i18n.t('FAQ'),
-            url: '/rmrk/faq'
-        },
-        // {
-        //   name: i18n.t('Contact'),
-        //   url: '/contact'
-        // },
-        {
-            name: i18n.t('Partnerships & Ambassadors'),
-            url: '/partnership'
-        }
-    ]
+  public menu: Menu[] = [
+    {
+      name: i18n.t('About'),
+      url: '/about'
+    },
+    {
+      name: i18n.t('FAQ'),
+      url: '/rmrk/faq'
+    },
+    // {
+    //   name: i18n.t('Contact'),
+    //   url: '/contact'
+    // },
+    {
+      name: i18n.t('Partnerships & Ambassadors'),
+      url: '/partnership'
+    }
+  ]
 }
 </script>
 

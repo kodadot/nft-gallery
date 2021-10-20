@@ -138,15 +138,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql';
-import { denyList } from '@/constants';
-import { getMany, update } from 'idb-keyval';
-import { fetchNFTMetadata } from '../rmrk/utils';
+import { Component, Vue } from 'vue-property-decorator'
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import { denyList } from '@/constants'
+import { getMany, update } from 'idb-keyval'
+import { fetchNFTMetadata } from '../rmrk/utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-};
+}
 @Component<Landing>({
   metaInfo() {
     return {
@@ -181,7 +181,7 @@ export default class Landing extends Vue {
   ]
 
   public mounted() {
-    this.fetchFirstGalleryPage();
+    this.fetchFirstGalleryPage()
   }
 
   public async fetchFirstGalleryPage() {
@@ -193,28 +193,28 @@ export default class Landing extends Vue {
         denyList,
         search: []
       }
-    });
+    })
 
     const {
       data: { nFTEntities: { nodes: nftList } }
-    } = await nfts;
+    } = await nfts
 
     const storedPromise = getMany(
       nftList.map(({ metadata }: any) => metadata)
-    );
+    )
 
-    const storedMetadata = await storedPromise;
+    const storedMetadata = await storedPromise
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(nftList[i]);
-          update(nftList[i].metadata, () => meta);
+          const meta = await fetchNFTMetadata(nftList[i])
+          update(nftList[i].metadata, () => meta)
         } catch (e) {
-          console.warn('[ERR] unable to get metadata');
+          console.warn('[ERR] unable to get metadata')
         }
       }
-    });
+    })
 
 
   }
