@@ -1,9 +1,19 @@
 #import "./collection.graphql"
 
-query collectionById($id: String!) {
+query collectionById(
+  $id: String!
+  $search: [NFTEntityFilter!]
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   collectionEntity(id: $id) {
     ...collection
-    nfts(filter: { burned: { distinctFrom: true } }) {
+    nfts(
+      orderBy: [$orderBy, BLOCK_NUMBER_DESC]
+      filter: {
+	  	burned: { distinctFrom: true }
+		and: $search
+	  }
+    ) {
       nodes {
         id
         metadata
