@@ -78,7 +78,7 @@ export default class OnChainProperty extends Vue{
         'label': this.email,
         'pack': 'fas',
         'icon': 'envelope',
-        'size': 'is-large',
+        'size': 'is-medium',
       })
     }
   }
@@ -87,7 +87,7 @@ export default class OnChainProperty extends Vue{
     if(this.verify(this.twitter)){
       this.icons.push({
         'label': this.twitter,
-        'size': 'is-large',
+        'size': 'is-medium',
         'pack': 'fab',
         'icon': 'twitter',
       })
@@ -100,7 +100,7 @@ export default class OnChainProperty extends Vue{
         'label': this.riot,
         'pack': 'fas',
         'icon': 'comment-alt',
-        'size': 'is-large',
+        'size': 'is-medium',
       })
     }
   }
@@ -111,7 +111,7 @@ export default class OnChainProperty extends Vue{
         'label': this.web,
         'pack': 'fas',
         'icon': 'globe',
-        'size': 'is-large',
+        'size': 'is-medium',
       })
     }
   }
@@ -122,7 +122,7 @@ export default class OnChainProperty extends Vue{
         'label': this.legal,
         'pack': 'fas',
         'icon': 'user',
-        'size': 'is-large',
+        'size': 'is-medium',
       })
     }
   }
