@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-wrapper container">
+  <div class="profile-wrapper container is-fluid">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-64x64 mb-2">
@@ -18,26 +18,22 @@
     </div>
 
     <div class="columns">
-      <div class="column has-text-centered-mobile">
-        <DonationButton :address="id" />
-      </div>
-      <div class="column has-text-centered">
-        <OnChainProperty
-          v-bind:email="email"
-          v-bind:twitter="twitter"
-          v-bind:web="web"
-          v-bind:legal="legal"
-          v-bind:riot="riot"
-        />
-      </div>
-      <div class="column has-text-right-tablet">
-        <div class="share-mobile">
-          <Sharing
-            v-if="!sharingVisible"
-            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
-            :iframe="iframeSettings"
-          />
+      <div class="column">
+        <div class="label">
+          {{ $t('profile.user') }}
         </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+        </div>
+      </div>
+      <div class="column is-2">
+        <Sharing
+          class="mb-2"
+          v-if="!sharingVisible"
+          label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+          :iframe="iframeSettings"
+        />
+        <DonationButton :address="id" style="width: 100%;" />
       </div>
     </div>
 
@@ -131,11 +127,11 @@ const components = {
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Avatar: () => import('@/components/shared/Avatar.vue'),
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 
 }
 
@@ -377,24 +373,4 @@ export default class Profile extends Vue {
   flex-basis: auto;
 }
 
-.share-mobile {
-  width: 50%;
-  margin-left: auto;
-}
-
-@media only screen and (max-width: 768px) {
-  .column-mobile {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-
-  .container-mobile {
-    flex-direction: column;
-  }
-
-  .share-mobile {
-    width: 100%;
-  }
-}
 </style>
