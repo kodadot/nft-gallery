@@ -247,6 +247,7 @@
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
   },
   "profile": {
+	  "user": "User",
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold"
