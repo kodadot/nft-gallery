@@ -247,13 +247,13 @@
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
   },
   "profile": {
-	  "user": "User",
+    "user": "User",
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold"
   },
   "spotlight": {
-	"filter_accounts": "Accounts With Identity",
+    "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
     "unique": "Unique",
@@ -265,13 +265,13 @@
     "empty": "Empty"
   },
   "series": {
-	"title": "Top Collection",
-	"subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
-	"assets": "Assets",
-	"collected": "Collected",
-	"floorprice": "Floor price",
-	"owners": "Owners",
-	"volume": "Volume"
+    "title": "Top Collection",
+    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "assets": "Assets",
+    "collected": "Collected",
+    "floorprice": "Floor price",
+    "owners": "Owners",
+    "volume": "Volume"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",

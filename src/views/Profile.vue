@@ -127,7 +127,6 @@ const components = {
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  // OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
