@@ -1,5 +1,5 @@
 <template>
-  <div class="pack-item-wrapper container">
+  <div class="pack-item-wrapper container is-fluid">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-128x128 mb-2">
@@ -30,14 +30,15 @@
         <div class="label">
           {{ $t('owner') }}
         </div>
-        <div class="subtitle">
-          <ProfileLink :address="owner" :inline="true" />
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="owner" :inline="true" :showTwitter="true"/>
         </div>
       </div>
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
           :iframe="iframeSettings" />
+        <DonationButton :address="issuer" style="width: 100%;" />
       </div>
     </div>
 
@@ -76,6 +77,7 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
   Search: () => import('./Search/SearchBarCollection.vue'),
+  DonationButton: () => import('@/components/transfer/DonationButton.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {

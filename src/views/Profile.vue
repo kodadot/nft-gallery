@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-wrapper container">
+  <div class="profile-wrapper container is-fluid">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-64x64 mb-2">
@@ -18,26 +18,30 @@
     </div>
 
     <div class="columns">
-      <div class="column has-text-centered-mobile">
-        <DonationButton :address="id" />
-      </div>
-      <div class="column has-text-centered">
-        <OnChainProperty
+      <div class="column">
+        <!-- <OnChainProperty
           v-bind:email="email"
           v-bind:twitter="twitter"
           v-bind:web="web"
           v-bind:legal="legal"
           v-bind:riot="riot"
-        />
+        /> -->
+        <div class="label">
+          USER
+        </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+        </div>
       </div>
-      <div class="column has-text-right-tablet">
-        <div class="share-mobile">
+      <div class="column is-2">
+        <!-- <div class="share-mobile"> -->
           <Sharing
             v-if="!sharingVisible"
             label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
             :iframe="iframeSettings"
           />
-        </div>
+          <DonationButton :address="id" style="width: 100%;" />
+        <!-- </div> -->
       </div>
     </div>
 
@@ -136,6 +140,7 @@ const components = {
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Avatar: () => import('@/components/shared/Avatar.vue'),
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 
 }
 

@@ -1,20 +1,36 @@
 <template>
-  <div class="columns is-multiline">
-    <div
-      class="column is-one-third-desktop is-one-third-tablet"
-      v-for="nft in items"
-      :key="nft.id"
-    >
-      <GalleryCard
-        :id="nft.id"
-        :name="nft.name"
-        :type="type"
-        :link="link"
-        :metadata="nft.metadata"
-        :price="nft.price"
-        :emoteCount="nft.emoteCount"
-        :currentOwner="nft.currentOwner"
-      />
+  <div>
+    <div class="content">
+      <b-field position="is-right">
+        <b-radio-button type="is-primary" v-model="layout" native-value="third">
+          <span>
+            <b-icon icon="th-large"></b-icon>
+          </span>
+        </b-radio-button>
+        <b-radio-button type="is-primary" v-model="layout" native-value="fifth">
+          <span>
+            <b-icon icon="th"></b-icon>
+          </span>
+        </b-radio-button>
+      </b-field>
+    </div>
+    <div class="columns is-multiline">
+      <div
+        :class="`column is-one-${layout}-desktop is-one-${layout}-tablet`"
+        v-for="nft in items"
+        :key="nft.id"
+      >
+        <GalleryCard
+          :id="nft.id"
+          :name="nft.name"
+          :type="type"
+          :link="link"
+          :metadata="nft.metadata"
+          :price="nft.price"
+          :emoteCount="nft.emoteCount"
+          :currentOwner="nft.currentOwner"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -32,5 +48,12 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
+
+  protected layout = 'third'
 }
 </script>
+<style>
+.b-radio.radio.button.is-selected{
+  background-color: #db2980;
+}
+</style>
