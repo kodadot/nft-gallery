@@ -250,7 +250,8 @@
     "user": "User",
     "created": "Created",
     "collected": "Collected",
-    "sold": "Sold"
+    "sold": "Sold",
+    "showQr": "Show QR"
   },
   "spotlight": {
     "filter_accounts": "Accounts With Identity",

@@ -34,6 +34,7 @@
           :iframe="iframeSettings"
         />
         <DonationButton :address="id" style="width: 100%;" />
+        <ShowQRModal :address="id" />
       </div>
     </div>
 
@@ -132,7 +133,7 @@ const components = {
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-
+  ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
 }
 
 const eq = (tab: string) => (el: string) => tab === el
