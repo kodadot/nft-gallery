@@ -31,11 +31,12 @@
           {{ $t('owner') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="owner" :inline="true" :showTwitter="true"/>
+          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
         </div>
       </div>
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
+          class="mb-2"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
           :iframe="iframeSettings" />
         <DonationButton :address="issuer" style="width: 100%;" />
