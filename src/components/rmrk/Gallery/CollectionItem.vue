@@ -1,5 +1,5 @@
 <template>
-  <div class="pack-item-wrapper container">
+  <div class="pack-item-wrapper container is-fluid">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-128x128 mb-2">
@@ -30,14 +30,16 @@
         <div class="label">
           {{ $t('owner') }}
         </div>
-        <div class="subtitle">
-          <ProfileLink :address="owner" :inline="true" />
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
         </div>
       </div>
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
+          class="mb-2"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
           :iframe="iframeSettings" />
+        <DonationButton :address="issuer" style="width: 100%;" />
       </div>
     </div>
 
@@ -48,6 +50,8 @@
         <VueMarkdown :source="description" />
       </div>
     </div>
+
+    <Search v-bind.sync="searchQuery" />
 
     <GalleryCardList :items="collection.nfts" />
 
@@ -63,12 +67,18 @@ import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import { CollectionMetadata } from '../types'
+import { NFT } from '@/components/rmrk/service/scheme'
+import { SearchQuery } from './Search/types'
+
+
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
+  Search: () => import('./Search/SearchBarCollection.vue'),
+  DonationButton: () => import('@/components/transfer/DonationButton.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -94,45 +104,73 @@ export default class CollectionItem extends Vue {
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: 'BLOCK_NUMBER_DESC',
+    listed: false,
+  };
 
-  get image() {
+  get image(): string {
     return this.meta.image || ''
   }
 
-  get description() {
+  get description(): string {
     return this.meta.description || ''
   }
 
-  get name() {
+  get name(): string {
     return this.collection.name || this.id
   }
 
-  get nfts() {
+  get nfts(): NFT[] {
     return this.collection.nfts || []
   }
 
-  get issuer() {
+  get issuer(): string {
     return this.collection.issuer || ''
   }
 
-  get owner() {
+  get owner(): string {
     return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
   }
 
-  get sharingVisible() {
+  get sharingVisible(): boolean {
     return !isShareMode
+  }
+
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params = []
+
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+      })
+    }
+
+    if (this.searchQuery.listed) {
+      params.push({
+        price: { greaterThan: '0' }
+      })
+    }
+
+    return params
   }
 
   public created() {
     this.isLoading = true
     this.checkId()
-    this.$apollo.addSmartQuery('collection',{
+    this.$apollo.addSmartQuery('collection', {
       query: collectionById,
-      variables: {
-        id: this.id
+      variables: () => {
+        return {
+          id: this.id,
+          orderBy: this.searchQuery.sortBy,
+          search: this.buildSearchParam()
+        }
       },
       update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
-      result: () => this.fetchMetadata()
+      result: () => this.fetchMetadata(),
     })
     this.isLoading = false
   }

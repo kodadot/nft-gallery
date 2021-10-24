@@ -1,5 +1,5 @@
 import { Row } from '@/components/spotlight/types'
-import { RowSeries } from '@/components/series/types'
+import { RowSeries, SortType } from '@/components/series/types'
 import { Query, Aggregator } from 'mingo'
 import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
@@ -69,7 +69,8 @@ export const spotlightAggregation = (): Aggregator => {
         averagePrice: { $avg: '$averagePrice' },
         count: { $sum: '$count' },
         // collectors: { $setUnion: '$collectors' }, // TODO: Do not know how
-        rank: { $sum: '$rank' }
+        rank: { $sum: '$rank' },
+        volume: { $sum: '$volume' }
       }
     },
     {
@@ -80,7 +81,7 @@ export const spotlightAggregation = (): Aggregator => {
   return new Aggregator(agg)
 }
 
-export const seriesAggregation = (limit = 10): Aggregator => {
+export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
   const agg: Aggregation = [
     {
       $group: {
@@ -94,17 +95,20 @@ export const seriesAggregation = (limit = 10): Aggregator => {
         averagePrice: { $avg: '$averagePrice' },
         floorPrice: { $sum: '$floorPrice' },
         count: { $sum: '$count' },
-        // owned: { $sum: '$currentOwner' },
         rank: { $sum: '$rank' },
         volume: { $sum: '$volume' },
+        dailyVolume: { $sum: '$dailyVolume' },
         weeklyVolume: { $sum: '$weeklyVolume' },
         monthlyVolume: { $sum: '$monthlyVolume' },
+        dailyrangeVolume: { $sum: '$dailyrangeVolume' },
+        weeklyrangeVolume: { $sum: '$weeklyrangeVolume' },
+        monthlyrangeVolume: { $sum: '$monthlyrangeVolume' },
         name: { $first: '$name' },
-        metadata: { $first: '$metadata' },
+        metadata: { $first: '$metadata' }
       }
     },
     {
-      $sort: { rank: -1 },
+      $sort: { [sort['field']]: sort['value'] }
     },
     {
       $limit: limit
@@ -147,8 +151,8 @@ export const spotlightAggQuery = (nfts: Row[]) => {
   return query.run(nfts)
 }
 
-export const seriesAggQuery = (limit: number, nfts: RowSeries[]) => {
-  const query = seriesAggregation(limit)
+export const seriesAggQuery = (limit: number, sort: SortType, nfts: RowSeries[]) => {
+  const query = seriesAggregation(limit, sort)
   return query.run(nfts)
 }
 

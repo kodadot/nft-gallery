@@ -18,7 +18,7 @@
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
               <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
-                <div class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
+                <div v-orientation="viewMode === 'default' && !isFullScreenView" class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
                     :src="meta.image || '/placeholder.svg'"
@@ -56,7 +56,7 @@
 
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend')}}</p>
-            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description" />
+            <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
@@ -108,8 +108,8 @@
         </div>
       </div>
 
-      <hr class="comment-divider" />
-      <BaseCommentSection :nft="nft" :meta="meta" />
+      <!-- <hr class="comment-divider" />
+      <BaseCommentSection :nft="nft" :meta="meta" /> -->
     </div>
 
   </div>
@@ -136,6 +136,7 @@ import { get, set } from 'idb-keyval'
 import { MediaType } from '../types'
 import axios from 'axios'
 import { exist } from './Search/exist'
+import Orientation from '@/directives/DeviceOrientation'
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -168,10 +169,12 @@ import { exist } from './Search/exist'
     Appreciation: () => import('./Appreciation.vue'),
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
-    BaseCommentSection: () => import('@/components/subsocial/BaseCommentSection.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
-  }
+  },
+  directives: {
+    orientation: Orientation
+  },
 })
 export default class GalleryItem extends Vue {
   private id = '';

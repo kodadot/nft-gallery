@@ -1,40 +1,42 @@
 <template>
-  <div class="profile-wrapper container">
-    <div class="is-flex is-align-items-center container-mobile">
+  <div class="profile-wrapper container is-fluid">
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <div class="container image is-64x64 mb-2">
+          <Avatar :value="id" />
+        </div>
+        <h1 class="title is-2">
+          <a
+            :href="`https://kusama.subscan.io/account/${id}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+          </a>
+        </h1>
+      </div>
+    </div>
+
+    <div class="columns">
       <div class="column">
-        <div class="columns is-align-items-center">
-          <div class="column title column-mobile">
-            <b-icon pack="fas" icon="ghost"></b-icon>
-            <a
-              :href="`https://kusama.subscan.io/account/${id}`"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
-            </a>
-          </div>
-          <div class="column-mobile">
-            <DonationButton :address="id" />
-          </div>
-          <div class="column column-mobile">
-            <OnChainProperty
-              v-bind:email="email"
-              v-bind:twitter="twitter"
-              v-bind:web="web"
-              v-bind:legal="legal"
-              v-bind:riot="riot"
-            />
-          </div>
+        <div class="label">
+          {{ $t('profile.user') }}
+        </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
         </div>
       </div>
-      <div class="column is-2 mb-5 share-mobile ">
+      <div class="column is-2">
         <Sharing
+          class="mb-2"
           v-if="!sharingVisible"
           label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
           :iframe="iframeSettings"
         />
+        <DonationButton :address="id" style="width: 100%;" />
       </div>
     </div>
+
     <b-tabs
       :class="{ 'invisible-tab': sharingVisible }"
       v-model="activeTab"
@@ -52,6 +54,7 @@
           :query="nftListByIssuer"
           @change="totalCreated = $event"
           :account="id"
+          :showSearchBar="true"
         />
       </b-tab-item>
       <b-tab-item
@@ -124,10 +127,11 @@ const components = {
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  OnChainProperty: () => import('@/views/OnChainProperty.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  Avatar: () => import('@/components/shared/Avatar.vue'),
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 
 }
 
@@ -223,27 +227,27 @@ export default class Profile extends Vue {
     }
   }
 
-  get sharingVisible() {
+  get sharingVisible(): boolean {
     return isShareMode
   }
 
-  get customUrl() {
+  get customUrl(): string {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
-  get iframeSettings() {
+  get iframeSettings(): {width: string, height: string, customUrl: string} {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
-  get offset() {
+  get offset(): number {
     return this.currentValue * this.first - this.first
   }
 
-  get collectionOffset() {
+  get collectionOffset(): number {
     return this.currentCollectionPage * this.first - this.first
   }
 
-  get defaultNFTImage() {
+  get defaultNFTImage(): string {
     const url = new URL(window.location.href)
     return (
       `${url.protocol}//${url.hostname}/koda300x300.svg`
@@ -369,19 +373,4 @@ export default class Profile extends Vue {
   flex-basis: auto;
 }
 
-@media only screen and (max-width: 768px) {
-  .column-mobile {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-
-  .container-mobile {
-    flex-direction: column;
-  }
-
-  .share-mobile {
-    width: 100%;
-  }
-}
 </style>

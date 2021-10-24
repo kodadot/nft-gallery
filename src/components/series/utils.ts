@@ -2,7 +2,7 @@ import i18n from '@/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import store from '@/store'
-import { getVolume, pairListBuyEvent, after } from '@/utils/math'
+import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
 import { startOfToday, subDays } from 'date-fns'
 
 
@@ -30,8 +30,12 @@ export const nftFn = (a: any): RowSeries => {
 
   const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()
   const volume =  Number(getVolume(buyEvents))
+  const dailyVolume = Number(getVolume(buyEvents.filter(after(yesterdayDate))))
   const weeklyVolume = Number(getVolume(buyEvents.filter(after(lastweekDate))))
   const monthlyVolume = Number(getVolume(buyEvents.filter(after(lastmonthDate))))
+  const dailyrangeVolume = Number(getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate))))
+  const weeklyrangeVolume = Number(getVolume(buyEvents.filter(between(last2weekDate, lastweekDate))))
+  const monthlyrangeVolume = Number(getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate))))
 
   return {
     id: a.id,
@@ -45,8 +49,12 @@ export const nftFn = (a: any): RowSeries => {
     uniqueCollectors,
     averagePrice,
     floorPrice,
+    dailyVolume,
     weeklyVolume,
     monthlyVolume,
+    dailyrangeVolume,
+    weeklyrangeVolume,
+    monthlyrangeVolume,
     rank: sold * (unique / total)
   }
 }
@@ -70,5 +78,9 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) => issuer === curr
 const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
 
 const today = startOfToday()
+const yesterdayDate: Date = subDays(today, 1)
 const lastweekDate: Date = subDays(today, 7)
 const lastmonthDate: Date = subDays(today, 30)
+const sub2dayDate: Date = subDays(today, 2)
+const last2weekDate: Date = subDays(today, 14)
+const last2monthDate: Date = subDays(today, 60)

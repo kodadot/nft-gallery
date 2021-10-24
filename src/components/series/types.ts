@@ -9,6 +9,11 @@ export type Column = {
   centered?: boolean;
 };
 
+export type SortType = {
+  field: string;
+  value: -1 | 1;
+};
+
 type VolumeType = number | bigint;
 
 export type RowSeries = {
@@ -19,8 +24,12 @@ export type RowSeries = {
   sold: number;
   total: number;
   volume: VolumeType;
+  dailyVolume: VolumeType;
   weeklyVolume: VolumeType;
   monthlyVolume: VolumeType;
+  dailyrangeVolume: VolumeType;
+  weeklyrangeVolume: VolumeType;
+  monthlyrangeVolume: VolumeType;
   averagePrice: number;
   floorPrice: number;
   rank: number;

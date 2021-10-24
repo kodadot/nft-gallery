@@ -17,7 +17,9 @@
       "webpack",
       "webpack-env",
       "vue-meta",
-      "vue-apollo"
+      "vue-apollo",
+      "mocha",
+      "chai"
     ],
     "paths": {
       "@/*": [

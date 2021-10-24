@@ -60,13 +60,13 @@ export default class BaseCommentSection extends Vue {
   }
 
   protected async checkIfPoor(address: string) {
-    const ss = await resolveSubsocialApi()
-    const api = await ss.substrate.api;
-    (window as any).SS = ss
-    const balance = await api.derive.balances.all(address)
-    this.actionDisabled = balance.freeBalance.ltn(0.05)
-    this.balance = balance.freeBalance?.toHuman()
-    console.log('balance', balance.freeBalance?.toHuman())
+    // const ss = await resolveSubsocialApi()
+    // const api = await ss.substrate.api;
+    // (window as any).SS = ss
+    // const balance = await api.derive.balances.all(address)
+    // this.actionDisabled = balance.freeBalance.ltn(0.05)
+    // this.balance = balance.freeBalance?.toHuman()
+    // console.log('balance', balance.freeBalance?.toHuman())
   }
 
   protected async searchForPost(name = 'Something is in KodaDot kitchen') {
@@ -77,15 +77,15 @@ export default class BaseCommentSection extends Vue {
       return
     }
 
-    const ss = await resolveSubsocialApi()
-    const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
-    const p = await ss.findPublicPosts([...posts as any])
-    const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
-    await setMany(toStore, subSocialStore)
+    // const ss = await resolveSubsocialApi()
+    // const posts = (await ss.substrate.postIdsBySpaceId(SUBSOCIAL_KODA_SPACE as any)).map(e => e.toNumber())
+    // const p = await ss.findPublicPosts([...posts as any])
+    // const toStore: [string, string][] = p.map(e => ([e.content?.title || '', e.struct.id.toString()]))
+    // await setMany(toStore, subSocialStore)
 
-    const x = await get(name, subSocialStore)
+    // const x = await get(name, subSocialStore)
 
-    this.postId = x || ''
+    // this.postId = x || ''
 
     // const res: ElasticResult[] = await searchPost(encodeURI(name))
     // const found = res.find(e => e._source.title === name && e._source.spaceId === String(SUBSOCIAL_KODA_SPACE))
