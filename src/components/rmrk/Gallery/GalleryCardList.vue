@@ -1,17 +1,21 @@
 <template>
   <div>
-    <div class="content">
+    <div class="content" v-if="items">
       <b-field position="is-right">
-        <b-radio-button type="is-primary" v-model="layout" native-value="third">
-          <span>
-            <b-icon icon="th-large"></b-icon>
-          </span>
-        </b-radio-button>
-        <b-radio-button type="is-primary" v-model="layout" native-value="fifth">
-          <span>
-            <b-icon icon="th"></b-icon>
-          </span>
-        </b-radio-button>
+        <b-tooltip label="Large display">
+          <b-radio-button type="is-primary" v-model="layout" native-value="third">
+            <span>
+              <b-icon icon="th-large"></b-icon>
+            </span>
+          </b-radio-button>
+        </b-tooltip>
+        <b-tooltip label="Small display">
+          <b-radio-button type="is-primary" v-model="layout" native-value="fifth">
+            <span>
+              <b-icon icon="th"></b-icon>
+            </span>
+          </b-radio-button>
+        </b-tooltip>
       </b-field>
     </div>
     <div class="columns is-multiline">
