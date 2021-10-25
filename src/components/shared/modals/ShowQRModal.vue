@@ -1,5 +1,5 @@
 <template>
-    <ModalWrapper :label="$t('profile.showQr')">
+    <ModalWrapper :icon="'qrcode'">
       <template v-slot:default>
         <QRCode text="https://http.cat/409" color="#db2980" bgColor="#000" />
       </template>

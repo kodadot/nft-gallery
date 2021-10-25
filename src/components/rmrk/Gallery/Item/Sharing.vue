@@ -1,6 +1,184 @@
 <template>
-  <div class="share">
+  <div class="">
+    <b-field>
+      <p class="control">
+        <ShowQRModal />
+      </p>
+      <p class="control">
+        <b-button
+          v-clipboard:copy="realworldFullPathShare"
+          type="is-primary"
+        >
+          <b-icon
+            size="is-small"
+            pack="fas"
+            icon="link">
+          </b-icon>
+        </b-button>
+      </p>
+      <p class="control">
+        <b-tooltip
+          position="is-left"
+          :triggers="['click']"
+          :auto-close="['outside', 'escape']"
+          :active="active"
+          multilined
+        >
+          <template v-slot:content>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="twitter"
+              :url="realworldFullPath"
+              :title="label"
+              twitter-user="KodaDot"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="twitter"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="telegram"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="telegram"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <!-- <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="line"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="line"
+              >
+              </b-icon>
+            </ShareNetwork> -->
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="facebook"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="facebook"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="messenger"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="facebook-messenger"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="whatsapp"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="whatsapp"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="pinterest"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fab"
+                icon="pinterest"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <ShareNetwork
+              tag="button"
+              class="button share__button is-medium"
+              network="email"
+              :url="realworldFullPath"
+              :title="label"
+            >
+              <b-icon
+                size="is-large"
+                pack="fas"
+                icon="envelope"
+              >
+              </b-icon>
+            </ShareNetwork>
+            <b-button
+              size="is-medium"
+              v-clipboard:copy="iframeUri"
+              @click="toast('Code copied to clipboard')"
+              class="share__button"
+            >
+              <b-icon
+                size="is-medium"
+                pack="fas"
+                icon="code">
+              </b-icon>
+            </b-button>
+          </template>
+          <b-button
+            type="is-primary"
+          >
+            <b-icon
+              size="is-small"
+              pack="fas"
+              icon="share-alt"
+            >
+            </b-icon>
+          </b-button>
+        </b-tooltip>
+      </p>
+    </b-field>
     <footer class="card-footer">
+      <div class="card-footer-item">
+        <!-- <b-button
+          size="is-small"
+          v-clipboard:copy="realworldFullPathShare"
+          class="share__root share__button"
+        >
+          <b-icon
+            size="is-medium"
+            pack="fas"
+            icon="qrcode">
+          </b-icon>
+        </b-button> -->
+        <ShowQRModal />
+      </div>
       <div class="card-footer-item" @click="toast('URL copied to clipboard')">
         <b-button
           size="is-small"
@@ -172,7 +350,12 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { IFrame, emptyIframe } from '../../types'
 
-@Component({})
+const components = {
+  ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
+}
+@Component({
+  components
+})
 export default class Sharing extends Vue {
   @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string;
   @Prop({ default: () => emptyIframe }) iframe!: IFrame;
