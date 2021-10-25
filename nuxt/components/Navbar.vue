@@ -4,9 +4,13 @@
     spaced
     wrapper-class="container"
     :close-on-click="false"
-    >
+  >
     <template #brand>
-      <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
+      <b-navbar-item
+        tag="router-link"
+        :to="{ path: '/' }"
+        class="logo"
+      >
         <img
           src="/koda300x300.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
@@ -16,77 +20,92 @@
         >
       </b-navbar-item>
     </template>
-    <template v-slot:start class="start">
+    <template
+      #start
+      class="start"
+    >
       <b-navbar-dropdown
-          arrowless
-          collapsible
-          >
-          <template #label>
-            <span>{{ $t('Create') }}</span>
-          </template>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'rmrk'}">
-            {{ $t('Classic') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'simpleMint'}">
-            {{ $t('Simple') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'permafrost'}">
-            {{ $t('Permafrost') }}
-          </b-navbar-item>
+        arrowless
+        collapsible
+      >
+        <template #label>
+          <span>{{ $t('Create') }}</span>
+        </template>
+        <b-navbar-item
+          tag="router-link"
+          to="/rmrk/create"
+        >
+          {{ $t('Classic') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          to="/rmrk/mint"
+        >
+          {{ $t('Simple') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          to="/permafrost"
+        >
+          {{ $t('Permafrost') }}
+        </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'nft'}">
+        to="/rmrk/gallery"
+      >
         {{ $t('Gallery') }}
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'spotlight'}">
+        to="/spotlight"
+      >
         {{ $t('Spotlight') }}
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'series'}">
+        :to="{ name: 'series'}"
+      >
         Series
       </b-navbar-item>
       <b-navbar-dropdown
-          arrowless
-          collapsible
-          label="Extra">
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'rmrkCredit' }">
-            {{ $t('Credit') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'rmrkFaq'}">
-            {{ $t('FAQ') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'transfer'}">
-            {{ $t('Transfer') }}
-          </b-navbar-item>
-          <b-navbar-item
-            tag="router-link"
-            :to="{ name: 'settings'}">
-            {{ $t('Settings') }}
-          </b-navbar-item>
+        arrowless
+        collapsible
+        label="Extra"
+      >
+        <b-navbar-item
+          tag="router-link"
+          to="/rmrk/credit"
+        >
+          {{ $t('Credit') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          to="/rmrk/faq"
+        >
+          {{ $t('FAQ') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          :to="{ name: 'transfer'}"
+        >
+          {{ $t('Transfer') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          :to="{ name: 'settings'}"
+        >
+          {{ $t('Settings') }}
+        </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
-        tag='router-link'
-        :to="{ name: 'tutorials'}">
+        tag="router-link"
+        :to="{ name: 'tutorials'}"
+      >
         {{ $t('Tutorial') }}
       </b-navbar-item>
     </template>
-    <template v-slot:end>
+    <template #end>
       <LocaleChanger />
       <NavbarProfileDropdown />
     </template>
