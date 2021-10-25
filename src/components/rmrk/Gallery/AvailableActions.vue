@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
-      <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
+      <b-button disabled v-for="action in actions" :key="action" :type="iconType(action)[0]"
       outlined
       @click="handleAction(action)">
         {{ action }}

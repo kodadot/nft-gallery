@@ -18,7 +18,6 @@
         </b-field>
       </template>
       <b-table-column
-        cell-class="short-identity__table"
         field="id"
         :label="$t('spotlight.id')"
         v-slot="props"
@@ -80,6 +79,16 @@
       </b-table-column>
 
       <b-table-column
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable
+      >
+        <template v-if="!isLoading"><Money :value="props.row.volume" inline /></template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         sortable
@@ -122,6 +131,7 @@ type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue')
 }
 
@@ -174,9 +184,4 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>

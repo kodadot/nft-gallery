@@ -1,4 +1,4 @@
-#import "./simpleNft.graphql"
+#import "./nft.graphql"
 
 query nftSimpleListByAccount($account: String!, $first: Int!) {
   nFTEntities(
@@ -11,7 +11,7 @@ query nftSimpleListByAccount($account: String!, $first: Int!) {
   ) {
     totalCount
     nodes {
-      ...simpleNft
+      ...nft
     }
   }
 }

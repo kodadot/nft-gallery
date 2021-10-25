@@ -9,7 +9,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { PostType } from './types'
+// import { PostType } from './types'
 
 const components = {
   Comment: () => import('./Comment.vue'),
@@ -22,7 +22,7 @@ const components = {
   components
 })
 export default class CommentAdapter extends Vue {
-  @Prop() public comment!: PostType;
+  @Prop() public comment!: any;
   @Prop(Number) public index!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
   protected postId = '';
