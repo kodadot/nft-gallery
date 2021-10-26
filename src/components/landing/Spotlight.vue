@@ -30,7 +30,7 @@ import { Component, Vue } from 'vue-property-decorator'
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+          content: '/kodadot_rank.jpg'
         },
         {
           property: 'twitter:title',
@@ -42,7 +42,7 @@ import { Component, Vue } from 'vue-property-decorator'
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+          content: '/kodadot_rank.jpg'
         }
       ]
     }
