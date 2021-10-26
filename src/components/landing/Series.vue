@@ -30,8 +30,9 @@ import { Component, Vue } from 'vue-property-decorator'
         },
         {
           property: 'og:image',
-          content: '/kodadot_rank.jpg'
+          content: 'https://deploy-preview-944--nftkodadot.netlify.app/kodadot_rank.jpg'
         },
+        { property: 'twitter:card', content: 'summary_large_image' },
         {
           property: 'twitter:title',
           content: 'NFT artist rank'
@@ -42,7 +43,7 @@ import { Component, Vue } from 'vue-property-decorator'
         },
         {
           property: 'twitter:image',
-          content: '/kodadot_rank.jpg'
+          content: 'https://deploy-preview-944--nftkodadot.netlify.app/kodadot_rank.jpg'
         }
       ]
     }
