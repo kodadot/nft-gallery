@@ -195,8 +195,6 @@ export default class Gallery extends Vue {
       emoteCount: e.emotes?.totalCount
     }))
 
-    console.log(this.nfts)
-
     const storedMetadata = await getMany(
       this.nfts.map(({ metadata }: any) => metadata)
     )
