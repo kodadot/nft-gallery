@@ -77,7 +77,7 @@ export default class Leaderboard extends Vue {
     // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
     // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ];
-  
+
   get defaultSpotlightMetaImage(): string {
     const url = new URL(window.location.href)
     return (
