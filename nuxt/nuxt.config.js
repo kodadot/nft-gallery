@@ -1,6 +1,6 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -76,7 +76,7 @@ export default {
     },
     loadLanguagesAsync: true,
     locales: [
-      { code: 'en', iso: 'en-US', file: 'en.json' },
+      { code: 'en', iso: 'en', file: 'en.json' },
       { code: 'cn', iso: 'cn', file: 'cn.json' },
     ],
     strategy: 'prefix', //strategy: 'prefix_except_default'
