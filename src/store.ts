@@ -200,7 +200,6 @@ export default new Vuex.Store({
       state.explorer = Object.assign(state.explorer, data)
     },
     setLanguage(state: any, data) {
-      console.log(state, data)
       state.language = Object.assign(state.language, data)
     },
     setExplorerOptions(state: any, data) {

@@ -4,7 +4,7 @@
       <template #trigger="{ active }">
         <b-button
           type="is-primary"
-          :label="userLang"
+          :label="userFlag"
           :icon-right="active ? 'caret-up' : 'caret-down'"
         />
       </template>
@@ -30,13 +30,12 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 export default class LocaleChanger extends Vue {
 
   get langsFlags() {
-    console.log(this.$store.getters.getLangsFlags)
     return this.$store.getters.getLangsFlags
   }
 
-  // get currentFlag() {
-  //   return this.$store.getters.getUserFlag
-  // }
+  get userFlag() {
+    return this.$store.getters.getUserFlag
+  }
 
   get userLang() {
     this.$i18n.locale = this.$store.getters.getUserLang
