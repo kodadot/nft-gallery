@@ -86,7 +86,7 @@ export default new Vuex.Store({
           label: 'বাংলা'
         },
         {
-          value: 'ccn',
+          value: 'cn',
           flag: '🇨🇳',
           label: '中文'
         },
