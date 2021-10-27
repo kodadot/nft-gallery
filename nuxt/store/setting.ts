@@ -1,4 +1,7 @@
-import setting from '@vue-polkadot/vue-settings';
+import setting from '@vue-polkadot/vue-settings'
+
+// Disabling namespace to match with the original repo
+export const namespaced = false
 
 export const state = () => setting.state
 
