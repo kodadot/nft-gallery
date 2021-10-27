@@ -86,7 +86,7 @@ export default new Vuex.Store({
           label: 'বাংলা'
         },
         {
-          value: 'cn',
+          value: 'ccn',
           flag: '🇨🇳',
           label: '中文'
         },
@@ -200,6 +200,7 @@ export default new Vuex.Store({
       state.explorer = Object.assign(state.explorer, data)
     },
     setLanguage(state: any, data) {
+      console.log(state, data)
       state.language = Object.assign(state.language, data)
     },
     setExplorerOptions(state: any, data) {
@@ -231,6 +232,8 @@ export default new Vuex.Store({
   getters: {
     getChainProperties: ({ chainProperties }) => chainProperties,
     getUserLang: ({ language }) => language.userLang || 'en',
+    getLangsFlags: ({ language }) => language.langsFlags,
+    getUserFlag: ({ language }) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
     getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
     getCurrentChain: ({ explorer }) => explorer.chain,
     getIndexer: ({ indexer }) => indexer

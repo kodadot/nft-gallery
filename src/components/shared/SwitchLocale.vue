@@ -1,16 +1,17 @@
 <template>
   <div class="language-switcher">
     <b-dropdown aria-role="list">
-      <template #trigger>
-          <b-button
-            label="Language"
-            type="is-primary"
-          />
+      <template #trigger="{ active }">
+        <b-button
+          type="is-primary"
+          :label="userLang"
+          :icon-right="active ? 'caret-up' : 'caret-down'"
+        />
       </template>
       <b-dropdown-item
         aria-role="listitem"
-        v-for="(lang, i) in langsFlags"
-        :key="`Lang${i}`"
+        v-for="lang in langsFlags"
+        :key="lang.value"
         :value="userLang"
         :class="{ 'is-active': userLang === lang.value}"
         @click="setUserLang(lang.value)"
@@ -23,20 +24,25 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
 @Component({})
 export default class LocaleChanger extends Vue {
 
   get langsFlags() {
-    return this.$store.state.language.langsFlags
+    console.log(this.$store.getters.getLangsFlags)
+    return this.$store.getters.getLangsFlags
   }
+
+  // get currentFlag() {
+  //   return this.$store.getters.getUserFlag
+  // }
 
   get userLang() {
     this.$i18n.locale = this.$store.getters.getUserLang
     return this.$store.getters.getUserLang
   }
-
+  
   setUserLang(value: string) {
     this.$store.commit('setLanguage', { 'userLang': value})
     this.$i18n.locale = value
