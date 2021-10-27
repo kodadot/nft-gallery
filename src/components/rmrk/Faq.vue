@@ -1,5 +1,5 @@
 <template>
-  <div class="box container">
+  <div class="container">
     <h1 class="text-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
         {{ $t('Frequently Asked Question') }}
     </h1>
