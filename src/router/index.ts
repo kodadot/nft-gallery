@@ -74,6 +74,11 @@ export default new Router({
       component: Spotlight,
     },
     {
+      path: '/series-insight',
+      name: 'series',
+      component: Series,
+    },
+    {
       path: '/series-insights',
       name: 'series',
       component: Series,
