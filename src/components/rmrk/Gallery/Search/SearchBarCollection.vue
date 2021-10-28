@@ -1,17 +1,12 @@
 <template>
-  <div class="box mb-3 mt-5">
-    <b-field grouped>
-      <b-field>
-        <b-button
-          aria-controls="contentIdForA11y1"
-          label="Filter"
-          icon-left="filter"
-          type="is-primary"
-          expanded
-          @click="isVisible = !isVisible"
-        />
-      </b-field>
-      <b-field expanded>
+  <div class="content">
+    <b-field grouped group-multiline>
+      <Sort
+        class="control"
+        :value="sortBy"
+        @input="updateSortBy"
+      />
+      <b-field expanded class="control">
         <b-input
           placeholder="Search..."
           type="search"
@@ -22,22 +17,13 @@
         </b-input>
       </b-field>
       <BasicSwitch
-        class="is-flex"
+        class="is-flex control"
         v-model="vListed"
         label="sort.listed"
         size="is-medium"
       />
     </b-field>
     <slot />
-
-    <transition name="fade">
-      <div v-if="isVisible">
-        <Sort
-          :value="sortBy"
-          @input="updateSortBy"
-        />
-      </div>
-    </transition>
   </div>
 </template>
 
