@@ -4,14 +4,23 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column is-4 mb-0 is-narrow">
-        <Pagination simple :total="total" v-model="currentValue" replace  />
+        <Pagination
+          v-model="currentValue"
+          simple
+          :total="total"
+          replace
+        />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="nft in results" :key="nft.id">
+        <div
+          v-for="nft in results"
+          :key="nft.id"
+          class="column is-4"
+        >
           <div class="card nft-card">
             <router-link
               :to="{ name: 'nftDetail', params: { id: nft.id } }"
@@ -19,23 +28,36 @@
               class="nft-card__skeleton"
             >
               <div class="card-image">
-                <span v-if="nft.emoteCount" class="card-image__emotes">
+                <span
+                  v-if="nft.emoteCount"
+                  class="card-image__emotes"
+                >
                   <b-icon icon="heart" />
                   <span class="card-image__emotes__count">{{
                     nft.emoteCount
                   }}</span>
                 </span>
-                <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <span v-if="nft.price > 0" class="card-image__price">
-                  <Money :value="nft.price" inline />
+                <BasicImage
+                  :src="nft.image"
+                  :alt="nft.name"
+                  custom-class="gallery__image-wrapper"
+                />
+                <span
+                  v-if="nft.price > 0"
+                  class="card-image__price"
+                >
+                  <Money
+                    :value="nft.price"
+                    inline
+                  />
                 </span>
               </div>
 
               <div class="card-content">
                 <span
                   v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered"
                   id="hover-title"
+                  class="title mb-0 is-4 has-text-centered"
                   :title="nft.name"
                 >
                   <router-link
@@ -68,7 +90,7 @@
                     「{{ nft.count }}」
                   </p>
                 </span>
-                <b-skeleton :active="isLoading"> </b-skeleton>
+                <b-skeleton :active="isLoading" />
               </div>
             </router-link>
           </div>
@@ -76,9 +98,9 @@
       </div>
     </div>
     <Pagination
+      v-model="currentValue"
       class="pt-5 pb-5"
       :total="total"
-      v-model="currentValue"
       replace
     />
   </div>
@@ -270,7 +292,7 @@ export default class Gallery extends Vue {
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
-    const params = []
+    const params: any[] = []
 
     if (this.searchQuery.search) {
       params.push({

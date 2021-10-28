@@ -9,7 +9,7 @@
             :alt="name"
             ratio="1by1"
             rounded
-          ></b-image>
+          />
         </div>
         <h1 class="title is-2">
           {{ name }}
@@ -23,21 +23,33 @@
           {{ $t('creator') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+          <ProfileLink
+            :address="issuer"
+            :inline="true"
+            :show-twitter="true"
+          />
         </div>
       </div>
-      <div class="column" v-if="owner">
+      <div
+        v-if="owner"
+        class="column"
+      >
         <div class="label">
           {{ $t('owner') }}
         </div>
         <div class="subtitle">
-          <ProfileLink :address="owner" :inline="true" />
+          <ProfileLink
+            :address="owner"
+            :inline="true"
+          />
         </div>
       </div>
       <div class="column is-2">
-        <Sharing v-if="sharingVisible"
+        <Sharing
+          v-if="sharingVisible"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings" />
+          :iframe="iframeSettings"
+        />
       </div>
     </div>
 
@@ -52,7 +64,6 @@
     <Search v-bind.sync="searchQuery" />
 
     <GalleryCardList :items="collection.nfts" />
-
   </div>
 </template>
 
@@ -137,7 +148,7 @@ export default class CollectionItem extends Vue {
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
-    const params = []
+    const params: any[] = []
 
     if (this.searchQuery.search) {
       params.push({

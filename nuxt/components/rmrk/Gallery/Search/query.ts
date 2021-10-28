@@ -1,7 +1,6 @@
 import { Row } from '@/components/spotlight/types'
 import { RowSeries, SortType } from '@/components/series/types'
 import { Query, Aggregator } from 'mingo'
-import { Collection as Aggregation } from 'mingo/core'
 import { NFTWithMeta } from '../../service/scheme'
 import { QueryType, SearchQuery } from './types'
 
@@ -28,7 +27,7 @@ const basicCriteria = (rr: RegExp, additionalQuery: never[] = []) => ({
 const queryOf = (criteria: QueryType) => new Query(criteria)
 
 export const basicAggregation = (): Aggregator => {
-  const agg: Aggregation = [
+  const agg = [
     {
       $match: {
         burned: { $ne: true }
@@ -57,7 +56,7 @@ export const basicAggregation = (): Aggregator => {
 }
 
 export const spotlightAggregation = (): Aggregator => {
-  const agg: Aggregation = [
+  const agg = [
     {
       $group: {
         // _id: { image: '$id' },
@@ -81,7 +80,7 @@ export const spotlightAggregation = (): Aggregator => {
 }
 
 export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
-  const agg: Aggregation = [
+  const agg = [
     {
       $group: {
         // _id: { image: '$id' },

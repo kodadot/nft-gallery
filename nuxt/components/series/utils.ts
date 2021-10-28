@@ -1,7 +1,7 @@
 import i18n from '@/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
-import store from '@/store'
+import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
 import { startOfToday, subDays } from 'date-fns'
 
@@ -59,11 +59,12 @@ export const nftFn = (a: any): RowSeries => {
   }
 }
 
+const tokenDecimals = store.getters.getChainPropertiesTokenDecimals as any
 const formatNumber = (val: SimpleSeriesNFT) =>
   Number(
     formatBalance(
       val.price,
-      store.getters.getChainProperties.tokenDecimals,
+      tokenDecimals,
       false,
       true
     )

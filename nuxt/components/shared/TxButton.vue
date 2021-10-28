@@ -32,7 +32,7 @@ export default class TxButton extends Vue {
     try {
       showNotification('Dispatched')
       const { account, password, callback, params } = this
-      const tx = await exec(account, password, callback, params)
+      const tx = await exec(account, password, callback, params, () => undefined)
       showNotification(execResultValue(tx), notificationTypes.success)
       this.handleProcessed(tx)
     } catch (e: any) {
