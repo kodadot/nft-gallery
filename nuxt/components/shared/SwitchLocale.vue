@@ -2,15 +2,15 @@
   <div class="language-switcher">
     <b-dropdown aria-role="list">
       <template #trigger>
-          <b-button
-            label="Language"
-            type="is-primary"
-          />
+        <b-button
+          label="Language"
+          type="is-primary"
+        />
       </template>
       <b-dropdown-item
-        aria-role="listitem"
         v-for="(lang, i) in langsFlags"
         :key="`Lang${i}`"
+        aria-role="listitem"
         :value="userLang"
         :class="{ 'is-active': userLang === lang.value}"
         @click="setUserLang(lang.value)"
