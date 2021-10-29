@@ -108,6 +108,25 @@
             <PasswordInput v-model="password" :account="accountId" />
           </b-field>
           <b-field>
+            <CollapseWrapper
+              v-if="rmrkMint.max > 1"
+              visible="mint.expert.show"
+              hidden="mint.expert.hide"
+            >
+            <p class="title is-6"> {{ $t('mint.expert.count', [parseAddresses.length]) }} </p>
+            <p class="sub-title is-6 has-text-warning" v-show="!enoughTokens"> {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }} </p>
+              <b-field :label="$i18n.t('mint.expert.batchSend')">
+                <b-input
+                  v-model="batchAdresses"
+                  type="textarea"
+                  placeholder="Distribute nfts to multiple addresses"
+                  spellcheck="true"
+                ></b-input>
+              </b-field>
+              <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
+            </CollapseWrapper>
+          </b-field>
+          <b-field>
             <b-button
               type="is-primary"
               icon-left="paper-plane"
@@ -192,6 +211,9 @@ import { DispatchError } from '@polkadot/types/interfaces'
 import { ipfsToArweave } from '@/utils/ipfs'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
 import TransactionMixin from '@/utils/mixins/txMixin'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import correctFormat from '@/utils/ss58Format'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -203,7 +225,10 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue')
+  ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
+  CollapseWrapper: () =>
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
 }
 
 @Component<SimpleMint>({
@@ -247,7 +272,8 @@ const components = {
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
   RmrkVersionMixin,
-  TransactionMixin
+  TransactionMixin,
+  ChainMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -266,6 +292,8 @@ export default class SimpleMint extends Mixins(
   private estimated = '';
   private hasCarbonOffset = true;
   protected arweaveUpload = false;
+  protected batchAdresses = '';
+  protected postfix = true;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)
@@ -303,7 +331,8 @@ export default class SimpleMint extends Mixins(
       max &&
       this.hasToS &&
       this.accountId &&
-      this.file
+      this.file &&
+      this.enoughTokens
     )
   }
 
@@ -334,7 +363,23 @@ export default class SimpleMint extends Mixins(
     this.isLoading = false
   }
 
-  protected async sub() {
+  get enoughTokens(): boolean {
+    return this.parseAddresses.length <= this.rmrkMint.max
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
+  get parseAddresses(): string[] {
+    const { batchAdresses } = this
+    const addresses = batchAdresses.split('\n').map(x => x.split('-')).filter(x => x.length).map(x => x[1]).filter(x => x).map(a => a.trim())
+    const onlyValid = addresses.filter(a => isAddress(a)).map(a => encodeAddress(a, correctFormat(this.ss58Format)))
+
+    return onlyValid
+  }
+
+  protected async sub(): Promise<void> {
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { accountId, version } = this
@@ -342,13 +387,16 @@ export default class SimpleMint extends Mixins(
 
     try {
       const meta = await this.constructMeta()
-      this.rmrkMint.metadata = meta
+      this.rmrkMint.metadata = meta || ''
 
       const result = NFTUtils.generateRemarks(
         this.rmrkMint,
         accountId,
-        version
+        version,
+        false,
+        this.postfix && this.rmrkMint.max > 1 ? (name: string, index: number) => `${name} #${index + 1}` : undefined
       ) as MintType
+
       const cb = api.tx.utility.batchAll
       const remarks: string[] = Array.isArray(result)
         ? result
@@ -376,7 +424,9 @@ export default class SimpleMint extends Mixins(
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
 
-            if (this.price) {
+            if (this.batchAdresses) {
+              this.sendBatch(result.nfts, blockNumber)
+            } else if (this.price) {
               this.listForSale(result.nfts, blockNumber)
             } else {
               this.navigateToDetail(result.nfts[0], blockNumber)
@@ -387,7 +437,9 @@ export default class SimpleMint extends Mixins(
               notificationTypes.success
             )
 
-            this.isLoading = false
+            if (!this.batchAdresses || !this.price) {
+              this.isLoading = false
+            }
           },
           dispatchError => {
             execResultValue(tx)
@@ -397,9 +449,84 @@ export default class SimpleMint extends Mixins(
           res => this.resolveStatus(res.status)
         )
       )
-    } catch (e: any) {
-      showNotification(e.toString(), notificationTypes.danger)
-      this.isLoading = false
+    } catch (e) {
+      if (e instanceof Error) {
+        showNotification(e.toString(), notificationTypes.danger)
+        this.isLoading = false
+      }
+    }
+  }
+
+  protected async sendBatch(remarks: NFT[], originalBlockNumber: string): Promise<void> {
+    try {
+      const { version, price } = this
+      const addresses = this.parseAddresses
+      showNotification(
+        `[APP] Sending NFTs to ${addresses.length} adresses`
+      )
+
+      const onlyNfts = remarks
+        .filter(NFTUtils.isNFT)
+        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        // .map(nft =>
+        //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
+        // )
+
+      if (!onlyNfts.length) {
+        showNotification('Can not send empty NFTs', notificationTypes.danger)
+        return
+      }
+
+      const outOfTheNamesForTheRemarks = addresses.map((addr, index) => NFTUtils.createInteraction('SEND', version, onlyNfts[index].id, String(addr)))
+      const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
+
+
+      this.isLoading = true
+      const { api } = Connector.getInstance()
+
+      const cb = api.tx.utility.batchAll
+      const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(this.toRemark)
+
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [args],
+        txCb(
+          async blockHash => {
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
+
+            showNotification(
+              `[SEND] Saved prices for ${
+                this.rmrkMint.max
+              } NFTs with tag ${formatBalance(price, {
+                decimals: this.decimals,
+                withUnit: this.unit
+              })} in block ${blockNumber}`,
+              notificationTypes.success
+            )
+
+            this.isLoading = false
+            const firstNft = remarks.find(NFTUtils.isNFT)
+
+            if (firstNft) {
+              this.navigateToDetail(firstNft, originalBlockNumber)
+            }
+          },
+          dispatchError => {
+            execResultValue(tx)
+            this.onTxError(dispatchError)
+            this.isLoading = false
+          }
+        )
+      )
+    } catch (e) {
+      if (e instanceof Error) {
+        showNotification(e.message, notificationTypes.danger)
+        this.isLoading = false
+      }
     }
   }
 
@@ -497,8 +624,11 @@ export default class SimpleMint extends Mixins(
           }
         )
       )
-    } catch (e: any) {
-      showNotification(e.message, notificationTypes.danger)
+    } catch (e) {
+      if (e instanceof Error) {
+        showNotification(e.message, notificationTypes.danger)
+        this.isLoading = false
+      }
     }
   }
 
@@ -522,7 +652,7 @@ export default class SimpleMint extends Mixins(
     return calculateCost(this.file)
   }
 
-  public async constructMeta(): Promise<string> {
+  public async constructMeta(): Promise<string | undefined> {
     if (!this.file) {
       throw new ReferenceError('No file found!')
     }
@@ -559,8 +689,11 @@ export default class SimpleMint extends Mixins(
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(this.meta)
       return unSanitizeIpfsUrl(metaHash)
-    } catch (e: any) {
-      throw new ReferenceError(e.message)
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new ReferenceError(e.message)
+
+      }
     }
   }
 

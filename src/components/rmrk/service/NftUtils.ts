@@ -130,9 +130,9 @@ class NFTUtils {
   }
 
 
-  public static generateRemarks(mint: SimpleNFT, caller: string, version = '1.0.0', encode?: boolean): MintType | string[] {
+  public static generateRemarks(mint: SimpleNFT, caller: string, version = '1.0.0', encode?: boolean, updateName?: (name: string, index: number) => string ): MintType | string[] {
     const collection = NFTUtils.createCollection(caller, mint.symbol, mint.name, mint.metadata, mint.max, version)
-    const nfts = Array(mint.max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i, mint.symbol, mint.name, mint.metadata))
+    const nfts = Array(mint.max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i, mint.symbol, updateName ? updateName(mint.name, i) : mint.name, mint.metadata))
 
     if (encode) {
       return [NFTUtils.encodeCollection(collection, version), ...nfts.map(nft => NFTUtils.encodeNFT(nft, version))]
