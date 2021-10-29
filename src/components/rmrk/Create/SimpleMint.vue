@@ -394,7 +394,7 @@ export default class SimpleMint extends Mixins(
         accountId,
         version,
         false,
-        this.postfix ? (name: string, index: number) => `${name} #${index + 1}` : undefined
+        this.postfix && this.rmrkMint.max > 1 ? (name: string, index: number) => `${name} #${index + 1}` : undefined
       ) as MintType
 
       const cb = api.tx.utility.batchAll
