@@ -282,5 +282,10 @@
     "balance": "Balance",
     "submit": "Submit",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord"
+  },
+  "action": {
+    "admin": "Admin panel",
+    "click": "Click to {0} NFT(s)",
+    "omitListed": "Skip listed NFT(s)"
   }
 }
