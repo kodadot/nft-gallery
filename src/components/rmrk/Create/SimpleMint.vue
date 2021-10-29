@@ -293,7 +293,7 @@ export default class SimpleMint extends Mixins(
   private hasCarbonOffset = true;
   protected arweaveUpload = false;
   protected batchAdresses = '';
-  protected postfix = false;
+  protected postfix = true;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)
