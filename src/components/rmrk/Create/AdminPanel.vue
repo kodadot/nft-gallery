@@ -33,7 +33,7 @@
             NFTs to process ({{ selectedCollection.available }} pieces)
           </h6>
           <b-field v-if="!selectedCollection && !collections.length">
-            <NoCollection label="helper.noInfinityCollections" />
+            <NoCollection label="helper.noCollections" />
           </b-field>
 
           <template v-if="selectedCollection">
