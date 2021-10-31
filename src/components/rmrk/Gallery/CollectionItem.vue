@@ -1,60 +1,62 @@
 <template>
-  <div class="pack-item-wrapper container">
-    <div class="columns is-centered">
-      <div class="column is-half has-text-centered">
-        <div class="container image is-128x128 mb-2">
-          <b-image
-            v-if="!isLoading"
-            :src="image"
-            :alt="name"
-            ratio="1by1"
-            rounded
-          ></b-image>
+  <div class="section">
+    <div class="pack-item-wrapper container">
+      <div class="columns is-centered">
+        <div class="column is-half has-text-centered">
+          <div class="container image is-128x128 mb-2">
+            <b-image
+              v-if="!isLoading"
+              :src="image"
+              :alt="name"
+              ratio="1by1"
+              rounded
+            ></b-image>
+          </div>
+          <h1 class="title is-2">
+            {{ name }}
+          </h1>
         </div>
-        <h1 class="title is-2">
-          {{ name }}
-        </h1>
       </div>
+
+      <div class="columns">
+        <div class="column">
+          <div class="label">
+            {{ $t('creator') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+          </div>
+        </div>
+        <div class="column" v-if="owner">
+          <div class="label">
+            {{ $t('owner') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
+          </div>
+        </div>
+        <div class="column is-2">
+          <Sharing v-if="sharingVisible"
+            class="mb-2"
+            label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings" />
+          <DonationButton :address="issuer" style="width: 100%;" />
+        </div>
+      </div>
+
+      <CollectionActivity :nfts="collection.nfts" />
+
+      <div class="columns is-centered">
+        <div class="column is-8 has-text-centered">
+          <VueMarkdown :source="description" />
+        </div>
+      </div>
+
+      <Search v-bind.sync="searchQuery" />
+
+      <GalleryCardList :items="collection.nfts" />
+
     </div>
-
-    <div class="columns">
-      <div class="column">
-        <div class="label">
-          {{ $t('creator') }}
-        </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
-        </div>
-      </div>
-      <div class="column" v-if="owner">
-        <div class="label">
-          {{ $t('owner') }}
-        </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
-        </div>
-      </div>
-      <div class="column is-2">
-        <Sharing v-if="sharingVisible"
-          class="mb-2"
-          label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings" />
-        <DonationButton :address="issuer" style="width: 100%;" />
-      </div>
-    </div>
-
-    <CollectionActivity :nfts="collection.nfts" />
-
-    <div class="columns is-centered">
-      <div class="column is-8 has-text-centered">
-        <VueMarkdown :source="description" />
-      </div>
-    </div>
-
-    <Search v-bind.sync="searchQuery" />
-
-    <GalleryCardList :items="collection.nfts" />
-
   </div>
 </template>
 
