@@ -103,7 +103,7 @@ export default class IdentityForm extends Mixins(TransactionMixin, AuthMixin) {
     setTimeout(() => {
       const { api } = Connector.getInstance()
       this.deposit = api.consts.identity?.basicDeposit?.toString()
-    }, 1000)
+    }, 3000)
   }
 
   public enhanceIdentityData(): Record<string, any> {
@@ -145,7 +145,7 @@ export default class IdentityForm extends Mixins(TransactionMixin, AuthMixin) {
               notificationTypes.success
             )
 
-            update(this.accountId, () => x, identityStore)
+            update(this.accountId, () => this.identity, identityStore)
 
             this.isLoading = false
           },
