@@ -289,5 +289,11 @@
     "balance": "Balance",
     "submit": "Submit",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord"
+  },
+  "identity": {
+    "set": "Create on-chain identity",
+    "click": "Click to create identity",
+    "handleRequired": "Your handle is required",
+    "deposit": "Deposit"
   }
 }

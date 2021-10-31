@@ -1,5 +1,5 @@
 const Profile = () => import('@/views/Profile.vue')
-const Identity = () => import('@/components/rmrk/Profile/Identity.vue')
+const Identity = () => import('@/components/rmrk/Profile/IdentityForm.vue')
 
 export default [
   {
