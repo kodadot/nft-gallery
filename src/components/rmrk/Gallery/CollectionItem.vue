@@ -1,5 +1,5 @@
 <template>
-  <div class="pack-item-wrapper container is-fluid">
+  <div class="pack-item-wrapper container">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-128x128 mb-2">

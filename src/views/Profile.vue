@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-wrapper container is-fluid">
+  <div class="profile-wrapper container">
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-64x64 mb-2">
