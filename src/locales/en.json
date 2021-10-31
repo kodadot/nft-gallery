@@ -298,5 +298,11 @@
     "admin": "Admin panel",
     "click": "Click to {0} NFT(s)",
     "omitListed": "Skip listed NFT(s)"
+  },
+  "identity": {
+    "set": "Create on-chain identity",
+    "click": "Click to create identity",
+    "handleRequired": "Your handle is required",
+    "deposit": "Deposit"
   }
 }
