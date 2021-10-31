@@ -204,7 +204,7 @@ import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { pinJson, getKey, revokeKey } from '@/proxy'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost, offsetTx } from '@/utils/support'
+import { supportTx, calculateCost, offsetTx, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -486,6 +486,10 @@ export default class SimpleMint extends Mixins(
 
       const cb = api.tx.utility.batchAll
       const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(this.toRemark)
+
+      const estimatedFee = await estimate(this.accountId, cb, [args])
+      const support = feeTx(estimatedFee)
+      args.push(support)
 
       const tx = await exec(
         this.accountId,
