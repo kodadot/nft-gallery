@@ -20,7 +20,7 @@ import {
   faAngleLeft, faAngleRight, faReply,
   faExternalLinkSquareAlt, faGift, faThLarge, faTh,
   faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter,
-
+  faFire, faMoneyBill
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -59,6 +59,7 @@ library.add(
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
   faExclamationCircle, faFilter, faGift, faThLarge, faTh,
+  faFire, faMoneyBill,
 
   // Social
   faTwitter, faTelegram, faFacebook,

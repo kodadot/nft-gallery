@@ -9,6 +9,7 @@ const CollectionItem = () => import('@/components/rmrk/Gallery/CollectionItem.vu
 const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
 const PermaMint = () => import('@/components/rmrk/Create/PermaMint.vue')
+const AdminPanel = () => import('@/components/rmrk/Create/AdminPanel.vue')
 
 export default [
   {
@@ -65,5 +66,10 @@ export default [
     path: '/permafrost/create',
     name: 'permafrost',
     component: PermaMint
+  },
+  {
+    path: '/rmrk/admin',
+    name: 'admin',
+    component: AdminPanel
   },
 ]
