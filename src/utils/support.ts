@@ -10,6 +10,7 @@ const BACKUP_PUBKEY = '0x8cc1b91e8946862c2c79915a4bc004926510fcf71c422fde977c0b0
 const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
 import { pubKeyToAddress } from './account'
 import store from '@/store'
+import { SubmittableExtrinsic } from '@polkadot/api/types'
 const OFFSET_DAO = 'J9PSLHKjtJ9eEAX4xmCe8xNipRxNiYJTbnyfKXXRkhMmuq8'
 
 export type MaybeFile = File | Blob | null
@@ -75,6 +76,11 @@ export const cost = async (files: FileType): Promise<number> => {
 export const supportTx = async (files:FileType) => {
   const { api } = Connector.getInstance()
   return api.tx.balances.transfer(resolveSupportAddress(), await cost(files))
+}
+
+export const feeTx = (price: string): SubmittableExtrinsic<'promise'> => {
+  const { api } = Connector.getInstance()
+  return api.tx.balances.transfer(resolveSupportAddress(), price)
 }
 
 export const somePercentFromTX = (price: number | string) => {
