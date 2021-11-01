@@ -1,109 +1,111 @@
 <template>
-  <div class="profile-wrapper container is-fluid">
-    <div class="columns is-centered">
-      <div class="column is-half has-text-centered">
-        <div class="container image is-64x64 mb-2">
-          <Avatar :value="id" />
+  <div class="section">
+    <div class="profile-wrapper container">
+      <div class="columns is-centered">
+        <div class="column is-half has-text-centered">
+          <div class="container image is-64x64 mb-2">
+            <Avatar :value="id" />
+          </div>
+          <h1 class="title is-2">
+            <a
+              :href="`https://kusama.subscan.io/account/${id}`"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+            </a>
+          </h1>
         </div>
-        <h1 class="title is-2">
-          <a
-            :href="`https://kusama.subscan.io/account/${id}`"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
-          </a>
-        </h1>
       </div>
-    </div>
 
-    <div class="columns">
-      <div class="column">
-        <div class="label">
-          {{ $t('profile.user') }}
+      <div class="columns">
+        <div class="column">
+          <div class="label">
+            {{ $t('profile.user') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+          </div>
         </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+        <div class="column is-2">
+          <Sharing
+            class="mb-2"
+            v-if="!sharingVisible"
+            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings"
+          />
+          <DonationButton :address="id" style="width: 100%;" />
         </div>
       </div>
-      <div class="column is-2">
-        <Sharing
-          class="mb-2"
-          v-if="!sharingVisible"
-          label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings"
-        />
-        <DonationButton :address="id" style="width: 100%;" />
-      </div>
-    </div>
 
-    <b-tabs
-      :class="{ 'invisible-tab': sharingVisible }"
-      v-model="activeTab"
-      destroy-on-hide
-      expanded
-      size="is-medium"
-    >
-      <b-tab-item value="nft">
-        <template #header>
-          {{ $t("profile.created") }}
-          <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListByIssuer"
-          @change="totalCreated = $event"
-          :account="id"
-          :showSearchBar="true"
-        />
-      </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
+      <b-tabs
+        :class="{ 'invisible-tab': sharingVisible }"
+        v-model="activeTab"
+        destroy-on-hide
+        expanded
+        size="is-medium"
       >
-        <Pagination replace :total="totalCollections" v-model="currentCollectionPage" />
-        <GalleryCardList
-          :items="collections"
-          type="collectionDetail"
-          link="rmrk/collection"
-        />
-        <Pagination
-          replace
-          class="pt-5 pb-5"
-          :total="totalCollections"
-          v-model="currentCollectionPage"
-        />
-      </b-tab-item>
-      <b-tab-item value="sold">
-        <template #header>
-          {{ $t("profile.sold") }}
-          <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          @change="totalSold = $event"
-          :account="id"
-        />
-      </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
-        />
-      </b-tab-item>
+        <b-tab-item value="nft">
+          <template #header>
+            {{ $t("profile.created") }}
+            <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListByIssuer"
+            @change="totalCreated = $event"
+            :account="id"
+            :showSearchBar="true"
+          />
+        </b-tab-item>
+        <b-tab-item
+          :label="`Collections - ${totalCollections}`"
+          value="collection"
+        >
+          <Pagination replace :total="totalCollections" v-model="currentCollectionPage" />
+          <GalleryCardList
+            :items="collections"
+            type="collectionDetail"
+            link="rmrk/collection"
+          />
+          <Pagination
+            replace
+            class="pt-5 pb-5"
+            :total="totalCollections"
+            v-model="currentCollectionPage"
+          />
+        </b-tab-item>
+        <b-tab-item value="sold">
+          <template #header>
+            {{ $t("profile.sold") }}
+            <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListSold"
+            @change="totalSold = $event"
+            :account="id"
+          />
+        </b-tab-item>
+        <b-tab-item value="collected">
+          <template #header>
+            {{ $t("profile.collected") }}
+            <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListCollected"
+            @change="totalCollected = $event"
+            :account="id"
+          />
+        </b-tab-item>
 
-      <!-- <b-tab-item label="Packs" value="pack">
-        <span>TODO: Reintroduce</span>
-        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
-      </b-tab-item> -->
-    </b-tabs>
+        <!-- <b-tab-item label="Packs" value="pack">
+          <span>TODO: Reintroduce</span>
+          <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
+        </b-tab-item> -->
+      </b-tabs>
+    </div>
   </div>
 </template>
 
