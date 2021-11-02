@@ -89,7 +89,6 @@ import { Component, Vue } from 'vue-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../utils'
-import { basicAggQuery } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types'
