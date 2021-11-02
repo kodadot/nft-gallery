@@ -5,7 +5,7 @@
         <b-button
           size="is-small"
           v-clipboard:copy="realworldFullPathShare"
-          class="share__root share__button"
+          class="share__root share__button has-text-primary"
         >
           <b-icon
             size="is-medium"
