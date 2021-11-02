@@ -25,15 +25,11 @@
           </div>
           <div class="subtitle is-size-6">
             <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
-            <template>
-              <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
-                <figure class="image is-24x24 subscan__less-margin">
-                  <img alt="subscan" src="/subid.svg" />
-                </figure>
-              </a>
-            </template>
-          </div>
-          <div>
+            <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+              <figure class="image is-24x24 subscan__less-margin">
+                <img alt="subscan" src="/subid.svg" />
+              </figure>
+            </a>
           </div>
         </div>
         <div class="column is-2">
