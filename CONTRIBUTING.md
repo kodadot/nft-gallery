@@ -44,7 +44,7 @@ Our usual pay out structure for bounties is per label on issue. Here is table fo
 | $ | $$ | $$$ | $$$$ | $$$$$ |
 | :--: |    :--:   | :--: | :--: | :--: |
 | 50-100 | 150-300 | 450-600 | 700 - 10000 | 1000+
-| Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemtn with project
+| Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemnt with project
 
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 
@@ -126,7 +126,7 @@ $$
 
 * There are no spelling mistakes
 * It reads well
-* For english language contributions: Has a good score on [Grammarly](grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
+* For english language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
 
 ### Reviewing
 We (usually the core team, sometimes KodaDot engineers or support too!) review every single PR. The purpose of reviews is to create the best content we can for people who use KodaDot
