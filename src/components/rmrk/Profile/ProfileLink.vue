@@ -10,8 +10,15 @@
         </a>
       </template>
     </LinkResolver>
-    <template v-if="showTwitter">
-      <Identity :address="address" :showTwitter="showTwitter" :verticalAlign="true" class="pt-2" />
+    <Identity v-if="showTwitter" :address="address" :showTwitter="showTwitter" :verticalAlign="false" class="pt-2" />
+    <template>
+      <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" 
+              class="is-flex pt-2">
+        <figure class="image is-24x24 subscan__less-margin">
+          <img alt="subscan" src="/subscan.svg" />
+        </figure>
+          sub id
+      </a>
     </template>
   </div>
 </template>
