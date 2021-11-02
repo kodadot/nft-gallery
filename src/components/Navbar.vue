@@ -3,7 +3,7 @@
     fixed-top
     spaced
     wrapper-class="container"
-    :close-on-click="false"
+    close-on-click
     >
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
@@ -68,6 +68,11 @@
             tag="router-link"
             :to="{ name: 'rmrkFaq'}">
             {{ $t('FAQ') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'admin'}">
+            {{ $t('Admin') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"

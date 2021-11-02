@@ -63,22 +63,21 @@ export default class extends Vue {
       .flat()
   }
 
-  get collectionLength() {
+  get collectionLength(): number {
     return this.nfts.length
   }
 
-  get collectionFloorPrice() {
+  get collectionFloorPrice(): number {
     return Math.min(
       ...this.nfts.map(nft => Number(nft.price)).filter(price => price > 0)
     )
   }
 
-  get collectionSoldedNFT() {
-    return this.nfts.map(nft => nft.price).filter(price => price === '0')
-      .length
+  get collectionSoldedNFT(): number {
+    return this.nfts.filter(this.differentOwner).length
   }
 
-  get collectionTradedVol() {
+  get collectionTradedVol(): number {
     return this.nfts
       .map(nft =>
         nft.events.filter(
@@ -94,6 +93,10 @@ export default class extends Vue {
 
   get collectionDailyTradedVolumeNumber(): bigint {
     return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
+  }
+
+  protected differentOwner(nft: any): boolean {
+    return nft.currentOwner !== nft.issuer
   }
 }
 </script>

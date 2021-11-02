@@ -1,60 +1,62 @@
 <template>
-  <div class="pack-item-wrapper container is-fluid">
-    <div class="columns is-centered">
-      <div class="column is-half has-text-centered">
-        <div class="container image is-128x128 mb-2">
-          <b-image
-            v-if="!isLoading"
-            :src="image"
-            :alt="name"
-            ratio="1by1"
-            rounded
-          ></b-image>
+  <div class="section">
+    <div class="pack-item-wrapper container">
+      <div class="columns is-centered">
+        <div class="column is-half has-text-centered">
+          <div class="container image is-128x128 mb-2">
+            <b-image
+              v-if="!isLoading"
+              :src="image"
+              :alt="name"
+              ratio="1by1"
+              rounded
+            ></b-image>
+          </div>
+          <h1 class="title is-2">
+            {{ name }}
+          </h1>
         </div>
-        <h1 class="title is-2">
-          {{ name }}
-        </h1>
       </div>
+
+      <div class="columns">
+        <div class="column">
+          <div class="label">
+            {{ $t('creator') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+          </div>
+        </div>
+        <div class="column" v-if="owner">
+          <div class="label">
+            {{ $t('owner') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
+          </div>
+        </div>
+        <div class="column is-2">
+          <Sharing v-if="sharingVisible"
+            class="mb-2"
+            label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings" />
+          <DonationButton :address="issuer" style="width: 100%;" />
+        </div>
+      </div>
+
+      <CollectionActivity :nfts="stats" />
+
+      <div class="columns is-centered">
+        <div class="column is-8 has-text-centered">
+          <VueMarkdown :source="description" />
+        </div>
+      </div>
+
+      <Search v-bind.sync="searchQuery" />
+
+      <GalleryCardList :items="collection.nfts" />
+
     </div>
-
-    <div class="columns">
-      <div class="column">
-        <div class="label">
-          {{ $t('creator') }}
-        </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
-        </div>
-      </div>
-      <div class="column" v-if="owner">
-        <div class="label">
-          {{ $t('owner') }}
-        </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
-        </div>
-      </div>
-      <div class="column is-2">
-        <Sharing v-if="sharingVisible"
-          class="mb-2"
-          label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings" />
-        <DonationButton :address="issuer" style="width: 100%;" />
-      </div>
-    </div>
-
-    <CollectionActivity :nfts="collection.nfts" />
-
-    <div class="columns is-centered">
-      <div class="column is-8 has-text-centered">
-        <VueMarkdown :source="description" />
-      </div>
-    </div>
-
-    <Search v-bind.sync="searchQuery" />
-
-    <GalleryCardList :items="collection.nfts" />
-
   </div>
 </template>
 
@@ -66,6 +68,7 @@ import { CollectionWithMeta, Collection } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
+import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
@@ -110,6 +113,7 @@ export default class CollectionItem extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  protected stats: NFT[] = [];
 
   get image(): string {
     return this.meta.image || ''
@@ -157,7 +161,7 @@ export default class CollectionItem extends Vue {
     return params
   }
 
-  public created() {
+  public created(): void {
     this.isLoading = true
     this.checkId()
     this.$apollo.addSmartQuery('collection', {
@@ -169,13 +173,31 @@ export default class CollectionItem extends Vue {
           search: this.buildSearchParam()
         }
       },
-      update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+      update: ({ collectionEntity }) => ({
+        ...collectionEntity,
+        nfts: collectionEntity.nfts.nodes
+      }),
       result: () => this.fetchMetadata(),
     })
+
+    this.loadStats()
     this.isLoading = false
   }
 
-  public async fetchMetadata() {
+  public async loadStats(): Promise<void> {
+    const nftStatsP = this.$apollo.query({
+      query: nftListByCollection,
+      variables: {
+        id: this.id,
+      }
+    })
+
+    nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
+      this.stats = nfts
+    })
+  }
+
+  public async fetchMetadata(): Promise<void> {
     console.log(this.collection['metadata'], !this.meta['image'])
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection)
@@ -186,29 +208,14 @@ export default class CollectionItem extends Vue {
     }
   }
 
-  public checkId() {
+  public checkId(): void {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
     }
   }
 
-  get iframeSettings() {
+  get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
-  }
-
-  collectionMeta(collection: Collection) {
-    fetchCollectionMetadata(collection)
-      .then(
-        meta => this.collection = {
-          ...collection,
-          ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
-        },
-        e => {
-          showNotification(`${e}`, notificationTypes.danger)
-          console.warn(e)
-        }
-      )
   }
 }
 </script>
