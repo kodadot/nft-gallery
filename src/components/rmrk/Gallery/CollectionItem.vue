@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <CollectionActivity :nfts="collection.nfts" />
+      <CollectionActivity :nfts="stats" />
 
       <div class="columns is-centered">
         <div class="column is-8 has-text-centered">
@@ -68,6 +68,7 @@ import { CollectionWithMeta, Collection } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
+import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
@@ -112,6 +113,7 @@ export default class CollectionItem extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  protected stats: NFT[] = [];
 
   get image(): string {
     return this.meta.image || ''
@@ -159,7 +161,7 @@ export default class CollectionItem extends Vue {
     return params
   }
 
-  public created() {
+  public created(): void {
     this.isLoading = true
     this.checkId()
     this.$apollo.addSmartQuery('collection', {
@@ -171,13 +173,31 @@ export default class CollectionItem extends Vue {
           search: this.buildSearchParam()
         }
       },
-      update: ({ collectionEntity }) => { return { ...collectionEntity, nfts: collectionEntity.nfts.nodes } },
+      update: ({ collectionEntity }) => ({
+        ...collectionEntity,
+        nfts: collectionEntity.nfts.nodes
+      }),
       result: () => this.fetchMetadata(),
     })
+
+    this.loadStats()
     this.isLoading = false
   }
 
-  public async fetchMetadata() {
+  public async loadStats(): Promise<void> {
+    const nftStatsP = this.$apollo.query({
+      query: nftListByCollection,
+      variables: {
+        id: this.id,
+      }
+    })
+
+    nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
+      this.stats = nfts
+    })
+  }
+
+  public async fetchMetadata(): Promise<void> {
     console.log(this.collection['metadata'], !this.meta['image'])
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection)
@@ -188,29 +208,14 @@ export default class CollectionItem extends Vue {
     }
   }
 
-  public checkId() {
+  public checkId(): void {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
     }
   }
 
-  get iframeSettings() {
+  get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
-  }
-
-  collectionMeta(collection: Collection) {
-    fetchCollectionMetadata(collection)
-      .then(
-        meta => this.collection = {
-          ...collection,
-          ...meta,
-          image: sanitizeIpfsUrl(meta.image || ''),
-        },
-        e => {
-          showNotification(`${e}`, notificationTypes.danger)
-          console.warn(e)
-        }
-      )
   }
 }
 </script>
