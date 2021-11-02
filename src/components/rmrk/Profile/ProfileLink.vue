@@ -12,12 +12,11 @@
     </LinkResolver>
     <Identity v-if="showTwitter" :address="address" :showTwitter="showTwitter" :verticalAlign="false" class="pt-2" />
     <template>
-      <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" 
-              class="is-flex pt-2">
+      <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex pt-2">
         <figure class="image is-24x24 subscan__less-margin">
-          <img alt="subscan" src="/subscan.svg" />
+          <img alt="subscan" src="/subid.svg" />
         </figure>
-          sub id
+          Sub Id
       </a>
     </template>
   </div>
@@ -47,4 +46,5 @@ export default class ProfileLink extends Mixins(InlineMixin) {
 .profile-link__wrapper {
   display: flex;
 }
+
 </style>
