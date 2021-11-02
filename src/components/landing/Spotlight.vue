@@ -1,11 +1,8 @@
 <template>
-  <div class="columns mb-1">
-    <div class="column is-8 is-offset-2">
-      <section>
-        <br />
-        <SpotlightTable />
-      </section>
-    </div>
+  <div class="container mb-1">
+    <section>
+      <SpotlightTable />
+    </section>
   </div>
 </template>
 <script lang="ts" >
