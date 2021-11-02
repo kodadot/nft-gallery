@@ -3,7 +3,7 @@
     fixed-top
     spaced
     wrapper-class="container"
-    :close-on-click="true"
+    close-on-click
     >
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
