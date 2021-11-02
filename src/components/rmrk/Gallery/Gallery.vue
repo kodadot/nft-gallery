@@ -156,7 +156,7 @@ export default class Gallery extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
-  private first = 12;
+  private first = 21;
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
@@ -292,7 +292,7 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(this.nfts as NFTWithMeta[])
+    return this.nfts as NFTWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
