@@ -53,7 +53,7 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
 
-  protected layout = 'is-one-third-desktop is-one-quarter-tablet'
+  protected layout = 'is-one-third-desktop is-one-third-tablet'
 }
 </script>
 <style>
