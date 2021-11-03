@@ -10,6 +10,7 @@ const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
 const PermaMint = () => import('@/components/rmrk/Create/PermaMint.vue')
 const AdminPanel = () => import('@/components/rmrk/Create/AdminPanel.vue')
+const Collections = () => import('@/components/rmrk/Gallery/Collections.vue')
 
 export default [
   {
@@ -21,6 +22,11 @@ export default [
     path: '/rmrk/gallery',
     name: 'nft',
     component: Gallery,
+  },
+  {
+    path: '/rmrk/collections',
+    name: 'collections',
+    component: Collections,
   },
   {
     path: '/rmrk/detail/:id',
