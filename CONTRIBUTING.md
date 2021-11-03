@@ -153,6 +153,10 @@ For content changes, make sure that you:
 ### Pull request template
 When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 
+# Troubleshooting
+
+### Don't have access to push to repository
+You need to fork repository, commit change to your repository and [create pull request](https://opensource.com/article/19/7/create-pull-request-github). 
 
 
 ### Does it move this repository closer to my vision for the repository
