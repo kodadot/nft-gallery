@@ -38,5 +38,4 @@ export default class ProfileLink extends Mixins(InlineMixin) {
 .profile-link__wrapper {
   display: flex;
 }
-
 </style>
