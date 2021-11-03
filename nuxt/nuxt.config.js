@@ -42,7 +42,20 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
     dirs: [
-      '~/components'
+      '~/components',
+      '~/components/accounts',
+      '~/components/addressbook',
+      '~/components/extrinsics',
+      '~/components/landing',
+      '~/components/metadata',
+      '~/components/rmrk',
+      '~/components/series',
+      '~/components/settings',
+      '~/components/shared',
+      '~/components/spotlight',
+      '~/components/subsocial',
+      '~/components/toolbox',
+      '~/components/transfer',
     ]
   },
 
