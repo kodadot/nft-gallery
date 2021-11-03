@@ -23,7 +23,7 @@
         >
           <div class="card nft-card">
             <router-link
-              :to="{ name: 'nftDetail', params: { id: nft.id } }"
+              :to="`/rmrk/gallery/${nft.id}`"
               tag="div"
               class="nft-card__skeleton"
             >
@@ -62,7 +62,7 @@
                 >
                   <router-link
                     v-if="nft.count < 2"
-                    :to="{ name: 'nftDetail', params: { id: nft.id } }"
+                    :to="`/rmrk/gallery/${nft.id}`"
                   >
                     <div>
                       <div class="has-text-overflow-ellipsis middle">
@@ -72,10 +72,7 @@
                   </router-link>
                   <router-link
                     v-else
-                    :to="{
-                      name: 'collectionDetail',
-                      params: { id: nft.collectionId }
-                    }"
+                    :to="`/rmrk/collection/${nft.collectionId}`"
                   >
                     <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}

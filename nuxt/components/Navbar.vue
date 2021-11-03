@@ -45,7 +45,7 @@
         </b-navbar-item>
         <b-navbar-item
           tag="router-link"
-          to="/permafrost"
+          to="/permafrost/create"
         >
           {{ $t('Permafrost') }}
         </b-navbar-item>
