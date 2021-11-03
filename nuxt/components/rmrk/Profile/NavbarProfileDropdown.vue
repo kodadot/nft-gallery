@@ -38,7 +38,7 @@
         has-link
         aria-role="menuitem"
       >
-        <router-link :to="{ name: 'profile', params: { id: account } }">
+        <router-link :to="`/rmrk/u/${account}`">
           Profile
         </router-link>
       </b-dropdown-item>
@@ -46,7 +46,7 @@
         has-link
         aria-role="menuitem"
       >
-        <router-link :to="{ name: 'rmrkCredit' }">
+        <router-link to="/rmrk/credit">
           {{ $t("Credit") }}
         </router-link>
       </b-dropdown-item>
@@ -54,7 +54,7 @@
         has-link
         aria-role="menuitem"
       >
-        <router-link :to="{ name: 'rmrkFaq' }">
+        <router-link to="/rmrk/faq">
           F.A.Q.
         </router-link>
       </b-dropdown-item>
