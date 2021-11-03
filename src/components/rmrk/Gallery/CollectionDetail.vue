@@ -37,7 +37,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent } from '@/utils/math'
+import { getVolume, pairListBuyEvent } from '@/utils/math'
 import { subDays } from 'date-fns'
 
 const components = {

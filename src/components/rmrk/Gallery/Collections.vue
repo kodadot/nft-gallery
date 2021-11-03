@@ -19,13 +19,13 @@
                 <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
               </div>
 
-              <div class="card-content">       
+              <div class="card-content">
                 <router-link
                   :to="{
                     name: 'collectionDetail',
                     params: { id: collection.id }
                   }"
-                >         
+                >
                   <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
                 </router-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
@@ -50,7 +50,6 @@ import { Component, Vue } from 'vue-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import { getVolume, pairListBuyEvent } from '@/utils/math'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
@@ -60,8 +59,6 @@ import { getMany, update } from 'idb-keyval'
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
-
-const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
 type CollectionType = CollectionWithMeta;
 const components = {
@@ -166,7 +163,7 @@ export default class Collections extends Vue {
         } catch (e) {
           console.warn('[ERR] unable to get metadata')
         }
-      } else {        
+      } else {
         Vue.set(this.collections, i, {
           ...this.collections[i],
           ...m,
@@ -231,7 +228,7 @@ export default class Collections extends Vue {
       const isGif = type === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
-        const ff = new Freezeframe(target, {
+        new Freezeframe(target, {
           trigger: false,
           overlay: true,
           warnings: false
