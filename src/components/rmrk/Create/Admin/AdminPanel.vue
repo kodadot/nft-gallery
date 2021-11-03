@@ -38,22 +38,7 @@
 
           <template v-if="selectedCollection">
             <ActionSelector v-model="action" />
-            <!-- <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError /> -->
-            <!-- <b-field :label="$i18n.t('mint.command')">
-              <b-input
-                v-model="commands"
-                type="textarea"
-                lines="20"
-                placeholder="Add commands for your NFTs"
-                spellcheck="true"
-              ></b-input>
-            </b-field>
-
-            <b-field>
-              <b-button type="is-info" outlined>
-                {{ $t("mint.transform") }}
-              </b-button>
-            </b-field> -->
+            <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
 
             <BasicSwitch v-model="listed" label="action.omitListed" />
 
@@ -94,7 +79,8 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import collectionByAccountWithTokens from '@/queries/collectionByAccountWithTokens.graphql'
 import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import NFTUtils from '../service/NftUtils'
+import NFTUtils from '../../service/NftUtils'
+import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
 
 type EmptyPromise = Promise<void>;
 
@@ -108,6 +94,10 @@ type MintedCollection = {
   nfts: { id: string, price: string }[];
 };
 
+const needMeta: Record<string, string> = {
+  SEND: 'SendHandler',
+}
+
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
@@ -115,7 +105,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue'),
   ActionSelector: () => import('./ActionSelector.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue')
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  SendHandler: () => import('./SendHandler.vue'),
 }
 
 @Component<AdminPanel>({
@@ -168,6 +159,7 @@ export default class AdminPanel extends Mixins(
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
   protected listed = true;
+  protected metaFunction: ProcessFunction | undefined = undefined;
 
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({
@@ -186,7 +178,7 @@ export default class AdminPanel extends Mixins(
       ?.map((ce: any) => ({
         ...ce,
         available: ce.nfts?.totalCount,
-        nfts: ce.nfts?.nodes?.map((n: { id: string, price: string }) => n)
+        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n)
       }))
       .filter((ce: MintedCollection) => ce.available > 0)
   }
@@ -211,8 +203,17 @@ export default class AdminPanel extends Mixins(
     return api.tx.system.remark(remark)
   }
 
-  private skipListed(nft: { id: string, price: string }) {
+  private skipListed(nft: AdminNFT) {
     return this.listed ? Number(nft.price) === 0 : true
+  }
+
+  get showMeta() {
+    return needMeta[this.action]
+  }
+
+  protected updateMeta(value: ProcessFunction): void {
+    console.log('updateMeta', value)
+    this.metaFunction = value
   }
 
 
@@ -236,9 +237,11 @@ export default class AdminPanel extends Mixins(
 
       const nfts = this.selectedCollection.nfts
         .filter(this.skipListed)
-        .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+        // .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
 
-      const args = nfts.map(this.toRemark)
+      const final = this.showMeta && this.metaFunction ? this.metaFunction(nfts, this.version) : nfts.map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+
+      const args = final.map(this.toRemark)
 
       const tx = await exec(
         this.accountId,
