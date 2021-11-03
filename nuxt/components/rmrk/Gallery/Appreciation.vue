@@ -1,6 +1,9 @@
 <template>
   <div class="nft-appreciation__main is-flex">
-    <Loader v-model="isLoading" :status="status" />
+    <Loader
+      v-model="isLoading"
+      :status="status"
+    />
     <IndexerGuard>
       <b-button
         v-if="accountId"
@@ -10,17 +13,20 @@
       />
       <VEmojiPicker
         v-show="showDialog"
-        labelSearch="Search your emote"
-        @select="onSelectEmoji"
+        label-search="Search your emote"
         class="emote-picker"
+        @select="onSelectEmoji"
       />
     </IndexerGuard>
-    <EmotionList class="emote-list" :emotions="emotions" />
+    <EmotionList
+      class="emote-list"
+      :emotions="emotions"
+    />
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Prop } from 'vue-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -41,7 +47,7 @@ import { Emote } from '../service/scheme'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
   }
 })
-export default class Appreciation extends Mixins(RmrkVersionMixin) {
+export default class Appreciation extends mixins(RmrkVersionMixin) {
   @Prop() public emotes!: Emote[];
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;

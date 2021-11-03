@@ -1,10 +1,14 @@
 <template>
   <b-field>
     <b-select
-      placeholder="Sort by"
       v-model="selectedAction"
+      placeholder="Sort by"
     >
-      <option v-for="action in actions" :value="action" :key="action">
+      <option
+        v-for="action in actions"
+        :key="action"
+        :value="action"
+      >
         {{ $t('sort.' + action) }}
       </option>
     </b-select>
@@ -12,7 +16,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, VModel } from 'vue-property-decorator'
+import { Component, Vue, VModel } from 'nuxt-property-decorator'
 
 @Component
 export default class SearchSortDropdown extends Vue {

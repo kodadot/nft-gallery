@@ -1,9 +1,14 @@
 <template>
-  <component v-if="visible" :is="resolveComponent" :src="src" :mimeType="mimeType" />
+  <component
+    :is="resolveComponent"
+    v-if="visible"
+    :src="src"
+    :mime-type="mimeType"
+  />
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { resolveMedia } from '../utils'
 
 const VideoMedia = () => import('./Media/VideoMedia.vue')

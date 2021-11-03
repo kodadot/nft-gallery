@@ -1,20 +1,32 @@
 <template>
-<div>
-  <label><b>Add {{label}}</b></label>
-  <b-field class="add-option-wrapper" >
-    <b-input placeholder="Name" v-model="text"></b-input>
-    <b-input placeholder="wss://kusama-rpc.polkadot.io/" v-model="value" expanded></b-input>
-    <p class="control">
-      <b-button :disabled="!text || !value" type="is-dark"
-        @click="onAddedOption"
-        outlined>Add</b-button>
-    </p>
-  </b-field>
+  <div>
+    <label><b>Add {{ label }}</b></label>
+    <b-field class="add-option-wrapper">
+      <b-input
+        v-model="text"
+        placeholder="Name"
+      />
+      <b-input
+        v-model="value"
+        placeholder="wss://kusama-rpc.polkadot.io/"
+        expanded
+      />
+      <p class="control">
+        <b-button
+          :disabled="!text || !value"
+          type="is-dark"
+          outlined
+          @click="onAddedOption"
+        >
+          Add
+        </b-button>
+      </p>
+    </b-field>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide, Emit, Prop } from 'vue-property-decorator'
+import { Component, Vue, Provide, Emit, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class AddOption extends Vue {

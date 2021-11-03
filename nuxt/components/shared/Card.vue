@@ -1,27 +1,40 @@
 <template>
   <div>
     <section>
-      <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
+      <b-collapse
+        class="card"
+        aria-id="contentIdForA11y3"
+        :open="open"
+      >
         <div
           slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
-          aria-controls="contentIdForA11y3">
+          aria-controls="contentIdForA11y3"
+        >
           <p class="card-header-title">
-            <a :href="getExplorerUrl(nature)"  target="_blank" rel="noopener noreferrer">
-              🧊 {{nature}}</a>
+            <a
+              :href="getExplorerUrl(nature)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🧊 {{ nature }}</a>
           </p>
           <a class="card-header-icon">
             <b-icon
-              :icon="props.open ? 'caret-down' : 'caret-up'">
-            </b-icon>
+              :icon="props.open ? 'caret-down' : 'caret-up'"
+            />
           </a>
         </div>
         <div class="card-content">
           <div class="content truncate">
-            <a :href="getExplorerUrl(natureDesc)" target="_blank" rel="noopener noreferrer">
-              {{natureDesc}}</a>
+            <a
+              :href="getExplorerUrl(natureDesc)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ natureDesc }}</a>
           </div>
         </div>
         <footer class="card-footer card-footer__block">
@@ -29,22 +42,23 @@
             <div class="truncate-bottom-slot">
               <router-link
                 :to="{ name: 'explorerByTabHash',
-                params: { tab: 1, hash: type }}">
+                       params: { tab: 1, hash: type }}"
+              >
                 <i>parent</i><br>
-                {{type}}
+                {{ type }}
               </router-link>
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
               <i>extrinsics</i><br>
-              {{extrinsicHash}}
+              {{ extrinsicHash }}
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-            <i>state</i><br>
-            {{lifetime}}
+              <i>state</i><br>
+              {{ lifetime }}
             </div>
           </div>
         </footer>
@@ -54,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 @Component

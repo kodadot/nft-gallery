@@ -3,31 +3,68 @@
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
-          <img v-if="avatar" class="is-rounded" :src="avatar" @error="handleError">
-          <Avatar v-else :value="account" :size="64" />
+          <img
+            v-if="avatar"
+            class="is-rounded"
+            :src="avatar"
+            @error="handleError"
+          >
+          <Avatar
+            v-else
+            :value="account"
+            :size="64"
+          />
         </figure>
       </div>
       <div class="media-content">
         <div class="content">
           <p>
             <strong>
-              <ProfileLink v-if="address" :address="address" :inline="true" />
-              <Identity v-else :address="account" :inline="true"/>
+              <ProfileLink
+                v-if="address"
+                :address="address"
+                :inline="true"
+              />
+              <Identity
+                v-else
+                :address="account"
+                :inline="true"
+              />
             </strong>
             <template v-if="handle">
-              <small class="comment-handle" >@{{ handle }}</small>
-              <br />
+              <small class="comment-handle">@{{ handle }}</small>
+              <br>
             </template>
             {{ message }}
           </p>
         </div>
         <nav class="level is-mobile">
           <div class="level-left">
-            <b-icon @click.native="handleLike" :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-success': isUpvote }" pack="far" icon="thumbs-up" size="is-small" class="level-item comment-action" />
+            <b-icon
+              :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-success': isUpvote }"
+              pack="far"
+              icon="thumbs-up"
+              size="is-small"
+              class="level-item comment-action"
+              @click.native="handleLike"
+            />
             <span class="comment-action__number">{{ upvotes }}</span>
-            <b-icon @click.native="handleDislike" :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-danger': isDownVote }" pack="far" icon="thumbs-down" size="is-small" class="level-item comment-action" />
+            <b-icon
+              :class="{ 'comment-action__disabled': actionDisabled || isLoading, 'has-text-danger': isDownVote }"
+              pack="far"
+              icon="thumbs-down"
+              size="is-small"
+              class="level-item comment-action"
+              @click.native="handleDislike"
+            />
             <span class="comment-action__number">{{ downvotes }}</span>
-            <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="reply" size="is-small" class="level-item comment-action"> </b-icon>
+            <b-icon
+              v-if="!actionDisabled"
+              icon="reply"
+              size="is-small"
+              class="level-item comment-action"
+              @click.native="handleReplyVisibility"
+            />
             <!-- <b-icon v-if="!actionDisabled" @click.native="handleReplyVisibility" icon="external-link-square-alt" size="is-small" class="level-item comment-action"> </b-icon> -->
           </div>
         </nav>
@@ -37,7 +74,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { findProfile, subsocialAddress } from './utils'
 import { ProfileContentType, ReactionType } from './types'
 import { ipfsHashToUrl } from '@/components/rmrk/utils'
@@ -61,7 +98,7 @@ const components = {
   name: 'Comment',
   components
 })
-export default class Comment extends Mixins(TransactionMixin) {
+export default class Comment extends mixins(TransactionMixin) {
   @Prop(Boolean) public value!: boolean;
   @Prop({ default: '' }) public message!: any;
   @Prop(String) public postId!: string;

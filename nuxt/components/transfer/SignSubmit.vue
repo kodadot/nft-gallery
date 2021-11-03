@@ -1,44 +1,63 @@
 <template>
   <div id="transfer">
     <b-field v-if="conn.blockNumber">
-      Recent block #{{conn.blockNumber}}
+      Recent block #{{ conn.blockNumber }}
     </b-field>
     <b-field v-else>
-      <p class="has-text-danger">You are not connected,
+      <p class="has-text-danger">
+        You are not connected,
         <router-link :to="{ name: 'settings' }">
-        go to settings and pick node</router-link>
+          go to settings and pick node
+        </router-link>
       </p>
     </b-field>
-    <Dropdown mode='accounts'
-      @selected="handleAccountSelection" />
+    <Dropdown
+      mode="accounts"
+      @selected="handleAccountSelection"
+    />
     <!-- <Selection mode='accounts' @selected="handleAccountSelection" /> -->
     <Dropdown
-      @selected="handleAccountSelection" />
+      @selected="handleAccountSelection"
+    />
     <!-- <Selection @selected="handleAccountSelection" /> -->
     <!-- <Account :argument="{ name: 'to', type: 'account' }" @selected="handleValue" /> -->
-    <Balance :argument="{ name: 'balance', type: 'balance' }" @selected="handleValue"  />
-    <b-field label="password 🤫 magic spell" class="password-wrapper">
-      <b-input v-model="password" type="password" password-reveal>
-      </b-input>
+    <Balance
+      :argument="{ name: 'balance', type: 'balance' }"
+      @selected="handleValue"
+    />
+    <b-field
+      label="password 🤫 magic spell"
+      class="password-wrapper"
+    >
+      <b-input
+        v-model="password"
+        type="password"
+        password-reveal
+      />
     </b-field>
-      <div class="transaction buttons">
+    <div class="transaction buttons">
       <!-- <b-button type="is-danger" outlined disabled>Submit unsigned</b-button> -->
       <b-button
         type="is-primary"
         icon-left="paper-plane"
         outlined
         :disabled="!account || !password"
-        @click="shipIt">
+        @click="shipIt"
+      >
         Make Transfer
       </b-button>
-      <b-button v-if="tx" tag="a" :href="getExplorerUrl(tx)">
+      <b-button
+        v-if="tx"
+        tag="a"
+        :href="getExplorerUrl(tx)"
+      >
         View {{ tx.slice(0, 20) }}
       </b-button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
 import Selection from '@/components/extrinsics/Selection.vue'

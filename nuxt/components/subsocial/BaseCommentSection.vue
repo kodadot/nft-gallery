@@ -1,21 +1,44 @@
 <template>
   <div>
-    <p class="title is-size-4">{{ $t('subsocial.comments') }}</p>
-    <p v-if="!accountId" class="subtitle is-size-6">{{ $t('subsocial.logIn') }}</p>
-    <template v-else >
-      <p class="subtitle is-6" v-if="this.balance && !actionDisabled">
-        {{ $t("subsocial.balance") }}: {{ this.balance }}
+    <p class="title is-size-4">
+      {{ $t('subsocial.comments') }}
+    </p>
+    <p
+      v-if="!accountId"
+      class="subtitle is-size-6"
+    >
+      {{ $t('subsocial.logIn') }}
+    </p>
+    <template v-else>
+      <p
+        v-if="balance && !actionDisabled"
+        class="subtitle is-6"
+      >
+        {{ $t("subsocial.balance") }}: {{ balance }}
       </p>
       <FaucetLink v-else />
-      <BasePostReply v-if="postId && this.balance && !actionDisabled" :postId="postId" @submit="reloadComments" />
+      <BasePostReply
+        v-if="postId && balance && !actionDisabled"
+        :post-id="postId"
+        @submit="reloadComments"
+      />
     </template>
-    <CreatePost v-if="!postId && accountId && !disabled" :nft="nft" :meta="meta" @input="handlePost" />
-    <CommentWrapper  v-if="postId" :postId="postId" :actionDisabled="disabled"  />
+    <CreatePost
+      v-if="!postId && accountId && !disabled"
+      :nft="nft"
+      :meta="meta"
+      @input="handlePost"
+    />
+    <CommentWrapper
+      v-if="postId"
+      :post-id="postId"
+      :action-disabled="disabled"
+    />
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { resolveSubsocialApi } from './api'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { emptyObject } from '@/utils/empty'

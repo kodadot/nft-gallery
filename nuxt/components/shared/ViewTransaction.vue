@@ -1,11 +1,11 @@
 <template>
-  <a :href="getExplorerUrl(this.tx)">
+  <a :href="getExplorerUrl(tx)">
     <b-button type="is-text">View Transaction {{ tx }}</b-button>
   </a>
 </template>
 
 <script lang="ts">
-import { Vue, Prop } from 'vue-property-decorator'
+import { Vue, Prop } from 'nuxt-property-decorator'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 
 export default class ViewTransaction extends Vue {

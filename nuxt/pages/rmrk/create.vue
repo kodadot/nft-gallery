@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 const Collection = () => import('@/components/rmrk/Create/Create.vue')
 const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 

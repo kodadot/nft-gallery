@@ -7,39 +7,54 @@
       preview
     />
 
-    <b-field grouped :label="$i18n.t('Name')">
+    <b-field
+      grouped
+      :label="$i18n.t('Name')"
+    >
       <b-input
-        placeholder="Name your NFT"
         v-model="vName"
+        placeholder="Name your NFT"
         expanded
         class="mr-0"
         spellcheck="true"
-      ></b-input>
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
+      />
+      <Tooltip
+        iconsize="is-medium"
+        :label="$i18n.t('tooltip.name')"
+      />
     </b-field>
-    <b-field :label="$i18n.t('nft.description')" class="mb-0">
+    <b-field
+      :label="$i18n.t('nft.description')"
+      class="mb-0"
+    >
       <b-input
         v-model="vDescription"
         maxlength="500"
         type="textarea"
         placeholder="Describe your NFT"
         spellcheck="true"
-      ></b-input>
+      />
     </b-field>
-    <b-field grouped :label="$i18n.t('Edition')">
+    <b-field
+      grouped
+      :label="$i18n.t('Edition')"
+    >
       <b-numberinput
         v-model="vEdition"
         placeholder="1 is minumum"
         expanded
         :min="1"
         :max="clickableMax"
-      ></b-numberinput>
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+      />
+      <Tooltip
+        iconsize="is-medium"
+        :label="$i18n.t('tooltip.edition')"
+      />
     </b-field>
     <MetadataUpload
       v-if="secondaryFileVisible"
-      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
       v-model="vSecondFile"
+      label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
       icon="file-image"
       preview
       accept="image/png, image/jpeg, image/gif"
@@ -51,12 +66,18 @@
     />
 
     <b-field>
-      <b-switch v-model="vNsfw" :rounded="false">
+      <b-switch
+        v-model="vNsfw"
+        :rounded="false"
+      >
         {{ vNsfw ? "NSFW" : "SFW" }}
       </b-switch>
     </b-field>
 
-    <BalanceInput @input="updateMeta" label="Price" />
+    <BalanceInput
+      label="Price"
+      @input="updateMeta"
+    />
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
@@ -66,15 +87,15 @@
       has-icon
       aria-close-label="Close message"
     >
-      <span class="has-text-primary"
-        >Setting the price now requires making an additional transaction.</span
-      >
+      <span
+        class="has-text-primary"
+      >Setting the price now requires making an additional transaction.</span>
     </b-message>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, PropSync } from 'vue-property-decorator'
+import { Component, Prop, Vue, PropSync } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 import { resolveMedia } from '../utils'
 import { MediaType } from '../types'

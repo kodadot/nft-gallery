@@ -1,27 +1,32 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t(labelInput)" class="balance">
+    <b-field
+      :label="$t(labelInput)"
+      class="balance"
+    >
       <b-input
         v-model="inputValue"
-        @input="handleInput"
         type="number"
         step="0.001"
         min="0"
+        @input="handleInput"
       />
-      <div class="option">{{ label }}</div>
+      <div class="option">
+        {{ label }}
+      </div>
     </b-field>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Emit, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component
-export default class ReadOnlyBalanceInput extends Mixins(ChainMixin) {
+export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
   private selectedUnit = 1;

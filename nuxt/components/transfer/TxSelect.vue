@@ -1,90 +1,125 @@
 <template>
   <div id="TxPicker">
     <b-field>
-        <p class="control">
-          <Identicon
-            :value="address"
-            :theme="theme"
-            :size="size" />
-        </p>
-        <b-field :label="label">
-          <b-select :placeholder="placeholder" v-model="pickedAddress">
-            <optgroup v-for="acc in keyringAccounts"
-              v-bind:key="acc.name"
-              v-bind:value="acc.address"
-              :label="shortAddress(acc.address)">
-              <option v-if="direction === 'to'"
-                :value="acc.address">
-                {{acc.meta.name}}
-              </option>
-              <option v-if="direction === 'from' && !acc.meta.isExternal"
-                :value="acc.address">
-                {{acc.meta.name}}
-              </option>
-            </optgroup>
-          </b-select>
-        </b-field>
-        <b-field label="Available Amount">
-          <b-input :value="balance" disabled></b-input>
-        </b-field>
+      <p class="control">
+        <Identicon
+          :value="address"
+          :theme="theme"
+          :size="size"
+        />
+      </p>
+      <b-field :label="label">
+        <b-select
+          v-model="pickedAddress"
+          :placeholder="placeholder"
+        >
+          <optgroup
+            v-for="acc in keyringAccounts"
+            :key="acc.name"
+            :value="acc.address"
+            :label="shortAddress(acc.address)"
+          >
+            <option
+              v-if="direction === 'to'"
+              :value="acc.address"
+            >
+              {{ acc.meta.name }}
+            </option>
+            <option
+              v-if="direction === 'from' && !acc.meta.isExternal"
+              :value="acc.address"
+            >
+              {{ acc.meta.name }}
+            </option>
+          </optgroup>
+        </b-select>
+      </b-field>
+      <b-field label="Available Amount">
+        <b-input
+          :value="balance"
+          disabled
+        />
+      </b-field>
     </b-field>
-<b-field>
-  <p class="control">
-  <Identicon
-    :value="address"
-    :theme="theme"
-    :size="size" />
-  </p>
-  <b-dropdown v-model="pickedAddress" aria-role="list">
-        <button class="button is-large is-dark" slot="trigger">
+    <b-field>
+      <p class="control">
+        <Identicon
+          :value="address"
+          :theme="theme"
+          :size="size"
+        />
+      </p>
+      <b-dropdown
+        v-model="pickedAddress"
+        aria-role="list"
+      >
+        <button
+          slot="trigger"
+          class="button is-large is-dark"
+        >
           <span v-if="pickedAddress">
             <!-- {{shortAddress(pickedAddress)}} -->
-            {{pickedMetaName}}
+            {{ pickedMetaName }}
           </span>
           <span v-else>
-            {{label}}
+            {{ label }}
           </span>
-          <b-icon icon="caret-down"></b-icon>
+          <b-icon icon="caret-down" />
         </button>
-        <p v-for="acc in keyringAccounts"
-              v-bind:key="acc.name"
-              v-bind:value="acc.address">
-          <b-dropdown-item v-if="direction === 'from' && !acc.meta.isExternal"
-            :value="acc.address" @click="setMeta(acc.meta.name)" aria-role="listitem">
-              <div class="media">
-                  <Identicon
-                    :value="acc.address"
-                    :theme="theme"
-                    :size="48" />
-                  <div class="media-content">
-                      <h3>{{setMeta(acc.meta.name)}}</h3>
-                      <small>{{shortAddress(acc.address)}}</small>
-                  </div>
+        <p
+          v-for="acc in keyringAccounts"
+          :key="acc.name"
+          :value="acc.address"
+        >
+          <b-dropdown-item
+            v-if="direction === 'from' && !acc.meta.isExternal"
+            :value="acc.address"
+            aria-role="listitem"
+            @click="setMeta(acc.meta.name)"
+          >
+            <div class="media">
+              <Identicon
+                :value="acc.address"
+                :theme="theme"
+                :size="48"
+              />
+              <div class="media-content">
+                <h3>{{ setMeta(acc.meta.name) }}</h3>
+                <small>{{ shortAddress(acc.address) }}</small>
               </div>
+            </div>
           </b-dropdown-item>
-          <b-dropdown-item v-if="direction === 'to'"
-            :value="acc.address" @click="setMeta(acc.meta.name)" aria-role="listitem">
-              <div class="media">
-                  <Identicon
-                    :value="acc.address"
-                    :theme="theme"
-                    :size="48" />
-                  <div class="media-content">
-                      <h3>{{acc.meta.name}}</h3>
-                      <small>{{shortAddress(acc.address)}}</small>
-                  </div>
+          <b-dropdown-item
+            v-if="direction === 'to'"
+            :value="acc.address"
+            aria-role="listitem"
+            @click="setMeta(acc.meta.name)"
+          >
+            <div class="media">
+              <Identicon
+                :value="acc.address"
+                :theme="theme"
+                :size="48"
+              />
+              <div class="media-content">
+                <h3>{{ acc.meta.name }}</h3>
+                <small>{{ shortAddress(acc.address) }}</small>
               </div>
+            </div>
           </b-dropdown-item>
         </p>
-    </b-dropdown>
-    <b-field label="Available Amount">
-      <b-input :value="balance" disabled></b-input>
+      </b-dropdown>
+      <b-field label="Available Amount">
+        <b-input
+          :value="balance"
+          disabled
+        />
+      </b-field>
     </b-field>
-  </b-field>
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, PropSync, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, PropSync, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 @Component({
   components: {

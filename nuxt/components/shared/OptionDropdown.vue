@@ -1,7 +1,14 @@
 <template>
   <b-field :label="label">
-    <b-select :placeholder="description" v-model="selected">
-      <option v-for="option in options" :value="option.value" :key="option.value">
+    <b-select
+      v-model="selected"
+      :placeholder="description"
+    >
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+      >
         {{ option.text }}
       </option>
     </b-select>
@@ -9,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class OptionDropdown extends Vue {

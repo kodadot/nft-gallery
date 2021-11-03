@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-field label="Remark String">
-      <b-input type="textarea" v-model="rmrkString" />
+      <b-input
+        v-model="rmrkString"
+        type="textarea"
+      />
     </b-field>
     <!-- <b-field label="Block Number">
       <b-input placeholder="Block Number" v-model="blockNumber" />
@@ -9,13 +12,20 @@
     <b-field label="Extrinsics Hash">
       <b-input placeholder="hash" v-model="hash" />
     </b-field> -->
-    <b-button @click="handleRmrk" :disabled="disabled" type="is-primary" outlined>View</b-button>
+    <b-button
+      :disabled="disabled"
+      type="is-primary"
+      outlined
+      @click="handleRmrk"
+    >
+      View
+    </b-button>
     <RmrkNftView :rmrk="rmrkView" />
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { RMRK } from '../types'
 import { decodeRmrkString } from '../utils'
 import { emptyObject } from '@/utils/empty'

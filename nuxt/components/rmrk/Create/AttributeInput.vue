@@ -1,29 +1,39 @@
 <template>
   <b-field grouped>
     <p class="control">
-      <b-button size="is-medium" @click="remove" icon-left="times" />
+      <b-button
+        size="is-medium"
+        icon-left="times"
+        @click="remove"
+      />
     </p>
-    <b-field label="Type" expanded>
+    <b-field
+      label="Type"
+      expanded
+    >
       <b-input
-        placeholder="Background"
         v-model="vKey"
+        placeholder="Background"
         expanded
         spellcheck="true"
-      ></b-input>
+      />
     </b-field>
-    <b-field label="Name" expanded>
+    <b-field
+      label="Name"
+      expanded
+    >
       <b-input
-        placeholder="Dark"
         v-model="vValue"
+        placeholder="Dark"
         expanded
         spellcheck="true"
-      ></b-input>
+      />
     </b-field>
   </b-field>
 </template>
 
 <script lang="ts" >
-import { Component, Vue, PropSync, Prop, Emit } from 'vue-property-decorator'
+import { Component, Vue, PropSync, Prop, Emit } from 'nuxt-property-decorator'
 
 @Component
 export default class AttributeInput extends Vue {

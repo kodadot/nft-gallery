@@ -2,14 +2,14 @@
   <div class="columns mb-1">
     <div class="column is-8 is-offset-2">
       <section>
-        <br />
+        <br>
         <SpotlightTable />
       </section>
     </div>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Leaderboard>({
   metaInfo() {

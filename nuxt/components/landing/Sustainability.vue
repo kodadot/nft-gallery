@@ -6,7 +6,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                <b-icon icon="leaf"></b-icon>
+                <b-icon icon="leaf" />
                 Sustainability of KodaDot
               </h1>
               <h1 class="subtitle">
@@ -15,7 +15,7 @@
               <p>
                 As part of our micro-dao-bedrock-boostrap experiment,
                 we would like to keep our efforts sustainable <b>in the long-run
-                and create trust from creators culture</b> and economy for KodaDot
+                  and create trust from creators culture</b> and economy for KodaDot
                 that we will won't dissapear tomorrow and keep running as long
                 we can cover our efforts to keep it online and working.
               </p><br>
@@ -30,24 +30,24 @@
               <p>
                 Right now our only income was approved
                 <a href="https://kusama.polkassembly.io/motion/256">proposal#384 &
-                motion#256 from Kusama Treasury funding</a>
+                  motion#256 from Kusama Treasury funding</a>
                 for milestone1. Mostly it went for development costs,
                 not for running and further maintance costs.
               </p><br>
               <p>
                 Out flow of funds will have three parts. <b>Artists support program,
-                Running costs and Research & Development costs</b>. From start,
+                  Running costs and Research & Development costs</b>. From start,
                 we will put some of our savings into bedrock fund.
               </p><br>
               <p>
                 <a href="https://github.com/kodadot/nft-gallery/issues/141">
-                Running costs</a> consist paying up Netlify (http, cdn, CI&CD),
+                  Running costs</a> consist paying up Netlify (http, cdn, CI&CD),
                 Pinata (IPFS), Arweave (free for now, later paid integration),
                 Textile.io (we expecting this costs would go linear, later exponential).
                 Maintance, R&D costs need to be paid as
                 <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
-                new features is popping up</a> and we are <b>trying invite more developers
-                to our circles by putting bounties on issues</b>.
+                  new features is popping up</a> and we are <b>trying invite more developers
+                  to our circles by putting bounties on issues</b>.
                 Anyone can join and help with our efforts.
               </p><br>
               <p>
@@ -77,7 +77,9 @@
               <h1 class="title is-4">
                 <a href="https://www.dictionary.com/browse/sustainability">Definition of Sustainability</a>
               </h1>
-              <h1 class="subtitle">noun</h1>
+              <h1 class="subtitle">
+                noun
+              </h1>
               <ul>
                 <li>the ability to be sustained, supported, upheld, or confirmed.</li>
                 <li>Environmental Science. the quality of not being harmful to the environment or depleting natural resources, and thereby supporting long-term ecological balance:</li>
@@ -87,11 +89,10 @@
         </div>
       </div>
     </section>
-
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component<Sustainibility>({

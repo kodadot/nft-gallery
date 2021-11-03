@@ -1,16 +1,18 @@
 <template>
   <div>
-    <div v-for="item in data" :key="item.key">
+    <div
+      v-for="item in data"
+      :key="item.key"
+    >
       <div>
-        <b>{{ item.key }}</b
-        >: {{ item.value }}
+        <b>{{ item.key }}</b>: {{ item.value }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import api from '@/fetch'
 
 @Component({})

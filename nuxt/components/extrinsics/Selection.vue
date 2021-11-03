@@ -1,29 +1,33 @@
 <template>
-<div>
-<b-field :label="label">
-    <b-select
-    v-model="selected"
-    :placeholder="label"
-    expanded
-    >
-      <option v-for="acc in modeAllAccounts"
-        v-bind:key="acc.address"
-        :value="acc.address"
-      >{{ acc.meta.name }} - {{ acc.address }}
-      </option>
-      <option v-for="acc in modeAccountsExternal"
-        v-bind:key="acc.address"
-        :value="acc.address"
-      >{{ acc.meta.name }} - {{ acc.address }}
-      </option>
-    </b-select>
-  </b-field>
-  <Balance :account="selectedAccount"/>
-</div>
+  <div>
+    <b-field :label="label">
+      <b-select
+        v-model="selected"
+        :placeholder="label"
+        expanded
+      >
+        <option
+          v-for="acc in modeAllAccounts"
+          :key="acc.address"
+          :value="acc.address"
+        >
+          {{ acc.meta.name }} - {{ acc.address }}
+        </option>
+        <option
+          v-for="acc in modeAccountsExternal"
+          :key="acc.address"
+          :value="acc.address"
+        >
+          {{ acc.meta.name }} - {{ acc.address }}
+        </option>
+      </b-select>
+    </b-field>
+    <Balance :account="selectedAccount" />
+  </div>
 </template>
 
 <script lang="ts">
-import { Prop, Emit } from 'vue-property-decorator'
+import { Prop, Emit } from 'nuxt-property-decorator'
 import WithKeyring from '@/utils/WithKeyring'
 import Component from 'vue-class-component'
 import Balance from './Balance.vue'

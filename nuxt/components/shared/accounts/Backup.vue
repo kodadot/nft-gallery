@@ -1,31 +1,48 @@
 <template>
   <div id="Backup">
-    <b-field grouped multiline>
+    <b-field
+      grouped
+      multiline
+    >
       <Identicon
         :value="address.toString()"
         :size="size"
       />
-      {{shortAddress(address)}}
+      {{ shortAddress(address) }}
       <b-button
-      size="is-small"
-      icon-left="copy"
-      v-clipboard:copy="address"
-      @click="toast('Address copied to clipboard')">
-      </b-button>
+        v-clipboard:copy="address"
+        size="is-small"
+        icon-left="copy"
+        @click="toast('Address copied to clipboard')"
+      />
     </b-field>
-    <b-field label="password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="password" type="password"
+    <b-field
+      label="password"
+      :type="{ 'is-danger': !isPassValid }"
+    >
+      <b-input
+        v-model="password"
+        type="password"
+        password-reveal
         @input="validatePassword(password)"
-        password-reveal></b-input>
+      />
     </b-field>
     <router-link :to="{name: 'accounts'}">
-      <b-button icon-left="cloud-download-alt" type="is-dark"
-        @click="makeBackup(address, password)" outlined>
+      <b-button
+        icon-left="cloud-download-alt"
+        type="is-dark"
+        outlined
+        @click="makeBackup(address, password)"
+      >
         Backup
       </b-button>
     </router-link>
     <router-link :to="{name: 'accounts'}">
-      <b-button icon-left="times" type="is-warning" outlined>
+      <b-button
+        icon-left="times"
+        type="is-warning"
+        outlined
+      >
         Cancel
       </b-button>
     </router-link>
@@ -33,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
 import FileSaver from 'file-saver'

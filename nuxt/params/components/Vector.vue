@@ -1,33 +1,46 @@
 <template>
-  <div :class="{ 'vector-argument-wrapper': !disabled  }">
+  <div :class="{ 'vector-argument-wrapper': !disabled }">
     <strong v-if="!disabled">
-      {{argument.name}}: {{argument.type}}
+      {{ argument.name }}: {{ argument.type }}
     </strong>
-    <div v-else class="buttons">
-      <b-button @click="add" type="is-primary" icon-left="plus">
+    <div
+      v-else
+      class="buttons"
+    >
+      <b-button
+        type="is-primary"
+        icon-left="plus"
+        @click="add"
+      >
         Add
       </b-button>
-      <b-button @click="remove" type="is-danger" icon-left="minus">
+      <b-button
+        type="is-danger"
+        icon-left="minus"
+        @click="remove"
+      >
         Delete
       </b-button>
     </div>
-    <div v-if="fields.length === 0 && !disabled">{{argument.name}} is empty!</div>
+    <div v-if="fields.length === 0 && !disabled">
+      {{ argument.name }} is empty!
+    </div>
     <ArgumentHandler
       v-for="(arg, index) in fields"
+      :key="index"
       :argument="enhanceTypeDef(arg, index)"
-      v-bind:key="index"
       :disabled="disabled"
+      :default-value="getDefaultValue(index)"
       @selected="selected"
-      :defaultValue="getDefaultValue(index)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { createType, getTypeDef } from '@polkadot/types';
-import findComponent from '@/params/components/findComponent';
-import registry from '@/params/components/typeRegistry';
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { createType, getTypeDef } from '@polkadot/types'
+import findComponent from '@/params/components/findComponent'
+import registry from '@/params/components/typeRegistry'
 
 @Component({
   name: 'Vector',
@@ -48,33 +61,33 @@ export default class Vector extends Vue {
       ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
       name: index,
-    };
+    }
   }
 
   @Emit('selected')
   public selected(argument: any) {
-    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg]);
-    return { [this.argument.name.toString()]: this.results };
+    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
+    return { [this.argument.name.toString()]: this.results }
   }
 
   public mounted() {
     if (this.defaultValue) {
-      this.defaultValue.map((val) => this.add());
+      this.defaultValue.map((val) => this.add())
     }
   }
 
   public getDefaultValue(index: number) {
-    return this.defaultValue && this.defaultValue[index];
+    return this.defaultValue && this.defaultValue[index]
   }
 
   private add() {
-    this.fields.push({ ...this.argument.sub });
-    this.results.push(null);
+    this.fields.push({ ...this.argument.sub })
+    this.results.push(null)
   }
 
   private remove() {
-    this.fields.pop();
-    this.results.pop();
+    this.fields.pop()
+    this.results.pop()
   }
 }
 </script>

@@ -2,50 +2,84 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
-        <router-link :to="`rmrk/u/${destinationAddress}`" class="linkartist"  v-if="this.$route.query.target">
-          <b-icon icon="chevron-left" size="is-small" class="linkartist--icon"></b-icon>
-           Go to artist's profile
+        <br>
+        <Loader
+          v-model="isLoading"
+          :status="status"
+        />
+        <router-link
+          v-if="$route.query.target"
+          :to="`rmrk/u/${destinationAddress}`"
+          class="linkartist"
+        >
+          <b-icon
+            icon="chevron-left"
+            size="is-small"
+            class="linkartist--icon"
+          />
+          Go to artist's profile
         </router-link>
         <div class="box">
           <div class="info">
             <p class="title is-size-3">
-            Transfer {{ unit }}
+              Transfer {{ unit }}
             </p>
-            <span class="info--currentPrice" title='Current price'>${{this.$store.getters.getCurrentKSMValue}} </span>
+            <span
+              class="info--currentPrice"
+              title="Current price"
+            >${{ $store.getters.getCurrentKSMValue }} </span>
           </div>
 
           <b-field>
             <Auth />
           </b-field>
-          <div class="box--target-info" v-if="this.$route.query.target">
+          <div
+            v-if="$route.query.target"
+            class="box--target-info"
+          >
             Your donation will be sent to:
             <a
-              :href="`https://kusama.subscan.io/account/${this.$route.query.target}`"
+              :href="`https://kusama.subscan.io/account/${$route.query.target}`"
               target="_blank"
               rel="noopener noreferrer"
               class="box--target-info--url"
             >
-              <Identity ref="identity" :address="this.$route.query.target" inline />
+              <Identity
+                ref="identity"
+                :address="$route.query.target"
+                inline
+              />
             </a>
           </div>
 
           <b-field>
             {{ $t("general.balance") }}
-            <Money :value="balance" inline />
+            <Money
+              :value="balance"
+              inline
+            />
           </b-field>
 
           <b-field>
             <AddressInput v-model="destinationAddress" />
           </b-field>
           <div class="box--container">
-           <b-field>
-            <BalanceInput v-model="price" label="Amount" :calculate="false" @input="onAmountFieldChange"/>
-           </b-field>
-           <b-field>
-            <ReadOnlyBalanceInput v-model="usdValue" @input="onUSDFieldChange" labelInput="USD Value (approx)" label="USD" />
-           </b-field>
+            <b-field>
+              <BalanceInput
+                v-model="price"
+                label="Amount"
+                :calculate="false"
+                @input="onAmountFieldChange"
+              />
+            </b-field>
+            <b-field>
+              <ReadOnlyBalanceInput
+                v-model="usdValue"
+                label-input="USD Value (approx)"
+                label="USD"
+                @input="onUSDFieldChange"
+              />
+            </b-field>
           </div>
 
           <b-field>
@@ -54,34 +88,39 @@
               icon-left="paper-plane"
               :loading="isLoading"
               :disabled="disabled"
-              @click="submit"
               outlined
+              @click="submit"
             >
               {{ $t("general.submit") }}
             </b-button>
-             <b-button
+            <b-button
               v-if="transactionValue"
               type="is-success"
               class="tx"
               icon-left="external-link-alt"
-              @click="getExplorerUrl"
               outlined
+              @click="getExplorerUrl"
             >
-              {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
+              {{ $t("View Transaction") }} {{ transactionValue.substring(0,6) }}{{ '...' }}
             </b-button>
           </b-field>
-          <div v-if="transactionValue && this.$route.query.donation">
-            <div class="is-size-5">🎉 Congratulations for supporting
-             <Identity ref="identity" :address="this.$route.query.target" inline />
+          <div v-if="transactionValue && $route.query.donation">
+            <div class="is-size-5">
+              🎉 Congratulations for supporting
+              <Identity
+                ref="identity"
+                :address="$route.query.target"
+                inline
+              />
             </div>
             <b-button
               type="is-info"
               class="tweetBtn"
               icon-left="share-square"
-              @click="shareInTweet"
               outlined
-             >
-             {{$t("Tweet about your awesome donation")}}
+              @click="shareInTweet"
+            >
+              {{ $t("Tweet about your awesome donation") }}
             </b-button>
           </div>
         </div>
@@ -91,7 +130,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Watch } from 'vue-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -116,7 +155,7 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
     Money: () => import('@/components/shared/format/Money.vue')
   }
 })
-export default class Transfer extends Mixins(
+export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
   ChainMixin

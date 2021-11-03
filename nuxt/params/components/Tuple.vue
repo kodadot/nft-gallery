@@ -1,29 +1,28 @@
 <template>
-<div :class="{ 'vector-argument-wrapper': !titleVisible  }">
-  <strong v-if="titleVisible">
-      {{argument.name}}: {{argument.type}}
+  <div :class="{ 'vector-argument-wrapper': !titleVisible }">
+    <strong v-if="titleVisible">
+      {{ argument.name }}: {{ argument.type }}
     </strong>
-<div class='tuple-argument-wrapper' >
-
-  <ArgumentHandler
-      class='tuple-argument-item'
-      v-for="(arg, index) in fields"
-      :argument="enhanceTypeDef(arg, index)"
-      v-bind:key="index"
-      :disabled="disabled"
-      @selected="selected"
-      :defaultValue="getDefaultValue(index)"
-    />
+    <div class="tuple-argument-wrapper">
+      <ArgumentHandler
+        v-for="(arg, index) in fields"
+        :key="index"
+        class="tuple-argument-item"
+        :argument="enhanceTypeDef(arg, index)"
+        :disabled="disabled"
+        :default-value="getDefaultValue(index)"
+        @selected="selected"
+      />
     </div>
-    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { createType, getTypeDef } from '@polkadot/types';
-import findComponent from '@/params/components/findComponent';
-import registry from '@/params/components/typeRegistry';
-import { ITuple } from '@polkadot/types/types';
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { createType, getTypeDef } from '@polkadot/types'
+import findComponent from '@/params/components/findComponent'
+import registry from '@/params/components/typeRegistry'
+import { ITuple } from '@polkadot/types/types'
 
 @Component({
   name: 'Tuple',
@@ -39,18 +38,18 @@ export default class Tuple extends Vue {
   private fields: any[] = [];
   private results: any[] = [];
 
-    public unwrapTuple(argument: any): any {
-      return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
-    }
+  public unwrapTuple(argument: any): any {
+    return [this.enhanceTypeDef(argument.sub[0], 0), this.enhanceTypeDef(argument.sub[1], 1)]
+  }
 
-    public enhanceTypeDef(argument: any, index: number) {
-      console.log('Tuple', argument);
+  public enhanceTypeDef(argument: any, index: number) {
+    console.log('Tuple', argument)
 
     return {
       ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
       name: index,
-    };
+    }
   }
 
   get titleVisible() {
@@ -59,19 +58,19 @@ export default class Tuple extends Vue {
 
   @Emit('selected')
   public selected(argument: any) {
-    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg]);
-    return { [this.argument.name.toString()]: this.results };
+    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
+    return { [this.argument.name.toString()]: this.results }
   }
 
   public mounted() {
-    this.fields = this.unwrapTuple(this.argument);
+    this.fields = this.unwrapTuple(this.argument)
     if (this.defaultValue) {
-      this.defaultValue.map(() => this.results.push(null));
+      this.defaultValue.map(() => this.results.push(null))
     }
   }
 
   public getDefaultValue(index: number) {
-    return this.defaultValue && this.defaultValue[index];
+    return this.defaultValue && this.defaultValue[index]
   }
 
 }

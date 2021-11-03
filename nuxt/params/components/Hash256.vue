@@ -3,14 +3,17 @@
     <b-field
       :label="`${argument.name}: ${argument.type}`"
     >
-      <b-input v-model="arg" :disabled="disabled" />
+      <b-input
+        v-model="arg"
+        :disabled="disabled"
+      />
     </b-field>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-const DEFAULT = '0x0000000000000000000000000000000000000000000000000000000000000000';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+const DEFAULT = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 @Component
 export default class Hash256 extends Vue {
@@ -19,13 +22,13 @@ export default class Hash256 extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : DEFAULT;
+    return this.defaultValue ? this.defaultValue : DEFAULT
   }
 
 

@@ -1,21 +1,24 @@
 <template>
-<b-field class="file">
-        <b-upload
-        v-model="toImport"
-        >
-            <a class="button is-primary extrinsic--file-upload">
-                <b-icon icon="upload"></b-icon>
-                <span>Click to upload</span>
-            </a>
-        </b-upload>
-        <span class="file-name extrinsic--file-upload" v-if="toImport">
-            {{ toImport.name }}
-        </span>
-    </b-field>
+  <b-field class="file">
+    <b-upload
+      v-model="toImport"
+    >
+      <a class="button is-primary extrinsic--file-upload">
+        <b-icon icon="upload" />
+        <span>Click to upload</span>
+      </a>
+    </b-upload>
+    <span
+      v-if="toImport"
+      class="file-name extrinsic--file-upload"
+    >
+      {{ toImport.name }}
+    </span>
+  </b-field>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, PropSync, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop, PropSync, Watch } from 'nuxt-property-decorator'
 
 @Component
 export default class InputFile extends Vue {

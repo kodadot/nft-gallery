@@ -1,10 +1,27 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field :label="$t(label)" class="balance">
-      <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0"/>
+    <b-field
+      :label="$t(label)"
+      class="balance"
+    >
+      <b-input
+        v-model="inputValue"
+        type="number"
+        step="0.001"
+        min="0"
+        @input="handleInput"
+      />
       <p class="control balance">
-        <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput">
-          <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
+        <b-select
+          v-model="selectedUnit"
+          :disabled="!calculate"
+          @input="handleInput"
+        >
+          <option
+            v-for="u in units"
+            :key="u.value"
+            :value="u.value"
+          >
             {{ u.name }}
           </option>
         </b-select>
@@ -14,7 +31,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Emit, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import Balance from '@/params/components/Balance.vue'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
@@ -24,7 +41,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 const components = { Balance }
 
 @Component({ components })
-export default class BalanceInput extends Mixins(ChainMixin) {
+export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
   private selectedUnit = 1;

@@ -1,15 +1,37 @@
 <template>
   <b-field class="file is-primary">
-    <b-upload v-model="file" class="file-label" drag-drop :expanded="expanded" :accept="accept">
+    <b-upload
+      v-model="file"
+      class="file-label"
+      drag-drop
+      :expanded="expanded"
+      :accept="accept"
+    >
       <section class="section">
         <div class="content has-text-centered">
           <p>
-            <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-            <img v-if="url && !hasError" :src="url" @error="hasError = true" />
-            <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
+            <b-icon
+              v-if="!file && !url"
+              :icon="icon"
+              size="is-large"
+            />
+            <img
+              v-if="url && !hasError"
+              :src="url"
+              @error="hasError = true"
+            >
+            <b-icon
+              v-if="hasError"
+              icon="eye-slash"
+              size="is-large"
+            />
           </p>
-          <p v-if="!file">{{ label }}</p>
-          <p v-else>Awesome your file is <b>{{ file.name }}</b>. Click or drop to change</p>
+          <p v-if="!file">
+            {{ label }}
+          </p>
+          <p v-else>
+            Awesome your file is <b>{{ file.name }}</b>. Click or drop to change
+          </p>
         </div>
       </section>
     </b-upload>
@@ -17,7 +39,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({

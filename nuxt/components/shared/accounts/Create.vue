@@ -7,102 +7,138 @@
             <Identicon
               :value="newAccount.address.toString()"
               :size="size"
-             />
+            />
           </b-field>
           <b-field>
-            {{newAccount.name.toUpperCase()}}<br>
-            {{shortAddress(newAccount.address)}}
+            {{ newAccount.name.toUpperCase() }}<br>
+            {{ shortAddress(newAccount.address) }}
           </b-field>
         </b-field>
       </div>
-      <b-field label="name"
-        v-bind:type="{ 'is-danger': !isNameValid }" >
-        <b-input v-model="newAccount.name"
+      <b-field
+        label="name"
+        :type="{ 'is-danger': !isNameValid }"
+      >
+        <b-input
+          v-model="newAccount.name"
+          placeholder="new account"
           @input="checkAccountName(); validateSave()"
-          placeholder="new account">
-        </b-input>
+        />
       </b-field>
       <div v-if="mode === 'addressbook'">
-        <b-field label="address"
-          v-bind:type="{ 'is-danger': !newAccount.address.length
-          || !isAddressValid || !uniqueAddress }">
-          <b-input v-model="newAccount.address"
+        <b-field
+          label="address"
+          :type="{ 'is-danger': !newAccount.address.length
+            || !isAddressValid || !uniqueAddress }"
+        >
+          <b-input
+            v-model="newAccount.address"
             @input="validateAddress(newAccount.address);
-              checkAlreadyPresentAddress(newAccount.address);
-              validateSave()">
-          </b-input>
+                    checkAlreadyPresentAddress(newAccount.address);
+                    validateSave()"
+          />
         </b-field>
       </div>
       <div v-if="mode === 'accounts'">
-      <b-field label="mnemonic seed"
-        v-bind:type="{ 'is-danger': !isSeedValid }">
-        <b-input v-if="seedType === 'mnemonic'" v-model="newAccount.mnemonicSeed"
-          @input="validateMnemonic(); addressFromSeed('mnemonic'); validateSeed()"
-          :expanded='true'>
-        </b-input>
-        <b-input v-if="seedType === 'raw'" v-model="newAccount.rawSeed"
-          @input="validateRawSeed(); addressFromSeed('raw'); validateSeed()"
-          :expanded='true'>
-        </b-input>
-        <p class="control">
-          <b-dropdown v-model="seedType" position="is-bottom-left" aria-role="list">
-            <button class="button is-dark" type="button" slot="trigger">
-              <template v-if="seedType === 'mnemonic'">
-                <span>Mnemonic</span>
-              </template>
-              <template v-if="seedType === 'raw'">
-                <span>Raw Seed</span>
-              </template>
-              <b-icon icon="caret-down"></b-icon>
-            </button>
-            <b-dropdown-item value="mnemonic"
-              @click="dropdownClick('mnemonic')">
-              Mnemonic
-            </b-dropdown-item>
-            <b-dropdown-item value="raw"
-              @click="dropdownClick('raw')">
-              Raw Seed
-            </b-dropdown-item>
-          </b-dropdown>
-        </p>
-      </b-field>
-      <b-field label="password"
-        v-bind:type="{ 'is-danger': !isPassValid }">
-        <b-input v-model="newAccount.password" type="password"
-         @input="validatePassword(newAccount.password); validateSave()"
-         password-reveal></b-input>
-      </b-field>
-      <b-field grouped>
-        <b-field label="keypair crypto type">
-          <b-select v-model="keypairType.selected">
-            <option v-for="opt in keypairType.options"
-              v-bind:key="opt.value"
-              v-bind:value="opt.value">
-              {{ opt.text }}
-            </option>
-          </b-select>
+        <b-field
+          label="mnemonic seed"
+          :type="{ 'is-danger': !isSeedValid }"
+        >
+          <b-input
+            v-if="seedType === 'mnemonic'"
+            v-model="newAccount.mnemonicSeed"
+            :expanded="true"
+            @input="validateMnemonic(); addressFromSeed('mnemonic'); validateSeed()"
+          />
+          <b-input
+            v-if="seedType === 'raw'"
+            v-model="newAccount.rawSeed"
+            :expanded="true"
+            @input="validateRawSeed(); addressFromSeed('raw'); validateSeed()"
+          />
+          <p class="control">
+            <b-dropdown
+              v-model="seedType"
+              position="is-bottom-left"
+              aria-role="list"
+            >
+              <button
+                slot="trigger"
+                class="button is-dark"
+                type="button"
+              >
+                <template v-if="seedType === 'mnemonic'">
+                  <span>Mnemonic</span>
+                </template>
+                <template v-if="seedType === 'raw'">
+                  <span>Raw Seed</span>
+                </template>
+                <b-icon icon="caret-down" />
+              </button>
+              <b-dropdown-item
+                value="mnemonic"
+                @click="dropdownClick('mnemonic')"
+              >
+                Mnemonic
+              </b-dropdown-item>
+              <b-dropdown-item
+                value="raw"
+                @click="dropdownClick('raw')"
+              >
+                Raw Seed
+              </b-dropdown-item>
+            </b-dropdown>
+          </p>
         </b-field>
-      </b-field>
-      <b-field label="secret derivation path">
-        <b-input v-model="newAccount.derivationPath"
-          placeholder="//hard/soft///password">
-        </b-input>
-      </b-field>
+        <b-field
+          label="password"
+          :type="{ 'is-danger': !isPassValid }"
+        >
+          <b-input
+            v-model="newAccount.password"
+            type="password"
+            password-reveal
+            @input="validatePassword(newAccount.password); validateSave()"
+          />
+        </b-field>
+        <b-field grouped>
+          <b-field label="keypair crypto type">
+            <b-select v-model="keypairType.selected">
+              <option
+                v-for="opt in keypairType.options"
+                :key="opt.value"
+                :value="opt.value"
+              >
+                {{ opt.text }}
+              </option>
+            </b-select>
+          </b-field>
+        </b-field>
+        <b-field label="secret derivation path">
+          <b-input
+            v-model="newAccount.derivationPath"
+            placeholder="//hard/soft///password"
+          />
+        </b-field>
       </div>
-      <b-field></b-field>
+      <b-field />
       <b-field label="tags">
-        <b-input v-model="newAccount.tags" placeholder="comma separated values"></b-input>
+        <b-input
+          v-model="newAccount.tags"
+          placeholder="comma separated values"
+        />
       </b-field>
-      <b-field></b-field>
+      <b-field />
     </section>
     <div>
       <router-link :to="{ name: mode }">
         <b-button
           type="is-dark"
           icon-left="plus"
-          @click="onCreate"
           outlined
-          :disabled="!canSave">
+          :disabled="!canSave"
+          @click="onCreate"
+        >
           Save
         </b-button>
       </router-link>
@@ -110,7 +146,8 @@
         <b-button
           type="is-warning"
           icon-left="times"
-          outlined>
+          outlined
+        >
           Cancel
         </b-button>
       </router-link>
@@ -118,7 +155,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit, Watch } from 'nuxt-property-decorator'
 import keyring from '@polkadot/ui-keyring'
 import Identicon from '@polkadot/vue-identicon'
 import { mnemonicGenerate,

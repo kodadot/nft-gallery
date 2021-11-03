@@ -1,14 +1,20 @@
 <template>
   <!-- // TODO denomination and set asset by network -->
-  <b-tag class="balance-tag"
-    type="is-dark" size="is-medium">
+  <b-tag
+    class="balance-tag"
+    type="is-dark"
+    size="is-medium"
+  >
     Transferable:
-    <Money :value="currentBalance" inline />
+    <Money
+      :value="currentBalance"
+      inline
+    />
   </b-tag>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import Money from '@/components/shared/format/Money.vue'
 

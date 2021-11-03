@@ -1,15 +1,19 @@
 <template>
   <div class="container mb-1">
-      <section>
-        <h1 class="title is-2">{{ $t('series.title') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+    <section>
+      <h1 class="title is-2">
+        {{ $t('series.title') }}
+      </h1>
+      <p class="subtitle is-size-5">
+        {{ $t('series.subtitle') }}
+      </p>
 
-        <SeriesTable />
-      </section>
+      <SeriesTable />
+    </section>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Series>({
   metaInfo() {

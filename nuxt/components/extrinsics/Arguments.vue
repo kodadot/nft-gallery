@@ -2,19 +2,19 @@
   <div class="arguments-wrapper">
     <ArgumentHandler
       v-for="(arg, index) in args"
+      :key="index"
       :argument="arg"
       :disabled="disabled"
-      v-bind:key="index"
+      :default-value="getDefaultValue(index)"
+      :action-visible="actionVisible"
       @selected="selected"
-      :defaultValue="getDefaultValue(index)"
-      :actionVisible="actionVisible"
       @action="action"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import ArgumentHandler from './ArgumentHandler.vue'
 
 @Component({

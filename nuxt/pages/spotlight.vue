@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import Spotlight from '@/components/landing/Spotlight.vue'
 
 @Component({

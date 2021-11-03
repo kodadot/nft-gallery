@@ -1,20 +1,36 @@
 <template>
-  <b-field class="file is-primary" :class="{'has-name': !!file}" >
-    <b-upload v-model="file" class="file-label" expanded>
+  <b-field
+    class="file is-primary"
+    :class="{'has-name': !!file}"
+  >
+    <b-upload
+      v-model="file"
+      class="file-label"
+      expanded
+    >
       <span class="file-cta">
-        <b-icon class="file-icon" :icon="icon"></b-icon>
+        <b-icon
+          class="file-icon"
+          :icon="icon"
+        />
         <span class="file-label">{{ label }}</span>
       </span>
-      <span class="file-name" v-if="file">
+      <span
+        v-if="file"
+        class="file-name"
+      >
         {{ file.name }}
       </span>
     </b-upload>
-    <Tooltip iconsize="is-medium" label="Upload your image of the NFT" />
+    <Tooltip
+      iconsize="is-medium"
+      label="Upload your image of the NFT"
+    />
   </b-field>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({ components: {

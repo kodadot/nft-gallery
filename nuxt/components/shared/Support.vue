@@ -1,13 +1,15 @@
 <template>
-  <b-switch v-model="model"
+  <b-switch
+    v-model="model"
     :type="type"
-    :rounded="false">
+    :rounded="false"
+  >
     {{ value ? `${activeMessage} ($ ${rounded})` : `${passiveMessage}` }}
   </b-switch>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { round } from '@/utils/support'
 
 

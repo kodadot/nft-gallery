@@ -1,11 +1,17 @@
 <template>
-  <b-progress :value="actualValue" :max="maxValue" size="is-large" type="is-primary" show-value>
-    {{actualValue}} / {{maxValue}}
+  <b-progress
+    :value="actualValue"
+    :max="maxValue"
+    size="is-large"
+    type="is-primary"
+    show-value
+  >
+    {{ actualValue }} / {{ maxValue }}
   </b-progress>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import { toNumber } from '@/utils/filters'
 
 @Component

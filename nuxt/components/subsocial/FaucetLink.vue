@@ -1,10 +1,19 @@
 <template>
-  <a v-if="!email" href="https://app.subsocial.network/faucet" target="_blank" rel="noopener noreferrer">{{ $t('subsocial.faucet') }}</a>
-  <a v-else @click="askFaucet" type="is-ghost">{{ $t('subsocial.autoFaucet') }}</a>
+  <a
+    v-if="!email"
+    href="https://app.subsocial.network/faucet"
+    target="_blank"
+    rel="noopener noreferrer"
+  >{{ $t('subsocial.faucet') }}</a>
+  <a
+    v-else
+    type="is-ghost"
+    @click="askFaucet"
+  >{{ $t('subsocial.autoFaucet') }}</a>
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Watch } from 'vue-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@vue-polkadot/vue-api'
@@ -12,7 +21,7 @@ import { requestFaucet } from '@/proxy'
 import { showNotification, notificationTypes } from '@/utils/notification'
 
 @Component({})
-export default class FaucetLink extends Mixins(AuthMixin) {
+export default class FaucetLink extends mixins(AuthMixin) {
   protected email = '';
 
   protected async askFaucet() {

@@ -3,20 +3,24 @@
     <p class="label">
       {{ $t('History') }}
     </p>
-    <b-table :data="data" class="mb-4" hoverable>
+    <b-table
+      :data="data"
+      class="mb-4"
+      hoverable
+    >
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="Type"
         label="Type"
-        v-slot="props"
       >
         {{ props.row.Type }}
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="From"
         label="From"
-        v-slot="props"
       >
         <router-link
           :to="{
@@ -24,45 +28,53 @@
             params: { id: props.row.From },
           }"
         >
-          <Identity :address="props.row.From" inline noOverflow />
+          <Identity
+            :address="props.row.From"
+            inline
+            no-overflow
+          />
         </router-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="To"
         label="To"
-        v-slot="props"
       >
         <router-link
           :to="{ name: 'profile', params: { id: props.row.To } }"
         >
-          <Identity :address="props.row.To" inline noOverflow />
+          <Identity
+            :address="props.row.To"
+            inline
+            no-overflow
+          />
         </router-link>
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="Amount"
         label="Amount"
-        v-slot="props"
       >
         {{ props.row.Amount }}
       </b-table-column>
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="Date"
         label="Date"
-        v-slot="props"
       >
         {{ props.row.Date }}
       </b-table-column>
     </b-table>
 
-    <PriceChart :priceData="priceData" />
+    <PriceChart :price-data="priceData" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),

@@ -1,20 +1,28 @@
 <template>
   <div class="share">
     <footer class="card-footer">
-      <div class="card-footer-item" @click="toast('URL copied to clipboard')">
+      <div
+        class="card-footer-item"
+        @click="toast('URL copied to clipboard')"
+      >
         <b-button
-          size="is-small"
           v-clipboard:copy="realworldFullPathShare"
+          size="is-small"
           class="share__root share__button"
         >
           <b-icon
             size="is-medium"
             pack="fas"
-            icon="link">
-          </b-icon>
+            icon="link"
+          />
         </b-button>
       </div>
-      <div class="card-footer-item" v-if="!onlyCopyLink" @click="shareTooltip" @focusout="openFallbackShareTooltip">
+      <div
+        v-if="!onlyCopyLink"
+        class="card-footer-item"
+        @click="shareTooltip"
+        @focusout="openFallbackShareTooltip"
+      >
         <b-tooltip
           position="is-left"
           class="share__tooltip"
@@ -23,7 +31,7 @@
           :active="active"
           multilined
         >
-          <template v-slot:content>
+          <template #content>
             <ShareNetwork
               tag="button"
               class="button share__button is-medium"
@@ -36,8 +44,7 @@
                 size="is-large"
                 pack="fab"
                 icon="twitter"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -50,8 +57,7 @@
                 size="is-large"
                 pack="fab"
                 icon="telegram"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <!-- <ShareNetwork
               tag="button"
@@ -78,8 +84,7 @@
                 size="is-large"
                 pack="fab"
                 icon="facebook"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -92,8 +97,7 @@
                 size="is-large"
                 pack="fab"
                 icon="facebook-messenger"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -106,8 +110,7 @@
                 size="is-large"
                 pack="fab"
                 icon="whatsapp"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -120,8 +123,7 @@
                 size="is-large"
                 pack="fab"
                 icon="pinterest"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -134,20 +136,19 @@
                 size="is-large"
                 pack="fas"
                 icon="envelope"
-              >
-              </b-icon>
+              />
             </ShareNetwork>
             <b-button
-              size="is-medium"
               v-clipboard:copy="iframeUri"
-              @click="toast('Code copied to clipboard')"
+              size="is-medium"
               class="share__button"
+              @click="toast('Code copied to clipboard')"
             >
               <b-icon
                 size="is-medium"
                 pack="fas"
-                icon="code">
-              </b-icon>
+                icon="code"
+              />
             </b-button>
           </template>
           <b-button
@@ -159,8 +160,7 @@
               size="is-large"
               pack="fas"
               icon="share-alt"
-            >
-            </b-icon>
+            />
           </b-button>
         </b-tooltip>
       </div>
@@ -169,7 +169,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { IFrame, emptyIframe } from '../../types'
 
 @Component({})

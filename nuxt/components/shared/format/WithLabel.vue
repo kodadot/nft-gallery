@@ -1,12 +1,12 @@
 <template>
   <div>
     <label><b>{{ label }}</b></label>
-    <slot/>
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({
   name: 'WithLabel'

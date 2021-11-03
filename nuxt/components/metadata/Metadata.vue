@@ -1,20 +1,34 @@
 <template>
   <div>
     <DisabledInput
-      label="Address Prefix" :value="loading ? '' : chainProperties.ss58Format.toString()" />
+      label="Address Prefix"
+      :value="loading ? '' : chainProperties.ss58Format.toString()"
+    />
     <DisabledInput
-      label="Decimals" :value="loading ? '' : chainProperties.tokenDecimals.toString()" />
+      label="Decimals"
+      :value="loading ? '' : chainProperties.tokenDecimals.toString()"
+    />
     <DisabledInput
-      label="Unit" :value="loading ? '' : chainProperties.tokenSymbol.toString()" />
-     <DisabledInput
-      label="Genesis Hash" :value="loading ? '' : chainProperties.genesisHash.toString()" />
-      <b-progress v-if="loading"
-      size="is-large" type="is-primary" show-value>Connecting</b-progress>
+      label="Unit"
+      :value="loading ? '' : chainProperties.tokenSymbol.toString()"
+    />
+    <DisabledInput
+      label="Genesis Hash"
+      :value="loading ? '' : chainProperties.genesisHash.toString()"
+    />
+    <b-progress
+      v-if="loading"
+      size="is-large"
+      type="is-primary"
+      show-value
+    >
+      Connecting
+    </b-progress>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({

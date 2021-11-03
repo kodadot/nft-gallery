@@ -1,7 +1,10 @@
 <template>
   <div class="setting-info__wrapper">
     <div><b>Setting Info:</b></div>
-    <div v-for="el in selected" :key="el[0]">
+    <div
+      v-for="el in selected"
+      :key="el[0]"
+    >
       <span class="setting-info__label">{{ el[0] }}</span>
       <span>{{ el[1] }}</span>
     </div>
@@ -9,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class SettingInfo extends Vue {

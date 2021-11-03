@@ -4,18 +4,21 @@
     src-fallback="/placeholder.svg"
     :alt="alt"
     ratio="1by1"
-    @error="onImageError"
     :class="customClass"
     :rounded="rounded"
+    @error="onImageError"
   >
     <template #placeholder>
-      <b-skeleton class="skeleton-placeholder" height="100%"></b-skeleton>
+      <b-skeleton
+        class="skeleton-placeholder"
+        height="100%"
+      />
     </template>
   </b-image>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BasicImage extends Vue {

@@ -3,33 +3,53 @@
     <Identicon
       :value="address.toString()"
       :size="size"
-      />
-    {{shortAddress(address)}}
-    <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.oldPass" type="password"
+    />
+    {{ shortAddress(address) }}
+    <b-field
+      label="your current password"
+      :type="{ 'is-danger': !isPassValid }"
+    >
+      <b-input
+        v-model="change.oldPass"
+        type="password"
+        password-reveal
         @input="validatePassword(change.oldPass)"
-        password-reveal></b-input>
+      />
     </b-field>
-    <b-field label="your new password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.newPass" type="password"
+    <b-field
+      label="your new password"
+      :type="{ 'is-danger': !isPassValid }"
+    >
+      <b-input
+        v-model="change.newPass"
+        type="password"
+        password-reveal
         @input="validatePassword(change.newPass)"
-        password-reveal></b-input>
+      />
     </b-field>
     <router-link :to="{name: 'accounts'}">
-      <b-button @click="doChangePassword()"
-        type="is-dark" icon-left="key" outlined>
+      <b-button
+        type="is-dark"
+        icon-left="key"
+        outlined
+        @click="doChangePassword()"
+      >
         Change Passowrd
       </b-button>
     </router-link>
     <router-link :to="{name: 'accounts'}">
-      <b-button icon-left="times" type="is-warning" outlined>
+      <b-button
+        icon-left="times"
+        type="is-warning"
+        outlined
+      >
         Cancel
       </b-button>
     </router-link>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { Vue, Component, Prop, Emit } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
 @Component({

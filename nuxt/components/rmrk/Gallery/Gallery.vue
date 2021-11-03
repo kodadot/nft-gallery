@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../utils'

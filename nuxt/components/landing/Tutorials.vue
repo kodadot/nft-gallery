@@ -20,7 +20,10 @@
                     rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=iG8iQrONnYo"
                   >
-                    <b-button type="is-primary" class="mb-6">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
                       {{ $t("tutorial.create") }}
                     </b-button>
                   </a>
@@ -31,7 +34,10 @@
                     rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=cYaZWDzU1Yc"
                   >
-                    <b-button type="is-primary" class="mb-6">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
                       {{ $t("tutorial.ksm") }}
                     </b-button>
                   </a>
@@ -42,7 +48,10 @@
                     rel="noopener noreferrer"
                     href="https://www.youtube.com/watch?v=pPsbQyJRGVQ"
                   >
-                    <b-button type="is-primary" class="mb-6">
+                    <b-button
+                      type="is-primary"
+                      class="mb-6"
+                    >
                       {{ $t("tutorial.mint") }}
                     </b-button>
                   </a>
@@ -57,7 +66,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class Tutorials extends Vue {}

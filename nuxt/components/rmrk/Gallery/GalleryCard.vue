@@ -10,27 +10,59 @@
       :link="link"
       tag="a"
     >
-      <div class="card-image" v-if="image">
-        <span v-if="emoteCount" class="card-image__emotes">
+      <div
+        v-if="image"
+        class="card-image"
+      >
+        <span
+          v-if="emoteCount"
+          class="card-image__emotes"
+        >
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-        <BasicImage :src="image" :alt="title" customClass="gallery__image-wrapper" />
-        <span v-if="price > 0" class="card-image__price">
-          <Money :value="price" inline />
+        <BasicImage
+          :src="image"
+          :alt="title"
+          custom-class="gallery__image-wrapper"
+        />
+        <span
+          v-if="price > 0"
+          class="card-image__price"
+        >
+          <Money
+            :value="price"
+            inline
+          />
         </span>
       </div>
 
-      <div v-else class="card-image">
-        <span v-if="emoteCount" class="card-image__emotes">
+      <div
+        v-else
+        class="card-image"
+      >
+        <span
+          v-if="emoteCount"
+          class="card-image__emotes"
+        >
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image :src="placeholder" alt="Simple image" ratio="1by1"></b-image>
+        <b-image
+          :src="placeholder"
+          alt="Simple image"
+          ratio="1by1"
+        />
 
-        <span v-if="price > 0" class="card-image__price">
-          <Money :value="price" inline />
+        <span
+          v-if="price > 0"
+          class="card-image__price"
+        >
+          <Money
+            :value="price"
+            inline
+          />
         </span>
       </div>
 
@@ -49,7 +81,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { fetchNFTMetadata, getSanitizer } from '../utils'

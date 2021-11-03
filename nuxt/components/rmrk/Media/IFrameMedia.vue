@@ -1,9 +1,16 @@
 <template>
-    <iframe title="html-embed" class="iframe-model__wrapper" :src="src" :alt="mimeType" sandbox="allow-scripts allow-same-origin" allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;" />
+  <iframe
+    title="html-embed"
+    class="iframe-model__wrapper"
+    :src="src"
+    :alt="mimeType"
+    sandbox="allow-scripts allow-same-origin"
+    allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;"
+  />
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class ImageMedia extends Vue {
   @Prop() public src!: string;

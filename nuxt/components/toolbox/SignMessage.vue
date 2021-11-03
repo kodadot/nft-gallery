@@ -1,29 +1,45 @@
 <template>
   <div>
-    <AccountSelect label="sign with following account" v-model="account" :asKeyring="true" />
+    <AccountSelect
+      v-model="account"
+      label="sign with following account"
+      :as-keyring="true"
+    />
     <b-field label="sign the following data">
       <b-input v-model="input" />
     </b-field>
     <PasswordInput v-model="password" />
 
-    <b-button icon-left="key" @click="signData"
-      :disabled="!accountFrom">Sign Message</b-button>
+    <b-button
+      icon-left="key"
+      :disabled="!accountFrom"
+      @click="signData"
+    >
+      Sign Message
+    </b-button>
     <br>
     <br>
-    <DisabledInput label="hex input data" :value="isHexData" />
+    <DisabledInput
+      label="hex input data"
+      :value="isHexData"
+    />
     <b-field label="signature">
-      <b-input :value="signature" expanded disabled/>
+      <b-input
+        :value="signature"
+        expanded
+        disabled
+      />
       <b-button
+        v-clipboard:copy="signature"
         size="is-large"
         icon-left="copy"
-        v-clipboard:copy="signature"
-        @click="toast('Signature has been copied')">
-      </b-button>
+        @click="toast('Signature has been copied')"
+      />
     </b-field>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue} from 'vue-property-decorator'
+import { Component, Vue} from 'nuxt-property-decorator'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { isHex, u8aToHex, hexToU8a, stringToU8a } from '@polkadot/util'
 import DisabledInput from '@/components/shared/DisabledInput.vue'

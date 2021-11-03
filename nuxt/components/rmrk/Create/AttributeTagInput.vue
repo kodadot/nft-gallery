@@ -1,10 +1,9 @@
 <template>
   <b-field :label="$i18n.t('Tags')">
     <b-taginput
-      v-model="tags"
       id="search_tag"
+      v-model="tags"
       type="is-grey"
-      @input="handleInput"
       :data="allTags"
       :maxtags="max"
       ellipsis
@@ -14,6 +13,7 @@
       autocomplete
       open-on-focus
       allow-new
+      @input="handleInput"
     >
       <template #header>
         <b>Type and press enter to add your own</b>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 
 const valueOf = ({value}: Attribute) => String(value)

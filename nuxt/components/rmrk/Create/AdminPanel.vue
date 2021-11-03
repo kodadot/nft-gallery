@@ -2,8 +2,11 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
+        <br>
+        <Loader
+          v-model="isLoading"
+          :status="status"
+        />
         <div class="box">
           <p class="title is-size-3">
             {{ $t("action.admin") }}
@@ -15,21 +18,24 @@
           <template v-if="accountId">
             <b-field :label="$i18n.t('Collection')">
               <b-select
-                placeholder="Select a collection"
                 v-model="selectedCollection"
+                placeholder="Select a collection"
                 expanded
               >
                 <option
                   v-for="option in collections"
-                  :value="option"
                   :key="option.id"
+                  :value="option"
                 >
                   {{ option.name }} {{ option.id }} ({{ option.available }})
                 </option>
               </b-select>
             </b-field>
           </template>
-          <h6 v-if="selectedCollection" class="subtitle is-6">
+          <h6
+            v-if="selectedCollection"
+            class="subtitle is-6"
+          >
             NFTs to process ({{ selectedCollection.available }} pieces)
           </h6>
           <b-field v-if="!selectedCollection && !collections.length">
@@ -55,19 +61,25 @@
               </b-button>
             </b-field> -->
 
-            <BasicSwitch v-model="listed" label="action.omitListed" />
+            <BasicSwitch
+              v-model="listed"
+              label="action.omitListed"
+            />
 
             <b-field>
-              <PasswordInput v-model="password" :account="accountId" />
+              <PasswordInput
+                v-model="password"
+                :account="accountId"
+              />
             </b-field>
             <b-field>
               <b-button
                 type="is-primary"
                 icon-left="paper-plane"
-                @click="sub"
                 :disabled="disabled"
                 :loading="isLoading"
                 outlined
+                @click="sub"
               >
                 {{ $t("action.click", [action]) }}
               </b-button>
@@ -80,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Watch } from 'vue-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, {
   execResultValue,
@@ -156,7 +168,7 @@ const components = {
   },
   components
 })
-export default class AdminPanel extends Mixins(
+export default class AdminPanel extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,

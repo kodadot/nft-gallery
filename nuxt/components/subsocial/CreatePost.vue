@@ -1,12 +1,15 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <Loader
+      v-model="isLoading"
+      :status="status"
+    />
     <PostButton @click="handlePost" />
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { pinSubSocialPost } from '@/proxy'
 import { emptyObject } from '@/utils/empty'
 import { NFT, NFTMetadata } from '../rmrk/service/scheme'
@@ -35,7 +38,7 @@ type Post = {
   name: 'CreatePost',
   components
 })
-export default class CreatePost extends Mixins(TransactionMixin, AuthMixin) {
+export default class CreatePost extends mixins(TransactionMixin, AuthMixin) {
   @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
   @Prop({ default: () => emptyObject<NFTMetadata>() })
   public meta!: NFTMetadata;

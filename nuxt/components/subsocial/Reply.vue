@@ -1,22 +1,29 @@
 <template>
   <div class="box">
-    <Loader v-model="isLoading" :status="status" />
+    <Loader
+      v-model="isLoading"
+      :status="status"
+    />
     <b-field :label="$i18n.t('subsocial.addComment')">
-      <b-input v-model="message" type="textarea"></b-input>
+      <b-input
+        v-model="message"
+        type="textarea"
+      />
     </b-field>
     <b-button
       :disabled="!message"
       type="is-primary"
-      @click="addComment"
       icon-left="plus"
       outlined
-      >{{ $t("subsocial.addComment") }}</b-button
+      @click="addComment"
     >
+      {{ $t("subsocial.addComment") }}
+    </b-button>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { resolveSubsocialApi } from './api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import {
@@ -34,7 +41,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
     Loader: () => import('@/components/shared/Loader.vue')
   }
 })
-export default class Reply extends Mixins(TransactionMixin) {
+export default class Reply extends mixins(TransactionMixin) {
   protected message = '';
   @Prop(String) public postId!: string;
   @Prop() public extension!: Comment | null;

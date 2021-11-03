@@ -1,6 +1,10 @@
 <template>
   <b-field>
-    <b-switch v-model="isSwitched" :rounded="false" :size="size">
+    <b-switch
+      v-model="isSwitched"
+      :rounded="false"
+      :size="size"
+    >
       {{ properLabel }}
     </b-switch>
   </b-field>
@@ -8,7 +12,7 @@
 
 <script lang="ts" >
 import { TranslateResult } from 'vue-i18n'
-import { Component, Prop, VModel, Vue } from 'vue-property-decorator'
+import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BasicSwitch extends Vue {

@@ -1,12 +1,18 @@
 <template>
-  <video width="400" controls>
-      <source :src="src" :type="mimeType">
-      Unable to show audio
+  <video
+    width="400"
+    controls
+  >
+    <source
+      :src="src"
+      :type="mimeType"
+    >
+    Unable to show audio
   </video>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class VideoMedia extends Vue {

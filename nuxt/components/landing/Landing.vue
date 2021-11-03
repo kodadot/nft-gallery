@@ -24,12 +24,15 @@
           </span>
         </h2>
         <div class="buttons">
-          <b-dropdown aria-role="list" class="mr-2">
+          <b-dropdown
+            aria-role="list"
+            class="mr-2"
+          >
             <template #trigger>
-                <b-button
-                  label="Create"
-                  type="is-primary"
-                />
+              <b-button
+                label="Create"
+                type="is-primary"
+              />
             </template>
             <b-dropdown-item
               aria-role="listitem"
@@ -47,37 +50,37 @@
             </b-dropdown-item>
           </b-dropdown>
           <b-button
-              tag="router-link"
-              to="/rmrk/gallery"
-              type="is-primary"
+            tag="router-link"
+            to="/rmrk/gallery"
+            type="is-primary"
           >
             Gallery
           </b-button>
           <b-button
-              tag="router-link"
-              to="/spotlight"
-              type="is-primary"
+            tag="router-link"
+            to="/spotlight"
+            type="is-primary"
           >
             Spotlight
           </b-button>
           <b-button
-              tag="router-link"
-              to="/about"
-              type="is-primary"
+            tag="router-link"
+            to="/about"
+            type="is-primary"
           >
             About
           </b-button>
           <b-button
-              tag="router-link"
-              to="/rmrk/faq"
-              type="is-primary"
+            tag="router-link"
+            to="/rmrk/faq"
+            type="is-primary"
           >
             Faq
           </b-button>
           <b-button
-              tag="router-link"
-              to="/grants"
-              type="is-primary"
+            tag="router-link"
+            to="/grants"
+            type="is-primary"
           >
             Grants
           </b-button>
@@ -138,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { denyList } from '@/constants'
 import { getMany, update } from 'idb-keyval'

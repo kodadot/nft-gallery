@@ -19,19 +19,18 @@
                   type="is-primary"
                   class="my-5"
                 >
-                <router-link :to="{ name: 'carbonless'}">
-                  Read more
-                </router-link>
+                  <router-link :to="{ name: 'carbonless'}">
+                    Read more
+                  </router-link>
                 </b-button>
                 <b-button
                   type="is-primary"
                   class="my-5"
                 >
-                <router-link :to="{ name: 'esCarbonless'}">
-                  🇪🇸
-                </router-link>
+                  <router-link :to="{ name: 'esCarbonless'}">
+                    🇪🇸
+                  </router-link>
                 </b-button>
-
               </div>
               <div class="mb-5">
                 <h2 class="heading heading-is-4 text-bold uppercase">
@@ -47,19 +46,18 @@
                   type="is-primary"
                   class="my-5"
                 >
-                <router-link :to="{ name: 'sustainability'}">
-                  Read more
-                </router-link>
+                  <router-link :to="{ name: 'sustainability'}">
+                    Read more
+                  </router-link>
                 </b-button>
                 <b-button
                   type="is-primary"
                   class="my-5"
                 >
-                <router-link :to="{ name: 'esSustainability'}">
-                  🇪🇸
-                </router-link>
+                  <router-link :to="{ name: 'esSustainability'}">
+                    🇪🇸
+                  </router-link>
                 </b-button>
-
               </div>
               <div class="mb-5">
                 <h2 class="heading heading-is-4 text-bold uppercase">
@@ -75,9 +73,9 @@
                   type="is-primary"
                   class="my-5"
                 >
-                <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5">
-                  Read more
-                </a>
+                  <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5">
+                    Read more
+                  </a>
                 </b-button>
               </div>
               <div class="mb-5">
@@ -94,9 +92,9 @@
                   type="is-primary"
                   class="my-5"
                 >
-                <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97">
-                  Read more
-                </a>
+                  <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97">
+                    Read more
+                  </a>
                 </b-button>
               </div>
             </div>
@@ -107,7 +105,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component<About>({

@@ -2,7 +2,6 @@
   <b-field>
     <b-taginput
       v-model="tags"
-      @input="handleInput"
       :data="allTags"
       ellipsis
       icon="tag"
@@ -11,13 +10,13 @@
       autocomplete
       open-on-focus
       type="is-primary"
-    >
-    </b-taginput>
+      @input="handleInput"
+    />
   </b-field>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 
 @Component({})
 export default class extends Vue {

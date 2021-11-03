@@ -8,9 +8,10 @@
       >
         <option
           v-for="option in options"
-          v-bind:key="option.text"
+          :key="option.text"
           :value="option.value"
-          >{{ option.text }}
+        >
+          {{ option.text }}
         </option>
       </b-select>
     </b-field>
@@ -18,17 +19,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class Vote extends Vue {
 
   get selected() {
-    return '';
+    return ''
   }
 
   set selected(value: any) {
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   @Prop() public argument!: any;

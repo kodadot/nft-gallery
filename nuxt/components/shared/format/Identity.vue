@@ -1,11 +1,21 @@
 <template>
-  <component :is="is" v-clipboard:copy="address" :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }" v-if="(showTwitter && twitter) || !showTwitter">
+  <component
+    :is="is"
+    v-if="(showTwitter && twitter) || !showTwitter"
+    v-clipboard:copy="address"
+    :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
+  >
     <template v-if="showTwitter && twitter">
-      <a :href="`https://twitter.com/${twitter}`" class="twitter-link" target="_blank" rel="noopener noreferrer">
+      <a
+        :href="`https://twitter.com/${twitter}`"
+        class="twitter-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <b-icon
           pack="fab"
           icon="twitter"
-        ></b-icon>
+        />
         <span class="aligned">
           {{ twitter | toString }}
         </span>
@@ -18,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Mixins, Emit } from 'vue-property-decorator'
+import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -36,7 +46,7 @@ type IdentityFields = Record<string, string>;
 const components = {}
 
 @Component({ components })
-export default class Identity extends Mixins(InlineMixin) {
+export default class Identity extends mixins(InlineMixin) {
   @Prop() public address!: Address;
   @Prop(Boolean) public verticalAlign!: boolean;
   @Prop(Boolean) public noOwerflow!: boolean;

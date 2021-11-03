@@ -3,12 +3,16 @@
     <p class="label">
       {{ $t('Price Chart') }}
     </p>
-    <div id="chart" ref="chart" class="echart"></div>
+    <div
+      id="chart"
+      ref="chart"
+      class="echart"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
 
 import * as ECharts from 'echarts/core'
 import { GridComponent } from 'echarts/components'

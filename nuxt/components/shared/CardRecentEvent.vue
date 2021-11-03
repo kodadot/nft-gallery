@@ -1,46 +1,66 @@
 <template>
   <div>
     <section>
-      <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
+      <b-collapse
+        class="card"
+        aria-id="contentIdForA11y3"
+        :open="open"
+      >
         <div
           slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
-          aria-controls="contentIdForA11y3">
+          aria-controls="contentIdForA11y3"
+        >
           <p class="card-header-title">
-            {{header}}
+            {{ header }}
           </p>
           <a class="card-header-icon">
             <b-icon
-              :icon="props.open ? 'caret-down' : 'caret-up'">
-            </b-icon>
+              :icon="props.open ? 'caret-down' : 'caret-up'"
+            />
           </a>
         </div>
         <div class="card-content">
           <div class="content truncate">
-            {{content}}
-            <div v-for="e in event" :key="e.index">
-              <b-message :closable="false" class="has-identicon" >
-                <div v-for="(line) in e" :key="line.index">
-                  <div class="column is-2"
+            {{ content }}
+            <div
+              v-for="e in event"
+              :key="e.index"
+            >
+              <b-message
+                :closable="false"
+                class="has-identicon"
+              >
+                <div
+                  v-for="(line) in e"
+                  :key="line.index"
+                >
+                  <div
                     v-if="validateAddress(line)"
                     v-clipboard:copy="open"
-                    @click="toast('Address copied to clipboard')">
+                    class="column is-2"
+                    @click="toast('Address copied to clipboard')"
+                  >
                     <div class="columns">
                       <div class="column">
-                      <Identicon
-                        :value="line"
-                        :theme="theme"
-                        :size="size" />
+                        <Identicon
+                          :value="line"
+                          :theme="theme"
+                          :size="size"
+                        />
                       </div>
                       <div class="column">
-                        {{line}}
+                        {{ line }}
                       </div>
                     </div>
                   </div>
-                  <div v-if="!validateAddress(line)" class="column">
-                    {{line}}
+                  <div
+                    v-if="!validateAddress(line)"
+                    class="column"
+                  >
+                    {{ line }}
                   </div>
                 </div>
               </b-message>
@@ -53,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 import keyring from '@polkadot/ui-keyring'
 

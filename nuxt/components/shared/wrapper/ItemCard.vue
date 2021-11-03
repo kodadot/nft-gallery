@@ -3,7 +3,7 @@
     <div class="card-content item-card-content columns is-vcentered">
       <slot />
     </div>
-    <slot name="additional"></slot>
+    <slot name="additional" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@
 </style>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Vue } from 'nuxt-property-decorator'
 
 export default class ItemCard extends Vue {
 }

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <b-tabs v-model="activeTab" multiline>
+    <b-tabs
+      v-model="activeTab"
+      multiline
+    >
       <b-tab-item label="Hash data">
         <HashData />
       </b-tab-item>
@@ -17,7 +20,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import SignMessage from './SignMessage.vue'
 import VerifySignature from './VerifySignature.vue'
 import HashData from './HashData.vue'

@@ -1,10 +1,14 @@
 <template>
   <div>
-    <b-table :striped="true" :data="data" :columns="columns"></b-table>
+    <b-table
+      :striped="true"
+      :data="data"
+      :columns="columns"
+    />
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class Table extends Vue {

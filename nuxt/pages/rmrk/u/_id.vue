@@ -127,7 +127,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'

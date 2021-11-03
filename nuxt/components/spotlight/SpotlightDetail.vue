@@ -1,19 +1,25 @@
 <template>
-<div>
-  <div class="columns">
-  <div
-    class="column"
-    v-for="nft in nfts"
-    :key="nft.id"
-  >
-    <GalleryCard :id="nft.id" :name="nft.name" :type="type" :link="link" :metadata="nft.metadata" />
+  <div>
+    <div class="columns">
+      <div
+        v-for="nft in nfts"
+        :key="nft.id"
+        class="column"
+      >
+        <GalleryCard
+          :id="nft.id"
+          :name="nft.name"
+          :type="type"
+          :link="link"
+          :metadata="nft.metadata"
+        />
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
 

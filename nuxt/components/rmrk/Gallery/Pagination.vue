@@ -13,12 +13,11 @@
     aria-page-label="Page"
     aria-current-label="Current page"
     @change="onPageChange"
-  >
-  </b-pagination>
+  />
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 

@@ -1,17 +1,35 @@
 <template>
   <div>
     <template v-if="!commentsVisible && !nested">
-      <b-button v-if="replyCount"  type="is-primary" @click="commentsVisible = true" >{{ $t('subsocial.showComments') }} {{ replyCount }}</b-button>
-      <p v-else class="title mt-2 is-6 has-text-bold">{{ $t('subsocial.noComment') }}</p>
+      <b-button
+        v-if="replyCount"
+        type="is-primary"
+        @click="commentsVisible = true"
+      >
+        {{ $t('subsocial.showComments') }} {{ replyCount }}
+      </b-button>
+      <p
+        v-else
+        class="title mt-2 is-6 has-text-bold"
+      >
+        {{ $t('subsocial.noComment') }}
+      </p>
     </template>
     <template v-else>
-      <CommentAdapter v-for="(comment, i) in comments" :key="i" :comment="comment" :actionDisabled="actionDisabled" :index="i" @change="reloadComment" />
+      <CommentAdapter
+        v-for="(comment, i) in comments"
+        :key="i"
+        :comment="comment"
+        :action-disabled="actionDisabled"
+        :index="i"
+        @change="reloadComment"
+      />
     </template>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { resolveSubsocialApi } from './api'
 import { PostType } from './types'
 import BN from 'bn.js'

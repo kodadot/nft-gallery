@@ -1,14 +1,18 @@
 <template>
-  <ExternalLink :url="link" :id="id" class="is-flex">
+  <ExternalLink
+    :id="id"
+    :url="link"
+    class="is-flex"
+  >
     <figure class="image is-24x24 icon__less-margin">
-      <img src="/arweave.svg" />
+      <img src="/arweave.svg">
     </figure>
     <b class="is-align-self-center">View {{ label }} on Arweave</b>
   </ExternalLink>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 const components = {
   ExternalLink: () => import('@/components/shared/format/ExternalLink.vue')
 }

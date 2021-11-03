@@ -9,15 +9,18 @@
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
     >
-    <button slot="ar-button" id="ar-button">
-      Activate AR
-    </button>
+      <button
+        id="ar-button"
+        slot="ar-button"
+      >
+        Activate AR
+      </button>
     </model-viewer>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import '@google/model-viewer'
 
 @Component({})

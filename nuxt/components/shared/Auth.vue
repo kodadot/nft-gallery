@@ -1,23 +1,29 @@
 <template>
   <div v-if="account">
     <div class="auth-avatar">
-      <Avatar :value="account" :size="size" />
-      <span class="subtitle has-text-weight-bold auth-avatar-title"
-        ><Identity :address="account" :inline="true"
+      <Avatar
+        :value="account"
+        :size="size"
+      />
+      <span
+        class="subtitle has-text-weight-bold auth-avatar-title"
+      ><Identity
+        :address="account"
+        :inline="true"
       /></span>
     </div>
     <!-- <Money :value="balance" /> -->
   </div>
   <AccountSelect
     v-else
-    :label="$i18n.t('Account')"
     v-model="account"
-    :tooltipVisible="false"
+    :label="$i18n.t('Account')"
+    :tooltip-visible="false"
   />
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 
 const components = {

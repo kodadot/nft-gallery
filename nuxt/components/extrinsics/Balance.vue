@@ -1,9 +1,15 @@
 <template>
-  <b-tag class="balance-tag" type="is-dark" size="is-medium">With balance: {{ balance }}</b-tag>
+  <b-tag
+    class="balance-tag"
+    type="is-dark"
+    size="is-medium"
+  >
+    With balance: {{ balance }}
+  </b-tag>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 
 @Component
 export default class Balance extends Vue {

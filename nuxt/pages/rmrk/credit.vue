@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import Credit from '@/components/rmrk/Credit/Credit.vue'
 
 @Component({

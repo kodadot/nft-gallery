@@ -7,21 +7,28 @@
             {{ name }}
           </p>
           <p class="subtitle">
-            Curated by: <ProfileLink v-if="owner" :address="owner" :inline="true" />
+            Curated by: <ProfileLink
+              v-if="owner"
+              :address="owner"
+              :inline="true"
+            />
           </p>
-          <Sharing v-if="sharingVisible" label="Check this awesome Pack on %23KusamaNetwork %23KodaDot" :iframe="iframeSettings" />
+          <Sharing
+            v-if="sharingVisible"
+            label="Check this awesome Pack on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings"
+          />
         </div>
       </div>
     </div>
 
     <GalleryCardList :items="nfts" />
-
   </div>
 </template>
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 // import { getInstance } from '../service/RmrkService';
 import { CompletePack } from '../service/scheme'
 import isShareMode from '@/utils/isShareMode'

@@ -142,7 +142,7 @@
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { denyList } from '@/constants'
 import { getMany, update } from 'idb-keyval'

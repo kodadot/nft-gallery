@@ -13,17 +13,16 @@
       </b-field>
       <b-field expanded>
         <b-input
+          v-model="searchQuery"
           placeholder="Search..."
           type="search"
-          v-model="searchQuery"
           icon="search"
           expanded
-        >
-        </b-input>
+        />
       </b-field>
       <BasicSwitch
-        class="is-flex"
         v-model="vListed"
+        class="is-flex"
         label="sort.listed"
         size="is-medium"
       />
@@ -42,7 +41,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'

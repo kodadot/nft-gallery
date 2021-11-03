@@ -200,7 +200,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'

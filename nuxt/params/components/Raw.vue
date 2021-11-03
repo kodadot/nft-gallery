@@ -1,15 +1,21 @@
 <template>
   <div class="arguments-wrapper raw-label">
-    <b-field :label="`${argument.name}: ${argument.type}`" class="raw-field">
-      <b-input v-model="arg" :disabled="disabled" />
+    <b-field
+      :label="`${argument.name}: ${argument.type}`"
+      class="raw-field"
+    >
+      <b-input
+        v-model="arg"
+        :disabled="disabled"
+      />
     </b-field>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-const DEFAULT = '0x';
+const DEFAULT = '0x'
 
 @Component
 export default class Raw extends Vue {
@@ -18,13 +24,13 @@ export default class Raw extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   set arg(value) {
-    console.log('ArgumentHandler', { [this.argument.name.toString()]: value });
+    console.log('ArgumentHandler', { [this.argument.name.toString()]: value })
 
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
   get arg() {
-    return this.defaultValue ? this.defaultValue : DEFAULT;
+    return this.defaultValue ? this.defaultValue : DEFAULT
   }
 
 }

@@ -8,75 +8,95 @@
       pagination-position="top"
       show-detail-icon
     >
-      <template v-slot:top-left>
+      <template #top-left>
         <b-field>
           <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+            <b-switch
+              v-model="toggleUsersWithIdentity"
+              :rounded="false"
+            >
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
           </div>
         </b-field>
       </template>
       <b-table-column
+        v-slot="props"
         cell-class="short-identity__table"
         field="id"
         :label="$t('spotlight.id')"
-        v-slot="props"
       >
-        <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
-          <Identity :address="props.row.id" inline noOverflow />
+        <router-link
+          v-if="!isLoading"
+          :to="{ name: 'profile', params: { id: props.row.id } }"
+        >
+          <Identity
+            :address="props.row.id"
+            inline
+            no-overflow
+          />
         </router-link>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="sold"
         :label="$t('spotlight.sold')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.sold }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.sold }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="unique"
         :label="$t('spotlight.unique')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.unique }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.unique }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="total"
         :label="$t('spotlight.total')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.total }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.total }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="averagePrice"
         :label="$t('spotlight.averagePrice')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ Math.ceil(props.row.averagePrice * 100) / 100 }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="count"
         :label="$t('spotlight.count')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.count }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.count }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
@@ -85,30 +105,52 @@
         sortable
         numeric
       >
-        <template v-slot:header="{column}">
-          <b-tooltip label="sold * (unique / total)" append-to-body dashed>
-            {{column.label}}
+        <template #header="{column}">
+          <b-tooltip
+            label="sold * (unique / total)"
+            append-to-body
+            dashed
+          >
+            {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template
+          v-if="!isLoading"
+          #default="props"
+        >
+          {{ Math.ceil(props.row.rank * 100) / 100 }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <template #detail="props">
-        <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
-        <div v-else class="has-text-centered">{{ $t("spotlight.empty") }}</div>
+        <SpotlightDetail
+          v-if="props.row.total"
+          :account="props.row.id"
+        />
+        <div
+          v-else
+          class="has-text-centered"
+        >
+          {{ $t("spotlight.empty") }}
+        </div>
       </template>
 
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">{{ $t("spotlight.empty") }}</div>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <div
+          v-if="!isLoading"
+          class="has-text-centered"
+        >
+          {{ $t("spotlight.empty") }}
+        </div>
+        <b-skeleton :active="isLoading" />
       </template>
     </b-table>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import { columns, nftFn } from './utils'
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
@@ -126,7 +168,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SpotlightTable extends Mixins(TransactionMixin) {
+export default class SpotlightTable extends mixins(TransactionMixin) {
   @Prop() public value!: any;
   protected data: Row[] = [];
   protected columns: Column[] = columns;

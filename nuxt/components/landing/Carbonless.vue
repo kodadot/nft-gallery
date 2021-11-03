@@ -6,7 +6,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                <b-icon icon="leaf"></b-icon>
+                <b-icon icon="leaf" />
                 Carbonless NFT Movement
               </h1>
               <h1 class="subtitle">
@@ -48,7 +48,7 @@
               <p>
                 We are aware that just by purchasing Carbon Offsets we won't solve the issue,
                 but <b>we can be small butterfly effect, and later jumpstart impactful actions to
-                start a forestation movement on bigger scale</b>,
+                  start a forestation movement on bigger scale</b>,
                 where it would be native for NFT galleries to bring with every mint,
                 buying offsets in a way to put a small amount of % towards buying carbon offsets and forestation.
 
@@ -70,7 +70,7 @@
 
                 To drive the vision to home, we are genuinely looking forward to starting with
                 <b><a href="https://yangwao.medium.com/planet-terraformation-forest-as-a-service-94a2633ad011">
-                Terraformation of Planet Earth</a></b>
+                  Terraformation of Planet Earth</a></b>
                 where one could participate in fashion to own part of the forest, probably introduce
                 the concept of <b>Forest as a Service</b>. Imagination is the limit.
               </p><br>
@@ -80,11 +80,11 @@
               <p>
                 We are really aware that movement is just about to begin when news outlets started
                 heating discussion and <b><a href="https://twitter.com/search?q=%23CleanNFT&src=typeahead_click">
-                #cleanNFT movement</a></b>
+                  #cleanNFT movement</a></b>
                 has begun. One option for the creator is to <b>
-                <a href="https://docs.google.com/spreadsheets/d/1A-7Ama31sYWhXDl6NoJaXnbAV9pFbjxLIgl7jb3CHOs/edit#gid=0">
-                choose from a variety of NFT platforms running
-                on low carbon blockchains</a></b>
+                  <a href="https://docs.google.com/spreadsheets/d/1A-7Ama31sYWhXDl6NoJaXnbAV9pFbjxLIgl7jb3CHOs/edit#gid=0">
+                    choose from a variety of NFT platforms running
+                    on low carbon blockchains</a></b>
                 which is really great start. Another option is to actively drive
                 movement to be <a href="https://offsets.gallery/">carbon-negative gallery</a>.<br>
               </p><br>
@@ -96,10 +96,10 @@
                 <b>to add carbonless minting for creators</b> and start showing which NFTs are
                 carbonless by showing 🌱 next to them. To top-up our carbon credits buffer,
                 <b><a href="https://nft.kodadot.xyz/rmrk/detail/7369221-0E76E3AC15B4C1FA1E-VCU-KODADOT_CARBON_CREDITS-0000000000000001">we've already
-                bought KodaDot Carbon Credits</a></b> and plan to automatize offset them in the future more in sustainabile way.<br>
+                  bought KodaDot Carbon Credits</a></b> and plan to automatize offset them in the future more in sustainabile way.<br>
                 <b>You can read more at <a href="https://offsetra.com/profile/kodadot">KodaDot's profile page at Offsetra</a></b><br><br>
                 Once you minted your <b>carbonless NFT on KodaDot,
-                <u><a href="https://t.me/joinchat/aE-i3mgMAo9lMTU0">you are welcome to join our Carbonless Minting Telegram channel</a> and <a href="https://discord.gg/u6ymnbz4PR">KodaDot Discord</a></u></b>
+                  <u><a href="https://t.me/joinchat/aE-i3mgMAo9lMTU0">you are welcome to join our Carbonless Minting Telegram channel</a> and <a href="https://discord.gg/u6ymnbz4PR">KodaDot Discord</a></u></b>
               </p><br>
               <h1 class="title is-4">
                 Reading list
@@ -116,7 +116,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component<Carbonless>({

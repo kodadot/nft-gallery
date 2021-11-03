@@ -1,11 +1,15 @@
 <template>
   <figure class="image is-square nft-image">
-    <img class="image-media__image" :src="src" :alt="mimeType" />
+    <img
+      class="image-media__image"
+      :src="src"
+      :alt="mimeType"
+    >
   </figure>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class ImageMedia extends Vue {
   @Prop() public src!: string;

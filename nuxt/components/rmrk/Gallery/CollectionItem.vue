@@ -78,7 +78,7 @@
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { CollectionWithMeta, Collection } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
 import isShareMode from '@/utils/isShareMode'

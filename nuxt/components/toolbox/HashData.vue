@@ -1,24 +1,34 @@
 <template>
   <div>
     <b-field label="from the following data">
-      <b-input v-model="data" @input="isHexData();hashData()" />
+      <b-input
+        v-model="data"
+        @input="isHexData();hashData()"
+      />
     </b-field>
-    <DisabledInput label="hex input data" :value="inputDataCheck" />
+    <DisabledInput
+      label="hex input data"
+      :value="inputDataCheck"
+    />
     <b-field>
       <b-field label="the resulting hash">
-        <b-input :value="hashedData" expanded disabled/>
+        <b-input
+          :value="hashedData"
+          expanded
+          disabled
+        />
         <b-button
+          v-clipboard:copy="hashedData"
           size="is-large"
           icon-left="copy"
-          v-clipboard:copy="hashedData"
-          @click="toast('Hash has been copied')">
-        </b-button>
+          @click="toast('Hash has been copied')"
+        />
       </b-field>
     </b-field>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util'
 import { blake2AsHex } from '@polkadot/util-crypto'
 import DisabledInput from '@/components/shared/DisabledInput.vue'

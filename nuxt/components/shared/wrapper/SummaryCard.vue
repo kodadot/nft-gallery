@@ -1,13 +1,13 @@
 <template>
   <div class="card">
     <div class="card-content summary-content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class SummaryCard extends Vue {

@@ -2,15 +2,19 @@
   <div class="nft-appreciation__main my-4">
     <b-dropdown
       v-model="currentMenu"
-      @input="handleInput"
       multiple
       aria-role="list"
       expanded
       scrollable
       :max-height="200"
-      >
+      @input="handleInput"
+    >
       <template #trigger>
-        <b-button type="is-primary" icon-left="bookmark" expanded>
+        <b-button
+          type="is-primary"
+          icon-left="bookmark"
+          expanded
+        >
           Save to pack ({{ currentMenu.length }})
         </b-button>
       </template>
@@ -28,16 +32,32 @@
         </div>
       </b-dropdown-item>
 
-      <b-dropdown-item class="pack-saver-input__wrapper" custom aria-role="listitem">
-        <b-input class="pack-saver-input__input" v-model="newPackName" placeholder="New pack name" expanded />
-        <b-button type="is-info" outlined :disabled="!newPackName" @click="addPack" icon-left="plus" :loading="isLoading" />
+      <b-dropdown-item
+        class="pack-saver-input__wrapper"
+        custom
+        aria-role="listitem"
+      >
+        <b-input
+          v-model="newPackName"
+          class="pack-saver-input__input"
+          placeholder="New pack name"
+          expanded
+        />
+        <b-button
+          type="is-info"
+          outlined
+          :disabled="!newPackName"
+          icon-left="plus"
+          :loading="isLoading"
+          @click="addPack"
+        />
       </b-dropdown-item>
     </b-dropdown>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Pack } from '@/components/rmrk/service/scheme'
 
 

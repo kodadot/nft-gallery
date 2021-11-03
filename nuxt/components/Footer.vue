@@ -12,8 +12,7 @@
               <b-icon
                 icon="envelope"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
           <li class="icons__list-item">
@@ -26,8 +25,7 @@
                 pack="fab"
                 icon="medium"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
           <li class="icons__list-item">
@@ -40,8 +38,7 @@
                 pack="fab"
                 icon="discord"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
           <li class="icons__list-item">
@@ -54,8 +51,7 @@
                 pack="fab"
                 icon="youtube"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
           <li class="icons__list-item">
@@ -68,8 +64,7 @@
                 pack="fab"
                 icon="telegram"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
           <li class="icons__list-item">
@@ -82,8 +77,7 @@
                 pack="fab"
                 icon="twitter"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
 
@@ -97,8 +91,7 @@
                 pack="fab"
                 icon="reddit-alien"
                 size="is-medium"
-              >
-              </b-icon>
+              />
             </a>
           </li>
         </ul>
@@ -121,7 +114,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import i18n from '@/i18n'
 import { TranslateResult } from 'vue-i18n/types'
 

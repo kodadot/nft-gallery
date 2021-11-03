@@ -1,20 +1,30 @@
 <template>
-  <div class="arguments-wrapper" v-bind:class="{ actionable: actionVisible }">
+  <div
+    class="arguments-wrapper"
+    :class="{ actionable: actionVisible }"
+  >
     <!-- <label><b>{{ argument.name }}: {{ argument.type }}</b></label> -->
     <component
       :is="selected(argument)"
       :argument="enhanceTypeDef(argument)"
       :disabled="disabled"
+      :default-value="defaultValue"
+      :class="{ big: actionVisible }"
       @selected="handleSelected"
-      :defaultValue="defaultValue"
-      v-bind:class="{ big: actionVisible }"
     />
-    <b-button v-if="actionVisible" class="argument-handler__delete-button" type="is-dark" icon-left="times" outlined @click="handleAction" />
+    <b-button
+      v-if="actionVisible"
+      class="argument-handler__delete-button"
+      type="is-dark"
+      icon-left="times"
+      outlined
+      @click="handleAction"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import findComponent from '@/params/components/findComponent'
 import { createType, getTypeDef } from '@polkadot/types'
 import registry from '@/params/components/typeRegistry'

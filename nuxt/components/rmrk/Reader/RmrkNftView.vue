@@ -1,11 +1,22 @@
 <template>
-  <div v-if="visible" class="card nft-card">
-    <div class="card-image" v-if="image">
-      <MediaResolver :src="image" :mimeType="mimeType" />
+  <div
+    v-if="visible"
+    class="card nft-card"
+  >
+    <div
+      v-if="image"
+      class="card-image"
+    >
+      <MediaResolver
+        :src="image"
+        :mime-type="mimeType"
+      />
     </div>
     <div class="card-content">
       <div class="content">
-        <b-tag type="is-info">{{ rmrk.action }}</b-tag>
+        <b-tag type="is-info">
+          {{ rmrk.action }}
+        </b-tag>
         <div><b>collection: </b>{{ rmrk.view.collection }} </div>
         <div><b>name: </b>{{ rmrk.view.name }} </div>
         <div><b>instance: </b>{{ rmrk.view.instance }} </div>
@@ -19,7 +30,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { RMRK, CollectionMetadata } from '../types'
 import { fetchRmrkMeta, isEmpty } from '../utils'
 import { emptyObject } from '@/utils/empty'

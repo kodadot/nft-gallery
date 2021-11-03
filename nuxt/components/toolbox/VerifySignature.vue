@@ -1,24 +1,43 @@
 <template>
   <div>
-    <AccountSelect label="sign with following account" v-model="accountFrom" :asKeyring="true" />
+    <AccountSelect
+      v-model="accountFrom"
+      label="sign with following account"
+      :as-keyring="true"
+    />
     <b-field label="using the following data">
-      <b-input v-model="data"
-      @input="isHexData();complexVerifySignature()"
-      :disabled="!accountFrom"></b-input>
+      <b-input
+        v-model="data"
+        :disabled="!accountFrom"
+        @input="isHexData();complexVerifySignature()"
+      />
     </b-field>
-    <b-field label="the supplied signature"
-      v-bind:type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
-      <b-input v-model="signature" @input="complexVerifySignature()"
-      :disabled="!accountFrom"></b-input>
+    <b-field
+      label="the supplied signature"
+      :type="{ 'is-success': validSignature, 'is-danger': !validSignature }"
+    >
+      <b-input
+        v-model="signature"
+        :disabled="!accountFrom"
+        @input="complexVerifySignature()"
+      />
     </b-field>
     <b-field grouped>
-      <DisabledInput label="hex input data" :expanded="true" :value="inputDataCheck" />
-      <DisabledInput label="signature crypto type" :expanded="true" :value="cryptoType" />
+      <DisabledInput
+        label="hex input data"
+        :expanded="true"
+        :value="inputDataCheck"
+      />
+      <DisabledInput
+        label="signature crypto type"
+        :expanded="true"
+        :value="cryptoType"
+      />
     </b-field>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { isHex, u8aToHex } from '@polkadot/util'
 import DisabledInput from '@/components/shared/DisabledInput.vue'

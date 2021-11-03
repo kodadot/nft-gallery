@@ -9,9 +9,10 @@
       >
         <option
           v-for="method in argument.sub"
-          v-bind:key="method.name"
+          :key="method.name"
           :value="method.name"
-          >{{ method.name }}
+        >
+          {{ method.name }}
         </option>
       </b-select>
     </b-field>
@@ -19,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class VoteThreshold extends Vue {
@@ -29,11 +30,11 @@ export default class VoteThreshold extends Vue {
 
 
   get selected() {
-    return this.defaultValue || '';
+    return this.defaultValue || ''
   }
 
   set selected(value) {
-    this.$emit('selected', { [this.argument.name.toString()]: value });
+    this.$emit('selected', { [this.argument.name.toString()]: value })
   }
 
 }

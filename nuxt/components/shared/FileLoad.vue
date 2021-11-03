@@ -1,24 +1,27 @@
 <template>
   <div class="field">
     <b-field>
-      <b-upload v-model="toImport"
+      <b-upload
+        v-model="toImport"
         name="account"
         native
         drag-drop
         accept="application/json, text/plain"
-        >
+      >
         <section class="section">
           <div class="has-text-centered ">
             <p>
               <b-icon
-                  icon="upload"
-                  size="is-large">
-              </b-icon>
+                icon="upload"
+                size="is-large"
+              />
             </p>
-            <p v-show="!account">Drop your account here or click to upload</p>
+            <p v-show="!account">
+              Drop your account here or click to upload
+            </p>
             <div class="tags">
               <span>
-              {{readAccount(account)}}
+                {{ readAccount(account) }}
               </span>
             </div>
           </div>
@@ -29,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, PropSync, Watch } from 'vue-property-decorator'
+import { Vue, Component, PropSync, Watch } from 'nuxt-property-decorator'
 
 @Component
 export default class FileLoad extends Vue {

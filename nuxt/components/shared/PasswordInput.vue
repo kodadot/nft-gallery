@@ -1,11 +1,20 @@
 <template>
-  <b-field v-if="accountLocked" label="password 🤫 magic spell" class="password-wrapper">
-      <b-input :value="value" @input="handlePassword" type="password" password-reveal> </b-input>
-    </b-field>
+  <b-field
+    v-if="accountLocked"
+    label="password 🤫 magic spell"
+    class="password-wrapper"
+  >
+    <b-input
+      :value="value"
+      type="password"
+      password-reveal
+      @input="handlePassword"
+    />
+  </b-field>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { isAccountLocked } from '@/utils/account'
 
 @Component

@@ -1,20 +1,30 @@
 <template>
   <div class="setting-chooser-wrapper">
     <b-field :label="label">
-      <b-select :placeholder="label" v-model="selected" expanded>
+      <b-select
+        v-model="selected"
+        :placeholder="label"
+        expanded
+      >
         <option
           v-for="option in options"
-          :value="option.value"
           :key="option.value"
-        >{{ option.text }}</option>
+          :value="option.value"
+        >
+          {{ option.text }}
+        </option>
       </b-select>
     </b-field>
-    <AddOption v-if="hasAdd" @add="handleAddedOption" :label="label" />
+    <AddOption
+      v-if="hasAdd"
+      :label="label"
+      @add="handleAddedOption"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import AddOption from './AddOption.vue'
 
 @Component({

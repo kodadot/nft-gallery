@@ -6,22 +6,28 @@
       </span>
     </h2>
     <p class="faq__box heading heading-is-2 text-bold is-flex-inline mb-6">
-      No time for reading? <br />
-      No problem. Check out <br />
+      No time for reading? <br>
+      No problem. Check out <br>
       <router-link :to="{ name: 'tutorials' }">
         Our tutorials.
       </router-link>
     </p>
-    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
-      <b-collapse :open="false" :id="qa[0].replace(/ /g, '-')">
+    <div
+      v-for="qa in faqQuestionsAnswers"
+      :key="qa[0]"
+      class="mb-5"
+    >
+      <b-collapse
+        :id="qa[0].replace(/ /g, '-')"
+        :open="false"
+      >
         <template #trigger="props">
           <div class="is-flex title">
             <a
               class="card-header-icon has-text-primary"
               :href="'#' + qa[0].replace(/ /g, '-')"
             >
-              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'">
-              </b-icon>
+              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'" />
             </a>
             <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
               {{ qa[0] }}
@@ -30,7 +36,7 @@
         </template>
         <div class="content">
           <p class="subtitle">
-            <span v-html="qa[1]"></span>
+            <span v-html="qa[1]" />
           </p>
         </div>
       </b-collapse>
@@ -39,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import i18n from '@/i18n'
 
 @Component({})

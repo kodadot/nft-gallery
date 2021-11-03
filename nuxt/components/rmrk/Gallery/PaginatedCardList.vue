@@ -1,18 +1,22 @@
 <template>
   <div>
-    <Pagination replace :total="total" v-model="currentValue" />
+    <Pagination
+      v-model="currentValue"
+      replace
+      :total="total"
+    />
     <GalleryCardList :items="items" />
     <Pagination
+      v-model="currentValue"
       class="pt-5 pb-5"
       replace
       :total="total"
-      v-model="currentValue"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 

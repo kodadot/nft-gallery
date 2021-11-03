@@ -2,14 +2,19 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
+        <br>
+        <Loader
+          v-model="isLoading"
+          :status="status"
+        />
         <div class="box">
           <p class="title is-size-3">
             <!-- {{ $t('mint.context') }} -->
             Create NFT Collectibles
           </p>
-          <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
+          <p class="subtitle is-size-7">
+            {{ $t("using") }} {{ version }}
+          </p>
           <b-field>
             <div>
               {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
@@ -26,52 +31,74 @@
             preview
           />
 
-          <b-field grouped :label="$i18n.t('Name')">
+          <b-field
+            grouped
+            :label="$i18n.t('Name')"
+          >
             <b-input
-              placeholder="Name your NFT"
               v-model="rmrkMint.name"
+              placeholder="Name your NFT"
               expanded
               class="mr-0"
               spellcheck="true"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.name')"
+            />
           </b-field>
-          <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
+          <b-field
+            grouped
+            :label="$i18n.t('Symbol')"
+            class="mb-0"
+          >
             <b-input
+              v-model="rmrkMint.symbol"
               placeholder="3-5 character long name"
               maxlength="10"
-              @keydown.native.space.prevent
-              v-model="rmrkMint.symbol"
               expanded
               class="mr-0"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.symbol')" />
+              @keydown.native.space.prevent
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.symbol')"
+            />
           </b-field>
 
-          <b-field :label="$i18n.t('Collection description')" class="mb-0">
+          <b-field
+            :label="$i18n.t('Collection description')"
+            class="mb-0"
+          >
             <b-input
               v-model="meta.description"
               maxlength="500"
               type="textarea"
               placeholder="Describe your NFT"
               spellcheck="true"
-            ></b-input>
+            />
           </b-field>
 
-          <b-field grouped :label="$i18n.t('Edition')">
+          <b-field
+            grouped
+            :label="$i18n.t('Edition')"
+          >
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
               expanded
               :min="1"
-            ></b-numberinput>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.edition')"
+            />
           </b-field>
 
           <MetadataUpload
             v-if="secondaryFileVisible"
-            label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
             v-model="secondFile"
+            label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
             icon="file-image"
             accept="image/png, image/jpeg, image/gif"
             expanded
@@ -83,12 +110,18 @@
           />
 
           <b-field>
-            <b-switch v-model="nsfw" :rounded="false">
+            <b-switch
+              v-model="nsfw"
+              :rounded="false"
+            >
               {{ nsfw ? "NSFW" : "SFW" }}
             </b-switch>
           </b-field>
 
-          <BalanceInput @input="updateMeta" label="Price" />
+          <BalanceInput
+            label="Price"
+            @input="updateMeta"
+          />
           <b-message
             v-if="price"
             icon="exclamation-triangle"
@@ -98,14 +131,17 @@
             has-icon
             aria-close-label="Close message"
           >
-            <span class="has-text-primary"
-              >Setting the price now requires making an additional
-              transaction.</span
-            >
+            <span
+              class="has-text-primary"
+            >Setting the price now requires making an additional
+              transaction.</span>
           </b-message>
 
           <b-field>
-            <PasswordInput v-model="password" :account="accountId" />
+            <PasswordInput
+              v-model="password"
+              :account="accountId"
+            />
           </b-field>
           <b-field>
             <CollapseWrapper
@@ -113,27 +149,37 @@
               visible="mint.expert.show"
               hidden="mint.expert.hide"
             >
-            <p class="title is-6"> {{ $t('mint.expert.count', [parseAddresses.length]) }} </p>
-            <p class="sub-title is-6 has-text-warning" v-show="!enoughTokens"> {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }} </p>
+              <p class="title is-6">
+                {{ $t('mint.expert.count', [parseAddresses.length]) }}
+              </p>
+              <p
+                v-show="!enoughTokens"
+                class="sub-title is-6 has-text-warning"
+              >
+                {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
+              </p>
               <b-field :label="$i18n.t('mint.expert.batchSend')">
                 <b-input
                   v-model="batchAdresses"
                   type="textarea"
                   placeholder="Distribute nfts to multiple addresses"
                   spellcheck="true"
-                ></b-input>
+                />
               </b-field>
-              <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
+              <BasicSwitch
+                v-model="postfix"
+                label="mint.expert.postfix"
+              />
             </CollapseWrapper>
           </b-field>
           <b-field>
             <b-button
               type="is-primary"
               icon-left="paper-plane"
-              @click="sub"
               :disabled="disabled"
               :loading="isLoading"
               outlined
+              @click="sub"
             >
               {{ $t("mint.submit") }}
             </b-button>
@@ -142,34 +188,43 @@
             <b-button
               type="is-text"
               icon-left="calculator"
-              @click="estimateTx"
               :disabled="disabled"
               :loading="isLoading"
               outlined
+              @click="estimateTx"
             >
               <template v-if="!estimated">
                 {{ $t("mint.estimate") }}
               </template>
               <template v-else>
                 {{ $t("mint.estimated") }}
-                <Money :value="estimated" inline />
+                <Money
+                  :value="estimated"
+                  inline
+                />
               </template>
             </b-button>
           </b-field>
           <b-field>
-            <Support v-model="hasSupport" :price="filePrice" />
+            <Support
+              v-model="hasSupport"
+              :price="filePrice"
+            />
           </b-field>
           <b-field>
             <Support
               v-model="hasCarbonOffset"
               :price="1"
-              activeMessage="I'm making carbonless NFT"
-              passiveMessage="I don't want to have carbonless NFT"
+              active-message="I'm making carbonless NFT"
+              passive-message="I don't want to have carbonless NFT"
             />
           </b-field>
           <ArweaveUploadSwitch v-model="arweaveUpload" />
           <b-field>
-            <b-switch v-model="hasToS" :rounded="false">
+            <b-switch
+              v-model="hasToS"
+              :rounded="false"
+            >
               {{ $t("termOfService.accept") }}
             </b-switch>
           </b-field>
@@ -180,7 +235,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
@@ -269,7 +324,7 @@ const components = {
   },
   components
 })
-export default class SimpleMint extends Mixins(
+export default class SimpleMint extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,

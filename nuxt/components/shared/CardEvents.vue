@@ -1,25 +1,30 @@
 <template>
   <div>
     <section>
-      <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
+      <b-collapse
+        class="card"
+        aria-id="contentIdForA11y3"
+        :open="open"
+      >
         <div
           slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
-          aria-controls="contentIdForA11y3">
+          aria-controls="contentIdForA11y3"
+        >
           <p class="card-header-title">
-              {{header}}
+            {{ header }}
           </p>
           <a class="card-header-icon">
             <b-icon
-              :icon="props.open ? 'caret-down' : 'caret-up'">
-            </b-icon>
+              :icon="props.open ? 'caret-down' : 'caret-up'"
+            />
           </a>
         </div>
         <div class="card-content">
           <div class="content truncate">
-              {{content}}
+            {{ content }}
           </div>
         </div>
       </b-collapse>
@@ -28,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 @Component

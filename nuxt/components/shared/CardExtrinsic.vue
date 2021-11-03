@@ -1,44 +1,49 @@
 <template>
   <div>
     <section>
-      <b-collapse class="card" aria-id="contentIdForA11y3" :open="open">
+      <b-collapse
+        class="card"
+        aria-id="contentIdForA11y3"
+        :open="open"
+      >
         <div
           slot="trigger"
           slot-scope="props"
           class="card-header"
           role="button"
-          aria-controls="contentIdForA11y3">
+          aria-controls="contentIdForA11y3"
+        >
           <p class="card-header-title">
-            {{header}}
+            {{ header }}
           </p>
           <a class="card-header-icon">
             <b-icon
-              :icon="props.open ? 'caret-down' : 'caret-up'">
-            </b-icon>
+              :icon="props.open ? 'caret-down' : 'caret-up'"
+            />
           </a>
         </div>
         <div class="card-content">
           <div class="content truncate">
-            {{content}}
+            {{ content }}
           </div>
         </div>
         <footer class="card-footer card-footer__extrincis">
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>{{item1header}}</i><br>
-              {{item1}}
+              <i>{{ item1header }}</i><br>
+              {{ item1 }}
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-              <i>{{item2header}}</i><br>
-              {{item2}}
+              <i>{{ item2header }}</i><br>
+              {{ item2 }}
             </div>
           </div>
           <div class="card-footer-item">
             <div class="truncate-bottom-slot">
-            <i>{{item3header}}</i><br>
-            {{item3}}
+              <i>{{ item3header }}</i><br>
+              {{ item3 }}
             </div>
           </div>
         </footer>
@@ -48,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class CardExtrinsic extends Vue {

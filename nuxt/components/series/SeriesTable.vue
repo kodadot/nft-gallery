@@ -1,50 +1,75 @@
 <template>
   <div>
     <b-field grouped>
-      <b-field position="is-left" expanded>
+      <b-field
+        position="is-left"
+        expanded
+      >
         <b-radio-button
           v-model="nbDays"
           native-value="24"
           type="is-outlined"
-        >24h</b-radio-button>
+        >
+          24h
+        </b-radio-button>
 
         <b-radio-button
           v-model="nbDays"
           native-value="7"
           type="is-outlined"
-        >7d</b-radio-button>
+        >
+          7d
+        </b-radio-button>
 
         <b-radio-button
           v-model="nbDays"
           native-value="30"
           type="is-outlined"
-        >30d</b-radio-button>
+        >
+          30d
+        </b-radio-button>
       </b-field>
 
-      <b-field class="has-text-right" expanded>
-          <b-select v-model="nbRows">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-          </b-select>
+      <b-field
+        class="has-text-right"
+        expanded
+      >
+        <b-select v-model="nbRows">
+          <option value="10">
+            10
+          </option>
+          <option value="20">
+            20
+          </option>
+          <option value="50">
+            50
+          </option>
+          <option value="100">
+            100
+          </option>
+        </b-select>
       </b-field>
     </b-field>
 
-    <b-table :data="data" backend-sorting @sort="onSort" hoverable>
+    <b-table
+      :data="data"
+      backend-sorting
+      hoverable
+      @sort="onSort"
+    >
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="id"
         label="N°"
-        v-slot="props"
       >
         {{ data.indexOf(props.row) + 1 }}
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="image"
         label=""
-        v-slot="props"
         cell-class="is-vcentered"
       >
         <div class="image is-48x48 mb-2">
@@ -54,53 +79,55 @@
             :alt="props.row.name"
             ratio="1by1"
             rounded
-          ></b-image>
+          />
           <b-skeleton
             :active="isLoading"
             circle
             width="48px"
             height="48px"
-          >
-          </b-skeleton>
+          />
         </div>
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         cell-class="is-vcentered"
         field="id"
         label="Collection"
-        v-slot="props"
       >
         <router-link
+          v-if="!isLoading"
           :to="{
             name: 'collectionDetail',
             params: { id: props.row.id },
           }"
-          v-if="!isLoading"
         >
           {{ props.row.name }}
         </router-link>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="volume"
         :label="$t('series.volume')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline />
+          <Money
+            :value="props.row.volume"
+            inline
+          />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="dailyVolume"
         label="24h %"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
@@ -114,15 +141,15 @@
                 props.row.dailyrangeVolume
               )
             "
-          ></div>
+          />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="weeklyVolume"
         label="7d %"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
@@ -136,15 +163,15 @@
                 props.row.weeklyrangeVolume
               )
             "
-          ></div>
+          />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="monthlyVolume"
         label="30d %"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
@@ -158,87 +185,101 @@
                 props.row.monthlyrangeVolume
               )
             "
-          ></div>
+          />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="floorPrice"
         :label="$t('series.floorprice')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline />
+          <Money
+            :value="props.row.floorPrice"
+            inline
+          />
         </template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="uniqueCollectors"
         :label="$t('series.owners')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
-        <template v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.uniqueCollectors }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="sold"
         :label="$t('series.collected')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
-        <template v-if="!isLoading">{{ props.row.sold }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.sold }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="total"
         :label="$t('series.assets')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
-        <template v-if="!isLoading">{{ props.row.total }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{ props.row.total }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
         field="rank"
         :label="$t('spotlight.score')"
-        v-slot="props"
         sortable
         numeric
         cell-class="is-vcentered"
       >
-        <template v-if="!isLoading">{{
-          Math.ceil(props.row.rank)
-        }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <template v-if="!isLoading">
+          {{
+            Math.ceil(props.row.rank)
+          }}
+        </template>
+        <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">
+        <div
+          v-if="!isLoading"
+          class="has-text-centered"
+        >
           {{ $t('spotlight.empty') }}
         </div>
-        <b-skeleton :active="isLoading"> </b-skeleton>
+        <b-skeleton :active="isLoading" />
       </template>
     </b-table>
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
 import collectionSeriesList from '@/queries/collectionSeriesList.graphql'

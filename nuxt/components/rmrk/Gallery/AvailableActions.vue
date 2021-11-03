@@ -1,14 +1,30 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
-    <div v-if="accountId" class="buttons">
-      <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
-      outlined
-      @click="handleAction(action)">
+    <Loader
+      v-model="isLoading"
+      :status="status"
+    />
+    <div
+      v-if="accountId"
+      class="buttons"
+    >
+      <b-button
+        v-for="action in actions"
+        :key="action"
+        :type="iconType(action)[0]"
+        outlined
+        @click="handleAction(action)"
+      >
         {{ action }}
       </b-button>
     </div>
-    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError />
+    <component
+      :is="showMeta"
+      v-if="showMeta"
+      class="mb-4"
+      empty-on-error
+      @input="updateMeta"
+    />
     <b-button
       v-if="showSubmit"
       type="is-primary"
@@ -21,7 +37,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Mixins, Prop} from 'vue-property-decorator'
+import { Component, mixins, Prop} from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -56,7 +72,7 @@ const components = {
 }
 
 @Component({ components })
-export default class AvailableActions extends Mixins(RmrkVersionMixin) {
+export default class AvailableActions extends mixins(RmrkVersionMixin) {
   @Prop() public currentOwnerId!: string;
   @Prop() public accountId!: string;
   @Prop() public price!: string;

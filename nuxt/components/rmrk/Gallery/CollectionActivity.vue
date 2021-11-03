@@ -1,39 +1,65 @@
 <template>
   <div>
-    <div class="level m-4" v-if="nfts">
+    <div
+      v-if="nfts"
+      class="level m-4"
+    >
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Items</p>
-          <p class="title">{{ collectionLength }}</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Owned</p>
-          <p class="title">{{ collectionSoldedNFT }}</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Floor price</p>
+          <p class="heading">
+            Items
+          </p>
           <p class="title">
-            <Money :value="collectionFloorPrice" inline />
+            {{ collectionLength }}
           </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Volume traded</p>
+          <p class="heading">
+            Owned
+          </p>
           <p class="title">
-            <Money :value="collectionTradedVolumeNumber" inline />
+            {{ collectionSoldedNFT }}
           </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">24h Volume traded</p>
+          <p class="heading">
+            Floor price
+          </p>
           <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline />
+            <Money
+              :value="collectionFloorPrice"
+              inline
+            />
+          </p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">
+            Volume traded
+          </p>
+          <p class="title">
+            <Money
+              :value="collectionTradedVolumeNumber"
+              inline
+            />
+          </p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">
+            24h Volume traded
+          </p>
+          <p class="title">
+            <Money
+              :value="collectionDailyTradedVolumeNumber"
+              inline
+            />
           </p>
         </div>
       </div>
@@ -42,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { after, getVolume, pairListBuyEvent } from '@/utils/math'
 import { subDays } from 'date-fns'

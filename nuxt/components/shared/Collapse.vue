@@ -1,25 +1,34 @@
 <template>
   <div>
     <b-collapse
-        aria-id="contentIdForA11y2"
-        class="panel"
-        animation="slide"
-        :open.sync="isOpen">
-        <div
-            slot="trigger"
-            class="panel-heading"
-            role="button"
-            aria-controls="contentIdForA11y2">
-            <strong>{{ title }}</strong>
-        </div>
-        <div class="panel-block" v-for="(n, index) in content" :key="index">
-          <DisabledInput :label="n[0]" :value="n[1]" />
-        </div>
+      aria-id="contentIdForA11y2"
+      class="panel"
+      animation="slide"
+      :open.sync="isOpen"
+    >
+      <div
+        slot="trigger"
+        class="panel-heading"
+        role="button"
+        aria-controls="contentIdForA11y2"
+      >
+        <strong>{{ title }}</strong>
+      </div>
+      <div
+        v-for="(n, index) in content"
+        :key="index"
+        class="panel-block"
+      >
+        <DisabledInput
+          :label="n[0]"
+          :value="n[1]"
+        />
+      </div>
     </b-collapse>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({

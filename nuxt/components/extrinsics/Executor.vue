@@ -1,23 +1,25 @@
 <template>
-<div class="executor-select">
-  <b-field :label="label">
-    <b-select
-            v-model="selected"
-            :placeholder="label"
-            expanded
-    >
-      <option
-              v-for="method in methods"
-              v-bind:key="method"
-              :value="method"
-      >{{ method }} </option>
-    </b-select>
-  </b-field>
-</div>
+  <div class="executor-select">
+    <b-field :label="label">
+      <b-select
+        v-model="selected"
+        :placeholder="label"
+        expanded
+      >
+        <option
+          v-for="method in methods"
+          :key="method"
+          :value="method"
+        >
+          {{ method }}
+        </option>
+      </b-select>
+    </b-field>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class Executor extends Vue {

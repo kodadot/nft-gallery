@@ -1,7 +1,14 @@
 <template>
   <div>
-    <b-field :type="type" :message="err" :label="$t(label)">
-      <b-input v-model="inputValue" @input="handleInput"></b-input>
+    <b-field
+      :type="type"
+      :message="err"
+      :label="$t(label)"
+    >
+      <b-input
+        v-model="inputValue"
+        @input="handleInput"
+      />
     </b-field>
   </div>
 </template>
@@ -10,7 +17,7 @@
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress } from '@polkadot/util-crypto'
 import { Debounce } from 'vue-debounce-decorator'
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class AddressInput extends Vue {

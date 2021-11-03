@@ -1,11 +1,18 @@
 <template>
-  <b-field label="password 🤫 magic spell" class="password-wrapper">
-    <b-input v-model="password" type="password" password-reveal />
+  <b-field
+    label="password 🤫 magic spell"
+    class="password-wrapper"
+  >
+    <b-input
+      v-model="password"
+      type="password"
+      password-reveal
+    />
   </b-field>
 </template>
 
 <script lang="ts">
-import { Vue, Prop } from 'vue-property-decorator'
+import { Vue, Prop } from 'nuxt-property-decorator'
 
 export default class Password extends Vue {
   @Prop() public value!: string;

@@ -1,15 +1,20 @@
 <template>
   <div>
-    <slot name="trigger" v-bind:handleOpen="handleOpen">
+    <slot
+      name="trigger"
+      :handleOpen="handleOpen"
+    >
       <b-button
         class="button"
         :type="buttonType"
         :icon-left="icon"
         :expanded="expanded"
-        @click="handleOpen"
         :class="{ 'modal-wrapper-button__right': isRight }"
+        @click="handleOpen"
       >
-        <template v-if="label">{{ label }}</template>
+        <template v-if="label">
+          {{ label }}
+        </template>
       </b-button>
     </slot>
     <b-modal :active.sync="isModalActive">
@@ -20,7 +25,7 @@
           </p>
         </header>
         <div class="card-content">
-          <slot></slot>
+          <slot />
         </div>
       </div>
     </b-modal>
@@ -28,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class ModalWrapper extends Vue {

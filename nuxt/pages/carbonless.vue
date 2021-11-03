@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import Carbonless from '@/components/landing/Carbonless.vue'
 
 @Component({

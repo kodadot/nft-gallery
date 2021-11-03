@@ -9,10 +9,17 @@
       ar
       ar-modes="scene-viewer webxr quick-look"
     >
-      <div class="progress-bar hide" slot="progress-bar">
-        <div class="update-bar"></div>
+      <div
+        slot="progress-bar"
+        class="progress-bar hide"
+      >
+        <div class="update-bar" />
       </div>
-      <button class="button is-dark" slot="ar-button" id="ar-button">
+      <button
+        id="ar-button"
+        slot="ar-button"
+        class="button is-dark"
+      >
         AR
       </button>
     </model-viewer>
@@ -20,7 +27,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import '@google/model-viewer'
 
 

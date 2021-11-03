@@ -1,10 +1,14 @@
 
 <template>
-  <component v-if="src" :is="resolveComponent" :src="src" />
+  <component
+    :is="resolveComponent"
+    v-if="src"
+    :src="src"
+  />
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { resolveMedia } from '../utils'
 
 

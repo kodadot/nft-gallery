@@ -6,7 +6,7 @@
           <div class="columns">
             <div class="column is-6 is-offset-3">
               <h1 class="title is-1">
-                <b-icon icon="leaf"></b-icon>
+                <b-icon icon="leaf" />
                 Sustentabilidad de KodaDot
               </h1>
               <h1 class="subtitle">
@@ -21,7 +21,7 @@
               <p>
                 Por el momento nuestro unico ingreso ha sido aprobado
                 <a href="https://kusama.polkassembly.io/motion/256">propuesta#384 &amp;
-                motion#256 de Kusama Treasury funding</a>
+                  motion#256 de Kusama Treasury funding</a>
                 por milestone1. Principalmente este fondo se destinó a los costos del desarrollo y no para su funcionamiento y/o mantenimiento.
               </p><br>
               <p>
@@ -29,10 +29,10 @@
               </p><br>
               <p>
                 <a href="https://github.com/kodadot/nft-gallery/issues/141">
-                Los costos por el funcionamento de</a> de KodaDot consisten en pagar Netlify (http, cdn, CI&amp;CD), Pinata (IPFS), Arweave (por ahora es gratuito, despues tendremos que pagar), Textile.io (esperamos que este costo sea el mismo por un tiempo, y despues aumente).
+                  Los costos por el funcionamento de</a> de KodaDot consisten en pagar Netlify (http, cdn, CI&amp;CD), Pinata (IPFS), Arweave (por ahora es gratuito, despues tendremos que pagar), Textile.io (esperamos que este costo sea el mismo por un tiempo, y despues aumente).
                 Mantenimiento, los costos de R&amp;D deben ser pagados a
                 <a href="https://github.com/kodadot/nft-gallery/issues">our backlog of
-                 medida que nuevas funciones en KodaDot vayan apareciendo</a> y estamos  <b>tratando de invitar a mas desarrolladores a nuestros circulos poniendo recompensas en problemas</b>.
+                  medida que nuevas funciones en KodaDot vayan apareciendo</a> y estamos  <b>tratando de invitar a mas desarrolladores a nuestros circulos poniendo recompensas en problemas</b>.
                 Cualquiera podrá unirse y ayudar con nuestro esfuerzo.
               </p><br>
               <p>
@@ -51,7 +51,9 @@
               <h1 class="title is-4">
                 <a href="https://dictionary.reverso.net/spanish-definition/sustentabilidad">Definicion de Sustentabilidad</a>
               </h1>
-              <h1 class="subtitle">sustantivo</h1>
+              <h1 class="subtitle">
+                sustantivo
+              </h1>
               <ul>
                 <li>Es la abilidad de sostener o apoyar.</li>
                 <li>Ciencia Ambiental. Es la cualidad de no ser dañino al Ambiente o estar agotando los recursos naturales por lo tanto se estaria apoyando el balance ecologico a una visión a largo plazo.</li>
@@ -61,11 +63,10 @@
         </div>
       </div>
     </section>
-
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component<EsSustainibility>({

@@ -2,7 +2,7 @@
   <b-button @click="$emit('click')">
     <span :style="{ display: 'flex' }">
       <figure class="image is-24x24 mr-2">
-        <img src="/subsocial.svg" />
+        <img src="/subsocial.svg">
       </figure>
       <span>{{ $t("subsocial.post") }}</span>
     </span>
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class PostButton extends Vue {

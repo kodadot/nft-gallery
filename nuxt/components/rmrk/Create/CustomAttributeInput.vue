@@ -1,10 +1,19 @@
 <template>
   <div>
     <label class="label attribute-label">attributes</label>
-    <b-collapse :open="false" aria-id="contentIdForA11y1">
+    <b-collapse
+      :open="false"
+      aria-id="contentIdForA11y1"
+    >
       <template #trigger="props">
-        <a aria-controls="contentIdForA11y1" class="mb-2">
-          <b-icon class="collapse-icon" :icon="!props.open ? 'eye' : 'eye-slash'"></b-icon>
+        <a
+          aria-controls="contentIdForA11y1"
+          class="mb-2"
+        >
+          <b-icon
+            class="collapse-icon"
+            :icon="!props.open ? 'eye' : 'eye-slash'"
+          />
           <span class="pl-1">{{ !props.open ? "Show" : "Hide" }}</span>
         </a>
       </template>
@@ -13,10 +22,11 @@
         outlined
         class="mt-2"
         :disabled="disabled"
-        @click="addAttribute"
         icon-left="plus"
-        >Add Attribute</b-button
+        @click="addAttribute"
       >
+        Add Attribute
+      </b-button>
       <div
         v-for="(attribute, index) in attributes"
         :key="index"
@@ -33,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 
 const components = {

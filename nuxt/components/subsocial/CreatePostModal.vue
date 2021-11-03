@@ -1,16 +1,16 @@
 <template>
-    <ModalWrapper :label="$t('subsocial.post')">
-      <template v-slot:trigger="{ handleOpen }">
-        <PostButton @click="handleOpen" />
-      </template>
-      <template v-slot:default>
-        Lorem ipsum
-      </template>
-    </ModalWrapper>
+  <ModalWrapper :label="$t('subsocial.post')">
+    <template #trigger="{ handleOpen }">
+      <PostButton @click="handleOpen" />
+    </template>
+    <template #default>
+      Lorem ipsum
+    </template>
+  </ModalWrapper>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {
   ModalWrapper: () => import('@/components/shared/modals/ModalWrapper.vue'),

@@ -3,8 +3,8 @@
     type="is-primary"
     icon-left="gift"
     outlined
-    @click="goToTransfer"
     class="donation-btn"
+    @click="goToTransfer"
   >
     {{ $t("Gift 10$") }}
   </b-button>
@@ -12,7 +12,7 @@
 
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 @Component({})
 export default class DonationButton extends Vue {
   @Prop() public address!: string;

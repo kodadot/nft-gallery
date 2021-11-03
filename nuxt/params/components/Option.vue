@@ -1,20 +1,20 @@
 <template>
-  <div class='tuple-argument-wrapper'>
-  <ArgumentHandler
-      class='tuple-argument-item'
+  <div class="tuple-argument-wrapper">
+    <ArgumentHandler
+      class="tuple-argument-item"
       :argument="arg"
       :disabled="disabled"
-      :defaultValue="value"
+      :default-value="value"
     />
-    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({
-   name: 'Option',
-   components: {
+  name: 'Option',
+  components: {
     ArgumentHandler: () => import('@/components/extrinsics/ArgumentHandler.vue'),
   }
 })
@@ -24,7 +24,7 @@ export default class Option extends Vue {
   @Prop({ default: null }) public readonly defaultValue!: any;
 
   get value() {
-    return this.defaultValue && Object.fromEntries(Array.from(this.defaultValue.value));
+    return this.defaultValue && Object.fromEntries(Array.from(this.defaultValue.value))
   }
 
   get arg() {

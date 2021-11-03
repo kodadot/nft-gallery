@@ -1,14 +1,26 @@
 <template>
-  <b-loading is-full-page v-model="isLoading" :can-cancel="true">
+  <b-loading
+    v-model="isLoading"
+    is-full-page
+    :can-cancel="true"
+  >
     <figure>
-      <img class="loading-icon" :src="placeholder" />
-      <figcaption v-if="status" class="loading-text">{{ $t(status) }}</figcaption>
+      <img
+        class="loading-icon"
+        :src="placeholder"
+      >
+      <figcaption
+        v-if="status"
+        class="loading-text"
+      >
+        {{ $t(status) }}
+      </figcaption>
     </figure>
   </b-loading>
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class Loader extends Vue {

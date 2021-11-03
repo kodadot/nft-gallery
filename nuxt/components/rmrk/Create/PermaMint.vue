@@ -2,14 +2,19 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
+        <br>
+        <Loader
+          v-model="isLoading"
+          :status="status"
+        />
         <div class="box">
           <p class="title is-size-3">
             <!-- {{ $t('mint.context') }} -->
             Create NFT using PermaFrost
           </p>
-          <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
+          <p class="subtitle is-size-7">
+            {{ $t("using") }} {{ version }}
+          </p>
           <b-field>
             <div>
               {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
@@ -26,46 +31,68 @@
             preview
           />
 
-          <b-field grouped :label="$i18n.t('Name')">
+          <b-field
+            grouped
+            :label="$i18n.t('Name')"
+          >
             <b-input
-              placeholder="Name your NFT"
               v-model="rmrkMint.name"
+              placeholder="Name your NFT"
               expanded
               class="mr-0"
               spellcheck="true"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.name')"
+            />
           </b-field>
-          <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
+          <b-field
+            grouped
+            :label="$i18n.t('Symbol')"
+            class="mb-0"
+          >
             <b-input
+              v-model="rmrkMint.symbol"
               placeholder="3-5 character long name"
               maxlength="10"
-              @keydown.native.space.prevent
-              v-model="rmrkMint.symbol"
               expanded
               class="mr-0"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.symbol')" />
+              @keydown.native.space.prevent
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.symbol')"
+            />
           </b-field>
 
-          <b-field :label="$i18n.t('Collection description')" class="mb-0">
+          <b-field
+            :label="$i18n.t('Collection description')"
+            class="mb-0"
+          >
             <b-input
               v-model="meta.description"
               maxlength="500"
               type="textarea"
               placeholder="Describe your NFT"
               spellcheck="true"
-            ></b-input>
+            />
           </b-field>
 
-          <b-field grouped :label="$i18n.t('Edition')">
+          <b-field
+            grouped
+            :label="$i18n.t('Edition')"
+          >
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
               expanded
               :min="1"
-            ></b-numberinput>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+            />
+            <Tooltip
+              iconsize="is-medium"
+              :label="$i18n.t('tooltip.edition')"
+            />
           </b-field>
 
           <AttributeTagInput
@@ -73,7 +100,10 @@
             placeholder="Get discovered easier through tags"
           />
 
-          <BalanceInput @input="updateMeta" label="Price" />
+          <BalanceInput
+            label="Price"
+            @input="updateMeta"
+          />
           <b-message
             v-if="price"
             icon="exclamation-triangle"
@@ -83,29 +113,35 @@
             has-icon
             aria-close-label="Close message"
           >
-            <span class="has-text-primary"
-              >Setting the price now requires making an additional
-              transaction.</span
-            >
+            <span
+              class="has-text-primary"
+            >Setting the price now requires making an additional
+              transaction.</span>
           </b-message>
 
           <b-field>
-            <PasswordInput v-model="password" :account="accountId" />
+            <PasswordInput
+              v-model="password"
+              :account="accountId"
+            />
           </b-field>
           <b-field>
             <b-button
               type="is-primary"
               icon-left="paper-plane"
-              @click="sub"
               :disabled="disabled"
               :loading="isLoading"
               outlined
+              @click="sub"
             >
               {{ $t("mint.submit") }}
             </b-button>
           </b-field>
           <b-field>
-            <b-switch v-model="hasToS" :rounded="false">
+            <b-switch
+              v-model="hasToS"
+              :rounded="false"
+            >
               {{ $t("termOfService.accept") }}
             </b-switch>
           </b-field>
@@ -116,7 +152,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
 import Connector from '@vue-polkadot/vue-api'
@@ -195,7 +231,7 @@ const components = {
   },
   components
 })
-export default class PermaMint extends Mixins(
+export default class PermaMint extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin

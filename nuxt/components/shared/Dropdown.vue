@@ -1,55 +1,75 @@
 <template>
   <div id="Dropdown">
     <section>
-    <b-field>
-      <p>{{label}}
-        <b-tooltip type="is-dark" :label="tooltip">
-          <b-icon size="is-small" icon="question-circle">
-          </b-icon>
-        </b-tooltip>
-      </p>
-    </b-field>
-    <b-field>
-      <b-dropdown v-model="selected"
-        :mobile-modal="false" aria-role="list">
-        <button class="button is-primary" type="button" slot="trigger">
-          <template v-if="selected">
-            <b-icon icon="users"></b-icon>
-            <span>{{ selected | shortAddress(10, -10) }}</span>
+      <b-field>
+        <p>
+          {{ label }}
+          <b-tooltip
+            type="is-dark"
+            :label="tooltip"
+          >
+            <b-icon
+              size="is-small"
+              icon="question-circle"
+            />
+          </b-tooltip>
+        </p>
+      </b-field>
+      <b-field>
+        <b-dropdown
+          v-model="selected"
+          :mobile-modal="false"
+          aria-role="list"
+        >
+          <button
+            slot="trigger"
+            class="button is-primary"
+            type="button"
+          >
+            <template v-if="selected">
+              <b-icon icon="users" />
+              <span>{{ selected | shortAddress(10, -10) }}</span>
+            </template>
+            <template v-else>
+              <b-icon icon="users" />
+              <span>Select Account</span>
+            </template>
+            <b-icon icon="caret-down" />
+          </button>
+          <template v-if="accounts">
+            <b-dropdown-item
+              v-for="acc in accounts"
+              :key="acc.address"
+              aria-role="listitem"
+              :value="acc.address"
+            >
+              <div class="media">
+                <b-icon
+                  class="media-left"
+                  icon="users"
+                />
+                <div class="media-content">
+                  <h3>{{ acc.meta.name }}</h3>
+                  <small>{{ acc.address | shortAddress(10, -10) }}</small>
+                </div>
+              </div>
+            </b-dropdown-item>
           </template>
-          <template v-else>
-            <b-icon icon="users"></b-icon>
-            <span>Select Account</span>
-          </template>
-          <b-icon icon="caret-down"></b-icon>
-        </button>
-        <template v-if="accounts">
-        <b-dropdown-item aria-role="listitem"
-          v-for="acc in accounts"
-          v-bind:key="acc.address"
-          v-bind:value="acc.address">
-          <div class="media">
-            <b-icon class="media-left" icon="users">
-            </b-icon>
-            <div class="media-content">
-              <h3>{{ acc.meta.name }}</h3>
-              <small>{{ acc.address | shortAddress(10, -10) }}</small>
-            </div>
-          </div>
-        </b-dropdown-item>
-        </template>
-      </b-dropdown>
-    </b-field>
-    <b-field>
-      <AccountNameTag :metaName="selectedMetaName"/>
-      <Balance v-if="!nobalance" :account="selectedAccount"/>
-    </b-field>
+        </b-dropdown>
+      </b-field>
+      <b-field>
+        <AccountNameTag :meta-name="selectedMetaName" />
+        <Balance
+          v-if="!nobalance"
+          :account="selectedAccount"
+        />
+      </b-field>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Watch } from 'vue-property-decorator'
+import { Component, Prop, Emit, Watch } from 'nuxt-property-decorator'
 import WithKeyring from '../../utils/WithKeyring'
 import Balance from './Balance.vue'
 import AccountNameTag from './AccountNameTag.vue'

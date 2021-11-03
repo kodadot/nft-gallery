@@ -1,32 +1,50 @@
 <template>
-
   <div class="Accounts">
-    <b-field grouped multiline>
+    <b-field
+      grouped
+      multiline
+    >
       <router-link :to="{ name: 'accountsCreate' }">
-        <b-button type="is-dark" icon-left="plus" outlined>Add Account</b-button>
+        <b-button
+          type="is-dark"
+          icon-left="plus"
+          outlined
+        >
+          Add Account
+        </b-button>
       </router-link>
       <router-link :to="{name: 'accountsRestore'}">
-        <b-button type="is-dark" icon-left="sync" outlined>Restore JSON</b-button>
+        <b-button
+          type="is-dark"
+          icon-left="sync"
+          outlined
+        >
+          Restore JSON
+        </b-button>
       </router-link>
     </b-field>
     <b-field label="filter by name or tags">
-      <b-input v-model="searchFilter" icon="search"
-        placeholder="search..." @input="filterByName(searchFilter)">
-      </b-input>
+      <b-input
+        v-model="searchFilter"
+        icon="search"
+        placeholder="search..."
+        @input="filterByName(searchFilter)"
+      />
     </b-field>
     <ul>
       <li
         v-for="acc in keyringAccounts"
-        v-bind:key="acc.address">
+        :key="acc.address"
+      >
         <Keypair
           v-if="
-          acc.visible
-          && !acc.meta.isExternal"
+            acc.visible
+              && !acc.meta.isExternal"
           mode="accounts"
           :address="acc.address"
           :theme="theme"
           :meta="acc.meta"
-          :publicKey="vueU8aToHex(acc.publicKey)"
+          :public-key="vueU8aToHex(acc.publicKey)"
           :type="acc.type"
           @forget-account="mapAccounts"
           @save-name="mapAccounts"
@@ -34,11 +52,10 @@
         />
       </li>
     </ul>
-
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import keyring from '@polkadot/ui-keyring'
 import Keypair from '../shared/accounts/Keypair.vue'
 import { u8aToHex } from '@polkadot/util'
