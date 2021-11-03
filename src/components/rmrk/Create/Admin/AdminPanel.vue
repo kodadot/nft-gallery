@@ -212,7 +212,6 @@ export default class AdminPanel extends Mixins(
   }
 
   protected updateMeta(value: ProcessFunction): void {
-    console.log('updateMeta', value)
     this.metaFunction = value
   }
 
