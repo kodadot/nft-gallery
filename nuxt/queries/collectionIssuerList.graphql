@@ -9,6 +9,7 @@ query collectionIssuerList($denyList: [String!]) {
           currentOwner
           metadata
           price
+          events
         }
       }
     }

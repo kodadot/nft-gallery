@@ -20,7 +20,6 @@ query collectionById(
         name
         price
         burned
-        events
         currentOwner
       }
     }

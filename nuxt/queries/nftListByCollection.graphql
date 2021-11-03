@@ -1,0 +1,11 @@
+query nftListByCollection($id: String!) {
+  nFTEntities(filter: { collectionId: { equalTo: $id } }) {
+    nodes {
+      id
+      currentOwner
+      issuer
+      price
+      events
+    }
+  }
+}
