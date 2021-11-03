@@ -19,7 +19,7 @@ We working primarly by two metrics. Issues has priorities by labels [p1-p5](http
 It's up to you which issue you pick. Our **best advice is to pick issues reflecting your skillset and experience if you want to be part of internal team** if you are interested having continuos payroll from us.
 
 ### Open a pull request
-When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (Pull Request).
+When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (Pull Request) against `main` branch. 
 
 ### Submit your PR & Get it reviewed
 * Once you submit your PR, others from the developers community will review it with you. The first thing you're going to want to do is a [self review](#self-review).
