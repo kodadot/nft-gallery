@@ -10,24 +10,24 @@
     <div class="level m-1" v-if="nfts">
       <div class="level-item column is-6">
         <div>
-          <p class="heading--inline heading">Items : <span class="money money--inline"> {{ collectionLength }} </span></p>
+          <p class="heading--inline heading">{{ $t('Items') }} : <span class="money money--inline"> {{ collectionLength }} </span></p>
         </div>
       </div>
       <div class="level-item column is-6">
         <div>
-          <p class="heading--inline heading">Owned : <span class="money money--inline"> {{ collectionSoldedNFT }} </span></p>
+          <p class="heading--inline heading">{{ $t('Owned') }} : <span class="money money--inline"> {{ collectionSoldedNFT }} </span></p>
         </div>
       </div>
     </div>
     <div class="level m-1" v-if="nfts">
       <div class="level-item column is-6">
         <div>
-          <p class="heading--inline heading">Volume : <Money :value="collectionTradedVolumeNumber" inline /></p>
+          <p class="heading--inline heading">{{ $t('Volume') }} : <Money :value="collectionTradedVolumeNumber" inline /></p>
         </div>
       </div>
       <div class="level-item column is-6">
         <div>
-          <p class="heading--inline heading">Floor : <Money :value="collectionFloorPrice" inline /></p>
+          <p class="heading--inline heading">{{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline /></p>
         </div>
       </div>
     </div>
@@ -48,8 +48,6 @@ const components = {
 export default class extends Vue {
   @Prop() public nfts!: NFT[];
   @Prop() public name!: string;
-
-  public yesterdayDate: Date = subDays(Date.now(), 1);
 
   get saleEvents(): Interaction[] {
     return this.nfts

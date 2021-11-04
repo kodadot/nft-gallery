@@ -4,7 +4,7 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column">
-        <Pagination simple :total="total" v-model="currentValue" replace class="is-right" />
+        <Pagination simple :total="total" v-model="currentValue" :perPage=12 replace class="is-right" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -78,6 +78,7 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
+      :perPage=12
       v-model="currentValue"
       replace
     />
@@ -155,7 +156,7 @@ export default class Gallery extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
-  private first = 21;
+  private first = 12;
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;

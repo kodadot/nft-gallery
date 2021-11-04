@@ -74,6 +74,7 @@ const components = {
 @Component<Collections>({
   metaInfo() {
     return {
+      title: 'KodaDot - Kusama Explorer all collections',
       meta: [
         {
           property: 'og:title',
