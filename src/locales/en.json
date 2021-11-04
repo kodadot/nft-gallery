@@ -297,7 +297,9 @@
   "action": {
     "admin": "Admin panel",
     "click": "Click to {0} NFT(s)",
-    "omitListed": "Skip listed NFT(s)"
+    "omitListed": "Skip listed NFT(s)",
+    "random": "Use random",
+    "distributionCount": "Percent which will be distributed"
   },
   "identity": {
     "set": "Create on-chain identity",
