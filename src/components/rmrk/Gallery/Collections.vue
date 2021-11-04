@@ -393,6 +393,7 @@ export default class Collections extends Vue {
           .level-item {
             padding: 0.1rem;
             text-align: left;
+            line-height: initial;
           }
 
           .collection-title {
@@ -400,7 +401,7 @@ export default class Collections extends Vue {
             white-space: nowrap;
             text-overflow: ellipsis;
             color: #fff;
-            font-size: 1rem;
+            font-size: 1.5rem;
           }
 
         }

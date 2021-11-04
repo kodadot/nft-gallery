@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level m-1">
+    <div class="level m-1 column is-12">
       <div class="level-item has-text-centered">
         <div>
           <p class="collection-title">{{ name }}</p>
@@ -8,24 +8,24 @@
       </div>
     </div>
     <div class="level m-1" v-if="nfts">
-      <div class="level-item column is-6">
+      <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Items') }} : <span class="money money--inline"> {{ collectionLength }} </span></p>
         </div>
       </div>
-      <div class="level-item column is-6">
+      <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Owned') }} : <span class="money money--inline"> {{ collectionSoldedNFT }} </span></p>
         </div>
       </div>
     </div>
     <div class="level m-1" v-if="nfts">
-      <div class="level-item column is-6">
+      <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Volume') }} : <Money :value="collectionTradedVolumeNumber" inline /></p>
         </div>
       </div>
-      <div class="level-item column is-6">
+      <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline /></p>
         </div>
