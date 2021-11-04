@@ -54,7 +54,7 @@
 
       <Search v-bind.sync="searchQuery">
         <b-field>
-          <Pagination simple replace :total="total" v-model="currentValue" :per-page="first" />
+          <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
         </b-field>
       </Search>
 
@@ -63,6 +63,7 @@
       <Pagination
         class="py-5"
         replace
+        preserveScroll
         :total="total"
         v-model="currentValue"
         :per-page="first"
