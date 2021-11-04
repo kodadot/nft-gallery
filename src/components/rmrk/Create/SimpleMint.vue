@@ -214,7 +214,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
-import { isSecondFileVisible } from './mintUtils'
+import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -307,7 +307,7 @@ export default class SimpleMint extends Mixins(
 
   get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return isSecondFileVisible(fileType)
+    return isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
   }
 
   get accountId(): string {

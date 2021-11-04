@@ -78,7 +78,7 @@ import { Component, Prop, Vue, PropSync } from 'vue-property-decorator'
 import { Attribute } from '../service/scheme'
 import { resolveMedia } from '../utils'
 import { MediaType } from '../types'
-import { isSecondFileVisible } from './mintUtils'
+import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
 
 @Component({
   components: {
@@ -113,7 +113,7 @@ export default class CreateItem extends Vue {
 
   get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return isSecondFileVisible(fileType)
+    return isFileWithoutType(this.vFile, fileType) || isSecondFileVisible(fileType)
   }
 
   get hasPrice() {
