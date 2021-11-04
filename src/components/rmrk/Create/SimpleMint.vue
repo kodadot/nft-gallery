@@ -219,6 +219,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
+import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
 import { sendFunction, shuffleFunction } from '@/components/accounts/utils'
 
 const components = {
@@ -305,27 +306,20 @@ export default class SimpleMint extends Mixins(
   protected random = false;
   protected distribution = 100;
 
-  protected updateMeta(value: number) {
-    console.log(typeof value, value)
+  protected updateMeta(value: number): void {
     this.price = value
   }
 
-  public created() {
-    if (!this.accountId) {
-      console.warn('Should Redirect to /rmrk/new')
-    }
-  }
-
-  get fileType() {
+  get fileType(): MediaType {
     return resolveMedia(this.file?.type)
   }
 
-  get secondaryFileVisible() {
+  get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+    return isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
   }
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
   }
 
