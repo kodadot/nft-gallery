@@ -13,7 +13,10 @@
             ></b-image>
           </div>
           <h1 class="title is-2">
-            {{ name }}
+            <template v-if="!nameLoading">
+              {{ name }}
+            </template>
+            <b-skeleton :active="nameLoading" :height="30" size="is-medium" :animated="true"></b-skeleton>
           </h1>
         </div>
       </div>
@@ -23,9 +26,10 @@
           <div class="label">
             {{ $t('creator') }}
           </div>
-          <div class="subtitle is-size-6">
+          <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
           </div>
+          <b-skeleton :active="!issuer" width="20%" size="is-small" :animated="true"></b-skeleton>
         </div>
         <div class="column" v-if="owner">
           <div class="label">
@@ -44,17 +48,33 @@
         </div>
       </div>
 
-      <CollectionActivity :nfts="stats" />
+      <CollectionActivity v-if="!statsLoading" :nfts="stats" />
+      <b-skeleton :active="statsLoading" height="30px" :animated="true"></b-skeleton>
 
       <div class="columns is-centered">
-        <div class="column is-8 has-text-centered">
+        <div class="column is-8 has-text-centered mt-5">
           <VueMarkdown :source="description" />
+          <b-skeleton :active="!description" height="80px" :animated="true"></b-skeleton>
         </div>
       </div>
 
       <Search v-bind.sync="searchQuery" />
 
-      <GalleryCardList :items="collection.nfts" />
+      <GalleryCardList :items="collection.nfts" />     
+      <template v-if="statsLoading">
+        <section>
+            <article class="media" >
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <b-skeleton active></b-skeleton>
+                            <b-skeleton height="80px"></b-skeleton>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </template>
 
     </div>
   </div>
@@ -72,7 +92,6 @@ import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
-
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -106,6 +125,8 @@ export default class CollectionItem extends Vue {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
+  private nameLoading = false;
+  private statsLoading = true;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private searchQuery: SearchQuery = {
     search: '',
@@ -124,6 +145,11 @@ export default class CollectionItem extends Vue {
   }
 
   get name(): string {
+    if (this.collection.name === undefined) {
+      this.nameLoading = true
+    } else {
+      this.nameLoading = false
+    }
     return this.collection.name || this.id
   }
 
@@ -173,10 +199,13 @@ export default class CollectionItem extends Vue {
           search: this.buildSearchParam()
         }
       },
-      update: ({ collectionEntity }) => ({
+      update: ({ collectionEntity }) => {
+
+      return  ({
         ...collectionEntity,
         nfts: collectionEntity.nfts.nodes
-      }),
+      })
+      },
       result: () => this.fetchMetadata(),
     })
 
@@ -193,12 +222,12 @@ export default class CollectionItem extends Vue {
     })
 
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
+      this.statsLoading = false
       this.stats = nfts
     })
   }
 
   public async fetchMetadata(): Promise<void> {
-    console.log(this.collection['metadata'], !this.meta['image'])
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection)
       this.meta = {
