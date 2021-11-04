@@ -38,7 +38,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume, pairListBuyEvent } from '@/utils/math'
-import { subDays } from 'date-fns'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue')
