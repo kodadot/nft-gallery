@@ -214,6 +214,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
+import { isSecondFileVisible } from './mintUtils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -295,27 +296,21 @@ export default class SimpleMint extends Mixins(
   protected batchAdresses = '';
   protected postfix = true;
 
-  protected updateMeta(value: number) {
+  protected updateMeta(value: number): void {
     console.log(typeof value, value)
     this.price = value
   }
 
-  public created() {
-    if (!this.accountId) {
-      console.warn('Should Redirect to /rmrk/new')
-    }
-  }
-
-  get fileType() {
+  get fileType(): MediaType {
     return resolveMedia(this.file?.type)
   }
 
-  get secondaryFileVisible() {
+  get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+    return isSecondFileVisible(fileType)
   }
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
   }
 
