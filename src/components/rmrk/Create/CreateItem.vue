@@ -77,7 +77,6 @@
 import { Component, Prop, Vue, PropSync } from 'vue-property-decorator'
 import { Attribute } from '../service/scheme'
 import { resolveMedia } from '../utils'
-import { MediaType } from '../types'
 import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
 
 @Component({
