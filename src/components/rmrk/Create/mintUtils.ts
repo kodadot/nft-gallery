@@ -19,9 +19,17 @@ export function offsetAttribute(hasCarbonOffset: boolean): Attribute[] {
   return [{ trait_type: 'carbonless', value: Number(hasCarbonOffset) }]
 }
 
-export function secondaryFileVisible(file?: Blob) {
+export function secondaryFileVisible(file?: Blob): boolean {
   const fileType = resolveMedia(file?.type)
+  return isFileWithoutType(file, fileType) || isSecondFileVisible(fileType)
+}
+
+export function isSecondFileVisible(fileType: MediaType): boolean {
   return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+}
+
+export function isFileWithoutType(file: Blob | unknown, mediaType: MediaType): boolean {
+  return Boolean(file && mediaType === MediaType.UNKNOWN)
 }
 
 export function toRemark(rmrk: string | string[]) {
