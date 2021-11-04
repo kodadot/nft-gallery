@@ -123,6 +123,11 @@
                   spellcheck="true"
                 ></b-input>
               </b-field>
+              <BasicSlider
+                v-model="distribution"
+                label="action.distributionCount"
+              />
+              <BasicSwitch v-model="random" label="action.random" />
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
           </b-field>
@@ -214,6 +219,7 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
+import { sendFunction, shuffleFunction } from '@/components/accounts/utils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -229,6 +235,8 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  SendHandler: () => import('@/components/rmrk/Create/Admin/SendHandler.vue'),
+  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue')
 }
 
 @Component<SimpleMint>({
@@ -294,6 +302,8 @@ export default class SimpleMint extends Mixins(
   protected arweaveUpload = false;
   protected batchAdresses = '';
   protected postfix = true;
+  protected random = false;
+  protected distribution = 100;
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)
@@ -457,6 +467,13 @@ export default class SimpleMint extends Mixins(
     }
   }
 
+  public async fetchRandomSeed(): Promise<number[]> {
+    const { api } = Connector.getInstance()
+    const random = await api.query.babe.randomness()
+    return Array.from(random)
+
+  }
+
   protected async sendBatch(remarks: NFT[], originalBlockNumber: string): Promise<void> {
     try {
       const { version, price } = this
@@ -477,12 +494,13 @@ export default class SimpleMint extends Mixins(
         return
       }
 
-      const outOfTheNamesForTheRemarks = addresses.map((addr, index) => NFTUtils.createInteraction('SEND', version, onlyNfts[index].id, String(addr)))
+      const { api } = Connector.getInstance()
+
+
+      const outOfTheNamesForTheRemarks = sendFunction(addresses, this.distribution, this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined )(onlyNfts.map(nft => nft.id), this.version)
       const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
 
-
       this.isLoading = true
-      const { api } = Connector.getInstance()
 
       const cb = api.tx.utility.batchAll
       const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(this.toRemark)

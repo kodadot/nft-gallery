@@ -11,8 +11,10 @@
 </template>
 
 <script lang="ts" >
-import { ProcessFunction, sendFunction, SendType } from '@/components/accounts/utils'
+import { ProcessFunction, sendFunction, SendType, shuffleFunction } from '@/components/accounts/utils'
 import shouldUpdate from '@/utils/shouldUpdate'
+import { Debounce } from 'vue-debounce-decorator'
+import Connector from '@vue-polkadot/vue-api'
 import { Component, Emit, Vue, Watch } from 'vue-property-decorator'
 
 const components = {
@@ -26,8 +28,22 @@ export default class SendHandler extends Vue {
   protected parsedAddresses: string[] = [];
   protected random = false;
   protected distribution = 100;
+  protected seed: number[] = []
+
+  public created(): void {
+    setTimeout(this.fetchRandomSeed, 3000)
+  }
+
+
+  public async fetchRandomSeed(): Promise<void> {
+    const { api } = Connector.getInstance()
+    const random = await api.query.babe.randomness()
+    this.seed = Array.from(random)
+
+  }
 
   @Watch('parsedAddresses')
+  @Debounce(500)
   protected onParsedAddressedChanged(parsedAddresses: string[], oldVal: string[]): void {
     if (shouldUpdate(parsedAddresses.length, oldVal.length)) {
       this.onInput({
@@ -39,6 +55,7 @@ export default class SendHandler extends Vue {
   }
 
   @Watch('random')
+  @Debounce(500)
   protected onRandomChange(random: boolean, oldVal: boolean): void {
     if (shouldUpdate(random, oldVal)) {
       this.onInput({
@@ -50,6 +67,7 @@ export default class SendHandler extends Vue {
   }
 
   @Watch('distribution')
+  @Debounce(500)
   protected onDistributionChanged(distribution: number, oldVal: number): void {
     if (shouldUpdate(distribution, oldVal)) {
       this.onInput({
@@ -62,7 +80,8 @@ export default class SendHandler extends Vue {
 
   @Emit('input')
   protected onInput(self: SendType): ProcessFunction {
-    return sendFunction(self.parsedAddresses, self.distribution, self.random)
+    console.log(self)
+    return sendFunction(self.parsedAddresses, self.distribution, self.random ? shuffleFunction(this.seed) : undefined)
   }
 }
 </script>

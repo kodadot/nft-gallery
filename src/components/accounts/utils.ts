@@ -3,6 +3,7 @@ import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import NFTUtils from '../rmrk/service/NftUtils'
 
+export type ShuffleFunction = (arr: string[]) => string[]
 export type ProcessFunction = (nfts: string[] | AdminNFT[], version: string) => string[]
 export type SendType = {
   parsedAddresses: string[],
@@ -30,10 +31,10 @@ export const parseBatchAddresses = (batchAddresses: string): string[] => {
 }
 
 
-export const sendFunction = (parsedAddresses: string[], distribution: number, random: boolean): ProcessFunction => {
-  const randomFn = random ? randomSort : undefined
+export const sendFunction = (parsedAddresses: string[], distribution: number, random?: ShuffleFunction): ProcessFunction => {
+  const randomFn = random ? random : notRandomFunction
   const slice = Math.floor(parsedAddresses.length * distribution / 100)
-  const subset = parsedAddresses.sort(randomFn).slice(0, slice)
+  const subset = randomFn(Array.from(new Set(parsedAddresses))).slice(0, slice)
   return (nfts: string[] | AdminNFT[], version: string) => {
 
     const lessTokensThanAdresses = nfts.length < subset.length
@@ -46,8 +47,24 @@ const justId = (nft: AdminNFT | string) => typeof nft === 'object' ? nft.id : nf
 
 
 //TODO: skip if already in the list
-function randomSort(): 1 | -1 {
-  return (Math.random() > .5) ? 1 : -1
+function notRandomFunction(array: string[]): string[]  {
+  return array
 }
+
+export const shuffleFunction = (seed: number[]): ShuffleFunction => (array: string[]): string[] => shuffle(array, seed)
+
+export function shuffle(array: string[], seed: number[]): string[] {
+  const copy = array.slice(0)
+  const len = seed.length - 1
+  const total = array.length - 1
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(seed[i % len] * (i + 1)) % total
+    const temp = copy[i]
+    copy[i] = copy[j]
+    copy[j] = temp
+  }
+  return copy
+}
+
 
 // api.query.babe.randomness()
