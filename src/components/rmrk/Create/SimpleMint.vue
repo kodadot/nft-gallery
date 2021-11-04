@@ -297,7 +297,6 @@ export default class SimpleMint extends Mixins(
   protected postfix = true;
 
   protected updateMeta(value: number): void {
-    console.log(typeof value, value)
     this.price = value
   }
 
