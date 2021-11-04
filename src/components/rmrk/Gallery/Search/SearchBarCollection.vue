@@ -22,8 +22,8 @@
         label="sort.listed"
         size="is-medium"
       />
+      <slot />
     </b-field>
-    <slot />
   </div>
 </template>
 

@@ -130,7 +130,8 @@ export default new Router({
       component: FourZeroFour,
     },
   ],
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.name === 'collectionDetail') return
     return { x: 0, y: 0 }
   }
 })
