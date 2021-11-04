@@ -363,6 +363,30 @@ export default class Collections extends Vue {
         }
       }
 
+      .card-content {
+        .heading--inline {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #fff;
+        }
+
+        .level-item {
+          padding: 0.1rem;
+          text-align: left;
+          line-height: initial;
+        }
+
+        .collection-title {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #fff;
+          font-size: 1.5rem;
+        }
+      }
+
       @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
@@ -381,29 +405,6 @@ export default class Collections extends Vue {
           background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
-
-          .heading--inline {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            color: #fff;
-          }
-
-          .level-item {
-            padding: 0.1rem;
-            text-align: left;
-            line-height: initial;
-          }
-
-          .collection-title {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            color: #fff;
-            font-size: 1.5rem;
-          }
-
         }
 
         &:hover .collection__image-wrapper img {
