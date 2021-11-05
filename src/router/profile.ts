@@ -9,7 +9,10 @@ export default [
   },
   {
     path: 'https://kusama.subscan.io/account/:id',
-    name: 'subscan'
+    name: 'subscan',
+    beforeEnter(to: any): void {
+      window.location.replace(to.fullPath)
+    }
   },
   {
     path: '/identity',
