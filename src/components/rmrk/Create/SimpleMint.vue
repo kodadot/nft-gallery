@@ -124,6 +124,11 @@
                   spellcheck="true"
                 ></b-input>
               </b-field>
+              <BasicSlider
+                v-model="distribution"
+                label="action.distributionCount"
+              />
+              <BasicSwitch v-model="random" label="action.random" />
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
           </b-field>
@@ -215,6 +220,8 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
+import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
+import { sendFunction, shuffleFunction } from '@/components/accounts/utils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -230,6 +237,8 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  SendHandler: () => import('@/components/rmrk/Create/Admin/SendHandler.vue'),
+  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
 
@@ -296,28 +305,23 @@ export default class SimpleMint extends Mixins(
   protected arweaveUpload = false
   protected batchAdresses = ''
   protected postfix = true
+  protected random = false
+  protected distribution = 100
 
-  protected updateMeta(value: number) {
-    console.log(typeof value, value)
+  protected updateMeta(value: number): void {
     this.price = value
   }
 
-  public created() {
-    if (!this.accountId) {
-      console.warn('Should Redirect to /rmrk/new')
-    }
-  }
-
-  get fileType() {
+  get fileType(): MediaType {
     return resolveMedia(this.file?.type)
   }
 
-  get secondaryFileVisible() {
+  get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType)
+    return isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
   }
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
   }
 
@@ -469,10 +473,14 @@ export default class SimpleMint extends Mixins(
     }
   }
 
-  protected async sendBatch(
-    remarks: NFT[],
-    originalBlockNumber: string
-  ): Promise<void> {
+  public async fetchRandomSeed(): Promise<number[]> {
+    const { api } = Connector.getInstance()
+    const random = await api.query.babe.randomness()
+    return Array.from(random)
+
+  }
+
+  protected async sendBatch(remarks: NFT[], originalBlockNumber: string): Promise<void> {
     try {
       const { version, price } = this
       const addresses = this.parseAddresses
@@ -490,30 +498,11 @@ export default class SimpleMint extends Mixins(
         return
       }
 
-      const outOfTheNamesForTheRemarks = addresses.map((addr, index) =>
-        NFTUtils.createInteraction(
-          'SEND',
-          version,
-          onlyNfts[index].id,
-          String(addr)
-        )
-      )
-      const restOfTheRemarks =
-        onlyNfts.length > addresses.length && this.price
-          ? onlyNfts
-            .slice(outOfTheNamesForTheRemarks.length)
-            .map((nft) =>
-              NFTUtils.createInteraction(
-                'LIST',
-                version,
-                nft.id,
-                String(price)
-              )
-            )
-          : []
+      const { api } = Connector.getInstance()
+      const outOfTheNamesForTheRemarks = sendFunction(addresses, this.distribution, this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined )(onlyNfts.map(nft => nft.id), this.version)
+      const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
 
       this.isLoading = true
-      const { api } = Connector.getInstance()
 
       const cb = api.tx.utility.batchAll
       const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(

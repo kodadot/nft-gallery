@@ -29,6 +29,7 @@ export default class Pagination extends Vue {
   @Prop(Boolean) simple!: boolean
   @Prop({ default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
+  @Prop(Boolean) preserveScroll!: boolean
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
@@ -44,7 +45,9 @@ export default class Pagination extends Vue {
   }
 
   public onPageChange() {
-    this.scrollTop()
+    if (!this.preserveScroll) {
+      this.scrollTop()
+    }
   }
 
   public scrollTop() {

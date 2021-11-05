@@ -42,6 +42,11 @@
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
+        :to="{ name: 'collections'}">
+        {{ $t('Collections') }}
+      </b-navbar-item>
+      <b-navbar-item
+        tag="router-link"
         :to="{ name: 'nft'}">
         {{ $t('Gallery') }}
       </b-navbar-item>
