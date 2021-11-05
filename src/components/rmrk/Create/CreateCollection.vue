@@ -28,6 +28,7 @@
         :message="$i18n.t('tooltip.name')"
         placeholder="Name your collection"
         expanded
+        spellcheck="true"
       />
 
       <b-field>
