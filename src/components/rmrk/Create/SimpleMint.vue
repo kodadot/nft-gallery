@@ -107,7 +107,7 @@
               <p class="title is-6">
                 {{ $t('mint.expert.count', [parseAddresses.length]) }}
               </p>
-              <p class="sub-title is-6 has-text-warning" v-show="!enoughTokens">
+              <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
                 {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
               </p>
               <b-field :label="$i18n.t('mint.expert.batchSend')">
@@ -122,6 +122,9 @@
                 v-model="distribution"
                 label="action.distributionCount"
               />
+              <b-field v-show="syncVisible">
+              <b-button outlined @click="syncEdition" icon-left="sync" type="is-warning">{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button>
+              </b-field>
               <BasicSwitch v-model="random" label="action.random" />
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
@@ -216,7 +219,7 @@ import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
 import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
-import { sendFunction, shuffleFunction } from '@/components/accounts/utils'
+import { sendFunction, shuffleFunction, toDistribute } from '@/components/accounts/utils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -333,7 +336,7 @@ export default class SimpleMint extends Mixins(
       this.hasToS &&
       this.accountId &&
       this.file &&
-      this.enoughTokens
+      !this.syncVisible
     )
   }
 
@@ -386,6 +389,18 @@ export default class SimpleMint extends Mixins(
       .map((a) => encodeAddress(a, correctFormat(this.ss58Format)))
 
     return onlyValid
+  }
+
+  get syncVisible(): boolean {
+    return (this.rmrkMint.max < this.actualDistribution)
+  }
+
+  get actualDistribution(): number {
+    return toDistribute(this.parseAddresses.length, this.distribution)
+  }
+
+  protected syncEdition(): void {
+    this.rmrkMint.max = this.actualDistribution
   }
 
   protected async sub(): Promise<void> {
