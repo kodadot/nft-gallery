@@ -36,7 +36,10 @@
 
       <div class="card-content">
         <span v-if="price > 0" class="card-image__shop">
-          <b-image :src="'/cart.svg'" ratio="1by1"></b-image>
+          <b-icon
+            size="is-small"
+            pack="fas"
+            icon="shopping-cart" />
         </span>
 
         <span
@@ -208,19 +211,9 @@ export default class GalleryCard extends Vue {
     }
 
     &:hover .card-image__shop {
-      bottom: 10px;
-      right: 10px;
+      bottom: 8px;
+      right: 8px;
       position: absolute;
-
-      .image {
-        width: 18px;
-        height: 16px;
-
-        img {
-          width: 18px;
-          height: 16px;
-        }
-      }
     }
 
     &:hover .card-image__price {
