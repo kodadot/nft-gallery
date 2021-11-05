@@ -35,7 +35,6 @@
       </div>
 
       <div class="card-content">
-        
         <span v-if="price > 0" class="card-image__shop">
           <b-image :src="'/cart.svg'" ratio="1by1"></b-image>
         </span>
