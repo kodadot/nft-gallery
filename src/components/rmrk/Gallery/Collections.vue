@@ -1,73 +1,33 @@
 <template>
-  <div class="gallery container">
+  <div class="collections container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery">
-      <b-field class="column">
-        <Pagination simple :total="total" v-model="currentValue" :perPage=12 replace class="is-right" />
-      </b-field>
-    </Search>
-    <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
+    <b-field class="column">
+      <Pagination simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
+    </b-field>
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="nft in results" :key="nft.id">
-          <div class="card nft-card">
+        <div class="column is-4" v-for="collection in results" :key="collection.id">
+          <div class="card collection-card">
             <router-link
-              :to="{ name: 'nftDetail', params: { id: nft.id } }"
+              :to="{ name: 'collectionDetail', params: { id: collection.id } }"
               tag="div"
-              class="nft-card__skeleton"
+              class="collection-card__skeleton"
             >
               <div class="card-image">
-                <span v-if="nft.emoteCount" class="card-image__emotes">
-                  <b-icon icon="heart" />
-                  <span class="card-image__emotes__count">{{
-                    nft.emoteCount
-                  }}</span>
-                </span>
-                <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <span v-if="nft.price > 0" class="card-image__price">
-                  <Money :value="nft.price" inline />
-                </span>
+                <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
               </div>
 
               <div class="card-content">
-                <span
-                  v-if="!isLoading"
-                  class="title mb-0 is-4 has-text-centered"
-                  id="hover-title"
-                  :title="nft.name"
+                <router-link
+                  :to="{
+                    name: 'collectionDetail',
+                    params: { id: collection.id }
+                  }"
                 >
-                  <router-link
-                    v-if="nft.count < 2"
-                    :to="{ name: 'nftDetail', params: { id: nft.id } }"
-                  >
-                    <div>
-                      <div class="has-text-overflow-ellipsis middle">
-                        {{ nft.name }}
-                      </div>
-                    </div>
-                  </router-link>
-                  <router-link
-                    v-else
-                    :to="{
-                      name: 'collectionDetail',
-                      params: { id: nft.collectionId }
-                    }"
-                  >
-                    <div class="has-text-overflow-ellipsis">
-                      {{ nft.name }}
-                    </div>
-                  </router-link>
-
-                  <p
-                    v-if="nft.count > 2"
-                    :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6"
-                  >
-                    「{{ nft.count }}」
-                  </p>
-                </span>
+                  <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
+                </router-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
             </router-link>
@@ -78,7 +38,7 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
-      :perPage=12
+      :perPage="perPage"
       v-model="currentValue"
       replace
     />
@@ -88,35 +48,33 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 
-import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
-import { fetchNFTMetadata, getSanitizer } from '../utils'
+import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
-import { SearchQuery } from './Search/types'
 
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
-import { denyList } from '@/constants'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
 }
 
-const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
-
-type NFTType = NFTWithMeta;
+type CollectionType = CollectionWithMeta;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
+  CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
-@Component<Gallery>({
+@Component<Collections>({
   metaInfo() {
     return {
+      title: 'KodaDot - Kusama Explorer all collections',
       meta: [
         {
           property: 'og:title',
@@ -147,22 +105,17 @@ const components = {
   },
   components
 })
-export default class Gallery extends Vue {
-  private nfts: NFT[] = [];
+export default class Collections extends Vue {
+  private collections: Collection[] = [];
   private meta: Metadata[] = [];
-  private searchQuery: SearchQuery = {
-    search: '',
-    type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
-  };
-  private first = 12;
+  private first = 9;
+  private perPage = 9;
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
 
   get isLoading() {
-    return this.$apollo.queries.nfts.loading
+    return this.$apollo.queries.collection.loading
   }
 
   get offset() {
@@ -170,53 +123,52 @@ export default class Gallery extends Vue {
   }
 
   public async created() {
-    this.$apollo.addSmartQuery('nfts', {
-      query: nftListWithSearch,
+    this.$apollo.addSmartQuery('collection', {
+      query: collectionListWithSearch,
       manual: true,
-      // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
       result: this.handleResult,
       variables: () => {
         return {
           first: this.first,
           offset: this.offset,
-          denyList,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam()
         }
-      }
+      },
+      update: ({ collectionEntity }) => ({
+        ...collectionEntity,
+        nfts: collectionEntity.nfts.nodes
+      }),
     })
   }
 
   protected async handleResult({ data }: any) {
-    this.total = data.nFTEntities.totalCount
-    this.nfts = data.nFTEntities.nodes.map((e: any) => ({
+    this.total = data.collectionEntities.totalCount
+    this.collections = data.collectionEntities.nodes.map((e: any) => ({
       ...e,
-      emoteCount: e.emotes?.totalCount
     }))
 
     const storedMetadata = await getMany(
-      this.nfts.map(({ metadata }: any) => metadata)
+      this.collections.map(({ metadata }: any) => metadata)
     )
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
-          Vue.set(this.nfts, i, {
-            ...this.nfts[i],
+          const meta = await fetchCollectionMetadata(this.collections[i])
+          Vue.set(this.collections, i, {
+            ...this.collections[i],
             ...meta,
-            image: getSanitizer(meta.image || '')(meta.image || '')
+            image: sanitizeIpfsUrl(meta.image || '')
           })
-          update(this.nfts[i].metadata, () => meta)
+          update(this.collections[i].metadata, () => meta)
         } catch (e) {
           console.warn('[ERR] unable to get metadata')
         }
       } else {
-        Vue.set(this.nfts, i, {
-          ...this.nfts[i],
+        Vue.set(this.collections, i, {
+          ...this.collections[i],
           ...m,
-          image: getSanitizer(m.image || '')(m.image || '')
+          image: sanitizeIpfsUrl(m.image || '')
         })
       }
     })
@@ -228,32 +180,29 @@ export default class Gallery extends Vue {
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const nfts = this.$apollo.query({
-        query: nftListWithSearch,
+      const collections = this.$apollo.query({
+        query: collectionListWithSearch,
         variables: {
           first: this.first,
           offset,
-          denyList,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam()
-        }
+        },
       })
 
       const {
         data: {
-          nFTEntities: { nodes: nftList }
+          collectionEntities: { nodes: collectionList }
         }
-      } = await nfts
+      } = await collections
 
-      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(collectionList.map(({ metadata }: any) => metadata))
 
       const storedMetadata = await storedPromise
 
       storedMetadata.forEach(async (m, i) => {
         if (!m) {
           try {
-            const meta = await fetchNFTMetadata(nftList[i])
-            update(nftList[i].metadata, () => meta)
+            const meta = await fetchCollectionMetadata(collectionList[i])
+            update(collectionList[i].metadata, () => meta)
           } catch (e) {
             console.warn('[ERR] unable to get metadata')
           }
@@ -269,32 +218,8 @@ export default class Gallery extends Vue {
 
   }
 
-  private buildSearchParam(): Record<string, unknown>[] {
-    const params = []
-
-    if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
-      })
-    }
-
-    if (this.searchQuery.listed) {
-      params.push({
-        price: { greaterThan: '0' }
-      })
-    }
-
-    return params
-  }
-
   get results() {
-    // if (this.searchQuery) {
-    //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
-    // }
-
-    return this.nfts as NFTWithMeta[]
-
-    // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+    return this.collections as CollectionWithMeta[]
   }
 
   setFreezeframe() {
@@ -304,7 +229,7 @@ export default class Gallery extends Vue {
       const isGif = type === 'image/gif'
 
       if (isGif && !target.ffInitialized) {
-        const ff = new Freezeframe(target, {
+        new Freezeframe(target, {
           trigger: false,
           overlay: true,
           warnings: false
@@ -327,7 +252,7 @@ export default class Gallery extends Vue {
   filter: blur(7px);
 }
 
-.gallery {
+.collections {
   @media screen and (max-width: 1023px) {
     padding: 0 15px;
   }
@@ -392,7 +317,7 @@ export default class Gallery extends Vue {
     position: absolute;
   }
 
-  .nft-collection-counter {
+  .collection-collection-counter {
     top: 5px;
     right: -5px;
   }
@@ -438,6 +363,34 @@ export default class Gallery extends Vue {
         }
       }
 
+      .card-content {
+        .heading--inline {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #fff;
+        }
+
+        .level-item {
+          padding: 0.1rem;
+          text-align: left;
+          line-height: initial;
+        }
+
+        .collection-title {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #fff;
+          font-size: 1.5rem;
+        }
+        .collection-title-class {
+          max-width: 100%;
+          text-align: center;
+        }
+      }
+
       @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
@@ -454,9 +407,11 @@ export default class Gallery extends Vue {
           opacity: 1;
           z-index: 2;
           background: #000;
+          padding-left: 1rem;
+          padding-right: 1rem;
         }
 
-        &:hover .gallery__image-wrapper img {
+        &:hover .collection__image-wrapper img {
           transform: scale(1.1);
           transition: transform 0.3s linear;
         }

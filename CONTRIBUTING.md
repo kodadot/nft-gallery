@@ -19,7 +19,7 @@ We working primarly by two metrics. Issues has priorities by labels [p1-p5](http
 It's up to you which issue you pick. Our **best advice is to pick issues reflecting your skillset and experience if you want to be part of internal team** if you are interested having continuos payroll from us.
 
 ### Open a pull request
-When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (Pull Request).
+When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (Pull Request) against `main` branch. 
 
 ### Submit your PR & Get it reviewed
 * Once you submit your PR, others from the developers community will review it with you. The first thing you're going to want to do is a [self review](#self-review).
@@ -44,7 +44,7 @@ Our usual pay out structure for bounties is per label on issue. Here is table fo
 | $ | $$ | $$$ | $$$$ | $$$$$ |
 | :--: |    :--:   | :--: | :--: | :--: |
 | 50-100 | 150-300 | 450-600 | 700 - 10000 | 1000+
-| Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemtn with project
+| Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemnt with project
 
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 
@@ -126,7 +126,7 @@ $$
 
 * There are no spelling mistakes
 * It reads well
-* For english language contributions: Has a good score on [Grammarly](grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
+* For english language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
 
 ### Reviewing
 We (usually the core team, sometimes KodaDot engineers or support too!) review every single PR. The purpose of reviews is to create the best content we can for people who use KodaDot
@@ -153,6 +153,10 @@ For content changes, make sure that you:
 ### Pull request template
 When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 
+# Troubleshooting
+
+### Don't have access to push to repository
+You need to fork repository, commit change to your repository and [create pull request](https://opensource.com/article/19/7/create-pull-request-github). 
 
 
 ### Does it move this repository closer to my vision for the repository
