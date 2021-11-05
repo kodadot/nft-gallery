@@ -24,9 +24,9 @@
       />
       <BasicInput
         v-model="rmrkMint.name"
-        :label="$i18n.t('Name')"
-        :message="$i18n.t('tooltip.name')"
-        placeholder="Name your collection"
+        :label="$t('mint.collection.name.label')"
+        :message="$t('mint.collection.name.message')"
+        :placeholder="$t('mint.collection.name.placeholder')"
         expanded
         spellcheck="true"
       />
@@ -46,10 +46,10 @@
 
       <BasicInput
         v-model="rmrkMint.symbol"
-        :label="$i18n.t('Symbol')"
-        :message="$i18n.t('tooltip.symbol')"
+        :label="$t('mint.collection.symbol.label')"
+        :message="$t('mint.collection.symbol.message')"
+        :placeholder="$t('mint.collection.symbol.placeholder')"
         @keydown.native.space.prevent
-        placeholder="3-5 character long name"
         maxlength="10"
         expanded
       />
@@ -57,11 +57,11 @@
         v-model="meta.description"
         maxlength="500"
         type="textarea"
-        placeholder="Describe your collection"
         spellcheck="true"
-        :label="$i18n.t('Collection description')"
         class="mb-0 mt-5"
-        :message="$i18n.t('tooltip.collection.description')"
+        :label="$t('mint.collection.description.label')"
+        :message="$t('mint.collection.description.message')"
+        :placeholder="$t('mint.collection.description.placeholder')"
       />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
