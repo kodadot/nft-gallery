@@ -28,8 +28,7 @@ export default class ProfileLink extends Mixins(InlineMixin) {
   @Prop() public address!: string;
   @Prop() public showTwitter!: boolean;
 
-  get linkedTo() {
-    console.log(this.$route.name)
+  get linkedTo(): string {
     return this.$route.name === 'profile' ? 'subscan' : 'profile'
   }
 }
