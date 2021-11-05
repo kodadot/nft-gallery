@@ -196,12 +196,42 @@
     "success": "Congrats to your new NFT(s)",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in in your collection",
+    "nfsw": "Explicit content (NSFW)",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
       "count": "Currently matched {0} adresses",
       "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
       "postfix": "Add hashtag and index after the name (e.g #1)"
+    },
+    "collection": {
+      "name": {
+        "label": "Collection name",
+        "placeholder": "Enter collection name",
+        "message": "Name of your collection. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "Collection description",
+        "placeholder": "Enter collection description",
+        "message": "Description of your collection. Markdown is supported"
+      },
+      "symbol": {
+        "label": "Symbol (short name)",
+        "placeholder": "3-5 character long name",
+        "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
+      }
+    },
+    "nft": {
+      "name": {
+        "label": "name",
+        "placeholder": "Enter NFT name",
+        "message": "Name of your NFT. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "NFT description",
+        "placeholder": "Enter NFT description",
+        "message": "Description of your NFT. Markdown is supported"
+      }
     }
   },
   "tooltip": {

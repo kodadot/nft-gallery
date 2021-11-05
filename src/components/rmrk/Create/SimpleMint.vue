@@ -9,10 +9,10 @@
             <!-- {{ $t('mint.context') }} -->
             Create NFT Collectibles
           </p>
-          <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
+          <p class="subtitle is-size-7">{{ $t('using') }} {{ version }}</p>
           <b-field>
             <div>
-              {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
+              {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
             </div>
           </b-field>
           <b-field>
@@ -26,46 +26,43 @@
             preview
           />
 
-          <b-field grouped :label="$i18n.t('Name')">
-            <b-input
-              placeholder="Name your NFT"
-              v-model="rmrkMint.name"
-              expanded
-              class="mr-0"
-              spellcheck="true"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
-          </b-field>
-          <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
-            <b-input
-              placeholder="3-5 character long name"
-              maxlength="10"
-              @keydown.native.space.prevent
-              v-model="rmrkMint.symbol"
-              expanded
-              class="mr-0"
-            ></b-input>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.symbol')" />
-          </b-field>
+          <BasicInput
+            v-model="rmrkMint.name"
+            :label="$t('mint.nft.name.label')"
+            :message="$t('mint.nft.name.message')"
+            :placeholder="$t('mint.nft.name.placeholder')"
+            expanded
+            spellcheck="true"
+          />
 
-          <b-field :label="$i18n.t('Collection description')" class="mb-0">
-            <b-input
-              v-model="meta.description"
-              maxlength="500"
-              type="textarea"
-              placeholder="Describe your NFT"
-              spellcheck="true"
-            ></b-input>
-          </b-field>
+          <BasicInput
+            v-model="rmrkMint.symbol"
+            :label="$t('mint.collection.symbol.label')"
+            :message="$t('mint.collection.symbol.message')"
+            :placeholder="$t('mint.collection.symbol.placeholder')"
+            @keydown.native.space.prevent
+            maxlength="10"
+            expanded
+          />
 
-          <b-field grouped :label="$i18n.t('Edition')">
+          <BasicInput
+            v-model="meta.description"
+            maxlength="500"
+            type="textarea"
+            spellcheck="true"
+            class="mb-0 mt-5"
+            :label="$t('mint.nft.description.label')"
+            :message="$t('mint.nft.description.message')"
+            :placeholder="$t('mint.nft.description.placeholder')"
+          />
+
+          <b-field :label="$i18n.t('Edition')" class="mt-5">
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
               expanded
               :min="1"
             ></b-numberinput>
-            <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
           </b-field>
 
           <MetadataUpload
@@ -82,13 +79,7 @@
             placeholder="Get discovered easier through tags"
           />
 
-          <b-field>
-            <b-switch v-model="nsfw" :rounded="false">
-              {{ nsfw ? "NSFW" : "SFW" }}
-            </b-switch>
-          </b-field>
-
-          <BalanceInput @input="updateMeta" label="Price" />
+          <BalanceInput @input="updateMeta" label="Price" expanded />
           <b-message
             v-if="price"
             icon="exclamation-triangle"
@@ -113,8 +104,12 @@
               visible="mint.expert.show"
               hidden="mint.expert.hide"
             >
-            <p class="title is-6"> {{ $t('mint.expert.count', [parseAddresses.length]) }} </p>
-            <p class="sub-title is-6 has-text-warning" v-show="!enoughTokens"> {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }} </p>
+              <p class="title is-6">
+                {{ $t('mint.expert.count', [parseAddresses.length]) }}
+              </p>
+              <p class="sub-title is-6 has-text-warning" v-show="!enoughTokens">
+                {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
+              </p>
               <b-field :label="$i18n.t('mint.expert.batchSend')">
                 <b-input
                   v-model="batchAdresses"
@@ -140,7 +135,7 @@
               :loading="isLoading"
               outlined
             >
-              {{ $t("mint.submit") }}
+              {{ $t('mint.submit') }}
             </b-button>
           </b-field>
           <b-field>
@@ -153,14 +148,15 @@
               outlined
             >
               <template v-if="!estimated">
-                {{ $t("mint.estimate") }}
+                {{ $t('mint.estimate') }}
               </template>
               <template v-else>
-                {{ $t("mint.estimated") }}
+                {{ $t('mint.estimated') }}
                 <Money :value="estimated" inline />
               </template>
             </b-button>
           </b-field>
+          <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
             <Support v-model="hasSupport" :price="filePrice" />
           </b-field>
@@ -175,7 +171,7 @@
           <ArweaveUploadSwitch v-model="arweaveUpload" />
           <b-field>
             <b-switch v-model="hasToS" :rounded="false">
-              {{ $t("termOfService.accept") }}
+              {{ $t('termOfService.accept') }}
             </b-switch>
           </b-field>
         </div>
@@ -193,7 +189,7 @@ import Connector from '@vue-polkadot/vue-api'
 import exec, {
   execResultValue,
   txCb,
-  estimate
+  estimate,
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
@@ -203,7 +199,7 @@ import {
   SimpleNFT,
   NFTMetadata,
   NFT,
-  getNftId
+  getNftId,
 } from '../service/scheme'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { pinJson, getKey, revokeKey } from '@/proxy'
@@ -237,7 +233,8 @@ const components = {
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   SendHandler: () => import('@/components/rmrk/Create/Admin/SendHandler.vue'),
-  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue')
+  BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
+  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
 
 @Component<SimpleMint>({
@@ -246,37 +243,37 @@ const components = {
       meta: [
         {
           property: 'og:title',
-          content: 'KodaDot | Low fees and low carbon minting'
+          content: 'KodaDot | Low fees and low carbon minting',
         },
         { property: 'og:url', content: 'https://nft.kodadot.xyz' },
         {
           property: 'og:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
+          content: 'Create carbonless NFTs with low on-chain fees',
         },
         {
           property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
+          content: 'Low fees and low carbon minting',
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
         },
         {
           property: 'twitter:title',
-          content: 'Low fees and low carbon minting'
+          content: 'Low fees and low carbon minting',
         },
         {
           property: 'twitter:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
+          content: 'Create carbonless NFTs with low on-chain fees',
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
-        }
-      ]
+          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
+        },
+      ],
     }
   },
-  components
+  components,
 })
 export default class SimpleMint extends Mixins(
   SubscribeMixin,
@@ -286,25 +283,25 @@ export default class SimpleMint extends Mixins(
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
-    max: 1
-  };
-  private meta: NFTMetadata = emptyObject<NFTMetadata>();
+    max: 1,
+  }
+  private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
-  private uploadMode = true;
-  private file: Blob | null = null;
-  private secondFile: Blob | null = null;
-  private password = '';
-  private hasToS = false;
-  private hasSupport = true;
-  private nsfw = false;
-  private price = 0;
-  private estimated = '';
-  private hasCarbonOffset = true;
-  protected arweaveUpload = false;
-  protected batchAdresses = '';
-  protected postfix = true;
-  protected random = false;
-  protected distribution = 100;
+  private uploadMode = true
+  private file: Blob | null = null
+  private secondFile: Blob | null = null
+  private password = ''
+  private hasToS = false
+  private hasSupport = true
+  private nsfw = false
+  private price = 0
+  private estimated = ''
+  private hasCarbonOffset = true
+  protected arweaveUpload = false
+  protected batchAdresses = ''
+  protected postfix = true
+  protected random = false
+  protected distribution = 100
 
   protected updateMeta(value: number): void {
     this.price = value
@@ -351,7 +348,7 @@ export default class SimpleMint extends Mixins(
       ? result
       : [
         NFTUtils.toString(result.collection, version),
-        ...result.nfts.map(nft => NFTUtils.toString(nft, version))
+        ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
       ]
 
     const args = !this.hasSupport
@@ -359,7 +356,7 @@ export default class SimpleMint extends Mixins(
       : [
         ...remarks.map(this.toRemark),
         ...(await this.canSupport()),
-        ...(await this.canOffset())
+        ...(await this.canOffset()),
       ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
@@ -377,8 +374,16 @@ export default class SimpleMint extends Mixins(
 
   get parseAddresses(): string[] {
     const { batchAdresses } = this
-    const addresses = batchAdresses.split('\n').map(x => x.split('-')).filter(x => x.length).map(x => x[1]).filter(x => x).map(a => a.trim())
-    const onlyValid = addresses.filter(a => isAddress(a)).map(a => encodeAddress(a, correctFormat(this.ss58Format)))
+    const addresses = batchAdresses
+      .split('\n')
+      .map((x) => x.split('-'))
+      .filter((x) => x.length)
+      .map((x) => x[1])
+      .filter((x) => x)
+      .map((a) => a.trim())
+    const onlyValid = addresses
+      .filter((a) => isAddress(a))
+      .map((a) => encodeAddress(a, correctFormat(this.ss58Format)))
 
     return onlyValid
   }
@@ -398,7 +403,9 @@ export default class SimpleMint extends Mixins(
         accountId,
         version,
         false,
-        this.postfix && this.rmrkMint.max > 1 ? (name: string, index: number) => `${name} #${index + 1}` : undefined
+        this.postfix && this.rmrkMint.max > 1
+          ? (name: string, index: number) => `${name} #${index + 1}`
+          : undefined
       ) as MintType
 
       const cb = api.tx.utility.batchAll
@@ -406,7 +413,7 @@ export default class SimpleMint extends Mixins(
         ? result
         : [
           NFTUtils.toString(result.collection, version),
-          ...result.nfts.map(nft => NFTUtils.toString(nft, version))
+          ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
         ]
 
       const args = !this.hasSupport
@@ -414,7 +421,7 @@ export default class SimpleMint extends Mixins(
         : [
           ...remarks.map(this.toRemark),
           ...(await this.canSupport()),
-          ...(await this.canOffset())
+          ...(await this.canOffset()),
         ]
 
       const tx = await exec(
@@ -423,7 +430,7 @@ export default class SimpleMint extends Mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -445,12 +452,12 @@ export default class SimpleMint extends Mixins(
               this.isLoading = false
             }
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -472,16 +479,14 @@ export default class SimpleMint extends Mixins(
     try {
       const { version, price } = this
       const addresses = this.parseAddresses
-      showNotification(
-        `[APP] Sending NFTs to ${addresses.length} adresses`
-      )
+      showNotification(`[APP] Sending NFTs to ${addresses.length} adresses`)
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        // .map(nft =>
-        //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
-        // )
+        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+      // .map(nft =>
+      //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
+      // )
 
       if (!onlyNfts.length) {
         showNotification('Can not send empty NFTs', notificationTypes.danger)
@@ -489,15 +494,15 @@ export default class SimpleMint extends Mixins(
       }
 
       const { api } = Connector.getInstance()
-
-
       const outOfTheNamesForTheRemarks = sendFunction(addresses, this.distribution, this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined )(onlyNfts.map(nft => nft.id), this.version)
       const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
 
       this.isLoading = true
 
       const cb = api.tx.utility.batchAll
-      const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(this.toRemark)
+      const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(
+        this.toRemark
+      )
 
       const estimatedFee = await estimate(this.accountId, cb, [args])
       const support = feeTx(estimatedFee)
@@ -509,7 +514,7 @@ export default class SimpleMint extends Mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -519,7 +524,7 @@ export default class SimpleMint extends Mixins(
                 this.rmrkMint.max
               } NFTs with tag ${formatBalance(price, {
                 decimals: this.decimals,
-                withUnit: this.unit
+                withUnit: this.unit,
               })} in block ${blockNumber}`,
               notificationTypes.success
             )
@@ -531,7 +536,7 @@ export default class SimpleMint extends Mixins(
               this.navigateToDetail(firstNft, originalBlockNumber)
             }
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
@@ -583,14 +588,14 @@ export default class SimpleMint extends Mixins(
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
-          withUnit: this.unit
+          withUnit: this.unit,
         })}`
       )
 
       const onlyNfts = remarks
         .filter(NFTUtils.isNFT)
-        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        .map(nft =>
+        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) =>
           NFTUtils.createInteraction('LIST', version, nft.id, String(price))
         )
 
@@ -611,7 +616,7 @@ export default class SimpleMint extends Mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -621,7 +626,7 @@ export default class SimpleMint extends Mixins(
                 this.rmrkMint.max
               } NFTs with tag ${formatBalance(price, {
                 decimals: this.decimals,
-                withUnit: this.unit
+                withUnit: this.unit,
               })} in block ${blockNumber}`,
               notificationTypes.success
             )
@@ -633,7 +638,7 @@ export default class SimpleMint extends Mixins(
               this.navigateToDetail(firstNft, originalBlockNumber)
             }
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
@@ -678,10 +683,10 @@ export default class SimpleMint extends Mixins(
       attributes: [
         ...(this.rmrkMint?.tags || []),
         ...this.nsfwAttribute(),
-        ...this.offsetAttribute()
+        ...this.offsetAttribute(),
       ],
       external_url: 'https://nft.kodadot.xyz',
-      type: this.file.type
+      type: this.file.type,
     }
 
     try {
@@ -708,7 +713,6 @@ export default class SimpleMint extends Mixins(
     } catch (e) {
       if (e instanceof Error) {
         throw new ReferenceError(e.message)
-
       }
     }
   }
@@ -740,7 +744,7 @@ export default class SimpleMint extends Mixins(
       this.$router.push({
         name: 'nftDetail',
         params: { id: getNftId(nft, blockNumber) },
-        query: { message: 'congrats' }
+        query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
   }
