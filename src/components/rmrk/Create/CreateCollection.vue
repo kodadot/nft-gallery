@@ -22,49 +22,46 @@
         preview
         accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
       />
+      <BasicInput
+        v-model="rmrkMint.name"
+        :label="$i18n.t('Name')"
+        :message="$i18n.t('tooltip.name')"
+        placeholder="Name your collection"
+        expanded
+      />
 
-      <b-field grouped :label="$i18n.t('Name')">
-        <b-input
-          placeholder="Name your collection"
-          v-model="rmrkMint.name"
-          expanded
-          class="mr-0"
-          spellcheck="true"
-        ></b-input>
-        <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
-      </b-field>
       <b-field>
         <b-switch v-model="unlimited" :rounded="false">
           {{ $t("mint.unlimited") }}
         </b-switch>
       </b-field>
-      <b-field v-if="!unlimited" :label="$i18n.t('Maximum NFTs in collection')">
+      <b-field v-if="!unlimited" class="mt-1" :label="$i18n.t('Maximum NFTs in collection')">
         <b-numberinput
           v-model="rmrkMint.max"
           placeholder="1 is minumum"
           :min="1"
         ></b-numberinput>
       </b-field>
-      <b-field grouped :label="$i18n.t('Symbol')" class="mb-0">
-        <b-input
-          placeholder="3-5 character long name"
-          maxlength="10"
-          @keydown.native.space.prevent
-          v-model="rmrkMint.symbol"
-          expanded
-          class="mr-0"
-        ></b-input>
-        <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.symbol')" />
-      </b-field>
-      <b-field :label="$i18n.t('Collection description')" class="mb-0">
-        <b-input
-          v-model="meta.description"
+
+      <BasicInput
+        v-model="rmrkMint.symbol"
+        :label="$i18n.t('Symbol')"
+        :message="$i18n.t('tooltip.symbol')"
+        @keydown.native.space.prevent
+        placeholder="3-5 character long name"
+        maxlength="10"
+        expanded
+      />
+      <BasicInput
+        v-model="meta.description"
           maxlength="500"
           type="textarea"
           placeholder="Describe your collection"
           spellcheck="true"
-        ></b-input>
-      </b-field>
+          :label="$i18n.t('Collection description')"
+          class="mb-0 mt-5"
+          :message="$i18n.t('tooltip.collection.description')"
+      />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -113,6 +110,7 @@ const components = {
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support: () => import('@/components/shared/Support.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
 
 @Component({ components })
