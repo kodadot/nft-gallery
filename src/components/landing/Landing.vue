@@ -50,6 +50,13 @@
               </b-dropdown>
               <b-button
                   tag="router-link"
+                  to="/rmrk/collections"
+                  type="is-primary"
+              >
+                Collections
+              </b-button>
+              <b-button
+                  tag="router-link"
                   to="/rmrk/gallery"
                   type="is-primary"
               >
