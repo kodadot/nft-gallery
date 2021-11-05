@@ -7,26 +7,26 @@
       preview
     />
 
-    <b-field grouped :label="$i18n.t('Name')">
-      <b-input
-        placeholder="Name your NFT"
-        v-model="vName"
-        expanded
-        class="mr-0"
-        spellcheck="true"
-      ></b-input>
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
-    </b-field>
-    <b-field :label="$i18n.t('nft.description')" class="mb-0">
-      <b-input
-        v-model="vDescription"
-        maxlength="500"
-        type="textarea"
-        placeholder="Describe your NFT"
-        spellcheck="true"
-      ></b-input>
-    </b-field>
-    <b-field grouped :label="$i18n.t('Edition')">
+    <BasicInput
+      v-model="vName"
+      :label="$i18n.t('Name')"
+      :message="$i18n.t('tooltip.name')"
+      placeholder="Name your NFT"
+      expanded
+    />
+
+    <BasicInput
+      v-model="vDescription"
+      maxlength="500"
+      type="textarea"
+      placeholder="Describe your collection"
+      spellcheck="true"
+      :label="$i18n.t('Collection description')"
+      class="mb-0"
+      :message="$i18n.t('tooltip.collection.description')"
+    />
+
+    <b-field :label="$i18n.t('Edition')" class="mt-5">
       <b-numberinput
         v-model="vEdition"
         placeholder="1 is minumum"
@@ -34,7 +34,6 @@
         :min="1"
         :max="clickableMax"
       ></b-numberinput>
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
     </b-field>
     <MetadataUpload
       v-if="secondaryFileVisible"
@@ -85,6 +84,7 @@ import { MediaType } from '../types'
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     MetadataUpload: () => import('./DropUpload.vue'),
     Tooltip: () => import('@/components/shared/Tooltip.vue'),
+    BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   }
 })
 export default class CreateItem extends Vue {

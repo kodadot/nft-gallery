@@ -54,13 +54,13 @@
       />
       <BasicInput
         v-model="meta.description"
-          maxlength="500"
-          type="textarea"
-          placeholder="Describe your collection"
-          spellcheck="true"
-          :label="$i18n.t('Collection description')"
-          class="mb-0 mt-5"
-          :message="$i18n.t('tooltip.collection.description')"
+        maxlength="500"
+        type="textarea"
+        placeholder="Describe your collection"
+        spellcheck="true"
+        :label="$i18n.t('Collection description')"
+        class="mb-0 mt-5"
+        :message="$i18n.t('tooltip.collection.description')"
       />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />

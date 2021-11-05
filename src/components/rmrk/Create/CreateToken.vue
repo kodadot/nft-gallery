@@ -6,7 +6,7 @@
         <Auth />
       </b-field>
       <template v-if="accountId">
-        <b-field grouped :label="$i18n.t('Collection')">
+        <b-field :label="$i18n.t('Collection')" :message="$t('Select collection where do you want mint your token')">
           <b-select
             placeholder="Select a collection"
             v-model="selectedCollection"
@@ -23,11 +23,6 @@
               }}
             </option>
           </b-select>
-          <Tooltip
-            :label="
-              $i18n.t('Select collection where do you want mint your token')
-            "
-          />
         </b-field>
       </template>
       <h6 v-if="selectedCollection" class="subtitle is-6">
