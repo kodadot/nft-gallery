@@ -12,9 +12,8 @@
         Computed id: <b>{{ rmrkId }}</b>
       </div>
       <AccountSelect label="Account" v-model="accountId" />
-      <b-field grouped label="Name">
+      <b-field>
         <b-input v-model="rmrkMint.name" expanded></b-input>
-        <Tooltip :label="tooltip.name" />
       </b-field>
       <p class="title">
         Content
