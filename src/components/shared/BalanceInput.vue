@@ -1,7 +1,7 @@
 <template>
   <div class="arguments-wrapper">
     <b-field :label="$t(label)" class="balance">
-      <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0"/>
+      <b-input v-model="inputValue" @input="handleInput" type="number" step="0.001" min="0" expanded/>
       <p class="control balance">
         <b-select :disabled="!calculate" v-model="selectedUnit" @input="handleInput">
           <option v-for="u in units" v-bind:key="u.value" v-bind:value="u.value">
@@ -30,6 +30,7 @@ export default class BalanceInput extends Mixins(ChainMixin) {
   private selectedUnit = 1;
   @Prop({ default: 'balance' }) public label!: string;
   @Prop({ default: true }) public calculate!: boolean;
+  @Prop(Boolean) public expanded!: boolean;
 
   get inputValue(): number {
     return this.value
