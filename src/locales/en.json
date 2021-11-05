@@ -207,17 +207,29 @@
       "name": {
         "label": "Collection name",
         "placeholder": "Enter collection name",
-        "message": "Name of your collection. It will be visible to everyone"
+        "message": "Name of your collection. It will be visible in the gallery"
       },
       "description": {
         "label": "Collection description",
         "placeholder": "Enter collection description",
-        "message": "Description of your collection. It will be visible to everyone"
+        "message": "Description of your collection. Markdown is supported"
       },
       "symbol": {
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
+      }
+    },
+    "nft": {
+      "name": {
+        "label": "name",
+        "placeholder": "Enter NFT name",
+        "message": "Name of your NFT. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "NFT description",
+        "placeholder": "Enter NFT description",
+        "message": "Description of your NFT. Markdown is supported"
       }
     }
   },

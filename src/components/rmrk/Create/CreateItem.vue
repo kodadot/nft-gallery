@@ -9,9 +9,9 @@
 
     <BasicInput
       v-model="vName"
-      :label="$i18n.t('Name')"
-      :message="$i18n.t('tooltip.name')"
-      placeholder="Name your NFT"
+      :label="$t('mint.nft.name.label')"
+      :message="$t('mint.nft.name.message')"
+      :placeholder="$t('mint.nft.name.placeholder')"
       expanded
     />
 
@@ -19,11 +19,11 @@
       v-model="vDescription"
       maxlength="500"
       type="textarea"
-      placeholder="Describe your collection"
       spellcheck="true"
-      :label="$i18n.t('Collection description')"
       class="mb-0"
-      :message="$i18n.t('tooltip.collection.description')"
+      :label="$t('mint.nft.description.label')"
+      :message="$t('mint.nft.description.message')"
+      :placeholder="$t('mint.nft.description.placeholder')"
     />
 
     <b-field :label="$i18n.t('Edition')" class="mt-5">
