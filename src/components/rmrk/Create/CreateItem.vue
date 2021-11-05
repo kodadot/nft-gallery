@@ -49,13 +49,9 @@
       placeholder="Get discovered easier through tags"
     />
 
-    <b-field>
-      <b-switch v-model="vNsfw" :rounded="false">
-        {{ vNsfw ? "NSFW" : "SFW" }}
-      </b-switch>
-    </b-field>
+    <BasicSwitch v-model="vNsfw" label="mint.nfsw" />
 
-    <BalanceInput @input="updateMeta" label="Price" />
+    <BalanceInput @input="updateMeta" label="Price" expanded />
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
@@ -85,6 +81,7 @@ import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
     MetadataUpload: () => import('./DropUpload.vue'),
     Tooltip: () => import('@/components/shared/Tooltip.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   }
 })
 export default class CreateItem extends Vue {

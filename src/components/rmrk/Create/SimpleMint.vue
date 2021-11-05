@@ -79,13 +79,7 @@
             placeholder="Get discovered easier through tags"
           />
 
-          <b-field>
-            <b-switch v-model="nsfw" :rounded="false">
-              {{ nsfw ? 'NSFW' : 'SFW' }}
-            </b-switch>
-          </b-field>
-
-          <BalanceInput @input="updateMeta" label="Price" />
+          <BalanceInput @input="updateMeta" label="Price" expanded />
           <b-message
             v-if="price"
             icon="exclamation-triangle"
@@ -162,6 +156,7 @@
               </template>
             </b-button>
           </b-field>
+          <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
             <Support v-model="hasSupport" :price="filePrice" />
           </b-field>
