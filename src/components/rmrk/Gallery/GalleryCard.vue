@@ -37,7 +37,7 @@
       <div class="card-content">
         
         <span v-if="price > 0" class="card-image__shop">
-          <b-image :src="shopping_cart" ratio="1by1"></b-image>
+          <b-image :src="'/cart.svg'" ratio="1by1"></b-image>
         </span>
 
         <span
@@ -81,7 +81,6 @@ export default class GalleryCard extends Vue {
   @Prop() public currentOwner!: string;
 
   private placeholder = '/koda300x300.svg';
-  private shopping_cart = '/cart.svg';
 
   async mounted() {
     if (this.metadata) {
