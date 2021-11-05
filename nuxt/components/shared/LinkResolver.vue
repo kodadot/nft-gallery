@@ -3,7 +3,7 @@
     <template v-if="profileMode">
       <slot name="extra" />
       <router-link
-        :to="{ name: route, params: { id: param } }"
+        :to="`${route}/${param}`"
         :tag="tag"
       >
         <slot />
@@ -28,7 +28,7 @@ import isShareMode from '@/utils/isShareMode'
 
 @Component
 export default class LinkResolver extends mixins(InlineMixin) {
-  @Prop({ default: 'nftDetail' }) public route!: string;
+  @Prop({ default: '/rmrk/detail' }) public route!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop({ default: 'a' }) public tag!: string;
   @Prop({}) public param!: string;

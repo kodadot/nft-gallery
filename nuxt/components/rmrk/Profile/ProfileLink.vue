@@ -2,7 +2,7 @@
   <div>
     <LinkResolver
       class="profile-link__wrapper"
-      route="profile"
+      route="/rmrk/u"
       :param="address"
       link="u"
     >

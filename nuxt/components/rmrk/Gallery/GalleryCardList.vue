@@ -8,8 +8,6 @@
       <GalleryCard
         :id="nft.id"
         :name="nft.name"
-        :type="type"
-        :link="link"
         :metadata="nft.metadata"
         :price="nft.price"
         :emote-count="nft.emoteCount"
@@ -29,8 +27,6 @@ const components = {
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
 }
 </script>

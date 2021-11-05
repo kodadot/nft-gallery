@@ -22,13 +22,12 @@
       </template>
       <b-table-column
         v-slot="props"
-        cell-class="short-identity__table"
         field="id"
         :label="$t('spotlight.id')"
       >
         <router-link
           v-if="!isLoading"
-          :to="{ name: 'profile', params: { id: props.row.id } }"
+          :to="`profile/${props.row.id}`"
         >
           <Identity
             :address="props.row.id"
@@ -100,6 +99,21 @@
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
+        field="volume"
+        label="Volume"
+        sortable
+      >
+        <template v-if="!isLoading">
+          <Money
+            :value="props.row.volume"
+            inline
+          />
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         sortable
@@ -150,7 +164,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import { Column, Row } from './types'
 import { columns, nftFn } from './utils'
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
@@ -164,11 +178,12 @@ type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue')
 }
 
 @Component({ components })
-export default class SpotlightTable extends mixins(TransactionMixin) {
+export default class SpotlightTable extends Mixins(TransactionMixin) {
   @Prop() public value!: any;
   protected data: Row[] = [];
   protected columns: Column[] = columns;
@@ -216,9 +231,4 @@ export default class SpotlightTable extends mixins(TransactionMixin) {
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>

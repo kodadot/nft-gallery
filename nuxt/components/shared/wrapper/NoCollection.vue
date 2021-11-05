@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>{{ $t(label) }}.</span>
-    <router-link :to="{ name: 'rmrk'}">
+    <router-link to="/rmrk/create">
       <div>{{ $t('helper.clickToCreate') }}</div>
     </router-link>
   </div>

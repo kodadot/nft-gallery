@@ -22,12 +22,7 @@
         field="From"
         label="From"
       >
-        <router-link
-          :to="{
-            name: 'profile',
-            params: { id: props.row.From },
-          }"
-        >
+        <router-link :to="`/rmrk/u/${props.row.From}`">
           <Identity
             :address="props.row.From"
             inline
@@ -41,9 +36,7 @@
         field="To"
         label="To"
       >
-        <router-link
-          :to="{ name: 'profile', params: { id: props.row.To } }"
-        >
+        <router-link :to="`/rmrk/u/${props.row.to}`">
           <Identity
             :address="props.row.To"
             inline

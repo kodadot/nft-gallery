@@ -37,14 +37,14 @@
             <b-dropdown-item
               aria-role="listitem"
             >
-              <router-link :to="{ name: 'rmrk'}">
+              <router-link to="/rmrk/create">
                 {{ $t('Classic') }}
               </router-link>
             </b-dropdown-item>
             <b-dropdown-item
               aria-role="listitem"
             >
-              <router-link :to="{ name: 'simpleMint'}">
+              <router-link to="/rmrk/mint">
                 {{ $t('Simple') }}
               </router-link>
             </b-dropdown-item>

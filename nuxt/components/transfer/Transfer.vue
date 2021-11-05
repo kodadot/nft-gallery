@@ -9,7 +9,7 @@
         />
         <router-link
           v-if="$route.query.target"
-          :to="`rmrk/u/${destinationAddress}`"
+          :to="`/rmrk/u/${destinationAddress}`"
           class="linkartist"
         >
           <b-icon

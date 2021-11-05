@@ -97,10 +97,7 @@
       >
         <router-link
           v-if="!isLoading"
-          :to="{
-            name: 'collectionDetail',
-            params: { id: props.row.id },
-          }"
+          :to="`/rmrk/collection/${props.row.id}`"
         >
           {{ props.row.name }}
         </router-link>

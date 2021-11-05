@@ -95,7 +95,7 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
+  @Prop({ default: '/rmrk/detail' }) public type!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public id!: string;
   @Prop() public name!: string;

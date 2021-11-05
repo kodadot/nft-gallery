@@ -39,7 +39,7 @@
       {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
-      <router-link :to="{ name: 'collectionDetail', params: { id: nft.collectionId } }">
+      <router-link :to="`/rmrk/collection/${nft.collectionId}`">
         {{ nft.collectionId }}
       </router-link>
       <b-skeleton
