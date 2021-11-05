@@ -2,7 +2,7 @@
   <div>
     <div class="level m-1 column is-12">
       <div class="level-item has-text-centered">
-        <div>
+        <div class="collection-title-class">
           <p class="collection-title">{{ name }}</p>
         </div>
       </div>
