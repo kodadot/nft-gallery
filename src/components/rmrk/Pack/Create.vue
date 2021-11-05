@@ -13,9 +13,6 @@
       </div>
       <AccountSelect label="Account" v-model="accountId" />
       <b-field>
-        <template #label>
-                Label with custom <span class="has-text-primary is-italic">style</span>
-            </template>
         <b-input v-model="rmrkMint.name" expanded></b-input>
       </b-field>
       <p class="title">
