@@ -16,6 +16,7 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage :src="image" :alt="title" customClass="gallery__image-wrapper" />
+
         <span v-if="price > 0" class="card-image__price">
           <Money :value="price" inline />
         </span>
@@ -26,7 +27,6 @@
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-
         <b-image :src="placeholder" alt="Simple image" ratio="1by1"></b-image>
 
         <span v-if="price > 0" class="card-image__price">
@@ -35,6 +35,11 @@
       </div>
 
       <div class="card-content">
+        
+        <span v-if="price > 0" class="card-image__shop">
+          <b-image :src="shopping_cart" ratio="1by1"></b-image>
+        </span>
+
         <span
           class="title mb-0 is-4 has-text-centered has-text-primary"
           :title="name"
@@ -76,6 +81,7 @@ export default class GalleryCard extends Vue {
   @Prop() public currentOwner!: string;
 
   private placeholder = '/koda300x300.svg';
+  private shopping_cart = '/cart.svg';
 
   async mounted() {
     if (this.metadata) {
@@ -201,6 +207,22 @@ export default class GalleryCard extends Vue {
     &:hover .card-image__emotes {
       top: 15px;
       right: 15px;
+    }
+
+    &:hover .card-image__shop {
+      bottom: 10px;
+      right: 10px;
+      position: absolute;
+
+      .image {
+        width: 18px;
+        height: 16px;
+
+        img {
+          width: 18px;
+          height: 16px;
+        }
+      }
     }
 
     &:hover .card-image__price {
