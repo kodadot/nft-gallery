@@ -11,7 +11,7 @@ export default [
     path: 'https://kusama.subscan.io/account/:id',
     name: 'subscan',
     beforeEnter(to: any): void {
-      window.location.replace(to.fullPath)
+      window.open(to.fullPath, '_blank')
     }
   },
   {
