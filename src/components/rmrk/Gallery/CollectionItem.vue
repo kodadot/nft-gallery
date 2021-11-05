@@ -105,7 +105,7 @@ const components = {
         { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
         { property: 'og:title', content: this.collection.name || 'KodaDot cares about environmental impact'},
         { property: 'og:url', content: 'https://nft.kodadot.xyz/' + this.$route.path },
-        { property: 'og:image', content: this.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:image', content: this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: this.meta.description || 'Creating Carbonless NFTs on Kusama'},
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:title', content: this.collection.name || 'KodaDOT cares about environmental impact'},
