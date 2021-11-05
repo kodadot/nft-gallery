@@ -202,7 +202,8 @@
       "hide": "Hide advanced settings",
       "count": "Currently matched {0} adresses",
       "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
-      "postfix": "Add hashtag and index after the name (e.g #1)"
+      "postfix": "Add hashtag and index after the name (e.g #1)",
+      "sync": "Sync editions to {0}"
     },
     "collection": {
       "name": {
