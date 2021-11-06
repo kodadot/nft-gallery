@@ -294,6 +294,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
 }
 
 export const decode = (value: string) => decodeURIComponent(value)
+export const sortByTimeStamp = (a: any, b: any) => b.timestamp < a.timestamp ? 1 : -1
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
