@@ -68,6 +68,8 @@
         v-model="currentValue"
         :per-page="first"
       />
+
+      <CollectionPriceChart :priceData="priceData" />
     </div>
   </div>
 </template>
@@ -76,14 +78,15 @@
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Component, Vue } from 'vue-property-decorator'
-import { CollectionWithMeta, Collection } from '../service/scheme'
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
+import {CollectionWithMeta, Collection, Interaction} from '../service/scheme'
+import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
+import { isAfter } from 'date-fns'
 
 
 const components = {
@@ -95,6 +98,7 @@ const components = {
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -130,6 +134,7 @@ export default class CollectionItem extends Vue {
   private first = 15;
   private total = 0;
   protected stats: NFT[] = [];
+  protected priceData: any[] = [];
 
   get offset(): number {
     return this.currentValue * this.first - this.first
@@ -216,7 +221,37 @@ export default class CollectionItem extends Vue {
 
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
       this.stats = nfts
+      this.loadPriceData()
     })
+  }
+
+  public loadPriceData() {
+
+    this.priceData = [];
+
+    let events : Interaction[][] = this.stats?.map(this.onlyEvents)
+    let priceEvents : Interaction[][] = events.map(this.listAndBuyEvents);
+
+    let over_time : string[] = priceEvents.flat().sort(sortByTimeStamp).map((e: any) => e.timestamp);
+
+    let floorPriceData : any[] = [];
+    let topSoldPriceData : any[] = [];
+
+    over_time.map((time: string) => {
+      let listEventsBeforeTime = this.listEventsBeforeTime(priceEvents, time).flat();
+      let priceEvent = listEventsBeforeTime.map((e: any) => e.meta / 1000000000000).filter((price: number) => price > 0);
+
+      const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0;
+      floorPriceData.push([new Date(time), floorPrice]);
+    });
+
+    let buyEvents = events.map(this.onlyBuyEvents).sort(sortByTimeStamp).flat().sort(sortByTimeStamp);
+
+    buyEvents?.map((e:any) => {
+      topSoldPriceData.push([new Date(e.timestamp), e.price / 1000000000000]);
+    });
+
+    this.priceData  = [floorPriceData, topSoldPriceData];
   }
 
   public async handleResult({data}: any): Promise<void> {
@@ -243,6 +278,32 @@ export default class CollectionItem extends Vue {
 
   get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
+  }
+
+  protected listEventsBeforeTime(nftEvents: any[], time: string) {
+    return nftEvents.map(events => {
+      let properEvents = events.filter((e: any) => !isAfter(new Date(e.timestamp), new Date(time)));
+
+      return properEvents.length && properEvents[properEvents.length - 1].interaction === 'LIST' ? [properEvents[properEvents.length - 1]] : [];
+    })
+  }
+
+  protected onlyEvents(nft:any){
+    return nft.events.map((e:any) => {
+      return {...e, name: nft.name}
+    })
+  }
+  protected listAndBuyEvents(nftEvents:any){
+    return nftEvents.filter((event:any) => event.interaction === 'LIST' || event.interaction === 'BUY');
+  }
+  protected onlyBuyEvents(nftEvents:any[]){
+    let buyEvents : any[] = [];
+    nftEvents?.forEach((e: any, index: number) => {
+      if (e.interaction === 'BUY' && index >= 1 && nftEvents[index - 1].interaction === 'LIST') {
+        buyEvents.push({...e, price: nftEvents[index - 1].meta});
+      }
+    })
+    return buyEvents;
   }
 }
 </script>
