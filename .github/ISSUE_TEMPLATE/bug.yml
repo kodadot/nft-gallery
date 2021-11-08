@@ -55,8 +55,8 @@ body:
       label: Are you logged in?
       multiple: false
       options:
-        - Yes
-        - No
+        - 'Yes'
+        - 'No'
   - type: textarea
     id: Screenshots
     attributes:
