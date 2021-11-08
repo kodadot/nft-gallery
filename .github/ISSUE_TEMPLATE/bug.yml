@@ -36,7 +36,7 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-- type: dropdown
+  - type: dropdown
     id: browsers
     attributes:
       label: What browsers are you seeing the problem on?
