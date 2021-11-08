@@ -16,7 +16,7 @@
             <template v-if="!nameLoading">
               {{ name }}
             </template>
-            <b-skeleton :active="nameLoading" :height="30" size="is-medium" :animated="true"></b-skeleton>
+            <b-skeleton :active="nameLoading" :height="30"></b-skeleton>
           </h1>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
           </div>
-          <b-skeleton :active="!issuer" width="20%" size="is-small" :animated="true"></b-skeleton>
+          <b-skeleton :active="!issuer" width="20%"></b-skeleton>
         </div>
         <div class="column" v-if="owner">
           <div class="label">
@@ -49,12 +49,12 @@
       </div>
 
       <CollectionActivity v-if="!statsLoading" :nfts="stats" />
-      <b-skeleton :active="statsLoading" height="30px" :animated="true"></b-skeleton>
+      <b-skeleton :active="statsLoading" height="30px"></b-skeleton>
 
       <div class="columns is-centered">
         <div class="column is-8 has-text-centered mt-5">
           <VueMarkdown :source="description" />
-          <b-skeleton :active="!description" height="80px" :animated="true"></b-skeleton>
+          <b-skeleton :active="!description" height="80px"></b-skeleton>
         </div>
       </div>
 
@@ -64,21 +64,7 @@
         </b-field>
       </Search>
 
-      <GalleryCardList :items="collection.nfts" />     
-      <template v-if="statsLoading">
-        <section>
-            <article class="media" >
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <b-skeleton active></b-skeleton>
-                            <b-skeleton height="80px"></b-skeleton>
-                        </p>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </template>
+      <GalleryCardList :items="collection.nfts" />
 
       <Pagination
         class="py-5"
