@@ -305,6 +305,7 @@ export default class CollectionItem extends Vue {
       }
     })
     return buyEvents
+
   }
 }
 </script>

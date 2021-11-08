@@ -17,10 +17,10 @@ import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { TooltipComponent } from 'echarts/components'
 import { DataZoomComponent } from 'echarts/components'
+
 import { LegendComponent } from 'echarts/components'
 
 ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent, LegendComponent])
-
 
 const components = {
 }
@@ -58,6 +58,7 @@ export default class PriceChart extends Vue {
             params.data[0] as unknown as Date
           )
           const price = params.data[1] + ' KSM'
+
           return '<center>' + date + '<br>' + price + '</center>'
         },
         backgroundColor: '#363636',
