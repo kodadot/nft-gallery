@@ -68,7 +68,7 @@ export default class PriceChart extends Vue {
         },
       },
       legend: {
-        data: ['Floor Price', 'Top Sold Price'],
+        data: ['Floor Price', 'Sold NFT Price'],
         itemGap: 15,
         inactiveColor: '#',
         textStyle: {
@@ -117,7 +117,7 @@ export default class PriceChart extends Vue {
           data: this.priceData[0],
         },
         {
-          name: 'Top Sold Price',
+          name: 'Sold NFT Price',
           type: 'line',
           smooth: 'true',
           lineStyle: {
