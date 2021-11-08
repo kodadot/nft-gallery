@@ -17,8 +17,9 @@ import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { TooltipComponent } from 'echarts/components'
 import { DataZoomComponent } from 'echarts/components'
+import { LegendComponent } from 'echarts/components'
 
-ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent])
+ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent, LegendComponent])
 
 
 const components = {
@@ -46,25 +47,32 @@ export default class PriceChart extends Vue {
     this.priceChart()
   }
 
-  protected priceChart() {    
+  protected priceChart() {
 
     this.Chart = ECharts.init(this.$refs.chart as HTMLElement)
     this.Chart.setOption({
       tooltip: {
         trigger: 'item',
         formatter: (params: { data: string[], seriesName: string }) => {
-          
           const date = this.parseDate(
             params.data[0] as unknown as Date
           )
           const price = params.data[1] + ' KSM'
-          return '<center>' + params.seriesName + '<br>' + date + '<br>' + price + '</center>'
+          return '<center>' + date + '<br>' + price + '</center>'
         },
         backgroundColor: '#363636',
         textStyle: {
           color: '#fff',
           fontFamily: 'Fira Code',
         },
+      },
+      legend: {
+        data: ['Floor Price', 'Top Sold Price'],
+        itemGap: 15,
+        inactiveColor: '#',
+        textStyle: {
+          color: '#fff',
+        }
       },
       xAxis: {
         type: 'time',
@@ -107,7 +115,6 @@ export default class PriceChart extends Vue {
           },
           data: this.priceData[0],
         },
-
         {
           name: 'Top Sold Price',
           type: 'line',
