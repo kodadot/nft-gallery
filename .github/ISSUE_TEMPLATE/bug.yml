@@ -1,6 +1,6 @@
 name: Bug Report
 description: Create a report to help us improve KodaDot
-title: "[Bug]: "
+title: ""
 labels: ["bug"]
 body:
   - type: markdown
@@ -11,7 +11,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: Tell us, what did you expect to happen?
+      description: Tell us, what happened?
       placeholder: Tell us what you see!
       value: "A bug happened!"
     validations:
@@ -20,7 +20,7 @@ body:
     id: reproduce
     attributes:
       label: Please reproduce in steps
-      description: Steps to reproduce the behavior
+      description: Tells us steps how to reproduce the behavior
       placeholder: Go to ... Click on .... See error
       value: "Go to ... Click on .... See error"
     validations:
@@ -31,7 +31,7 @@ body:
       label: Expected Behavior
       description: A clear and concise description of what you expected to happen.
       placeholder: Tell us what you see!
-      value: "I expected ..."
+      value: "I've expected ..."
     validations:
       required: true
   - type: dropdown
