@@ -22,7 +22,7 @@ body:
     id: reproduce
     attributes:
       label: Please reproduce in steps
-      description: Steps to reproduce the behavior:
+      description: Steps to reproduce the behavior
       placeholder: Go to ... Click on .... See error
       value: "A bug happened!"
     validations:
