@@ -57,7 +57,8 @@ export default class QRCodeComponent extends Vue {
 </script>
 
 <style>
-.qr-code-wrapper > canvas > img {
+.qr-code-wrapper > canvas > img,
+.qr-code-wrapper img {
   margin: auto !important;
 }
 </style>

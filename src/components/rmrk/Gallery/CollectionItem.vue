@@ -34,7 +34,7 @@
           <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
         </div>
       </div>
-      <div class="column is-2">
+      <div class="column has-text-right">
         <Sharing v-if="sharingVisible"
           class="mb-2"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
