@@ -1,6 +1,6 @@
 name: Bug Report
 description: Create a report to help us improve KodaDot
-title: ""
+title: "Be descriptive and short"
 labels: ["bug"]
 body:
   - type: markdown
