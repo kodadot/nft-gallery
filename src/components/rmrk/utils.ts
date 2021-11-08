@@ -11,6 +11,7 @@ import {
 import api from '@/fetch'
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT, Interaction } from './service/scheme'
 import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
+import { before } from '@/utils/math'
 import { justHash } from '@/utils/ipfs'
 
 export const SQUARE = '::'
@@ -300,6 +301,23 @@ export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
+export const onlyEvents = (nft: NFT) => nft.events
+export const eventTimestamp = (e: { timestamp : string }) => e.timestamp
+export const onlyPriceEvents = (e: { interaction: string }) => e.interaction === 'LIST' || e.interaction === 'BUY' || e.interaction === 'SEND' || e.interaction === 'CONSUME'
+export const eventsBeforeTime = (time: string) => (evts: Interaction[]) => {
+  const evtsBeforeTime = evts.filter(before(new Date(time)))
+  return evtsBeforeTime.length && evtsBeforeTime[evtsBeforeTime.length - 1].interaction === 'LIST' ? [evtsBeforeTime[evtsBeforeTime.length - 1]] : []
+}
+export const collectionFloorList = (priceEvents : Interaction[][], decimals: number) => (time : string) => {
+  const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
+  const priceEvent = listEventsBeforeTime.map((e: Interaction) => Number(e.meta) / 10 ** decimals).filter((price: number) => price > 0)
+
+  const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
+  return [new Date(time), floorPrice]
+}
+
+export const soldNFTPrice = (decimals : number) => (e : Interaction) => [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
+
 
 export const isJsonGltf = (value: any): boolean => {
   try {
@@ -317,3 +335,8 @@ export const isJsonGltf = (value: any): boolean => {
     return false
   }
 }
+
+
+
+
+
