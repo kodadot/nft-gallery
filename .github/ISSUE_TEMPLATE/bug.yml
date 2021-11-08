@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a report to help us improve
+description: Create a report to help us improve KodaDot
 title: "[Bug]: "
 labels: ["bug", "triage"]
 assignees:
@@ -24,16 +24,16 @@ body:
       label: Please reproduce in steps
       description: Steps to reproduce the behavior
       placeholder: Go to ... Click on .... See error
-      value: "A bug happened!"
+      value: "Go to ... Click on .... See error"
     validations:
       required: true
   - type: textarea
     id: expected-behavior
     attributes:
       label: Expected Behavior
-      description: Tell us, what did you expect to happen?
+      description: A clear and concise description of what you expected to happen.
       placeholder: Tell us what you see!
-      value: "A bug happened!"
+      value: "I expected ..."
     validations:
       required: true
   - type: dropdown
@@ -49,6 +49,23 @@ body:
         - Mobile iOS Safari
         - Mobile Android Chrome
         - Mobile Firefox
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Are you logged in?
+      multiple: false
+      options:
+        - Yes
+        - No
+  - type: textarea
+    id: Screenshots
+    attributes:
+      label: Screenshots
+      description: Screenshot is sometimes worth more than debug logs!
+      placeholder: Paste from your clipboard or upload screenshots
+      value: "Paste from your clipboard or upload screenshots"
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:
