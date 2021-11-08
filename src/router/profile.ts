@@ -10,7 +10,7 @@ export default [
   {
     path: 'https://kusama.subscan.io/account/:id',
     name: 'subscan',
-    beforeEnter(to: any): void {
+    beforeEnter(to: {fullPath: string}): void {
       window.open(to.fullPath, '_blank')
     }
   },
