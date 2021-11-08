@@ -19,11 +19,11 @@ Your contribution will be an eternal part of the community codebase.
 - [ ] I found edge cases
 
 ### What's new? 
-- PR closes #<issue_number> 
-- <brief_description_of_what_I've_added>
+- [ ] PR closes #<issue_number> 
+- [ ] <brief_description_of_what_I've_added>
 
 ### Had issue bounty label ?
-- Fill up your KSM address: [Payout](https://kodadot.xyz/transfer/?target=<My_Kusama_Address>)
+- [ ] Fill up your KSM address: [Payout](https://kodadot.xyz/transfer/?target=<My_Kusama_Address>)
 
 ### Community participation
 - [ ] [Are you at KodaDot Discord?](https://discord.gg/35hzy2dXXh)
