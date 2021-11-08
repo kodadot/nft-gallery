@@ -80,15 +80,13 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { Component, Vue } from 'vue-property-decorator'
 import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
-  eventTimestamp, eventsBeforeTime, soldNFTPrice, collectionFloorList } from '../utils'
+  eventTimestamp, soldNFTPrice, collectionFloorList } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
-import { isAfter } from 'date-fns'
-
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -238,7 +236,6 @@ export default class CollectionItem extends Vue {
 
     this.priceData = []
 
-    console.log('decimals', this.decimals);
     const events : Interaction[][] = this.stats?.map(onlyEvents) || []
     const priceEvents : Interaction[][] = events.map(this.priceEvents) || []
 
@@ -283,7 +280,7 @@ export default class CollectionItem extends Vue {
   }
   protected onlyBuyEvents(nftEvents:any[]){
     let buyEvents : any[] = []
-    nftEvents?.map((e: Interaction, index: number) => {
+    nftEvents?.forEach((e: Interaction, index: number) => {
       if (e.interaction === 'BUY' && index >= 1 && nftEvents[index - 1].interaction === 'LIST') {
         buyEvents.push({...e, meta: nftEvents[index - 1].meta})
       }

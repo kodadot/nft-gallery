@@ -302,8 +302,8 @@ export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
 export const onlyEvents = (nft: NFT) => nft.events
-export const eventTimestamp = (e: { timestamp : string }) => e.timestamp
-export const onlyPriceEvents = (e: { interaction: string }) => e.interaction === 'LIST' || e.interaction === 'BUY' || e.interaction === 'SEND' || e.interaction === 'CONSUME'
+export const eventTimestamp = (e: { timestamp : string }) : string => e.timestamp
+export const onlyPriceEvents = (e: { interaction: string }) : boolean => e.interaction === 'LIST' || e.interaction === 'BUY' || e.interaction === 'SEND' || e.interaction === 'CONSUME'
 export const eventsBeforeTime = (time: string) => (evts: Interaction[]) => {
   const evtsBeforeTime = evts.filter(before(new Date(time)))
   return evtsBeforeTime.length && evtsBeforeTime[evtsBeforeTime.length - 1].interaction === 'LIST' ? [evtsBeforeTime[evtsBeforeTime.length - 1]] : []
