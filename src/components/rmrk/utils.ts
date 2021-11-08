@@ -9,7 +9,7 @@ import {
   MediaType
 } from './types'
 import api from '@/fetch'
-import { RmrkType, RmrkWithMetaType, CollectionOrNFT } from './service/scheme'
+import { RmrkType, RmrkWithMetaType, CollectionOrNFT, Interaction } from './service/scheme'
 import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
 import { justHash } from '@/utils/ipfs'
 
@@ -294,7 +294,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
 }
 
 export const decode = (value: string) => decodeURIComponent(value)
-export const sortByTimeStamp = (a: any, b: any) => b.timestamp < a.timestamp ? 1 : -1
+export const sortByTimeStamp = (a: Interaction, b: Interaction) : number => b.timestamp < a.timestamp ? 1 : -1
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)

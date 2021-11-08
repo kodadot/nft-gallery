@@ -78,13 +78,13 @@
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Component, Vue } from 'vue-property-decorator'
-import {CollectionWithMeta, Collection} from '../service/scheme'
+import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
-import { NFT, Interaction } from '@/components/rmrk/service/scheme'
+import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
 import { isAfter } from 'date-fns'
 
@@ -229,10 +229,10 @@ export default class CollectionItem extends Vue {
 
     this.priceData = []
 
-    let events : Interaction[][] = this.stats?.map(this.onlyEvents)
-    let priceEvents : Interaction[][] = events?.map(this.priceEvents)
+    let events : Interaction[][] = this.stats?.map(this.onlyEvents) || []
+    let priceEvents : Interaction[][] = events?.map(this.priceEvents) || []
 
-    let over_time : string[] = priceEvents.flat().sort(sortByTimeStamp).map((e: Interaction) => e.timestamp)
+    let over_time : string[] = priceEvents?.flat().sort(sortByTimeStamp).map((e: Interaction) => e.timestamp)
 
     let floorPriceData : any[] = []
     let topSoldPriceData : any[] = []
@@ -247,7 +247,7 @@ export default class CollectionItem extends Vue {
       floorPriceData.push([new Date(time), floorPrice])
     })
 
-    let buyEvents = events.map(this.onlyBuyEvents).sort(sortByTimeStamp).flat().sort(sortByTimeStamp)
+    let buyEvents = events?.map(this.onlyBuyEvents)?.flat().sort(sortByTimeStamp)
     buyEvents?.map((e:any) => {
       topSoldPriceData.push([new Date(e.timestamp), Number(e.meta) / 1000000000000])
     })
@@ -290,7 +290,6 @@ export default class CollectionItem extends Vue {
 
   protected onlyEvents(nft:NFT){
     return nft.events.map((e:Interaction) => {
-      if (nft.name === 'Chaos Girl #006') console.log('events', nft.events)
       return {...e, name: nft.name}
     })
   }
