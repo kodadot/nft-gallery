@@ -316,3 +316,9 @@ export const isJsonGltf = (value: any): boolean => {
     return false
   }
 }
+
+export const getRandomIntInRange = (min: number, max: number): number => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}

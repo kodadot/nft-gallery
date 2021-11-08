@@ -50,6 +50,13 @@
               </b-dropdown>
               <b-button
                   tag="router-link"
+                  to="/rmrk/collections"
+                  type="is-primary"
+              >
+                Collections
+              </b-button>
+              <b-button
+                  tag="router-link"
                   to="/rmrk/gallery"
                   type="is-primary"
               >
@@ -61,6 +68,13 @@
                   type="is-primary"
               >
                 Spotlight
+              </b-button>
+              <b-button
+                tag="router-link"
+                to="/series-insight"
+                type="is-primary"
+              >
+                Series
               </b-button>
               <b-button
                   tag="router-link"

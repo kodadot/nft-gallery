@@ -30,6 +30,11 @@
           F.A.Q.
         </router-link>
       </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <router-link :to="{ name: 'identity' }" >
+          Identity
+        </router-link>
+      </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
         <a href="https://twitter.com/kodadot" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">

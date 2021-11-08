@@ -11,6 +11,9 @@ export type MintType = {
   nfts: NFT[]
 }
 
+export type UpdateFunction = (name: string, index: number) => string
+export const basicUpdateFunction = (name: string, index: number): string => `${name} #${index + 1}`
+
 class NFTUtils {
   public static decode(value: string) {
     return decodeURIComponent(value)
@@ -104,8 +107,8 @@ class NFTUtils {
     }
   }
 
-  public static createMultipleNFT(max: number, caller: string, symbol: string, name: string, metadata: string, offset = 0): NFT[] {
-    return Array(max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i + offset, symbol, name, metadata))
+  public static createMultipleNFT(max: number, caller: string, symbol: string, name: string, metadata: string, offset = 0, updateName?: UpdateFunction): NFT[] {
+    return Array(max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i + offset, symbol, updateName ? updateName(name, i) : name, metadata))
   }
 
   public static upperTrim(name: string, slug?: boolean) {
@@ -130,9 +133,9 @@ class NFTUtils {
   }
 
 
-  public static generateRemarks(mint: SimpleNFT, caller: string, version = '1.0.0', encode?: boolean): MintType | string[] {
+  public static generateRemarks(mint: SimpleNFT, caller: string, version = '1.0.0', encode?: boolean, updateName?: UpdateFunction): MintType | string[] {
     const collection = NFTUtils.createCollection(caller, mint.symbol, mint.name, mint.metadata, mint.max, version)
-    const nfts = Array(mint.max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i, mint.symbol, mint.name, mint.metadata))
+    const nfts = Array(mint.max).fill(null).map((e, i) => NFTUtils.createNFT(caller, i, mint.symbol, updateName ? updateName(mint.name, i) : mint.name, mint.metadata))
 
     if (encode) {
       return [NFTUtils.encodeCollection(collection, version), ...nfts.map(nft => NFTUtils.encodeNFT(nft, version))]

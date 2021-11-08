@@ -1,40 +1,33 @@
 <template>
   <div>
-    <div class="level m-4" v-if="nfts">
+    <div class="level m-1 column is-12">
       <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Items</p>
-          <p class="title">{{ collectionLength }}</p>
+        <div class="collection-title-class">
+          <p class="collection-title">{{ name }}</p>
         </div>
       </div>
-      <div class="level-item has-text-centered">
+    </div>
+    <div class="level m-1" v-if="nfts">
+      <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading">Owned</p>
-          <p class="title">{{ collectionSoldedNFT }}</p>
+          <p class="heading--inline heading">{{ $t('Items') }} : <span class="money money--inline"> {{ collectionLength }} </span></p>
         </div>
       </div>
-      <div class="level-item has-text-centered">
+      <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading">Floor price</p>
-          <p class="title">
-            <Money :value="collectionFloorPrice" inline />
-          </p>
+          <p class="heading--inline heading">{{ $t('Owned') }} : <span class="money money--inline"> {{ collectionSoldedNFT }} </span></p>
         </div>
       </div>
-      <div class="level-item has-text-centered">
+    </div>
+    <div class="level m-1" v-if="nfts">
+      <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading">Volume traded</p>
-          <p class="title">
-            <Money :value="collectionTradedVolumeNumber" inline />
-          </p>
+          <p class="heading--inline heading">{{ $t('Volume') }} : <Money :value="collectionTradedVolumeNumber" inline /></p>
         </div>
       </div>
-      <div class="level-item has-text-centered">
+      <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading">24h Volume traded</p>
-          <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline />
-          </p>
+          <p class="heading--inline heading">{{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline /></p>
         </div>
       </div>
     </div>
@@ -44,8 +37,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent } from '@/utils/math'
-import { subDays } from 'date-fns'
+import { getVolume, pairListBuyEvent } from '@/utils/math'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue')
@@ -54,7 +46,7 @@ const components = {
 @Component({ components })
 export default class extends Vue {
   @Prop() public nfts!: NFT[];
-  public yesterdayDate: Date = subDays(Date.now(), 1);
+  @Prop() public name!: string;
 
   get saleEvents(): Interaction[] {
     return this.nfts
@@ -89,10 +81,6 @@ export default class extends Vue {
 
   get collectionTradedVolumeNumber(): bigint {
     return getVolume(this.saleEvents)
-  }
-
-  get collectionDailyTradedVolumeNumber(): bigint {
-    return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
   }
 
   protected differentOwner(nft: any): boolean {

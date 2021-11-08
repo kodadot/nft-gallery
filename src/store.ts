@@ -231,6 +231,8 @@ export default new Vuex.Store({
   getters: {
     getChainProperties: ({ chainProperties }) => chainProperties,
     getUserLang: ({ language }) => language.userLang || 'en',
+    getLangsFlags: ({ language }) => language.langsFlags,
+    getUserFlag: ({ language }) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
     getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
     getCurrentChain: ({ explorer }) => explorer.chain,
     getIndexer: ({ indexer }) => indexer
