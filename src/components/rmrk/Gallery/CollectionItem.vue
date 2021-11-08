@@ -230,9 +230,9 @@ export default class CollectionItem extends Vue {
     this.priceData = []
 
     let events : Interaction[][] = this.stats?.map(this.onlyEvents) || []
-    let priceEvents : Interaction[][] = events?.map(this.priceEvents) || []
+    let priceEvents : Interaction[][] = events.map(this.priceEvents) || []
 
-    let over_time : string[] = priceEvents?.flat().sort(sortByTimeStamp).map((e: Interaction) => e.timestamp)
+    let over_time : string[] = priceEvents.flat().sort(sortByTimeStamp).map((e: Interaction) => e.timestamp)
 
     let floorPriceData : any[] = []
     let topSoldPriceData : any[] = []
@@ -247,7 +247,7 @@ export default class CollectionItem extends Vue {
       floorPriceData.push([new Date(time), floorPrice])
     })
 
-    let buyEvents = events?.map(this.onlyBuyEvents)?.flat().sort(sortByTimeStamp)
+    let buyEvents = events.map(this.onlyBuyEvents)?.flat().sort(sortByTimeStamp)
     buyEvents?.map((e:any) => {
       topSoldPriceData.push([new Date(e.timestamp), Number(e.meta) / 1000000000000])
     })
