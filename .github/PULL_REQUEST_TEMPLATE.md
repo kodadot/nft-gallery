@@ -1,13 +1,13 @@
 **Thank you for your contribution** to the KodaDot NFT gallery.
-Let's do a quick check before the merge.
-Your contribution will be an eternal part of the community codebase.
+
+👇 Let's do a quick check before the merge. 
 
 ### PR type
-- [ ] Bugfix
-- [ ] Feature
-- [ ] Refactoring
+- [ ] Bugfix 
+- [ ] Feature 
+- [ ] Refactoring 
 
-### Before submitting this PR, please make sure:
+### Before submitting Pull Request, please make sure:
 - [ ] My contribution builds **clean without any errors or warnings**
 - [ ] I've merged recent default branch -- **main** and I've no conflicts
 - [ ] I've tried respect high code quality standards
@@ -29,4 +29,4 @@ Your contribution will be an eternal part of the community codebase.
 - [ ] [Are you at KodaDot Discord?](https://discord.gg/35hzy2dXXh)
 
 ### Screenshot
-- [ ] My fix has changed **something** on UI, a screenshot for others, is better to understand changes.
+- [ ] My fix has changed **something** on UI, a screenshot for others, is best to understand changes.
