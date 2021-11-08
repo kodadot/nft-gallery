@@ -5,11 +5,18 @@ export default [
   {
     path: '/rmrk/u/:id',
     name: 'profile',
-    component: Profile,
+    component: Profile
+  },
+  {
+    path: 'https://kusama.subscan.io/account/:id',
+    name: 'subscan',
+    beforeEnter(to: {fullPath: string}): void {
+      window.open(to.fullPath, '_blank')
+    }
   },
   {
     path: '/identity',
     name: 'identity',
-    component: Identity,
-  },
+    component: Identity
+  }
 ]

@@ -3,7 +3,7 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
-      <Pagination simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
+      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
     </b-field>
 
     <div>
