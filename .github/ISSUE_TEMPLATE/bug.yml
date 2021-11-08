@@ -50,7 +50,7 @@ body:
         - Mobile Android Chrome
         - Mobile Firefox
   - type: dropdown
-    id: browsers
+    id: logged-in
     attributes:
       label: Are you logged in?
       multiple: false
