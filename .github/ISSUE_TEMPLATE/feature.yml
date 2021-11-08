@@ -26,7 +26,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: expected-behavior
+    id: alternatives
     attributes:
       label: Describe alternatives you have considered
       description: A clear and concise description of any alternative solutions or features you have considered.
@@ -34,3 +34,13 @@ body:
       value: "I have tried this alternative"
     validations:
       required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screeenshots
+      description: Sometimes, visuals are much better than words
+      placeholder: Paste your vision
+      value: "Paste your vision"
+    validations:
+      required: true
+
