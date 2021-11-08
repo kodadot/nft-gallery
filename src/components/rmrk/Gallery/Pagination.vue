@@ -14,7 +14,6 @@
     aria-page-label="Page"
     aria-current-label="Current page"
     @change="onPageChange"
-    :class="className"
   >
   </b-pagination>
     <b-button
@@ -44,7 +43,6 @@ export default class Pagination extends Vue {
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean;
-  @Prop(String) className!: string;
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
@@ -67,7 +65,7 @@ export default class Pagination extends Vue {
 
   public goToRandomPage() {
     this.onPageChange()
-    const pageSize = Math.floor(this.total / this.perPage)
+    const pageSize = Math.ceil(this.total / this.perPage)
     let randomNumber = getRandomIntInRange(1, pageSize)
     this.current = randomNumber
   }
