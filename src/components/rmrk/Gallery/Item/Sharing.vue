@@ -1,8 +1,8 @@
 <template>
-  <div class="">
-    <b-field>
+  <div class="share">
+    <b-field position="is-right">
       <p class="control">
-        <ShowQRModal />
+        <ShowQRModal :address="realworldFullPath" />
       </p>
       <p class="control">
         <b-button
@@ -22,7 +22,6 @@
           position="is-left"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
-          :active="active"
           multilined
         >
           <template v-slot:content>
@@ -185,23 +184,23 @@ export default class Sharing extends Vue {
 
   private active = false;
 
-  get helloText() {
+  get helloText(): string {
     return this.label
   }
 
-  get realworldFullPath() {
+  get realworldFullPath(): string {
     return `${window.location.origin}${this.$route.fullPath}`
   }
 
-  get realworldFullPathShare() {
+  get realworldFullPathShare(): string {
     return `${window.location.origin}${this.$route.fullPath}`
   }
 
-  get telegramUri() {
+  get telegramUri(): string {
     return `tg://msg_url?url=${this.realworldFullPath}&text=${this.helloText}`
   }
 
-  get twitterUri() {
+  get twitterUri(): string {
     return `https://twitter.com/intent/tweet?text=${this.helloText}&via=KodaDot&url=${this.realworldFullPath}`
   }
 
@@ -209,15 +208,15 @@ export default class Sharing extends Vue {
   //   return `https://lineit.line.me/share/ui?url=${this.realworldFullPath}&text=${this.helloText}`;
   // }
 
-  get width() {
+  get width(): string {
     return this.iframe.width || '480px'
   }
 
-  get height() {
+  get height(): string {
     return this.iframe.height || '840px'
   }
 
-  get customIframeUri() {
+  get customIframeUri(): string {
     return this.iframe.customUrl || this.realworldFullPath
   }
 
@@ -235,7 +234,7 @@ export default class Sharing extends Vue {
     this.$buefy.toast.open(message)
   }
 
-  public async shareTooltip() {
+  public async shareTooltip(): Promise<void> {
     this.openFallbackShareTooltip()
     if (navigator.share) {
       const shareData = {
@@ -251,7 +250,7 @@ export default class Sharing extends Vue {
     }
   }
 
-  public openFallbackShareTooltip() {
+  public openFallbackShareTooltip(): void {
     // only call this when share api is not available, example on web
     if (!navigator.share) {
       this.active = !this.active
@@ -261,28 +260,9 @@ export default class Sharing extends Vue {
 </script>
 
 <style lang="scss">
-  @import "@/styles/variables";
+@import "@/styles/variables";
 
 .share {
-  border-radius: 0;
-  box-shadow: none;
-  border: 2px solid $primary;
-
-  .card-footer {
-    border: none;
-    &-item:not(:last-child){
-      border-right-color: $primary;
-     }
-    &-item {
-      padding: 0rem  1rem;
-      cursor: pointer;
-      &:hover {
-        .share__root {
-          color: $primary;
-        }
-      }
-    }
-  }
   &__button {
     color: $primary;
     background: transparent;
@@ -290,13 +270,7 @@ export default class Sharing extends Vue {
     margin: 5px;
 
     &:hover{
-      color: $grey;
-    }
-
-    &:focus {
-      &:not(:active) {
-        //box-shadow: 0px 0px 5px 0.5px #d32e79;
-      }
+      color: $light-invert;
     }
 
     & > span {
@@ -334,12 +308,5 @@ export default class Sharing extends Vue {
       }
     }
   }
-
-  .share__root{
-    &:hover {
-      color: $primary;
-    }
-  }
-
 }
 </style>

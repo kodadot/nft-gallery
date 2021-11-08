@@ -1,7 +1,7 @@
 <template>
     <ModalWrapper :icon="'qrcode'">
       <template v-slot:default>
-        <QRCode text="https://http.cat/409" color="#db2980" bgColor="#000" />
+        <QRCode :text="qrCodePath" color="#db2980" bgColor="#000" />
       </template>
     </ModalWrapper>
 </template>
@@ -20,5 +20,9 @@ const components = {
 })
 export default class ShowQRModal extends Vue {
   @Prop({ type: String, required: true }) public address!: string
+
+  get qrCodePath(): string {
+    return this.address || 'https://http.cat/409'
+  }
 }
 </script>
