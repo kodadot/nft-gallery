@@ -23,6 +23,7 @@ const Tutorials = () => import('@/components/landing/Tutorials.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
 const Series = () => import('@/components/landing/Series.vue')
+const Developers = () => import('@/components/landing/Developers.vue')
 // const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
@@ -102,6 +103,11 @@ export default new Router({
       path: '/tutorials',
       name: 'tutorials',
       component: Tutorials,
+    },
+    {
+      path: '/developers',
+      name: 'developers',
+      component: Developers
     },
     {
       path: '/grants',
