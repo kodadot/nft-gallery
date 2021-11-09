@@ -217,7 +217,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
     top: 4rem;
     position: relative;
   }
-   .level-right {
+  .level-right {
     margin-left: 2rem;
     margin-right: 0rem;
   }
