@@ -7,7 +7,7 @@ describe('FLOOR PRICE TEST', (): void => {
   let nfts: NFT[] = []
 
 
-  before(async () => {
+  before(() => {
     nfts = fullCollection.data.collectionEntity.nfts.nodes as unknown as NFT[]
   })
 
