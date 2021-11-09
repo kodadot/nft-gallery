@@ -3,19 +3,28 @@
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
+      :current-page="currentPage ? currentPage : 1"
       detailed
       paginated
       pagination-position="top"
       show-detail-icon
     >
       <template v-slot:top-left>
-        <b-field>
+        <b-field class="mb-0">
           <div class="control is-flex">
             <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
           </div>
         </b-field>
+        <b-button
+          class="ml-2 magicBtn"
+          title="Go to random page"
+          type="is-primary"
+          icon-left="magic"
+          @click="goToRandomPage"
+        >
+        </b-button>
       </template>
       <b-table-column
         field="id"
@@ -127,6 +136,7 @@ import { denyList } from '@/constants'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
+import { getRandomIntInRange } from '../rmrk/utils'
 type Address = string | GenericAccountId | undefined;
 
 const components = {
@@ -142,6 +152,7 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   protected columns: Column[] = columns;
   protected usersWithIdentity: Row[] = [];
   protected toggleUsersWithIdentity = false;
+  protected currentPage = 0;
 
   async created() {
     this.isLoading = true
@@ -181,7 +192,34 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
       ? account.toString()
       : account || ''
   }
+
+  public goToRandomPage() {
+    const total = this.toggleUsersWithIdentity
+      ? this.usersWithIdentity.length
+      : this.data.length
+    const pageSize = Math.floor(total / 20)
+    let randomNumber = getRandomIntInRange(1, pageSize)
+    this.currentPage = randomNumber
+  }
 }
 </script>
 <style>
+ .magicBtn {
+    position: absolute;
+    right: 0;
+    border-width: 1px;
+ }
+ .level-right {
+   margin-right: 3rem;
+ }
+ @media only screen and (max-width: 768px) {
+  .magicBtn {
+    top: 4rem;
+    position: relative;
+  }
+  .level-right {
+    margin-left: 2rem;
+    margin-right: 0rem;
+  }
+}
 </style>

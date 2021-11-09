@@ -65,7 +65,7 @@ export default class Pagination extends Vue {
 
   public goToRandomPage() {
     this.onPageChange()
-    const pageSize = Math.floor(this.total / this.perPage)
+    const pageSize = Math.ceil(this.total / this.perPage)
     let randomNumber = getRandomIntInRange(1, pageSize)
     this.current = randomNumber
   }
