@@ -38,7 +38,7 @@
         <div class="column has-text-right">
           <Sharing v-if="sharingVisible"
             class="mb-2"
-            label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
+            :label="name"
             :iframe="iframeSettings" />
           <DonationButton :address="issuer"/>
         </div>

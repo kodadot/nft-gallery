@@ -2,7 +2,7 @@
   <div class="share">
     <b-field position="is-right">
       <p class="control">
-        <ShowQRModal :address="realworldFullPath" />
+        <ShowQRModal :address="realworldFullPath" :title="label" />
       </p>
       <p class="control">
         <b-button
@@ -157,7 +157,7 @@
             <b-icon
               size="is-small"
               pack="fas"
-              icon="share-alt"
+              icon="share"
             >
             </b-icon>
           </b-button>

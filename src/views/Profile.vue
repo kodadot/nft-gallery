@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="columns">
+      <div class="columns is-mobile">
         <div class="column">
           <div class="label">
             {{ $t('profile.user') }}
@@ -33,14 +33,14 @@
             </a>
           </div>
         </div>
-        <div class="column is-2">
+        <div class="column has-text-right">
           <Sharing
             class="mb-2"
             v-if="!sharingVisible"
             label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
             :iframe="iframeSettings"
           />
-          <DonationButton :address="id" style="width: 100%;" />
+          <DonationButton :address="id" />
         </div>
       </div>
 

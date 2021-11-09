@@ -16,7 +16,7 @@
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
-            {{ label }}
+            {{ label || title }}
           </p>
         </header>
         <div class="card-content">
@@ -33,6 +33,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component
 export default class ModalWrapper extends Vue {
   @Prop(String) public label!: string;
+  @Prop(String) public title!: string;
   @Prop(String) public icon!: string;
   @Prop(String) public type!: string;
   @Prop(Boolean) public expanded!: boolean;
