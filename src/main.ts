@@ -1,19 +1,19 @@
-import Vue from 'vue';
-import Buefy from 'buefy';
-import 'buefy/dist/buefy.css';
-import './icons';
+import Vue from 'vue'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+import './icons'
 
-import shortAddress from './utils/shortAddress';
-import VueClipboard from 'vue-clipboard2';
+import shortAddress from './utils/shortAddress'
+import VueClipboard from 'vue-clipboard2'
 import formatBalance from '@/utils/formatBalance'
 import { toString, toNumber, toPercent, truncateStr, toSanitizedUrl } from '@/utils/filters'
-import keyring from '@polkadot/ui-keyring';
+import keyring from '@polkadot/ui-keyring'
 import './registerServiceWorker'
-import App from './App.vue';
-import store from './store';
-import router from './router';
+import App from './App.vue'
+import store from './store'
+import router from './router'
 
-import MetaInfo from 'vue-meta';
+import MetaInfo from 'vue-meta'
 import AudioVisual from 'vue-audio-visual'
 import VueSocialSharing from 'vue-social-sharing'
 import VueApollo from 'vue-apollo'
@@ -23,25 +23,23 @@ Vue.use(AudioVisual)
 Vue.use(VueSocialSharing)
 Vue.use(VueApollo)
 
-import Connector from '@vue-polkadot/vue-api';
+import Connector from '@vue-polkadot/vue-api'
 import { enableExtension } from './extension'
-import { web3FromAddress } from '@polkadot/extension-dapp';
-import 'setimmediate';
+import { web3FromAddress } from '@polkadot/extension-dapp'
+import 'setimmediate'
 import i18n from './i18n'
 import mingo from 'mingo'
 import api from './fetch'
 import { baseIpfsPrice, cost,  getFileSize, supportTx } from './utils/support'
 import axios from 'axios'
-import { set, get, getMany } from 'idb-keyval';
+import { set, get, getMany } from 'idb-keyval'
 
 
 import { useOperators, OperatorType } from 'mingo/core'
 import { $match, $group, $project } from 'mingo/operators/pipeline'
 import { $sum, $first, $push, $avg } from 'mingo/operators/accumulator'
-// import { $setUnion } from 'mingo/operators/expression/set'
-import apolloClient from './subquery';
-import { resolveSubsocialApi } from './components/subsocial/api';
-// import { resolveSubsocialApi } from '@/components/subsocial/api';
+import apolloClient from './subquery'
+// import { resolveSubsocialApi } from './components/subsocial/api'
 
 // ensure the required operators are preloaded prior to using them.
 type OperatorMap = Record<string, any> ;
@@ -62,10 +60,10 @@ Vue.filter('shortAddress', shortAddress);
 
 (async () => {
   // await createInstance(keyInfo, getPrefixByStoreUrl());
-  await enableExtension();
+  await enableExtension()
 })()
 // Connector.createInstance(store.state.setting.apiUrl);
-Vue.prototype.$http = Connector.getInstance();
+Vue.prototype.$http = Connector.getInstance()
 
 
 Vue.use(Buefy, {
@@ -82,7 +80,7 @@ Vue.use(Buefy, {
       // },
     },
   },
-});
+})
 
 Vue.filter('formatBalance', formatBalance)
 Vue.filter('toString', toString)
@@ -91,13 +89,13 @@ Vue.filter('toPercent', toPercent)
 Vue.filter('truncateStr', truncateStr)
 Vue.filter('toSanitizedUrl', toSanitizedUrl)
 
-Vue.use(VueClipboard);
+Vue.use(VueClipboard)
 
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient,
 })
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
 
 new Vue({
   router,
@@ -105,4 +103,4 @@ new Vue({
   apolloProvider,
   i18n,
   render: (h) => h(App)
-}).$mount('#app');
+}).$mount('#app')

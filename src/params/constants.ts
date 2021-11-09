@@ -1,4 +1,4 @@
-import { Unit } from './types';
+import { Unit } from './types'
 
 // TODO: use this in cleanup
 export const units: Unit[] = [
@@ -16,4 +16,4 @@ export const units: Unit[] = [
   { name: 'Exa', value: 1e18 },
   { name: 'Zeta', value: 1e21 },
   { name: 'Yotta', value: 1e24 }
-];
+]

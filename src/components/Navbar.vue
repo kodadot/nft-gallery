@@ -3,7 +3,7 @@
     fixed-top
     spaced
     wrapper-class="container"
-    :close-on-click="false"
+    close-on-click
     >
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }" class="logo">
@@ -50,6 +50,11 @@
         :to="{ name: 'spotlight'}">
         {{ $t('Spotlight') }}
       </b-navbar-item>
+      <b-navbar-item
+        tag="router-link"
+        :to="{ name: 'series'}">
+        Series
+      </b-navbar-item>
       <b-navbar-dropdown
           arrowless
           collapsible
@@ -63,6 +68,11 @@
             tag="router-link"
             :to="{ name: 'rmrkFaq'}">
             {{ $t('FAQ') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="router-link"
+            :to="{ name: 'admin'}">
+            {{ $t('Admin') }}
           </b-navbar-item>
           <b-navbar-item
             tag="router-link"
@@ -89,11 +99,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import LocaleChanger from '@/components/shared/SwitchLocale.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
-import i18n from '@/i18n';
+import i18n from '@/i18n'
 
 @Component({
   components: {

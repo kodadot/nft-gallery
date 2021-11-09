@@ -1,52 +1,69 @@
 # Contributing to KodaDot: NFT gallery
 
-KodaDot NFT gallery has plan to be community-owned. 
+KodaDot NFT gallery has plan to be community-owned.
 We are welcoming community contribution from you.
-Take a sneak peak on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR. 
-When everything went well, chances that you will be rewarded are high.
-For better coordination, feel free to join our [Development channel -Anteriors- on Discord](https://discord.gg/KkctBVQ8kP)
+Take a sneak peak on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR.
+When everything went well, chances that you will be rewarded are high. We might give retro-active bounties where bounty label wasn't present if we like your commit.
+
+**For better coordination, pleasejoin our [Development channel Anteriors on Discord](https://discord.gg/KkctBVQ8kP)**
 
 ## Getting started
 
-Before you being: 
-* This site is powered by Node.js. Check to see if you're on the version of node we support.
-* Have you read the code of conduct?
+Before you being:
+* This site is powered by **Node.js.** Check to see if you're on the version of **Node.js we support.**
+* Have you read the [code of conduct](CODE_OF_CONDUCT.md)?
+
+### Which issue you should pick?
+We working primarly by two metrics. Issues has priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**. Then we have bounties for issues in range of **$ - $$$$$**.
+
+It's up to you which issue you pick. Our **best advice is to pick issues reflecting your skillset and experience if you want to be part of internal team** if you are interested having continuos payroll from us.
 
 ### Open a pull request
-When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (pull request).
+When you're done making changes and you'd like to propose them for review, use the pull request template to open your PR (Pull Request).
 
-### Submit your PR & get it reviewed
-* Once you submit your PR, others from the Docs community will review it with you. The first thing you're going to want to do is a [self review](#self-review).
+### Submit your PR & Get it reviewed
+* Once you submit your PR, others from the developers community will review it with you. The first thing you're going to want to do is a [self review](#self-review).
 * After that, we may have questions, check back on your PR to keep up with the conversation.
-* Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on how to resolve merge conflicts and other issues.
+* Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
 
 ### Your PR is merged!
-Congratulations! The whole GitHub community thanks you. ✨
+Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
 
 ## Rewards
-In way to scale our developemtn and operations, we prefer paid trial from start to get know developers more better, how they are fit to the team. More your PRs gets merged to main branch, more-likely you'll be part of inner team. On-demand, or part-time contributions are welcome as well and will be rewarded. 
-Because KodaDot started on [Kusama.network](https://kusama.network), we prefer pay out your work in KSM which is native cryptocurrency of Kusama network, canary network with value in [Polkadot.network](https://polkadot.network). 
+In way to scale our development and operations, we prefer paid trial from start to get know developers more better, how they are fit to the team. More your PRs gets merged to `main` branch, **more-likely you'll be part of inner team.**
+On-demand, or part-time contributions are welcome and **will be rewarded in $KSM**
+
+KodaDot has started on [Kusama.network](https://kusama.network), we prefer to pay out for your work in $KSM which is native cryptocurrency of Kusama network, [Polkadot's Canary network](https://polkadot.network) with bearing value.
 
 ### Creating your KSM address
 To create your KSM address in safely and long-term manner, we reccomend you to get [Polkadot.js wallet browser extension](https://guide.kusama.network/docs/learn-account-generation/#polkadotjs-browser-plugin). You can [learn more about creating KSM address process at official Kusama Guide](https://guide.kusama.network/docs/learn-account-generation/)
 
 ### Bounty levels
-During writing this, usual structure is per label on issue is
+Our usual pay out structure for bounties is per label on issue. Here is table for overview
 
-- $ - 50-100 USD
-- $$ - 150-300 USD
-- $$$ - 450-600 USD
-  
-You can [check recent labels](https://github.com/kodadot/nft-gallery/labels) 
+| $ | $$ | $$$ | $$$$ | $$$$$ |
+| :--: |    :--:   | :--: | :--: | :--: |
+| 50-100 | 150-300 | 450-600 | 700 - 10000 | 1000+
+| Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemnt with project
+
+You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 
 ## Hiring process
 
-After you've completed few PRs, which we're merged to the upstream, you will be eglible to join our closer team. We are happy to give you **one-two long-term tasks** to see how good is your talent on complicated, complex and more difficult issue. Process behind is to see if we click together as part of team in long-run. We are curious on your character, acting and helping out others if they have issue. From this phase we can guarantee you payroll, that we will private discuss based on your location, skillset, past experience and code quality delivered.
+After you've **completed few PRs, which we're merged to the upstream `main` branch**, you will be eglible to join our closer team.
+We are happy to give you **one-two long-term tasks** to see how good is your talent on complicated, complex and more difficult issues.
 
-# Learn more about contributing: 
+Process behind is to see if we **click together as part of team in long-run.**
+We are curious *on your character traits, acting and helping out others*, if they have issue with their PR.
+
+From this phase we can guarantee you payroll, that we will private discuss based on your location, skillset, past experience and code quality delivered.
+
+# Learn more about contributing:
 
 ## Types of contributions 📝
-You can contribute to the GitHub Docs content and site in several ways. This repo is a place to discuss and collaborate on docs.github.com! Our small, but mighty 💪 docs team is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
+You can contribute to the GitHub KodaDot & Metaprime content and site in several ways. This repo is a place to discuss and collaborate on [kodadot.xyz](https://kodadot.xyz)!
+
+Our small, but mighty 💪 developer community is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
 
 <!-- ### 📣 Discussions
 Discussions are where we have conversations.
@@ -109,7 +126,7 @@ $$
 
 * There are no spelling mistakes
 * It reads well
-* For english language contributions: Has a good score on [Grammarly](grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
+* For english language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
 
 ### Reviewing
 We (usually the core team, sometimes KodaDot engineers or support too!) review every single PR. The purpose of reviews is to create the best content we can for people who use KodaDot

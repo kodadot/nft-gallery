@@ -30,6 +30,11 @@
           F.A.Q.
         </router-link>
       </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <router-link :to="{ name: 'identity' }" >
+          Identity
+        </router-link>
+      </b-dropdown-item>
       <hr class="dropdown-divider" aria-role="menuitem" />
       <b-dropdown-item has-link aria-role="menuitem">
         <a href="https://twitter.com/kodadot" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pl-3">
@@ -86,37 +91,37 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Avatar from '@/components/shared/Avatar.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Avatar from '@/components/shared/Avatar.vue'
 
 const components = {
   Avatar,
   AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue')
-};
+}
 
 @Component({ components })
 export default class NavbarProfileDropdown extends Vue {
   @Prop() public value!: any;
-  protected changeAccount: boolean = false;
-  protected isExtension: boolean = false;
+  protected changeAccount = false;
+  protected isExtension = false;
 
   set account(account: string) {
-    console.log('setAuth', account);
-    this.$store.dispatch('setAuth', { address: account });
+    console.log('setAuth', account)
+    this.$store.dispatch('setAuth', { address: account })
   }
 
   get account() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   checkExtension() {
     if (!(window as any).injectedWeb3['polkadot-js']) {
-      this.isExtension = true;
+      this.isExtension = true
       this.$buefy.toast.open({
         message:  'You need to install the browser extension - polkadot.js!',
         duration: 90000
-      });
+      })
     }
   }
 }

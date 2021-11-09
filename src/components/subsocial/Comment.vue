@@ -37,20 +37,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch, Mixins } from 'vue-property-decorator';
-import { findProfile, subsocialAddress } from './utils';
-import { ProfileContentType, ReactionType } from './types'
-import { ipfsHashToUrl } from '@/components/rmrk/utils';
-import { emptyObject } from '@/utils/empty';
-import { formatAccount } from '@/utils/account';
-import { resolveSubsocialApi } from './api';
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
-import { notificationTypes, showNotification, infiniteNotif } from '@/utils/notification';
-import { ReactionKind } from '@subsocial/types/substrate/classes'
-import TransactionMixin from '@/utils/mixins/txMixin';
-import AuthMixin from '@/utils/mixins/authMixin';
-import shouldUpdate from '@/utils/shouldUpdate';
-import { Reaction } from '@subsocial/types/substrate/interfaces';
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { findProfile, subsocialAddress } from './utils'
+import { ReactionType } from './types'
+import { ipfsHashToUrl } from '@/components/rmrk/utils'
+import { emptyObject } from '@/utils/empty'
+import { formatAccount } from '@/utils/account'
+import { resolveSubsocialApi } from './api'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import { notificationTypes, showNotification, infiniteNotif } from '@/utils/notification'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 
 const components = {
@@ -58,7 +55,7 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Loader: () => import('@/components/shared/Loader.vue')
-};
+}
 
 @Component({
   name: 'Comment',
@@ -73,10 +70,11 @@ export default class Comment extends Mixins(TransactionMixin) {
   @Prop(Number) public upvotes!: number;
   @Prop(Number) public downvotes!: number;
   @Prop(Boolean) public actionDisabled!: boolean;
-  public reaction: number = -1;
-  public reactionId: string = '';
+  public reaction = -1;
+  public reactionId = '';
 
-  public profile: ProfileContentType = emptyObject<ProfileContentType>();
+  public profile = { name: '', handle: '', avatar: ''  };
+  // public profile: ProfileContentType = emptyObject<ProfileContentType>();
 
   get address() {
     return formatAccount(this.account)
@@ -95,16 +93,16 @@ export default class Comment extends Mixins(TransactionMixin) {
   }
 
   get accountId() {
-    return this.$store.getters.getAuthAddress;
+    return this.$store.getters.getAuthAddress
   }
 
   public async mounted() {
-    if (this.account) {
-      const profile = await findProfile(this.account)
-      if (profile) {
-        this.profile = profile
-      }
-    }
+    // if (this.account) {
+    //   const profile = await findProfile(this.account)
+    //   if (profile) {
+    //     this.profile = profile
+    //   }
+    // }
   }
 
   protected handleError(a: any) {
@@ -113,13 +111,13 @@ export default class Comment extends Mixins(TransactionMixin) {
 
 
   protected handleReplyVisibility() {
-    console.log(`this.$emit('input', !this.value)`, this.value);
+    console.log('this.$emit(\'input\', !this.value)', this.value)
 
     this.$emit('input', !this.value)
   }
 
   protected async handleLike() {
-    this.submitReaction(ReactionType.Upvote)
+    // this.submitReaction(ReactionType.Upvote)
     // try {
     //   const cb = (await ss.substrate.api).tx.posts.createPost
 
@@ -138,7 +136,7 @@ export default class Comment extends Mixins(TransactionMixin) {
 
 
   protected handleDislike() {
-    this.submitReaction(ReactionType.Downvote)
+    // this.submitReaction(ReactionType.Downvote)
   }
 
   protected buildTxParams(reaction: ReactionType) {
@@ -157,84 +155,84 @@ export default class Comment extends Mixins(TransactionMixin) {
 
 
 
-  protected async submitReaction(reaction: ReactionType) {
-    const ss = await resolveSubsocialApi();
-    if (!this.postId) {
-      showNotification('No postId for Item!', notificationTypes.warn);
-      return
-    }
+  // protected async submitReaction(reaction: ReactionType) {
+  //   const ss = await resolveSubsocialApi()
+  //   if (!this.postId) {
+  //     showNotification('No postId for Item!', notificationTypes.warn)
+  //     return
+  //   }
 
-    const notif = infiniteNotif(`[SUBSOCIAL] ${reaction ? 'Down' : 'Up' }voting for post ${this.postId}`)
+  //   const notif = infiniteNotif(`[SUBSOCIAL] ${reaction ? 'Down' : 'Up' }voting for post ${this.postId}`)
 
-    try {
-      this.initTransactionLoader();
-      showNotification('Dispatched');
-      const api = await ss.substrate.api;
-      const cb = this.reaction < 0
-        ? api.tx.reactions.createPostReaction
-        : reaction !== this.reaction
-          ? api.tx.reactions.updatePostReaction
-          : api.tx.reactions.deletePostReaction;
+  //   try {
+  //     this.initTransactionLoader()
+  //     showNotification('Dispatched')
+  //     const api = await ss.substrate.api
+  //     const cb = this.reaction < 0
+  //       ? api.tx.reactions.createPostReaction
+  //       : reaction !== this.reaction
+  //         ? api.tx.reactions.updatePostReaction
+  //         : api.tx.reactions.deletePostReaction
 
-      const args = this.buildTxParams(reaction)
+  //     const args = this.buildTxParams(reaction)
 
-      const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args,
-      txCb(
-          () => null,
-          err => {
-            execResultValue(tx);
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
-            notif.close()
-            this.isLoading = false;
-          },
-          res => {
-            if (res.status.isInBlock) {
-              execResultValue(tx);
-              showNotification(
-                res.status.asInBlock.toString(),
-                notificationTypes.info
-              );
-              showNotification(
-                `[SUBSOCIAL] ${this.postId}`,
-                notificationTypes.success
-              );
-              this.isLoading = false;
-              notif.close()
-              this.checkIfReacted(this.accountId)
-              this.$emit('change')
-            }
-          }
-        ));
+  //     const tx = await exec(subsocialAddress(this.accountId), '', cb as any, args,
+  //       txCb(
+  //         () => null,
+  //         err => {
+  //           execResultValue(tx)
+  //           showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+  //           notif.close()
+  //           this.isLoading = false
+  //         },
+  //         res => {
+  //           if (res.status.isInBlock) {
+  //             execResultValue(tx)
+  //             showNotification(
+  //               res.status.asInBlock.toString(),
+  //               notificationTypes.info
+  //             )
+  //             showNotification(
+  //               `[SUBSOCIAL] ${this.postId}`,
+  //               notificationTypes.success
+  //             )
+  //             this.isLoading = false
+  //             notif.close()
+  //             this.checkIfReacted(this.accountId)
+  //             this.$emit('change')
+  //           }
+  //         }
+  //       ))
 
 
-    } catch (e: any) {
-      console.error(`[SUBSOCIAL] Unable to react ${this.postId} with reaction ${reaction},\nREASON: ${e}`)
-      showNotification(e.message, notificationTypes.danger);
-      this.isLoading = false;
-      notif.close()
-    }
-  }
+  //   } catch (e: any) {
+  //     console.error(`[SUBSOCIAL] Unable to react ${this.postId} with reaction ${reaction},\nREASON: ${e}`)
+  //     showNotification(e.message, notificationTypes.danger)
+  //     this.isLoading = false
+  //     notif.close()
+  //   }
+  // }
 
   @Watch('accountId', { immediate: true })
   protected onAccountChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.checkIfReacted(val);
+      this.checkIfReacted(val)
     }
   }
 
 
   protected async checkIfReacted(accountId: string) {
-    const ss = await resolveSubsocialApi();
-    const api = await ss.substrate;
-    const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
-    const reaction = await api.findReaction(reactionId);
-    if (reaction) {
-      this.reaction = reaction.kind.toNumber();
-      this.reactionId = reaction.id.toString();
-    } else {
-      this.reaction = -1;
-      this.reactionId = '';
-    }
+    // const ss = await resolveSubsocialApi()
+    // const api = await ss.substrate
+    // const reactionId = await api.getPostReactionIdByAccount(subsocialAddress(accountId), this.postId as any)
+    // const reaction = await api.findReaction(reactionId)
+    // if (reaction) {
+    //   this.reaction = reaction.kind.toNumber()
+    //   this.reactionId = reaction.id.toString()
+    // } else {
+    //   this.reaction = -1
+    //   this.reactionId = ''
+    // }
   }
 
 

@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
-import { notificationTypes, showNotification } from '@/utils/notification';
-import exec, { execResultValue } from '@/utils/transactionExecutor';
-import { KeyringAccount } from '@/types';
+import { Vue, Prop, Emit } from 'vue-property-decorator'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import exec, { execResultValue } from '@/utils/transactionExecutor'
+import { KeyringAccount } from '@/types'
 
 export default class TxButton extends Vue {
   @Prop() public callback!: (...p: any) => Promise<any> | any;
@@ -23,27 +23,27 @@ export default class TxButton extends Vue {
   @Prop({ default: '' }) public password!: string;
 
   public async shipIt() {
-    const { api } = (this as any).$http;
+    const { api } = (this as any).$http
 
     if (!api) {
-      return;
+      return
     }
 
     try {
-      showNotification('Dispatched');
-      const { account, password, callback, params } = this;
-      const tx = await exec(account, password, callback, params);
-      showNotification(execResultValue(tx), notificationTypes.success);
-      this.handleProcessed(tx);
+      showNotification('Dispatched')
+      const { account, password, callback, params } = this
+      const tx = await exec(account, password, callback, params)
+      showNotification(execResultValue(tx), notificationTypes.success)
+      this.handleProcessed(tx)
     } catch (e: any) {
-      showNotification(e, notificationTypes.danger);
-      this.handleProcessed(e);
+      showNotification(e, notificationTypes.danger)
+      this.handleProcessed(e)
     }
   }
 
   @Emit('processed')
   public handleProcessed(state: any) {
-    return state;
+    return state
   }
 }
 </script>

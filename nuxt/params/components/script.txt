@@ -1,0 +1,11 @@
+<template>
+  <div>Basic works!</div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
+
+@Component
+export default class Basic extends Vue {
+}
+</script>

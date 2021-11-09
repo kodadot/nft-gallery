@@ -215,9 +215,18 @@ Moreover please add this to your `.env.local`
 VUE_APP_SUBQUERY_URL=http://localhost:3000
 ```
 
-### Lints and fixes files
+### Linting code
+#### Show all problems
+```bash
+yarn lint
 ```
-yarn run lint
+#### Show only errors
+```bash
+yarn lint --quiet
+```
+#### Fix errors
+```bash
+yarn lint --fix
 ```
 
 ### Dev hints
@@ -271,3 +280,5 @@ List only merged, if you need limit use `-L`
 ```
 gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
 ```
+
+Love PermaFrost 👀

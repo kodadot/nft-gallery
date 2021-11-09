@@ -12,15 +12,15 @@
             aria-controls="contentIdForA11y2">
             <strong>{{ title }}</strong>
         </div>
-        <div class="panel-block" v-for="n in content">
+        <div class="panel-block" v-for="(n, index) in content" :key="index">
           <DisabledInput :label="n[0]" :value="n[1]" />
         </div>
     </b-collapse>
   </div>
 </template>
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import DisabledInput from '@/components/shared/DisabledInput.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
   components: {
@@ -28,13 +28,13 @@ import DisabledInput from '@/components/shared/DisabledInput.vue';
   }
 })
 export default class Collapse extends Vue {
-  private isOpen: boolean = false
+  private isOpen = false
   @Prop({default: false}) private open!: boolean;
   @Prop({default: 'title'}) private title!: string;
   @Prop() private content: any;
 
   public async mounted() {
-    this.isOpen = this.open;
+    this.isOpen = this.open
   }
 }
 </script>

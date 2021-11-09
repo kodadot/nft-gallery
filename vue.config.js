@@ -28,13 +28,20 @@ module.exports = {
   },
 
   chainWebpack: config => {
+    if (process.env.NODE_ENV === 'test') {
+      const scssRule = config.module.rule('scss')
+      scssRule.uses.clear()
+      scssRule
+        .use('null-loader')
+        .loader('null-loader')
+    }
     // ...other chains
     config.module // fixes https://github.com/graphql/graphql-js/issues/1272
       .rule('graphql')
       .test(/\.(graphql|gql)$/)
       .use('graphql-tag/loader')
-        .loader('graphql-tag/loader')
-        .end()
+      .loader('graphql-tag/loader')
+      .end()
       .rule('mjs$')
       .test(/\.mjs$/)
       .type('javascript/auto')
@@ -76,16 +83,16 @@ module.exports = {
       },
       pretty: true,
       urls: [
-          '/',
-          '/rmrk/rare',
-          '/rmrk/gallery',
-          '/rmrk/mint',
-          '/rmrk/create',
-          '/rmrk/credit',
-          '/rmrk/faq',
-          '/carbonless',
-          '/sustainability'
+        '/',
+        '/rmrk/rare',
+        '/rmrk/gallery',
+        '/rmrk/mint',
+        '/rmrk/create',
+        '/rmrk/credit',
+        '/rmrk/faq',
+        '/carbonless',
+        '/sustainability'
       ]
     }
   }
-};
+}

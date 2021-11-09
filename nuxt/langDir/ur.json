@@ -1,0 +1,200 @@
+{
+  "translation": "اردو",
+  "create": "بنائیں",
+  "Create": "بنائیں",
+  "credit": "کریڈٹ",
+  "Credit": "کریڈٹ",
+  "gallery": "گیلری",
+  "Gallery": "گیلری",
+  "accounts": "اکاؤنٹس",
+  "Accounts": "اکاؤنٹس",
+  "transfer": "منتقلی",
+  "Transfer": "منتقلی",
+  "settings": "ترتیبات",
+  "Settings": "ترتیبات",
+  "first NFT market explorer on Kusama and Polkadot": "Kusama اور Polkadot پر پہلا NFT مارکیٹ ایکسپلورر",
+  "legend": "علامات",
+  "collection": "مجموعہ",
+  "Collection": "مجموعہ",
+  "owner": "مالک",
+  "actions": "عمل",
+  "facts": "حقائق",
+  "instance": "مثال",
+  "Instance": "مثال",
+  "context": "سیاق و سباق",
+  "using": "استعمال",
+  "computed id": "حسابی شناخت",
+  "content": "مواد",
+  "create collection": "مجموعہ بنائیں",
+  "Owner address of minted art": "ِنٹڈ آرٹ کا مالک پتہ",
+  "Name you want to show in gallery view": "نام جو آپ گیلری ویو میں دکھانا چاہتے ہیں",
+  "Symbol you want to trade it under": "جس علامت کے تحت آپ اس کے تحت تجارت کرنا چاہتے ہیں",
+  "Describe your collection, it will show under collection view": "اپنے مجموعہ کی وضاحت کریں ، یہ مجموعہ نظارے کے تحت دکھائے گا",
+  "Add collection cover which will show up at collection view": "مجموعہ کا احاطہ شامل کریں جو مجموعہ دیکھنے پر دکھائے گا",
+  "Select collection where do you want mint your token": "وہ مجموعہ منتخب کریں جہاں آپ اپنے ٹکن کو ٹکسال چاہتے ہو",
+  "Maximum NFTs in collection": "زیادہ سے زیادہ NFTs مجموعہ",
+  "Account": "اکاؤنٹ",
+  "Name": "نام",
+  "Symbol": "علامت",
+  "Description": "تفصیل",
+  "Multimedia data": "ملٹی میڈیا ڈیٹا",
+  "Metadata IPFS Hash": "میٹا ڈیٹا IPFS ہیش",
+  "Add Token": "ٹوکن شامل کریں",
+  "Mint": "ٹکسال",
+  "Transferable is by default": "منتقلی قابل ہے",
+  "Serial Number": "سیریل نمبر",
+  "Name of your token": "آپ کے ٹوکن کا نام",
+  "Instance_tooltip": "مثال کے طور پر NFT کے شناخت کنندہ کی طرح ہے ، جیسے بازار کا ٹکراؤ۔ یہ ایک مختصر کمپیوٹر دوست نام ہے",
+  "Upload will upload your image of the NFT": "اپ لوڈ NFT کی آپ کی تصویر اپ لوڈ کرے گا",
+  "Click to add image": "تصویر شامل کرنے کے لئے کلک کریں",
+  "Add Animated File": "متحرک فائل شامل کریں",
+  "Image data": "تصویری ڈیٹا",
+  "Explorer": "ایکسپلورر",
+  "Gallery of NFT Tokens and Collectibles": "ٹوکن اور وصولی کی گیلری NFT",
+  "Create your NFT Token & Collectibles": "ٹوکن اور وصولی تیار کریں NFT آپ کے",
+  "New here? We have F.A.Q.": "ہیں F.A.Q کیا تم یہاں نئے ہو؟ ہمارے پاس",
+  "Feedback? We\\'d be happy to discuss it.": "آپ کی رائے؟ ہمیں اس پر تبادلہ خیال کرکے خوشی ہوگی۔",
+  "Read our story, how we started.": "ہماری کہانی پڑھیں ، ہم نے کیسے شروعات کی۔",
+  "Frequently Asked Question": "اکثر پوچھے گئے سوال",
+  "faq": {
+    "q": {
+      "1": "کے لئے کون سا سکے استعمال کیا جاتا ہے؟ NFTs",
+      "2": "مجھے کون سا بٹوے کی ضرورت ہے ، ٹکسال ، خرید اور جمع کرنے کے لئے؟",
+      "3": "میں اپنے کام کی ٹکسال کیسے کروں گا؟",
+      "4": "میں تجارت کیسے کرسکتا ہوں؟ KSM میں اپنے آرٹ ورک سے",
+      "5": "میں نئے آنے والے کی حیثیت سے کیسے خرید سکتا ہوں؟",
+      "6": "کے ساتھ کیسے خرید سکتا ہوں؟ ETH ، DAI ، BTC کو KSM میں",
+      "7": "کی تخلیق کا کیا عمل ہے ؟ NFT",
+      "8": "یا میں اسے مجازی دنیاؤں میں استعمال کر سکتا ہوں ؟",
+      "9": "میں نے غلطیاں ہیں، انہیں کیسے حل کیا جائے؟",
+      "10": "بھیجیں، بھسم، فہرست کا کیا مطلب ہے؟",
+      "11": "میں نے ایک ٹوکن ہاتھوں لیکن میں اسے گیلری ، نگارخانہ میں نہیں دیکھ رہا ہوں.میں اسے کہاں سے تلاش کرسکتا ہوں ؟",
+      "12": "کون سے ممالک کے لئے فائیٹ آن ریمپ سپورٹ ہے؟",
+      "13": "میں اپنا ٹوکن کس طرح فروخت کروں گا ؟",
+      "14": "رائلوں اسٹریمز کی ترتیبات ؟",
+      "15": "میں اپنی دکان کیسے بنا سکتا ہوں ؟",
+      "16": "تعریفوں کیسے کام کرتا ہے ؟",
+      "17": "کیا آپ کو مالی امداد دی جاتی ہے؟",
+      "18": "کیا آپ کے پاس ٹیلی گرام چینل ہے؟",
+      "19": "کیا آپ کے پاس اے آر/ وی آر موڈ یا عمل درآمد ہوگا؟",
+      "20": "ڈویلپر کنسول کیسے کھولیں؟",
+      "21": "میں توسیع کے لئے میٹا ڈیٹا کو کیسے اپ ڈیٹ کروں ؟",
+      "22": "مجھے کم بیلنس کی غلطی ملی ہے",
+      "23": "How do I set identity?"
+    },
+    "a": {
+      "1": {
+        "m": "@.md:faq.a.1.l1 You can get it through our @.md:faq.a.1.l2 feature or @.md:faq.a.1.l3",
+        "l1": "[Kusama, $KSM.](@.common:links.kusama_network.href)",
+        "l2": "[Credit](@.common:links.rmrk_credit.href)",
+        "l3": "[through custodial exchange](@.common:links.binance_exchange.href)."
+      },
+      "2": {
+        "m": "We reccommend you to use @.md:faq.a.2.l1 for now. Later we plan to add mobile-first experience. In all cases, backup your seed, it's your owners right and sort of value.",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
+      },
+      "3": {
+        "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us!",
+        "l1": "[Create](@.common:links.rmrk_create.href)."
+      },
+      "4": {
+        "m": "Its supported widely on popular exchanges. At time of writing this FAQ, <b>2nd February</b>, daily liqudity on exchanges is around $200M at time of writing and 1 $KSM is traded for ~ $100. @.md:faq.a.4.l1",
+        "l1": "[Check for recent price at Coingecko](@.common:links.coingecko_ksm_price.href)"
+      },
+      "5": {
+        "m": "We have integration with @.md:faq.a.5.l1, click on @.md:faq.a.1.l2 in navbar. You can use Revolut, Manual bank transfer, Debit Card and Apple Pay to top-up your KSM address. You can @.md:faq.a.5.l2",
+        "l1": "[Ramp.network](@.common:links.ramp_network.href)",
+        "l2": "[buy $KSM at Binance](@.common:links.binance_exchange.href)"
+      },
+      "6": {
+        "m": "For best rates, you can @.md:faq.a.6.l1 For best experience @.md:faq.a.6.l2 If you are @.md:faq.a.6.l3",
+        "l1": "[use custodial exchange from list](@.common:links.coingecko_ksm_price.href).",
+        "l2": "[we reccommend you to use Binance](@.common:links.binance_exchange.href).",
+        "l3": "[looking for simple trade, try SimpleSwap](@.common:links.simpleswap_exchange.href)."
+      },
+      "7": {
+        "m": "First of all, you need to install @.md:faq.a.2.l1, <b>backup your seed</b>. Then you top up your wallet address through our @.md:faq.a.1.l2 feature. Once you have funds, head to @.md:faq.a.3.l1, create Collection. Wait till Collection is minted, then you go to @.md:faq.a.7.l1 and Mint your very first token! If you had issues, we are working on our UX-flow. KodaDot has around month old code and there is still room to improve, bear with us, we are just team of two. Happy Minting 😌",
+        "l1": "[Create Token](@.common:links.rmrk_create.href)"
+      },
+      "8": {
+        "m": "We are exploring possibilities, we actually plan to actively research on this in our milestone 2"
+      },
+      "9": {
+        "m": "We are trying delivering incremental updates on daily basis & fixes ASAP. We may published new version and your browser has cached old one. If you are on <b>Windows</b>, try hold down <b>Ctrl and then press F5</b>. <b>Mac users</b>, hold down <b>CMD and Shift and then press R</b>. If this did not help, DMs on Twitter with screenshot where is developer console open."
+      },
+      "10": {
+        "m": "SEND will send it to someone, CONSUME will burn it, LIST will list it for sale so someone can buy it from you."
+      },
+      "11": {
+        "m": "Best way is to check through @.md:faq.a.11.l1 and lookup your address. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[You can find example how minted NFT looks through explorer, when you look on extrinsics.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "Right now, we are aware that US is not supported, other all countries should work, @.md:faq.a.12.l1 This is out of our control right now.",
+        "l1": "[full list of supported countries](@.common:links.ramp_network.supported_countries.href)."
+      },
+      "13": {
+        "m": "Right now, you will use LIST in Actions."
+      },
+      "14": {
+        "m": "Right now, we don't have chain logic, but we plan to implement something great, soon. @.md:faq.a.14.l1",
+        "l1": "[Stay with us and follow us @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "We are implementing collection view, sets of collection view. @.md:faq.a.14.l1"
+      },
+      "16": {
+        "m": "It's that heart 🖤 under NFT token. We are @.md:faq.a.16.l1 which works like appreciations. It's function is price discovery for your work.",
+        "l1": "[origin authors of EMOTE in RMRK standard](@.common:links.rmrk_spec_emote_issue.href)"
+      },
+      "17": {
+        "m": "Right now, we have @.md:faq.a.17.l1 We are actively looking for funding options, eventually we would raise private funds. DMs us, if you are interested into private sale.",
+        "l1": "[Kusama Treasury funding for Milestone 1](@.common:links.kusama_polkassembly.href)."
+      },
+      "18": {
+        "m": "We have only private channel for NFT creators, DM us if you are NFT creator!"
+      },
+      "19": {
+        "m": "Yes, that's part of our Milestone 2, stay tuned!"
+      },
+      "20": {
+        "m": "If you are on Mac, on Chrome hit <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Go to @.md:faq.a.21.l1 and see there button <b>Update metadata</b>, then refresh your window, should be working with recent chain types",
+        "l1": "[Dotapps.io, Settings > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Check if you have <b>transferable</b> $KSM on your account, not staked. That's different. You can check it at @.md:faq.a.22.l1 and at balances unfold, you can see there <b>Transferable</b> amount.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "You can learn more @.md:faq.a.23.l1",
+        "l1": "[how to set identity on Kusama network](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      }
+    }
+  },
+  "FAQA1": "حراستی تبادلے کے ذریعے حاصل کرسکتے ہیں <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">کی خصوصیت کے ذریعے یا <a href=\"#/rmrk/credit\">کریڈٹ</a> آپ اسے اپنی <a href=\"https://kusama.network/\">Kusama, $KSM</a>.",
+  "FAQA2": ".<a href=\"https://polkadot.js.org/extension/\">ایکسٹینشن استعمال کریںPolkadot</a> ہم آپ کو مشورہ دیتے ہیں کہ ابھی کے لئے آپ بعد میں ہم موبائل پہلا تجربہ شامل کرنے کا ارادہ رکھتے ہیں۔تمام معاملات میں ، اپنی سیڈ ، اس کے اپنے مالکان کو صحیح اور قدر کی قیمت کا بیک اپ بنائیں۔",
+  "FAQA3": "۔ آپ کو پہلے اپنے کلیکشن اور پھر ٹوکن ٹکسال کی ضرورت ہے۔ اگر آپ اس کی ویڈیو کرنا چاہتے ہیں تو ہمیں براہ راست پیغام بھیجیں!پر جائیں گے۔ <a href=\"/#/rmrk/create\">تخلیق</a> آپ",
+  "FAQA4": "مقبول تبادلے پر اس کی وسیع پیمانے پر تائید ہوئی۔ لکھتے وقت ایکسچینج میں روزانہ لیکویڈیٹی 200 ملین ڈالر کے قریب ہوتی ہے اور 1 کے ایس ایم 100 ڈالر میں ٹریڈ ہوتی ہے۔",
+  "FAQA5": "ہم ریمپ کے ساتھ انضمام ہے. نیٹ ورک ، نوبار میں کریڈٹ پر کلک کریں.آپ بغاوت کا استعمال کر سکتے ہیں, دستی بینک ٹرانسفر, ڈیبٹ کارڈ اور ایپل ادا آپ کے کم ایڈریس اوپر اپ.آپ کم میں خرید سکتے ہیں",
+  "FAQA6": "بہترین شرحوں کے لئے ، آپ نگران ایکسچینج کو فہرست سے استعمال کرسکتے ہیں.بہترین تجربے کے لئے ہم آپ کو بننسی استعمال کرنے کا مشورہ دیتے ہیں۔ اگر آپ سادہ تجارت کی تلاش میں ہیں تو سادہ سویپ کی کوشش کریں",
+  "FAQA7": "سب سے پہلے ، آپ کو پولکادوٹ توسیع انسٹال کرنے کی ضرورت ہے ، آپ کے بیجوں کو بیک اپ.اس کے بعد آپ ہمارے کریڈٹ کی خصوصیت کے ذریعہ اپنے بٹوے ایڈریس کو اوپر جاتے ہیں.ایک بار جب آپ کے پاس فنڈز ہوں، تخلیق کریں، جمع بنائیں۔ مجموعہ ڈھالنے تک انتظار کریں، پھر آپ ٹوکن اور پودینہ بنانے جائیں تو آپ اپنا پہلا ٹوکن بنائیں!اگر آپ کے مسائل تھے تو ہم اپنے UX کے بہاؤ پر کام کر رہے ہیں ۔کودادوٹ مہینے پرانے کوڈ کے ارد گرد ہے اور اب بھی بہتر بنانے کے لئے کمرے ہے ، ہمارے ساتھ برداشت کرنا ، ہم صرف دو ٹیم ہیں.ہیپی منٹنگ.",
+  "FAQA8": "ہم امکانات تلاش کر رہے ہیں، ہم دراصل اپنے دوسرے سنگ میل میں اس پر فعال تحقیق کرنے کا ارادہ کرتے ہیں",
+  "FAQA9": "ہم روزانہ کی بنیاد پر ورددشیل اپ ڈیٹس کی فراہمی کی کوشش کر رہے ہیں اور جلد ہی ممکن حد تک اصلاحات.ہم نیا ورژن شائع کر سکتے ہیں اور آپ کے براؤزر نے پرانا کیسہ کیا ہے۔اگر آپ <b> Windows</b> پر ہیں تو ctrl <b> دبانے کی کوشش کریں اور پھر F5 </b>۔<b>میک صارفین</b>، سی ایم ڈی <b> شفٹ دبارکھیں اور پھر آر </b>۔اگر یہ مدد نہیں ہوئی تو ، اسکرین شاٹ کے ساتھ ٹویٹر پر DMs جہاں ڈویلپر کنسول کھلی ہے.",
+  "FAQA10": "بھیجیں اسے کسی کو بھیج دیں گے, بسم اسے جلا دیں گے, فہرست فروخت کے لئے اس کی فہرست کرے گا تاکہ کسی کو آپ سے خرید سکتے ہیں.",
+  "FAQA11": "سب سے بہتر طریقہ ذیلی اسکین ایکسپلورر کے ذریعے چیک کرنے اور آپ کے ایڈریس کو تلاش کرنے کے لئے ہے.آپ مثال تلاش کرسکتے ہیں کہ کس طرح ہاتھوں NFT ایکسپلورر کے ذریعہ نظر آتا ہے ، جب آپ صوری پر نظر آتے ہیں.",
+  "FAQA12": "ابھی ہم اس بات سے آگاہ ہیں کہ امریکہ کی حمایت نہیں ہے ، دوسرے تمام ممالک کو کام کرنے کی مکمل فہرست میں مدد کرنی چاہیے ۔یہ ابھی ہمارے کنٹرول سے باہر ہے.",
+  "FAQA13": "ابھی ، آپ کو اعمال میں فہرست کا استعمال کریں گے",
+  "FAQA14": "ابھی ، ہمارے پاس چین کی منطق نہیں ہے ، لیکن ہم جلد ہی کچھ اچھا لاگو کرنے کا ارادہ رکھتے ہیں.ہمارے ساتھ رہو اور ہمیں @KodaDot پر عمل کریں",
+  "FAQA15": "ہم مجموعہ منظر، مجموعہ منظر کے سیٹ پر عمل درآمد کر رہے ہیں۔ ہمارے ساتھ رہو اور ہمارے پیچھے @KodaDot",
+  "FAQA16": "NFT ٹوکن کے تحت یہ دل ہے. ہم رمرک معیار جو تعریفوں کی طرح کام کرتا ہے میں ایموٹی کے اصل مصنفین ہیں.یہ فنکشن آپ کے کام کے لئے قیمت کی تلاش ہے.",
+  "FAQA17": "ابھی, ہم نے سنگ میل کے لئے کوساما خزانہ فنڈنگ ہے 1. ہم فعال طور پر فنڈنگ کے اختیارات کے لئے تلاش کر رہے ہیں, بالآخر ہم نجی فنڈز بلند کریں گے.ہمیں پیغام ، اگر آپ نجی فروخت میں دلچسپی رکھتے ہیں.",
+  "FAQA18": "ہمارے پاس صرف NFT تخلیق کاروں کے لئے نجی چینل ہے ، اگر آپ NFT خالق ہیں تو ہمیں پیغام",
+  "FAQA19": "جی ہاں، یہ ہمارے سنگ میل 2 کا حصہ ہے، ٹیو رہو",
+  "FAQA20": "اگر آپ میک پر ہیں تو کروم ہٹ <b>آپشن، سی ایم ڈی، جے</b>، فائر فاکس <b>کمانڈ   آپشن   کے</b> پر۔",
+  "FAQA21": "آپ Dotapps.io، ترتیبات اور پھر میٹا ڈیٹا پر جائیں اور وہاں بٹن دیکھیں <b>تازہ کاری میٹا ڈیٹا</b>، پھر اپنی ونڈو تازہ کریں، حالیہ زنجیر کی اقسام کے ساتھ کام کرنا چاہئے",
+  "FAQA22": "چیک کریں کہ آیا آپ کے اکاؤنٹ $KSM قابل منتقلی ہے، نہ کہ داسکی۔یہ مختلف ہے. آپ Dotapps.io پر اکاؤنٹس اور بیلنس کے تحت اس کی جانچ پڑتال کرسکتے ہیں ، آپ وہاں <b> منتقلی </b> رقم دیکھ سکتے ہیں."
+}

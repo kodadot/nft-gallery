@@ -1,19 +1,23 @@
 <template>
   <div>
-    <b-field>
-        <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">Show Only Accounts With Identity</b-switch>
-        </div>
-    </b-field>
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
       detailed
       paginated
+      pagination-position="top"
       show-detail-icon
     >
+      <template v-slot:top-left>
+        <b-field>
+          <div class="control is-flex">
+            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+              {{ $t('spotlight.filter_accounts') }}
+            </b-switch>
+          </div>
+        </b-field>
+      </template>
       <b-table-column
-        cell-class="short-identity__table"
         field="id"
         :label="$t('spotlight.id')"
         v-slot="props"
@@ -75,12 +79,27 @@
       </b-table-column>
 
       <b-table-column
-        field="rank"
-        :label="$t('spotlight.score')"
+        field="volume"
+        label="Volume"
         v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
+        <template v-if="!isLoading"><Money :value="props.row.volume" inline /></template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="rank"
+        :label="$t('spotlight.score')"
+        sortable
+        numeric
+      >
+        <template v-slot:header="{column}">
+          <b-tooltip label="sold * (unique / total)" append-to-body dashed>
+            {{column.label}}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -98,22 +117,23 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Mixins } from 'vue-property-decorator';
-import { Column, Row } from './types';
-import { columns, nftFn } from './utils';
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql';
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query';
-import TransactionMixin from '@/utils/mixins/txMixin';
-import { denyList } from '@/constants';
-import { GenericAccountId } from '@polkadot/types/generic/AccountId';
-import { get } from 'idb-keyval';
-import { identityStore } from '@/utils/idbStore';
+import { Component, Prop, Mixins } from 'vue-property-decorator'
+import { Column, Row } from './types'
+import { columns, nftFn } from './utils'
+import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
+import { spotlightAggQuery } from '../rmrk/Gallery/Search/query'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import { denyList } from '@/constants'
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { get } from 'idb-keyval'
+import { identityStore } from '@/utils/idbStore'
 type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue')
-};
+}
 
 @Component({ components })
 export default class SpotlightTable extends Mixins(TransactionMixin) {
@@ -121,52 +141,47 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
   protected data: Row[] = [];
   protected columns: Column[] = columns;
   protected usersWithIdentity: Row[] = [];
-  protected toggleUsersWithIdentity: boolean = false;
+  protected toggleUsersWithIdentity = false;
 
   async created() {
-    this.isLoading = true;
+    this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionIssuerList,
       variables: {
         denyList
       }
-    });
+    })
 
     const {
       data: { collectionEntities }
-    } = collections;
+    } = collections
 
     this.data = spotlightAggQuery(
       collectionEntities?.nodes?.map(nftFn)
-    ) as Row[];
+    ) as Row[]
 
     for (let index = 0; index < this.data.length; index++) {
-      const result = await this.identityOf(this.data[index].id);
+      const result = await this.identityOf(this.data[index].id)
       if (result && Object.keys(result).length) {
-        this.usersWithIdentity[index] = this.data[index];
+        this.usersWithIdentity[index] = this.data[index]
       }
     }
 
-    this.isLoading = false;
+    this.isLoading = false
   }
 
   public async identityOf(account: Address) {
-	  const address: string = this.resolveAddress(account);
-	  const identity = await get(address, identityStore);
-	  return identity;
-	}
+    const address: string = this.resolveAddress(account)
+    const identity = await get(address, identityStore)
+    return identity
+  }
 
-	private resolveAddress(account: Address): string {
-	  return account instanceof GenericAccountId
-	    ? account.toString()
-	    : account || '';
-	}
+  private resolveAddress(account: Address): string {
+    return account instanceof GenericAccountId
+      ? account.toString()
+      : account || ''
+  }
 }
 </script>
 <style>
-  .short-identity__table {
-    max-width: 12em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>

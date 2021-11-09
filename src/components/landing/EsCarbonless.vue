@@ -24,7 +24,7 @@
                 que analice las Emisiones de Carbono y ayudar a hacer forestaciones impulsando a que sean la nueva normalidad y de facil acceso.  Para poner en marcha este esfuerzo, nos hemos asociado con Offsetra que permite a los usuarios a apoyar <i>"proyectos de alta calidad a favor del clima mediante la compra de creditos de compensacion de carbono"</i>.
                 <br><br>
                 Los créditos de compensación de Carbono provienen de una variedad de proyectos orientados a la sostentabilidad. Offsetra solo obtiene compensaciones de proyectos validados y verificados bajo estrictos estándares reconocidos internacionalmente.Puede encontrar más informacion sobre el proceso de <br>Offsetra's
-                disponible <a href="https://offsetra.com/">en su sitio web</a>.</br>
+                disponible <a href="https://offsetra.com/">en su sitio web</a>.<br>
               </p><br>
               <h1 class="title is-4">
                 Acciones Humildes
@@ -38,13 +38,13 @@
               </h1>
               <p>
                 Nuestro inicio es añadir un interruptor a la interfaz en donde se mintean los NFTs en donde cada artista elige puede elegir si quiere apoyar a los créditos de Carbono o no. Estaremos añadiendo la etiqueta <b>🌱 carbonless</b>
-                al NFT donde luego podría rastrearse a través de la Interfaz de búsqueda y revisarse en la blockchain. Por lo tanto, los coleccionistas pueden encontrar innovador el coleccionar NFTs Carbonless. Una vez que Offsetra (u otros socios) descubran una forma de realizar pagos fiduciarios de Kusama para que se realicen las compensaciones de carbono, haremos una integración completa criptográfica nativa de extremo a extremo junto con ellos, por lo que cada NFT consistirá en un hash que dependa de Carbon Credit. 
+                al NFT donde luego podría rastrearse a través de la Interfaz de búsqueda y revisarse en la blockchain. Por lo tanto, los coleccionistas pueden encontrar innovador el coleccionar NFTs Carbonless. Una vez que Offsetra (u otros socios) descubran una forma de realizar pagos fiduciarios de Kusama para que se realicen las compensaciones de carbono, haremos una integración completa criptográfica nativa de extremo a extremo junto con ellos, por lo que cada NFT consistirá en un hash que dependa de Carbon Credit.
 
                 Para llevar la visión a Casa, estamos realmente ansiosos por trabajar junto con
                 <b><a href="https://yangwao.medium.com/planet-terraformation-forest-as-a-service-94a2633ad011">
                 Terraformation of Planet Earth</a></b>
                 donde se puede participar en distintas áreas para poseer parte del bosque, e incluso introducir el concepto de <b>Forest as a Service</b>. La imaginación es el límite.
-              </p></br>
+              </p><br>
               <h1 class="title is-4">
                 No somos los únicos y eso es genial
               </h1>
@@ -81,7 +81,7 @@
   </div>
 </template>
 <script lang="ts" >
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 
 @Component<EsCarbonless>({

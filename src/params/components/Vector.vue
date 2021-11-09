@@ -24,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { createType, getTypeDef } from '@polkadot/types';
-import findComponent from '@/params/components/findComponent';
-import registry from '@/params/components/typeRegistry';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { createType, getTypeDef } from '@polkadot/types'
+import findComponent from '@/params/components/findComponent'
+import registry from '@/params/components/typeRegistry'
 
 @Component({
   name: 'Vector',
@@ -48,33 +48,33 @@ export default class Vector extends Vue {
       ...getTypeDef(createType(registry, argument.type).toRawType()),
       ...argument,
       name: index,
-    };
+    }
   }
 
   @Emit('selected')
   public selected(argument: any) {
-    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg]);
-    return { [this.argument.name.toString()]: this.results };
+    Object.keys(argument).map((arg: any) => this.results[arg] = argument[arg])
+    return { [this.argument.name.toString()]: this.results }
   }
 
   public mounted() {
     if (this.defaultValue) {
-      this.defaultValue.map((val) => this.add());
+      this.defaultValue.map((val) => this.add())
     }
   }
 
   public getDefaultValue(index: number) {
-    return this.defaultValue && this.defaultValue[index];
+    return this.defaultValue && this.defaultValue[index]
   }
 
   private add() {
-    this.fields.push({ ...this.argument.sub });
-    this.results.push(null);
+    this.fields.push({ ...this.argument.sub })
+    this.results.push(null)
   }
 
   private remove() {
-    this.fields.pop();
-    this.results.pop();
+    this.fields.pop()
+    this.results.pop()
   }
 }
 </script>
