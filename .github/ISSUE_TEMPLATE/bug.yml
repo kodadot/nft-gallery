@@ -55,6 +55,14 @@ body:
       options:
         - 'Yes'
         - 'No'
+  - type: dropdown
+    id: beta-yes-no
+    attributes:
+      label: At which address did you encounter bug?
+      multiple: true
+      options:
+        - beta.kodadot.xyz
+        - nft.kodadot.xyz / kodadot.xyz
   - type: textarea
     id: Screenshots
     attributes:
