@@ -5,7 +5,7 @@ KodaDot is committed to resolving security vulnerabilities in our software quick
 
 ## Reporting a Vulnerability
 
-Security vulnerabilities in KodaDot software should be reported by email to yangwao@kodadot.xyz or Twitter DM [@KodaDot](https://twitter.com/@KodaDot) 
+Security vulnerabilities in KodaDot software should be reported by email to matej@metaprime.network or [Discord channel Anteriors](https://discord.gg/KkctBVQ8kP) 
 
 Your report should include the following:
 
