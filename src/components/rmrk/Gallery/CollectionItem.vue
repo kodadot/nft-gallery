@@ -77,16 +77,17 @@
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, Vue } from 'vue-property-decorator'
+import {Component, Mixins, Vue} from 'vue-property-decorator'
 import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
-  eventTimestamp, soldNFTPrice, collectionFloorList } from '../utils'
+  eventTimestamp, soldNFTPrice, collectionFloorList, PriceDataType, onlyBuyEvents } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -118,7 +119,9 @@ const components = {
     }
   },
   components })
-export default class CollectionItem extends Vue {
+export default class CollectionItem extends Mixins(
+  ChainMixin
+) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
@@ -165,14 +168,6 @@ export default class CollectionItem extends Vue {
 
   get sharingVisible(): boolean {
     return !isShareMode
-  }
-
-  get chainProperties() {
-    return this.$store.getters.getChainProperties
-  }
-
-  get decimals(): number {
-    return this.chainProperties.tokenDecimals
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -241,10 +236,10 @@ export default class CollectionItem extends Vue {
 
     const overTime : string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
 
-    const floorPriceData = overTime.map(collectionFloorList(priceEvents, this.decimals))
+    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorList(priceEvents, this.decimals))
 
-    const buyEvents = events.map(this.onlyBuyEvents)?.flat().sort(sortByTimeStamp)
-    const soldPriceData = buyEvents?.map(soldNFTPrice(this.decimals))
+    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
+    const soldPriceData : PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
 
     this.priceData = [floorPriceData, soldPriceData]
   }
@@ -275,17 +270,8 @@ export default class CollectionItem extends Vue {
     return { width: '100%', height: '100vh' }
   }
 
-  protected priceEvents(nftEvents:Interaction[]){
+  protected priceEvents(nftEvents:Interaction[]) : Interaction[] {
     return nftEvents.filter(onlyPriceEvents)
-  }
-  protected onlyBuyEvents(nftEvents:any[]){
-    let buyEvents : any[] = []
-    nftEvents?.forEach((e: Interaction, index: number) => {
-      if (e.interaction === 'BUY' && index >= 1 && nftEvents[index - 1].interaction === 'LIST') {
-        buyEvents.push({...e, meta: nftEvents[index - 1].meta})
-      }
-    })
-    return buyEvents
   }
 }
 </script>
