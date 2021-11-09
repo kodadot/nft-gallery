@@ -20,6 +20,12 @@ export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 export type ProviderKeyType = IPFSProviders
 export type ArweaveProviders = 'permafrost' | 'arweave'
 export type IPFSProviders = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
+export type PriceDataType = [
+  date: Date,
+  value: number,
+]
+
+
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
   pinata: 'https://kodadot.mypinata.cloud/',
@@ -301,22 +307,30 @@ export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
-export const onlyEvents = (nft: NFT) => nft.events
+export const onlyEvents = (nft: NFT) : Interaction[] => nft.events
 export const eventTimestamp = (e: { timestamp : string }) : string => e.timestamp
-export const onlyPriceEvents = (e: { interaction: string }) : boolean => e.interaction === 'LIST' || e.interaction === 'BUY' || e.interaction === 'SEND' || e.interaction === 'CONSUME'
-export const eventsBeforeTime = (time: string) => (evts: Interaction[]) => {
+export const onlyPriceEvents = (e: { interaction: string }) : boolean => e.interaction !== 'MINTNFT'
+export const eventsBeforeTime = (time: string) => (evts: Interaction[]) : Interaction[] => {
   const evtsBeforeTime = evts.filter(before(new Date(time)))
   return evtsBeforeTime.length && evtsBeforeTime[evtsBeforeTime.length - 1].interaction === 'LIST' ? [evtsBeforeTime[evtsBeforeTime.length - 1]] : []
 }
-export const collectionFloorList = (priceEvents : Interaction[][], decimals: number) => (time : string) => {
+export const collectionFloorList = (priceEvents : Interaction[][], decimals: number) => (time : string) : PriceDataType => {
   const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
   const priceEvent = listEventsBeforeTime.map((e: Interaction) => Number(e.meta) / 10 ** decimals).filter((price: number) => price > 0)
 
   const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
   return [new Date(time), floorPrice]
 }
-
-export const soldNFTPrice = (decimals : number) => (e : Interaction) => [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
+export const onlyBuyEvents = (nftEvents:Interaction[]) : Interaction[] => {
+  const buyEvents : Interaction[] = []
+  nftEvents?.forEach((e: Interaction, index: number) => {
+    if (e.interaction === 'BUY' && index >= 1 && nftEvents[index - 1].interaction === 'LIST') {
+      buyEvents.push({...e, meta: nftEvents[index - 1].meta})
+    }
+  })
+  return buyEvents
+}
+export const soldNFTPrice = (decimals : number) => (e : Interaction) : PriceDataType => [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
 
 
 export const isJsonGltf = (value: any): boolean => {
