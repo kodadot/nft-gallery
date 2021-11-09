@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="columns">
+      <div class="columns is-mobile">
         <div class="column">
           <div class="label">
             {{ $t('creator') }}

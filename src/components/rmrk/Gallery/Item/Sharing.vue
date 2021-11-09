@@ -1,23 +1,18 @@
 <template>
   <div class="share">
     <b-field position="is-right">
-      <p class="control">
-        <ShowQRModal :address="realworldFullPath" :title="label" />
-      </p>
-      <p class="control">
+      <ShowQRModal :address="realworldFullPath" :title="label" />
+      <div>
         <b-button
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="realworldFullPathShare"
           type="is-primary"
         >
-          <b-icon
-            size="is-small"
-            pack="fas"
-            icon="link">
-          </b-icon>
+          <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
-      </p>
-      <p class="control">
+      </div>
+
+      <div>
         <b-tooltip
           position="is-left"
           :triggers="['click']"
@@ -33,12 +28,7 @@
               :title="label"
               twitter-user="KodaDot"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="twitter"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="twitter" />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -47,27 +37,8 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="telegram"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="telegram" />
             </ShareNetwork>
-            <!-- <ShareNetwork
-              tag="button"
-              class="button share__button is-medium"
-              network="line"
-              :url="realworldFullPath"
-              :title="label"
-            >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="line"
-              >
-              </b-icon>
-            </ShareNetwork> -->
             <ShareNetwork
               tag="button"
               class="button share__button is-medium"
@@ -75,12 +46,7 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="facebook"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="facebook" />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -89,12 +55,7 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="facebook-messenger"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="facebook-messenger" />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -103,12 +64,7 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="whatsapp"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="whatsapp" />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -117,12 +73,7 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fab"
-                icon="pinterest"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fab" icon="pinterest" />
             </ShareNetwork>
             <ShareNetwork
               tag="button"
@@ -131,12 +82,7 @@
               :url="realworldFullPath"
               :title="label"
             >
-              <b-icon
-                size="is-large"
-                pack="fas"
-                icon="envelope"
-              >
-              </b-icon>
+              <b-icon size="is-large" pack="fas" icon="envelope" />
             </ShareNetwork>
             <b-button
               size="is-medium"
@@ -144,25 +90,15 @@
               @click="toast('Code copied to clipboard')"
               class="share__button"
             >
-              <b-icon
-                size="is-medium"
-                pack="fas"
-                icon="code">
-              </b-icon>
+              <b-icon size="is-medium" pack="fas" icon="code" />
             </b-button>
           </template>
-          <b-button
-            type="is-primary"
-          >
-            <b-icon
-              size="is-small"
-              pack="fas"
-              icon="share"
-            >
-            </b-icon>
+          <b-button type="is-primary">
+            <b-icon size="is-small" pack="fas" icon="share" />
           </b-button>
         </b-tooltip>
-      </p>
+      </div>
+
     </b-field>
   </div>
 </template>
@@ -175,14 +111,14 @@ const components = {
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
 }
 @Component({
-  components
+  components,
 })
 export default class Sharing extends Vue {
-  @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string;
-  @Prop({ default: () => emptyIframe }) iframe!: IFrame;
-  @Prop(Boolean) onlyCopyLink!: boolean;
+  @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string
+  @Prop({ default: () => emptyIframe }) iframe!: IFrame
+  @Prop(Boolean) onlyCopyLink!: boolean
 
-  private active = false;
+  private active = false
 
   get helloText(): string {
     return this.label
@@ -260,7 +196,7 @@ export default class Sharing extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .share {
   &__button {
@@ -269,7 +205,7 @@ export default class Sharing extends Vue {
     border: none;
     margin: 5px;
 
-    &:hover{
+    &:hover {
       color: $light-invert;
     }
 
@@ -278,6 +214,10 @@ export default class Sharing extends Vue {
       align-items: center;
     }
   }
+
+  // .has-addons {
+  //   justify-content: right;
+  // }
 
   &__tooltip {
     width: 100%;
@@ -302,7 +242,7 @@ export default class Sharing extends Vue {
       align-items: center;
     }
 
-    &.is-light  {
+    &.is-light {
       .tooltip-content {
         background-color: $white;
       }

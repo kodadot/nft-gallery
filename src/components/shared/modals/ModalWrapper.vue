@@ -2,7 +2,6 @@
   <div>
     <slot name="trigger" v-bind:handleOpen="handleOpen">
       <b-button
-        class="button"
         :type="buttonType"
         :icon-left="icon"
         :expanded="expanded"
