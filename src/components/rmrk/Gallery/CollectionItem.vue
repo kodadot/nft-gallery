@@ -77,7 +77,7 @@
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import {Component, Mixins, Vue} from 'vue-property-decorator'
+import { Component, Mixins } from 'vue-property-decorator'
 import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
 import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
   eventTimestamp, soldNFTPrice, collectionFloorList, PriceDataType, onlyBuyEvents } from '../utils'

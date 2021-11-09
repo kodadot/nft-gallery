@@ -1,18 +1,17 @@
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import formatBalance from '@/utils/formatBalance'
 import { isBefore, isEqual, parseISO } from 'date-fns'
 import { expect } from 'chai'
 import { fullCollection } from './sample2'
 
 describe('FLOOR PRICE TEST', (): void => {
-  let nfts: NFT[]
+  let nfts: NFT[] = []
 
 
   before(async () => {
     nfts = fullCollection.data.collectionEntity.nfts.nodes as unknown as NFT[]
   })
 
-  it('can get floor price from events', async () => {
+  it('can get floor price from events', () => {
 
     const floorPrice : number = Math.min(
       ...nfts.map((nft: NFT) => Number(nft.price)).filter((price: number) => price > 0)
