@@ -68,7 +68,7 @@
           :label="`Collections - ${totalCollections}`"
           value="collection"
         >
-          <Pagination replace :total="totalCollections" v-model="currentCollectionPage" />
+          <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
