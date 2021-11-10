@@ -128,6 +128,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend (config, { isDev, isClient }) {
+      config.resolve.alias['vue'] = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
       config.node = {
         fs: 'empty'
       }
