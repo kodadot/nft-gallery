@@ -39,8 +39,9 @@
             v-if="!sharingVisible"
             label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
             :iframe="iframeSettings"
-          />
-          <DonationButton :address="id" style="width: 120px;" />
+          >
+            <DonationButton :address="id" />
+          </Sharing>
         </div>
       </div>
 

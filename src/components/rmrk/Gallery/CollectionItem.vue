@@ -39,8 +39,9 @@
           <Sharing v-if="sharingVisible"
             class="mb-2"
             :label="name"
-            :iframe="iframeSettings" />
-          <DonationButton :address="issuer" style="width: 120px;" />
+            :iframe="iframeSettings">
+              <DonationButton :address="issuer" />
+          </Sharing>
         </div>
       </div>
 

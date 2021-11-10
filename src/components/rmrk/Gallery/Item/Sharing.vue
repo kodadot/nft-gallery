@@ -1,7 +1,12 @@
 <template>
   <div class="share">
     <b-field position="is-right">
+      <div>
+        <slot />
+      </div>
+
       <ShowQRModal :address="realworldFullPath" :title="label" />
+
       <div>
         <b-button
           @click="toast('URL copied to clipboard')"
@@ -98,7 +103,6 @@
           </b-button>
         </b-tooltip>
       </div>
-
     </b-field>
   </div>
 </template>
