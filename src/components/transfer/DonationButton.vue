@@ -29,7 +29,4 @@ export default class DonationButton extends Vue {
 <style lang="scss" scoped>
 @import "@/styles/variables";
 
-.donation-btn {
-  margin-bottom: 1.5rem;
-}
 </style>
