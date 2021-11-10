@@ -309,8 +309,7 @@
     "collected": "Collected",
     "floorprice": "Floor price",
     "owners": "Owners",
-    "volume": "Volume",
-    "buys": "Buys"
+    "volume": "Volume"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",
