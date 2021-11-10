@@ -1,14 +1,14 @@
 <template>
- <div class="block">
+  <div class="block">
     <b-collapse class="card" animation="slide"
-      aria-id="contentIdForHistory" :open="collapsedHistory">
+      aria-id="contentIdForA11y3" :open="collapsed">
       <template #trigger="props">
         <div
           class="card-header"
           role="button"
-          aria-controls="contentIdForHistory">
+          aria-controls="contentIdForA11y3">
           <p class="card-header-title">
-            {{ $t('History') }}
+            {{ $t('Price Chart') }}
           </p>
           <a class="card-header-icon">
             <b-icon
@@ -19,64 +19,10 @@
       </template>
       <div class="card-content">
         <div class="content">
-          <p class="label">
-            {{ $t('History') }}
-          </p>
-          <b-table :data="data" class="mb-4" hoverable>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Type"
-              label="Type"
-              v-slot="props"
-            >
-              {{ props.row.Type }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="From"
-              label="From"
-              v-slot="props"
-            >
-              <router-link
-                :to="{
-                  name: 'profile',
-                  params: { id: props.row.From },
-                }"
-              >
-                <Identity :address="props.row.From" inline noOverflow />
-              </router-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="To"
-              label="To"
-              v-slot="props"
-            >
-              <router-link
-                :to="{ name: 'profile', params: { id: props.row.To } }"
-              >
-                <Identity :address="props.row.To" inline noOverflow />
-              </router-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Amount"
-              label="Amount"
-              v-slot="props"
-            >
-              {{ props.row.Amount }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Date"
-              label="Date"
-              v-slot="props"
-            >
-              {{ props.row.Date }}
-            </b-table-column>
-          </b-table>
+          <PriceChart :priceData="priceData" ref="chart"/>
         </div>
       </div>
+
     </b-collapse>
   </div>
 </template>
@@ -92,22 +38,24 @@ const components = {
 @Component({ components })
 export default class History extends Vue {
   @Prop() public events!: any;
-  protected data: any = [];
-  protected collapsedHistory: boolean=true;
+  
+  protected collapsed: boolean=true;
+  protected priceData: any = [];
   // protected eventData: Date[] = [];
 
   public async mounted() {
-    this.collapsedHistory = true;
+    this.collapsed = true;
     
     setTimeout(() => {
-      this.collapsedHistory = false;
+      this.collapsed = false;
       console.log('here!')
     }, 200);
   }
+
   protected createTable() {
     let prevOwner = ''
     let curPrice = '0.0000000'
-    this.data = []
+    // this.collapsed = false;
 
     for (const newEvent of this.events) {
       const event: any = {}
@@ -148,11 +96,12 @@ export default class History extends Vue {
       // Date
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
+      if (event['Type'] === 'SET-PRICE' || event['Type'] === 'CREATE') {
+        this.priceData.push([date, this.formatPrice(event['Amount'])])
+      }
 
-      this.data.push(event)
     }
 
-    this.data = this.data.reverse()
   }
 
   protected parseDate(date: Date) {
@@ -180,6 +129,14 @@ export default class History extends Vue {
     return parseFloat(price.substring(0, 6))
   }
 
+  // @Watch('collapsed', {immediate: true}) onCollapsedChanged() {
+  //   console.log(this.collapsed);
+  //   if (this.collapsed && this.$refs.chart) {
+  //     this.$refs.chart.resize();
+  //     console.log(this.$refs.chart)
+  //   }
+  // }
+
   @Watch('events')
   public async watchEvent() {
     if (this.events) {
@@ -194,4 +151,8 @@ export default class History extends Vue {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+</style>
+
+<style scoped lang="scss">
+  @import "@/styles/variables";
 </style>
