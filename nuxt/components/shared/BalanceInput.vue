@@ -32,15 +32,12 @@
 
 <script lang="ts" >
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
-import Balance from '@/params/components/Balance.vue'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
-const components = { Balance }
-
-@Component({ components })
+@Component
 export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number;
   protected units: Unit[] = defaultUnits;
