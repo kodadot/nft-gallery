@@ -220,6 +220,18 @@
       </b-table-column>
 
       <b-table-column
+        field="total"
+        :label="$t('series.buys')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.buys }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         v-slot="props"

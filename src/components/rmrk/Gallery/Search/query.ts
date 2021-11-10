@@ -92,6 +92,7 @@ export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
         uniqueCollectors: { $sum: '$uniqueCollectors' },
         sold: { $sum: '$sold' },
         total: { $sum: '$total' },
+        buys: { $sum: '$buys' },
         averagePrice: { $avg: '$averagePrice' },
         floorPrice: { $sum: '$floorPrice' },
         count: { $sum: '$count' },
