@@ -1,50 +1,41 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": [
+      "ESNext",
+      "ESNext.AsyncIterable",
+      "DOM"
+    ],
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "sourceMap": true,
+    "strict": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
     "baseUrl": ".",
-    "skipLibCheck": true,
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./*"
+      ]
+    },
     "types": [
       "webpack",
       "webpack-env",
-      "vue-meta",
-      "vue-apollo",
-      "mocha",
-      "chai"
-    ],
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "lib": [
-      "es2020",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+      "@nuxt/types",
+      "@types/node",
+      "vue-apollo"
     ]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "src/sw.js"
-  ],
   "exclude": [
-    "node_modules"
-  ],
-  "files": [
-    "src/graphql.d.ts"
+    "node_modules",
+    ".nuxt",
+    "dist"
   ]
 }
