@@ -18,8 +18,8 @@
         </div>
       </div>
 
-      <div class="columns">
-        <div class="column">
+      <div class="columns is-align-items-center">
+        <div class="">
           <div class="label">
             {{ $t('creator') }}
           </div>
@@ -34,6 +34,9 @@
           <div class="subtitle is-size-6">
             <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
           </div>
+        </div>
+        <div class="column">
+          <CollectionActivity :nfts="stats" />
         </div>
         <div class="column is-2">
           <Sharing v-if="sharingVisible"
