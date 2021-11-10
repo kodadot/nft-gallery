@@ -1,5 +1,5 @@
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { isBefore, isEqual, parseISO } from 'date-fns'
+import {onlyEvents, onlyPriceEvents, collectionFloorPriceList} from '@/components/rmrk/utils'
 import { expect } from 'chai'
 import { fullCollection } from './sample2'
 
@@ -17,19 +17,15 @@ describe('FLOOR PRICE TEST', (): void => {
       ...nfts.map((nft: NFT) => Number(nft.price)).filter((price: number) => price > 0)
     )
 
-    const now = new Date()
+    const now = new Date().toString()
 
-    const priceEvents: Interaction[] = nfts
-      .map(nft => nft.events)
-      .map(evts => evts.filter(e => e.interaction === 'LIST' || e.interaction === 'BUY' || e.interaction === 'SEND' || e.interaction === 'CONSUME'))
-      .map(evts => {
-        const beforeEvts = evts.filter(e => isBefore(parseISO(e.timestamp), now) || isEqual(parseISO(e.timestamp), now))
-        return beforeEvts.length && beforeEvts[beforeEvts.length - 1].interaction === 'LIST' ? [beforeEvts[beforeEvts.length - 1]] : []
-      })
-      .flat()
+    const priceEvents: Interaction[][] = nfts
+      .map(onlyEvents)
+      .map(evts => evts.filter(onlyPriceEvents))
 
-    const floorPriceFromEvents : number = Math.min(...priceEvents.map(e => Number(e.meta)).filter(price => price > 0))
+    const floorPriceListFn = collectionFloorPriceList(priceEvents, 12)
+    const floorPriceFromEvents = floorPriceListFn(now)
 
-    expect(floorPrice).to.equal(floorPriceFromEvents)
+    expect(floorPrice).to.equal(floorPriceFromEvents[1] * 10 ** 12)
   })
 })

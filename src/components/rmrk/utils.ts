@@ -311,10 +311,10 @@ export const onlyEvents = (nft: NFT) : Interaction[] => nft.events
 export const eventTimestamp = (e: { timestamp : string }) : string => e.timestamp
 export const onlyPriceEvents = (e: { interaction: string }) : boolean => e.interaction !== 'MINTNFT'
 export const eventsBeforeTime = (time: string) => (evts: Interaction[]) : Interaction[] => {
-  const evtsBeforeTime = evts.filter(before(new Date(time)))
-  return evtsBeforeTime.length && evtsBeforeTime[evtsBeforeTime.length - 1].interaction === 'LIST' ? [evtsBeforeTime[evtsBeforeTime.length - 1]] : []
+  const res = evts.filter(before(new Date(time)))
+  return res.length && res[res.length - 1].interaction === 'LIST' ? [res[res.length - 1]] : []
 }
-export const collectionFloorList = (priceEvents : Interaction[][], decimals: number) => (time : string) : PriceDataType => {
+export const collectionFloorPriceList = (priceEvents : Interaction[][], decimals: number) => (time : string) : PriceDataType => {
   const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
   const priceEvent = listEventsBeforeTime.map((e: Interaction) => Number(e.meta) / 10 ** decimals).filter((price: number) => price > 0)
 

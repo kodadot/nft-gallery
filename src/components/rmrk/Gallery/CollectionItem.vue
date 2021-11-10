@@ -46,30 +46,35 @@
 
       <CollectionActivity :nfts="stats" />
 
-      <div class="columns is-centered">
-        <div class="column is-8 has-text-centered">
-          <VueMarkdown :source="description" />
-        </div>
-      </div>
+      <b-tabs v-model="activeTab">
+        <b-tab-item label="Collection">
+          <div class="columns is-centered">
+            <div class="column is-8 has-text-centered">
+              <VueMarkdown :source="description" />
+            </div>
+          </div>
 
-      <Search v-bind.sync="searchQuery">
-        <b-field>
-          <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
-        </b-field>
-      </Search>
+          <Search v-bind.sync="searchQuery">
+            <b-field>
+              <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+            </b-field>
+          </Search>
 
-      <GalleryCardList :items="collection.nfts" />
+          <GalleryCardList :items="collection.nfts" />
 
-      <Pagination
-        class="py-5"
-        replace
-        preserveScroll
-        :total="total"
-        v-model="currentValue"
-        :per-page="first"
-      />
-
-      <CollectionPriceChart :priceData="priceData" />
+          <Pagination
+            class="py-5"
+            replace
+            preserveScroll
+            :total="total"
+            v-model="currentValue"
+            :per-page="first"
+          />
+        </b-tab-item>
+        <b-tab-item label="Activity">
+          <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+        </b-tab-item>
+      </b-tabs>
     </div>
   </div>
 </template>
@@ -79,8 +84,10 @@ import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Component, Mixins } from 'vue-property-decorator'
 import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
-import { sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
-  eventTimestamp, soldNFTPrice, collectionFloorList, PriceDataType, onlyBuyEvents } from '../utils'
+import {
+  sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
+  eventTimestamp, soldNFTPrice, collectionFloorPriceList, PriceDataType, onlyBuyEvents
+} from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
@@ -132,6 +139,7 @@ export default class CollectionItem extends Mixins(
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  private activeTab = 0;
   private currentValue = 1;
   private first = 15;
   private total = 0;
@@ -227,7 +235,7 @@ export default class CollectionItem extends Mixins(
     })
   }
 
-  public loadPriceData() {
+  public loadPriceData(): void {
 
     this.priceData = []
 
@@ -236,7 +244,7 @@ export default class CollectionItem extends Mixins(
 
     const overTime : string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
 
-    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorList(priceEvents, this.decimals))
+    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorPriceList(priceEvents, this.decimals))
 
     const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
     const soldPriceData : PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
