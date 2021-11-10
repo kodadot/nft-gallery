@@ -3,35 +3,34 @@
     <div class="level m-4 collection" v-if="nfts">
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Items</p>
           <p class="title">{{ collectionLength }}</p>
+          <p class="heading">Items</p>
         </div>
       </div>
             <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Floor price</p>
           <p class="title">
             <Money :value="collectionFloorPrice" inline />
           </p>
+          <p class="heading">Floor price</p>
         </div>
       </div>
             <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Volume traded</p>
           <p class="title">
             <Money :value="collectionTradedVolumeNumber" inline />
           </p>
+          <p class="heading">Volume traded</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Owned</p>
           <p class="title">{{ collectionSoldedNFT }}</p>
+          <p class="heading">Owned</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">Distribution</p>
           <p class="title">
             {{
               collectionSoldedNFT
@@ -39,15 +38,16 @@
                 : 0
             }}
           </p>
+          <p class="heading">Distribution</p>
         </div>
       </div>
 
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">24h Volume traded</p>
           <p class="title">
             <Money :value="collectionDailyTradedVolumeNumber" inline />
           </p>
+          <p class="heading">24h Volume traded</p>
         </div>
       </div>
     </div>
@@ -119,11 +119,11 @@ export default class extends Vue {
 
   .collection {
     display: grid;
-    grid-gap: 1rem;
+    grid-gap: 0.7rem;
     grid-template-columns: repeat(3, 1fr);
   }
 
   .title {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
 </style>
