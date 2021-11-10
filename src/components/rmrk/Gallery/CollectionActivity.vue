@@ -34,7 +34,7 @@
           <p class="title">
             {{
               collectionSoldedNFT
-                ? (collectionLength / collectionSoldedNFT).toFixed(2)
+                ? (collectionLength / collectionSoldedNFT).toFixed(4)
                 : 0
             }}
           </p>
