@@ -2,9 +2,7 @@
   <b-button
     type="is-primary"
     icon-left="gift"
-    outlined
     @click="goToTransfer"
-    class="donation-btn"
   >
   </b-button>
 </template>
@@ -28,7 +26,4 @@ export default class DonationButton extends Vue {
 <style lang="scss" scoped>
 @import "@/styles/variables";
 
-.donation-btn {
-  margin-bottom: 1.5rem;
-}
 </style>

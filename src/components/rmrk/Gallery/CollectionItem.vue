@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="columns is-mobile">
+      <div class="columns is-align-items-center">
         <div class="column">
           <div class="label">
             {{ $t('creator') }}
@@ -35,6 +35,9 @@
             <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
           </div>
         </div>
+        <div class="column is-narrow">
+          <CollectionActivity :nfts="stats" />
+        </div>
         <div class="column has-text-right">
           <Sharing v-if="sharingVisible"
             class="mb-2"
@@ -45,8 +48,6 @@
         </div>
       </div>
 
-      <CollectionActivity :nfts="stats" />
-
       <div class="columns is-centered">
         <div class="column is-8 has-text-centered">
           <VueMarkdown :source="description" />
@@ -55,7 +56,7 @@
 
       <Search v-bind.sync="searchQuery">
         <b-field>
-          <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+          <Pagination class="mb-0" hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
         </b-field>
       </Search>
 
