@@ -6,7 +6,7 @@
     @click="goToTransfer"
     class="donation-btn"
   >
-    {{ $t("Gift 10$") }}
+    {{ $t("Gift") }}
   </b-button>
 </template>
 

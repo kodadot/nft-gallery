@@ -40,7 +40,7 @@
             class="mb-2"
             :label="name"
             :iframe="iframeSettings" />
-          <DonationButton :address="issuer" style="max-width: 120px;" />
+          <DonationButton :address="issuer" style="width: 120px;" />
         </div>
       </div>
 
