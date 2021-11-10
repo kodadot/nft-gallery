@@ -43,7 +43,6 @@ export default {
   components: {
     dirs: [
       '~/components',
-      '~/components/extrinsics',
       '~/components/landing',
       '~/components/metadata',
       '~/components/rmrk',

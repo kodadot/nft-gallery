@@ -38,5 +38,4 @@ useOperators(OperatorType.ACCUMULATOR, { $sum, $first, $push, $avg } as Operator
   await enableExtension()
 })()
 // Connector.createInstance(store.state.setting.apiUrl);
-Vue.prototype.$http = Connector.getInstance()
 Vue.config.productionTip = false
