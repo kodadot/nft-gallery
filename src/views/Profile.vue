@@ -25,6 +25,12 @@
           </div>
           <div class="subtitle is-size-6">
             <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+            <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+              <figure class="image is-24x24 subid__less-margin">
+                <img alt="subid" src="/subid.svg" />
+              </figure>
+              {{ shortendId }}
+            </a>
           </div>
         </div>
         <div class="column is-2">
@@ -62,7 +68,7 @@
           :label="`Collections - ${totalCollections}`"
           value="collection"
         >
-          <Pagination replace :total="totalCollections" v-model="currentCollectionPage" />
+          <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
@@ -117,6 +123,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
+import shortAddress from '@/utils/shortAddress'
 import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
@@ -192,6 +199,7 @@ export default class Profile extends Vue {
   public activeTab = 'nft';
   public firstNFTData: any = {};
   protected id = '';
+  protected shortendId = '';
   protected isLoading = false;
   protected collections: CollectionWithMeta[] = [];
   protected packs: Pack[] = [];
@@ -226,6 +234,7 @@ export default class Profile extends Vue {
   public checkId() {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
+      this.shortendId = shortAddress(this.id)
     }
   }
 
@@ -375,4 +384,7 @@ export default class Profile extends Vue {
   flex-basis: auto;
 }
 
+.subid__less-margin {
+  margin: auto .5em auto 0;
+}
 </style>

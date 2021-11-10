@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LinkResolver class="profile-link__wrapper" route="profile" :param="address" link="u">
+    <LinkResolver class="profile-link__wrapper" :route="linkedTo" :param="address" link="u">
       <Identity :address="address" :inline="true" :verticalAlign="true" />
       <template v-slot:extra>
         <a :href="`https://kusama.subscan.io/account/${address}`" target="_blank" rel="noopener noreferrer">
@@ -10,9 +10,7 @@
         </a>
       </template>
     </LinkResolver>
-    <template v-if="showTwitter">
-      <Identity :address="address" :showTwitter="showTwitter" :verticalAlign="true" class="pt-2" />
-    </template>
+    <Identity v-if="showTwitter" :address="address" :showTwitter="showTwitter" :verticalAlign="false" class="pt-2" />
   </div>
 </template>
 
@@ -29,6 +27,10 @@ const components = {
 export default class ProfileLink extends Mixins(InlineMixin) {
   @Prop() public address!: string;
   @Prop() public showTwitter!: boolean;
+
+  get linkedTo(): string {
+    return this.$route.name === 'profile' ? 'subscan' : 'profile'
+  }
 }
 </script>
 

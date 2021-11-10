@@ -1,11 +1,11 @@
 **Thank you for your contribution** to the KodaDot NFT gallery.
 
-👇 Let's do a quick check before the merge. 
+👇 Let's do a quick check before the merge.
 
 ### PR type
-- [ ] Bugfix 
-- [ ] Feature 
-- [ ] Refactoring 
+- [ ] Bugfix
+- [ ] Feature
+- [ ] Refactoring
 
 ### Before submitting Pull Request, please make sure:
 - [ ] My contribution builds **clean without any errors or warnings**
@@ -18,8 +18,8 @@
 - [ ] I've tested PR on mobile and everything works
 - [ ] I found edge cases
 
-### What's new? 
-- [ ] PR closes #<issue_number> 
+### What's new?
+- [ ] PR closes #<issue_number>
 - [ ] <brief_description_of_what_I've_added>
 
 ### Had issue bounty label ?
@@ -30,4 +30,3 @@
 
 ### Screenshot
 - [ ] My fix has changed **something** on UI, a screenshot for others, is best to understand changes.
-

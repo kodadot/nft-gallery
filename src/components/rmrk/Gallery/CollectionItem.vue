@@ -52,10 +52,22 @@
         </div>
       </div>
 
-      <Search v-bind.sync="searchQuery" />
+      <Search v-bind.sync="searchQuery">
+        <b-field>
+          <Pagination class="mb-0" hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+        </b-field>
+      </Search>
 
       <GalleryCardList :items="collection.nfts" />
 
+      <Pagination
+        class="py-5"
+        replace
+        preserveScroll
+        :total="total"
+        v-model="currentValue"
+        :per-page="first"
+      />
     </div>
   </div>
 </template>
@@ -81,6 +93,7 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
   Search: () => import('./Search/SearchBarCollection.vue'),
+  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
 }
 @Component<CollectionItem>({
@@ -113,7 +126,14 @@ export default class CollectionItem extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  private currentValue = 1;
+  private first = 15;
+  private total = 0;
   protected stats: NFT[] = [];
+
+  get offset(): number {
+    return this.currentValue * this.first - this.first
+  }
 
   get image(): string {
     return this.meta.image || ''
@@ -170,14 +190,16 @@ export default class CollectionItem extends Vue {
         return {
           id: this.id,
           orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam()
+          search: this.buildSearchParam(),
+          first: this.first,
+          offset: this.offset
         }
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
         nfts: collectionEntity.nfts.nodes
       }),
-      result: () => this.fetchMetadata(),
+      result: this.handleResult,
     })
 
     this.loadStats()
@@ -195,6 +217,11 @@ export default class CollectionItem extends Vue {
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
       this.stats = nfts
     })
+  }
+
+  public async handleResult({data}: any): Promise<void> {
+    this.total = data.collectionEntity.nfts.totalCount
+    this.fetchMetadata()
   }
 
   public async fetchMetadata(): Promise<void> {

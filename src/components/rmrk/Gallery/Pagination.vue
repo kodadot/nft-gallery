@@ -1,4 +1,5 @@
 <template>
+  <div class="is-flex is-justify-content-flex-end">
   <b-pagination
     :total="total"
     :current.sync="current"
@@ -15,12 +16,23 @@
     @change="onPageChange"
   >
   </b-pagination>
+    <b-button
+      class="ml-2 magicBtn"
+      title="Go to random page"
+      v-if="hasMagicBtn"
+      type="is-primary"
+      icon-left="magic"
+      @click="goToRandomPage"
+    >
+    </b-button>
+  </div>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { getRandomIntInRange } from '../utils'
 
 @Component({})
 export default class Pagination extends Vue {
@@ -29,6 +41,8 @@ export default class Pagination extends Vue {
   @Prop(Boolean) simple!: boolean
   @Prop({ default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
+  @Prop(Boolean) preserveScroll!: boolean
+  @Prop(Boolean) hasMagicBtn!: boolean;
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
@@ -44,7 +58,16 @@ export default class Pagination extends Vue {
   }
 
   public onPageChange() {
-    this.scrollTop()
+    if (!this.preserveScroll) {
+      this.scrollTop()
+    }
+  }
+
+  public goToRandomPage() {
+    this.onPageChange()
+    const pageSize = Math.ceil(this.total / this.perPage)
+    let randomNumber = getRandomIntInRange(1, pageSize)
+    this.current = randomNumber
   }
 
   public scrollTop() {
@@ -63,7 +86,6 @@ export default class Pagination extends Vue {
     this.replace && this.replaceUrl(String(value))
   }
 
-
   @Debounce(100)
   replaceUrl(value: string, key = 'page') {
     this.$router
@@ -75,3 +97,10 @@ export default class Pagination extends Vue {
   }
 }
 </script>
+<style lang="scss">
+
+ .magicBtn {
+  border-width: 1px;
+ }
+
+</style>
