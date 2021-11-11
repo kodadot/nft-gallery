@@ -1,0 +1,17 @@
+query infiniteCollectionByAccount($account: String!) {
+  collectionEntities(
+    filter: { currentOwner: { equalTo: $account }, max: { equalTo: 0 } }
+    orderBy: BLOCK_NUMBER_DESC
+  ) {
+    nodes {
+      id
+      name
+      max
+      metadata
+      symbol
+      nfts {
+        totalCount
+      }
+    }
+  }
+}
