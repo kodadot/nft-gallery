@@ -14,12 +14,12 @@ import {
   faMagic, faEye, faCommentAlt,
   faGhost, faCode, faLeaf,
   faFlask, faCameraRetro, faTag,
-  faShareAlt, faExclamationTriangle,
+  faShareAlt, faShare, faExclamationTriangle,
   faCalendar, faCalculator, faEnvelope,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faAngleLeft, faAngleRight, faReply,
+  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter, faQrcode,
   faExternalLinkSquareAlt, faGift, faThLarge, faTh,
-  faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter,
   faFire, faMoneyBill
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -54,11 +54,11 @@ library.add(
   faCommentDots, faGhost, faCode,
   faWpexplorer,
   faRedditAlien, faCameraRetro,
-  faTag, faShareAlt,
+  faTag, faShareAlt, faShare,
   faExclamationTriangle, faCalculator,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
-  faExclamationCircle, faFilter, faGift, faThLarge, faTh,
+  faExclamationCircle, faFilter, faQrcode, faGift, faThLarge, faTh,
   faFire, faMoneyBill,
 
   // Social
