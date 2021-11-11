@@ -1,13 +1,13 @@
 <template>
   <div class="share">
     <b-field position="is-right">
-      <div>
+      <div class="control">
         <slot />
       </div>
 
-      <ShowQRModal :address="realworldFullPath" :title="label" />
+      <ShowQRModal class="control" :address="realworldFullPath" :title="label" />
 
-      <div>
+      <div class="control">
         <b-button
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="realworldFullPathShare"
@@ -17,7 +17,7 @@
         </b-button>
       </div>
 
-      <div>
+      <div class="control">
         <b-tooltip
           position="is-left"
           :triggers="['click']"
