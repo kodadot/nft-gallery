@@ -6,8 +6,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-@Component({})
+import { Component, Prop, Vue } from 'vue-property-decorator'
+
+@Component
 export default class NoCollection extends Vue {
   @Prop({ type: String, default: 'helper.noCollections' }) public label!: string;
 }

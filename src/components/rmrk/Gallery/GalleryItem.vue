@@ -64,8 +64,10 @@
         </div>
 
         <div class="column is-3 is-offset-3" v-if="detailVisible">
-
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
+
+          <Sharing class="mb-4" />
+
           <div class="price-block mb-4" v-if="hasPrice">
             <div class="label">{{ $t('price') }}</div>
             <div class="price-block__container">
@@ -99,8 +101,6 @@
                 </div>
               </div>
           </template>
-
-          <Sharing class="mb-4" />
 
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />
