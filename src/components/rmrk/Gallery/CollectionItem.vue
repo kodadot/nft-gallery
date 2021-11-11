@@ -51,14 +51,15 @@
         </div>
       </div>
 
-      <b-tabs v-model="activeTab">
+      <div class="columns is-centered">
+        <div class="column is-8 has-text-centered">
+          <!-- <b-skeleton :active="!description" height="80px"></b-skeleton> -->
+          <VueMarkdown :source="description" />
+        </div>
+      </div>
+
+      <b-tabs position="is-centered" v-model="activeTab">
         <b-tab-item label="Collection">
-          <div class="columns is-centered">
-            <div class="column is-8 has-text-centered">
-              <b-skeleton :active="!description" height="80px"></b-skeleton>
-              <VueMarkdown :source="description" />
-            </div>
-          </div>
 
           <Search v-bind.sync="searchQuery">
             <Layout class="mr-5" />
@@ -88,7 +89,7 @@
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
