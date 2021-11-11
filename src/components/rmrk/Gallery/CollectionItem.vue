@@ -35,7 +35,7 @@
             <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
           </div>
         </div>
-        <div class="column is-narrow">
+        <div class="column is-6-tablet is-7-desktop is-8-widescreen">
           <CollectionActivity :nfts="stats" />
         </div>
         <div class="column has-text-right">
