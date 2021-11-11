@@ -47,8 +47,6 @@
         </div>
       </div>
 
-      <CollectionActivity :nfts="stats" />
-
       <b-tabs v-model="activeTab">
         <b-tab-item label="Collection">
           <div class="columns is-centered">
