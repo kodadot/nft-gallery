@@ -52,7 +52,12 @@
         <b-tab-item label="Collection">
           <div class="columns is-centered">
             <div class="column is-8 has-text-centered">
-              <VueMarkdown :source="description" />
+              <CollapseWrapper
+                visible="collapse.collection.description.show"
+                hidden="collapse.collection.description.hide"
+              >
+                <VueMarkdown :source="description" />
+              </CollapseWrapper>
             </div>
           </div>
 
@@ -109,6 +114,7 @@ const components = {
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
