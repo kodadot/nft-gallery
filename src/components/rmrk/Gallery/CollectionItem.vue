@@ -54,8 +54,18 @@
       </div>
 
       <Search v-bind.sync="searchQuery">
+        <Layout v-if="collection.nfts" class="mr-5"/>
         <b-field>
-          <Pagination class="mb-0" hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+          <Pagination
+            class="mb-0"
+            hasMagicBtn
+            simple
+            replace
+            preserveScroll
+            :total="total"
+            v-model="currentValue"
+            :per-page="first"
+          />
         </b-field>
       </Search>
 
@@ -96,6 +106,7 @@ const components = {
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {

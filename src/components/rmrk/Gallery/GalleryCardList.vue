@@ -20,7 +20,7 @@
     </div>
     <div class="columns is-multiline">
       <div
-        :class="`column ${layout}`"
+        :class="`column ${classLayout}`"
         v-for="nft in items"
         :key="nft.id"
       >
@@ -52,9 +52,12 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
-
-  protected layout = 'is-one-third-desktop is-one-third-tablet'
+  @Prop({ default: 'is-one-third-desktop is-one-third-tablet' }) public layout!: string;
+  get classLayout() {
+    return this.$store.getters.getLayoutClass
+  }
 }
+
 </script>
 <style>
 .b-radio.radio.button.is-selected{

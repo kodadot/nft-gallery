@@ -184,7 +184,8 @@ export default new Vuex.Store({
       kusama: {
         usd: null
       }
-    }
+    },
+    layoutClass: 'is-one-third-desktop is-one-third-tablet'
   },
   mutations: {
     keyringLoaded(state: any) {
@@ -217,7 +218,10 @@ export default new Vuex.Store({
     },
     setIndexerStatus(state: any, data) {
       state.indexer = Object.assign({}, state.indexer, data)
-    }
+    },
+    setLayoutClass(state: any, data) {
+      state.layoutClass = data
+    },
   },
   actions: {
     setFiatPrice({ commit }: any, data) {
@@ -225,8 +229,10 @@ export default new Vuex.Store({
     },
     upateIndexerStatus({ commit }: any, data) {
       commit('setIndexerStatus', data)
-    }
-
+    },
+    setLayoutClass({ commit }: any, data) {
+      commit('setLayoutClass', data)
+    },
   },
   getters: {
     getChainProperties: ({ chainProperties }) => chainProperties,
@@ -235,7 +241,8 @@ export default new Vuex.Store({
     getUserFlag: ({ language }) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
     getCurrentKSMValue: ({ fiatPrice }) => fiatPrice['kusama']['usd'],
     getCurrentChain: ({ explorer }) => explorer.chain,
-    getIndexer: ({ indexer }) => indexer
+    getIndexer: ({ indexer }) => indexer,
+    getLayoutClass: ({ layoutClass }) => layoutClass,
   },
   modules: {
     setting: SettingModule,
