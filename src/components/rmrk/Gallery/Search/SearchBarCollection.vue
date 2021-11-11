@@ -17,7 +17,7 @@
         </b-input>
       </b-field>
       <BasicSwitch
-        class="is-flex control"
+        class="is-flex control mb-5"
         v-model="vListed"
         label="sort.listed"
         size="is-medium"

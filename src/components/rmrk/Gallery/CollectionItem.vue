@@ -57,12 +57,13 @@
           </div>
 
           <Search v-bind.sync="searchQuery">
+            <Layout class="mr-5" />
             <b-field>
               <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
             </b-field>
           </Search>
 
-          <GalleryCardList :items="collection.nfts" />
+          <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
 
           <Pagination
             class="py-5"
@@ -106,6 +107,7 @@ const components = {
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
 }
 @Component<CollectionItem>({
