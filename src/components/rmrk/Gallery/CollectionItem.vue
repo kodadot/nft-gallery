@@ -54,7 +54,7 @@
       </div>
 
       <Search v-bind.sync="searchQuery">
-        <Layout v-if="collection.nfts" class="mr-5"/>
+        <Layout class="mr-5" />
         <b-field>
           <Pagination
             class="mb-0"
@@ -69,7 +69,7 @@
         </b-field>
       </Search>
 
-      <GalleryCardList :items="collection.nfts" />
+      <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
 
       <Pagination
         class="py-5"
