@@ -19,7 +19,7 @@
       </div>
 
       <div class="columns is-align-items-center">
-        <div class="">
+        <div class="column">
           <div class="label">
             {{ $t('creator') }}
           </div>
@@ -35,15 +35,16 @@
             <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
           </div>
         </div>
-        <div class="column">
+        <div class="column is-6-tablet is-7-desktop is-8-widescreen">
           <CollectionActivity :nfts="stats" />
         </div>
-        <div class="column is-2">
+        <div class="column has-text-right">
           <Sharing v-if="sharingVisible"
             class="mb-2"
-            label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-            :iframe="iframeSettings" />
-          <DonationButton :address="issuer" style="width: 100%;" />
+            :label="name"
+            :iframe="iframeSettings">
+              <DonationButton :address="issuer" />
+          </Sharing>
         </div>
       </div>
 
@@ -82,9 +83,8 @@
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { Component, Mixins } from 'vue-property-decorator'
-import { CollectionWithMeta, Collection, Interaction } from '../service/scheme'
+import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
   eventTimestamp, soldNFTPrice, collectionFloorPriceList, PriceDataType, onlyBuyEvents
