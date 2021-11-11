@@ -6,7 +6,6 @@ import { fullCollection } from './sample2'
 describe('FLOOR PRICE TEST', (): void => {
   let nfts: NFT[] = []
 
-
   before(() => {
     nfts = fullCollection.data.collectionEntity.nfts.nodes as unknown as NFT[]
   })
