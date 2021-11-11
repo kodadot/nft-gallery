@@ -3,8 +3,8 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <b-field class="column is-4 mb-0 is-narrow">
-        <Pagination simple :total="total" v-model="currentValue" replace  />
+      <b-field class="column">
+        <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage=12 replace class="is-right" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -78,6 +78,7 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
+      :perPage=12
       v-model="currentValue"
       replace
     />
@@ -89,7 +90,6 @@ import { Component, Vue } from 'vue-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../utils'
-import { basicAggQuery } from './Search/query'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types'
@@ -292,7 +292,7 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return basicAggQuery(this.nfts as NFTWithMeta[])
+    return this.nfts as NFTWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }

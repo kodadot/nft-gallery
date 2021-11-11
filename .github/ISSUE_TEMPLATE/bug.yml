@@ -1,0 +1,88 @@
+name: Bug Report
+description: Create a report to help us improve KodaDot
+title: "Be descriptive and short"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us, what happened?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Please reproduce in steps
+      description: Tells us steps how to reproduce the behavior
+      placeholder: Go to ... Click on .... See error
+      value: "Go to ... Click on .... See error"
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: Tell us what you see!
+      value: "I've expected ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Mobile iOS Safari
+        - Mobile Android Chrome
+        - Mobile Firefox
+  - type: dropdown
+    id: logged-in
+    attributes:
+      label: Are you logged in?
+      multiple: false
+      options:
+        - 'Yes'
+        - 'No'
+  - type: dropdown
+    id: beta-yes-no
+    attributes:
+      label: At which address did you encounter bug?
+      multiple: true
+      options:
+        - beta.kodadot.xyz
+        - nft.kodadot.xyz / kodadot.xyz
+  - type: textarea
+    id: Screenshots
+    attributes:
+      label: Screenshots
+      description: Screenshot is sometimes worth more than debug logs!
+      placeholder: Paste from your clipboard or upload screenshots
+      value: "Paste from your clipboard or upload screenshots"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

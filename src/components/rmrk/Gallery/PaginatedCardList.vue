@@ -1,7 +1,7 @@
 <template>
   <div>
     <Search v-bind.sync="searchQuery" v-if="showSearchBar" />
-    <Pagination replace :total="total" v-model="currentValue" />
+    <Pagination hasMagicBtn replace :total="total" v-model="currentValue" />
     <GalleryCardList :items="items" />
     <Pagination
       class="pt-5 pb-5"

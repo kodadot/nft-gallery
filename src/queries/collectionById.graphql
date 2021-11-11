@@ -4,23 +4,24 @@ query collectionById(
   $id: String!
   $search: [NFTEntityFilter!]
   $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+  $first: Int!
+  $offset: Int
 ) {
   collectionEntity(id: $id) {
     ...collection
     nfts(
       orderBy: [$orderBy, BLOCK_NUMBER_DESC]
-      filter: {
-	  	burned: { distinctFrom: true }
-		and: $search
-	  }
+      first: $first
+      offset: $offset
+      filter: { burned: { distinctFrom: true }, and: $search }
     ) {
+      totalCount
       nodes {
         id
         metadata
         name
         price
         burned
-        events
         currentOwner
       }
     }

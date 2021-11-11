@@ -196,9 +196,47 @@
     "success": "Congrats to your new NFT(s)",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in in your collection",
+    "nfsw": "Explicit content (NSFW)",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
-    "transform": "Transform commands in NFT"
+    "transform": "Transform commands in NFT",
+    "expert": {
+      "show": "Show advanced settings",
+      "hide": "Hide advanced settings",
+      "count": "Currently matched {0} adresses",
+      "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
+      "postfix": "Add hashtag and index after the name (e.g #1)",
+      "sync": "Sync editions to {0}"
+    },
+    "collection": {
+      "name": {
+        "label": "Collection name",
+        "placeholder": "Enter collection name",
+        "message": "Name of your collection. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "Collection description",
+        "placeholder": "Enter collection description",
+        "message": "Description of your collection. Markdown is supported"
+      },
+      "symbol": {
+        "label": "Symbol (short name)",
+        "placeholder": "3-5 character long name",
+        "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
+      }
+    },
+    "nft": {
+      "name": {
+        "label": "name",
+        "placeholder": "Enter NFT name",
+        "message": "Name of your NFT. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "NFT description",
+        "placeholder": "Enter NFT description",
+        "message": "Description of your NFT. Markdown is supported"
+      }
+    }
   },
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
@@ -252,12 +290,13 @@
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
   },
   "profile": {
+    "user": "User",
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold"
   },
   "spotlight": {
-	"filter_accounts": "Accounts With Identity",
+    "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
     "unique": "Unique",
@@ -269,13 +308,13 @@
     "empty": "Empty"
   },
   "series": {
-	"title": "Top Collection",
-	"subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
-	"assets": "Assets",
-	"collected": "Collected",
-	"floorprice": "Floor price",
-	"owners": "Owners",
-	"volume": "Volume"
+    "title": "Top Collection",
+    "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
+    "assets": "Assets",
+    "collected": "Collected",
+    "floorprice": "Floor price",
+    "owners": "Owners",
+    "volume": "Volume"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",
@@ -292,6 +331,19 @@
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
     "clickToCreate": "Click here to create collection"
+  },
+  "action": {
+    "admin": "Admin panel",
+    "click": "Click to {0} NFT(s)",
+    "omitListed": "Skip listed NFT(s)",
+    "random": "Use random",
+    "distributionCount": "Percent which will be distributed"
+  },
+  "identity": {
+    "set": "Create on-chain identity",
+    "click": "Click to create identity",
+    "handleRequired": "Your handle is required",
+    "deposit": "Deposit"
   },
   "massMint": {
     "tutorial": {

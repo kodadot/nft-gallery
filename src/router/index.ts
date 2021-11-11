@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-import { apiEnabled } from '@/routeGuard'
 
 import Transfer from '@/router/transfer'
 import Toolbox from '@/router/toolbox'
@@ -14,7 +13,6 @@ const EsSustainability = () => import('@/components/landing/EsSustainability.vue
 const Carbonless = () => import('@/components/landing/Carbonless.vue')
 const EsCarbonless = () => import('@/components/landing/EsCarbonless.vue')
 const Settings = () => import('@/views/Settings.vue')
-const Extrinsics = () => import('@/views/Extrinsics.vue')
 const Spotlight = () => import('@/components/landing/Spotlight.vue')
 const About = () => import('@/components/landing/About.vue')
 const Contact = () => import('@/components/landing/Contact.vue')
@@ -23,7 +21,6 @@ const Tutorials = () => import('@/components/landing/Tutorials.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
 const Series = () => import('@/components/landing/Series.vue')
-// const Toolbox = () => import('@/components/toolbox/Toolbox.vue');
 
 export default new Router({
   mode: 'history',
@@ -63,15 +60,14 @@ export default new Router({
       component: Settings
     },
     {
-      path: '/extrinsics',
-      name: 'extrinsics',
-      component: Extrinsics,
-      beforeEnter: apiEnabled,
-    },
-    {
       path: '/spotlight',
       name: 'spotlight',
       component: Spotlight,
+    },
+    {
+      path: '/series-insight',
+      name: 'series',
+      component: Series,
     },
     {
       path: '/series-insights',
@@ -125,7 +121,8 @@ export default new Router({
       component: FourZeroFour,
     },
   ],
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.name === 'collectionDetail') return
     return { x: 0, y: 0 }
   }
 })
