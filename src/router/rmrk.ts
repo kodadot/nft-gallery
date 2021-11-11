@@ -11,6 +11,7 @@ const ViewModel = () => import('@/components/rmrk/Gallery/ViewModel.vue')
 const SimpleMint = () => import('@/components/rmrk/Create/SimpleMint.vue')
 const PermaMint = () => import('@/components/rmrk/Create/PermaMint.vue')
 const AdminPanel = () => import('@/components/rmrk/Create/Admin/AdminPanel.vue')
+const MassMint = () => import('@/components/rmrk/Create/MassMint.vue')
 
 export default [
   {
@@ -78,4 +79,9 @@ export default [
     name: 'admin',
     component: AdminPanel
   },
+  {
+    path: '/rmrk/mass',
+    name: 'massMint',
+    component: MassMint
+  }
 ]

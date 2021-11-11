@@ -48,44 +48,54 @@
         </div>
       </div>
 
-      <div class="columns is-centered">
-        <div class="column is-8 has-text-centered">
-          <VueMarkdown :source="description" />
-        </div>
-      </div>
+      <b-tabs v-model="activeTab">
+        <b-tab-item label="Collection">
+          <div class="columns is-centered">
+            <div class="column is-8 has-text-centered">
+              <VueMarkdown :source="description" />
+            </div>
+          </div>
 
-      <Search v-bind.sync="searchQuery">
-        <b-field>
-          <Pagination class="mb-0" hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
-        </b-field>
-      </Search>
+          <Search v-bind.sync="searchQuery">
+            <b-field>
+              <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+            </b-field>
+          </Search>
 
-      <GalleryCardList :items="collection.nfts" />
+          <GalleryCardList :items="collection.nfts" />
 
-      <Pagination
-        class="py-5"
-        replace
-        preserveScroll
-        :total="total"
-        v-model="currentValue"
-        :per-page="first"
-      />
+          <Pagination
+            class="py-5"
+            replace
+            preserveScroll
+            :total="total"
+            v-model="currentValue"
+            :per-page="first"
+          />
+        </b-tab-item>
+        <b-tab-item label="Activity">
+          <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+        </b-tab-item>
+      </b-tabs>
     </div>
   </div>
 </template>
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { Component, Vue } from 'vue-property-decorator'
-import { CollectionWithMeta } from '../service/scheme'
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
+import { Component, Mixins } from 'vue-property-decorator'
+import { CollectionWithMeta, Interaction } from '../service/scheme'
+import {
+  sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
+  eventTimestamp, soldNFTPrice, collectionFloorPriceList, PriceDataType, onlyBuyEvents
+} from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
-
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -96,6 +106,7 @@ const components = {
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -116,7 +127,9 @@ const components = {
     }
   },
   components })
-export default class CollectionItem extends Vue {
+export default class CollectionItem extends Mixins(
+  ChainMixin
+) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
@@ -127,10 +140,12 @@ export default class CollectionItem extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  private activeTab = 0;
   private currentValue = 1;
   private first = 15;
   private total = 0;
   protected stats: NFT[] = [];
+  protected priceData: any = [];
 
   get offset(): number {
     return this.currentValue * this.first - this.first
@@ -217,7 +232,25 @@ export default class CollectionItem extends Vue {
 
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
       this.stats = nfts
+      this.loadPriceData()
     })
+  }
+
+  public loadPriceData(): void {
+
+    this.priceData = []
+
+    const events : Interaction[][] = this.stats?.map(onlyEvents) || []
+    const priceEvents : Interaction[][] = events.map(this.priceEvents) || []
+
+    const overTime : string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
+
+    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorPriceList(priceEvents, this.decimals))
+
+    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
+    const soldPriceData : PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
+
+    this.priceData = [floorPriceData, soldPriceData]
   }
 
   public async handleResult({data}: any): Promise<void> {
@@ -244,6 +277,10 @@ export default class CollectionItem extends Vue {
 
   get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
+  }
+
+  protected priceEvents(nftEvents:Interaction[]) : Interaction[] {
+    return nftEvents.filter(onlyPriceEvents)
   }
 }
 </script>
