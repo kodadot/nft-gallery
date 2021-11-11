@@ -64,7 +64,7 @@
           <Search v-bind.sync="searchQuery">
             <Layout class="mr-5" />
             <b-field>
-              <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+              <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
             </b-field>
           </Search>
 
