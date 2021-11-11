@@ -116,28 +116,6 @@
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <div class="columns">
             <div class="column is-6">
-              <div
-                v-if="hasPrice"
-                class="price-block mb-4"
-              >
-                <div class="label">
-                  {{ $t('price') }}
-                </div>
-                <div class="price-block__container">
-                  <div class="price-block__original">
-                    {{ nft.price | formatBalance(12, 'KSM') }}
-                  </div>
-                  <b-button
-                    v-if="nft.currentOwner === accountId"
-                    type="is-warning"
-                    outlined
-                    @click="handleUnlist"
-                  >
-                    {{ $t('Unlist') }}
-                  </b-button>
-                </div>
-                <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
-              </div>
               <div class="nft-title" style="padding-left: 15px;">
                 <Detail :nft="nft" :isLoading="isLoading"/>
               </div>
@@ -149,14 +127,29 @@
                   class="card mb-4"
                   aria-id="contentIdForA11y3"
                 >
-                  <div class="card-content">
-                    <div class="label ">
-                      {{ $t('actions') }}
+                  <div class="card-content" v-if="nft.currentOwner !== accountId">
+                    <div class="label">
+                      {{ $t('price') }}
                     </div>
-                    <div class="content">
+                    <div class="price-block__container">
+                      <div class="price-block__original">
+                        {{ nft.price | formatBalance(12, 'KSM') }}
+                      </div>
+                      <!-- <b-button
+                        v-if="nft.currentOwner === accountId"
+                        type="is-warning"
+                        outlined
+                        @click="handleUnlist"
+                      >
+                        {{ $t('Unlist') }}
+                      </b-button> -->
+                    </div>
+                    <!-- <div class="label ">
+                      {{ $t('actions') }}
+                    </div> -->
+                    <div class="content" style="padding-top: 20px;">
                       <p class="subtitle">
-                        <Auth />
-                        <IndexerGuard show-message>
+                        <IndexerGuard show-message style="padding-bottom: 20px" v-if="nft.currentOwner !== accountId">
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
@@ -167,12 +160,24 @@
                             @change="handleAction"
                           />
                         </IndexerGuard>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist"
+                          style="margin-bottom: 20px"
+                        >
+                          {{ $t('Unlist') }}
+                        </b-button>
+                        <Auth />
                       </p>
                     </div>
+                    <Sharing class="mb-4" />
                   </div>
                 </div>
               </template>
-              <Sharing class="mb-4" />
+
+              
             </div>
           </div>
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
@@ -181,8 +186,10 @@
           </template>
         </div>            
       </div>
+      
       <div class="columns">
-        <div class="column is-6">
+
+        <div class="column is-12">
           <History v-if="!isLoading" :events="nft.events"/>
         </div>
         <!-- <div class="column is-6">

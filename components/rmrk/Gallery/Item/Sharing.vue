@@ -261,12 +261,11 @@ export default class Sharing extends Vue {
 .share {
   border-radius: 0;
   box-shadow: none;
-  border: 2px solid $primary;
+  border-top: 1px solid #ededed;
 
   .card-footer {
     border: none;
     &-item:not(:last-child){
-      border-right-color: $primary;
      }
     &-item {
       padding: 0rem  1rem;
