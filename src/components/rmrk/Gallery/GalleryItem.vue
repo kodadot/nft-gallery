@@ -18,7 +18,7 @@
           <div class="image-wrapper">
               <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
               <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
-                <div v-orientation="viewMode === 'default' && !isFullScreenView" class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
+                <div v-orientation="viewMode === 'default' && !isFullScreenView && imageVisible" class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
                   <b-image
                     v-if="!isLoading && imageVisible && !meta.animation_url"
                     :src="meta.image || '/placeholder.svg'"
@@ -64,8 +64,10 @@
         </div>
 
         <div class="column is-3 is-offset-3" v-if="detailVisible">
-
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
+
+          <Sharing class="mb-4" />
+
           <div class="price-block mb-4" v-if="hasPrice">
             <div class="label">{{ $t('price') }}</div>
             <div class="price-block__container">
@@ -99,8 +101,6 @@
                 </div>
               </div>
           </template>
-
-          <Sharing class="mb-4" />
 
           <template v-if="detailVisible">
             <Facts :nft="nft" :meta="meta"  />

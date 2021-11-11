@@ -4,13 +4,12 @@
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-128x128 mb-2">
-            <b-image
-              v-if="!isLoading"
+            <BasicImage
               :src="image"
               :alt="name"
-              ratio="1by1"
               rounded
-            ></b-image>
+              customClass="collection__image-wrapper"
+            />
           </div>
           <h1 class="title is-2">
             <template v-if="!nameLoading">
@@ -21,13 +20,13 @@
         </div>
       </div>
 
-      <div class="columns">
+      <div class="columns is-align-items-center">
         <div class="column">
           <div class="label">
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+            <ProfileLink :address="issuer" inline showTwitter />
           </div>
           <b-skeleton :active="!issuer" width="20%"></b-skeleton>
         </div>
@@ -36,60 +35,72 @@
             {{ $t('owner') }}
           </div>
           <div class="subtitle is-size-6">
-            <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
+            <ProfileLink :address="owner" inline showTwitter />
           </div>
         </div>
-        <div class="column is-2">
+        <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+          <CollectionActivity :nfts="stats" />
+        </div>
+        <div class="column has-text-right">
           <Sharing v-if="sharingVisible"
             class="mb-2"
-            label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-            :iframe="iframeSettings" />
-          <DonationButton :address="issuer" style="width: 100%;" />
+            :label="name"
+            :iframe="iframeSettings">
+              <DonationButton :address="issuer" />
+          </Sharing>
         </div>
       </div>
 
-      <CollectionActivity v-if="!statsLoading" :nfts="stats" />
-      <b-skeleton :active="statsLoading" height="30px"></b-skeleton>
+      <b-tabs v-model="activeTab">
+        <b-tab-item label="Collection">
+          <div class="columns is-centered">
+            <div class="column is-8 has-text-centered">
+              <b-skeleton :active="!description" height="80px"></b-skeleton>
+              <VueMarkdown :source="description" />
+            </div>
+          </div>
 
-      <div class="columns is-centered">
-        <div class="column is-8 has-text-centered mt-5">
-          <VueMarkdown :source="description" />
-          <b-skeleton :active="!description" height="80px"></b-skeleton>
-        </div>
-      </div>
+          <Search v-bind.sync="searchQuery">
+            <Layout class="mr-5" />
+            <b-field>
+              <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+            </b-field>
+          </Search>
 
-      <Search v-bind.sync="searchQuery">
-        <b-field>
-          <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
-        </b-field>
-      </Search>
+          <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
 
-      <GalleryCardList :items="collection.nfts" />
-
-      <Pagination
-        class="py-5"
-        replace
-        preserveScroll
-        :total="total"
-        v-model="currentValue"
-        :per-page="first"
-      />
+          <Pagination
+            class="py-5"
+            replace
+            preserveScroll
+            :total="total"
+            v-model="currentValue"
+            :per-page="first"
+          />
+        </b-tab-item>
+        <b-tab-item label="Activity">
+          <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+        </b-tab-item>
+      </b-tabs>
     </div>
   </div>
 </template>
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, Vue } from 'vue-property-decorator'
-import { CollectionWithMeta, Collection } from '../service/scheme'
-import { sanitizeIpfsUrl, fetchCollectionMetadata } from '../utils'
+import { Component, Mixins } from 'vue-property-decorator'
+import { CollectionWithMeta, Interaction } from '../service/scheme'
+import {
+  sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
+  eventTimestamp, soldNFTPrice, collectionFloorPriceList, PriceDataType, onlyBuyEvents
+} from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from './Search/types'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -100,6 +111,9 @@ const components = {
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -120,7 +134,9 @@ const components = {
     }
   },
   components })
-export default class CollectionItem extends Vue {
+export default class CollectionItem extends Mixins(
+  ChainMixin
+) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
@@ -133,10 +149,12 @@ export default class CollectionItem extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
+  private activeTab = 0;
   private currentValue = 1;
   private first = 15;
   private total = 0;
   protected stats: NFT[] = [];
+  protected priceData: any = [];
 
   get offset(): number {
     return this.currentValue * this.first - this.first
@@ -229,7 +247,25 @@ export default class CollectionItem extends Vue {
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
       this.statsLoading = false
       this.stats = nfts
+      this.loadPriceData()
     })
+  }
+
+  public loadPriceData(): void {
+
+    this.priceData = []
+
+    const events : Interaction[][] = this.stats?.map(onlyEvents) || []
+    const priceEvents : Interaction[][] = events.map(this.priceEvents) || []
+
+    const overTime : string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
+
+    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorPriceList(priceEvents, this.decimals))
+
+    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
+    const soldPriceData : PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
+
+    this.priceData = [floorPriceData, soldPriceData]
   }
 
   public async handleResult({data}: any): Promise<void> {
@@ -255,6 +291,10 @@ export default class CollectionItem extends Vue {
 
   get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
+  }
+
+  protected priceEvents(nftEvents:Interaction[]) : Interaction[] {
+    return nftEvents.filter(onlyPriceEvents)
   }
 }
 </script>

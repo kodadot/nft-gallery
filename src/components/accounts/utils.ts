@@ -13,6 +13,9 @@ export type SendType = {
 
 export type AdminNFT = { id: string, price: string }
 
+export const toDistribute = (length: number, distribution: number): number => {
+  return Math.floor(length * distribution / 100)
+}
 
 export const parseBatchAddresses = (batchAddresses: string): string[] => {
   const ss58Format = store.getters.getChainProperties?.ss58Format
@@ -33,7 +36,7 @@ export const parseBatchAddresses = (batchAddresses: string): string[] => {
 
 export const sendFunction = (parsedAddresses: string[], distribution: number, random?: ShuffleFunction): ProcessFunction => {
   const randomFn = random ? random : notRandomFunction
-  const slice = Math.floor(parsedAddresses.length * distribution / 100)
+  const slice = toDistribute(parsedAddresses.length, distribution)
   const subset = randomFn(Array.from(new Set(parsedAddresses))).slice(0, slice)
   return (nfts: string[] | AdminNFT[], version: string) => {
 
