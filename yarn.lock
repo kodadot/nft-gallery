@@ -1342,6 +1342,11 @@
     js-yaml "^3.13.1"
     json5 "^2.1.1"
 
+"@keeex/qrcodejs-kx@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
+  integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
+
 "@ledgerhq/devices@^6.3.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-6.3.0.tgz#7ee59614198882311d1805912e368451527d05b2"

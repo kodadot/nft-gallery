@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-import { apiEnabled } from '@/routeGuard'
 
 import Transfer from '@/router/transfer'
 import Toolbox from '@/router/toolbox'
@@ -14,7 +13,6 @@ const EsSustainability = () => import('@/components/landing/EsSustainability.vue
 const Carbonless = () => import('@/components/landing/Carbonless.vue')
 const EsCarbonless = () => import('@/components/landing/EsCarbonless.vue')
 const Settings = () => import('@/views/Settings.vue')
-const Extrinsics = () => import('@/views/Extrinsics.vue')
 const Spotlight = () => import('@/components/landing/Spotlight.vue')
 const About = () => import('@/components/landing/About.vue')
 const Contact = () => import('@/components/landing/Contact.vue')
@@ -62,12 +60,6 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: Settings
-    },
-    {
-      path: '/extrinsics',
-      name: 'extrinsics',
-      component: Extrinsics,
-      beforeEnter: apiEnabled,
     },
     {
       path: '/spotlight',
