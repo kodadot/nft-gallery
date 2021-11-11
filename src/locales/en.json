@@ -368,5 +368,13 @@
       "range": "Range of the tokens (e.g 1-5)",
       "all": "Apply to all tokens (use three dots: ...)"
     }
+  },
+  "collapse": {
+    "collection": {
+      "description": {
+        "show": "Show me the description",
+        "hide": "Hide the description"
+      }
+    }
   }
 }
