@@ -65,9 +65,10 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 
 Our small, but mighty 💪 developer community is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
 
-## Flexibility
+## Dynamics of Pull Requests
 Whenever you are open PR against our repository, our best reccomendation is to finish quickly, i.e. being merged under 72h since opening/last discussion, if it's not complex issue requiring deeper attention of more members. 
 
+### Avoiding stalled PRs
 When issue is **converted to draft and you don't reply within 24-48h**, we will close it, unassign you from task to leave room for someone else to finish the PR who has more availibility and codebase understanding.
 
 ### 🐞 Issues
