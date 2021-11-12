@@ -404,6 +404,7 @@ hr.comment-divider {
     position: absolute;
     top: 13px;
     left: 13px;
+    color: $lightText;
     @media screen and (max-width: 768px) {
         display: none;
     }
@@ -428,7 +429,6 @@ hr.comment-divider {
     padding: 14px;
 
     &__original {
-      color: $scheme-invert;
       font-size: 24px;
       text-transform: uppercase;
       font-weight: 500;
