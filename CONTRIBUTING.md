@@ -65,10 +65,10 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 
 Our small, but mighty 💪 developer community is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
 
-<!-- ### 📣 Discussions
-Discussions are where we have conversations.
+## Flexibility
+Whenever you are open PR against our repository, our best reccomendation is to finish quickly, i.e. being merged under 72h since opening/last discussion, if it's not complex issue requiring deeper attention of more members. 
 
-If you'd like help troubleshooting a docs PR you're working on, have a great new idea, or want to share something amazing you've learned in our docs, join us in discussions. -->
+When issue is **converted to draft and you don't reply within 24-48h**, we will close it, unassign you from task to leave room for someone else to finish the PR who has more availibility and codebase understanding.
 
 ### 🐞 Issues
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet and you shouldn't begin work on it.
