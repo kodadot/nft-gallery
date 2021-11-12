@@ -4,12 +4,12 @@
       <div class="columns">
         <b-field class="column is-6 mb-0">
           <b-input
-            v-model="searchQuery"
             placeholder="Search..."
             type="search"
+            v-model="searchQuery"
             icon="search"
-            expanded
-          />
+            expanded>
+          </b-input>
         </b-field>
         <b-field class="column is-3 mb-0">
           <b-button
@@ -24,24 +24,13 @@
         <slot />
       </div>
 
-      <transition name="fade">
-        <div
-          v-if="isVisible"
-          class="columns"
-        >
-          <Sort
-            class="column is-4 mb-0"
-            :value="sortBy"
-            @input="updateSortBy"
-          />
-          <BasicSwitch
-            v-model="vListed"
-            class="column is-4"
-            label="sort.listed"
-            size="is-medium"
-          />
+      <transition  name="fade">
+        <div v-if="isVisible" class="columns">
+          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
         </div>
       </transition>
+
     </div>
   </div>
 </template>
