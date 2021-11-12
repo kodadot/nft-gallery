@@ -3,8 +3,8 @@
     <div class="level my-4 collection" v-if="nfts">
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ collectionLength }}</p>
-          <p class="heading">Items</p>
+          <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
+          <p class="heading">Listed / Total Items</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -25,8 +25,8 @@
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ differentOwnerCount }} / {{ uniqueOwnerCount }}</p>
-          <p class="heading">Owned</p>
+          <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
+          <p class="heading">Unique / Owners</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -79,12 +79,16 @@ export default class extends Vue {
     return this.nfts.length
   }
 
+  get listedCount(): number {
+    return this.onlyListedNfts.length
+  }
+
+  get onlyListedNfts(): number[] {
+    return this.nfts.map((nft) => Number(nft.price)).filter((price) => price > 0)
+  }
+
   get collectionFloorPrice(): number {
-    return Math.min(
-      ...this.nfts
-        .map((nft) => Number(nft.price))
-        .filter((price) => price > 0)
-    )
+    return Math.min(...this.onlyListedNfts)
   }
 
   get disributionCount(): string {
