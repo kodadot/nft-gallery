@@ -25,20 +25,14 @@
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ collectionSoldedNFT }}</p>
+          <p class="title">{{ differentOwnerCount }} / {{ uniqueOwnerCount }}</p>
           <p class="heading">Owned</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            {{
-              collectionSoldedNFT
-                ? (
-                    collectionLength / collectionSoldedNFT
-                  ).toFixed(4)
-                : 0
-            }}
+            {{ disributionCount }}
           </p>
           <p class="heading">Distribution</p>
         </div>
@@ -62,7 +56,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent } from '@/utils/math'
+import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
 import { subDays } from 'date-fns'
 
 const components = {
@@ -93,8 +87,20 @@ export default class extends Vue {
     )
   }
 
-  get collectionSoldedNFT(): number {
-    return this.nfts.filter(this.differentOwner).length
+  get disributionCount(): string {
+    return (this.differentOwnerCount / this.uniqueOwnerCount || 1).toFixed(4)
+  }
+
+  get uniqueOwnerCount(): number {
+    return uniqueCount(this.tokensWithDifferentOwner.map(nft => nft.currentOwner))
+  }
+
+  get differentOwnerCount(): number {
+    return this.tokensWithDifferentOwner.length
+  }
+
+  get tokensWithDifferentOwner(): NFT[] {
+    return this.nfts.filter(this.differentOwner)
   }
 
   get collectionTradedVol(): number {
