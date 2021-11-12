@@ -4895,9 +4895,9 @@ bindings@^1.3.0, bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-"bip32-ed25519@git+https://github.com/Zondax/bip32-ed25519.git":
+"bip32-ed25519@https://github.com/Zondax/bip32-ed25519":
   version "0.0.4"
-  resolved "git+https://github.com/Zondax/bip32-ed25519.git#0949df01b5c93885339bc28116690292088f6134"
+  resolved "https://github.com/Zondax/bip32-ed25519#0949df01b5c93885339bc28116690292088f6134"
   dependencies:
     bn.js "^5.1.1"
     elliptic "^6.4.1"
@@ -5514,6 +5514,16 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+chart.js@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.6.0.tgz#a87fce8431d4e7c5523d721f487f53aada1e42fe"
+  integrity sha512-iOzzDKePL+bj+ccIsVAgWQehCXv8xOKGbaU2fO/myivH736zcx535PGJzQGanvcSGVOqX6yuLZsN3ygcQ35UgQ==
+
+chartjs-adapter-luxon@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/chartjs-adapter-luxon/-/chartjs-adapter-luxon-1.1.0.tgz#0a0d9213db5de0ad3285fae896b4c4b74db9007b"
+  integrity sha512-CS+xBWEyXYVLBZ3dSY/MwlSXhz8er4JjkApazY84ft/++oOLsmkt6TaXBCsUFudum7QdoYmpxiL/gSp20+emkw==
 
 check-types@^8.0.3:
   version "8.0.3"
@@ -6991,14 +7001,6 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
-
-echarts@^5.2.1:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/echarts/-/echarts-5.2.2.tgz#ec3c8b2a151cbba71ba3c2c7cf9b2f2047ce4370"
-  integrity sha512-yxuBfeIH5c+0FsoRP60w4De6omXhA06c7eUYBsC1ykB6Ys2yK5fSteIYWvkJ4xJVLQgCvAdO8C4mN6MLeJpBaw==
-  dependencies:
-    tslib "2.3.0"
-    zrender "5.2.1"
 
 ed2curve@^0.3.0:
   version "0.3.0"
@@ -10319,6 +10321,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+luxon@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.1.1.tgz#34052f7a33a7989767637be7cf80b47db264ff88"
+  integrity sha512-6VQVNw7+kQu3hL1ZH5GyOhnk8uZm21xS7XJ/6vDZaFNcb62dpFDKcH8TI5NkoZOdMRxr7af7aYGrJlE/Wv0i1w==
 
 make-dir@^1.0.0:
   version "1.3.0"
@@ -14770,11 +14777,6 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tslib@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
-  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
-
 tslib@^1, tslib@^1.10.0, tslib@^1.13.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
@@ -16433,13 +16435,6 @@ zen-observable@0.8.15, zen-observable@^0.8.0:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
-
-zrender@5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/zrender/-/zrender-5.2.1.tgz#5f4bbda915ba6d412b0b19dc2431beaad05417bb"
-  integrity sha512-M3bPGZuyLTNBC6LiNKXJwSCtglMp8XUEqEBG+2MdICDI3d1s500Y4P0CzldQGsqpRVB7fkvf3BKQQRxsEaTlsw==
-  dependencies:
-    tslib "2.3.0"
 
 zwitch@^1.0.0:
   version "1.0.5"
