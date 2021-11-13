@@ -70,6 +70,7 @@
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
              </b-button>
              <b-button
+               v-if="transactionValue"
                @click="toast('URL copied to clipboard')"
                v-clipboard:copy="getUrl()"
                type="is-primary"
