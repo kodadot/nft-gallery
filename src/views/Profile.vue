@@ -52,7 +52,7 @@
         expanded
         size="is-medium"
       >
-        <b-tab-item value="nft">
+        <b-tab-item value="nft" :headerClass="!totalCreated ? 'is-hidden' : '' ">
           <template #header>
             {{ $t("profile.created") }}
             <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
@@ -82,7 +82,7 @@
             v-model="currentCollectionPage"
           />
         </b-tab-item>
-        <b-tab-item value="sold">
+        <b-tab-item value="sold" :headerClass="!totalSold ? 'is-hidden' : '' ">
           <template #header>
             {{ $t("profile.sold") }}
             <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
