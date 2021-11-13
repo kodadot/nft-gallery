@@ -184,7 +184,7 @@
       </b-table-column>
 
       <b-table-column
-        field="total"
+        field="totalBuys"
         :label="$t('series.buys')"
         v-slot="props"
         sortable
