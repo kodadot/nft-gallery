@@ -157,7 +157,7 @@ export default class Appreciation extends Mixins(RmrkVersionMixin) {
 
 .emoji-picker {
   --ep-color-bg: #000 !important;
-  --ep-color-border: #db2980 !important;
+  --ep-color-border: db2980 !important;
   --ep-color-sbg: #000 !important;
   --ep-color-active: #db2980 !important;
   border-width: $button-border-width !important;

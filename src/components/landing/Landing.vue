@@ -250,6 +250,7 @@ export default class Landing extends Vue {
   content: '';
   width: 100%;
   height: 100%;
+  color: $text;
 
   @include desktop {
     background: url('/homepage-bg.jpg') center bottom;
@@ -267,6 +268,7 @@ export default class Landing extends Vue {
 
   &__heading {
     font-size: 4rem;
+    color: $text;
   }
 
   &__box {

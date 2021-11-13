@@ -68,7 +68,16 @@
               outlined
             >
               {{ $t("View Transaction")}} {{transactionValue.substring(0,6)}}{{'...'}}
-            </b-button>
+             </b-button>
+             <b-button
+               v-if="transactionValue"
+               @click="toast('URL copied to clipboard')"
+               v-clipboard:copy="getUrl()"
+               type="is-primary"
+               class="ml-3"
+             >
+               <b-icon size="is-small" pack="fas" icon="link" />
+             </b-button>
           </b-field>
           <div v-if="transactionValue && this.$route.query.donation">
             <div class="is-size-5">🎉 Congratulations for supporting
@@ -282,6 +291,10 @@ export default class Transfer extends Mixins(
     } catch (e) {
       console.error('[ERR: BALANCE]', e)
     }
+  }
+
+  private toast(message: string): void {
+    this.$buefy.toast.open(message)
   }
 }
 </script>
