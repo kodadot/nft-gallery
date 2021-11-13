@@ -1,6 +1,6 @@
 **Thank you for your contribution** to the KodaDot NFT gallery.
 
-👇 Let's do a quick check before the merge. 
+👇 Do a quick check before the merge. 
 
 ### PR type
 - [ ] Bugfix 

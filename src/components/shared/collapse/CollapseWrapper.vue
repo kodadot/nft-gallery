@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-collapse :open="false" :position="position" aria-id="contentIdForA11y1">
+    <b-collapse :open="false" :position="position" aria-id="contentIdForA11y1" class="is-unselectable">
       <template #trigger="props">
         <a aria-controls="contentIdForA11y1" class="mb-2">
           <b-icon

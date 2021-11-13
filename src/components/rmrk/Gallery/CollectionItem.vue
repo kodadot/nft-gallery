@@ -6,7 +6,6 @@
           <div class="container image is-128x128 mb-2">
             <BasicImage
               :src="image"
-              :alt="name"
               rounded
               customClass="collection__image-wrapper"
             />
@@ -15,7 +14,7 @@
             <template v-if="!nameLoading">
               {{ name }}
             </template>
-            <b-skeleton :active="nameLoading" :height="30"></b-skeleton>
+            <b-skeleton :active="nameLoading" size="is-medium"></b-skeleton>
           </h1>
         </div>
       </div>
@@ -28,7 +27,7 @@
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" inline showTwitter />
           </div>
-          <b-skeleton :active="!issuer" width="20%"></b-skeleton>
+          <b-skeleton :active="!issuer" width="40%" size="is-small"></b-skeleton>
         </div>
         <div class="column" v-if="owner">
           <div class="label">
@@ -51,20 +50,23 @@
         </div>
       </div>
 
-      <div class="columns is-centered">
-        <div class="column is-8 has-text-centered">
-          <!-- <b-skeleton :active="!description" height="80px"></b-skeleton> -->
-          <VueMarkdown :source="description" />
-        </div>
-      </div>
-
       <b-tabs position="is-centered" v-model="activeTab">
         <b-tab-item label="Collection">
+          <div class="columns is-centered">
+            <div class="column is-8 has-text-centered">
+              <CollapseWrapper
+                visible="collapse.collection.description.show"
+                hidden="collapse.collection.description.hide"
+              >
+                <VueMarkdown :source="description" />
+              </CollapseWrapper>
+            </div>
+          </div>
 
           <Search v-bind.sync="searchQuery">
             <Layout class="mr-5" />
             <b-field>
-              <Pagination simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+              <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
             </b-field>
           </Search>
 
@@ -89,7 +91,7 @@
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { Component, Mixins, Watch } from 'vue-property-decorator'
+import { Component, Mixins } from 'vue-property-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
@@ -115,6 +117,7 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -141,8 +144,8 @@ export default class CollectionItem extends Mixins(
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   private isLoading = false;
+  private statsLoading = false;
   private nameLoading = false;
-  private statsLoading = true;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private searchQuery: SearchQuery = {
     search: '',
@@ -161,8 +164,8 @@ export default class CollectionItem extends Mixins(
     return this.currentValue * this.first - this.first
   }
 
-  get image(): string {
-    return this.meta.image || ''
+  get image(): string|undefined {
+    return this.meta.image
   }
 
   get description(): string {
@@ -246,7 +249,6 @@ export default class CollectionItem extends Mixins(
     })
 
     nftStatsP.then(({ data }) => data?.nFTEntities?.nodes || []).then(nfts => {
-      this.statsLoading = false
       this.stats = nfts
       this.loadPriceData()
     })

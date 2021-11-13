@@ -9,7 +9,7 @@
     :rounded="rounded"
   >
     <template #placeholder>
-      <b-skeleton class="skeleton-placeholder" height="100%"></b-skeleton>
+      <b-skeleton class="skeleton-placeholder" :circle="rounded" height="100%"></b-skeleton>
     </template>
   </b-image>
 </template>
@@ -32,9 +32,10 @@ export default class BasicImage extends Vue {
 </script>
 
 <style scoped>
- .b-skeleton {
-    height: 100%;
-    position: absolute;
-    top: 0;
+.b-skeleton {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>

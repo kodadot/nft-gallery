@@ -5,11 +5,12 @@ body {
         font-weight: 500;
         transition: all 0.3s;
         color: $scheme-invert;
+        box-shadow: 0px 0px 3px 0.3px $primary!important;
 
         &.is-primary {
             border-color: $primary;
             background-color: $scheme-main;
-
+            color: $light-text;
             &:hover,
             &:focus {
                 border-color: $primary;
@@ -110,7 +111,7 @@ body {
     }
 
     .icon.is-primary {
-        color: #db2980 !important;
+        color: $primary !important;
     }
     .navbar-start  {
         .router-link-active {
@@ -127,5 +128,13 @@ body {
         background-color: $black;
         color: $primary;
     }
-
+    
+    .pagination-link {
+        box-shadow: 0 0 4px 0.5px $primary;
+    }
+    
+    .title,
+    .card-header-title {
+        color: $text !important;
+    }
 }
