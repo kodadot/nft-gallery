@@ -2,7 +2,7 @@
   <div>
     <div class="level my-4 collection">
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">
             {{ listedCount }} ⊆ {{ collectionLength }}
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">
             <Money :value="collectionFloorPrice" inline />
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">
             <Money :value="collectionTradedVolumeNumber" inline />
@@ -29,14 +29,14 @@
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
           <p class="heading">Unique / Owners</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">{{ disributionCount }}</p>
           <p class="heading">Distribution</p>
@@ -44,7 +44,7 @@
       </div>
 
       <div class="level-item has-text-centered">
-        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
         <div v-if="nfts.length">
           <p class="title">
             <Money

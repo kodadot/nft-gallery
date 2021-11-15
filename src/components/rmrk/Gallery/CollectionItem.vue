@@ -1,13 +1,14 @@
 <template>
   <div class="section">
-    <div class="pack-item-wrapper container">
+    <div class="container">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-128x128 mb-2">
             <BasicImage
               :src="image"
+              :alt="name"
               rounded
-              customClass="collection__image-wrapper"
+              customClass="collection__image"
             />
           </div>
           <h1 class="title is-2">
@@ -67,7 +68,7 @@
             </b-field>
           </Search>
 
-          <GalleryCardList :items="collection.nfts" horizontalLayout />
+          <GalleryCardList :items="collection.nfts" />
 
           <Pagination
             class="py-5"
@@ -307,3 +308,9 @@ export default class CollectionItem extends Mixins(
   }
 }
 </script>
+
+<style>
+.collection__image img {
+  color: transparent;
+}
+</style>
