@@ -80,6 +80,13 @@ export interface PackMetadata {
   social: Record<string, string>
 }
 
+export type MassMintNFT = {
+  name: string;
+  description: string;
+  meta: number | string;
+  file?: File;
+}
+
 // export interface Collection {
 //   version: string;
 //   name: string;

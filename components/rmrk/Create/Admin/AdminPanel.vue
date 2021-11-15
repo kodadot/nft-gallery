@@ -2,11 +2,8 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br>
-        <Loader
-          v-model="isLoading"
-          :status="status"
-        />
+        <br />
+        <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
             {{ $t("action.admin") }}
@@ -18,24 +15,21 @@
           <template v-if="accountId">
             <b-field :label="$i18n.t('Collection')">
               <b-select
-                v-model="selectedCollection"
                 placeholder="Select a collection"
+                v-model="selectedCollection"
                 expanded
               >
                 <option
                   v-for="option in collections"
-                  :key="option.id"
                   :value="option"
+                  :key="option.id"
                 >
                   {{ option.name }} {{ option.id }} ({{ option.available }})
                 </option>
               </b-select>
             </b-field>
           </template>
-          <h6
-            v-if="selectedCollection"
-            class="subtitle is-6"
-          >
+          <h6 v-if="selectedCollection" class="subtitle is-6">
             NFTs to process ({{ selectedCollection.available }} pieces)
           </h6>
           <b-field v-if="!selectedCollection && !collections.length">
@@ -44,42 +38,21 @@
 
           <template v-if="selectedCollection">
             <ActionSelector v-model="action" />
-            <!-- <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError /> -->
-            <!-- <b-field :label="$i18n.t('mint.command')">
-              <b-input
-                v-model="commands"
-                type="textarea"
-                lines="20"
-                placeholder="Add commands for your NFTs"
-                spellcheck="true"
-              ></b-input>
-            </b-field>
+            <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
+
+            <BasicSwitch v-model="listed" label="action.omitListed" />
 
             <b-field>
-              <b-button type="is-info" outlined>
-                {{ $t("mint.transform") }}
-              </b-button>
-            </b-field> -->
-
-            <BasicSwitch
-              v-model="listed"
-              label="action.omitListed"
-            />
-
-            <b-field>
-              <PasswordInput
-                v-model="password"
-                :account="accountId"
-              />
+              <PasswordInput v-model="password" :account="accountId" />
             </b-field>
             <b-field>
               <b-button
                 type="is-primary"
                 icon-left="paper-plane"
+                @click="sub"
                 :disabled="disabled"
                 :loading="isLoading"
                 outlined
-                @click="sub"
               >
                 {{ $t("action.click", [action]) }}
               </b-button>
@@ -106,7 +79,8 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import collectionByAccountWithTokens from '@/queries/collectionByAccountWithTokens.graphql'
 import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import NFTUtils from '../service/NftUtils'
+import NFTUtils from '../../service/NftUtils'
+import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
 
 type EmptyPromise = Promise<void>;
 
@@ -120,6 +94,10 @@ type MintedCollection = {
   nfts: { id: string, price: string }[];
 };
 
+const needMeta: Record<string, string> = {
+  SEND: 'SendHandler',
+}
+
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
   PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
@@ -127,7 +105,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   NoCollection: () => import('@/components/shared/wrapper/NoCollection.vue'),
   ActionSelector: () => import('./ActionSelector.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue')
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  SendHandler: () => import('./SendHandler.vue'),
 }
 
 @Component<AdminPanel>({
@@ -180,6 +159,7 @@ export default class AdminPanel extends mixins(
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
   protected listed = true;
+  protected metaFunction: ProcessFunction | undefined = undefined;
 
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({
@@ -198,7 +178,7 @@ export default class AdminPanel extends mixins(
       ?.map((ce: any) => ({
         ...ce,
         available: ce.nfts?.totalCount,
-        nfts: ce.nfts?.nodes?.map((n: { id: string, price: string }) => n)
+        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n)
       }))
       .filter((ce: MintedCollection) => ce.available > 0)
   }
@@ -223,8 +203,16 @@ export default class AdminPanel extends mixins(
     return api.tx.system.remark(remark)
   }
 
-  private skipListed(nft: { id: string, price: string }) {
+  private skipListed(nft: AdminNFT) {
     return this.listed ? Number(nft.price) === 0 : true
+  }
+
+  get showMeta() {
+    return needMeta[this.action]
+  }
+
+  protected updateMeta(value: ProcessFunction): void {
+    this.metaFunction = value
   }
 
 
@@ -248,9 +236,11 @@ export default class AdminPanel extends mixins(
 
       const nfts = this.selectedCollection.nfts
         .filter(this.skipListed)
-        .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+        // .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
 
-      const args = nfts.map(this.toRemark)
+      const final = this.showMeta && this.metaFunction ? this.metaFunction(nfts, this.version) : nfts.map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+
+      const args = final.map(this.toRemark)
 
       const tx = await exec(
         this.accountId,

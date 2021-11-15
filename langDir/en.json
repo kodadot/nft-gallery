@@ -196,12 +196,46 @@
     "success": "Congrats to your new NFT(s)",
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in in your collection",
+    "nfsw": "Explicit content (NSFW)",
+    "mass": "NFT mass minter",
+    "command": "List of commands for mass mint",
+    "transform": "Transform commands in NFT",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
       "count": "Currently matched {0} adresses",
       "countGlitch": "You have more adresses than available editions. This can cause a problem. Consider to set EDITION field to at least to {0}",
-      "postfix": "Add hashtag and index after the name (e.g #1)"
+      "postfix": "Add hashtag and index after the name (e.g #1)",
+      "sync": "Sync editions to {0}"
+    },
+    "collection": {
+      "name": {
+        "label": "Collection name",
+        "placeholder": "Enter collection name",
+        "message": "Name of your collection. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "Collection description",
+        "placeholder": "Enter collection description",
+        "message": "Description of your collection. Markdown is supported"
+      },
+      "symbol": {
+        "label": "Symbol (short name)",
+        "placeholder": "3-5 character long name",
+        "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
+      }
+    },
+    "nft": {
+      "name": {
+        "label": "name",
+        "placeholder": "Enter NFT name",
+        "message": "Name of your NFT. It will be visible in the gallery"
+      },
+      "description": {
+        "label": "NFT description",
+        "placeholder": "Enter NFT description",
+        "message": "Description of your NFT. Markdown is supported"
+      }
     }
   },
   "tooltip": {
@@ -212,7 +246,8 @@
   "nft": {
     "carbonless": "This NFT is carbonless",
     "burned": "NFT is burned",
-    "description": "NFT description"
+    "description": "NFT description",
+    "name": "Name your NFT"
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",
@@ -223,7 +258,8 @@
     "constructTx": "Constructing transaction",
     "sign": "Waiting for response from singer",
     "ipfs": "Uploading data to IPFS",
-    "arweave": "Storing data via PermaFrost"
+    "arweave": "Storing data via PermaFrost",
+    "uploading": "({0}/{1}) Uploading data to IPFS"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
@@ -257,7 +293,8 @@
     "user": "User",
     "created": "Created",
     "collected": "Collected",
-    "sold": "Sold"
+    "sold": "Sold",
+    "showQr": "Show QR"
   },
   "spotlight": {
     "filter_accounts": "Accounts With Identity",
@@ -275,6 +312,7 @@
     "title": "Top Collection",
     "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",
     "assets": "Assets",
+    "buys": "Buys",
     "collected": "Collected",
     "floorprice": "Floor price",
     "owners": "Owners",
@@ -288,21 +326,57 @@
   "general": {
     "balance": "Balance",
     "submit": "Submit",
-    "indexerReadOnly": "App is in read only mode, try reload app or visit Discord"
+    "remove": "Remove"
   },
   "helper": {
     "noCollections": "You have no collections",
+    "noInfinityCollections": "You have no collections with unlimited NFTs",
+    "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
     "clickToCreate": "Click here to create collection"
   },
   "action": {
     "admin": "Admin panel",
     "click": "Click to {0} NFT(s)",
-    "omitListed": "Skip listed NFT(s)"
+    "omitListed": "Skip listed NFT(s)",
+    "random": "Use random",
+    "distributionCount": "Percent which will be distributed"
   },
   "identity": {
     "set": "Create on-chain identity",
     "click": "Click to create identity",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit"
+  },
+  "massMint": {
+    "tutorial": {
+      "basic": {
+        "title": "Basic mass mint",
+        "description": "This is the basic mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      },
+      "range": {
+        "title": "Mass mint range",
+        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      },
+      "all": {
+        "title": "Mass mint all",
+        "description": "You can specify the range of the mass mint, it will create NFTs with the same symbol and name, but different amount. It will also create different amount of NFTs with the same symbol and name, but different amount."
+      }
+    },
+    "syntax": {
+      "file": "File name (e.g awesome_1.jpg)",
+      "name": "Name of the NFT (e.g Awesome Token)",
+      "amount": "Price of the token (e.g 0.01)",
+      "description": "Mutliline description of the token (e.g This is an awesome token)",
+      "range": "Range of the tokens (e.g 1-5)",
+      "all": "Apply to all tokens (use three dots: ...)"
+    }
+  },
+  "collapse": {
+    "collection": {
+      "description": {
+        "show": "Show me the description",
+        "hide": "Hide the description"
+      }
+    }
   }
 }
