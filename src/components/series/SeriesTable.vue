@@ -184,6 +184,18 @@
       </b-table-column>
 
       <b-table-column
+        field="totalBuys"
+        :label="$t('series.buys')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.totalBuys }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
         field="uniqueCollectors"
         :label="$t('series.owners')"
         v-slot="props"
