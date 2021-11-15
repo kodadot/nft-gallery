@@ -147,7 +147,7 @@ const components = {
   },
   components
 })
-export default class AdminPanel extends Mixins(
+export default class AdminPanel extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,
