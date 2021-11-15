@@ -224,7 +224,7 @@ const components = {
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+          content: this.defaultMintMetaImage
         },
         {
           property: 'twitter:title',
@@ -236,7 +236,7 @@ const components = {
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+          content: this.defaultMintMetaImage
         }
       ]
     }
@@ -354,6 +354,13 @@ export default class MassMint extends Mixins(
     showNotification(`Removing ${index + 1} (${this.massMints[index].name})`, notificationTypes.info)
     this.massMints.splice(index, 1)
 
+  }
+
+  get defaultMintMetaImage(): string {
+    const url = new URL(window.location.href)
+    return (
+      `${url.protocol}//${url.hostname}/Kodadot_Card_Mint.jpg`
+    )
   }
 
   get accountId() {

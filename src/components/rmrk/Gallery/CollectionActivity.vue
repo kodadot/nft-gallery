@@ -1,14 +1,18 @@
 <template>
   <div>
-    <div class="level my-4 collection" v-if="nfts">
+    <div class="level my-4 collection">
       <div class="level-item has-text-centered">
-        <div>
-          <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">
+            {{ listedCount }} ⊆ {{ collectionLength }}
+          </p>
           <p class="heading">Listed / Total Items</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
           <p class="title">
             <Money :value="collectionFloorPrice" inline />
           </p>
@@ -16,7 +20,8 @@
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
           <p class="title">
             <Money :value="collectionTradedVolumeNumber" inline />
           </p>
@@ -24,22 +29,23 @@
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
           <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
           <p class="heading">Unique / Owners</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
-          <p class="title">
-            {{ disributionCount }}
-          </p>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">{{ disributionCount }}</p>
           <p class="heading">Distribution</p>
         </div>
       </div>
 
       <div class="level-item has-text-centered">
-        <div>
+        <b-skeleton position="is-centered" width="50%" :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
           <p class="title">
             <Money
               :value="collectionDailyTradedVolumeNumber"
@@ -91,8 +97,8 @@ export default class extends Vue {
     return Math.min(...this.onlyListedNfts)
   }
 
-  get disributionCount(): string {
-    return (this.differentOwnerCount / this.uniqueOwnerCount || 1).toFixed(4)
+  get disributionCount(): number {
+    return Number((this.differentOwnerCount / (this.uniqueOwnerCount || 1)).toFixed(4))
   }
 
   get uniqueOwnerCount(): number {
