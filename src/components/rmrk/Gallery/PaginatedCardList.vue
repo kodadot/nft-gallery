@@ -12,7 +12,7 @@
         />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" :horizontalLayout="true" />
+    <GalleryCardList :items="items" horizontalLayout />
     <Pagination
       class="pt-5 pb-5"
       replace

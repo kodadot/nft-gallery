@@ -68,7 +68,7 @@
             </b-field>
           </Search>
 
-          <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
+          <GalleryCardList :items="collection.nfts" horizontalLayout />
 
           <Pagination
             class="py-5"
