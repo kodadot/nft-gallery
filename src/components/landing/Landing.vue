@@ -174,17 +174,23 @@ const components = {
     return {
       meta: [
         { property: 'og:title', content: 'KodaDot - Kusama NFT Market explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:image', content: this.defaultLandingMetaImage},
         { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
         { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
         { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'twitter:image', content: this.defaultLandingMetaImage},
       ]
     }
   },
   components
 })
 export default class Landing extends Vue {
+  get defaultLandingMetaImage(): string {
+    const url = new URL(window.location.href)
+    return (
+      `${url.protocol}//${url.hostname}/Kodadot_Card_Standard.jpg`
+    )
+  }
 
   public publicCommunity: any = [
     ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
