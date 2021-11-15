@@ -1,52 +1,52 @@
 <template>
   <div>
-    <div class="level my-4 collection" v-if="nfts">
+    <div class="level my-4 collection">
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!collectionLength" size="is-small"></b-skeleton>
-          <p class="title" v-if="collectionLength">
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">
             {{ listedCount }} ⊆ {{ collectionLength }}
           </p>
           <p class="heading">Listed / Total Items</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!collectionFloorPrice" size="is-small"></b-skeleton>
-          <p class="title" v-if="collectionFloorPrice">
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">
             <Money :value="collectionFloorPrice" inline />
           </p>
           <p class="heading">Floor price</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!collectionTradedVolumeNumber" size="is-small"></b-skeleton>
-          <p class="title" v-if="collectionTradedVolumeNumber">
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">
             <Money :value="collectionTradedVolumeNumber" inline />
           </p>
           <p class="heading">Volume traded</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!differentOwnerCount" size="is-small"></b-skeleton>
-          <p class="title" v-if="differentOwnerCount">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
           <p class="heading">Unique / Owners</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!disributionCount" size="is-small"></b-skeleton>
-          <p class="title" v-if="disributionCount">{{ disributionCount }}</p>
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">{{ disributionCount }}</p>
           <p class="heading">Distribution</p>
         </div>
       </div>
 
       <div class="level-item has-text-centered">
-        <div>
-          <b-skeleton :active="!collectionDailyTradedVolumeNumber" size="is-small"></b-skeleton>
-          <p class="title" v-if="collectionDailyTradedVolumeNumber">
+        <b-skeleton :active="!nfts.length" size="is-small"></b-skeleton>
+        <div v-if="nfts.length">
+          <p class="title">
             <Money
               :value="collectionDailyTradedVolumeNumber"
               inline

@@ -11,10 +11,10 @@
             />
           </div>
           <h1 class="title is-2">
-            <template v-if="!nameLoading">
+            <template v-if="!isLoading">
               {{ name }}
             </template>
-            <b-skeleton :active="nameLoading" size="is-medium"></b-skeleton>
+            <b-skeleton :active="isLoading" size="is-medium"></b-skeleton>
           </h1>
         </div>
       </div>
@@ -27,7 +27,8 @@
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" inline showTwitter />
           </div>
-          <b-skeleton :active="!issuer" width="40%" size="is-small"></b-skeleton>
+          <b-skeleton :active="isLoading" width="40%" size="is-small"></b-skeleton>
+          <b-skeleton :active="isLoading" width="60%" size="is-small"></b-skeleton>
         </div>
         <div class="column" v-if="owner">
           <div class="label">
@@ -51,7 +52,7 @@
       </div>
 
       <b-tabs position="is-centered" v-model="activeTab">
-        <b-tab-item label="Collection">
+        <b-tab-item label="Collection" value="collection">
           <div class="columns is-centered">
             <div class="column is-8 has-text-centered">
               <CollapseWrapper
@@ -70,7 +71,7 @@
             </b-field>
           </Search>
 
-          <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
+          <GalleryCardList :items="collection.nfts" horizontalLayout />
 
           <Pagination
             class="py-5"
@@ -81,8 +82,8 @@
             :per-page="first"
           />
         </b-tab-item>
-        <b-tab-item label="Activity">
-          <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+        <b-tab-item label="Activity" value="activity">
+          <CollectionPriceChart :priceData="priceData" />
         </b-tab-item>
       </b-tabs>
     </div>
@@ -91,13 +92,14 @@
 
 <script lang="ts" >
 import { emptyObject } from '@/utils/empty'
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl, fetchCollectionMetadata, sortByTimeStamp, onlyEvents, onlyPriceEvents,
   eventTimestamp, soldNFTPrice, collectionFloorPriceList, PriceDataType, onlyBuyEvents
 } from '../utils'
 import isShareMode from '@/utils/isShareMode'
+import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
@@ -143,9 +145,6 @@ export default class CollectionItem extends Mixins(
 ) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private isLoading = false;
-  private statsLoading = false;
-  private nameLoading = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private searchQuery: SearchQuery = {
     search: '',
@@ -153,12 +152,16 @@ export default class CollectionItem extends Mixins(
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
-  private activeTab = 0;
+  public activeTab = 'collection';
   private currentValue = 1;
   private first = 15;
   private total = 0;
   protected stats: NFT[] = [];
   protected priceData: any = [];
+
+  get isLoading(): boolean {
+    return this.$apollo.queries.collection.loading
+  }
 
   get offset(): number {
     return this.currentValue * this.first - this.first
@@ -173,11 +176,6 @@ export default class CollectionItem extends Mixins(
   }
 
   get name(): string {
-    if (this.collection.name === undefined) {
-      this.nameLoading = true
-    } else {
-      this.nameLoading = false
-    }
     return this.collection.name || this.id
   }
 
@@ -216,10 +214,11 @@ export default class CollectionItem extends Mixins(
   }
 
   public created(): void {
-    this.isLoading = true
     this.checkId()
+    this.loadStats()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
+      loadingKey: 'isLoading',
       variables: () => {
         return {
           id: this.id,
@@ -236,11 +235,9 @@ export default class CollectionItem extends Mixins(
       result: this.handleResult,
     })
 
-    this.loadStats()
-    this.isLoading = false
   }
 
-  public async loadStats(): Promise<void> {
+  public loadStats(): void {
     const nftStatsP = this.$apollo.query({
       query: nftListByCollection,
       variables: {
@@ -255,25 +252,24 @@ export default class CollectionItem extends Mixins(
   }
 
   public loadPriceData(): void {
-
     this.priceData = []
 
-    const events : Interaction[][] = this.stats?.map(onlyEvents) || []
-    const priceEvents : Interaction[][] = events.map(this.priceEvents) || []
+    const events: Interaction[][] = this.stats?.map(onlyEvents) || []
+    const priceEvents: Interaction[][] = events.map(this.priceEvents) || []
 
-    const overTime : string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
+    const overTime: string[] = priceEvents.flat().sort(sortByTimeStamp).map(eventTimestamp)
 
-    const floorPriceData : PriceDataType[] = overTime.map(collectionFloorPriceList(priceEvents, this.decimals))
+    const floorPriceData: PriceDataType[] = overTime.map(collectionFloorPriceList(priceEvents, this.decimals))
 
     const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
-    const soldPriceData : PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
+    const soldPriceData: PriceDataType[] = buyEvents?.map(soldNFTPrice(this.decimals))
 
     this.priceData = [floorPriceData, soldPriceData]
   }
 
   public async handleResult({data}: any): Promise<void> {
     this.total = data.collectionEntity.nfts.totalCount
-    this.fetchMetadata()
+    await this.fetchMetadata()
   }
 
   public async fetchMetadata(): Promise<void> {
@@ -290,13 +286,26 @@ export default class CollectionItem extends Mixins(
     if (this.$route.params.id) {
       this.id = this.$route.params.id
     }
+    if (this.$route.params.tab) {
+      this.activeTab = this.$route.params.tab
+    }
+  }
+
+  @Watch('activeTab')
+  protected onTabChange(val: string, oldVal: string): void {
+    if (shouldUpdate(val, oldVal)) {
+      this.$router.replace({
+        name: String(this.$route.name),
+        query: { tab: val },
+      })
+    }
   }
 
   get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' }
   }
 
-  protected priceEvents(nftEvents:Interaction[]) : Interaction[] {
+  protected priceEvents(nftEvents: Interaction[]): Interaction[] {
     return nftEvents.filter(onlyPriceEvents)
   }
 }
