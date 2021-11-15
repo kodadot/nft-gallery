@@ -98,6 +98,7 @@ const components = {
 }
 @Component<CollectionItem>({
   metaInfo() {
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.collection.name as string)}.png?price=Items: ${this.collection?.nfts?.length}&image=${(this.meta.image as string)}`
     return {
       title: 'KodaDot cares about environmental impact',
       titleTemplate: '%s | Low Carbon NFTs',
@@ -105,12 +106,12 @@ const components = {
         { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
         { property: 'og:title', content: this.collection.name || 'KodaDot cares about environmental impact'},
         { property: 'og:url', content: 'https://nft.kodadot.xyz/' + this.$route.path },
-        { property: 'og:image', content: this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'og:image', content: image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
         { property: 'og:description', content: this.meta.description || 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:title', content: this.collection.name || 'KodaDOT cares about environmental impact'},
         { property: 'twitter:description', content: this.meta.description || 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+        { property: 'twitter:card', content: 'summary_large_image' },
+        { property: 'twitter:image', content: image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
       ]
     }
   },

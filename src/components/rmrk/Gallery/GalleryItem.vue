@@ -140,7 +140,7 @@ import Orientation from '@/directives/DeviceOrientation'
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}&mime=${this.mimeType}`
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',
@@ -153,6 +153,7 @@ import Orientation from '@/directives/DeviceOrientation'
         { property: 'og:author', content: (this.nft.currentOwner as string) },
         { property: 'twitter:title', content: (this.nft.name as string) },
         { property: 'twitter:description', content: (this.meta.description as string) },
+        { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:image', content: (image)},
       ]
     }
@@ -256,7 +257,6 @@ export default class GalleryItem extends Vue {
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
