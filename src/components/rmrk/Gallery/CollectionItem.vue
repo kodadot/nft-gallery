@@ -21,26 +21,22 @@
 
       <div class="columns is-align-items-center">
         <div class="column">
-          <div class="label">
-            {{ $t('creator') }}
-          </div>
-          <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter />
+          <div v-if="!isLoading">
+            <div class="label">
+              {{ $t('creator') }}
+            </div>
+            <div v-if="issuer" class="subtitle is-size-6">
+              <ProfileLink :address="issuer" inline showTwitter />
+            </div>
           </div>
           <b-skeleton :active="isLoading" width="40%" size="is-small"></b-skeleton>
           <b-skeleton :active="isLoading" width="60%" size="is-small"></b-skeleton>
         </div>
-        <div class="column" v-if="owner">
-          <div class="label">
-            {{ $t('owner') }}
-          </div>
-          <div class="subtitle is-size-6">
-            <ProfileLink :address="owner" inline showTwitter />
-          </div>
-        </div>
+
         <div class="column is-6-tablet is-7-desktop is-8-widescreen">
           <CollectionActivity :nfts="stats" />
         </div>
+
         <div class="column has-text-right">
           <Sharing v-if="sharingVisible"
             class="mb-2"
@@ -104,6 +100,7 @@ import collectionById from '@/queries/collectionById.graphql'
 import nftListByCollection from '@/queries/nftListByCollection.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
@@ -155,7 +152,7 @@ export default class CollectionItem extends Mixins(
   public activeTab = 'collection';
   private currentValue = 1;
   private first = 15;
-  private total = 0;
+  protected total = 0;
   protected stats: NFT[] = [];
   protected priceData: any = [];
 
@@ -187,10 +184,6 @@ export default class CollectionItem extends Mixins(
     return this.collection.issuer || ''
   }
 
-  get owner(): string {
-    return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
-  }
-
   get sharingVisible(): boolean {
     return !isShareMode
   }
@@ -215,6 +208,7 @@ export default class CollectionItem extends Mixins(
 
   public created(): void {
     this.checkId()
+    this.checkActiveTab()
     this.loadStats()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
@@ -286,9 +280,12 @@ export default class CollectionItem extends Mixins(
     if (this.$route.params.id) {
       this.id = this.$route.params.id
     }
-    if (this.$route.params.tab) {
-      this.activeTab = this.$route.params.tab
-    }
+  }
+
+  public checkActiveTab(): void {
+    exist(this.$route.query.tab, (val) => {
+      this.activeTab = val
+    })
   }
 
   @Watch('activeTab')
