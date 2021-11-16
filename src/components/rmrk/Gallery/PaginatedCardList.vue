@@ -1,17 +1,16 @@
 <template>
   <div>
-    <Search v-bind.sync="searchQuery" v-if="showSearchBar">
-      <Layout class="mr-5" />
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          :total="total"
-          v-model="currentValue"
-        />
+    <div class="is-flex columns mt-3">
+      <b-field class="is-flex-grow-1">
+        <Search v-bind.sync="searchQuery" v-if="showSearchBar" />
       </b-field>
-    </Search>
+      <b-field>
+        <Layout class="mr-5" />
+      </b-field>
+      <b-field>
+        <Pagination hasMagicBtn replace :total="total" v-model="currentValue" />
+      </b-field>
+    </div>
     <GalleryCardList :items="items" horizontalLayout />
     <Pagination
       class="pt-5 pb-5"
