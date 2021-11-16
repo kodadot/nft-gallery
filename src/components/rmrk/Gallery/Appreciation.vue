@@ -1,5 +1,5 @@
 <template>
-  <div class="nft-appreciation__main is-flex" style="padding-bottom: 15px;">
+  <div class="nft-appreciation__main is-flex pb-3">
     <Loader v-model="isLoading" :status="status" />
     <IndexerGuard>
       <b-button

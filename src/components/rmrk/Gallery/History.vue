@@ -93,16 +93,16 @@ const components = {
 export default class History extends Vue {
   @Prop() public events!: any;
   protected data: any = [];
-  protected collapsedHistory: boolean=true;
+  protected collapsedHistory=true;
   // protected eventData: Date[] = [];
 
   public async mounted() {
-    this.collapsedHistory = true;
-    
+    this.collapsedHistory = true
+
     setTimeout(() => {
-      this.collapsedHistory = false;
+      this.collapsedHistory = false
       console.log('here!')
-    }, 200);
+    }, 200)
   }
   protected createTable() {
     let prevOwner = ''

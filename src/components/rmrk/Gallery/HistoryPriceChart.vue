@@ -31,77 +31,24 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
   PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
 }
 
 @Component({ components })
 export default class History extends Vue {
   @Prop() public events!: any;
-  
-  protected collapsed: boolean=true;
+
+  protected collapsed=true;
   protected priceData: any = [];
   // protected eventData: Date[] = [];
 
   public async mounted() {
-    this.collapsed = true;
-    
+    this.collapsed = true
+
     setTimeout(() => {
-      this.collapsed = false;
+      this.collapsed = false
       console.log('here!')
-    }, 200);
-  }
-
-  protected createTable() {
-    let prevOwner = ''
-    let curPrice = '0.0000000'
-    // this.collapsed = false;
-
-    for (const newEvent of this.events) {
-      const event: any = {}
-
-      // Type
-      if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        prevOwner = event['From']
-        curPrice = newEvent['meta']
-      } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT'
-        event['From'] = newEvent['caller']
-        event['To'] = newEvent['meta']
-      } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else event['Type'] = newEvent['interaction']
-
-      // From
-      if (!('From' in event)) event['From'] = prevOwner
-
-      // To
-      if (!('To' in event)) {
-        event['To'] = newEvent['caller']
-        prevOwner = event['To']
-      }
-
-      // Amount
-      event['Amount'] = Vue.filter('formatBalance')(curPrice, 12, 'KSM')
-
-      // Date
-      const date = new Date(newEvent['timestamp'])
-      event['Date'] = this.parseDate(date)
-      if (event['Type'] === 'SET-PRICE' || event['Type'] === 'CREATE') {
-        this.priceData.push([date, this.formatPrice(event['Amount'])])
-      }
-
-    }
-
+    }, 200)
   }
 
   protected parseDate(date: Date) {
@@ -136,21 +83,10 @@ export default class History extends Vue {
   //     console.log(this.$refs.chart)
   //   }
   // }
-
-  @Watch('events')
-  public async watchEvent() {
-    if (this.events) {
-      this.createTable()
-    }
-  }
 }
 </script>
 <style>
-.short-identity__table {
-  max-width: 50em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 </style>
 
 <style scoped lang="scss">

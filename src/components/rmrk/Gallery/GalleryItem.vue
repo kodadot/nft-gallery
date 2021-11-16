@@ -41,7 +41,7 @@
           </div>
       </div>
 
-      <div class="columns" style="padding-left:12px">
+      <div class="columns pl-3">
         <div class="column is-6">
           <Appreciation
             :emotes="nft.emotes"
@@ -66,12 +66,12 @@
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
 
            <div class="columns">
-            <div class="column is-6">
+            <div class="column">
               <div class="nft-title" style="padding-left: 15px;">
                 <Detail :nft="nft" :isLoading="isLoading"/>
               </div>
             </div>
-            <div class="column is-6" style="display: flex; flex-direction: column; justify-content: space-between">
+            <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <template v-if="detailVisible && !nft.burned">
                 <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
                 <div
@@ -98,9 +98,9 @@
                     <!-- <div class="label ">
                       {{ $t('actions') }}
                     </div> -->
-                    <div class="content" style="padding-top: 20px;">
+                    <div class="content pt-4">
                       <p class="subtitle">
-                        <IndexerGuard show-message style="padding-bottom: 20px" v-if="nft.currentOwner !== accountId">
+                        <IndexerGuard show-message class="pb-4" v-if="nft.currentOwner !== accountId">
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
@@ -116,7 +116,7 @@
                           type="is-warning"
                           outlined
                           @click="handleUnlist"
-                          style="margin-bottom: 20px"
+                          class="mb-4"
                         >
                           {{ $t('Unlist') }}
                         </b-button>
@@ -133,65 +133,17 @@
           <template v-if="detailVisible">
             <HistoryPriceChart v-if="!isLoading" :events="nft.events"/>
           </template>
-
-  
-          <!-- <Sharing class="mb-4" />
-
-          <div class="price-block mb-4" v-if="hasPrice">
-            <div class="label">{{ $t('price') }}</div>
-            <div class="price-block__container">
-              <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
-              <b-button v-if="nft.currentOwner === accountId" type="is-warning" outlined @click="handleUnlist">{{ $t('Unlist') }}</b-button>
-            </div> -->
-            <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
-          <!-- </div> -->
-
-          <!-- <template v-if="detailVisible && !nft.burned"> -->
-            <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
-            <!-- <div class="card mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content">
-                  <div class="label ">{{ $t('actions') }}</div>
-                  <div class="content">
-                    <p class="subtitle">
-                      <Auth />
-                      <IndexerGuard showMessage>
-                        <AvailableActions
-                        ref="actions"
-                        :accountId="accountId"
-                        :currentOwnerId="nft.currentOwner"
-                        :price="nft.price"
-                        :nftId="nft.id"
-                        :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
-                        @change="handleAction"
-                        />
-                      </IndexerGuard>
-                    </p>
-                  </div>
-                </div>
-              </div>
-          </template>
-
-          <template v-if="detailVisible">
-            <Facts :nft="nft" :meta="meta"  />
-          </template> -->
         </div>
       </div>
       <div class="columns">
 
-        <div class="column is-12">
+        <div class="column">
           <History v-if="!isLoading" :events="nft.events"/>
         </div>
-        <!-- <div class="column is-6">
-          <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
-          <template v-if="detailVisible">
-            <Facts :nft="nft" :meta="meta"  />
-          </template>
-        </div> -->
+
       </div>
-      <!-- <hr class="comment-divider" />
-      <BaseCommentSection :nft="nft" :meta="meta" /> -->
     </div>
-    
+
 
   </div>
 </template>
