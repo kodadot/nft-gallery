@@ -17,6 +17,8 @@ Let's add items/views/collections which would be handy for fast testing without 
 - https://kodadot.xyz/rmrk/detail/7479313-7a147cba01afccbf17-GA-GENERATIVE_ASTERISM_346-0000000000000346 /rmrk/detail/7479313-7a147cba01afccbf17-GA-GENERATIVE_ASTERISM_346-0000000000000346
 - https://kodadot.xyz/rmrk/detail/7479313-7a147cba01afccbf17-GA-GENERATIVE_ASTERISM_342-0000000000000342 /rmrk/detail/7479313-7a147cba01afccbf17-GA-GENERATIVE_ASTERISM_342-0000000000000342
 
+# SVG NFTs
+- https://kodadot.xyz/rmrk/u/FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5?tab=collection /rmrk/u/FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5?tab=collection
 
 ### Todo
 maybe add deploy preview url for easier clikcking whatever 
