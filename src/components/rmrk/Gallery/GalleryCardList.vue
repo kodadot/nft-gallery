@@ -38,8 +38,8 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
-  @Prop(Boolean) horizontalLayout!: boolean
-  get classLayout() {
+  @Prop(Boolean) horizontalLayout!: boolean;
+  get classLayout(): string {
     return this.$store.getters.getLayoutClass
   }
 }

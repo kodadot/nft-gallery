@@ -40,8 +40,6 @@ export const between = (dateA: Date, dateB: Date) => (event: Interaction): boole
   (isBefore(parseISO(event.timestamp), dateB))
 
 
-export function uniqueCount<T>(self: T[]): number {
-  return new Set(self).size
-}
+export const uniqueCount = <T>(self: T[]): number => new Set(self).size
 
 
