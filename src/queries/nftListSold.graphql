@@ -1,14 +1,21 @@
 #import "./nft.graphql"
 
-query nftListSold($account: String!, $first: Int!, $offset: Int) {
+query nftListSold(
+  $account: String!
+  $first: Int!
+  $offset: Int
+  $search: [NFTEntityFilter!]
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   nFTEntities(
     filter: {
       issuer: { equalTo: $account }
       currentOwner: { notEqualTo: $account }
       name: { notLike: "%Kanaria%" }
       burned: { distinctFrom: true }
+      and: $search
     }
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
   ) {
