@@ -4,7 +4,7 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import AdminPanel from '@/components/rmrk/Create/AdminPanel.vue'
+import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
 
 @Component({
   components: {

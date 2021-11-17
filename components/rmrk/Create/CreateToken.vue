@@ -1,51 +1,31 @@
 <template>
   <div>
     <div class="box">
-      <Loader
-        v-model="isLoading"
-        :status="status"
-      />
+      <Loader v-model="isLoading" :status="status" />
       <b-field>
         <Auth />
       </b-field>
       <template v-if="accountId">
-        <b-field
-          grouped
-          :label="$i18n.t('Collection')"
-        >
+        <b-field :label="$i18n.t('Collection')" :message="$t('Select collection where do you want mint your token')">
           <b-select
-            v-model="selectedCollection"
             placeholder="Select a collection"
+            v-model="selectedCollection"
             expanded
           >
-            <option
-              disabled
-              selected
-              value=""
-            >
-              --
-            </option>
+            <option disabled selected value=""> -- </option>
             <option
               v-for="option in collections"
-              :key="option.id"
               :value="option"
+              :key="option.id"
             >
               {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
                 option.max || Infinity
               }}
             </option>
           </b-select>
-          <Tooltip
-            :label="
-              $i18n.t('Select collection where do you want mint your token')
-            "
-          />
         </b-field>
       </template>
-      <h6
-        v-if="selectedCollection"
-        class="subtitle is-6"
-      >
+      <h6 v-if="selectedCollection" class="subtitle is-6">
         You have minted {{ selectedCollection.alreadyMinted }} out of
         {{ selectedCollection.max || Infinity }}
       </h6>
@@ -53,7 +33,7 @@
         v-if="selectedCollection"
         v-bind.sync="nft"
         :max="selectedCollection.max"
-        :already-minted="selectedCollection.alreadyMinted"
+        :alreadyMinted="selectedCollection.alreadyMinted"
       />
       <b-field>
         <CollapseWrapper
@@ -62,27 +42,20 @@
           hidden="mint.expert.hide"
           class="mt-3"
         >
-          <BasicSwitch
-            v-model="postfix"
-            class="mt-3"
-            label="mint.expert.postfix"
-          />
+          <BasicSwitch class="mt-3" v-model="postfix" label="mint.expert.postfix" />
         </CollapseWrapper>
       </b-field>
       <b-field>
-        <PasswordInput
-          v-model="password"
-          :account="accountId"
-        />
+        <PasswordInput v-model="password" :account="accountId" />
       </b-field>
       <b-field>
         <b-button
           type="is-primary"
           icon-left="paper-plane"
+          @click="submit"
           :disabled="disabled"
           :loading="isLoading"
           outlined
-          @click="submit"
         >
           {{ $t("mint.submit") }}
         </b-button>
@@ -91,35 +64,29 @@
         <b-button
           type="is-text"
           icon-left="calculator"
+          @click="estimateTx"
           :disabled="disabled"
           :loading="isLoading"
           outlined
-          @click="estimateTx"
         >
           <template v-if="!estimated">
             {{ $t("mint.estimate") }}
           </template>
           <template v-else>
             {{ $t("mint.estimated") }}
-            <Money
-              :value="estimated"
-              inline
-            />
+            <Money :value="estimated" inline />
           </template>
         </b-button>
       </b-field>
       <b-field>
-        <Support
-          v-model="hasSupport"
-          :price="filePrice"
-        />
+        <Support v-model="hasSupport" :price="filePrice" />
       </b-field>
       <b-field>
         <Support
           v-model="hasCarbonOffset"
           :price="1"
-          active-message="I'm making carbonless NFT"
-          passive-message="I don't want to have carbonless NFT"
+          activeMessage="I'm making carbonless NFT"
+          passiveMessage="I don't want to have carbonless NFT"
         />
       </b-field>
       <ArweaveUploadSwitch v-model="arweaveUpload" />

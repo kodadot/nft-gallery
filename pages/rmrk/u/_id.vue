@@ -1,128 +1,118 @@
 <template>
-  <div class="profile-wrapper container">
-    <div class="is-flex is-align-items-center container-mobile">
-      <div class="column">
-        <div class="columns is-align-items-center">
-          <div class="column title column-mobile">
-            <b-icon
-              pack="fas"
-              icon="ghost"
-            />
+  <div class="section">
+    <div class="profile-wrapper container">
+      <div class="columns is-centered">
+        <div class="column is-half has-text-centered">
+          <div class="container image is-64x64 mb-2">
+            <Avatar :value="id" />
+          </div>
+          <h1 class="title is-2">
             <a
               :href="`https://kusama.subscan.io/account/${id}`"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Identity
-                ref="identity"
-                :address="id"
-                inline
-                emit
-                @change="handleIdentity"
-              />
+              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
             </a>
-          </div>
-          <div class="column-mobile">
-            <DonationButton :address="id" />
-          </div>
-          <div class="column column-mobile">
-            <OnChainProperty
-              :email="email"
-              :twitter="twitter"
-              :web="web"
-              :legal="legal"
-              :riot="riot"
-            />
-          </div>
+          </h1>
         </div>
       </div>
-      <div class="column is-2 mb-5 share-mobile ">
-        <Sharing
-          v-if="!sharingVisible"
-          label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings"
-        />
-      </div>
-    </div>
-    <b-tabs
-      v-model="activeTab"
-      :class="{ 'invisible-tab': sharingVisible }"
-      destroy-on-hide
-      expanded
-      size="is-medium"
-    >
-      <b-tab-item value="nft">
-        <template #header>
-          {{ $t("profile.created") }}
-          <span
-            v-if="totalCreated"
-            class="tab-counter"
-          >{{ totalCreated }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListByIssuer"
-          :account="id"
-          @change="totalCreated = $event"
-        />
-      </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
-      >
-        <Pagination
-          v-model="currentCollectionPage"
-          replace
-          :total="totalCollections"
-        />
-        <GalleryCardList
-          :items="collections"
-          type="collectionDetail"
-          link="rmrk/collection"
-        />
-        <Pagination
-          v-model="currentCollectionPage"
-          replace
-          class="pt-5 pb-5"
-          :total="totalCollections"
-        />
-      </b-tab-item>
-      <b-tab-item value="sold">
-        <template #header>
-          {{ $t("profile.sold") }}
-          <span
-            v-if="totalSold"
-            class="tab-counter"
-          >{{ totalSold }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          :account="id"
-          @change="totalSold = $event"
-        />
-      </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span
-            v-if="totalCollected"
-            class="tab-counter"
-          >{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          :account="id"
-          @change="totalCollected = $event"
-        />
-      </b-tab-item>
 
-      <!-- <b-tab-item label="Packs" value="pack">
-        <span>TODO: Reintroduce</span>
-        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
-      </b-tab-item> -->
-    </b-tabs>
+      <div class="columns is-mobile">
+        <div class="column">
+          <div class="label">
+            {{ $t('profile.user') }}
+          </div>
+          <div class="subtitle is-size-6">
+            <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+            <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+              <figure class="image is-24x24 subid__less-margin">
+                <img alt="subid" src="/subid.svg" />
+              </figure>
+              {{ shortendId }}
+            </a>
+          </div>
+        </div>
+        <div class="column has-text-right">
+          <Sharing
+            class="mb-2"
+            v-if="!sharingVisible"
+            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+            :iframe="iframeSettings"
+          >
+            <DonationButton :address="id" />
+          </Sharing>
+        </div>
+      </div>
+
+      <b-tabs
+        :class="{ 'invisible-tab': sharingVisible }"
+        v-model="activeTab"
+        destroy-on-hide
+        expanded
+        size="is-medium"
+      >
+        <b-tab-item value="nft">
+          <template #header>
+            {{ $t("profile.created") }}
+            <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListByIssuer"
+            @change="totalCreated = $event"
+            :account="id"
+            :showSearchBar="true"
+          />
+        </b-tab-item>
+        <b-tab-item
+          :label="`Collections - ${totalCollections}`"
+          value="collection"
+        >
+          <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
+          <GalleryCardList
+            :items="collections"
+            type="collectionDetail"
+            link="rmrk/collection"
+          />
+          <Pagination
+            replace
+            class="pt-5 pb-5"
+            :total="totalCollections"
+            v-model="currentCollectionPage"
+          />
+        </b-tab-item>
+        <b-tab-item value="sold">
+          <template #header>
+            {{ $t("profile.sold") }}
+            <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListSold"
+            @change="totalSold = $event"
+            :account="id"
+          />
+        </b-tab-item>
+        <b-tab-item value="collected">
+          <template #header>
+            {{ $t("profile.collected") }}
+            <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListCollected"
+            @change="totalCollected = $event"
+            :account="id"
+          />
+        </b-tab-item>
+
+        <!-- <b-tab-item label="Packs" value="pack">
+          <span>TODO: Reintroduce</span>
+          <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
+        </b-tab-item> -->
+      </b-tabs>
+    </div>
   </div>
 </template>
 
@@ -134,6 +124,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
+import shortAddress from '@/utils/shortAddress'
 import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
@@ -146,11 +137,12 @@ const components = {
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  OnChainProperty: () => import('@/components/rmrk/OnChainProperty.vue'),
   PaginatedCardList: () =>
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
-
+  Avatar: () => import('@/components/shared/Avatar.vue'),
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
 }
 
 const eq = (tab: string) => (el: string) => tab === el
@@ -208,6 +200,7 @@ export default class Profile extends Vue {
   public activeTab = 'nft';
   public firstNFTData: any = {};
   protected id = '';
+  protected shortendId = '';
   protected isLoading = false;
   protected collections: CollectionWithMeta[] = [];
   protected packs: Pack[] = [];
@@ -242,30 +235,31 @@ export default class Profile extends Vue {
   public checkId() {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
+      this.shortendId = shortAddress(this.id)
     }
   }
 
-  get sharingVisible() {
+  get sharingVisible(): boolean {
     return isShareMode
   }
 
-  get customUrl() {
+  get customUrl(): string {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
-  get iframeSettings() {
+  get iframeSettings(): {width: string, height: string, customUrl: string} {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
 
-  get offset() {
+  get offset(): number {
     return this.currentValue * this.first - this.first
   }
 
-  get collectionOffset() {
+  get collectionOffset(): number {
     return this.currentCollectionPage * this.first - this.first
   }
 
-  get defaultNFTImage() {
+  get defaultNFTImage(): string {
     const url = new URL(window.location.href)
     return (
       `${url.protocol}//${url.hostname}/koda300x300.svg`
@@ -391,19 +385,7 @@ export default class Profile extends Vue {
   flex-basis: auto;
 }
 
-@media only screen and (max-width: 768px) {
-  .column-mobile {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-
-  .container-mobile {
-    flex-direction: column;
-  }
-
-  .share-mobile {
-    width: 100%;
-  }
+.subid__less-margin {
+  margin: auto .5em auto 0;
 }
 </style>

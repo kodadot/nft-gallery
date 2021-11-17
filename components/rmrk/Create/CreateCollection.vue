@@ -1,16 +1,11 @@
 <template>
   <div>
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
+    <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
         {{ $t("context") }}
       </p>
-      <p class="subtitle is-size-7">
-        {{ $t("using") }} {{ version }}
-      </p>
+      <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
       <b-field>
         <div>
           {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
@@ -27,94 +22,64 @@
         preview
         accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
       />
+      <BasicInput
+        v-model="rmrkMint.name"
+        :label="$t('mint.collection.name.label')"
+        :message="$t('mint.collection.name.message')"
+        :placeholder="$t('mint.collection.name.placeholder')"
+        expanded
+        spellcheck="true"
+      />
 
-      <b-field
-        grouped
-        :label="$i18n.t('Name')"
-      >
-        <b-input
-          v-model="rmrkMint.name"
-          placeholder="Name your collection"
-          expanded
-          class="mr-0"
-          spellcheck="true"
-        />
-        <Tooltip
-          iconsize="is-medium"
-          :label="$i18n.t('tooltip.name')"
-        />
-      </b-field>
       <b-field>
-        <b-switch
-          v-model="unlimited"
-          :rounded="false"
-        >
+        <b-switch v-model="unlimited" :rounded="false">
           {{ $t("mint.unlimited") }}
         </b-switch>
       </b-field>
-      <b-field
-        v-if="!unlimited"
-        :label="$i18n.t('Maximum NFTs in collection')"
-      >
+      <b-field v-if="!unlimited" class="mt-1" :label="$i18n.t('Maximum NFTs in collection')">
         <b-numberinput
           v-model="rmrkMint.max"
           placeholder="1 is minumum"
           :min="1"
-        />
+        ></b-numberinput>
       </b-field>
-      <b-field
-        grouped
-        :label="$i18n.t('Symbol')"
-        class="mb-0"
-      >
-        <b-input
-          v-model="rmrkMint.symbol"
-          placeholder="3-5 character long name"
-          maxlength="10"
-          expanded
-          class="mr-0"
-          @keydown.native.space.prevent
-        />
-        <Tooltip
-          iconsize="is-medium"
-          :label="$i18n.t('tooltip.symbol')"
-        />
-      </b-field>
-      <b-field
-        :label="$i18n.t('Collection description')"
-        class="mb-0"
-      >
-        <b-input
-          v-model="meta.description"
-          maxlength="500"
-          type="textarea"
-          placeholder="Describe your collection"
-          spellcheck="true"
-        />
-      </b-field>
+
+      <BasicInput
+        v-model="rmrkMint.symbol"
+        :label="$t('mint.collection.symbol.label')"
+        :message="$t('mint.collection.symbol.message')"
+        :placeholder="$t('mint.collection.symbol.placeholder')"
+        @keydown.native.space.prevent
+        maxlength="10"
+        expanded
+      />
+      <BasicInput
+        v-model="meta.description"
+        maxlength="500"
+        type="textarea"
+        spellcheck="true"
+        class="mb-0 mt-5"
+        :label="$t('mint.collection.description.label')"
+        :message="$t('mint.collection.description.message')"
+        :placeholder="$t('mint.collection.description.placeholder')"
+      />
       <b-field>
-        <PasswordInput
-          v-model="password"
-          :account="accountId"
-        />
+        <PasswordInput v-model="password" :account="accountId" />
       </b-field>
       <b-field>
         <b-button
           type="is-primary"
           icon-left="paper-plane"
+          @click="submit"
           :disabled="disabled"
           :loading="isLoading"
           outlined
-          @click="submit"
         >
           {{ $t("create collection") }}
         </b-button>
       </b-field>
       <b-field>
-        <Support
-          v-model="hasSupport"
-          :price="filePrice"
-        />
+        <Support v-model="hasSupport" :price="filePrice" />
       </b-field>
     </div>
   </div>
@@ -146,6 +111,7 @@ const components = {
   Tooltip: () => import('@/components/shared/Tooltip.vue'),
   Support: () => import('@/components/shared/Support.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
 
 @Component({ components })
