@@ -1,21 +1,12 @@
 <template>
   <div class="price-chart">
-    <p class="label">
-      {{ $t('Price Chart') }}
-    </p>
     <div class="actions">
-      <p>Drag to pan. Scroll or pinch to zoom.</p>
-      <button class="button cursor-pointer" @click="resetZoom">
-        Reset Zoom
-      </button>
+      <p class="label">
+        {{ $t('Price Chart') }}
+      </p>
     </div>
     <div class="pt-2">
-      <canvas
-        id="priceChart"
-        @mouseleave="onCanvasMouseLeave"
-        @mousedown="onCanvasMouseDown"
-        @mouseup="onCanvasMouseUp"
-      />
+      <canvas id="priceChart" />
     </div>
   </div>
 </template>
@@ -25,7 +16,6 @@ import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator';
 
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
-import * as luxon from 'luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
@@ -43,24 +33,6 @@ export default class PriceChart extends Vue {
     if (this.Chart) {
       this.Chart.resize();
     }
-  }
-
-  protected resetZoom() {
-    if (this.Chart) {
-      this.Chart.resetZoom();
-    }
-  }
-
-  protected onCanvasMouseDown() {
-    document!.getElementById('priceChart')!.style.cursor = 'grabbing';
-  }
-
-  protected onCanvasMouseUp() {
-    document!.getElementById('priceChart')!.style.cursor = 'auto';
-  }
-
-  protected onCanvasMouseLeave() {
-    document!.getElementById('priceChart')!.style.cursor = 'auto';
   }
 
   public async created() {
@@ -96,21 +68,17 @@ export default class PriceChart extends Vue {
           plugins: {
             zoom: {
               pan: {
-                enabled: true,
-                mode: 'xy',
+                enabled: false,
               },
               zoom: {
                 wheel: {
-                  enabled: true,
+                  enabled: false,
                 },
                 pinch: {
-                  enabled: true,
+                  enabled: false,
                 },
                 mode: 'xy',
                 onZoomComplete({ chart }) {
-                  // This update is needed to display up to date zoom level in the title.
-                  // Without this, previous zoom level is displayed.
-                  // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
                   chart.update('none');
                 },
               },
@@ -131,7 +99,8 @@ export default class PriceChart extends Vue {
                   hour: 'HH:mm',
                   minute: 'HH:mm',
                 },
-                minUnit: 'hour',
+                unit: 'minute',
+                stepSize: 20,
               },
               grid: {
                 drawOnChartArea: false,
@@ -184,6 +153,10 @@ export default class PriceChart extends Vue {
   width: 100%;
   justify-content: space-between;
   align-items: center;
+}
+
+.flex {
+  display: flex;
 }
 
 .cursor-pointer {
