@@ -1,11 +1,11 @@
 <template>
   <div class="price-chart">
-    <div class="actions">
+    <div>
       <p class="label">
         {{ $t('Price Chart') }}
       </p>
     </div>
-    <div class="pt-2">
+    <div class="mt-2">
       <canvas id="priceChart" />
     </div>
   </div>
@@ -22,12 +22,14 @@ Chart.register(zoomPlugin);
 
 const components = {};
 
+type PriceDataArray = [Date, string | number];
+
 @Component({ components })
 export default class PriceChart extends Vue {
   @Prop() public priceData!: any[];
 
   protected chartOptionsLine: any = {};
-  protected Chart!: Chart;
+  protected Chart!: Chart<'line', any, unknown>;
 
   protected onWindowResize() {
     if (this.Chart) {
@@ -54,7 +56,10 @@ export default class PriceChart extends Vue {
           datasets: [
             {
               label: 'Price',
-              data: this.priceData.map((data) => ({ x: data[0], y: data[1] })),
+              data: this.priceData.map((data: PriceDataArray) => ({
+                x: data[0],
+                y: data[1],
+              })),
               borderColor: '#d32e79',
               tension: 0.3,
               pointBackgroundColor: 'white',
@@ -146,24 +151,3 @@ export default class PriceChart extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.flex {
-  display: flex;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.pt-2 {
-  padding-top: 2rem;
-}
-</style>

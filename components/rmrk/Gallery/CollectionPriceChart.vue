@@ -1,12 +1,12 @@
 <template>
   <div class="price-chart mt-4">
-    <div class="actions">
+    <div class="is-flex is-align-items-center is-justify-content-space-between">
       <p class="label">
         {{ $t('Price Chart') }}
       </p>
       <button class="button" @click="resetZoom">Reset zoom</button>
     </div>
-    <div class="pt-2 chart-div">
+    <div class="mt-5">
       <canvas
         id="collectionPriceChart"
         @mousedown="onCanvasMouseDown"
@@ -25,6 +25,7 @@ import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
+type PriceDataArray = [Date, string | number];
 
 const components = {};
 
@@ -33,9 +34,9 @@ export default class PriceChart extends Vue {
   @Prop() public priceData!: any[];
 
   protected chartOptionsLine: any = {};
-  protected Chart!: Chart;
+  protected Chart!: Chart<'line', any, unknown>;
 
-  protected resetZoom() {
+  protected resetZoom(): void {
     this.Chart.resetZoom();
   }
 
@@ -45,15 +46,15 @@ export default class PriceChart extends Vue {
     }
   }
 
-  protected onCanvasMouseDown() {
+  protected onCanvasMouseDown(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'grabbing';
   }
 
-  protected onCanvasMouseUp() {
+  protected onCanvasMouseUp(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'auto';
   }
 
-  protected onCanvasMouseLeave() {
+  protected onCanvasMouseLeave(): void {
     document!.getElementById('collectionPriceChart')!.style.cursor = 'auto';
   }
 
@@ -76,7 +77,7 @@ export default class PriceChart extends Vue {
           datasets: [
             {
               label: 'Floor Price',
-              data: this.priceData[0].map((data) => ({
+              data: this.priceData[0].map((data: PriceDataArray) => ({
                 x: data[0],
                 y: data[1],
               })),
@@ -89,7 +90,7 @@ export default class PriceChart extends Vue {
             },
             {
               label: 'Sold NFT Price',
-              data: this.priceData[1].map((data) => ({
+              data: this.priceData[1].map((data: PriceDataArray) => ({
                 x: data[0],
                 y: data[1],
               })),
@@ -177,20 +178,3 @@ export default class PriceChart extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.pt-2 {
-  padding-top: 2rem;
-}
-
-.chart-div {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-}
-</style>
