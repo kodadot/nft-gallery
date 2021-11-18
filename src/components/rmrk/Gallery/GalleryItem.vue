@@ -499,7 +499,7 @@ hr.comment-divider {
         bottom: -2px;
         left: 0;
         width: 100%;
-        background: $primary;
+        // background: $primary;
       }
 
       &-title {
