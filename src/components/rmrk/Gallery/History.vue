@@ -72,7 +72,7 @@
               label="Date"
               v-slot="props"
             >
-              {{ props.row.Date }}
+              <a target="_blank" rel="noopener noreferrer" :href="getBlockUrl(props.row.Block)" >{{ props.row.Date }}</a>
             </b-table-column>
           </b-table>
         </div>
@@ -82,6 +82,7 @@
 </template>
 
 <script lang="ts">
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
@@ -98,6 +99,7 @@ type TableRow = {
   To: string
   Amount: string
   Date: string
+  Block: string
 }
 
 @Component({ components })
@@ -159,6 +161,8 @@ export default class History extends Mixins(ChainMixin) {
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
 
+      event['Block'] = String(newEvent['blockNumber'])
+
       this.data.push(event)
     }
 
@@ -168,6 +172,10 @@ export default class History extends Mixins(ChainMixin) {
   protected parseDate(date: Date): string {
     const utcDate: string = date.toUTCString()
     return utcDate.substring(4)
+  }
+
+  protected getBlockUrl(block: string): string {
+    return urlBuilderBlockNumber(block, this.$store.getters.getCurrentChain, 'subscan')
   }
 
   @Watch('events', { immediate: true })
