@@ -1,8 +1,5 @@
 <template>
   <div class="price-chart">
-    <p class="label">
-      {{ $t('Price Chart') }}
-    </p>
     <div id="chart" ref="chart" class="echart"></div>
   </div>
 </template>

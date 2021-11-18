@@ -32,6 +32,7 @@ import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator'
 import { Interaction } from '../service/scheme'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import { onlyPriceChartEvent } from '../utils'
 
 const components = {
   PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
@@ -55,7 +56,7 @@ export default class HistoryPriceChart extends Mixins(ChainMixin) {
   }
 
   protected createTable(events: Interaction[]): void {
-    this.priceData = events.map(event => {
+    this.priceData = events.filter(onlyPriceChartEvent).map(event => {
       const date = new Date(event.timestamp)
       const price = formatBalance(event.meta, this.decimals, false)
       return [date, price]
