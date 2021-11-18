@@ -52,7 +52,7 @@
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
-        to="/rmrk/collection"
+        to="/rmrk/collections"
       >
         {{ $t('Collections') }}
       </b-navbar-item>
