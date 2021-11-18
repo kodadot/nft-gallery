@@ -82,29 +82,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { Interaction } from '../service/scheme'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
 }
 
-@Component({ components })
-export default class History extends Vue {
-  @Prop() public events!: any;
-  protected data: any = [];
-  protected collapsedHistory=true;
-  // protected eventData: Date[] = [];
+type TableRow = {
+  Type: string
+  From: string
+  To: string
+  Amount: string
+  Date: string
+}
 
-  public async mounted() {
+@Component({ components })
+export default class History extends Mixins(ChainMixin) {
+  @Prop({ type: Array }) public events!:  Interaction[];
+  protected data: TableRow[] = [];
+  protected collapsedHistory=true;
+
+  public mounted(): void {
     this.collapsedHistory = true
 
     setTimeout(() => {
       this.collapsedHistory = false
-      console.log('here!')
     }, 200)
   }
-  protected createTable() {
+
+  protected createTable(): void {
     let prevOwner = ''
     let curPrice = '0.0000000'
     this.data = []
@@ -143,7 +153,7 @@ export default class History extends Vue {
       }
 
       // Amount
-      event['Amount'] = Vue.filter('formatBalance')(curPrice, 12, 'KSM')
+      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit)
 
       // Date
       const date = new Date(newEvent['timestamp'])
@@ -155,33 +165,13 @@ export default class History extends Vue {
     this.data = this.data.reverse()
   }
 
-  protected parseDate(date: Date) {
+  protected parseDate(date: Date): string {
     const utcDate: string = date.toUTCString()
     return utcDate.substring(4)
   }
 
-  protected formatDate(date: Date) {
-    const yyyy = date.getUTCFullYear()
-    const mm = this.padDigits(date.getUTCMonth() + 1)
-    const dd = this.padDigits(date.getUTCDate())
-    const hrs = this.padDigits(date.getUTCHours())
-    const mins = this.padDigits(date.getUTCMinutes())
-    const secs = this.padDigits(date.getUTCSeconds())
-    const YYYY_MM_DD_HRS_MINS_SECS =
-      yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' +  mins + ':' + secs
-    return YYYY_MM_DD_HRS_MINS_SECS
-  }
-
-  protected padDigits(time: number) {
-    return time.toString().padStart(2, '0')
-  }
-
-  protected formatPrice(price: string) {
-    return parseFloat(price.substring(0, 6))
-  }
-
-  @Watch('events')
-  public async watchEvent() {
+  @Watch('events', { immediate: true })
+  public watchEvent(): void {
     if (this.events) {
       this.createTable()
     }
