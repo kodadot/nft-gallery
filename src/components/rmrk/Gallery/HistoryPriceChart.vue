@@ -35,7 +35,7 @@ const components = {
 }
 
 @Component({ components })
-export default class History extends Vue {
+export default class HistoryPriceChart extends Vue {
   @Prop() public events!: any;
 
   protected collapsed=true;

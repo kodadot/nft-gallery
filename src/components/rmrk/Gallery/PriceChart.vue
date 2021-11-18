@@ -39,22 +39,22 @@ export default class PriceChart extends Vue {
   // protected date: any = [];
   // protected UTCDate: any = {};
 
-  protected onWindowResize() {
+  protected onWindowResize(): void {
     if (this.Chart) {
       this.Chart.resize({ width: 'auto', height: 400 })
     }
   }
 
-  public async created() {
+  public created(): void {
     window.addEventListener('resize', this.onWindowResize)
   }
 
-  public async mounted() {
+  public mounted(): void {
     // console.log(this.priceData)
     this.priceChart()
   }
 
-  protected priceChart() {
+  protected priceChart(): void {
     // this.createDate();
     // console.log(document.documentElement.clientWidth);
     this.Chart = ECharts.init(this.$refs.chart as HTMLElement)
