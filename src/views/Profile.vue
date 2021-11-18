@@ -92,6 +92,7 @@
             :query="nftListSold"
             @change="totalSold = $event"
             :account="id"
+            showSearchBar
           />
         </b-tab-item>
         <b-tab-item value="collected">
@@ -104,6 +105,7 @@
             :query="nftListCollected"
             @change="totalCollected = $event"
             :account="id"
+            showSearchBar
           />
         </b-tab-item>
 

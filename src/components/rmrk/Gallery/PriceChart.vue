@@ -1,8 +1,5 @@
 <template>
   <div class="price-chart">
-    <p class="label">
-      {{ $t('Price Chart') }}
-    </p>
     <div id="chart" ref="chart" class="echart"></div>
   </div>
 </template>
@@ -20,18 +17,11 @@ import { DataZoomComponent } from 'echarts/components'
 
 ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent])
 
-// type EChartsOption = ECharts.ComposeOption<
-//   GridComponentOption | LineSeriesOption
-// >;
+type PricePoint = [Date, string]
 
-
-const components = {
-  // chart: () => ECharts,
-}
-
-@Component({ components })
+@Component
 export default class PriceChart extends Vue {
-  @Prop() public priceData!: any[];
+  @Prop({ type: Array, required: true }) public priceData!: PricePoint[];
   // @Prop() public eventData!: Date[];
 
   protected chartOptionsLine: any = {};
@@ -39,22 +29,22 @@ export default class PriceChart extends Vue {
   // protected date: any = [];
   // protected UTCDate: any = {};
 
-  protected onWindowResize() {
+  protected onWindowResize(): void {
     if (this.Chart) {
       this.Chart.resize({ width: 'auto', height: 400 })
     }
   }
 
-  public async created() {
+  public created(): void {
     window.addEventListener('resize', this.onWindowResize)
   }
 
-  public async mounted() {
+  public mounted(): void {
     // console.log(this.priceData)
     this.priceChart()
   }
 
-  protected priceChart() {
+  protected priceChart(): void {
     // this.createDate();
     // console.log(document.documentElement.clientWidth);
     this.Chart = ECharts.init(this.$refs.chart as HTMLElement)
@@ -143,9 +133,10 @@ export default class PriceChart extends Vue {
   }
 
   @Watch('priceData')
-  async watchData(newPriceData: string[], oldPriceData: string[]) {
-    // console.log(this.priceData)
-    this.priceChart()
+  async watchData(newPriceData: PricePoint[]) {
+    if (newPriceData) {
+      this.priceChart()
+    }
   }
 }
 </script>
