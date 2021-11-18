@@ -252,13 +252,13 @@ export default class Transfer extends Mixins(
     this.isLoading = false
   }
 
-  protected getUrl() {
+  protected getUrl(): string {
     return urlBuilderTransaction(this.transactionValue,
       this.$store.getters.getCurrentChain, 'subscan')
   }
 
-  protected getExplorerUrl() {
-    const url =  this.getUrl()
+  protected getExplorerUrl(): void {
+    const url = this.getUrl()
     window.open(url, '_blank')
   }
 
@@ -269,7 +269,7 @@ export default class Transfer extends Mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
+  hasAccount(value: string, oldVal: string): void {
     if (shouldUpdate(value, oldVal)) {
       this.loadBalance()
     }

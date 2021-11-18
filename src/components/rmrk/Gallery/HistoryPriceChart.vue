@@ -28,61 +28,48 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { Interaction } from '../service/scheme'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { onlyPriceChartEvent } from '../utils'
 
 const components = {
   PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
 }
 
+type PricePoint = [Date, string]
+
 @Component({ components })
-export default class History extends Vue {
-  @Prop() public events!: any;
+export default class HistoryPriceChart extends Mixins(ChainMixin) {
+  @Prop({ type: Array }) public events!: Interaction[];
 
-  protected collapsed=true;
-  protected priceData: any = [];
-  // protected eventData: Date[] = [];
+  protected collapsed = true;
+  protected priceData: PricePoint[] = [];
 
-  public async mounted() {
+  public mounted(): void {
     this.collapsed = true
 
     setTimeout(() => {
       this.collapsed = false
-      console.log('here!')
     }, 200)
   }
 
-  protected parseDate(date: Date) {
-    const utcDate: string = date.toUTCString()
-    return utcDate.substring(4)
+  protected createTable(events: Interaction[]): void {
+    this.priceData = events.filter(onlyPriceChartEvent).map(event => {
+      const date = new Date(event.timestamp)
+      const price = formatBalance(event.meta, this.decimals, false)
+      return [date, price]
+    })
   }
 
-  protected formatDate(date: Date) {
-    const yyyy = date.getUTCFullYear()
-    const mm = this.padDigits(date.getUTCMonth() + 1)
-    const dd = this.padDigits(date.getUTCDate())
-    const hrs = this.padDigits(date.getUTCHours())
-    const mins = this.padDigits(date.getUTCMinutes())
-    const secs = this.padDigits(date.getUTCSeconds())
-    const YYYY_MM_DD_HRS_MINS_SECS =
-      yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' +  mins + ':' + secs
-    return YYYY_MM_DD_HRS_MINS_SECS
+  @Watch('events', { immediate: true })
+  public watchEvent(events: Interaction[]): void {
+    if (this.events) {
+      this.createTable(events)
+    }
   }
 
-  protected padDigits(time: number) {
-    return time.toString().padStart(2, '0')
-  }
-
-  protected formatPrice(price: string) {
-    return parseFloat(price.substring(0, 6))
-  }
-
-  // @Watch('collapsed', {immediate: true}) onCollapsedChanged() {
-  //   console.log(this.collapsed);
-  //   if (this.collapsed && this.$refs.chart) {
-  //     this.$refs.chart.resize();
-  //     console.log(this.$refs.chart)
-  //   }
-  // }
 }
 </script>
 <style>
