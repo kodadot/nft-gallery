@@ -38,7 +38,6 @@ const components = {
 }
 
 type PricePoint = [Date, string]
-const FORMAT = 'yyyy/MM/dd\nHH:mm:ss'
 
 @Component({ components })
 export default class HistoryPriceChart extends Mixins(ChainMixin) {
@@ -46,6 +45,14 @@ export default class HistoryPriceChart extends Mixins(ChainMixin) {
 
   protected collapsed = true;
   protected priceData: PricePoint[] = [];
+
+  public mounted(): void {
+    this.collapsed = true
+
+    setTimeout(() => {
+      this.collapsed = false
+    }, 200)
+  }
 
   protected createTable(events: Interaction[]): void {
     this.priceData = events.map(event => {
