@@ -329,6 +329,9 @@ export default class Profile extends Vue {
   protected async handleCollectionResult({ data }: any) {
     if (data) {
       this.totalCollections = data.collectionEntities.totalCount
+      if (this.totalCollections === 0) {
+        this.activeTab = 'collected'
+      }
       this.collections = data.collectionEntities.nodes
     }
   }
