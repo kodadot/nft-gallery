@@ -48,19 +48,19 @@
         </div>
       </div>
 
+      <div class="columns is-centered">
+        <div class="column is-8 has-text-centered">
+          <CollapseWrapper
+            visible="collapse.collection.description.show"
+            hidden="collapse.collection.description.hide"
+          >
+            <VueMarkdown :source="description" />
+          </CollapseWrapper>
+        </div>
+      </div>
+
       <b-tabs position="is-centered" v-model="activeTab">
         <b-tab-item label="Collection" value="collection">
-          <div class="columns is-centered">
-            <div class="column is-8 has-text-centered">
-              <CollapseWrapper
-                visible="collapse.collection.description.show"
-                hidden="collapse.collection.description.hide"
-              >
-                <VueMarkdown :source="description" />
-              </CollapseWrapper>
-            </div>
-          </div>
-
           <Search v-bind.sync="searchQuery">
             <Layout class="mr-5" />
             <b-field>
