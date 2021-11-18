@@ -41,7 +41,7 @@
           </div>
       </div>
 
-      <div class="columns">
+      <div class="columns pl-3">
         <div class="column is-6">
           <Appreciation
             :emotes="nft.emotes"
@@ -60,57 +60,90 @@
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
-          <History v-if="!isLoading" :events="nft.events"/>
         </div>
 
-        <div class="column is-3 is-offset-3" v-if="detailVisible">
+        <div class="column is-6" v-if="detailVisible">
           <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
 
-          <Sharing class="mb-4" />
-
-          <div class="price-block mb-4" v-if="hasPrice">
-            <div class="label">{{ $t('price') }}</div>
-            <div class="price-block__container">
-              <div class="price-block__original">{{ nft.price | formatBalance(12, 'KSM') }}</div>
-              <b-button v-if="nft.currentOwner === accountId" type="is-warning" outlined @click="handleUnlist">{{ $t('Unlist') }}</b-button>
+           <div class="columns">
+            <div class="column">
+              <div class="nft-title" style="padding-left: 15px;">
+                <Detail :nft="nft" :isLoading="isLoading"/>
+              </div>
             </div>
-            <!--<div class="label price-block__exchange">{{ this.nft.price | formatBalance(12, 'USD') }}</div>--> <!-- // price in USD -->
-          </div>
-
-          <template v-if="detailVisible && !nft.burned">
-            <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
-            <div class="card mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content">
-                  <div class="label ">{{ $t('actions') }}</div>
-                  <div class="content">
-                    <p class="subtitle">
-                      <Auth />
-                      <IndexerGuard showMessage>
-                        <AvailableActions
-                        ref="actions"
-                        :accountId="accountId"
-                        :currentOwnerId="nft.currentOwner"
-                        :price="nft.price"
-                        :nftId="nft.id"
-                        :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
-                        @change="handleAction"
-                        />
-                      </IndexerGuard>
-                    </p>
+            <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
+              <template v-if="detailVisible && !nft.burned">
+                <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
+                <div
+                  class="card mb-4"
+                  aria-id="contentIdForA11y3"
+                >
+                  <div class="card-content" v-if="nft.currentOwner !== accountId">
+                    <div class="label">
+                      {{ $t('price') }}
+                    </div>
+                    <div class="price-block__container">
+                      <div class="price-block__original">
+                        {{ nft.price | formatBalance(12, 'KSM') }}
+                      </div>
+                      <!-- <b-button
+                        v-if="nft.currentOwner === accountId"
+                        type="is-warning"
+                        outlined
+                        @click="handleUnlist"
+                      >
+                        {{ $t('Unlist') }}
+                      </b-button> -->
+                    </div>
+                    <!-- <div class="label ">
+                      {{ $t('actions') }}
+                    </div> -->
+                    <div class="content pt-4">
+                      <p class="subtitle">
+                        <IndexerGuard show-message class="pb-4" v-if="nft.currentOwner !== accountId">
+                          <AvailableActions
+                            ref="actions"
+                            :account-id="accountId"
+                            :current-owner-id="nft.currentOwner"
+                            :price="nft.price"
+                            :nft-id="nft.id"
+                            :ipfs-hashes="[nft.image, nft.animation_url, nft.metadata]"
+                            @change="handleAction"
+                          />
+                        </IndexerGuard>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist"
+                          class="mb-4"
+                        >
+                          {{ $t('Unlist') }}
+                        </b-button>
+                        <Auth />
+                      </p>
+                    </div>
+                    <Sharing class="mb-4" />
                   </div>
                 </div>
-              </div>
-          </template>
-
+              </template>
+            </div>
+          </div>
+          <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
           <template v-if="detailVisible">
-            <Facts :nft="nft" :meta="meta"  />
+            <HistoryPriceChart v-if="!isLoading" :events="nft.events"/>
           </template>
         </div>
       </div>
+      <div class="columns">
 
-      <!-- <hr class="comment-divider" />
-      <BaseCommentSection :nft="nft" :meta="meta" /> -->
+        <div class="column">
+          <History v-if="!isLoading" :events="nft.events"/>
+        </div>
+
+      </div>
     </div>
+
 
   </div>
 </template>
@@ -163,6 +196,7 @@ import Orientation from '@/directives/DeviceOrientation'
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
     // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     History: () => import('@/components/rmrk/Gallery/History.vue'),
+    HistoryPriceChart: () => import('@/components/rmrk/Gallery/HistoryPriceChart.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
@@ -170,7 +204,8 @@ import Orientation from '@/directives/DeviceOrientation'
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    VueMarkdown: () => import('vue-markdown-render')
+    VueMarkdown: () => import('vue-markdown-render'),
+    Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
   },
   directives: {
     orientation: Orientation

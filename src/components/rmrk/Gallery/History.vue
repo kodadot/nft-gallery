@@ -1,63 +1,83 @@
 <template>
-  <div class="block">
-    <p class="label">
-      {{ $t('History') }}
-    </p>
-    <b-table :data="data" class="mb-4" hoverable>
-      <b-table-column
-        cell-class="short-identity__table"
-        field="Type"
-        label="Type"
-        v-slot="props"
-      >
-        {{ props.row.Type }}
-      </b-table-column>
-      <b-table-column
-        cell-class="short-identity__table"
-        field="From"
-        label="From"
-        v-slot="props"
-      >
-        <router-link
-          :to="{
-            name: 'profile',
-            params: { id: props.row.From },
-          }"
-        >
-          <Identity :address="props.row.From" inline noOverflow />
-        </router-link>
-      </b-table-column>
-      <b-table-column
-        cell-class="short-identity__table"
-        field="To"
-        label="To"
-        v-slot="props"
-      >
-        <router-link
-          :to="{ name: 'profile', params: { id: props.row.To } }"
-        >
-          <Identity :address="props.row.To" inline noOverflow />
-        </router-link>
-      </b-table-column>
-      <b-table-column
-        cell-class="short-identity__table"
-        field="Amount"
-        label="Amount"
-        v-slot="props"
-      >
-        {{ props.row.Amount }}
-      </b-table-column>
-      <b-table-column
-        cell-class="short-identity__table"
-        field="Date"
-        label="Date"
-        v-slot="props"
-      >
-        {{ props.row.Date }}
-      </b-table-column>
-    </b-table>
-
-    <PriceChart :priceData="priceData" />
+ <div class="block">
+    <b-collapse class="card" animation="slide"
+      aria-id="contentIdForHistory" :open="collapsedHistory">
+      <template #trigger="props">
+        <div
+          class="card-header"
+          role="button"
+          aria-controls="contentIdForHistory">
+          <p class="card-header-title">
+            {{ $t('History') }}
+          </p>
+          <a class="card-header-icon">
+            <b-icon
+              :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            </b-icon>
+          </a>
+        </div>
+      </template>
+      <div class="card-content">
+        <div class="content">
+          <p class="label">
+            {{ $t('History') }}
+          </p>
+          <b-table :data="data" class="mb-4" hoverable>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="Type"
+              label="Type"
+              v-slot="props"
+            >
+              {{ props.row.Type }}
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="From"
+              label="From"
+              v-slot="props"
+            >
+              <router-link
+                :to="{
+                  name: 'profile',
+                  params: { id: props.row.From },
+                }"
+              >
+                <Identity :address="props.row.From" inline noOverflow />
+              </router-link>
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="To"
+              label="To"
+              v-slot="props"
+            >
+              <router-link
+                :to="{ name: 'profile', params: { id: props.row.To } }"
+              >
+                <Identity :address="props.row.To" inline noOverflow />
+              </router-link>
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="Amount"
+              label="Amount"
+              v-slot="props"
+            >
+              {{ props.row.Amount }}
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="Date"
+              label="Date"
+              v-slot="props"
+            >
+              {{ props.row.Date }}
+            </b-table-column>
+          </b-table>
+        </div>
+      </div>
+    </b-collapse>
   </div>
 </template>
 
@@ -73,9 +93,17 @@ const components = {
 export default class History extends Vue {
   @Prop() public events!: any;
   protected data: any = [];
-  protected priceData: any = [];
+  protected collapsedHistory=true;
   // protected eventData: Date[] = [];
 
+  public async mounted() {
+    this.collapsedHistory = true
+
+    setTimeout(() => {
+      this.collapsedHistory = false
+      console.log('here!')
+    }, 200)
+  }
   protected createTable() {
     let prevOwner = ''
     let curPrice = '0.0000000'
@@ -120,9 +148,6 @@ export default class History extends Vue {
       // Date
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
-      if (event['Type'] === 'SET-PRICE' || event['Type'] === 'CREATE') {
-        this.priceData.push([date, this.formatPrice(event['Amount'])])
-      }
 
       this.data.push(event)
     }
