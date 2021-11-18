@@ -180,7 +180,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 
   }
 
-  protected async isTransactionPending() {
+  protected async isTransactionPending(): Promise<void> {
     try {
       const nft = await this.$apollo.query<{ nfts: PendingTransaction[] }>({
         client: 'rmrkApolloClient',
@@ -191,7 +191,6 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
       })
 
       const { data: {nfts} } = nft
-      console.log('nfts', nfts, nft)
       const pendingTransaction = nfts.find(({ id }) => id === this.nftId)
 
       if (pendingTransaction?.txPending && pendingTransaction?.txCaller !== this.accountId) {
