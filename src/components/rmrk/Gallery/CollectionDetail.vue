@@ -90,11 +90,11 @@ export default class extends Vue {
 </script>
 
 <style lang="scss">
-.options {
-  @media screen and (max-width: 1023px) {
-    flex-direction: row;
-    display: flex;
-    align-items: baseline;
-  }
+ .options {
+   @media screen and (max-width: 1023px) {
+     flex-direction: row;
+     display: flex;
+     align-items: baseline;
+   }
 }
 </style>
