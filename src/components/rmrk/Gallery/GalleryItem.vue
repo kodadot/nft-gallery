@@ -100,7 +100,7 @@
                     </div> -->
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <IndexerGuard show-message class="pb-4" v-if="nft.currentOwner !== accountId">
+                        <IndexerGuard show-message class="pb-4">
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
