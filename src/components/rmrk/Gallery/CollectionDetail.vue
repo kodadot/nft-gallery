@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="level m-1" v-if="nfts">
+    <div class="level m-1 options" v-if="nfts">
       <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Items') }} : <span class="money money--inline"> {{ collectionLength }} </span></p>
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="level m-1" v-if="nfts">
+    <div class="level m-1 options" v-if="nfts">
       <div class="level-item column is-6 has-text-centered">
         <div>
           <p class="heading--inline heading">{{ $t('Volume') }} : <Money :value="collectionTradedVolumeNumber" inline /></p>
@@ -88,3 +88,13 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.options {
+  @media screen and (max-width: 1023px) {
+    flex-direction: row;
+    display: flex;
+    align-items: baseline;
+  }
+}
+</style>
