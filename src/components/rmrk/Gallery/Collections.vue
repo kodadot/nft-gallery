@@ -110,7 +110,7 @@ export default class Collections extends Vue {
   private meta: Metadata[] = [];
   private first = 9;
   private perPage = 9;
-  private placeholder = '/koda300x300.svg';
+  private placeholder = '/Kodadot_logo.png';
   private currentValue = 1;
   private total = 0;
 

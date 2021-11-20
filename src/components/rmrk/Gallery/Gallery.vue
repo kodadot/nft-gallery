@@ -157,7 +157,7 @@ export default class Gallery extends Vue {
     listed: false,
   };
   private first = 12;
-  private placeholder = '/koda300x300.svg';
+  private placeholder = '/Kodadot_logo.png';
   private currentValue = 1;
   private total = 0;
 
