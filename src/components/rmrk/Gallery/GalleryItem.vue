@@ -156,11 +156,6 @@ import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
-// import Money from '@/components/shared/format/Money.vue';
-// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import VueMarkdown from 'vue-markdown-render'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
@@ -225,11 +220,11 @@ export default class GalleryItem extends Vue {
   public emotes: Emote[] = []
   public message = '';
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
   }
 
-  public async created() {
+  public async created(): Promise<void> {
     this.checkId()
     exist(this.$route.query.message, (val) => {
       this.message = val === 'congrats' ? val : ''
@@ -237,10 +232,7 @@ export default class GalleryItem extends Vue {
         { query: null } as any
       )
     })
-
-
     try {
-      // const nft = await rmrkService.getNFT(this.id);
       this.$apollo.addSmartQuery('nft',{
         query: nftById,
         variables: {
@@ -248,26 +240,17 @@ export default class GalleryItem extends Vue {
         },
         update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
         result: () => this.fetchMetadata(),
-        pollInterval: 5000
+        pollInterval: 3500
       })
 
-      // console.log(nft);
-
-      // this.nft = {
-      //   ...nft,
-      //   image: sanitizeIpfsUrl(nft.image || ''),
-      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      // };
-      // }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
-      // console.warn(e);
     }
 
     this.isLoading = false
   }
 
-  onImageError(e: any) {
+  onImageError(e: any): void {
     console.warn('Image error',e)
   }
 
@@ -304,7 +287,7 @@ export default class GalleryItem extends Vue {
     }
   }
 
-  public checkId() {
+  public checkId(): void {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
     }

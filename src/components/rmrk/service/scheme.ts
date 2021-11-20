@@ -197,6 +197,13 @@ export interface Pack extends BasePack {
   social?: Record<string, string>
 }
 
+export type PendingTransaction = {
+  id: string
+  txBlock?: number | string
+  txCaller?: string
+  txPending: boolean
+}
+
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${
     nft.collection
