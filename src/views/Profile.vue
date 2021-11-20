@@ -52,7 +52,7 @@
         expanded
         size="is-medium"
       >
-        <b-tab-item value="nft">
+        <b-tab-item value="nft" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
             {{ $t("profile.created") }}
             <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
@@ -68,6 +68,7 @@
         <b-tab-item
           :label="`Collections - ${totalCollections}`"
           value="collection"
+          :headerClass="{'is-hidden': !totalCollections}"
         >
           <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
           <GalleryCardList
@@ -82,7 +83,7 @@
             v-model="currentCollectionPage"
           />
         </b-tab-item>
-        <b-tab-item value="sold">
+        <b-tab-item value="sold" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
             {{ $t("profile.sold") }}
             <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -330,6 +331,9 @@ export default class Profile extends Vue {
   protected async handleCollectionResult({ data }: any) {
     if (data) {
       this.totalCollections = data.collectionEntities.totalCount
+      if (this.totalCollections === 0) {
+        this.activeTab = 'collected'
+      }
       this.collections = data.collectionEntities.nodes
     }
   }
