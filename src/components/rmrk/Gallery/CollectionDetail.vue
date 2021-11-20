@@ -95,6 +95,9 @@ export default class extends Vue {
      flex-direction: row;
      display: flex;
      align-items: baseline;
+     .level-item {
+       margin-bottom: 0;
+     }
    }
 }
 </style>
