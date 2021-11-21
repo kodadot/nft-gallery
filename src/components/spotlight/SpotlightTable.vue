@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="spotlight">
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
       :current-page="currentPage ? currentPage : 1"
       detailed
       paginated
-      pagination-position="top"
+      pagination-position="both"
       show-detail-icon
     >
       <template v-slot:top-left>
@@ -17,6 +17,16 @@
             </b-switch>
           </div>
         </b-field>
+        <b-button
+          class="ml-2 magicBtn"
+          title="Go to random page"
+          type="is-primary"
+          icon-left="magic"
+          @click="goToRandomPage"
+        >
+        </b-button>
+      </template>
+      <template v-slot:bottom-left>
         <b-button
           class="ml-2 magicBtn"
           title="Go to random page"
@@ -204,20 +214,22 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 }
 </script>
 <style>
- .magicBtn {
-    position: absolute;
-    right: 0;
-    border-width: 1px;
- }
- .level-right {
-   margin-right: 3rem;
- }
- @media only screen and (max-width: 768px) {
-  .magicBtn {
+.spotlight .magicBtn {
+  position: absolute;
+  right: 0;
+  border-width: 1px;
+}
+
+.spotlight .level-right {
+  margin-right: 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .spotlight .magicBtn {
     top: 4rem;
     position: relative;
   }
-  .level-right {
+  .spotlight .level-right {
     margin-left: 2rem;
     margin-right: 0rem;
   }
