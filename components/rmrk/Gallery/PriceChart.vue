@@ -26,7 +26,7 @@ type PriceDataArray = [Date, string | number];
 
 @Component({ components })
 export default class PriceChart extends Vue {
-  @Prop() public priceData!: any[];
+  @Prop() public priceChartData!: [Date, number][][];
 
   protected chartOptionsLine: any = {};
   protected Chart!: Chart<'line', any, unknown>;
@@ -42,11 +42,12 @@ export default class PriceChart extends Vue {
   }
 
   public async mounted() {
-    this.priceChart();
+    this.getPriceChartData();
   }
 
-  protected priceChart() {
-    if (this.priceData.length) {
+  protected getPriceChartData() {
+    console.log(this.priceChartData);
+    if (this.priceChartData.length) {
       const ctx = (
         document?.getElementById('priceChart') as HTMLCanvasElement
       )?.getContext('2d')!;
@@ -55,8 +56,21 @@ export default class PriceChart extends Vue {
         data: {
           datasets: [
             {
-              label: 'Price',
-              data: this.priceData.map((data: PriceDataArray) => ({
+              label: 'Buy',
+              data: this.priceChartData[0].map((data: PriceDataArray) => ({
+                x: data[0],
+                y: data[1],
+              })),
+              borderColor: '#00b37a',
+              tension: 0.3,
+              pointBackgroundColor: 'white',
+              pointBorderColor: 'blue',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+            {
+              label: 'List',
+              data: this.priceChartData[1].map((data: PriceDataArray) => ({
                 x: data[0],
                 y: data[1],
               })),
@@ -72,6 +86,10 @@ export default class PriceChart extends Vue {
         options: {
           plugins: {
             zoom: {
+              limits: {
+                x: { min: 0, minRange: 0 },
+                y: { min: 0, minRange: 0 },
+              },
               pan: {
                 enabled: false,
               },
@@ -85,13 +103,6 @@ export default class PriceChart extends Vue {
                 mode: 'xy',
                 onZoomComplete({ chart }) {
                   chart.update('none');
-                },
-              },
-            },
-            legend: {
-              labels: {
-                filter: function (item, chart) {
-                  return !item.text.includes('Price');
                 },
               },
             },
@@ -130,7 +141,6 @@ export default class PriceChart extends Vue {
                   return `${Number(value).toFixed(2)} KSM`;
                 },
                 maxTicksLimit: 7,
-
                 color: '#fff',
               },
               grid: {
@@ -145,9 +155,9 @@ export default class PriceChart extends Vue {
     }
   }
 
-  @Watch('priceData')
+  @Watch('priceChartData')
   async watchData(newPriceData: string[], oldPriceData: string[]) {
-    this.priceChart();
+    this.getPriceChartData();
   }
 }
 </script>
