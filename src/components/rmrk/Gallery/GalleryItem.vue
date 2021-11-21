@@ -78,7 +78,8 @@
                   class="card mb-4"
                   aria-id="contentIdForA11y3"
                 >
-                  <div class="card-content" v-if="nft.currentOwner !== accountId">
+                  <div class="card-content">
+                    <template v-if="hasPrice">
                     <div class="label">
                       {{ $t('price') }}
                     </div>
@@ -86,18 +87,16 @@
                       <div class="price-block__original">
                         {{ nft.price | formatBalance(12, 'KSM') }}
                       </div>
-                      <!-- <b-button
+                      <b-button
                         v-if="nft.currentOwner === accountId"
                         type="is-warning"
                         outlined
                         @click="handleUnlist"
                       >
                         {{ $t('Unlist') }}
-                      </b-button> -->
+                      </b-button>
                     </div>
-                    <!-- <div class="label ">
-                      {{ $t('actions') }}
-                    </div> -->
+                    </template>
                     <div class="content pt-4">
                       <p class="subtitle">
                         <IndexerGuard show-message class="pb-4">
@@ -111,15 +110,6 @@
                             @change="handleAction"
                           />
                         </IndexerGuard>
-                        <b-button
-                          v-if="nft.currentOwner === accountId"
-                          type="is-warning"
-                          outlined
-                          @click="handleUnlist"
-                          class="mb-4"
-                        >
-                          {{ $t('Unlist') }}
-                        </b-button>
                         <Auth />
                       </p>
                     </div>
