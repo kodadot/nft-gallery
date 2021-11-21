@@ -166,7 +166,7 @@ export default class Transfer extends Mixins(
     const { query } = this.$route
 
     if (query.target) {
-      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
+      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format || 2))
       if (valid) {
         this.destinationAddress = query.target as string
       }
