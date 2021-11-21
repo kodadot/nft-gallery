@@ -1,6 +1,6 @@
 **Thank you for your contribution** to the KodaDot NFT gallery.
 
-👇 Do a quick check before the merge. 
+- 👇 Do a quick check before the merge. 
 
 ### PR type
 - [ ] Bugfix
@@ -15,6 +15,7 @@
 - [ ] I've posted screenshot of demonstrated change in this PR
 
 ### Optional
+- [ ] I've tested it at </rmrk/collection/26902bc2f7c20c546a-1FVG7>
 - [ ] I've tested PR on mobile and everything works
 - [ ] I found edge cases
 
