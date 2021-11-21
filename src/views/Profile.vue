@@ -70,11 +70,20 @@
           value="collection"
           :headerClass="{'is-hidden': !totalCollections}"
         >
-          <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
+          <div class="is-flex is-justify-content-flex-end">
+            <Layout class="mr-5" />
+            <Pagination
+              hasMagicBtn
+              replace
+              :total="totalCollections"
+              v-model="currentCollectionPage"
+            />
+          </div>
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
             link="rmrk/collection"
+            horizontalLayout
           />
           <Pagination
             replace
@@ -146,6 +155,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 const eq = (tab: string) => (el: string) => tab === el
