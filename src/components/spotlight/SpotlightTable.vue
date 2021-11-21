@@ -214,18 +214,18 @@ export default class SpotlightTable extends Mixins(TransactionMixin) {
 }
 </script>
 <style>
- .magicBtn {
+.spotlight .magicBtn {
   position: absolute;
   right: 0;
   border-width: 1px;
- }
+}
 
- .spotlight .level-right {
+.spotlight .level-right {
   margin-right: 3rem;
- }
+}
 
- @media only screen and (max-width: 768px) {
-  .magicBtn {
+@media only screen and (max-width: 768px) {
+  .spotlight .magicBtn {
     top: 4rem;
     position: relative;
   }
