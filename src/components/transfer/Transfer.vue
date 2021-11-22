@@ -111,7 +111,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import { checkAddress } from '@polkadot/util-crypto'
+import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 @Component({
@@ -166,13 +166,12 @@ export default class Transfer extends Mixins(
     const { query } = this.$route
 
     if (query.target) {
-      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
-      if (valid) {
-        this.destinationAddress = query.target as string
-      }
+      const hasAddress = isAddress(query.target as string)
 
-      if (err) {
-        showNotification(`Unable to parse target ${err}`,notificationTypes.warn)
+      if (hasAddress) {
+        this.destinationAddress = query.target as string
+      } else {
+        showNotification(`Unable to use target address`,notificationTypes.warn)
       }
     }
 
