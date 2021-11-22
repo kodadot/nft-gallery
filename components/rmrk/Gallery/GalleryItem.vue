@@ -404,7 +404,7 @@ hr.comment-divider {
     position: absolute;
     top: 13px;
     left: 13px;
-    // color: $light-text;
+    color: $light-text;
     @media screen and (max-width: 768px) {
         display: none;
     }

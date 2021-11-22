@@ -1,11 +1,8 @@
 <template>
-  <div class="columns mb-1">
-    <div class="column is-8 is-offset-2">
-      <section>
-        <br>
-        <SpotlightTable />
-      </section>
-    </div>
+  <div class="container mb-1">
+    <section>
+      <SpotlightTable />
+    </section>
   </div>
 </template>
 <script lang="ts" >
@@ -30,7 +27,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+          content: this.defaultSpotlightMetaImage
         },
         {
           property: 'twitter:title',
@@ -42,7 +39,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_community.jpeg'
+          content: this.defaultSpotlightMetaImage
         }
       ]
     }
@@ -77,5 +74,12 @@ export default class Leaderboard extends Vue {
     // 'HtRTwHSP6fYC5PtCsJ7pG4H1hwyPhzXbtVTTVRJ6kvfPFe1', did not set identity
     // 'Cu7QaEnRGPE91WvLduzUii2ZNa3jhMWtmB8SYwumycNRmoN' did not set identity
   ]
+
+  get defaultSpotlightMetaImage(): string {
+    const url = new URL(window.location.href)
+    return (
+      `${url.protocol}//${url.hostname}/kodadot_rank.jpg`
+    )
+  }
 }
 </script>

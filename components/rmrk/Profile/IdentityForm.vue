@@ -2,81 +2,58 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br>
-        <Loader
-          v-model="isLoading"
-          :status="status"
-        />
+        <br />
+        <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
             {{ $t("identity.set") }}
           </p>
           <b-field>
-            <Identity
-              ref="identity"
-              class="subtitle has-text-weight-bold"
-              :address="accountId"
-              inline
-              emit
-              @change="handleIdentity"
-            />
+            <Identity class="subtitle has-text-weight-bold" ref="identity" :address="accountId" inline emit @change="handleIdentity" />
           </b-field>
           <b-field label="Handle">
-            <b-input
-              v-model="identity.display"
-              placeholder="My On-Chain Name"
-              required
-              :validation-message="$t('identity.handleRequired')"
-            />
+            <b-input placeholder="My On-Chain Name" v-model="identity.display"
+            required
+            :validation-message="$t('identity.handleRequired')"
+            >
+            </b-input>
           </b-field>
           <b-field label="Name">
-            <b-input
-              v-model="identity.legal"
-              placeholder="Full Legal Name"
-            />
+            <b-input placeholder="Full Legal Name" v-model="identity.legal">
+            </b-input>
           </b-field>
           <b-field label="email">
             <b-input
-              v-model="identity.email"
               placeholder="somebody@example.com"
               type="email"
-            />
+              v-model="identity.email"
+            >
+            </b-input>
           </b-field>
           <b-field label="web">
-            <b-input
-              v-model="identity.web"
-              placeholder="https://example.com"
-            />
+            <b-input placeholder="https://example.com" v-model="identity.web">
+            </b-input>
           </b-field>
           <b-field label="twitter">
-            <b-input
-              v-model="identity.twitter"
-              placeholder="@YourTwitterName"
-            />
+            <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
+            </b-input>
           </b-field>
           <b-field label="riot">
-            <b-input
-              v-model="identity.riot"
-              placeholder="@yourname:matrix.org"
-            />
+            <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
+            </b-input>
           </b-field>
           <b-field>
-            <p class="subtitle is-size-6">
-              {{ $t("identity.deposit") }} <Money
-                :value="deposit"
-                inline
-              />
-            </p>
+            <p class="subtitle is-size-6">{{ $t("identity.deposit") }} <Money :value="deposit" inline /></p>
           </b-field>
 
           <b-field>
             <b-button
               type="is-primary"
               icon-left="paper-plane"
+              @click="shipIt"
               :disabled="disabled"
               :loading="isLoading"
               outlined
-              @click="shipIt"
             >
               {{ $t("identity.click") }}
             </b-button>
