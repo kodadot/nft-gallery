@@ -1,4 +1,4 @@
-import { ENDPOINTS } from '@vue-polkadot/vue-settings';
+import { ENDPOINTS } from '@vue-polkadot/vue-settings'
 import * as store from '~/store'
 
 const prefixes: Record<string, number> = {
@@ -64,7 +64,7 @@ export const getPrefixByStoreUrl = (apiUrl : any): string | undefined => {
 }
 
 export const getChainPrefixByUrl = (url: string): string | undefined => {
-  const option =  ENDPOINTS.find(({ value }) => value === url);
+  const option =  ENDPOINTS.find(({ value }) => value === url)
   if (!option) {
     return undefined
   }

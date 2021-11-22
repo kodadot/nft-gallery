@@ -39,11 +39,11 @@ type Post = {
   components
 })
 export default class CreatePost extends mixins(TransactionMixin, AuthMixin) {
-  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
+  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT
   @Prop({ default: () => emptyObject<NFTMetadata>() })
-  public meta!: NFTMetadata;
+  public meta!: NFTMetadata
   @Prop({ default: 'https://nft.kodadot.xyz/rmrk/detail/' })
-  public url!: string;
+  public url!: string
 
   protected async buildParams() {
     const { name, id } = this.nft

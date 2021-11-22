@@ -68,11 +68,11 @@ type ElasticResult = {
   components
 })
 export default class BaseCommentSection extends Vue {
-  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
-  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
-  protected postId = '';
-  protected actionDisabled = false;
-  protected balance = '';
+  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT
+  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata
+  protected postId = ''
+  protected actionDisabled = false
+  protected balance = ''
 
   get accountId() {
     return this.$store.getters.getAuthAddress

@@ -23,7 +23,7 @@ const components = {
 })
 export default class CreatePostModal extends Vue {
 
-  private value2: any;
-  @Prop() public value!: any;
+  private value2: any
+  @Prop() public value!: any
 }
 </script>

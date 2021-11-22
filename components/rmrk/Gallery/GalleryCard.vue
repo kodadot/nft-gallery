@@ -95,19 +95,19 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends Vue {
-  @Prop({ default: '/rmrk/detail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
-  @Prop() public id!: string;
-  @Prop() public name!: string;
-  protected image = '';
-  protected title = '';
-  @Prop() public emoteCount!: string | number;
-  @Prop() public imageType!: string;
-  @Prop() public price!: string;
-  @Prop() public metadata!: string;
-  @Prop() public currentOwner!: string;
+  @Prop({ default: '/rmrk/detail' }) public type!: string
+  @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop() public id!: string
+  @Prop() public name!: string
+  protected image = ''
+  protected title = ''
+  @Prop() public emoteCount!: string | number
+  @Prop() public imageType!: string
+  @Prop() public price!: string
+  @Prop() public metadata!: string
+  @Prop() public currentOwner!: string
 
-  private placeholder = '/koda300x300.svg';
+  private placeholder = '/koda300x300.svg'
 
   async mounted() {
     if (this.metadata) {

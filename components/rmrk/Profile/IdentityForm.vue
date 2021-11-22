@@ -111,7 +111,7 @@ import { identityStore } from '@/utils/idbStore'
 })
 export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   // @Prop() public referendumId!: any;
-  private password = '';
+  private password = ''
   private identity: Record<string, string> = {
     display: '',
     email: '',
@@ -119,8 +119,8 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
     twitter: '',
     riot: '',
     legal: ''
-  };
-  private deposit = '0';
+  }
+  private deposit = '0'
 
   public created(): void {
     setTimeout(() => {

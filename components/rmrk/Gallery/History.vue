@@ -76,9 +76,9 @@ const components = {
 
 @Component({ components })
 export default class History extends Vue {
-  @Prop() public events!: any;
-  protected data: any = [];
-  protected priceData: any = [];
+  @Prop() public events!: any
+  protected data: any = []
+  protected priceData: any = []
   // protected eventData: Date[] = [];
 
   protected createTable() {

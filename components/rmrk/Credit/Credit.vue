@@ -45,6 +45,6 @@ const components = {
 
 @Component({ components })
 export default class Credit extends Vue {
-  private accountId = '';
+  private accountId = ''
 }
 </script>

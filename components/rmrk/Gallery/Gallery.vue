@@ -145,18 +145,18 @@ const components = {
   components
 })
 export default class Gallery extends Vue {
-  private nfts: NFT[] = [];
-  private meta: Metadata[] = [];
+  private nfts: NFT[] = []
+  private meta: Metadata[] = []
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  };
-  private first = 12;
-  private placeholder = '/koda300x300.svg';
-  private currentValue = 1;
-  private total = 0;
+  }
+  private first = 12
+  private placeholder = '/koda300x300.svg'
+  private currentValue = 1
+  private total = 0
 
   get isLoading() {
     return this.$apollo.queries.nfts.loading

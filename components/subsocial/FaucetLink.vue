@@ -22,7 +22,7 @@ import { showNotification, notificationTypes } from '@/utils/notification'
 
 @Component({})
 export default class FaucetLink extends mixins(AuthMixin) {
-  protected email = '';
+  protected email = ''
 
   protected async askFaucet() {
     try {

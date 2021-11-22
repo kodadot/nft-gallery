@@ -47,12 +47,12 @@ const components = {}
 
 @Component({ components })
 export default class Identity extends mixins(InlineMixin) {
-  @Prop() public address!: Address;
-  @Prop(Boolean) public verticalAlign!: boolean;
-  @Prop(Boolean) public noOwerflow!: boolean;
-  @Prop(Boolean) public emit!: boolean;
-  @Prop(Boolean) public showTwitter!: boolean;
-  private identity: IdentityFields = emptyObject<IdentityFields>();
+  @Prop() public address!: Address
+  @Prop(Boolean) public verticalAlign!: boolean
+  @Prop(Boolean) public noOwerflow!: boolean
+  @Prop(Boolean) public emit!: boolean
+  @Prop(Boolean) public showTwitter!: boolean
+  private identity: IdentityFields = emptyObject<IdentityFields>()
 
   get name(): Address {
     const name = this.identity.display

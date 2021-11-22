@@ -45,11 +45,11 @@ const components = {
   components
 })
 export default class CommentAdapter extends Vue {
-  @Prop() public comment!: PostType;
-  @Prop(Number) public index!: number;
-  @Prop(Boolean) public actionDisabled!: boolean;
-  protected postId = '';
-  protected replyVisible = false;
+  @Prop() public comment!: PostType
+  @Prop(Number) public index!: number
+  @Prop(Boolean) public actionDisabled!: boolean
+  protected postId = ''
+  protected replyVisible = false
 
   get message() {
     return this.comment?.content?.body

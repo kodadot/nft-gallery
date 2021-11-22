@@ -22,10 +22,10 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BasicImage extends Vue {
-  @Prop({ type: String }) public src!: string;
-  @Prop(String) public customClass!: string;
-  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: string;
-  @Prop(Boolean) public rounded!: boolean;
+  @Prop({ type: String }) public src!: string
+  @Prop(String) public customClass!: string
+  @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: string
+  @Prop(Boolean) public rounded!: boolean
 
   public onImageError(event: unknown, src: string): void {
     console.log('Unable to load ', src)

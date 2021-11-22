@@ -99,18 +99,18 @@ const components = {
   components
 })
 export default class Comment extends mixins(TransactionMixin) {
-  @Prop(Boolean) public value!: boolean;
-  @Prop({ default: '' }) public message!: any;
-  @Prop(String) public postId!: string;
+  @Prop(Boolean) public value!: boolean
+  @Prop({ default: '' }) public message!: any
+  @Prop(String) public postId!: string
   @Prop(String)
-  public account!: string;
-  @Prop(Number) public upvotes!: number;
-  @Prop(Number) public downvotes!: number;
-  @Prop(Boolean) public actionDisabled!: boolean;
-  public reaction = -1;
-  public reactionId = '';
+  public account!: string
+  @Prop(Number) public upvotes!: number
+  @Prop(Number) public downvotes!: number
+  @Prop(Boolean) public actionDisabled!: boolean
+  public reaction = -1
+  public reactionId = ''
 
-  public profile: ProfileContentType = emptyObject<ProfileContentType>();
+  public profile: ProfileContentType = emptyObject<ProfileContentType>()
 
   get address() {
     return formatAccount(this.account)

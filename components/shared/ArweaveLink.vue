@@ -19,9 +19,9 @@ const components = {
 
 @Component({ components })
 export default class ArweaveLink extends Vue {
-  @Prop() public id!: string;
-  @Prop({ default: 'content' }) public label!: string;
-  protected link = 'https://viewblock.io/arweave/tx/';
+  @Prop() public id!: string
+  @Prop({ default: 'content' }) public label!: string
+  protected link = 'https://viewblock.io/arweave/tx/'
 }
 </script>
 

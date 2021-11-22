@@ -42,9 +42,9 @@ import TransactionMixin from '@/utils/mixins/txMixin'
   }
 })
 export default class Reply extends mixins(TransactionMixin) {
-  protected message = '';
-  @Prop(String) public postId!: string;
-  @Prop() public extension!: Comment | null;
+  protected message = ''
+  @Prop(String) public postId!: string
+  @Prop() public extension!: Comment | null
 
   public async mounted() {
     const ss = await resolveSubsocialApi()

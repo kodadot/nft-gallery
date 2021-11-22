@@ -27,11 +27,11 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component
 export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
-  @Prop({ type: [Number, String], default: 0 }) value!: number;
-  protected units: Unit[] = defaultUnits;
-  private selectedUnit = 1;
-  @Prop({ default: 'USD' }) public label!: string;
-  @Prop({ default: 'balance' }) public labelInput!: string;
+  @Prop({ type: [Number, String], default: 0 }) value!: number
+  protected units: Unit[] = defaultUnits
+  private selectedUnit = 1
+  @Prop({ default: 'USD' }) public label!: string
+  @Prop({ default: 'balance' }) public labelInput!: string
 
   get inputValue(): number {
     return this.value

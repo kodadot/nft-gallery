@@ -16,10 +16,10 @@ import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BasicSwitch extends Vue {
-  @VModel({ type: Boolean, required: true }) isSwitched!: string;
-  @Prop({ type: String, required: true }) label!: string;
-  @Prop({ type: String }) offLabel!: string;
-  @Prop({ type: String }) size!: string;
+  @VModel({ type: Boolean, required: true }) isSwitched!: string
+  @Prop({ type: String, required: true }) label!: string
+  @Prop({ type: String }) offLabel!: string
+  @Prop({ type: String }) size!: string
 
   get properLabel(): TranslateResult {
     const offLabel = this.offLabel || this.label

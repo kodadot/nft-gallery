@@ -43,8 +43,8 @@ export default class Summary extends Vue {
     genesisHash: '',
     tokenSymbol:''
   }
-  public chainProperties: any = this.emptyChainProperties;
-  public loading = false;
+  public chainProperties: any = this.emptyChainProperties
+  public loading = false
 
   @Watch('$store.state.chainProperties')
   public mapProp(): void {

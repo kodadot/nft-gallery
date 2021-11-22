@@ -27,11 +27,11 @@ const components = {
 
 @Component({ components })
 export default class PriceChart extends Vue {
-  @Prop() public priceData!: any[];
+  @Prop() public priceData!: any[]
   // @Prop() public eventData!: Date[];
 
-  protected chartOptionsLine: any = {};
-  protected Chart!: ECharts.ECharts;
+  protected chartOptionsLine: any = {}
+  protected Chart!: ECharts.ECharts
 
   protected onWindowResize() {
     if (this.Chart) {

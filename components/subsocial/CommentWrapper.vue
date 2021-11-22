@@ -43,13 +43,13 @@ const components = {
   components
 })
 export default class CommentWrapper extends Vue {
-  @Prop(String) public postId!: string;
-  @Prop(Boolean) public nested!: boolean;
-  @Prop(Boolean) public actionDisabled!: boolean;
-  protected comments: PostType[] = [];
-  protected commentsVisible = false;
-  protected loading = false;
-  protected replyCount = 0;
+  @Prop(String) public postId!: string
+  @Prop(Boolean) public nested!: boolean
+  @Prop(Boolean) public actionDisabled!: boolean
+  protected comments: PostType[] = []
+  protected commentsVisible = false
+  protected loading = false
+  protected replyCount = 0
 
   public async mounted() {
     const ss = await resolveSubsocialApi()

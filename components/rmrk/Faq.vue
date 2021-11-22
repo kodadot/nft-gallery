@@ -50,7 +50,7 @@ import i18n from '@/i18n'
 
 @Component({})
 export default class Faq extends Vue {
-  public faqQuestionsAnswers: any = [];
+  public faqQuestionsAnswers: any = []
 
   @Watch('$i18n.locale')
   public i18nLoadQandA(): any {
