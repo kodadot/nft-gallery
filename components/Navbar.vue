@@ -70,7 +70,7 @@
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'series'}"
+        to="/series-insight"
       >
         Series
       </b-navbar-item>
@@ -99,20 +99,20 @@
         </b-navbar-item>
         <b-navbar-item
           tag="router-link"
-          :to="{ name: 'transfer'}"
+          to="/transfer"
         >
           {{ $t('Transfer') }}
         </b-navbar-item>
         <b-navbar-item
           tag="router-link"
-          :to="{ name: 'settings'}"
+          to="/settings"
         >
           {{ $t('Settings') }}
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
-        :to="{ name: 'tutorials'}"
+        to="/tutorials"
       >
         {{ $t('Tutorial') }}
       </b-navbar-item>
