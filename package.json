@@ -1,4 +1,6 @@
 {
+  "url" : "https://github.com/kodadot/nft-gallery/issues",
+  "homepage": "https://github.com/kodadot/nft-gallery/blob/main-nuxt/CONTRIBUTING.md",
   "name": "nft-gallery-nuxt",
   "version": "1.0.0",
   "private": true,
@@ -7,6 +9,9 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
