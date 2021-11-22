@@ -2,9 +2,9 @@ name: Lint Files
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main-nuxt, main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main-nuxt, main ]
 
 jobs:
   lint:
