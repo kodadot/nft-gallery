@@ -115,8 +115,7 @@ export default class PriceChart extends Vue {
                   hour: 'HH:mm',
                   minute: 'HH:mm',
                 },
-                unit: 'minute',
-                stepSize: 20,
+                unit: 'hour',
               },
               grid: {
                 drawOnChartArea: false,
