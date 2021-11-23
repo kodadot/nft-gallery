@@ -37,7 +37,7 @@
           </b-field>
 
           <b-field>
-            <AddressInput v-model="destinationAddress" />
+            <AddressInput v-model="destinationAddress" :strict="false" />
           </b-field>
           <div class="box--container">
            <b-field>
