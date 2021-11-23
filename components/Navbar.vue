@@ -12,7 +12,7 @@
         class="logo"
       >
         <img
-          src="/koda300x300.svg"
+          src="/Kodadot_logo.png"
           alt="First NFT market explorer on Kusama and Polkadot"
           class="logo__img"
           width="60"
