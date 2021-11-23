@@ -47,6 +47,7 @@
     "date-fns": "^2.25.0",
     "echarts": "^5.2.1",
     "emoji-unicode": "^2.0.1",
+    "eslint-plugin": "^1.0.1",
     "file-saver": "^2.0.5",
     "freezeframe": "^5.0.2",
     "glob-parent": "^6.0.2",
