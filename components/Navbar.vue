@@ -12,11 +12,10 @@
         class="logo"
       >
         <img
-          src="/Kodadot_logo.png"
+          src="~/assets/KODA..png"
           alt="First NFT market explorer on Kusama and Polkadot"
           class="logo__img"
-          width="60"
-          height="60"
+          height="32"
         >
       </b-navbar-item>
     </template>
