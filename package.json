@@ -76,6 +76,7 @@
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
+    "@types/aframe": "^1.0.5",
     "@types/markdown-it": "^12.2.1",
     "@types/webpack": "^4.4.0",
     "@vue/cli-plugin-babel": "^3.12.1",
