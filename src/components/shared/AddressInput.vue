@@ -34,7 +34,7 @@ export default class AddressInput extends Vue {
 
   @Debounce(500)
   @Emit('input')
-  protected handleInput(value: string) {
+  protected handleInput(value: string): string {
     if (this.strict) {
       const [, err] = checkAddress(value, correctFormat(this.ss58Format))
       this.err = value ? err : ''
