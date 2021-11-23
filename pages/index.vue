@@ -4,16 +4,12 @@
       <div class="container">
         <div class="columns">
           <div class="column">
-              <img
-                src="~/assets/KODADOT.png"
-                alt="First NFT market explorer on Kusama and Polkadot"
-                class="logo__img"
-                height="60"
-              >
-            <h1 class="title is-1 homepage__title">
-              <span class="text__stroked">Koda</span>
-              <span>Dot</span>
-            </h1>
+            <img
+              src="~/assets/KODADOT.png"
+              alt="First NFT market explorer on Kusama and Polkadot"
+              class="mb-5"
+              height="60"
+            >
             <h2 class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
               <span>
                 Carbon neutral
