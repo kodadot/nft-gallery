@@ -37,8 +37,9 @@
           </b-field>
 
           <b-field>
-            <AddressInput v-model="destinationAddress" />
+            <AddressInput v-model="destinationAddress" :strict="false" />
           </b-field>
+          <DisabledInput v-show="correctAddress && correctAddress !== destinationAddress" :label="$t('general.correctAddress')" :value="correctAddress" />
           <div class="box--container">
            <b-field>
             <BalanceInput v-model="price" label="Amount" :calculate="false" @input="onAmountFieldChange"/>
@@ -111,7 +112,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import { checkAddress } from '@polkadot/util-crypto'
+import { checkAddress, decodeAddress, encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 @Component({
@@ -122,7 +123,8 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
     Identity: () => import('@/components/shared/format/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
-    Money: () => import('@/components/shared/format/Money.vue')
+    Money: () => import('@/components/shared/format/Money.vue'),
+    DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
   }
 })
 export default class Transfer extends Mixins(
@@ -137,7 +139,19 @@ export default class Transfer extends Mixins(
   protected usdValue = 0;
 
   get disabled(): boolean {
-    return !this.destinationAddress || !this.price || !this.accountId
+    return !this.hasAddress || !this.price || !this.accountId
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
+  get hasAddress(): boolean {
+    return isAddress(this.destinationAddress)
+  }
+
+  get correctAddress(): string {
+    return this.hasAddress ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format)) : ''
   }
 
   protected created() {
@@ -166,13 +180,12 @@ export default class Transfer extends Mixins(
     const { query } = this.$route
 
     if (query.target) {
-      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
-      if (valid) {
-        this.destinationAddress = query.target as string
-      }
+      const hasAddress = isAddress(query.target as string)
 
-      if (err) {
-        showNotification(`Unable to parse target ${err}`,notificationTypes.warn)
+      if (hasAddress) {
+        this.destinationAddress = query.target as string
+      } else {
+        showNotification(`Unable to use target address`,notificationTypes.warn)
       }
     }
 
