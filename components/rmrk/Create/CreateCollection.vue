@@ -79,7 +79,16 @@
         </b-button>
       </b-field>
       <b-field>
-        <Support v-model="hasSupport" :price="filePrice" />
+        <Support v-model="hasSupport" :price="filePrice">
+          <template v-slot:tooltip>
+            <Tooltip
+              :label="$t('support.tooltip')"
+              iconsize="is-small"
+              buttonsize="is-small"
+              tooltipsize="is-medium"
+            />
+          </template>
+        </Support>
       </b-field>
     </div>
   </div>
