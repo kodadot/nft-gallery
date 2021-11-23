@@ -50,7 +50,6 @@ export default {
       '~/components/settings',
       '~/components/shared',
       '~/components/spotlight',
-      '~/components/subsocial',
       '~/components/toolbox',
       '~/components/transfer',
     ]

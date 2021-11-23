@@ -30,7 +30,6 @@ const prefixes: Record<string, number> = {
   'zero-alphaville': 25,
   jupiter: 26,
   patract: 27,
-  subsocial: 28,
   cord: 29,
   phala: 30,
   litentry: 31,
