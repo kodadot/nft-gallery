@@ -8,7 +8,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:vue/essential",
-    "plugin:@typescript-eslint/recommended"
+    // "plugin:@typescript-eslint/recommended"
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
@@ -19,7 +19,7 @@
   "plugins": [
     "vue",
     "prettier",
-    "@typescript-eslint"
+    // "@typescript-eslint"
   ],
   "rules": {
     "no-trailing-spaces": "error",
