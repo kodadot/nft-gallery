@@ -228,6 +228,8 @@ export const  getters = {
   getChainProperties58Format: ({ chainProperties } : any ) => chainProperties.ss58Format,
   getChainPropertiesTokenDecimals: ({ chainProperties } : any ) => chainProperties.tokenDecimals,
   getUserLang: ({ language } : any) => language.userLang || 'en',
+  getLangsFlags: ({ language } : any) => language.langsFlags,
+  getUserFlag: ({ language } : any) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
   getCurrentKSMValue: ({ fiatPrice } : any) => fiatPrice['kusama']['usd'],
   getCurrentChain: ({ explorer } : any) => explorer.chain,
   getIndexer: ({ indexer } : any) => indexer
