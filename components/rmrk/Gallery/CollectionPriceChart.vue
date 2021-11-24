@@ -4,7 +4,7 @@
       <p class="label">
         {{ $t('Price Chart') }}
       </p>
-      <button class="button" @click="resetZoom">Reset zoom</button>
+      <b-button type="is-primary" @click="resetZoom">Reset zoom</b-button>
     </div>
     <div class="mt-5">
       <canvas
@@ -24,14 +24,15 @@ import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
+import { getChartData } from '@/utils/chart';
+
 Chart.register(zoomPlugin);
-type PriceDataArray = [Date, string | number];
 
 const components = {};
 
 @Component({ components })
 export default class PriceChart extends Vue {
-  @Prop() public priceData!: any[];
+  @Prop() public priceData!: [Date, number][][];
 
   protected chartOptionsLine: any = {};
   protected Chart!: Chart<'line', any, unknown>;
@@ -77,10 +78,7 @@ export default class PriceChart extends Vue {
           datasets: [
             {
               label: 'Floor Price',
-              data: this.priceData[0].map((data: PriceDataArray) => ({
-                x: data[0],
-                y: data[1],
-              })),
+              data: getChartData(this.priceData[0]),
               borderColor: '#d32e79',
               tension: 0.3,
               pointBackgroundColor: 'white',
@@ -90,10 +88,7 @@ export default class PriceChart extends Vue {
             },
             {
               label: 'Sold NFT Price',
-              data: this.priceData[1].map((data: PriceDataArray) => ({
-                x: data[0],
-                y: data[1],
-              })),
+              data: getChartData(this.priceData[1]),
               borderColor: '#00BB7F',
               tension: 0.3,
               pointBackgroundColor: 'white',

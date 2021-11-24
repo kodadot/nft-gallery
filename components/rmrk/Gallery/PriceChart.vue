@@ -17,12 +17,10 @@ import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
-
+import { getChartData } from '@/utils/chart';
 Chart.register(zoomPlugin);
 
 const components = {};
-
-type PriceDataArray = [Date, string | number];
 
 @Component({ components })
 export default class PriceChart extends Vue {
@@ -46,7 +44,6 @@ export default class PriceChart extends Vue {
   }
 
   protected getPriceChartData() {
-    console.log(this.priceChartData);
     if (this.priceChartData.length) {
       const ctx = (
         document?.getElementById('priceChart') as HTMLCanvasElement
@@ -57,10 +54,7 @@ export default class PriceChart extends Vue {
           datasets: [
             {
               label: 'Buy',
-              data: this.priceChartData[0].map((data: PriceDataArray) => ({
-                x: data[0],
-                y: data[1],
-              })),
+              data: getChartData(this.priceChartData[0]),
               borderColor: '#00b37a',
               tension: 0.3,
               pointBackgroundColor: 'white',
@@ -70,10 +64,7 @@ export default class PriceChart extends Vue {
             },
             {
               label: 'List',
-              data: this.priceChartData[1].map((data: PriceDataArray) => ({
-                x: data[0],
-                y: data[1],
-              })),
+              data: getChartData(this.priceChartData[1]),
               borderColor: '#d32e79',
               tension: 0.3,
               pointBackgroundColor: 'white',
