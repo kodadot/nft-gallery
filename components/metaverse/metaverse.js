@@ -12,13 +12,20 @@ AFRAME.registerComponent("arrange-nft", {
   frameWidth: 0,
   framePadding: 2.5,
   artWidth: 28,
+
+  schema: {
+    issuer: {type: 'string', default: '' }
+  },
+
   init: function () {
     this.frameWidth = this.artWidth + 1.5;
     this.fetchNFT();
   },
 
   fetchNFT: async function () {
-    let issuerID = "EaMrxQTs2autK9nsrkvSn52dBucQeU4U3KEzy5NiyAj63Li";
+    console.log('fetching nft', this.data.issuer);
+    const issuerID = this.data.issuer;
+    // let issuerID = "EaMrxQTs2autK9nsrkvSn52dBucQeU4U3KEzy5NiyAj63Li";
     // let issuerID = getParameterByName("i");
     let issuerNFTS = await getNFTListBYIssuer(issuerID);
     issuerNFTS = issuerNFTS.data.nFTEntities.nodes;

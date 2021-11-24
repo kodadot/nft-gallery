@@ -1,5 +1,5 @@
 <template>
-  <Base :nfts="nfts" />
+  <Base :id="id" :nfts="nfts" />
 </template>
 
 <script lang="ts" >
@@ -22,7 +22,8 @@ export default class CollectionMeta extends Vue {
   private nfts: NFT[] = [];
 
   public async mounted() {
-    await this.fetchProfile()
+    // await this.fetchProfile()
+    this.checkId()
   }
 
   public checkId() {

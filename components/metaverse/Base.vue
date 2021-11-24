@@ -12,7 +12,7 @@
         gltf-model="https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FGlb1.glb?v=1636762271679" visible=""
         rotation="0 -92.0743176775233 0">
 
-        <a-entity v-if="id" arrange-nft>
+        <a-entity v-if="id" :arrange-nft="formatedId">
         </a-entity>
     </a-gltf-model>
 
@@ -49,6 +49,10 @@ export default class Base extends Vue {
   private value2: any;
   @Prop({ type: Array, required: true }) public nfts!: NFT[];
   @Prop(String) public id!: string;
+
+  get formatedId(): string {
+    return `issuer: ${this.id}`
+  }
 
 
 }
