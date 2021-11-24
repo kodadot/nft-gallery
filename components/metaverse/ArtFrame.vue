@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <a-box color="tomato" depth="2" height="4" width="0.5">
 
-
-  </div>
+  </a-box>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import * as THREE from 'three'
 
 @Component({})
 export default class ArtFrame extends Vue {
