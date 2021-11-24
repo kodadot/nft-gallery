@@ -19,7 +19,7 @@
     <!-- Camera Rig -->
     <a-entity id="cameraRig">
         <!-- position="0 8 0" -->
-        <a-entity id="head" camera wasd-controls look-controls position="-65 20 80">
+        <a-entity id="head" camera wasd-controls="acceleration:500" look-controls position="-65 20 80">
         </a-entity>
         <a-entity id="ctlL"
             teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend"
