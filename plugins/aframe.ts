@@ -12,5 +12,7 @@ Vue.config.ignoredElements = [
   'a-sky',
   'a-camera',
   'a-cursor',
-  'a-entity'
+  'a-entity',
+  'a-mixin',
+  'a-gltf-model'
 ]
