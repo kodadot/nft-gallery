@@ -9,17 +9,17 @@
 
     <!-- 3d Models -->
     <a-gltf-model :src="space" scale="1 1 1" position="15.70262 -0.9575 -2.54031"
-        gltf-model="https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FGlb1.glb?v=1636762271679" visible=""
+        :gltf-model="space" visible=""
         rotation="0 -92.0743176775233 0">
 
-        <a-entity v-if="id" :arrange-nft="formatedId">
-        </a-entity>
+        <!-- <a-entity v-if="id" :arrange-nft="formatedId"> -->
+        <!-- </a-entity> -->
     </a-gltf-model>
 
     <!-- Camera Rig -->
     <a-entity id="cameraRig">
         <!-- position="0 8 0" -->
-        <a-entity id="head" camera wasd-controls="acceleration:500" look-controls position="-65 20 80">
+        <a-entity id="head" camera wasd-controls="acceleration:45" look-controls position="15.70262 -0.75 -1.24031">
         </a-entity>
         <a-entity id="ctlL"
             teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; startEvents: teleportstart; endEvents: teleportend"
@@ -45,7 +45,8 @@ import { NFT } from '../rmrk/service/scheme';
 
 @Component({})
 export default class Base extends Vue {
-  public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FGlb1.glb?v=1636762271679'
+  // public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FGlb1.glb?v=1636762271679'
+  public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2F_ice_KodaGallery.glb?v=1637762687356'
   private value2: any;
   @Prop({ type: Array, required: true }) public nfts!: NFT[];
   @Prop(String) public id!: string;
