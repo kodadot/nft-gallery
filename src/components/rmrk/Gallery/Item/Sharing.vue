@@ -17,11 +17,12 @@
         </b-button>
       </div>
 
-      <div class="control">
+      <div class="control" v-if="!onlyCopyLink" @click="shareTooltip" @focusout="openFallbackShareTooltip">
         <b-tooltip
           position="is-left"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
+          :active="active"
           multilined
         >
           <template v-slot:content>

@@ -326,7 +326,8 @@
   "general": {
     "balance": "Balance",
     "submit": "Submit",
-    "remove": "Remove"
+    "remove": "Remove",
+    "correctAddress": "Correct address format"
   },
   "helper": {
     "noCollections": "You have no collections",

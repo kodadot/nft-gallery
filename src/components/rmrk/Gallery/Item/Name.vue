@@ -17,33 +17,6 @@
       {{ $t('nft.carbonless') }} 「🌱」
       <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
     </p>
-    <p class="label">
-      {{ $t('collection') }}
-    </p>
-    <p class="subtitle is-size-6">
-      <router-link :to="{ name: 'collectionDetail', params: { id: nft.collectionId } }">
-        {{ nft.collectionId }}
-      </router-link>
-      <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
-    </p>
-    <p class="label">
-      {{ $t('creator') }}
-    </p>
-    <p class="subtitle is-size-6">
-      <ProfileLink :address="nft.issuer" :showTwitter="true"/>
-      <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
-      <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
-    </p>
-    <template v-if="nft.issuer !== nft.currentOwner">
-      <p class="label">
-        {{ $t('owner') }}
-      </p>
-      <p class="subtitle is-size-6">
-        <ProfileLink :address="nft.currentOwner" :showTwitter="true"/>
-        <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
-        <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
-      </p>
-    </template>
   </div>
 </template>
 

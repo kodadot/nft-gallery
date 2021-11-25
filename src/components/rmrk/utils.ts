@@ -330,6 +330,12 @@ export const onlyBuyEvents = (nftEvents:Interaction[]) : Interaction[] => {
   })
   return buyEvents
 }
+
+export const onlyMintEvent = (event: Interaction) : boolean => event.interaction === 'MINTNFT'
+export const onlyListEvent = (event: Interaction): boolean => event.interaction === 'LIST'
+
+export const onlyPriceChartEvent = (e: Interaction) : boolean => onlyMintEvent(e) || onlyListEvent(e)
+
 export const soldNFTPrice = (decimals : number) => (e : Interaction) : PriceDataType => [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
 
 

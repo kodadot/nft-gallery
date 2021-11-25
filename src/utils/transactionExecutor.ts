@@ -18,23 +18,26 @@ export const execResultValue = (execResult: ExecResult): string => {
   return execResult
 }
 
+export const sign = async (account: KeyringAccount | string, password: string | null, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[]): Promise<SubmittableExtrinsic<'promise'>> => {
+  const transfer = await callback(...params)
+  const address = typeof account === 'string' ? account : account.address
+  const injector = await getAddress(toDefaultAddress(address))
+
+  const options = injector ? { signer: injector.signer } : undefined
+  const signer: AddressOrPair = injector ? address : extractFromKeyring(address, password)
+
+  return transfer.signAsync(signer, options)
+}
+
+export const send = async (tx: SubmittableExtrinsic<'promise'>, statusCb?: Callback<any>): Promise<ExecResult> => {
+  const hasCallback = typeof statusCb === 'function'
+  const hash = hasCallback ? await tx.send(statusCb) : await tx.send()
+  return typeof hash === 'function' ? constructCallback(hash, tx.hash.toHex()) : hash.toHex()
+}
+
 const exec = async (account: KeyringAccount | string, password: string | null, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[], statusCb?: Callback<any>): Promise<ExecResult> => {
-  try {
-    const transfer = await callback(...params)
-    const address = typeof account === 'string' ? account : account.address
-    const injector = await getAddress(toDefaultAddress(address))
-    const hasCallback = typeof statusCb === 'function'
-
-    const options = injector ? { signer: injector.signer } : undefined
-    const signer: AddressOrPair = injector ? address : extractFromKeyring(address, password)
-
-    const tx = await transfer.signAsync(signer, options)
-    const hash = hasCallback ? await tx.send(statusCb) : await transfer.send()
-    return typeof hash === 'function' ? constructCallback(hash, tx.hash.toHex()) : hash.toHex()
-
-  } catch (err) {
-    throw err
-  }
+  const tx = await sign(account, password, callback, params)
+  return send(tx, statusCb)
 }
 
 const extractFromKeyring = (address: string, password: string | null) => {
