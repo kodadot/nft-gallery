@@ -185,7 +185,7 @@ export default class Transfer extends Mixins(
       if (hasAddress) {
         this.destinationAddress = query.target as string
       } else {
-        showNotification(`Unable to use target address`,notificationTypes.warn)
+        showNotification('Unable to use target address',notificationTypes.warn)
       }
     }
 
