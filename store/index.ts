@@ -178,7 +178,8 @@ export const state = () => ({
     kusama: {
       usd: null
     }
-  }
+  },
+  layoutClass: 'is-one-third-desktop is-one-third-tablet'
 })
 export const mutations = {
   keyringLoaded(state: any) {
@@ -211,7 +212,10 @@ export const mutations = {
   },
   setIndexerStatus(state: any, data : any) {
     state.indexer = Object.assign({}, state.indexer, data)
-  }
+  },
+  setLayoutClass(state: any, data) {
+    state.layoutClass = data
+  },
 }
 
 export const  actions = {
@@ -220,7 +224,10 @@ export const  actions = {
   },
   upateIndexerStatus({ commit }: any, data : any) {
     commit('setIndexerStatus', data)
-  }
+  },
+  setLayoutClass({ commit }: any, data) {
+    commit('setLayoutClass', data)
+  },
 }
 
 export const  getters = {
@@ -232,7 +239,8 @@ export const  getters = {
   getUserFlag: ({ language } : any) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
   getCurrentKSMValue: ({ fiatPrice } : any) => fiatPrice['kusama']['usd'],
   getCurrentChain: ({ explorer } : any) => explorer.chain,
-  getIndexer: ({ indexer } : any) => indexer
+  getIndexer: ({ indexer } : any) => indexer,
+  getLayoutClass: ({ layoutClass }) => layoutClass,
 }
 
 export const plugins = [vuexLocalStorage.plugin, apiPlugin, myPlugin ]
