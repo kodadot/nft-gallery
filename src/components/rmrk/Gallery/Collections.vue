@@ -1,10 +1,6 @@
 <template>
   <div class="collections container">
     <Loader :value="isLoading" />
-    <!-- TODO: Make it work with graphql -->
-    <!-- <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
-    </b-field> -->
     <Search v-bind.sync="searchQuery">
       <b-field>
         <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="perPage" />
