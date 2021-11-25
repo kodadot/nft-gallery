@@ -23,10 +23,17 @@ import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
-import { getChartData } from '@/utils/chart';
+import {
+  getChartData,
+  getMedianPoint,
+  getHSpread,
+  getMovingAverage,
+} from '@/utils/chart';
 
 Chart.register(zoomPlugin);
+Chart.register(annotationPlugin);
 
 const components = {};
 
@@ -72,9 +79,13 @@ export default class PriceChart extends Vue {
       const ctx = (
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
       )?.getContext('2d')!;
+
+      const hSpread = getHSpread(this.priceData[1]);
+
       const chart = new Chart(ctx, {
         type: 'line',
         data: {
+          labels: this.priceData[1].map((item) => item[0]),
           datasets: [
             {
               label: 'Floor Price',
@@ -96,10 +107,57 @@ export default class PriceChart extends Vue {
               pointRadius: 4,
               pointHoverRadius: 6,
             },
+            {
+              label: 'Trailing Average',
+              data: getMovingAverage(this.priceData[1]) as any,
+              borderColor: 'blue',
+              tension: 0.3,
+              pointBackgroundColor: 'white',
+              pointBorderColor: 'blue',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
           ],
         },
         options: {
           plugins: {
+            annotation: {
+              annotations: {
+                median: {
+                  type: 'line',
+                  yMin: getMedianPoint(this.priceData[1]),
+                  yMax: getMedianPoint(this.priceData[1]),
+                  borderColor: '#00BB7F',
+                  borderWidth: 2,
+                  borderDash: [10, 5],
+                },
+                minPoint: {
+                  type: 'point',
+                  yValue: hSpread.min,
+                  backgroundColor: 'yellow',
+                },
+                q1Point: {
+                  type: 'point',
+                  yValue: hSpread.q1,
+                  backgroundColor: 'aqua',
+                },
+                q2Point: {
+                  type: 'point',
+                  yValue: hSpread.q2,
+                  backgroundColor: 'orange',
+                },
+                q3Point: {
+                  type: 'point',
+                  yValue: hSpread.q3,
+                  backgroundColor: 'aqua',
+                },
+                maxPoint: {
+                  type: 'point',
+                  yValue: hSpread.max,
+                  backgroundColor: 'yellow',
+                },
+              },
+            },
             zoom: {
               limits: {
                 x: { min: 0 },
