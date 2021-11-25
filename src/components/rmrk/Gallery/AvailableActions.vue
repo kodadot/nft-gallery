@@ -80,7 +80,7 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   get showSubmit() {
-    return this.selectedAction && (!this.showMeta || this.metaValid)
+    return this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
   }
 
   get metaValid() {
@@ -100,6 +100,9 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   protected handleAction(action: Action) {
+    if (action === 'BUY') {
+      this.submit()
+    }
     if (shouldUpdate(action,  this.selectedAction)) {
       this.selectedAction = action
     } else {
