@@ -4,15 +4,14 @@
     <div class="container">
       <b-message type="is-primary" v-if="message">
         <div class="columns">
-        <div class="column is-four-fifths">
-        <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-        <p class="subtitle is-size-5 has-text-black">{{ $t('mint.shareWithFriends', [nft.name]) }} △</p>
+          <div class="column is-four-fifths">
+            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
+            <p class="subtitle is-size-5 has-text-black">{{ $t('mint.shareWithFriends', [nft.name]) }} △</p>
+          </div>
+          <div class="column">
+            <Sharing onlyCopyLink/>
+          </div>
         </div>
-        <div class="column">
-          <Sharing  onlyCopyLink/>
-        </div>
-        </div>
-
       </b-message>
       <div class="columns">
           <div class="image-wrapper">
@@ -41,7 +40,7 @@
           </div>
       </div>
 
-      <div class="columns pl-3">
+      <div class="columns">
         <div class="column is-6">
           <Appreciation
             :emotes="nft.emotes"
@@ -67,7 +66,7 @@
 
            <div class="columns">
             <div class="column">
-              <div class="nft-title" style="padding-left: 15px;">
+              <div class="nft-title">
                 <Detail :nft="nft" :isLoading="isLoading"/>
               </div>
             </div>
