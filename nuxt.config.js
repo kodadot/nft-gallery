@@ -75,10 +75,6 @@ export default {
         extensions: ['vue']
       },
       {
-        path: '~/components/subsocial',
-        extensions: ['vue']
-      },
-      {
         path: '~/components/toolbox',
         extensions: ['vue']
       },
