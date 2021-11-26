@@ -98,9 +98,27 @@ Sure, your **contribution** is welcome. Please follow [code of conduct](CODE_OF_
 ## Support the project ⭐
 If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏
 
+## Patronage 💸
+We have list of frequent participants in our codebase. 
+**You can send them $KSM**, native currency we use to payout bounties for Pull Requests and coordinating issues.
+
+### Heroes 🦸‍♂️🦸🦸‍♀️
+- [RoiLeo](https://kodadot.xyz/transfer/?target=DVYy1qnocE8t6ZvUfPx3rEjG829khNRXx3YrCGVHHj19Lcb)
+- [Yangwao](https://kodadot.xyz/transfer/?target=CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd)
+- [Vikiival](https://kodadot.xyz/transfer/?target=Fksmad33PFxhrQXNYPPJozgWrv82zuFLvXK7Rh8m1xQhe98)
+- [Prachi00](https://kodadot.xyz/transfer/?target=EzGc4s9PgCPx1YnF3fqzhLzVHpHMTL4LWPScwpDrR8JKgSU)
+
+### Want to join?
+- Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)! 
+- [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
 ## 🐳 Docker
 If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
+
+Run Kodadot locally
+```bash
+docker-compose up -d --build
+```
 
 Build docker image of KodaDot
 ```bash

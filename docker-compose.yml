@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  kodadot-app:
+    container_name: Kodadot
+    working_dir: /kodadot-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/kodadot-app'
+      - '/kodadot-app/node_modules'
+    environment:
+    - HOST=0.0.0.0
+    - CHOKIDAR_USEPOLLING=true
+    ports:
+    - 3000:3000
