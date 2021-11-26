@@ -20,7 +20,6 @@ export const getKsmPrice = async (): Promise<void> => {
     })
 
     return data
-    // this.$store.dispatch('setFiatPrice', data)
   } catch (error) {
     console.log(error)
   }
