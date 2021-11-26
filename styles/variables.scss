@@ -78,6 +78,8 @@ $button-border-color: $primary;
 $button-ghost-border-color: $primary;
 $button-border-width: 2px;
 $button-hover-border-color: $primary;
+$button-text-color: $light-text;
+$button-color: $light-text;
 
 // dropdown
 $dropdown-item-hover-background-color: $primary;
@@ -117,10 +119,17 @@ $container-offset: (2 * $gap);
 $container-max-width: $fullhd;
 
 // pagination
-$pagination-border-color: deeppink;
-$pagination-hover-border-color: deeppink;
-$pagination-focus-border-color: deeppink;
-$pagination-current-background-color: deeppink;
+$pagination-border-color: $primary;
+$pagination-hover-border-color: $primary;
+$pagination-focus-border-color: $primary;
+$pagination-current-background-color: $primary;
 $pagination-disabled-color: pink;
 $pagination-disabled-background-color: mediumvioletred;
 $pagination-disabled-border-color: mediumvioletred;
+$pagination-color: $light-text;
+$pagination-active-color: $light-text;
+
+
+// table
+$table-head-cell-color: $text;
+$table-color: $text;
