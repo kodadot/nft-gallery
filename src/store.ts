@@ -5,6 +5,7 @@ import SettingModule from '@vue-polkadot/vue-settings'
 import Connector from '@vue-polkadot/vue-api'
 import IdentityModule from './vuex/IdentityModule'
 import correctFormat from './utils/ss58Format'
+import { getKsmPrice } from '@/coingecko'
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -224,6 +225,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async fetchFiatPrice({ commit }: any) {
+      const ksmPrice = await getKsmPrice()
+      commit('setFiatPrice', ksmPrice)
+    },
     setFiatPrice({ commit }: any, data) {
       commit('setFiatPrice', data)
     },
