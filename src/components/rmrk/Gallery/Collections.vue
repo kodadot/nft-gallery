@@ -65,7 +65,6 @@ interface Image extends HTMLImageElement {
 type CollectionType = CollectionWithMeta;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
-  // Search: () => import('./Search/SearchBar.vue'),
   Search: () => import('./Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
