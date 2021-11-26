@@ -268,7 +268,7 @@ export default class GalleryItem extends Vue {
         this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
           t => t === mediaType
         )
-        this.viewMode = 'theatre'
+        this.viewMode = !this.imageVisible ? 'theatre' : 'default'
       }
 
       if (!m) {
