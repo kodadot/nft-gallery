@@ -115,6 +115,7 @@ import correctFormat from '@/utils/ss58Format'
 import { checkAddress, decodeAddress, encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import coingecko from '@/coingecko'
 @Component({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
@@ -154,7 +155,23 @@ export default class Transfer extends Mixins(
     return this.hasAddress ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format)) : ''
   }
 
+  public async getKsmPrice(): Promise<void> {
+    try {
+      const { data } = await coingecko.get('/simple/price', {
+        params: {
+          ids: 'kusama',
+          vs_currencies: 'usd'
+        }
+      })
+
+      this.$store.dispatch('setFiatPrice', data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   protected created() {
+    this.getKsmPrice()
     this.checkQueryParams()
   }
 
