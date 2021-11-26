@@ -269,19 +269,6 @@
   "theatre": "theatre",
   "view": "view",
   "price": "price",
-  "subsocial": {
-    "showComments": "Show comments",
-    "noComment": "There are currently no comments for this post!",
-    "comments": "Comment section by SubSocial",
-    "faucet": "You have no funds. Click here to visit faucet",
-    "balance": "Current balance",
-    "logIn": "You have to be logged in to vote and comment.",
-    "post": "Post NFT to Subsocial to enable comments",
-    "reply": "Reply to this comment",
-    "addComment": "Add comment",
-    "searchPost": "Searching for the post",
-    "autoFaucet": "Click to obtain SUB from faucet"
-  },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
     "uploadNo": "Do not use Arweave"

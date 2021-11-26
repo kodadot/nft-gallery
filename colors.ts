@@ -63,7 +63,6 @@ const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
-const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -143,7 +142,6 @@ export const nodeColors: Record<string, any> = [
   ['Polkadex Node', nodePolkadex],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
-  ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['Zenlink Collator', nodeZenlink],
