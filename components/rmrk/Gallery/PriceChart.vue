@@ -12,18 +12,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator';
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator';
 
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { getChartData } from '@/utils/chart';
+import ChainMixin from '@/utils/mixins/chainMixin';
+
 Chart.register(zoomPlugin);
 
 const components = {};
 
 @Component({ components })
-export default class PriceChart extends Vue {
+export default class PriceChart extends mixins(ChainMixin) {
   @Prop() public priceChartData!: [Date, number][][];
 
   protected chartOptionsLine: any = {};
@@ -128,7 +130,7 @@ export default class PriceChart extends Vue {
             y: {
               ticks: {
                 callback: (value) => {
-                  return `${Number(value).toFixed(2)} KSM`;
+                  return `${Number(value).toFixed(2)} ${this.unit}`;
                 },
                 maxTicksLimit: 7,
                 color: '#fff',
