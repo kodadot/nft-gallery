@@ -10,6 +10,20 @@ const api = Axios.create({
   withCredentials: false
 })
 
+export const getKsmPrice = async (): Promise<void> => {
+  try {
+    const { data } = await api.get('/simple/price', {
+      params: {
+        ids: 'kusama',
+        vs_currencies: 'usd'
+      }
+    })
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const getKSMUSD = async (): Promise<number> => {
   const coinId = 'kusama'

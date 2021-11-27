@@ -155,6 +155,7 @@ export default class Transfer extends Mixins(
   }
 
   protected created() {
+    this.$store.dispatch('fetchFiatPrice')
     this.checkQueryParams()
   }
 
