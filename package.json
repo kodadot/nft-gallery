@@ -1,4 +1,6 @@
 {
+  "url": "https://github.com/kodadot/nft-gallery/issues",
+  "homepage": "https://github.com/kodadot/nft-gallery/blob/main-nuxt/CONTRIBUTING.md",
   "name": "nft-gallery-nuxt",
   "version": "1.0.0",
   "private": true,
@@ -7,6 +9,9 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -26,12 +31,10 @@
     "@polkadot/util": "^7.4.1",
     "@polkadot/util-crypto": "^7.4.1",
     "@polkadot/vue-identicon": "^0.86.5",
-    "@subsocial/api": "0.6.3-dev.1",
-    "@subsocial/types": "0.6.3-dev.1",
-    "@subsocial/utils": "0.6.3-dev.1",
     "@types/file-saver": "^2.0.2",
     "@vue-polkadot/vue-api": "0.0.46",
     "@vue-polkadot/vue-settings": "^0.0.20",
+    "ansi-regex": "^5.0.1",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
     "buefy": "^0.9.10",
@@ -45,14 +48,18 @@
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
     "freezeframe": "^5.0.2",
+    "glob-parent": "^6.0.2",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.5",
     "idb-keyval": "^5.0.6",
+    "json-schema": "^0.4.0",
+    "jsonpointer": "5.0.0",
     "lazysizes": "^5.3.2",
     "luxon": "^2.1.1",
     "mingo": "^4.1.2",
-    "nuxt": "^2.15.7",
-    "nuxt-buefy": "^0.4.8",
+    "nth-check": "^2.0.1",
+    "nuxt": "^2.15.8",
+    "nuxt-buefy": "^0.4.13",
     "nuxt-property-decorator": "^2.9.1",
     "register-service-worker": "^1.7.2",
     "setimmediate": "^1.0.5",
@@ -70,14 +77,15 @@
     "vue-router": "^3.5.1",
     "vue-social-sharing": "^3.0.8",
     "vuex": "^3.6.2",
-    "vuex-persist": "^3.1.3"
+    "vuex-persist": "^3.1.3",
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@babel/helper-define-map": "^7.13.12",
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
-    "@nuxt/types": "^2.15.7",
+    "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@types/luxon": "^2.0.7",
     "@types/markdown-it": "^12.2.1",
@@ -91,7 +99,7 @@
     "sass": "^1.42.1",
     "sass-loader": "^10.2",
     "tslint": "^6.1.0",
-    "typescript": "^4.4.2",
+    "typescript": "^4.5.2",
     "vue-cli-plugin-i18n": "^1.0.1",
     "vue-debounce-decorator": "^1.0.1",
     "vue-template-compiler": "^2.6.12"

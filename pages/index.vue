@@ -26,10 +26,7 @@
               </span>
             </h2>
             <div class="buttons">
-              <b-dropdown
-                aria-role="list"
-                class="mr-2"
-              >
+              <b-dropdown aria-role="list" class="mr-2">
                 <template #trigger>
                   <b-button
                     label="Create"
@@ -39,18 +36,25 @@
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <router-link :to="{ name: 'rmrk-create'}">
+                  <router-link :to="{ name: 'rmrk'}">
                     {{ $t('Classic') }}
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <router-link :to="{ name: 'rmrk-mint'}">
+                  <router-link :to="{ name: 'simpleMint'}">
                     {{ $t('Simple') }}
                   </router-link>
                 </b-dropdown-item>
               </b-dropdown>
+              <b-button
+                tag="router-link"
+                to="/rmrk/collections"
+                type="is-primary"
+              >
+                Collections
+              </b-button>
               <b-button
                 tag="router-link"
                 to="/rmrk/gallery"
@@ -67,21 +71,30 @@
               </b-button>
               <b-button
                 tag="router-link"
-                to="/about"
+                to="/series-insight"
                 type="is-primary"
+              >
+                Series
+              </b-button>
+              <b-button
+                  tag="router-link"
+                  to="/about"
+                  type="is-primary"
               >
                 About
               </b-button>
               <b-button
-                tag="router-link"
-                to="/rmrk/faq"
-                type="is-primary"
+                  tag="router-link"
+                  to="/rmrk/faq"
+                  type="is-primary"
               >
                 Faq
               </b-button>
               <b-button
-                tag="router-link"
-                to="/grants"
+                tag="a"
+                href="https://tally.so/r/mVP06w"
+                target="_blank"
+                rel="noopener noreferrer"
                 type="is-primary"
               >
                 Grants
@@ -89,14 +102,7 @@
             </div>
           </div>
           <div class="column has-text-right has-text-left-mobile">
-            <iframe
-              src="https://discord.com/widget?id=840514076538830888&theme=dark"
-              width="350"
-              height="500"
-              allowtransparency="true"
-              frameborder="0"
-              sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-            />
+            <iframe src="https://discord.com/widget?id=840514076538830888&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
 
@@ -246,6 +252,7 @@ export default class Landing extends Vue {
   content: '';
   width: 100%;
   height: 100%;
+  color: $text;
 
   @include desktop {
     background: url('/homepage-bg.jpg') center bottom;
@@ -263,6 +270,7 @@ export default class Landing extends Vue {
 
   &__heading {
     font-size: 4rem;
+    color: $text;
   }
 
   &__box {

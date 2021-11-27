@@ -42,17 +42,46 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
     dirs: [
-      '~/components',
-      '~/components/landing',
-      '~/components/metadata',
-      '~/components/rmrk',
-      '~/components/series',
-      '~/components/settings',
-      '~/components/shared',
-      '~/components/spotlight',
-      '~/components/subsocial',
-      '~/components/toolbox',
-      '~/components/transfer',
+      {
+        path: '~/components',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/landing',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/metadata',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/rmrk',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/series',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/settings',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/shared',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/spotlight',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/toolbox',
+        extensions: ['vue']
+      },
+      {
+        path: '~/components/transfer',
+        extensions: ['vue']
+      },
     ]
   },
 
@@ -108,7 +137,7 @@ export default {
       { code: 'ur', iso: 'ur', file: 'ur.json' },
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
-    strategy: 'prefix', //strategy: 'prefix_except_default'
+    strategy: 'prefix_except_default',
     vueI18n: {
       fallbackLocale: 'en',
       // hide the warning message from the console.
@@ -134,4 +163,10 @@ export default {
       }
     }
   },
+
+  watchers: {
+    webpack: {
+      poll: true
+    }
+  }
 }

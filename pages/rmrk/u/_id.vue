@@ -73,7 +73,7 @@
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
-            link="rmrk/collection"
+            link="rmrk/collections"
           />
           <Pagination
             replace
