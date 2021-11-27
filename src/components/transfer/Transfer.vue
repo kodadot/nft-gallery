@@ -31,10 +31,25 @@
             </a>
           </div>
 
-          <b-field>
-            {{ $t("general.balance") }}
-            <Money :value="balance" inline />
-          </b-field>
+          <div class="is-flex is-align-items-center">
+            <b-field>
+              {{ $t("general.balance") }}
+              <Money :value="balance" inline />
+            </b-field>
+
+            <b-field class="mb-3 ml-3" v-show="destinationAddress">
+              <b-button
+                type="is-success"
+                icon-left="money-bill"
+                :loading="isLoading"
+                @click="toast('Payment link copied to clipboard')"
+                v-clipboard:copy="generatePaymentLink()"
+                outlined
+              >
+                {{ $t("Copy Payment link") }}
+              </b-button>
+            </b-field>
+          </div>
 
           <b-field>
             <AddressInput v-model="destinationAddress" :strict="false" />
@@ -274,6 +289,10 @@ export default class Transfer extends Mixins(
   protected getExplorerUrl(): void {
     const url = this.getUrl()
     window.open(url, '_blank')
+  }
+
+  protected generatePaymentLink(): string {
+    return `https://nft.kodadot.xyz/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`;
   }
 
   protected shareInTweet() {
