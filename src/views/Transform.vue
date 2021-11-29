@@ -3,6 +3,9 @@
     <div class="column is-6 is-offset-3">
       <section>
         <br />
+        <p class="title is-size-3">
+            Transform
+        </p>
         <BasicInput
           v-model="url"
           :label="$t('helper.urlToTransform.label')"
@@ -17,7 +20,7 @@
           outlined
           :disabled="disabled"
         >
-          {{ $t('general.copy') }}
+          {{ $t('general.copyUrl') }}
         </b-button>
       </section>
     </div>

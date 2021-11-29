@@ -327,7 +327,8 @@
     "balance": "Balance",
     "submit": "Submit",
     "remove": "Remove",
-    "correctAddress": "Correct address format"
+    "correctAddress": "Correct address format",
+    "copyUrl": "Copy URL"
   },
   "helper": {
     "noCollections": "You have no collections",
