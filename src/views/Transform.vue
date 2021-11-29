@@ -14,10 +14,11 @@
         />
         <DisabledInput v-show="!disabled" label="KodaDot URL" :value="fullUrl" />
         <b-button
-          type="is-success"
+          type="is-primary"
           icon-left="copy"
-          v-clipboard:copy="transformedUrl"
+          v-clipboard:copy="fullUrl"
           outlined
+          @click="toast"
           :disabled="disabled"
         >
           {{ $t('general.copyUrl') }}
@@ -30,6 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import transform from '@/utils/urlTransformer'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 
 @Component({
   components: {
@@ -39,6 +41,10 @@ import transform from '@/utils/urlTransformer'
 })
 export default class Transform extends Vue {
   protected url = ''
+
+  public mounted(): void {
+    exist(this.$route.query.url, (value) => this.url = value)
+  }
 
   get transformedUrl(): string {
     return transform(this.url)
@@ -50,6 +56,11 @@ export default class Transform extends Vue {
 
   get disabled(): boolean {
     return this.transformedUrl === ''
+  }
+
+  private toast(): void {
+    const message = this.$t('helper.urlToTransform.copy').toString()
+    this.$buefy.toast.open(message)
   }
 }
 </script>

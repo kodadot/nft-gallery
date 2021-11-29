@@ -337,7 +337,8 @@
     "clickToCreate": "Click here to create collection",
     "urlToTransform": {
       "label": "URL to transform",
-      "placeholder": "singular.rmrk.app/collectibles/"
+      "placeholder": "singular.rmrk.app/collectibles/",
+      "copy": "Kodadot link successfuly copied"
     }
   },
   "action": {
