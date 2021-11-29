@@ -48,15 +48,15 @@ import { Emote } from '../service/scheme'
   }
 })
 export default class Appreciation extends mixins(RmrkVersionMixin) {
-  @Prop() public emotes!: Emote[];
-  @Prop() public currentOwnerId!: string;
-  @Prop() public accountId!: string;
-  @Prop() public nftId!: string;
-  @Prop(Boolean) public burned!: boolean;
+  @Prop() public emotes!: Emote[]
+  @Prop() public currentOwnerId!: string
+  @Prop() public accountId!: string
+  @Prop() public nftId!: string
+  @Prop(Boolean) public burned!: boolean
 
-  protected showDialog = false;
-  protected isLoading = false;
-  protected status = '';
+  protected showDialog = false
+  protected isLoading = false
+  protected status = ''
 
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this

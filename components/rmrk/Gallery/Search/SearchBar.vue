@@ -50,12 +50,12 @@ import { exist } from './exist'
   }
 })
 export default class SearchBar extends Vue {
-  @Prop(String) public search!: string;
-  @Prop(String) public type!: string;
-  @Prop(String) public sortBy!: string;
-  @Prop(Boolean) public listed!: boolean;
+  @Prop(String) public search!: string
+  @Prop(String) public type!: string
+  @Prop(String) public sortBy!: string
+  @Prop(Boolean) public listed!: boolean
 
-  protected isVisible = false;
+  protected isVisible = false
 
   public mounted(): void {
     exist(this.$route.query.search, this.updateSearch)

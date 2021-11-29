@@ -10,6 +10,6 @@
 import { Component, VModel, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class ActionSelector extends Vue {
-  @VModel({ type: String, default: 'CONSUME' }) selectedAction!: string;
+  @VModel({ type: String, default: 'CONSUME' }) selectedAction!: string
 }
 </script>

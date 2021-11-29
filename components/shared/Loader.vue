@@ -24,10 +24,10 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class Loader extends Vue {
-  @Prop(String) public status!: string;
-  @Prop(Boolean) public value!: boolean;
+  @Prop(String) public status!: string
+  @Prop(Boolean) public value!: boolean
 
-  protected placeholder = '/infinity.svg';
+  protected placeholder = '/infinity.svg'
 
   get isLoading() {
     return this.value

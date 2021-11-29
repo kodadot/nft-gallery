@@ -23,7 +23,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class Tooltip extends Vue {
-  @Prop() public label!: string;
-  @Prop({ default: 'is-medium' }) public iconsize!: string;
+  @Prop() public label!: string
+  @Prop({ default: 'is-medium' }) public iconsize!: string
 }
 </script>

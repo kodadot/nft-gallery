@@ -35,10 +35,10 @@ const components = {
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
-  @Prop() public items!: RmrkType[];
-  @Prop({ default: false }) public horizontalLayout!: boolean;
+  @Prop({ default: 'nftDetail' }) public type!: string
+  @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop() public items!: RmrkType[]
+  @Prop({ default: false }) public horizontalLayout!: boolean
   get classLayout() {
     return this.$store.getters.getLayoutClass
   }

@@ -55,13 +55,13 @@ import { emptyObject } from '@/utils/empty'
   }
 })
 export default class SignMessage extends Vue {
-  private password: any = '';
-  private address: any = '';
-  private input = '';
-  private signature: any = '';
-  private inputDataCheck = 'No';
-  private account: KeyringPair = emptyObject<KeyringPair>();
-  private currentPair: any = null;
+  private password: any = ''
+  private address: any = ''
+  private input = ''
+  private signature: any = ''
+  private inputDataCheck = 'No'
+  private account: KeyringPair = emptyObject<KeyringPair>()
+  private currentPair: any = null
 
   get isHexData(): string {
     return String(isHex(this.input))

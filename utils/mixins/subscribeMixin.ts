@@ -1,4 +1,4 @@
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator'
 // declare type UnsubscribePromise = Promise<Unsubscribe>;
 declare type Unsubscribe = () => void;
 
@@ -9,13 +9,13 @@ declare type Unsubscribe = () => void;
 */
 @Component
 export default class SubscribeMixin extends Vue {
-  private subs: Unsubscribe[] = [];
+  private subs: Unsubscribe[] = []
 
   public async subscribe(fn: any, args: any, callback: any) {
     this.subs.push(await fn(...args, callback))
   }
 
   public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.forEach((sub) => sub())
   }
 }

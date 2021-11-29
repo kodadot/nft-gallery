@@ -153,13 +153,13 @@ export default class AdminPanel extends mixins(
   TransactionMixin,
   ChainMixin
 ) {
-  protected commands = '';
-  private password = '';
-  private action: 'SEND' | 'CONSUME' | 'LIST' = 'CONSUME';
-  protected collections: MintedCollection[] = [];
-  private selectedCollection: MintedCollection | null = null;
-  protected listed = true;
-  protected metaFunction: ProcessFunction | undefined = undefined;
+  protected commands = ''
+  private password = ''
+  private action: 'SEND' | 'CONSUME' | 'LIST' = 'CONSUME'
+  protected collections: MintedCollection[] = []
+  private selectedCollection: MintedCollection | null = null
+  protected listed = true
+  protected metaFunction: ProcessFunction | undefined = undefined
 
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({

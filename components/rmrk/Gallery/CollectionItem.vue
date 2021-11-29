@@ -138,22 +138,22 @@ const components = {
 export default class CollectionItem extends mixins(
   ChainMixin
 ) {
-  private id = '';
-  private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private isLoading = false;
-  public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private id = ''
+  private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
+  private isLoading = false
+  public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  };
-  private activeTab = 0;
-  private currentValue = 1;
-  private first = 15;
-  private total = 0;
-  protected stats: NFT[] = [];
-  protected priceData: any = [];
+  }
+  private activeTab = 0
+  private currentValue = 1
+  private first = 15
+  private total = 0
+  protected stats: NFT[] = []
+  protected priceData: any = []
 
   get offset(): number {
     return this.currentValue * this.first - this.first

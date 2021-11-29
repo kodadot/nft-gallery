@@ -120,14 +120,14 @@ export default class CreateCollection extends mixins(
   RmrkVersionMixin,
   TransactionMixin
 ) {
-  private rmrkMint: Collection = emptyObject<Collection>();
-  private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private rmrkMint: Collection = emptyObject<Collection>()
+  private meta: CollectionMetadata = emptyObject<CollectionMetadata>()
   // private accountId: string = '';
-  private uploadMode = true;
-  private image: Blob | null = null;
-  private password = '';
-  private hasSupport = true;
-  protected unlimited = true;
+  private uploadMode = true
+  private image: Blob | null = null
+  private password = ''
+  private hasSupport = true
+  protected unlimited = true
 
   get accountId() {
     return this.$store.getters.getAuthAddress

@@ -16,8 +16,8 @@ import Identicon from '@polkadot/vue-identicon'
   Identicon
 } })
 export default class Avatar extends Vue {
-  @Prop({ default: '' }) public value!: string;
-  @Prop({ default: 64 }) public size!: number;
+  @Prop({ default: '' }) public value!: string
+  @Prop({ default: 64 }) public size!: number
 }
 </script>
 

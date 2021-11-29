@@ -21,10 +21,10 @@ import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class AddressInput extends Vue {
-  @Prop(String) public value!: string;
-  private err: string | null = '';
-  @Prop({ type: String, default: 'insert address' }) public label!: string;
-  @Prop(Boolean) public emptyOnError!: boolean;
+  @Prop(String) public value!: string
+  private err: string | null = ''
+  @Prop({ type: String, default: 'insert address' }) public label!: string
+  @Prop(Boolean) public emptyOnError!: boolean
 
   get inputValue(): string {
     return this.value

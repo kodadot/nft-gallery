@@ -177,18 +177,18 @@ import Orientation from '@/directives/DeviceOrientation'
   },
 })
 export default class GalleryItem extends Vue {
-  private id = '';
+  private id = ''
   // private accountId: string = '';
-  private passsword = '';
-  private nft: NFT = emptyObject<NFT>();
-  private imageVisible = true;
-  private viewMode = 'default';
-  private isFullScreenView = false;
-  public isLoading = true;
-  public mimeType = '';
-  public meta: NFTMetadata = emptyObject<NFTMetadata>();
+  private passsword = ''
+  private nft: NFT = emptyObject<NFT>()
+  private imageVisible = true
+  private viewMode = 'default'
+  private isFullScreenView = false
+  public isLoading = true
+  public mimeType = ''
+  public meta: NFTMetadata = emptyObject<NFTMetadata>()
   public emotes: Emote[] = []
-  public message = '';
+  public message = ''
 
   get accountId() {
     return this.$store.getters.getAuthAddress

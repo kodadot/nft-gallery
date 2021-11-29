@@ -160,11 +160,11 @@ export default class Transfer extends mixins(
   AuthMixin,
   ChainMixin
 ) {
-  protected balance = '0';
-  protected destinationAddress = '';
-  protected transactionValue = '';
-  protected price = 0;
-  protected usdValue = 0;
+  protected balance = '0'
+  protected destinationAddress = ''
+  protected transactionValue = ''
+  protected price = 0
+  protected usdValue = 0
 
   get disabled(): boolean {
     return !this.destinationAddress || !this.price || !this.accountId
