@@ -98,6 +98,7 @@
     "@vue/cli-service": "^4.2.3",
     "all-contributors-cli": "^6.20.0",
     "eslint": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.1.1",
     "netlify-lambda": "^2.0.14",
     "sass": "^1.42.1",
