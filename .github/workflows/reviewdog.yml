@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: eslint
-        uses: reviewdog/action-eslint@v1
+      - name: Run eslint with reviewdog
+        uses: reviewdog/action-eslint@v1.14.0
         with:
-          reporter: github-pr-review
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
