@@ -333,7 +333,11 @@
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
-    "clickToCreate": "Click here to create collection"
+    "clickToCreate": "Click here to create collection",
+    "urlToTransform": {
+      "label": "URL to transform",
+      "placeholder": "singular.rmrk.app/collectibles/"
+    }
   },
   "action": {
     "admin": "Admin panel",

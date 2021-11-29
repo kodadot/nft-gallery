@@ -5,23 +5,17 @@
         <br />
         <BasicInput
           v-model="url"
-          :label="$t('mint.collection.symbol.label')"
-          :message="$t('mint.collection.symbol.message')"
-          :placeholder="$t('mint.collection.symbol.placeholder')"
+          :label="$t('helper.urlToTransform.label')"
+          :placeholder="$t('helper.urlToTransform.placeholder')"
           @keydown.native.space.prevent
         />
-        <DisabledInput label="hex input data" value="isHexAddress" />
+        <DisabledInput v-show="!disabled" label="KodaDot URL" :value="fullUrl" />
         <b-button
-          type="is-primary"
-          icon-left="paper-plane"
+          type="is-success"
+          icon-left="copy"
+          v-clipboard:copy="transformedUrl"
           outlined
-        >
-          {{ $t('general.open') }}
-        </b-button>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          outlined
+          :disabled="disabled"
         >
           {{ $t('general.copy') }}
         </b-button>
@@ -32,6 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import transform from '@/utils/urlTransformer'
 
 @Component({
   components: {
@@ -39,11 +34,19 @@ import { Component, Vue } from 'vue-property-decorator'
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
   },
 })
-export default class Transfer extends Vue {
+export default class Transform extends Vue {
   protected url = ''
 
-  get transformedUrl() {
-    return this.url
+  get transformedUrl(): string {
+    return transform(this.url)
+  }
+
+  get fullUrl(): string {
+    return `${window.location.origin}${this.transformedUrl}`
+  }
+
+  get disabled(): boolean {
+    return this.transformedUrl === ''
   }
 }
 </script>
