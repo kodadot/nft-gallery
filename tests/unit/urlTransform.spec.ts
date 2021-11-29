@@ -21,6 +21,18 @@ describe('URL TRANSFORMER TEST', (): void => {
       const transformed = transform(collection)
       expect(transformed).to.equal('/rmrk/collection/FC77C33AB229A2056A-BTFLSUZANN')
     })
+
+    it('can correctly handle empty URL', () => {
+      const collection = ''
+      const transformed = transform(collection)
+      expect(transformed).to.equal('')
+    })
+
+    it('should return empty string when the value is not correct', () => {
+      const collection = 'kkdot'
+      const transformed = transform(collection)
+      expect(transformed).to.equal('')
+    })
   })
 
 

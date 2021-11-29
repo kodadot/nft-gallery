@@ -1,26 +1,28 @@
-
-
 type URLParams = string[]
 type TransformFunction = (params: URLParams) => string
 type Transformer = Record<string, TransformFunction>
 
 function transform(url: string): string {
-  const value = new URL(url)
+  try {
+    const value = new URL(url)
 
-  const transformer = getTransformer(value)
+    const transformer = getTransformer(value)
 
-  if (!isTransformer(transformer)) {
-    return url
+    if (!isTransformer(transformer)) {
+      return url
+    }
+
+    const params = getParams(value)
+    const fn = transformer[params[0]] // TODO: only works for singular
+
+    if (!fn) {
+      return url
+    }
+
+    return fn(params)
+  } catch (e) {
+    return ''
   }
-
-  const params = getParams(value)
-  const fn = transformer[params[0]] // TODO: only works for singular
-
-  if (!fn) {
-    return url
-  }
-
-  return fn(params)
 }
 
 function getParams(url: URL): string[] {
@@ -44,9 +46,7 @@ const singularTransformer: Transformer = {
 }
 
 const availableTranformers: Record<string, Transformer> = {
-  'singular.rmrk.app': singularTransformer
+  'singular.rmrk.app': singularTransformer,
 }
 
-
 export default transform
-
