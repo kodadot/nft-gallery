@@ -1,12 +1,15 @@
-import setting from '@vue-polkadot/vue-settings'
+import { OverrideSettingModule } from '@vue-polkadot/vue-settings'
+
+const defaultApiUrl = process.env.VUE_APP_WS_URL ? { apiUrl: process.env.VUE_APP_WS_URL } : {}
+const SettingModule = OverrideSettingModule(defaultApiUrl)
 
 // Disabling namespace to match with the original repo
 export const namespaced = false
 
-export const state = () => setting.state
+export const state = () => SettingModule.state
 
-export const actions = setting.actions
+export const actions = SettingModule.actions
 
-export const mutations = setting.mutations
+export const mutations = SettingModule.mutations
 
-export const getters = setting.getters
+export const getters = SettingModule.getters
