@@ -35,7 +35,7 @@
       </div>
 
       <div class="card-content">
-        <div class="title is-6 is-size-4-mobile has-text-primary has-text-centered has-text-overflow-ellipsis">
+        <div class="title is-5 is-size-4-mobile has-text-primary has-text-centered has-text-overflow-ellipsis">
           {{ name }}
         </div>
       </div>
