@@ -15,4 +15,4 @@ jobs:
           reporter: github-pr-review
           fail_on_error: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: 'src/'
+          eslint_flags: '.'
