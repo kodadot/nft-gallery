@@ -11,6 +11,8 @@ jobs:
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.14.0
         with:
+          level: error
           reporter: github-pr-review
           fail_on_error: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint_flags: 'src/'
