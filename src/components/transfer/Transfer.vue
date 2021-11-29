@@ -37,18 +37,6 @@
               <Money :value="balance" inline />
             </b-field>
 
-            <b-field class="mb-3 ml-3" v-show="destinationAddress">
-              <b-button
-                type="is-success"
-                icon-left="money-bill"
-                :loading="isLoading"
-                @click="toast('Payment link copied to clipboard')"
-                v-clipboard:copy="generatePaymentLink()"
-                outlined
-              >
-                {{ $t("Copy Payment link") }}
-              </b-button>
-            </b-field>
           </div>
 
           <b-field>
@@ -94,6 +82,18 @@
              >
                <b-icon size="is-small" pack="fas" icon="link" />
              </b-button>
+            <b-field class="mb-3 ml-3" v-show="destinationAddress">
+              <b-button
+                type="is-success"
+                icon-left="money-bill"
+                :loading="isLoading"
+                @click="toast('Payment link copied to clipboard')"
+                v-clipboard:copy="generatePaymentLink()"
+                outlined
+              >
+                {{ $t("Copy Payment link") }}
+              </b-button>
+            </b-field>
           </b-field>
           <div v-if="transactionValue && this.$route.query.donation">
             <div class="is-size-5">🎉 Congratulations for supporting
@@ -292,7 +292,7 @@ export default class Transfer extends Mixins(
   }
 
   protected generatePaymentLink(): string {
-    return `https://nft.kodadot.xyz/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`;
+    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
