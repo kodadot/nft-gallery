@@ -11,5 +11,6 @@ jobs:
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.14.0
         with:
-          reporter: github-pr-check
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail_on_error: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
