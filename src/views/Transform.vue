@@ -2,7 +2,6 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br />
         <p class="title is-size-3">
             Transform
         </p>
