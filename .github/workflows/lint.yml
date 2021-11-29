@@ -2,9 +2,9 @@ name: Lint Files
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, main-nuxt ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, main-nuxt ]
 
 jobs:
   lint:
@@ -16,10 +16,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14"
+          node-version: "16"
 
       - name: Install Dependencies
         run: yarn
 
-      - name: Lint Code
+      - name: Run Code Lint
         run: yarn lint
