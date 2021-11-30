@@ -14,7 +14,7 @@
         <div class="column is-4" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
             <router-link
-              :to="`/rmrk/gallery/${nft.id}`"
+              :to="`/${urlPrefix}/gallery/${nft.id}`"
               tag="div"
               class="nft-card__skeleton"
             >
@@ -39,8 +39,7 @@
                   :title="nft.name"
                 >
                   <router-link
-                    v-if="nft.count < 2"
-                    :to="`/rmrk/gallery/${nft.id}`"
+                    :to="`/${urlPrefix}/gallery/${nft.id}`"
                   >
                     <div>
                       <div class="has-text-overflow-ellipsis middle">
@@ -48,22 +47,6 @@
                       </div>
                     </div>
                   </router-link>
-                  <router-link
-                    v-else
-                    :to="`/rmrk/collection/${nft.collectionId}`"
-                  >
-                    <div class="has-text-overflow-ellipsis">
-                      {{ nft.name }}
-                    </div>
-                  </router-link>
-
-                  <p
-                    v-if="nft.count > 2"
-                    :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6"
-                  >
-                    「{{ nft.count }}」
-                  </p>
                 </span>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
@@ -94,6 +77,7 @@ import { SearchQuery } from './Search/types'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 import { denyList } from '@/constants'
+import { DocumentNode } from 'graphql'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -145,6 +129,7 @@ const components = {
   components
 })
 export default class Gallery extends Vue {
+  private prefix = this.$config.prefix
   private nfts: NFT[] = [];
   private meta: Metadata[] = [];
   private searchQuery: SearchQuery = {
@@ -159,16 +144,23 @@ export default class Gallery extends Vue {
   private total = 0;
 
   get isLoading() {
-    return this.$apollo.queries.nfts.loading
+    return this.$apollo.queries.nfts?.loading
   }
 
   get offset() {
     return this.currentValue * this.first - this.first
   }
 
+  get urlPrefix() {
+    return this.prefix || 'rmrk'
+  }
+
   public async created() {
+    const isRemark = this.urlPrefix === 'rmrk'
+    const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
+
     this.$apollo.addSmartQuery('nfts', {
-      query: nftListWithSearch,
+      query:  query as unknown as DocumentNode,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
@@ -189,7 +181,7 @@ export default class Gallery extends Vue {
     this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
-      emoteCount: e.emotes?.totalCount
+      emoteCount: e?.emotes?.totalCount
     }))
 
     const storedMetadata = await getMany(
@@ -225,8 +217,10 @@ export default class Gallery extends Vue {
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
+      const isRemark = this.urlPrefix === 'rmrk'
+      const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
       const nfts = this.$apollo.query({
-        query: nftListWithSearch,
+        query:  query as unknown as DocumentNode,
         variables: {
           first: this.first,
           offset,
@@ -269,11 +263,11 @@ export default class Gallery extends Vue {
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
 
-    if (this.searchQuery.search) {
-      params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
-      })
-    }
+    // if (this.searchQuery.search) {
+    //   params.push({
+    //     name: { likeInsensitive: `%${this.searchQuery.search}%` }
+    //   })
+    // }
 
     if (this.searchQuery.listed) {
       params.push({
