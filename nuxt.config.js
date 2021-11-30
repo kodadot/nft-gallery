@@ -168,5 +168,12 @@ export default {
     webpack: {
       poll: true
     }
-  }
+  },
+
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
+  publicRuntimeConfig: {
+    prefix: process.env.PREFIX || 'rmrk',
+  },
+  // In case of using ssr
+  // privateRuntimeConfig: {}
 }
