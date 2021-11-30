@@ -307,7 +307,7 @@ export default class CreateToken extends mixins(
             const blockNumber = header.number.toString()
 
             showNotification(
-              `[NFT] Saved ${this.nft.edition} entries in block ${blockNumber}`,
+              `[NFT] Saved ${this.nft.name} in block ${blockNumber}`,
               notificationTypes.success
             )
 
