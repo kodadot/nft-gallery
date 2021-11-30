@@ -33,7 +33,7 @@
         </template>
         <b-navbar-item
           tag="router-link"
-          to="/rmrk/create"
+          :to="`/${urlPrefix}/create`"
         >
           {{ $t('Classic') }}
         </b-navbar-item>
@@ -52,13 +52,13 @@
       </b-navbar-dropdown>
       <b-navbar-item
         tag="router-link"
-        to="/rmrk/collections"
+        :to="`/${urlPrefix}/collections`"
       >
         {{ $t('Collections') }}
       </b-navbar-item>
       <b-navbar-item
         tag="router-link"
-        to="/rmrk/gallery"
+        :to="`/${urlPrefix}/gallery`"
       >
         {{ $t('Gallery') }}
       </b-navbar-item>
@@ -138,7 +138,7 @@ import i18n from '@/i18n'
   }
 })
 export default class NavbarMenu extends Vue {
-  private color: string = getCurrentColor()
+  private prefix = this.$config.prefix
   public navbar: any = [
     {
       name: i18n.t('Gallery'),
@@ -182,11 +182,9 @@ export default class NavbarMenu extends Vue {
     }
   ]
 
-  // get chainColor() {
-  //   return {
-  //     'border-bottom': `4px ${this.color} solid`
-  //   }
-  // }
+  get urlPrefix() {
+    return this.prefix || 'rmrk'
+  }
 }
 </script>
 
