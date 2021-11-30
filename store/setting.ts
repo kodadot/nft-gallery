@@ -1,5 +1,7 @@
 import { OverrideSettingModule } from '@vue-polkadot/vue-settings'
 
+console.log(process.env.VUE_APP_WS_URL, process.env.NUXT_ENV_WS_URL)
+
 const defaultApiUrl = process.env.VUE_APP_WS_URL ? { apiUrl: process.env.VUE_APP_WS_URL } : {}
 const SettingModule = OverrideSettingModule(defaultApiUrl)
 
