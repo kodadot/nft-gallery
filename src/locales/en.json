@@ -327,13 +327,19 @@
     "balance": "Balance",
     "submit": "Submit",
     "remove": "Remove",
-    "correctAddress": "Correct address format"
+    "correctAddress": "Correct address format",
+    "copyUrl": "Copy URL"
   },
   "helper": {
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
-    "clickToCreate": "Click here to create collection"
+    "clickToCreate": "Click here to create collection",
+    "urlToTransform": {
+      "label": "URL to transform",
+      "placeholder": "singular.rmrk.app/collectibles/",
+      "copy": "Kodadot link successfuly copied"
+    }
   },
   "action": {
     "admin": "Admin panel",

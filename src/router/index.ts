@@ -22,6 +22,7 @@ const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
 const Series = () => import('@/components/landing/Series.vue')
 const Jobs = () => import('@/components/landing/Jobs.vue')
+const Transform = () => import('@/views/Transform.vue')
 
 export default new Router({
   mode: 'history',
@@ -99,6 +100,11 @@ export default new Router({
       path: '/tutorials',
       name: 'tutorials',
       component: Tutorials,
+    },
+    {
+      path: '/transform',
+      name: 'transform',
+      component: Transform,
     },
     {
       path: '/grants',
