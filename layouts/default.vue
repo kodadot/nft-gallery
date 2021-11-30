@@ -1,8 +1,12 @@
 <template>
   <div class="min-h-full">
     <Navbar v-if="isNavbarVisible" />
-    <main class="is-flex is-flex-direction-column is-flex-grow-1 m-6">
-      <router-view />
+    <main class="is-flex is-flex-direction-column is-flex-grow-1">
+      <section class="section">
+        <div class="container">
+          <router-view />
+        </div>
+      </section>
     </main>
     <Footer />
   </div>
