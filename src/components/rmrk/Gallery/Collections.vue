@@ -49,7 +49,7 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
+import { CollectionWithMeta, Collection, Metadata, CollectionWithNFT } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 import { SearchQuery } from './Search/types'
 import Freezeframe from 'freezeframe'
@@ -248,8 +248,8 @@ export default class Collections extends Vue {
 
   }
 
-  get results() {
-    return this.collections as CollectionWithMeta[]
+  get results(): CollectionWithMeta[] {
+    return this.collections.filter((collection: any) => collection.nfts.nodes.length) as CollectionWithMeta[]
   }
 
   setFreezeframe() {
