@@ -1,0 +1,19 @@
+#import "./nft.graphql"
+
+query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityFilter!]) {
+  nFTEntities(
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+    filter: {
+      issuer: { notIn: $denyList },
+      metadata: { includes: "ipfs" },
+      and: $search
+    }
+  ) {
+    totalCount
+    nodes {
+      ...nft
+    }
+  }
+}
