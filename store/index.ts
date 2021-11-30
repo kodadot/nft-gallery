@@ -1,6 +1,8 @@
 import VuexPersist from 'vuex-persist'
 import Connector from '@vue-polkadot/vue-api'
 import correctFormat from '@/utils/ss58Format'
+import { getKsmPrice } from '@/coingecko'
+import { Commit } from 'vuex'
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -219,13 +221,17 @@ export const mutations = {
 }
 
 export const  actions = {
-  setFiatPrice({ commit }: any, data : any) {
+  async fetchFiatPrice({ commit }: { commit: Commit }) {
+    const ksmPrice = await getKsmPrice()
+    commit('setFiatPrice', ksmPrice)
+  },
+  setFiatPrice({ commit }: { commit: Commit }, data : any) {
     commit('setFiatPrice', data)
   },
-  upateIndexerStatus({ commit }: any, data : any) {
+  upateIndexerStatus({ commit }: { commit: Commit }, data : any) {
     commit('setIndexerStatus', data)
   },
-  setLayoutClass({ commit }: any, data) {
+  setLayoutClass({ commit }: { commit: Commit }, data) {
     commit('setLayoutClass', data)
   },
 }
