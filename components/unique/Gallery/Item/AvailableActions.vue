@@ -156,13 +156,6 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
     this.meta = ''
   }
 
-  private constructRmrk(): string {
-    const { selectedAction, version, meta, nftId } = this
-    return `RMRK::${selectedAction}::${version}::${nftId}${
-      this.metaValid ? '::' + meta : ''
-    }`
-  }
-
   get isConsume() {
     return this.selectedAction === 'CONSUME'
   }
