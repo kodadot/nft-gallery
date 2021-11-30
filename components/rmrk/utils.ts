@@ -79,7 +79,7 @@ export const fetchNFTMetadata = (
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchMetadata = async <T>(
-  rmrk: RmrkType | CollectionOrNFT,
+  rmrk: { metadata: string },
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<T> => {
   try {

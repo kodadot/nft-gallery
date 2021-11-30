@@ -48,7 +48,7 @@
                     </div>
                   </router-link>
                 </span>
-                <b-skeleton :active="isLoading"> </b-skeleton>
+                <!-- <b-skeleton :active="isLoading"> </b-skeleton> -->
               </div>
             </router-link>
           </div>

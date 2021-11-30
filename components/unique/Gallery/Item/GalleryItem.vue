@@ -116,27 +116,30 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '@/components/rmrk/utils'
 import { emptyObject } from '@/utils/empty'
 
-import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
-// import Money from '@/components/shared/format/Money.vue';
-// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import VueMarkdown from 'vue-markdown-render'
+import {
+  BalanceOf,
+  InstanceDetails,
+  InstanceMetadata
+} from '@polkadot/types/interfaces'
 
 import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/nftById.graphql'
-import { fetchNFTMetadata } from '../utils'
+import nftById from '@/queries/unique/nftById.graphql'
+import { fetchNFTMetadata } from '@/components/rmrk/utils'
 import { get, set } from 'idb-keyval'
-import { MediaType } from '../types'
+import { MediaType } from '@/components/rmrk/types'
 import axios from 'axios'
-import { exist } from './Search/exist'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import Orientation from '@/directives/DeviceOrientation'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import Connector from '@vue-polkadot/vue-api'
+import { Option } from '@polkadot/types'
+import { createTokenId, tokenIdToRoute } from '../../utils'
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -168,7 +171,6 @@ import Orientation from '@/directives/DeviceOrientation'
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
-    // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render')
   },
@@ -176,15 +178,16 @@ import Orientation from '@/directives/DeviceOrientation'
     orientation: Orientation
   },
 })
-export default class GalleryItem extends Vue {
+export default class GalleryItem extends mixins(SubscribeMixin) {
   private id = '';
+  private collectionId = ''
   // private accountId: string = '';
   private passsword = '';
   private nft: NFT = emptyObject<NFT>();
   private imageVisible = true;
   private viewMode = 'default';
   private isFullScreenView = false;
-  public isLoading = true;
+  public isLoading = false;
   public mimeType = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
   public emotes: Emote[] = []
@@ -196,40 +199,91 @@ export default class GalleryItem extends Vue {
 
   public async created() {
     this.checkId()
-    exist(this.$route.query.message, (val) => {
-      this.message = val === 'congrats' ? val : ''
-      this.$router.replace(
-        { query: null } as any
+    this.fetchCollection()
+    setTimeout(() => {
+      this.loadMagic()
+      const { api } = Connector.getInstance()
+      this.subscribe(
+        api.query.uniques.asset,
+        [this.collectionId, this.id],
+        this.observeOwner
       )
-    })
+    }, 3000)
+  }
 
+  protected observeOwner(data: Option<InstanceDetails>) {
+    console.log(data.toHuman())
+    const instance = data.unwrapOr(null)
+    if (instance) {
+      this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
+      this.$set(this.nft, 'delegate', instance.approved.toHuman())
+      console.log('isFreezed', instance.isFrozen)
+      this.$set(this.nft, 'frozen', instance.isFrozen.eq(true))
+    } else {
+      // check if not burned because burned returns null
+      this.nft = emptyObject<NFT>()
+    }
+  }
 
+    public async loadMagic() {
+    const { api } = Connector.getInstance()
+    await api?.isReady
     try {
-      // const nft = await rmrkService.getNFT(this.id);
-      this.$apollo.addSmartQuery('nft',{
-        query: nftById,
-        variables: {
-          id: this.id
-        },
-        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
-        result: () => this.fetchMetadata(),
-        pollInterval: 5000
-      })
+      console.log('loading magic', this.id)
+      const nftId = this.id || 0
 
-      // console.log(nft);
-
-      // this.nft = {
-      //   ...nft,
-      //   image: sanitizeIpfsUrl(nft.image || ''),
-      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      // };
-      // }
+      const nftQ = await api.query.uniques
+        .instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
+        .then(res => res.unwrapOr(null))
+      if (!nftQ) {
+        showNotification(`No NFT with ID ${nftId}`, notificationTypes.warn)
+        return
+      }
+      const nftData = nftQ.toHuman()
+      if (!nftData.data) {
+        showNotification(
+          `No Metadata with ID ${nftId}`,
+          notificationTypes.warn
+        )
+        return
+      }
+      const nft = await fetchNFTMetadata({ metadata: nftData.data.toString() } as NFT)
+      this.meta = {
+        ...nft,
+        image: sanitizeIpfsUrl(nft.image || '')
+      }
+      // TODO: add attributes as traits
+      const { attributes, ...rest } = nft
+      this.nft = {
+        ...this.nft,
+        ...rest,
+        ...nftData,
+      }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
-      // console.warn(e);
+      console.warn(e)
     }
-
     this.isLoading = false
+  }
+
+  private async fetchCollection() {
+    const nft = await this.$apollo.query({
+      query: nftById,
+      variables: {
+        id: createTokenId(this.collectionId, this.id)
+      }
+    })
+    const {
+      data: { nFTEntity }
+    } = nft
+    if (!nFTEntity) {
+      return
+    }
+    console.log('nft', nFTEntity)
+    this.nft = {
+      ...this.nft,
+      ...nFTEntity
+    }
   }
 
   onImageError(e: any) {
@@ -271,7 +325,9 @@ export default class GalleryItem extends Vue {
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id
+      const { id, item } = tokenIdToRoute(this.$route.params.id)
+      this.id = item
+      this.collectionId = id
     }
   }
 
@@ -312,7 +368,7 @@ export default class GalleryItem extends Vue {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft()
+    // (this.$refs.actions as AvailableActions).unlistNft()
   }
 
 }
@@ -492,3 +548,7 @@ hr.comment-divider {
 
 }
 </style>
+
+function MetaTransactionMixin(SubscribeMixin: typeof SubscribeMixin, MetaTransactionMixin: any) {
+  throw new Error('Function not implemented.')
+}

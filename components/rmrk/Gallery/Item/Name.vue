@@ -39,7 +39,7 @@
       {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
-      <router-link :to="`/rmrk/collection/${nft.collectionId}`">
+      <router-link :to="`/${urlPrefix}/collection/${nft.collectionId}`">
         {{ nft.collectionId }}
       </router-link>
       <b-skeleton
@@ -96,6 +96,7 @@ const components = {
 
 @Component({ components })
 export default class Name extends Vue {
+  private prefix = this.$config.prefix
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
   @Prop() public isLoading!: boolean;
 
@@ -105,6 +106,10 @@ export default class Name extends Vue {
 
   get carbonlessBadge() {
     return this.nft.attributes?.some(({trait_type, value}) => trait_type === 'carbonless' && value)
+  }
+
+  get urlPrefix() {
+    return this.prefix || 'rmrk'
   }
 }
 </script>

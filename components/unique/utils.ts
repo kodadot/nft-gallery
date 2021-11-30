@@ -1,4 +1,4 @@
-export const tokenIdToRoute = (tokenId: string): object => {
+export const tokenIdToRoute = (tokenId: string): { id: string, item: string } => {
   const [collection, item] = tokenId.split('-')
   return {
     id: collection,
