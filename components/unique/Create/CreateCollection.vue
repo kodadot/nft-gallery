@@ -63,8 +63,20 @@
         :message="$t('mint.collection.description.message')"
         :placeholder="$t('mint.collection.description.placeholder')"
       />
+      <CustomAttributeInput
+        :max="5"
+        v-model="attributes"
+        class="mb-3"
+        visible="mint.showOnChainAttr"
+        hidden="mint.hideOnChainAttr"
+      />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
+      </b-field>
+      <b-field>
+      <p class="has-text-weight-medium is-size-6 has-text-warning">
+        {{ $t("mint.deposit") }}: <Money :value="collectionDeposit" inline />
+      </p>
       </b-field>
       <b-field>
         <b-button
@@ -101,8 +113,10 @@ import { decodeAddress } from '@polkadot/keyring'
 import { u8aToHex } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support'
-import NFTUtils from '../NftUtils'
 import TransactionMixin from '@/utils/mixins/txMixin'
+import existingCollectionList from '@/queries/bsx/existingCollectionList.graphql'
+import { Attribute } from '@/components/rmrk/types'
+import { getRandomValues } from '../utils'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -112,6 +126,8 @@ const components = {
   Support: () => import('@/components/shared/Support.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  CustomAttributeInput: () => import('@/components/rmrk/Create/CustomAttributeInput.vue')
 }
 
 @Component({ components })
@@ -128,6 +144,9 @@ export default class CreateCollection extends mixins(
   private password = '';
   private hasSupport = true;
   protected unlimited = true;
+  protected collectionDeposit = '';
+  protected id = '0'
+  protected attributes: Attribute[] = [];
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -144,18 +163,6 @@ export default class CreateCollection extends mixins(
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint
     return !(name && symbol && (this.unlimited || max) && this.accountId && this.image)
-  }
-
-  public constructRmrkMint(metadata: string): Collection {
-    const { symbol, name, max } = this.rmrkMint
-    const count = this.unlimited ? 0 : max
-    return NFTUtils.createCollection(
-      this.accountId,
-      symbol,
-      name,
-      metadata,
-      count
-    )
   }
 
   get filePrice() {
@@ -190,28 +197,49 @@ export default class CreateCollection extends mixins(
     return []
   }
 
-  private toRemark(remark: string) {
-    const { api } = Connector.getInstance()
-    return api.tx.system.remark(remark)
+  protected async generateNewCollectionId(): Promise<number> {
+    const randomNumbers = getRandomValues(10).map(String)
+    const cols = this.$apollo.query({
+      query: existingCollectionList,
+      variables: {
+        ids: randomNumbers.map(String)
+      },
+    })
+    const {
+      data: {
+        collectionEntities: {
+          nodes: collectionList
+        }
+      }
+    } = await cols
+    const existingIds = collectionList.map(({ id }: {id: string}) => id)
+    const newId = randomNumbers.find((id) => !existingIds.includes(id))
+    return Number(newId)
   }
 
-  private async submit() {
+  protected async submit(): Promise<void> {
     this.isLoading = true
     this.status = 'loader.ipfs'
-
     try {
+      showNotification(`Creating Collection: ${this.rmrkMint.name}`)
       const metadata = await this.constructMeta()
-      const mint = this.constructRmrkMint(metadata)
-      const mintString = NFTUtils.encodeCollection(mint, this.version)
-
+      // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       const { api } = Connector.getInstance()
-      showNotification(mintString)
-      const cb = !this.hasSupport
-        ? api.tx.system.remark
-        : api.tx.utility.batchAll
-      const args = !this.hasSupport
-        ? mintString
-        : [this.toRemark(mintString), ...(await this.canSupport())]
+      const cb = api.tx.utility.batchAll
+      const randomId = await this.generateNewCollectionId()
+      // const randomId = Number(this.id)
+      const create = api.tx.uniques.create(randomId, this.accountId)
+      // Option to freeze metadata
+      const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
+      const attributes = this.attributes.map(a =>
+        api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
+      )
+
+      // TODO: enable can support
+      const args = [[create, meta, ...attributes]]
+      // const args = !this.hasSupport
+      //   ? mintString
+      //   : [this.toRemark(mintString), ...(await this.canSupport())]
 
       const tx = await exec(
         this.accountId,
