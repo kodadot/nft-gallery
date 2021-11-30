@@ -114,7 +114,7 @@ import { u8aToHex } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support'
 import TransactionMixin from '@/utils/mixins/txMixin'
-import existingCollectionList from '@/queries/bsx/existingCollectionList.graphql'
+import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
 import { Attribute } from '@/components/rmrk/types'
 import { getRandomValues } from '../utils'
 

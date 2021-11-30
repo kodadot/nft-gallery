@@ -58,6 +58,7 @@
         <p class="has-text-weight-medium is-size-6 has-text-warning">
           {{ $t("mint.deposit") }}: <Money :value="deposit" inline />
         </p>
+      </b-field>
       <b-field>
         <b-button
           type="is-primary"
@@ -371,10 +372,6 @@ export default class CreateToken extends mixins(
     }
   }
 
-  protected calculateSerialNumber(index: number) {
-    return String(index + this.alreadyMinted + 1).padStart(16, '0')
-  }
-
   protected onTxError(dispatchError: DispatchError): void {
     const { api } = Connector.getInstance()
     if (dispatchError.isModule) {
@@ -394,7 +391,7 @@ export default class CreateToken extends mixins(
     this.isLoading = false
   }
 
-  protected navigateToDetail(nft: NFT, blockNumber: string) {
+  protected navigateToDetail(nft: NFT, blockNumber: string): void {
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
