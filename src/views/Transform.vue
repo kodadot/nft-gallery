@@ -3,7 +3,7 @@
     <div class="column is-6 is-offset-3">
       <section>
         <p class="title is-size-3">
-            $t('Transform')
+          {{ $t('Transform') }}
         </p>
         <BasicInput
           v-model="url"
