@@ -149,7 +149,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.subquery.network/sq/vikiival/magick'
+        httpEndpoint: process.env.NUXT_ENV_SUBQUERY_URL || 'https://api.subquery.network/sq/vikiival/magick'
       }
     }
   },
@@ -172,7 +172,7 @@ export default {
 
   // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
   publicRuntimeConfig: {
-    prefix: process.env.PREFIX || 'rmrk',
+    prefix: process.env.URL_PREFIX || 'rmrk',
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
