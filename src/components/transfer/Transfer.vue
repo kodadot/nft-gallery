@@ -47,7 +47,7 @@
            <b-field>
             <BalanceInput v-model="price" label="Amount" :calculate="false" @input="onAmountFieldChange"/>
            </b-field>
-           <b-field>
+           <b-field class="mb-3">
             <ReadOnlyBalanceInput v-model="usdValue" @input="onUSDFieldChange" labelInput="USD Value (approx)" label="USD" />
            </b-field>
           </div>
@@ -82,9 +82,10 @@
              >
                <b-icon size="is-small" pack="fas" icon="link" />
              </b-button>
-            <b-field class="mb-3 ml-3" v-show="destinationAddress">
               <b-button
+                v-if="destinationAddress"
                 type="is-success"
+                class="paymentLink"
                 icon-left="money-bill"
                 :loading="isLoading"
                 @click="toast('Payment link copied to clipboard')"
@@ -93,7 +94,6 @@
               >
                 {{ $t("Copy Payment link") }}
               </b-button>
-            </b-field>
           </b-field>
           <div v-if="transactionValue && this.$route.query.donation">
             <div class="is-size-5">🎉 Congratulations for supporting
@@ -348,6 +348,15 @@ export default class Transfer extends Mixins(
     .tx {
        margin-left: 1rem;
     }
+
+    .paymentLink {
+      margin-left: 1rem;
+      @media screen and (max-width: 1023px) {
+        margin-left: 0rem;
+        margin-top: 1rem;
+      }
+    }
+
     .tweetBtn {
        margin-top: 0.5rem;
     }
