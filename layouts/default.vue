@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-full">
+  <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar v-if="isNavbarVisible" />
-    <main class="is-flex is-flex-direction-column is-flex-grow-1">
+    <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
           <router-view />
