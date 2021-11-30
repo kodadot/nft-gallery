@@ -8,7 +8,9 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
+    "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue ."
   },
   "engines": {
     "node": ">=16.0.0"
