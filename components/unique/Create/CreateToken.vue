@@ -18,9 +18,7 @@
               :value="option"
               :key="option.id"
             >
-              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
-                option.max || Infinity
-              }}
+              {{ option.id }} ({{ option.alreadyMinted }})
             </option>
           </b-select>
         </b-field>
@@ -45,9 +43,21 @@
           <BasicSwitch class="mt-3" v-model="postfix" label="mint.expert.postfix" />
         </CollapseWrapper>
       </b-field>
+      <CustomAttributeInput
+        v-show="selectedCollection"
+        :max="5"
+        v-model="attributes"
+        class="mb-3"
+        visible="mint.showOnChainAttr"
+        hidden="mint.hideOnChainAttr"
+      />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
+      <b-field>
+        <p class="has-text-weight-medium is-size-6 has-text-warning">
+          {{ $t("mint.deposit") }}: <Money :value="deposit" inline />
+        </p>
       <b-field>
         <b-button
           type="is-primary"
@@ -58,24 +68,6 @@
           outlined
         >
           {{ $t("mint.submit") }}
-        </b-button>
-      </b-field>
-      <b-field>
-        <b-button
-          type="is-text"
-          icon-left="calculator"
-          @click="estimateTx"
-          :disabled="disabled"
-          :loading="isLoading"
-          outlined
-        >
-          <template v-if="!estimated">
-            {{ $t("mint.estimate") }}
-          </template>
-          <template v-else>
-            {{ $t("mint.estimated") }}
-            <Money :value="estimated" inline />
-          </template>
         </b-button>
       </b-field>
       <b-field>
@@ -113,7 +105,7 @@ import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support'
-import collectionForMint from '@/queries/collectionForMint.graphql'
+import collectionForMint from '@/queries/unique/collectionForMint.graphql'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -125,6 +117,7 @@ import {
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
+import { Attribute } from '@/components/rmrk/types'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -132,11 +125,8 @@ interface NFTAndMeta extends NFT {
 
 type MintedCollection = {
   id: string;
-  name: string;
   alreadyMinted: number;
-  max: number;
   metadata: string;
-  symbol: string;
 };
 
 @Component({
@@ -167,7 +157,7 @@ export default class CreateToken extends mixins(
     nsfw: false,
     price: 0,
     file: undefined,
-    secondFile: undefined
+    secondFile: undefined,
   };
   protected collections: MintedCollection[] = [];
   private selectedCollection: MintedCollection | null = null;
@@ -180,9 +170,16 @@ export default class CreateToken extends mixins(
   private filePrice = 0;
   protected arweaveUpload = false;
   protected postfix = true;
+  protected deposit = '0'
+  protected depositPerByte = BigInt(0);
+  protected attributes: Attribute[] = [];
 
   get accountId() {
     return this.$store.getters.getAuthAddress
+  }
+
+  public mounted(): void {
+    // setTimeout(this.fetchDeposit, 1000)
   }
 
   @Watch('accountId', { immediate: true })
@@ -210,9 +207,6 @@ export default class CreateToken extends mixins(
         ...ce,
         alreadyMinted: ce.nfts?.totalCount
       }))
-      .filter(
-        (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
-      )
   }
 
   get disabled() {
@@ -255,7 +249,25 @@ export default class CreateToken extends mixins(
     return []
   }
 
-  protected async submit() {
+  protected createApiCall() {
+    const { api } = Connector.getInstance()
+    if (this.nft.price || this.nft.edition > 1) {
+      return api.tx.utility.batchAll
+    }
+    return api.tx.nft.mint
+  }
+  protected createApiParams(metadata: string) {
+    const { api } = Connector.getInstance()
+    const { id, alreadyMinted } = this.selectedCollection!
+    const args = NFTUtils.createNFT(id, alreadyMinted, this.accountId)
+    if (!this.nft.price) {
+      return args
+    }
+    const calls = [api.tx.nft.mint(...args)]
+    return [calls]
+  }
+
+  protected async submit(): Promise<void> {
     if (!this.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
@@ -263,35 +275,26 @@ export default class CreateToken extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { alreadyMinted, symbol } = this.selectedCollection
-
+    const { id, alreadyMinted } = this.selectedCollection
     try {
       const metadata = await this.constructMeta()
+      // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       // missin possibility to handle more than one remark
-
-      const mint = NFTUtils.createMultipleNFT(
-        this.nft.edition,
-        this.accountId,
-        symbol,
-        this.nft.name,
-        metadata,
-        alreadyMinted,
-        this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
+      // do not rely on alreadyMinted, it is not always accurate
+      // do not rely subscribe to the collection, it is not always accurate
+      // DEV: fetch nft ids from the collection, and reccomend next id
+      const cb = api.tx.utility.batchAll
+      // do not rely on alreadyMinted, it is not always accurate
+      // do not rely subscribe to the collection, it is not always accurate
+      // DEV: fetch nft ids from the collection, and reccomend next id
+      const create = api.tx.uniques.mint(id, alreadyMinted, this.accountId)
+      // Option to freeze metadata
+      const meta = api.tx.uniques.setMetadata(id, alreadyMinted, metadata, false)
+      const attributes = this.attributes.map(a =>
+        api.tx.uniques.setAttribute(id, String(alreadyMinted), a.trait_type, String(a.value))
       )
-      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
-
-      const isSingle =
-        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
-
-      const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-      const args = isSingle
-        ? mintString[0]
-        : [
-          ...mintString.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ]
-
+      //
+      const args = [[create, meta, ...attributes]]
       const tx = await exec(
         this.accountId,
         '',
@@ -309,12 +312,6 @@ export default class CreateToken extends mixins(
             )
 
             this.isLoading = false
-
-            if (this.nft.price) {
-              this.listForSale(mint, blockNumber)
-            } else {
-              this.navigateToDetail(mint[0], blockNumber)
-            }
           },
           dispatchError => {
             execResultValue(tx)
@@ -376,105 +373,6 @@ export default class CreateToken extends mixins(
 
   protected calculateSerialNumber(index: number) {
     return String(index + this.alreadyMinted + 1).padStart(16, '0')
-  }
-
-  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
-    try {
-      const { api } = Connector.getInstance()
-      this.isLoading = true
-
-      const { version } = this
-      const { price } = this.nft
-      showNotification(
-        `[APP] Listing NFT to sale for ${formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: this.unit
-        })}`
-      )
-
-      const onlyNfts = remarks
-
-        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        .map(nft =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
-        )
-
-      if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.danger)
-        return
-      }
-
-      const cb = api.tx.utility.batchAll
-      const args = onlyNfts.map(this.toRemark)
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [args],
-        txCb(
-          async blockHash => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[LIST] Saved prices for ${
-                onlyNfts.length
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit
-              })} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-            this.navigateToDetail(remarks[0], originalBlockNumber)
-          },
-          dispatchError => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          res => this.resolveStatus(res.status)
-        )
-      )
-    } catch (e) {
-      showNotification((e as Error).message, notificationTypes.danger)
-    }
-  }
-
-  protected async estimateTx() {
-    this.isLoading = true
-    const { accountId, version } = this
-    const { api } = Connector.getInstance()
-
-    const mint = NFTUtils.createMultipleNFT(
-      this.nft.edition,
-      this.accountId,
-      this.selectedCollection?.symbol || '',
-      this.nft.name,
-      unSanitizeIpfsUrl(''),
-      this.alreadyMinted,
-      this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
-    )
-    const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
-
-    const isSingle =
-      remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
-    const cb = api.tx.utility.batchAll
-
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [
-        ...remarks.map(this.toRemark),
-        ...(await this.canSupport()),
-        ...(await this.canOffset())
-      ]
-
-    this.estimated = await estimate(this.accountId, cb, [args])
-
-    this.isLoading = false
   }
 
   protected onTxError(dispatchError: DispatchError): void {
