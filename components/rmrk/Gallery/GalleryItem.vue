@@ -1,7 +1,6 @@
- <template>
-  <div class="wrapper section no-padding-desktop gallery-item mb-6">
+<template>
+  <section>
 
-    <div class="container">
       <b-message type="is-primary" v-if="message">
         <div class="columns">
         <div class="column is-four-fifths">
@@ -110,9 +109,8 @@
 
       <!-- <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" /> -->
-    </div>
 
-  </div>
+  </section>
 </template>
 
 <script lang="ts" >
