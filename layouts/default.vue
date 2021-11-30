@@ -21,7 +21,6 @@ import keyring from '@polkadot/ui-keyring'
 import isShareMode from '@/utils/isShareMode'
 import correctFormat from '@/utils/ss58Format'
 import checkIndexer from '@/queries/checkIndexer.graphql'
-import coingecko from '@/coingecko'
 
 @Component<Dashboard>({
   metaInfo() {
@@ -63,25 +62,9 @@ export default class Dashboard extends Vue {
     this.$store.commit('keyringLoaded')
   }
 
-  public async getKsmPrice(): Promise<void> {
-    try {
-      const { data } = await coingecko.get('/simple/price', {
-        params: {
-          ids: 'kusama',
-          vs_currencies: 'usd'
-        }
-      })
-
-      this.$store.dispatch('setFiatPrice', data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   public mounted(): void {
     this.mountWasmCrypto()
     this.fetchIndexer()
-    this.getKsmPrice()
   }
 
   private async fetchIndexer() {
