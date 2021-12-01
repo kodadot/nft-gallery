@@ -1,43 +1,35 @@
 <template>
-  <div class="box container">
-    <h2 class="heading text-bold uppercase mb-6">
-      <span class="text__stroked heading heading-is-6">
+  <div class="container">
+    <h1 class="text-bold text__stroked heading heading-is-6 is-size-1-mobile mb-6">
         {{ $t('Frequently Asked Question') }}
-      </span>
-    </h2>
-    <p class="faq__box heading heading-is-2 text-bold is-flex-inline mb-6">
-      No time for reading? <br>
-      No problem. Check out <br>
+    </h1>
+
+    <p class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
+      No time for reading? <br />
+      No problem. Check out <br />
       <router-link :to="{ name: 'tutorials' }">
         Our tutorials.
       </router-link>
     </p>
-    <div
-      v-for="qa in faqQuestionsAnswers"
-      :key="qa[0]"
-      class="mb-5"
-    >
-      <b-collapse
-        :id="qa[0].replace(/ /g, '-')"
-        :open="false"
-      >
+
+    <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
+      <b-collapse :open="false" :id="qa[0].replace(/ /g, '-')">
         <template #trigger="props">
-          <div class="is-flex title">
+          <div class="is-flex is-align-items-center">
             <a
-              class="card-header-icon has-text-primary"
+              class="has-text-primary"
               :href="'#' + qa[0].replace(/ /g, '-')"
             >
-              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'" />
+              <b-icon :icon="!props.open ? 'chevron-down' : 'chevron-up'" class="mr-4">
+              </b-icon>
             </a>
-            <h3 class="heading heading-is-2 max-w-600 has-text-weight-semibold">
+            <h3 class="heading is-size-5-mobile is-size-4-tablet max-w-600 has-text-weight-semibold">
               {{ qa[0] }}
             </h3>
           </div>
         </template>
         <div class="content">
-          <p class="subtitle">
-            <span v-html="qa[1]" />
-          </p>
+          <p v-html="qa[1]"></p>
         </div>
       </b-collapse>
     </div>

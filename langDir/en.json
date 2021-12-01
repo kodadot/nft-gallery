@@ -269,22 +269,18 @@
   "theatre": "theatre",
   "view": "view",
   "price": "price",
-  "subsocial": {
-    "showComments": "Show comments",
-    "noComment": "There are currently no comments for this post!",
-    "comments": "Comment section by SubSocial",
-    "faucet": "You have no funds. Click here to visit faucet",
-    "balance": "Current balance",
-    "logIn": "You have to be logged in to vote and comment.",
-    "post": "Post NFT to Subsocial to enable comments",
-    "reply": "Reply to this comment",
-    "addComment": "Add comment",
-    "searchPost": "Searching for the post",
-    "autoFaucet": "Click to obtain SUB from faucet"
-  },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
-    "uploadNo": "Do not use Arweave"
+    "uploadNo": "Do not use Arweave",
+    "tooltip": "Using Arweave means that you are storing your multimedia forever on Arweave, good for small assets like JPEG."
+  },
+  "carbonOffset": {
+    "carbonOffsetYes": "I'm making carbonless NFT",
+    "carbonOffsetNo": "I don't want to have carbonless NFT",
+    "tooltip": "Carbonless NFT means that you are helping cover costs for carbon credits and planting trees"
+  },
+  "support": {
+    "tooltip": "Cover costs mean that users help to support initial costs for KodaDot which stores your JPEG on your behalf."
   },
   "termOfService": {
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"
