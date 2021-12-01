@@ -1,155 +1,155 @@
 <template>
   <div class="price-chart">
-    <p class="label">
-      {{ $t('Price Chart') }}
-    </p>
-    <div
-      id="chart"
-      ref="chart"
-      class="echart"
-    />
+    <div>
+      <p class="label">
+        {{ $t('Price Chart') }}
+      </p>
+    </div>
+    <div class="mt-2">
+      <canvas id="priceChart" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator';
 
-import * as ECharts from 'echarts/core'
-import { GridComponent } from 'echarts/components'
-import { LineChart } from 'echarts/charts'
-import { UniversalTransition } from 'echarts/features'
-import { CanvasRenderer } from 'echarts/renderers'
-import { TooltipComponent } from 'echarts/components'
-import { DataZoomComponent } from 'echarts/components'
+import Chart from 'chart.js/auto';
+import 'chartjs-adapter-luxon';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import { getChartData } from '@/utils/chart';
+import ChainMixin from '@/utils/mixins/chainMixin';
 
-ECharts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent, DataZoomComponent])
+Chart.register(zoomPlugin);
 
-// type EChartsOption = ECharts.ComposeOption<
-//   GridComponentOption | LineSeriesOption
-// >;
-
-
-const components = {
-  // chart: () => ECharts,
-}
+const components = {};
 
 @Component({ components })
-export default class PriceChart extends Vue {
-  @Prop() public priceData!: any[];
-  // @Prop() public eventData!: Date[];
+export default class PriceChart extends mixins(ChainMixin) {
+  @Prop() public priceChartData!: [Date, number][][];
 
   protected chartOptionsLine: any = {};
-  protected Chart!: ECharts.ECharts;
-  // protected date: any = [];
-  // protected UTCDate: any = {};
+  protected Chart!: Chart<'line', any, unknown>;
 
   protected onWindowResize() {
     if (this.Chart) {
-      this.Chart.resize({ width: 'auto', height: 400 })
+      this.Chart.resize();
     }
   }
 
   public async created() {
-    window.addEventListener('resize', this.onWindowResize)
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   public async mounted() {
-    // console.log(this.priceData)
-    this.priceChart()
+    this.getPriceChartData();
   }
 
-  protected priceChart() {
-    // this.createDate();
-    // console.log(document.documentElement.clientWidth);
-    this.Chart = ECharts.init(this.$refs.chart as HTMLElement)
-    this.Chart.setOption({
-      tooltip: {
-        trigger: 'item',
-        formatter: (params: { data: string[] }) => {
-          const date = this.parseDate(
-            params.data[0] as unknown as Date
-          )
-          const price = params.data[1] + ' KSM'
-          return '<center>' + date + '<br>' + price + '</center>'
+  protected getPriceChartData() {
+    if (this.priceChartData.length) {
+      const ctx = (
+        document?.getElementById('priceChart') as HTMLCanvasElement
+      )?.getContext('2d')!;
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [
+            {
+              label: 'Buy',
+              data: getChartData(this.priceChartData[0]),
+              borderColor: '#00b37a',
+              tension: 0.3,
+              pointBackgroundColor: 'white',
+              pointBorderColor: 'blue',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+            {
+              label: 'List',
+              data: getChartData(this.priceChartData[1]),
+              borderColor: '#d32e79',
+              tension: 0.3,
+              pointBackgroundColor: 'white',
+              pointBorderColor: 'blue',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+          ],
         },
-        backgroundColor: '#363636',
-        textStyle: {
-          color: '#fff',
-          fontFamily: 'Fira Code',
-        },
-      },
-      xAxis: {
-        type: 'time',
-        boundaryGap: false,
-        axisLabel: {
-          fontFamily: 'Fira Code',
-          color: '#fff',
-          hideOverlap: true,
-        },
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          formatter: '{value} KSM',
-          fontFamily: 'Fira Code',
-          color: '#fff',
-        },
-        splitLine: {
-          lineStyle: {
-            color: '#f8f8f8',
-            opacity: '.2'
-          }
-        },
-        nameTextStyle: {
-          color: '#fff',
-          fontFamily: 'Fira Code',
-        },
-      },
-      dataZoom: {
-        type: 'slider',
-        bottom: '2%',
-      },
-      series: [
-        {
-          name: 'priceHistory',
-          type: 'line',
-          smooth: 'true',
-          lineStyle: {
-            color: '#d32e79',
+        options: {
+          plugins: {
+            zoom: {
+              limits: {
+                x: { min: 0, minRange: 0 },
+                y: { min: 0, minRange: 0 },
+              },
+              pan: {
+                enabled: false,
+              },
+              zoom: {
+                wheel: {
+                  enabled: false,
+                },
+                pinch: {
+                  enabled: false,
+                },
+                mode: 'xy',
+                onZoomComplete({ chart }) {
+                  chart.update('none');
+                },
+              },
+            },
           },
-          data: this.priceData,
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                displayFormats: {
+                  hour: 'HH:mm',
+                  minute: 'HH:mm',
+                },
+                unit: 'hour',
+              },
+              grid: {
+                drawOnChartArea: false,
+                drawTicks: false,
+                drawBorder: false,
+              },
+              ticks: {
+                callback: (value) => {
+                  return value;
+                },
+                major: {
+                  enabled: true,
+                },
+                maxRotation: 0,
+                minRotation: 0,
+                color: '#fff',
+              },
+            },
+            y: {
+              ticks: {
+                callback: (value) => {
+                  return `${Number(value).toFixed(2)} ${this.unit}`;
+                },
+                maxTicksLimit: 7,
+                color: '#fff',
+              },
+              grid: {
+                color: '#3a3a3a',
+              },
+            },
+          },
         },
-      ],
-    })
+      });
 
-    this.Chart.resize({ width: 'auto', height: 400 })
+      this.Chart = chart;
+    }
   }
 
-  protected parseDate(date: Date) {
-    const utcDate: string = date.toUTCString()
-    return utcDate.substring(4)
-  }
-
-  protected formatDate(date: Date) {
-    const yyyy = date.getUTCFullYear()
-    const mm = this.padDigits(date.getUTCMonth() + 1)
-    const dd = this.padDigits(date.getUTCDate())
-    const hrs = this.padDigits(date.getUTCHours())
-    const mins = this.padDigits(date.getUTCMinutes())
-    const secs = this.padDigits(date.getUTCSeconds())
-    const YYYY_MM_DD_HRS_MINS_SECS =
-      yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' + mins + ':' + secs
-    return YYYY_MM_DD_HRS_MINS_SECS
-  }
-
-  protected padDigits(time: number) {
-    return time.toString().padStart(2, '0')
-  }
-
-  @Watch('priceData')
+  @Watch('priceChartData')
   async watchData(newPriceData: string[], oldPriceData: string[]) {
-    // console.log(this.priceData)
-    this.priceChart()
+    this.getPriceChartData();
   }
 }
 </script>

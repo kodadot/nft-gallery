@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:16
+FROM node:14.18.1
 
 WORKDIR /kodadot-app
 
@@ -11,6 +11,6 @@ RUN yarn install
 COPY . .
 
 ENV HOST 0.0.0.0
-EXPOSE 3000
+EXPOSE 9000
 
 CMD [ "yarn", "dev" ]
