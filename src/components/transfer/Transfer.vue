@@ -52,7 +52,7 @@
            </b-field>
           </div>
 
-          <b-field>
+          <div class="buttons">
             <b-button
               type="is-primary"
               icon-left="paper-plane"
@@ -78,14 +78,12 @@
                @click="toast('URL copied to clipboard')"
                v-clipboard:copy="getUrl()"
                type="is-primary"
-               class="ml-3"
              >
                <b-icon size="is-small" pack="fas" icon="link" />
              </b-button>
               <b-button
                 v-if="destinationAddress"
                 type="is-success"
-                class="paymentLink"
                 icon-left="money-bill"
                 :loading="isLoading"
                 @click="toast('Payment link copied to clipboard')"
@@ -94,7 +92,7 @@
               >
                 {{ $t("Copy Payment link") }}
               </b-button>
-          </b-field>
+          </div>
           <div v-if="transactionValue && this.$route.query.donation">
             <div class="is-size-5">🎉 Congratulations for supporting
              <Identity ref="identity" :address="this.$route.query.target" inline />
@@ -307,6 +305,38 @@ export default class Transfer extends Mixins(
       this.loadBalance()
     }
   }
+
+  @Watch('destinationAddress')
+  destinationChanged(value: string): void {
+    const queryValue: any = {}
+
+    if (value) {
+      queryValue.target = value
+    }
+    if (this.$route.query.usdamount) {
+      queryValue.usdamount = this.$route.query.usdamount
+    }
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: queryValue,
+    })
+  }
+
+  @Watch('usdValue')
+  usdValueChanged(value: string): void {
+    const queryValue: any = {}
+    if (value) {
+      queryValue.usdamount = value
+    }
+    if (this.$route.query.target) {
+      queryValue.target = this.$route.query.target
+    }
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: queryValue,
+    })
+  }
+
 
   async loadBalance() {
     if (!this.accountId || !this.unit) {
