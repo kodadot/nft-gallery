@@ -72,8 +72,8 @@
           <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
           <GalleryCardList
             :items="collections"
-            type="collectionDetail"
-            link="rmrk/collections"
+            route="/rmrk/collection"
+            link="rmrk/collection"
           />
           <Pagination
             replace
