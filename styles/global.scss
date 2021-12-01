@@ -119,11 +119,9 @@ body {
     .icon.is-primary {
         color: $primary !important;
     }
-    .navbar-start  {
-        .nuxt-link-active {
-            color: $primary;
-            background-color: #121212;
-        }
+    .navbar-start .nuxt-link-active {
+        color: $primary;
+        background-color: #121212;
     }
 
     .orientation {
