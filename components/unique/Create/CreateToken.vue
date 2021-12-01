@@ -143,6 +143,7 @@ type MintedCollection = {
     CollapseWrapper: () =>
       import('@/components/shared/collapse/CollapseWrapper.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+    CustomAttributeInput: () => import('@/components/rmrk/Create/CustomAttributeInput.vue'),
   }
 })
 export default class CreateToken extends mixins(
