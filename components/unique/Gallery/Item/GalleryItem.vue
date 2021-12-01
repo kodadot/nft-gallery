@@ -123,7 +123,6 @@ import { emptyObject } from '@/utils/empty'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
-  BalanceOf,
   InstanceDetails,
   InstanceMetadata
 } from '@polkadot/types/interfaces'
@@ -164,7 +163,6 @@ import { createTokenId, tokenIdToRoute } from '../../utils'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),

@@ -9,8 +9,8 @@ import {
   MediaType
 } from './types'
 import api from '@/fetch'
-import { RmrkType, RmrkWithMetaType, CollectionOrNFT, Interaction } from './service/scheme'
-import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
+import { RmrkWithMetaType, Interaction } from './service/scheme'
+import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { justHash } from '@/utils/ipfs'
 
@@ -24,8 +24,6 @@ export type PriceDataType = [
   date: Date,
   value: number,
 ]
-
-
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
   pinata: 'https://kodadot.mypinata.cloud/',
@@ -41,8 +39,6 @@ export const arweaveProviders: Record<ArweaveProviders, string> = {
 }
 
 export type SanitizerFunc = (url: string) => string
-
-
 
 export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => {
   if (justHash(ipfsHash)) {
@@ -64,10 +60,6 @@ export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3):
 
   return res
 }
-
-export const fetchPackMetadata = (
-  rmrk: RmrkType
-): Promise<PackMetadata> => fetchMetadata<PackMetadata>(rmrk)
 
 export const fetchCollectionMetadata = (
   rmrk: Collection
