@@ -35,14 +35,9 @@
       </div>
 
       <div class="card-content">
-        <span
-          class="title mb-0 is-4 has-text-centered has-text-primary"
-          :title="name"
-        >
-          <div class="has-text-overflow-ellipsis">
-            {{ name }}
-          </div>
-        </span>
+        <div class="title is-5 is-size-4-mobile has-text-primary has-text-centered has-text-overflow-ellipsis">
+          {{ name }}
+        </div>
       </div>
     </LinkResolver>
   </div>
@@ -102,7 +97,7 @@ export default class GalleryCard extends Vue {
     }
   }
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
   }
 
@@ -207,5 +202,9 @@ export default class GalleryCard extends Vue {
       bottom: 62px;
     }
   }
+}
+// Cards Layout
+.is-one-fifth-desktop.is-one-quarter-tablet .nft-card .title {
+  font-size: .75rem;
 }
 </style>

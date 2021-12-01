@@ -1,10 +1,11 @@
 <template>
   <div class="collections container">
     <Loader :value="isLoading" />
-    <!-- TODO: Make it work with graphql -->
-    <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
-    </b-field>
+    <Search v-bind.sync="searchQuery">
+      <b-field>
+        <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="perPage" />
+      </b-field>
+    </Search>
 
     <div>
       <div class="columns is-multiline">
@@ -48,8 +49,9 @@
 <script lang="ts" >
 import { Component, Vue } from 'vue-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
+import { CollectionWithMeta, Collection, Metadata, CollectionWithNFT } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
+import { SearchQuery } from './Search/types'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
@@ -63,7 +65,7 @@ interface Image extends HTMLImageElement {
 type CollectionType = CollectionWithMeta;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
+  Search: () => import('./Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
@@ -113,6 +115,12 @@ export default class Collections extends Vue {
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: 'BLOCK_NUMBER_DESC',
+    listed: false,
+  };
 
   get defaultCollectionsMetaImage(): string {
     const url = new URL(window.location.href)
@@ -129,6 +137,18 @@ export default class Collections extends Vue {
     return this.currentValue * this.first - this.first
   }
 
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params = []
+
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+      })
+    }
+
+    return params
+  }
+
   public async created() {
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
@@ -137,8 +157,11 @@ export default class Collections extends Vue {
       result: this.handleResult,
       variables: () => {
         return {
+          orderBy: this.searchQuery.sortBy,
+          search: this.buildSearchParam(),
+          listed: this.searchQuery.listed ? [{price: { greaterThan: '0'}}] : [],
           first: this.first,
-          offset: this.offset,
+          offset: this.offset
         }
       },
       update: ({ collectionEntity }) => ({
@@ -225,8 +248,8 @@ export default class Collections extends Vue {
 
   }
 
-  get results() {
-    return this.collections as CollectionWithMeta[]
+  get results(): CollectionWithMeta[] {
+    return this.collections.filter((collection: any) => collection.nfts.nodes.length) as CollectionWithMeta[]
   }
 
   setFreezeframe() {
