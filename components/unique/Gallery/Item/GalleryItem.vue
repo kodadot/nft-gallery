@@ -91,7 +91,8 @@
                         :accountId="accountId"
                         :currentOwnerId="nft.currentOwner"
                         :price="nft.price"
-                        :nftId="nft.id"
+                        :nftId="id"
+                        :collectionId="collectionId"
                         :ipfsHashes="[nft.image, nft.animation_url, nft.metadata]"
                         @change="handleAction"
                         />
