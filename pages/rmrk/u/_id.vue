@@ -353,7 +353,7 @@ export default class Profile extends Vue {
   protected onTabChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.$router.replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: { tab: val },
       })
     }

@@ -4,7 +4,12 @@
     :type="type"
     :rounded="false"
   >
-    {{ value ? `${activeMessage} ($ ${rounded})` : `${passiveMessage}` }}
+    <div class="is-flex is-align-items-center">
+      <span class="mr-2">
+        {{ value ? `${activeMessage} ($ ${rounded})` : `${passiveMessage}` }}
+      </span>
+      <slot name="tooltip" />
+    </div>
   </b-switch>
 </template>
 

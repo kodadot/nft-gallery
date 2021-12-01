@@ -8,10 +8,12 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
+    "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue ."
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=14.17.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -60,7 +62,6 @@
     "nuxt": "^2.15.8",
     "nuxt-buefy": "^0.4.13",
     "nuxt-property-decorator": "^2.9.1",
-    "register-service-worker": "^1.7.2",
     "setimmediate": "^1.0.5",
     "slugify": "^1.5.3",
     "v-emoji-picker": "^2.3.3",
@@ -86,6 +87,7 @@
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
+    "@nuxtjs/pwa": "^3.3.5",
     "@types/luxon": "^2.0.7",
     "@types/markdown-it": "^12.2.1",
     "@types/webpack": "^4.4.0",
