@@ -348,15 +348,6 @@ export default class Transfer extends Mixins(
     .tx {
        margin-left: 1rem;
     }
-
-    .paymentLink {
-      margin-left: 1rem;
-      @media screen and (max-width: 1023px) {
-        margin-left: 0rem;
-        margin-top: 1rem;
-      }
-    }
-
     .tweetBtn {
        margin-top: 0.5rem;
     }
