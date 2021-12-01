@@ -38,7 +38,7 @@
         has-link
         aria-role="menuitem"
       >
-        <router-link :to="`/rmrk/u/${account}`">
+        <router-link :to="`/${urlPrefix}/u/${account}`">
           Profile
         </router-link>
       </b-dropdown-item>
@@ -183,6 +183,7 @@ const components = {
 
 @Component({ components })
 export default class NavbarProfileDropdown extends Vue {
+  private prefix = this.$config.prefix
   @Prop() public value!: any;
   protected changeAccount = false;
   protected isExtension = false;
@@ -193,6 +194,10 @@ export default class NavbarProfileDropdown extends Vue {
 
   get account() {
     return this.$store.getters.getAuthAddress
+  }
+
+  get urlPrefix() {
+    return this.prefix || 'rmrk'
   }
 
   checkExtension() {

@@ -125,11 +125,11 @@ import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/collectionListByAccount.graphql'
-import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/nftListCollected.graphql'
-import nftListSold from '@/queries/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
+import collectionList from '@/queries/unique/collectionListByAccount.graphql'
+import nftListByIssuer from '@/queries/unique/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/unique/nftListCollected.graphql'
+import nftListSold from '@/queries/unique/nftListSold.graphql'
+import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql'
 
 const components = {
   GalleryCardList: () =>
