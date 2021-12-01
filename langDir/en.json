@@ -200,6 +200,7 @@
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
+    "deposit": "Current deposit",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
