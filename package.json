@@ -11,7 +11,7 @@
     "generate": "nuxt generate"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=14.17.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
