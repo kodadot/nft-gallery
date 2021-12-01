@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:16
+FROM node:14.18.1
 
 WORKDIR /kodadot-app
 
