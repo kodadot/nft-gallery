@@ -2,12 +2,12 @@
   <component :is="is">
     <template v-if="profileMode">
       <slot name="extra" />
-      <router-link
+      <nuxt-link
         :to="`${route}/${param}`"
         :tag="tag"
       >
         <slot />
-      </router-link>
+      </nuxt-link>
     </template>
     <template v-else>
       <a

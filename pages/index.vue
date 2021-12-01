@@ -36,55 +36,55 @@
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <router-link :to="{ name: 'rmrk'}">
+                  <nuxt-link :to="{ name: 'rmrk'}">
                     {{ $t('Classic') }}
-                  </router-link>
+                  </nuxt-link>
                 </b-dropdown-item>
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <router-link :to="{ name: 'simpleMint'}">
+                  <nuxt-link :to="{ name: 'simpleMint'}">
                     {{ $t('Simple') }}
-                  </router-link>
+                  </nuxt-link>
                 </b-dropdown-item>
               </b-dropdown>
               <b-button
-                tag="router-link"
+                tag="nuxt-link"
                 to="/rmrk/collections"
                 type="is-primary"
               >
                 Collections
               </b-button>
               <b-button
-                tag="router-link"
+                tag="nuxt-link"
                 to="/rmrk/gallery"
                 type="is-primary"
               >
                 Gallery
               </b-button>
               <b-button
-                tag="router-link"
+                tag="nuxt-link"
                 to="/spotlight"
                 type="is-primary"
               >
                 Spotlight
               </b-button>
               <b-button
-                tag="router-link"
+                tag="nuxt-link"
                 to="/series-insight"
                 type="is-primary"
               >
                 Series
               </b-button>
               <b-button
-                  tag="router-link"
+                  tag="nuxt-link"
                   to="/about"
                   type="is-primary"
               >
                 About
               </b-button>
               <b-button
-                  tag="router-link"
+                  tag="nuxt-link"
                   to="/rmrk/faq"
                   type="is-primary"
               >
@@ -112,7 +112,7 @@
               Would you like to get featured on our gallery page? Perhaps you have a business proposal in mind. Maybe you would like to be an ambassador. Go to this section for all of the above.
             </p>
             <b-button
-              tag="router-link"
+              tag="nuxt-link"
               to="/partnership"
               type="is-primary"
               class="homepage__button--wrapped"

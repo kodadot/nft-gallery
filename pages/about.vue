@@ -11,20 +11,20 @@
         We are trying to set a movement where artists can offset their mints. Simple as that
       </p>
       <b-button
+        tag="nuxt-link"
+        to="/carbonless"
         type="is-primary"
         class="my-5"
       >
-        <router-link :to="{ name: 'carbonless'}">
-          Read more
-        </router-link>
+        Read more
       </b-button>
       <b-button
+        tag="nuxt-link"
+        to="/esCarbonless"
         type="is-primary"
         class="my-5"
       >
-        <router-link :to="{ name: 'esCarbonless'}">
-          🇪🇸
-        </router-link>
+        🇪🇸
       </b-button>
     </div>
     <div class="mb-5">
@@ -38,20 +38,20 @@
         As part of our micro-dao-bedrock-boostrap experiment, we would like to keep our efforts sustainable in the long-run and create trust from creators culture and economy for KodaDot that we will won’t dissapear tomorrow and keep running as long we can cover our efforts to keep it online and working.
       </p>
       <b-button
+        tag="nuxt-link"
+        to="/sustainability"
         type="is-primary"
         class="my-5"
       >
-        <router-link :to="{ name: 'sustainability'}">
-          Read more
-        </router-link>
+        Read more
       </b-button>
       <b-button
+        tag="nuxt-link"
+        to="/esSustainability"
         type="is-primary"
         class="my-5"
       >
-        <router-link :to="{ name: 'esSustainability'}">
-          🇪🇸
-        </router-link>
+        🇪🇸
       </b-button>
     </div>
     <div class="mb-5">
@@ -67,10 +67,10 @@
       <b-button
         type="is-primary"
         class="my-5"
+        tag="a"
+        href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5"
       >
-        <a href="https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5">
-          Read more
-        </a>
+        Read more
       </b-button>
     </div>
     <div class="mb-5">
@@ -86,10 +86,10 @@
       <b-button
         type="is-primary"
         class="my-5"
+        tag="a"
+        href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97"
       >
-        <a href="https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97">
-          Read more
-        </a>
+        Read more
       </b-button>
     </div>
   </section>

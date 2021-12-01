@@ -31,9 +31,9 @@
         :label="$t('spotlight.id')"
         v-slot="props"
       >
-        <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
+        <nuxt-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
           <Identity :address="props.row.id" inline noOverflow />
-        </router-link>
+        </nuxt-link>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 

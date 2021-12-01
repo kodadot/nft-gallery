@@ -7,9 +7,9 @@
     <p class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
       No time for reading? <br />
       No problem. Check out <br />
-      <router-link :to="{ name: 'tutorials' }">
+      <nuxt-link :to="{ name: 'tutorials' }">
         Our tutorials.
-      </router-link>
+      </nuxt-link>
     </p>
 
     <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">

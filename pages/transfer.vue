@@ -4,7 +4,7 @@
       v-model="isLoading"
       :status="status"
     />
-    <router-link
+    <nuxt-link
       v-if="$route.query.target"
       :to="`/rmrk/u/${destinationAddress}`"
       class="linkartist"
@@ -15,7 +15,7 @@
         class="linkartist--icon"
       />
       Go to artist's profile
-    </router-link>
+    </nuxt-link>
     <div class="box">
       <div class="info">
         <p class="title is-size-3">

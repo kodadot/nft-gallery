@@ -39,9 +39,9 @@
       {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
-      <router-link :to="`/rmrk/collection/${nft.collectionId}`">
+      <nuxt-link :to="`/rmrk/collection/${nft.collectionId}`">
         {{ nft.collectionId }}
-      </router-link>
+      </nuxt-link>
       <b-skeleton
         :count="1"
         size="is-large"
