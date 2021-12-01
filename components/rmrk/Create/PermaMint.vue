@@ -525,8 +525,7 @@ export default class PermaMint extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        name: 'nftDetail',
-        params: { id: getNftId(nft, blockNumber) },
+        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' }
       })
     setTimeout(go, 2000)
