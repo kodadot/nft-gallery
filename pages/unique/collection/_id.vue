@@ -4,7 +4,7 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
+import CollectionItem from '@/components/unique/Collection/Item/CollectionItem.vue'
 
 @Component({
   components: {
