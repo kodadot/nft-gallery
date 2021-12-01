@@ -255,7 +255,7 @@ export default class PermaMint extends mixins(
     this.price = value
   }
 
-  layout (context) {
+  layout() {
     return 'centered-half-layout'
   }
 

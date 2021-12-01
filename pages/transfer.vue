@@ -161,7 +161,7 @@ export default class Transfer extends mixins(
   protected price = 0;
   protected usdValue = 0;
 
-  layout (context) {
+  layout() {
     return 'centered-half-layout'
   }
 

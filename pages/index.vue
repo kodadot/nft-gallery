@@ -1,159 +1,163 @@
 <template>
   <section class="homepage">
-    <div class="columns">
-      <div class="column">
-        <h1 class="title is-1 homepage__title">
-          <span class="text__stroked">Koda</span>
-          <span>Dot</span>
-        </h1>
-        <h2 class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
-          <span>
-            Carbon neutral
-          </span>
-          <span class="text__stroked">
-            Kusama native
-          </span>
-          <span>
-            NFT plaftorm
-          </span>
-          <span class="title is-6 homepage__subtitle uppercase text-semibold">
-            Built on
-            <span class="text-bold text-primary">
-              RMRK Protocol
-            </span>
-          </span>
-        </h2>
-        <div class="buttons">
-          <b-dropdown aria-role="list" class="mr-2">
-            <template #trigger>
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title is-1 homepage__title">
+              <span class="text__stroked">Koda</span>
+              <span>Dot</span>
+            </h1>
+            <h2 class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
+              <span>
+                Carbon neutral
+              </span>
+              <span class="text__stroked">
+                Kusama native
+              </span>
+              <span>
+                NFT plaftorm
+              </span>
+              <span class="title is-6 homepage__subtitle uppercase text-semibold">
+                Built on
+                <span class="text-bold text-primary">
+                  RMRK Protocol
+                </span>
+              </span>
+            </h2>
+            <div class="buttons">
+              <b-dropdown aria-role="list" class="mr-2">
+                <template #trigger>
+                  <b-button
+                    label="Create"
+                    type="is-primary"
+                  />
+                </template>
+                <b-dropdown-item
+                  aria-role="listitem"
+                >
+                  <router-link :to="{ name: 'rmrk'}">
+                    {{ $t('Classic') }}
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item
+                  aria-role="listitem"
+                >
+                  <router-link :to="{ name: 'simpleMint'}">
+                    {{ $t('Simple') }}
+                  </router-link>
+                </b-dropdown-item>
+              </b-dropdown>
               <b-button
-                label="Create"
+                tag="router-link"
+                to="/rmrk/collections"
                 type="is-primary"
-              />
-            </template>
-            <b-dropdown-item
-              aria-role="listitem"
-            >
-              <router-link :to="{ name: 'rmrk'}">
-                {{ $t('Classic') }}
-              </router-link>
-            </b-dropdown-item>
-            <b-dropdown-item
-              aria-role="listitem"
-            >
-              <router-link :to="{ name: 'simpleMint'}">
-                {{ $t('Simple') }}
-              </router-link>
-            </b-dropdown-item>
-          </b-dropdown>
-          <b-button
-            tag="router-link"
-            to="/rmrk/collections"
-            type="is-primary"
-          >
-            Collections
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/rmrk/gallery"
-            type="is-primary"
-          >
-            Gallery
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/spotlight"
-            type="is-primary"
-          >
-            Spotlight
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/series-insight"
-            type="is-primary"
-          >
-            Series
-          </b-button>
-          <b-button
+              >
+                Collections
+              </b-button>
+              <b-button
+                tag="router-link"
+                to="/rmrk/gallery"
+                type="is-primary"
+              >
+                Gallery
+              </b-button>
+              <b-button
+                tag="router-link"
+                to="/spotlight"
+                type="is-primary"
+              >
+                Spotlight
+              </b-button>
+              <b-button
+                tag="router-link"
+                to="/series-insight"
+                type="is-primary"
+              >
+                Series
+              </b-button>
+              <b-button
+                  tag="router-link"
+                  to="/about"
+                  type="is-primary"
+              >
+                About
+              </b-button>
+              <b-button
+                  tag="router-link"
+                  to="/rmrk/faq"
+                  type="is-primary"
+              >
+                Faq
+              </b-button>
+              <b-button
+                tag="a"
+                href="https://tally.so/r/mVP06w"
+                target="_blank"
+                rel="noopener noreferrer"
+                type="is-primary"
+              >
+                Grants
+              </b-button>
+            </div>
+          </div>
+          <div class="column has-text-right has-text-left-mobile">
+            <iframe src="https://discord.com/widget?id=840514076538830888&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+          </div>
+        </div>
+
+        <div class="homepage__box">
+          <div class="homepage__box-content">
+            <p>
+              Would you like to get featured on our gallery page? Perhaps you have a business proposal in mind. Maybe you would like to be an ambassador. Go to this section for all of the above.
+            </p>
+            <b-button
               tag="router-link"
-              to="/about"
+              to="/partnership"
               type="is-primary"
-          >
-            About
-          </b-button>
-          <b-button
-              tag="router-link"
-              to="/rmrk/faq"
-              type="is-primary"
-          >
-            Faq
-          </b-button>
+              class="homepage__button--wrapped"
+            >
+              Partnership & Ambassador Program
+            </b-button>
+            <div>
+              <p>
+                <span>
+                  Would you like to know how our journey started?
+                </span>
+                <span>
+                  If so, visit the About section.
+                </span>
+              </p>
+              <p>
+                <span>
+                  Struggling with KodaDot?
+                </span>
+                <span>
+                  Head over to our <a href="/rmrk/faq">FAQ page.</a>
+                </span>
+              </p>
+              <p>
+                <span>
+                  Found issue? Have Feedback?
+                </span>
+                <span>
+                  Create issue on our GitHub.
+                </span>
+              </p>
+            </div>
+          </div>
           <b-button
             tag="a"
-            href="https://tally.so/r/mVP06w"
+            href="https://github.com/kodadot/nft-gallery/issues/new/choose"
             target="_blank"
             rel="noopener noreferrer"
             type="is-primary"
           >
-            Grants
+            Kodadot Github
           </b-button>
         </div>
       </div>
-      <div class="column has-text-right has-text-left-mobile">
-        <iframe src="https://discord.com/widget?id=840514076538830888&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-      </div>
-    </div>
-
-    <div class="homepage__box">
-      <div class="homepage__box-content">
-        <p>
-          Would you like to get featured on our gallery page? Perhaps you have a business proposal in mind. Maybe you would like to be an ambassador. Go to this section for all of the above.
-        </p>
-        <b-button
-          tag="router-link"
-          to="/partnership"
-          type="is-primary"
-          class="homepage__button--wrapped"
-        >
-          Partnership & Ambassador Program
-        </b-button>
-        <div>
-          <p>
-            <span>
-              Would you like to know how our journey started?
-            </span>
-            <span>
-              If so, visit the About section.
-            </span>
-          </p>
-          <p>
-            <span>
-              Struggling with KodaDot?
-            </span>
-            <span>
-              Head over to our <a href="/rmrk/faq">FAQ page.</a>
-            </span>
-          </p>
-          <p>
-            <span>
-              Found issue? Have Feedback?
-            </span>
-            <span>
-              Create issue on our GitHub.
-            </span>
-          </p>
-        </div>
-      </div>
-      <b-button
-        tag="a"
-        href="https://github.com/kodadot/nft-gallery/issues/new/choose"
-        target="_blank"
-        rel="noopener noreferrer"
-        type="is-primary"
-      >
-        Kodadot Github
-      </b-button>
-    </div>
+    </section>
   </section>
 </template>
 
@@ -199,6 +203,10 @@ export default class Landing extends Vue {
     // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
     ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
   ]
+
+  layout() {
+    return 'full-width-layout'
+  }
 
   public mounted() {
     this.fetchFirstGalleryPage()

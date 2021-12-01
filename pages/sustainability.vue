@@ -102,7 +102,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class Sustainibility extends Vue {
-  layout (context) {
+  layout() {
     return 'centered-half-layout'
   }
 }

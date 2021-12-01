@@ -30,7 +30,7 @@ export default class Remark extends Vue {
   public activeTab = 0;
   public components: string[] = ['Collection', 'NFT']
 
-  layout (context) {
+  layout() {
     return 'centered-half-layout'
   }
 }
