@@ -272,7 +272,16 @@
   "price": "price",
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
-    "uploadNo": "Do not use Arweave"
+    "uploadNo": "Do not use Arweave",
+    "tooltip": "Using Arweave means that you are storing your multimedia forever on Arweave, good for small assets like JPEG."
+  },
+  "carbonOffset": {
+    "carbonOffsetYes": "I'm making carbonless NFT",
+    "carbonOffsetNo": "I don't want to have carbonless NFT",
+    "tooltip": "Carbonless NFT means that you are helping cover costs for carbon credits and planting trees"
+  },
+  "support": {
+    "tooltip": "Cover costs mean that users help to support initial costs for KodaDot which stores your JPEG on your behalf."
   },
   "termOfService": {
     "accept": "I confirm that I hold full copyright ownership of the submitted digital asset (or have sufficient permission by the owner to use the asset)"

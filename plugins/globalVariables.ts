@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import '@/icons'
 import keyring from '@polkadot/ui-keyring'
-import '@/registerServiceWorker'
 
 import Connector from '@vue-polkadot/vue-api'
 import { enableExtension } from '@/extension'
