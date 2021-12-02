@@ -130,9 +130,9 @@ Check if container is up
 docker ps
 ```
 
-Run it locally and then visit `localhost:3000`
+Run it locally and then visit `localhost:9090`
 ```bash
-docker run -p 3000:3000 --name kodadot kodadot-app
+docker run -p 9090:9090 --name kodadot kodadot-app
 ```
 
 
