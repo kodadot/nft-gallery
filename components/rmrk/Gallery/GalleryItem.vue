@@ -1,7 +1,6 @@
- <template>
-  <div class="wrapper section no-padding-desktop gallery-item mb-6">
+<template>
+  <section>
 
-    <div class="container">
       <b-message type="is-primary" v-if="message">
         <div class="columns">
         <div class="column is-four-fifths">
@@ -110,9 +109,8 @@
 
       <!-- <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" /> -->
-    </div>
 
-  </div>
+  </section>
 </template>
 
 <script lang="ts" >
@@ -140,7 +138,7 @@ import Orientation from '@/directives/DeviceOrientation'
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}`
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}&mime=${this.mimeType}`
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',

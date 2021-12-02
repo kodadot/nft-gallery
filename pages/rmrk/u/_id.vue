@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <section>
     <div class="profile-wrapper container">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
@@ -113,7 +113,7 @@
         </b-tab-item> -->
       </b-tabs>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">

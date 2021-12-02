@@ -2,11 +2,7 @@
   <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar v-if="isNavbarVisible" />
     <main class="is-flex-grow-1">
-      <section class="section">
-        <div class="container">
-          <router-view />
-        </div>
-      </section>
+      <router-view />
     </main>
     <Footer />
   </div>

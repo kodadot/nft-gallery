@@ -4,7 +4,11 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <router-view />
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <router-view />
+            </div>
+          </div>
         </div>
       </section>
     </main>
