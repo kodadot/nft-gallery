@@ -255,10 +255,6 @@ export default class PermaMint extends mixins(
     this.price = value
   }
 
-  layout() {
-    return 'centered-half-layout'
-  }
-
   get fileType() {
     return resolveMedia(this.file?.type)
   }
@@ -525,8 +521,7 @@ export default class PermaMint extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        name: 'nftDetail',
-        params: { id: getNftId(nft, blockNumber) },
+        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' }
       })
     setTimeout(go, 2000)
@@ -535,7 +530,6 @@ export default class PermaMint extends mixins(
 </script>
 
 <style>
-/* ??? global */
 .message.is-primary .message-body {
   color: #d32e79 !important;
 }

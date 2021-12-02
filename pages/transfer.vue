@@ -49,17 +49,20 @@
         </a>
       </div>
 
-      <b-field>
-        {{ $t("general.balance") }}
-        <Money
-          :value="balance"
-          inline
-        />
-      </b-field>
+      <div class="is-flex is-align-items-center">
+        <b-field>
+          {{ $t("general.balance") }}
+          <Money
+            :value="balance"
+            inline
+          />
+        </b-field>
+      </div>
 
       <b-field>
-        <AddressInput v-model="destinationAddress" />
+        <AddressInput v-model="destinationAddress" :strict="false" />
       </b-field>
+      <DisabledInput v-show="correctAddress && correctAddress !== destinationAddress" :label="$t('general.correctAddress')" :value="correctAddress" />
       <div class="box--container">
         <b-field>
           <BalanceInput
@@ -69,7 +72,7 @@
             @input="onAmountFieldChange"
           />
         </b-field>
-        <b-field>
+        <b-field class="mb-3">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
@@ -79,7 +82,7 @@
         </b-field>
       </div>
 
-      <b-field>
+      <div class="buttons">
         <b-button
           type="is-primary"
           icon-left="paper-plane"
@@ -100,15 +103,29 @@
         >
           {{ $t("View Transaction") }} {{ transactionValue.substring(0,6) }}{{ '...' }}
         </b-button>
-      </b-field>
-      <div v-if="transactionValue && $route.query.donation">
-        <div class="is-size-5">
-          🎉 Congratulations for supporting
-          <Identity
-            ref="identity"
-            :address="$route.query.target"
-            inline
-          />
+        <b-button
+          v-if="transactionValue"
+          @click="toast('URL copied to clipboard')"
+          v-clipboard:copy="getUrl()"
+          type="is-primary"
+        >
+          <b-icon size="is-small" pack="fas" icon="link" />
+        </b-button>
+        <b-button
+          v-if="destinationAddress"
+          type="is-success"
+          icon-left="money-bill"
+          :loading="isLoading"
+          @click="toast('Payment link copied to clipboard')"
+          v-clipboard:copy="generatePaymentLink()"
+          outlined
+        >
+          {{ $t("Copy Payment link") }}
+        </b-button>
+      </div>
+      <div v-if="transactionValue && this.$route.query.donation">
+        <div class="is-size-5">🎉 Congratulations for supporting
+          <Identity ref="identity" :address="this.$route.query.target" inline />
         </div>
         <b-button
           type="is-info"
@@ -136,7 +153,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import { checkAddress } from '@polkadot/util-crypto'
+import { checkAddress, decodeAddress, encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 @Component({
@@ -147,7 +164,8 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
     Identity: () => import('@/components/shared/format/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
-    Money: () => import('@/components/shared/format/Money.vue')
+    Money: () => import('@/components/shared/format/Money.vue'),
+    DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
   }
 })
 export default class Transfer extends mixins(
@@ -161,12 +179,17 @@ export default class Transfer extends mixins(
   protected price = 0;
   protected usdValue = 0;
 
-  layout() {
-    return 'centered-half-layout'
-  }
-
   get disabled(): boolean {
-    return !this.destinationAddress || !this.price || !this.accountId
+    return !this.hasAddress || !this.price || !this.accountId
+  }
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+  get hasAddress(): boolean {
+    return isAddress(this.destinationAddress)
+  }
+  get correctAddress(): string {
+    return this.hasAddress ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format)) : ''
   }
 
   protected created() {
@@ -196,13 +219,11 @@ export default class Transfer extends mixins(
     const { query } = this.$route
 
     if (query.target) {
-      const [valid, err] = checkAddress(query.target as string, correctFormat(this.chainProperties.ss58Format))
-      if (valid) {
+      const hasAddress = isAddress(query.target as string)
+      if (hasAddress) {
         this.destinationAddress = query.target as string
-      }
-
-      if (err) {
-        showNotification(`Unable to parse target ${err}`,notificationTypes.warn)
+      } else {
+        showNotification('Unable to use target address', notificationTypes.warn)
       }
     }
 
@@ -282,14 +303,18 @@ export default class Transfer extends mixins(
     this.isLoading = false
   }
 
-  protected getUrl() {
+  protected getUrl(): string {
     return urlBuilderTransaction(this.transactionValue,
       this.$store.getters.getCurrentChain, 'subscan')
   }
 
-  protected getExplorerUrl() {
-    const url =  this.getUrl()
+  protected getExplorerUrl(): void {
+    const url = this.getUrl()
     window.open(url, '_blank')
+  }
+
+  protected generatePaymentLink(): string {
+    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
@@ -299,10 +324,40 @@ export default class Transfer extends mixins(
   }
 
   @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
+  hasAccount(value: string, oldVal: string): void {
     if (shouldUpdate(value, oldVal)) {
       this.loadBalance()
     }
+  }
+
+  @Watch('destinationAddress')
+  destinationChanged(value: string): void {
+    const queryValue: any = {}
+    if (value) {
+      queryValue.target = value
+    }
+    if (this.$route.query.usdamount) {
+      queryValue.usdamount = this.$route.query.usdamount
+    }
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: queryValue,
+    })
+  }
+
+  @Watch('usdValue')
+  usdValueChanged(value: string): void {
+    const queryValue: any = {}
+    if (value) {
+      queryValue.usdamount = value
+    }
+    if (this.$route.query.target) {
+      queryValue.target = this.$route.query.target
+    }
+    this.$router.replace({
+      name: String(this.$route.name),
+      query: queryValue,
+    })
   }
 
   async loadBalance() {
@@ -322,49 +377,53 @@ export default class Transfer extends mixins(
       console.error('[ERR: BALANCE]', e)
     }
   }
+
+  private toast(message: string): void {
+    this.$buefy.toast.open(message)
+  }
 }
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/variables';
-   .info {
-     display: flex;
-     align-items: center;
-     &--currentPrice {
-        margin-bottom: 1.5rem;
-        margin-left: 1.5rem;
-        color: $primary;
-        font-size: 1.5rem;
-        font-weight: 600;
-     }
+.info {
+  display: flex;
+  align-items: center;
+  &--currentPrice {
+    margin-bottom: 1.5rem;
+    margin-left: 1.5rem;
+    color: $primary;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+.tx {
+    margin-left: 1rem;
+}
+.tweetBtn {
+    margin-top: 0.5rem;
+}
+.box {
+  &--container {
+    display: flex;
+    justify-content: space-between;
+    @media screen and (max-width: 1023px) {
+      flex-direction: column;
     }
-    .tx {
-       margin-left: 1rem;
+  }
+  &--target-info {
+    margin-bottom: 0.8rem;
+    &--url {
+      font-weight: bold;
     }
-    .tweetBtn {
-       margin-top: 0.5rem;
-    }
-    .box {
-      &--container {
-        display: flex;
-        justify-content: space-between;
-        @media screen and (max-width: 1023px) {
-         flex-direction: column;
-        }
-      }
-      &--target-info {
-        margin-bottom: 0.8rem;
-        &--url {
-          font-weight: bold;
-        }
-      }
-    }
-    .linkartist {
-      padding-left: 1.25rem;
-      display: flex;
-      align-items: center;
-      &--icon {
-        margin-right: 0.5rem;
-      }
-    }
+  }
+}
+.linkartist {
+  padding-left: 1.25rem;
+  display: flex;
+  align-items: center;
+  &--icon {
+    margin-right: 0.5rem;
+  }
+}
 </style>
