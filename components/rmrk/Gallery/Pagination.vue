@@ -1,21 +1,21 @@
 <template>
   <div class="is-flex is-justify-content-flex-end">
-  <b-pagination
-    :total="total"
-    :current.sync="current"
-    :range-before="3"
-    :range-after="3"
-    :simple="simple"
-    :per-page="perPage"
-    order=""
-    tag="a"
-    aria-next-label="Next page"
-    aria-previous-label="Previous page"
-    aria-page-label="Page"
-    aria-current-label="Current page"
-    @change="onPageChange"
-  >
-  </b-pagination>
+    <b-pagination
+      :total="total"
+      :current.sync="current"
+      :range-before="3"
+      :range-after="3"
+      :simple="simple"
+      :per-page="perPage"
+      order=""
+      tag="a"
+      aria-next-label="Next page"
+      aria-previous-label="Previous page"
+      aria-page-label="Page"
+      aria-current-label="Current page"
+      @change="onPageChange"
+    >
+    </b-pagination>
     <b-button
       class="ml-2 magicBtn"
       title="Go to random page"

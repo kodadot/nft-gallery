@@ -7,7 +7,7 @@
   >
     <template #brand>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         :to="{ path: '/' }"
         class="logo"
       >
@@ -32,44 +32,44 @@
           <span>{{ $t('Create') }}</span>
         </template>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           :to="`/${urlPrefix}/create`"
         >
           {{ $t('Classic') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/rmrk/mint"
         >
           {{ $t('Simple') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/permafrost/create"
         >
           {{ $t('Permafrost') }}
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         :to="`/${urlPrefix}/collections`"
       >
         {{ $t('Collections') }}
       </b-navbar-item>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         :to="`/${urlPrefix}/gallery`"
       >
         {{ $t('Gallery') }}
       </b-navbar-item>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         to="/spotlight"
       >
         {{ $t('Spotlight') }}
       </b-navbar-item>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         to="/series-insight"
       >
         Series
@@ -80,38 +80,38 @@
         label="Extra"
       >
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/rmrk/credit"
         >
           {{ $t('Credit') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/rmrk/faq"
         >
           {{ $t('FAQ') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/rmrk/admin"
         >
           {{ $t('Admin') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/transfer"
         >
           {{ $t('Transfer') }}
         </b-navbar-item>
         <b-navbar-item
-          tag="router-link"
+          tag="nuxt-link"
           to="/settings"
         >
           {{ $t('Settings') }}
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item
-        tag="router-link"
+        tag="nuxt-link"
         to="/tutorials"
       >
         {{ $t('Tutorial') }}
@@ -142,7 +142,7 @@ export default class NavbarMenu extends Vue {
   public navbar: any = [
     {
       name: i18n.t('Gallery'),
-      tag: 'router-link',
+      tag: 'nuxt-link',
       to: { name: 'nft' },
       strong: true
     },
@@ -152,25 +152,25 @@ export default class NavbarMenu extends Vue {
       name: i18n.t('Accounts'),
       icon: 'users',
       to: { name: 'accounts' },
-      tag: 'router-link',
+      tag: 'nuxt-link',
     },
     {
       name: i18n.t('Credit'),
       icon: 'users',
       to: { name: 'rmrkCredit' },
-      tag: 'router-link',
+      tag: 'nuxt-link',
       strong: true
     },
     {
       name: i18n.t('Transfer'),
       icon: 'paper-plane',
       to: { name: 'transfer' },
-      tag: 'router-link',
+      tag: 'nuxt-link',
     },
     {
       name: i18n.t('Settings'),
       icon: 'cogs',
-      tag: 'router-link',
+      tag: 'nuxt-link',
       to: { name: 'settings' },
     },
   ]

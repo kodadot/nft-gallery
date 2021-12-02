@@ -13,7 +13,7 @@
       <div class="columns is-multiline">
         <div class="column is-4" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
-            <router-link
+            <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
               tag="div"
               class="nft-card__skeleton"
@@ -38,7 +38,8 @@
                   id="hover-title"
                   :title="nft.name"
                 >
-                  <router-link
+                  <nuxt-link
+                    v-if="nft.count < 2"
                     :to="`/${urlPrefix}/gallery/${nft.id}`"
                   >
                     <div>
@@ -46,11 +47,27 @@
                         {{ nft.name }}
                       </div>
                     </div>
-                  </router-link>
+                  </nuxt-link>
+                  <nuxt-link
+                    v-else
+                    :to="`/${urlPrefix}/collection/${nft.collectionId}`"
+                  >
+                    <div class="has-text-overflow-ellipsis">
+                      {{ nft.name }}
+                    </div>
+                  </nuxt-link>
+
+                  <p
+                    v-if="nft.count > 2"
+                    :title="`${nft.count} items available in collection`"
+                    class="is-absolute nft-collection-counter title is-6"
+                  >
+                    「{{ nft.count }}」
+                  </p>
                 </span>
                 <!-- <b-skeleton :active="isLoading"> </b-skeleton> -->
               </div>
-            </router-link>
+            </nuxt-link>
           </div>
         </div>
       </div>

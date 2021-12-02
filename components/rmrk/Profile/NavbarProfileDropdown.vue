@@ -38,25 +38,25 @@
         has-link
         aria-role="menuitem"
       >
-        <router-link :to="`/${urlPrefix}/u/${account}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${account}`">
           Profile
-        </router-link>
+        </nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item
         has-link
         aria-role="menuitem"
       >
-        <router-link to="/rmrk/credit">
+        <nuxt-link to="/rmrk/credit">
           {{ $t("Credit") }}
-        </router-link>
+        </nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item
         has-link
         aria-role="menuitem"
       >
-        <router-link to="/rmrk/faq">
+        <nuxt-link to="/rmrk/faq">
           F.A.Q.
-        </router-link>
+        </nuxt-link>
       </b-dropdown-item>
       <hr
         class="dropdown-divider"

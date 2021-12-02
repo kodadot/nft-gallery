@@ -4,7 +4,11 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <router-view />
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <router-view />
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -14,7 +18,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { NotificationProgrammatic as Notification } from 'buefy'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import keyring from '@polkadot/ui-keyring'
 import isShareMode from '@/utils/isShareMode'
@@ -64,7 +67,6 @@ export default class Dashboard extends Vue {
   public mounted(): void {
     this.mountWasmCrypto()
     this.fetchIndexer()
-    this.checkVersion()
   }
 
   private async fetchIndexer() {
@@ -74,7 +76,7 @@ export default class Dashboard extends Vue {
       })
 
       const {
-        data: { _metadata: data }
+        data: { _meta: data }
       } = await indexer
 
       console.log(
@@ -103,37 +105,6 @@ export default class Dashboard extends Vue {
       this.$buefy.snackbar.open(type as any)
       // this.$router.push({ name: 'error' });
       console.warn('Do something', error)
-    }
-  }
-
-  private async checkVersion() {
-    //@ts-ignore
-    const workbox = await window.$workbox;
-    if (workbox) {
-      workbox.addEventListener('installed', (event) => {
-        console.log(
-          'App is being served from cache by a service worker.\n' +
-            'For more details, visit https://pwa.nuxtjs.org/'
-        )
-
-        if (event.isUpdate) {
-          console.log('New content is available; please refresh.')
-          const notif = Notification.open({
-            message: 'New version is ready. Close to upgrade.',
-            queue: false,
-            type: 'is-info is-dark',
-            position: 'is-top-left',
-            indefinite: true,
-            hasIcon: true,
-          })
-
-          notif.$on('close', () => {
-            window.sessionStorage.clear()
-            window.localStorage.clear()
-            window.location.reload()
-          })
-        }
-      });
     }
   }
 
