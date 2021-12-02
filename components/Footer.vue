@@ -102,11 +102,11 @@
           :key="item.name"
           class="footer__list-item"
         >
-          <router-link
+          <nuxt-link
             :to="item.url"
           >
             {{ item.name }}
-          </router-link>
+          </nuxt-link>
         </li>
       </ul>
     </div>

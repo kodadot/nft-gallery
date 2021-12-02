@@ -95,12 +95,12 @@
         field="id"
         label="Collection"
       >
-        <router-link
+        <nuxt-link
           v-if="!isLoading"
           :to="`/rmrk/collection/${props.row.id}`"
         >
           {{ props.row.name }}
-        </router-link>
+        </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
