@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-exports.handler = async (event) => {
+export async function handler(event) {
   const BASE_URL = 'https://api.pinata.cloud/users/generateApiKey'
   const keyName = event.queryStringParameters.address
 
