@@ -50,7 +50,7 @@ import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 
 interface Image extends HTMLImageElement {
@@ -103,6 +103,7 @@ const components = {
   components
 })
 export default class Collections extends Vue {
+  private prefix = this.$config.prefix
   private collections: Collection[] = [];
   private meta: Metadata[] = [];
   private first = 9;
@@ -111,8 +112,12 @@ export default class Collections extends Vue {
   private currentValue = 1;
   private total = 0;
 
+  get urlPrefix() {
+    return this.prefix || 'rmrk'
+  }
+
   get isLoading() {
-    return this.$apollo.queries.collection.loading
+    return this.$apollo.queries.collection?.loading
   }
 
   get offset() {
@@ -120,8 +125,11 @@ export default class Collections extends Vue {
   }
 
   public async created() {
+    const isRemark = this.urlPrefix === 'rmrk'
+    const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
+
     this.$apollo.addSmartQuery('collection', {
-      query: collectionListWithSearch,
+      query: query.default,
       manual: true,
       loadingKey: 'isLoading',
       result: this.handleResult,
@@ -177,8 +185,10 @@ export default class Collections extends Vue {
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
+      const isRemark = this.urlPrefix === 'rmrk'
+      const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
       const collections = this.$apollo.query({
-        query: collectionListWithSearch,
+        query: query.default,
         variables: {
           first: this.first,
           offset,
