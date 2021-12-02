@@ -11,6 +11,8 @@
 
 [dev]
    command = "yarn dev"
+   port = 9000
+   targetPort = 9090
 
 [[headers]]
   for = "/*"
