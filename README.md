@@ -87,7 +87,7 @@ Made with [contributors-img](https://contrib.rocks).
 ```shell
 git clone git@github.com:kodadot/nft-gallery.git
 yarn
-yarn serve
+yarn dev
 open http://localhost:9090/
 ```
 
@@ -99,7 +99,7 @@ Sure, your **contribution** is welcome. Please follow [code of conduct](CODE_OF_
 If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏
 
 ## Patronage 💸
-We have list of frequent participants in our codebase. 
+We have list of frequent participants in our codebase.
 **You can send them $KSM**, native currency we use to payout bounties for Pull Requests and coordinating issues.
 
 ### Heroes 🦸‍♂️🦸🦸‍♀️
@@ -109,7 +109,7 @@ We have list of frequent participants in our codebase.
 - [Prachi00](https://kodadot.xyz/transfer/?target=EzGc4s9PgCPx1YnF3fqzhLzVHpHMTL4LWPScwpDrR8JKgSU)
 
 ### Want to join?
-- Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)! 
+- Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
 ## 🐳 Docker
@@ -181,40 +181,42 @@ Here is a quick setup guide for the project.
 
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git
-touch .env.local
+touch .env
 ```
 
-in `.env.local` add following properties:
+in `.env` add following properties:
 ```bash
-VUE_APP_KEYRING=true
-VUE_APP_I18N_LOCALE=en
-VUE_APP_I18N_FALLBACK_LOCALE=en
-VUE_APP_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick-west
+NUXT_ENV_KEYRING=true
+URL_PREFIX=rmrk
+NUXT_ENV_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick-west
+NUXT_ENV_WS_URL=wss://westend-rpc.polkadot.io
+PINATA_API_KEY=
+PINATA_SECRET_API_KEY=
+PINATA_MASTER=
 ```
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
-If you want to access Kusama's GraphQL API, **remove** `-west` from `VUE_APP_SUBQUERY_URL`
+If you want to access Kusama's GraphQL API, **remove** `-west` from `NUXT_ENV_SUBQUERY_URL`
 
-> to run UI
+#### Install netlify CLI
+
+```bash
+npm install -g netlify-cli
+```
+
+#### Install dependencies
 
 ```bash
 yarn
-yarn start
 ```
 
-> in a second terminal window:
-> this will run lambda functions
+#### Run the development server
 
 ```bash
-yarn lambda
+netlify dev
 ```
 
-### Caveats:
-Netlify functions are **unable** to read `.env.local`.
-Therefore, you need to manually update pinata keys in each function.
-Functions are located in `src-functions/`
-
-[You can obtain Master Pinata Keys here](https://app.pinata.cloud/keys)
+The whole stack will be running on `localhost:9000`. app is running on `localhost:9090`.
 
 ## Running local Polkadot and subquery nodes
 
@@ -223,11 +225,6 @@ In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://viki
 
 To run also a subquery indexing node please [check this repo](https://github.com/vikiival/magick)
 
-Moreover please add this to your `.env.local`
-
-```bash
-VUE_APP_SUBQUERY_URL=http://localhost:3000
-```
 
 ### Linting code
 #### Show all problems
