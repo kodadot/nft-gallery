@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-exports.handler = async (event) => {
+export async function handler(event) {
 
 
   // const location = event.queryStringParameters.location || "home";
