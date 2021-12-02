@@ -1,4 +1,5 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { SnackbarProgrammatic as Snackbar } from 'buefy'
 import checkIndexer from '@/queries/checkIndexer.graphql'
 
 export const state = () => ({
@@ -54,7 +55,7 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
         type: 'is-danger',
         hasIcon: true,
       }
-      this.app.$buefy.snackbar.open(type as any)
+      Snackbar.open(type as any)
       console.warn('Do something', error)
     }
   },
