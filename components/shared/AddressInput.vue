@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import correctFormat from '@/utils/ss58Format'
-import { checkAddress } from '@polkadot/util-crypto'
+import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { Debounce } from 'vue-debounce-decorator'
 import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
 
@@ -25,6 +25,7 @@ export default class AddressInput extends Vue {
   private err: string | null = '';
   @Prop({ type: String, default: 'insert address' }) public label!: string;
   @Prop(Boolean) public emptyOnError!: boolean;
+  @Prop({ type: Boolean, default: true }) public strict!: boolean;
 
   get inputValue(): string {
     return this.value
@@ -34,15 +35,19 @@ export default class AddressInput extends Vue {
     this.handleInput(value)
   }
 
-  get type() {
+  get type(): string {
     return this.err ? 'is-danger': ''
   }
 
   @Debounce(500)
   @Emit('input')
   protected handleInput(value: string) {
-    const [, err] = checkAddress(value, correctFormat(this.ss58Format))
-    this.err = value ? err : ''
+    if (this.strict) {
+      const [, err] = checkAddress(value, correctFormat(this.ss58Format))
+      this.err = value ? err : ''
+    } else {
+      this.err = isAddress(value) ? '' : 'Invalid address'
+    }
 
     return this.emptyOnError && this.err ? '' : value
   }
