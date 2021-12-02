@@ -41,7 +41,7 @@ export default class Layout extends Vue {
   public layout = 'is-one-third-desktop is-one-third-tablet'
 
   public onInputChange (data :string) {
-    this.$store.dispatch('setLayoutClass', data)
+    this.$store.dispatch('preferences/setLayoutClass', data)
   }
 }
 </script>

@@ -23,7 +23,7 @@ export default class Money extends Vue {
   private fiatValue = 0
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 
   get decimals(): number {
@@ -41,26 +41,27 @@ export default class Money extends Vue {
   }
 
   private async getFiatValue() {
-    try {
-      const price = this.$store.state.fiatPrice[this.coinId][this.showFiatValue]
+    // TODO: unused, should fetch store fiat/
+    // try {
+    //   const price = this.$store.state.fiatPrice[this.coinId][this.showFiatValue]
 
-      if (price) {
-        this.fiatValue = price * Number(this.value)
-      } else {
-        const { data } = await coingecko.get('/simple/price', {
-          params: {
-            ids: this.coinId,
-            vs_currencies: this.showFiatValue
-          }
-        })
+    //   if (price) {
+    //     this.fiatValue = price * Number(this.value)
+    //   } else {
+    //     const { data } = await coingecko.get('/simple/price', {
+    //       params: {
+    //         ids: this.coinId,
+    //         vs_currencies: this.showFiatValue
+    //       }
+    //     })
 
-        // 420 * 10 ** 12
-        this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
-        this.$store.dispatch('setFiatPrice', data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    //     // 420 * 10 ** 12
+    //     this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
+    //     this.$store.dispatch('fiat/fetchFiatPrice', data)
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 }
 </script>

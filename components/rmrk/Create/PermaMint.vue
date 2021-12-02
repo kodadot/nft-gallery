@@ -372,7 +372,7 @@ export default class PermaMint extends mixins(
   }
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 
   get decimals(): number {
