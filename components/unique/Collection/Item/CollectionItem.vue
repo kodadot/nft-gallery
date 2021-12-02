@@ -57,6 +57,7 @@
     <GalleryCardList
       :items="nfts"
       link="unique/gallery"
+      route="/unique/gallery"
       :collection="id"
       :formatId="formater"
       class="mb-2"
