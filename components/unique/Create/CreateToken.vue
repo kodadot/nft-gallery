@@ -297,11 +297,12 @@ export default class CreateToken extends mixins(
       )
       //
       const args = [[create, meta, ...attributes]]
+
       const tx = await exec(
         this.accountId,
         '',
         cb,
-        [args],
+        args,
         txCb(
           async blockHash => {
             execResultValue(tx)

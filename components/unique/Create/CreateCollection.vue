@@ -245,7 +245,7 @@ export default class CreateCollection extends mixins(
         this.accountId,
         '',
         cb,
-        [args],
+        args,
         txCb(
           async blockHash => {
             execResultValue(tx)
