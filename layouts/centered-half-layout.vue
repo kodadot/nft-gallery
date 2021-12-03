@@ -60,7 +60,7 @@ export default class Dashboard extends Vue {
     await cryptoWaitReady()
     console.log('wasmCrypto loaded')
     this.loadKeyring()
-    this.$store.commit('keyringLoaded') // TODO: refact to dispatch and move outside
+    this.$store.commit('keyringLoaded') // TODO: See #1376
   }
 
   public mounted(): void {
