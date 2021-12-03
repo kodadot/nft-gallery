@@ -191,9 +191,10 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
     try {
       showNotification(`[${this.selectedAction}] ${this.nftId}`)
-
       const action = NFTUtils.apiCall(this.selectedAction)
+
       if (!action || !this.collectionId) {
+        console.log('EvalError', action, this.collectionId)
         throw new EvalError('Action or Collection not found')
       }
 
