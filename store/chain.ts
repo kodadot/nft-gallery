@@ -14,7 +14,7 @@ const defaultState: ChainProperties = {
     ss58Format: '',
     tokenDecimals: '',
     genesisHash: '',
-    tokenSymbol: '',
+    tokenSymbol: 'Unit',
   }
 }
 
