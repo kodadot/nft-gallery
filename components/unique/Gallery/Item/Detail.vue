@@ -4,11 +4,9 @@
       {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
-      <router-link
-        :to="{ name: 'collectionDetail', params: { id: nft.collectionId } }"
-      >
+      <nuxt-link :to="`/${urlPrefix}/collection/${nft.collectionId}`">
         {{ nft.collectionId }}
-      </router-link>
+      </nuxt-link>
       <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
     </p>
     <p class="label">
@@ -45,10 +43,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import isShareMode from '@/utils/isShareMode'
 import { NFTWithMeta } from '@/components/rmrk/service/scheme'
 import { emptyObject } from '@/utils/empty'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
@@ -56,7 +55,7 @@ const components = {
 }
 
 @Component({ components })
-export default class Name extends Vue {
+export default class Name extends mixins(PrefixMixin) {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
   @Prop() public isLoading!: boolean
 
