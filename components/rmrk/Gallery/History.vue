@@ -1,22 +1,18 @@
 <template>
-  <div class="block">
-    <b-collapse
-      class="card"
-      animation="slide"
-      aria-id="contentIdForHistory"
-      :open="collapsedHistory"
-    >
+ <div class="block">
+    <b-collapse class="card" animation="slide"
+      aria-id="contentIdForHistory" :open="collapsedHistory">
       <template #trigger="props">
         <div
           class="card-header"
           role="button"
-          aria-controls="contentIdForHistory"
-        >
+          aria-controls="contentIdForHistory">
           <p class="card-header-title">
             {{ $t('History') }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            <b-icon
+              :icon="props.open ? 'chevron-up' : 'chevron-down'">
             </b-icon>
           </a>
         </div>
@@ -38,14 +34,14 @@
               label="From"
               v-slot="props"
             >
-              <nuxt-link
+              <router-link
                 :to="{
                   name: 'profile',
                   params: { id: props.row.From },
                 }"
               >
                 <Identity :address="props.row.From" inline noOverflow />
-              </nuxt-link>
+              </router-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -53,11 +49,11 @@
               label="To"
               v-slot="props"
             >
-              <nuxt-link
+              <router-link
                 :to="{ name: 'profile', params: { id: props.row.To } }"
               >
                 <Identity :address="props.row.To" inline noOverflow />
-              </nuxt-link>
+              </router-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -73,145 +69,116 @@
               label="Date"
               v-slot="props"
             >
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)"
-                >{{ props.row.Date }}</a
-              >
+              <a target="_blank" rel="noopener noreferrer" :href="getBlockUrl(props.row.Block)" >{{ props.row.Date }}</a>
             </b-table-column>
           </b-table>
         </div>
       </div>
     </b-collapse>
-    <price-chart class="mt-4" :priceChartData="priceChartData" />
   </div>
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
-import formatBalance from '@/utils/formatBalance';
-import ChainMixin from '@/utils/mixins/chainMixin';
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator';
-import { Interaction } from '../service/scheme';
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import { Interaction } from '../service/scheme'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
-};
+}
 
 type TableRow = {
-  Type: string;
-  From: string;
-  To: string;
-  Amount: string;
-  Date: string;
-  Block: string;
-};
-
-type ChartData = { buy: [Date, number][]; list: [Date, number][] };
+  Type: string
+  From: string
+  To: string
+  Amount: string
+  Date: string
+  Block: string
+}
 
 @Component({ components })
-export default class History extends mixins(ChainMixin) {
-  @Prop({ type: Array }) public events!: Interaction[];
+export default class History extends Mixins(ChainMixin) {
+  @Prop({ type: Array }) public events!:  Interaction[];
   protected data: TableRow[] = [];
-  protected priceChartData: [Date, number][][] = [];
-  protected collapsedHistory = true;
+  protected collapsedHistory=true;
 
   public mounted(): void {
-    this.collapsedHistory = true;
+    this.collapsedHistory = true
 
     setTimeout(() => {
-      this.collapsedHistory = false;
-    }, 200);
+      this.collapsedHistory = false
+    }, 200)
   }
 
   protected createTable(): void {
-    let prevOwner = '';
-    let curPrice = '0.0000000';
-    this.data = [];
-
-    const chartData: ChartData = {
-      buy: [],
-      list: [],
-    };
+    let prevOwner = ''
+    let curPrice = '0.0000000'
+    this.data = []
 
     for (const newEvent of this.events) {
-      const event: any = {};
+      const event: any = {}
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE';
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
+        event['Type'] = 'CREATE'
+        event['From'] = newEvent['caller']
+        event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE';
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
-        prevOwner = event['From'];
-        curPrice = newEvent['meta'];
+        event['Type'] = 'SET-PRICE'
+        event['From'] = newEvent['caller']
+        event['To'] = ''
+        prevOwner = event['From']
+        curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT';
-        event['From'] = newEvent['caller'];
-        event['To'] = newEvent['meta'];
+        event['Type'] = 'GIFT'
+        event['From'] = newEvent['caller']
+        event['To'] = newEvent['meta']
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT';
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
-      } else event['Type'] = newEvent['interaction'];
+        event['Type'] = 'BURNT'
+        event['From'] = newEvent['caller']
+        event['To'] = ''
+      } else event['Type'] = newEvent['interaction']
 
       // From
-      if (!('From' in event)) event['From'] = prevOwner;
+      if (!('From' in event)) event['From'] = prevOwner
 
       // To
       if (!('To' in event)) {
-        event['To'] = newEvent['caller'];
-        prevOwner = event['To'];
+        event['To'] = newEvent['caller']
+        prevOwner = event['To']
       }
 
       // Amount
-      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit);
+      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit)
 
       // Date
-      const date = new Date(newEvent['timestamp']);
-      event['Date'] = this.parseDate(date);
+      const date = new Date(newEvent['timestamp'])
+      event['Date'] = this.parseDate(date)
 
-      event['Block'] = String(newEvent['blockNumber']);
+      event['Block'] = String(newEvent['blockNumber'])
 
-      // Push to chart data
-      if (newEvent['interaction'] === 'LIST') {
-        chartData.list.push([
-          date,
-          parseFloat(event['Amount'].substring(0, 6)),
-        ]);
-      } else if (newEvent['interaction'] === 'BUY') {
-        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))]);
-      }
-
-      this.data.push(event);
+      this.data.push(event)
     }
 
-    this.data = this.data.reverse();
-    this.priceChartData = [chartData.buy, chartData.list];
+    this.data = this.data.reverse()
   }
 
   protected parseDate(date: Date): string {
-    const utcDate: string = date.toUTCString();
-    return utcDate.substring(4);
+    const utcDate: string = date.toUTCString()
+    return utcDate.substring(4)
   }
 
   protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(
-      block,
-      this.$store.getters.getCurrentChain,
-      'subscan'
-    );
+    return urlBuilderBlockNumber(block, this.$store.getters.getCurrentChain, 'subscan')
   }
 
   @Watch('events', { immediate: true })
   public watchEvent(): void {
     if (this.events) {
-      this.createTable();
+      this.createTable()
     }
   }
 }
