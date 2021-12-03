@@ -11,7 +11,7 @@ export interface ChainProperties {
 
 const defaultState: ChainProperties = {
   chainProperties: {
-    ss58Format: '',
+    ss58Format: 42,
     tokenDecimals: 12,
     genesisHash: '',
     tokenSymbol: 'Unit',
