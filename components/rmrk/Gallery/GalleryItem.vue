@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="wrapper no-padding-desktop gallery-item">
 
       <b-message type="is-primary" v-if="message">
         <div class="columns">
