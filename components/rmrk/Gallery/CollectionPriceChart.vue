@@ -26,12 +26,7 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import ChainMixin from '@/utils/mixins/chainMixin';
 
-import {
-  getChartData,
-  getMedianPoint,
-  getHSpread,
-  getMovingAverage,
-} from '@/utils/chart';
+import { getChartData, getMedianPoint, getMovingAverage } from '@/utils/chart';
 
 Chart.register(zoomPlugin);
 Chart.register(annotationPlugin);
@@ -82,8 +77,6 @@ export default class PriceChart extends mixins(ChainMixin) {
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
       )?.getContext('2d')!;
 
-      const hSpread = getHSpread(this.priceData[1]);
-
       const chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -112,12 +105,12 @@ export default class PriceChart extends mixins(ChainMixin) {
             {
               label: 'Trailing Average',
               data: getMovingAverage(this.priceData[1]) as any,
-              borderColor: 'blue',
+              borderColor: 'yellow',
               tension: 0.3,
               pointBackgroundColor: 'white',
               pointBorderColor: 'blue',
-              pointRadius: 4,
-              pointHoverRadius: 6,
+              pointRadius: 0,
+              pointHoverRadius: 0,
             },
           ],
         },
@@ -132,31 +125,6 @@ export default class PriceChart extends mixins(ChainMixin) {
                   borderColor: '#00BB7F',
                   borderWidth: 2,
                   borderDash: [10, 5],
-                },
-                minPoint: {
-                  type: 'point',
-                  yValue: hSpread.min,
-                  backgroundColor: 'yellow',
-                },
-                q1Point: {
-                  type: 'point',
-                  yValue: hSpread.q1,
-                  backgroundColor: 'aqua',
-                },
-                q2Point: {
-                  type: 'point',
-                  yValue: hSpread.q2,
-                  backgroundColor: 'orange',
-                },
-                q3Point: {
-                  type: 'point',
-                  yValue: hSpread.q3,
-                  backgroundColor: 'aqua',
-                },
-                maxPoint: {
-                  type: 'point',
-                  yValue: hSpread.max,
-                  backgroundColor: 'yellow',
                 },
               },
             },
