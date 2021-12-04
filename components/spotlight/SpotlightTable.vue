@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="spotlight">
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
@@ -31,9 +31,9 @@
         :label="$t('spotlight.id')"
         v-slot="props"
       >
-        <router-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
+        <nuxt-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
           <Identity :address="props.row.id" inline noOverflow />
-        </router-link>
+        </nuxt-link>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -204,20 +204,21 @@ export default class SpotlightTable extends mixins(TransactionMixin) {
 }
 </script>
 <style>
- .magicBtn {
-    position: absolute;
-    right: 0;
-    border-width: 1px;
- }
- .level-right {
-   margin-right: 3rem;
- }
- @media only screen and (max-width: 768px) {
-  .magicBtn {
+.spotlight .magicBtn {
+  position: absolute;
+  right: 0;
+}
+
+.spotlight .level-right {
+  margin-right: 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .spotlight .magicBtn {
     top: 4rem;
     position: relative;
   }
-  .level-right {
+  .spotlight .level-right {
     margin-left: 2rem;
     margin-right: 0rem;
   }

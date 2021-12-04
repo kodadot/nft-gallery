@@ -1,100 +1,98 @@
 <template>
-  <div class="section">
-    <div class="pack-item-wrapper container">
-      <div class="columns is-centered">
-        <div class="column is-half has-text-centered">
-          <div class="container image is-128x128 mb-2">
-            <b-image
-              v-if="!isLoading"
-              :src="image"
-              :alt="name"
-              ratio="1by1"
-              rounded
-            ></b-image>
-          </div>
-          <h1 class="title is-2">
-            {{ name }}
-          </h1>
+  <section>
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <div class="container image is-128x128 mb-2">
+          <b-image
+            v-if="!isLoading"
+            :src="image"
+            :alt="name"
+            ratio="1by1"
+            rounded
+          ></b-image>
         </div>
+        <h1 class="title is-2">
+          {{ name }}
+        </h1>
       </div>
-
-      <div class="columns is-align-items-center">
-        <div class="column">
-          <div class="label">
-            {{ $t('creator') }}
-          </div>
-          <div class="subtitle is-size-6">
-            <ProfileLink :address="issuer" :inline="true" :showTwitter="true" />
-          </div>
-        </div>
-        <div class="column" v-if="owner">
-          <div class="label">
-            {{ $t('owner') }}
-          </div>
-          <div class="subtitle is-size-6">
-            <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
-          </div>
-        </div>
-        <div class="column is-6-tablet is-7-desktop is-8-widescreen">
-          <CollectionActivity :nfts="stats" />
-        </div>
-        <div class="column has-text-right">
-          <Sharing
-            v-if="sharingVisible"
-            class="mb-2"
-            :label="name"
-            :iframe="iframeSettings"
-          >
-            <DonationButton :address="issuer" />
-          </Sharing>
-        </div>
-      </div>
-
-      <b-tabs v-model="activeTab">
-        <b-tab-item label="Collection">
-          <div class="columns is-centered">
-            <div class="column is-8 has-text-centered">
-              <CollapseWrapper
-                visible="collapse.collection.description.show"
-                hidden="collapse.collection.description.hide"
-              >
-                <VueMarkdown :source="description" />
-              </CollapseWrapper>
-            </div>
-          </div>
-
-          <Search v-bind.sync="searchQuery">
-            <Layout class="mr-5" />
-            <b-field>
-              <Pagination
-                hasMagicBtn
-                simple
-                replace
-                preserveScroll
-                :total="total"
-                v-model="currentValue"
-                :per-page="first"
-              />
-            </b-field>
-          </Search>
-
-          <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
-
-          <Pagination
-            class="py-5"
-            replace
-            preserveScroll
-            :total="total"
-            v-model="currentValue"
-            :per-page="first"
-          />
-        </b-tab-item>
-        <b-tab-item label="Activity">
-          <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
-        </b-tab-item>
-      </b-tabs>
     </div>
-  </div>
+
+    <div class="columns is-align-items-center">
+      <div class="column">
+        <div class="label">
+          {{ $t('creator') }}
+        </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="issuer" :inline="true" :showTwitter="true" />
+        </div>
+      </div>
+      <div class="column" v-if="owner">
+        <div class="label">
+          {{ $t('owner') }}
+        </div>
+        <div class="subtitle is-size-6">
+          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
+        </div>
+      </div>
+      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+        <CollectionActivity :nfts="stats" />
+      </div>
+      <div class="column has-text-right">
+        <Sharing
+          v-if="sharingVisible"
+          class="mb-2"
+          :label="name"
+          :iframe="iframeSettings"
+        >
+          <DonationButton :address="issuer" />
+        </Sharing>
+      </div>
+    </div>
+
+    <b-tabs v-model="activeTab" position="is-centered">
+      <b-tab-item label="Collection">
+        <div class="columns is-centered">
+          <div class="column is-8 has-text-centered">
+            <CollapseWrapper
+              visible="collapse.collection.description.show"
+              hidden="collapse.collection.description.hide"
+            >
+              <VueMarkdown :source="description" />
+            </CollapseWrapper>
+          </div>
+        </div>
+
+        <Search v-bind.sync="searchQuery">
+          <Layout class="mr-5" />
+          <b-field>
+            <Pagination
+              hasMagicBtn
+              simple
+              replace
+              preserveScroll
+              :total="total"
+              v-model="currentValue"
+              :per-page="first"
+            />
+          </b-field>
+        </Search>
+
+        <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
+
+        <Pagination
+          class="py-5"
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :per-page="first"
+        />
+      </b-tab-item>
+      <b-tab-item label="Activity">
+        <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+      </b-tab-item>
+    </b-tabs>
+  </section>
 </template>
 
 <script lang="ts">
@@ -140,6 +138,11 @@ const components = {
 };
 @Component<CollectionItem>({
   metaInfo() {
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
+      this.collection.name as string
+    )}.png?price=Items: ${this.collection?.nfts?.length}&image=${
+      this.meta.image as string
+    }`;
     return {
       title: 'KodaDot cares about environmental impact',
       titleTemplate: '%s | Low Carbon NFTs',
@@ -154,11 +157,7 @@ const components = {
           property: 'og:url',
           content: 'https://nft.kodadot.xyz/' + this.$route.path,
         },
-        {
-          property: 'og:image',
-          content:
-            this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg',
-        },
+        { property: 'og:image', content: image },
         {
           property: 'og:description',
           content:
@@ -175,11 +174,7 @@ const components = {
           content:
             this.meta.description || 'Creating Carbonless NFTs on Kusama',
         },
-        {
-          property: 'twitter:image',
-          content:
-            this.meta.image || 'https://nft.kodadot.xyz/kodadot_carbonless.jpg',
-        },
+        { property: 'twitter:image', content: image },
       ],
     };
   },

@@ -161,17 +161,48 @@
           </b-field>
           <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
-            <Support v-model="hasSupport" :price="filePrice" />
+            <Support v-model="hasSupport" :price="filePrice">
+              <template v-slot:tooltip>
+                <Tooltip
+                  :label="$t('support.tooltip')"
+                  iconsize="is-small"
+                  buttonsize="is-small"
+                  tooltipsize="is-medium"
+                />
+              </template>
+            </Support>
           </b-field>
           <b-field>
             <Support
               v-model="hasCarbonOffset"
               :price="1"
-              activeMessage="I'm making carbonless NFT"
-              passiveMessage="I don't want to have carbonless NFT"
-            />
+              :activeMessage="$t('carbonOffset.carbonOffsetYes')"
+              :passiveMessage="$t('carbonOffset.carbonOffsetNo')"
+            >
+              <template v-slot:tooltip>
+                <Tooltip
+                  iconsize="is-small"
+                  buttonsize="is-small"
+                  tooltipsize="is-large"
+                >
+                  <template v-slot:content>
+                    {{ $t('carbonOffset.tooltip') }} 
+                    (<a class="has-text-black is-underlined" href='https://kodadot.xyz/carbonless'>https://kodadot.xyz/carbonless</a>)
+                  </template>
+                </Tooltip>
+              </template>
+            </Support>
           </b-field>
-          <ArweaveUploadSwitch v-model="arweaveUpload" />
+          <ArweaveUploadSwitch v-model="arweaveUpload">
+            <template v-slot:tooltip>
+              <Tooltip
+                :label="$t('arweave.tooltip')"
+                iconsize="is-small"
+                buttonsize="is-small"
+                tooltipsize="is-medium"
+              />
+            </template>
+          </ArweaveUploadSwitch>
           <b-field>
             <b-switch v-model="hasToS" :rounded="false">
               {{ $t('termOfService.accept') }}
@@ -757,7 +788,7 @@ export default class SimpleMint extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)

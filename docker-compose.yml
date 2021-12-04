@@ -14,4 +14,4 @@ services:
     - HOST=0.0.0.0
     - CHOKIDAR_USEPOLLING=true
     ports:
-    - 3000:3000
+    - 9090:9090

@@ -2,12 +2,12 @@
   <component :is="is">
     <template v-if="profileMode">
       <slot name="extra" />
-      <router-link
+      <nuxt-link
         :to="`${route}/${param}`"
         :tag="tag"
       >
         <slot />
-      </router-link>
+      </nuxt-link>
     </template>
     <template v-else>
       <a
@@ -28,8 +28,8 @@ import isShareMode from '@/utils/isShareMode'
 
 @Component
 export default class LinkResolver extends mixins(InlineMixin) {
-  @Prop({ default: '/rmrk/detail' }) public route!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
+  @Prop({ default: '/rmrk/gallery' }) public route!: string;
+  @Prop({ default: 'rmrk/gallery' }) public link!: string;
   @Prop({ default: 'a' }) public tag!: string;
   @Prop({}) public param!: string;
 
