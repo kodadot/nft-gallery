@@ -38,7 +38,7 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: '/rmrk/gallery' }) public route!: string;
   @Prop({ default: 'rmrk/gallery' }) public link!: string;
   @Prop() public items!: RmrkType[];
-  @Prop({ default: false }) public horizontalLayout!: boolean;
+  @Prop(Boolean) horizontalLayout!: boolean;
   get classLayout() {
     return this.$store.getters.getLayoutClass
   }

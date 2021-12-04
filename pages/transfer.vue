@@ -340,7 +340,7 @@ export default class Transfer extends mixins(
       queryValue.usdamount = this.$route.query.usdamount
     }
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: queryValue,
     })
   }
@@ -355,7 +355,7 @@ export default class Transfer extends mixins(
       queryValue.target = this.$route.query.target
     }
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: queryValue,
     })
   }
