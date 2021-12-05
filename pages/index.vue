@@ -99,6 +99,15 @@
               >
                 Grants
               </b-button>
+              <b-button
+                tag="a"
+                href="https://en.wikipedia.org/wiki/Non-fungible_token"
+                target="_blank"
+                rel="noopener noreferrer"
+                type="is-primary"
+              >
+                What are NFTs?
+              </b-button>
             </div>
           </div>
           <div class="column has-text-right has-text-left-mobile">
