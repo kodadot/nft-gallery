@@ -56,7 +56,9 @@ export default class Identity extends mixins(InlineMixin) {
 
   get name(): Address {
     const name = this.identity.display
-    return name as string || shortAddress(this.resolveAddress(this.address))
+    return name
+      ? `${shortAddress(this.resolveAddress(this.address))} (${name})`
+      : shortAddress(this.resolveAddress(this.address))
   }
 
   get twitter(): Address {
