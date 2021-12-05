@@ -38,14 +38,15 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: '/rmrk/gallery' }) public route!: string;
   @Prop({ default: 'rmrk/gallery' }) public link!: string;
   @Prop() public items!: RmrkType[];
-  @Prop(Boolean) horizontalLayout!: boolean;
+  @Prop(Boolean) public horizontalLayout!: boolean;
   get classLayout() {
-    return this.$store.getters.getLayoutClass
+    return this.$store.getters['preferences/getLayoutClass']
   }
 }
 
 </script>
 <style>
+/* TODO: move to global */
 .b-radio.radio.button.is-selected{
   background-color: #db2980;
 }

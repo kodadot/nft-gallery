@@ -41,7 +41,7 @@ export default class WithKeyring extends Vue {
   }
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties;
+    return this.$store.getters['chain/getChainProperties'];
   }
 
   get ss58Format(): number {

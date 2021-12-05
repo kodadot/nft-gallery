@@ -46,9 +46,9 @@ export default class Summary extends Vue {
   public chainProperties: any = this.emptyChainProperties;
   public loading = false;
 
-  @Watch('$store.state.chainProperties')
+  @Watch('$store.state["chain/chainProperties"]')
   public mapProp(): void {
-    this.chainProperties = {...this.emptyChainProperties, ...this.$store.state.chainProperties}
+    this.chainProperties = {...this.emptyChainProperties, ...this.$store.state['chain/chainProperties']}
   }
 
   @Watch('$store.state.loading')
