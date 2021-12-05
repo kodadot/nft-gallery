@@ -35,7 +35,7 @@ const components = {
   components,
 })
 export default class DangerModal extends mixins(MetaTransactionMixin) {
-  @Prop({ type: String, required: true }) public accountId!: string
+  @Prop({ type: String }) public accountId!: string
   @Prop({ type: String }) public title!: string
   @Prop({ type: String, required: true }) public collectionId!: string
   @Prop(String) public nftId!: string
