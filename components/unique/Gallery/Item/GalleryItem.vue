@@ -104,7 +104,12 @@
               :active="isLoading"
             ></b-skeleton>
           </div>
+
+          <div class="block" v-if="nft.attributes">
+            <Properties :attributes="nft.attributes" />
+          </div>
         </div>
+
 
         <div class="column is-6" v-if="detailVisible">
           <b-skeleton
@@ -265,6 +270,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     DangerModal: () => import('@/components/unique/Gallery/Item/DangerModal.vue'),
+    Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -291,6 +297,10 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 
   get emoteVisible() {
     return this.urlPrefix === 'rmrk'
+  }
+
+  get hasAttributes() {
+    return (this.nft as any).attributes && (this.nft as any).attributes.length > 0
   }
 
   public async created() {
