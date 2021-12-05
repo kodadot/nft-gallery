@@ -69,6 +69,12 @@ body {
         text-transform: uppercase;
         font-size: calc(1rem * 0.75);
     }
+    
+    .switch {
+        &.is-success {
+            color: $success;
+        }
+    }
 
     .text {
         &__stroked {
