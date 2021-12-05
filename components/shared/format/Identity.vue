@@ -151,7 +151,7 @@ export default class Identity extends mixins(InlineMixin) {
 
 .twitter-link .icon {
   vertical-align: middle;
-  margin: auto .5em auto 0;
+  margin: auto 0 auto 0;
 }
 
 .overflowWrap {
