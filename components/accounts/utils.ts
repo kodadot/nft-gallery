@@ -18,7 +18,7 @@ export const toDistribute = (length: number, distribution: number): number => {
 }
 
 export const parseBatchAddresses = (batchAddresses: string): string[] => {
-  const ss58Format: any = store.getters.getChainProperties58Format
+  const ss58Format: any = store.getters['chain/getChainProperties58Format']
   const addresses = batchAddresses
     .split('\n')
     .map((x) => x.split('-'))

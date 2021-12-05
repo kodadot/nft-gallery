@@ -53,7 +53,7 @@ export default class AddressInput extends Vue {
   }
 
   get ss58Format(): number {
-    return this.$store.getters.getChainProperties?.ss58Format
+    return this.$store.getters['chain/getChainProperties58Format']
   }
 }
 </script>

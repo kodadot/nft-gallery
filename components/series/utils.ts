@@ -59,7 +59,7 @@ export const nftFn = (a: any): RowSeries => {
   }
 }
 
-const tokenDecimals = store.getters.getChainPropertiesTokenDecimals as any
+const tokenDecimals = store.getters['chain/getChainPropertiesTokenDecimals'] as any
 const formatNumber = (val: SimpleSeriesNFT) =>
   Number(
     formatBalance(
