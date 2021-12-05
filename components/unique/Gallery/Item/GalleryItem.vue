@@ -105,7 +105,7 @@
             ></b-skeleton>
           </div>
 
-          <div class="block" v-if="nft.attributes">
+          <div class="block" v-if="nft.attributes && nft.attributes.length">
             <Properties :attributes="nft.attributes" />
           </div>
         </div>
