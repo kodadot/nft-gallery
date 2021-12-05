@@ -356,7 +356,7 @@ export default class SeriesTable extends Vue {
   @Watch('nbRows')
   public onTopRowsChange(value: string) {
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: { ...this.$route.query, rows: value },
     }).catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(value))
@@ -365,7 +365,7 @@ export default class SeriesTable extends Vue {
   @Watch('nbDays')
   public onTopDaysChange(value: string) {
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: { ...this.$route.query, period: value },
     }).catch((e) => console.warn(e))
   }
