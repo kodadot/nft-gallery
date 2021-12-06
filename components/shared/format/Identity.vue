@@ -22,7 +22,16 @@
       </a>
     </template>
     <template v-else>
-      {{ name | toString }}
+      <span v-if="showOnchainIdentity" class="is-inline-flex is-align-items-center">
+        {{ shortenedAddress | toString }}
+        <img v-if="isFetchingIdentity" src="/infinity.svg" class="ml-1 infinity-loader">
+        <template v-else>
+          <span v-if="identity.display" class="ml-1">({{ identity.display }})</span>
+        </template>
+      </span>
+      <span v-else>
+        {{ name | toString }}
+      </span>
     </template>
   </component>
 </template>
@@ -52,13 +61,17 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public noOwerflow!: boolean;
   @Prop(Boolean) public emit!: boolean;
   @Prop(Boolean) public showTwitter!: boolean;
+  @Prop(Boolean) public showOnchainIdentity!: boolean;
   private identity: IdentityFields = emptyObject<IdentityFields>();
+  private isFetchingIdentity = false
+
+  get shortenedAddress(): Address {
+    return shortAddress(this.resolveAddress(this.address))
+  }
 
   get name(): Address {
     const name = this.identity.display
-    return name
-      ? `${shortAddress(this.resolveAddress(this.address))} (${name})`
-      : shortAddress(this.resolveAddress(this.address))
+    return name as string || this.shortenedAddress
   }
 
   get twitter(): Address {
@@ -109,12 +122,14 @@ export default class Identity extends mixins(InlineMixin) {
   }
 
   protected async fetchIdentity(address: string): Promise<IdentityFields> {
+    this.isFetchingIdentity = true
     const { api } = Connector.getInstance()
 
     const optionIdentity = await api?.query.identity?.identityOf(address)
     const identity = optionIdentity?.unwrapOrDefault()
 
     if (!identity?.size) {
+      this.isFetchingIdentity = false
       return emptyObject<IdentityFields>()
     }
 
@@ -126,6 +141,7 @@ export default class Identity extends mixins(InlineMixin) {
       }, {} as IdentityFields)
 
     update(address, () => final, identityStore)
+    this.isFetchingIdentity = false
 
     if (this.emit) {
       this.emitIdentityChange(final)
@@ -158,5 +174,9 @@ export default class Identity extends mixins(InlineMixin) {
 
 .overflowWrap {
   overflow-wrap: break-word;
+}
+
+.infinity-loader {
+  height: 20px
 }
 </style>
