@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { showNotification } from '~/utils/notification'
@@ -56,15 +56,20 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
     return this.attributes && this.attributes.length
   }
 
+
   protected async submit(isMeta: boolean) {
     const { api } = Connector.getInstance()
     this.initTransactionLoader()
     const cb = isMeta
       ? api.tx.uniques.clearMetadata
-      : api.tx.uniques.clearAttributes
+      : api.tx.utility.batchAll
     const args = isMeta
       ? [this.collectionId, this.nftId]
-      : [this.collectionId, this.nftId, this.attributes]
+      : [this.attributes
+        .map(attr => attr.key)
+        .map(key => api.tx.uniques.clearAttribute(this.collectionId, this.nftId, key))
+      ]
+
     this.howAboutToExecute(this.accountId, cb, args, this.onSuccess)
 
     this.$emit('close')
@@ -72,6 +77,11 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
 
   protected onSuccess(block: string) {
     showNotification(`Meta cleared in block ${block}`)
+  }
+
+  @Watch('attributes', { deep: true })
+  protected onAttributesChange(val: Attribute[], oldVal: Attribute[]) {
+
   }
 }
 </script>
