@@ -1,8 +1,18 @@
 <template>
   <div>
-    <Search v-bind.sync="searchQuery" v-if="showSearchBar" />
-    <Pagination hasMagicBtn replace :total="total" v-model="currentValue" />
-    <GalleryCardList :items="items" />
+    <Search v-bind.sync="searchQuery" v-if="showSearchBar">
+      <Layout class="mr-5" />
+      <b-field>
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          :total="total"
+          v-model="currentValue"
+        />
+      </b-field>
+    </Search>
+    <GalleryCardList :items="items" horizontalLayout />
     <Pagination
       class="pt-5 pb-5"
       replace
@@ -22,6 +32,7 @@ const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 @Component({ components })

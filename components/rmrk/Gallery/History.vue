@@ -172,7 +172,11 @@ export default class History extends Mixins(ChainMixin) {
   }
 
   protected getBlockUrl(block: string): string {
-    return urlBuilderBlockNumber(block, this.$store.getters.getCurrentChain, 'subscan')
+    return urlBuilderBlockNumber(
+      block,
+      this.$store.getters['explorer/getCurrentChain'],
+      'subscan'
+    );
   }
 
   @Watch('events', { immediate: true })

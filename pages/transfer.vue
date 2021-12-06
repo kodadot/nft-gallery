@@ -179,6 +179,10 @@ export default class Transfer extends mixins(
   protected price = 0;
   protected usdValue = 0;
 
+  layout() {
+    return 'centered-half-layout'
+  }
+
   get disabled(): boolean {
     return !this.hasAddress || !this.price || !this.accountId
   }
@@ -340,7 +344,7 @@ export default class Transfer extends mixins(
       queryValue.usdamount = this.$route.query.usdamount
     }
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: queryValue,
     })
   }
@@ -355,7 +359,7 @@ export default class Transfer extends mixins(
       queryValue.target = this.$route.query.target
     }
     this.$router.replace({
-      name: String(this.$route.name),
+      path: String(this.$route.path),
       query: queryValue,
     })
   }
