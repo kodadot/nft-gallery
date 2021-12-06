@@ -260,7 +260,8 @@
     "sign": "Waiting for response from singer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
-    "uploading": "({0}/{1}) Uploading data to IPFS"
+    "uploading": "({0}/{1}) Uploading data to IPFS",
+    "checkBalance": "Checking if you have enough balance"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",

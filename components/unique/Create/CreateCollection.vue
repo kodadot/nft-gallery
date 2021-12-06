@@ -102,7 +102,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import { emptyObject } from '@/utils/empty'
 
 import Connector from '@vue-polkadot/vue-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import exec, { execResultValue, txCb, Extrinsic, estimate } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
@@ -116,7 +116,10 @@ import { supportTx, calculateCost } from '@/utils/support'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
 import { Attribute } from '@/components/rmrk/types'
-import { getRandomValues } from '../utils'
+import { getRandomValues, hasEnoughToken } from '../utils'
+import Query from '@/utils/api/Query'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -134,7 +137,8 @@ const components = {
 export default class CreateCollection extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
-  TransactionMixin
+  TransactionMixin,
+  ChainMixin
 ) {
   private rmrkMint: Collection = emptyObject<Collection>();
   private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
@@ -217,26 +221,54 @@ export default class CreateCollection extends mixins(
     return Number(newId)
   }
 
+  protected cretateArgs(randomId: number, metadata: string): Extrinsic[] {
+    const { api } = Connector.getInstance()
+    const create = api.tx.uniques.create(randomId, this.accountId)
+      // Option to freeze metadata
+      const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
+      const attributes = this.attributes.map(a =>
+        api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value)))
+
+    return [create, meta, ...attributes]
+  }
+
+  protected tryToEstimateTx(): Promise<string> {
+    const { api } = Connector.getInstance()
+    const cb = api.tx.utility.batchAll
+    const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
+    const randomId = 0
+    const args = [this.cretateArgs(randomId, metadata)]
+    return estimate(this.accountId, cb, args)
+  }
+
+  protected async checkBalanceBeforeTx(): Promise<void> {
+    const { api } = Connector.getInstance()
+    const balance = await Query.getTokenBalance(api, this.accountId)
+    const estimated = await this.tryToEstimateTx()
+    const deposit = this.collectionDeposit
+    const hasTokens = hasEnoughToken(balance, estimated, deposit)
+    console.log('hasTokens', hasTokens)
+    if (!hasEnoughToken(balance, estimated, deposit)) {
+      throw new Error(`Not enough tokens: Currently have ${formatBalance(balance, this.decimals, this.unit)} tokens`)
+    }
+  }
+
   protected async submit(): Promise<void> {
     this.isLoading = true
-    this.status = 'loader.ipfs'
+    this.status = 'loader.checkBalance'
+
     try {
+      await this.checkBalanceBeforeTx()
       showNotification(`Creating Collection: ${this.rmrkMint.name}`)
+      this.status = 'loader.ipfs'
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       const { api } = Connector.getInstance()
       const cb = api.tx.utility.batchAll
       const randomId = await this.generateNewCollectionId()
-      // const randomId = Number(this.id)
-      const create = api.tx.uniques.create(randomId, this.accountId)
-      // Option to freeze metadata
-      const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-      const attributes = this.attributes.map(a =>
-        api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
-      )
 
       // TODO: enable can support
-      const args = [[create, meta, ...attributes]]
+      const args = [this.cretateArgs(randomId, metadata)]
       // const args = !this.hasSupport
       //   ? mintString
       //   : [this.toRemark(mintString), ...(await this.canSupport())]
