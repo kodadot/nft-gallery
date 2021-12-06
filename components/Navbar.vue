@@ -37,7 +37,7 @@
         >
           {{ $t('Classic') }}
         </b-navbar-item>
-        <b-navbar-item
+        <!-- <b-navbar-item
           tag="nuxt-link"
           to="/rmrk/mint"
         >
@@ -48,7 +48,7 @@
           to="/permafrost/create"
         >
           {{ $t('Permafrost') }}
-        </b-navbar-item>
+        </b-navbar-item> -->
       </b-navbar-dropdown>
       <b-navbar-item
         tag="nuxt-link"
@@ -62,7 +62,7 @@
       >
         {{ $t('Gallery') }}
       </b-navbar-item>
-      <b-navbar-item
+      <!-- <b-navbar-item
         tag="nuxt-link"
         to="/spotlight"
       >
@@ -73,7 +73,7 @@
         to="/series-insight"
       >
         Series
-      </b-navbar-item>
+      </b-navbar-item> -->
       <b-navbar-dropdown
         arrowless
         collapsible
