@@ -255,6 +255,10 @@ export default class PermaMint extends mixins(
     this.price = value
   }
 
+  layout() {
+    return 'centered-half-layout'
+  }
+
   get fileType() {
     return resolveMedia(this.file?.type)
   }
@@ -530,6 +534,7 @@ export default class PermaMint extends mixins(
 </script>
 
 <style>
+/* ??? global */
 .message.is-primary .message-body {
   color: #d32e79 !important;
 }
