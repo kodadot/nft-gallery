@@ -37,7 +37,9 @@
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
           label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
-          :iframe="iframeSettings" />
+          :iframe="iframeSettings" >
+          <TransferCollection v-if="accountIsCurrentOwner" :collectionId="id" :currentOwnerId="currentOwner" :accountId="accountId" />
+        </Sharing>
       </div>
     </div>
 
@@ -80,6 +82,8 @@ import collectionById from '@/queries/unique/collectionById.graphql'
 import { CollectionMetadata } from '@/components/rmrk/service/scheme'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import { Collection, Attribute } from '@/components/unique/types'
+import AuthMixin from '@/utils/mixins/authMixin'
+import { mixins } from 'vue-class-component'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -87,12 +91,13 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
+  TransferCollection: () => import('@/components/unique/Collection/Item/TransferCollectionModal.vue'),
 }
 
-@Component<OrmlCollection>({
+@Component<CollectionItem>({
   components
 })
-export default class OrmlCollection extends Vue {
+export default class CollectionItem extends mixins(AuthMixin) {
   private id = '';
   private collection: Collection & CollectionMetadata = emptyObject();
   private attributes: Attribute[] = [];
@@ -116,8 +121,16 @@ export default class OrmlCollection extends Vue {
     return this.collection.issuer || ''
   }
 
+  get currentOwner() {
+    return this.owner || this.issuer
+  }
+
   get owner() {
     return this.collection.issuer === (this.collection as any).currentOwner ? '' : (this.collection as any).currentOwner
+  }
+
+  get accountIsCurrentOwner() {
+    return this.accountId === this.currentOwner
   }
 
   get sharingVisible() {
