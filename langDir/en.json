@@ -376,6 +376,10 @@
       "description": {
         "show": "Show me the description",
         "hide": "Hide the description"
+      },
+      "attributes": {
+        "show": "Show on-chain attributes",
+        "hide": "Hide on-chain attributes"
       }
     }
   }

@@ -48,8 +48,8 @@
         :max="5"
         v-model="attributes"
         class="mb-3"
-        visible="mint.showOnChainAttr"
-        hidden="mint.hideOnChainAttr"
+        visible="collapse.collection.attributes.show"
+        hidden="collapse.collection.attributes.hide"
       />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
