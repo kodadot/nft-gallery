@@ -46,7 +46,7 @@ const components = {
 export default class TransferCollectionModal extends mixins(
   MetaTransactionMixin
 ) {
-  @Prop({ type: String }) public accountId!: string
+  @Prop({ type: String, required: true }) public accountId!: string
   @Prop({ type: String, required: true }) public collectionId!: string
   @Prop(String) public currentOwnerId!: string
   protected destinationAddress: string = ''
