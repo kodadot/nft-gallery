@@ -209,7 +209,7 @@ export default class Landing extends Vue {
   }
 
   public mounted() {
-    this.fetchFirstGalleryPage()
+    // this.fetchFirstGalleryPage()
   }
 
   public async fetchFirstGalleryPage() {
