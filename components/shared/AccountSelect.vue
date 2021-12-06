@@ -1,6 +1,5 @@
 <template>
   <b-field
-    grouped
     :label="label"
   >
     <b-select
@@ -23,10 +22,6 @@
         <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
       </option>
     </b-select>
-    <Tooltip
-      v-if="tooltipVisible"
-      :label="tooltip"
-    />
   </b-field>
 </template>
 

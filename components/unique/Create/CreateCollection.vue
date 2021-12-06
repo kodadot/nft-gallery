@@ -5,12 +5,7 @@
       <p class="title is-size-3">
         {{ $t("context") }}
       </p>
-      <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
-      <b-field>
-        <div>
-          {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
-        </div>
-      </b-field>
+
       <b-field>
         <Auth />
       </b-field>
