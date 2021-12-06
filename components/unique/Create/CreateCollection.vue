@@ -115,6 +115,8 @@ import { getRandomValues, hasEnoughToken } from '../utils'
 import Query from '@/utils/api/Query'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '~/utils/mixins/chainMixin'
+import onApiConnect from '@/utils/api/general'
+import { getclassDeposit, getMetadataDeposit } from '../apiConstants'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -146,6 +148,14 @@ export default class CreateCollection extends mixins(
   protected collectionDeposit = '';
   protected id = '0'
   protected attributes: Attribute[] = [];
+
+  public async created() {
+    onApiConnect(() => {
+      const classDeposit = getclassDeposit()
+      const metadataDeposit = getMetadataDeposit()
+      this.collectionDeposit = (classDeposit + metadataDeposit).toString()
+    })
+  }
 
   get accountId() {
     return this.$store.getters.getAuthAddress

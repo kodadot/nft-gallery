@@ -119,6 +119,8 @@ import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
 import { Attribute } from '@/components/rmrk/types'
+import onApiConnect from '~/utils/api/general'
+import { getclassDeposit, getInstanceDeposit, getMetadataDeposit } from '../apiConstants'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -180,8 +182,12 @@ export default class CreateToken extends mixins(
     return this.$store.getters.getAuthAddress
   }
 
-  public mounted(): void {
-    // setTimeout(this.fetchDeposit, 1000)
+  public async created() {
+    onApiConnect(() => {
+      const instanceDeposit = getInstanceDeposit()
+      const metadataDeposit = getMetadataDeposit()
+      this.deposit = (instanceDeposit + metadataDeposit).toString()
+    })
   }
 
   @Watch('accountId', { immediate: true })

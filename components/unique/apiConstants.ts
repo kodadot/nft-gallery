@@ -7,12 +7,12 @@ export function getInstanceDeposit(): bigint {
 
 export function getMetadataDeposit(): bigint {
   const { api } = Connector.getInstance()
-  return api.consts?.uniques?.instanceDeposit?.toBigInt()
+  return api.consts?.uniques?.metadataDepositBase?.toBigInt()
 }
 
 export function getDepositPerByte(): bigint {
   const { api } = Connector.getInstance()
-  return api.consts?.uniques?.instanceDeposit?.toBigInt()
+  return api.consts?.uniques?.depositPerByte?.toBigInt()
 }
 
 export function getclassDeposit(): bigint {
