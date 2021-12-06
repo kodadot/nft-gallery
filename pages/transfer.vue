@@ -179,6 +179,10 @@ export default class Transfer extends mixins(
   protected price = 0;
   protected usdValue = 0;
 
+  layout() {
+    return 'centered-half-layout'
+  }
+
   get disabled(): boolean {
     return !this.hasAddress || !this.price || !this.accountId
   }
