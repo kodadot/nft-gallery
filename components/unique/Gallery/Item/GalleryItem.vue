@@ -165,6 +165,7 @@
                             :nftId="id"
                             :delegateId="nft.delegate"
                             :collectionId="collectionId"
+                            :frozen="nft.isFrozen"
                             :ipfs-hashes="[
                               nft.image,
                               nft.animation_url,
@@ -320,7 +321,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
       this.$set(this.nft, 'delegate', instance.approved.toHuman())
       console.log('isFreezed', instance.isFrozen)
-      this.$set(this.nft, 'frozen', instance.isFrozen.eq(true))
+      this.$set(this.nft, 'isFrozen', instance.isFrozen.isTrue)
     } else {
       // check if not burned because burned returns null
       this.nft = emptyObject<NFT>()

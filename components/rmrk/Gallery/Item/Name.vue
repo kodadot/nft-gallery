@@ -5,9 +5,15 @@
       :class="[ detailVisible ? 'is-size-1' : 'is-size-3' ]"
     >
       <span v-if="!isLoading">
-        <span v-if="nft.burned">「🔥」</span> {{ nft.name }} <span v-if="carbonlessBadge">「🌱」</span>
+        <span v-if="nft.burned">「🔥」</span>
+        <span :class="{ 'has-text-info': nft.isFrozen }" >{{ nft.name }}</span>
+        <span v-if="carbonlessBadge">「🌱」</span>
       </span>
       <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
+    </p>
+    <p v-if="nft.isFrozen" class="title is-size-4 has-text-info">
+      {{ $t('nft.frozen') }} 「❄️」
+      <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
     </p>
     <p v-if="nft.burned" class="title is-size-4 has-text-danger">
       {{ $t('nft.burned') }} 「🔥」
