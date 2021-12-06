@@ -84,6 +84,7 @@ import { createTokenId, tokenIdToRoute } from '../../utils'
 import { Collection, Attribute } from '@/components/unique/types'
 import AuthMixin from '@/utils/mixins/authMixin'
 import { mixins } from 'vue-class-component'
+import onApiConnect from '~/utils/api/general'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -144,11 +145,11 @@ export default class CollectionItem extends mixins(AuthMixin) {
   public created() {
     this.checkId()
     this.fetchCollection()
-    setTimeout(() => {
+    onApiConnect(() => {
       this.loadMagic()
       // const { api } = Connector.getInstance();
       // this.subscribe(api.query.uniques.asset, [this.id, this.itemId], this.observeOwner)
-    }, 3000)
+    })
   }
 
   private async fetchCollection() {
