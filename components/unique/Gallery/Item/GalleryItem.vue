@@ -176,7 +176,7 @@
                         <Auth />
                       </p>
                     </div>
-                    <DangerModal v-if="accountId === nft.currentOwner" title="Danger Zone" :accountId="accountId" :nftId="id" :collectionId="collectionId"  />
+                    <DangerModal v-if="accountId === nft.currentOwner" title="Danger Zone" :accountId="accountId" :nftId="id" :collectionId="collectionId" :attributes="nft.attributes"  />
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -297,10 +297,6 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 
   get emoteVisible() {
     return this.urlPrefix === 'rmrk'
-  }
-
-  get hasAttributes() {
-    return (this.nft as any).attributes && (this.nft as any).attributes.length > 0
   }
 
   public async created() {

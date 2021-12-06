@@ -143,7 +143,8 @@ const components = {
       ]
     }
   },
-  components
+  components,
+  name: 'Gallery',
 })
 export default class Gallery extends Vue {
   private prefix = this.$config.prefix

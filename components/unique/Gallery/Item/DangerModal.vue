@@ -24,6 +24,8 @@ import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { showNotification } from '~/utils/notification'
+import { Attribute } from '../../types'
+import { emptyArray } from '@/utils/empty'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -39,7 +41,8 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
   @Prop({ type: String }) public title!: string
   @Prop({ type: String, required: true }) public collectionId!: string
   @Prop(String) public nftId!: string
-  @Prop(Array) public attributes!: string[]
+  @Prop({ type: Array, default: () => emptyArray<Attribute>() })
+  public attributes!: Attribute[]
 
   protected clearMeta() {
     this.submit(true)
@@ -50,7 +53,7 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
   }
 
   get hasAttributes() {
-    return this.attributes && this.attributes.length > 0
+    return this.attributes && this.attributes.length
   }
 
   protected async submit(isMeta: boolean) {
