@@ -16,12 +16,14 @@
         >
         </b-input>
       </b-field>
-      <BasicSwitch
-        class="is-flex control mb-5"
-        v-model="vListed"
-        label="sort.listed"
-        size="is-medium"
-      />
+      <b-tooltip label="Show only nfts available for purchase">
+        <BasicSwitch
+         class="is-flex control mb-5"
+         v-model="vListed"
+         label="sort.listed"
+         size="is-medium"
+        />
+      </b-tooltip>
       <slot />
     </b-field>
   </div>

@@ -54,8 +54,12 @@
       >
         <b-tab-item value="nft" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
-            {{ $t("profile.created") }}
-            <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
+            <b-tooltip :label="`Created By ${shortendId}`">
+              {{ $t("profile.created") }}
+              <span class="tab-counter" v-if="totalCreated">{{
+                totalCreated
+              }}</span>
+            </b-tooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -65,11 +69,19 @@
             :showSearchBar="true"
           />
         </b-tab-item>
-        <b-tab-item
+         <b-tab-item
           :label="`Collections - ${totalCollections}`"
           value="collection"
           :headerClass="{'is-hidden': !totalCollections}"
-        >
+         >
+          <template #header>
+            <b-tooltip :label="`Nfts collected by ${shortendId}`">
+              {{ $t("Collections") }}
+              <span class="tab-counter" v-if="totalCollections">{{
+                totalCollections
+              }}</span>
+            </b-tooltip>
+          </template>
           <div class="is-flex is-justify-content-flex-end">
             <Layout class="mr-5" />
             <Pagination
@@ -91,7 +103,7 @@
             :total="totalCollections"
             v-model="currentCollectionPage"
           />
-        </b-tab-item>
+         </b-tab-item>
         <b-tab-item value="sold" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
             {{ $t("profile.sold") }}
@@ -107,8 +119,12 @@
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
-            {{ $t("profile.collected") }}
-            <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+            <b-tooltip :label="`Nfts collected by ${shortendId}`">
+              {{ $t("profile.collected") }}
+              <span class="tab-counter" v-if="totalCollected">{{
+                totalCollected
+              }}</span>
+            </b-tooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -403,5 +419,12 @@ export default class Profile extends Vue {
 
 .subid__less-margin {
   margin: auto .5em auto 0;
+}
+</style>
+
+<style lang="scss">
+
+nav.tabs {
+  overflow: visible;
 }
 </style>
