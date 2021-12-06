@@ -225,6 +225,7 @@ import Connector from '@vue-polkadot/vue-api'
 import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import onApiConnect from '@/utils/api/general'
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -303,15 +304,14 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   public async created() {
     this.checkId()
     this.fetchCollection()
-    setTimeout(() => {
+    onApiConnect(api => {
       this.loadMagic()
-      const { api } = Connector.getInstance()
       this.subscribe(
         api.query.uniques.asset,
         [this.collectionId, this.id],
         this.observeOwner
       )
-    }, 3000)
+    })
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
@@ -320,7 +320,6 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     if (instance) {
       this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
       this.$set(this.nft, 'delegate', instance.approved.toHuman())
-      console.log('isFreezed', instance.isFrozen)
       this.$set(this.nft, 'isFrozen', instance.isFrozen.isTrue)
     } else {
       // check if not burned because burned returns null
