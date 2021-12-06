@@ -2,8 +2,8 @@ import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
 export interface ChainProperties {
   chainProperties: {
-    ss58Format: string
-    tokenDecimals: string
+    ss58Format: number
+    tokenDecimals: number
     genesisHash: string
     tokenSymbol: string
   }
