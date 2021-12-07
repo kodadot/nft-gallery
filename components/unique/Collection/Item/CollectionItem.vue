@@ -77,7 +77,7 @@ import isShareMode from '@/utils/isShareMode'
 import Connector from '@vue-polkadot/vue-api'
 import { Option } from '@polkadot/types'
 import { NFTWithMeta } from '@/components/rmrk/service/scheme'
-import { ClassMetadata } from '@polkadot/types/interfaces'
+import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'
 import collectionById from '@/queries/unique/collectionById.graphql'
 import { CollectionMetadata } from '@/components/rmrk/service/scheme'
 import { createTokenId, tokenIdToRoute } from '../../utils'
@@ -85,6 +85,7 @@ import { Collection, Attribute } from '@/components/unique/types'
 import AuthMixin from '@/utils/mixins/authMixin'
 import { mixins } from 'vue-class-component'
 import onApiConnect from '~/utils/api/general'
+import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -98,7 +99,7 @@ const components = {
 @Component<CollectionItem>({
   components
 })
-export default class CollectionItem extends mixins(AuthMixin) {
+export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin) {
   private id = '';
   private collection: Collection & CollectionMetadata = emptyObject();
   private attributes: Attribute[] = [];
@@ -145,11 +146,22 @@ export default class CollectionItem extends mixins(AuthMixin) {
   public created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect(() => {
+    onApiConnect(api => {
       this.loadMagic()
-      // const { api } = Connector.getInstance();
-      // this.subscribe(api.query.uniques.asset, [this.id, this.itemId], this.observeOwner)
+      this.subscribe(api.query.uniques.class, [this.id], this.observeOwner)
     })
+  }
+
+    protected observeOwner(data: Option<ClassDetails>) {
+    console.log(data.toHuman())
+    const instance = data.unwrapOr(null)
+    if (instance) {
+      this.$set(this.collection, 'currentOwner', instance.owner.toHuman())
+      this.$set(this.collection, 'issuer', instance.issuer.toHuman())
+      this.$set(this.collection, 'isFrozen', instance.isFrozen.isTrue)
+    } else {
+      showNotification(`Collection ${this.id} not found on chain`, notificationTypes.danger)
+    }
   }
 
   private async fetchCollection() {
@@ -190,7 +202,7 @@ export default class CollectionItem extends mixins(AuthMixin) {
 
       if (!collectionQ) {
         showNotification(
-          `No Collection with ID ${this.id}`,
+          `No Metadata for collection ID ${this.id}`,
           notificationTypes.warn
         )
         return
