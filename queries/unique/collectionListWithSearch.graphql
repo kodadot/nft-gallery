@@ -5,12 +5,10 @@ query collectionListWithSearch($first: Int!, $offset: Int) {
     orderBy: BLOCK_NUMBER_DESC
     first: $first
     offset: $offset
-    filter: {
-      metadata: { includes: "ipfs" },
-    }
   ) {
     totalCount
     nodes {
+      metadata
       ...collection
       nfts(
         orderBy: BLOCK_NUMBER_DESC

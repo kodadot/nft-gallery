@@ -52,6 +52,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -152,9 +153,12 @@ export default class Collections extends Vue {
       ...e,
     }))
 
+    const metaList = this.collections.map(({ metadata }: MetaFragment) => metadata || '0x0000000000000000000000000000000000000000')
+    console.log(metaList)
+
     const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
-    )
+      metaList
+    ).catch(() => metaList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
@@ -179,7 +183,7 @@ export default class Collections extends Vue {
     })
 
 
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
 
