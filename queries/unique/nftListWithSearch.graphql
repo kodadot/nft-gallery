@@ -1,4 +1,5 @@
 #import "./nft.graphql"
+#import "./collectionMeta.graphql"
 
 query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityFilter!]) {
   nFTEntities(
@@ -7,13 +8,13 @@ query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $searc
     offset: $offset
     filter: {
       issuer: { notIn: $denyList },
-      metadata: { includes: "ipfs" },
       and: $search
     }
   ) {
     totalCount
     nodes {
       ...nft
+      ...collectionMeta
     }
   }
 }
