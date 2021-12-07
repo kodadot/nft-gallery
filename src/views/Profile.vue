@@ -103,7 +103,7 @@
             :total="totalCollections"
             v-model="currentCollectionPage"
           />
-         </b-tab-item>
+        </b-tab-item>
         <b-tab-item value="sold" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
             {{ $t("profile.sold") }}
