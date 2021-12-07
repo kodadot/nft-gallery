@@ -169,7 +169,9 @@ export default class Collections extends Vue {
             ...meta,
             image: sanitizeIpfsUrl(meta.image || '')
           })
-          update(this.collections[i].metadata, () => meta)
+          if (this.collections[i].metadata) {
+            update(this.collections[i].metadata, () => meta)
+          }
         } catch (e) {
           console.warn('[ERR] unable to get metadata')
         }
