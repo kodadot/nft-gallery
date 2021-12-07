@@ -13,6 +13,7 @@ query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $searc
   ) {
     totalCount
     nodes {
+      metadata
       ...nft
       ...collectionMeta
     }

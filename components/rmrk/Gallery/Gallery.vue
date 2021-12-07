@@ -201,11 +201,10 @@ export default class Gallery extends Vue {
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount
-    }))
+    }));
 
-    const storedMetadata = await getMany(
-      this.nfts.map(({ metadata, collection }: NFTListWithSearch) => metadata || collection.metadata)
-    )
+    const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
+    const storedMetadata = await getMany(metadataList).catch(() => metadataList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
@@ -230,7 +229,7 @@ export default class Gallery extends Vue {
     })
 
 
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
 
@@ -255,7 +254,9 @@ export default class Gallery extends Vue {
         }
       } = await nfts
 
-      const storedPromise = getMany(nftList.map(({ metadata }: any) => metadata))
+      const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
+
+      const storedPromise = getMany(metadataList).catch(() => metadataList)
 
       const storedMetadata = await storedPromise
 
