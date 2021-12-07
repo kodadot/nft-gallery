@@ -211,7 +211,7 @@ import {
 import { emptyObject } from '@/utils/empty'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { InstanceDetails, InstanceMetadata } from '@polkadot/types/interfaces'
+import { ClassMetadata, InstanceDetails, InstanceMetadata } from '@polkadot/types/interfaces'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/unique/nftById.graphql'
@@ -226,6 +226,7 @@ import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import onApiConnect from '@/utils/api/general'
+import { NFTEntity, NFTWithCollectionMeta } from '../../graphqlResponseTypes'
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -334,18 +335,23 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       console.log('loading magic', this.id)
       const nftId = this.id || 0
 
-      const nftQ = await api.query.uniques
+      let nftQ = await api.query.uniques
         .instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
         .then((res) => res.unwrapOr(null))
+
       if (!nftQ) {
-        showNotification(`No NFT with ID ${nftId}`, notificationTypes.warn)
-        return
+        console.warn('nft with no metadata, trying collection')
+        nftQ = await api.query.uniques
+        .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
+        .then((res) => res.unwrapOr(null))
       }
-      const nftData = nftQ.toHuman()
-      if (!nftData.data) {
+
+      const nftData = nftQ?.toHuman()
+      if (!nftData?.data) {
         showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
         return
       }
+
       const nft = await fetchNFTMetadata({
         metadata: nftData.data.toString(),
       } as NFT)
@@ -377,13 +383,18 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     const {
       data: { nFTEntity },
     } = nft
+
     if (!nFTEntity) {
+      console.warn('no nft found on UniqueQL')
       return
     }
+
     console.log('nft', nFTEntity)
+
     this.nft = {
       ...this.nft,
       ...nFTEntity,
+      metadata: nFTEntity.metadata || nFTEntity.collection.metadata,
     }
   }
 
