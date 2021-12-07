@@ -45,6 +45,7 @@
             ref="identity"
             :address="$route.query.target"
             inline
+            show-onchain-identity
           />
         </a>
       </div>
