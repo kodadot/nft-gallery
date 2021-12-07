@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 
 @Component({
@@ -37,29 +37,16 @@ import DisabledInput from '@/components/shared/DisabledInput.vue'
   },
 })
 export default class Summary extends Vue {
-  private readonly emptyChainProperties: any =  {
-    ss58Format: '',
-    tokenDecimals: '',
-    genesisHash: '',
-    tokenSymbol:''
-  }
-  public chainProperties: any = this.emptyChainProperties;
   public loading = false;
 
-  @Watch('$store.state["chain/chainProperties"]')
-  public mapProp(): void {
-    this.chainProperties = {...this.emptyChainProperties, ...this.$store.state['chain/chainProperties']}
+  get chainProperties() {
+    return this.$store.getters['chain/getChainProperties']
   }
 
   @Watch('$store.state.loading')
   public mapLoading(): void {
     this.loading = this.$store.state.loading
   }
-
-  public async mounted() {
-    this.mapProp()
-  }
-
 
 }
 </script>
