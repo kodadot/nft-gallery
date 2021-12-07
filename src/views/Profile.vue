@@ -69,7 +69,7 @@
             :showSearchBar="true"
           />
         </b-tab-item>
-         <b-tab-item
+        <b-tab-item
           :label="`Collections - ${totalCollections}`"
           value="collection"
           :headerClass="{'is-hidden': !totalCollections}"
