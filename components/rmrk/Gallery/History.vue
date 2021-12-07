@@ -4,7 +4,6 @@
       class="card"
       animation="slide"
       aria-id="contentIdForHistory"
-      :open="collapsedHistory"
     >
       <template #trigger="props">
         <div
@@ -23,9 +22,20 @@
       </template>
       <div class="card-content">
         <div class="content">
+          <b-field>
+            <b-select placeholder="Select an event" v-model="selectedEvent">
+              <option value="all">All</option>
+              <option
+                v-for="option in uniqType"
+                :value="option.Type"
+                :key="option.Type">
+                {{ option.Type }}
+              </option>
+            </b-select>
+          </b-field>
+
           <b-table :data="data" class="mb-4" hoverable>
             <b-table-column
-              cell-class="short-identity__table"
               field="Type"
               label="Type"
               v-slot="props"
@@ -115,21 +125,19 @@ type ChartData = { buy: [Date, number][]; list: [Date, number][] };
 export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[];
   protected data: TableRow[] = [];
+  protected copydata: TableRow[] = [];
   protected priceChartData: [Date, number][][] = [];
-  protected collapsedHistory = true;
+  protected selectedEvent: string = 'all';
 
-  public mounted(): void {
-    this.collapsedHistory = true;
-
-    setTimeout(() => {
-      this.collapsedHistory = false;
-    }, 200);
+  get uniqType() {
+    return [...new Map(this.copydata.map(v => [v.Type, v])).values()]
   }
 
   protected createTable(): void {
     let prevOwner = '';
     let curPrice = '0.0000000';
     this.data = [];
+    this.copydata = [];
 
     const chartData: ChartData = {
       buy: [],
@@ -141,23 +149,26 @@ export default class History extends mixins(ChainMixin) {
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE';
+        event['Type'] = 'MINT - 🖼';
         event['From'] = newEvent['caller'];
         event['To'] = '';
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE';
+        event['Type'] = 'LIST - 📰';
         event['From'] = newEvent['caller'];
         event['To'] = '';
         prevOwner = event['From'];
         curPrice = newEvent['meta'];
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT';
+        event['Type'] = 'GIFT - 🎁';
         event['From'] = newEvent['caller'];
         event['To'] = newEvent['meta'];
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT';
+        event['Type'] = 'BURN - 🔥';
         event['From'] = newEvent['caller'];
         event['To'] = '';
+      } else if (newEvent['interaction'] === 'BUY') {
+        console.log(newEvent)
+        event['Type'] = 'BUY - 🤝';
       } else event['Type'] = newEvent['interaction'];
 
       // From
@@ -189,9 +200,11 @@ export default class History extends mixins(ChainMixin) {
       }
 
       this.data.push(event);
+      this.copydata.push(event);
     }
 
     this.data = this.data.reverse();
+    this.copydata = this.copydata.reverse();
     this.priceChartData = [chartData.buy, chartData.list];
   }
 
@@ -206,6 +219,17 @@ export default class History extends mixins(ChainMixin) {
       this.$store.getters['explorer/getCurrentChain'],
       'subscan'
     );
+  }
+
+  @Watch('selectedEvent', { immediate: true })
+  public watchSelectedEvent(): void {
+    if (this.selectedEvent) {
+      if (this.selectedEvent === 'all') {
+        this.data = this.copydata
+      } else {
+        this.data = [...new Set(this.copydata.filter(v => v.Type === this.selectedEvent))]
+      }
+    }
   }
 
   @Watch('events', { immediate: true })

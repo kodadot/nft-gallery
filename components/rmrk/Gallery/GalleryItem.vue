@@ -59,7 +59,6 @@
             <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
           </div>
 
-          <History v-if="!isLoading" :events="nft.events"/>
         </div>
 
         <div class="column is-3 is-offset-3" v-if="detailVisible">
@@ -105,7 +104,9 @@
             <Facts :nft="nft" :meta="meta"  />
           </template>
         </div>
+
       </div>
+      <History v-if="!isLoading" :events="nft.events"/>
 
       <!-- <hr class="comment-divider" />
       <BaseCommentSection :nft="nft" :meta="meta" /> -->
