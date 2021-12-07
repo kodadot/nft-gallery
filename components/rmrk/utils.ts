@@ -61,17 +61,21 @@ export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3):
   return res
 }
 
+export type SomethingWithMeta = {
+  metadata: string
+}
+
 export const fetchCollectionMetadata = (
-  rmrk: Collection
+  rmrk: Collection | SomethingWithMeta
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const fetchNFTMetadata = (
-  rmrk: NFT,
+  rmrk: NFT | SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchMetadata = async <T>(
-  rmrk: { metadata: string },
+  rmrk: SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<T> => {
   try {
@@ -122,7 +126,7 @@ const unSanitizeUrl = (url: string, prefix: string) => {
 const ar = /^ar:\/\//
 
 export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => {
-  if (ar.test(url)) {
+  if (isArweaveUrl(url)) {
     return url.replace(ar, resolveArProvider(provider))
   }
 
@@ -133,16 +137,40 @@ export const isIpfsUrl = (url: string) => {
   return /^ipfs:\/\//.test(url)
 }
 
+export const isIpfsCid = (url: string) => {
+  return /^[0-9a-zA-Z]{44,}$/.test(url)
+}
+
+export const isArweaveUrl = (url: string) => {
+  return ar.test(url)
+}
+
 
 export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProvider?: ArweaveProviders): SanitizerFunc => {
   if (isIpfsUrl(url)) {
     return link => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
-  return link => sanitizeArweaveUrl(link, arProvider)
+  if (isArweaveUrl(url)) {
+    return link => sanitizeArweaveUrl(link, arProvider)
+  }
+
+  if (isIpfsCid(url)) {
+    return link => sanitizeIpfsCid(link, ipfsProvider)
+  }
+
+  return link => link
+}
+
+export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType) => {
+  return `${resolveProvider(provider)}ipfs/${url}`
 }
 
 export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
+  if (isIpfsCid(ipfsUrl)) {
+    return sanitizeIpfsCid(ipfsUrl, provider)
+  }
+
   const rr = /^ipfs:\/\/ipfs/
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', resolveProvider(provider))
