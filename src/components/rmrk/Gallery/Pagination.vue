@@ -16,7 +16,7 @@
     @change="onPageChange"
   >
   </b-pagination>
-   <b-tooltip label="Go to random page">
+  <b-tooltip label="Go to random page">
     <b-button
       class="ml-2 magicBtn"
       title="Go to random page"
