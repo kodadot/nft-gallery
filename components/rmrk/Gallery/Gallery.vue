@@ -85,8 +85,8 @@
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
 
-import { NFTWithMeta, NFT, Metadata } from '../service/scheme'
-import { fetchNFTMetadata, getSanitizer } from '../utils'
+import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
+import { fetchMetadata, fetchNFTMetadata, getSanitizer } from '../utils'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types'
@@ -95,6 +95,7 @@ import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 import { denyList } from '@/constants'
 import { DocumentNode } from 'graphql'
+import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -102,7 +103,7 @@ interface Image extends HTMLImageElement {
 
 const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
-type NFTType = NFTWithMeta;
+type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata;
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
@@ -148,7 +149,7 @@ const components = {
 })
 export default class Gallery extends Vue {
   private prefix = this.$config.prefix
-  private nfts: NFT[] = [];
+  private nfts: NFTWithCollectionMeta[] = [];
   private meta: Metadata[] = [];
   private searchQuery: SearchQuery = {
     search: '',
@@ -203,7 +204,7 @@ export default class Gallery extends Vue {
     }))
 
     const storedMetadata = await getMany(
-      this.nfts.map(({ metadata }: any) => metadata)
+      this.nfts.map(({ metadata, collection }: NFTListWithSearch) => metadata || collection.metadata)
     )
 
     storedMetadata.forEach(async (m, i) => {
@@ -301,7 +302,7 @@ export default class Gallery extends Vue {
     //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
     // }
 
-    return this.nfts as NFTWithMeta[]
+    return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
