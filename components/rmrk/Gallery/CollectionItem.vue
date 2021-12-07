@@ -292,7 +292,7 @@ export default class CollectionItem extends mixins(
   protected onTabChange(val: string, oldVal: string): void {
     if (shouldUpdate(val, oldVal)) {
       this.$router.replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: { tab: val },
       })
     }
