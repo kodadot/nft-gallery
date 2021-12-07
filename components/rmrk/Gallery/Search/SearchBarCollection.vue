@@ -21,6 +21,7 @@
         v-model="vListed"
         label="sort.listed"
         size="is-medium"
+        labelColor="is-success"
       />
       <slot />
     </b-field>
