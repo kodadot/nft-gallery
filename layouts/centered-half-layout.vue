@@ -4,7 +4,11 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <router-view />
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <router-view />
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -56,7 +60,7 @@ export default class Dashboard extends Vue {
     await cryptoWaitReady()
     console.log('wasmCrypto loaded')
     this.loadKeyring()
-    this.$store.commit('keyringLoaded') // TODO: refact to dispatch and move outside
+    this.$store.commit('keyringLoaded') // TODO: See #1376
   }
 
   public mounted(): void {

@@ -38,14 +38,14 @@
               label="From"
               v-slot="props"
             >
-              <router-link
+              <nuxt-link
                 :to="{
                   name: 'profile',
                   params: { id: props.row.From },
                 }"
               >
                 <Identity :address="props.row.From" inline noOverflow />
-              </router-link>
+              </nuxt-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -53,11 +53,11 @@
               label="To"
               v-slot="props"
             >
-              <router-link
+              <nuxt-link
                 :to="{ name: 'profile', params: { id: props.row.To } }"
               >
                 <Identity :address="props.row.To" inline noOverflow />
-              </router-link>
+              </nuxt-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -203,7 +203,7 @@ export default class History extends mixins(ChainMixin) {
   protected getBlockUrl(block: string): string {
     return urlBuilderBlockNumber(
       block,
-      this.$store.getters.getCurrentChain,
+      this.$store.getters['explorer/getCurrentChain'],
       'subscan'
     );
   }

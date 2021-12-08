@@ -31,11 +31,11 @@ export default class SettingChooserExplorer extends Vue {
   @Prop() public addMethod!: string;
 
   get options() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector]
+    return this.$store.state['explorer/explorerOptions'].availableOptions[this.selector]
   }
 
   get selected() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector][this.defaultValue].value
+    return this.$store.state['explorer/explorerOptions'].availableOptions[this.selector][this.defaultValue].value
   }
 
   set selected(value) {
@@ -43,7 +43,7 @@ export default class SettingChooserExplorer extends Vue {
   }
 
   public async mounted() {
-    this.$store.commit('setExplorerOptions',{ availableOptions: {
+    this.$store.dispatch('explorer/setExplorerOptions', { availableOptions: {
       provider: [
         { text: 'Subscan', value: 'subscan' },
         { text: 'Polkascan', value: 'polkascan'}

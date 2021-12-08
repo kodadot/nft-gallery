@@ -1,6 +1,6 @@
 export default {
   server: {
-    port: 9000 // default: 3000
+    port: 9090 // default: 3000
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -37,6 +37,7 @@ export default {
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/metaInfo',
+    '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',

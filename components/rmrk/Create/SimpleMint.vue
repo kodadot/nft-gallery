@@ -186,7 +186,7 @@
                   tooltipsize="is-large"
                 >
                   <template v-slot:content>
-                    {{ $t('carbonOffset.tooltip') }} 
+                    {{ $t('carbonOffset.tooltip') }}
                     (<a class="has-text-black is-underlined" href='https://kodadot.xyz/carbonless'>https://kodadot.xyz/carbonless</a>)
                   </template>
                 </Tooltip>
@@ -617,7 +617,7 @@ export default class SimpleMint extends mixins(
   }
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 
   get decimals(): number {

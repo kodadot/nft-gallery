@@ -7,7 +7,7 @@ import { Component, Vue } from 'nuxt-property-decorator';
 @Component
 export default class IndexerMixin extends Vue {
   get indexer() {
-    return this.$store.getters.getIndexer;
+    return this.$store.getters['indexer/getIndexer'];
   }
 
   get healthy(): number {

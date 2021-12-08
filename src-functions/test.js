@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-exports.handler = async () => {
+export async function handler() {
 
   const BASE_URL = 'https://api.pinata.cloud/data/testAuthentication'
   const { PINATA_API_KEY, PINATA_SECRET_API_KEY } = process.env

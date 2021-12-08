@@ -1,21 +1,21 @@
 <template>
   <div class="is-flex is-justify-content-flex-end">
-  <b-pagination
-    :total="total"
-    :current.sync="current"
-    :range-before="3"
-    :range-after="3"
-    :simple="simple"
-    :per-page="perPage"
-    order=""
-    tag="a"
-    aria-next-label="Next page"
-    aria-previous-label="Previous page"
-    aria-page-label="Page"
-    aria-current-label="Current page"
-    @change="onPageChange"
-  >
-  </b-pagination>
+    <b-pagination
+      :total="total"
+      :current.sync="current"
+      :range-before="3"
+      :range-after="3"
+      :simple="simple"
+      :per-page="perPage"
+      order=""
+      tag="a"
+      aria-next-label="Next page"
+      aria-previous-label="Previous page"
+      aria-page-label="Page"
+      aria-current-label="Current page"
+      @change="onPageChange"
+    >
+    </b-pagination>
     <b-button
       class="ml-2 magicBtn"
       title="Go to random page"
@@ -90,7 +90,7 @@ export default class Pagination extends Vue {
   replaceUrl(value: string, key = 'page') {
     this.$router
       .replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: { ...this.$route.query, [key]: value },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)

@@ -31,7 +31,7 @@ export const nftFn = (a: any): Row => {
   }
 }
 
-const tokenDecimals = store.getters.getChainPropertiesTokenDecimals as any
+const tokenDecimals = store.getters['chain/getChainPropertiesTokenDecimals'] as any
 const formatNumber = (val: SimpleSpotlightNFT) => Number(formatBalance(val.price, tokenDecimals, false, true))
 const sumFn = (acc: number, val: SimpleSpotlightNFT) => {
   return acc + formatNumber(val)

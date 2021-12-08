@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <section>
     <b-tabs v-model="activeTab">
       <b-tab-item label="General">
         <General />
@@ -8,7 +8,7 @@
         <Metadata />
       </b-tab-item>
     </b-tabs>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">

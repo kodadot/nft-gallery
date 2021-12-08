@@ -30,20 +30,20 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class LocaleChanger extends Vue {
 
   get langsFlags(): string {
-    return this.$store.getters.getLangsFlags
+    return this.$store.getters['lang/getLangsFlags']
   }
 
   get userFlag(): string {
-    return this.$store.getters.getUserFlag
+    return this.$store.getters['lang/getUserFlag']
   }
 
   get userLang(): string {
-    this.$i18n.locale = this.$store.getters.getUserLang
-    return this.$store.getters.getUserLang
+    this.$i18n.locale = this.$store.getters['lang/getUserLang']
+    return this.$store.getters['lang/getUserLang']
   }
 
   setUserLang(value: string) {
-    this.$store.commit('setLanguage', { 'userLang': value})
+    this.$store.dispatch('lang/setLanguage', { 'userLang': value})
     this.$i18n.locale = value
   }
 }

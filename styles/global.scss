@@ -3,7 +3,7 @@ html, body, div#__nuxt, div#__layout {
     margin: 0;
     width: 100%;
 }
-  
+
 body {
     .button {
         text-transform: uppercase;
@@ -70,6 +70,12 @@ body {
         font-size: calc(1rem * 0.75);
     }
 
+    .switch {
+        &.is-success {
+            color: $success;
+        }
+    }
+
     .text {
         &__stroked {
             color: $primary;
@@ -119,11 +125,9 @@ body {
     .icon.is-primary {
         color: $primary !important;
     }
-    .navbar-start  {
-        .router-link-active {
-            color: $primary;
-            background-color: #121212;
-        }
+    .navbar-start .nuxt-link-active {
+        color: $primary;
+        background-color: #121212;
     }
 
     .orientation {
@@ -134,11 +138,11 @@ body {
         background-color: $black;
         color: $primary;
     }
-    
+
     .pagination-link {
         box-shadow: 0 0 4px 0.5px $primary;
     }
-    
+
     .title,
     .card-header-title {
         color: $text !important;
