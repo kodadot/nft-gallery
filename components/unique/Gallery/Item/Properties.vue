@@ -1,13 +1,13 @@
 <template>
   <CollapseCardWrapper label="properties">
-    <div class="level">
+    <div class="level is-flex-direction-column">
       <div
         v-for="attr in attributes"
         :key="attr.key"
-        class="level-item has-text-centered"
+        class="level-item has-text-centered mb-4"
       >
         <div>
-          <p class="heading">{{ attr.key }}</p>
+          <p class="heading mb-1">{{ attr.key }}</p>
           <p class="title is-6">{{ attr.value }}</p>
         </div>
       </div>
