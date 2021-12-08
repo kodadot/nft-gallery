@@ -426,6 +426,8 @@ export default class Profile extends Vue {
 <style lang="scss">
 
 .collection-tabs > nav.tabs {
-  overflow: visible;
+  @media screen and (min-width: 1023px) {
+    overflow: visible;
+  }
 }
 </style>
