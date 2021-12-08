@@ -172,13 +172,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
-import { denyList } from '@/constants'
-import { getMany, update } from 'idb-keyval'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
 
 const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
 }
 @Component<Landing>({
   metaInfo() {
@@ -215,45 +210,6 @@ export default class Landing extends Vue {
 
   layout() {
     return 'full-width-layout'
-  }
-
-  public mounted() {
-    this.fetchFirstGalleryPage()
-  }
-
-  public async fetchFirstGalleryPage() {
-    const nfts = this.$apollo.query({
-      query: nftListWithSearch,
-      variables: {
-        first: 12,
-        offset: 0,
-        denyList,
-        search: []
-      }
-    })
-
-    const {
-      data: { nFTEntities: { nodes: nftList } }
-    } = await nfts
-
-    const storedPromise = getMany(
-      nftList.map(({ metadata }: any) => metadata)
-    )
-
-    const storedMetadata = await storedPromise
-
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(nftList[i])
-          update(nftList[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
-        }
-      }
-    })
-
-
   }
 }
 </script>
