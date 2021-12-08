@@ -118,7 +118,7 @@ export default class Collections extends Vue {
   }
 
   get isLoading() {
-    return this.$apollo.queries.collection?.loading
+    return this.$apollo.queries.collection?.loading || false
   }
 
   get offset() {
