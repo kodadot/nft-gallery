@@ -247,7 +247,14 @@
     "carbonless": "This NFT is carbonless",
     "burned": "NFT is burned",
     "description": "NFT description",
-    "name": "Name your NFT"
+    "name": "Name your NFT",
+    "event": {
+      "MINTNFT": "MINT - 🖼",
+      "LIST": "LIST - 📰",
+      "SEND": "GIFT - 🎁",
+      "CONSUME": "BURN - 🔥",
+      "BUY": "BUY - 🤝"
+    }
   },
   "loader": {
     "casting": "(1/3) Casting the tx to blockchain",

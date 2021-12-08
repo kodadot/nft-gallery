@@ -104,6 +104,7 @@ import formatBalance from '@/utils/formatBalance';
 import ChainMixin from '@/utils/mixins/chainMixin';
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator';
 import { Interaction } from '../service/scheme';
+import i18n from '@/i18n'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -125,19 +126,19 @@ type ChartData = { buy: [Date, number][]; list: [Date, number][] };
 export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[];
   protected data: TableRow[] = [];
-  protected copydata: TableRow[] = [];
+  protected copyTableData: TableRow[] = [];
   protected priceChartData: [Date, number][][] = [];
   protected selectedEvent: string = 'all';
 
-  get uniqType() {
-    return [...new Map(this.copydata.map(v => [v.Type, v])).values()]
+  get uniqType(): any[] {
+    return [...new Map(this.copyTableData.map(v => [v.Type, v])).values()]
   }
 
   protected createTable(): void {
     let prevOwner = '';
     let curPrice = '0.0000000';
     this.data = [];
-    this.copydata = [];
+    this.copyTableData = [];
 
     const chartData: ChartData = {
       buy: [],
@@ -149,26 +150,25 @@ export default class History extends mixins(ChainMixin) {
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'MINT - 🖼';
+        event['Type'] = i18n.t('nft.event.MINTNFT');
         event['From'] = newEvent['caller'];
         event['To'] = '';
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'LIST - 📰';
+        event['Type'] = i18n.t('nft.event.LIST');
         event['From'] = newEvent['caller'];
         event['To'] = '';
         prevOwner = event['From'];
         curPrice = newEvent['meta'];
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT - 🎁';
+        event['Type'] = i18n.t('nft.event.SEND');
         event['From'] = newEvent['caller'];
         event['To'] = newEvent['meta'];
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURN - 🔥';
+        event['Type'] = i18n.t('nft.event.CONSUME');
         event['From'] = newEvent['caller'];
         event['To'] = '';
       } else if (newEvent['interaction'] === 'BUY') {
-        console.log(newEvent)
-        event['Type'] = 'BUY - 🤝';
+        event['Type'] = i18n.t('nft.event.BUY');
       } else event['Type'] = newEvent['interaction'];
 
       // From
@@ -200,11 +200,11 @@ export default class History extends mixins(ChainMixin) {
       }
 
       this.data.push(event);
-      this.copydata.push(event);
+      this.copyTableData.push(event);
     }
 
     this.data = this.data.reverse();
-    this.copydata = this.copydata.reverse();
+    this.copyTableData = this.copyTableData.reverse();
     this.priceChartData = [chartData.buy, chartData.list];
   }
 
@@ -224,11 +224,9 @@ export default class History extends mixins(ChainMixin) {
   @Watch('selectedEvent', { immediate: true })
   public watchSelectedEvent(): void {
     if (this.selectedEvent) {
-      if (this.selectedEvent === 'all') {
-        this.data = this.copydata
-      } else {
-        this.data = [...new Set(this.copydata.filter(v => v.Type === this.selectedEvent))]
-      }
+      this.data = this.selectedEvent === 'all'
+        ? this.copyTableData
+        : [...new Set(this.copyTableData.filter(v => v.Type === this.selectedEvent))]
     }
   }
 
