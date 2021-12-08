@@ -47,7 +47,7 @@
       <div class="column is-8 has-text-centered">
         <p class="content">
           <VueMarkdown :source="description" />
-          <CollapseWrapper v-if="attributes && attributes.length" visible="attribute.show" hidden="attribute.hide">
+          <CollapseWrapper v-if="attributes && attributes.length" visible="collapse.collection.attributes.show" hidden="collapse.collection.attributes.hide">
             <div v-for="(attr, index) in attributes" :key="index">
               <span class="text-bold">{{ attr.key }}: </span><span>{{ attr.value }}</span>
             </div>
