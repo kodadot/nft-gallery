@@ -31,7 +31,7 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
       })
 
       const {
-        data: { _meta: data },
+        data: { _metadata: data },
       }: any = await indexer
 
       console.log(
