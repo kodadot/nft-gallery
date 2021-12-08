@@ -7,6 +7,6 @@ export function calculateKsmFromUsd(ksm: number, usd: number): number {
 }
 
 // function includes the lower bound, but excludes the upper bound
-export function randomIntegerInRange(min: number, max: number): number {
+export function randomIntegerBetween(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min)) + min;
 }

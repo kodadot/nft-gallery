@@ -5,7 +5,7 @@
     :can-cancel="true"
   >
     <div class="loading-container">
-      <p class="funfact-text">
+      <p v-if="randomFunFactHeading && randomFunFactQuestion" class="funfact-text">
         <span class="text-bold funcfact-heading">{{ randomFunFactHeading }}</span>
         <br/>
         {{ randomFunFactQuestion }}
@@ -28,7 +28,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { randomIntegerInRange } from '@/utils/calculation'
+import { randomIntegerBetween } from '@/utils/calculation'
 import i18n from '@/i18n'
 
 @Component({})
@@ -38,7 +38,7 @@ export default class Loader extends Vue {
 
   protected placeholder = '/infinity.svg';
 
-  protected randomNumber = randomIntegerInRange(1, 33)
+  protected randomNumber = randomIntegerBetween(1, 33)
 
   get randomFunFactHeading() {
     return i18n.t(`funfacts.${this.randomNumber}.heading`)
