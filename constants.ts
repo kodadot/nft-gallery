@@ -3,3 +3,7 @@ export const denyList = [
   'Gskn3eRyr3tDiKxhzU1MPG4ha8RFTBG9ft3C6Rrn3kGJMXn', // No One, art thief
   'Go6QNymw2HicMi64uiQSPyiXy68wM7dvujwR8bDJ13exPTM', // 18+ manga porn
 ]
+
+export const statemineDenyList = [
+  'EZwaNLfEwAMYcEdbp7uKYFCjnsn43S85pm6BumT5UwvZQvB' // SubstraTee minter, broken IPFS
+]

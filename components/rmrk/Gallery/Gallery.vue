@@ -91,9 +91,8 @@ import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types'
 
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
-import { denyList } from '@/constants'
+import { denyList, statemineDenyList } from '@/constants'
 import { DocumentNode } from 'graphql'
 import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
 
@@ -188,7 +187,7 @@ export default class Gallery extends Vue {
         return {
           first: this.first,
           offset: this.offset,
-          denyList,
+          denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam()
         }
@@ -242,7 +241,7 @@ export default class Gallery extends Vue {
         variables: {
           first: this.first,
           offset,
-          denyList,
+          denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam()
         }
