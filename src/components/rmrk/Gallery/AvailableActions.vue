@@ -100,11 +100,11 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
   }
 
   protected handleAction(action: Action) {
-    if (action === 'BUY') {
-      this.submit()
-    }
     if (shouldUpdate(action,  this.selectedAction)) {
       this.selectedAction = action
+      if (action === 'BUY') {
+        this.submit()
+      }
     } else {
       this.selectedAction = ''
       this.meta = ''
@@ -156,6 +156,10 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
 
   get isSend() {
     return this.selectedAction === 'SEND'
+  }
+
+  get isActionEmpty() {
+    return this.selectedAction === ''
   }
 
   protected updateMeta(value: string | number) {
@@ -214,7 +218,13 @@ export default class AvailableActions extends Mixins(RmrkVersionMixin) {
     const rmrk = this.constructRmrk()
     this.isLoading = true
 
+
+
     try {
+      if (this.isActionEmpty) {
+        throw new ReferenceError('No action selected')
+      }
+
       showNotification(rmrk)
       console.log('submit', rmrk)
       const isBuy = this.isBuy
