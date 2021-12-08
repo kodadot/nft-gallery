@@ -47,6 +47,7 @@
 
       <b-tabs
         :class="{ 'invisible-tab': sharingVisible }"
+        class="collection-tabs"
         v-model="activeTab"
         destroy-on-hide
         expanded
@@ -75,7 +76,7 @@
           :headerClass="{'is-hidden': !totalCollections}"
          >
           <template #header>
-            <b-tooltip :label="`Nfts collected by ${shortendId}`">
+            <b-tooltip :label="`Collections created by ${shortendId}`">
               {{ $t("Collections") }}
               <span class="tab-counter" v-if="totalCollections">{{
                 totalCollections
@@ -424,7 +425,7 @@ export default class Profile extends Vue {
 
 <style lang="scss">
 
-nav.tabs {
+.collection-tabs > nav.tabs {
   overflow: visible;
 }
 </style>
