@@ -4,6 +4,7 @@
       v-model="isSwitched"
       :rounded="false"
       :size="size"
+      :class="labelColor"
     >
       {{ properLabel }}
     </b-switch>
@@ -20,6 +21,7 @@ export default class BasicSwitch extends Vue {
   @Prop({ type: String, required: true }) label!: string;
   @Prop({ type: String }) offLabel!: string;
   @Prop({ type: String }) size!: string;
+  @Prop({ type: String }) labelColor!: string;
 
   get properLabel(): TranslateResult {
     const offLabel = this.offLabel || this.label

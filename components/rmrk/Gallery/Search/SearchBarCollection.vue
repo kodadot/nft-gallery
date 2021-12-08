@@ -21,6 +21,7 @@
         v-model="vListed"
         label="sort.listed"
         size="is-medium"
+        labelColor="is-success"
       />
       <slot />
     </b-field>
@@ -113,7 +114,7 @@ export default class SearchBar extends Vue {
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: {
           ...this.$route.query,
           search: this.searchQuery,

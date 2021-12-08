@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="card-content ">
+    <div class="card-content">
       <div class="columns">
         <b-field class="column is-6 mb-0">
           <b-input
@@ -24,18 +24,17 @@
         <slot />
       </div>
 
-      <transition  name="fade">
+      <transition name="fade">
         <div v-if="isVisible" class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
+          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" labelColor="is-success" />
         </div>
       </transition>
-
     </div>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -71,7 +70,6 @@ export default class SearchBar extends Vue {
   set vListed(listed: boolean) {
     this.updateListed(listed)
   }
-
 
   get searchQuery(): string {
     return this.search
@@ -122,7 +120,7 @@ export default class SearchBar extends Vue {
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: { ...this.$route.query, search: this.searchQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)

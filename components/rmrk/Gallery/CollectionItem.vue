@@ -3,40 +3,48 @@
     <div class="columns is-centered">
       <div class="column is-half has-text-centered">
         <div class="container image is-128x128 mb-2">
-          <b-image
-            v-if="!isLoading"
+          <BasicImage
             :src="image"
             :alt="name"
-            ratio="1by1"
             rounded
-          ></b-image>
+            customClass="collection__image"
+          />
         </div>
         <h1 class="title is-2">
-          {{ name }}
+          <template v-if="!isLoading">
+            {{ name }}
+          </template>
+          <b-skeleton :active="isLoading" size="is-medium"></b-skeleton>
         </h1>
       </div>
     </div>
 
     <div class="columns is-align-items-center">
       <div class="column">
-        <div class="label">
-          {{ $t('creator') }}
+        <div v-if="!isLoading">
+          <div class="label">
+            {{ $t('creator') }}
+          </div>
+          <div v-if="issuer" class="subtitle is-size-6">
+            <ProfileLink :address="issuer" inline showTwitter />
+          </div>
         </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="issuer" :inline="true" :showTwitter="true" />
-        </div>
+        <b-skeleton
+          :active="isLoading"
+          width="40%"
+          size="is-small"
+        ></b-skeleton>
+        <b-skeleton
+          :active="isLoading"
+          width="60%"
+          size="is-small"
+        ></b-skeleton>
       </div>
-      <div class="column" v-if="owner">
-        <div class="label">
-          {{ $t('owner') }}
-        </div>
-        <div class="subtitle is-size-6">
-          <ProfileLink :address="owner" :inline="true" :showTwitter="true" />
-        </div>
-      </div>
+
       <div class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :nfts="stats" />
       </div>
+
       <div class="column has-text-right">
         <Sharing
           v-if="sharingVisible"
@@ -49,19 +57,19 @@
       </div>
     </div>
 
-    <b-tabs v-model="activeTab" position="is-centered">
-      <b-tab-item label="Collection">
-        <div class="columns is-centered">
-          <div class="column is-8 has-text-centered">
-            <CollapseWrapper
-              visible="collapse.collection.description.show"
-              hidden="collapse.collection.description.hide"
-            >
-              <VueMarkdown :source="description" />
-            </CollapseWrapper>
-          </div>
-        </div>
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <CollapseWrapper
+          visible="collapse.collection.description.show"
+          hidden="collapse.collection.description.hide"
+        >
+          <VueMarkdown :source="description" />
+        </CollapseWrapper>
+      </div>
+    </div>
 
+    <b-tabs position="is-centered" v-model="activeTab">
+      <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery">
           <Layout class="mr-5" />
           <b-field>
@@ -77,7 +85,7 @@
           </b-field>
         </Search>
 
-        <GalleryCardList :items="collection.nfts" :horizontalLayout="true" />
+        <GalleryCardList :items="collection.nfts" horizontalLayout />
 
         <Pagination
           class="py-5"
@@ -88,8 +96,8 @@
           :per-page="first"
         />
       </b-tab-item>
-      <b-tab-item label="Activity">
-        <CollectionPriceChart v-if="activeTab === 1" :priceData="priceData" />
+      <b-tab-item label="Activity" value="activity">
+        <CollectionPriceChart :priceData="priceData" />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -97,7 +105,7 @@
 
 <script lang="ts">
 import { emptyObject } from '@/utils/empty';
-import { Component, mixins } from 'nuxt-property-decorator';
+import { Component, mixins, Watch } from 'nuxt-property-decorator';
 import { CollectionWithMeta, Interaction } from '../service/scheme';
 import {
   sanitizeIpfsUrl,
@@ -112,10 +120,12 @@ import {
   onlyBuyEvents,
 } from '../utils';
 import isShareMode from '@/utils/isShareMode';
+import shouldUpdate from '@/utils/shouldUpdate';
 import collectionById from '@/queries/collectionById.graphql';
 import nftListByCollection from '@/queries/nftListByCollection.graphql';
 import { CollectionMetadata } from '../types';
 import { NFT } from '@/components/rmrk/service/scheme';
+import { exist } from '@/components/rmrk/Gallery/Search/exist';
 import { SearchQuery } from './Search/types';
 import ChainMixin from '@/utils/mixins/chainMixin';
 
@@ -133,6 +143,7 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
 };
@@ -183,7 +194,6 @@ const components = {
 export default class CollectionItem extends mixins(ChainMixin) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
-  private isLoading = false;
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
   private searchQuery: SearchQuery = {
     search: '',
@@ -191,19 +201,23 @@ export default class CollectionItem extends mixins(ChainMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   };
-  private activeTab = 0;
+  public activeTab = 'collection';
   private currentValue = 1;
   private first = 15;
-  private total = 0;
+  protected total = 0;
   protected stats: NFT[] = [];
   protected priceData: any = [];
+
+  get isLoading(): boolean {
+    return this.$apollo.queries.collection.loading;
+  }
 
   get offset(): number {
     return this.currentValue * this.first - this.first;
   }
 
-  get image(): string {
-    return this.meta.image || '';
+  get image(): string | undefined {
+    return this.meta.image;
   }
 
   get description(): string {
@@ -220,12 +234,6 @@ export default class CollectionItem extends mixins(ChainMixin) {
 
   get issuer(): string {
     return this.collection.issuer || '';
-  }
-
-  get owner(): string {
-    return this.collection.issuer === (this.collection as any).currentOwner
-      ? ''
-      : (this.collection as any).currentOwner;
   }
 
   get sharingVisible(): boolean {
@@ -251,10 +259,12 @@ export default class CollectionItem extends mixins(ChainMixin) {
   }
 
   public created(): void {
-    this.isLoading = true;
     this.checkId();
+    this.checkActiveTab();
+    this.loadStats();
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
+      loadingKey: 'isLoading',
       variables: () => {
         return {
           id: this.id,
@@ -270,12 +280,9 @@ export default class CollectionItem extends mixins(ChainMixin) {
       }),
       result: this.handleResult,
     });
-
-    this.loadStats();
-    this.isLoading = false;
   }
 
-  public async loadStats(): Promise<void> {
+  public loadStats(): void {
     const nftStatsP = this.$apollo.query({
       query: nftListByCollection,
       variables: {
@@ -316,11 +323,10 @@ export default class CollectionItem extends mixins(ChainMixin) {
 
   public async handleResult({ data }: any): Promise<void> {
     this.total = data.collectionEntity.nfts.totalCount;
-    this.fetchMetadata();
+    await this.fetchMetadata();
   }
 
   public async fetchMetadata(): Promise<void> {
-    console.log(this.collection['metadata'], !this.meta['image']);
     if (this.collection['metadata'] && !this.meta['image']) {
       const meta = await fetchCollectionMetadata(this.collection);
       this.meta = {
@@ -336,6 +342,22 @@ export default class CollectionItem extends mixins(ChainMixin) {
     }
   }
 
+  public checkActiveTab(): void {
+    exist(this.$route.query.tab, (val) => {
+      this.activeTab = val;
+    });
+  }
+
+  @Watch('activeTab')
+  protected onTabChange(val: string, oldVal: string): void {
+    if (shouldUpdate(val, oldVal)) {
+      this.$router.replace({
+        path: String(this.$route.path),
+        query: { tab: val },
+      });
+    }
+  }
+
   get iframeSettings(): Record<string, unknown> {
     return { width: '100%', height: '100vh' };
   }
@@ -345,3 +367,9 @@ export default class CollectionItem extends mixins(ChainMixin) {
   }
 }
 </script>
+
+<style>
+.collection__image img {
+  color: transparent;
+}
+</style>

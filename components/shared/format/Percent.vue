@@ -10,7 +10,7 @@ export default class Money extends Vue {
   @Prop({default: 0}) readonly value: number | string | undefined;
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 }
 

@@ -90,7 +90,7 @@ export default class Pagination extends Vue {
   replaceUrl(value: string, key = 'page') {
     this.$router
       .replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: { ...this.$route.query, [key]: value },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
