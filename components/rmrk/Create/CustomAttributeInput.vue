@@ -38,8 +38,8 @@ const components = {
 @Component({ components })
 export default class extends Vue {
   @Prop({ type: Number, default: 0 }) max!: number;
-  @Prop({ type: String, default: 'attribute.show' }) visible!: string;
-  @Prop({ type: String, default: 'attribute.hide' }) hidden!: string;
+  @Prop({ type: String, default: 'collapse.collection.attributes.show' }) visible!: string;
+  @Prop({ type: String, default: 'collapse.collection.attributes.hide' }) hidden!: string;
   protected attributes: Attribute[] = [];
 
   addAttribute(): void {
