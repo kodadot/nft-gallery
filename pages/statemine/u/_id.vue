@@ -63,6 +63,8 @@
             @change="totalCreated = $event"
             :account="id"
             :showSearchBar="true"
+            link="statemine/gallery"
+            route="/statemine/gallery"
           />
         </b-tab-item>
         <b-tab-item
@@ -72,8 +74,8 @@
           <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
           <GalleryCardList
             :items="collections"
-            type="collectionDetail"
-            link="rmrk/collections"
+            link="statemine/collection"
+            route="/statemine/collection"
           />
           <Pagination
             replace
@@ -92,6 +94,8 @@
             :query="nftListSold"
             @change="totalSold = $event"
             :account="id"
+            link="statemine/gallery"
+            route="/statemine/gallery"
           />
         </b-tab-item>
         <b-tab-item value="collected">
@@ -104,6 +108,8 @@
             :query="nftListCollected"
             @change="totalCollected = $event"
             :account="id"
+            link="statemine/gallery"
+            route="/statemine/gallery"
           />
         </b-tab-item>
 

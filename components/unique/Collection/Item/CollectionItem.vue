@@ -58,8 +58,8 @@
 
     <GalleryCardList
       :items="nfts"
-      link="unique/gallery"
-      route="/unique/gallery"
+      link="statemine/gallery"
+      route="/statemine/gallery"
       :collection="id"
       :formatId="formater"
       class="mb-2"

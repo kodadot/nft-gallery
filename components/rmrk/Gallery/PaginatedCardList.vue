@@ -12,7 +12,7 @@
         />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" horizontalLayout />
+    <GalleryCardList :items="items" horizontalLayout :route="route" :link="link" />
     <Pagination
       class="pt-5 pb-5"
       replace
@@ -37,8 +37,8 @@ const components = {
 
 @Component({ components })
 export default class PaginatedCardList extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
+  @Prop({ default: '/rmrk/gallery' }) public route!: string;
+  @Prop({ default: 'rmrk/gallery' }) public link!: string;
   @Prop() public query!: DocumentNode;
   @Prop(String) public account!: string;
   @Prop(Boolean) public showSearchBar!: boolean;
