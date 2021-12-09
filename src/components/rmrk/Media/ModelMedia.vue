@@ -8,6 +8,7 @@
       ar
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
+      autoplay="true"
     >
     <button slot="ar-button" id="ar-button">
       Activate AR
