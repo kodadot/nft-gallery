@@ -55,7 +55,7 @@
       >
         <b-tab-item value="nft" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
-            <b-tooltip :label="`Created By ${shortendId}`">
+            <b-tooltip :label="`${$i18n.t('tooltip.created')} ${shortendId}`">
               {{ $t("profile.created") }}
               <span class="tab-counter" v-if="totalCreated">{{
                 totalCreated
@@ -76,7 +76,7 @@
           :headerClass="{'is-hidden': !totalCollections}"
          >
           <template #header>
-            <b-tooltip :label="`Collections created by ${shortendId}`">
+            <b-tooltip :label="`${$i18n.t('tooltip.collections')} ${shortendId}`">
               {{ $t("Collections") }}
               <span class="tab-counter" v-if="totalCollections">{{
                 totalCollections
@@ -107,8 +107,10 @@
         </b-tab-item>
         <b-tab-item value="sold" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
+           <b-tooltip :label="`${$i18n.t('tooltip.sold')} ${shortendId}`">
             {{ $t("profile.sold") }}
             <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+           </b-tooltip>
           </template>
           <PaginatedCardList
             :id="id"
@@ -120,7 +122,7 @@
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
-            <b-tooltip :label="`Nfts collected by ${shortendId}`">
+            <b-tooltip :label="`${$i18n.t('tooltip.collected')} ${shortendId}`">
               {{ $t("profile.collected") }}
               <span class="tab-counter" v-if="totalCollected">{{
                 totalCollected
