@@ -128,10 +128,21 @@ export default class History extends mixins(ChainMixin) {
   protected data: TableRow[] = [];
   protected copyTableData: TableRow[] = [];
   protected priceChartData: [Date, number][][] = [];
-  protected selectedEvent: string = 'all';
 
   get uniqType(): any[] {
     return [...new Map(this.copyTableData.map(v => [v.Type, v])).values()]
+  }
+
+  get selectedEvent(): string {
+    return 'all'
+  }
+
+  set selectedEvent(event: string) {
+    if (event) {
+      this.data = event === 'all'
+        ? this.copyTableData
+        : [...new Set(this.copyTableData.filter(v => v.Type === event))]
+    }
   }
 
   protected createTable(): void {
@@ -219,15 +230,6 @@ export default class History extends mixins(ChainMixin) {
       this.$store.getters['explorer/getCurrentChain'],
       'subscan'
     );
-  }
-
-  @Watch('selectedEvent', { immediate: true })
-  public watchSelectedEvent(): void {
-    if (this.selectedEvent) {
-      this.data = this.selectedEvent === 'all'
-        ? this.copyTableData
-        : [...new Set(this.copyTableData.filter(v => v.Type === this.selectedEvent))]
-    }
   }
 
   @Watch('events', { immediate: true })
