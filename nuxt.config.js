@@ -142,7 +142,7 @@ export default {
       { code: 'ur', iso: 'ur', file: 'ur.json' },
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     vueI18n: {
       fallbackLocale: 'en',
       // hide the warning message from the console.
