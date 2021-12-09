@@ -4,23 +4,32 @@
     is-full-page
     :can-cancel="true"
   >
-    <figure>
-      <img
-        class="loading-icon"
-        :src="placeholder"
-      >
-      <figcaption
-        v-if="status"
-        class="loading-text"
-      >
-        {{ $t(status) }}
-      </figcaption>
-    </figure>
+    <div class="loading-container">
+      <p v-if="randomFunFactHeading && randomFunFactQuestion" class="funfact-text">
+        <span class="text-bold funcfact-heading">{{ randomFunFactHeading }}</span>
+        <br/>
+        {{ randomFunFactQuestion }}
+      </p>
+      <figure>
+        <img
+          class="loading-icon"
+          :src="placeholder"
+        >
+        <figcaption
+          v-if="status"
+          class="loading-text"
+        >
+          {{ $t(status) }}
+        </figcaption>
+      </figure>
+    </div>
   </b-loading>
 </template>
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { randomIntegerBetween } from '@/utils/calculation'
+import i18n from '@/i18n'
 
 @Component({})
 export default class Loader extends Vue {
@@ -28,6 +37,16 @@ export default class Loader extends Vue {
   @Prop(Boolean) public value!: boolean;
 
   protected placeholder = '/infinity.svg';
+
+  protected randomNumber = randomIntegerBetween(1, 33)
+
+  get randomFunFactHeading() {
+    return i18n.t(`funfacts.${this.randomNumber}.heading`)
+  }
+
+  get randomFunFactQuestion() {
+    return i18n.t(`funfacts.${this.randomNumber}.question`)
+  }
 
   get isLoading() {
     return this.value
@@ -40,6 +59,20 @@ export default class Loader extends Vue {
 </script>
 
 <style scoped>
+.loading-container {
+  text-align: center;
+}
+.funfact-text{
+  position: relative;
+  color: white;
+  margin-bottom: .5rem;
+  max-width: 450px;
+}
+.funcfact-heading {
+  color: #d32e79;
+  font-size: 1.2rem;
+  line-height: 2.5rem;
+}
 .loading-text {
   position: relative;
   max-width: 200px;
