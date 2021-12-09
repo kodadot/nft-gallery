@@ -204,7 +204,7 @@ export default class GalleryCard extends Vue {
   }
 }
 // Cards Layout
-.is-one-fifth-desktop.is-one-quarter-tablet .nft-card .title {
+.is-one-quarter-desktop.is-one-quarter-tablet .nft-card .title {
   font-size: .75rem;
 }
 </style>
