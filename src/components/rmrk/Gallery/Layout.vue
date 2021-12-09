@@ -5,7 +5,7 @@
         <b-radio-button
           type="is-primary"
           v-model="layout"
-          native-value="is-one-third-desktop is-one-third-tablet"
+          native-value="is-half-desktop is-half-tablet"
           @input="onInputChange"
         >
           <span>
@@ -17,7 +17,7 @@
         <b-radio-button
           type="is-primary"
           v-model="layout"
-          native-value="is-one-fifth-desktop is-one-quarter-tablet"
+          native-value="is-one-quarter-desktop is-one-third-tablet"
           @input="onInputChange"
         >
           <span>
@@ -38,7 +38,7 @@ export default class Layout extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string;
   @Prop({ default: 'rmrk/detail' }) public link!: string;
   @Prop() public items!: RmrkType[];
-  public layout = 'is-one-third-desktop is-one-third-tablet'
+  public layout = 'is-half-desktop is-half-tablet'
 
   public onInputChange (data :string) {
     this.$store.dispatch('setLayoutClass', data)
