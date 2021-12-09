@@ -186,7 +186,7 @@ export default new Vuex.Store({
         usd: null
       }
     },
-    layoutClass: 'is-one-third-desktop is-one-third-tablet'
+    layoutClass: 'is-half-desktop is-half-tablet'
   },
   mutations: {
     keyringLoaded(state: any) {
