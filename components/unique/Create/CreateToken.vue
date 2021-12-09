@@ -18,7 +18,7 @@
               :value="option"
               :key="option.id"
             >
-              {{ option.id }} ({{ option.alreadyMinted }})
+              {{ option.name || option.id }} ({{ option.alreadyMinted }})
             </option>
           </b-select>
         </b-field>
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
+import { Component, Watch, mixins, Vue } from 'nuxt-property-decorator'
 import CreateItem from './CreateItem.vue'
 import Tooltip from '@/components/shared/Tooltip.vue'
 import Support from '@/components/shared/Support.vue'
@@ -121,6 +121,8 @@ import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
 import { Attribute } from '@/components/rmrk/types'
 import onApiConnect from '~/utils/api/general'
 import { getclassDeposit, getInstanceDeposit, getMetadataDeposit } from '../apiConstants'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '~/components/rmrk/utils'
+import { getMany, update } from 'idb-keyval'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -130,6 +132,7 @@ type MintedCollection = {
   id: string;
   alreadyMinted: number;
   metadata: string;
+  name?: string;
 };
 
 @Component({
@@ -215,6 +218,36 @@ export default class CreateToken extends mixins(
         ...ce,
         alreadyMinted: ce.nfts?.totalCount
       }))
+
+      this.loadCollectionMeta()
+  }
+
+  protected async loadCollectionMeta() {
+
+    const storedMetadata = await getMany(
+      this.collections.map(({ metadata }: any) => metadata)
+    )
+
+    storedMetadata.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchCollectionMetadata(this.collections[i])
+          Vue.set(this.collections, i, {
+            ...this.collections[i],
+            ...meta,
+          })
+          update(this.collections[i].metadata, () => meta)
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata')
+        }
+      } else {
+        Vue.set(this.collections, i, {
+          ...this.collections[i],
+          ...m,
+        })
+      }
+    })
+
   }
 
   get disabled() {
