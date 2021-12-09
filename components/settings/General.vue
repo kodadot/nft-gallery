@@ -1,6 +1,18 @@
 <template>
   <div>
     <SettingChooser
+      label="URL Prefix"
+      selector="availableUrlPrefixes"
+      setter="setUrlPrefix"
+      default-value="urlPrefix"
+    />
+    <SettingChooser
+      label="GraphQL Endpoint"
+      selector="availableIndexers"
+      setter="setIndexer"
+      default-value="indexer"
+    />
+    <SettingChooser
       label="Node URL"
       selector="availableNodes"
       setter="setApiUrl"
