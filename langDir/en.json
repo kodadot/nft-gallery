@@ -96,7 +96,7 @@
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
       },
       "3": {
-        "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us!",
+        "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us! The current minimum fee for minting a NFT on KodaDot is around @.common:data.ksm.fee KSM.",
         "l1": "[Create](@.common:links.rmrk_create.href)."
       },
       "4": {
@@ -180,6 +180,136 @@
       }
     }
   },
+  "funfacts": {
+    "1": {
+      "heading": "Did you know...",
+      "question": "that back in 2015 we launched the first official NFT called Etheria?"
+    },
+    "2": {
+      "heading": "Did you know...",
+      "question": "that the first 'NFT-like' standard on Kusama is literally just byte strings?"
+    },
+    "3": {
+      "heading": "Did you know...",
+      "question": "that KodaDot has started as a rewrite of React-based DotApps dashboard into Vuejs?"
+    },
+    "4": {
+      "heading": "Did you know...",
+      "question": "that KodaDot is building an experimental NFT landscape?"
+    },
+    "5": {
+      "heading": "Did you know...",
+      "question": "that there is so much psychadelic and trippy NFT artwork? We do not know either."
+    },
+    "6": {
+      "heading": "Can you guess...",
+      "question": "how many parachains KodaDot does support? Get the exact answer on our Discord!"
+    },
+    "7": {
+      "heading": "Can you guess...",
+      "question": "how many GitHub forks the KodaDot repository has?"
+    },
+    "8": {
+      "heading": "Can you guess...",
+      "question": "how many GitHub stars the KodaDot repository has?"
+    },
+    "9": {
+      "heading": "Do you think ...",
+      "question": "KodaDot should launch its own $koda token?"
+    },
+    "10": {
+      "heading": "Can you guess...",
+      "question": "how many NFTs KodaDot is indexing from all parachains?"
+    },
+    "11": {
+      "heading": "Did you know...",
+      "question": "that KodaDot has an mobile app?"
+    },
+    "12": {
+      "heading": "Did you know...",
+      "question": "that KodaDot was among the first NFT galleries supporting augmented reality for 3D objects, back in early January 2021?"
+    },
+    "13": {
+      "heading": "Did you know...",
+      "question": "that KodaDot had fuckups during its early days? Yeah, all startups go through failures to learn from mistakes. That's how we knew that our product is getting better."
+    },
+    "14": {
+      "heading": "Did you know...",
+      "question": "that KodaDot has its core values and ethos being distributed, decentralized and community-owned? Try participating in our ever-growing community!"
+    },
+    "15": {
+      "heading": "Did you know...",
+      "question": "that KodaDot has replaced three of its logos in one month?"
+    },
+    "16": {
+      "heading": "Did you know...",
+      "question": "that KodaDot's community translations was greatest growth hack for building community to participate?"
+    },
+    "17": {
+      "heading": "Did you know...",
+      "question": "that KodaDot had 420 Discord members on their investors pitch deck? What a coincidence."
+    },
+    "18": {
+      "heading": "Did you know...",
+      "question": "that KodaDot's founders encourage forking it's codebase and welcome more KodaDot instances in the wild?"
+    },
+    "19": {
+      "heading": "Did you know...",
+      "question": "that one of KodaDot's founders was running an infrastructure for eSports back in 2006?"
+    },
+    "20": {
+      "heading": "Did you know...",
+      "question": "that these facts don't even matter? We just love to spend time with you till your action is finalized into Blockchain."
+    },
+    "21": {
+      "heading": "Don't forget to...",
+      "question": "drink enough water to stay hydrated!"
+    },
+    "22": {
+      "heading": "Did you know...",
+      "question": "that we've crossed 420 opened issues in our backlog on GitHub?"
+    },
+    "23": {
+      "heading": "Did you know...",
+      "question": "that KodaDot promotes an inclusive culture to be welcoming for a wide spectrum of artists that contribute to its growth?"
+    },
+    "24": {
+      "heading": "Did you know...",
+      "question": "that if you make a pull request on KodaDot's repository, your fun fact can be shown here?"
+    },
+    "25": {
+      "heading": "Did you check...",
+      "question": "your JPEG sales today?"
+    },
+    "26": {
+      "heading": "Have you...",
+      "question": "minted something beautiful today?"
+    },
+    "27": {
+      "heading": "Did you know...",
+      "question": "that the first version of KodaDot looked worse than Craiglist in 1999?"
+    },
+    "28": {
+      "heading": "Did you know...",
+      "question": "that KodaDot's founders won a few Ethereum and Polkadot hackathons in the past?"
+    },
+    "29": {
+      "heading": "Did you know...",
+      "question": "that KodaDot had to lay off few dozens investors interested in backing us?"
+    },
+    "30": {
+      "heading": "Did you know...",
+      "question": "that KodaDot cares about Climate change by planting trees in Portugal, called KodaForest?"
+    },
+    "31": {
+      "heading": "Did you know...",
+      "question": "that the founders of KodaDot believe in simulated reality?"
+    },
+    "32": {
+      "heading": "Did you know...",
+      "question": "that you look beautiful today?"
+    }
+  },
   "sort": {
     "BLOCK_NUMBER_DESC": "New first",
     "BLOCK_NUMBER_ASC": "Old first",
@@ -249,11 +379,11 @@
     "description": "NFT description",
     "name": "Name your NFT",
     "event": {
-      "MINTNFT": "MINT - 🖼",
-      "LIST": "LIST - 📰",
-      "SEND": "GIFT - 🎁",
-      "CONSUME": "BURN - 🔥",
-      "BUY": "BUY - 🤝"
+      "MINTNFT": "🖼  MINT",
+      "LIST": "📰  LIST",
+      "SEND": "🎁  GIFT",
+      "CONSUME": "🔥 BURN",
+      "BUY": "🤝  BUY"
     }
   },
   "loader": {
