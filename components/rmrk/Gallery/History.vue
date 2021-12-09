@@ -4,7 +4,6 @@
       class="card"
       animation="slide"
       aria-id="contentIdForHistory"
-      :open="collapsedHistory"
     >
       <template #trigger="props">
         <div
@@ -23,9 +22,20 @@
       </template>
       <div class="card-content">
         <div class="content">
+          <b-field>
+            <b-select placeholder="Select an event" v-model="selectedEvent">
+              <option value="all">All</option>
+              <option
+                v-for="option in uniqType"
+                :value="option.Type"
+                :key="option.Type">
+                {{ option.Type }}
+              </option>
+            </b-select>
+          </b-field>
+
           <b-table :data="data" class="mb-4" hoverable>
             <b-table-column
-              cell-class="short-identity__table"
               field="Type"
               label="Type"
               v-slot="props"
@@ -94,6 +104,7 @@ import formatBalance from '@/utils/formatBalance';
 import ChainMixin from '@/utils/mixins/chainMixin';
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator';
 import { Interaction } from '../service/scheme';
+import i18n from '@/i18n'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -115,21 +126,30 @@ type ChartData = { buy: [Date, number][]; list: [Date, number][] };
 export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[];
   protected data: TableRow[] = [];
+  protected copyTableData: TableRow[] = [];
   protected priceChartData: [Date, number][][] = [];
-  protected collapsedHistory = true;
 
-  public mounted(): void {
-    this.collapsedHistory = true;
+  get uniqType(): any[] {
+    return [...new Map(this.copyTableData.map(v => [v.Type, v])).values()]
+  }
 
-    setTimeout(() => {
-      this.collapsedHistory = false;
-    }, 200);
+  get selectedEvent(): string {
+    return 'all'
+  }
+
+  set selectedEvent(event: string) {
+    if (event) {
+      this.data = event === 'all'
+        ? this.copyTableData
+        : [...new Set(this.copyTableData.filter(v => v.Type === event))]
+    }
   }
 
   protected createTable(): void {
     let prevOwner = '';
     let curPrice = '0.0000000';
     this.data = [];
+    this.copyTableData = [];
 
     const chartData: ChartData = {
       buy: [],
@@ -141,23 +161,25 @@ export default class History extends mixins(ChainMixin) {
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE';
+        event['Type'] = i18n.t('nft.event.MINTNFT');
         event['From'] = newEvent['caller'];
         event['To'] = '';
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE';
+        event['Type'] = i18n.t('nft.event.LIST');
         event['From'] = newEvent['caller'];
         event['To'] = '';
         prevOwner = event['From'];
         curPrice = newEvent['meta'];
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT';
+        event['Type'] = i18n.t('nft.event.SEND');
         event['From'] = newEvent['caller'];
         event['To'] = newEvent['meta'];
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT';
+        event['Type'] = i18n.t('nft.event.CONSUME');
         event['From'] = newEvent['caller'];
         event['To'] = '';
+      } else if (newEvent['interaction'] === 'BUY') {
+        event['Type'] = i18n.t('nft.event.BUY');
       } else event['Type'] = newEvent['interaction'];
 
       // From
@@ -189,9 +211,11 @@ export default class History extends mixins(ChainMixin) {
       }
 
       this.data.push(event);
+      this.copyTableData.push(event);
     }
 
     this.data = this.data.reverse();
+    this.copyTableData = this.copyTableData.reverse();
     this.priceChartData = [chartData.buy, chartData.list];
   }
 
