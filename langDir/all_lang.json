@@ -59,5 +59,10 @@
         "href": "https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts"
       }
     }
+  },
+  "data": {
+    "ksm": {
+      "fee": "0.00007"
+    }
   }
 }
