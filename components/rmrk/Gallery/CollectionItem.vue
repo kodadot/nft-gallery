@@ -26,7 +26,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+            <ProfileLink :address="issuer" inline showTwitter />
           </div>
         </div>
         <b-skeleton :active="isLoading" width="40%" size="is-small"></b-skeleton>
