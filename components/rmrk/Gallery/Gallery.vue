@@ -14,7 +14,7 @@
         <div class="column is-4" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
-              :to="`/rmrk/gallery/${nft.id}`"
+              :to="{ name: 'rmrk-detail-id', params: { id: nft.id } }"
               tag="div"
               class="nft-card__skeleton"
             >
@@ -40,7 +40,7 @@
                 >
                   <nuxt-link
                     v-if="nft.count < 2"
-                    :to="`/rmrk/gallery/${nft.id}`"
+                    :to="{ name: 'rmrk-detail-id', params: { id: nft.id } }"
                   >
                     <div>
                       <div class="has-text-overflow-ellipsis middle">

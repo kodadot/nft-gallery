@@ -23,11 +23,13 @@ import { Debounce } from 'vue-debounce-decorator';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-luxon';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import annotationPlugin from 'chartjs-plugin-annotation';
 import ChainMixin from '@/utils/mixins/chainMixin';
 
-import { getChartData } from '@/utils/chart';
+import { getChartData, getMedianPoint, getMovingAverage } from '@/utils/chart';
 
 Chart.register(zoomPlugin);
+Chart.register(annotationPlugin);
 
 const components = {};
 
@@ -74,9 +76,11 @@ export default class PriceChart extends mixins(ChainMixin) {
       const ctx = (
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
       )?.getContext('2d')!;
+
       const chart = new Chart(ctx, {
         type: 'line',
         data: {
+          labels: this.priceData[1].map((item) => item[0]),
           datasets: [
             {
               label: 'Floor Price',
@@ -98,10 +102,32 @@ export default class PriceChart extends mixins(ChainMixin) {
               pointRadius: 4,
               pointHoverRadius: 6,
             },
+            {
+              label: 'Trailing Average',
+              data: getMovingAverage(this.priceData[1]) as any,
+              borderColor: 'yellow',
+              tension: 0.3,
+              pointBackgroundColor: 'white',
+              pointBorderColor: 'blue',
+              pointRadius: 0,
+              pointHoverRadius: 0,
+            },
           ],
         },
         options: {
           plugins: {
+            annotation: {
+              annotations: {
+                median: {
+                  type: 'line',
+                  yMin: getMedianPoint(this.priceData[1]),
+                  yMax: getMedianPoint(this.priceData[1]),
+                  borderColor: '#00BB7F',
+                  borderWidth: 2,
+                  borderDash: [10, 5],
+                },
+              },
+            },
             zoom: {
               limits: {
                 x: { min: 0 },
