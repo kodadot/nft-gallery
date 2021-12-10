@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { randomIntegerBetween } from '@/utils/calculation'
 import i18n from '@/i18n'
 
@@ -35,6 +35,19 @@ import i18n from '@/i18n'
 export default class Loader extends Vue {
   @Prop(String) public status!: string;
   @Prop(Boolean) public value!: boolean;
+
+  // seed new funfact each time loader is used
+  @Watch('value')
+    private handleLoadingStateChange(newValue) {
+    if(newValue) {
+      let newRandomNumber = this.randomNumber
+      // make sure same quote isn't fetched again
+      while(newRandomNumber === this.randomNumber) {
+        newRandomNumber = randomIntegerBetween(1, 33)
+      }
+      this.randomNumber = newRandomNumber
+    }
+  }
 
   protected placeholder = '/infinity.svg';
 
