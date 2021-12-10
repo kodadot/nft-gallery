@@ -306,9 +306,4 @@ export default class CollectionItem extends mixins(
 .collection__image img {
   color: transparent;
 }
-.description-wrapper {
-  max-height: 130px;
-  word-break: break-word;
-  mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
-}
 </style>
