@@ -1,0 +1,49 @@
+query nFTStatsByIssuer($account: String!) {
+   firstMint: nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+    orderBy: BLOCK_NUMBER_DESC
+    first: 1
+  ) {
+    nodes {
+      collection {
+        createdAt
+      }
+    }
+  }
+
+  nFTCreated: nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+  
+  nFTCollected: nFTEntities(
+    filter: {
+      issuer: { notEqualTo: $account }
+      currentOwner: { equalTo: $account }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+  
+  nFTSold: nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      currentOwner: { notEqualTo: $account }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+}

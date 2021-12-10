@@ -30,7 +30,11 @@
         </template>
       </span>
       <span v-else>
-        {{ name | toString }}
+        <IdentityPopover :identity="{ ...identity, address }">
+          <template #trigger>
+            {{ name | toString }}
+          </template>
+        </IdentityPopover>
       </span>
     </template>
   </component>
@@ -52,7 +56,9 @@ import shouldUpdate from '@/utils/shouldUpdate'
 type Address = string | GenericAccountId | undefined;
 type IdentityFields = Record<string, string>;
 
-const components = {}
+const components = {
+  IdentityPopover: () => import('@/components/shared/IdentityPopover.vue'),
+}
 
 @Component({ components })
 export default class Identity extends mixins(InlineMixin) {
