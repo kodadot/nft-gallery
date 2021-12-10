@@ -64,7 +64,7 @@
               v-slot="props"
             >
               <nuxt-link
-                :to="{ name: 'profile', params: { id: props.row.To } }"
+                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }"
               >
                 <Identity :address="props.row.To" inline noOverflow />
               </nuxt-link>
