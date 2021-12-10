@@ -25,6 +25,7 @@ Let's add items/views/collections which would be handy for fast testing without 
 
 # Collections with lot of BUYS
 - https://kodadot.xyz/rmrk/collection/32b209ecbe2b33dd24-DINOXEGGS - /rmrk/collection/32b209ecbe2b33dd24-DINOXEGGS
+- https://kodadot.xyz/rmrk/collection/dac5c7f54029d0e73c-YPGVT - /rmrk/collection/dac5c7f54029d0e73c-YPGVT
 
 ### Todo
 maybe add deploy preview url for easier clikcking whatever 
