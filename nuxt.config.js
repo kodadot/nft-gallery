@@ -1,3 +1,5 @@
+// import defineApolloConfig from './defineApolloConfig'
+
 export default {
   server: {
     port: 9090 // default: 3000
@@ -152,11 +154,12 @@ export default {
   },
 
   apollo: {
-    clientConfigs: {
-      default: {
-        httpEndpoint: process.env.NUXT_ENV_SUBQUERY_URL || 'https://api.subquery.network/sq/vikiival/magick'
-      }
-    }
+    clientConfigs: defineApolloConfig() // https://github.com/nuxt-community/apollo-module#options
+    // clientConfigs: {
+    //   default: {
+    //     httpEndpoint: process.env.NUXT_ENV_SUBQUERY_URL || 'https://api.subquery.network/sq/vikiival/magick'
+    //   }
+    // }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

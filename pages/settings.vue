@@ -24,6 +24,10 @@ import Metadata from '@/components/metadata/Metadata.vue'
 })
 
 export default class Settings extends Vue {
-    private activeTab = 0;
+  protected activeTab = 0;
+
+  public created() {
+    console.log('Settings created', this.$apollo, this.$apolloProvider)
+  }
 }
 </script>
