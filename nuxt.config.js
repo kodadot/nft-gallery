@@ -1,4 +1,4 @@
-// import defineApolloConfig from './defineApolloConfig'
+import defineApolloConfig from './defineApolloConfig'
 
 export default {
   server: {
