@@ -41,6 +41,7 @@ export default {
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
+    '~/plugins/vueTippy',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
