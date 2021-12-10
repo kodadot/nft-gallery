@@ -23,5 +23,8 @@ Let's add items/views/collections which would be handy for fast testing without 
 # SVG NFTs
 - https://kodadot.xyz/rmrk/u/FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5?tab=collection /rmrk/u/FqCJeGcPidYSsvvmT17fHVaYdE2nXMYgPsBn3CP9gugvZR5?tab=collection
 
+# Collections with lot of BUYS
+- https://kodadot.xyz/rmrk/collection/32b209ecbe2b33dd24-DINOXEGGS - /rmrk/collection/32b209ecbe2b33dd24-DINOXEGGS
+
 ### Todo
 maybe add deploy preview url for easier clikcking whatever 
