@@ -109,7 +109,6 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
   DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
 }
 @Component<CollectionItem>({
