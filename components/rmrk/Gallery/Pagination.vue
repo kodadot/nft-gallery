@@ -16,6 +16,7 @@
       @change="onPageChange"
     >
     </b-pagination>
+   <b-tooltip :label="$i18n.t('tooltip.random')">
     <b-button
       class="ml-2 magicBtn"
       title="Go to random page"
@@ -25,6 +26,7 @@
       @click="goToRandomPage"
     >
     </b-button>
+   </b-tooltip>
   </div>
 </template>
 
