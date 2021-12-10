@@ -49,12 +49,7 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <CollapseWrapper
-          visible="collapse.collection.description.show"
-          hidden="collapse.collection.description.hide"
-        >
-          <VueMarkdown :source="description" />
-        </CollapseWrapper>
+        <DescriptionWrapper :text="description"/>
       </div>
     </div>
 
@@ -108,7 +103,6 @@ const components = {
   CollectionActivity: () => import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
@@ -116,6 +110,7 @@ const components = {
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
+  DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -311,5 +306,10 @@ export default class CollectionItem extends mixins(
 <style>
 .collection__image img {
   color: transparent;
+}
+.description-wrapper {
+  max-height: 130px;
+  word-break: break-word;
+  mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
 }
 </style>
