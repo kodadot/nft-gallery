@@ -130,7 +130,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
@@ -330,6 +330,13 @@ export default class GalleryItem extends Vue {
     (this.$refs.actions as AvailableActions).unlistNft()
   }
 
+  @Watch('meta.image')
+  handleNFTPopulationFinished(newVal) {
+    if(newVal) {
+    // save visited detail page to history
+    this.$store.dispatch('history/addHistoryItem', { id: this.id, name: this.nft.name, image: this.meta.image, date: new Date() })
+    }
+  }
 }
 </script>
 
