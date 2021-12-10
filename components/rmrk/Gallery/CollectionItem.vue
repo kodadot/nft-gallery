@@ -143,15 +143,9 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-<<<<<<< HEAD
   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
 }
-=======
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-};
->>>>>>> main-nuxt
 @Component<CollectionItem>({
   metaInfo() {
     const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
