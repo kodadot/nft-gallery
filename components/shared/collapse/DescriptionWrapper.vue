@@ -3,11 +3,13 @@
     <div :class="{'description-wrapper': activeWrapper && hasWrapper}">
       <VueMarkdown :source="text" />
     </div>
-    <a @click.prevent="toggleDescription" v-if="hasWrapper">
-      <b-icon
-        :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"
-      ></b-icon>
-    </a>
+    <div class="has-text-centered">
+      <a @click.prevent="toggleDescription" v-if="hasWrapper">
+        <b-icon
+          :icon="activeWrapper ? 'chevron-down' : 'chevron-up'"
+        ></b-icon>
+      </a>
+    </div>
   </div>
 </template>
 

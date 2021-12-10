@@ -49,7 +49,12 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <DescriptionWrapper :text="description"/>
+        <CollapseWrapper
+          visible="collapse.collection.description.show"
+          hidden="collapse.collection.description.hide"
+        >
+          <VueMarkdown :source="description" />
+        </CollapseWrapper>
       </div>
     </div>
 
@@ -109,7 +114,8 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () => import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
+  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
+  VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
   metaInfo() {

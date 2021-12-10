@@ -54,8 +54,8 @@
 
         <div v-if="meta.description" class="block">
           <p class="label">{{ $t('legend')}}</p>
-          <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description.replaceAll('\n', '  \n')" />
           <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+          <DescriptionWrapper v-if="!isLoading" :text="meta.description.replaceAll('\n', '  \n')" />
         </div>
 
       </div>
@@ -184,7 +184,7 @@ import Orientation from '@/directives/DeviceOrientation'
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    VueMarkdown: () => import('vue-markdown-render'),
+    DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
   },
   directives: {
