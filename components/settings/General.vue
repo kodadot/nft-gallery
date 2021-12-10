@@ -7,37 +7,44 @@
       default-value="urlPrefix"
     />
     <SettingChooser
-      label="GraphQL Endpoint"
-      selector="availableIndexers"
-      setter="setIndexer"
-      default-value="indexer"
+      label="Change node and indexer"
+      selector="availableChanges"
+      setter="setChange"
+      default-value="change"
     />
     <SettingChooser
       label="Node URL"
-      selector="availableNodes"
+      selector="availableNodesByPrefix"
       setter="setApiUrl"
       default-value="apiUrl"
       add-option="local"
       add-method="addNode"
     />
     <SettingChooser
+      label="GraphQL Endpoint"
+      selector="availableIndexerByPrefix"
+      setter="setIndexer"
+      default-value="indexer"
+    />
+
+    <!-- <SettingChooser
       label="Address Prefix"
       selector="availablePrefixes"
       setter="setPrefix"
       default-value="prefix"
-    />
+    /> -->
     <SettingChooser
       label="Default Icon Theme"
       selector="availableIcons"
       setter="setIcon"
       default-value="icon"
     />
-    <SettingChooser
+    <!-- <SettingChooser
       label="Interface Operation Mode"
       selector="availableUiModes"
       setter="setUiMode"
       default-value="uiMode"
-    />
+    /> -->
     <!-- <SettingChooser label="Interface Operation Mode" selector="availableLocking" setter="setLocking"  defaultValue="locking" /> -->
     <!-- <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
