@@ -6,14 +6,14 @@
     <div class="popover-content-container p-4">
       <div class="is-flex mb-3">
         <div class="is-align-self-flex-start">
-          <Identicon
+          <!-- <Identicon
             :size="60"
             :theme="'polkadot'"
             :value="identity.address"
-            class="popover-image avatar"
-          />
+            class="popover-image avatar mr-5"
+          /> -->
         </div>
-        <div class="ml-5">
+        <div>
           <p class="has-text-weight-bold is-size-4 mb-1">
             {{ identity.display }}
           </p>
