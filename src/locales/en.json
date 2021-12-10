@@ -241,7 +241,13 @@
   "tooltip": {
     "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
     "name": "NFT will be visible under this name in gallery",
-    "edition": "Number of copies"
+    "edition": "Number of copies",
+    "created": "Created by",
+    "collections": "Collections created by",
+    "sold": "Nfts sold by",
+    "collected": "Nfts collected by",
+    "buy": "Show only nfts available for purchase",
+    "random": "Go to random page"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
