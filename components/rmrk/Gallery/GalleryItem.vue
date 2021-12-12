@@ -314,8 +314,6 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
-    // console.log(this.nft);
-
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata);
 
@@ -407,7 +405,7 @@ export default class GalleryItem extends Vue {
   handleNFTPopulationFinished(newVal) {
     if(newVal) {
     // save visited detail page to history
-    this.$store.dispatch('history/addHistoryItem', { id: this.id, name: this.nft.name, image: this.meta.image, date: new Date() })
+    this.$store.dispatch('history/addHistoryItem', { id: this.id, name: this.nft.name, image: this.meta.image, collection: (this.nft.collection as any).name, date: new Date() })
     }
   }
 }
