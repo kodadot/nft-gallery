@@ -1,47 +1,34 @@
 <template>
   <div class="history-browser">
-    <b-dropdown aria-role="list" arrowless scrollable>
+    <b-dropdown aria-role="list" arrowless scrollable position="is-bottom-left" max-height="400px">
       <template #trigger="{ active }">
         <b-button
           type="is-primary"
           icon-left="history"
         />
       </template>
-      <template v-if="history && history.length">
-        <b-dropdown-item
-          aria-role="listitem"
-          v-for="item in history"
-          :key="item.id"
-          custom
-          class="reset-padding"
-        >
-          <div class="item columns is-mobile reset-margin">
-            <div class="column is-three-quarter reset-padding">
-              <nuxt-link :to="`/rmrk/gallery/${item.id}`" class="columns is-mobile reset-padding reset-margin">
-                <div class="column is-one-quarter no-padding-right">
-                  <b-image
-                    :src="item.image || '/placeholder.svg'"
-                    src-fallback="/placeholder.svg'"
-                    alt="KodaDot NFT minted multimedia"
-                    ratio="1by1"
-                  ></b-image>
-                </div>
-                <div class="column is-three-quarter">
-                  <div v-if="item.name" class="ellipsis nft-title">{{ item.name }}</div>
-                  <div v-if="item.date" class="ellipsis is-italic tiny-font">{{ formatDateAdded(item.date) }}</div>
-                </div>
-              </nuxt-link>
-            </div>
-            <div class="column is-one-quarter center">
-              <b-button
-                type="is-primary"
-                icon-left="trash"
-                @click="removeItemFromHistory(item.id)"
-              />
-            </div>
-          </div>
-        </b-dropdown-item>
-      </template>
+      <div v-if="history && history.length" class="wrapper">
+        <div v-if="visitedToday && visitedToday.length">
+          <div class="list-header">Today</div>
+          <HistoryBrowserItem v-for="item in visitedToday" :key="item.id" :item="item" />
+        </div>
+        <div v-if="visitedYesterday && visitedYesterday.length">
+          <div class="list-header">Yesterday</div>
+          <HistoryBrowserItem v-for="item in visitedYesterday" :key="item.id" :item="item" />
+        </div>
+        <div v-if="visitedPastWeek && visitedPastWeek.length">
+          <div class="list-header">Last 7 Days</div>
+          <HistoryBrowserItem v-for="item in visitedPastWeek" :key="item.id" :item="item" />
+        </div>
+        <div v-if="visitedPastMonth && visitedPastMonth.length">
+          <div class="list-header">This Month</div>
+          <HistoryBrowserItem v-for="item in visitedToday" :key="item.id" :item="item" />
+        </div>
+        <div v-if="visitedEarlier && visitedEarlier.length">
+          <div class="list-header">Earlier</div>
+          <HistoryBrowserItem v-for="item in visitedEarlier" :key="item.id" :item="item" />
+        </div>
+      </div>
       <b-dropdown-item
         v-else-if="!history || history.length === 0"
         aria-role="listitem"
@@ -55,30 +42,40 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { formatDistance } from 'date-fns'
+import HistoryBrowserItem from '~/components/shared/history/HistoryBrowserItem.vue'
+import { HistoryItem } from '~/store/history';
 
 @Component({
   components: {
-  }
+    HistoryBrowserItem
+  },
+  filters: {
+		truncate: function truncateFct(value, limit) {
+			if (value?.length > limit) {
+				value = `${value.substring(0, limit - 3)}...`;
+			}
+			return value;
+		}
+	}
 })
 export default class HistoryBrowser extends Vue {
   get history() {
     return this.$store.state.history['visitedNFTs'];
   }
-
-  formatDateAdded(date: Date): string {
-    let formattedDate = formatDistance(
-      new Date(date),
-      new Date()
-    ) 
-    if (formattedDate === 'less than a minute') {
-      formattedDate = '< 1 minute'
-    }
-    return `${formattedDate} ago`
+  get visitedToday(): HistoryItem[] {
+    return this.$store.getters['history/getVisitedToday']
   }
-
-  removeItemFromHistory(id: string) {
-    this.$store.dispatch('history/removeHistoryItem', id)
+  get visitedYesterday(): HistoryItem[] {
+    return this.$store.getters['history/getVisitedYesterday']
+  }
+  get visitedPastWeek(): HistoryItem[] {
+    return this.$store.getters['history/getVisitedPastWeek']
+  }
+  get visitedPastMonth(): HistoryItem[] {
+    return this.$store.getters['history/getVisitedPastMonth']
+  }
+  get visitedEarlier(): HistoryItem[] {
+    return this.$store.getters['history/getVisitedEarlier']
   }
 }
 </script>
@@ -94,47 +91,12 @@ export default class HistoryBrowser extends Vue {
     margin: 0;
   }
 }
-.item {
-  width: 100%;
-  line-height: 1rem;
-  justify-content: space-between;
+.wrapper {
+  border: 2px solid $primary;
 }
-@media screen and (min-width: 1024px) {
-  .item {
-    width: 280px;
-  }
-}
-.item:hover {
-  background-color: $primary;
-}
-.item:hover  a{
-  color: white;
-}
-.no-padding-right {
-  padding-right: 0;
-}
-.ellipsis {
-  max-width: 145px;
-  text-overflow: ellipsis;
-  /* Required for text-overflow to do anything */
-  white-space: nowrap;
-  overflow: hidden;
-}
-.nft-title {
-  margin-bottom: 0.2rem;
-}
-.tiny-font {
-  font-size: 0.8rem;
-}
-.reset-margin {
-  margin: 0;
-}
-.reset-padding {
-  padding: 0 !important;
-}
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.list-header {
+  padding: 10px 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 </style>

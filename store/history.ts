@@ -1,9 +1,11 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { isToday, isYesterday, isThisWeek, isThisMonth } from 'date-fns'
 
 export interface HistoryItem {
     id: string,
     title: string,
     image: string,
+    collection: string,
     date: Date
 }
 
@@ -14,7 +16,11 @@ export const state = () => ({
 export type HistoryState = ReturnType<typeof state>
 
 export const getters: GetterTree<HistoryState, HistoryState> = {
-  getCurrentChain: ({ explorer }: any) => explorer.chain,
+  getVisitedToday: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isToday(new Date(nft.date))),
+  getVisitedYesterday: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isYesterday(new Date(nft.date))),
+  getVisitedPastWeek: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisWeek(new Date(nft.date)) && !isToday(new Date(nft.date)) && !isYesterday(new Date(nft.date))),
+  getVisitedPastMonth: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisMonth(new Date(nft.date)) && !isThisWeek(new Date(nft.date))),
+  getVisitedEarlier: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => !isThisMonth(new Date(nft.date)))
 };
 
 export const mutations: MutationTree<HistoryState> = {
