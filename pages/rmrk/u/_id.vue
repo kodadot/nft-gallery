@@ -45,7 +45,6 @@
 
       <b-tabs
         :class="{ 'invisible-tab': sharingVisible }"
-        class="collection-tabs"
         v-model="activeTab"
         destroy-on-hide
         expanded
