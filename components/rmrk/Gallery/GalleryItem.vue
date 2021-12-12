@@ -4,39 +4,77 @@
       <div class="columns">
         <div class="column is-four-fifths">
           <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-          <p class="subtitle is-size-5 has-text-black">{{ $t('mint.shareWithFriends', [nft.name]) }} △</p>
+          <p class="subtitle is-size-5 has-text-black">
+            {{ $t('mint.shareWithFriends', [nft.name]) }} △
+          </p>
         </div>
         <div class="column">
-          <Sharing onlyCopyLink/>
+          <Sharing onlyCopyLink />
         </div>
       </div>
     </b-message>
 
     <div class="columns">
-        <div class="image-wrapper">
-            <button id="theatre-view" @click="toggleView" v-if="!isLoading && imageVisible">{{ viewMode === 'default' ? $t('theatre') : $t('default') }} {{$t('view')}}</button>
-            <div class="column" :class="{ 'is-12 is-theatre': viewMode === 'theatre', 'is-6 is-offset-3': viewMode === 'default'}">
-              <div v-orientation="viewMode === 'default' && !isFullScreenView && imageVisible" class="image-preview has-text-centered" :class="{fullscreen: isFullScreenView}">
-                <b-image
-                  v-if="!isLoading && imageVisible && !meta.animation_url"
-                  :src="meta.image || '/placeholder.svg'"
-                  src-fallback="/placeholder.svg'"
-                  alt="KodaDot NFT minted multimedia"
-                  ratio="1by1"
-                  @error="onImageError"
-                ></b-image>
-                <img class="fullscreen-image" :src="meta.image || '/placeholder.svg'" alt="KodaDot NFT minted multimedia">
-                <b-skeleton height="524px" size="is-large" :active="isLoading"></b-skeleton>
-                <MediaResolver v-if="meta.animation_url" :class="{ withPicture: imageVisible }" :src="meta.animation_url" :mimeType="mimeType" />
-              </div>
-            </div>
-            <button id="fullscreen-view" @keyup.esc="minimize" @click="toggleFullScreen" v-if="!isLoading && imageVisible" :class="{fullscreen: isFullScreenView}">
-              <b-icon
-                :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'"
-                >
-              </b-icon>
-            </button>
+      <div class="image-wrapper">
+        <button
+          id="theatre-view"
+          @click="toggleView"
+          v-if="!isLoading && imageVisible"
+        >
+          {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
+          {{ $t('view') }}
+        </button>
+        <div
+          class="column"
+          :class="{
+            'is-12 is-theatre': viewMode === 'theatre',
+            'is-6 is-offset-3': viewMode === 'default',
+          }"
+        >
+          <div
+            v-orientation="
+              viewMode === 'default' && !isFullScreenView && imageVisible
+            "
+            class="image-preview has-text-centered"
+            :class="{ fullscreen: isFullScreenView }"
+          >
+            <b-image
+              v-if="!isLoading && imageVisible && !meta.animation_url"
+              :src="meta.image || '/placeholder.svg'"
+              src-fallback="/placeholder.svg'"
+              alt="KodaDot NFT minted multimedia"
+              ratio="1by1"
+              @error="onImageError"
+            ></b-image>
+            <img
+              class="fullscreen-image"
+              :src="meta.image || '/placeholder.svg'"
+              alt="KodaDot NFT minted multimedia"
+            />
+            <b-skeleton
+              height="524px"
+              size="is-large"
+              :active="isLoading"
+            ></b-skeleton>
+            <MediaResolver
+              v-if="meta.animation_url"
+              :class="{ withPicture: imageVisible }"
+              :src="meta.animation_url"
+              :mimeType="mimeType"
+            />
+          </div>
         </div>
+        <button
+          id="fullscreen-view"
+          @keyup.esc="minimize"
+          @click="toggleFullScreen"
+          v-if="!isLoading && imageVisible"
+          :class="{ fullscreen: isFullScreenView }"
+        >
+          <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
+          </b-icon>
+        </button>
+      </div>
     </div>
 
     <div class="columns">
@@ -53,11 +91,18 @@
         </div>
 
         <div v-if="meta.description" class="block">
-          <p class="label">{{ $t('legend')}}</p>
-          <VueMarkdown v-if="!isLoading" class="is-size-5" :source="meta.description.replaceAll('\n', '  \n')" />
-          <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+          <p class="label">{{ $t('legend') }}</p>
+          <VueMarkdown
+            v-if="!isLoading"
+            class="is-size-5"
+            :source="meta.description.replaceAll('\n', '  \n')"
+          />
+          <b-skeleton
+            :count="3"
+            size="is-large"
+            :active="isLoading"
+          ></b-skeleton>
         </div>
-
       </div>
 
       <div class="column is-6" v-if="detailVisible">
@@ -66,14 +111,16 @@
         <div class="columns">
           <div class="column">
             <div class="nft-title">
-              <Detail :nft="nft" :isLoading="isLoading"/>
+              <Detail :nft="nft" :isLoading="isLoading" />
             </div>
           </div>
-          <div class="column is-flex is-flex-direction-column is-justify-content-space-between">
-            <div
-              class="card mb-4"
-              aria-id="contentIdForA11y3"
-            >
+          <div
+            class="
+              column
+              is-flex is-flex-direction-column is-justify-content-space-between
+            "
+          >
+            <div class="card mb-4" aria-id="contentIdForA11y3">
               <div class="card-content">
                 <template v-if="hasPrice">
                   <div class="label">
@@ -103,7 +150,11 @@
                         :current-owner-id="nft.currentOwner"
                         :price="nft.price"
                         :nft-id="nft.id"
-                        :ipfs-hashes="[nft.image, nft.animation_url, nft.metadata]"
+                        :ipfs-hashes="[
+                          nft.image,
+                          nft.animation_url,
+                          nft.metadata,
+                        ]"
                         @change="handleAction"
                       />
                     </IndexerGuard>
@@ -116,14 +167,17 @@
             </div>
           </div>
         </div>
-
-        <Facts :nft="nft" :meta="meta"  />
+        <PriceChart class="mt-4" :priceChartData="priceChartData" />
       </div>
     </div>
 
     <div class="columns">
       <div class="column">
-        <History v-if="!isLoading" :events="nft.events"/>
+        <History
+          v-if="!isLoading"
+          :events="nft.events"
+          @setPriceChartData="setPriceChartData"
+        />
       </div>
     </div>
   </section>
@@ -135,41 +189,53 @@ import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
 
-import AvailableActions from './AvailableActions.vue'
-import { notificationTypes, showNotification } from '@/utils/notification'
+import AvailableActions from './AvailableActions.vue';
+import { notificationTypes, showNotification } from '@/utils/notification';
 // import Money from '@/components/shared/format/Money.vue';
 // import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
 // import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
 // import Name from '@/components/rmrk/Gallery/Item/Name.vue';
 // import VueMarkdown from 'vue-markdown-render'
 
-import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/nftById.graphql'
-import { fetchNFTMetadata } from '../utils'
-import { get, set } from 'idb-keyval'
-import { MediaType } from '../types'
-import axios from 'axios'
-import { exist } from './Search/exist'
-import Orientation from '@/directives/DeviceOrientation'
+import isShareMode from '@/utils/isShareMode';
+import nftById from '@/queries/nftById.graphql';
+import { fetchNFTMetadata } from '../utils';
+import { get, set } from 'idb-keyval';
+import { MediaType } from '../types';
+import axios from 'axios';
+import { exist } from './Search/exist';
+import Orientation from '@/directives/DeviceOrientation';
 
 @Component<GalleryItem>({
   metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.nft.name as string)}.png?price=${Number(this.nft.price) ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM') : ''}&image=${(this.meta.image as string)}&mime=${this.mimeType}`
+    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
+      this.nft.name as string
+    )}.png?price=${
+      Number(this.nft.price)
+        ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM')
+        : ''
+    }&image=${this.meta.image as string}&mime=${this.mimeType}`;
     return {
       title: this.nft.name,
       titleTemplate: '%s | Low Carbon NFTs',
       meta: [
-        { name: 'description', content: (this.meta.description as string) },
-        { property: 'og:title', content: (this.nft.name as string) },
-        { property: 'og:description', content: (this.meta.description as string) },
-        { property: 'og:image', content: (image)},
-        { property: 'og:video', content: (this.meta.image as string) },
-        { property: 'og:author', content: (this.nft.currentOwner as string) },
-        { property: 'twitter:title', content: (this.nft.name as string) },
-        { property: 'twitter:description', content: (this.meta.description as string) },
-        { property: 'twitter:image', content: (image)},
-      ]
-    }
+        { name: 'description', content: this.meta.description as string },
+        { property: 'og:title', content: this.nft.name as string },
+        {
+          property: 'og:description',
+          content: this.meta.description as string,
+        },
+        { property: 'og:image', content: image },
+        { property: 'og:video', content: this.meta.image as string },
+        { property: 'og:author', content: this.nft.currentOwner as string },
+        { property: 'twitter:title', content: this.nft.name as string },
+        {
+          property: 'twitter:description',
+          content: this.meta.description as string,
+        },
+        { property: 'twitter:image', content: image },
+      ],
+    };
   },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
@@ -186,9 +252,10 @@ import Orientation from '@/directives/DeviceOrientation'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
+    PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
   },
   directives: {
-    orientation: Orientation
+    orientation: Orientation,
   },
 })
 export default class GalleryItem extends Vue {
@@ -202,132 +269,138 @@ export default class GalleryItem extends Vue {
   public isLoading = true;
   public mimeType = '';
   public meta: NFTMetadata = emptyObject<NFTMetadata>();
-  public emotes: Emote[] = []
+  public emotes: Emote[] = [];
   public message = '';
+  public priceChartData: [Date, number][][] = [];
 
   get accountId() {
-    return this.$store.getters.getAuthAddress
+    return this.$store.getters.getAuthAddress;
   }
 
   public async created() {
-    this.checkId()
+    this.checkId();
     exist(this.$route.query.message, (val) => {
-      this.message = val === 'congrats' ? val : ''
-      this.$router.replace(
-        { query: null } as any
-      )
-    })
-
+      this.message = val === 'congrats' ? val : '';
+      this.$router.replace({ query: null } as any);
+    });
 
     try {
       // const nft = await rmrkService.getNFT(this.id);
-      this.$apollo.addSmartQuery('nft',{
+      this.$apollo.addSmartQuery('nft', {
         query: nftById,
         variables: {
-          id: this.id
+          id: this.id,
         },
-        update: ({ nFTEntity }) => ({  ...nFTEntity, emotes: nFTEntity?.emotes?.nodes }),
+        update: ({ nFTEntity }) => ({
+          ...nFTEntity,
+          emotes: nFTEntity?.emotes?.nodes,
+        }),
         result: () => this.fetchMetadata(),
-        pollInterval: 5000
-      })
-
-      // console.log(nft);
-
-      // this.nft = {
-      //   ...nft,
-      //   image: sanitizeIpfsUrl(nft.image || ''),
-      //   animation_url: sanitizeIpfsUrl(nft.animation_url || '', 'pinata')
-      // };
-      // }
+        pollInterval: 5000,
+      });
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-      // console.warn(e);
+      showNotification(`${e}`, notificationTypes.warn);
     }
 
-    this.isLoading = false
+    this.isLoading = false;
   }
 
   onImageError(e: any) {
-    console.warn('Image error',e)
+    console.warn('Image error', e);
+  }
+
+  public setPriceChartData(data: [Date, number][][]) {
+    this.priceChartData = data;
   }
 
   public async fetchMetadata() {
     // console.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
-      const m = await get(this.nft.metadata)
+      const m = await get(this.nft.metadata);
 
-      const meta = m ? m : await fetchNFTMetadata(this.nft, getSanitizer(this.nft.metadata, undefined, 'permafrost'))
-      console.log(meta)
+      const meta = m
+        ? m
+        : await fetchNFTMetadata(
+            this.nft,
+            getSanitizer(this.nft.metadata, undefined, 'permafrost')
+          );
+      console.log(meta);
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image);
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
-        animation_url: sanitizeIpfsUrl(meta.animation_url || meta.image, 'pinata')
-      }
+        animation_url: sanitizeIpfsUrl(
+          meta.animation_url || meta.image,
+          'pinata'
+        ),
+      };
 
       // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url)
-        this.mimeType = headers['content-type']
+        const { headers } = await axios.head(this.meta.animation_url);
+        this.mimeType = headers['content-type'];
         // console.log(this.mimeType)
-        const mediaType = resolveMedia(this.mimeType)
-        this.imageVisible = ![MediaType.VIDEO, MediaType.MODEL, MediaType.IFRAME, MediaType.OBJECT].some(
-          t => t === mediaType
-        )
+        const mediaType = resolveMedia(this.mimeType);
+        this.imageVisible = ![
+          MediaType.VIDEO,
+          MediaType.MODEL,
+          MediaType.IFRAME,
+          MediaType.OBJECT,
+        ].some((t) => t === mediaType);
       }
 
       if (!m) {
-        set(this.nft.metadata, meta)
+        set(this.nft.metadata, meta);
       }
     }
   }
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id
+      this.id = this.$route.params.id;
     }
   }
 
   public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
+    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default';
   }
 
   public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView
+    this.isFullScreenView = !this.isFullScreenView;
   }
 
   public minimize(): void {
-    this.isFullScreenView = false
+    this.isFullScreenView = false;
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message);
   }
 
   get hasPrice() {
-    return Number(this.nft.price) > 0
+    return Number(this.nft.price) > 0;
   }
 
   get nftId() {
-    const { id } = this.nft
-    return id
+    const { id } = this.nft;
+    return id;
   }
 
   get detailVisible() {
-    return !isShareMode
+    return !isShareMode;
   }
 
   protected handleAction(deleted: boolean) {
     if (deleted) {
-      showNotification('INSTANCE REMOVED', notificationTypes.warn)
+      showNotification('INSTANCE REMOVED', notificationTypes.warn);
     }
   }
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft()
+    (this.$refs.actions as AvailableActions).unlistNft();
   }
 
   @Watch('meta.image')
@@ -341,7 +414,7 @@ export default class GalleryItem extends Vue {
 </script>
 
 <style lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 hr.comment-divider {
   border-top: 1px solid lightpink;
@@ -371,7 +444,6 @@ hr.comment-divider {
       display: none;
     }
 
-
     .image-preview {
       &.fullscreen {
         position: fixed;
@@ -387,7 +459,7 @@ hr.comment-divider {
           object-fit: contain;
           width: 100%;
           height: 100%;
-          overflow:auto;
+          overflow: auto;
           position: absolute;
           top: 0;
           left: 50%;
@@ -402,7 +474,7 @@ hr.comment-divider {
     }
 
     .column {
-      transition: .3s all;
+      transition: 0.3s all;
     }
 
     button {
@@ -428,9 +500,8 @@ hr.comment-divider {
     left: 13px;
     color: $light-text;
     @media screen and (max-width: 768px) {
-        display: none;
+      display: none;
     }
-
   }
 
   button#fullscreen-view {
@@ -441,7 +512,7 @@ hr.comment-divider {
     &.fullscreen {
       position: fixed;
       z-index: 999998;
-      bottom:0;
+      bottom: 0;
       right: 0;
     }
   }
@@ -463,7 +534,7 @@ hr.comment-divider {
     }
 
     &__exchange {
-      opacity: .6;
+      opacity: 0.6;
       color: $dark;
       margin: 0;
     }
@@ -500,8 +571,8 @@ hr.comment-divider {
     }
 
     &-footer {
-      &-item{
-         padding: .75rem!important;
+      &-item {
+        padding: 0.75rem !important;
       }
     }
   }
@@ -511,6 +582,5 @@ hr.comment-divider {
       padding: 0;
     }
   }
-
 }
 </style>
