@@ -135,11 +135,6 @@
             showSearchBar
           />
         </b-tab-item>
-
-        <!-- <b-tab-item label="Packs" value="pack">
-          <span>TODO: Reintroduce</span>
-          <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
-        </b-tab-item> -->
       </b-tabs>
     </div>
 
