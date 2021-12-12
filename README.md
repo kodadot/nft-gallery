@@ -33,8 +33,6 @@
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
-kodadot/nft-gallery
-
 ## 🧫 Culture - where you can read our recent updates
 * [Twitter](https://twitter.com/KodaDot)
 * [Discord](https://discord.gg/u6ymnbz4PR)
