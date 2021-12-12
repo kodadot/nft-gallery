@@ -6,12 +6,20 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## 🧫 Culture - where you can read our recent updates
-* [Discord](https://discord.gg/u6ymnbz4PR)
-* [Telegram](https://t.me/kodadot)
 * [Twitter](https://twitter.com/KodaDot)
+* [Discord](https://discord.gg/u6ymnbz4PR)
+
+### Discontinued for now (if you want help us manage these, shout out on Discord)
+* [Telegram](https://t.me/kodadot) -- 
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
 ## 📚 Writings by KodaDot team members
+* [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
+* [We've organized first Dotsama meetup in Lisbon thanks to KodaDot](https://medium.com/kodadot/first-dotsama-meetup-in-lisbon-and-how-the-kodadot-team-helped-to-make-it-real-10b4ca63d0b5)
+* [Mass Airdrop and what we've learned](https://medium.com/kodadot/mass-airdrop-and-what-weve-learned-d063efb7c088)
+* [Introducing Series Insights](https://medium.com/kodadot/introducing-series-insights-dde52dbadf5d)
+* [JPEG summer is over. It's over, right?](https://medium.com/kodadot/jpeg-summer-is-over-its-over-right-e893ca2eeaa9)
+* [Hello Kusummer](https://medium.com/kodadot/hello-kusummer-kodadot-edition-faca87753418)
 * [Client-first NFT gallery: Technical examination](https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97)
 * [How to Embed your NFT on Kusama through KodaDot](https://medium.com/kodadot/how-to-embed-your-nft-on-kusama-through-kodadot-ee52c2384b0d)
 * [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
@@ -23,9 +31,15 @@
 
 * [Explore and Mint NFTs](https://nft.kodadot.xyz/)
 
+## Roadmap 🛣 🗺
+
+- [Beta](https://github.com/orgs/kodadot/projects/1)
+- [XR - KodaVerse](https://github.com/orgs/kodadot/projects/2/views/1)
+- [Meta Mobile](https://github.com/orgs/kodadot/projects/3/views/1)
+
 ## Development 🏗
 
-[Contribution is welcome!](CONTRIBUTING.md)
+[Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
