@@ -67,8 +67,6 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      
-
       <b-table-column
         field="total"
         :label="$t('spotlight.total')"
