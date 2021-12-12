@@ -12,11 +12,12 @@ export type Row = {
   id: string;
   unique: number;
   sold: number;
-  total: number,
-  averagePrice: number,
-  count: number,
+  total: number;
+  averagePrice: number;
+  count: number;
   collectors: number;
-  rank: number
+  rank: number;
+  uniqueCollectors: number;
 }
 
 export type SimpleSpotlightNFT = {

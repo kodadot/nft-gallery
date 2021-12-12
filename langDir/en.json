@@ -439,7 +439,8 @@
     "count": "Σ collection",
     "collectors": "Collectors",
     "score": "Score",
-    "empty": "Empty"
+    "empty": "Empty",
+    "uniqueCollectors": "Unique Collectors"
   },
   "series": {
     "title": "Top Collection",

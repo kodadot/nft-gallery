@@ -63,6 +63,7 @@ export const spotlightAggregation = (): Aggregator => {
         _id: '$id',
         id: { $first: '$id' },
         unique: { $sum: '$unique' },
+        uniqueCollectors: { $sum: '$uniqueCollectors' },
         sold: { $sum: '$sold' },
         total: { $sum: '$total' },
         averagePrice: { $avg: '$averagePrice' },

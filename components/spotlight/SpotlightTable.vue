@@ -58,6 +58,18 @@
       </b-table-column>
 
       <b-table-column
+        field="uniqueCollectors"
+        :label="$t('spotlight.uniqueCollectors')"
+        v-slot="props"
+        sortable
+      >
+        <template v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      
+
+      <b-table-column
         field="total"
         :label="$t('spotlight.total')"
         v-slot="props"
