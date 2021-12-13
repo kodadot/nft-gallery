@@ -118,6 +118,7 @@
       </b-navbar-item>
     </template>
     <template #end>
+      <HistoryBrowser />
       <LocaleChanger />
       <NavbarProfileDropdown />
     </template>
@@ -127,6 +128,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
+import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
 import i18n from '@/i18n'
@@ -134,6 +136,7 @@ import i18n from '@/i18n'
 @Component({
   components: {
     LocaleChanger,
+    HistoryBrowser,
     NavbarProfileDropdown
   }
 })

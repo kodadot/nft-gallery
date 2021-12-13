@@ -41,6 +41,7 @@ export default {
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
+    { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/vueTippy',
   ],
 
