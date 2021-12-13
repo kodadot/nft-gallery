@@ -104,7 +104,7 @@
               tooltipsize="is-large"
             >
               <template v-slot:content>
-                {{ $t('carbonOffset.tooltip') }} 
+                {{ $t('carbonOffset.tooltip') }}
                 (<a class="has-text-black is-underlined" href='https://kodadot.xyz/carbonless'>https://kodadot.xyz/carbonless</a>)
               </template>
             </Tooltip>
@@ -531,7 +531,7 @@ export default class CreateToken extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' }
       })
     setTimeout(go, 2000)

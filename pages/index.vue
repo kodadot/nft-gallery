@@ -36,14 +36,14 @@
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <nuxt-link :to="{ name: 'rmrk'}">
+                  <nuxt-link :to="{ name: 'rmrk-create'}">
                     {{ $t('Classic') }}
                   </nuxt-link>
                 </b-dropdown-item>
                 <b-dropdown-item
                   aria-role="listitem"
                 >
-                  <nuxt-link :to="{ name: 'simpleMint'}">
+                  <nuxt-link :to="{ name: 'rmrk-mint'}">
                     {{ $t('Simple') }}
                   </nuxt-link>
                 </b-dropdown-item>

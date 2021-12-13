@@ -31,7 +31,7 @@
         :label="$t('spotlight.id')"
         v-slot="props"
       >
-        <nuxt-link :to="{ name: 'profile', params: { id: props.row.id } }" v-if="!isLoading">
+        <nuxt-link :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }" v-if="!isLoading">
           <Identity :address="props.row.id" inline noOverflow />
         </nuxt-link>
         <b-skeleton :active="isLoading"> </b-skeleton>

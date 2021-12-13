@@ -1,10 +1,6 @@
 <template>
   <div class="block">
-    <b-collapse
-      class="card"
-      animation="slide"
-      aria-id="contentIdForHistory"
-    >
+    <b-collapse class="card" animation="slide" aria-id="contentIdForHistory">
       <template #trigger="props">
         <div
           class="card-header"
@@ -28,18 +24,15 @@
               <option
                 v-for="option in uniqType"
                 :value="option.Type"
-                :key="option.Type">
+                :key="option.Type"
+              >
                 {{ option.Type }}
               </option>
             </b-select>
           </b-field>
 
           <b-table :data="data" class="mb-4" hoverable>
-            <b-table-column
-              field="Type"
-              label="Type"
-              v-slot="props"
-            >
+            <b-table-column field="Type" label="Type" v-slot="props">
               {{ props.row.Type }}
             </b-table-column>
             <b-table-column
@@ -64,7 +57,7 @@
               v-slot="props"
             >
               <nuxt-link
-                :to="{ name: 'profile', params: { id: props.row.To } }"
+                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }"
               >
                 <Identity :address="props.row.To" inline noOverflow />
               </nuxt-link>
@@ -94,7 +87,6 @@
         </div>
       </div>
     </b-collapse>
-    <price-chart class="mt-4" :priceChartData="priceChartData" />
   </div>
 </template>
 
@@ -102,13 +94,12 @@
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
 import formatBalance from '@/utils/formatBalance';
 import ChainMixin from '@/utils/mixins/chainMixin';
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator';
+import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator';
 import { Interaction } from '../service/scheme';
-import i18n from '@/i18n'
+import i18n from '@/i18n';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
 };
 
 type TableRow = {
@@ -127,21 +118,21 @@ export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[];
   protected data: TableRow[] = [];
   protected copyTableData: TableRow[] = [];
-  protected priceChartData: [Date, number][][] = [];
 
   get uniqType(): any[] {
-    return [...new Map(this.copyTableData.map(v => [v.Type, v])).values()]
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()];
   }
 
   get selectedEvent(): string {
-    return 'all'
+    return 'all';
   }
 
   set selectedEvent(event: string) {
     if (event) {
-      this.data = event === 'all'
-        ? this.copyTableData
-        : [...new Set(this.copyTableData.filter(v => v.Type === event))]
+      this.data =
+        event === 'all'
+          ? this.copyTableData
+          : [...new Set(this.copyTableData.filter((v) => v.Type === event))];
     }
   }
 
@@ -216,7 +207,7 @@ export default class History extends mixins(ChainMixin) {
 
     this.data = this.data.reverse();
     this.copyTableData = this.copyTableData.reverse();
-    this.priceChartData = [chartData.buy, chartData.list];
+    this.$emit('setPriceChartData', [chartData.buy, chartData.list]);
   }
 
   protected parseDate(date: Date): string {
