@@ -102,6 +102,7 @@
     "@vue/cli-plugin-typescript": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "all-contributors-cli": "^6.20.0",
+    "eslint": "^8.4.1",
     "netlify-lambda": "^2.0.14",
     "sass": "^1.42.1",
     "sass-loader": "^10.2",
