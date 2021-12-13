@@ -136,7 +136,6 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionActivity.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
   Search: () => import('./Search/SearchBarCollection.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
@@ -144,9 +143,9 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-};
+  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
+  VueMarkdown: () => import('vue-markdown-render'),
+}
 @Component<CollectionItem>({
   metaInfo() {
     const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
