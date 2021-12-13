@@ -44,15 +44,15 @@
 
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
-          <p class="has-text-weight-bold is-size-6">{{ totalCollected || '-' }}</p>
+          <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
           <span class="is-size-7">Bought</span>
         </div>
         <div class="has-text-centered">
-          <p class="has-text-weight-bold is-size-6">{{ totalCreated || '-' }}</p>
+          <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
           <span class="is-size-7">Created</span>
         </div>
         <div class="has-text-centered">
-          <p class="has-text-weight-bold is-size-6">{{ totalSold || '-' }}</p>
+          <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
           <span class="is-size-7">Sold</span>
         </div>
       </div>
