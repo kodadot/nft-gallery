@@ -8,10 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run eslint with reviewdog
-        uses: reviewdog/action-eslint@v1.0.0
+      # - name: Run eslint with reviewdog
+      #   uses: reviewdog/action-eslint@v1.0.0
+      #   with:
+      #     level: error
+      #     reporter: github-pr-review
+      #     fail_on_error: true
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EPMatt/reviewdog-action-tsc@v1
         with:
-          level: error
+          github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
-          fail_on_error: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          level: warning
