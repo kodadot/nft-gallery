@@ -376,6 +376,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   private async fetchCollection() {
     const nft = await this.$apollo.query({
       query: nftById,
+      client: this.urlPrefix,
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },

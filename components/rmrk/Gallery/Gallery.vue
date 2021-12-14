@@ -235,6 +235,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
       const nfts = this.$apollo.query({
         query:  query as unknown as DocumentNode,
+        client: this.urlPrefix,
         variables: {
           first: this.first,
           offset,
