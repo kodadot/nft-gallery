@@ -3,6 +3,9 @@
 query nftById($id: String!) {
     nFTEntity(id: $id) {
     ...nft
+      collection {
+        name
+      }
       emotes {
         nodes {
           caller

@@ -5,7 +5,7 @@ query nFTStatsByIssuer($account: String!) {
       name: { notLike: "%Kanaria%" }
       burned: { distinctFrom: true }
     }
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: BLOCK_NUMBER_ASC
     first: 1
   ) {
     nodes {

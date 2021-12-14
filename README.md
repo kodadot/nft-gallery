@@ -10,6 +10,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 [![DeepScan grade](https://deepscan.io/api/teams/13903/projects/16948/branches/372223/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13903&pid=16948&bid=372223)
+
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -17,12 +18,17 @@
 [![GitHub watchers](https://badgen.net/github/watchers/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/watchers/)
 [![GitHub stars](https://badgen.net/github/stars/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/stargazers/)
 [![GitHub forks](https://badgen.net/github/forks/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
+
 [![GitHub contributors](https://badgen.net/github/contributors/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/graphs/contributors/)
 [![GitHub branches](https://badgen.net/github/branches/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
 
+<!-- [![GitHub issues-open](https://badgen.net/github/open-issues/kodadot/nft-gallery)](https://github.com/Naereen/StrapDown.js/issues?q=is%3Aopen) I don't like orange -->
 [![GitHub issues](https://badgen.net/github/issues/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/issues/)
+[![GitHub issues-closed](https://badgen.net/github/closed-issues/kodadot/nft-gallery)](https://github.com/Naereen/StrapDown.js/issues?q=is%3Aclosed)
+
 [![GitHub total-pull-requests](https://badgen.net/github/prs/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/pull/)
 [![GitHub open-pull-requests](https://badgen.net/github/open-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aopen)
+
 [![GitHub pull-requests closed](https://badgen.net/github/closed-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aclosed)
 [![GitHub pull-requests merged](https://badgen.net/github/merged-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Amerged)
 
@@ -32,6 +38,10 @@
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
+
+### Is it maintained? 
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open")
 
 ## 🧫 Culture - where you can read our recent updates
 * [Twitter](https://twitter.com/KodaDot)

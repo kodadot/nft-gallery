@@ -4,7 +4,7 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <router-view />
+          <router-view :key="$route.fullPath" />
         </div>
       </section>
     </main>

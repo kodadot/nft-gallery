@@ -91,17 +91,9 @@
         </div>
 
         <div v-if="meta.description" class="block">
-          <p class="label">{{ $t('legend') }}</p>
-          <VueMarkdown
-            v-if="!isLoading"
-            class="is-size-5"
-            :source="meta.description.replaceAll('\n', '  \n')"
-          />
-          <b-skeleton
-            :count="3"
-            size="is-large"
-            :active="isLoading"
-          ></b-skeleton>
+          <p class="label">{{ $t('legend')}}</p>
+          <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
+          <DescriptionWrapper v-if="!isLoading" :text="meta.description.replaceAll('\n', '  \n')" />
         </div>
       </div>
 
@@ -183,11 +175,11 @@
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import { NFT, NFTMetadata, Emote } from '../service/scheme';
-import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils';
-import { emptyObject } from '@/utils/empty';
+<script lang="ts" >
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { NFT, NFTMetadata, Emote } from '../service/scheme'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
+import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue';
 import { notificationTypes, showNotification } from '@/utils/notification';
@@ -250,7 +242,7 @@ import Orientation from '@/directives/DeviceOrientation';
     MediaResolver: () => import('../Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    VueMarkdown: () => import('vue-markdown-render'),
+    DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
   },
@@ -314,8 +306,6 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchMetadata() {
-    // console.log(this.nft);
-
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata);
 
@@ -401,6 +391,14 @@ export default class GalleryItem extends Vue {
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
     (this.$refs.actions as AvailableActions).unlistNft();
+  }
+
+  @Watch('meta.image')
+  handleNFTPopulationFinished(newVal) {
+    if(newVal) {
+    // save visited detail page to history
+    this.$store.dispatch('history/addHistoryItem', { id: this.id, name: this.nft.name, image: this.meta.image, collection: (this.nft.collection as any).name, date: new Date() })
+    }
   }
 }
 </script>
