@@ -1,7 +1,6 @@
 <template>
- <div class="block">
-    <b-collapse class="card" animation="slide"
-      aria-id="contentIdForHistory" :open="collapsedHistory">
+  <div class="block">
+    <b-collapse class="card" animation="slide" aria-id="contentIdForHistory">
       <template #trigger="props">
         <div
           class="card-header"
@@ -19,13 +18,21 @@
       </template>
       <div class="card-content">
         <div class="content">
+          <b-field>
+            <b-select placeholder="Select an event" v-model="selectedEvent">
+              <option value="all">All</option>
+              <option
+                v-for="option in uniqType"
+                :value="option.Type"
+                :key="option.Type"
+              >
+                {{ option.Type }}
+              </option>
+            </b-select>
+          </b-field>
+
           <b-table :data="data" class="mb-4" hoverable>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Type"
-              label="Type"
-              v-slot="props"
-            >
+            <b-table-column field="Type" label="Type" v-slot="props">
               {{ props.row.Type }}
             </b-table-column>
             <b-table-column
@@ -49,11 +56,11 @@
               label="To"
               v-slot="props"
             >
-              <router-link
-                :to="{ name: 'profile', params: { id: props.row.To } }"
+              <nuxt-link
+                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }"
               >
                 <Identity :address="props.row.To" inline noOverflow />
-              </router-link>
+              </nuxt-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -79,16 +86,16 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
-import formatBalance from '@/utils/formatBalance'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import { Component, Prop, Watch, Mixins } from 'vue-property-decorator'
-import { Interaction } from '../service/scheme'
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
+import formatBalance from '@/utils/formatBalance';
+import ChainMixin from '@/utils/mixins/chainMixin';
+import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator';
+import { Interaction } from '../service/scheme';
+import i18n from '@/i18n';
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
-}
+};
 
 type TableRow = {
   Type: string
@@ -99,48 +106,71 @@ type TableRow = {
   Block: string
 }
 
+type ChartData = {
+  buy: any[],
+  list: any[],
+}
+
+
 @Component({ components })
-export default class History extends Mixins(ChainMixin) {
+export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!:  Interaction[];
   protected data: TableRow[] = [];
-  protected collapsedHistory=true;
+  protected copyTableData: TableRow[] = [];
 
-  public mounted(): void {
-    this.collapsedHistory = true
+  get uniqType(): any[] {
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()];
+  }
 
-    setTimeout(() => {
-      this.collapsedHistory = false
-    }, 200)
+  get selectedEvent(): string {
+    return 'all';
+  }
+
+  set selectedEvent(event: string) {
+    if (event) {
+      this.data =
+        event === 'all'
+          ? this.copyTableData
+          : [...new Set(this.copyTableData.filter((v) => v.Type === event))];
+    }
   }
 
   protected createTable(): void {
-    let prevOwner = ''
-    let curPrice = '0.0000000'
-    this.data = []
+    let prevOwner = '';
+    let curPrice = '0.0000000';
+    this.data = [];
+    this.copyTableData = [];
+
+    const chartData: ChartData = {
+      buy: [],
+      list: [],
+    };
 
     for (const newEvent of this.events) {
       const event: any = {}
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
+        event['Type'] = i18n.t('nft.event.MINTNFT');
+        event['From'] = newEvent['caller'];
+        event['To'] = '';
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        prevOwner = event['From']
-        curPrice = newEvent['meta']
+        event['Type'] = i18n.t('nft.event.LIST');
+        event['From'] = newEvent['caller'];
+        event['To'] = '';
+        prevOwner = event['From'];
+        curPrice = newEvent['meta'];
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT'
-        event['From'] = newEvent['caller']
-        event['To'] = newEvent['meta']
+        event['Type'] = i18n.t('nft.event.SEND');
+        event['From'] = newEvent['caller'];
+        event['To'] = newEvent['meta'];
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT'
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else event['Type'] = newEvent['interaction']
+        event['Type'] = i18n.t('nft.event.CONSUME');
+        event['From'] = newEvent['caller'];
+        event['To'] = '';
+      } else if (newEvent['interaction'] === 'BUY') {
+        event['Type'] = i18n.t('nft.event.BUY');
+      } else event['Type'] = newEvent['interaction'];
 
       // From
       if (!('From' in event)) event['From'] = prevOwner
@@ -160,10 +190,13 @@ export default class History extends Mixins(ChainMixin) {
 
       event['Block'] = String(newEvent['blockNumber'])
 
-      this.data.push(event)
+      this.data.push(event);
+      this.copyTableData.push(event);
     }
 
-    this.data = this.data.reverse()
+    this.data = this.data.reverse();
+    this.copyTableData = this.copyTableData.reverse();
+    this.$emit('setPriceChartData', [chartData.buy, chartData.list]);
   }
 
   protected parseDate(date: Date): string {

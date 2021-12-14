@@ -15,12 +15,12 @@ import {
   faGhost, faCode, faLeaf,
   faFlask, faCameraRetro, faTag,
   faShareAlt, faShare, faExclamationTriangle,
-  faCalendar, faCalculator, faEnvelope,
+  faCalendar, faCalculator, faEnvelope, faClock,
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faAngleLeft, faAngleRight, faReply,
   faExternalLinkSquareAlt, faGift, faThLarge, faTh,
   faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter, faQrcode,
-  faFire, faMoneyBill, faEllipsisH
+  faFire, faMoneyBill, faHistory, faEllipsisH
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -50,7 +50,7 @@ library.add(
   faLanguage, faQuestion, faEye,
   faPrint, faCommentAlt, faMagic,
   faLeaf, faFlask,
-  faCalendar, faEnvelope,
+  faCalendar, faEnvelope, faClock,
   faCommentDots, faGhost, faCode,
   faWpexplorer,
   faRedditAlien, faCameraRetro,
@@ -59,7 +59,7 @@ library.add(
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
   faExclamationCircle, faFilter, faQrcode, faGift, faThLarge, faTh,
-  faFire, faMoneyBill, faEllipsisH,
+  faFire, faMoneyBill, faHistory, faEllipsisH,
 
   // Social
   faTwitter, faTelegram, faFacebook,

@@ -43,6 +43,8 @@ export default {
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
+    { src: '~/plugins/vuex-persist', ssr: false },
+    '~/plugins/vueTippy',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -144,7 +146,7 @@ export default {
       { code: 'ur', iso: 'ur', file: 'ur.json' },
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     vueI18n: {
       fallbackLocale: 'en',
       // hide the warning message from the console.

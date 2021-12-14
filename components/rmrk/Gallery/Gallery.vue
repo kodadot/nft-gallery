@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, mixins } from 'nuxt-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
 import { fetchMetadata, fetchNFTMetadata, getSanitizer } from '../utils'
@@ -95,6 +95,7 @@ import { getMany, update } from 'idb-keyval'
 import { denyList, statemineDenyList } from '@/constants'
 import { DocumentNode } from 'graphql'
 import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -146,8 +147,7 @@ const components = {
   components,
   name: 'Gallery',
 })
-export default class Gallery extends Vue {
-  private prefix = this.$config.prefix
+export default class Gallery extends mixins(PrefixMixin) {
   private nfts: NFTWithCollectionMeta[] = [];
   private meta: Metadata[] = [];
   private searchQuery: SearchQuery = {
@@ -169,10 +169,6 @@ export default class Gallery extends Vue {
     return this.currentValue * this.first - this.first
   }
 
-  get urlPrefix() {
-    return this.prefix || 'rmrk'
-  }
-
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
@@ -182,6 +178,7 @@ export default class Gallery extends Vue {
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
+      client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
         return {

@@ -788,7 +788,7 @@ export default class SimpleMint extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        path: `/rmrk/gallery/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
@@ -797,6 +797,7 @@ export default class SimpleMint extends mixins(
 </script>
 
 <style>
+/* ??? global */
 .message.is-primary .message-body {
   color: #d32e79 !important;
 }
