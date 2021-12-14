@@ -18,7 +18,7 @@
             {{ identity.display }}
           </p>
           <p class="is-size-7">
-            {{ shortenedAddress }} 
+            {{ shortenedAddress }}
             <b-icon
               icon="copy"
               size="is-small"
@@ -28,7 +28,7 @@
             ></b-icon>
           </p>
           <div class="py-1 is-size-7 py-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati 
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati
           </div>
           <p class="is-size-7 is-flex is-align-items-center pb-3">
             <b-icon
@@ -39,7 +39,7 @@
           </p>
         </div>
       </div>
-      
+
       <hr style="height: 1px;" class="m-0">
 
       <div style="" class="popover-stats-container pt-3">
@@ -61,13 +61,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import nftStatsByIssuer from '@/queries/nftStatsByIssuer.graphql'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 type Address = string | GenericAccountId | undefined;
 type IdentityFields = Record<string, string>;
@@ -77,7 +78,7 @@ type IdentityFields = Record<string, string>;
     Identicon
   }
 })
-export default class IdentityPopover extends Vue {
+export default class IdentityPopover extends mixins(PrefixMixin) {
   @Prop() public identity!: IdentityFields
 
   protected totalCreated = 0;
@@ -107,9 +108,11 @@ export default class IdentityPopover extends Vue {
 
   protected async fetchNFTStats() {
     try {
+      const query = this.urlPrefix === 'rmrk' ? await import('@/queries/nftStatsByIssuer.graphql') : await import('@/queries/unique/nftStatsByIssuer.graphql')
       this.$apollo.addSmartQuery('collections', {
-        query: nftStatsByIssuer,
+        query: query.default,
         manual: true,
+        client: this.urlPrefix,
         loadingKey: 'isLoading',
         result: this.handleResult,
         variables: () => {
@@ -131,7 +134,7 @@ export default class IdentityPopover extends Vue {
       this.totalCollected = data.nFTCollected.totalCount
       this.totalSold = data.nFTSold.totalCount
 
-      if (data.firstMint.nodes.length > 0) {
+      if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
     }
