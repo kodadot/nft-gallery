@@ -358,6 +358,10 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       this.meta = {
         ...nft,
         image: sanitizeIpfsUrl(nft.image || ''),
+        animation_url: sanitizeIpfsUrl(
+          nft.animation_url || nft.image || '',
+          'pinata'
+        ),
       }
       // TODO: add attributes as traits
       const { attributes, ...rest } = nft
@@ -366,6 +370,8 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
         ...rest,
         ...nftData,
       }
+
+      this.fetchAnimationData()
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
       console.warn(e)
@@ -403,6 +409,21 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     console.warn('Image error', e)
   }
 
+  public async fetchAnimationData() {
+    if (this.meta.animation_url && !this.mimeType) {
+      const { headers } = await axios.head(this.meta.animation_url)
+      this.mimeType = headers['content-type']
+      console.log(this.mimeType)
+      const mediaType = resolveMedia(this.mimeType)
+      this.imageVisible = ![
+        MediaType.VIDEO,
+        MediaType.MODEL,
+        MediaType.IFRAME,
+        MediaType.OBJECT,
+      ].some((t) => t === mediaType)
+    }
+  }
+
   public async fetchMetadata() {
     // console.log(this.nft);
 
@@ -427,11 +448,11 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
         ),
       }
 
-      // console.log(this.meta)
+      console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        // console.log(this.mimeType)
+        console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![
           MediaType.VIDEO,
