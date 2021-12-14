@@ -1,6 +1,6 @@
 export default {
   server: {
-    port: 9090 // default: 3000
+    port: 9090, // default: 3000
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -12,25 +12,21 @@ export default {
   head: {
     title: 'KodaDot - Polkadot / Kusama NFT Explorer',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  // loading: '~/components/Loading.vue',
+  loadingIndicator: '~/components/loading.html',
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'styles/index.scss'
-  ],
+  css: ['styles/index.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -50,64 +46,66 @@ export default {
     dirs: [
       {
         path: '~/components',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/landing',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/metadata',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/rmrk',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/series',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/settings',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/shared',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/spotlight',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/toolbox',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
       {
         path: '~/components/transfer',
-        extensions: ['vue']
+        extensions: ['vue'],
       },
-    ]
+    ],
   },
-
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/buefy
-    ['nuxt-buefy', {
-      css: false,
-      defaultIconPack: 'fas',
-      defaultIconComponent: 'vue-fontawesome',
-      defaultFieldLabelPosition: 'inside'
-    }],
+    [
+      'nuxt-buefy',
+      {
+        css: false,
+        defaultIconPack: 'fas',
+        defaultIconComponent: 'vue-fontawesome',
+        defaultFieldLabelPosition: 'inside',
+      },
+    ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
   ],
@@ -118,7 +116,7 @@ export default {
       useCookie: true,
       cookieKey: 'lang',
       fallbackLocale: 'en',
-      alwaysRedirect: true
+      alwaysRedirect: true,
     },
     loadLanguagesAsync: true,
     langDir: 'langDir',
@@ -148,32 +146,32 @@ export default {
     vueI18n: {
       fallbackLocale: 'en',
       // hide the warning message from the console.
-      silentTranslationWarn: true
+      silentTranslationWarn: true,
       // silentFallbackWarn: true,
-    }
+    },
   },
 
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.subquery.network/sq/vikiival/magick'
-      }
-    }
+        httpEndpoint: 'https://api.subquery.network/sq/vikiival/magick',
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend (config, { isDev, isClient }) {
-      config.resolve.alias['vue'] = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+    extend(config, { isDev, isClient }) {
+      config.resolve.alias['vue'] = 'vue/dist/vue.common'; //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
       config.node = {
-        fs: 'empty'
-      }
-    }
+        fs: 'empty',
+      };
+    },
   },
 
   watchers: {
     webpack: {
-      poll: true
-    }
-  }
-}
+      poll: true,
+    },
+  },
+};
