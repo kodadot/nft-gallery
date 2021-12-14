@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
@@ -53,6 +53,7 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -103,8 +104,7 @@ const components = {
   },
   components
 })
-export default class Collections extends Vue {
-  private prefix = this.$config.prefix
+export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = [];
   private meta: Metadata[] = [];
   private first = 9;
@@ -112,10 +112,6 @@ export default class Collections extends Vue {
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
-
-  get urlPrefix() {
-    return this.prefix || 'rmrk'
-  }
 
   get isLoading() {
     return this.$apollo.queries.collection?.loading || false
@@ -133,6 +129,7 @@ export default class Collections extends Vue {
       query: query.default,
       manual: true,
       loadingKey: 'isLoading',
+      client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
         return {

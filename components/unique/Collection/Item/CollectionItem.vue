@@ -86,6 +86,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import { mixins } from 'vue-class-component'
 import onApiConnect from '~/utils/api/general'
 import SubscribeMixin from '~/utils/mixins/subscribeMixin'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -99,7 +100,7 @@ const components = {
 @Component<CollectionItem>({
   components
 })
-export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin) {
+export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin, PrefixMixin) {
   private id = '';
   private collection: Collection & CollectionMetadata = emptyObject();
   private attributes: Attribute[] = [];
@@ -167,6 +168,7 @@ export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin) {
   private async fetchCollection() {
     const nfts = this.$apollo.query({
       query: collectionById,
+      client: this.urlPrefix,
       variables: {
         id: this.id
       }
