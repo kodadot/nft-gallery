@@ -27,7 +27,7 @@ export default class Settings extends Vue {
   protected activeTab = 0;
 
   public created() {
-    console.log('Settings created', this.$apollo, this.$apolloProvider)
+    console.log('Settings created', Object.keys(this.$apolloProvider.clients))
   }
 }
 </script>
