@@ -53,9 +53,11 @@
 
     <b-table
       :data="data"
+      :default-sort="sortBy.field"
+      :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
+      @sort="onSort"
       backend-sorting
       hoverable
-      @sort="onSort"
     >
       <b-table-column
         v-slot="props"
@@ -205,6 +207,18 @@
       </b-table-column>
 
       <b-table-column
+        field="totalBuys"
+        :label="$t('series.buys')"
+        v-slot="props"
+        sortable
+        numeric
+        cell-class="is-vcentered"
+      >
+        <template v-if="!isLoading">{{ props.row.totalBuys }}</template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
         v-slot="props"
         field="uniqueCollectors"
         :label="$t('series.owners')"
@@ -312,6 +326,10 @@ export default class SeriesTable extends Vue {
     exist(this.$route.query.period, (val) => {
       this.nbDays = val
     })
+    exist(this.$route.query.sort, (val) => {
+      this.sortBy.field = val.slice(1)
+      this.sortBy.value = val.charAt(0) === '-' ? -1 : 1
+    })
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
@@ -350,6 +368,10 @@ export default class SeriesTable extends Vue {
 
   public onSort(field: string, order: string) {
     let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
+    this.$router.replace({
+      path: String(this.$route.path),
+      query: { ...this.$route.query, sort: (order === 'desc' ? '-' : '+') + field },
+    }).catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(this.nbRows), sort)
   }
 
@@ -394,6 +416,7 @@ export default class SeriesTable extends Vue {
 <style lang="scss">
 @import '@/styles/variables';
 
+/* ??? global */
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
