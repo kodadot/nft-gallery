@@ -1,13 +1,13 @@
 <template>
-  <div class="history-browser">
-    <b-dropdown aria-role="list" arrowless scrollable position="is-bottom-left" max-height="400px">
+  <div v-show="history && history.length" class="history-browser">
+    <b-dropdown aria-role="list" scrollable position="is-bottom-left" max-height="400px" >
       <template #trigger="{ active }">
         <b-button
           type="is-primary"
           icon-left="history"
         />
       </template>
-      <div v-if="history && history.length" class="wrapper">
+      <div class="wrapper">
         <div v-if="visitedToday && visitedToday.length">
           <div class="list-header">Today</div>
           <HistoryBrowserItem v-for="item in visitedToday" :key="item.id" :item="item" />
@@ -29,13 +29,6 @@
           <HistoryBrowserItem v-for="item in visitedEarlier" :key="item.id" :item="item" />
         </div>
       </div>
-      <b-dropdown-item
-        v-else-if="!history || history.length === 0"
-        aria-role="listitem"
-        custom
-      >
-        No entries yet
-      </b-dropdown-item>
     </b-dropdown>
   </div>
 </template>
