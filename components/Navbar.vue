@@ -132,12 +132,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import { getCurrentColor } from '@/colors'
 import i18n from '@/i18n'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({
   components: {
@@ -146,8 +147,7 @@ import i18n from '@/i18n'
     NavbarProfileDropdown
   }
 })
-export default class NavbarMenu extends Vue {
-  private prefix = this.$config.prefix
+export default class NavbarMenu extends mixins(PrefixMixin) {
   public navbar: any = [
     {
       name: i18n.t('Gallery'),
@@ -191,9 +191,6 @@ export default class NavbarMenu extends Vue {
     }
   ]
 
-  get urlPrefix() {
-    return this.prefix || 'rmrk'
-  }
 }
 </script>
 
