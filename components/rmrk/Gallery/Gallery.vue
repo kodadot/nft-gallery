@@ -160,9 +160,10 @@ export default class Gallery extends mixins(PrefixMixin) {
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
+  private loadingState = 0;
 
   get isLoading() {
-    return this.$apollo.queries.nfts?.loading
+    return Boolean(this.loadingState)
   }
 
   get offset() {
@@ -177,7 +178,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       query:  query as unknown as DocumentNode,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
-      loadingKey: 'isLoading',
+      loadingKey: 'loadingState',
       client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
