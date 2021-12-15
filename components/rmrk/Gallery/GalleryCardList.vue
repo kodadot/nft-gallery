@@ -14,7 +14,7 @@
           :name="nft.name"
           :route="route"
           :link="link"
-          :metadata="nft.metadata"
+          :metadata="metadataOf(nft)"
           :price="nft.price"
           :emoteCount="nft.emoteCount"
           :currentOwner="nft.currentOwner"
@@ -39,8 +39,13 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'rmrk/gallery' }) public link!: string;
   @Prop() public items!: RmrkType[];
   @Prop(Boolean) public horizontalLayout!: boolean;
+
   get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']
+  }
+
+  protected metadataOf(nft: any) {
+    return nft.metadata || nft.collection?.metadata
   }
 }
 

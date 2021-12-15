@@ -358,15 +358,15 @@ export default class Profile extends mixins(PrefixMixin) {
     }
   }
 
-  @Watch('activeTab')
-  protected onTabChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.$router.replace({
-        path: String(this.$route.path),
-        query: { tab: val },
-      })
-    }
-  }
+  // @Watch('activeTab')
+  // protected onTabChange(val: string, oldVal: string) {
+  //   if (shouldUpdate(val, oldVal)) {
+  //     this.$router.replace({
+  //       path: String(this.$route.path),
+  //       query: { tab: val },
+  //     }).catch(console.warn)
+  //   }
+  // }
 
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
