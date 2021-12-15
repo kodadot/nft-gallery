@@ -1,4 +1,3 @@
-#import "./nft.graphql"
 
 query nftListSold($account: String!, $first: Int!, $offset: Int) {
   nFTEntities(
@@ -14,7 +13,18 @@ query nftListSold($account: String!, $first: Int!, $offset: Int) {
   ) {
     totalCount
     nodes {
-      ...nft
+      id
+      name
+      metadata
+      issuer
+      currentOwner
+      blockNumber
+      sn
+      collectionId
+      price
+      issuer
+      price
+      events
     }
   }
 }
