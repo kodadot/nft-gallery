@@ -127,7 +127,7 @@
       "11": {
         "m": "La meilleure façon de procéder est d'utiliser le @.md:faq.a.11.l1 et de rechercher votre adresse. @.md:faq.a.11.l2",
         "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
-        "l2": "[Vous pouvez trouver un exemple de la façon dont l\'NFT est émis dans l'explorateur, lorsque vous regardez les extrinsèques.](@.common:links.kusama_scanner.extrinsic.href)"
+        "l2": "[Vous pouvez trouver un exemple de la façon dont un NFT est émis dans l'explorateur, lorsque vous regardez les extrinsèques.](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "12": {
         "m": "Pour l'instant, nous sommes conscients que les États-Unis ne sont pas supportés, mais que tous les pays devraient l'étre, @.md:faq.a.12.l1 Cela échappe à notre contrôle en ce moment.",
