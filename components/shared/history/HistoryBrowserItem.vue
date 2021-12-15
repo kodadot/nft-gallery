@@ -21,11 +21,10 @@
             </div>
             </nuxt-link>
         </div>
-        <div class="column is-one-fifths center no-padding-right">
+        <div class="column is-one-fifths center no-padding-right" @click.stop.prevent="removeItemFromHistory(item.id)">
             <b-button
-            type="is-primary"
-            icon-left="trash"
-            @click="removeItemFromHistory(item.id)"
+              type="is-primary"
+              icon-left="trash"
             />
         </div>
         </div>
