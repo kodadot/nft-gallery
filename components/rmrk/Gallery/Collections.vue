@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
@@ -112,9 +112,10 @@ export default class Collections extends mixins(PrefixMixin) {
   private placeholder = '/koda300x300.svg';
   private currentValue = 1;
   private total = 0;
+  private loadingState = 0;
 
   get isLoading() {
-    return this.$apollo.queries.collection?.loading || false
+    return Boolean(this.loadingState)
   }
 
   get offset() {
@@ -128,7 +129,7 @@ export default class Collections extends mixins(PrefixMixin) {
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
       manual: true,
-      loadingKey: 'isLoading',
+      loadingKey: 'loadingState',
       client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
