@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
@@ -136,6 +136,7 @@ import nftListByIssuer from '@/queries/unique/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/unique/nftListCollected.graphql'
 import nftListSold from '@/queries/unique/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   GalleryCardList: () =>
@@ -202,7 +203,7 @@ const eq = (tab: string) => (el: string) => tab === el
     }
   }
 })
-export default class Profile extends Vue {
+export default class Profile extends mixins(PrefixMixin) {
   public activeTab = 'nft';
   public firstNFTData: any = {};
   protected id = '';
@@ -280,6 +281,7 @@ export default class Profile extends Vue {
       this.$apollo.addSmartQuery('collections', {
         query: collectionList,
         manual: true,
+        client: this.urlPrefix,
         // update: ({ nFTEntities }) => nFTEntities.nodes,
         loadingKey: 'isLoading',
         result: this.handleCollectionResult,
@@ -296,6 +298,7 @@ export default class Profile extends Vue {
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
         manual: true,
+        client: this.urlPrefix,
         loadingKey: 'isLoading',
         result: this.handleResult,
         variables: () => {
