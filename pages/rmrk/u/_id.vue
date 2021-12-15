@@ -42,6 +42,7 @@
           <DonationButton :address="id" />
         </Sharing>
       </div>
+    </div>
 
       <b-tabs
         :class="{ 'invisible-tab': sharingVisible }"
@@ -135,74 +136,6 @@
           />
         </b-tab-item>
       </b-tabs>
-    </div>
-
-    <b-tabs
-      :class="{ 'invisible-tab': sharingVisible }"
-      v-model="activeTab"
-      destroy-on-hide
-      expanded
-    >
-      <b-tab-item value="nft">
-        <template #header>
-          {{ $t("profile.created") }}
-          <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListByIssuer"
-          @change="totalCreated = $event"
-          :account="id"
-          :showSearchBar="true"
-        />
-      </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
-      >
-        <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
-        <GalleryCardList
-          :items="collections"
-          route="/rmrk/collection"
-          link="rmrk/collection"
-        />
-        <Pagination
-          replace
-          class="pt-5 pb-5"
-          :total="totalCollections"
-          v-model="currentCollectionPage"
-        />
-      </b-tab-item>
-      <b-tab-item value="sold">
-        <template #header>
-          {{ $t("profile.sold") }}
-          <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          @change="totalSold = $event"
-          :account="id"
-        />
-      </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
-        />
-      </b-tab-item>
-
-      <!-- <b-tab-item label="Packs" value="pack">
-        <span>TODO: Reintroduce</span>
-        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
-      </b-tab-item> -->
-    </b-tabs>
   </section>
 </template>
 
