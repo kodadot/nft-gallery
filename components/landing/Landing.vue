@@ -27,21 +27,9 @@
               </span>
             </h2>
             <div class="buttons">
-              <b-dropdown aria-role="list" class="mr-2">
-                <template #trigger>
-                  <b-button label="Create" type="is-primary" />
-                </template>
-                <b-dropdown-item aria-role="listitem">
-                  <nuxt-link :to="{ name: 'rmrk-create' }">
-                    {{ $t('Classic') }}
-                  </nuxt-link>
-                </b-dropdown-item>
-                <b-dropdown-item aria-role="listitem">
-                  <nuxt-link :to="{ name: 'rmrk-mint' }">
-                    {{ $t('Simple') }}
-                  </nuxt-link>
-                </b-dropdown-item>
-              </b-dropdown>
+              <b-button tag="nuxt-link" :to="`/${prefix}/create`" type="is-primary">
+                {{ $t('Create') }}
+              </b-button>
               <b-button
                 tag="nuxt-link"
                 :to="`/${prefix}/collections`"
@@ -61,7 +49,7 @@
               <b-button tag="nuxt-link" to="/about" type="is-primary">
                 About
               </b-button>
-              <b-button tag="nuxt-link" to="/${prefix}/faq" type="is-primary">
+              <b-button tag="nuxt-link" to="/rmrk/faq" type="is-primary">
                 Faq
               </b-button>
               <b-button
@@ -119,7 +107,7 @@
               <p>
                 <span> Struggling with KodaDot? </span>
                 <span>
-                  Head over to our <a href="/${prefix}/faq">FAQ page.</a>
+                  Head over to our <a href="/rmrk/faq">FAQ page.</a>
                 </span>
               </p>
               <p>
