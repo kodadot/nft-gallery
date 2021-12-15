@@ -10,9 +10,6 @@ name: Snyk Infrastructure as Code
 on:
   push:
     branches: [ main-nuxt, main ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ main-nuxt ]
   schedule:
     - cron: '19 22 * * 1'
 

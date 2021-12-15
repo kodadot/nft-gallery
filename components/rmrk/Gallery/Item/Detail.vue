@@ -1,22 +1,32 @@
 <template>
   <div v-if="detailVisible">
-    <p
-      class="title"
-      :class="[ detailVisible ? 'is-size-1' : 'is-size-3' ]"
-    >
-      <span v-if="!isLoading">
-        <span v-if="nft.burned">「🔥」</span> {{ nft.name }} <span v-if="carbonlessBadge">「🌱」</span>
-      </span>
-      <b-skeleton height="100px" size="is-large" :active="isLoading"></b-skeleton>
+    <p class="label">
+      {{ $t('collection') }}
     </p>
-    <p v-if="nft.burned" class="title is-size-4 has-text-danger">
-      {{ $t('nft.burned') }} 「🔥」
+    <p class="subtitle is-size-6">
+      <nuxt-link :to="{ name: 'rmrk-collection-id', params: { id: nft.collectionId } }">
+        {{ nft.collectionId }}
+      </nuxt-link>
       <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
     </p>
-    <p v-if="carbonlessBadge" class="title is-size-4 has-text-success">
-      {{ $t('nft.carbonless') }} 「🌱」
-      <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
+    <p class="label">
+      {{ $t('creator') }}
     </p>
+    <p class="subtitle is-size-6">
+      <ProfileLink :address="nft.issuer" :showTwitter="true"/>
+      <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
+      <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
+    </p>
+    <template v-if="nft.issuer !== nft.currentOwner">
+      <p class="label">
+        {{ $t('owner') }}
+      </p>
+      <p class="subtitle is-size-6">
+        <ProfileLink :address="nft.currentOwner" :showTwitter="true"/>
+        <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
+        <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
+      </p>
+    </template>
   </div>
 </template>
 
