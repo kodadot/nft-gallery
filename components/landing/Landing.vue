@@ -44,12 +44,12 @@
               </b-dropdown>
               <b-button
                 tag="nuxt-link"
-                to="/rmrk/collections"
+                :to="`/${prefix}/collections`"
                 type="is-primary"
               >
                 Collections
               </b-button>
-              <b-button tag="nuxt-link" to="/rmrk/gallery" type="is-primary">
+              <b-button tag="nuxt-link" :to="`/${prefix}/gallery`" type="is-primary">
                 Gallery
               </b-button>
               <b-button tag="nuxt-link" to="/spotlight" type="is-primary">
@@ -61,7 +61,7 @@
               <b-button tag="nuxt-link" to="/about" type="is-primary">
                 About
               </b-button>
-              <b-button tag="nuxt-link" to="/rmrk/faq" type="is-primary">
+              <b-button tag="nuxt-link" to="/${prefix}/faq" type="is-primary">
                 Faq
               </b-button>
               <b-button
@@ -119,7 +119,7 @@
               <p>
                 <span> Struggling with KodaDot? </span>
                 <span>
-                  Head over to our <a href="/rmrk/faq">FAQ page.</a>
+                  Head over to our <a href="/${prefix}/faq">FAQ page.</a>
                 </span>
               </p>
               <p>
@@ -144,7 +144,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {}
 @Component<Landing>({
@@ -181,6 +181,7 @@ const components = {}
   components,
 })
 export default class Landing extends Vue {
+  @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
 
   layout() {
     return 'full-width-layout'
