@@ -181,24 +181,6 @@ const components = {}
   components,
 })
 export default class Landing extends Vue {
-  public publicCommunity: any = [
-    ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
-    // ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
-    ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
-    ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
-    ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
-    ['🇷🇺 Russia', 'https://t.me/kodadotru'],
-    ['🇪🇸 Spanish', 'https://t.me/joinchat/HkF3cxImJAJGoRH9'],
-    ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
-    ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
-    ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
-    // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
-    [
-      'Want to help translate?',
-      'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales',
-    ],
-  ]
 
   layout() {
     return 'full-width-layout'
