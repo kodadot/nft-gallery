@@ -49,7 +49,6 @@
         v-model="activeTab"
         destroy-on-hide
         expanded
-        size="is-medium"
       >
         <b-tab-item value="nft" :headerClass="{'is-hidden': !totalCollections}">
           <template #header>
