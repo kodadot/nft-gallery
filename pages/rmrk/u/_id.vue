@@ -270,7 +270,6 @@ export default class Profile extends Vue {
 
   protected async fetchProfile() {
     this.checkId()
-    // this.checkActiveTab()
 
     try {
       this.$apollo.addSmartQuery('collections', {
@@ -340,15 +339,6 @@ export default class Profile extends Vue {
     this.riot = identityFields?.riot as string
     this.web = identityFields?.web as string
     this.legal = identityFields?.legal as string
-  }
-
-  public checkActiveTab() {
-    if (
-      this.$route.params.tab &&
-      ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))
-    ) {
-      this.activeTab = this.$route.params.tab
-    }
   }
 
   @Watch('$route.params.id')
