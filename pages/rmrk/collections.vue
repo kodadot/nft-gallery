@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -52,6 +52,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -102,7 +103,7 @@ const components = {
   },
   components
 })
-export default class Collections extends Vue {
+export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = [];
   private meta: Metadata[] = [];
   private first = 9;
@@ -123,6 +124,7 @@ export default class Collections extends Vue {
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
       manual: true,
+      client: this.urlPrefix,
       loadingKey: 'isLoading',
       result: this.handleResult,
       variables: () => {

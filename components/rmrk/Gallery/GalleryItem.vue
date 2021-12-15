@@ -176,7 +176,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
@@ -197,6 +197,7 @@ import { MediaType } from '../types';
 import axios from 'axios';
 import { exist } from './Search/exist';
 import Orientation from '@/directives/DeviceOrientation';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -250,7 +251,7 @@ import Orientation from '@/directives/DeviceOrientation';
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends Vue {
+export default class GalleryItem extends mixins(PrefixMixin) {
   private id = '';
   // private accountId: string = '';
   private passsword = '';
@@ -279,6 +280,7 @@ export default class GalleryItem extends Vue {
     try {
       // const nft = await rmrkService.getNFT(this.id);
       this.$apollo.addSmartQuery('nft', {
+        client: this.urlPrefix,
         query: nftById,
         variables: {
           id: this.id,
