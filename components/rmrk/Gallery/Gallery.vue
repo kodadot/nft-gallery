@@ -157,7 +157,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     listed: false,
   };
   private first = 12;
-  private placeholder = '/koda300x300.svg';
+  private placeholder = '/placeholder.webp';
   private currentValue = 1;
   private total = 0;
   private loadingState = 0;

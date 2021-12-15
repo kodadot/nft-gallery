@@ -108,7 +108,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop() public metadata!: string;
   @Prop() public currentOwner!: string;
 
-  private placeholder = '/koda300x300.svg';
+  private placeholder = '/placeholder.webp';
 
   async mounted() {
     if (this.metadata) {

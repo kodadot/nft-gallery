@@ -1,7 +1,7 @@
 <template>
   <b-image
     :src="src"
-    src-fallback="/placeholder.svg"
+    src-fallback="/placeholder.webp"
     :alt="alt"
     ratio="1by1"
     :class="customClass"
