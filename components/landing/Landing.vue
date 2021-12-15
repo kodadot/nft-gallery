@@ -23,7 +23,7 @@
                 class="title is-6 homepage__subtitle uppercase text-semibold"
               >
                 Built on
-                <span class="text-bold text-primary"> RMRK Protocol </span>
+                <span class="text-bold text-primary"> {{ buildOn }} </span>
               </span>
             </h2>
             <div class="buttons">
@@ -170,6 +170,7 @@ const components = {}
 })
 export default class Landing extends Vue {
   @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
+  @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
 
   layout() {
     return 'full-width-layout'
