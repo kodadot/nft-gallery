@@ -128,6 +128,7 @@ import { NFT } from '@/components/rmrk/service/scheme';
 import { exist } from '@/components/rmrk/Gallery/Search/exist';
 import { SearchQuery } from './Search/types';
 import ChainMixin from '@/utils/mixins/chainMixin';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 
 const components = {
   GalleryCardList: () =>
@@ -190,7 +191,7 @@ const components = {
   },
   components,
 })
-export default class CollectionItem extends mixins(ChainMixin) {
+export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   private id = '';
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>();
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>();
@@ -263,6 +264,7 @@ export default class CollectionItem extends mixins(ChainMixin) {
     this.loadStats();
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
+      client: this.urlPrefix,
       loadingKey: 'isLoading',
       variables: () => {
         return {
@@ -284,6 +286,7 @@ export default class CollectionItem extends mixins(ChainMixin) {
   public loadStats(): void {
     const nftStatsP = this.$apollo.query({
       query: nftListByCollection,
+      client: this.urlPrefix,
       variables: {
         id: this.id,
       },
