@@ -140,8 +140,6 @@ import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import { getCurrentColor } from '@/colors'
-import i18n from '@/i18n'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({
@@ -152,49 +150,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
   }
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  public navbar: any = [
-    {
-      name: i18n.t('Gallery'),
-      tag: 'nuxt-link',
-      to: { name: 'nft' },
-      strong: true
-    },
-  ]
-  public navbarExtra: any = [
-    {
-      name: i18n.t('Accounts'),
-      icon: 'users',
-      to: { name: 'accounts' },
-      tag: 'nuxt-link',
-    },
-    {
-      name: i18n.t('Credit'),
-      icon: 'users',
-      to: { name: 'rmrkCredit' },
-      tag: 'nuxt-link',
-      strong: true
-    },
-    {
-      name: i18n.t('Transfer'),
-      icon: 'paper-plane',
-      to: { name: 'transfer' },
-      tag: 'nuxt-link',
-    },
-    {
-      name: i18n.t('Settings'),
-      icon: 'cogs',
-      tag: 'nuxt-link',
-      to: { name: 'settings' },
-    },
-  ]
-  private navbarExternal: any = [
-    {
-      name: 'Twitter',
-      tag: 'a',
-      href: 'https://twitter.com/Kodadot'
-    }
-  ]
-
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk'
   }
