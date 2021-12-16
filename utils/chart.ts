@@ -36,8 +36,8 @@ const getQuartiles = ({
   dataset,
   medianDetails,
 }: GetQuartilesArgs): Quartiles => {
-  let q1: number = 0;
-  let q3: number = 0;
+  let q1 = 0;
+  let q3 = 0;
 
   // If there is a median index, this means that the dataset length is an odd number
   if (medianDetails.medianIndex) {

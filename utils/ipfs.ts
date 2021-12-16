@@ -6,7 +6,7 @@ export const justHash = (ipfsLink?: string): boolean => {
   return /^[a-zA-Z0-9]+$/.test(ipfsLink || '');
 };
 
-const cidRegex: RegExp = /ipfs\/([a-zA-Z0-9]+)\/?$/;
+const cidRegex = /ipfs\/([a-zA-Z0-9]+)\/?$/;
 export const extractCid = (ipfsLink?: string): string => {
   if (!ipfsLink) {
     return '';

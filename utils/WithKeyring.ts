@@ -17,7 +17,7 @@ export type KeyringAccount = KeyringPair | InjectedAccountWithMeta;
 
 @Component
 export default class WithKeyring extends Vue {
-  protected keyringLoaded: boolean = false;
+  protected keyringLoaded = false;
   protected keyringAccounts: KeyringPair[] = [];
   protected importedAccounts: InjectedAccountWithMeta[] = [];
   // protected keys: any = '';
