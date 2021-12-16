@@ -117,7 +117,6 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -193,7 +192,6 @@ const eq = (tab: string) => (el: string) => tab === el
   }
 })
 export default class Profile extends Vue {
-  public activeTab = 'nft';
   public firstNFTData: any = {};
   protected id = '';
   protected shortendId = '';
@@ -223,9 +221,6 @@ export default class Profile extends Vue {
 
   public async mounted() {
     await this.fetchProfile()
-    exist(this.$route.query.tab, (val) => {
-      this.activeTab = val
-    })
   }
 
   public checkId() {
@@ -233,6 +228,17 @@ export default class Profile extends Vue {
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get activeTab(): string {
+    return this.$route.query.tab as string || 'nft'
+  }
+
+  set activeTab(val) {
+    this.$route.query.page = ''
+    this.$router.replace({
+      query: { tab: val },
+    })
   }
 
   get sharingVisible(): boolean {
@@ -264,7 +270,6 @@ export default class Profile extends Vue {
 
   protected async fetchProfile() {
     this.checkId()
-    this.checkActiveTab()
 
     try {
       this.$apollo.addSmartQuery('collections', {
@@ -334,25 +339,6 @@ export default class Profile extends Vue {
     this.riot = identityFields?.riot as string
     this.web = identityFields?.web as string
     this.legal = identityFields?.legal as string
-  }
-
-  public checkActiveTab() {
-    if (
-      this.$route.params.tab &&
-      ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))
-    ) {
-      this.activeTab = this.$route.params.tab
-    }
-  }
-
-  @Watch('activeTab')
-  protected onTabChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.$router.replace({
-        path: String(this.$route.path),
-        query: { tab: val },
-      })
-    }
   }
 
   @Watch('$route.params.id')
