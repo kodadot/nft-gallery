@@ -1,17 +1,17 @@
 <template>
   <div class="navigation-container">
-        <b-button
-          tag="nuxt-link"
-          icon-left="chevron-left"
-          :to="`/rmrk/gallery/${this.items[this.prevIndex]}`"
-          outlined
-        />
-        <b-button
-          tag="nuxt-link"
-          icon-left="chevron-right"
-          :to="`/rmrk/gallery/${this.items[this.nextIndex]}`"
-          outlined
-        />
+    <b-button
+      tag="nuxt-link"
+      icon-left="chevron-left"
+      :to="`/rmrk/gallery/${this.items[this.prevIndex]}`"
+      outlined
+    />
+    <b-button
+      tag="nuxt-link"
+      icon-left="chevron-right"
+      :to="`/rmrk/gallery/${this.items[this.nextIndex]}`"
+      outlined
+    />
   </div>
 </template>
 
