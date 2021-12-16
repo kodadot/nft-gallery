@@ -65,9 +65,8 @@
               :mimeType="mimeType"
             />
           </div>
-          <template v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1">
-            <Navigation v-show="isMobileDevice || showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
-          </template>
+          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" :showNavigation="showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+
         </div>
         <button
           id="fullscreen-view"
@@ -273,8 +272,6 @@ export default class GalleryItem extends Vue {
   public message = '';
   public priceChartData: [Date, number][][] = [];
   public showNavigation = false;
-
-  isMobileDevice = isMobileDevice()
 
   get accountId() {
     return this.$store.getters.getAuthAddress;

@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-container">
+  <div class="navigation-container" :class="{ 'is-hidden-desktop': !showNavigation }">
     <b-button
       tag="nuxt-link"
       icon-left="chevron-left"
@@ -25,7 +25,7 @@ const components = {
 @Component({ components })
 export default class Navigation extends Vue {
   @Prop({type: Array}) readonly items!: string[];
-
+  @Prop(Boolean) public showNavigation !: boolean
   @Prop({type: String}) readonly currentId!: string;
 
   get indexOfCurrentId(): number {
@@ -52,14 +52,10 @@ export default class Navigation extends Vue {
   }
 
   public handleKeyEvent(event) {
-    switch (event.key) {
-      case "ArrowLeft":
-          this.gotoNextItem(true)
-          break;
-      case "ArrowRight":
-          this.gotoNextItem(false)
-          break;
-    }
+    return {
+      'ArrowLeft': this.gotoNextItem(true),
+      'ArrowRight': this.gotoNextItem(false),
+    }[event.key]
   }
 
   public gotoNextItem(reverse: boolean) {
