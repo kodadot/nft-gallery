@@ -273,8 +273,6 @@ export default class GalleryItem extends Vue {
   public priceChartData: [Date, number][][] = [];
   public showNavigation = false;
 
-  isMobileDevice = isMobileDevice()
-
   get accountId() {
     return this.$store.getters.getAuthAddress;
   }
