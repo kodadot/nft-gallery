@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-container">
+  <div class="navigation-container" :class="{ 'is-hidden-desktop': !showNavigation }">
     <b-button
       tag="nuxt-link"
       icon-left="chevron-left"
