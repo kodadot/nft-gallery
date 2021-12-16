@@ -10,7 +10,11 @@ export interface HistoryItem {
 }
 
 export const state = () => ({
-    visitedNFTs: []
+    visitedNFTs: [],
+    currentCollection: {
+      id: '',
+      nftIds: []
+    }
 })
 
 export type HistoryState = ReturnType<typeof state>
@@ -39,6 +43,9 @@ export const mutations: MutationTree<HistoryState> = {
       }
       state.visitedNFTs.unshift(data);
     }
+  },
+  updateCurrentCollection(state: any, data: {id: string, nftIds: string[]}) {
+    state.currentCollection = data;
   }
 };
 
@@ -48,5 +55,8 @@ export const actions: ActionTree<HistoryState, HistoryState> = {
   },
   removeHistoryItem({ commit }: { commit: Commit }, data: string) {
     commit('updateHistoryItems', data);
+  },
+  setCurrentCollection({ commit }: { commit: Commit }, data: {id: string, nftIds: string[]}) {
+    commit('updateCurrentCollection', data);
   },
 };
