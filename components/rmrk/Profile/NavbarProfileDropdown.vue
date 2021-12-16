@@ -172,8 +172,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 
 const components = {
   Avatar,
@@ -182,8 +183,7 @@ const components = {
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends Vue {
-  private prefix = this.$config.prefix
+export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any;
   protected changeAccount = false;
   protected isExtension = false;
@@ -194,10 +194,6 @@ export default class NavbarProfileDropdown extends Vue {
 
   get account() {
     return this.$store.getters.getAuthAddress
-  }
-
-  get urlPrefix() {
-    return this.prefix || 'rmrk'
   }
 
   checkExtension() {
