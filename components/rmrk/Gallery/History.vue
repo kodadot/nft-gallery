@@ -147,6 +147,8 @@ export default class History extends mixins(ChainMixin) {
       list: [],
     };
 
+    console.log(this.events)
+
     for (const newEvent of this.events) {
       const event: any = {};
 

@@ -1,46 +1,29 @@
 <template>
   <div>
     <!-- Sales stats goes brrrrrr -->
-    <div class="card-content">
+    <div class="card">
       <div class="content">
-        <b-table :data="nfts" :columns="columns" hoverable></b-table>
+        <History :events="events" />
       </div>
     </div>
-    {{ nfts }}
+    {{ events }}
   </div>
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import { fetchNFTMetadata, getSanitizer } from '@/components/rmrk/utils'
-import { NFT, NFTMetadata, MintNFT, getNftId } from '@/components/rmrk/service/scheme'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { NFT } from '@/components/rmrk/service/scheme'
 import nftListSoldByIssuer from '@/queries/nftListSoldByIssuer.graphql'
 
-
-@Component({})
+@Component({
+  components: {
+    History: () => import('@/components/rmrk/Gallery/History.vue'),
+  }
+})
 export default class  extends Vue {
   protected first = 50
   protected currentValue = 1
   protected nfts: NFT[] = []
-  protected columns = [
-    {
-      field: 'name',
-      label: 'Name',
-    },
-    {
-      field: 'currentOwner',
-      label: 'Owner',
-    },
-    {
-      field: 'price',
-      label: 'Price',
-      numeric: true
-    },
-    {
-      field: 'gender',
-      label: 'Gender',
-    }
-  ]
 
   get offset() {
     return this.currentValue * this.first - this.first
@@ -58,23 +41,13 @@ export default class  extends Vue {
 
     const total = res.data.nFTEntities.totalCount
     const nfts = res.data.nFTEntities.nodes
+    const events = res.data.nFTEntities.nodes.flatMap((nft: { events: any }) => nft.events)
 
-    if (nfts?.length) {
-      const meta = await fetchNFTMetadata(nfts)
-      console.log('meta:')
-      console.log(meta)
-      // this.firstNFTData = {
-      //   ...meta
-      // }
-    }
-    return { total, nfts }
+    return { total, nfts, events }
   }
 
   public async created() {
-    console.log('yeet')
     console.log(this.$route.params.id)
-    // if (nfts)
   }
-
 }
 </script>
