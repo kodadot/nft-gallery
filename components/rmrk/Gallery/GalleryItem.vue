@@ -182,7 +182,7 @@
 <script lang="ts" >
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
-import { sanitizeIpfsUrl, resolveMedia, getSanitizer, isMobileDevice } from '../utils'
+import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue';
