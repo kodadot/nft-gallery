@@ -326,14 +326,7 @@ export default class CreateToken extends mixins(
     try {
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
-      // missin possibility to handle more than one remark
-      // do not rely on alreadyMinted, it is not always accurate
-      // do not rely subscribe to the collection, it is not always accurate
-      // DEV: fetch nft ids from the collection, and reccomend next id
       const cb = api.tx.utility.batchAll
-      // do not rely on alreadyMinted, it is not always accurate
-      // do not rely subscribe to the collection, it is not always accurate
-      // DEV: fetch nft ids from the collection, and reccomend next id
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
       const create = api.tx.uniques.mint(id, nextId, this.accountId)
       // Option to freeze metadata
