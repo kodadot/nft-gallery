@@ -96,6 +96,7 @@
           {{ $t('FAQ') }}
         </b-navbar-item>
         <b-navbar-item
+          v-if="isRmrk"
           tag="nuxt-link"
           to="/rmrk/admin"
         >
