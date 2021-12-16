@@ -90,5 +90,6 @@ export default class Loader extends Vue {
   position: relative;
   max-width: 200px;
   text-align: center;
+  margin: 0 auto;
 }
 </style>
