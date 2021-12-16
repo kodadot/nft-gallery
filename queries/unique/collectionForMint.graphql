@@ -8,6 +8,9 @@ query collectionForMint($account: String!) {
       metadata
       nfts {
         totalCount
+        nodes {
+          id
+        }
       }
     }
   }

@@ -124,7 +124,7 @@ import { getclassDeposit, getInstanceDeposit, getMetadataDeposit } from '../apiC
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { createTokenId } from '../utils'
+import { createTokenId, tokenIdToRoute } from '../utils'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -135,6 +135,7 @@ type MintedCollection = {
   alreadyMinted: number;
   metadata: string;
   name?: string;
+  lastIndexUsed: number;
 };
 
 @Component({
@@ -220,7 +221,8 @@ export default class CreateToken extends mixins(
     this.collections = collectionEntities.nodes
       ?.map((ce: any) => ({
         ...ce,
-        alreadyMinted: ce.nfts?.totalCount
+        alreadyMinted: ce.nfts?.totalCount,
+        lastIndexUsed: Number(tokenIdToRoute(ce.nfts?.nodes?.map(({id}) => id).sort()?.reverse()[0] || '0-0').id) || 0
       }))
 
       this.loadCollectionMeta()
@@ -320,7 +322,7 @@ export default class CreateToken extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { id, alreadyMinted } = this.selectedCollection
+    const { id, alreadyMinted, lastIndexUsed } = this.selectedCollection
     try {
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
@@ -332,11 +334,12 @@ export default class CreateToken extends mixins(
       // do not rely on alreadyMinted, it is not always accurate
       // do not rely subscribe to the collection, it is not always accurate
       // DEV: fetch nft ids from the collection, and reccomend next id
-      const create = api.tx.uniques.mint(id, alreadyMinted, this.accountId)
+      const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
+      const create = api.tx.uniques.mint(id, nextId, this.accountId)
       // Option to freeze metadata
-      const meta = api.tx.uniques.setMetadata(id, alreadyMinted, metadata, false)
+      const meta = api.tx.uniques.setMetadata(id, nextId, metadata, false)
       const attributes = this.attributes.map(a =>
-        api.tx.uniques.setAttribute(id, String(alreadyMinted), a.trait_type, String(a.value))
+        api.tx.uniques.setAttribute(id, String(nextId), a.trait_type, String(a.value))
       )
       //
       const args = [[create, meta, ...attributes]]
