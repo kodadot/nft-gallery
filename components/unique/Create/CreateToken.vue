@@ -124,6 +124,7 @@ import { getclassDeposit, getInstanceDeposit, getMetadataDeposit } from '../apiC
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '~/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { createTokenId } from '../utils'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -356,6 +357,8 @@ export default class CreateToken extends mixins(
               notificationTypes.success
             )
 
+            this.navigateToDetail(id, String(alreadyMinted))
+
             this.isLoading = false
           },
           dispatchError => {
@@ -435,12 +438,11 @@ export default class CreateToken extends mixins(
     this.isLoading = false
   }
 
-  protected navigateToDetail(nft: NFT, blockNumber: string): void {
+  protected navigateToDetail(collection: string, id: string): void {
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        name: 'nftDetail',
-        params: { id: getNftId(nft, blockNumber) },
+        path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
         query: { message: 'congrats' }
       })
     setTimeout(go, 2000)
