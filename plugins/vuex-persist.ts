@@ -1,6 +1,6 @@
 import VuexPersistence from 'vuex-persist'
 
-export default ({ store }) => {
+export default ({ store }): void  => {
   new VuexPersistence({
     key: 'history',
     storage: window.localStorage,

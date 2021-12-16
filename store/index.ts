@@ -12,7 +12,7 @@ interface ChangeUrlAction {
   payload: string;
 }
 
-const apiPlugin = (store: any) => {
+const apiPlugin = (store: any): void  => {
   const { getInstance: Api } = Connector
 
   Api().on('connect', async (api: any) => {
@@ -39,7 +39,7 @@ const apiPlugin = (store: any) => {
   })
 }
 
-const myPlugin = (store: any) => {
+const myPlugin = (store: any): void  => {
   const { getInstance: Api } = Connector
   Api().connect(store.state.setting.apiUrl)
 
@@ -60,16 +60,16 @@ export const state = () => ({
   error: null,
 })
 export const mutations = {
-  keyringLoaded(state: any) {
+  keyringLoaded(state: any): void  {
     state.keyringLoaded = true
   },
-  setDevelopment(state: any, data : any) {
+  setDevelopment(state: any, data : any): void  {
     state.development = Object.assign(state.development, data)
   },
-  setLoading(state: any, toggleTo: boolean) {
+  setLoading(state: any, toggleTo: boolean): void  {
     state.loading = toggleTo
   },
-  setError(state: any, error: Error) {
+  setError(state: any, error: Error): void  {
     state.loading = false
     state.error = error.message
   },

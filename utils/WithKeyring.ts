@@ -93,7 +93,7 @@ export default class WithKeyring extends Vue {
   }
 
   @Watch('ss58Format')
-  handleChange(val: string) {
+  handleChange(val: string): void  {
     console.log('ss58Format', val)
     // https://github.com/polkadot-js/ui/pull/494
     keyring.setSS58Format(Number(val))
