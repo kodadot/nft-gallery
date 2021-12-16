@@ -15,7 +15,7 @@ export default class SubscribeMixin extends Vue {
     this.subs.push(await fn(...args, callback))
   }
 
-  public beforeDestroy() {
+  public beforeDestroy(): void  {
     this.subs.forEach((sub) => sub());
   }
 }

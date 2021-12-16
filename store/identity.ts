@@ -34,19 +34,19 @@ export const namespaced = false
 export const state = () => defaultState
 
 export const mutations = {
-  addIdentity(state: IdentityStruct, identityRequest: IdenityRequest) {
+  addIdentity(state: IdentityStruct, identityRequest: IdenityRequest): void  {
     const { address, identity  } = identityRequest
     if (!state.identities[address]) {
       Vue.set(state.identities, address, identity)
     }
   },
-  addAuth(state: IdentityStruct, authRequest: Auth) {
+  addAuth(state: IdentityStruct, authRequest: Auth): void  {
     state.auth = {...authRequest}
   }
 }
 
 export const actions = {
-  setIdentity({commit}: any, identityRequest: IdenityRequest) {
+  setIdentity({commit}: any, identityRequest: IdenityRequest): void  {
     commit('addIdentity', identityRequest)
   },
   async fetchIdentity({dispatch}: any, address: string) {
@@ -62,7 +62,7 @@ export const actions = {
       console.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  setAuth({commit}: any, authRequest: Auth) {
+  setAuth({commit}: any, authRequest: Auth): void  {
     commit('addAuth', authRequest)
   }
 }

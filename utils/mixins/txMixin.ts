@@ -11,7 +11,7 @@ export default class TransactionMixin extends Vue {
   public status = ''
   public isLoading = false;
 
-  public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean) {
+  public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean): void  {
     if (status.isReady) {
       this.status = 'loader.casting';
       return;
@@ -30,7 +30,7 @@ export default class TransactionMixin extends Vue {
     this.status = '';
   }
 
-  public initTransactionLoader() {
+  public initTransactionLoader(): void  {
     this.isLoading = true;
     this.status = 'loader.sign';
   }

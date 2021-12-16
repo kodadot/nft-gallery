@@ -11,7 +11,7 @@ function format(balance: number | string | BN | bigint, decimals = 12, withUnit?
 
 }
 
-export function calculateBalance(value: number, decimals = 12) {
+export function calculateBalance(value: number, decimals = 12): number  {
   return value * Math.pow(10, decimals)
 }
 

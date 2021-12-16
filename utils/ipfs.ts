@@ -1,4 +1,4 @@
-export const unSanitizeIpfsUrl = (url: string) => {
+export const unSanitizeIpfsUrl = (url: string): string  => {
   return `ipfs://ipfs/${url}`;
 };
 
