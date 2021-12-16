@@ -211,7 +211,7 @@ export default class PriceChart extends mixins(ChainMixin) {
   height: 400px; 
   width: 100%
 }
-@include tablet {
+@include desktop {
   .chart-container {
     height: 656px; 
   }
