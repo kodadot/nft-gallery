@@ -33,7 +33,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
 
-const ownerActions: NFTAction[] = [NFTAction.SEND, NFTAction.CONSUME, NFTAction.DELEGATE, NFTAction.FREEZE]
+const ownerActions: NFTAction[] = [NFTAction.SEND, NFTAction.CONSUME, NFTAction.DELEGATE]
 // const buyActions: NFTAction[] = [NFTAction.BUY]
 const delegatorActions: NFTAction[] = [NFTAction.SEND]
 
