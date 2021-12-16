@@ -341,7 +341,7 @@ export default class GalleryItem extends Vue {
           }
         } =  nfts
         
-        this.nftsFromSameCollection = nFTEntities?.nodes.map(n => n.id) || []
+        this.nftsFromSameCollection = nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
         this.$store.dispatch('history/setCurrentCollection', { id: collectionId, nftIds: this.nftsFromSameCollection })
       } catch (e) {
         showNotification(`${e}`, notificationTypes.warn);
