@@ -65,7 +65,9 @@
               :mimeType="mimeType"
             />
           </div>
-          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" v-show="isMobileDevice || showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+          <template v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1">
+            <Navigation v-show="isMobileDevice || showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+          </template>
         </div>
         <button
           id="fullscreen-view"
