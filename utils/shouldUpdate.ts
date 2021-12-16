@@ -1,4 +1,4 @@
-function shouldUpdate<T = string>(val: T, oldVal: T) {
+function shouldUpdate<T = string>(val: T, oldVal: T): boolean  {
   return val && val !== oldVal
 };
 

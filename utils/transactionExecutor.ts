@@ -55,7 +55,7 @@ const constructCallback = (cb: () => void, result: string) => {
 
 
 export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: DispatchError) => void, onResult: (result: ISubmittableResult) => void = console.log) =>
-  (result: ISubmittableResult) => {
+  (result: ISubmittableResult): void  => {
     onResult(result);
     if (result.dispatchError) {
       console.warn(`[EXEC] dispatchError`, result);

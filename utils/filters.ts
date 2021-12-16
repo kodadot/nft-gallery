@@ -23,11 +23,11 @@ export const toPercent = (value: number | undefined | BN): string => {
   return EMPTY;
 }
 
-export const truncateStr = (s: string, maxLen : number = 20): string => {
+export const truncateStr = (s: string, maxLen  = 20): string => {
   if (s.length <= maxLen) {
     return s;
   }
   return s.substring(0, maxLen) + '...';
 };
 
-export const toSanitizedUrl = (value: string) => sanitizeIpfsUrl(value);
+export const toSanitizedUrl = (value: string): string  => sanitizeIpfsUrl(value);

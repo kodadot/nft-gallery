@@ -15,7 +15,7 @@ export type UpdateFunction = (name: string, index: number) => string
 export const basicUpdateFunction = (name: string, index: number): string => `${name} #${index + 1}`
 
 class NFTUtils {
-  public static decode(value: string) {
+  public static decode(value: string): string  {
     return decodeURIComponent(value)
   }
 
@@ -48,19 +48,19 @@ class NFTUtils {
     return ''
   }
 
-  public static encodeCollection(collection: Collection, version: string) {
+  public static encodeCollection(collection: Collection, version: string): string  {
     return `RMRK::MINT::${version}::${encodeURIComponent(
       JSON.stringify(collection)
     )}`
   }
 
-  public static encodeNFT(nft: NFT, version: string) {
+  public static encodeNFT(nft: NFT, version: string): string  {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
       JSON.stringify(nft)
     )}`
   }
 
-  public static createInteraction(action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE', version = '1.0.0', objectId: string, meta: string) {
+  public static createInteraction(action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE', version = '1.0.0', objectId: string, meta: string): string  {
     if (!objectId) {
       throw new ReferenceError(`[${action}] Could not create, because nftId`)
     }
@@ -116,7 +116,7 @@ class NFTUtils {
     return slug ? slugify(result, '_') : result
   }
 
-  public static nftSerialNumber(index: number, offset = 0, plusOne = true) {
+  public static nftSerialNumber(index: number, offset = 0, plusOne = true): string  {
     return String(index + offset + Number(plusOne)).padStart(16, '0')
   }
 

@@ -15,7 +15,7 @@ export default class QueryMixin extends Vue {
   protected subs: any = {};
 
   protected magic(key: any, length: number, unwrap: any) {
-    return (value: any) => {
+    return (value: any): void  => {
       const val = unwrap ? unwrap(value) : value
       console.log(key, value)
       this.$set(this.defaultValues, length, val);
@@ -66,11 +66,11 @@ export default class QueryMixin extends Vue {
 
   }
 
-  public beforeDestroy() {
+  public beforeDestroy(): void  {
     Object.values(this.subs).forEach((sub: any) => sub());
   }
 
-  public handleDeleteKey(key: any) {
+  public handleDeleteKey(key: any): void  {
     const index = this.keys[key];
     this.$delete(this.random, index);
     this.$delete(this.defaultValues, index);

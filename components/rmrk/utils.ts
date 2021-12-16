@@ -40,7 +40,7 @@ export const arweaveProviders: Record<ArweaveProviders, string> = {
 
 export type SanitizerFunc = (url: string) => string
 
-export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => {
+export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): string | undefined => {
   if (justHash(ipfsHash)) {
     return `${resolveProvider(provider)}ipfs/${ipfsHash}`
   }
@@ -115,7 +115,7 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>()
 }
 
-export const unSanitizeArweaveId = (url: string) => {
+export const unSanitizeArweaveId = (url: string): string  => {
   return unSanitizeUrl(url, 'ar://')
 }
 
@@ -125,15 +125,15 @@ const unSanitizeUrl = (url: string, prefix: string) => {
 
 const ar = /^ar:\/\//
 
-export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => {
-  if (isArweaveUrl(url)) {
+export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders): string  => {
+  if (ar.test(url)) {
     return url.replace(ar, resolveArProvider(provider))
   }
 
   return url
 }
 
-export const isIpfsUrl = (url: string) => {
+export const isIpfsUrl = (url: string): boolean  => {
   return /^ipfs:\/\//.test(url)
 }
 
@@ -166,7 +166,7 @@ export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType) => {
   return `${resolveProvider(provider)}ipfs/${url}`
 }
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): string => {
   if (isIpfsCid(ipfsUrl)) {
     return sanitizeIpfsCid(ipfsUrl, provider)
   }
@@ -320,7 +320,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   return result
 }
 
-export const decode = (value: string) => decodeURIComponent(value)
+export const decode = (value: string): string  => decodeURIComponent(value)
 export const sortByTimeStamp = (a: Interaction, b: Interaction) : number => b.timestamp < a.timestamp ? 1 : -1
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
