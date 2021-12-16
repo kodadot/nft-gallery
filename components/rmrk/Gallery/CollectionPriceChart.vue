@@ -6,7 +6,7 @@
       </p>
       <b-button type="is-primary" @click="resetZoom">Reset zoom</b-button>
     </div>
-    <div class="mt-5">
+    <div class="chart-container mt-5">
       <canvas
         id="collectionPriceChart"
         @mousedown="onCanvasMouseDown"
@@ -115,6 +115,7 @@ export default class PriceChart extends mixins(ChainMixin) {
           ],
         },
         options: {
+          maintainAspectRatio: false,
           plugins: {
             annotation: {
               annotations: {
@@ -201,3 +202,18 @@ export default class PriceChart extends mixins(ChainMixin) {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import "bulma/sass/utilities/mixins.sass";
+
+.chart-container {
+  position: relative;
+  height: 400px; 
+  width: 100%
+}
+@include desktop {
+  .chart-container {
+    height: 656px; 
+  }
+}
+</style>
