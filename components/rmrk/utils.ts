@@ -49,7 +49,7 @@ export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): st
     return `${resolveProvider(provider)}ipfs/${ipfsHash}`
   }
 
-  return ipfsHash
+  return ipfsHash || ''
 }
 
 const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
