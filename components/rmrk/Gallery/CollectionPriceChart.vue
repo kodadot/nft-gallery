@@ -208,8 +208,18 @@ export default class PriceChart extends mixins(ChainMixin) {
 
 .chart-container {
   position: relative;
-  height: 400px; 
+  height: 45vh; 
   width: 100%
+}
+@media screen and (orientation: landscape) {
+  .chart-container {
+    height: 80vh; 
+  }
+}
+@include tablet-only {
+  .chart-container {
+    height: 80vh; 
+  }
 }
 @include desktop {
   .chart-container {
