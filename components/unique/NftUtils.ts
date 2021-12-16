@@ -59,9 +59,9 @@ class NFTUtils {
     case NFTAction.DELEGATE:
       return meta
     case NFTAction.CONSUME:
-      return delegate
-    case NFTAction.REVOKE:
       return currentOwner
+    case NFTAction.REVOKE:
+      return delegate
     case NFTAction.FREEZE:
     case NFTAction.THAW:
       return ''
