@@ -25,7 +25,7 @@ const components = {
 @Component({ components })
 export default class Navigation extends Vue {
   @Prop({type: Array}) readonly items!: string[];
-
+  @Prop(Boolean) public showNavigation !: boolean
   @Prop({type: String}) readonly currentId!: string;
 
   get indexOfCurrentId(): number {
