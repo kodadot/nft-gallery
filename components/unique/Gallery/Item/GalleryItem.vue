@@ -325,6 +325,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     } else {
       // check if not burned because burned returns null
       this.nft = emptyObject<NFT>()
+      this.$set(this.nft, 'burned', true)
     }
   }
 
@@ -392,7 +393,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     } = nft
 
     if (!nFTEntity) {
-      console.warn('no nft found on UniqueQL')
+      showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
 
