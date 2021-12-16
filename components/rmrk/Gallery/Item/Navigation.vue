@@ -42,16 +42,16 @@ export default class Navigation extends Vue {
     return this.indexOfCurrentId === 0 ? this.items.length - 1 : this.indexOfCurrentId - 1;
   }
 
-  mounted() {
+  public mounted() {
     document.addEventListener('keyup', this.handleKeyEvent);
 
   }
 
-  beforeDestroy() {
+  public beforeDestroy() {
     document.removeEventListener('keyup', this.handleKeyEvent);
   }
 
-  handleKeyEvent(event) {
+  public handleKeyEvent(event) {
     switch (event.key) {
       case "ArrowLeft":
           this.gotoNextItem(true)
@@ -62,7 +62,7 @@ export default class Navigation extends Vue {
     }
   }
 
-  gotoNextItem(reverse: boolean) {
+  public gotoNextItem(reverse: boolean) {
     this.$router.push(`/rmrk/gallery/${this.items[reverse ? this.prevIndex : this.nextIndex]}`)
   }
 }

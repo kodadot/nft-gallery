@@ -28,7 +28,7 @@ export const getters: GetterTree<HistoryState, HistoryState> = {
 };
 
 export const mutations: MutationTree<HistoryState> = {
-  updateHistoryItems(state: any, data: HistoryItem | string) {
+  UPDATE_HISTORY_ITEM(state: any, data: HistoryItem | string) {
     if(typeof data === 'string') {
       state.visitedNFTs = state.visitedNFTs.filter(item => item.id !== data);
     }
@@ -44,19 +44,19 @@ export const mutations: MutationTree<HistoryState> = {
       state.visitedNFTs.unshift(data);
     }
   },
-  updateCurrentCollection(state: any, data: {id: string, nftIds: string[]}) {
+  UPDATE_CURRENT_COLLECTION(state: any, data: {id: string, nftIds: string[]}) {
     state.currentCollection = data;
   }
 };
 
 export const actions: ActionTree<HistoryState, HistoryState> = {
   addHistoryItem({ commit }: { commit: Commit }, data: HistoryItem) {
-    commit('updateHistoryItems', data);
+    commit('UPDATE_HISTORY_ITEM', data);
   },
   removeHistoryItem({ commit }: { commit: Commit }, data: string) {
-    commit('updateHistoryItems', data);
+    commit('UPDATE_HISTORY_ITEM', data);
   },
   setCurrentCollection({ commit }: { commit: Commit }, data: {id: string, nftIds: string[]}) {
-    commit('updateCurrentCollection', data);
+    commit('UPDATE_CURRENT_COLLECTION', data);
   },
 };

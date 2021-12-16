@@ -30,7 +30,7 @@
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
           }"
-          @mouseover="showNavigation = true"
+          @mouseenter="showNavigation = true"
           @mouseleave="showNavigation = false"
         >
           <div
@@ -65,7 +65,7 @@
               :mimeType="mimeType"
             />
           </div>
-          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length" v-show="isMobileDevice || showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" v-show="isMobileDevice || showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
         </div>
         <button
           id="fullscreen-view"
@@ -296,7 +296,12 @@ export default class GalleryItem extends Vue {
           ...nFTEntity,
           emotes: nFTEntity?.emotes?.nodes,
         }),
-        result: () => { this.fetchMetadata(); this.fetchCollectionItems() },
+        result: () => { 
+          Promise.all([
+            this.fetchMetadata(),
+            this.fetchCollectionItems()
+          ]); 
+        },
         pollInterval: 5000,
       });
     } catch (e) {
@@ -315,30 +320,32 @@ export default class GalleryItem extends Vue {
   }
 
   public async fetchCollectionItems() {
-    const collectionId = (this.nft as any).collectionId;
-    // cancel request and get ids from store in case we already fetched collection data before
-    if(this.$store.state.history.currentCollection.id === collectionId) {
-      this.nftsFromSameCollection = this.$store.state.history.currentCollection.nftIds
-      return
-    }
-    try {
-      const nfts = await this.$apollo.query({
-        query: nftListIdsByCollection,
-        variables: {
-           id: collectionId,
-        },
-      })
+    const collectionId = (this.nft as any)?.collectionId;
+    if(collectionId) {
+      // cancel request and get ids from store in case we already fetched collection data before
+      if(this.$store.state.history?.currentCollection?.id === collectionId) {
+        this.nftsFromSameCollection = this.$store.state.history.currentCollection?.nftIds || []
+        return
+      }
+      try {
+        const nfts = await this.$apollo.query({
+          query: nftListIdsByCollection,
+          variables: {
+            id: collectionId,
+          },
+        })
 
-      const {
-        data: {
-          nFTEntities
-        }
-      } =  nfts
-      
-      this.nftsFromSameCollection = nFTEntities?.nodes.map(n => n.id) || []
-      this.$store.dispatch('history/setCurrentCollection', { id: collectionId, nftIds: this.nftsFromSameCollection })
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn);
+        const {
+          data: {
+            nFTEntities
+          }
+        } =  nfts
+        
+        this.nftsFromSameCollection = nFTEntities?.nodes.map(n => n.id) || []
+        this.$store.dispatch('history/setCurrentCollection', { id: collectionId, nftIds: this.nftsFromSameCollection })
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn);
+      }
     }
   }
 
