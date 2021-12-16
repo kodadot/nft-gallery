@@ -17,7 +17,7 @@ export default class ExtrinsicMixin extends Vue {
     return Object.keys(this.section).sort();
   }
 
-  protected setSection(section: any) {
+  protected setSection(section: any): void  {
     this.section = section
   }
 
@@ -33,19 +33,19 @@ export default class ExtrinsicMixin extends Vue {
     return this.args
   }
 
-  protected handleSectionSelection(value: string) {
+  protected handleSectionSelection(value: string): void  {
     this.fnSection = value;
   }
 
-  protected handleMethodSelection(value: string) {
+  protected handleMethodSelection(value: string): void  {
     this.fnMethod = value;
   }
 
-  protected setArgs(args: any) {
+  protected setArgs(args: any): void  {
     this.args = args;
   }
 
-  protected handleSelectedArguments(value: any) {
+  protected handleSelectedArguments(value: any): void  {
     this.selectedArguments = {
       ...this.selectedArguments,
       ...value,
@@ -76,7 +76,9 @@ export default class ExtrinsicMixin extends Vue {
     return this.args.map(this.argMapper);
   }
 
-  protected getFnMethodAndSection() {
+  protected getFnMethodAndSection(): {fnMethod: string;
+fnSection: string;
+}  {
     const { fnMethod, fnSection } = this;
     return { fnMethod, fnSection };
   }

@@ -26,7 +26,7 @@ export const notificationTypes: NotificationList = {
 };
 
 
-export const showNotification = (message: string | null, params: any = notificationTypes.info) => {
+export const showNotification = (message: string | null, params: any = notificationTypes.info): void  => {
 	Notification.open({
 		duration: 5000,
 		message,

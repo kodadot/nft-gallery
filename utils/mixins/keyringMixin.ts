@@ -5,7 +5,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { u8aToHex } from '@polkadot/util';
 
 export default class KeyringMixin extends Vue {
-  protected keyringLoaded: boolean = false;
+  protected keyringLoaded = false;
   protected keyringAccounts: KeyringPair[] = [];
   protected keys: any = '';
 

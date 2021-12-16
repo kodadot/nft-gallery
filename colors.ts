@@ -168,7 +168,7 @@ const kodaDotGreen = '#41b883'
 
 let currentColor = kodaDotGreen;
 
-export const getCurrentColor = () => currentColor
+export const getCurrentColor = (): string  => currentColor
 
 export const changeCurrentColor = async () => {
   const { api } = Connector.getInstance()
