@@ -331,6 +331,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       try {
         const nfts = await this.$apollo.query({
           query: nftListIdsByCollection,
+          client: this.urlPrefix,
           variables: {
             id: collectionId,
           },
