@@ -200,8 +200,14 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
       const [section, method] = action
 
-      const cb =  api.tx[section][method]
-      const arg = this.getArgs()
+      let cb =  api.tx[section][method]
+      let arg: any[] = this.getArgs()
+
+      if (this.isConsume) {
+        const burn = cb(...arg)
+        cb = api.tx.utility.batchAll
+        arg = [[burn, api.tx.uniques.clearMetadata(this.collectionId, this.nftId)]]
+      }
 
       const tx = await exec(this.accountId, '', cb, arg, txCb(
         async (blockHash) => {
