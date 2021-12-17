@@ -48,7 +48,7 @@ export default class Faq extends Vue {
   public i18nLoadQandA(): any {
     let i: number
     const qa: any = []
-    for (i = 1; i < 24; i++) {
+    for (i = 1; i < 26; i++) {
       qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
     }
 
