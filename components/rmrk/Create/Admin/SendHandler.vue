@@ -25,9 +25,9 @@ const components = {
 
 @Component({ components })
 export default class SendHandler extends Vue {
-  protected parsedAddresses: string[] = [];
-  protected random = false;
-  protected distribution = 100;
+  protected parsedAddresses: string[] = []
+  protected random = false
+  protected distribution = 100
   protected seed: number[] = []
 
   public created(): void {

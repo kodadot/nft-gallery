@@ -33,12 +33,12 @@ import AddOption from './AddOption.vue'
   },
 })
 export default class SettingChooser extends Vue {
-  @Prop() public label!: string;
-  @Prop() public selector!: string;
-  @Prop() public setter!: string;
-  @Prop() public defaultValue!: string;
-  @Prop() public addOption!: string;
-  @Prop() public addMethod!: string;
+  @Prop() public label!: string
+  @Prop() public selector!: string
+  @Prop() public setter!: string
+  @Prop() public defaultValue!: string
+  @Prop() public addOption!: string
+  @Prop() public addMethod!: string
 
   get options() {
     return this.$store.getters[this.selector]

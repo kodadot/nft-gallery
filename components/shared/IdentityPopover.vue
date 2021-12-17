@@ -1,5 +1,5 @@
 <template>
-  <tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
+  <v-tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
@@ -18,7 +18,7 @@
             {{ identity.display }}
           </p>
           <p class="is-size-7">
-            {{ shortenedAddress }} 
+            {{ shortenedAddress }}
             <b-icon
               icon="copy"
               size="is-small"
@@ -28,7 +28,7 @@
             ></b-icon>
           </p>
           <div class="py-1 is-size-7 py-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati 
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati
           </div>
           <p class="is-size-7 is-flex is-align-items-center pb-3">
             <b-icon
@@ -39,7 +39,7 @@
           </p>
         </div>
       </div>
-      
+
       <hr style="height: 1px;" class="m-0">
 
       <div style="" class="popover-stats-container pt-3">
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-  </tippy>
+  </v-tippy>
 </template>
 
 <script lang="ts" >
@@ -80,10 +80,10 @@ type IdentityFields = Record<string, string>;
 export default class IdentityPopover extends Vue {
   @Prop() public identity!: IdentityFields
 
-  protected totalCreated = 0;
-  protected totalCollected = 0;
-  protected totalSold = 0;
-  protected firstMintDate = new Date();
+  protected totalCreated = 0
+  protected totalCollected = 0
+  protected totalSold = 0
+  protected firstMintDate = new Date()
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))

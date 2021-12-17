@@ -91,16 +91,16 @@
 </template>
 
 <script lang="ts">
-import { urlBuilderBlockNumber } from '@/utils/explorerGuide';
-import formatBalance from '@/utils/formatBalance';
-import ChainMixin from '@/utils/mixins/chainMixin';
-import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator';
-import { Interaction } from '../service/scheme';
-import i18n from '@/i18n';
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
+import { Interaction } from '../service/scheme'
+import i18n from '@/i18n'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-};
+}
 
 type TableRow = {
   Type: string;
@@ -115,16 +115,16 @@ type ChartData = { buy: [Date, number][]; list: [Date, number][] };
 
 @Component({ components })
 export default class History extends mixins(ChainMixin) {
-  @Prop({ type: Array }) public events!: Interaction[];
-  protected data: TableRow[] = [];
-  protected copyTableData: TableRow[] = [];
+  @Prop({ type: Array }) public events!: Interaction[]
+  protected data: TableRow[] = []
+  protected copyTableData: TableRow[] = []
 
   get uniqType(): any[] {
-    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()];
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
   }
 
   get selectedEvent(): string {
-    return 'all';
+    return 'all'
   }
 
   set selectedEvent(event: string) {
@@ -132,87 +132,87 @@ export default class History extends mixins(ChainMixin) {
       this.data =
         event === 'all'
           ? this.copyTableData
-          : [...new Set(this.copyTableData.filter((v) => v.Type === event))];
+          : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
     }
   }
 
   protected createTable(): void {
-    let prevOwner = '';
-    let curPrice = '0.0000000';
-    this.data = [];
-    this.copyTableData = [];
+    let prevOwner = ''
+    let curPrice = '0.0000000'
+    this.data = []
+    this.copyTableData = []
 
     const chartData: ChartData = {
       buy: [],
       list: [],
-    };
+    }
 
     for (const newEvent of this.events) {
-      const event: any = {};
+      const event: any = {}
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = i18n.t('nft.event.MINTNFT');
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
+        event['Type'] = i18n.t('nft.event.MINTNFT')
+        event['From'] = newEvent['caller']
+        event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = i18n.t('nft.event.LIST');
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
-        prevOwner = event['From'];
-        curPrice = newEvent['meta'];
+        event['Type'] = i18n.t('nft.event.LIST')
+        event['From'] = newEvent['caller']
+        event['To'] = ''
+        prevOwner = event['From']
+        curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = i18n.t('nft.event.SEND');
-        event['From'] = newEvent['caller'];
-        event['To'] = newEvent['meta'];
+        event['Type'] = i18n.t('nft.event.SEND')
+        event['From'] = newEvent['caller']
+        event['To'] = newEvent['meta']
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = i18n.t('nft.event.CONSUME');
-        event['From'] = newEvent['caller'];
-        event['To'] = '';
+        event['Type'] = i18n.t('nft.event.CONSUME')
+        event['From'] = newEvent['caller']
+        event['To'] = ''
       } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = i18n.t('nft.event.BUY');
-      } else event['Type'] = newEvent['interaction'];
+        event['Type'] = i18n.t('nft.event.BUY')
+      } else event['Type'] = newEvent['interaction']
 
       // From
-      if (!('From' in event)) event['From'] = prevOwner;
+      if (!('From' in event)) event['From'] = prevOwner
 
       // To
       if (!('To' in event)) {
-        event['To'] = newEvent['caller'];
-        prevOwner = event['To'];
+        event['To'] = newEvent['caller']
+        prevOwner = event['To']
       }
 
       // Amount
-      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit);
+      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit)
 
       // Date
-      const date = new Date(newEvent['timestamp']);
-      event['Date'] = this.parseDate(date);
+      const date = new Date(newEvent['timestamp'])
+      event['Date'] = this.parseDate(date)
 
-      event['Block'] = String(newEvent['blockNumber']);
+      event['Block'] = String(newEvent['blockNumber'])
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {
         chartData.list.push([
           date,
           parseFloat(event['Amount'].substring(0, 6)),
-        ]);
+        ])
       } else if (newEvent['interaction'] === 'BUY') {
-        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))]);
+        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
-      this.data.push(event);
-      this.copyTableData.push(event);
+      this.data.push(event)
+      this.copyTableData.push(event)
     }
 
-    this.data = this.data.reverse();
-    this.copyTableData = this.copyTableData.reverse();
-    this.$emit('setPriceChartData', [chartData.buy, chartData.list]);
+    this.data = this.data.reverse()
+    this.copyTableData = this.copyTableData.reverse()
+    this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
 
   protected parseDate(date: Date): string {
-    const utcDate: string = date.toUTCString();
-    return utcDate.substring(4);
+    const utcDate: string = date.toUTCString()
+    return utcDate.substring(4)
   }
 
   protected getBlockUrl(block: string): string {
@@ -220,13 +220,13 @@ export default class History extends mixins(ChainMixin) {
       block,
       this.$store.getters['explorer/getCurrentChain'],
       'subscan'
-    );
+    )
   }
 
   @Watch('events', { immediate: true })
   public watchEvent(): void {
     if (this.events) {
-      this.createTable();
+      this.createTable()
     }
   }
 }

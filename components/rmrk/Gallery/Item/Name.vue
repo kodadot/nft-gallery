@@ -33,8 +33,8 @@ const components = {
 
 @Component({ components })
 export default class Name extends Vue {
-  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
-  @Prop() public isLoading!: boolean;
+  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
+  @Prop() public isLoading!: boolean
 
   get detailVisible() {
     return !isShareMode

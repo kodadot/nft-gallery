@@ -35,10 +35,10 @@ const components = {
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string;
-  @Prop({ default: 'rmrk/gallery' }) public link!: string;
-  @Prop() public items!: RmrkType[];
-  @Prop(Boolean) public horizontalLayout!: boolean;
+  @Prop({ default: '/rmrk/gallery' }) public route!: string
+  @Prop({ default: 'rmrk/gallery' }) public link!: string
+  @Prop() public items!: RmrkType[]
+  @Prop(Boolean) public horizontalLayout!: boolean
   get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']
   }

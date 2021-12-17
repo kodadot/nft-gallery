@@ -34,8 +34,8 @@ const SUFFIX = 'Media'
   }
 })
 export default class MediaResolver extends Vue {
-  @Prop() public src!: string;
-  @Prop() public mimeType!: string;
+  @Prop() public src!: string
+  @Prop() public mimeType!: string
 
   get resolveComponent() {
     return resolveMedia(this.mimeType) + SUFFIX

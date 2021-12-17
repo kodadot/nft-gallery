@@ -33,12 +33,12 @@ import i18n from '@/i18n'
 
 @Component({})
 export default class Loader extends Vue {
-  @Prop(String) public status!: string;
-  @Prop(Boolean) public value!: boolean;
+  @Prop(String) public status!: string
+  @Prop(Boolean) public value!: boolean
 
   // seed new funfact each time loader is used
   @Watch('value')
-    private handleLoadingStateChange(newValue) {
+  private handleLoadingStateChange(newValue) {
     if(newValue) {
       let newRandomNumber = this.randomNumber
       // make sure same quote isn't fetched again
@@ -49,7 +49,7 @@ export default class Loader extends Vue {
     }
   }
 
-  protected placeholder = '/infinity.svg';
+  protected placeholder = '/infinity.svg'
 
   protected randomNumber = randomIntegerBetween(1, 33)
 

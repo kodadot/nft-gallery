@@ -35,9 +35,9 @@ import { RmrkType } from '@/components/rmrk/service/scheme'
 
 @Component({ })
 export default class Layout extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
-  @Prop() public items!: RmrkType[];
+  @Prop({ default: 'nftDetail' }) public type!: string
+  @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop() public items!: RmrkType[]
   public layout = 'is-one-third-desktop is-one-third-tablet'
 
   public onInputChange (data :string) {

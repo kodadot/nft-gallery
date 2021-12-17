@@ -33,9 +33,9 @@ type NftSimpleView = {
 
 @Component({ components })
 export default class SpotlightDetail extends Vue {
-  @Prop(String) public account!: string;
-  protected nfts: NftSimpleView[] = [];
-  protected isLoading = true;
+  @Prop(String) public account!: string
+  protected nfts: NftSimpleView[] = []
+  protected isLoading = true
 
 
   protected async fetchNFT(account: string) {
