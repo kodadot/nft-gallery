@@ -25,7 +25,7 @@ import '@google/model-viewer'
 
 @Component({})
 export default class ViewModel extends Vue {
-  @Prop() public src!: string;
+  @Prop() public src!: string
 
   // get src() {
   //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }

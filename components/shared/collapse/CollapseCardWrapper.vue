@@ -31,8 +31,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CollapseCardWrapper extends Vue {
-  @Prop({ type: String, default: 'label' }) label!: string;
-  protected isOpen: boolean = false;
+  @Prop({ type: String, default: 'label' }) label!: string
+  protected isOpen = false
 
 }
 </script>

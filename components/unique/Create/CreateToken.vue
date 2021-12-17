@@ -169,21 +169,21 @@ export default class CreateToken extends mixins(
     price: 0,
     file: undefined,
     secondFile: undefined,
-  };
-  protected collections: MintedCollection[] = [];
-  private selectedCollection: MintedCollection | null = null;
+  }
+  protected collections: MintedCollection[] = []
+  private selectedCollection: MintedCollection | null = null
 
-  private password = '';
-  private alreadyMinted = 0;
-  private hasSupport = true;
-  private estimated = '';
-  private hasCarbonOffset = true;
-  private filePrice = 0;
-  protected arweaveUpload = false;
-  protected postfix = true;
+  private password = ''
+  private alreadyMinted = 0
+  private hasSupport = true
+  private estimated = ''
+  private hasCarbonOffset = true
+  private filePrice = 0
+  protected arweaveUpload = false
+  protected postfix = true
   protected deposit = '0'
-  protected depositPerByte = BigInt(0);
-  protected attributes: Attribute[] = [];
+  protected depositPerByte = BigInt(0)
+  protected attributes: Attribute[] = []
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -225,7 +225,7 @@ export default class CreateToken extends mixins(
         lastIndexUsed: Number(tokenIdToRoute(ce.nfts?.nodes?.map(({id}) => id).sort()?.reverse()[0] || '0-0').id) || 0
       }))
 
-      this.loadCollectionMeta()
+    this.loadCollectionMeta()
   }
 
   protected async loadCollectionMeta() {

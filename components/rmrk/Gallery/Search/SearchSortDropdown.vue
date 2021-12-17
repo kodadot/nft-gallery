@@ -20,7 +20,7 @@ import { Component, Vue, VModel } from 'nuxt-property-decorator'
 
 @Component
 export default class SearchSortDropdown extends Vue {
-  @VModel({ type: String }) selectedAction!: string;
+  @VModel({ type: String }) selectedAction!: string
 
   private sort: string[] = [
     'BLOCK_NUMBER_DESC',

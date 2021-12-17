@@ -101,12 +101,12 @@ const components = {
   components
 })
 export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin, PrefixMixin) {
-  private id = '';
-  private collection: Collection & CollectionMetadata = emptyObject();
-  private attributes: Attribute[] = [];
-  private nfts: NFTWithMeta[] = [];
-  private isLoading = false;
-  private formater = tokenIdToRoute;
+  private id = ''
+  private collection: Collection & CollectionMetadata = emptyObject()
+  private attributes: Attribute[] = []
+  private nfts: NFTWithMeta[] = []
+  private isLoading = false
+  private formater = tokenIdToRoute
 
   get image() {
     return  sanitizeIpfsUrl(this.collection.image || '') || '/koda300x300.svg'
@@ -153,7 +153,7 @@ export default class CollectionItem extends mixins(AuthMixin, SubscribeMixin, Pr
     })
   }
 
-    protected observeOwner(data: Option<ClassDetails>) {
+  protected observeOwner(data: Option<ClassDetails>) {
     console.log(data.toHuman())
     const instance = data.unwrapOr(null)
     if (instance) {

@@ -1,4 +1,4 @@
-import type { ApiPromise } from '@polkadot/api';
+import type { ApiPromise } from '@polkadot/api'
 import VuexPersist from 'vuex-persist'
 import Connector from '@vue-polkadot/vue-api'
 import correctFormat from '@/utils/ss58Format'

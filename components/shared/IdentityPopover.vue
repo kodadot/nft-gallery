@@ -81,10 +81,10 @@ type IdentityFields = Record<string, string>;
 export default class IdentityPopover extends mixins(PrefixMixin) {
   @Prop() public identity!: IdentityFields
 
-  protected totalCreated = 0;
-  protected totalCollected = 0;
-  protected totalSold = 0;
-  protected firstMintDate = new Date();
+  protected totalCreated = 0
+  protected totalCollected = 0
+  protected totalSold = 0
+  protected firstMintDate = new Date()
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))

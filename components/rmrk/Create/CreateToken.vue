@@ -201,18 +201,18 @@ export default class CreateToken extends mixins(
     price: 0,
     file: undefined,
     secondFile: undefined
-  };
-  protected collections: MintedCollection[] = [];
-  private selectedCollection: MintedCollection | null = null;
+  }
+  protected collections: MintedCollection[] = []
+  private selectedCollection: MintedCollection | null = null
 
-  private password = '';
-  private alreadyMinted = 0;
-  private hasSupport = true;
-  private estimated = '';
-  private hasCarbonOffset = true;
-  private filePrice = 0;
-  protected arweaveUpload = false;
-  protected postfix = true;
+  private password = ''
+  private alreadyMinted = 0
+  private hasSupport = true
+  private estimated = ''
+  private hasCarbonOffset = true
+  private filePrice = 0
+  protected arweaveUpload = false
+  protected postfix = true
 
   get accountId() {
     return this.$store.getters.getAuthAddress

@@ -52,14 +52,14 @@ import { emptyObject } from '@/utils/empty'
   }
 })
 export default class VerifySignature extends Vue {
-  private data: any = '';
-  private signature = '';
-  private inputDataCheck = 'No';
-  private address: any = '';
-  private accountFrom: KeyringPair = emptyObject<KeyringPair>();
-  private validSignature = false;
-  private isValidSignature = false;
-  private keyringPubKey: any = '';
+  private data: any = ''
+  private signature = ''
+  private inputDataCheck = 'No'
+  private address: any = ''
+  private accountFrom: KeyringPair = emptyObject<KeyringPair>()
+  private validSignature = false
+  private isValidSignature = false
+  private keyringPubKey: any = ''
   private cryptoType = 'unknown'
 
   private isHexData(): void {

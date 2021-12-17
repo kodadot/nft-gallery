@@ -1,4 +1,4 @@
-import BN from 'bn.js';
+import BN from 'bn.js'
 
 export const tokenIdToRoute = (tokenId: string): { id: string, item: string } => {
   const [collection, item] = tokenId.split('-')

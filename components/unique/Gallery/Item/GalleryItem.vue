@@ -343,8 +343,8 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       if (!nftQ) {
         console.warn('nft with no metadata, trying collection')
         nftQ = await api.query.uniques
-        .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
-        .then((res) => res.unwrapOr(null))
+          .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
+          .then((res) => res.unwrapOr(null))
       }
 
       const nftData = nftQ?.toHuman()
@@ -434,9 +434,9 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       const meta = m
         ? m
         : await fetchNFTMetadata(
-            this.nft,
-            getSanitizer(this.nft.metadata, undefined, 'permafrost')
-          )
+          this.nft,
+          getSanitizer(this.nft.metadata, undefined, 'permafrost')
+        )
       console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)

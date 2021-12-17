@@ -18,64 +18,64 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator';
-import { Debounce } from 'vue-debounce-decorator';
-import Chart from 'chart.js/auto';
-import 'chartjs-adapter-luxon';
-import zoomPlugin from 'chartjs-plugin-zoom';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import ChainMixin from '@/utils/mixins/chainMixin';
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
+import Chart from 'chart.js/auto'
+import 'chartjs-adapter-luxon'
+import zoomPlugin from 'chartjs-plugin-zoom'
+import annotationPlugin from 'chartjs-plugin-annotation'
+import ChainMixin from '@/utils/mixins/chainMixin'
 
-import { getChartData, getMedianPoint, getMovingAverage } from '@/utils/chart';
+import { getChartData, getMedianPoint, getMovingAverage } from '@/utils/chart'
 
-Chart.register(zoomPlugin);
-Chart.register(annotationPlugin);
+Chart.register(zoomPlugin)
+Chart.register(annotationPlugin)
 
-const components = {};
+const components = {}
 
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
-  @Prop() public priceData!: [Date, number][][];
+  @Prop() public priceData!: [Date, number][][]
 
-  protected chartOptionsLine: any = {};
-  protected Chart!: Chart<'line', any, unknown>;
+  protected chartOptionsLine: any = {}
+  protected Chart!: Chart<'line', any, unknown>
 
   @Debounce(200)
   protected resetZoom(): void {
-    this.Chart.resetZoom();
+    this.Chart.resetZoom()
   }
 
   protected onWindowResize() {
     if (this.Chart) {
-      this.Chart.resize();
+      this.Chart.resize()
     }
   }
 
   protected onCanvasMouseDown(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'grabbing';
+    document!.getElementById('collectionPriceChart')!.style.cursor = 'grabbing'
   }
 
   protected onCanvasMouseUp(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto';
+    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
 
   protected onCanvasMouseLeave(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto';
+    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
 
   public async created() {
-    window.addEventListener('resize', this.onWindowResize);
+    window.addEventListener('resize', this.onWindowResize)
   }
 
   public async mounted() {
-    this.priceChart();
+    this.priceChart()
   }
 
   protected priceChart() {
     if (this.priceData.length) {
       const ctx = (
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
-      )?.getContext('2d')!;
+      )?.getContext('2d')!
 
       const chart = new Chart(ctx, {
         type: 'line',
@@ -146,7 +146,7 @@ export default class PriceChart extends mixins(ChainMixin) {
                 },
                 mode: 'xy',
                 onZoomComplete({ chart }) {
-                  chart.update('none');
+                  chart.update('none')
                 },
               },
             },
@@ -165,7 +165,7 @@ export default class PriceChart extends mixins(ChainMixin) {
               },
               ticks: {
                 callback: (value) => {
-                  return value;
+                  return value
                 },
                 major: {
                   enabled: true,
@@ -178,7 +178,7 @@ export default class PriceChart extends mixins(ChainMixin) {
             y: {
               ticks: {
                 callback: (value) => {
-                  return `${Number(value).toFixed(2)} ${this.unit}`;
+                  return `${Number(value).toFixed(2)} ${this.unit}`
                 },
                 maxTicksLimit: 7,
 
@@ -190,15 +190,15 @@ export default class PriceChart extends mixins(ChainMixin) {
             },
           },
         },
-      });
+      })
 
-      this.Chart = chart;
+      this.Chart = chart
     }
   }
 
   @Watch('priceData')
   async watchData(newPriceData: string[], oldPriceData: string[]) {
-    this.priceChart();
+    this.priceChart()
   }
 }
 </script>
@@ -208,22 +208,22 @@ export default class PriceChart extends mixins(ChainMixin) {
 
 .chart-container {
   position: relative;
-  height: 45vh; 
+  height: 45vh;
   width: 100%
 }
 @media screen and (orientation: landscape) {
   .chart-container {
-    height: 80vh; 
+    height: 80vh;
   }
 }
 @include tablet-only {
   .chart-container {
-    height: 80vh; 
+    height: 80vh;
   }
 }
 @include desktop {
   .chart-container {
-    height: 656px; 
+    height: 656px;
   }
 }
 </style>

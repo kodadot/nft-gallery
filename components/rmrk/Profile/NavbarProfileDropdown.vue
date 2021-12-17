@@ -174,7 +174,7 @@
 <script lang="ts" >
 import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
-import PrefixMixin from '~/utils/mixins/prefixMixin';
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Avatar,
@@ -184,9 +184,9 @@ const components = {
 
 @Component({ components })
 export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
-  @Prop() public value!: any;
-  protected changeAccount = false;
-  protected isExtension = false;
+  @Prop() public value!: any
+  protected changeAccount = false
+  protected isExtension = false
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })

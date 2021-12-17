@@ -71,18 +71,18 @@ const components = {
 
 @Component({ components })
 export default class AvailableActions extends mixins(RmrkVersionMixin) {
-  @Prop(String) public currentOwnerId!: string;
-  @Prop(String) public accountId!: string;
-  @Prop({ type: [String] }) public delegateId!: string;
-  @Prop() public price!: string;
-  @Prop() public nftId!: string;
-  @Prop(String) public collectionId!: string;
-  @Prop(Boolean) public frozen!: boolean;
-  @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[];
+  @Prop(String) public currentOwnerId!: string
+  @Prop(String) public accountId!: string
+  @Prop({ type: [String] }) public delegateId!: string
+  @Prop() public price!: string
+  @Prop() public nftId!: string
+  @Prop(String) public collectionId!: string
+  @Prop(Boolean) public frozen!: boolean
+  @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
-  private selectedAction: NFTAction = NFTAction.NONE;
-  private meta: string | number = '';
-  protected isLoading = false;
+  private selectedAction: NFTAction = NFTAction.NONE
+  private meta: string | number = ''
+  protected isLoading = false
   protected status = ''
 
   get actions() {

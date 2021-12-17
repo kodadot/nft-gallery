@@ -148,19 +148,19 @@ const components = {
   name: 'Gallery',
 })
 export default class Gallery extends mixins(PrefixMixin) {
-  private nfts: NFTWithCollectionMeta[] = [];
-  private meta: Metadata[] = [];
+  private nfts: NFTWithCollectionMeta[] = []
+  private meta: Metadata[] = []
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  };
-  private first = 12;
-  private placeholder = '/placeholder.webp';
-  private currentValue = 1;
-  private total = 0;
-  private loadingState = 0;
+  }
+  private first = 12
+  private placeholder = '/placeholder.webp'
+  private currentValue = 1
+  private total = 0
+  private loadingState = 0
 
   get isLoading() {
     return Boolean(this.loadingState)
@@ -198,7 +198,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount
-    }));
+    }))
 
     const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
     const storedMetadata = await getMany(metadataList).catch(() => metadataList)

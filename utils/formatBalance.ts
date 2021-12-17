@@ -1,5 +1,5 @@
-import BN from 'bn.js';
-import { formatBalance } from '@polkadot/util';
+import BN from 'bn.js'
+import { formatBalance } from '@polkadot/util'
 
 function format(balance: number | string | BN | bigint, decimals = 12, withUnit?: boolean | string, withSi?: boolean ) {
   try {

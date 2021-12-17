@@ -104,13 +104,13 @@ const components = {
   components
 })
 export default class Collections extends mixins(PrefixMixin) {
-  private collections: Collection[] = [];
-  private meta: Metadata[] = [];
-  private first = 9;
-  private perPage = 9;
-  private placeholder = '/placeholder.webp';
-  private currentValue = 1;
-  private total = 0;
+  private collections: Collection[] = []
+  private meta: Metadata[] = []
+  private first = 9
+  private perPage = 9
+  private placeholder = '/placeholder.webp'
+  private currentValue = 1
+  private total = 0
 
   get isLoading() {
     return this.$apollo.queries.collection.loading

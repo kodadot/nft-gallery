@@ -137,17 +137,17 @@ export default class CreateCollection extends mixins(
   TransactionMixin,
   ChainMixin
 ) {
-  private rmrkMint: Collection = emptyObject<Collection>();
-  private meta: CollectionMetadata = emptyObject<CollectionMetadata>();
+  private rmrkMint: Collection = emptyObject<Collection>()
+  private meta: CollectionMetadata = emptyObject<CollectionMetadata>()
   // private accountId: string = '';
-  private uploadMode = true;
-  private image: Blob | null = null;
-  private password = '';
-  private hasSupport = true;
-  protected unlimited = true;
-  protected collectionDeposit = '';
+  private uploadMode = true
+  private image: Blob | null = null
+  private password = ''
+  private hasSupport = true
+  protected unlimited = true
+  protected collectionDeposit = ''
   protected id = '0'
-  protected attributes: Attribute[] = [];
+  protected attributes: Attribute[] = []
 
   public async created() {
     onApiConnect(() => {
@@ -229,10 +229,10 @@ export default class CreateCollection extends mixins(
   protected cretateArgs(randomId: number, metadata: string): Extrinsic[] {
     const { api } = Connector.getInstance()
     const create = api.tx.uniques.create(randomId, this.accountId)
-      // Option to freeze metadata
-      const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-      const attributes = this.attributes.map(a =>
-        api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value)))
+    // Option to freeze metadata
+    const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
+    const attributes = this.attributes.map(a =>
+      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value)))
 
     return [create, meta, ...attributes]
   }

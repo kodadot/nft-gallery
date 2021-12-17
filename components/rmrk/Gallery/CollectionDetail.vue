@@ -45,8 +45,8 @@ const components = {
 
 @Component({ components })
 export default class extends Vue {
-  @Prop() public nfts!: NFT[];
-  @Prop() public name!: string;
+  @Prop() public nfts!: NFT[]
+  @Prop() public name!: string
 
   get saleEvents(): Interaction[] {
     return this.nfts

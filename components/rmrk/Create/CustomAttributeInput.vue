@@ -32,15 +32,15 @@ import { Attribute } from '../service/scheme'
 
 const components = {
   AttributeInput: () => import('./AttributeInput.vue'),
-   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue')
+  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue')
 }
 
 @Component({ components })
 export default class extends Vue {
-  @Prop({ type: Number, default: 0 }) max!: number;
-  @Prop({ type: String, default: 'collapse.collection.attributes.show' }) visible!: string;
-  @Prop({ type: String, default: 'collapse.collection.attributes.hide' }) hidden!: string;
-  protected attributes: Attribute[] = [];
+  @Prop({ type: Number, default: 0 }) max!: number
+  @Prop({ type: String, default: 'collapse.collection.attributes.show' }) visible!: string
+  @Prop({ type: String, default: 'collapse.collection.attributes.hide' }) hidden!: string
+  protected attributes: Attribute[] = []
 
   addAttribute(): void {
     if (!this.max || (this.max && this.attributes.length < this.max)) {

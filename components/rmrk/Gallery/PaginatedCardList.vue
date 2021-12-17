@@ -38,11 +38,11 @@ const components = {
 
 @Component({ components })
 export default class PaginatedCardList extends mixins(PrefixMixin) {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string;
-  @Prop({ default: 'rmrk/gallery' }) public link!: string;
-  @Prop() public query!: DocumentNode;
-  @Prop(String) public account!: string;
-  @Prop(Boolean) public showSearchBar!: boolean;
+  @Prop({ default: '/rmrk/gallery' }) public route!: string
+  @Prop({ default: 'rmrk/gallery' }) public link!: string
+  @Prop() public query!: DocumentNode
+  @Prop(String) public account!: string
+  @Prop(Boolean) public showSearchBar!: boolean
 
   private searchQuery: SearchQuery = {
     search: '',
@@ -51,10 +51,10 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     listed: false,
   }
 
-  private currentValue = 1;
-  private first = 20;
-  private total = 0;
-  protected items: NFTWithMeta[] = [];
+  private currentValue = 1
+  private first = 20
+  private total = 0
+  protected items: NFTWithMeta[] = []
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []

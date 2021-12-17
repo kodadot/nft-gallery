@@ -1,4 +1,4 @@
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator'
 
 /*
 * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -7,14 +7,14 @@ import { Component, Vue } from 'nuxt-property-decorator';
 */
 @Component
 export default class ExtrinsicMixin extends Vue {
-  private fnSection = '';
-  private fnMethod = '';
-  private args: any[] = [];
-  private selectedArguments = {};
+  private fnSection = ''
+  private fnMethod = ''
+  private args: any[] = []
+  private selectedArguments = {}
   private section = {}
 
   get sections() {
-    return Object.keys(this.section).sort();
+    return Object.keys(this.section).sort()
   }
 
   protected setSection(section: any): void  {
@@ -25,7 +25,7 @@ export default class ExtrinsicMixin extends Vue {
     return this.fnSection
     // @ts-ignore: Method has always value
       ? Object.keys(this.section[this.fnSection]).sort()
-      : [];
+      : []
   }
 
   get params() {
@@ -34,26 +34,26 @@ export default class ExtrinsicMixin extends Vue {
   }
 
   protected handleSectionSelection(value: string): void  {
-    this.fnSection = value;
+    this.fnSection = value
   }
 
   protected handleMethodSelection(value: string): void  {
-    this.fnMethod = value;
+    this.fnMethod = value
   }
 
   protected setArgs(args: any): void  {
-    this.args = args;
+    this.args = args
   }
 
   protected handleSelectedArguments(value: any): void  {
     this.selectedArguments = {
       ...this.selectedArguments,
       ...value,
-    };
+    }
   }
 
   protected hasArgs(): boolean {
-    return this.args && this.args.length > 0;
+    return this.args && this.args.length > 0
   }
 
   protected getSection(): any {
@@ -67,19 +67,19 @@ export default class ExtrinsicMixin extends Vue {
   }
 
   protected argMapper(arg: any): any {
-    const accessor: string = arg.name.toString();
+    const accessor: string = arg.name.toString()
     // @ts-ignore: Method has always value
-    return this.selectedArguments[accessor];
+    return this.selectedArguments[accessor]
   }
 
   protected mapArgs(): any[] {
-    return this.args.map(this.argMapper);
+    return this.args.map(this.argMapper)
   }
 
   protected getFnMethodAndSection(): {fnMethod: string;
 fnSection: string;
 }  {
-    const { fnMethod, fnSection } = this;
-    return { fnMethod, fnSection };
+    const { fnMethod, fnSection } = this
+    return { fnMethod, fnSection }
   }
 }

@@ -1,4 +1,4 @@
-const withPrefix = /-/;
+const withPrefix = /-/
 
 export default function ({ store, route }) {
   const prefix = store.getters.currentUrlPrefix

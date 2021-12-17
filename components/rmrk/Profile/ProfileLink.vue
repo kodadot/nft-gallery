@@ -49,8 +49,8 @@ const components = {
 
 @Component({ components })
 export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
-  @Prop() public address!: string;
-  @Prop(Boolean) public showTwitter!: boolean;
+  @Prop() public address!: string
+  @Prop(Boolean) public showTwitter!: boolean
 }
 </script>
 

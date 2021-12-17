@@ -1,5 +1,5 @@
-import type { ApiPromise } from '@polkadot/api';
-import Connector from '@vue-polkadot/vue-api';
+import type { ApiPromise } from '@polkadot/api'
+import Connector from '@vue-polkadot/vue-api'
 
 export type ApiCallbackFunction = (api: ApiPromise) => any;
 
