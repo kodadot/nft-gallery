@@ -33,6 +33,7 @@ const exec = async (account: KeyringAccount | string, password: string | null, c
     return typeof hash === 'function' ? constructCallback(hash, tx.hash.toHex()) : hash.toHex()
 
   } catch (err) {
+    console.warn(err)
     throw err
   }
 }

@@ -17,6 +17,7 @@ export const pinJson = async (object: any) => {
       return data.IpfsHash
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -29,6 +30,7 @@ export const getKey = async (address: string) => {
       return data
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -41,6 +43,7 @@ export const revokeKey = async (key: string) => {
       return data as APIKeys
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 
@@ -54,6 +57,7 @@ export const pinFileDirect = async (file: Blob): Promise<string> => {
     revokeKey(keys.pinata_api_key).then(console.log, console.warn)
     return cid
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -75,6 +79,7 @@ export const pinFile = async (file: Blob): Promise<string> => {
       throw new Error('Unable to PIN for reasons')
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -100,6 +105,7 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
       throw new Error('Unable to PIN for reasons')
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -138,6 +144,7 @@ export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: s
       throw new Error('Unable to store for reasons')
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -151,6 +158,7 @@ export const unpin = async (ipfsLink: string) => {
       return data
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
