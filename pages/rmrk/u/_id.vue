@@ -168,6 +168,7 @@ const components = {
 const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
+  name: 'Profile',
   components,
   metaInfo() {
     return {
