@@ -5,5 +5,5 @@ export default ({ store }): void  => {
     key: 'history',
     storage: window.localStorage,
     reducer: (state: any) => ({history: { visitedNFTs: state.history.visitedNFTs }})
-  }).plugin(store);
+  }).plugin(store)
 }

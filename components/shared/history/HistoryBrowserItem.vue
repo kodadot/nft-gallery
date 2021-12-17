@@ -33,21 +33,21 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { HistoryItem } from '~/store/history';
+import { HistoryItem } from '~/store/history'
 
 @Component({
   filters: {
-		truncate: function truncateFct(value, limit) {
-			if (value?.length > limit) {
-				value = `${value.substring(0, limit - 3)}…`;
-			}
-			return value;
-		}
-	}
+    truncate: function truncateFct(value, limit) {
+      if (value?.length > limit) {
+        value = `${value.substring(0, limit - 3)}…`
+      }
+      return value
+    }
+  }
 })
 export default class HistoryBrowserItem extends Vue {
-  @Prop({ default: Object }) public item!: HistoryItem;
-  
+  @Prop({ default: Object }) public item!: HistoryItem
+
   removeItemFromHistory(id: string) {
     this.$store.dispatch('history/removeHistoryItem', id)
   }

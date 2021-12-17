@@ -13,8 +13,8 @@
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class ImageMedia extends Vue {
-  @Prop() public src!: string;
-  @Prop() public mimeType!: string;
+  @Prop() public src!: string
+  @Prop() public mimeType!: string
 }
 </script>
 

@@ -32,6 +32,7 @@ class NFTUtils {
         view: NFTUtils.unwrap(rmrkString)
       }
     } catch (e) {
+      console.warn(e)
       throw e
     }
   }
@@ -207,14 +208,14 @@ class NFTUtils {
 }
 
 export class RmrkActionRegex {
-  static MINTNFT = /^[rR][mM][rR][kK]::MINTNFT::/;
-  static MINT = /^[rR][mM][rR][kK]::MINT::/;
-  static SEND = /^[rR][mM][rR][kK]::SEND::/;
-  static BUY = /^[rR][mM][rR][kK]::BUY::/;
-  static CONSUME = /^[rR][mM][rR][kK]::CONSUME::/;
-  static CHANGEISSUER = /^[rR][mM][rR][kK]::CHANGEISSUER::/;
-  static LIST = /^[rR][mM][rR][kK]::LIST::/;
-  static EMOTE = /^[rR][mM][rR][kK]::EMOTE::/;
+  static MINTNFT = /^[rR][mM][rR][kK]::MINTNFT::/
+  static MINT = /^[rR][mM][rR][kK]::MINT::/
+  static SEND = /^[rR][mM][rR][kK]::SEND::/
+  static BUY = /^[rR][mM][rR][kK]::BUY::/
+  static CONSUME = /^[rR][mM][rR][kK]::CONSUME::/
+  static CHANGEISSUER = /^[rR][mM][rR][kK]::CHANGEISSUER::/
+  static LIST = /^[rR][mM][rR][kK]::LIST::/
+  static EMOTE = /^[rR][mM][rR][kK]::EMOTE::/
 
 }
 

@@ -26,8 +26,8 @@ export default class extends Vue {
     'image',
     'gif',
     'svg'
-  ];
-  @Prop() public value!: string;
+  ]
+  @Prop() public value!: string
 
   get tags() {
     return this.value ? this.value.split('|') : []

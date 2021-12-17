@@ -62,13 +62,13 @@ const components = {
 
 @Component({ components })
 export default class Identity extends mixins(InlineMixin) {
-  @Prop() public address!: Address;
-  @Prop(Boolean) public verticalAlign!: boolean;
-  @Prop(Boolean) public noOwerflow!: boolean;
-  @Prop(Boolean) public emit!: boolean;
-  @Prop(Boolean) public showTwitter!: boolean;
-  @Prop(Boolean) public showOnchainIdentity!: boolean;
-  private identity: IdentityFields = emptyObject<IdentityFields>();
+  @Prop() public address!: Address
+  @Prop(Boolean) public verticalAlign!: boolean
+  @Prop(Boolean) public noOwerflow!: boolean
+  @Prop(Boolean) public emit!: boolean
+  @Prop(Boolean) public showTwitter!: boolean
+  @Prop(Boolean) public showOnchainIdentity!: boolean
+  private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
 
   get shortenedAddress(): Address {

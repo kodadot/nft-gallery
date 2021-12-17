@@ -41,11 +41,11 @@ import Tooltip from '@/components/shared/Tooltip.vue'
   }
 })
 export default class AccountSelect extends mixins(WithKeyring) {
-  private tooltip = 'Owner\'s address of minted art';
-  @Prop({ default: '' }) public value!: string | KeyringAccount;
-  @Prop() public asKeyring!: boolean;
-  @Prop({ default: 'Account' }) public label!: boolean;
-  @Prop({ default: true }) tooltipVisible!: boolean;
+  private tooltip = 'Owner\'s address of minted art'
+  @Prop({ default: '' }) public value!: string | KeyringAccount
+  @Prop() public asKeyring!: boolean
+  @Prop({ default: 'Account' }) public label!: boolean
+  @Prop({ default: true }) tooltipVisible!: boolean
 
 
   get options() {

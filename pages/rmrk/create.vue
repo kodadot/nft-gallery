@@ -27,7 +27,7 @@ const components = { Collection, NFT }
 @Component({ components })
 
 export default class Remark extends Vue {
-  public activeTab = 0;
+  public activeTab = 0
   public components: string[] = ['Collection', 'NFT']
 
   layout() {

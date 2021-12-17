@@ -23,7 +23,7 @@ class NotificationService extends Vue {
       type: 'is-danger',
       actionText: 'Oh no!',
     },
-  };
+  }
 
   public success(message: string | null, params?: any) {
     this.showNotification(message, { ...this.snackbarTypes.success, ...params })
@@ -37,11 +37,11 @@ class NotificationService extends Vue {
     this.showNotification(message, { ...this.snackbarTypes.danger, ...params })
   }
 
-/**
+  /**
  * Show error message
  */
   public error(message: string | null, params?: any) {
-    this.danger(message, params);
+    this.danger(message, params)
   }
 
   private showNotification(message: string | null, params = this.snackbarTypes.info) {
@@ -53,11 +53,11 @@ class NotificationService extends Vue {
       actionText: 'OK',
       queue: false,
       ...params,
-    });
+    })
   }
 
 }
 
 
-const bus = new NotificationService();
+const bus = new NotificationService()
 export default bus
