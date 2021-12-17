@@ -48,13 +48,13 @@ const components = {
 
 export default class OnChainProperty extends Vue{
 
-  @Prop() public twitter!: string;
-  @Prop() public email!: string;
-  @Prop() public web!: string ;
-  @Prop() public riot!: string ;
-  @Prop() public legal!: string ;
-  public icons: any = [];
-  protected id = '';
+  @Prop() public twitter!: string
+  @Prop() public email!: string
+  @Prop() public web!: string
+  @Prop() public riot!: string
+  @Prop() public legal!: string
+  public icons: any = []
+  protected id = ''
 
   public async created(){
     await this.fetchProfile()

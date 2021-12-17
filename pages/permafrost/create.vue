@@ -235,20 +235,20 @@ export default class PermaMint extends mixins(
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1
-  };
-  private meta: NFTMetadata = emptyObject<NFTMetadata>();
+  }
+  private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
-  private uploadMode = true;
-  private file: Blob | null = null;
-  private secondFile: Blob | null = null;
-  private password = '';
-  private hasToS = false;
-  private hasSupport = false;
-  private nsfw = false;
-  private price = 0;
-  private estimated = '';
-  private hasCarbonOffset = false;
-  protected arweaveUpload = false;
+  private uploadMode = true
+  private file: Blob | null = null
+  private secondFile: Blob | null = null
+  private password = ''
+  private hasToS = false
+  private hasSupport = false
+  private nsfw = false
+  private price = 0
+  private estimated = ''
+  private hasCarbonOffset = false
+  protected arweaveUpload = false
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)

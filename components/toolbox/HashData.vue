@@ -40,9 +40,9 @@ import DisabledInput from '@/components/shared/DisabledInput.vue'
 })
 export default class HashDataMessage extends Vue {
 
-  private data = '';
-  private inputDataCheck = 'No';
-  private hashedData = '';
+  private data = ''
+  private inputDataCheck = 'No'
+  private hashedData = ''
 
   private hashData(): void {
     this.hashedData = blake2AsHex(

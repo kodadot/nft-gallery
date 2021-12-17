@@ -17,9 +17,9 @@ import api from '@/fetch'
 
 @Component({})
 export default class Unknown extends Vue {
-  @Prop() public src!: string;
-  @Prop() public mimeType!: string;
-  private data: { key: string; value: string }[] = [];
+  @Prop() public src!: string
+  @Prop() public mimeType!: string
+  private data: { key: string; value: string }[] = []
 
   private async mounted() {
     if (this.src) {

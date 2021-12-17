@@ -31,13 +31,13 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class ModalWrapper extends Vue {
-  @Prop(String) public label!: string;
-  @Prop(String) public title!: string;
-  @Prop(String) public icon!: string;
-  @Prop(String) public type!: string;
-  @Prop(Boolean) public expanded!: boolean;
-  @Prop(Boolean) public isRight!: boolean;
-  private isModalActive = false;
+  @Prop(String) public label!: string
+  @Prop(String) public title!: string
+  @Prop(String) public icon!: string
+  @Prop(String) public type!: string
+  @Prop(Boolean) public expanded!: boolean
+  @Prop(Boolean) public isRight!: boolean
+  private isModalActive = false
 
   get buttonType() {
     return this.type || 'is-primary'

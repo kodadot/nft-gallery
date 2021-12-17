@@ -217,32 +217,32 @@ const eq = (tab: string) => (el: string) => tab === el
   }
 })
 export default class Profile extends Vue {
-  public firstNFTData: any = {};
-  protected id = '';
-  protected shortendId = '';
-  protected isLoading = false;
-  protected collections: CollectionWithMeta[] = [];
-  protected packs: Pack[] = [];
-  protected name = '';
+  public firstNFTData: any = {}
+  protected id = ''
+  protected shortendId = ''
+  protected isLoading = false
+  protected collections: CollectionWithMeta[] = []
+  protected packs: Pack[] = []
+  protected name = ''
   // protected property: {[key: string]: any} = {};
-  protected email = '';
-  protected twitter = '';
-  protected web = '';
-  protected legal = '';
-  protected riot = '';
-  private currentValue = 1;
-  private first = 20;
-  private total = 0;
-  private currentCollectionPage = 1;
-  protected totalCollections = 0;
+  protected email = ''
+  protected twitter = ''
+  protected web = ''
+  protected legal = ''
+  protected riot = ''
+  private currentValue = 1
+  private first = 20
+  private total = 0
+  private currentCollectionPage = 1
+  protected totalCollections = 0
 
-  protected totalCreated = 0;
-  protected totalCollected = 0;
-  protected totalSold = 0;
+  protected totalCreated = 0
+  protected totalCollected = 0
+  protected totalSold = 0
 
-  readonly nftListByIssuer = nftListByIssuer;
-  readonly nftListCollected = nftListCollected;
-  readonly nftListSold = nftListSold;
+  readonly nftListByIssuer = nftListByIssuer
+  readonly nftListCollected = nftListCollected
+  readonly nftListSold = nftListSold
 
   public async mounted() {
     await this.fetchProfile()

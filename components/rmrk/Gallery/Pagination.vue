@@ -44,7 +44,7 @@ export default class Pagination extends Vue {
   @Prop({ default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
-  @Prop(Boolean) hasMagicBtn!: boolean;
+  @Prop(Boolean) hasMagicBtn!: boolean
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
