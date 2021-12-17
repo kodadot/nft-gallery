@@ -3,8 +3,6 @@ name: Lint Files
 on:
   push:
     branches: [ main, main-nuxt ]
-  # pull_request:
-  #   branches: [ main, main-nuxt ]
 
 jobs:
   lint:
