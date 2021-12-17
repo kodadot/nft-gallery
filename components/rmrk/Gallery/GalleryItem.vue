@@ -62,6 +62,8 @@
               v-if="meta.animation_url"
               :class="{ withPicture: imageVisible }"
               :src="meta.animation_url"
+              :poster="meta.image"
+              :description="meta.description"
               :mimeType="mimeType"
             />
           </div>
