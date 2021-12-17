@@ -30,6 +30,8 @@
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
           }"
+          @mouseenter="showNavigation = true"
+          @mouseleave="showNavigation = false"
         >
           <div
             v-orientation="
@@ -63,6 +65,8 @@
               :mimeType="mimeType"
             />
           </div>
+          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" :showNavigation="showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+
         </div>
         <button
           id="fullscreen-view"
@@ -191,6 +195,7 @@ import { notificationTypes, showNotification } from '@/utils/notification';
 
 import isShareMode from '@/utils/isShareMode';
 import nftById from '@/queries/nftById.graphql';
+import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql';
 import { fetchNFTMetadata } from '../utils';
 import { get, set } from 'idb-keyval';
 import { MediaType } from '../types';
@@ -238,6 +243,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin';
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
+    Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
@@ -256,6 +262,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   // private accountId: string = '';
   private passsword = '';
   private nft: NFT = emptyObject<NFT>();
+  private nftsFromSameCollection: NFT[] = [];
   private imageVisible = true;
   private viewMode = 'default';
   private isFullScreenView = false;
@@ -265,6 +272,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public emotes: Emote[] = [];
   public message = '';
   public priceChartData: [Date, number][][] = [];
+  public showNavigation = false;
 
   get accountId() {
     return this.$store.getters.getAuthAddress;
@@ -289,7 +297,12 @@ export default class GalleryItem extends mixins(PrefixMixin) {
           ...nFTEntity,
           emotes: nFTEntity?.emotes?.nodes,
         }),
-        result: () => this.fetchMetadata(),
+        result: () => {
+          Promise.all([
+            this.fetchMetadata(),
+            this.fetchCollectionItems()
+          ]);
+        },
         pollInterval: 5000,
       });
     } catch (e) {
@@ -305,6 +318,36 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data;
+  }
+
+  public async fetchCollectionItems() {
+    const collectionId = (this.nft as any)?.collectionId;
+    if(collectionId) {
+      // cancel request and get ids from store in case we already fetched collection data before
+      if(this.$store.state.history?.currentCollection?.id === collectionId) {
+        this.nftsFromSameCollection = this.$store.state.history.currentCollection?.nftIds || []
+        return
+      }
+      try {
+        const nfts = await this.$apollo.query({
+          query: nftListIdsByCollection,
+          variables: {
+            id: collectionId,
+          },
+        })
+
+        const {
+          data: {
+            nFTEntities
+          }
+        } =  nfts
+
+        this.nftsFromSameCollection = nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
+        this.$store.dispatch('history/setCurrentCollection', { id: collectionId, nftIds: this.nftsFromSameCollection })
+      } catch (e) {
+        showNotification(`${e}`, notificationTypes.warn);
+      }
+    }
   }
 
   public async fetchMetadata() {
