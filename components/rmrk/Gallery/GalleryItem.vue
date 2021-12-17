@@ -15,7 +15,11 @@
     </b-message>
 
     <div class="columns">
-      <div class="image-wrapper">
+      <div
+        class="image-wrapper"
+        @mouseenter="showNavigation = true"
+        @mouseleave="showNavigation = false"
+      >
         <button
           id="theatre-view"
           @click="toggleView"
@@ -30,8 +34,6 @@
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
           }"
-          @mouseenter="showNavigation = true"
-          @mouseleave="showNavigation = false"
         >
           <div
             v-orientation="
@@ -62,11 +64,12 @@
               v-if="meta.animation_url"
               :class="{ withPicture: imageVisible }"
               :src="meta.animation_url"
+              :poster="meta.image"
+              :description="meta.description"
               :mimeType="mimeType"
             />
           </div>
           <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" :showNavigation="showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
-
         </div>
         <button
           id="fullscreen-view"
