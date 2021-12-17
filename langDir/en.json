@@ -82,7 +82,8 @@
       "21": "How do I update metadata for extension?",
       "22": "I've got \"Low balance error\"",
       "23": "How do I set identity?",
-      "24": "Is there an official KodaDot token?"
+      "24": "Is there an official KodaDot token?",
+      "25": "How can I contribute to the project?"
     },
     "a": {
       "1": {
@@ -177,6 +178,11 @@
       },
       "24": {
         "m": "No, there is no official token launched. Please follow official social media and be aware of scam and phissing attempts from unofficial sources. DYOR."
+      },
+      "25": {
+        "m": "We are always welcoming contributions from our community. There are numerous @.md:faq.a.25.l1 for all skill levels - some will even be rewarded in $KSM. @.md:faq.a.25.l2",
+        "l1": "[open issues](@.common:links.kusama_github.open_issues.href)",
+        "l2": "[Make your first contribution!](@.common:links.kusama_github.contributing_guide.href)"
       }
     }
   },
