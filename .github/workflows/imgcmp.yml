@@ -1,5 +1,7 @@
 name: imgcmp
-on: pull_request
+on:
+  push:
+    branches: [ main-nuxt ]
 jobs:
   build:
     name: imgcmp
