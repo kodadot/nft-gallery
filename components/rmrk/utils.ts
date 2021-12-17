@@ -44,12 +44,12 @@ export type SanitizerFunc = (url: string) => string
 
 
 
-export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType) => {
+export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): string  => {
   if (justHash(ipfsHash)) {
     return `${resolveProvider(provider)}ipfs/${ipfsHash}`
   }
 
-  return ipfsHash
+  return ipfsHash || ''
 }
 
 const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
@@ -119,7 +119,7 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>()
 }
 
-export const unSanitizeArweaveId = (url: string) => {
+export const unSanitizeArweaveId = (url: string): string  => {
   return unSanitizeUrl(url, 'ar://')
 }
 
@@ -129,7 +129,7 @@ const unSanitizeUrl = (url: string, prefix: string) => {
 
 const ar = /^ar:\/\//
 
-export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => {
+export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders): string  => {
   if (ar.test(url)) {
     return url.replace(ar, resolveArProvider(provider))
   }
@@ -137,7 +137,7 @@ export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders) => 
   return url
 }
 
-export const isIpfsUrl = (url: string) => {
+export const isIpfsUrl = (url: string): boolean  => {
   return /^ipfs:\/\//.test(url)
 }
 
@@ -150,7 +150,7 @@ export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProv
   return link => sanitizeArweaveUrl(link, arProvider)
 }
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType) => {
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): string  => {
   const rr = /^ipfs:\/\/ipfs/
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', resolveProvider(provider))
@@ -300,7 +300,7 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   return result
 }
 
-export const decode = (value: string) => decodeURIComponent(value)
+export const decode = (value: string): string  => decodeURIComponent(value)
 export const sortByTimeStamp = (a: Interaction, b: Interaction) : number => b.timestamp < a.timestamp ? 1 : -1
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber

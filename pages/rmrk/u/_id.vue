@@ -44,72 +44,97 @@
       </div>
     </div>
 
-    <b-tabs
-      :class="{ 'invisible-tab': sharingVisible }"
-      v-model="activeTab"
-      destroy-on-hide
-      expanded
-    >
-      <b-tab-item value="nft">
-        <template #header>
-          {{ $t("profile.created") }}
-          <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListByIssuer"
-          @change="totalCreated = $event"
-          :account="id"
-          :showSearchBar="true"
-        />
-      </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
+      <b-tabs
+        :class="{ 'invisible-tab': sharingVisible }"
+        v-model="activeTab"
+        destroy-on-hide
+        expanded
       >
-        <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
-        <GalleryCardList
-          :items="collections"
-          route="/rmrk/collection"
-          link="rmrk/collection"
-        />
-        <Pagination
-          replace
-          class="pt-5 pb-5"
-          :total="totalCollections"
-          v-model="currentCollectionPage"
-        />
-      </b-tab-item>
-      <b-tab-item value="sold">
-        <template #header>
-          {{ $t("profile.sold") }}
-          <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          @change="totalSold = $event"
-          :account="id"
-        />
-      </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          {{ $t("profile.collected") }}
-          <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
-        />
-      </b-tab-item>
-
-      <!-- <b-tab-item label="Packs" value="pack">
-        <span>TODO: Reintroduce</span>
-        <GalleryCardList :items="packs" type="packDetail" link="rmrk/pack" />
-      </b-tab-item> -->
-    </b-tabs>
+        <b-tab-item value="nft" :headerClass="{'is-hidden': !totalCollections}">
+          <template #header>
+            <b-tooltip :label="`${$i18n.t('tooltip.created')} ${shortendId}`" append-to-body>
+              {{ $t("profile.created") }}
+              <span class="tab-counter" v-if="totalCreated">{{
+                totalCreated
+              }}</span>
+            </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListByIssuer"
+            @change="totalCreated = $event"
+            :account="id"
+            :showSearchBar="true"
+          />
+        </b-tab-item>
+        <b-tab-item
+          :label="`Collections - ${totalCollections}`"
+          value="collection"
+          :headerClass="{'is-hidden': !totalCollections}"
+         >
+          <template #header>
+            <b-tooltip :label="`${$i18n.t('tooltip.collections')} ${shortendId}`" append-to-body>
+              {{ $t("Collections") }}
+              <span class="tab-counter" v-if="totalCollections">{{
+                totalCollections
+              }}</span>
+            </b-tooltip>
+          </template>
+          <div class="is-flex is-justify-content-flex-end">
+            <Layout class="mr-5" />
+            <Pagination
+              hasMagicBtn
+              replace
+              :total="totalCollections"
+              v-model="currentCollectionPage"
+            />
+          </div>
+          <GalleryCardList
+            :items="collections"
+            type="collectionDetail"
+            link="rmrk/collection"
+            horizontalLayout
+          />
+          <Pagination
+            replace
+            class="pt-5 pb-5"
+            :total="totalCollections"
+            v-model="currentCollectionPage"
+          />
+        </b-tab-item>
+        <b-tab-item value="sold" :headerClass="{'is-hidden': !totalCollections}">
+          <template #header>
+           <b-tooltip :label="`${$i18n.t('tooltip.sold')} ${shortendId}`" append-to-body>
+            {{ $t("profile.sold") }}
+            <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+           </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListSold"
+            @change="totalSold = $event"
+            :account="id"
+            showSearchBar
+          />
+        </b-tab-item>
+        <b-tab-item value="collected">
+          <template #header>
+            <b-tooltip :label="`${$i18n.t('tooltip.collected')} ${shortendId}`" append-to-body>
+              {{ $t("profile.collected") }}
+              <span class="tab-counter" v-if="totalCollected">{{
+                totalCollected
+              }}</span>
+            </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListCollected"
+            @change="totalCollected = $event"
+            :account="id"
+            showSearchBar
+          />
+        </b-tab-item>
+      </b-tabs>
   </section>
 </template>
 
@@ -117,7 +142,6 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -193,7 +217,6 @@ const eq = (tab: string) => (el: string) => tab === el
   }
 })
 export default class Profile extends Vue {
-  public activeTab = 'nft';
   public firstNFTData: any = {};
   protected id = '';
   protected shortendId = '';
@@ -223,9 +246,6 @@ export default class Profile extends Vue {
 
   public async mounted() {
     await this.fetchProfile()
-    exist(this.$route.query.tab, (val) => {
-      this.activeTab = val
-    })
   }
 
   public checkId() {
@@ -233,6 +253,17 @@ export default class Profile extends Vue {
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get activeTab(): string {
+    return this.$route.query.tab as string || 'nft'
+  }
+
+  set activeTab(val) {
+    this.$route.query.page = ''
+    this.$router.replace({
+      query: { tab: val },
+    })
   }
 
   get sharingVisible(): boolean {
@@ -264,7 +295,6 @@ export default class Profile extends Vue {
 
   protected async fetchProfile() {
     this.checkId()
-    this.checkActiveTab()
 
     try {
       this.$apollo.addSmartQuery('collections', {
@@ -336,25 +366,6 @@ export default class Profile extends Vue {
     this.legal = identityFields?.legal as string
   }
 
-  public checkActiveTab() {
-    if (
-      this.$route.params.tab &&
-      ['nft', 'collection', 'pack'].some(eq(this.$route.params.tab))
-    ) {
-      this.activeTab = this.$route.params.tab
-    }
-  }
-
-  @Watch('activeTab')
-  protected onTabChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.$router.replace({
-        path: String(this.$route.path),
-        query: { tab: val },
-      })
-    }
-  }
-
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
@@ -385,3 +396,4 @@ export default class Profile extends Vue {
   margin: auto .5em auto 0;
 }
 </style>
+

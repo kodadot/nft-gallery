@@ -1,6 +1,7 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
-export const state = () => ({
+export const state = (): {layoutClass: string;
+}  => ({
   layoutClass: 'is-one-third-desktop is-one-third-tablet',
 })
 

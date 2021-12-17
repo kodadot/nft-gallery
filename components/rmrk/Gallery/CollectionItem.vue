@@ -11,17 +11,16 @@
           />
         </div>
         <h1 class="title is-2">
-          <template v-if="!isLoading">
+          <template>
             {{ name }}
           </template>
-          <b-skeleton :active="isLoading" size="is-medium"></b-skeleton>
         </h1>
       </div>
     </div>
 
     <div class="columns is-align-items-center">
       <div class="column">
-        <div v-if="!isLoading">
+        <div>
           <div class="label">
             {{ $t('creator') }}
           </div>
@@ -29,16 +28,6 @@
             <ProfileLink :address="issuer" inline showTwitter />
           </div>
         </div>
-        <b-skeleton
-          :active="isLoading"
-          width="40%"
-          size="is-small"
-        ></b-skeleton>
-        <b-skeleton
-          :active="isLoading"
-          width="60%"
-          size="is-small"
-        ></b-skeleton>
       </div>
 
       <div class="column is-6-tablet is-7-desktop is-8-widescreen">
