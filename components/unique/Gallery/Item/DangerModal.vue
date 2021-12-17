@@ -81,7 +81,9 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
 
   @Watch('attributes', { deep: true })
   protected onAttributesChange(val: Attribute[], oldVal: Attribute[]) {
-
+    if (val.length !== oldVal.length) {
+      console.log('attributes changed', val)
+    }
   }
 }
 </script>
