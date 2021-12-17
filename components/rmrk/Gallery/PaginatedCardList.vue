@@ -38,8 +38,8 @@ const components = {
 
 @Component({ components })
 export default class PaginatedCardList extends mixins(PrefixMixin) {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string
-  @Prop({ default: 'rmrk/gallery' }) public link!: string
+  @Prop({ default: '/rmrk/detail' }) public route!: string
+  @Prop({ default: 'rmrk/detail' }) public link!: string
   @Prop() public query!: DocumentNode
   @Prop(String) public account!: string
   @Prop(Boolean) public showSearchBar!: boolean

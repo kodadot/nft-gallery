@@ -1,5 +1,5 @@
 <template>
-  <tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
+  <v-tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-  </tippy>
+  </v-tippy>
 </template>
 
 <script lang="ts" >

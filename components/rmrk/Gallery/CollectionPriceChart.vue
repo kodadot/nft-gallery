@@ -75,124 +75,126 @@ export default class PriceChart extends mixins(ChainMixin) {
     if (this.priceData.length) {
       const ctx = (
         document?.getElementById('collectionPriceChart') as HTMLCanvasElement
-      )?.getContext('2d')!
+      )?.getContext('2d')
 
-      const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: this.priceData[1].map((item) => item[0]),
-          datasets: [
-            {
-              label: 'Floor Price',
-              data: getChartData(this.priceData[0]),
-              borderColor: '#d32e79',
-              tension: 0.3,
-              pointBackgroundColor: 'white',
-              pointBorderColor: 'blue',
-              pointRadius: 4,
-              pointHoverRadius: 6,
-            },
-            {
-              label: 'Sold NFT Price',
-              data: getChartData(this.priceData[1]),
-              borderColor: '#00BB7F',
-              tension: 0.3,
-              pointBackgroundColor: 'white',
-              pointBorderColor: 'blue',
-              pointRadius: 4,
-              pointHoverRadius: 6,
-            },
-            {
-              label: 'Trailing Average',
-              data: getMovingAverage(this.priceData[1]) as any,
-              borderColor: 'yellow',
-              tension: 0.3,
-              pointBackgroundColor: 'white',
-              pointBorderColor: 'blue',
-              pointRadius: 0,
-              pointHoverRadius: 0,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          plugins: {
-            annotation: {
-              annotations: {
-                median: {
-                  type: 'line',
-                  yMin: getMedianPoint(this.priceData[1]),
-                  yMax: getMedianPoint(this.priceData[1]),
-                  borderColor: '#00BB7F',
-                  borderWidth: 2,
-                  borderDash: [10, 5],
+      if (ctx) {
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: this.priceData[1].map((item) => item[0]),
+            datasets: [
+              {
+                label: 'Floor Price',
+                data: getChartData(this.priceData[0]),
+                borderColor: '#d32e79',
+                tension: 0.3,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'blue',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+              {
+                label: 'Sold NFT Price',
+                data: getChartData(this.priceData[1]),
+                borderColor: '#00BB7F',
+                tension: 0.3,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'blue',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+              {
+                label: 'Trailing Average',
+                data: getMovingAverage(this.priceData[1]) as any,
+                borderColor: 'yellow',
+                tension: 0.3,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'blue',
+                pointRadius: 0,
+                pointHoverRadius: 0,
+              },
+            ],
+          },
+          options: {
+            maintainAspectRatio: false,
+            plugins: {
+              annotation: {
+                annotations: {
+                  median: {
+                    type: 'line',
+                    yMin: getMedianPoint(this.priceData[1]),
+                    yMax: getMedianPoint(this.priceData[1]),
+                    borderColor: '#00BB7F',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                  },
                 },
-              },
-            },
-            zoom: {
-              limits: {
-                x: { min: 0 },
-                y: { min: 0 },
-              },
-              pan: {
-                enabled: true,
               },
               zoom: {
-                wheel: {
+                limits: {
+                  x: { min: 0 },
+                  y: { min: 0 },
+                },
+                pan: {
                   enabled: true,
                 },
-                pinch: {
-                  enabled: true,
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                  },
+                  pinch: {
+                    enabled: true,
+                  },
+                  mode: 'xy',
+                  onZoomComplete({ chart }) {
+                    chart.update('none')
+                  },
                 },
-                mode: 'xy',
-                onZoomComplete({ chart }) {
-                  chart.update('none')
+              },
+            },
+            scales: {
+              x: {
+                type: 'time',
+                time: {
+                  unit: 'day',
+                  stepSize: 7,
+                },
+                grid: {
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  callback: (value) => {
+                    return value
+                  },
+                  major: {
+                    enabled: true,
+                  },
+                  maxRotation: 0,
+                  minRotation: 0,
+                  color: '#fff',
+                },
+              },
+              y: {
+                ticks: {
+                  callback: (value) => {
+                    return `${Number(value).toFixed(2)} ${this.unit}`
+                  },
+                  maxTicksLimit: 7,
+
+                  color: '#fff',
+                },
+                grid: {
+                  color: '#3a3a3a',
                 },
               },
             },
           },
-          scales: {
-            x: {
-              type: 'time',
-              time: {
-                unit: 'day',
-                stepSize: 7,
-              },
-              grid: {
-                drawOnChartArea: false,
-                drawTicks: false,
-                drawBorder: false,
-              },
-              ticks: {
-                callback: (value) => {
-                  return value
-                },
-                major: {
-                  enabled: true,
-                },
-                maxRotation: 0,
-                minRotation: 0,
-                color: '#fff',
-              },
-            },
-            y: {
-              ticks: {
-                callback: (value) => {
-                  return `${Number(value).toFixed(2)} ${this.unit}`
-                },
-                maxTicksLimit: 7,
+        })
 
-                color: '#fff',
-              },
-              grid: {
-                color: '#3a3a3a',
-              },
-            },
-          },
-        },
-      })
-
-      this.Chart = chart
+        this.Chart = chart
+      }
     }
   }
 

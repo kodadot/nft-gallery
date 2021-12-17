@@ -6,6 +6,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
+  name: 'LandingPage',
   components: {
     Landing: () => import('@/components/landing/Landing.vue')
   }

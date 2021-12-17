@@ -114,7 +114,7 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(ChainMixin) {
-  @Prop({ type: Array }) public events!:  Interaction[]
+  @Prop({ type: Array }) public events!: Interaction[]
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
 
@@ -189,6 +189,16 @@ export default class History extends mixins(ChainMixin) {
       event['Date'] = this.parseDate(date)
 
       event['Block'] = String(newEvent['blockNumber'])
+
+      // Push to chart data
+      if (newEvent['interaction'] === 'LIST') {
+        chartData.list.push([
+          date,
+          parseFloat(event['Amount'].substring(0, 6)),
+        ])
+      } else if (newEvent['interaction'] === 'BUY') {
+        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
+      }
 
       this.data.push(event)
       this.copyTableData.push(event)

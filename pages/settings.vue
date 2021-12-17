@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import General from '@/components/settings/General.vue'
 import Metadata from '@/components/metadata/Metadata.vue'
 
@@ -24,10 +24,6 @@ import Metadata from '@/components/metadata/Metadata.vue'
 })
 
 export default class Settings extends Vue {
-  protected activeTab = 0
-
-  public created() {
-    console.log('Settings created', Object.keys(this.$apolloProvider.clients))
-  }
+  private activeTab = 0
 }
 </script>

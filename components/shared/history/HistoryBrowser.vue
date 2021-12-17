@@ -1,7 +1,7 @@
 <template>
   <div v-show="history && history.length" class="history-browser">
     <b-dropdown aria-role="list" scrollable position="is-bottom-left" max-height="400px" >
-      <template #trigger="{ active }">
+      <template #trigger>
         <b-button
           type="is-primary"
           icon-left="history"

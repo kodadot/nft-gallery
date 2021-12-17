@@ -32,6 +32,7 @@ class NFTUtils {
         view: NFTUtils.unwrap(rmrkString)
       }
     } catch (e) {
+      console.warn(e)
       throw e
     }
   }

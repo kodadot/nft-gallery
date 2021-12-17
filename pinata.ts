@@ -26,6 +26,7 @@ export const pinJson = async (object: any) => {
       return data.IpfsHash
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -49,6 +50,7 @@ export const pinFile = async (file: Blob, keys: APIKeys): Promise<string> => {
       throw new Error('Unable to PIN for reasons')
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
@@ -62,6 +64,7 @@ export const unpin = async (ipfsLink: string) => {
       return data
     }
   } catch (e) {
+    console.warn(e)
     throw e
   }
 }
