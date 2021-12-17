@@ -181,8 +181,8 @@
       },
       "25": {
         "m": "We are always welcoming contributions from our community. There are numerous @.md:faq.a.25.l1 for all skill levels - some will even be rewarded in $KSM. @.md:faq.a.25.l2",
-        "l1": "[open issues](@.common:links.kusama_github.open_issues.href)",
-        "l2": "[Make your first contribution!](@.common:links.kusama_github.contributing_guide.href)"
+        "l1": "[open issues](@.common:links.kodadot_social.open_issues.href)",
+        "l2": "[Make your first contribution!](@.common:links.kodadot_social.contributing_guide.href)"
       }
     }
   },
