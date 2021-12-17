@@ -161,11 +161,6 @@ export default {
 
   apollo: {
     clientConfigs: defineApolloConfig() // https://github.com/nuxt-community/apollo-module#options
-    // clientConfigs: {
-    //   default: {
-    //     httpEndpoint: process.env.NUXT_ENV_SUBQUERY_URL || 'https://api.subquery.network/sq/vikiival/magick'
-    //   }
-    // }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
