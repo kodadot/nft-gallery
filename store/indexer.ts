@@ -27,11 +27,11 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
   async fetchIndexer({ commit }: { commit: Commit }, prefix: string) {
     try {
 
-      if (!this.app.apolloProvider) {
+      if (!this.app.apolloProvider?.clients) {
         return
       }
 
-      const indexer = await this.app.apolloProvider[prefix].query({
+      const indexer = await this.app.apolloProvider.clients[prefix].query({
         query: checkIndexer,
       })
 
