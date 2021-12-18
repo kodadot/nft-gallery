@@ -16,6 +16,7 @@
       @change="onPageChange"
     >
     </b-pagination>
+   <b-tooltip :label="$i18n.t('tooltip.random')">
     <b-button
       class="ml-2 magicBtn"
       title="Go to random page"
@@ -25,6 +26,7 @@
       @click="goToRandomPage"
     >
     </b-button>
+   </b-tooltip>
   </div>
 </template>
 
@@ -42,7 +44,7 @@ export default class Pagination extends Vue {
   @Prop({ default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
-  @Prop(Boolean) hasMagicBtn!: boolean;
+  @Prop(Boolean) hasMagicBtn!: boolean
 
   public mounted() {
     exist(this.$route.query.page, (val) => {

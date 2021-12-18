@@ -1,0 +1,4 @@
+- name: Doggoes as an Action
+  uses: stanleynguyen/action-dogs@v1
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}

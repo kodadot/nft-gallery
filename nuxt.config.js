@@ -154,7 +154,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.subquery.network/sq/vikiival/magick',
+        httpEndpoint: 'https://sz.api.subquery.network/sq/vikiival/magick',
       },
     },
   },

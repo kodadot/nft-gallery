@@ -37,7 +37,7 @@ interface Emoji {
 
 @Component
 export default class EmotionList extends Vue {
-  @Prop() public emotions!: GroupedEmotion;
+  @Prop() public emotions!: GroupedEmotion
 
   get emotes(): Emoji[] {
     return Object.entries(this.emotions).map(([key, emotions]) => ({

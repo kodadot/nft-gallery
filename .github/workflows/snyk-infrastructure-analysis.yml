@@ -8,8 +8,6 @@
 name: Snyk Infrastructure as Code
 
 on:
-  push:
-    branches: [ main-nuxt, main ]
   schedule:
     - cron: '19 22 * * 1'
 

@@ -37,7 +37,7 @@ import DisabledInput from '@/components/shared/DisabledInput.vue'
   },
 })
 export default class Summary extends Vue {
-  public loading = false;
+  public loading = false
 
   get chainProperties() {
     return this.$store.getters['chain/getChainProperties']

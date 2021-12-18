@@ -13,8 +13,8 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class ExternalLink extends Vue {
-  @Prop() public url!: string;
-  @Prop() public id!: string;
+  @Prop() public url!: string
+  @Prop() public id!: string
 
 }
 </script>
