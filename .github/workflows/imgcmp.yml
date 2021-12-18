@@ -1,0 +1,13 @@
+name: imgcmp
+on:
+  push:
+    branches: [ main-nuxt ]
+jobs:
+  build:
+    name: imgcmp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: 9sako6/imgcmp@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IGNORED_FILES: "public/*:posts/*.svg"

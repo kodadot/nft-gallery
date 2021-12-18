@@ -16,7 +16,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class VideoMedia extends Vue {
-  @Prop() public src!: string;
-  @Prop() public mimeType!: string;
+  @Prop() public src!: string
+  @Prop() public mimeType!: string
 }
 </script>

@@ -37,8 +37,8 @@ const testIosSrc = 'http://localhost:8000/Astronaut.usdz'
 
 @Component({})
 export default class ViewModel extends Vue {
-  @Prop({ default: testSrc }) public src!: string;
-  @Prop({ default: testIosSrc }) public iosSrc!: string;
+  @Prop({ default: testSrc }) public src!: string
+  @Prop({ default: testIosSrc }) public iosSrc!: string
 
   // get src() {
   //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }

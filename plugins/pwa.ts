@@ -1,7 +1,12 @@
 import { NotificationProgrammatic as Notification } from 'buefy'
 
+declare global {
+  interface Window {
+    $workbox: any;
+  }
+}
+
 export default async () => {
-  //@ts-ignore
   const workbox = await window.$workbox
   if (workbox) {
     workbox.addEventListener('installed', (event) => {

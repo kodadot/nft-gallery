@@ -10,11 +10,11 @@ export interface HistoryItem {
 }
 
 export const state = () => ({
-    visitedNFTs: [],
-    currentCollection: {
-      id: '',
-      nftIds: []
-    }
+  visitedNFTs: [],
+  currentCollection: {
+    id: '',
+    nftIds: []
+  }
 })
 
 export type HistoryState = ReturnType<typeof state>
@@ -25,38 +25,38 @@ export const getters: GetterTree<HistoryState, HistoryState> = {
   getVisitedPastWeek: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisWeek(new Date(nft.date)) && !isToday(new Date(nft.date)) && !isYesterday(new Date(nft.date))),
   getVisitedPastMonth: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisMonth(new Date(nft.date)) && !isThisWeek(new Date(nft.date))),
   getVisitedEarlier: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => !isThisMonth(new Date(nft.date)))
-};
+}
 
 export const mutations: MutationTree<HistoryState> = {
   UPDATE_HISTORY_ITEM(state: any, data: HistoryItem | string) {
     if(typeof data === 'string') {
-      state.visitedNFTs = state.visitedNFTs.filter(item => item.id !== data);
+      state.visitedNFTs = state.visitedNFTs.filter(item => item.id !== data)
     }
     else {
       // check if nft was visited before -> in that case delete it from history first
-      if(!!state.visitedNFTs.find(item => item.id === data.id)) {
-        state.visitedNFTs = state.visitedNFTs.filter(item => item.id !== data.id);
+      if(state.visitedNFTs.find(item => item.id === data.id)) {
+        state.visitedNFTs = state.visitedNFTs.filter(item => item.id !== data.id)
       }
       // save a maximum of 30 items
       if(state.visitedNFTs.length === 30) {
-        state.visitedNFTs.pop();
+        state.visitedNFTs.pop()
       }
-      state.visitedNFTs.unshift(data);
+      state.visitedNFTs.unshift(data)
     }
   },
   UPDATE_CURRENT_COLLECTION(state: any, data: {id: string, nftIds: string[]}) {
-    state.currentCollection = data;
+    state.currentCollection = data
   }
-};
+}
 
 export const actions: ActionTree<HistoryState, HistoryState> = {
   addHistoryItem({ commit }: { commit: Commit }, data: HistoryItem) {
-    commit('UPDATE_HISTORY_ITEM', data);
+    commit('UPDATE_HISTORY_ITEM', data)
   },
   removeHistoryItem({ commit }: { commit: Commit }, data: string) {
-    commit('UPDATE_HISTORY_ITEM', data);
+    commit('UPDATE_HISTORY_ITEM', data)
   },
   setCurrentCollection({ commit }: { commit: Commit }, data: {id: string, nftIds: string[]}) {
-    commit('UPDATE_CURRENT_COLLECTION', data);
+    commit('UPDATE_CURRENT_COLLECTION', data)
   },
-};
+}

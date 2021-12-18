@@ -239,8 +239,8 @@ export const unwrap = (rmrkString: string): any | null => {
 }
 
 class RmrkEventRegex {
-  static MINTNFT = /^rmrk::MINTNFT::/;
-  static MINT = /^rmrk::MINT::/;
+  static MINTNFT = /^rmrk::MINTNFT::/
+  static MINT = /^rmrk::MINT::/
 }
 
 export const isEmpty = (rmrk: RMRK): boolean => {

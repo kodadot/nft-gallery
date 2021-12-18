@@ -7,6 +7,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 
 @Component({
+  name: 'CollectionItemPage',
   components: {
     CollectionItem
   }

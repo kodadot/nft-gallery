@@ -111,16 +111,16 @@ import { MediaType } from '../types'
 export default class CreateItem extends Vue {
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
-  @PropSync('edition', { type: Number }) vEdition!: number;
-  @PropSync('nsfw', { type: Boolean }) vNsfw!: boolean;
-  @PropSync('price', { type: [Number, String] }) vPrice!: string | number;
-  @PropSync('tags', { type: Array }) vTags!: Attribute[];
-  @PropSync('file', { type: Blob }) vFile!: Blob | null;
-  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null;
+  @PropSync('edition', { type: Number }) vEdition!: number
+  @PropSync('nsfw', { type: Boolean }) vNsfw!: boolean
+  @PropSync('price', { type: [Number, String] }) vPrice!: string | number
+  @PropSync('tags', { type: Array }) vTags!: Attribute[]
+  @PropSync('file', { type: Blob }) vFile!: Blob | null
+  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
 
 
-  @Prop(Number) public max!: number;
-  @Prop(Number) public alreadyMinted!: number;
+  @Prop(Number) public max!: number
+  @Prop(Number) public alreadyMinted!: number
 
   protected updateMeta(value: number) {
     console.log(typeof value, value)

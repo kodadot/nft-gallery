@@ -24,31 +24,31 @@ const components = {
 
 @Component({ components })
 export default class Navigation extends Vue {
-  @Prop({type: Array}) readonly items!: string[];
+  @Prop({type: Array}) readonly items!: string[]
   @Prop(Boolean) public showNavigation !: boolean
-  @Prop({type: String}) readonly currentId!: string;
+  @Prop({type: String}) readonly currentId!: string
 
   get indexOfCurrentId(): number {
-    return this.items.indexOf(this.currentId);
+    return this.items.indexOf(this.currentId)
   }
 
   get nextIndex(): number {
     // check if current item is last item of array
-    return (this.indexOfCurrentId === this.items.length - 1) ? 0 : this.indexOfCurrentId + 1;
+    return (this.indexOfCurrentId === this.items.length - 1) ? 0 : this.indexOfCurrentId + 1
   }
 
   get prevIndex(): number {
     // check if current item is first item of array
-    return this.indexOfCurrentId === 0 ? this.items.length - 1 : this.indexOfCurrentId - 1;
+    return this.indexOfCurrentId === 0 ? this.items.length - 1 : this.indexOfCurrentId - 1
   }
 
   public mounted() {
-    document.addEventListener('keyup', this.handleKeyEvent);
+    document.addEventListener('keyup', this.handleKeyEvent)
 
   }
 
   public beforeDestroy() {
-    document.removeEventListener('keyup', this.handleKeyEvent);
+    document.removeEventListener('keyup', this.handleKeyEvent)
   }
 
   public handleKeyEvent(event) {
@@ -66,6 +66,7 @@ export default class Navigation extends Vue {
 
 <style scoped>
 .navigation-container {
+    pointer-events: none;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -75,5 +76,8 @@ export default class Navigation extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.navigation-container a {
+    pointer-events: all;
 }
 </style>

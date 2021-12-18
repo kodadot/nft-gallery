@@ -30,10 +30,10 @@ import { Component, Vue, Provide, Emit, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class AddOption extends Vue {
-  @Prop() public label!: string;
-  @Provide() private value = '';
-  @Provide() private text = '';
-  private toastMessage = 'Address has been added to the list';
+  @Prop() public label!: string
+  @Provide() private value = ''
+  @Provide() private text = ''
+  private toastMessage = 'Address has been added to the list'
 
   @Emit('add')
   public onAddedOption() {

@@ -37,9 +37,9 @@ import { Component, Vue, PropSync, Prop, Emit } from 'nuxt-property-decorator'
 
 @Component
 export default class AttributeInput extends Vue {
-  @Prop(Number) index!: number;
-  @PropSync('trait_type', { type: String }) vKey!: string;
-  @PropSync('value', { type: String }) vValue!: string;
+  @Prop(Number) index!: number
+  @PropSync('trait_type', { type: String }) vKey!: string
+  @PropSync('value', { type: String }) vValue!: string
 
   @Emit('remove')
   protected remove() {

@@ -157,12 +157,12 @@ const components = {
 
 @Component({ components })
 export default class SpotlightTable extends mixins(TransactionMixin) {
-  @Prop() public value!: any;
-  protected data: Row[] = [];
-  protected columns: Column[] = columns;
-  protected usersWithIdentity: Row[] = [];
-  protected toggleUsersWithIdentity = false;
-  protected currentPage = 0;
+  @Prop() public value!: any
+  protected data: Row[] = []
+  protected columns: Column[] = columns
+  protected usersWithIdentity: Row[] = []
+  protected toggleUsersWithIdentity = false
+  protected currentPage = 0
 
   async created() {
     this.isLoading = true

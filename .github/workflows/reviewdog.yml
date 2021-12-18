@@ -1,8 +1,6 @@
 
 name: reviewdog
 on:
-  push:
-    branches: [ main-nuxt ]
   pull_request:
     branches: [ main-nuxt ]
 jobs:

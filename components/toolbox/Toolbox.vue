@@ -42,7 +42,7 @@ const currentTabs: any = {
   }
 })
 export default class ToolBox extends Vue {
-  private activeTab = 0;
+  private activeTab = 0
 
   private mounted() {
     const value = this.$route.params.tab
