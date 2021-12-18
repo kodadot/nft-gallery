@@ -183,9 +183,9 @@ const components = {
 
 @Component({ components })
 export default class NavbarProfileDropdown extends Vue {
-  @Prop() public value!: any;
-  protected changeAccount = false;
-  protected isExtension = false;
+  @Prop() public value!: any
+  protected changeAccount = false
+  protected isExtension = false
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })

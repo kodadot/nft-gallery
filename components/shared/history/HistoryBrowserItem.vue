@@ -21,11 +21,10 @@
             </div>
             </nuxt-link>
         </div>
-        <div class="column is-one-fifths center no-padding-right">
+        <div class="column is-one-fifths center no-padding-right" @click.stop.prevent="removeItemFromHistory(item.id)">
             <b-button
-            type="is-primary"
-            icon-left="trash"
-            @click="removeItemFromHistory(item.id)"
+              type="is-primary"
+              icon-left="trash"
             />
         </div>
         </div>
@@ -34,21 +33,21 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { HistoryItem } from '~/store/history';
+import { HistoryItem } from '~/store/history'
 
 @Component({
   filters: {
-		truncate: function truncateFct(value, limit) {
-			if (value?.length > limit) {
-				value = `${value.substring(0, limit - 3)}…`;
-			}
-			return value;
-		}
-	}
+    truncate: function truncateFct(value, limit) {
+      if (value?.length > limit) {
+        value = `${value.substring(0, limit - 3)}…`
+      }
+      return value
+    }
+  }
 })
 export default class HistoryBrowserItem extends Vue {
-  @Prop({ default: Object }) public item!: HistoryItem;
-  
+  @Prop({ default: Object }) public item!: HistoryItem
+
   removeItemFromHistory(id: string) {
     this.$store.dispatch('history/removeHistoryItem', id)
   }

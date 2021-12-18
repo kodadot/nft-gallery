@@ -7,6 +7,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import GalleryItem from '@/components/rmrk/Gallery/GalleryItem.vue'
 
 @Component({
+  name: 'GalleryItemPage',
   components: {
     GalleryItem
   }

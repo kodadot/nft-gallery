@@ -48,14 +48,14 @@ import Tooltip from '@/components/shared/Tooltip.vue'
   }
 })
 export default class extends Vue {
-  @Prop({ default: 'Drop your NFT here or click to upload or simply paste image from clipboard' }) public label!: string;
-  @Prop({ default: 'upload' }) public icon!: string;
-  @Prop(Boolean) public expanded!: boolean;
-  @Prop(Boolean) public preview!: boolean;
-  @Prop(String) public accept!: string;
-  private file: Blob | null = null;
-  protected url = '';
-  protected hasError = false;
+  @Prop({ default: 'Drop your NFT here or click to upload or simply paste image from clipboard' }) public label!: string
+  @Prop({ default: 'upload' }) public icon!: string
+  @Prop(Boolean) public expanded!: boolean
+  @Prop(Boolean) public preview!: boolean
+  @Prop(String) public accept!: string
+  private file: Blob | null = null
+  protected url = ''
+  protected hasError = false
 
 
   public created() {

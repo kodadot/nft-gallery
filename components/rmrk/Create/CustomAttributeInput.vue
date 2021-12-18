@@ -52,8 +52,8 @@ const components = {
 
 @Component({ components })
 export default class extends Vue {
-  @Prop({ type: Number, default: 0 }) max!: number;
-  protected attributes: Attribute[] = [];
+  @Prop({ type: Number, default: 0 }) max!: number
+  protected attributes: Attribute[] = []
 
   addAttribute() {
     if (!this.max || (this.max && this.attributes.length < this.max)) {
