@@ -1,8 +1,23 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
-export const state = (): {layoutClass: string;
+export const state = (): {
+  layoutClass: string;
+  advancedUI: boolean;
+  theatreView: string;
+  compactGalleryItem: boolean;
+  compactCollection: boolean;
+  showLayoutOptions: boolean;
+  galleryItemsPerPage: number;
+  collectionsPerPage: number
 }  => ({
   layoutClass: 'is-one-third-desktop is-one-third-tablet',
+  advancedUI: false,
+  theatreView: 'default',
+  compactGalleryItem: false,
+  compactCollection: false,
+  showLayoutOptions: false,
+  galleryItemsPerPage: 12,
+  collectionsPerPage: 9
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -12,13 +27,64 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
 }
 
 export const mutations: MutationTree<PreferencesState> = {
-  SET_LAYOUT_CLASS(state: any, data) {
+  SET_LAYOUT_CLASS(state: PreferencesState, data) {
     state.layoutClass = data
+  },
+  SET_ADVANCED_UI(state: PreferencesState, data) {
+    // if set to false reset state back to default
+    if(!data) {
+      state.theatreView = 'default'
+      state.compactGalleryItem = false
+      state.compactCollection = false
+      state.showLayoutOptions = false
+      state.galleryItemsPerPage = 12
+      state.collectionsPerPage = 9
+    }
+    state.advancedUI = data
+  },
+  SET_THEATRE_VIEW(state: PreferencesState, data) {
+    state.theatreView = data ? 'theatre' : 'default'
+  },
+  SET_COMPACT_GALLERY_ITEM(state: PreferencesState, data) {
+    state.compactGalleryItem = data
+  },
+  SET_COMPACT_COLLECTION(state: PreferencesState, data) {
+    state.compactCollection = data
+  },
+  SET_SHOW_LAYOUT_OPTIONS(state: PreferencesState, data) {
+    state.showLayoutOptions = data
+  },
+  SET_GALLERY_ITEMS_PER_PAGE(state: PreferencesState, data) {
+    state.galleryItemsPerPage = data
+  },
+  SET_COLLECTIONS_PER_PAGE(state: PreferencesState, data) {
+    state.collectionsPerPage = data
   },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
   setLayoutClass({ commit }: { commit: Commit }, data) {
     commit('SET_LAYOUT_CLASS', data)
+  },
+  setAdvancedUI({ commit }: { commit: Commit }, data) {
+    commit('SET_ADVANCED_UI', data)
+  },
+  setTheatreView({ commit }: { commit: Commit }, data) {
+    commit('SET_THEATRE_VIEW', data)
+  },
+  setCompactGalleryItem({ commit }: { commit: Commit }, data) {
+    commit('SET_COMPACT_GALLERY_ITEM', data)
+  },
+  setCompactCollection({ commit }: { commit: Commit }, data) {
+    commit('SET_COMPACT_COLLECTION', data)
+  },
+  setShowLayoutOptions({ commit }: { commit: Commit }, data) {
+    commit('SET_SHOW_LAYOUT_OPTIONS', data)
+  },
+  setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
+    commit('SET_GALLERY_ITEMS_PER_PAGE', data)
+  },
+  setCollectionsPerPage({ commit }: { commit: Commit }, data) {
+    commit('SET_COLLECTIONS_PER_PAGE', data)
   },
 }
