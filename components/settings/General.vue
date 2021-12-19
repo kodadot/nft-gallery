@@ -20,12 +20,6 @@
       setter="setIcon"
       default-value="icon"
     />
-    <SettingChooser
-      label="Interface Operation Mode"
-      selector="availableUiModes"
-      setter="setUiMode"
-      default-value="uiMode"
-    />
     <!-- <SettingChooser label="Interface Operation Mode" selector="availableLocking" setter="setLocking"  defaultValue="locking" /> -->
     <!-- <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
