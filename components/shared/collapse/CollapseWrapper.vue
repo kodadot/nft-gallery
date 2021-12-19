@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-collapse :open="false" :position="position" aria-id="contentIdForA11y1" class="is-unselectable">
+    <b-collapse :open="isOpen" :position="position" aria-id="contentIdForA11y1" class="is-unselectable">
       <template #trigger="props">
         <a aria-controls="contentIdForA11y1" class="mb-2">
           <b-icon
@@ -22,7 +22,10 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 export default class CollapseWrapper extends Vue {
   @Prop({ type: String, default: 'Show' }) visible!: string
   @Prop({ type: String, default: 'Hide' }) hidden!: string
+  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
   @Prop(Boolean) bottom!: boolean
+
+  public isOpen = this.openOnDefault
 
   get position(): string {
     return this.bottom ? 'is-bottom' : 'is-top'

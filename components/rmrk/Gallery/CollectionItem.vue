@@ -51,6 +51,7 @@
         <CollapseWrapper
           visible="collapse.collection.description.show"
           hidden="collapse.collection.description.hide"
+          :open-on-default="!compactCollection"
         >
           <VueMarkdown :source="description" />
         </CollapseWrapper>
@@ -60,7 +61,7 @@
     <b-tabs position="is-centered" v-model="activeTab">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery">
-          <Layout class="mr-5" />
+          <Layout v-if="showLayoutOptions" class="mr-5" />
           <b-field>
             <Pagination
               hasMagicBtn
@@ -226,6 +227,14 @@ export default class CollectionItem extends mixins(ChainMixin) {
 
   get sharingVisible(): boolean {
     return !isShareMode
+  }
+
+  get showLayoutOptions(): boolean {
+    return this.$store.state.preferences.showLayoutOptions
+  }
+
+  get compactCollection(): boolean {
+    return this.$store.state.preferences.compactCollection
   }
 
   private buildSearchParam(): Record<string, unknown>[] {

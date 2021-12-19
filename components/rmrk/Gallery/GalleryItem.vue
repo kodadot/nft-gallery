@@ -166,7 +166,7 @@
             </div>
           </div>
         </div>
-        <PriceChart class="mt-4" :priceChartData="priceChartData" />
+        <PriceChart class="mt-4" :priceChartData="priceChartData" :open-on-default="!compactGalleryItem" />
       </div>
     </div>
 
@@ -175,6 +175,7 @@
         <History
           v-if="!isLoading"
           :events="nft.events"
+          :open-on-default="!compactGalleryItem"
           @setPriceChartData="setPriceChartData"
         />
       </div>
@@ -266,7 +267,7 @@ export default class GalleryItem extends Vue {
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
-  private viewMode = 'default'
+  private viewMode = this.$store.state.preferences.theatreView
   private isFullScreenView = false
   public isLoading = true
   public mimeType = ''
@@ -426,6 +427,10 @@ export default class GalleryItem extends Vue {
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  get compactGalleryItem(): boolean {
+    return this.$store.state.preferences.compactGalleryItem
   }
 
   protected handleAction(deleted: boolean) {

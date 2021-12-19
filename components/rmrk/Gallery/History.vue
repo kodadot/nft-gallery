@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <b-collapse class="card" animation="slide" aria-id="contentIdForHistory">
+    <b-collapse :open="isOpen" class="card" animation="slide" aria-id="contentIdForHistory">
       <template #trigger="props">
         <div
           class="card-header"
@@ -94,7 +94,7 @@
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
-import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import i18n from '@/i18n'
 
@@ -116,8 +116,11 @@ type ChartData = { buy: [Date, number][]; list: [Date, number][] };
 @Component({ components })
 export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
+
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
+  public isOpen = this.openOnDefault
 
   get uniqType(): any[] {
     return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
