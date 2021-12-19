@@ -20,6 +20,7 @@ const Partnership = () => import('@/components/landing/Partnership.vue')
 const Tutorials = () => import('@/components/landing/Tutorials.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const Error = () => import('@/components/Error.vue')
+const ErrorCollection = () => import('@/components/ErrorCollection.vue')
 const Series = () => import('@/components/landing/Series.vue')
 const Jobs = () => import('@/components/landing/Jobs.vue')
 const Transform = () => import('@/views/Transform.vue')
@@ -126,6 +127,11 @@ export default new Router({
       path: '/error',
       name: 'error',
       component: Error,
+    },
+    {
+      path: '/errorcollection',
+      name: 'errorcollection',
+      component: ErrorCollection,
     },
     {
       path: '*',
