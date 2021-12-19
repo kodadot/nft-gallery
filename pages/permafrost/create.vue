@@ -533,9 +533,11 @@ export default class PermaMint extends mixins(
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/styles/variables';
+
 /* ??? global */
 .message.is-primary .message-body {
-  color: #d32e79 !important;
+  color: $primary-light !important;
 }
 </style>

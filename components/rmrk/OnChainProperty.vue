@@ -174,9 +174,11 @@ export default class OnChainProperty extends Vue{
 
 </script>
 
-<style>
+<style lang="scss">
+@import '@/styles/variables';
+
 .property{
-  color : #d32e79;
+  color : $primary-light;
   display: flex;
   align-items: flex-start;
 }

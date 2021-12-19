@@ -320,6 +320,8 @@ export default class Gallery extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .card-image__burned {
   filter: blur(7px);
 }
@@ -382,7 +384,7 @@ export default class Gallery extends Vue {
   }
 
   .is-color-pink {
-    color: #d32e79;
+    color: $primary-light;
   }
 
   .is-absolute {
@@ -401,7 +403,7 @@ export default class Gallery extends Vue {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px #d32e79;
+      box-shadow: 0px 0px 10px 0.5px $primary-light;
 
       &-image {
         .ff-canvas {
@@ -410,7 +412,7 @@ export default class Gallery extends Vue {
 
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: $primary-light;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
