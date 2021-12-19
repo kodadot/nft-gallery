@@ -19,7 +19,7 @@
       </b-field>
       <b-field>
           <b-checkbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
-              Fold description in collection view on defult
+              Fold description in collection view on default
           </b-checkbox>
       </b-field>
       <b-field>
@@ -27,7 +27,7 @@
               Show layout options in collection view
           </b-checkbox>
       </b-field>
-      <b-field label="allery Items Per Page" class="field-width">
+      <b-field label="Gallery Items Per Page" class="field-width">
         <b-select
           v-model="galleryItemsPerPage"
           expanded
