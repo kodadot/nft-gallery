@@ -6,4 +6,8 @@ export default ({ store }): void  => {
     storage: window.localStorage,
     reducer: (state: any) => ({history: { visitedNFTs: state.history.visitedNFTs }})
   }).plugin(store)
+  new VuexPersistence({
+    key: 'preferences',
+    storage: window.localStorage,
+  }).plugin(store)
 }
