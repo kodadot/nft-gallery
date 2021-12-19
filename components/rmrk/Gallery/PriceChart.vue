@@ -1,14 +1,26 @@
 <template>
-  <div class="price-chart">
-    <div>
-      <p class="label">
-        {{ $t('Price Chart') }}
-      </p>
+  <b-collapse :open="isOpen" class="card" animation="slide" aria-id="contentIdForHistory">
+    <template #trigger="props">
+      <div
+        class="card-header"
+        role="button"
+        aria-controls="contentIdForHistory"
+      >
+        <p class="card-header-title">
+            {{ $t('Price Chart') }}
+        </p>
+        <a class="card-header-icon">
+          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+          </b-icon>
+        </a>
+      </div>
+    </template>
+    <div class="price-chart">
+      <div class="content box">
+        <canvas id="priceChart" />
+      </div>
     </div>
-    <div class="mt-2">
-      <canvas id="priceChart" />
-    </div>
-  </div>
+  </b-collapse>
 </template>
 
 <script lang="ts">
@@ -27,9 +39,12 @@ const components = {}
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
   @Prop() public priceChartData!: [Date, number][][]
+  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
+
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
+  public isOpen = this.openOnDefault
 
   protected onWindowResize() {
     if (this.Chart) {
