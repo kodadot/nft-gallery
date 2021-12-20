@@ -166,7 +166,7 @@
             </div>
           </div>
         </div>
-        <PriceChart class="mt-4" :priceChartData="priceChartData" :open-on-default="!compactGalleryItem" />
+        <PriceChart class="mt-4" :priceChartData="priceChartData" :openOnDefault="!compactGalleryItem" />
       </div>
     </div>
 

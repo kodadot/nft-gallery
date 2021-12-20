@@ -44,7 +44,7 @@ export default class PriceChart extends mixins(ChainMixin) {
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
-  public isOpen = this.openOnDefault
+  protected isOpen = this.openOnDefault
 
   protected onWindowResize() {
     if (this.Chart) {
