@@ -93,7 +93,7 @@ import { SearchQuery } from './Search/types'
 
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
-import { denyList } from '@/constants'
+import { denyList } from '@/utils/constants'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
