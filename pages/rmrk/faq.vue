@@ -29,7 +29,7 @@
           </div>
         </template>
         <div class="content">
-          <p>{{ qa[1] }}</p>
+          <p v-html=""qa[1]"></p>
         </div>
       </b-collapse>
     </div>
