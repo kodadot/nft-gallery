@@ -1,15 +1,80 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="card-content">
+    <div class="card-content ">
       <div class="columns">
         <b-field class="column is-6 mb-0">
-          <b-input
+          <!-- <b-input
             placeholder="Search..."
             type="search"
             v-model="searchQuery"
             icon="search"
             expanded>
-          </b-input>
+          </b-input> -->
+          <b-autocomplete
+            v-model="name"
+            :data = result
+            placeholder="Search..."
+            icon="search"
+            open-on-focus
+            clearable
+            max-height="350px"
+            @typing="updateSearch"
+            @select="option => selected = option">
+            <!-- <div v-for ="(nft, i) in result" :key="nft.id"> -->
+            <template slot-scope="props">
+              <!-- <div class="media">
+                  <div class="media-left image">
+                    <img width="32" :src="props.option.image !== '' ? props.option.image : props.option.animation_url" 
+                    src-fallback = "/placeholder.svg">
+                  </div>
+                  <div class="media-content">
+                       {{props.option }}
+                  </div>
+              </div> -->
+                <!-- <div class="media" v-if="i===nft.index">
+                  <div class="media-left">
+                    <b-image class="image is-32x32"
+                      :src="nft.image !== '' ? nft.image : nft.animation_url" 
+                      src-fallback="/placeholder.svg"
+                    >
+                    </b-image>                    
+                  </div>
+                    <div class="media-content">
+                        {{ nft.name }}{{nft.index}}{{i}}
+                    </div>                
+                </div> -->
+
+                <div v-if="props.option.type==='History'">
+                  <div class="history"> {{props.option.name}} </div>
+                </div>
+
+                 <div v-else class="media">
+                  <div class="media-left">
+                    <b-image class="image is-32x32"
+                      :src="props.option.image === '' ? props.option.animation_url : props.option.image" 
+                    >
+                    </b-image>                    
+                  </div>
+                  <div class="media-content">
+                      {{ props.option.name }}
+                  </div>                
+                </div>
+              <!-- <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-32x32">
+                    <img 
+                      :src="props.option !== '' ? props.option.image : props.option.animation_url" 
+                      src-fallback="/placeholder.svg"
+                    >
+                  </figure>
+                  </div>
+                  <div class="media-content">
+                      {{ props.option.name }}
+                  </div>                
+                </div> -->
+            </template>
+            <!-- </div> -->
+          </b-autocomplete>
         </b-field>
         <b-field class="column is-3 mb-0">
           <b-button
@@ -24,28 +89,36 @@
         <slot />
       </div>
 
-      <transition name="fade">
+      <transition  name="fade">
         <div v-if="isVisible" class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" labelColor="is-success" />
+          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
         </div>
       </transition>
+
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+<script lang="ts" >
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
+import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import { SearchQuery } from './types'
+import { denyList } from '@/constants'
+import { NFT, NFTMetadata, NFTWithMeta } from '../../service/scheme'
+import { fetchNFTMetadata, getSanitizer } from '../../utils'
+import { getMany, update } from 'idb-keyval'
 
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
     TypeTagInput: () => import('./TypeTagInput.vue'),
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue')
+    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+    BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+
   }
 })
 export default class SearchBar extends Vue {
@@ -55,8 +128,21 @@ export default class SearchBar extends Vue {
   @Prop(Boolean) public listed!: boolean;
 
   protected isVisible = false;
+  private query: SearchQuery = {
+      search: '',
+      type: '',
+      sortBy: 'BLOCK_NUMBER_DESC',
+      listed: false,
+    };
+  
+  private first = 10;
+  private currentValue = 1;
+  private result : NFT[] = [];
+  private name = '';
+  private searched : NFT[] = [];
 
   public mounted(): void {
+    this.getSearchHistory()
     exist(this.$route.query.search, this.updateSearch)
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
@@ -70,6 +156,7 @@ export default class SearchBar extends Vue {
   set vListed(listed: boolean) {
     this.updateListed(listed)
   }
+
 
   get searchQuery(): string {
     return this.search
@@ -85,6 +172,9 @@ export default class SearchBar extends Vue {
 
   set typeQuery(value: string) {
     this.updateType(value)
+  }
+  get offset() {
+    return this.currentValue * this.first - this.first
   }
 
   @Emit('update:listed')
@@ -110,26 +200,117 @@ export default class SearchBar extends Vue {
   }
 
   @Emit('update:search')
-  @Debounce(400)
-  updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
-    return value
+  @Debounce(100)
+  async updateSearch(value: string): Promise<string> {
+    // shouldUpdate(value, this.searchQuery)
+    this.query.search = value;
+    const nft = this.$apollo.query({
+      query: nftListWithSearch,
+        variables: {
+          first: this.first,
+          offset: this.offset,
+          denyList,
+          orderBy: this.query.sortBy,
+          search: this.buildSearchParam()
+        }
+      })
+    const {
+        data: {
+          nFTEntities: { nodes: nfts }
+        }
+      } = await nft
+    
+    const storedMetadata = await getMany(
+      nfts.map(({ metadata }: any) => metadata)
+    )
+
+    storedMetadata.forEach(async (m: { image: any }, i: string|number) => {
+      if (!m) {
+        try {
+          const meta = await fetchNFTMetadata(nfts[i], getSanitizer(nfts[i].metadata, undefined, 'permafrost'))
+          Vue.set(nfts, i, {
+            ...nfts[i],
+            ...meta,
+            image: getSanitizer(meta.image || '')(meta.image || ''),
+          })
+          update(nfts[i].metadata, () => meta)
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata')
+        }
+      } else {
+        Vue.set(nfts, i, {
+          ...nfts[i],
+          ...m,
+          image: getSanitizer(m.image || '')(m.image || ''),
+        })
+      }
+    })
+    
+    this.result = this.filterSearch().concat(nfts)
+    // const temp = nftList as NFTWithMeta[]
+    console.log("here", this.result)
+    // return value
+    // console.log(this.selected)
+    // shouldUpdate(value, this.selected) && this.replaceUrl(value)
+    // return this.selected === null ? '' : this.selected;
+    // return this.selected;
+    // return value;
+    return '';
   }
 
   @Debounce(100)
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        path: String(this.$route.path),
+        name: String(this.$route.name),
         query: { ...this.$route.query, search: this.searchQuery, [key]: value }
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params: any[] = []
+
+    if (this.query.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.query.search}%` }
+      })
+    }
+
+    if (this.query.listed) {
+      params.push({
+        price: { greaterThan: '0' }
+      })
+    }
+
+    return params
+  }
+  private getSearchHistory() {
+    this.searched.push({ 'type': 'History', 'name': 'sport' } as unknown as NFT)
+    this.searched.push({ 'type': 'History', 'name': 'appul' } as unknown as NFT)
+    this.searched.push({ 'type': 'History', 'name': 'spaceship' } as unknown as NFT)
+    this.searched.push({ 'type': 'History', 'name': 'space' } as unknown as NFT)
+    this.searched.push({ 'type': 'History', 'name': 'KSM' } as unknown as NFT)
+    this.result = this.searched
+  }
+  private filterSearch(){
+    return this.searched.filter(option => {
+      return option.name.toString().toLowerCase().indexOf(this.name.toLowerCase()) >= 0
+    })
+  }
+
 }
+
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/variables';
+.b-skeleton{
+  height: 32px !important; 
+  width: 32px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
 .card {
   box-shadow: 0px 0px 5px 0.5px $primary;
@@ -144,4 +325,16 @@ export default class SearchBar extends Vue {
 .fade-leave-to {
   opacity: 0;
 }
+</style>
+
+<style lang="scss">
+.image img {
+    width: 32px ;
+    height: 32px ;
+}
+.history {
+  color: #d32e79;
+  font-size: 15px;
+}
+
 </style>
