@@ -50,20 +50,26 @@
       <b-table-column
         field="unique"
         :label="$t('spotlight.unique')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.unique }}</template>
+      <template v-slot:header="{column}">
+        <b-tooltip label="unique items" append-to-body dashed>
+          {{column.label}}
+        </b-tooltip>
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
+      <template v-slot:header="{column}">
+        <b-tooltip label="unique collectors" append-to-body dashed>
+          {{column.label}}
+        </b-tooltip>
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
