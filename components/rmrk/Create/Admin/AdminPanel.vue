@@ -295,10 +295,3 @@ export default class AdminPanel extends mixins(
 }
 </script>
 
-<style lang="scss">
-@import '@/styles/variables';
-
-.message.is-primary .message-body {
-  color: $primary-light !important;
-}
-</style>

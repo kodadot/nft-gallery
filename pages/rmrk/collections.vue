@@ -308,10 +308,6 @@ export default class Collections extends Vue {
     float: right;
   }
 
-  .is-color-pink {
-    color: $primary-light;
-  }
-
   .is-absolute {
     position: absolute;
   }
