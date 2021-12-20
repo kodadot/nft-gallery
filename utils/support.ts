@@ -18,7 +18,7 @@ type FileType = MaybeFile | MaybeFile[]
 
 export const sizeOf = (file: Blob | number): number => typeof file === 'number' ? file : file.size
 
-export const getFileSize = (file: Blob | number) => {
+export const getFileSize = (file: Blob | number): number  => {
   const size = sizeOf(file)
   const res = ( size / BYTES ** 2 )
 
@@ -31,18 +31,18 @@ export const getFileSize = (file: Blob | number) => {
 }
 
 // size in gb // yields in cents
-export const baseIpfsPrice = (file: Blob | number) => {
+export const baseIpfsPrice = (file: Blob | number): number  => {
   const fileSize = getFileSize(file)
   return IPFS_REPLICATIONS * MONTHS * fileSize * IPFS_PRICE
 }
 
-export const round = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100
+export const round = (num: number): number  => Math.round((num + Number.EPSILON) * 100) / 100
 const sum = (a: number, b: number) => a + b
 
 const justFile = (file: MaybeFile): boolean =>  !!file
 
 
-export const calculateCost = (files: FileType) => {
+export const calculateCost = (files: FileType): number  => {
   if (Array.isArray(files)) {
     const allReadyAdded: Record<string, boolean> = {}
     return files

@@ -41,8 +41,8 @@ const components = {
 
 @Component({ components })
 export default class extends Vue {
-  private address = '';
-  private convertedAddress = '';
+  private address = ''
+  private convertedAddress = ''
 
   private mounted() {
     if (this.$route.params.data) {

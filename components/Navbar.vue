@@ -19,10 +19,7 @@
         >
       </b-navbar-item>
     </template>
-    <template
-      #start
-      class="start"
-    >
+    <template #start>
       <b-navbar-dropdown
         arrowless
         collapsible

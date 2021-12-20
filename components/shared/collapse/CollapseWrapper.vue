@@ -20,9 +20,9 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class CollapseWrapper extends Vue {
-  @Prop({ type: String, default: 'Show' }) visible!: string;
-  @Prop({ type: String, default: 'Hide' }) hidden!: string;
-  @Prop(Boolean) bottom!: boolean;
+  @Prop({ type: String, default: 'Show' }) visible!: string
+  @Prop({ type: String, default: 'Hide' }) hidden!: string
+  @Prop(Boolean) bottom!: boolean
 
   get position(): string {
     return this.bottom ? 'is-bottom' : 'is-top'

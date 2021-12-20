@@ -35,8 +35,8 @@ const components = {
 
 @Component({ components })
 export default class Auth extends Vue {
-  @Prop({ default: 24 }) public size!: number;
-  private balance = '';
+  @Prop({ default: 24 }) public size!: number
+  private balance = ''
 
   public mounted() {
     if (this.account) {

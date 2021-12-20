@@ -1,7 +1,7 @@
 <template>
   <div v-show="history && history.length" class="history-browser">
     <b-dropdown aria-role="list" scrollable position="is-bottom-left" max-height="400px" >
-      <template #trigger="{ active }">
+      <template #trigger>
         <b-button
           type="is-primary"
           icon-left="history"
@@ -36,24 +36,24 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import HistoryBrowserItem from '~/components/shared/history/HistoryBrowserItem.vue'
-import { HistoryItem } from '~/store/history';
+import { HistoryItem } from '~/store/history'
 
 @Component({
   components: {
     HistoryBrowserItem
   },
   filters: {
-		truncate: function truncateFct(value, limit) {
-			if (value?.length > limit) {
-				value = `${value.substring(0, limit - 3)}...`;
-			}
-			return value;
-		}
-	}
+    truncate: function truncateFct(value, limit) {
+      if (value?.length > limit) {
+        value = `${value.substring(0, limit - 3)}...`
+      }
+      return value
+    }
+  }
 })
 export default class HistoryBrowser extends Vue {
   get history() {
-    return this.$store.state.history['visitedNFTs'];
+    return this.$store.state.history['visitedNFTs']
   }
   get visitedToday(): HistoryItem[] {
     return this.$store.getters['history/getVisitedToday']

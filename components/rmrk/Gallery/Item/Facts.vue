@@ -88,17 +88,17 @@ const components = {
 
 @Component({ components })
 export default class Facts extends Vue {
-  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT;
-  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata;
-  public multimediaCid = '';
-  public showGwLinks = false;
+  @Prop({ default: () => emptyObject<NFT>() }) public nft!: NFT
+  @Prop({ default: () => emptyObject<NFTMetadata>() }) public meta!: NFTMetadata
+  public multimediaCid = ''
+  public showGwLinks = false
   public gwList: any = [
     'https://kodadot.mypinata.cloud/ipfs/',
     'https://cloudflare-ipfs.com/ipfs/',
     'https://gateway.ipfs.io/ipfs/',
     'https://ipfs.fleek.co/ipfs/',
     'https://dweb.link/ipfs/'
-  ];
+  ]
 
   get tags() {
     return this.meta.attributes?.filter(({ trait_type }) => !trait_type).map(({ value }) => value)

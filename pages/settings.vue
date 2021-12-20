@@ -24,6 +24,6 @@ import Metadata from '@/components/metadata/Metadata.vue'
 })
 
 export default class Settings extends Vue {
-    private activeTab = 0;
+  private activeTab = 0
 }
 </script>

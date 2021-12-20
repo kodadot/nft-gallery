@@ -23,8 +23,8 @@ const components = {
 @Component({ components })
 export default class DescriptionWrapper extends Vue {
   @Prop(String) public text!: string
-  protected activeWrapper: boolean = true
-  private maxCharsWrapper: number = 125
+  protected activeWrapper = true
+  private maxCharsWrapper = 125
 
   get hasWrapper(): boolean {
     return this.text.length > this.maxCharsWrapper

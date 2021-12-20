@@ -41,9 +41,9 @@ const components = {
 
 @Component({ components })
 export default class PackItem extends Vue {
-  private id = '';
-  private pack: CompletePack = emptyObject<CompletePack>();
-  private isLoading = false;
+  private id = ''
+  private pack: CompletePack = emptyObject<CompletePack>()
+  private isLoading = false
 
   get name() {
     return this.pack.name || this.id

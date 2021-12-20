@@ -63,14 +63,14 @@ import { Pack } from '@/components/rmrk/service/scheme'
 
 @Component
 export default class PackSaver extends Vue {
-  @Prop() public currentOwnerId!: string;
-  @Prop() public accountId!: string;
-  @Prop() public nftId!: string;
-  private currentMenu: string[] = [];
-  private savedMenu: Record<string,boolean> = {};
-  private menus: Pack[] = [];
-  private newPackName = '';
-  protected isLoading = false;
+  @Prop() public currentOwnerId!: string
+  @Prop() public accountId!: string
+  @Prop() public nftId!: string
+  private currentMenu: string[] = []
+  private savedMenu: Record<string,boolean> = {}
+  private menus: Pack[] = []
+  private newPackName = ''
+  protected isLoading = false
 
   // protected async addPack() {
   //   const rmrkService = getInstance();
