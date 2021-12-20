@@ -153,10 +153,13 @@ export default class Gallery extends Vue {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  public first = this.$store.state.preferences.galleryItemsPerPage
   private placeholder = '/koda300x300.svg'
   private currentValue = 1
   private total = 0
+
+  get first(): number {
+    return this.$store.getters['preferences/getGalleryItemsPerPage']
+  }
 
   get isLoading() {
     return this.$apollo.queries.nfts.loading

@@ -230,11 +230,11 @@ export default class CollectionItem extends mixins(ChainMixin) {
   }
 
   get showLayoutOptions(): boolean {
-    return this.$store.state.preferences.showLayoutOptions
+    return this.$store.getters['preferences/getShowLayoutOptions']
   }
 
   get compactCollection(): boolean {
-    return this.$store.state.preferences.compactCollection
+    return this.$store.getters['preferences/getCompactCollection']
   }
 
   private buildSearchParam(): Record<string, unknown>[] {

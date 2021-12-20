@@ -105,10 +105,13 @@ const components = {
 export default class Collections extends Vue {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/koda300x300.svg'
   private currentValue = 1
   private total = 0
+
+  get first(): number {
+    return this.$store.getters['preferences/getCollectionsPerPage']
+  }
 
   get isLoading() {
     return this.$apollo.queries.collection.loading

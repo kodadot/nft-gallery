@@ -267,7 +267,7 @@ export default class GalleryItem extends Vue {
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
-  private viewMode = this.$store.state.preferences.theatreView
+  private viewMode = this.$store.getters['preferences/getTheatreView']
   private isFullScreenView = false
   public isLoading = true
   public mimeType = ''
