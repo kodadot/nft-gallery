@@ -3,13 +3,7 @@
     <div class="card-content ">
       <div class="columns">
         <b-field class="column is-6 mb-0">
-          <!-- <b-input
-            placeholder="Search..."
-            type="search"
-            v-model="searchQuery"
-            icon="search"
-            expanded>
-          </b-input> -->
+
           <b-autocomplete
             v-model="name"
             :data = result
@@ -18,37 +12,22 @@
             open-on-focus
             clearable
             max-height="350px"
-            @typing="updateSearch"
-            @select="option => selected = option">
-            <!-- <div v-for ="(nft, i) in result" :key="nft.id"> -->
+            @keydown.native.enter="searchResult"
+            @typing="updateSuggestion"
+            @select="updateSelected">
+
             <template slot-scope="props">
-              <!-- <div class="media">
-                  <div class="media-left image">
-                    <img width="32" :src="props.option.image !== '' ? props.option.image : props.option.animation_url" 
-                    src-fallback = "/placeholder.svg">
-                  </div>
-                  <div class="media-content">
-                       {{props.option }}
-                  </div>
-              </div> -->
-                <!-- <div class="media" v-if="i===nft.index">
-                  <div class="media-left">
-                    <b-image class="image is-32x32"
-                      :src="nft.image !== '' ? nft.image : nft.animation_url" 
-                      src-fallback="/placeholder.svg"
-                    >
-                    </b-image>                    
-                  </div>
-                    <div class="media-content">
-                        {{ nft.name }}{{nft.index}}{{i}}
-                    </div>                
-                </div> -->
 
                 <div v-if="props.option.type==='History'">
                   <div class="history"> {{props.option.name}} </div>
                 </div>
 
-                 <div v-else class="media">
+                 <div v-else>
+                   <nuxt-link
+                    :to="{ name: 'rmrk-detail-id', params: { id: props.option.id }}"
+                    tag="div"
+                  >
+                  <div class="media">
                   <div class="media-left">
                     <b-image class="image is-32x32"
                       :src="props.option.image === '' ? props.option.animation_url : props.option.image" 
@@ -57,23 +36,12 @@
                   </div>
                   <div class="media-content">
                       {{ props.option.name }}
-                  </div>                
-                </div>
-              <!-- <div class="media">
-                  <div class="media-left">
-                    <figure class="image is-32x32">
-                    <img 
-                      :src="props.option !== '' ? props.option.image : props.option.animation_url" 
-                      src-fallback="/placeholder.svg"
-                    >
-                  </figure>
                   </div>
-                  <div class="media-content">
-                      {{ props.option.name }}
-                  </div>                
-                </div> -->
+                  </div> 
+                  </nuxt-link>               
+                </div>
+
             </template>
-            <!-- </div> -->
           </b-autocomplete>
         </b-field>
         <b-field class="column is-3 mb-0">
@@ -110,6 +78,7 @@ import { denyList } from '@/constants'
 import { NFT, NFTMetadata, NFTWithMeta } from '../../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../../utils'
 import { getMany, update } from 'idb-keyval'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 @Component({
   components: {
@@ -185,6 +154,11 @@ export default class SearchBar extends Vue {
     return v === 'true'
   }
 
+  @Debounce(400)
+  searchResult(): string {
+    return this.updateSearch(this.name)
+  }
+
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
@@ -199,9 +173,25 @@ export default class SearchBar extends Vue {
     return value
   }
 
+  @Debounce(50)
+  updateSelected(value: any){
+    if(value.type == "History"){
+      this.updateSearch(value.name)
+    }
+    else{
+      
+    } 
+  }
+  
   @Emit('update:search')
+  @Debounce(400)
+  updateSearch(value: string): string {
+    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    return value
+  }
+
   @Debounce(100)
-  async updateSearch(value: string): Promise<string> {
+  async updateSuggestion(value: string): Promise<string> {
     // shouldUpdate(value, this.searchQuery)
     this.query.search = value;
     const nft = this.$apollo.query({
