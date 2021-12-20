@@ -24,6 +24,11 @@ export type PreferencesState = ReturnType<typeof state>
 
 export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
+  getTheatreView: ({ theatreView }) => theatreView,
+  getCompactCollection: ({ compactCollection }) => compactCollection,
+  getShowLayoutOptions: ({ showLayoutOptions }) => showLayoutOptions,
+  getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
+  getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage
 }
 
 export const mutations: MutationTree<PreferencesState> = {
