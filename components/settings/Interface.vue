@@ -1,37 +1,37 @@
 <template>
   <div>
     <div class="label">
-      User Interface Mode
+      {{ $t('user interface mode') }}
     </div>
     <b-switch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
-        {{ enabledAdvancedUI ? 'Advanced User Interface' : 'Basic User Interface' }}
+        {{ enabledAdvancedUI ? $t('advanced user interface') : $t('basic user interface') }}
     </b-switch>
     <div class="box">
       <b-field>
           <b-checkbox v-model="theatreView" :disabled="!enabledAdvancedUI">
-              Enable "Theatre View" on default
+            {{ $t('Enable Theatre View on default') }}
           </b-checkbox>
       </b-field>
         <b-field>
           <b-checkbox v-model="compactGalleryItem" :disabled="!enabledAdvancedUI">
-              Fold history and price chart in NFT view on default
+              {{ $t('Fold history and price chart in NFT view on default') }}
           </b-checkbox>
       </b-field>
-      <b-field>
+      <b-field >
           <b-checkbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
-              Fold description in collection view on default
+            {{ $t('Fold description in collection view on default') }}
           </b-checkbox>
       </b-field>
-      <b-field>
-          <b-checkbox v-model="showLayoutOptions" :disabled="!enabledAdvancedUI">
-              Show layout options in collection view
-          </b-checkbox>
-      </b-field>
-      <b-field label="Gallery Items Per Page" class="field-width">
+      <div class="layout-wrapper">
+          <div class="label">
+            {{ $t('Layout Options') }}
+          </div>
+          <Layout :disabled="!enabledAdvancedUI" position="is-left" />
+      </div>
+      <b-field :label="$t('Gallery Items Per Page')" class="field-width">
         <b-select
           v-model="galleryItemsPerPage"
           expanded
-          placeholder="Items Per Page"
           :disabled="!enabledAdvancedUI"
         >
           <option
@@ -43,11 +43,10 @@
           </option>
         </b-select>
       </b-field>
-      <b-field label="Collections Per Page" class="field-width">
+      <b-field :label="$t('Collections Per Page')" class="field-width">
         <b-select
           v-model="collectionsPerPage"
           expanded
-          placeholder="Items Per Page"
           :disabled="!enabledAdvancedUI"
         >
           <option
@@ -66,7 +65,11 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-@Component({})
+@Component({
+  components: {
+    Layout: () => import('@/components/rmrk/Gallery/Layout.vue')
+  }
+})
 export default class Interface extends Vue {
   public paginationOptions = [9, 12, 24, 36]
 
@@ -102,14 +105,6 @@ export default class Interface extends Vue {
     this.$store.dispatch('preferences/setCompactCollection', value)
   }
 
-  get showLayoutOptions(): boolean {
-    return this.$store.state.preferences.showLayoutOptions
-  }
-
-  set showLayoutOptions(value: boolean) {
-    this.$store.dispatch('preferences/setShowLayoutOptions', value)
-  }
-
   get galleryItemsPerPage(): number {
     return this.$store.state.preferences.galleryItemsPerPage
   }
@@ -131,5 +126,8 @@ export default class Interface extends Vue {
 <style scoped>
 .field-width {
   max-width: 250px;
+}
+.layout-wrapper {
+  margin-bottom: 1em;
 }
 </style>

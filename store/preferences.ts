@@ -6,7 +6,6 @@ export const state = (): {
   theatreView: string;
   compactGalleryItem: boolean;
   compactCollection: boolean;
-  showLayoutOptions: boolean;
   galleryItemsPerPage: number;
   collectionsPerPage: number
 }  => ({
@@ -15,7 +14,6 @@ export const state = (): {
   theatreView: 'default',
   compactGalleryItem: false,
   compactCollection: false,
-  showLayoutOptions: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9
 })
@@ -26,7 +24,6 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
-  getShowLayoutOptions: ({ showLayoutOptions }) => showLayoutOptions,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage
 }
@@ -38,10 +35,10 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
     if(!data) {
+      state.layoutClass = 'is-one-third-desktop is-one-third-tablet',
       state.theatreView = 'default'
       state.compactGalleryItem = false
       state.compactCollection = false
-      state.showLayoutOptions = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
     }
@@ -55,9 +52,6 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
     state.compactCollection = data
-  },
-  SET_SHOW_LAYOUT_OPTIONS(state: PreferencesState, data) {
-    state.showLayoutOptions = data
   },
   SET_GALLERY_ITEMS_PER_PAGE(state: PreferencesState, data) {
     state.galleryItemsPerPage = data
@@ -82,9 +76,6 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setCompactCollection({ commit }: { commit: Commit }, data) {
     commit('SET_COMPACT_COLLECTION', data)
-  },
-  setShowLayoutOptions({ commit }: { commit: Commit }, data) {
-    commit('SET_SHOW_LAYOUT_OPTIONS', data)
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)

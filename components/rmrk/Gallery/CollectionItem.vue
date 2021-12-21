@@ -61,7 +61,7 @@
     <b-tabs position="is-centered" v-model="activeTab">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery">
-          <Layout v-if="showLayoutOptions" class="mr-5" />
+          <Layout class="mr-5" />
           <b-field>
             <Pagination
               hasMagicBtn
@@ -227,10 +227,6 @@ export default class CollectionItem extends mixins(ChainMixin) {
 
   get sharingVisible(): boolean {
     return !isShareMode
-  }
-
-  get showLayoutOptions(): boolean {
-    return this.$store.getters['preferences/getShowLayoutOptions']
   }
 
   get compactCollection(): boolean {
