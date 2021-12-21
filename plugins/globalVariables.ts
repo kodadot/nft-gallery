@@ -3,7 +3,7 @@ import '@/icons'
 import keyring from '@polkadot/ui-keyring'
 
 import Connector from '@vue-polkadot/vue-api'
-import { enableExtension } from '@/extension'
+import { enableExtension } from '@/utils/extension'
 import { web3FromAddress } from '@polkadot/extension-dapp'
 import 'setimmediate'
 import mingo from 'mingo'

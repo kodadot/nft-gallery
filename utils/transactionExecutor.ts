@@ -2,7 +2,7 @@ import keyring from '@polkadot/ui-keyring'
 import { KeyringAccount } from '@/types'
 import { AddressOrPair, SubmittableExtrinsic } from '@polkadot/api/types'
 import { Callback, ISubmittableResult } from '@polkadot/types/types'
-import { getAddress } from '@/extension'
+import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces'
 

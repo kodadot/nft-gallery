@@ -4,7 +4,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
-import { enableExtension } from '@/extension'
+import { enableExtension } from '@/utils/extension'
 import correctFormat from '@/utils/ss58Format'
 
 import {
