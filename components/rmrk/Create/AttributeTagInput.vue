@@ -36,10 +36,10 @@ export default class extends Vue {
     'image',
     'music',
     'abstract'
-  ];
-  @Prop() public value!: Attribute[];
-  @Prop({ default: 3 }) public max!: string | number;
-  @Prop({ default: 'Select tags or create your own' }) public placeholder!: string;
+  ]
+  @Prop() public value!: Attribute[]
+  @Prop({ default: 3 }) public max!: string | number
+  @Prop({ default: 'Select tags or create your own' }) public placeholder!: string
   @Prop(Boolean) public simple!: boolean
 
   get tags() {

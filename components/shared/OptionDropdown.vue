@@ -30,10 +30,10 @@ export default class OptionDropdown extends Vue {
     this.$emit('selected', value)
   }
 
-	@Prop() public label!: string;
-	@Prop() public description!: string;
-	@Prop() public options!: any[];
-	private selectedOption: any;
+	@Prop() public label!: string
+	@Prop() public description!: string
+	@Prop() public options!: any[]
+	private selectedOption: any
 
 }
 </script>

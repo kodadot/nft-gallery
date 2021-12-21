@@ -12,7 +12,7 @@
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 @Component({})
 export default class DonationButton extends Vue {
-  @Prop() public address!: string;
+  @Prop() public address!: string
 
   public goToTransfer() {
     this.$router.push({

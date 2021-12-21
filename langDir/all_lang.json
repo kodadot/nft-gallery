@@ -41,6 +41,12 @@
     "kodadot_social": {
       "twitter": {
         "href": "https://twitter.com/kodadot"
+      },
+      "open_issues": {
+        "href": "https://github.com/kodadot/nft-gallery/issues"
+      },
+      "contributing_guide": {
+        "href": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md"
       }
     },
     "rmrk_spec_emote_issue": {

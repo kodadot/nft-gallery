@@ -176,6 +176,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 const components = {
 }
 @Component<Landing>({
+  name: 'Landing',
   metaInfo() {
     return {
       meta: [

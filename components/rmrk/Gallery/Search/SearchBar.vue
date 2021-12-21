@@ -75,7 +75,7 @@ import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { SearchQuery } from './types'
 import { denyList } from '@/constants'
-import { NFT, NFTMetadata, NFTWithMeta } from '../../service/scheme'
+import { NFT } from '../../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../../utils'
 import { getMany, update } from 'idb-keyval'
 import shouldUpdate from '~/utils/shouldUpdate'
@@ -91,12 +91,12 @@ import shouldUpdate from '~/utils/shouldUpdate'
   }
 })
 export default class SearchBar extends Vue {
-  @Prop(String) public search!: string;
-  @Prop(String) public type!: string;
-  @Prop(String) public sortBy!: string;
-  @Prop(Boolean) public listed!: boolean;
+  @Prop(String) public search!: string
+  @Prop(String) public type!: string
+  @Prop(String) public sortBy!: string
+  @Prop(Boolean) public listed!: boolean
 
-  protected isVisible = false;
+  protected isVisible = false
   private query: SearchQuery = {
       search: '',
       type: '',

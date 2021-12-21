@@ -9,11 +9,11 @@ import shouldUpdate from '@/utils/shouldUpdate'
 
 @Component({})
 export default class QRCodeComponent extends Vue {
-  @Prop({ type: String, required: true }) public text!: string;
-  @Prop({ type: Number, required: false, default: 256 }) public size!: number;
-  @Prop({ type: String, required: false, default: '#000' }) public color!: string;
+  @Prop({ type: String, required: true }) public text!: string
+  @Prop({ type: Number, required: false, default: 256 }) public size!: number
+  @Prop({ type: String, required: false, default: '#000' }) public color!: string
   @Prop({ type: String, required: false, default: '#FFF' })
-  public bgColor!: string;
+  public bgColor!: string
   @Prop({
     type: String,
     validator: function(value) {
@@ -22,7 +22,7 @@ export default class QRCodeComponent extends Vue {
     required: false,
     default: 'H'
   })
-  public errorLevel!: string;
+  public errorLevel!: string
 
   protected qrCode: Record<string, any> | null = null
 

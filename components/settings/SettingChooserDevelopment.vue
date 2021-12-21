@@ -23,9 +23,9 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class SettingChooserDevelopment extends Vue {
-  @Prop() public label!: string;
-  @Prop() public selector!: string;
-  @Prop() public setter!: string;
+  @Prop() public label!: string
+  @Prop() public selector!: string
+  @Prop() public setter!: string
 
   get options() {
     return this.$store.state.development[this.selector]

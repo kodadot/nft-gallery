@@ -32,7 +32,7 @@ const unRegisterEvents = (el: any) => {
 }
 
 export default {
-  bind: (el: any, binding: any) => {
+  bind: (el: any, binding: any): void  => {
     el.onMove = (event: MouseEvent) => {
       onMove(event, el)
     }
@@ -49,7 +49,7 @@ export default {
       registerEvents(el)
     }
   },
-  update: (el: HTMLElement, binding: any) => {
+  update: (el: HTMLElement, binding: any): void  => {
     el.parentElement!.classList.add('orientation')
     if (!binding.value) {
       unRegisterEvents(el)
@@ -57,7 +57,7 @@ export default {
       registerEvents(el)
     }
   },
-  unbind: (el: HTMLElement) => {
+  unbind: (el: HTMLElement): void  => {
     unRegisterEvents(el)
   }
 }

@@ -27,13 +27,13 @@ export default class Consolidator {
     return true
   }
 
-  public static canTransfer(nft: NFT) {
+  public static canTransfer(nft: NFT): void  {
     if (!nft.transferable) {
       throw new ValidationError(`NFT ${nft._id} is not transferable`)
     }
   }
 
-  public static isAvailableForSale(nft: NFT, previousOwner: string) {
+  public static isAvailableForSale(nft: NFT, previousOwner: string): boolean  {
     return Consolidator.callerEquals(nft.currentOwner, previousOwner)
   }
 
@@ -78,7 +78,7 @@ export default class Consolidator {
 
   // }
 
-  public static collectionIdValid(collection: Collection, caller: string) {
+  public static collectionIdValid(collection: Collection, caller: string): void  {
     const generatedId = caller.startsWith('0x') ? caller : generateId(
       accountIdToPubKey(caller),
       collection.symbol
@@ -100,7 +100,7 @@ export default class Consolidator {
 
   // public static validate() {}
 
-  public static requireCaller(caller = '', interaction: RmrkInteraction) {
+  public static requireCaller(caller = '', interaction: RmrkInteraction): void  {
     if (!caller) {
       throw new ValidationError(
         `Unknown caller, doing ${interaction.toString()}`
@@ -108,7 +108,7 @@ export default class Consolidator {
     }
   }
 
-  public static isIssuer(collection: Collection, caller = '') {
+  public static isIssuer(collection: Collection, caller = ''): void  {
     if (!Consolidator.callerEquals(collection.issuer, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not issuer of ${collection._id}.\n Issuer is ${collection.issuer}!`
@@ -116,7 +116,7 @@ export default class Consolidator {
     }
   }
 
-  public static isOwner(nft: NFT, caller = '') {
+  public static isOwner(nft: NFT, caller = ''): void  {
     if (!Consolidator.callerEquals(nft.currentOwner, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not owner of ${nft._id}.\n Owner is ${nft.currentOwner}!`
@@ -129,7 +129,7 @@ export default class Consolidator {
   }
 
 
-  public static nftValid(nft: NFT) {
+  public static nftValid(nft: NFT): void  {
     Object.entries(nft).forEach(([key, value]) => {
       if ((nftSchema as any)[key] && !value) {
         throw new ValidationError(`${key} is missing on NFT ${nft.sn}`)
@@ -137,7 +137,7 @@ export default class Consolidator {
     })
   }
 
-  public static collectionValid(collection: Collection) {
+  public static collectionValid(collection: Collection): void  {
     throw new Error('Not implemented')
   }
 }

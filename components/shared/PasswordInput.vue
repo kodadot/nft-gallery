@@ -19,8 +19,8 @@ import { isAccountLocked } from '@/utils/account'
 
 @Component
 export default class PasswordInput extends Vue {
-  @Prop() public value!: string;
-  @Prop({ default: '' }) public account!: string;
+  @Prop() public value!: string
+  @Prop({ default: '' }) public account!: string
 
   // public mounted() {
   //   if (this.account) {
