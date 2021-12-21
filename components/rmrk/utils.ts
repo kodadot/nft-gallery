@@ -8,7 +8,7 @@ import {
   CollectionMetadata,
   MediaType
 } from './types'
-import api from '@/fetch'
+import api from '@/utils/fetch'
 import { RmrkType, RmrkWithMetaType, CollectionOrNFT, Interaction } from './service/scheme'
 import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
