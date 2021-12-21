@@ -36,7 +36,6 @@ export const nftFn = (a: any): Row => {
     rank: sold * (unique / total),
     uniqueCollectors,
   }
-  
 }
 
 
