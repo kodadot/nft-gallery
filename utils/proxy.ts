@@ -1,7 +1,7 @@
 import Axios from 'axios'
-import { NFT, NFTMetadata } from './components/rmrk/service/scheme'
+import { NFT, NFTMetadata } from '../components/rmrk/service/scheme'
 import { APIKeys, pinFile as pinFileToIPFS } from './pinata'
-import { extractCid, justHash } from './utils/ipfs'
+import { extractCid, justHash } from './ipfs'
 
 export const BASE_URL = `${window.location.origin}/.netlify/functions/`
 

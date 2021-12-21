@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import '@/icons'
+import '@/utils/icons'
 import keyring from '@polkadot/ui-keyring'
 
 import Connector from '@vue-polkadot/vue-api'

@@ -166,7 +166,7 @@ import {
   NFT,
   getNftId
 } from '@/components/rmrk/service/scheme'
-import { permaStore } from '@/proxy'
+import { permaStore } from '@/utils/proxy'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost, offsetTx } from '@/utils/support'
