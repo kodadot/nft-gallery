@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import i18n from '@/i18n'
+import i18n from '@/utils/i18n/i18n'
 
 @Component({})
 export default class Faq extends Vue {

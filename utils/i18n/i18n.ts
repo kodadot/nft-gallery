@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueI18n, { LocaleMessages } from 'vue-i18n'
 import MarkdownIt from 'markdown-it'
-import commonData from './langDir/all_lang.json'
+import commonData from '../../langDir/all_lang.json'
 
 Vue.use(VueI18n)
 
