@@ -182,9 +182,6 @@ export default class SearchBar extends Vue {
     if(value.type == "History"){
       this.updateSearch(value.name)
     }
-    else{
-      
-    } 
   }
   
   @Emit('update:search')
@@ -195,7 +192,7 @@ export default class SearchBar extends Vue {
   }
 
   @Debounce(100)
-  async updateSuggestion(value: string): Promise<string> {
+  async updateSuggestion(value: string) {
     // shouldUpdate(value, this.searchQuery)
     this.query.search = value;
     const nft = this.$apollo.query({
@@ -243,8 +240,6 @@ export default class SearchBar extends Vue {
     this.result = this.filterSearch().concat(nfts)
     
     // console.log("here", this.result)
-    
-    return '';
   }
 
   @Debounce(100)
