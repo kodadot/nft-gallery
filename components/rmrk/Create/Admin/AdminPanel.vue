@@ -295,8 +295,3 @@ export default class AdminPanel extends mixins(
 }
 </script>
 
-<style>
-.message.is-primary .message-body {
-  color: #d32e79 !important;
-}
-</style>
