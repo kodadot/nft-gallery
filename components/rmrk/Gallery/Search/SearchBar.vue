@@ -109,6 +109,7 @@ export default class SearchBar extends Vue {
   private result : NFT[] = [];
   private name = '';
   private searched : NFT[] = [];
+  private cacheResult = '';
 
   public mounted(): void {
     this.getSearchHistory()
@@ -156,6 +157,9 @@ export default class SearchBar extends Vue {
 
   @Debounce(400)
   searchResult(): string {
+    const newResult = { 'type': 'History', 'name': this.name } as unknown as NFT
+    this.searched.push(newResult)
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched) 
     return this.updateSearch(this.name)
   }
 
@@ -237,14 +241,9 @@ export default class SearchBar extends Vue {
     })
     
     this.result = this.filterSearch().concat(nfts)
-    // const temp = nftList as NFTWithMeta[]
-    console.log("here", this.result)
-    // return value
-    // console.log(this.selected)
-    // shouldUpdate(value, this.selected) && this.replaceUrl(value)
-    // return this.selected === null ? '' : this.selected;
-    // return this.selected;
-    // return value;
+    
+    // console.log("here", this.result)
+    
     return '';
   }
 
@@ -275,11 +274,11 @@ export default class SearchBar extends Vue {
     return params
   }
   private getSearchHistory() {
-    this.searched.push({ 'type': 'History', 'name': 'sport' } as unknown as NFT)
-    this.searched.push({ 'type': 'History', 'name': 'appul' } as unknown as NFT)
-    this.searched.push({ 'type': 'History', 'name': 'spaceship' } as unknown as NFT)
-    this.searched.push({ 'type': 'History', 'name': 'space' } as unknown as NFT)
-    this.searched.push({ 'type': 'History', 'name': 'KSM' } as unknown as NFT)
+
+    const cacheResult = localStorage.kodaDotSearchResult
+    if(cacheResult){
+      this.searched = JSON.parse(cacheResult)
+    }
     this.result = this.searched
   }
   private filterSearch(){
