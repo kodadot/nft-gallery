@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { extractCid, justHash } from './ipfs'
+import { extractCid, justHash } from '@/utils/ipfs'
 
 export const BASE_URL = 'https://api.pinata.cloud/pinning/'
 
