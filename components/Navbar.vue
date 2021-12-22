@@ -127,7 +127,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import i18n from '@/utils/i18n/i18n'
+import i18n from '@/utils/config/i18n'
 import { getCurrentColor } from '@/utils/colors'
 
 @Component({

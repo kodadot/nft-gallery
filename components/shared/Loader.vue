@@ -29,7 +29,7 @@
 <script lang="ts" >
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { randomIntegerBetween } from '@/utils/calculation'
-import i18n from '@/utils/i18n/i18n'
+import i18n from '@/utils/config/i18n'
 
 @Component({})
 export default class Loader extends Vue {
