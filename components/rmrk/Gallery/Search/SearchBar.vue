@@ -32,15 +32,15 @@
                   <div class="media">
                   <div class="media-left">
                     <b-image class="image is-32x32"
-                      :src="props.option.image === '' ? props.option.animation_url : props.option.image" 
+                      :src="props.option.image === '' ? props.option.animation_url : props.option.image"
                     >
-                    </b-image>                    
+                    </b-image>
                   </div>
                   <div class="media-content">
                       {{ props.option.name }}
                   </div>
-                  </div> 
-                  </nuxt-link>               
+                  </div>
+                  </nuxt-link>
                 </div>
 
             </template>
@@ -100,18 +100,18 @@ export default class SearchBar extends Vue {
 
   protected isVisible = false
   private query: SearchQuery = {
-      search: '',
-      type: '',
-      sortBy: 'BLOCK_NUMBER_DESC',
-      listed: false,
-    };
-  
-  private first = 10;
-  private currentValue = 1;
-  private result : NFT[] = [];
-  private name = '';
-  private searched : NFT[] = [];
-  private highlightPos = 0;
+    search: '',
+    type: '',
+    sortBy: 'BLOCK_NUMBER_DESC',
+    listed: false,
+  }
+
+  private first = 10
+  private currentValue = 1
+  private result : NFT[] = []
+  private name = ''
+  private searched : NFT[] = []
+  private highlightPos = 0
 
   public mounted(): void {
     this.getSearchHistory()
@@ -168,7 +168,7 @@ export default class SearchBar extends Vue {
     if(!this.oldSearchResult(this.name)){
       const newResult = { 'type': 'History', 'name': this.name } as unknown as NFT
       this.searched.push(newResult)
-      localStorage.kodaDotSearchResult = JSON.stringify(this.searched) 
+      localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
     }
     this.updateSearch(this.name)
   }
@@ -189,7 +189,7 @@ export default class SearchBar extends Vue {
 
   @Debounce(50)
   updateSelected(value: any){
-    if(value.type == "History"){
+    if(value.type == 'History'){
       this.updateSearch(value.name)
     }
     else{
@@ -197,7 +197,7 @@ export default class SearchBar extends Vue {
       this.$router.push({name:'rmrk-detail-id', params: {id:value.id}})
     }
   }
-  
+
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string): string {
@@ -210,13 +210,13 @@ export default class SearchBar extends Vue {
     // console.log(this.name)
     this.highlightPos = Math.max(0, this.highlightPos-1)
   }
-  
+
   @Debounce(50)
   moveDown(){
     // console.log(this.name)
     this.highlightPos = Math.min(this.result.length-1, this.highlightPos+1)
   }
-  
+
   @Debounce(100)
   async updateSuggestion(value: string) {
     // shouldUpdate(value, this.searchQuery)
@@ -225,20 +225,20 @@ export default class SearchBar extends Vue {
 
     const nft = this.$apollo.query({
       query: nftListWithSearch,
-        variables: {
-          first: this.first,
-          offset: this.offset,
-          denyList,
-          orderBy: this.query.sortBy,
-          search: this.buildSearchParam()
-        }
-      })
+      variables: {
+        first: this.first,
+        offset: this.offset,
+        denyList,
+        orderBy: this.query.sortBy,
+        search: this.buildSearchParam()
+      }
+    })
     const {
-        data: {
-          nFTEntities: { nodes: nfts }
-        }
-      } = await nft
-    
+      data: {
+        nFTEntities: { nodes: nfts }
+      }
+    } = await nft
+
     const storedMetadata = await getMany(
       nfts.map(({ metadata }: any) => metadata)
     )
@@ -264,9 +264,9 @@ export default class SearchBar extends Vue {
         })
       }
     })
-    
+
     this.result = this.filterSearch().concat(nfts)
-    
+
     // console.log("here", this.result)
   }
 
@@ -323,7 +323,7 @@ export default class SearchBar extends Vue {
 <style scoped lang="scss">
 @import '@/styles/variables';
 .b-skeleton{
-  height: 32px !important; 
+  height: 32px !important;
   width: 32px !important;
   position: absolute;
   top: 0;
