@@ -102,6 +102,12 @@
         </b-navbar-item>
         <b-navbar-item
           tag="nuxt-link"
+          to="/transform"
+        >
+          {{ $t('Transform') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
           to="/settings"
         >
           {{ $t('Settings') }}
