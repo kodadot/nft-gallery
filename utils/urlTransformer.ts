@@ -2,6 +2,14 @@ type URLParams = string[]
 type TransformFunction = (params: URLParams) => string
 type Transformer = Record<string, TransformFunction>
 
+const getParams = (url: URL): string[] => url.pathname.split('/').filter(Boolean)
+
+const lastParam = (params: URLParams): string => params[params.length - 1]
+
+const getTransformer = (url: URL): Transformer => availableTranformers[url.host]
+
+const isTransformer = (transformer?: Transformer): boolean => transformer !== undefined
+
 function transform(url: string): string {
   try {
     const value = new URL(url)
@@ -23,20 +31,6 @@ function transform(url: string): string {
   } catch (e) {
     return ''
   }
-}
-
-function getParams(url: URL): string[] {
-  return url.pathname.split('/').filter(Boolean)
-}
-
-const getTransformer = (url: URL): Transformer => {
-  return availableTranformers[url.host]
-}
-
-const isTransformer = (transformer?: any): boolean => transformer !== undefined
-
-function lastParam(params: URLParams): string {
-  return params[params.length - 1]
 }
 
 const singularTransformer: Transformer = {
