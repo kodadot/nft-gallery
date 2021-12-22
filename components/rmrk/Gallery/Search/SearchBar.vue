@@ -13,9 +13,11 @@
             clearable
             max-height="350px"
             @keydown.native.enter="searchResult"
+            @keydown.native.up="moveUp"
+            @keydown.native.down="moveDown"
             @typing="updateSuggestion"
-            @select="updateSelected">
-
+            @select="updateSelected"
+            >
             <template slot-scope="props">
 
                 <div v-if="props.option.type==='History'">
@@ -109,7 +111,7 @@ export default class SearchBar extends Vue {
   private result : NFT[] = [];
   private name = '';
   private searched : NFT[] = [];
-  private cacheResult = '';
+  private highlightPos = 0;
 
   public mounted(): void {
     this.getSearchHistory()
@@ -156,11 +158,19 @@ export default class SearchBar extends Vue {
   }
 
   @Debounce(400)
-  searchResult(): string {
-    const newResult = { 'type': 'History', 'name': this.name } as unknown as NFT
-    this.searched.push(newResult)
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched) 
-    return this.updateSearch(this.name)
+  searchResult() {
+    if(this.highlightPos)
+      this.updateSelected(this.result[this.highlightPos])
+
+    if(!this.name)
+      return
+
+    if(!this.oldSearchResult(this.name)){
+      const newResult = { 'type': 'History', 'name': this.name } as unknown as NFT
+      this.searched.push(newResult)
+      localStorage.kodaDotSearchResult = JSON.stringify(this.searched) 
+    }
+    this.updateSearch(this.name)
   }
 
   @Emit('update:type')
@@ -182,6 +192,10 @@ export default class SearchBar extends Vue {
     if(value.type == "History"){
       this.updateSearch(value.name)
     }
+    else{
+      console.log(value.id)
+      this.$router.push({name:'rmrk-detail-id', params: {id:value.id}})
+    }
   }
   
   @Emit('update:search')
@@ -191,10 +205,24 @@ export default class SearchBar extends Vue {
     return value
   }
 
+  @Debounce(50)
+  moveUp(){
+    // console.log(this.name)
+    this.highlightPos = Math.max(0, this.highlightPos-1)
+  }
+  
+  @Debounce(50)
+  moveDown(){
+    // console.log(this.name)
+    this.highlightPos = Math.min(this.result.length-1, this.highlightPos+1)
+  }
+  
   @Debounce(100)
   async updateSuggestion(value: string) {
     // shouldUpdate(value, this.searchQuery)
-    this.query.search = value;
+    this.query.search = value
+    this.highlightPos = 0
+
     const nft = this.$apollo.query({
       query: nftListWithSearch,
         variables: {
@@ -269,19 +297,25 @@ export default class SearchBar extends Vue {
     return params
   }
   private getSearchHistory() {
-
+    // localStorage.kodaDotSearchResult = ''
     const cacheResult = localStorage.kodaDotSearchResult
     if(cacheResult){
       this.searched = JSON.parse(cacheResult)
     }
     this.result = this.searched
+    // console.log(this.result)
   }
+
   private filterSearch(){
     return this.searched.filter(option => {
       return option.name.toString().toLowerCase().indexOf(this.name.toLowerCase()) >= 0
     })
   }
 
+  private oldSearchResult(value: string): boolean{
+    const res = this.searched.filter(r => r.name === value)
+    return res.length ? true: false
+  }
 }
 
 </script>
