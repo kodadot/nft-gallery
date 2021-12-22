@@ -44,14 +44,14 @@ import i18n from '@/utils/i18n/i18n'
 export default class Faq extends Vue {
   public faqQuestionsAnswers: any = []
 
-  @Watch('$i18n.locale')
+  @Watch('$i18n.locale', { immediate: true, deep: true })
   public i18nLoadQandA(): any {
+    i18n.locale = this.$i18n.locale
     let i: number
     const qa: any = []
     for (i = 1; i < 26; i++) {
       qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
     }
-
     this.faqQuestionsAnswers = qa
   }
 
