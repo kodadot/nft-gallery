@@ -1,4 +1,4 @@
-import i18n from '@/utils/i18n/i18n'
+import i18n from '@/utils/config/i18n'
 import { Column, RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
