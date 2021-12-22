@@ -264,10 +264,16 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
           offset: this.offset,
         }
       },
-      update: ({ collectionEntity }) => ({
-        ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes,
-      }),
+      update: ({ collectionEntity }) => {
+        if (!collectionEntity) {
+          this.$router.push({ name: 'errorcollection' })
+          return
+        }
+        return {
+          ...collectionEntity,
+          nfts: collectionEntity.nfts.nodes
+        }
+      },
       result: this.handleResult,
     })
   }

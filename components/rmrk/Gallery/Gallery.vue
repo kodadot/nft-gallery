@@ -332,6 +332,8 @@ export default class Gallery extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .card-image__burned {
   filter: blur(7px);
 }
@@ -393,10 +395,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     float: right;
   }
 
-  .is-color-pink {
-    color: #d32e79;
-  }
-
   .is-absolute {
     position: absolute;
   }
@@ -413,7 +411,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px #d32e79;
+      box-shadow: 0px 0px 10px 0.5px $primary-light;
 
       &-image {
         .ff-canvas {
@@ -422,7 +420,7 @@ export default class Gallery extends mixins(PrefixMixin) {
 
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: $primary-light;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;

@@ -4,6 +4,8 @@
     :is="resolveComponent"
     v-if="src"
     :src="src"
+    :poster="poster"
+    :description="description"
   />
 </template>
 
@@ -34,8 +36,10 @@ const SUFFIX = 'Media'
   }
 })
 export default class MediaResolver extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
+  @Prop(String) public src!: string
+  @Prop(String) public mimeType!: string
+  @Prop(String) public poster?: string
+  @Prop(String) public description?: string
 
   get resolveComponent() {
     return resolveMedia(this.mimeType) + SUFFIX

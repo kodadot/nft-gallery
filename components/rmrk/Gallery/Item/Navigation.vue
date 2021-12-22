@@ -66,6 +66,7 @@ export default class Navigation extends Vue {
 
 <style scoped>
 .navigation-container {
+    pointer-events: none;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -75,5 +76,8 @@ export default class Navigation extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.navigation-container a {
+    pointer-events: all;
 }
 </style>
