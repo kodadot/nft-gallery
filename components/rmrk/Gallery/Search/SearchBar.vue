@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="card-content ">
+    <div class="card-content">
       <div class="columns">
         <b-field class="column is-6 mb-0">
 
@@ -21,7 +21,7 @@
             <template slot-scope="props">
 
                 <div v-if="props.option.type==='History'">
-                  <div class="history"> {{props.option.name}} </div>
+                  <div class="searchCache"> {{props.option.name}} </div>
                 </div>
 
                  <div v-else>
@@ -31,10 +31,10 @@
                   >
                   <div class="media">
                   <div class="media-left">
-                    <b-image class="image is-32x32"
+                    <BasicImage
+                      customClass="is-32x32"
                       :src="props.option.image === '' ? props.option.animation_url : props.option.image"
-                    >
-                    </b-image>
+                    />
                   </div>
                   <div class="media-content">
                       {{ props.option.name }}
@@ -59,10 +59,10 @@
         <slot />
       </div>
 
-      <transition  name="fade">
+      <transition name="fade">
         <div v-if="isVisible" class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" />
+          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" labelColor="is-success" />
         </div>
       </transition>
 
@@ -70,8 +70,8 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
@@ -89,7 +89,6 @@ import shouldUpdate from '~/utils/shouldUpdate'
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-
   }
 })
 export default class SearchBar extends Vue {
@@ -138,13 +137,6 @@ export default class SearchBar extends Vue {
     this.updateSearch(value)
   }
 
-  get typeQuery(): string {
-    return this.type
-  }
-
-  set typeQuery(value: string) {
-    this.updateType(value)
-  }
   get offset() {
     return this.currentValue * this.first - this.first
   }
@@ -193,7 +185,6 @@ export default class SearchBar extends Vue {
       this.updateSearch(value.name)
     }
     else{
-      console.log(value.id)
       this.$router.push({name:'rmrk-detail-id', params: {id:value.id}})
     }
   }
@@ -207,13 +198,11 @@ export default class SearchBar extends Vue {
 
   @Debounce(50)
   moveUp(){
-    // console.log(this.name)
     this.highlightPos = Math.max(0, this.highlightPos-1)
   }
 
   @Debounce(50)
   moveDown(){
-    // console.log(this.name)
     this.highlightPos = Math.min(this.result.length-1, this.highlightPos+1)
   }
 
@@ -267,7 +256,6 @@ export default class SearchBar extends Vue {
 
     this.result = this.filterSearch().concat(nfts)
 
-    // console.log("here", this.result)
   }
 
   @Debounce(100)
@@ -303,7 +291,6 @@ export default class SearchBar extends Vue {
       this.searched = JSON.parse(cacheResult)
     }
     this.result = this.searched
-    // console.log(this.result)
   }
 
   private filterSearch(){
@@ -343,16 +330,9 @@ export default class SearchBar extends Vue {
 .fade-leave-to {
   opacity: 0;
 }
-</style>
 
-<style lang="scss">
-.image img {
-    width: 32px ;
-    height: 32px ;
-}
-.history {
-  color: #d32e79;
+.searchCache {
+  color: $primary;
   font-size: 15px;
 }
-
 </style>
