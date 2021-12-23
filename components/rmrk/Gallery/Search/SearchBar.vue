@@ -34,14 +34,7 @@
                     <BasicImage
                       customClass="is-32x32"
                       :src="props.option.image === '' ? props.option.animation_url : props.option.image"
-                      lazy
                     />
-                    <!-- <b-image class="image is-32x32"
-                      :src="props.option.image === '' ? props.option.animation_url : props.option.image"
-                     src-fallback="/placeholder.svg"
-                    >
-                    </b-image> -->
-
                   </div>
                   <div class="media-content">
                       {{ props.option.name }}
@@ -163,7 +156,7 @@ export default class SearchBar extends Vue {
 
   searchResult() {
     if(this.highlightPos){
-      console.log('here',this.searched)
+
       const searchCache = this.filterSearch()
       if(this.highlightPos >= searchCache.length)
         this.updateSelected(this.result[this.highlightPos-searchCache.length])
@@ -242,7 +235,6 @@ export default class SearchBar extends Vue {
         }
       } = await nft
 
-      // this.result = this.filterSearch().concat(nfts)
       this.result = nfts
       const storedMetadata = await getMany(
         this.result.map(({ metadata }: any) => metadata)
@@ -268,18 +260,13 @@ export default class SearchBar extends Vue {
             image: getSanitizer(m.image || '')(m.image || ''),
           })
         }
-      // this.result = filterCache.concat(nfts)
       })
     }catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', this.offset, e.message)
     }
-    // console.log(this.result)
-    // this.result = this.filterSearch().concat(this.result)
 
   }
-  // loadResult(){
-  //   this.result = this.filterSearch().concat(nfts)
-  // }
+
   @Debounce(100)
   replaceUrl(value: string, key = 'search'): void {
     this.$router
@@ -318,7 +305,6 @@ export default class SearchBar extends Vue {
     if(!this.searched.length)
       return []
     return this.searched.filter(option => {
-      // console.log(option, option.name)
       return option.name.toString().toLowerCase().indexOf(this.name.toLowerCase()) >= 0
     })
   }
@@ -358,12 +344,5 @@ export default class SearchBar extends Vue {
 .searchCache {
   color: $primary;
   font-size: 15px;
-}
-</style>
-
-<style lang="scss">
-.image img{
-  height: 32px;
-  width: 32px;
 }
 </style>
