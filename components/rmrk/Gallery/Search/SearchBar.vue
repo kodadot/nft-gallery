@@ -6,7 +6,7 @@
 
           <b-autocomplete
             v-model="name"
-            :data = result
+            :data="searchSuggestion"
             placeholder="Search..."
             icon="search"
             open-on-focus
@@ -34,7 +34,14 @@
                     <BasicImage
                       customClass="is-32x32"
                       :src="props.option.image === '' ? props.option.animation_url : props.option.image"
+                      lazy
                     />
+                    <!-- <b-image class="image is-32x32"
+                      :src="props.option.image === '' ? props.option.animation_url : props.option.image"
+                     src-fallback="/placeholder.svg"
+                    >
+                    </b-image> -->
+
                   </div>
                   <div class="media-content">
                       {{ props.option.name }}
@@ -108,6 +115,7 @@ export default class SearchBar extends Vue {
   private first = 10
   private currentValue = 1
   private result : NFT[] = []
+  private nfts : NFT[] = []
   private name = ''
   private searched : NFT[] = []
   private highlightPos = 0
@@ -141,6 +149,10 @@ export default class SearchBar extends Vue {
     return this.currentValue * this.first - this.first
   }
 
+  get searchSuggestion(){
+    return this.result.length !== 0 ? this.filterSearch().concat(this.result) : this.filterSearch()
+  }
+
   @Emit('update:listed')
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
@@ -149,10 +161,15 @@ export default class SearchBar extends Vue {
     return v === 'true'
   }
 
-  @Debounce(400)
   searchResult() {
-    if(this.highlightPos)
-      this.updateSelected(this.result[this.highlightPos])
+    if(this.highlightPos){
+      console.log('here',this.searched)
+      const searchCache = this.filterSearch()
+      if(this.highlightPos >= searchCache.length)
+        this.updateSelected(this.result[this.highlightPos-searchCache.length])
+      else
+        this.updateSearch(searchCache[this.highlightPos].name)
+    }
 
     if(!this.name)
       return
@@ -179,7 +196,6 @@ export default class SearchBar extends Vue {
     return value
   }
 
-  @Debounce(50)
   updateSelected(value: any){
     if(value.type == 'History'){
       this.updateSearch(value.name)
@@ -190,74 +206,80 @@ export default class SearchBar extends Vue {
   }
 
   @Emit('update:search')
-  @Debounce(400)
+  @Debounce(50)
   updateSearch(value: string): string {
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
     return value
   }
 
-  @Debounce(50)
   moveUp(){
     this.highlightPos = Math.max(0, this.highlightPos-1)
   }
 
-  @Debounce(50)
   moveDown(){
     this.highlightPos = Math.min(this.result.length-1, this.highlightPos+1)
   }
 
-  @Debounce(100)
   async updateSuggestion(value: string) {
     // shouldUpdate(value, this.searchQuery)
     this.query.search = value
     this.highlightPos = 0
 
-    const nft = this.$apollo.query({
-      query: nftListWithSearch,
-      variables: {
-        first: this.first,
-        offset: this.offset,
-        denyList,
-        orderBy: this.query.sortBy,
-        search: this.buildSearchParam()
-      }
-    })
-    const {
-      data: {
-        nFTEntities: { nodes: nfts }
-      }
-    } = await nft
-
-    const storedMetadata = await getMany(
-      nfts.map(({ metadata }: any) => metadata)
-    )
-
-    storedMetadata.forEach(async (m: { image: any }, i: string|number) => {
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(nfts[i], getSanitizer(nfts[i].metadata, undefined, 'permafrost'))
-          Vue.set(nfts, i, {
-            ...nfts[i],
-            ...meta,
-            image: getSanitizer(meta.image || '')(meta.image || ''),
-          })
-          update(nfts[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+    try{
+      const nft = this.$apollo.query({
+        query: nftListWithSearch,
+        variables: {
+          first: this.first,
+          offset: this.offset,
+          denyList,
+          orderBy: this.query.sortBy,
+          search: this.buildSearchParam()
         }
-      } else {
-        Vue.set(nfts, i, {
-          ...nfts[i],
-          ...m,
-          image: getSanitizer(m.image || '')(m.image || ''),
-        })
-      }
-    })
+      })
+      const {
+        data: {
+          nFTEntities: { nodes: nfts }
+        }
+      } = await nft
 
-    this.result = this.filterSearch().concat(nfts)
+      // this.result = this.filterSearch().concat(nfts)
+      this.result = nfts
+      const storedMetadata = await getMany(
+        this.result.map(({ metadata }: any) => metadata)
+      )
+
+      storedMetadata.forEach(async (m: { image: any }, i: string|number) => {
+        if (!m) {
+          try {
+            const meta = await fetchNFTMetadata(this.result[i], getSanitizer(this.result[i].metadata, undefined, 'permafrost'))
+            Vue.set(this.result, i, {
+              ...this.result[i],
+              ...meta,
+              image: getSanitizer(meta.image || '')(meta.image || ''),
+            })
+            update(this.result[i].metadata, () => meta)
+          } catch (e) {
+            console.warn('[ERR] unable to get metadata')
+          }
+        } else {
+          Vue.set(this.result, i, {
+            ...this.result[i],
+            ...m,
+            image: getSanitizer(m.image || '')(m.image || ''),
+          })
+        }
+      // this.result = filterCache.concat(nfts)
+      })
+    }catch (e: any) {
+      console.warn('[PREFETCH] Unable fo fetch', this.offset, e.message)
+    }
+    // console.log(this.result)
+    // this.result = this.filterSearch().concat(this.result)
 
   }
-
+  // loadResult(){
+  //   this.result = this.filterSearch().concat(nfts)
+  // }
   @Debounce(100)
   replaceUrl(value: string, key = 'search'): void {
     this.$router
@@ -290,11 +312,13 @@ export default class SearchBar extends Vue {
     if(cacheResult){
       this.searched = JSON.parse(cacheResult)
     }
-    this.result = this.searched
   }
 
   private filterSearch(){
+    if(!this.searched.length)
+      return []
     return this.searched.filter(option => {
+      // console.log(option, option.name)
       return option.name.toString().toLowerCase().indexOf(this.name.toLowerCase()) >= 0
     })
   }
@@ -334,5 +358,12 @@ export default class SearchBar extends Vue {
 .searchCache {
   color: $primary;
   font-size: 15px;
+}
+</style>
+
+<style lang="scss">
+.image img{
+  height: 32px;
+  width: 32px;
 }
 </style>
