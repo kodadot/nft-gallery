@@ -134,7 +134,7 @@
       >
         <template v-if="!isLoading">
           <div
-            :class="getClassForVolumne()"
+            :class="getClassForVolume()"
           >
             {{
               displayVolumePercent(
@@ -158,7 +158,7 @@
       >
         <template v-if="!isLoading">
          <div
-            :class="getClassForVolumne()"
+            :class="getClassForVolume()"
           >
             {{
               displayVolumePercent(
@@ -182,7 +182,7 @@
       >
         <template v-if="!isLoading">
          <div
-            :class="getClassForVolumne()"
+            :class="getClassForVolume()"
           >
             {{
               displayVolumePercent(
@@ -419,7 +419,7 @@ export default class SeriesTable extends Vue {
       : `${this.volumePercent}%`
   }
 
-  public getClassForVolumne() {
+  public getClassForVolume() {
     return this.volumePercent > 0 ? 'has-text-increase' : 'has-text-danger'
   }
 }
