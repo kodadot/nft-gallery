@@ -228,14 +228,12 @@ export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
 }
 
 export const unwrap = (rmrkString: string): any | null => {
-  const rr = /{.*}/
-  const match = rmrkString.match(rr)
-
-  if (!match) {
-    return null
+  try {
+    const result = JSON.parse(rmrkString)
+    return typeof result === "object" ? result : null;
+  } catch (err) {
+    return null;
   }
-
-  return JSON.parse(match[0])
 }
 
 class RmrkEventRegex {
