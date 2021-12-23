@@ -134,13 +134,15 @@
       >
         <template v-if="!isLoading">
           <div
-            v-html="
+            :class="getClassForVolumne()"
+          >
+            {{
               displayVolumePercent(
                 props.row.dailyVolume,
                 props.row.dailyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -155,14 +157,16 @@
         :visible="nbDays === '7'"
       >
         <template v-if="!isLoading">
-          <div
-            v-html="
+         <div
+            :class="getClassForVolumne()"
+          >
+            {{
               displayVolumePercent(
                 props.row.weeklyVolume,
                 props.row.weeklyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -177,14 +181,16 @@
         :visible="nbDays === '30'"
       >
         <template v-if="!isLoading">
-          <div
-            v-html="
+         <div
+            :class="getClassForVolumne()"
+          >
+            {{
               displayVolumePercent(
                 props.row.monthlyVolume,
                 props.row.monthlyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -316,6 +322,7 @@ export default class SeriesTable extends Vue {
   protected nbRows = '10'
   protected sortBy: SortType = { field: 'volume', value: -1 }
   public isLoading = false
+  public volumePercent = 0
 
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
@@ -406,10 +413,14 @@ export default class SeriesTable extends Vue {
     if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
       return '---'
     }
-    const volumePercent = Math.round(vol * 100) / 100
-    return volumePercent > 0
-      ? `<div style="color: #41b883"> +${volumePercent}%</div>`
-      : `<div class="has-text-danger"> ${volumePercent}%</div>`
+    this.volumePercent = Math.round(vol * 100) / 100
+    return this.volumePercent > 0
+      ? `+${this.volumePercent}%`
+      : `${this.volumePercent}%`
+  }
+
+  public getClassForVolumne() {
+    return this.volumePercent > 0 ? 'has-text-increase' : 'has-text-danger'
   }
 }
 </script>
@@ -420,5 +431,9 @@ export default class SeriesTable extends Vue {
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
+}
+
+.has-text-increase {
+  color: #41b883
 }
 </style>
