@@ -166,7 +166,7 @@
             </div>
           </div>
         </div>
-        <PriceChart class="mt-4" :priceChartData="priceChartData" />
+        <PriceChart class="mt-4" :priceChartData="priceChartData" :openOnDefault="!compactGalleryItem" />
       </div>
     </div>
 
@@ -175,6 +175,7 @@
         <History
           v-if="!isLoading"
           :events="nft.events"
+          :open-on-default="!compactGalleryItem"
           @setPriceChartData="setPriceChartData"
         />
       </div>
@@ -267,7 +268,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
-  private viewMode = 'default'
+  private viewMode = this.$store.getters['preferences/getTheatreView']
   private isFullScreenView = false
   public isLoading = true
   public mimeType = ''
@@ -429,6 +430,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get detailVisible() {
     return !isShareMode
+  }
+
+  get compactGalleryItem(): boolean {
+    return this.$store.state.preferences.compactGalleryItem
   }
 
   protected handleAction(deleted: boolean) {

@@ -51,6 +51,7 @@
         <CollapseWrapper
           visible="collapse.collection.description.show"
           hidden="collapse.collection.description.hide"
+          :open-on-default="!compactCollection"
         >
           <VueMarkdown :source="description" />
         </CollapseWrapper>
@@ -227,6 +228,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   get sharingVisible(): boolean {
     return !isShareMode
+  }
+
+  get compactCollection(): boolean {
+    return this.$store.getters['preferences/getCompactCollection']
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
