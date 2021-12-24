@@ -1,0 +1,5 @@
+fragment collectionMeta on NFTEntity {
+  collection {
+    metadata
+  }
+}

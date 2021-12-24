@@ -1,0 +1,11 @@
+fragment nft on NFTEntity {
+  id
+  # name
+  metadata
+  issuer
+  currentOwner
+  blockNumber
+  collectionId
+  # price
+  burned
+}

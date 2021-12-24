@@ -24,14 +24,19 @@ export const mutations: MutationTree<IndexerState> = {
 }
 
 export const actions: ActionTree<IndexerState, IndexerState> = {
-  async fetchIndexer({ commit }: { commit: Commit }) {
+  async fetchIndexer({ commit }: { commit: Commit }, prefix: string) {
     try {
-      const indexer = await this.app.apolloProvider?.defaultClient.query({
+
+      if (!this.app.apolloProvider?.clients) {
+        return
+      }
+
+      const indexer = await this.app.apolloProvider.clients[prefix].query({
         query: checkIndexer,
       })
 
       const {
-        data: { _meta: data },
+        data: { _metadata: data },
       }: any = await indexer
 
       console.log(
@@ -47,8 +52,7 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
         position: 'is-top-right',
         message: `
           <p class="title is-3">Indexer Error</p>
-          <p class="subtitle">Indexer is not working properly
-          <a target="_blank" rel="noopener noreferrer"  href="https://explorer.subquery.network/subquery/vikiival/magick">and you can check the status here</a></p>
+          <p class="subtitle">Indexer is not working properly</p>
           <p class="subtitle">If you think this should't happen, report us by
           <a target="_blank" rel="noopener noreferrer"  href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title=">creating bug issue with steps to reproduce and screenshot.</a></p>
         `,

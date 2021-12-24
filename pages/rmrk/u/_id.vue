@@ -139,7 +139,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
@@ -151,6 +151,7 @@ import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   GalleryCardList: () =>
@@ -217,7 +218,7 @@ const eq = (tab: string) => (el: string) => tab === el
     }
   }
 })
-export default class Profile extends Vue {
+export default class Profile extends mixins(PrefixMixin) {
   public firstNFTData: any = {}
   protected id = ''
   protected shortendId = ''
@@ -290,7 +291,7 @@ export default class Profile extends Vue {
   get defaultNFTImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/koda300x300.svg`
+      `${url.protocol}//${url.hostname}/placeholder.webp`
     )
   }
 
@@ -300,6 +301,7 @@ export default class Profile extends Vue {
     try {
       this.$apollo.addSmartQuery('collections', {
         query: collectionList,
+        client: this.urlPrefix,
         manual: true,
         // update: ({ nFTEntities }) => nFTEntities.nodes,
         loadingKey: 'isLoading',
@@ -316,6 +318,7 @@ export default class Profile extends Vue {
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
+        client: this.urlPrefix,
         manual: true,
         loadingKey: 'isLoading',
         result: this.handleResult,

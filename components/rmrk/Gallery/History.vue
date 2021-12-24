@@ -5,13 +5,13 @@
         <div
           class="card-header"
           role="button"
-          aria-controls="contentIdForHistory"
-        >
+          aria-controls="contentIdForHistory">
           <p class="card-header-title">
             {{ $t('History') }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            <b-icon
+              :icon="props.open ? 'chevron-up' : 'chevron-down'">
             </b-icon>
           </a>
         </div>
@@ -41,14 +41,14 @@
               label="From"
               v-slot="props"
             >
-              <nuxt-link
+              <router-link
                 :to="{
                   name: 'profile',
                   params: { id: props.row.From },
                 }"
               >
                 <Identity :address="props.row.From" inline noOverflow />
-              </nuxt-link>
+              </router-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -76,12 +76,7 @@
               label="Date"
               v-slot="props"
             >
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)"
-                >{{ props.row.Date }}</a
-              >
+              <a target="_blank" rel="noopener noreferrer" :href="getBlockUrl(props.row.Block)" >{{ props.row.Date }}</a>
             </b-table-column>
           </b-table>
         </div>
@@ -103,15 +98,19 @@ const components = {
 }
 
 type TableRow = {
-  Type: string;
-  From: string;
-  To: string;
-  Amount: string;
-  Date: string;
-  Block: string;
-};
+  Type: string
+  From: string
+  To: string
+  Amount: string
+  Date: string
+  Block: string
+}
 
-type ChartData = { buy: [Date, number][]; list: [Date, number][] };
+type ChartData = {
+  buy: any[],
+  list: any[],
+}
+
 
 @Component({ components })
 export default class History extends mixins(ChainMixin) {
