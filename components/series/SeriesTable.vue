@@ -420,7 +420,7 @@ export default class SeriesTable extends Vue {
   }
 
   public getClassForVolume() {
-    return this.volumePercent > 0 ? 'has-text-increase' : 'has-text-danger'
+    return this.volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
   }
 }
 </script>
@@ -433,7 +433,4 @@ export default class SeriesTable extends Vue {
   background-color: $primary;
 }
 
-.has-text-increase {
-  color: #41b883
-}
 </style>
