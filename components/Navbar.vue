@@ -101,6 +101,12 @@
         </b-navbar-item>
         <b-navbar-item
           tag="nuxt-link"
+          to="/transform"
+        >
+          {{ $t('Transform') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
           to="/settings"
         >
           {{ $t('Settings') }}
@@ -222,7 +228,7 @@ export default class NavbarMenu extends Vue {
     margin-right: 0.5rem;
   }
   .navbar-dropdown{
-    box-shadow: 0px 0px 5px 0.5px #d32e79 !important;
+    box-shadow: 0px 0px 5px 0.5px $primary-light !important;
   }
 }
 </style>

@@ -145,11 +145,13 @@ export default class GalleryCard extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .nft-card {
   border-radius: 8px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 5px 0.5px #d32e79;
+  box-shadow: 0px 2px 5px 0.5px $primary-light;
 
   &.is-current-owner {
     box-shadow: 0px 2px 5px 0.5px #41b883;
@@ -171,7 +173,7 @@ export default class GalleryCard extends Vue {
     .card-image {
       &__emotes {
         position: absolute;
-        background-color: #d32e79;
+        background-color: $primary-light;
         border-radius: 4px;
         padding: 3px 8px;
         color: #fff;
