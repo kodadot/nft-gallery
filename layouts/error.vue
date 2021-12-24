@@ -2,13 +2,7 @@
   <div id="Eror" class="box container has-text-centered">
     <p class="title">Indexer Error</p>
     <p class="subtitle">
-      Indexer is not working properly
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://explorer.subquery.network/subquery/vikiival/magick"
-        >and you can check the status here</a
-      >
+      Indexer is not working properly.
     </p>
     <img src="https://http.cat/500" alt="Internal error cat" />
     <p class="subtitle">

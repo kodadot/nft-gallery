@@ -1,7 +1,7 @@
 <template>
   <b-image
     :src="src"
-    src-fallback="/placeholder.svg"
+    src-fallback="/placeholder.webp"
     :alt="alt"
     ratio="1by1"
     :class="customClass"
@@ -28,8 +28,8 @@ export default class BasicImage extends Vue {
   @Prop({ type: String, default: 'KodaDot NFT minted multimedia' }) public alt!: string
   @Prop(Boolean) public rounded!: boolean
 
-  public onImageError(event: unknown, src: string): void {
-    console.log('Unable to load ', src)
+  public onImageError(_: unknown, src: string): void {
+    console.log('[BasicImage] to load:', !!this.src, src)
   }
 
 }

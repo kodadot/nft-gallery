@@ -9,8 +9,8 @@ import {
   MediaType
 } from './types'
 import api from '@/utils/fetch'
-import { RmrkType, RmrkWithMetaType, CollectionOrNFT, Interaction } from './service/scheme'
-import { NFTMetadata, Collection, PackMetadata, NFT, NFTWithMeta } from './service/scheme'
+import { RmrkWithMetaType, Interaction } from './service/scheme'
+import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { justHash } from '@/utils/ipfs'
 
@@ -24,8 +24,6 @@ export type PriceDataType = [
   date: Date,
   value: number,
 ]
-
-
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
   pinata: 'https://kodadot.mypinata.cloud/',
@@ -42,9 +40,7 @@ export const arweaveProviders: Record<ArweaveProviders, string> = {
 
 export type SanitizerFunc = (url: string) => string
 
-
-
-export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): string  => {
+export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): string | undefined => {
   if (justHash(ipfsHash)) {
     return `${resolveProvider(provider)}ipfs/${ipfsHash}`
   }
@@ -65,21 +61,21 @@ export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3):
   return res
 }
 
-export const fetchPackMetadata = (
-  rmrk: RmrkType
-): Promise<PackMetadata> => fetchMetadata<PackMetadata>(rmrk)
+export type SomethingWithMeta = {
+  metadata: string
+}
 
 export const fetchCollectionMetadata = (
-  rmrk: Collection
+  rmrk: Collection | SomethingWithMeta
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const fetchNFTMetadata = (
-  rmrk: NFT,
+  rmrk: NFT | SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchMetadata = async <T>(
-  rmrk: RmrkType | CollectionOrNFT,
+  rmrk: SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl
 ): Promise<T> => {
   try {
@@ -141,16 +137,40 @@ export const isIpfsUrl = (url: string): boolean  => {
   return /^ipfs:\/\//.test(url)
 }
 
+export const isIpfsCid = (url: string) => {
+  return /^[0-9a-zA-Z]{44,}$/.test(url)
+}
+
+export const isArweaveUrl = (url: string) => {
+  return ar.test(url)
+}
+
 
 export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProvider?: ArweaveProviders): SanitizerFunc => {
   if (isIpfsUrl(url)) {
     return link => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
-  return link => sanitizeArweaveUrl(link, arProvider)
+  if (isArweaveUrl(url)) {
+    return link => sanitizeArweaveUrl(link, arProvider)
+  }
+
+  if (isIpfsCid(url)) {
+    return link => sanitizeIpfsCid(link, ipfsProvider)
+  }
+
+  return link => link
 }
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): string  => {
+export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType) => {
+  return `${resolveProvider(provider)}ipfs/${url}`
+}
+
+export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): string => {
+  if (isIpfsCid(ipfsUrl)) {
+    return sanitizeIpfsCid(ipfsUrl, provider)
+  }
+
   const rr = /^ipfs:\/\/ipfs/
   if (rr.test(ipfsUrl)) {
     return ipfsUrl.replace('ipfs://', resolveProvider(provider))

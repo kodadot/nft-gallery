@@ -1,0 +1,14 @@
+#import "./collection.graphql"
+#import "./nft.graphql"
+
+query collectionById($id: String!) {
+  collectionEntity(id: $id) {
+    ...collection
+    attributes
+    nfts(filter: { metadata: { notEqualTo: ""  } }) {
+      nodes {
+        ...nft
+      }
+    }
+  }
+}

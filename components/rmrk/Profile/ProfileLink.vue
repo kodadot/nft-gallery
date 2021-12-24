@@ -2,7 +2,7 @@
   <div>
     <LinkResolver
       class="profile-link__wrapper"
-      route="/rmrk/u"
+      :route="`/${urlPrefix}/u`"
       :param="address"
       link="u"
     >
@@ -40,6 +40,7 @@
 <script lang="ts" >
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import InlineMixin from '@/utils/mixins/inlineMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -47,7 +48,7 @@ const components = {
 }
 
 @Component({ components })
-export default class ProfileLink extends mixins(InlineMixin) {
+export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
 }

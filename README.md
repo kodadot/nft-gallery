@@ -1,7 +1,7 @@
 # NFT Explorer for Kusama & Polkadot ecosystem
 
 ## Coordination
-[![KodaDot NFT Discord](https://badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh) 
+[![KodaDot NFT Discord](https://badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
 
 [![KodaDot NFT Discord](https://badgen.net/discord/online-members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
 
@@ -39,7 +39,7 @@
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
-### Is it maintained? 
+### Is it maintained?
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open")
 
@@ -48,7 +48,7 @@
 * [Discord](https://discord.gg/u6ymnbz4PR)
 
 ### Discontinued for now (if you want help us manage these, shout out on Discord)
-* [Telegram](https://t.me/kodadot) 
+* [Telegram](https://t.me/kodadot)
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
 ## 📚 Writings by KodaDot team members
@@ -239,16 +239,15 @@ touch .env
 in `.env` add following properties:
 ```bash
 NUXT_ENV_KEYRING=true
-URL_PREFIX=rmrk
-NUXT_ENV_SUBQUERY_URL=https://api.subquery.network/sq/vikiival/magick-west
-NUXT_ENV_WS_URL=wss://westend-rpc.polkadot.io
 PINATA_API_KEY=
 PINATA_SECRET_API_KEY=
 PINATA_MASTER=
 ```
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
-If you want to access Kusama's GraphQL API, **remove** `-west` from `NUXT_ENV_SUBQUERY_URL`
+To change the network go to the `/settings` and change the prefix.
+Currently supported networks are `kusama, westend, statemine, westmint`.
+Wanna add more networks? [Open an PR on vue-settings](https://github.com/vue-polkadot/ui)
 
 #### Install netlify CLI
 

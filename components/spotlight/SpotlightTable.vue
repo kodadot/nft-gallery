@@ -137,6 +137,7 @@ import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 type Address = string | GenericAccountId | undefined;
 
 const components = {
@@ -146,7 +147,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SpotlightTable extends mixins(TransactionMixin) {
+export default class SpotlightTable extends mixins(TransactionMixin, PrefixMixin) {
   @Prop() public value!: any
   protected data: Row[] = []
   protected columns: Column[] = columns
@@ -158,6 +159,7 @@ export default class SpotlightTable extends mixins(TransactionMixin) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionIssuerList,
+      client: this.urlPrefix,
       variables: {
         denyList
       }

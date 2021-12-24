@@ -12,7 +12,7 @@
         />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" horizontalLayout />
+    <GalleryCardList :items="items" horizontalLayout :route="route" :link="link" />
     <Pagination
       class="pt-5 pb-5"
       replace
@@ -23,10 +23,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
@@ -36,8 +37,8 @@ const components = {
 }
 
 @Component({ components })
-export default class PaginatedCardList extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string
+export default class PaginatedCardList extends mixins(PrefixMixin) {
+  @Prop({ default: '/rmrk/detail' }) public route!: string
   @Prop({ default: 'rmrk/detail' }) public link!: string
   @Prop() public query!: DocumentNode
   @Prop(String) public account!: string
@@ -81,6 +82,7 @@ export default class PaginatedCardList extends Vue {
     this.$apollo.addSmartQuery('items', {
       query: this.query,
       manual: true,
+      client: this.urlPrefix,
       update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
       result: this.handleResult,

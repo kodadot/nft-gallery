@@ -11,6 +11,7 @@
   "Accounts": "Accounts",
   "transfer": "Transfer",
   "Transfer": "Transfer",
+  "Transform": "Transform",
   "settings": "Settings",
   "Settings": "Settings",
   "first NFT market explorer on Kusama and Polkadot": "first NFT market explorer on Kusama and Polkadot",
@@ -336,6 +337,7 @@
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
+    "deposit": "Current deposit",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -390,6 +392,7 @@
     "burned": "NFT is burned",
     "description": "NFT description",
     "name": "Name your NFT",
+    "frozen": "NFT is frozen",
     "event": {
       "MINTNFT": "🖼  MINT",
       "LIST": "📰  LIST",
@@ -408,7 +411,8 @@
     "sign": "Waiting for response from singer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
-    "uploading": "({0}/{1}) Uploading data to IPFS"
+    "uploading": "({0}/{1}) Uploading data to IPFS",
+    "checkBalance": "Checking if you have enough balance"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
@@ -471,20 +475,28 @@
   "general": {
     "balance": "Balance",
     "submit": "Submit",
-    "remove": "Remove"
+    "remove": "Remove",
+    "correctAddress": "Correct address format",
+    "copyUrl": "Copy URL"
   },
   "helper": {
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
-    "clickToCreate": "Click here to create collection"
+    "clickToCreate": "Click here to create collection",
+    "urlToTransform": {
+      "label": "URL to transform",
+      "placeholder": "singular.rmrk.app/collectibles/",
+      "copy": "Kodadot link successfuly copied"
+    }
   },
   "action": {
     "admin": "Admin panel",
     "click": "Click to {0} NFT(s)",
     "omitListed": "Skip listed NFT(s)",
     "random": "Use random",
-    "distributionCount": "Percent which will be distributed"
+    "distributionCount": "Percent which will be distributed",
+    "sendToMyself": "Send to myself"
   },
   "identity": {
     "set": "Create on-chain identity",
@@ -521,6 +533,10 @@
       "description": {
         "show": "Show me the description",
         "hide": "Hide the description"
+      },
+      "attributes": {
+        "show": "Show on-chain attributes",
+        "hide": "Hide on-chain attributes"
       }
     }
   }
