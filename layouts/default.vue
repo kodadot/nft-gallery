@@ -4,7 +4,8 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <router-view :key="$route.fullPath" />
+          <!-- <router-view :key="$route.fullPath" /> -->
+          <Nuxt />
         </div>
       </section>
     </main>
