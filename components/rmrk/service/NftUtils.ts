@@ -186,15 +186,13 @@ class NFTUtils {
   }
 
   public static unwrap(rmrkString: string): any {
-    let err: any;
-
     try {
       const result = JSON.parse(rmrkString)
       if (typeof result === 'object') {
         return result
       }
     } catch (e: any) { 
-      err = e;
+      console.log(e);
     }
 
     const split = rmrkString.split(SQUARE)
