@@ -156,3 +156,14 @@ body {
         color: $primary-light !important;
     }
 }
+
+// global CSS for page transitions
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 250ms
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0
+}
