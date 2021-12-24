@@ -191,7 +191,7 @@ class NFTUtils {
       if (typeof result === 'object') {
         return result
       }
-    } catch (e: any) { 
+    } catch (e) { 
       console.log(e);
     }
 
