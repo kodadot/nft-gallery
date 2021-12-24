@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -52,6 +52,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -102,11 +103,11 @@ const components = {
   },
   components
 })
-export default class Collections extends Vue {
+export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
   public first = this.$store.state.preferences.collectionsPerPage
-  private placeholder = '/koda300x300.svg'
+  private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
 
@@ -122,6 +123,7 @@ export default class Collections extends Vue {
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
       manual: true,
+      client: this.urlPrefix,
       loadingKey: 'isLoading',
       result: this.handleResult,
       variables: () => {
@@ -244,6 +246,8 @@ export default class Collections extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .card-image__burned {
   filter: blur(7px);
 }
@@ -305,10 +309,6 @@ export default class Collections extends Vue {
     float: right;
   }
 
-  .is-color-pink {
-    color: #d32e79;
-  }
-
   .is-absolute {
     position: absolute;
   }
@@ -325,7 +325,7 @@ export default class Collections extends Vue {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px #d32e79;
+      box-shadow: 0px 0px 10px 0.5px $primary-light;
 
       &-image {
         .ff-canvas {
@@ -334,7 +334,7 @@ export default class Collections extends Vue {
 
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: $primary-light;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;

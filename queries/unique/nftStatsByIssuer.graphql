@@ -1,0 +1,30 @@
+query nFTStatsByIssuer($account: String!) {
+  nFTCreated: nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+
+  nFTCollected: nFTEntities(
+    filter: {
+      issuer: { notEqualTo: $account }
+      currentOwner: { equalTo: $account }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+
+  nFTSold: nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      currentOwner: { notEqualTo: $account }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+}

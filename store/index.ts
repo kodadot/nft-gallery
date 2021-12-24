@@ -1,3 +1,4 @@
+import type { ApiPromise } from '@polkadot/api'
 import VuexPersist from 'vuex-persist'
 import Connector from '@vue-polkadot/vue-api'
 import correctFormat from '@/utils/ss58Format'
@@ -15,7 +16,7 @@ interface ChangeUrlAction {
 const apiPlugin = (store: any): void  => {
   const { getInstance: Api } = Connector
 
-  Api().on('connect', async (api: any) => {
+  Api().on('connect', async (api: ApiPromise) => {
     const { chainSS58, chainDecimals, chainTokens  } = api.registry
     const {genesisHash} = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl,

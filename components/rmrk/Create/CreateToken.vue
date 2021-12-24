@@ -156,6 +156,7 @@ import {
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -188,7 +189,8 @@ type MintedCollection = {
 export default class CreateToken extends mixins(
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin,
 ) {
   protected nft: MintNFT = {
     name: '',
@@ -226,6 +228,7 @@ export default class CreateToken extends mixins(
   public async fetchCollections() {
     const collections = await this.$apollo.query({
       query: collectionForMint,
+      client: this.urlPrefix,
       variables: {
         account: this.accountId
       },

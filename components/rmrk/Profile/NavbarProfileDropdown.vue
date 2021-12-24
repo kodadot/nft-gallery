@@ -38,7 +38,7 @@
         has-link
         aria-role="menuitem"
       >
-        <nuxt-link :to="`/rmrk/u/${account}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${account}`">
           Profile
         </nuxt-link>
       </b-dropdown-item>
@@ -172,8 +172,9 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Avatar,
@@ -182,7 +183,7 @@ const components = {
 }
 
 @Component({ components })
-export default class NavbarProfileDropdown extends Vue {
+export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   protected changeAccount = false
   protected isExtension = false

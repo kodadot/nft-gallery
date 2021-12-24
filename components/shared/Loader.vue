@@ -71,7 +71,9 @@ export default class Loader extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/styles/variables';
+
 .loading-container {
   text-align: center;
 }
@@ -82,7 +84,7 @@ export default class Loader extends Vue {
   max-width: 450px;
 }
 .funcfact-heading {
-  color: #d32e79;
+  color: $primary-light;
   font-size: 1.2rem;
   line-height: 2.5rem;
 }

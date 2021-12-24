@@ -184,7 +184,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
@@ -206,6 +206,7 @@ import { MediaType } from '../types'
 import axios from 'axios'
 import { exist } from './Search/exist'
 import Orientation from '@/directives/DeviceOrientation'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component<GalleryItem>({
   metaInfo() {
@@ -248,8 +249,8 @@ import Orientation from '@/directives/DeviceOrientation'
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-    Appreciation: () => import('./Appreciation.vue'),
-    MediaResolver: () => import('../Media/MediaResolver.vue'),
+    Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
+    MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -260,7 +261,7 @@ import Orientation from '@/directives/DeviceOrientation'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends Vue {
+export default class GalleryItem extends mixins(PrefixMixin) {
   private id = ''
   // private accountId: string = '';
   private passsword = ''
@@ -290,7 +291,8 @@ export default class GalleryItem extends Vue {
 
     try {
       // const nft = await rmrkService.getNFT(this.id);
-      await this.$apollo.addSmartQuery('nft', {
+      this.$apollo.addSmartQuery('nft', {
+        client: this.urlPrefix,
         query: nftById,
         variables: {
           id: this.id,
@@ -333,6 +335,7 @@ export default class GalleryItem extends Vue {
       try {
         const nfts = await this.$apollo.query({
           query: nftListIdsByCollection,
+          client: this.urlPrefix,
           variables: {
             id: collectionId,
           },

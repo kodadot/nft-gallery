@@ -72,7 +72,7 @@
           :title="name"
         >
           <div class="has-text-overflow-ellipsis">
-            {{ name }}
+            {{ nftName }}
           </div>
         </span>
       </div>
@@ -81,11 +81,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { fetchNFTMetadata, getSanitizer } from '../utils'
 import { NFT } from '../service/scheme'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
@@ -94,7 +95,7 @@ const components = {
 }
 
 @Component({ components })
-export default class GalleryCard extends Vue {
+export default class GalleryCard extends mixins(AuthMixin) {
   @Prop({ default: '/rmrk/gallery' }) public route!: string
   @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop() public id!: string
@@ -107,7 +108,7 @@ export default class GalleryCard extends Vue {
   @Prop() public metadata!: string
   @Prop() public currentOwner!: string
 
-  private placeholder = '/koda300x300.svg'
+  private placeholder = '/placeholder.webp'
 
   async mounted() {
     if (this.metadata) {
@@ -134,8 +135,8 @@ export default class GalleryCard extends Vue {
     }
   }
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
+  get nftName(): string {
+    return this.name || this.title
   }
 
   public accountIsCurrentOwner() {
@@ -145,11 +146,13 @@ export default class GalleryCard extends Vue {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .nft-card {
   border-radius: 8px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 5px 0.5px #d32e79;
+  box-shadow: 0px 2px 5px 0.5px $primary-light;
 
   &.is-current-owner {
     box-shadow: 0px 2px 5px 0.5px #41b883;
@@ -171,7 +174,7 @@ export default class GalleryCard extends Vue {
     .card-image {
       &__emotes {
         position: absolute;
-        background-color: #d32e79;
+        background-color: $primary-light;
         border-radius: 4px;
         padding: 3px 8px;
         color: #fff;

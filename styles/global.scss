@@ -147,4 +147,12 @@ body {
     .card-header-title {
         color: $text !important;
     }
+
+    .is-color-pink {
+        color: $primary-light;
+    }
+
+    .message.is-primary .message-body {
+        color: $primary-light !important;
+    }
 }
