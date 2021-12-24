@@ -12,13 +12,13 @@ const md = MarkdownIt({
 function loadLocaleMessages(): LocaleMessages {
   // File containing data common to ALL languages
   const allLangDataFile = 'all_lang.json'
-  const locales = require.context('./langDir', true, /[A-Za-z0-9-_,\s]+?\.json$/i)
+  const locales = require.context('./langDir', true, /[A-Za-z0-9-_,\s]{0,8}\.json$/i)
   const messages: LocaleMessages = {}
   locales.keys().forEach(key => {
     if (key === allLangDataFile) {
       return
     }
-    const matched = key.match(/([A-Za-z0-9-_]+?)\./i)
+    const matched = key.match(/([A-Za-z0-9-_]{0,8})\./i)
     if (matched && matched.length > 1) {
       const locale = matched[1]
       messages[locale] = locales(key)
