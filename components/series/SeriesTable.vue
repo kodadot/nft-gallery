@@ -290,17 +290,18 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
 import collectionSeriesList from '@/queries/collectionSeriesList.graphql'
 import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
-import { denyList } from '@/constants'
+import { denyList } from '@/utils/constants'
 import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import { get, set } from 'idb-keyval'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -308,7 +309,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SeriesTable extends Vue {
+export default class SeriesTable extends mixins(PrefixMixin) {
   protected data: RowSeries[] = []
   protected columns: Column[] = columns
   protected usersWithIdentity: RowSeries[] = []
@@ -337,6 +338,7 @@ export default class SeriesTable extends Vue {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSeriesList,
+      client: this.urlPrefix,
       variables: {
         denyList,
       },

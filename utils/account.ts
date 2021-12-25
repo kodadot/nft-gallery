@@ -1,6 +1,6 @@
-import { KeyringAccount } from '@/types'
+import { KeyringAccount } from '@/utils/types/types'
 import keyring from '@polkadot/ui-keyring'
-import { getAddress } from '@/extension'
+import { getAddress } from '@/utils/extension'
 import { decodeAddress, encodeAddress, } from '@polkadot/util-crypto'
 import * as store from '~/store'
 import { Prefix } from '@polkadot/util-crypto/address/types'

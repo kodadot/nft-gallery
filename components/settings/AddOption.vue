@@ -14,7 +14,7 @@
       <p class="control">
         <b-button
           :disabled="!text || !value"
-          type="is-dark"
+          type="is-primary"
           outlined
           @click="onAddedOption"
         >

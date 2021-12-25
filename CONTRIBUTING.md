@@ -156,6 +156,10 @@ When you open a pull request, you must fill out the "Ready for review" template 
 
 # Troubleshooting
 
+### Code quality
+
+We follow what we have in `.eslintrc.js` and you can see warrning and errors by running `yarn lint`. With `yarn lint --fix` you will get auto fixed code.
+
 ### Don't have access to push to repository
 You need to fork repository, commit change to your repository and [create pull request](https://opensource.com/article/19/7/create-pull-request-github). 
 

@@ -3,7 +3,7 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
+      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
     </b-field>
 
     <div>
@@ -35,7 +35,7 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
-      :perPage="perPage"
+      :perPage="first"
       v-model="currentValue"
       replace
     />
@@ -43,15 +43,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -102,17 +104,20 @@ const components = {
   },
   components
 })
-export default class Collections extends Vue {
+export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  private first = 9
-  private perPage = 9
-  private placeholder = '/koda300x300.svg'
+  private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
+  private loadingState = 0
+
+  get first(): number {
+    return this.$store.getters['preferences/getCollectionsPerPage']
+  }
 
   get isLoading() {
-    return this.$apollo.queries.collection.loading
+    return Boolean(this.loadingState)
   }
 
   get offset() {
@@ -120,10 +125,14 @@ export default class Collections extends Vue {
   }
 
   public async created() {
+    const isRemark = this.urlPrefix === 'rmrk'
+    const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
+
     this.$apollo.addSmartQuery('collection', {
-      query: collectionListWithSearch,
+      query: query.default,
       manual: true,
-      loadingKey: 'isLoading',
+      loadingKey: 'loadingState',
+      client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
         return {
@@ -144,9 +153,12 @@ export default class Collections extends Vue {
       ...e,
     }))
 
+    const metaList = this.collections.map(({ metadata }: MetaFragment) => metadata || '0x0000000000000000000000000000000000000000')
+    console.log(metaList)
+
     const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
-    )
+      metaList
+    ).catch(() => metaList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
@@ -157,7 +169,9 @@ export default class Collections extends Vue {
             ...meta,
             image: sanitizeIpfsUrl(meta.image || '')
           })
-          update(this.collections[i].metadata, () => meta)
+          if (this.collections[i].metadata) {
+            update(this.collections[i].metadata, () => meta)
+          }
         } catch (e) {
           console.warn('[ERR] unable to get metadata')
         }
@@ -171,14 +185,16 @@ export default class Collections extends Vue {
     })
 
 
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
+      const isRemark = this.urlPrefix === 'rmrk'
+      const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
       const collections = this.$apollo.query({
-        query: collectionListWithSearch,
+        query: query.default,
         variables: {
           first: this.first,
           offset,

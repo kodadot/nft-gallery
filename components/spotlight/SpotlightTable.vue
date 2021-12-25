@@ -50,10 +50,26 @@
       <b-table-column
         field="unique"
         :label="$t('spotlight.unique')"
-        v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ props.row.unique }}</template>
+      <template v-slot:header="{column}">
+        <b-tooltip label="unique items" append-to-body dashed>
+          {{column.label}}
+        </b-tooltip>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        field="uniqueCollectors"
+        :label="$t('spotlight.uniqueCollectors')"
+        sortable
+      >
+      <template v-slot:header="{column}">
+        <b-tooltip label="unique collectors" append-to-body dashed>
+          {{column.label}}
+        </b-tooltip>
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -132,11 +148,12 @@ import { columns, nftFn } from './utils'
 import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
 import { spotlightAggQuery } from '../rmrk/Gallery/Search/query'
 import TransactionMixin from '@/utils/mixins/txMixin'
-import { denyList } from '@/constants'
+import { denyList } from '@/utils/constants'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 type Address = string | GenericAccountId | undefined;
 
 const components = {
@@ -146,7 +163,7 @@ const components = {
 }
 
 @Component({ components })
-export default class SpotlightTable extends mixins(TransactionMixin) {
+export default class SpotlightTable extends mixins(TransactionMixin, PrefixMixin) {
   @Prop() public value!: any
   protected data: Row[] = []
   protected columns: Column[] = columns
@@ -158,6 +175,7 @@ export default class SpotlightTable extends mixins(TransactionMixin) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionIssuerList,
+      client: this.urlPrefix,
       variables: {
         denyList
       }

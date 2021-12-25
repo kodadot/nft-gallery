@@ -138,7 +138,7 @@ import exec, {
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme'
-import { pinJson, getKey, revokeKey } from '@/proxy'
+import { pinJson, getKey, revokeKey } from '@/utils/proxy'
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
@@ -155,7 +155,8 @@ import {
 } from './mintUtils'
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
+import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata;
@@ -188,7 +189,8 @@ type MintedCollection = {
 export default class CreateToken extends mixins(
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin,
 ) {
   protected nft: MintNFT = {
     name: '',
@@ -226,6 +228,7 @@ export default class CreateToken extends mixins(
   public async fetchCollections() {
     const collections = await this.$apollo.query({
       query: collectionForMint,
+      client: this.urlPrefix,
       variables: {
         account: this.accountId
       },

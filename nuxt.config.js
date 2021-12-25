@@ -1,3 +1,5 @@
+import defineApolloConfig from './defineApolloConfig'
+
 export default {
   server: {
     port: 9090, // default: 3000
@@ -44,6 +46,10 @@ export default {
     { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/vueTippy',
   ],
+
+  router: {
+    middleware: ['prefix']
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
@@ -156,11 +162,7 @@ export default {
   },
 
   apollo: {
-    clientConfigs: {
-      default: {
-        httpEndpoint: 'https://kodadot.api.subquery.network',
-      },
-    },
+    clientConfigs: defineApolloConfig() // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -175,7 +177,14 @@ export default {
 
   watchers: {
     webpack: {
-      poll: true,
-    },
+      poll: true
+    }
   },
+
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
+  publicRuntimeConfig: {
+    prefix: process.env.URL_PREFIX || 'rmrk',
+  },
+  // In case of using ssr
+  // privateRuntimeConfig: {}
 }

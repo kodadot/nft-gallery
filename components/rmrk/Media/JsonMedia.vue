@@ -13,7 +13,7 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import api from '@/fetch'
+import api from '@/utils/fetch'
 
 @Component({})
 export default class Unknown extends Vue {

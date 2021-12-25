@@ -57,6 +57,15 @@
   "New here? We have F.A.Q.": "New here? We have F.A.Q.",
   "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
   "Read our story, how we started.": "Read our story, how we started.",
+  "User Interface Mode": "User Interface Mode",
+  "Advanced User Interface": "Advanced User Interface",
+  "Basic User Interface": "Basic User Interface",
+  "Enable Theatre View on default": "Enable Theatre View on default",
+  "Fold history and price chart in NFT view on default": "Fold history and price chart in NFT view on default",
+  "Fold description in collection view on default": "Fold description in collection view on default",
+  "Layout Options": "Layout Options",
+  "Gallery Items Per Page": "Gallery Items Per Page",
+  "Collections Per Page": "Collections Per Page",
   "Frequently Asked Question": "Frequently Asked Question",
   "faq": {
     "q": {
@@ -337,6 +346,7 @@
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
+    "deposit": "Current deposit",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -391,6 +401,7 @@
     "burned": "NFT is burned",
     "description": "NFT description",
     "name": "Name your NFT",
+    "frozen": "NFT is frozen",
     "event": {
       "MINTNFT": "🖼  MINT",
       "LIST": "📰  LIST",
@@ -409,7 +420,8 @@
     "sign": "Waiting for response from singer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
-    "uploading": "({0}/{1}) Uploading data to IPFS"
+    "uploading": "({0}/{1}) Uploading data to IPFS",
+    "checkBalance": "Checking if you have enough balance"
   },
   "Spotlight": "Spotlight",
   "Simple": "Simple",
@@ -446,13 +458,14 @@
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
-    "unique": "Unique",
+    "unique": "∃!",
     "total": "Total",
     "averagePrice": "Ø price",
     "count": "Σ collection",
     "collectors": "Collectors",
     "score": "Score",
-    "empty": "Empty"
+    "empty": "Empty",
+    "uniqueCollectors": "∃! collectors"
   },
   "series": {
     "title": "Top Collection",
@@ -492,7 +505,8 @@
     "click": "Click to {0} NFT(s)",
     "omitListed": "Skip listed NFT(s)",
     "random": "Use random",
-    "distributionCount": "Percent which will be distributed"
+    "distributionCount": "Percent which will be distributed",
+    "sendToMyself": "Send to myself"
   },
   "identity": {
     "set": "Create on-chain identity",
@@ -529,6 +543,10 @@
       "description": {
         "show": "Show me the description",
         "hide": "Hide the description"
+      },
+      "attributes": {
+        "show": "Show on-chain attributes",
+        "hide": "Hide on-chain attributes"
       }
     }
   }
