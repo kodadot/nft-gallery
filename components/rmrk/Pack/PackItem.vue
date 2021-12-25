@@ -15,7 +15,7 @@
           </p>
           <Sharing
             v-if="sharingVisible"
-            label="Check this awesome Pack on %23KusamaNetwork %23KodaDot"
+            label="Check out this awesome Pack on KodaDot"
             :iframe="iframeSettings"
           />
         </div>

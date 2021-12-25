@@ -37,7 +37,7 @@
           <Sharing
             class="mb-2"
             v-if="!sharingVisible"
-            label="Check this awesome Profile on %23KusamaNetwork %23KodaDot"
+            label="Check out this awesome Profile on KodaDot"
             :iframe="iframeSettings"
           >
             <DonationButton :address="id" />
