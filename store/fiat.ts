@@ -1,5 +1,5 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { getKsmPrice } from '@/coingecko'
+import { getKsmPrice } from '@/utils/coingecko'
 
 export const state = () => ({
   fiatPrice: {

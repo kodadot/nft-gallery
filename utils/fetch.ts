@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { sanitizeIpfsUrl } from './components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 export const BASE_URL = 'https://ipfs.io/'
 

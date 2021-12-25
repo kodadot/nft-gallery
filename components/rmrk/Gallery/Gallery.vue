@@ -92,7 +92,7 @@ import 'lazysizes'
 import { SearchQuery } from './Search/types'
 
 import { getMany, update } from 'idb-keyval'
-import { denyList, statemineDenyList } from '@/constants'
+import { denyList, statemineDenyList } from '@/utils/constants'
 import { DocumentNode } from 'graphql'
 import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'

@@ -91,7 +91,7 @@ import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
-import i18n from '@/i18n'
+import i18n from '@/utils/config/i18n'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),

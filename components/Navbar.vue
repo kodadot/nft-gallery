@@ -144,6 +144,8 @@ import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
+import i18n from '@/utils/config/i18n'
+import { getCurrentColor } from '@/utils/colors'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({

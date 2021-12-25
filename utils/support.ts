@@ -4,7 +4,7 @@ const MONTHS = 24
 const BYTES = 1000
 const MINUMUM_MB_STORAGE = 10
 const PERCENT = 0.02 // percent / 100
-import { getKSMUSD } from '../coingecko'
+import { getKSMUSD } from '@/utils/coingecko'
 import Connector from '@vue-polkadot/vue-api'
 const BACKUP_PUBKEY = '0x8cc1b91e8946862c2c79915a4bc004926510fcf71c422fde977c0b0e9d9be40e'
 const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
