@@ -458,13 +458,14 @@
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
-    "unique": "Unique",
+    "unique": "∃!",
     "total": "Total",
     "averagePrice": "Ø price",
     "count": "Σ collection",
     "collectors": "Collectors",
     "score": "Score",
-    "empty": "Empty"
+    "empty": "Empty",
+    "uniqueCollectors": "∃! collectors"
   },
   "series": {
     "title": "Top Collection",
