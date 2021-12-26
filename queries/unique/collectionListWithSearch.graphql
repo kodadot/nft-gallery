@@ -1,0 +1,31 @@
+#import "./collection.graphql"
+
+query collectionListWithSearch($first: Int!, $offset: Int) {
+  collectionEntities(
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+    filter: {
+      metadata: { isNull: false },
+    }
+  ) {
+    totalCount
+    nodes {
+      metadata
+      ...collection
+      nfts(
+        orderBy: BLOCK_NUMBER_DESC
+        filter: {
+        burned: { distinctFrom: true }
+      }
+      ) {
+        nodes {
+          id
+          metadata
+          burned
+          currentOwner
+        }
+      }
+    }
+  }
+}

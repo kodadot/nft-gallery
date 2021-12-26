@@ -2,7 +2,7 @@
   <div class="min-h-full is-flex is-flex-direction-column">
     <Navbar v-if="isNavbarVisible" />
     <main class="is-flex-grow-1">
-      <router-view />
+      <Nuxt />
     </main>
     <Footer />
   </div>

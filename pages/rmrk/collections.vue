@@ -3,7 +3,7 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
+      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
     </b-field>
 
     <div>
@@ -35,7 +35,7 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
-      :perPage="perPage"
+      :perPage="first"
       v-model="currentValue"
       replace
     />
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -52,6 +52,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -102,12 +103,11 @@ const components = {
   },
   components
 })
-export default class Collections extends Vue {
+export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  private first = 9
-  private perPage = 9
-  private placeholder = '/koda300x300.svg'
+  public first = this.$store.state.preferences.collectionsPerPage
+  private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
 
@@ -123,6 +123,7 @@ export default class Collections extends Vue {
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
       manual: true,
+      client: this.urlPrefix,
       loadingKey: 'isLoading',
       result: this.handleResult,
       variables: () => {

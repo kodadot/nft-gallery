@@ -5,7 +5,7 @@ function format(balance: number | string | BN | bigint, decimals = 12, withUnit?
   try {
     return formatBalance(balance, { decimals , withUnit , forceUnit: '-', withSi })
   } catch (e: any) {
-    console.error('[FORMAT BALANCE]', e.message, String(balance), typeof balance, decimals, withUnit)
+    console.warn('[FORMAT BALANCE]', e.message, String(balance), typeof balance, decimals, withUnit)
     return ''
   }
 

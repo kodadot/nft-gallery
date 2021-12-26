@@ -72,7 +72,7 @@
           :title="name"
         >
           <div class="has-text-overflow-ellipsis">
-            {{ name }}
+            {{ nftName }}
           </div>
         </span>
       </div>
@@ -81,11 +81,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { fetchNFTMetadata, getSanitizer } from '../utils'
 import { NFT } from '../service/scheme'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
@@ -94,7 +95,7 @@ const components = {
 }
 
 @Component({ components })
-export default class GalleryCard extends Vue {
+export default class GalleryCard extends mixins(AuthMixin) {
   @Prop({ default: '/rmrk/gallery' }) public route!: string
   @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop() public id!: string
@@ -107,7 +108,7 @@ export default class GalleryCard extends Vue {
   @Prop() public metadata!: string
   @Prop() public currentOwner!: string
 
-  private placeholder = '/Kodadot_logo.svg'
+  private placeholder = '/placeholder.webp'
 
   async mounted() {
     if (this.metadata) {
@@ -134,8 +135,8 @@ export default class GalleryCard extends Vue {
     }
   }
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
+  get nftName(): string {
+    return this.name || this.title
   }
 
   public accountIsCurrentOwner() {

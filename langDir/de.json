@@ -55,6 +55,15 @@
   "New here? We have F.A.Q.": "New here? We have F.A.Q.",
   "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
   "Read our story, how we started.": "Read our story, how we started.",
+  "User Interface Mode": "Aussehen der Benutzeroberfläche",
+  "Advanced User Interface": "Erweiterte Benutzeroberfläche",
+  "Basic User Interface": "Klassische Benutzeroberfläche",
+  "Enable Theatre View on default": "Aktiviere Theatre View als Standard-Ansicht",
+  "Fold history and price chart in NFT view on default": "Historie und Preis-Chart in NFT-Ansicht standardmäßig eingeklappt",
+  "Fold description in collection view on default": "Beschreibung in Sammlungen standardmäßig eingeklappt",
+  "Layout Options": "Anzeige-Optionen",
+  "Gallery Items Per Page": "Gallerie-Einträge pro Seite",
+  "Collections Per Page": "Sammlungen pro Seite",
   "Frequently Asked Question": "Frequently Asked Question",
   "faq": {
     "q": {

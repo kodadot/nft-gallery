@@ -6,7 +6,7 @@
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">
-              <router-view />
+              <Nuxt />
             </div>
           </div>
         </div>

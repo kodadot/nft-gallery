@@ -29,47 +29,51 @@
         </template>
         <b-navbar-item
           tag="nuxt-link"
-          to="/rmrk/create"
+          :to="`/${urlPrefix}/create`"
         >
           {{ $t('Classic') }}
         </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          to="/rmrk/mint"
-        >
-          {{ $t('Simple') }}
-        </b-navbar-item>
-        <b-navbar-item
-          tag="nuxt-link"
-          to="/permafrost/create"
-        >
-          {{ $t('Permafrost') }}
-        </b-navbar-item>
+        <template v-if="isRmrk">
+          <b-navbar-item
+            tag="nuxt-link"
+            to="/rmrk/mint"
+          >
+            {{ $t('Simple') }}
+          </b-navbar-item>
+          <b-navbar-item
+            tag="nuxt-link"
+            to="/permafrost/create"
+          >
+            {{ $t('Permafrost') }}
+          </b-navbar-item>
+        </template>
       </b-navbar-dropdown>
       <b-navbar-item
         tag="nuxt-link"
-        to="/rmrk/collections"
+        :to="`/${urlPrefix}/collections`"
       >
         {{ $t('Collections') }}
       </b-navbar-item>
       <b-navbar-item
         tag="nuxt-link"
-        to="/rmrk/gallery"
+        :to="`/${urlPrefix}/gallery`"
       >
         {{ $t('Gallery') }}
       </b-navbar-item>
-      <b-navbar-item
-        tag="nuxt-link"
-        to="/spotlight"
-      >
-        {{ $t('Spotlight') }}
-      </b-navbar-item>
-      <b-navbar-item
-        tag="nuxt-link"
-        to="/series-insight"
-      >
-        Series
-      </b-navbar-item>
+      <template v-if="isRmrk">
+        <b-navbar-item
+          tag="nuxt-link"
+          to="/spotlight"
+        >
+          {{ $t('Spotlight') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          to="/series-insight"
+        >
+          Series
+        </b-navbar-item>
+      </template>
       <b-navbar-dropdown
         arrowless
         collapsible
@@ -88,6 +92,7 @@
           {{ $t('FAQ') }}
         </b-navbar-item>
         <b-navbar-item
+          v-if="isRmrk"
           tag="nuxt-link"
           to="/rmrk/admin"
         >
@@ -104,6 +109,12 @@
           to="/transform"
         >
           {{ $t('Transform') }}
+        </b-navbar-item>
+        <b-navbar-item
+          tag="nuxt-link"
+          to="/teleport"
+        >
+          {{ $t('Teleport') }}
         </b-navbar-item>
         <b-navbar-item
           tag="nuxt-link"
@@ -128,12 +139,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import { getCurrentColor } from '@/colors'
-import i18n from '@/i18n'
+import i18n from '@/utils/config/i18n'
+import { getCurrentColor } from '@/utils/colors'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({
   components: {
@@ -142,56 +154,11 @@ import i18n from '@/i18n'
     NavbarProfileDropdown
   }
 })
-export default class NavbarMenu extends Vue {
-  private color: string = getCurrentColor()
-  public navbar: any = [
-    {
-      name: i18n.t('Gallery'),
-      tag: 'nuxt-link',
-      to: { name: 'nft' },
-      strong: true
-    },
-  ]
-  public navbarExtra: any = [
-    {
-      name: i18n.t('Accounts'),
-      icon: 'users',
-      to: { name: 'accounts' },
-      tag: 'nuxt-link',
-    },
-    {
-      name: i18n.t('Credit'),
-      icon: 'users',
-      to: { name: 'rmrkCredit' },
-      tag: 'nuxt-link',
-      strong: true
-    },
-    {
-      name: i18n.t('Transfer'),
-      icon: 'paper-plane',
-      to: { name: 'transfer' },
-      tag: 'nuxt-link',
-    },
-    {
-      name: i18n.t('Settings'),
-      icon: 'cogs',
-      tag: 'nuxt-link',
-      to: { name: 'settings' },
-    },
-  ]
-  private navbarExternal: any = [
-    {
-      name: 'Twitter',
-      tag: 'a',
-      href: 'https://twitter.com/Kodadot'
-    }
-  ]
+export default class NavbarMenu extends mixins(PrefixMixin) {
+  get isRmrk(): boolean {
+    return this.urlPrefix === 'rmrk'
+  }
 
-  // get chainColor() {
-  //   return {
-  //     'border-bottom': `4px ${this.color} solid`
-  //   }
-  // }
 }
 </script>
 

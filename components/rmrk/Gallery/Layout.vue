@@ -1,11 +1,12 @@
 <template>
   <div class="content is-hidden-mobile">
-    <b-field position="is-right">
+    <b-field :position="position">
       <b-tooltip label="Large display">
         <b-radio-button
           type="is-primary"
           v-model="layout"
           native-value="is-one-third-desktop is-one-third-tablet"
+          :disabled="disabled"
           @input="onInputChange"
         >
           <span>
@@ -18,6 +19,7 @@
           type="is-primary"
           v-model="layout"
           native-value="is-one-fifth-desktop is-one-quarter-tablet"
+          :disabled="disabled"
           @input="onInputChange"
         >
           <span>
@@ -37,8 +39,10 @@ import { RmrkType } from '@/components/rmrk/service/scheme'
 export default class Layout extends Vue {
   @Prop({ default: 'nftDetail' }) public type!: string
   @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop({ type: Boolean, default: false }) public readonly disabled!: boolean
+  @Prop({ type: String, default: 'is-right' }) public readonly position!: 'is-left' | 'is-right'
   @Prop() public items!: RmrkType[]
-  public layout = 'is-one-third-desktop is-one-third-tablet'
+  public layout = this.$store.getters['preferences/getLayoutClass']
 
   public onInputChange (data :string) {
     this.$store.dispatch('preferences/setLayoutClass', data)
