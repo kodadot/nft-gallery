@@ -420,6 +420,9 @@ export default class SeriesTable extends Vue {
   }
 
   public getClassForVolume() {
+    if (!this.volumePercent) {
+      return ''
+    }
     return this.volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
   }
 }
