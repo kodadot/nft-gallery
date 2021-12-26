@@ -37,7 +37,7 @@
           <Sharing
             class="mb-2"
             v-if="!sharingVisible"
-            label="Check out this awesome Profile on KodaDot"
+            :label="$t('sharing.profile')"
             :iframe="iframeSettings"
           >
             <DonationButton :address="id" />

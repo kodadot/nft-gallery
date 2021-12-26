@@ -15,7 +15,7 @@
           </p>
           <Sharing
             v-if="sharingVisible"
-            label="Check out this awesome Pack on KodaDot"
+            :label="$t('sharing.pack')"
             :iframe="iframeSettings"
           />
         </div>
