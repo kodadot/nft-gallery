@@ -22,6 +22,11 @@
             {{ $t('Fold description in collection view on default') }}
           </b-checkbox>
       </b-field>
+      <b-field >
+          <b-checkbox v-model="hidePriceGalleryValue" :disabled="!enabledAdvancedUI">
+            {{ $t('Hide price in gallery view by default') }}
+          </b-checkbox>
+      </b-field>
       <div class="layout-wrapper">
           <div class="label">
             {{ $t('Layout Options') }}
@@ -103,6 +108,14 @@ export default class Interface extends Vue {
 
   set compactCollection(value: boolean) {
     this.$store.dispatch('preferences/setCompactCollection', value)
+  }
+
+  get hidePriceGalleryValue(): boolean {
+    return this.$store.state.preferences.hidePriceGallery
+  }
+
+  set hidePriceGalleryValue(value: boolean) {
+    this.$store.dispatch('preferences/setHidePriceGalleryValue', value)
   }
 
   get galleryItemsPerPage(): number {
