@@ -102,7 +102,16 @@
           :key="item.name"
           class="footer__list-item"
         >
+          <a
+            v-if="item.external"
+            :href="item.url"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ item.name }}
+          </a>
           <nuxt-link
+            v-else
             :to="item.url"
           >
             {{ item.name }}
@@ -121,6 +130,7 @@ import { TranslateResult } from 'vue-i18n/types'
 interface Menu {
   name: TranslateResult;
   url: string;
+  external?: boolean
 }
 @Component({
   components: {}
@@ -142,6 +152,11 @@ export default class Footer extends Vue {
     {
       name: i18n.t('Partnerships & Ambassadors'),
       url: '/partnership'
+    },
+    {
+      name: i18n.t('Press Kit'),
+      url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
+      external: true
     }
   ]
 }
