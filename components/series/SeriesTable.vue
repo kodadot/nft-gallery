@@ -134,7 +134,7 @@
       >
         <template v-if="!isLoading">
           <div
-            :class="getClassForVolume()"
+            :class="displayVolumePercent(props.row.dailyVolume, props.row.dailyrangeVolume, true)"
           >
             {{
               displayVolumePercent(
@@ -158,7 +158,7 @@
       >
         <template v-if="!isLoading">
          <div
-            :class="getClassForVolume()"
+            :class="displayVolumePercent(props.row.weeklyVolume, props.row.weeklyrangeVolume, true)"
           >
             {{
               displayVolumePercent(
@@ -182,7 +182,7 @@
       >
         <template v-if="!isLoading">
          <div
-            :class="getClassForVolume()"
+            :class="displayVolumePercent(props.row.monthlyVolume, props.row.monthlyrangeVolume, true)"
           >
             {{
               displayVolumePercent(
@@ -322,8 +322,6 @@ export default class SeriesTable extends Vue {
   protected nbRows = '10'
   protected sortBy: SortType = { field: 'volume', value: -1 }
   public isLoading = false
-  public volumePercent = 0
-
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
   async created() {
@@ -408,22 +406,22 @@ export default class SeriesTable extends Vue {
     return sanitizeIpfsUrl(meta.image || '')
   }
 
-  public displayVolumePercent(priceNow: number, priceAgo: number) {
+  public displayVolumePercent(
+    priceNow: number,
+    priceAgo: number,
+    getClass?: boolean
+  ) {
     const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
-      return '---'
+      return getClass ? '' : '---'
     }
-    this.volumePercent = Math.round(vol * 100) / 100
-    return this.volumePercent > 0
-      ? `+${this.volumePercent}%`
-      : `${this.volumePercent}%`
-  }
+    const volumePercent = Math.round(vol * 100) / 100
 
-  public getClassForVolume() {
-    if (!this.volumePercent) {
-      return ''
+    if (getClass) {
+      return volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
     }
-    return this.volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
+
+    return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`
   }
 }
 </script>
