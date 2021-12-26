@@ -36,7 +36,7 @@
       </div>
       <div class="column is-2">
         <Sharing v-if="sharingVisible"
-          label="Check this awesome Collection on %23KusamaNetwork %23KodaDot"
+          :label="$t('sharing.collection')"
           :iframe="iframeSettings" >
           <TransferCollection v-if="accountIsCurrentOwner" :collectionId="id" :currentOwnerId="currentOwner" :accountId="accountId" />
         </Sharing>
