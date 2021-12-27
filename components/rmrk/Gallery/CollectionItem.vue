@@ -53,7 +53,7 @@
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
         >
-          <VueMarkdown :source="description" />
+          <VueMarkdown :source="description" class="description" />
         </CollapseWrapper>
       </div>
     </div>
@@ -373,5 +373,16 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 <style>
 .collection__image img {
   color: transparent;
+}
+</style>
+
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
+.description {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 </style>
