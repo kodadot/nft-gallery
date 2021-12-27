@@ -411,6 +411,9 @@ export default class SeriesTable extends Vue {
     priceAgo: number,
     getClass?: boolean
   ) {
+    /* added getClass for getting the class name for the row
+    * it would be true when you want to return the class name
+    */
     const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
       return getClass ? '' : '---'
