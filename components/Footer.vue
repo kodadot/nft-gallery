@@ -106,7 +106,7 @@
             v-if="item.external"
             :href="item.url"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
           >
             {{ item.name }}
           </a>
