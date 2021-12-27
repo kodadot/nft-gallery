@@ -208,7 +208,7 @@ const components = {
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+          content: this.defaultCreateMetaImage
         },
         {
           property: 'twitter:title',
@@ -220,7 +220,7 @@ const components = {
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg'
+          content: this.defaultCreateMetaImage
         }
       ]
     }
@@ -253,6 +253,13 @@ export default class PermaMint extends mixins(
   protected updateMeta(value: number) {
     console.log(typeof value, value)
     this.price = value
+  }
+
+  get defaultCreateMetaImage(): string {
+    const url = new URL(window.location.href)
+    return (
+      `${url.protocol}//${url.hostname}/kodadot_mint.png`
+    )
   }
 
   layout() {
