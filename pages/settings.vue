@@ -1,13 +1,13 @@
 <template>
   <section>
     <b-tabs v-model="activeTab">
-      <b-tab-item label="General">
+      <b-tab-item label="General" value="general">
         <General />
       </b-tab-item>
-      <b-tab-item label="Metadata">
+      <b-tab-item label="Metadata" value="metadata">
         <Metadata />
       </b-tab-item>
-      <b-tab-item label="Interface">
+      <b-tab-item label="Interface" value="advanced">
         <Interface />
       </b-tab-item>
     </b-tabs>
@@ -29,6 +29,16 @@ import Metadata from '@/components/metadata/Metadata.vue'
 })
 
 export default class Settings extends Vue {
-  private activeTab = 0
+  get activeTab(): string {
+    return this.$route.query.tab as string || 'general'
+  }
+
+  set activeTab(val) {
+    this.$route.query.page = ''
+    this.$router.replace({
+      query: { tab: val },
+    })
+  }
+
 }
 </script>
