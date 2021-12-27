@@ -22,7 +22,7 @@
       title="Go to random page"
       v-if="hasMagicBtn"
       type="is-primary"
-      icon-left="dice"
+      icon-left="magic"
       @click="goToRandomPage"
     >
     </b-button>
