@@ -15,7 +15,7 @@
         outlined
         @click="handleAction(action)"
       >
-        {{ action }}
+        {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
       </b-button>
     </div>
     <component
@@ -106,6 +106,10 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
 
   get showMeta() {
     return needMeta[this.selectedAction]
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
   protected iconType(value: string) {
