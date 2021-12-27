@@ -62,7 +62,7 @@
       <transition name="fade">
         <div v-if="isVisible" class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" label="sort.listed" size="is-medium" labelColor="is-success" />
+          <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
         </div>
       </transition>
 
@@ -144,6 +144,10 @@ export default class SearchBar extends Vue {
 
   get searchSuggestion(){
     return this.result.length !== 0 ? this.filterSearch().concat(this.result) : this.filterSearch()
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
   @Emit('update:listed')

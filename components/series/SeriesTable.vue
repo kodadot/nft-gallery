@@ -134,13 +134,15 @@
       >
         <template v-if="!isLoading">
           <div
-            v-html="
+            :class="displayVolumePercent(props.row.dailyVolume, props.row.dailyrangeVolume, true)"
+          >
+            {{
               displayVolumePercent(
                 props.row.dailyVolume,
                 props.row.dailyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -155,14 +157,16 @@
         :visible="nbDays === '7'"
       >
         <template v-if="!isLoading">
-          <div
-            v-html="
+         <div
+            :class="displayVolumePercent(props.row.weeklyVolume, props.row.weeklyrangeVolume, true)"
+          >
+            {{
               displayVolumePercent(
                 props.row.weeklyVolume,
                 props.row.weeklyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -177,14 +181,16 @@
         :visible="nbDays === '30'"
       >
         <template v-if="!isLoading">
-          <div
-            v-html="
+         <div
+            :class="displayVolumePercent(props.row.monthlyVolume, props.row.monthlyrangeVolume, true)"
+          >
+            {{
               displayVolumePercent(
                 props.row.monthlyVolume,
                 props.row.monthlyrangeVolume
               )
-            "
-          />
+            }}
+          </div>
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -317,7 +323,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected nbRows = '10'
   protected sortBy: SortType = { field: 'volume', value: -1 }
   public isLoading = false
-
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
   async created() {
@@ -403,15 +408,25 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     return sanitizeIpfsUrl(meta.image || '')
   }
 
-  public displayVolumePercent(priceNow: number, priceAgo: number) {
+  public displayVolumePercent(
+    priceNow: number,
+    priceAgo: number,
+    getClass?: boolean
+  ) {
+    /* added getClass for getting the class name for the row
+    * it would be true when you want to return the class name
+    */
     const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
-      return '---'
+      return getClass ? '' : '---'
     }
     const volumePercent = Math.round(vol * 100) / 100
-    return volumePercent > 0
-      ? `<div style="color: #41b883"> +${volumePercent}%</div>`
-      : `<div class="has-text-danger"> ${volumePercent}%</div>`
+
+    if (getClass) {
+      return volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
+    }
+
+    return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`
   }
 }
 </script>
@@ -423,4 +438,5 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   color: #000;
   background-color: $primary;
 }
+
 </style>

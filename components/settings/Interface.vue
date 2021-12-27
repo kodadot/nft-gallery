@@ -25,6 +25,8 @@
       <b-field >
           <b-checkbox v-model="hidePriceGalleryValue" :disabled="!enabledAdvancedUI">
             {{ $t('Hide price in gallery view by default') }}
+          <b-checkbox v-model="replaceBuyNowWithYolo" :disabled="!enabledAdvancedUI">
+            {{ $t('Replace buy now with YOLO') }}
           </b-checkbox>
       </b-field>
       <div class="layout-wrapper">
@@ -116,6 +118,14 @@ export default class Interface extends Vue {
 
   set hidePriceGalleryValue(value: boolean) {
     this.$store.dispatch('preferences/setHidePriceGalleryValue', value)
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.state.preferences.replaceBuyNowWithYolo
+  }
+
+  set replaceBuyNowWithYolo(value: boolean) {
+    this.$store.dispatch('preferences/setReplaceBuyNowWithYolo', value)
   }
 
   get galleryItemsPerPage(): number {

@@ -20,7 +20,7 @@
         <BasicSwitch
          class="is-flex control mb-5"
          v-model="vListed"
-         label="sort.listed"
+         :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
          size="is-medium"
          labelColor="is-success"
         />
@@ -81,6 +81,10 @@ export default class SearchBar extends Vue {
 
   set typeQuery(value: string) {
     this.updateType(value)
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
   @Emit('update:listed')
