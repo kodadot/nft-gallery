@@ -76,6 +76,9 @@ export default class Loader extends Vue {
 
 .loading-container {
   text-align: center;
+  background: #edededad;
+  margin: 0rem 1rem;
+  padding: 1rem;
 }
 .funfact-text{
   position: relative;
