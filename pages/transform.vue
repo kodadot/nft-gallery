@@ -37,15 +37,15 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 export default class Transform extends Vue {
   protected url = ''
 
-  created() {
+  middleware({ route, redirect }) {
     const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/'
 
     if (
-      this.$route.query &&
-      this.$route.query.url.toString().startsWith(baseTransformQueryUrl)
+      route.query &&
+      route.query.url?.toString().startsWith(baseTransformQueryUrl)
     ) {
-      const urlToOpen = this.$route.query.url.slice(baseTransformQueryUrl.length)
-      this.$router.push({
+      const urlToOpen = route.query.url.slice(baseTransformQueryUrl.length)
+      redirect({
         path: `/rmrk/detail/${urlToOpen}`,
       })
     }
