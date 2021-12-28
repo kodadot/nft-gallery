@@ -12,8 +12,8 @@ export const state = (): {
 }  => ({
   layoutClass: 'is-one-third-desktop is-one-third-tablet',
   advancedUI: false,
-  theatreView: 'default',
-  compactGalleryItem: false,
+  theatreView: 'theatre',
+  compactGalleryItem: true,
   compactCollection: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
@@ -39,8 +39,8 @@ export const mutations: MutationTree<PreferencesState> = {
     // if set to false reset state back to default
     if(!data) {
       state.layoutClass = 'is-one-third-desktop is-one-third-tablet',
-      state.theatreView = 'default'
-      state.compactGalleryItem = false
+      state.theatreView = 'theatre'
+      state.compactGalleryItem = true
       state.compactCollection = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
