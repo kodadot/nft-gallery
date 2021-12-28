@@ -53,7 +53,7 @@
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
         >
-          <VueMarkdown :source="description" class="description" />
+          <VueMarkdown :source="description" class="is-selectable" />
         </CollapseWrapper>
       </div>
     </div>
@@ -377,9 +377,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 </style>
 
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
-.description {
+.is-selectable {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
