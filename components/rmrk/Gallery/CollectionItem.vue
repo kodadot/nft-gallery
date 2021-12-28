@@ -53,7 +53,7 @@
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
         >
-          <VueMarkdown :source="description" />
+          <SelectableMarkdown :description="description" />
         </CollapseWrapper>
       </div>
     </div>
@@ -135,7 +135,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
+  SelectableMarkdown: () => import('@/components/shared/SelectableMarkdown.vue'),
 }
 @Component<CollectionItem>({
   metaInfo() {
@@ -211,7 +211,8 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   }
 
   get description(): string {
-    return this.meta.description || ''
+    // return this.meta.description || ''
+    return 'Nothing dey happen'
   }
 
   get name(): string {
