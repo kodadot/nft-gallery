@@ -211,8 +211,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   }
 
   get description(): string {
-    // return this.meta.description || ''
-    return 'Nothing dey happen'
+    return this.meta.description || ''
   }
 
   get name(): string {
@@ -374,14 +373,5 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 <style>
 .collection__image img {
   color: transparent;
-}
-</style>
-
-<style lang="scss" scoped>
-.is-selectable {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
 }
 </style>
