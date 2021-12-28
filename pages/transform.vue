@@ -38,7 +38,7 @@ export default class Transform extends Vue {
   protected url = ''
 
   created() {
-    const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/';
+    const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/'
 
     if (
       this.$route.query &&
@@ -47,7 +47,7 @@ export default class Transform extends Vue {
       const urlToOpen = this.$route.query.url.slice(baseTransformQueryUrl.length);
       this.$router.push({
         path: `/rmrk/detail/${urlToOpen}`,
-      });
+      })
     }
   }
 
