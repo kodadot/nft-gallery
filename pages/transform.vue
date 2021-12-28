@@ -37,7 +37,7 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 export default class Transform extends Vue {
   protected url = ''
 
-  public async created() {
+  created() {
     const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/';
 
     if (
