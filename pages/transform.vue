@@ -44,7 +44,7 @@ export default class Transform extends Vue {
       this.$route.query &&
       this.$route.query.url.toString().startsWith(baseTransformQueryUrl)
     ) {
-      const urlToOpen = this.$route.query.url.slice(baseTransformQueryUrl.length);
+      const urlToOpen = this.$route.query.url.slice(baseTransformQueryUrl.length)
       this.$router.push({
         path: `/rmrk/detail/${urlToOpen}`,
       })
