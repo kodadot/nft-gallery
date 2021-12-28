@@ -376,3 +376,12 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   color: transparent;
 }
 </style>
+
+<style lang="scss" scoped>
+.is-selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+</style>
