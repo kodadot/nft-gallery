@@ -37,6 +37,20 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 export default class Transform extends Vue {
   protected url = ''
 
+  public async created() {
+    const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/';
+
+    if (
+      this.$route.query &&
+      this.$route.query.url.toString().startsWith(baseTransformQueryUrl)
+    ) {
+      const urlToOpen = this.$route.query.url.slice(baseTransformQueryUrl.length);
+      this.$router.push({
+        path: `/rmrk/detail/${urlToOpen}`,
+      });
+    }
+  }
+
   public mounted(): void {
     exist(this.$route.query.url, (value) => this.url = value)
   }
