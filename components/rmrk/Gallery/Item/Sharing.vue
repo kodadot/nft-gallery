@@ -29,6 +29,7 @@
               tag="button"
               class="button share__button is-medium"
               network="twitter"
+              :hashtags="hashtags"
               :url="realworldFullPath"
               :title="label"
               twitter-user="KodaDot"
@@ -48,6 +49,7 @@
               tag="button"
               class="button share__button is-medium"
               network="facebook"
+              :hashtags="hashtags"
               :url="realworldFullPath"
               :title="label"
             >
@@ -118,11 +120,13 @@ const components = {
   components,
 })
 export default class Sharing extends Vue {
-  @Prop({ default: 'Check this cool NFT on #KusamaNetwork #KodaDot' }) label!: string
+  @Prop({ default: 'Check out this cool NFT on KodaDot' }) label!: string
   @Prop({ default: () => emptyIframe }) iframe!: IFrame
   @Prop(Boolean) onlyCopyLink!: boolean
 
   private active = false
+
+  private hashtags = 'KusamaNetwork,KodaDot'
 
   get helloText(): string {
     return this.label

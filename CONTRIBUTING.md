@@ -43,14 +43,14 @@ Our usual pay out structure for bounties is per label on issue. Here is table fo
 
 | $ | $$ | $$$ | $$$$ | $$$$$ |
 | :--: |    :--:   | :--: | :--: | :--: |
-| 50-100 | 150-300 | 450-600 | 700 - 10000 | 1000+
+| 50-100 | 150-300 | 450-600 | 700 - 1000 | 1000+
 | Begginer, few lines, <br /> lot of comments/assistance on PR   | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not broke anything  | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you and you have alignemnt with project
 
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 
 ## Hiring process
 
-After you've **completed few PRs, which we're merged to the upstream `main` branch**, you will be eglible to join our closer team.
+After you've **completed few PRs, which we're merged to the upstream `main` branch**, you will be eligible to join our closer team.
 We are happy to give you **one-two long-term tasks** to see how good is your talent on complicated, complex and more difficult issues.
 
 Process behind is to see if we **click together as part of team in long-run.**
@@ -66,7 +66,7 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 Our small, but mighty 💪 developer community is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
 
 ## Dynamics of Pull Requests
-Whenever you are open PR against our repository, our best reccomendation is to finish quickly, i.e. being merged under 72h since opening/last discussion, if it's not complex issue requiring deeper attention of more members. 
+Whenever you open PR against our repository, our best reccomendation is to finish quickly, i.e. being merged under 72h since opening/last discussion, if it's not complex issue requiring deeper attention of more members. 
 
 ### Avoiding stalled PRs
 When issue is **converted to draft and you don't reply within 24-48h**, we will close it, unassign you from task to leave room for someone else to finish the PR who has more availibility and codebase understanding.

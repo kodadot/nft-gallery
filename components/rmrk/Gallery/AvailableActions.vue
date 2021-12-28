@@ -15,7 +15,7 @@
         outlined
         @click="handleAction(action)"
       >
-        {{ action }}
+        {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
       </b-button>
     </div>
     <component
@@ -46,6 +46,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
@@ -72,7 +73,7 @@ const components = {
 }
 
 @Component({ components })
-export default class AvailableActions extends mixins(RmrkVersionMixin) {
+export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMixin) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
   @Prop() public price!: string
@@ -105,6 +106,10 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
   get showMeta() {
     return needMeta[this.selectedAction]
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
   protected iconType(value: string) {
@@ -175,6 +180,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   protected async checkBuyBeforeSubmit() {
     const nft = await this.$apollo.query({
       query: nftById,
+      client: this.urlPrefix,
       variables: {
         id: this.nftId
       },

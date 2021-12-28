@@ -428,6 +428,7 @@
   "About": "About",
   "FAQ": "FAQ",
   "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+  "Press Kit": "Press Kit",
   "theatre": "theatre",
   "view": "view",
   "price": "price",
@@ -549,5 +550,11 @@
         "hide": "Hide on-chain attributes"
       }
     }
+  },
+  "sharing": {
+    "collection": "Check out this awesome Collection on KodaDot",
+    "nft": "Check out this awesome NFT on KodaDot",
+    "pack": "Check out this awesome Pack on KodaDot",
+    "profile": "Check out this awesome Profile on KodaDot"
   }
 }

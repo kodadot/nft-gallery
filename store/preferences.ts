@@ -7,7 +7,8 @@ export const state = (): {
   compactGalleryItem: boolean;
   compactCollection: boolean;
   galleryItemsPerPage: number;
-  collectionsPerPage: number
+  collectionsPerPage: number;
+  replaceBuyNowWithYolo: boolean
 }  => ({
   layoutClass: 'is-one-third-desktop is-one-third-tablet',
   advancedUI: false,
@@ -15,7 +16,8 @@ export const state = (): {
   compactGalleryItem: false,
   compactCollection: false,
   galleryItemsPerPage: 12,
-  collectionsPerPage: 9
+  collectionsPerPage: 9,
+  replaceBuyNowWithYolo: false,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -25,7 +27,8 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
-  getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage
+  getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
+  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -52,6 +55,9 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
     state.compactCollection = data
+  },
+  REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
+    state.replaceBuyNowWithYolo = data
   },
   SET_GALLERY_ITEMS_PER_PAGE(state: PreferencesState, data) {
     state.galleryItemsPerPage = data
@@ -82,5 +88,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setCollectionsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_COLLECTIONS_PER_PAGE', data)
+  },
+  setReplaceBuyNowWithYolo({ commit }: { commit: Commit }, data) {
+    commit('REPLACE_BUYNOW_WITH_YOLO', data)
   },
 }

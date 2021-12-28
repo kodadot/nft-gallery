@@ -5,11 +5,14 @@
     :can-cancel="true"
   >
     <div class="loading-container">
-      <p v-if="randomFunFactHeading && randomFunFactQuestion" class="funfact-text">
-        <span class="text-bold funcfact-heading">{{ randomFunFactHeading }}</span>
+      <div v-if="randomFunFactHeading && randomFunFactQuestion" class="funfact-text">
+        <div class="text-bold funcfact-heading">{{ randomFunFactHeading }}</div>
         <br/>
-        {{ randomFunFactQuestion }}
-      </p>
+        <div class="pl-4 pr-4">
+       <b-icon size="is-large" icon="lightbulb" class="funfact-icon"/>
+        <div >{{ randomFunFactQuestion }}</div>
+          </div>
+      </div>
       <figure>
         <img
           class="loading-icon"
@@ -76,6 +79,8 @@ export default class Loader extends Vue {
 
 .loading-container {
   text-align: center;
+  background: #a7a9a6e3;
+  margin: 0rem 1rem;
 }
 .funfact-text{
   position: relative;
@@ -87,6 +92,11 @@ export default class Loader extends Vue {
   color: $primary-light;
   font-size: 1.2rem;
   line-height: 2.5rem;
+  border-bottom: 1px solid #fff;
+  padding: 0.5rem 1rem;
+}
+.funfact-icon {
+  color: $primary-light;
 }
 .loading-text {
   position: relative;
