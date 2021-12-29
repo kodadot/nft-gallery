@@ -187,6 +187,12 @@ Run it locally and then visit `localhost:9090`
 docker run -p 9090:9090 --name kodadot kodadot-app
 ```
 
+Someone clean it pls
+```
+docker build . -t yangwao/kodadotapp
+docker run -it -p 9090:9090 yangwao/kodadotapp
+```
+
 
 ## Dev hints
 

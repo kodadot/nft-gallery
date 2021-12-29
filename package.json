@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev-docker": "npx nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
