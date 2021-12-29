@@ -15,7 +15,6 @@
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
-              tag="div"
               class="nft-card__skeleton"
             >
               <div class="card-image">
