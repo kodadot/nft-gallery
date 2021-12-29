@@ -4,7 +4,7 @@
       :open="isOpen"
       :position="position"
       aria-id="contentIdForA11y1"
-      :class="[isSelectable ? 'is-selectable' : 'is-unselectable']"
+      :class="{ 'is-unselectable': !isSelectable }"
     >
       <template #trigger="props">
         <a aria-controls="contentIdForA11y1" class="mb-2">
@@ -29,7 +29,7 @@ export default class CollapseWrapper extends Vue {
   @Prop({ type: String, default: 'Hide' }) hidden!: string
   @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
   @Prop(Boolean) bottom!: boolean
-  @Prop({ type: Boolean, default: false }) isSelectable!: Boolean
+  @Prop({ type: Boolean, default: false }) isSelectable!: boolean
 
   protected isOpen = this.openOnDefault
 
@@ -38,12 +38,3 @@ export default class CollapseWrapper extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.is-selectable {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
-</style>
