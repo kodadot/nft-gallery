@@ -37,6 +37,10 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 export default class Transform extends Vue {
   protected url = ''
 
+  /**
+   * middleware({}) - to help perform actions while a route is resolved
+   */
+
   middleware({ route, redirect }) {
     const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/'
 
