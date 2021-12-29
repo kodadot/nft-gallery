@@ -3,6 +3,7 @@ import defineApolloConfig from './defineApolloConfig'
 export default {
   server: {
     port: 9090, // default: 3000
+    host: '0.0.0.0'
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,

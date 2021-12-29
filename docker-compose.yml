@@ -12,9 +12,9 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - './docker_koda:/kodadot-app'
+      - './docker_koda:/kodadotapp'
     environment:
-    - HOST=0.0.0.0
+#    - HOST=0.0.0.0
     - CHOKIDAR_USEPOLLING=true
     ports:
-    - 9090:9090
+    - "0.0.0.0:9090:9090"

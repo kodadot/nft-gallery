@@ -191,6 +191,8 @@ Someone clean it pls
 ```
 docker build . -t yangwao/kodadotapp
 docker run -it -p 9090:9090 yangwao/kodadotapp
+docker build -t nuxtapp .
+docker run -it -p 9090 nuxtapp
 ```
 
 
