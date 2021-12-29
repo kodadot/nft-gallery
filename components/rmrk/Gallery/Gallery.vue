@@ -25,7 +25,7 @@
                   }}</span>
                 </span>
                 <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <span v-if="nft.price > 0" class="card-image__price">
+                <span v-if="nft.price > 0 && !hidePriceValue" class="card-image__price">
                   <Money :value="nft.price" inline />
                 </span>
               </div>
@@ -170,6 +170,11 @@ export default class Gallery extends mixins(PrefixMixin) {
 
   get offset() {
     return this.currentValue * this.first - this.first
+  }
+
+
+  get hidePriceValue(): boolean {
+    return this.$store.getters['preferences/getHidePriceValue']
   }
 
   public async created() {
