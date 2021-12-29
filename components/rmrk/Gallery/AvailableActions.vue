@@ -93,7 +93,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   }
 
   get showSubmit() {
-    return this.selectedAction && (!this.showMeta || this.metaValid)
+    return this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
   }
 
   get metaValid() {
@@ -119,10 +119,17 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   protected handleAction(action: Action) {
     if (shouldUpdate(action,  this.selectedAction)) {
       this.selectedAction = action
+      if (action === 'BUY') {
+        this.submit()
+      }
     } else {
       this.selectedAction = ''
       this.meta = ''
     }
+  }
+
+  get isActionEmpty() {
+    return this.selectedAction === ''
   }
 
   get isOwner() {
@@ -204,6 +211,9 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
     this.isLoading = true
 
     try {
+      if (this.isActionEmpty) {
+        throw new ReferenceError('No action selected')
+      }
       showNotification(rmrk)
       console.log('submit', rmrk)
       const isBuy = this.isBuy
