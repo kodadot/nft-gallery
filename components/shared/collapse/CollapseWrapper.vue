@@ -27,8 +27,7 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 export default class CollapseWrapper extends Vue {
   @Prop({ type: String, default: 'Show' }) visible!: string
   @Prop({ type: String, default: 'Hide' }) hidden!: string
-  @Prop({ type: Boolean, default: false })
-  private readonly openOnDefault!: boolean
+  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
   @Prop(Boolean) bottom!: boolean
   @Prop({ type: Boolean, default: false }) isSelectable!: Boolean
 
