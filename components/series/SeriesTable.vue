@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-field grouped>
-      <b-field
+      <!-- <b-field
         position="is-left"
         expanded
       >
@@ -28,7 +28,7 @@
         >
           30d
         </b-radio-button>
-      </b-field>
+      </b-field> -->
 
       <b-field
         class="has-text-right"
@@ -55,7 +55,6 @@
       :data="data"
       :default-sort="sortBy.field"
       :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
-      @sort="onSort"
       backend-sorting
       hoverable
     >
@@ -299,7 +298,7 @@
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
-import collectionSeriesList from '@/queries/collectionSeriesList.graphql'
+import collectionSeriesList from '@/queries/rmrk/subsquid/collectionSeriesList.graphql'
 import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { denyList } from '@/utils/constants'
@@ -343,9 +342,9 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSeriesList,
-      client: this.urlPrefix,
+      client: 'subsquid',
       variables: {
-        denyList,
+        limit,
       },
     })
 
@@ -353,22 +352,28 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    this.data = seriesAggQuery(
-      limit,
-      sort,
-      collectionEntities?.nodes?.map(nftFn)
-    ) as RowSeries[]
+    this.data = collectionEntities.map(e => ({
+      ...e,
+      image: sanitizeIpfsUrl(e.image),
+      rank: e.sold * (e.unique / e.total || 1),
+    })) as RowSeries[]
 
-    // fetch metadata for images
-    for (let index = 0; index < this.data.length; index++) {
-      const image = await this.fetchMetadataImage(
-        this.data[index].metadata
-      )
+    // this.data = seriesAggQuery(
+    //   limit,
+    //   sort,
+    //   collectionEntities?.nodes?.map(nftFn)
+    // ) as RowSeries[]
 
-      if (image) {
-        this.data[index].image = image
-      }
-    }
+    // // fetch metadata for images
+    // for (let index = 0; index < this.data.length; index++) {
+    //   const image = await this.fetchMetadataImage(
+    //     this.data[index].metadata
+    //   )
+
+    //   if (image) {
+    //     this.data[index].image = image
+    //   }
+    // }
 
     this.isLoading = false
   }

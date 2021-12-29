@@ -1,4 +1,4 @@
-import defineApolloConfig from './defineApolloConfig'
+import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
 
 export default {
   server: {
@@ -162,7 +162,7 @@ export default {
   },
 
   apollo: {
-    clientConfigs: defineApolloConfig() // https://github.com/nuxt-community/apollo-module#options
+    clientConfigs: { ...defineApolloConfig(), subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT) }// https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

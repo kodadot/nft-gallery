@@ -1,0 +1,15 @@
+query collectionSeriesList {
+  collectionEntities: seriesInsightTable {
+    id
+    floorPrice
+    averagePrice
+    image
+    metadata
+    sold
+    name
+    total
+    totalBuys
+    unique
+    uniqueCollectors
+  }
+}
