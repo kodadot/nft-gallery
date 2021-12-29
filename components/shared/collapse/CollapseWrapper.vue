@@ -1,13 +1,18 @@
 <template>
   <div>
-    <b-collapse :open="isOpen" :position="position" aria-id="contentIdForA11y1" class="is-unselectable">
+    <b-collapse
+      :open="isOpen"
+      :position="position"
+      aria-id="contentIdForA11y1"
+      :class="[isSelectable ? 'is-selectable' : 'is-unselectable']"
+    >
       <template #trigger="props">
         <a aria-controls="contentIdForA11y1" class="mb-2">
           <b-icon
             class="collapse-icon"
             :icon="!props.open ? 'eye' : 'eye-slash'"
           ></b-icon>
-          <span class="pl-1">{{  $t(!props.open ? visible : hidden) }}</span>
+          <span class="pl-1">{{ $t(!props.open ? visible : hidden) }}</span>
         </a>
       </template>
       <slot class="mt-2"></slot>
@@ -22,8 +27,10 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 export default class CollapseWrapper extends Vue {
   @Prop({ type: String, default: 'Show' }) visible!: string
   @Prop({ type: String, default: 'Hide' }) hidden!: string
-  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
+  @Prop({ type: Boolean, default: false })
+  private readonly openOnDefault!: boolean
   @Prop(Boolean) bottom!: boolean
+  @Prop({ type: Boolean, default: false }) isSelectable!: Boolean
 
   protected isOpen = this.openOnDefault
 
@@ -32,3 +39,12 @@ export default class CollapseWrapper extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.is-selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+</style>

@@ -52,8 +52,9 @@
           visible="collapse.collection.description.show"
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
+          :isSelectable="true"
         >
-          <SelectableMarkdown :description="description" />
+          <VueMarkdown :source="description" />
         </CollapseWrapper>
       </div>
     </div>
@@ -135,7 +136,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
-  SelectableMarkdown: () => import('@/components/shared/SelectableMarkdown.vue'),
+  VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
   metaInfo() {
