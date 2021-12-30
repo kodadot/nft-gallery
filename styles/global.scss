@@ -167,3 +167,20 @@ body {
 .page-leave-active {
   opacity: 0
 }
+
+.card.bordered {
+    border-radius: 0 !important;
+    box-shadow: none;
+    border: 2px solid $primary;
+
+    &-content {
+        padding-left: 1rem;
+        padding-top: 1rem;
+    }
+
+    &-footer {
+        &-item {
+        padding: 0.75rem !important;
+        }
+    }
+}
