@@ -173,14 +173,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
-  .logo {
-    padding: 0.5rem 0.75rem;
-
-    @include desktop {
-      padding-left: 0;
-    }
-  }
-
   .navbar-item {
     text-transform: uppercase;
     font-weight: 500;
