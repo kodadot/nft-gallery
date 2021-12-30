@@ -1,6 +1,7 @@
 @import "initial-variables";
 
-$primary: #ff149366;
+$primary: #e6007e;
+// $primary: #ff149366;
 $primary-light: #d32e79;
 
 // $info: $cyan;
@@ -60,7 +61,7 @@ $scheme-invert-ter: $white-ter;
 
 // // Text colors
 
-$text: #dcdcdc;
+$text: #f8f4f6;
 // $text-invert: findColorInvert($text);
 // $text-light: $grey;
 // $text-strong: $grey-darker;
@@ -114,4 +115,4 @@ $family-primary: $family-monospace;
 
 $text-strong: $scheme-invert;
 
-$light-text: #c0c0c0;
+$light-text: #f8f4f6;

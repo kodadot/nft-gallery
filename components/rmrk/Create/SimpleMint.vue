@@ -290,7 +290,7 @@ const components = {
         },
         {
           property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
+          content: this.defaultCreateMetaImage,
         },
         {
           property: 'twitter:title',
@@ -302,7 +302,7 @@ const components = {
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
+          content: this.defaultCreateMetaImage,
         },
       ],
     }
@@ -339,6 +339,13 @@ export default class SimpleMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
+  }
+
+  get defaultCreateMetaImage(): string {
+    const url = new URL(window.location.href)
+    return (
+      `${url.protocol}//${url.hostname}/kodadot_mint.png`
+    )
   }
 
   get fileType(): MediaType {

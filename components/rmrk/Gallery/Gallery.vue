@@ -113,36 +113,6 @@ const components = {
 }
 
 @Component<Gallery>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        },
-        {
-          property: 'og:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        }
-      ]
-    }
-  },
   components,
   name: 'Gallery',
 })
@@ -155,7 +125,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  private placeholder = '/placeholder.webp'
+  private placeholder = '/Kodadot_logo.svg'
   private currentValue = 1
   private total = 0
   private loadingState = 0
