@@ -13,5 +13,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 
 export default class LandingPage extends Vue {
+  layout() {
+    return 'full-width-layout'
+  }
 }
 </script>
