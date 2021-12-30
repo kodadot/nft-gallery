@@ -38,24 +38,12 @@
                   :title="nft.name"
                 >
                   <nuxt-link
-                    v-if="nft.count < 2"
                     :to="`/${urlPrefix}/gallery/${nft.id}`"
-                  >
-                    <div>
-                      <div class="has-text-overflow-ellipsis middle">
-                        {{ nft.name }}
-                      </div>
-                    </div>
-                  </nuxt-link>
-                  <nuxt-link
-                    v-else
-                    :to="`/${urlPrefix}/collection/${nft.collectionId}`"
                   >
                     <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}
                     </div>
                   </nuxt-link>
-
                   <p
                     v-if="nft.count > 2"
                     :title="`${nft.count} items available in collection`"
