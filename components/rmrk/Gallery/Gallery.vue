@@ -305,7 +305,8 @@ export default class Gallery extends mixins(PrefixMixin) {
 
 .gallery {
   @media screen and (max-width: 1023px) {
-    padding: 0 15px;
+    padding: 0;
+    margin: 0 -0.5rem;
   }
 
   &__image-wrapper {
