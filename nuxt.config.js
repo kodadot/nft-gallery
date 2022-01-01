@@ -125,6 +125,9 @@ export default {
     manifest: {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
       short_name: 'KodaDot'
+    },
+    icon: {
+      fileName: 'icon-v3.png'
     }
   },
 
