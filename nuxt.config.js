@@ -122,9 +122,6 @@ export default {
   ],
 
   pwa: {
-    icon: {
-      source: '~/static/img/icons/icon.png'
-    },
     manifest: {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
       short_name: 'KodaDot'
