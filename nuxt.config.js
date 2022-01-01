@@ -121,6 +121,13 @@ export default {
     '@nuxtjs/i18n',
   ],
 
+  pwa: {
+    manifest: {
+      name: 'KodaDot - Polkadot / Kusama NFT explorer',
+      short_name: 'KodaDot'
+    }
+  },
+
   i18n: {
     defaultLocale: 'en',
     detectBrowserLanguage: {
