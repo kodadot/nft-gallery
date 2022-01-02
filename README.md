@@ -40,6 +40,7 @@
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
 ![Visualization of this repo](./diagram.svg)
+[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
 ### Is it maintained?
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
