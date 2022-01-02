@@ -75,26 +75,32 @@ const components = {
       title: 'KodaDot - Kusama Explorer all collections',
       meta: [
         {
+          hid: 'og:title',
           property: 'og:title',
           content: 'Low minting fees and carbonless NFTs'
         },
         {
+          hid: 'og:image',
           property: 'og:image',
           content: '/kodadot_collections.png'
         },
         {
+          hid: 'og:description',
           property: 'og:description',
           content: 'Buy Carbonless NFTs on Kusama'
         },
         {
+          hid: 'twitter:title',
           property: 'twitter:title',
           content: 'Low minting fees and carbonless NFTs'
         },
         {
+          hid: 'twitter:description',
           property: 'twitter:description',
           content: 'Buy Carbonless NFTs on Kusama'
         },
         {
+          hid: 'twitter:image',
           property: 'twitter:image',
           content: '/kodadot_collections.png'
         }
