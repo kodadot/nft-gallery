@@ -61,7 +61,7 @@ export default class Remark extends Vue {
         },
         {
           property: 'twitter:image',
-          content: '',
+          content: '/kodadot_mint.png',
         },
       ],
     }
