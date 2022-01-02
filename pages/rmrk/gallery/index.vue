@@ -3,19 +3,17 @@
 </template>
 
 <script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<GalleryPage>({
-  metaInfo() {
+export default {
+  head() {
     return {
       meta: [
         {
           property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
+          content: 'test Low minting fees and carbonless NFTs'
         },
         {
           property: 'og:image',
-          content: this.defaultGalleryMetaImage
+          content: '/kodadot_gallery.png'
         },
         {
           property: 'og:description',
@@ -31,19 +29,17 @@ import { Component, Vue } from 'nuxt-property-decorator'
         },
         {
           property: 'twitter:image',
-          content: this.defaultGalleryMetaImage
+          content: '/kodadot_gallery.png'
         }
       ]
     }
-  },
-})
-export default class GalleryPage extends Vue {
-  get defaultGalleryMetaImage(): string {
-    const url = new URL(window.location.href)
-    return (
-      `${url.protocol}//${url.hostname}/kodadot_gallery.png`
-    )
   }
+  // get defaultGalleryMetaImage(): string {
+  //   // const url = new URL(window.location.href)
+  //   return (
+  //     '~/assets/kodadot_gallery.png'
+  //   )
+  // }
 }
 </script>
 
