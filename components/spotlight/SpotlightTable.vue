@@ -46,16 +46,17 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <!-- <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" append-to-body dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
+        <template v-slot="props" v-if="!isLoading">{{ props.row.unique }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column> -->
+      </b-table-column>
 
-      <!-- <b-table-column
+      <b-table-column
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable
@@ -65,8 +66,9 @@
             {{ column.label }}
           </b-tooltip>
         </template>
+        <template v-slot="props" v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column> -->
+      </b-table-column>
 
       <b-table-column
         field="total"
@@ -107,7 +109,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <!-- <b-table-column
+      <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
         sortable
@@ -122,7 +124,7 @@
           Math.ceil(props.row.rank * 100) / 100
         }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column> -->
+      </b-table-column>
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
