@@ -66,6 +66,7 @@
               :src="meta.animation_url"
               :poster="meta.image"
               :description="meta.description"
+              :availableAnimations="[meta.animation_url]"
               :mimeType="mimeType"
             />
           </div>
