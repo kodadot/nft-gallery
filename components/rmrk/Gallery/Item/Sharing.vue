@@ -126,7 +126,7 @@ export default class Sharing extends Vue {
 
   private active = false
 
-  private hashtags = ['KusamaNetwork', 'KodaDot']
+  private hashtags = 'KusamaNetwork,KodaDot'
 
   get helloText(): string {
     return this.label

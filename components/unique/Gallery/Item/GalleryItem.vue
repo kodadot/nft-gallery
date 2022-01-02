@@ -134,7 +134,7 @@
             >
               <template v-if="detailVisible && !nft.burned">
                 <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
-                <div class="card mb-4" aria-id="contentIdForA11y3">
+                <div class="card card-actions mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
                     <template v-if="hasPrice">
                       <div class="label">
@@ -646,30 +646,10 @@ hr.comment-divider {
     }
   }
 
-  .card {
+  .card-actions {
     border-radius: 0 !important;
     box-shadow: none;
     border: 2px solid $primary;
-
-    &-header {
-      border-radius: 0;
-      position: relative;
-
-      &:before {
-        content: '';
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        background: $primary;
-      }
-
-      &-title {
-        color: $scheme-invert;
-      }
-    }
 
     &-content {
       padding-left: 1rem;
@@ -690,6 +670,3 @@ hr.comment-divider {
   }
 }
 </style>
-
-function MetaTransactionMixin(SubscribeMixin: typeof SubscribeMixin,
-MetaTransactionMixin: any) { throw new Error('Function not implemented.') }

@@ -12,11 +12,9 @@
         class="logo"
       >
         <img
-          src="/koda300x300.svg"
+          src="~/assets/Koda_Beta.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
-          class="logo__img"
-          width="60"
-          height="60"
+          height="32"
         >
       </b-navbar-item>
     </template>
@@ -172,14 +170,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       .navbar-menu {
         margin-right: 0;
       }
-    }
-  }
-
-  .logo {
-    padding: 0.5rem 0.75rem;
-
-    @include desktop {
-      padding-left: 0;
     }
   }
 

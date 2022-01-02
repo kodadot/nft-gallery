@@ -27,7 +27,7 @@
           custom-class="gallery__image-wrapper"
         />
         <span
-          v-if="price > 0"
+          v-if="price > 0 && !hidePriceValue"
           class="card-image__price"
         >
           <Money
@@ -133,6 +133,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
     if (shouldUpdate(value, oldVal)) {
       this.accountIsCurrentOwner()
     }
+  }
+
+  get hidePriceValue(): boolean {
+    return this.$store.getters['preferences/getHidePriceValue']
   }
 
   get nftName(): string {

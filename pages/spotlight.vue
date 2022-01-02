@@ -51,7 +51,7 @@ export default class Leaderboard extends Vue {
   get defaultSpotlightMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_rank.jpg`
+      `${url.protocol}//${url.hostname}/kodadot_rank.png`
     )
   }
 }

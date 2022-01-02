@@ -187,6 +187,13 @@ Run it locally and then visit `localhost:9090`
 docker run -p 9090:9090 --name kodadot kodadot-app
 ```
 
+Someone clean it pls, bounty for devops https://github.com/kodadot/nft-gallery/issues/1635
+```
+docker build -t nuxtapp .
+docker run -it -p 0.0.0.0:9090:9090 nuxtapp
+```
+then go to the http://0.0.0.0:9090
+
 
 ## Dev hints
 

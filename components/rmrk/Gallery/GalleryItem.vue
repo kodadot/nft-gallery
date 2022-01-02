@@ -119,7 +119,7 @@
               is-flex is-flex-direction-column is-justify-content-space-between
             "
           >
-            <div class="card mb-4" aria-id="contentIdForA11y3">
+            <div class="card bordered mb-4" aria-id="contentIdForA11y3">
               <div class="card-content">
                 <template v-if="hasPrice">
                   <div class="label">
@@ -581,43 +581,6 @@ hr.comment-divider {
       opacity: 0.6;
       color: $dark;
       margin: 0;
-    }
-  }
-
-  .card {
-    border-radius: 0 !important;
-    box-shadow: none;
-    border: 2px solid $primary;
-
-    &-header {
-      border-radius: 0;
-      position: relative;
-
-      &:before {
-        content: '';
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        background: $primary;
-      }
-
-      &-title {
-        color: $scheme-invert;
-      }
-    }
-
-    &-content {
-      padding-left: 1rem;
-      padding-top: 1rem;
-    }
-
-    &-footer {
-      &-item {
-        padding: 0.75rem !important;
-      }
     }
   }
 

@@ -21,7 +21,7 @@
           class="ml-2 magicBtn"
           title="Go to random page"
           type="is-primary"
-          icon-left="magic"
+          icon-left="dice"
           @click="goToRandomPage"
         >
         </b-button>

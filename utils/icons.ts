@@ -11,7 +11,7 @@ import {
   faShareSquare, faCopy, faBookmark,
   faLink, faLanguage,
   faQuestion, faPrint,
-  faMagic, faEye, faCommentAlt,
+  faMagic, faEye, faCommentAlt,faDice,
   faGhost, faCode, faLeaf,
   faFlask, faCameraRetro, faTag,
   faShareAlt, faShare, faExclamationTriangle,
@@ -20,7 +20,7 @@ import {
   faAngleLeft, faAngleRight, faReply,
   faExternalLinkSquareAlt, faGift, faThLarge, faTh,
   faEyeSlash, faArrowUp, faUser, faGlobe, faExclamationCircle, faFilter, faQrcode,
-  faFire, faMoneyBill, faHistory, faEllipsisH
+  faFire, faMoneyBill, faHistory, faEllipsisH, faLightbulb
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -48,7 +48,7 @@ library.add(
   faCaretDown, faCaretUp, faInfo, faShareSquare,
   faBookmark, faLink, faHeart,
   faLanguage, faQuestion, faEye,
-  faPrint, faCommentAlt, faMagic,
+  faPrint, faCommentAlt, faMagic, faDice,
   faLeaf, faFlask,
   faCalendar, faEnvelope, faClock,
   faCommentDots, faGhost, faCode,
@@ -59,7 +59,7 @@ library.add(
   faArrowsAlt, faCompressAlt, faCompressArrowsAlt,
   faEyeSlash, faArrowUp, faUser, faGlobe,
   faExclamationCircle, faFilter, faQrcode, faGift, faThLarge, faTh,
-  faFire, faMoneyBill, faHistory, faEllipsisH,
+  faFire, faMoneyBill, faHistory, faEllipsisH, faLightbulb,
 
   // Social
   faTwitter, faTelegram, faFacebook,

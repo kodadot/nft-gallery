@@ -92,6 +92,7 @@
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
+            route="/rmrk/collection"
             link="rmrk/collection"
             horizontalLayout
           />
@@ -164,6 +165,7 @@ const components = {
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue')
 }
 
 const eq = (tab: string) => (el: string) => tab === el

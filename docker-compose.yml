@@ -2,16 +2,19 @@ version: '3.7'
 
 services:
   kodadot-app:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100M"
+        max-file: "2"
     container_name: Kodadot
-    working_dir: /kodadot-app
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - '.:/kodadot-app'
-      - '/kodadot-app/node_modules'
+      - './docker_koda:/kodadotapp'
     environment:
-    - HOST=0.0.0.0
+#    - HOST=0.0.0.0
     - CHOKIDAR_USEPOLLING=true
     ports:
-    - 9090:9090
+    - "0.0.0.0:9090:9090"

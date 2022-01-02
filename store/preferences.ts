@@ -6,15 +6,17 @@ export const state = (): {
   theatreView: string;
   compactGalleryItem: boolean;
   compactCollection: boolean;
+  hidePriceGallery: boolean;
   galleryItemsPerPage: number;
   collectionsPerPage: number;
   replaceBuyNowWithYolo: boolean
 }  => ({
   layoutClass: 'is-one-third-desktop is-one-third-tablet',
   advancedUI: false,
-  theatreView: 'default',
-  compactGalleryItem: false,
+  theatreView: 'theatre',
+  compactGalleryItem: true,
   compactCollection: false,
+  hidePriceGallery: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
@@ -26,6 +28,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
+  getHidePriceValue: ({ hidePriceGallery }) => hidePriceGallery,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
@@ -39,9 +42,10 @@ export const mutations: MutationTree<PreferencesState> = {
     // if set to false reset state back to default
     if(!data) {
       state.layoutClass = 'is-one-third-desktop is-one-third-tablet',
-      state.theatreView = 'default'
-      state.compactGalleryItem = false
+      state.theatreView = 'theatre'
+      state.compactGalleryItem = true
       state.compactCollection = false
+      state.hidePriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
     }
@@ -55,6 +59,9 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
     state.compactCollection = data
+  },
+  SET_HIDE_PRICE(state: PreferencesState, data) {
+    state.hidePriceGallery = data
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
     state.replaceBuyNowWithYolo = data
@@ -82,6 +89,9 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setCompactCollection({ commit }: { commit: Commit }, data) {
     commit('SET_COMPACT_COLLECTION', data)
+  },
+  setHidePriceValue({ commit }: { commit: Commit }, data) {
+    commit('SET_HIDE_PRICE', data)
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)

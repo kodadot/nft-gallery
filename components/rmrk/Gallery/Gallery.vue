@@ -15,7 +15,6 @@
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
-              tag="div"
               class="nft-card__skeleton"
             >
               <div class="card-image">
@@ -26,7 +25,7 @@
                   }}</span>
                 </span>
                 <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <span v-if="nft.price > 0" class="card-image__price">
+                <span v-if="nft.price > 0 && !hidePriceValue" class="card-image__price">
                   <Money :value="nft.price" inline />
                 </span>
               </div>
@@ -39,24 +38,12 @@
                   :title="nft.name"
                 >
                   <nuxt-link
-                    v-if="nft.count < 2"
                     :to="`/${urlPrefix}/gallery/${nft.id}`"
-                  >
-                    <div>
-                      <div class="has-text-overflow-ellipsis middle">
-                        {{ nft.name }}
-                      </div>
-                    </div>
-                  </nuxt-link>
-                  <nuxt-link
-                    v-else
-                    :to="`/${urlPrefix}/collection/${nft.collectionId}`"
                   >
                     <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}
                     </div>
                   </nuxt-link>
-
                   <p
                     v-if="nft.count > 2"
                     :title="`${nft.count} items available in collection`"
@@ -114,36 +101,6 @@ const components = {
 }
 
 @Component<Gallery>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        },
-        {
-          property: 'og:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        }
-      ]
-    }
-  },
   components,
   name: 'Gallery',
 })
@@ -156,7 +113,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  private placeholder = '/placeholder.webp'
+  private placeholder = '/Kodadot_logo.svg'
   private currentValue = 1
   private total = 0
   private loadingState = 0
@@ -171,6 +128,11 @@ export default class Gallery extends mixins(PrefixMixin) {
 
   get offset() {
     return this.currentValue * this.first - this.first
+  }
+
+
+  get hidePriceValue(): boolean {
+    return this.$store.getters['preferences/getHidePriceValue']
   }
 
   public async created() {
