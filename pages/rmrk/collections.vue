@@ -118,6 +118,7 @@ export default class Collections extends mixins(PrefixMixin) {
   private total = 0
 
   get defaultCollectionsMetaImage(): string {
+    // console.log(this.$root)
     const url = new URL(window.location.href)
     return (
       `${url.protocol}//${url.hostname}/kodadot_collections.png`
@@ -133,6 +134,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   public async created() {
+    console.log(this.$root.context.app.getRouteBaseName())
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
       manual: true,
