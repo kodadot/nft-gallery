@@ -1,5 +1,5 @@
-query collectionSeriesList {
-  collectionEntities: seriesInsightTable {
+query collectionSeriesList($limit: Float) {
+  collectionEntities: seriesInsightTable(limit: $limit) {
     id
     floorPrice
     averagePrice
