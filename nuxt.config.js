@@ -126,9 +126,9 @@ export default {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
       short_name: 'KodaDot'
     },
-    icon: {
-      fileName: 'icon-v3.png'
-    }
+    // according to Google using purpose ['any', 'maskable'] is discouraged
+    // since our pwa icon uses safe padding we therefore only use maskable
+    purpose: ['maskable']
   },
 
   i18n: {
