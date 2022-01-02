@@ -3,7 +3,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - main
+      - main-nuxt
 jobs:
   get_data:
     runs-on: ubuntu-latest
