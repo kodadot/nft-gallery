@@ -126,8 +126,9 @@ export default {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
       short_name: 'KodaDot'
     },
+    // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
-      fileName: 'icon-v3.png'
+      purpose: ['any']
     }
   },
 
