@@ -147,7 +147,6 @@ import { Column, Row } from './types'
 import { columns, nftFn } from './utils'
 import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
 
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { denyList } from '@/utils/constants'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -193,18 +192,18 @@ export default class SpotlightTable extends mixins(
       rank: e.sold * (e.unique / e.total || 1),
       uniqueCollectors: e.sold,
       volume: BigInt(0),
-    }))
+    })).sort((a, b) => b.rank - a.rank)
 
     // this.data = spotlightAggQuery(
     //   collectionEntities?.nodes?.map(nftFn)
     // ) as Row[]
 
-    // for (let index = 0; index < this.data.length; index++) {
-    //   const result = await this.identityOf(this.data[index].id)
-    //   if (result && Object.keys(result).length) {
-    //     this.usersWithIdentity[index] = this.data[index]
-    //   }
-    // }
+    for (let index = 0; index < this.data.length; index++) {
+      const result = await this.identityOf(this.data[index].id)
+      if (result && Object.keys(result).length) {
+        this.usersWithIdentity[index] = this.data[index]
+      }
+    }
 
     this.isLoading = false
   }
