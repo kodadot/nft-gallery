@@ -352,11 +352,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities.map(e => ({
+    this.data = collectionEntities.map((e): RowSeries => ({
       ...e,
       image: sanitizeIpfsUrl(e.image),
       rank: e.sold * (e.unique / e.total || 1),
-    })) as RowSeries[]
+    })).sort((a, b) => b.rank - a.rank)
 
     // this.data = seriesAggQuery(
     //   limit,
