@@ -1,6 +1,6 @@
 #import "./collection.graphql"
 
-query collectionIssuerList($denyList: [String!]) {
+query collectionSeriesList($denyList: [String!]) {
   collectionEntities(filter: { issuer: { notIn: $denyList } }) {
     nodes {
       issuer

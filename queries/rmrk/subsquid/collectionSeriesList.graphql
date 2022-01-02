@@ -1,0 +1,15 @@
+query collectionSeriesList($limit: Float) {
+  collectionEntities: seriesInsightTable(limit: $limit) {
+    id
+    floorPrice
+    averagePrice
+    image
+    metadata
+    sold
+    name
+    total
+    totalBuys
+    unique
+    uniqueCollectors
+  }
+}

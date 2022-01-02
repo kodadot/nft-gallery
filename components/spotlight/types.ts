@@ -16,7 +16,7 @@ export type Row = {
   unique: number;
   sold: number;
   total: number;
-  averagePrice: number;
+  averagePrice: VolumeType;
   count: number;
   collectors: number;
   rank: number;

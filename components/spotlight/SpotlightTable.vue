@@ -26,12 +26,11 @@
         >
         </b-button>
       </template>
-      <b-table-column
-        field="id"
-        :label="$t('spotlight.id')"
-        v-slot="props"
-      >
-        <nuxt-link :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }" v-if="!isLoading">
+      <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
+        <nuxt-link
+          :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
+          v-if="!isLoading"
+        >
           <Identity :address="props.row.id" inline noOverflow />
         </nuxt-link>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -47,16 +46,13 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
-        field="unique"
-        :label="$t('spotlight.unique')"
-        sortable
-      >
-      <template v-slot:header="{column}">
-        <b-tooltip label="unique items" append-to-body dashed>
-          {{column.label}}
-        </b-tooltip>
+      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+        <template v-slot:header="{ column }">
+          <b-tooltip label="unique items" append-to-body dashed>
+            {{ column.label }}
+          </b-tooltip>
         </template>
+        <template v-slot="props" v-if="!isLoading">{{ props.row.unique }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -65,11 +61,12 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable
       >
-      <template v-slot:header="{column}">
-        <b-tooltip label="unique collectors" append-to-body dashed>
-          {{column.label}}
-        </b-tooltip>
+        <template v-slot:header="{ column }">
+          <b-tooltip label="unique collectors" append-to-body dashed>
+            {{ column.label }}
+          </b-tooltip>
         </template>
+        <template v-slot="props" v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -89,7 +86,9 @@
         v-slot="props"
         sortable
       >
-        <template v-if="!isLoading">{{ Math.ceil(props.row.averagePrice * 100) / 100 }}</template>
+        <template v-if="!isLoading"
+          ><Money :value="props.row.averagePrice" inline
+        /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -103,13 +102,10 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
-        field="volume"
-        label="Volume"
-        v-slot="props"
-        sortable
-      >
-        <template v-if="!isLoading"><Money :value="props.row.volume" inline /></template>
+      <b-table-column field="volume" label="Volume" v-slot="props" sortable>
+        <template v-if="!isLoading"
+          ><Money :value="props.row.volume" inline
+        /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -119,34 +115,38 @@
         sortable
         numeric
       >
-        <template v-slot:header="{column}">
+        <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>
-            {{column.label}}
+            {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ Math.ceil(props.row.rank * 100) / 100 }}</template>
+        <template v-slot="props" v-if="!isLoading">{{
+          Math.ceil(props.row.rank * 100) / 100
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
-        <div v-else class="has-text-centered">{{ $t("spotlight.empty") }}</div>
+        <div v-else class="has-text-centered">{{ $t('spotlight.empty') }}</div>
       </template>
 
       <template #empty>
-        <div v-if="!isLoading" class="has-text-centered">{{ $t("spotlight.empty") }}</div>
+        <div v-if="!isLoading" class="has-text-centered">
+          {{ $t('spotlight.empty') }}
+        </div>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </template>
     </b-table>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import { columns, nftFn } from './utils'
-import collectionIssuerList from '@/queries/collectionIssuerList.graphql'
-import { spotlightAggQuery } from '../rmrk/Gallery/Search/query'
+import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
+
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { denyList } from '@/utils/constants'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -154,16 +154,19 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-type Address = string | GenericAccountId | undefined;
+type Address = string | GenericAccountId | undefined
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  SpotlightDetail: () => import('./SpotlightDetail.vue')
+  SpotlightDetail: () => import('./SpotlightDetail.vue'),
 }
 
 @Component({ components })
-export default class SpotlightTable extends mixins(TransactionMixin, PrefixMixin) {
+export default class SpotlightTable extends mixins(
+  TransactionMixin,
+  PrefixMixin
+) {
   @Prop() public value!: any
   protected data: Row[] = []
   protected columns: Column[] = columns
@@ -174,20 +177,26 @@ export default class SpotlightTable extends mixins(TransactionMixin, PrefixMixin
   async created() {
     this.isLoading = true
     const collections = await this.$apollo.query({
-      query: collectionIssuerList,
-      client: this.urlPrefix,
-      variables: {
-        denyList
-      }
+      query: collectionSpotlightList,
+      client: 'subsquid',
     })
 
     const {
-      data: { collectionEntities }
+      data: { collectionEntities },
     } = collections
 
-    this.data = spotlightAggQuery(
-      collectionEntities?.nodes?.map(nftFn)
-    ) as Row[]
+    this.data = collectionEntities.map((e): Row => ({
+      ...e,
+      averagePrice: Number(e.averagePrice),
+      collectors: e.sold,
+      rank: e.sold * (e.unique / e.total || 1),
+      uniqueCollectors: e.sold,
+      volume: BigInt(0),
+    })).sort((a, b) => b.rank - a.rank)
+
+    // this.data = spotlightAggQuery(
+    //   collectionEntities?.nodes?.map(nftFn)
+    // ) as Row[]
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
