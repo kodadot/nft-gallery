@@ -6,6 +6,7 @@
     :src="src"
     :poster="poster"
     :description="description"
+    :availableAnimations="availableAnimations"
   />
 </template>
 
@@ -40,6 +41,7 @@ export default class MediaResolver extends Vue {
   @Prop(String) public mimeType!: string
   @Prop(String) public poster?: string
   @Prop(String) public description?: string
+  @Prop(Array) public availableAnimations?: string[]
 
   get resolveComponent() {
     return resolveMedia(this.mimeType) + SUFFIX
