@@ -127,8 +127,9 @@ export default {
       short_name: 'KodaDot'
     },
     // according to Google using purpose ['any', 'maskable'] is discouraged
-    // since our pwa icon uses safe padding we therefore only use maskable
-    purpose: ['maskable']
+    icon: {
+      purpose: ['any']
+    }
   },
 
   i18n: {
