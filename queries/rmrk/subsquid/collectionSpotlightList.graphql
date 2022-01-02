@@ -1,0 +1,10 @@
+query collectionSpotlightList {
+	collectionEntities: spotlightTable {
+		id
+		unique
+		sold
+		total
+		averagePrice: average
+		count: collections
+	}
+}
