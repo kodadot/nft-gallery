@@ -3,7 +3,6 @@
     <div class="card-content">
       <div class="columns">
         <b-field class="column is-6 mb-0">
-
           <b-autocomplete
             v-model="name"
             :data="searchSuggestion"
@@ -58,14 +57,14 @@
         </b-field>
         <slot />
       </div>
-
-      <transition name="fade">
-        <div v-if="isVisible" class="columns">
-          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
-        </div>
-      </transition>
-
+      <div class="filter-container" :class="{open: isVisible}">
+        <transition name="fade">
+          <div v-if="isVisible" class="columns">
+            <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+            <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -337,12 +336,26 @@ export default class SearchBar extends Vue {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.6s ease-in-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.filter-container {
+  overflow: hidden;
+  transition: height .8s ease-in-out;
+  height: 0px;
+  &.open {
+    height: 74px;
+  }
+  @media screen and (max-width: 768px) {
+    &.open {
+      height: 133px;
+    }
+  }
 }
 
 .searchCache {
