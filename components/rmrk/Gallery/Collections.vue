@@ -81,7 +81,7 @@ const components = {
         },
         {
           property: 'og:image',
-          content: '/abcdtest.png'
+          content: '/homepage-bg.png'
         },
         {
           property: 'og:description',
@@ -97,7 +97,7 @@ const components = {
         },
         {
           property: 'twitter:image',
-          content: '/abcdtest.png'
+          content: '/homepage-bg.png'
         }
       ]
     }
