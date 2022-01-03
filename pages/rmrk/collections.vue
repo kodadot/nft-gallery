@@ -114,7 +114,7 @@ export default class Collections extends mixins(PrefixMixin) {
   get defaultCollectionsMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_collections.png`
+      `${url.protocol}//${url.hostname}/${require('k_card_collections.png')}`)`
     )
   }
 
