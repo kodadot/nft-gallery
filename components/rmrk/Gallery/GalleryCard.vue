@@ -156,7 +156,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   border-radius: 8px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 5px 0.5px $primary-light;
+  border: 2px solid $primary-light;
 
   &.is-current-owner {
     box-shadow: 0px 2px 5px 0.5px #41b883;
