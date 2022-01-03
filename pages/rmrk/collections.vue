@@ -259,10 +259,6 @@ export default class Collections extends mixins(PrefixMixin) {
 }
 
 .collections {
-  @media screen and (max-width: 1023px) {
-    padding: 0;
-  }
-
   &__image-wrapper {
     position: relative;
     margin: auto;
