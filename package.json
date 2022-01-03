@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nuxt",
     "dev-docker": "npx nuxt",
+    "dev-experimental": "nuxt --hostname localhost --port 9090",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
