@@ -1,5 +1,5 @@
 <template>
-  <section class="homepage mt-6">
+  <section class="homepage section">
     <div class="container">
       <div class="columns">
         <div class="column">
