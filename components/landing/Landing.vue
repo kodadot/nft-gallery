@@ -145,7 +145,7 @@ const components = {}
         },
         {
           property: 'og:image',
-          content: `${require(`/public/kodadot_card_root.png`)}`,
+          content: `${require('/public/kodadot_card_root.png')}`,
         },
         {
           property: 'og:description',
