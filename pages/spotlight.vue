@@ -51,7 +51,7 @@ export default class Leaderboard extends Vue {
   get defaultSpotlightMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/${require('k_card_spotlight.png')}`
+      `${url.protocol}//${url.hostname}/${require('/public/k_card_spotlight.png')}`
     )
   }
 }

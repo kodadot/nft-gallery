@@ -73,7 +73,7 @@ export default class Remark extends Vue {
   get defaultCreateMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/${require('k_card_mint.png')}``
+      `${url.protocol}//${url.hostname}/${require('/public/k_card_mint.png')}``
     )
   }
 }
