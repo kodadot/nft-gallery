@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <b-tabs position="is-centered" v-model="activeTab">
+    <b-tabs position="is-centered" v-model="activeTab" class="tabs-container-collection">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery">
           <Layout class="mr-5" />
@@ -370,8 +370,16 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/styles/mixins';
+
 .collection__image img {
   color: transparent;
+}
+
+.tabs-container-collection {
+  .tab-content {
+    @include tabs-mobile-padding;
+  }
 }
 </style>
