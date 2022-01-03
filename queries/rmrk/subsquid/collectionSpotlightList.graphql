@@ -6,5 +6,7 @@ query collectionSpotlightList {
 		total
 		averagePrice: average
 		count: collections
+		uniqueCollectors
+    volume
 	}
 }
