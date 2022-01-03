@@ -14,6 +14,12 @@
    port = 9000
    targetPort = 9090
 
+[context.deploy-preview]
+command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && yarn generate'
+
+[context.production]
+command = 'export BASE_URL=$URL && env && yarn generate'
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

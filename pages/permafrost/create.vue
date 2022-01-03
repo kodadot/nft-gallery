@@ -256,9 +256,8 @@ export default class PermaMint extends mixins(
   }
 
   get defaultCreateMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_mint.png`
+      `${this.$config.baseUrl}/k_card_mint.png`
     )
   }
 
