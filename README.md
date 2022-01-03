@@ -7,6 +7,11 @@
 
 ## Repository Statistics
 
+### Brief code structure
+![Visualization of this repo](./diagram.svg)
+[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
+
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 [![DeepScan grade](https://deepscan.io/api/teams/13903/projects/16948/branches/372223/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13903&pid=16948&bid=372223)
@@ -38,9 +43,6 @@
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
-
-![Visualization of this repo](./diagram.svg)
-[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
 ### Is it maintained?
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
