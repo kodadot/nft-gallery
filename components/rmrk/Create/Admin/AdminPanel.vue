@@ -164,7 +164,7 @@ export default class AdminPanel extends mixins(
   get defaultCreateMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/${require('/public/k_card_mint.png')}`
+      `${url.protocol}//${url.hostname}/k_card_mint.png`
     )
   }
 

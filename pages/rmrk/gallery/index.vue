@@ -41,7 +41,7 @@ export default class GalleryPage extends Vue {
   get defaultGalleryMetaImage(): string {
     const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/${require('/public/k_card_gallery.png')}`
+      `${url.protocol}//${url.hostname}/k_card_gallery.png`
     )
   }
 }
