@@ -15,7 +15,7 @@
    targetPort = 9090
 
 [context.deploy-preview]
-command = 'BASE_URL=$DEPLOY_URL nuxt generate'
+command = 'BASE_URL=$URL nuxt generate'
 
 [context.production]
 command = 'BASE_URL=$URL nuxt generate'
