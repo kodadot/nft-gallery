@@ -155,6 +155,13 @@ body {
     .message.is-primary .message-body {
         color: $primary-light !important;
     }
+    .tabs-container-mobile {
+        .tab-content {
+          @media screen and (max-width: 1023px) {
+            padding: 1rem 0;
+          }
+        }
+      }
 }
 
 // global CSS for page transitions
@@ -183,4 +190,6 @@ body {
         padding: 0.75rem !important;
         }
     }
+
 }
+

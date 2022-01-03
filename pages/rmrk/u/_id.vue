@@ -46,7 +46,7 @@
 
       <b-tabs
         :class="{ 'invisible-tab': sharingVisible }"
-        class="tabs-container-profile"
+        class="tabs-container-mobile"
         v-model="activeTab"
         destroy-on-hide
         expanded
@@ -404,12 +404,4 @@ export default class Profile extends mixins(PrefixMixin) {
 }
 </style>
 
-<style lang="scss">
-@import '@/styles/mixins';
-.tabs-container-profile{
-  .tab-content {
-    @include tabs-mobile-padding;
-  }
-}
-</style>
 
