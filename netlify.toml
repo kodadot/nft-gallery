@@ -15,10 +15,10 @@
    targetPort = 9090
 
 [context.deploy-preview]
-command = 'BASE_URL=$URL nuxt generate'
+command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && yarn generate'
 
 [context.production]
-command = 'BASE_URL=$URL nuxt generate'
+command = 'export BASE_URL=$URL yarn generate'
 
 [[redirects]]
   from = "/*"
