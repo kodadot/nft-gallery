@@ -18,7 +18,7 @@
 command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && yarn generate'
 
 [context.production]
-command = 'export BASE_URL=$URL yarn generate'
+command = 'export BASE_URL=$URL && env && yarn generate'
 
 [[redirects]]
   from = "/*"
