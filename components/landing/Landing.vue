@@ -161,7 +161,7 @@ const components = {}
         },
         {
           property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg',
+          content: `${require(`/public/kodadot_card_root.png`)}`,
         },
       ],
     }
