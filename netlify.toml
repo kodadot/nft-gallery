@@ -14,6 +14,12 @@
    port = 9000
    targetPort = 9090
 
+[context.deploy-preview]
+command = 'BASE_URL=$DEPLOY_URL nuxt generate'
+
+[context.production]
+command = 'BASE_URL=$URL nuxt generate'
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
