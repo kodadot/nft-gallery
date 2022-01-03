@@ -79,7 +79,7 @@ const components = {
         },
         {
           property: 'og:image',
-          content: '/kodadot-collections.png'
+          content: '/collections.png'
         },
         {
           property: 'og:description',
@@ -95,7 +95,7 @@ const components = {
         },
         {
           property: 'twitter:image',
-          content: '/kodadot-collections.png'
+          content: '/collections.png'
         }
       ]
     }
