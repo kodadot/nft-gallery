@@ -254,7 +254,6 @@ export default class Collections extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import '@/styles/variables';
-
 .card-image__burned {
   filter: blur(7px);
 }
@@ -332,7 +331,7 @@ export default class Collections extends mixins(PrefixMixin) {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px $primary-light;
+      border: 2px solid $primary-light;
 
       &-image {
         .ff-canvas {
