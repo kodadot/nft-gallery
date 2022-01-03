@@ -136,36 +136,6 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {}
 @Component<Landing>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot - Kusama NFT Market explorer',
-        },
-        {
-          property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg',
-        },
-        {
-          property: 'og:description',
-          content: 'Low carbon NFT gallery on Kusama',
-        },
-        {
-          property: 'twitter:title',
-          content: 'KodaDot - Kusama NFT Market Explorer',
-        },
-        {
-          property: 'twitter:description',
-          content: 'Low carbon NFT gallery on Kusama',
-        },
-        {
-          property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg',
-        },
-      ],
-    }
-  },
   components,
 })
 export default class Landing extends Vue {

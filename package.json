@@ -88,6 +88,7 @@
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
+    "@nuxt/image": "^0.6.0",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
