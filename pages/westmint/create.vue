@@ -71,9 +71,8 @@ export default class Remark extends Vue {
   public activeTab = 0
   public components: string[] = ['Collection', 'NFT']
   get defaultCreateMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/k_card_mint.png`
+      `${this.$config.baseUrl}/k_card_mint.png`
     )
   }
 }

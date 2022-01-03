@@ -52,9 +52,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Series extends Vue {
   get defaultSeriesMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/k_card_series.png`
+      `${this.$config.baseUrl}/k_card_series.png`
     )
   }
 }

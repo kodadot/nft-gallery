@@ -145,7 +145,7 @@ const components = {}
         },
         {
           property: 'og:image',
-          content: '/kodadot_card_root.png',
+          content: this.defaultSeriesMetaImage,
         },
         {
           property: 'og:description',
@@ -161,7 +161,7 @@ const components = {}
         },
         {
           property: 'twitter:image',
-          content: '/kodadot_card_root.png',
+          content: this.defaultSeriesMetaImage
         },
       ],
     }
@@ -171,6 +171,12 @@ const components = {}
 export default class Landing extends Vue {
   @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
   @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
+
+  get defaultSeriesMetaImage(): string {
+    return (
+      `${this.$config.baseUrl}/kodadot_card_root.png`
+    )
+  }
 }
 </script>
 

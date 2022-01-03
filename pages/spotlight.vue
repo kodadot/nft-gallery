@@ -49,9 +49,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Leaderboard extends Vue {
   get defaultSpotlightMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/k_card_spotlight.png`
+      `${this.$config.baseUrl}/k_card_spotlight.png`
     )
   }
 }
