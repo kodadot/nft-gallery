@@ -40,7 +40,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class GalleryPage extends Vue {
   get defaultGalleryMetaImage(): string {
     return (
-      `${this.$config.ALIENS}/k_card_gallery.png`
+      `${this.$config.aliens}/k_card_gallery.png`
     )
   }
 }

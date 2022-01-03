@@ -198,7 +198,7 @@ export default {
   // https://nuxtjs.org/docs/configuration-glossary/configuration-env/
   publicRuntimeConfig: {
     prefix: process.env.URL_PREFIX || 'rmrk',
-    baseUrl: process.env.ALIENS || 'http://localhost:9090',
+    aliens: process.env.ALIENS || 'http://localhost:9090',
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
