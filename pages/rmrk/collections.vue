@@ -158,7 +158,7 @@ export default class Collections extends mixins(PrefixMixin) {
           search: this.buildSearchParam(),
           listed: this.searchQuery.listed ? [{price: { greaterThan: '0'}}] : [],
           first: this.first,
-          offset: this.offset
+          offset: this.offset,
         }
       },
       update: ({ collectionEntity }) => ({
