@@ -66,7 +66,7 @@ interface Image extends HTMLImageElement {
 type CollectionType = CollectionWithMeta;
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
@@ -137,7 +137,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
-    const params = []
+    const params: any[] = []
 
     if (this.searchQuery.search) {
       params.push({
