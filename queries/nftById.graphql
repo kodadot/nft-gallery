@@ -1,5 +1,5 @@
-#import "../fragments/nft.graphql"
-#import "../fragments/nftDetails.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
 
 query nftById($id: String!) {
   nFTEntity(id: $id) {

@@ -1,5 +1,5 @@
-#import "../fragments/nft.graphql"
-#import "../fragments/nftDetails.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
 
 query nfts($first: Int!, $offset: Int) {
   nFTEntities(
