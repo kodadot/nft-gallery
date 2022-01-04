@@ -6,9 +6,6 @@
         <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
       </b-field>
     </Search>
-    <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
-    </b-field>
 
     <div>
       <div class="columns is-multiline">
