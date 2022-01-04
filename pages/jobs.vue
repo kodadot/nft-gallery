@@ -2,11 +2,7 @@
   <section class="section">
     <div class="container">
       <div v-for="job in jobPostings" :key="job.headline" class="mb-5">
-        <h2
-          class="
-            heading heading-is-5 is-size-2-mobile text-bold uppercas
-          "
-        >
+        <h2 class="heading heading-is-5 is-size-2-mobile text-bold">
           {{ job.headline }}
           <span class="text__stroked heading heading-is-7 is-size-1-mobile">{{ job.subheadline }}</span>
         </h2>
@@ -16,7 +12,7 @@
           :href="job.url"
           target="_blank"
           rel="noopener noreferrer"
-          type="my-5 is-primary uppercase"
+          type="my-5 is-primary"
         >
           Learn More
         </b-button>
