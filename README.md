@@ -1,17 +1,28 @@
-# NFT Explorer for Kusama & Polkadot ecosystem
+# NFT Explorer for Kusama & Polkadot & Substrate ecosystem
 
-## Coordination
+## Coordination for development
 [![KodaDot NFT Discord](https://badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
-
 [![KodaDot NFT Discord](https://badgen.net/discord/online-members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
 
-## Repository Statistics
+# Repository Statistics
 
 ### Brief code structure
 ![Visualization of this repo](./diagram.svg)
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
+### Contributors over time to KodaDot
+[![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
+### All Recent Contributors ✨
+
+[Monthly contributors overview](https://github.com/kodadot/nft-gallery/pulse/monthly)
+[Graph of Contributors](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
+<img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
+
+Thank to [contributors-img](https://contrib.rocks).
+
+### Hard facts about KodaDot development
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 [![DeepScan grade](https://deepscan.io/api/teams/13903/projects/16948/branches/372223/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13903&pid=16948&bid=372223)
@@ -42,7 +53,6 @@
 [![GitHub license](https://badgen.net/github/license/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/blob/master/LICENSE)
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
-[![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
 ### Is it maintained?
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
@@ -85,15 +95,6 @@
 [Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
-
-## Contributors ✨
-
-[Monthly contributors overview](https://github.com/kodadot/nft-gallery/pulse/monthly)
-[Graph of Contributors](https://github.com/kodadot/nft-gallery/graphs/contributors)
-
-<img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
-
-Thank to [contributors-img](https://contrib.rocks).
 
 ## Play-🕹 
 
