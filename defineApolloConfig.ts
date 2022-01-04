@@ -1,8 +1,4 @@
 import { INDEXERS } from '@vue-polkadot/vue-settings'
-import { disableFragmentWarnings } from 'graphql-tag'
-
-// https://github.com/apollographql/graphql-tag#warnings
-disableFragmentWarnings()
 
 type Endpoint = {
   httpEndpoint: string
