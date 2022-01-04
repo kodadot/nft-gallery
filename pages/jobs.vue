@@ -25,9 +25,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
+  name: 'JobsPage',
   layout: 'full-width-layout'
 })
-export default class Jobs extends Vue {
+export default class JobsPage extends Vue {
   private jobPostings = [
     {
       headline: 'Frontend Developer',
