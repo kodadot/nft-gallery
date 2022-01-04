@@ -1,4 +1,5 @@
-#import "./nft.graphql"
+#import "../fragments/nft.graphql"
+#import "../fragments/nftDetails.graphql"
 
 query nftListByIssuer(
   $account: String!
@@ -21,6 +22,7 @@ query nftListByIssuer(
     totalCount
     nodes {
       ...nft
+      ...nftDetails
     }
   }
 }
