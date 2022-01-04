@@ -1,4 +1,4 @@
-#import "./collection.graphql"
+#import "../fragments/collection.graphql"
 #import "./nft.graphql"
 
 query collectionById($id: String!) {

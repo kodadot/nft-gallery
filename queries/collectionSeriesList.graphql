@@ -1,4 +1,5 @@
-#import "./collection.graphql"
+#import "./fragments/collection.graphql"
+#import "./fragments/collectionDetails.graphql"
 
 query collectionSeriesList($denyList: [String!]) {
   collectionEntities(filter: { issuer: { notIn: $denyList } }) {
@@ -15,6 +16,7 @@ query collectionSeriesList($denyList: [String!]) {
         }
       }
       ...collection
+      ...collectionDetails
     }
   }
 }

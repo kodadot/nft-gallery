@@ -1,4 +1,4 @@
-#import "./collection.graphql"
+#import "../fragments/collection.graphql"
 
 query collectionListByAccount($account: String!, $first: Int!, $offset: Int) {
   collectionEntities(
