@@ -52,6 +52,7 @@
           visible="collapse.collection.description.show"
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
+          isSelectable
         >
           <VueMarkdown :source="description" />
         </CollapseWrapper>
