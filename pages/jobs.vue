@@ -31,28 +31,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class JobsPage extends Vue {
   private jobPostings = [
     {
-      headline: 'Frontend Developer',
-      subheadline: 'Typescript',
-      description: 'Are you good in VueJS and Typescript? We want to hear from you!',
-      url: 'https://cryptojobslist.com/jobs/vuejs-frontend-engineer-at-nft-gallery-on-kusama-polkadot-at-metaprime-kodadot-berlin'
-    },
-    {
-      headline: 'Technical Product',
-      subheadline: 'Manager',
-      description: 'Are you skilled managing pull request and linking issues? We want to hear from you!',
-      url: 'https://cryptojobslist.com/jobs/technical-product-manager-at-metaprime-kodadot-berlin'
-    },
-    {
       headline: 'Rust Developer',
       subheadline: 'Substrate',
       description: 'Are you familiar with Rust and Substrate? We want to hear from you!',
       url: 'https://discord.gg/35hzy2dXXh'
-    },
-    {
-      headline: 'Chief Operating',
-      subheadline: 'Officer',
-      description: 'Are you good with day to day operations? You should be high-performance and have a passion for Open Metaverse. Athlete in the crypto space.',
-      url: 'https://cryptojobslist.com/jobs/senior-business-and-operations-manager-at-metaprime-berlin'
     },
     {
       headline: 'UI/UX',
@@ -65,12 +47,6 @@ export default class JobsPage extends Vue {
       subheadline: 'Manager',
       description: 'Are you good with managing the community? We want to hear from you!',
       url: 'https://discord.gg/35hzy2dXXh'
-    },
-    {
-      headline: 'Senior Business & Operations',
-      subheadline: 'Manager',
-      description: 'Are you good with day to day operations? We want to hear from you!',
-      url: 'https://cryptojobslist.com/jobs/senior-business-and-operations-manager-at-metaprime-berlin'
     },
     {
       headline: 'Developer',
