@@ -14,7 +14,7 @@
           rel="noopener noreferrer"
           type="my-5 is-primary"
         >
-          Learn More
+          {{ $t('Learn More') }}
         </b-button>
       </div>
    </div>
