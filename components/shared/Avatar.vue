@@ -1,11 +1,11 @@
 <template>
-  <!-- <Identicon
+  <Identicon
     :size="size"
     :theme="'polkadot'"
     :value="value"
     class="avatar"
-  /> -->
-  <div>I</div>
+  />
+  <!-- <div>I</div> -->
 </template>
 
 <script lang="ts" >
