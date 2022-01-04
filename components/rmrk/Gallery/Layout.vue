@@ -5,7 +5,7 @@
         <b-radio-button
           type="is-primary"
           v-model="layout"
-          native-value="is-one-third-desktop is-one-third-tablet"
+          native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
           @input="onInputChange"
         >
@@ -18,7 +18,7 @@
         <b-radio-button
           type="is-primary"
           v-model="layout"
-          native-value="is-one-fifth-desktop is-one-quarter-tablet"
+          native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
           @input="onInputChange"
         >
