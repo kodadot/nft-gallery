@@ -49,7 +49,7 @@
           <b-button
             label="Sort & Filter"
             aria-controls="sortAndFilter"
-            icon-right="caret-down"
+            icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
             type="is-primary"
             expanded
             @click="isVisible = !isVisible"
