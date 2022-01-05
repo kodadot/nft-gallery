@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-3 mt-5">
     <div class="card-content">
-      <div class="columns">
+      <div class="columns mb-0">
         <b-field class="column is-6 mb-0">
           <b-autocomplete
             v-model="name"
@@ -48,7 +48,7 @@
         <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
-            aria-controls="contentIdForA11y1"
+            aria-controls="sortAndFilter"
             icon-right="caret-down"
             type="is-primary"
             expanded
@@ -57,14 +57,16 @@
         </b-field>
         <slot />
       </div>
-      <div class="filter-container" :class="{open: isVisible}">
-        <transition name="fade">
-          <div v-if="isVisible" class="columns">
-            <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-            <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
-          </div>
-        </transition>
-      </div>
+      <b-collapse
+        aria-id="sortAndFilter"
+        animation="opacitySlide"
+        v-model="isVisible"
+      >
+        <div class="columns">
+          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+          <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
+        </div>
+      </b-collapse>
     </div>
   </div>
 </template>
@@ -322,6 +324,7 @@ export default class SearchBar extends Vue {
 
 <style scoped lang="scss">
 @import '@/styles/variables';
+
 .b-skeleton{
   height: 32px !important;
   width: 32px !important;
@@ -332,30 +335,6 @@ export default class SearchBar extends Vue {
 
 .card {
   border: 2px solid $primary-light;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.6s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.filter-container {
-  overflow: hidden;
-  transition: height .8s ease-in-out;
-  height: 0px;
-  &.open {
-    height: 74px;
-  }
-  @media screen and (max-width: 768px) {
-    &.open {
-      height: 133px;
-    }
-  }
 }
 
 .searchCache {
