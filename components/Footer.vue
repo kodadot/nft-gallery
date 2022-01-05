@@ -157,6 +157,10 @@ export default class Footer extends Vue {
       name: i18n.t('Press Kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true
+    },
+    {
+      name: i18n.t('Jobs'),
+      url: '/jobs'
     }
   ]
 }
