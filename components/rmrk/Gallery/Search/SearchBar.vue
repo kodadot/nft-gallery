@@ -49,7 +49,7 @@
           <b-button
             label="Sort & Filter"
             aria-controls="sortAndFilter"
-            icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
+            :icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
             type="is-primary"
             expanded
             @click="isVisible = !isVisible"
@@ -64,7 +64,7 @@
       >
         <div class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
+          <BasicSwitch class="is-flex column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
         </div>
       </b-collapse>
     </div>
