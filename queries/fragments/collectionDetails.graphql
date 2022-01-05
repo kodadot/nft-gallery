@@ -1,4 +1,4 @@
 fragment collectionDetails on CollectionEntity {
-	name
+  name
   max
 }
