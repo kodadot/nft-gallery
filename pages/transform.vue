@@ -20,6 +20,15 @@
     >
       {{ $t('general.copyUrl') }}
     </b-button>
+    <b-button
+      type="is-primary"
+      icon-left="external-link-alt"
+      outlined
+      @click="openUrl"
+      :disabled="disabled"
+    >
+      {{ $t('general.openUrl') }}
+    </b-button>
   </section>
 </template>
 
@@ -37,20 +46,12 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 export default class Transform extends Vue {
   protected url = ''
 
-  /**
-   * middleware({}) - to help perform actions while a route is resolved
-   */
-
   middleware({ route, redirect }) {
-    const baseTransformQueryUrl = 'https://singular.rmrk.app/collectibles/'
+    const { url } = route.query
 
-    if (
-      route.query &&
-      route.query.url?.toString().startsWith(baseTransformQueryUrl)
-    ) {
-      const urlToOpen = route.query.url.slice(baseTransformQueryUrl.length)
+    if (url) {
       redirect({
-        path: `/rmrk/detail/${urlToOpen}`,
+        path: transform(url),
       })
     }
   }
@@ -78,6 +79,14 @@ export default class Transform extends Vue {
   private toast(): void {
     const message = this.$t('helper.urlToTransform.copy').toString()
     this.$buefy.toast.open(message)
+  }
+
+  private openUrl(): void {
+    const url = transform(this.$route.query.url.toString())
+
+    this.$router.push({
+      path: url,
+    })
   }
 }
 </script>
