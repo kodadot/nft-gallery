@@ -28,9 +28,27 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class JobsPage extends Vue {
   private jobPostings = [
     {
+      headline: 'Frontend Developer',
+      subheadline: 'Typescript',
+      description: 'Are you good in VueJS and Typescript? We want to hear from you!',
+      url: 'https://discord.gg/35hzy2dXXh'
+    },
+    {
+      headline: 'Technical Product',
+      subheadline: 'Manager',
+      description: 'Are you skilled managing pull request and linking issues? We want to hear from you!',
+      url: 'https://discord.gg/35hzy2dXXh'
+    },
+    {
       headline: 'Rust Developer',
       subheadline: 'Substrate',
       description: 'Are you familiar with Rust and Substrate? We want to hear from you!',
+      url: 'https://discord.gg/35hzy2dXXh'
+    },
+    {
+      headline: 'Chief Operating',
+      subheadline: 'Officer',
+      description: 'Are you good with day to day operations? You should be high-performance and have a passion for Open Metaverse. Athlete in the crypto space.',
       url: 'https://discord.gg/35hzy2dXXh'
     },
     {
