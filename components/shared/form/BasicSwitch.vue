@@ -6,7 +6,9 @@
       :size="size"
       :class="labelColor"
     >
-      {{ properLabel }}
+      <component :is="componentName" :label="message">
+        {{ properLabel }}
+      </component>
     </b-switch>
   </b-field>
 </template>
@@ -22,6 +24,11 @@ export default class BasicSwitch extends Vue {
   @Prop({ type: String }) offLabel!: string
   @Prop({ type: String }) size!: string
   @Prop({ type: String }) labelColor!: string
+  @Prop({ type: String }) message!: string
+
+  get componentName(): string {
+    return this.message ? 'b-tooltip' : 'span'
+  }
 
   get properLabel(): TranslateResult {
     const offLabel = this.offLabel || this.label

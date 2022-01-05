@@ -113,9 +113,8 @@ export default class Collections extends mixins(PrefixMixin) {
   private loadingState = 0
 
   get defaultCollectionsMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_collections.png`
+      `${this.$config.baseUrl}/k_card_collections.png`
     )
   }
 
@@ -347,7 +346,7 @@ export default class Collections extends mixins(PrefixMixin) {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px $primary-light;
+      border: 2px solid $primary-light;
 
       &-image {
         .ff-canvas {

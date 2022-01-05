@@ -8,8 +8,9 @@ query collectionSeriesList($limit: Float) {
     sold
     name
     total
-    totalBuys
+    totalBuys: buys
     unique
     uniqueCollectors
+    volume
   }
 }

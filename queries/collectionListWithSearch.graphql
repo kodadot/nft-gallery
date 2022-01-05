@@ -1,23 +1,22 @@
 #import "./collection.graphql"
 
-query collectionListWithSearch($first: Int!, $offset: Int) {
+query collectionListWithSearch(
+  $first: Int!
+  $offset: Int
+  $search: [CollectionEntityFilter!]
+  $listed: [NFTEntityFilter!]
+  $orderBy: CollectionEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   collectionEntities(
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
-    filter: {
-      id: { notLike: "%KAN%" }
-    }
+    filter: { id: { notLike: "%KAN%" }, and: $search }
   ) {
     totalCount
     nodes {
       ...collection
-      nfts(
-        orderBy: BLOCK_NUMBER_DESC
-        filter: {
-        burned: { distinctFrom: true }
-      }
-      ) {
+      nfts(filter: { burned: { distinctFrom: true }, and: $listed }) {
         nodes {
           id
           metadata

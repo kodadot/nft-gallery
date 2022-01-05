@@ -331,7 +331,7 @@ export default class SearchBar extends Vue {
 }
 
 .card {
-  box-shadow: 0px 0px 5px 0.5px $primary;
+  border: 2px solid $primary-light;
 }
 
 .fade-enter-active,

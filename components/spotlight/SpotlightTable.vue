@@ -190,8 +190,8 @@ export default class SpotlightTable extends mixins(
       averagePrice: Number(e.averagePrice),
       collectors: e.sold,
       rank: e.sold * (e.unique / e.total || 1),
-      uniqueCollectors: e.sold,
-      volume: BigInt(0),
+      uniqueCollectors: e.uniqueCollectors,
+      volume: BigInt(e.volume),
     })).sort((a, b) => b.rank - a.rank)
 
     // this.data = spotlightAggQuery(

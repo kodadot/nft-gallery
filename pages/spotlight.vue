@@ -14,7 +14,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
           property: 'og:title',
           content: 'KodaDot | Kusama NFT Market explorer'
         },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
+        { property: 'og:url', content: 'https://kodadot.xyz' },
         {
           property: 'og:description',
           content: 'Discover new artists based on the ranking'
@@ -49,9 +49,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Leaderboard extends Vue {
   get defaultSpotlightMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_rank.png`
+      `${this.$config.baseUrl}/k_card_spotlight.png`
     )
   }
 }

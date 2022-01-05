@@ -17,7 +17,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
           property: 'og:title',
           content: 'KodaDot | Kusama NFT Market explorer'
         },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
+        { property: 'og:url', content: 'https://kodadot.xyz' },
         {
           property: 'og:description',
           content: 'Discover new artists based on rank'
@@ -52,9 +52,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Series extends Vue {
   get defaultSeriesMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_series.png`
+      `${this.$config.baseUrl}/k_card_series.png`
     )
   }
 }

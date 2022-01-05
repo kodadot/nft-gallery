@@ -16,15 +16,14 @@
         >
         </b-input>
       </b-field>
-      <b-tooltip :label="$i18n.t('tooltip.buy')">
-        <BasicSwitch
-         class="is-flex control mb-5"
-         v-model="vListed"
-         :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
-         size="is-medium"
-         labelColor="is-success"
-        />
-      </b-tooltip>
+      <BasicSwitch
+        class="is-flex control mb-5"
+        v-model="vListed"
+        :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
+        size="is-medium"
+        labelColor="is-success"
+        :message="$i18n.t('tooltip.buy')"
+      />
       <slot />
     </b-field>
   </div>

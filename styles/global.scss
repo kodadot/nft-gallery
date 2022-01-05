@@ -11,7 +11,6 @@ body {
         font-weight: 500;
         transition: all 0.3s;
         color: $scheme-invert;
-        box-shadow: 0px 0px 3px 0.3px $primary!important;
 
         &.is-primary {
             border-color: $primary;
@@ -137,10 +136,6 @@ body {
     pre {
         background-color: $black;
         color: $primary;
-    }
-
-    .pagination-link {
-        box-shadow: 0 0 4px 0.5px $primary;
     }
 
     .title,

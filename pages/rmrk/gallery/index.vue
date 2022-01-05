@@ -39,9 +39,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class GalleryPage extends Vue {
   get defaultGalleryMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_gallery.png`
+      `${this.$config.baseUrl}/k_card_gallery.png`
     )
   }
 }

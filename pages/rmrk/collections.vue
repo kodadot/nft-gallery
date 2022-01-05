@@ -1,10 +1,11 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <!-- TODO: Make it work with graphql -->
-    <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
-    </b-field>
+    <Search v-bind.sync="searchQuery">
+      <b-field>
+        <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+      </b-field>
+    </Search>
 
     <div>
       <div class="columns is-multiline">
@@ -47,6 +48,7 @@ import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
@@ -61,7 +63,7 @@ interface Image extends HTMLImageElement {
 type CollectionType = CollectionWithMeta;
 const components = {
   GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
@@ -110,20 +112,37 @@ export default class Collections extends mixins(PrefixMixin) {
   private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
+  private searchQuery: SearchQuery = {
+    search: '',
+    type: '',
+    sortBy: 'BLOCK_NUMBER_DESC',
+    listed: false,
+  }
 
   get defaultCollectionsMetaImage(): string {
-    const url = new URL(window.location.href)
     return (
-      `${url.protocol}//${url.hostname}/kodadot_collections.png`
+      `${this.$config.baseUrl}/k_card_collections.png`
     )
   }
 
-  get isLoading() {
+  get isLoading(): boolean {
     return this.$apollo.queries.collection.loading
   }
 
-  get offset() {
+  get offset(): number {
     return this.currentValue * this.first - this.first
+  }
+
+  private buildSearchParam(): Record<string, unknown>[] {
+    const params: any[] = []
+
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+      })
+    }
+
+    return params
   }
 
   public async created() {
@@ -135,6 +154,9 @@ export default class Collections extends mixins(PrefixMixin) {
       result: this.handleResult,
       variables: () => {
         return {
+          orderBy: this.searchQuery.sortBy,
+          search: this.buildSearchParam(),
+          listed: this.searchQuery.listed ? [{price: { greaterThan: '0'}}] : [],
           first: this.first,
           offset: this.offset,
         }
@@ -254,7 +276,6 @@ export default class Collections extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import '@/styles/variables';
-
 .card-image__burned {
   filter: blur(7px);
 }
@@ -332,7 +353,7 @@ export default class Collections extends mixins(PrefixMixin) {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px $primary-light;
+      border: 2px solid $primary-light;
 
       &-image {
         .ff-canvas {
