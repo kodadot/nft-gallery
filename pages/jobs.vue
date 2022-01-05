@@ -1,32 +1,29 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div v-for="job in jobPostings" :key="job.headline" class="mb-5">
-        <h2 class="heading heading-is-5 is-size-2-mobile text-bold">
-          {{ job.headline }}
-          <span class="text__stroked heading heading-is-7 is-size-1-mobile">{{ job.subheadline }}</span>
-        </h2>
-        <p class="max-w-600">{{ job.description }}</p>
-        <b-button
-          tag="a"
-          :href="job.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          type="my-5 is-primary"
-        >
-          {{ $t('Learn More') }}
-        </b-button>
-      </div>
-   </div>
-  </section>
+  <div class="container">
+    <div v-for="job in jobPostings" :key="job.headline" class="mb-5">
+      <h2 class="heading heading-is-5 is-size-2-mobile text-bold">
+        {{ job.headline }}
+        <span class="text__stroked heading heading-is-7 is-size-1-mobile">{{ job.subheadline }}</span>
+      </h2>
+      <p class="max-w-600">{{ job.description }}</p>
+      <b-button
+        tag="a"
+        :href="job.url"
+        target="_blank"
+        rel="noopener noreferrer"
+        type="my-5 is-primary"
+      >
+        {{ $t('Learn More') }}
+      </b-button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
-  name: 'JobsPage',
-  layout: 'full-width-layout'
+  name: 'JobsPage'
 })
 export default class JobsPage extends Vue {
   private jobPostings = [
