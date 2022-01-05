@@ -4,7 +4,7 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column">
-        <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
+        <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right remove-margin" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -301,6 +301,10 @@ export default class Gallery extends mixins(PrefixMixin) {
 
 .card-image__burned {
   filter: blur(7px);
+}
+
+.remove-margin nav  {
+  margin-bottom: 0 !important;
 }
 
 .gallery {
