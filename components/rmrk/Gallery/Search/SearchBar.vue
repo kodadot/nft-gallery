@@ -1,9 +1,8 @@
 <template>
   <div class="card mb-3 mt-5">
     <div class="card-content">
-      <div class="columns">
+      <div class="columns mb-0">
         <b-field class="column is-6 mb-0">
-
           <b-autocomplete
             v-model="name"
             :data="searchSuggestion"
@@ -49,8 +48,8 @@
         <b-field class="column is-3 mb-0">
           <b-button
             label="Sort & Filter"
-            aria-controls="contentIdForA11y1"
-            icon-right="caret-down"
+            aria-controls="sortAndFilter"
+            :icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
             type="is-primary"
             expanded
             @click="isVisible = !isVisible"
@@ -58,14 +57,16 @@
         </b-field>
         <slot />
       </div>
-
-      <transition name="fade">
-        <div v-if="isVisible" class="columns">
+      <b-collapse
+        aria-id="sortAndFilter"
+        animation="opacitySlide"
+        v-model="isVisible"
+      >
+        <div class="columns">
           <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
+          <BasicSwitch class="is-flex column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
         </div>
-      </transition>
-
+      </b-collapse>
     </div>
   </div>
 </template>
@@ -323,6 +324,7 @@ export default class SearchBar extends Vue {
 
 <style scoped lang="scss">
 @import '@/styles/variables';
+
 .b-skeleton{
   height: 32px !important;
   width: 32px !important;
@@ -333,16 +335,6 @@ export default class SearchBar extends Vue {
 
 .card {
   border: 2px solid $primary-light;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 
 .searchCache {
