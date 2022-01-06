@@ -27,9 +27,6 @@
               @click.native="toast('Copied to clipboard')"
             ></b-icon>
           </p>
-          <div class="py-1 is-size-7 py-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati
-          </div>
           <p class="is-size-7 is-flex is-align-items-center pb-3">
             <b-icon
               icon="clock"
@@ -45,15 +42,15 @@
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
-          <span class="is-size-7">Bought</span>
+          <span class="is-size-7 is-uppercase">Bought</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
-          <span class="is-size-7">Created</span>
+          <span class="is-size-7 is-uppercase">Created</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
-          <span class="is-size-7">Sold</span>
+          <span class="is-size-7 is-uppercase">Sold</span>
         </div>
       </div>
     </div>
