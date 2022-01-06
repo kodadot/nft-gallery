@@ -17,7 +17,7 @@
           <p class="has-text-weight-bold is-size-4 mb-1">
             {{ identity.display }}
           </p>
-          <p class="is-size-7">
+          <p class="is-size-7 mb-1">
             {{ shortenedAddress }}
             <b-icon
               icon="copy"
@@ -27,7 +27,7 @@
               @click.native="toast('Copied to clipboard')"
             ></b-icon>
           </p>
-          <p class="is-size-7 is-flex is-align-items-center pb-3">
+          <p class="is-size-7 is-flex is-align-items-center py-3">
             <b-icon
               icon="clock"
               size="is-small"
