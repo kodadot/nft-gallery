@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader :value="isLoading" />
     <b-field grouped>
       <!-- <b-field
         position="is-left"
@@ -311,6 +312,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component({ components })
