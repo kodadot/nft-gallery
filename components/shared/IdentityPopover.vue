@@ -86,7 +86,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
   }
 
   private resolveAddress(account: Address): string {
-    return account ? account.toString() : account || ''
+    return account ? account.toString() : ''
   }
 
   public toast(message: string): void {
