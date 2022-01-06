@@ -153,7 +153,7 @@ If you just want to try out our KodaDot on Kusama and have a full local setup wi
     ```
 
 Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
-
+KodaDot supports Hot Module Replacement on docker as well, any changes made will take effect immediately.
 
 ## Dev hints
 
