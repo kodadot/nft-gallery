@@ -6,12 +6,12 @@
     <div class="popover-content-container p-4">
       <div class="is-flex mb-3">
         <div class="is-align-self-flex-start">
-          <!-- <Identicon
+          <Identicon
             :size="60"
             :theme="'polkadot'"
             :value="identity.address"
             class="popover-image avatar mr-5"
-          /> -->
+          />
         </div>
         <div>
           <p class="has-text-weight-bold is-size-4 mb-1">
@@ -42,15 +42,15 @@
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
-          <span class="is-size-7 is-uppercase">Bought</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.collected") }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
-          <span class="is-size-7 is-uppercase">Created</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.created") }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
-          <span class="is-size-7 is-uppercase">Sold</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.sold") }}</span>
         </div>
       </div>
     </div>
@@ -58,16 +58,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import nftStatsByIssuer from '@/queries/nftStatsByIssuer.graphql'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-type Address = string | GenericAccountId | undefined;
+type Address = string | undefined;
 type IdentityFields = Record<string, string>;
 
 @Component({
@@ -88,7 +86,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
   }
 
   private resolveAddress(account: Address): string {
-    return account instanceof GenericAccountId ? account.toString() : account || ''
+    return account ? account.toString() : account || ''
   }
 
   public toast(message: string): void {
