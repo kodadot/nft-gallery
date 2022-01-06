@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.8"
 
 services:
   frontend:
@@ -7,9 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - '.:/kodadot-app'
-      - '/kodadot-app/node_modules'
+      - ./:/app
+    command: yarn dev
     ports:
-      - '0.0.0.0:9090:9090'
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - "9090:9090"
+    env_file: .env

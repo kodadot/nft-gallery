@@ -1,16 +1,17 @@
 # Dockerfile
-FROM node:lts
+FROM node:16.13.1-alpine3.14
 
-WORKDIR /kodadot-app
+WORKDIR /app
 
-EXPOSE 9090
+COPY package.json .
+COPY yarn.lock .
 
-COPY package.json /kodadot-app/package.json
-
+RUN apk add --no-cache git
 RUN yarn install
-RUN yarn build
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=9090
+COPY . .
+
+ENV HOST 0.0.0.0
+EXPOSE 9090
 
 CMD [ "yarn", "dev" ]

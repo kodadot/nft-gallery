@@ -192,7 +192,8 @@ export default {
 
   watchers: {
     webpack: {
-      poll: true
+      aggregateTimeout: 300,
+      poll: 1000,
     }
   },
   // env: {
