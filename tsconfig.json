@@ -30,7 +30,8 @@
       "webpack-env",
       "@nuxt/types",
       "@types/node",
-      "vue-apollo"
+      "vue-apollo",
+      "@types/jest",
     ]
   },
   "exclude": [
