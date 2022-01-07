@@ -3452,10 +3452,10 @@
   dependencies:
     "@polkadot/api" "6.0.5"
 
-"@vue-polkadot/vue-settings@0.0.38-rc.9":
-  version "0.0.38-rc.9"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.38-rc.9.tgz#95bc12d50ab847498f91bc2f76e8adeb9676a832"
-  integrity sha512-XnyLORhagsLAQpxQHQDzGupfimoQZLBSys6VacUdAZPBjlepcv7dqyMYZkAkY2LgcYph0pIasuF+vFvGRgGc5Q==
+"@vue-polkadot/vue-settings@0.0.38-rc.10":
+  version "0.0.38-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.38-rc.10.tgz#ef19b7f06703f7cb1861201bdcdf377a1e968765"
+  integrity sha512-CFF/iLXL/SRQdzP3JCnjVB1AuwZubCkD/NwVId/2EE2RzBdj7cS9Ogi34KF9YILaKPD410bULDnonLQBRt4G5A==
   dependencies:
     "@polkadot/networks" "^7.4.1"
 
