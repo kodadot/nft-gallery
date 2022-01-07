@@ -312,7 +312,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     if(!this.searched.length)
       return []
     return this.searched.filter(option => {
-      return option.name.toString().toLowerCase().indexOf(this.name.toLowerCase()) >= 0
+      return option.name.toString().toLowerCase().indexOf((this.name || '').toLowerCase()) >= 0
     })
   }
 
