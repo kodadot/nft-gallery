@@ -297,7 +297,7 @@ export default class CreateToken extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { alreadyMinted, symbol } = this.selectedCollection
+    const { alreadyMinted, id: collectionId } = this.selectedCollection
 
     try {
       const metadata = await this.constructMeta()
@@ -306,7 +306,7 @@ export default class CreateToken extends mixins(
       const mint = NFTUtils.createMultipleNFT(
         this.nft.edition,
         this.accountId,
-        symbol,
+        collectionId,
         this.nft.name,
         metadata,
         alreadyMinted,
