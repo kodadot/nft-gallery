@@ -1,5 +1,6 @@
 <template>
   <div class="spotlight">
+    <Loader :value="isLoading" />
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       hoverable
@@ -160,6 +161,7 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component({ components })
