@@ -96,7 +96,7 @@ Thank to [contributors-img](https://contrib.rocks).
 
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
-## Play-🕹 
+## Play-🕹
 
 ```shell
 git clone git@github.com:kodadot/nft-gallery.git
@@ -105,7 +105,7 @@ yarn dev
 open http://localhost:9090/
 ```
 
-## I want to contribute- 🙋‍ 
+## I want to contribute- 🙋‍
 
 Sure, your **contribution** is more than welcome. Please follow [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guidelines](CONTRIBUTING.md)**
 
@@ -126,36 +126,34 @@ We have list of frequent participants in our codebase.
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
-## Docker-🐳 
+## Docker-🐳
 If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
 
-Run Kodadot locally
-```bash
-docker-compose up -d --build
-```
+- ### First time setup
 
-Build docker image of KodaDot
-```bash
-docker build . -t kodadot-app
-```
+  - Build the docker image
 
-Check if container is up
-```bash
-docker ps
-```
+    ```bash
+    # Make sure you are logged into docker.
 
-Run it locally and then visit `localhost:9090`
-```bash
-docker run -p 9090:9090 --name kodadot kodadot-app
-```
+    docker-compose up --build
+    ```
 
-Someone clean it pls, bounty for devops https://github.com/kodadot/nft-gallery/issues/1635
-```
-docker build -t nuxtapp .
-docker run -it -p 0.0.0.0:9090:9090 nuxtapp
-```
-then go to the http://0.0.0.0:9090
+  - To check if container is up:
+    ```bash
+    docker ps
+    ```
 
+- ### From next time
+
+  Simply run:
+
+    ```bash
+    docker-compose up
+    ```
+
+Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
+KodaDot supports Hot Module Replacement on docker as well, any changes made will take effect immediately.
 
 ## Dev hints
 
