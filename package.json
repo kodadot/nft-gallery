@@ -33,7 +33,7 @@
     "@polkadot/vue-identicon": "^0.88.1",
     "@types/file-saver": "^2.0.2",
     "@vue-polkadot/vue-api": "0.0.46",
-    "@vue-polkadot/vue-settings": "0.0.38-rc.9",
+    "@vue-polkadot/vue-settings": "0.0.38-rc.10",
     "ansi-regex": "^5.0.1",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
