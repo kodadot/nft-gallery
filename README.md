@@ -134,7 +134,7 @@ If you just want to try out our KodaDot on Kusama and have a full local setup wi
   - Build the docker image
 
     ```bash
-    # Make sure you are running this command with admin priviledges. Linux users please prepend sudo.
+    # Make sure you are logged into docker.
 
     docker-compose up --build
     ```
