@@ -1,7 +1,7 @@
 <template>
   <div>
     <LinkResolver
-      class="profile-link__wrapper"
+      class="is-flex"
       :route="`/${urlPrefix}/u`"
       :param="address"
       link="u"
@@ -17,10 +17,10 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <figure class="image is-24x24 subscan__less-margin">
+          <figure class="image is-24x24 mr-2">
             <img
               alt="subscan"
-              src="/subscan.svg"
+              src="~/assets/icons/subscan.svg"
             >
           </figure>
         </a>
@@ -36,13 +36,13 @@
     </template>
     <a :href="`https://dotscanner.com/Kusama/account/${address}`" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pt-2">
       <figure class="image is-24x24 mr-2">
-        <img alt="dotscanner" src="/dotscanner.svg" />
+        <img alt="dotscanner" src="~/assets/icons/dotscanner.svg" />
       </figure>
       {{ shortendId }}
      </a>
-    <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+    <a :href="`https://sub.id/#/${address}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
       <figure class="image is-24x24 mr-2">
-        <img alt="subid" src="/subid.svg" />
+        <img alt="subid" src="~/assets/icons/subid.svg" />
       </figure>
       {{ shortendId }}
     </a>
@@ -68,16 +68,3 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
 }
 </script>
 
-<style scoped>
-.subscan__less-margin {
-  margin: auto .5em auto 0;
-}
-
-.subid__less-margin {
-  margin: auto .5em auto 0;
-}
-
-.profile-link__wrapper {
-  display: flex;
-}
-</style>
