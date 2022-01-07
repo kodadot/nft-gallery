@@ -25,12 +25,6 @@
           </div>
           <div class="subtitle is-size-6">
             <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
-            <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
-              <figure class="image is-24x24 subid__less-margin">
-                <img alt="subid" src="/subid.svg" />
-              </figure>
-              {{ shortendId }}
-            </a>
           </div>
         </div>
         <div class="column has-text-right">
@@ -378,9 +372,5 @@ export default class Profile extends mixins(PrefixMixin) {
 .title {
   flex-grow: 0;
   flex-basis: auto;
-}
-
-.subid__less-margin {
-  margin: auto .5em auto 0;
 }
 </style>

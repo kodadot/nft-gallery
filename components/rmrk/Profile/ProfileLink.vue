@@ -40,6 +40,12 @@
       </figure>
       {{ shortendId }}
      </a>
+    <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+      <figure class="image is-24x24 mr-2">
+        <img alt="subid" src="/subid.svg" />
+      </figure>
+      {{ shortendId }}
+    </a>
   </div>
 </template>
 
@@ -64,6 +70,10 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
 
 <style scoped>
 .subscan__less-margin {
+  margin: auto .5em auto 0;
+}
+
+.subid__less-margin {
   margin: auto .5em auto 0;
 }
 
