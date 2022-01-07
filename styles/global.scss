@@ -112,11 +112,11 @@ body {
 
     .button.is-text {
       &:hover {
-        background-color: #363636;
+        background-color: $grey-darker;
       }
 
       &:focus {
-        background-color: #363636;
+        background-color: $grey-darker;
         border: none;
       }
     }

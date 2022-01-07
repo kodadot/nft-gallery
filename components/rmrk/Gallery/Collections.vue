@@ -365,7 +365,7 @@ export default class Collections extends mixins(PrefixMixin) {
 
         &__price {
           position: absolute;
-          background-color: #363636;
+          background-color: $grey-darker;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;

@@ -7,50 +7,35 @@
       preview
     />
 
-    <b-field
-      grouped
-      :label="$i18n.t('Name')"
-    >
-      <b-input
-        v-model="vName"
-        placeholder="Name your NFT"
-        expanded
-        class="mr-0"
-        spellcheck="true"
-      />
-      <Tooltip
-        iconsize="is-medium"
-        :label="$i18n.t('tooltip.name')"
-      />
-    </b-field>
-    <b-field
-      :label="$i18n.t('nft.description')"
+    <BasicInput
+      v-model="vName"
+      :label="$t('mint.nft.name.label')"
+      :message="$t('mint.nft.name.message')"
+      :placeholder="$t('mint.nft.name.placeholder')"
+      expanded
+    />
+
+    <BasicInput
+      v-model="vDescription"
+      maxlength="500"
+      type="textarea"
+      spellcheck="true"
       class="mb-0"
-    >
-      <b-input
-        v-model="vDescription"
-        maxlength="500"
-        type="textarea"
-        placeholder="Describe your NFT"
-        spellcheck="true"
-      />
-    </b-field>
-    <b-field
-      grouped
-      :label="$i18n.t('Edition')"
-    >
+      :label="$t('mint.nft.description.label')"
+      :message="$t('mint.nft.description.message')"
+      :placeholder="$t('mint.nft.description.placeholder')"
+    />
+
+    <b-field :label="$i18n.t('Edition')" class="mt-5">
       <b-numberinput
         v-model="vEdition"
         placeholder="1 is minumum"
         expanded
         :min="1"
         :max="clickableMax"
-      />
-      <Tooltip
-        iconsize="is-medium"
-        :label="$i18n.t('tooltip.edition')"
-      />
+      ></b-numberinput>
     </b-field>
+
     <MetadataUpload
       v-if="secondaryFileVisible"
       v-model="vSecondFile"
@@ -65,14 +50,7 @@
       placeholder="Get discovered easier through tags"
     />
 
-    <b-field>
-      <b-switch
-        v-model="vNsfw"
-        :rounded="false"
-      >
-        {{ vNsfw ? "NSFW" : "SFW" }}
-      </b-switch>
-    </b-field>
+    <BasicSwitch v-model="vNsfw" label="mint.nfsw" />
 
     <BalanceInput
       label="Price"
@@ -105,7 +83,8 @@ import { MediaType } from '../types'
     AttributeTagInput: () => import('./AttributeTagInput.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
     MetadataUpload: () => import('./DropUpload.vue'),
-    Tooltip: () => import('@/components/shared/Tooltip.vue'),
+    BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   }
 })
 export default class CreateItem extends Vue {
