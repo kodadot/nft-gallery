@@ -34,6 +34,12 @@
         class="pt-2"
       />
     </template>
+    <a :href="`https://dotscanner.com/Kusama/account/${address}`" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pt-2">
+      <figure class="image is-24x24 mr-2">
+        <img alt="dotscanner" src="/dotscanner.svg" />
+      </figure>
+      {{ shortendId }}
+     </a>
   </div>
 </template>
 
@@ -41,6 +47,7 @@
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import shortAddress from '@/utils/shortAddress'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -51,6 +58,7 @@ const components = {
 export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
+  public shortendId = shortAddress(this.address)
 }
 </script>
 
