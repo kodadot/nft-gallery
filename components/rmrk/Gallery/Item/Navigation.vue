@@ -52,10 +52,12 @@ export default class Navigation extends Vue {
   }
 
   public handleKeyEvent(event) {
-    return {
-      'ArrowLeft': this.gotoNextItem(true),
-      'ArrowRight': this.gotoNextItem(false),
-    }[event.key]
+    if(event.key === 'ArrowLeft') {
+      return this.gotoNextItem(true)
+    }
+    if(event.key === 'ArrowRight') {
+      return this.gotoNextItem(false)
+    }
   }
 
   public gotoNextItem(reverse: boolean) {
