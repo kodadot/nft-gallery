@@ -1,0 +1,5 @@
+fragment nftDetails on NFTEntity {
+  name
+  sn
+  price
+}

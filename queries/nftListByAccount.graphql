@@ -1,4 +1,5 @@
-#import "./nft.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
 
 query nftListByAccount($account: String!, $first: Int!, $offset: Int) {
   nFTEntities(
@@ -13,6 +14,7 @@ query nftListByAccount($account: String!, $first: Int!, $offset: Int) {
     totalCount
     nodes {
       ...nft
+      ...nftDetails
     }
   }
 }

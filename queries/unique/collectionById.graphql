@@ -1,5 +1,5 @@
-#import "./collection.graphql"
-#import "./nft.graphql"
+#import "../fragments/collection.graphql"
+#import "../fragments/nft.graphql"
 
 query collectionById($id: String!) {
   collectionEntity(id: $id) {

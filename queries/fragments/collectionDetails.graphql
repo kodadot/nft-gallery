@@ -1,0 +1,4 @@
+fragment collectionDetails on CollectionEntity {
+  name
+  max
+}

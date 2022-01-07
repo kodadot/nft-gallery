@@ -1,5 +1,5 @@
-#import "./nft.graphql"
-#import "./collectionMeta.graphql"
+#import "../fragments/nft.graphql"
+#import "../fragments/collectionMeta.graphql"
 
 query nftListByIssuer($account: String!, $first: Int!, $offset: Int) {
   nFTEntities(
