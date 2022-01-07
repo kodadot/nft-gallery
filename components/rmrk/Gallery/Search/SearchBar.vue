@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
@@ -82,6 +82,7 @@ import { NFT } from '../../service/scheme'
 import { fetchNFTMetadata, getSanitizer } from '../../utils'
 import { getMany, update } from 'idb-keyval'
 import shouldUpdate from '~/utils/shouldUpdate'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({
   components: {
@@ -92,7 +93,7 @@ import shouldUpdate from '~/utils/shouldUpdate'
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   }
 })
-export default class SearchBar extends Vue {
+export default class SearchBar extends mixins(PrefixMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
@@ -226,6 +227,7 @@ export default class SearchBar extends Vue {
     try{
       const nft = this.$apollo.query({
         query: nftListWithSearch,
+        client: this.urlPrefix,
         variables: {
           first: this.first,
           offset: this.offset,
