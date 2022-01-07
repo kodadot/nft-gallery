@@ -6,18 +6,18 @@
     <div class="popover-content-container p-4">
       <div class="is-flex mb-3">
         <div class="is-align-self-flex-start">
-          <!-- <Identicon
+          <Identicon
             :size="60"
             :theme="'polkadot'"
             :value="identity.address"
             class="popover-image avatar mr-5"
-          /> -->
+          />
         </div>
         <div>
           <p class="has-text-weight-bold is-size-4 mb-1">
             {{ identity.display }}
           </p>
-          <p class="is-size-7">
+          <p class="is-size-7 mb-1">
             {{ shortenedAddress }}
             <b-icon
               icon="copy"
@@ -27,10 +27,7 @@
               @click.native="toast('Copied to clipboard')"
             ></b-icon>
           </p>
-          <div class="py-1 is-size-7 py-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati
-          </div>
-          <p class="is-size-7 is-flex is-align-items-center pb-3">
+          <p class="is-size-7 is-flex is-align-items-center py-3">
             <b-icon
               icon="clock"
               size="is-small"
@@ -45,15 +42,15 @@
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
-          <span class="is-size-7">Bought</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.collected") }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
-          <span class="is-size-7">Created</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.created") }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
-          <span class="is-size-7">Sold</span>
+          <span class="is-size-7 is-uppercase">{{ $t("profile.sold") }}</span>
         </div>
       </div>
     </div>
@@ -61,16 +58,14 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import nftStatsByIssuer from '@/queries/nftStatsByIssuer.graphql'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-type Address = string | GenericAccountId | undefined;
+type Address = string | undefined;
 type IdentityFields = Record<string, string>;
 
 @Component({
@@ -91,7 +86,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
   }
 
   private resolveAddress(account: Address): string {
-    return account instanceof GenericAccountId ? account.toString() : account || ''
+    return account ? account.toString() : ''
   }
 
   public toast(message: string): void {
