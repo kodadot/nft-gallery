@@ -1,32 +1,32 @@
 <template>
-	<div v-if="!hasDisplayedCookieBanner">
-		<transition name="slide">
-			<div class="notices is-bottom">
-				<div
-					role="alertdialog"
-					class="snackbar is-success is-bottom-right"
-				>
-					<div class="text">{{ $t('cookies.notice') }}</div>
-					<div class="action is-light is-cancel">
-						<button class="button" @click="declineCookies">{{ $t('cookies.decline') }}</button>
-					</div>
-					<div class="action is-success">
-						<button class="button" @click="acceptCookies">{{ $t('cookies.accept') }}</button>
-					</div>
-				</div>
-			</div>
-		</transition>
-	</div>
+  <div v-if="!hasDisplayedCookieBanner">
+    <transition name="slide">
+      <div class="notices is-bottom">
+        <div
+          role="alertdialog"
+          class="snackbar is-success is-bottom-right"
+        >
+          <div class="text">{{ $t('cookies.notice') }}</div>
+          <div class="action is-light is-cancel">
+            <button class="button" @click="declineCookies">{{ $t('cookies.decline') }}</button>
+          </div>
+          <div class="action is-success">
+            <button class="button" @click="acceptCookies">{{ $t('cookies.accept') }}</button>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <style scoped>
 .slide-enter-active,
 .slide-leave-active {
-	transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 .slide-enter,
 .slide-leave-to {
-	opacity: 0;
+  opacity: 0;
 }
 </style>
 
