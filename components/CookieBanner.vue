@@ -38,7 +38,6 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class CookieBanner extends Vue {
   protected hasDisplayedCookieBanner: boolean = localStorage.getItem('cookies_enabled') !== null || false
-  $ga: any // weird fix but ok
 
   public acceptCookies() {
     this.$ga.enable()
