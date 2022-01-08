@@ -49,6 +49,7 @@ export default {
     '~/plugins/vueSocialSharing',
     { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/vueTippy',
+    '~/plugins/vueGtag',
   ],
 
   router: {
