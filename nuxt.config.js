@@ -42,7 +42,6 @@ export default {
   plugins: [
     '~/plugins/filters',
     '~/plugins/globalVariables',
-    '~/plugins/metaInfo',
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
