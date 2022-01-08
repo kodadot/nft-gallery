@@ -22,7 +22,7 @@
 <style lang="scss" scoped>
 @import '@/styles/variables';
 
-.notices {
+.snackbar {
   border: 2px solid $primary;
   background-color: #202225;
 }
