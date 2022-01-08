@@ -5,11 +5,11 @@
     </p>
     <b-field :label="$i18n.t('mint.expert.batchSend')">
       <b-input
-
         @input="handleInput"
         type="textarea"
         placeholder="Distribute nfts to multiple addresses"
         spellcheck="true"
+        custom-class="ap-textarea"
       ></b-input>
     </b-field>
   </div>
@@ -29,3 +29,9 @@ export default class AddressParser extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+  .ap-textarea {
+    height: 400px !important;
+  }
+</style>
