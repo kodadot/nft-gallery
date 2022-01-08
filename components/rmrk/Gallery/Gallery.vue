@@ -246,11 +246,11 @@ export default class Gallery extends mixins(PrefixMixin) {
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
 
-    // if (this.searchQuery.search) {
-    //   params.push({
-    //     name: { likeInsensitive: `%${this.searchQuery.search}%` }
-    //   })
-    // }
+    if (this.searchQuery.search) {
+      params.push({
+        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+      })
+    }
 
     if (this.searchQuery.listed) {
       params.push({
