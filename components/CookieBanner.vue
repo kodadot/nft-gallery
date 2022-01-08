@@ -31,19 +31,22 @@
 </style>
 
 <script lang="ts">
-import { Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
+@Component({
+  components: {}, // do not remove!
+})
 export default class CookieBanner extends Vue {
   protected hasDisplayedCookieBanner: boolean = localStorage.getItem('cookies_enabled') !== null || false
-  protected $ga: any
+  $ga: any // weird fix but ok
 
-  public acceptCookies(): void {
+  public acceptCookies() {
     this.$ga.enable()
     this.hasDisplayedCookieBanner = true
     localStorage.setItem('cookies_enabled', '1')
   }
 
-  public declineCookies(): void {
+  public declineCookies() {
     this.$ga.disable()
     this.hasDisplayedCookieBanner = true
     localStorage.setItem('cookies_enabled', '0')
