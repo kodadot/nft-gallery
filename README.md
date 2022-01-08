@@ -67,7 +67,7 @@ Thank to [contributors-img](https://contrib.rocks).
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
 ## Backlog on progress
-* [We've establieshed bi-weekly digest what we call Meta_Hours. You can find most recent progress, roadmap, planned features, bug fixes, future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours)
+* We've establieshed [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours). You can there find most recent progress, roadmap, planned features, bug fixes, future ideations]
 
 ## Writings-📚  by KodaDot team members
 * [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
