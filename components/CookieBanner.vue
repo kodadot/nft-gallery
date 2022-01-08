@@ -19,7 +19,14 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
+.notices {
+  border: 2px solid $primary;
+  background-color: #202225;
+}
+
 .slide-enter-active,
 .slide-leave-active {
   transition: opacity 0.5s;
