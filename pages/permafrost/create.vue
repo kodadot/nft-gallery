@@ -197,8 +197,8 @@ const components = {
     const metaData = {
       title: title,
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: 'https://nft.kodadot.xyz',
-      image: '/k_card_mint.png',
+      url: `${this.$config.baseUrl}/permafrost/create`,
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
       title: title,

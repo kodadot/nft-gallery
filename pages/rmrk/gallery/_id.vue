@@ -18,7 +18,7 @@ import formatBalance from '@/utils/formatBalance'
     const metaData = {
       title: title,
       description: this.currentlyViewedItem.description,
-      url: `https://nft.kodadot.xyz/${this.$route.path}`,
+      url: `${this.$config.baseUrl}${this.$route.path}`,
       image: this.image,
     }
     return {

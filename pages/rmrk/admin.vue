@@ -16,8 +16,8 @@ import createSiteMeta from '@/utils/createSiteMeta'
     const metaData = {
       title: title,
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: 'https://nft.kodadot.xyz',
-      image: '/k_card_mint.png',
+      url: `${this.$config.baseUrl}/rmrk/admin`,
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
       title: title,

@@ -116,7 +116,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
     const metaData = {
       title: title,
       url: `${this.$config.baseUrl}/carbonless`,
-      image: '/kodadot_carbonless.jpg',
+      image: `${this.$config.baseUrl}/kodadot_carbonless.jpg`,
     }
     return {
       title: title,

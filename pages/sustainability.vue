@@ -90,7 +90,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
     const metaData = {
       description: 'KodaDot: Sustainibility mission',
       url: `${this.$config.baseUrl}/sustainibility`,
-      image: '/kodadot_carbonless.jpg',
+      image: `${this.$config.baseUrl}/kodadot_carbonless.jpg`,
     }
     return {
       meta: [...createSiteMeta(metaData)]

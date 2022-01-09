@@ -37,7 +37,7 @@ const components = { Collection, NFT }
       title: title,
       description: 'Create carbonless NFTs with low on-chain fees',
       url: `${this.$config.baseUrl}/statemine/create`,
-      image: '/k_card_mint.png',
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
       title: title,

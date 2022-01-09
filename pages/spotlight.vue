@@ -18,7 +18,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
       title: title,
       description: 'Discover new artists based on ranking',
       url: `${this.$config.baseUrl}/series-insights`,
-      image: '/k_card_spotlight.png',
+      image: `${this.$config.baseUrl}/k_card_spotlight.png`,
     }
     return {
       title: title,

@@ -17,7 +17,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
       title: title,
       description: 'Create carbonless NFTs with low on-chain fees',
       url: `${this.$config.baseUrl}/mint`,
-      image: '/k_card_mint.png',
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
       title: title,

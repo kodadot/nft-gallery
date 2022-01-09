@@ -13,7 +13,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
       title: title,
       description: 'Buy Carbonless NFTs on Kusama',
       url: `${this.$config.baseUrl}/rmrk/gallery`,
-      image: '/k_card_gallery.png',
+      image: `${this.$config.baseUrl}/k_card_gallery.png`,
     }
     return {
       title: title,

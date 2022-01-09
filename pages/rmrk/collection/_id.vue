@@ -22,7 +22,7 @@ import createSiteMeta from '@/utils/createSiteMeta'
     const metaData = {
       title: title,
       description: this.currentlyViewedCollection.description,
-      url: `https://nft.kodadot.xyz/${this.$route.path}`,
+      url: `https://nft.kodadot.xyz${this.$route.path}`,
       image: image,
     }
     return {

@@ -1,8 +1,8 @@
 const type = 'website'
-const url = 'https://kodadot.xyz/'
+const url = 'https://nft.kodadot.xyz'
 const title = 'KodaDot - Kusama NFT Market Explorer'
 const description = 'Creating Carbonless NFTs on Kusama'
-const image = '/kodadot_card_root.png'
+const image = 'https://nft.kodadot.xyz/kodadot_card_root.png'
 
 export default (meta) => {
   return [
