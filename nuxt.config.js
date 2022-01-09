@@ -1,4 +1,7 @@
 import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
+import createSocialMeta from './utils/createSiteMeta'
+
+const meta = createSocialMeta()
 
 export default {
   server: {
@@ -13,15 +16,20 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - Polkadot / Kusama NFT Explorer',
+    title: 'KodaDot - Kusama NFT Market Explorer',
+    titleTemplate: '%s | Low Carbon NFTs',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
-      { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      // { property: 'og:url', content: 'https://nft.kodadot.xyz'},
+      // { property: 'og:site_name', content: 'KodaDot' },
+      { property: 'og:locale', content: 'en_US' },
+      { property: 'twitter:site', content: '@KodaDot' },
+      { property: 'twitter:card', content: 'summary_large_image' },
+      ...meta
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
