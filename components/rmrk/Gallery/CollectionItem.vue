@@ -139,48 +139,7 @@ const components = {
   VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
-  metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
-      this.collection.name as string
-    )}.png?price=Items: ${this.collection?.nfts?.length}&image=${
-      this.meta.image as string
-    }`
-    return {
-      title: 'KodaDot cares about environmental impact',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-        {
-          property: 'og:title',
-          content:
-            this.collection.name || 'KodaDot cares about environmental impact',
-        },
-        {
-          property: 'og:url',
-          content: 'https://nft.kodadot.xyz/' + this.$route.path,
-        },
-        { property: 'og:image', content: image },
-        {
-          property: 'og:description',
-          content:
-            this.meta.description || 'Creating Carbonless NFTs on Kusama',
-        },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        {
-          property: 'twitter:title',
-          content:
-            this.collection.name || 'KodaDOT cares about environmental impact',
-        },
-        {
-          property: 'twitter:description',
-          content:
-            this.meta.description || 'Creating Carbonless NFTs on Kusama',
-        },
-        { property: 'twitter:image', content: image },
-      ],
-    }
-  },
-  components,
+  components
 })
 export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   private id = ''
@@ -335,8 +294,8 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       this.meta = {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
-      },
-      this.$store.dispatch('history/setCurrentlyViewedCollection', { name: this.name, image: this.image, description: this.description, numberOfItems: this.collection?.nfts?.length })
+      }
+      this.$store.dispatch('history/setCurrentlyViewedCollection', { name: this.name, image: this.image, description: this.description, numberOfItems: this.collection?.nfts?.length || 0 })
     }
   }
 
