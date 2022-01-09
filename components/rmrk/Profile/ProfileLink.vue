@@ -34,6 +34,13 @@
         class="pt-2"
       />
     </template>
+    <template v-if="showDiscord">
+      <Identity
+        :address="address"
+        :show-discord="showDiscord"
+        class="pt-2"
+      />
+    </template>
     <a :href="`https://dotscanner.com/Kusama/account/${address}`" target="_blank" rel="noopener noreferrer" class="is-flex is-align-items-center pt-2">
       <figure class="image is-24x24 mr-2">
         <img alt="dotscanner" src="/dotscanner.svg" />
@@ -58,6 +65,7 @@ const components = {
 export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
+  @Prop(Boolean) public showDiscord!: boolean
   public shortendId = shortAddress(this.address)
 }
 </script>
