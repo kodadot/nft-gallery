@@ -79,9 +79,9 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import collectionByAccountWithTokens from '@/queries/collectionByAccountWithTokens.graphql'
 import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import NFTUtils from '../../service/NftUtils'
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 type EmptyPromise = Promise<void>;
 
@@ -111,26 +111,14 @@ const components = {
 }
 
 @Component<AdminPanel>({
-  components,
-  head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
-    const metaData = {
-      title: title,
-      description: 'Create carbonless NFTs with low on-chain fees',
-      url: 'https://nft.kodadot.xyz',
-      image: '/k_card_mint.png',
-    }
-    return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
-    }
-  }
+  components
 })
 export default class AdminPanel extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin
 ) {
   protected commands = ''
   private password = ''
@@ -143,6 +131,7 @@ export default class AdminPanel extends mixins(
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({
       query: collectionByAccountWithTokens,
+      client: this.urlPrefix,
       variables: {
         account: this.accountId
       },
