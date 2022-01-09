@@ -1,5 +1,6 @@
 <template>
   <footer class="footer">
+    <CookieBanner />
     <div class="container footer__wrapper">
       <div class="icons">
         <ul class="footer__list icons__list">

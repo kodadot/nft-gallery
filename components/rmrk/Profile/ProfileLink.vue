@@ -66,7 +66,9 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
   @Prop(Boolean) public showDiscord!: boolean
-  public shortendId = shortAddress(this.address)
+  get shortendId(): string {
+    return shortAddress(this.address)
+  }
 }
 </script>
 

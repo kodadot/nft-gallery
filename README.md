@@ -66,6 +66,9 @@ Thank to [contributors-img](https://contrib.rocks).
 * [Telegram](https://t.me/kodadot)
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
+## Backlog on progress
+* We've establieshed [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours). You can there find most recent progress, roadmap, planned features, bug fixes, future ideations]
+
 ## Writings-📚  by KodaDot team members
 * [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
 * [We've organized first Dotsama meetup in Lisbon thanks to KodaDot](https://medium.com/kodadot/first-dotsama-meetup-in-lisbon-and-how-the-kodadot-team-helped-to-make-it-real-10b4ca63d0b5)

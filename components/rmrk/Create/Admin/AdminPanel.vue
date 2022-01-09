@@ -81,6 +81,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import NFTUtils from '../../service/NftUtils'
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 type EmptyPromise = Promise<void>;
 
@@ -151,7 +152,8 @@ export default class AdminPanel extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin
 ) {
   protected commands = ''
   private password = ''
@@ -170,6 +172,7 @@ export default class AdminPanel extends mixins(
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({
       query: collectionByAccountWithTokens,
+      client: this.urlPrefix,
       variables: {
         account: this.accountId
       },
