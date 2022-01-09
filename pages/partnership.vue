@@ -6,29 +6,24 @@
     <a href="https://discord.gg/u6ymnbz4PR">If you want to know it sooner, join our Discord</a>
   </section>
 </template>
+
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Partnership>({
-  metaInfo() {
-    return {
-      title: 'KodaDOT cares about environmental impact',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-        { property: 'og:title', content: 'KodaDOT cares about environmental impact'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:title', content: 'KodaDOT cares about environmental impact'},
-        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
+  head() {
+    const title = 'KodaDot cares about environmental impact'
+    const metaData = {
+      title: title,
+      url: `${this.$config.baseUrl}/partnership`,
+      image: '/kodadot_carbonless.jpg',
     }
-  },
-  components: {}
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  }
 })
-export default class Partnership extends Vue {
-
-}
+export default class Partnership extends Vue {}
 </script>

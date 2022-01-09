@@ -105,28 +105,25 @@
     </p>
   </section>
 </template>
+
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Carbonless>({
-  metaInfo() {
-    return {
-      title: 'KodaDot cares about environmental impact',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-        { property: 'og:title', content: 'KodaDot cares about environmental impact'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:title', content: 'KodaDot cares about environmental impact'},
-        { property: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
+  head() {
+    const title = 'KodaDot cares about environmental impact'
+    const metaData = {
+      title: title,
+      url: `${this.$config.baseUrl}/carbonless`,
+      image: '/kodadot_carbonless.jpg',
     }
-  },
-  components: {}
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  }
 })
 export default class Carbonless extends Vue {
-
 }
 </script>

@@ -83,21 +83,17 @@
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Sustainibility>({
-  metaInfo() {
+  head() {
+    const metaData = {
+      description: 'KodaDot: Sustainibility mission',
+      url: `${this.$config.baseUrl}/sustainibility`,
+      image: '/kodadot_carbonless.jpg',
+    }
     return {
-      title: 'KodaDot Kusama NFT explorer',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'KodaDot: Sustainibility mission' },
-        { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
+      meta: [...createSiteMeta(metaData)]
     }
   }
 })

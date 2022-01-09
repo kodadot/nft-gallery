@@ -335,7 +335,8 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       this.meta = {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
-      }
+      },
+      this.$store.dispatch('history/setCurrentlyViewedCollection', { name: this.name, image: this.image, description: this.description, numberOfItems: this.collection?.nfts?.length })
     }
   }
 

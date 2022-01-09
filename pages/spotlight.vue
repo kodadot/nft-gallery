@@ -5,53 +5,27 @@
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Leaderboard>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Kusama NFT Market explorer'
-        },
-        { property: 'og:url', content: 'https://kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Discover new artists based on the ranking'
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultSpotlightMetaImage
-        },
-        {
-          property: 'twitter:title',
-          content: 'NFT artist ranking'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Discover new artists based on the ranking'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultSpotlightMetaImage
-        }
-      ]
-    }
-  },
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue')
-  }
+  },
+  head() {
+    const title = 'NFT artist rank'
+    const metaData = {
+      title: title,
+      description: 'Discover new artists based on ranking',
+      url: `${this.$config.baseUrl}/series-insights`,
+      image: '/k_card_spotlight.png',
+    }
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  },
 })
 export default class Leaderboard extends Vue {
-  get defaultSpotlightMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_spotlight.png`
-    )
-  }
 }
 </script>

@@ -81,6 +81,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import NFTUtils from '../../service/NftUtils'
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 type EmptyPromise = Promise<void>;
 
@@ -110,42 +111,20 @@ const components = {
 }
 
 @Component<AdminPanel>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Low fees and low carbon minting'
-        },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultCreateMetaImage
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultCreateMetaImage
-        }
-      ]
+  components,
+  head() {
+    const title = 'KodaDot | Low fees and low carbon minting'
+    const metaData = {
+      title: title,
+      description: 'Create carbonless NFTs with low on-chain fees',
+      url: 'https://nft.kodadot.xyz',
+      image: '/k_card_mint.png',
     }
-  },
-  components
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  }
 })
 export default class AdminPanel extends mixins(
   SubscribeMixin,
@@ -160,12 +139,6 @@ export default class AdminPanel extends mixins(
   private selectedCollection: MintedCollection | null = null
   protected listed = true
   protected metaFunction: ProcessFunction | undefined = undefined
-
-  get defaultCreateMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_mint.png`
-    )
-  }
 
   public async fetchCollections(): EmptyPromise {
     const collections = await this.$apollo.query({

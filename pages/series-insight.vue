@@ -8,41 +8,20 @@
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Series>({
-  metaInfo() {
+  head() {
+    const title = 'NFT artist rank'
+    const metaData = {
+      title: title,
+      description: 'Discover new artists based on ranking',
+      url: `${this.$config.baseUrl}/series-insights`,
+      image: '/k_card_series.png',
+    }
     return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Kusama NFT Market explorer'
-        },
-        { property: 'og:url', content: 'https://kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Discover new artists based on rank'
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultSeriesMetaImage
-        },
-        {
-          property: 'twitter:title',
-          content: 'NFT artist rank'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Discover new artists based on rank'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultSeriesMetaImage
-        }
-      ]
+      title: title,
+      meta: [...createSiteMeta(metaData)]
     }
   },
   components: {
@@ -51,10 +30,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class Series extends Vue {
-  get defaultSeriesMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_series.png`
-    )
-  }
 }
 </script>

@@ -25,55 +25,29 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 const Collection = () => import('@/components/unique/Create/Create.vue')
 const NFT = () => import('@/components/unique/Create/CreateToken.vue')
+import createSiteMeta from '@/utils/createSiteMeta'
 
 const components = { Collection, NFT }
 
 @Component<Remark>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Low fees and low carbon minting'
-        },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultCreateMetaImage
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Create carbonless NFTs with low on-chain fees'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultCreateMetaImage
-        }
-      ]
+  components,
+  head() {
+    const title = 'KodaDot | Low fees and low carbon minting'
+    const metaData = {
+      title: title,
+      description: 'Create carbonless NFTs with low on-chain fees',
+      url: 'https://nft.kodadot.xyz',
+      image: '/k_card_mint.png',
     }
-  },
-  components
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  }
 })
 
 export default class Remark extends Vue {
   public activeTab = 0
   public components: string[] = ['Collection', 'NFT']
-  get defaultCreateMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_mint.png`
-    )
-  }
 }
 </script>

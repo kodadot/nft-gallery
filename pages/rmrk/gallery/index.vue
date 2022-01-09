@@ -4,45 +4,24 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
+import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<GalleryPage>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultGalleryMetaImage
-        },
-        {
-          property: 'og:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultGalleryMetaImage
-        }
-      ]
+  head() {
+    const title = 'Low minting fees and carbonless NFTs'
+    const metaData = {
+      title: title,
+      description: 'Buy Carbonless NFTs on Kusama',
+      url: `${this.$config.baseUrl}/rmrk/gallery`,
+      image: '/k_card_gallery.png',
     }
-  },
+    return {
+      title: title,
+      meta: [...createSiteMeta(metaData)]
+    }
+  }
 })
 export default class GalleryPage extends Vue {
-  get defaultGalleryMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_gallery.png`
-    )
-  }
 }
 </script>
 
