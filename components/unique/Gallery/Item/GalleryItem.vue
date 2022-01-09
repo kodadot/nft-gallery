@@ -201,7 +201,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme'
 import {
   sanitizeIpfsUrl,
@@ -226,7 +226,6 @@ import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '../../utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import onApiConnect from '@/utils/api/general'
-import { NFTEntity, NFTWithCollectionMeta } from '../../graphqlResponseTypes'
 
 @Component<GalleryItem>({
   components: {
