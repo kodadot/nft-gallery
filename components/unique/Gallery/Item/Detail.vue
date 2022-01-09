@@ -22,7 +22,7 @@
         {{ $t('owner') }}
       </p>
       <p class="subtitle is-size-6">
-        <ProfileLink :address="nft.currentOwner" :showTwitter="true" showDiscord />
+        <ProfileLink :address="nft.currentOwner" showTwitter showDiscord />
         <b-skeleton :count="1" size="is-large" :active="isLoading"></b-skeleton>
         <!-- <a :href="`https://kusama.subscan.io/account/${nft.currentOwner}`" target="_blank"><Identity :address="nft.currentOwner" /></a> -->
       </p>
