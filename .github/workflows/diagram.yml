@@ -18,6 +18,6 @@ jobs:
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: ".github,.vscode,assets,langDir,static"
-          excluded_globs: "./*.{md,ts};**/*.{png,svg,md}"
+          excluded_globs: "*.{md,ts};**/*.{png,svg,md}"
           commit_message: "[skip ci] updated code diagram"
           output_file: ".github/diagram.svg"
