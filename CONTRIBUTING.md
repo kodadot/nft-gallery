@@ -10,8 +10,9 @@ When everything went well, chances that you will be rewarded are high. We might 
 ## Getting started
 
 Before you being:
-* This site is powered by **Node.js.** Check to see if you're on the version of **Node.js we support.**
-* Have you read the [code of conduct](CODE_OF_CONDUCT.md)?
+* Site is powered by **Node.js.** Check to see if you're on the version of **Node.js we support.**
+* Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
+* [Learn how to setup your environment for the first time](FIRST_TIME.md)
 
 ### Which issue you should pick?
 We working primarly by two metrics. Issues has priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**. Then we have bounties for issues in range of **$ - $$$$$**.
