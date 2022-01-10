@@ -6,10 +6,6 @@
 
 # Repository Statistics
 
-### Brief code structure
-![Visualization of this repo](./diagram.svg)
-[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
-
 ### Contributors over time to KodaDot
 [![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
@@ -21,6 +17,10 @@
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
 Thank to [contributors-img](https://contrib.rocks).
+
+### Brief code structure
+![Visualization of this repo](./diagram.svg)
+[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
 ### Hard facts about KodaDot development
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -60,14 +60,15 @@ Thank to [contributors-img](https://contrib.rocks).
 
 ## Culture-🧫 - where you can read our recent updates
 * [Twitter](https://twitter.com/KodaDot)
-* [Discord](https://discord.gg/u6ymnbz4PR)
+* [Discord](https://discord.gg/u6ymnbz4PR) 
 
 ### Discontinued for now (if you want help us manage these, shout out on Discord)
 * [Telegram](https://t.me/kodadot)
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
 ## Backlog on progress
-* We've establieshed [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours). You can there find most recent progress, roadmap, planned features, bug fixes, future ideations]
+* We've [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours). 
+* You can [find most recent progress, roadmap, planned features, bug fixes, future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 
 ## Writings-📚  by KodaDot team members
 * [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
