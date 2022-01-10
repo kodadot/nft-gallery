@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
@@ -97,8 +97,12 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
     return this.firstMintDate ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true }) : ''
   }
 
-  public async mounted() {
-    await this.fetchNFTStats()
+  // only fetch stats once address is successfully propagated from parent
+  @Watch('identity.address')
+  onAddressLoaded(newVal) {
+    if(newVal) {
+      this.fetchNFTStats()
+    }
   }
 
   protected async fetchNFTStats() {
