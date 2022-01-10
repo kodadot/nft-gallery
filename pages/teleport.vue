@@ -450,5 +450,3 @@ export default class Transfer extends mixins(
 }
 </style>
 
-function findCall(api: ApiPromise) { throw new Error('Function not
-implemented.') }
