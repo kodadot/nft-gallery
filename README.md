@@ -30,7 +30,6 @@ Thank to [contributors-img](https://contrib.rocks).
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-
 [![GitHub watchers](https://badgen.net/github/watchers/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/watchers/)
 [![GitHub stars](https://badgen.net/github/stars/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/stargazers/)
 [![GitHub forks](https://badgen.net/github/forks/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
@@ -47,8 +46,6 @@ Thank to [contributors-img](https://contrib.rocks).
 
 [![GitHub pull-requests closed](https://badgen.net/github/closed-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aclosed)
 [![GitHub pull-requests merged](https://badgen.net/github/merged-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Amerged)
-
-
 
 [![GitHub license](https://badgen.net/github/license/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/blob/master/LICENSE)
 
@@ -96,22 +93,15 @@ Thank to [contributors-img](https://contrib.rocks).
 
 ## Development 🏗
 
-[Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
+* [Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
 
-We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
+* [How to setup environment for first time and how to run the project.](FIRST_TIME.md)
 
-## Play-🕹
-
-```shell
-git clone git@github.com:kodadot/nft-gallery.git
-yarn
-yarn dev
-open http://localhost:9090/
-```
 
 ## I want to contribute- 🙋‍
 
-Sure, your **contribution** is more than welcome. Please follow [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guidelines](CONTRIBUTING.md)**
+Your **contribution** is more than welcome. 
+Please follow our [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guidelines](CONTRIBUTING.md)**
 
 ## Support the project ⭐
 If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏 We will really appreaciate that!
@@ -130,189 +120,4 @@ We have list of frequent participants in our codebase.
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
-## Docker-🐳
-If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
 
-- ### First time setup
-
-  - Build the docker image
-
-    ```bash
-    # Make sure you are logged into docker.
-
-    docker-compose up --build
-    ```
-
-  - To check if container is up:
-    ```bash
-    docker ps
-    ```
-
-- ### From next time
-
-  Simply run:
-
-    ```bash
-    docker-compose up
-    ```
-
-Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
-KodaDot supports Hot Module Replacement on docker as well, any changes made will take effect immediately.
-
-## Dev hints
-
-In order to execute some transaction you can use `exec` located in `src/utils/transactionExecutor.ts`
-Usage:
-```js
-import exec from '@/utils/transactionExecutor';
-
-// arguments: from which account, password for account, which action, array of parameters
-this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
-```
-
-#### Using reactive properties
-Some of the properties on the component needs to be automatically updated (currentBlock)
-
-Usage:
-```html
-<template>
-  <div>{{ currentBlock  }}</div>
-</template>
-
-<script lang="ts">
-// Skipping imports
-export default class Summary extends Vue {
-  private currentBlock: any = {};
-  private subs: any[] = [];
-
-  public async mounted() {
-    this.subs.push(await api.derive.chain.bestNumber(value => this.currentBlock = value));
-  }
-
-  // Unsubscribe before destroying component
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
-}
-
-</script>
-```
-
-# Quick Setup- 🏃‍♀️
-
-Here is a quick setup guide for the project.
-
-```bash
-git clone https://github.com/kodadot/nft-gallery.git
-touch .env
-```
-
-in `.env` add following properties:
-```bash
-NUXT_ENV_KEYRING=true
-PINATA_API_KEY=
-PINATA_SECRET_API_KEY=
-PINATA_MASTER=
-SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql
-```
-[You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
-
-To change the network go to the `/settings` and change the prefix.
-Currently supported networks are `kusama, westend, statemine, westmint`.
-Wanna add more networks? [Open an PR on vue-settings](https://github.com/vue-polkadot/ui)
-
-#### Install netlify CLI
-
-```bash
-npm install -g netlify-cli
-```
-
-#### Install dependencies
-
-```bash
-yarn
-```
-
-#### Run the development server
-
-```bash
-netlify dev
-```
-
-The whole stack will be running on `localhost:9000`. app is running on `localhost:9090`.
-
-## Running local Polkadot and subquery nodes
-
-To run the full local environment we recommend you to run a [polkadot/Kusama node](https://github.com/paritytech/polkadot).
-In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
-
-To run also a subquery indexing node please [check this repo](https://github.com/vikiival/magick)
-
-
-### Linting code
-#### Show all problems
-```bash
-yarn lint
-```
-#### Show only errors
-```bash
-yarn lint --quiet
-```
-#### Fix errors
-```bash
-yarn lint --fix
-```
-
-### Dev hints
-
-In order to execute some transaction you can use `exec` located in `src/utils/transactionExecutor.ts`
-Usage:
-```js
-import exec from '@/utils/transactionExecutor';
-
-// arguments: from which account, password for account, which action, array of parameters
-this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
-```
-
-#### Using reactive properties
-Some of the properties on the component needs to be automatically updated (currentBlock)
-
-Usage:
-```html
-<template>
-  <div>{{ currentBlock  }}</div>
-</template>
-
-<script lang="ts">
-// Skipping imports
-export default class Summary extends Vue {
-  private currentBlock: any = {};
-  private subs: any[] = [];
-
-  public async mounted() {
-    this.subs.push(await api.derive.chain.bestNumber(value => this.currentBlock = value));
-  }
-
-  // Unsubscribe before destroying component
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
-}
-
-</script>
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-### Generating changelog
-
-To generate changelog use github cli
-List only merged, if you need limit use `-L`
-
-```
-gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
-```
-
-Love PermaFrost 👀
