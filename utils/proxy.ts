@@ -3,6 +3,11 @@ import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import { extractCid, justHash } from '@/utils/ipfs'
 
+type CdnUpload = {
+  id: string;
+  uploadURL: string;
+}
+
 export const BASE_URL = `${window.location.origin}/.netlify/functions/`
 
 const api = Axios.create({
@@ -50,6 +55,17 @@ export const revokeKey = async (key: string) => {
   throw new Error('Key not found')
 }
 
+export const getCdnUploadLink = async (): Promise<CdnUpload> => {
+  try {
+    const { status, data } = await api.get('cdnUpload')
+    console.log('[PROXY] CDN OK', status, data)
+    return data
+  } catch (e) {
+    console.warn(e)
+    throw e
+  }
+}
+
 export const pinFileDirect = async (file: Blob): Promise<string> => {
   try {
     const keys: APIKeys = await getKey(`${file.type}::${file.size}`)
@@ -84,6 +100,26 @@ export const pinFile = async (file: Blob): Promise<string> => {
   }
 }
 
+export const uploadImageToCdn = async (file: Blob): Promise<string> => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const UPLOAD_URL = await getCdnUploadLink().then(({ uploadURL }) => uploadURL)
+    console.log('[PROXY] Upload to CDN', UPLOAD_URL)
+    const { status, data } = await Axios.post(UPLOAD_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    console.log('[PROXY] CDN Image', status, data)
+    return data
+  } catch (e) {
+    console.warn(e)
+    throw e
+  }
+}
+
 export const pinFileViaSlate = async (file: Blob): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
@@ -109,6 +145,7 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
     throw e
   }
 }
+
 
 const PERMAFROST_URL = process.env.VUE_APP_PERMAFROST_URL
 export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: string): Promise<string> => {
