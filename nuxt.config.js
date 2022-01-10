@@ -1,7 +1,8 @@
 import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
 import createSocialMeta from './utils/createSiteMeta'
 
-const meta = createSocialMeta()
+const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
+const meta = createSocialMeta({ url: baseUrl, image: `${baseUrl}/kodadot_card_root.png` })
 
 export default {
   server: {
