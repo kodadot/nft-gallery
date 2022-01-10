@@ -17,5 +17,5 @@ jobs:
       - name: Update diagram
         uses: githubocto/repo-visualizer@main
         with:
-          excluded_paths: "ignore;.github;langDir/*;**/*.{png,svg,md};static/*"
+          excluded_paths: ".github;langDir/*.json;**/*.{png,svg,md};static/*"
           commit_message: "[skip ci] KodaDot: updated diagram"
