@@ -19,7 +19,7 @@
 Thank to [contributors-img](https://contrib.rocks).
 
 ### Brief code structure
-![Visualization of this repo](./diagram.svg)
+![Visualization of this repo](./github/diagram.svg)
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
 ### Hard facts about KodaDot development
