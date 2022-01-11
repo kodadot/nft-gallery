@@ -20,6 +20,15 @@
     >
       {{ $t('general.copyUrl') }}
     </b-button>
+    <b-button
+      type="is-primary"
+      icon-left="external-link-alt"
+      outlined
+      @click="openUrl"
+      :disabled="disabled"
+    >
+      {{ $t('general.openUrl') }}
+    </b-button>
   </section>
 </template>
 
@@ -36,6 +45,16 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 })
 export default class Transform extends Vue {
   protected url = ''
+
+  middleware({ route, redirect }) {
+    const { url } = route.query
+
+    if (url) {
+      redirect({
+        path: transform(url),
+      })
+    }
+  }
 
   public mounted(): void {
     exist(this.$route.query.url, (value) => this.url = value)
@@ -60,6 +79,14 @@ export default class Transform extends Vue {
   private toast(): void {
     const message = this.$t('helper.urlToTransform.copy').toString()
     this.$buefy.toast.open(message)
+  }
+
+  private openUrl(): void {
+    const url = transform(this.$route.query.url.toString())
+
+    this.$router.push({
+      path: url,
+    })
   }
 }
 </script>

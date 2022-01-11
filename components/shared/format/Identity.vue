@@ -1,25 +1,31 @@
 <template>
+<!-- <div> -->
   <component
     :is="is"
-    v-if="(showTwitter && twitter) || !showTwitter"
+    v-if="((showTwitter && twitter) || !showTwitter) && ((showDiscord && discord) || !showDiscord)"
     v-clipboard:copy="address"
     :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
   >
-    <template v-if="showTwitter && twitter">
+    <template v-if="(showTwitter && twitter) || (showDiscord && discord)">
       <a
         :href="`https://twitter.com/${twitter}`"
         class="twitter-link"
         target="_blank"
         rel="noopener noreferrer"
+        v-if="showTwitter && twitter"
       >
-        <b-icon
-          pack="fab"
-          icon="twitter"
-        />
+        <b-icon pack="fab" icon="twitter" />
         <span class="aligned">
           {{ twitter | toString }}
         </span>
       </a>
+
+      <div v-if="showDiscord && discord" class="is-flex is-align-items-center">
+        <b-icon pack="fab" icon="discord" />
+        <span class="aligned ml-2">
+          {{ discord | toString }}
+        </span>
+      </div>
     </template>
     <template v-else>
       <span v-if="showOnchainIdentity" class="is-inline-flex is-align-items-center">
@@ -67,6 +73,7 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public noOwerflow!: boolean
   @Prop(Boolean) public emit!: boolean
   @Prop(Boolean) public showTwitter!: boolean
+  @Prop(Boolean) public showDiscord!: boolean
   @Prop(Boolean) public showOnchainIdentity!: boolean
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
@@ -83,6 +90,11 @@ export default class Identity extends mixins(InlineMixin) {
   get twitter(): Address {
     const twitter = this.identity.twitter
     return twitter as string || ''
+  }
+
+  get discord(): Address {
+    const discord = this.identity.discord
+    return discord
   }
 
   @Watch('address', { immediate: true })
