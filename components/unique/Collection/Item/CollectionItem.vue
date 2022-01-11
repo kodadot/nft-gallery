@@ -23,7 +23,7 @@
           {{ $t('creator') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="issuer" :inline="true" :showTwitter="true"/>
+          <ProfileLink :address="issuer" :inline="true" showTwitter showDiscord/>
         </div>
       </div>
       <div class="column" v-if="owner">

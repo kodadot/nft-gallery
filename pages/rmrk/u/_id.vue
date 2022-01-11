@@ -23,7 +23,7 @@
           {{ $t('profile.user') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+          <ProfileLink :address="id" :inline="true" showTwitter showDiscord/>
           <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
             <figure class="image is-24x24 subid__less-margin">
               <img alt="subid" src="/subid.svg" />

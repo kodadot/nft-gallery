@@ -490,7 +490,8 @@
     "submit": "Submit",
     "remove": "Remove",
     "correctAddress": "Correct address format",
-    "copyUrl": "Copy URL"
+    "copyUrl": "Copy URL",
+    "openUrl": "Open URL"
   },
   "helper": {
     "noCollections": "You have no collections",
