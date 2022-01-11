@@ -75,6 +75,7 @@ type IdentityFields = Record<string, string>;
 })
 export default class IdentityPopover extends mixins(PrefixMixin) {
   @Prop() public identity!: IdentityFields
+  @Prop() public fetched!: boolean
 
   protected totalCreated = 0
   protected totalCollected = 0
@@ -97,9 +98,9 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
     return this.firstMintDate ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true }) : ''
   }
 
-  // only fetch stats once address is successfully propagated from parent
-  @Watch('identity.address')
-  protected onAddressLoaded(newVal: string): void {
+  // only fetch stats once identity is fetched and successfully propagated from parent
+  @Watch('fetched')
+  protected onFetchedSuccessfully(newVal: string): void {
     if(newVal) {
       this.fetchNFTStats()
     }

@@ -30,7 +30,7 @@
         </template>
       </span>
       <span v-else>
-        <IdentityPopover :identity="{ ...identity, address }">
+        <IdentityPopover :identity="{ ...identity, address }" :fetched="successfullyFetched">
           <template #trigger>
             {{ name | toString }}
           </template>
@@ -70,6 +70,7 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public showOnchainIdentity!: boolean
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
+  private successfullyFetched = false
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.address))
@@ -88,8 +89,10 @@ export default class Identity extends mixins(InlineMixin) {
   @Watch('address', { immediate: true })
   async watchAddress(newAddress: Address,  oldAddress: Address) {
     if (shouldUpdate(newAddress, oldAddress)) {
-      this.identityOf(newAddress).then(id => this.identity = id)
+      const id = await this.identityOf(newAddress)
+      this.identity = id
     }
+    this.successfullyFetched = true
   }
 
   public async identityOf(account: Address): Promise<IdentityFields> {
