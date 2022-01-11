@@ -99,7 +99,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
   // only fetch stats once address is successfully propagated from parent
   @Watch('identity.address')
-  onAddressLoaded(newVal) {
+  protected onAddressLoaded(newVal: string): void {
     if(newVal) {
       this.fetchNFTStats()
     }
