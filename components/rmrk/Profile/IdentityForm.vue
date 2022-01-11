@@ -38,6 +38,10 @@
             <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
             </b-input>
           </b-field>
+          <b-field label="discord">
+            <b-input placeholder="@YourDiscordUsername" v-model="identity.discord">
+            </b-input>
+          </b-field>
           <b-field label="riot">
             <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
             </b-input>
@@ -94,6 +98,7 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
     email: '',
     web: '',
     twitter: '',
+    discord: '',
     riot: '',
     legal: ''
   }
