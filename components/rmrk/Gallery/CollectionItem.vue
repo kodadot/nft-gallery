@@ -25,7 +25,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter />
+            <ProfileLink :address="issuer" inline showTwitter showDiscord/>
           </div>
         </div>
       </div>
