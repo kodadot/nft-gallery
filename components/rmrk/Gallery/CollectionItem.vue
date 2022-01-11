@@ -121,6 +121,7 @@ import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
+
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
