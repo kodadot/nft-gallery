@@ -428,7 +428,7 @@ export default class Transfer extends mixins(
 .box {
   &--container {
     display: flex;
-    justify-content: space-between;
+    gap: 2rem;
     @media screen and (max-width: 1023px) {
       flex-direction: column;
     }
