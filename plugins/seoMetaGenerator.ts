@@ -35,7 +35,7 @@ export default function({ app }, inject) {
       {
         hid: 'og:url',
         property: 'og:url',
-        content: `${baseUrl}${meta?.url}`,
+        content: `${baseUrl}${meta?.url || ''}`,
       },
       {
         hid: 'og:title',
@@ -55,7 +55,7 @@ export default function({ app }, inject) {
       {
         hid: 'twitter:url',
         name: 'twitter:url',
-        content: `${baseUrl}${meta?.url}`,
+        content: `${baseUrl}${meta?.url || ''}`,
       },
       {
         hid: 'twitter:title',
