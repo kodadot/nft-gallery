@@ -1,11 +1,14 @@
 **Thank you for your contribution** to the [KodaDot NFT gallery](https://kodadot.xyz).
-
-👇  _ Do a quick check before the merge. 
+👇  _ Do a quick check before the merge.
 
 ### PR type
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Refactoring
+
+### What's new?
+- [ ] PR closes #<issue_number>
+- [ ] <brief_description_of_what_I've_added>
 
 ### Before submitting Pull Request, please make sure:
 - [ ] My contribution builds **clean without any errors or warnings**
@@ -18,10 +21,6 @@
 - [ ] I've tested it at </rmrk/collection/26902bc2f7c20c546a-1FVG7>
 - [ ] I've tested PR on mobile and everything seems works
 - [ ] I found edge cases
-
-### What's new?
-- [ ] PR closes #<issue_number>
-- [ ] <brief_description_of_what_I've_added>
 
 ### Had issue bounty label ?
 - [ ] Fill up your KSM address: [Payout](https://beta.kodadot.xyz/transfer/?target=<My_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main-nuxt/CONTRIBUTING.md#creating-your-ksm-address>)
