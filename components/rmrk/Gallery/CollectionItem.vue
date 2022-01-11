@@ -198,6 +198,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected total = 0
   protected stats: NFT[] = []
   protected priceData: any = []
+  private statsLoaded = false
 
   get isLoading(): boolean {
     return this.$apollo.queries.collection.loading
@@ -256,7 +257,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   public created(): void {
     this.checkId()
     this.checkActiveTab()
-    this.loadStats()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
@@ -297,6 +297,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       .then(({ data }) => data?.nFTEntities?.nodes || [])
       .then((nfts) => {
         this.stats = nfts
+        this.statsLoaded = true
         this.loadPriceData()
       })
   }
@@ -353,11 +354,18 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   @Watch('activeTab')
   protected onTabChange(val: string, oldVal: string): void {
-    if (shouldUpdate(val, oldVal)) {
+    let queryTab = this.$route.query.tab
+
+    if (shouldUpdate(val, oldVal) && (queryTab !== val)) {
       this.$router.replace({
         path: String(this.$route.path),
         query: { tab: val },
       })
+    }
+
+    // Load chart data once when clicked on activity tab for the first time.
+    if (val === 'activity' && !this.statsLoaded) {
+      this.loadStats()
     }
   }
 
