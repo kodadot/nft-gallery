@@ -13,8 +13,8 @@
             class="popover-image avatar mr-5"
           />
         </div>
-        <div>
-          <p class="has-text-weight-bold is-size-5 mb-1" :class="{'break-all': nameExceedsBounds}">
+        <div class="identity-info">
+          <p class="has-text-weight-bold is-size-5 mb-1 break-word">
             {{ identity.display }}
           </p>
           <p class="is-size-7 mb-1">
@@ -64,7 +64,6 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { findLongestWord }  from '@/utils/stringHelpers'
 
 type Address = string | undefined;
 type IdentityFields = Record<string, string>;
@@ -84,12 +83,6 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
-  }
-
-  get nameExceedsBounds(): boolean {
-    // if longest word in display name is over 18 characters, break word at any point
-    const longestWord = findLongestWord(this.identity?.display || '')
-    return longestWord.length > 18
   }
 
   private resolveAddress(account: Address): string {
@@ -167,7 +160,11 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
   cursor: pointer;
 }
 
-.break-all {
-  word-break: break-all;
+.identity-info {
+  width: 75%
+}
+
+.break-word {
+  overflow-wrap: break-word;
 }
 </style>
