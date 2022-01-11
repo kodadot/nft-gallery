@@ -138,7 +138,7 @@ import exec, {
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme'
-import { pinJson, getKey, revokeKey } from '@/utils/proxy'
+import { pinJson, getKey, revokeKey, uploadImageToCdn } from '@/utils/proxy'
 import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
@@ -402,6 +402,9 @@ export default class CreateToken extends mixins(
 
       // TODO: upload meta to IPFS
       const metaHash = await pinJson(meta)
+
+      uploadImageToCdn(this.nft.file, metaHash).catch(console.warn)
+
       return unSanitizeIpfsUrl(metaHash)
     } catch (e) {
       throw new ReferenceError((e as Error).message)

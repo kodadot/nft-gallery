@@ -112,7 +112,7 @@ export const pinFile = async (file: Blob): Promise<string> => {
   }
 }
 
-export const uploadImageToCdn = async (file: Blob, IpfsHash: string): Promise<CdnUploadResponse> => {
+export const uploadImageToCdn = async (file: Blob, ipfsHash: string): Promise<CdnUploadResponse> => {
   const formData = new FormData()
   formData.append('file', file)
 
@@ -126,6 +126,7 @@ export const uploadImageToCdn = async (file: Blob, IpfsHash: string): Promise<Cd
         'Content-Type': 'multipart/form-data',
       },
     })
+    saveKey(ipfsHash, data.result.id)
     console.log('[PROXY] CDN Image', status, data)
     return data
   } catch (e) {

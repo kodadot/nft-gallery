@@ -105,7 +105,7 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { Collection, CollectionMetadata } from '../service/scheme'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, pinFileDirect } from '@/utils/proxy'
+import { pinJson, pinFileDirect, uploadImageToCdn } from '@/utils/proxy'
 import { decodeAddress } from '@polkadot/keyring'
 import { u8aToHex } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
@@ -188,6 +188,7 @@ export default class CreateCollection extends mixins(
     // TODO: upload meta to IPFS
     const metaHash = await pinJson(this.meta)
 
+    uploadImageToCdn(this.image, metaHash).catch(console.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 
