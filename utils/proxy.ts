@@ -134,32 +134,6 @@ export const uploadImageToCdn = async (file: Blob, IpfsHash: string): Promise<Cd
   }
 }
 
-export const pinFileViaSlate = async (file: Blob): Promise<string> => {
-  const formData = new FormData()
-  formData.append('file', file)
-
-  const SLATE_URL = 'https://uploads.slate.host/api/public'
-
-  try {
-    const { status, data } = await Axios.post(SLATE_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`,
-      },
-    })
-    console.log('[PROXY] SLATE Image', status, data)
-    if (status < 400) {
-      await api.post('pinHash', { hashToPin: data.data.cid })
-      return data.data.cid
-    } else {
-      throw new Error('Unable to PIN for reasons')
-    }
-  } catch (e) {
-    console.warn(e)
-    throw e
-  }
-}
-
 const PERMAFROST_URL = process.env.VUE_APP_PERMAFROST_URL
 export const permaStore = async (
   nftMeta: NFTMetadata,
