@@ -2,16 +2,28 @@ import Axios from 'axios'
 import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import { extractCid, justHash } from '@/utils/ipfs'
+import { saveKey } from '@/utils/cloudflare'
 
 type CdnUpload = {
-  id: string;
-  uploadURL: string;
+  id: string
+  uploadURL: string
+}
+
+type CdnUploadResponse = {
+  result: {
+    id: string,
+    filename: string,
+    uploaded: string,
+    requireSignedURLs: boolean,
+    variants: string[]
+  }
+  success: boolean
 }
 
 export const BASE_URL = `${window.location.origin}/.netlify/functions/`
 
 const api = Axios.create({
-  baseURL: BASE_URL
+  baseURL: BASE_URL,
 })
 
 export const pinJson = async (object: any) => {
@@ -29,7 +41,7 @@ export const pinJson = async (object: any) => {
 
 export const getKey = async (address: string) => {
   try {
-    const { status, data } = await api.get('getKey', { params: { address }})
+    const { status, data } = await api.get('getKey', { params: { address } })
     console.log('[PROXY] Obtain', status)
     if (status < 400) {
       return data
@@ -42,7 +54,7 @@ export const getKey = async (address: string) => {
 
 export const revokeKey = async (key: string) => {
   try {
-    const { status, data } = await api.get('revokeKey', { params: { key }})
+    const { status, data } = await api.get('revokeKey', { params: { key } })
     console.log('[PROXY] Revoke', status)
     if (status < 400) {
       return data as APIKeys
@@ -85,8 +97,8 @@ export const pinFile = async (file: Blob): Promise<string> => {
   try {
     const { status, data } = await api.post('pinFile', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data;'
-      }
+        'Content-Type': 'multipart/form-data;',
+      },
     })
     console.log('[PROXY] Pin Image', status, data)
     if (status < 400) {
@@ -100,17 +112,19 @@ export const pinFile = async (file: Blob): Promise<string> => {
   }
 }
 
-export const uploadImageToCdn = async (file: Blob): Promise<string> => {
+export const uploadImageToCdn = async (file: Blob, IpfsHash: string): Promise<CdnUploadResponse> => {
   const formData = new FormData()
   formData.append('file', file)
 
   try {
-    const UPLOAD_URL = await getCdnUploadLink().then(({ uploadURL }) => uploadURL)
+    const UPLOAD_URL = await getCdnUploadLink().then(
+      ({ uploadURL }) => uploadURL
+    )
     console.log('[PROXY] Upload to CDN', UPLOAD_URL)
-    const { status, data } = await Axios.post(UPLOAD_URL, formData, {
+    const { status, data } = await Axios.post<CdnUploadResponse>(UPLOAD_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-      }
+      },
     })
     console.log('[PROXY] CDN Image', status, data)
     return data
@@ -130,8 +144,8 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
     const { status, data } = await Axios.post(SLATE_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`
-      }
+        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`,
+      },
     })
     console.log('[PROXY] SLATE Image', status, data)
     if (status < 400) {
@@ -146,10 +160,12 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
   }
 }
 
-
 const PERMAFROST_URL = process.env.VUE_APP_PERMAFROST_URL
-export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: string): Promise<string> => {
-
+export const permaStore = async (
+  nftMeta: NFTMetadata,
+  file: Blob,
+  collection: string
+): Promise<string> => {
   if (!PERMAFROST_URL) {
     throw new Error('No Permafrost URL set')
   }
@@ -163,17 +179,20 @@ export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: s
     } else {
       formData.append(key, value)
     }
-
   })
 
   formData.append('collection', collection)
 
   try {
-    const { status, data } = await Axios.post(PERMAFROST_URL + '/store', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    const { status, data } = await Axios.post(
+      PERMAFROST_URL + '/store',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }
-    })
+    )
     console.log('[PROXY] Permafrost', status, data)
     if (status < 400) {
       return data.arweaveId
