@@ -1,4 +1,4 @@
-import defineApolloConfig, { toApolloEndpoint } from '@/utils/config/defineApolloConfig'
+import defineApolloConfig, { toApolloEndpoint } from './utils/config/defineApolloConfig'
 
 export default {
   server: {
