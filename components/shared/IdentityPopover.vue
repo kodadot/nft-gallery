@@ -4,8 +4,8 @@
       <slot name="trigger" />
     </template>
     <div class="popover-content-container p-4">
-      <div class="is-flex mb-3">
-        <div class="is-align-self-flex-start">
+      <div class="columns mb-3">
+        <div class="column is-one-quarter">
           <Identicon
             :size="60"
             :theme="'polkadot'"
@@ -13,8 +13,8 @@
             class="popover-image avatar mr-5"
           />
         </div>
-        <div>
-          <p class="has-text-weight-bold is-size-4 mb-1">
+        <div class="column is-three-quarters">
+          <p class="has-text-weight-bold is-size-5 mb-1 break-word">
             {{ identity.display }}
           </p>
           <p class="is-size-7 mb-1">
@@ -63,7 +63,7 @@ import {formatDistanceToNow} from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 
 type Address = string | undefined;
 type IdentityFields = Record<string, string>;
@@ -158,5 +158,9 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
 .copy-icon {
   cursor: pointer;
+}
+
+.break-word {
+  overflow-wrap: break-word;
 }
 </style>
