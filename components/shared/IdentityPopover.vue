@@ -58,12 +58,13 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 type Address = string | undefined;
 type IdentityFields = Record<string, string>;
@@ -112,7 +113,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
         result: this.handleResult,
         variables: () => {
           return {
-            account: this.identity.address,
+            account: this.identity.address || '',
           }
         },
         fetchPolicy: 'cache-and-network'
