@@ -91,8 +91,8 @@ export default class Identity extends mixins(InlineMixin) {
     if (shouldUpdate(newAddress, oldAddress)) {
       const id = await this.identityOf(newAddress)
       this.identity = id
+      this.successfullyFetched = true
     }
-    this.successfullyFetched = true
   }
 
   public async identityOf(account: Address): Promise<IdentityFields> {
