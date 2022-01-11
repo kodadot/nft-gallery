@@ -187,6 +187,10 @@ export default class Transfer extends mixins(
       : ''
   }
 
+  layout() {
+    return 'centered-half-layout'
+  }
+
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
@@ -428,7 +432,6 @@ export default class Transfer extends mixins(
 .box {
   &--container {
     display: flex;
-    gap: 2rem;
     @media screen and (max-width: 1023px) {
       flex-direction: column;
     }
