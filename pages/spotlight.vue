@@ -16,7 +16,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     const metaData = {
       title,
       description: 'Discover new artists based on ranking',
-      url: '/series-insights',
+      url: '/spotlight',
       image: `${this.$config.baseUrl}/k_card_spotlight.png`,
     }
     return {
