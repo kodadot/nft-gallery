@@ -175,7 +175,6 @@ import NFTUtils, { MintType } from '@/components/rmrk/service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -195,14 +194,14 @@ const components = {
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
     const metaData = {
-      title: title,
+      title,
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: `${this.$config.baseUrl}/permafrost/create`,
+      url: '/permafrost/create',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

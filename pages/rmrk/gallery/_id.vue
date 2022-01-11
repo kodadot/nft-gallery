@@ -5,8 +5,8 @@
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
 import GalleryItem from '@/components/rmrk/Gallery/GalleryItem.vue'
-import createSiteMeta from '@/utils/createSiteMeta'
 import formatBalance from '@/utils/formatBalance'
+import { generateNftImage } from '@/utils/seoImageGenerator'
 
 @Component<GalleryItemPage>({
   name: 'GalleryItemPage',
@@ -16,15 +16,15 @@ import formatBalance from '@/utils/formatBalance'
   head() {
     const title = this.currentlyViewedItem.name
     const metaData = {
-      title: title,
+      title,
       description: this.currentlyViewedItem.description,
-      url: `${this.$config.baseUrl}${this.$route.path}`,
+      url: this.$route.path,
       image: this.image,
     }
     return {
-      title: title,
+      title,
       meta: [
-        ...createSiteMeta(metaData),
+        ...this.$seoMeta(metaData),
         { hid: 'og:author', property: 'og:author', content: this.currentlyViewedItem.author },
       ]
     }
@@ -43,7 +43,7 @@ export default class GalleryItemPage extends Vue {
   }
 
   get image(): string {
-    return `https://og-image-green-seven.vercel.app/${encodeURIComponent(this.currentlyViewedItem.name)}.png?price=${this.currentPrice}&image=${this.currentlyViewedItem.image}&mime=${this.currentlyViewedItem.mimeType}`
+    return generateNftImage(this.currentlyViewedItem.name, this.currentPrice, this.currentlyViewedItem.image, this.currentlyViewedItem.mimeType)
   }
 }
 </script>

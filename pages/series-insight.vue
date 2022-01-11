@@ -8,20 +8,19 @@
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Series>({
   head() {
     const title = 'NFT artist rank'
     const metaData = {
-      title: title,
+      title,
       description: 'Discover new artists based on ranking',
-      url: `${this.$config.baseUrl}/series-insights`,
+      url: '/series-insights',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   },
   components: {

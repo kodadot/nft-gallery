@@ -25,7 +25,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 const Collection = () => import('@/components/unique/Create/Create.vue')
 const NFT = () => import('@/components/unique/Create/CreateToken.vue')
-import createSiteMeta from '@/utils/createSiteMeta'
 
 const components = { Collection, NFT }
 
@@ -34,14 +33,14 @@ const components = { Collection, NFT }
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
     const metaData = {
-      title: title,
+      title,
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: `${this.$config.baseUrl}/statemine/create`,
+      url: '/statemine/create',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

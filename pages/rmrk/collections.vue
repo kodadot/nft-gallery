@@ -55,7 +55,6 @@ import 'lazysizes'
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -77,14 +76,14 @@ const components = {
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
-      title: title,
+      title,
       description: 'Buy Carbonless NFTs on Kusama',
-      url: `${this.$config.baseUrl}/rmrk/collections`,
+      url: '/rmrk/collections',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

@@ -83,17 +83,16 @@
 </template>
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Sustainibility>({
   head() {
     const metaData = {
       description: 'KodaDot: Sustainibility mission',
-      url: `${this.$config.baseUrl}/sustainibility`,
-      image: `${this.$config.baseUrl}/kodadot_carbonless.jpg`,
+      url: '/sustainibility',
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
-      meta: [...createSiteMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

@@ -5,7 +5,6 @@
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
 import AdminPanel from '@/components/rmrk/Create/Admin/AdminPanel.vue'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component({
   components: {
@@ -14,14 +13,14 @@ import createSiteMeta from '@/utils/createSiteMeta'
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
     const metaData = {
-      title: title,
+      title,
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: `${this.$config.baseUrl}/rmrk/admin`,
+      url: '/rmrk/admin',
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

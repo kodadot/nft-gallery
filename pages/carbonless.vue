@@ -108,19 +108,18 @@
 
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<Carbonless>({
   head() {
     const title = 'KodaDot cares about environmental impact'
     const metaData = {
-      title: title,
+      title,
       url: `${this.$config.baseUrl}/carbonless`,
-      image: `${this.$config.baseUrl}/kodadot_carbonless.jpg`,
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

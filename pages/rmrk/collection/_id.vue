@@ -5,7 +5,6 @@
 <script lang="ts" >
 import { Component, Vue } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 @Component<CollectionItemPage>({
   name: 'CollectionItemPage',
@@ -20,14 +19,14 @@ import createSiteMeta from '@/utils/createSiteMeta'
     }`
     const title = this.currentlyViewedCollection.name
     const metaData = {
-      title: title,
+      title,
       description: this.currentlyViewedCollection.description,
-      url: `https://nft.kodadot.xyz${this.$route.path}`,
+      url: this.$route.path,
       image: image,
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   },
 })

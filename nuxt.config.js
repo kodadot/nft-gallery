@@ -1,8 +1,6 @@
 import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
-import createSocialMeta from './utils/createSiteMeta'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
-const meta = createSocialMeta({ url: baseUrl, image: `${baseUrl}/kodadot_card_root.png` })
 
 export default {
   server: {
@@ -25,12 +23,20 @@ export default {
     meta: [
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
-      // { property: 'og:url', content: 'https://nft.kodadot.xyz'},
       // { property: 'og:site_name', content: 'KodaDot' },
+      { hid: 'description', name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
       { property: 'twitter:card', content: 'summary_large_image' },
-      ...meta
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: baseUrl },
+      { hid: 'og:title', property: 'og:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      { hid: 'og:description', property: 'og:description', content: 'Creating Carbonless NFTs on Kusama' },
+      { hid: 'og:image', property: 'og:image', content: `${baseUrl}/kodadot_card_root.png` },
+      { hid: 'twitter:url', name: 'twitter:url', content: baseUrl },
+      { hid: 'twitter:title', name: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      { hid: 'twitter:description', name: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama' },
+      { hid: 'twitter:image', name: 'twitter:image', content: `${baseUrl}/kodadot_card_root.png` },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -49,6 +55,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',

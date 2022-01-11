@@ -136,7 +136,6 @@ import nftListCollected from '@/queries/unique/nftListCollected.graphql'
 import nftListSold from '@/queries/unique/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import createSiteMeta from '@/utils/createSiteMeta'
 
 const components = {
   GalleryCardList: () =>
@@ -159,14 +158,14 @@ const eq = (tab: string) => (el: string) => tab === el
   head() {
     const title = 'NFT Artist Profile on KodaDot'
     const metaData = {
-      title: title,
-      description: (this.firstNFTData.description as string) || 'Find more NFTs from this creator',
-      url: `${this.$config.baseUrl}/statemine/u/${this.id}`,
-      image: (this.firstNFTData.image as string) || (this.defaultNFTImage as string),
+      title,
+      description: this.firstNFTData.description || 'Find more NFTs from this creator',
+      url: `/statemine/u/${this.id}`,
+      image: this.firstNFTData.image || this.defaultNFTImage
     }
     return {
-      title: title,
-      meta: [...createSiteMeta(metaData)]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })
