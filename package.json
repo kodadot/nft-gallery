@@ -19,6 +19,7 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
+    "@babel/core": "^7.16.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
@@ -28,6 +29,7 @@
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.0.3",
+    "@polkadot/dev": "^0.65.33",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/extension-inject": "^0.40.3",
     "@polkadot/ui-keyring": "^0.85.4",
@@ -38,6 +40,7 @@
     "ansi-regex": "^5.0.1",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
+    "babel-jest": "^27.4.6",
     "buefy": "^0.9.10",
     "chart.js": "^3.6.0",
     "chartjs-adapter-luxon": "^1.1.0",
@@ -108,6 +111,7 @@
     "netlify-lambda": "^2.0.14",
     "sass": "^1.42.1",
     "sass-loader": "^10.2",
+    "ts-jest": "^27.1.2",
     "typescript": "^4.5.2",
     "vue-cli-plugin-i18n": "^1.0.1",
     "vue-debounce-decorator": "^1.0.1",
