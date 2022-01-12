@@ -121,7 +121,7 @@
             "
           >
             <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content">
+              <div class="card-content money-cursor">
                 <template v-if="hasPrice">
                   <div class="label">
                     {{ $t('price') }}

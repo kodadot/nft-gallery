@@ -10,7 +10,6 @@
     >
       <b-button
         v-for="action in actions"
-        :class="{'buy-btn': (action === 'BUY' && !replaceBuyNowWithYolo)}"
         :key="action"
         :type="iconType(action)[0]"
         outlined
