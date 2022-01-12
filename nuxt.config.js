@@ -143,8 +143,13 @@ export default {
   pwa: {
     manifest: {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
-      short_name: 'KodaDot'
+      short_name: 'KodaDot',
+      background_color: '#000000',
+      theme_color: '#000000',
     },
+    // workbox: {
+    // },
+
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
       purpose: ['any']
