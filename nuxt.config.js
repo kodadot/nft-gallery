@@ -147,8 +147,9 @@ export default {
       background_color: '#000000',
       theme_color: '#000000',
     },
-    // workbox: {
-    // },
+    workbox: {
+      swDest: 'service-worker.js',
+    },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {

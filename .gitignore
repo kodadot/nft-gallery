@@ -82,3 +82,6 @@ typings/
 .env
 .vscode/
 .nuxt
+
+### its generated
+service-worker.js
