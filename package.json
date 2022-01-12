@@ -89,7 +89,6 @@
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
-    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@types/luxon": "^2.0.7",
     "@types/markdown-it": "^12.2.1",
