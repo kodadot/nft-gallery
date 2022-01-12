@@ -29,7 +29,6 @@
       "webpack",
       "webpack-env",
       "@nuxt/types",
-      "@nuxtjs/google-analytics",
       "@types/node",
       "vue-apollo"
     ]

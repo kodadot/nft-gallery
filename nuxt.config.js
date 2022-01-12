@@ -106,7 +106,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    '@nuxtjs/google-analytics',
     '@nuxtjs/pwa',
   ],
 
@@ -125,11 +124,6 @@ export default {
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
   ],
-
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
-    disabled: true,
-  },
 
   pwa: {
     manifest: {

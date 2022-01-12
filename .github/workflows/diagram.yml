@@ -1,10 +1,9 @@
 name: Create diagram
 on:
-#   schedule:
+  schedule:
 # “At 00:42 on Monday.”
-#   - cron: '42 0 * * 1'  
-#  best would be add [skip ci] to commit message, this schedule is tmp workaround
-#  workflow_dispatch: {}
+   - cron: '42 0 * * 1'  
+
   push:
     branches:
       - main-nuxt
