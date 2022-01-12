@@ -85,21 +85,22 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 
 @Component<EsCarbonless>({
-  metaInfo() {
-    return {
-      title: 'KodaDOT se preocupa por el impacto medioambiental',
-      titleTemplate: '%s | NFT bajos en carbono',
-      meta: [
-        { name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
-        { property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
-        { property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
-        { property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
-    }
-  },
+  // TODO refactor via i18n
+  // metaInfo() {
+  //   return {
+  //     title: 'KodaDOT se preocupa por el impacto medioambiental',
+  //     titleTemplate: '%s | NFT bajos en carbono',
+  //     meta: [
+  //       { name: 'description', content: 'Creación de NFT autocopiativos en Kusama' },
+  //       { property: 'og:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+  //       { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+  //       { property: 'og:description', content: 'Creación de NFT autocopiativos en Kusama'},
+  //       { property: 'twitter:title', content: 'KodaDOT se preocupa por el impacto medioambiental'},
+  //       { property: 'twitter:description', content: 'Creación de NFT autocopiativos en Kusama'},
+  //       { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
+  //     ]
+  //   }
+  // },
   components: {}
 })
 export default class EsCarbonless extends Vue {

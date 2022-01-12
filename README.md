@@ -115,6 +115,7 @@ We have list of frequent participants in our codebase.
 - [Yangwao](https://kodadot.xyz/transfer/?target=CuHWHNcBt3ASMVSJmcJyiBWGxxiWLyjYoYbGjfhL4ovoeSd)
 - [Vikiival](https://kodadot.xyz/transfer/?target=Fksmad33PFxhrQXNYPPJozgWrv82zuFLvXK7Rh8m1xQhe98)
 - [Prachi00](https://kodadot.xyz/transfer/?target=EzGc4s9PgCPx1YnF3fqzhLzVHpHMTL4LWPScwpDrR8JKgSU)
+- [kkukelka](https://kodadot.xyz/transfer/?target=EqdyzrzVmeHwMdMwvPeCMnNdbuQDbD3YrjY93xq9Ln3jUGW)
 
 ### Want to join?
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!

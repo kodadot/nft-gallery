@@ -153,7 +153,8 @@ import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 
 const components = {
   GalleryCardList: () =>
@@ -173,53 +174,20 @@ const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
   name: 'Profile',
-  components,
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          vmid: 'og:title',
-          content: 'NFT Artist Profile on KodaDot'
-        },
-        {
-          property: 'og:description',
-          vmid: 'og:description',
-          content:
-            (this.firstNFTData.description as string) ||
-            'Find more NFTs from this creator'
-        },
-        {
-          property: 'og:image',
-          vmid: 'og:image',
-          content:
-            (this.firstNFTData.image as string) ||
-            (this.defaultNFTImage as string)
-        },
-        { property: 'twitter:site', content: '@KodaDot' },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        {
-          property: 'twitter:title',
-          vmid: 'twitter:title',
-          content: 'NFT Artist Profile on KodaDot'
-        },
-        {
-          property: 'twitter:description',
-          vmid: 'twitter:description',
-          content:
-            (this.firstNFTData.description as string) ||
-            'Find more NFTs from this creator'
-        },
-        {
-          property: 'twitter:image',
-          vmid: 'twitter:image',
-          content:
-            (this.firstNFTData.image as string) ||
-            (this.defaultNFTImage as string)
-        }
-      ]
+  head() {
+    const title = 'NFT Artist Profile on KodaDot'
+    const metaData = {
+      title,
+      description: this.firstNFTData.description || 'Find more NFTs from this creator',
+      url: `/westmint/u/${this.id}`,
+      image: this.firstNFTData.image || this.defaultNFTImage,
     }
-  }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)]
+    }
+  },
+  components
 })
 export default class Profile extends mixins(PrefixMixin) {
   public firstNFTData: any = {}
