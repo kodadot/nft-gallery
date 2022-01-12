@@ -51,8 +51,8 @@ export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): st
 const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string => arweaveProviders[key]
 
-export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
-  const res = a.map((k, i) => [k, b[i]])
+export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: [T1, T2]) => T3): T3[] | [T1, T2][] => {
+  const res: [T1, T2][] = a.map((k, i) => [k, b[i]])
 
   if (cb) {
     return res.map(cb)
