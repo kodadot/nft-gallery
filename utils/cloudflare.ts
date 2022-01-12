@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { extractCid, justHash } from '@/utils/ipfs'
 
 export const BASE_URL = 'https://durable-jpeg.kodadot.workers.dev/'
 
@@ -16,9 +15,10 @@ type BatchRequest = {
   keys: string[];
 }
 
-export const queryBatch = async (object: BatchRequest) => {
+export const queryBatch = async (object: BatchRequest | string[]): Promise<Record<string, string>> => {
   try {
-    const { status, data } = await api.post('batch', object)
+    const arg: BatchRequest = Array.isArray(object) ? { keys: object } : object
+    const { status, data } = await api.post('batch', arg)
     console.log('[CLOUDFLARE] Batch', status, data)
     return data
   } catch (e) {
