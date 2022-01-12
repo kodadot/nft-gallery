@@ -4,6 +4,6 @@ import VueGtag from 'vue-gtag'
 export default ({ app }) => {
   Vue.use(VueGtag, {
     config: { id: app.$config.googleAnalyticsId },
-    enable: false,
+    enable: true,
   })
 }
