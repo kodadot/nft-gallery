@@ -185,6 +185,7 @@ export default class Collections extends mixins(PrefixMixin) {
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
+        client: this.urlPrefix,
         variables: {
           first: this.first,
           offset,
