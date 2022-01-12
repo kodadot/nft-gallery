@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:lts
+FROM node:16.13.1-bullseye-slim
 
 WORKDIR /app
 
