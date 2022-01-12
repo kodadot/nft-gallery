@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:lts
+FROM node:16.13.2
 
 WORKDIR /app
 
