@@ -4,9 +4,10 @@ on:
 # “At 00:42 on Monday.”
    - cron: '42 0 * * 1'  
 
-  push:
-    branches:
-      - main-nuxt
+#  we are using cron to not polute commits history
+#  push:
+#    branches:
+#      - main-nuxt
 jobs:
   get_data:
     runs-on: ubuntu-latest
