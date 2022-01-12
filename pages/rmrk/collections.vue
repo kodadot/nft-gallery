@@ -72,38 +72,20 @@ const components = {
 }
 
 @Component<Collections>({
-  metaInfo() {
-    return {
-      title: 'KodaDot - Kusama Explorer all collections',
-      meta: [
-        {
-          property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultCollectionsMetaImage
-        },
-        {
-          property: 'og:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultCollectionsMetaImage
-        }
-      ]
+  components,
+  head() {
+    const title = 'Low minting fees and carbonless NFTs'
+    const metaData = {
+      title,
+      description: 'Buy Carbonless NFTs on Kusama',
+      url: '/rmrk/collections',
+      image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
-  },
-  components
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)]
+    }
+  }
 })
 export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
@@ -117,12 +99,6 @@ export default class Collections extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  }
-
-  get defaultCollectionsMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_collections.png`
-    )
   }
 
   get isLoading(): boolean {

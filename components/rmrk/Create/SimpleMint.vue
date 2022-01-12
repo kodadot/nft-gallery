@@ -272,42 +272,7 @@ const components = {
 }
 
 @Component<SimpleMint>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Low fees and low carbon minting',
-        },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Create carbonless NFTs with low on-chain fees',
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting',
-        },
-        {
-          property: 'og:image',
-          content: this.defaultCreateMetaImage,
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low fees and low carbon minting',
-        },
-        {
-          property: 'twitter:description',
-          content: 'Create carbonless NFTs with low on-chain fees',
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultCreateMetaImage,
-        },
-      ],
-    }
-  },
-  components,
+  components
 })
 export default class SimpleMint extends mixins(
   SubscribeMixin,
@@ -339,12 +304,6 @@ export default class SimpleMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
-  }
-
-  get defaultCreateMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_mint.png`
-    )
   }
 
   get fileType(): MediaType {

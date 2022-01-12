@@ -2,15 +2,46 @@ import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 import { isToday, isYesterday, isThisWeek, isThisMonth } from 'date-fns'
 
 export interface HistoryItem {
-    id: string,
-    title: string,
-    image: string,
-    collection: string,
-    date: Date
+  id: string,
+  title: string,
+  image: string,
+  collection: string,
+  date: Date
+}
+
+export interface GalleryItem extends HistoryItem {
+  author: string;
+  description: string;
+  price: number;
+  mimeType: string;
+}
+
+export interface Collectionitem {
+  name: string;
+  image: string;
+  description: string;
+  numberOfItems: number;
 }
 
 export const state = () => ({
   visitedNFTs: [],
+  currentlyViewedItem: {
+    id: '',
+    title: '',
+    image: '',
+    collection: '',
+    date: new Date(),
+    author: '',
+    description: '',
+    price: 0,
+    mimeType: ''
+  },
+  currentlyViewedCollection: {
+    name: '',
+    image: '',
+    description: '',
+    numberOfItems: 0
+  },
   currentCollection: {
     id: '',
     nftIds: []
@@ -24,7 +55,9 @@ export const getters: GetterTree<HistoryState, HistoryState> = {
   getVisitedYesterday: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isYesterday(new Date(nft.date))),
   getVisitedPastWeek: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisWeek(new Date(nft.date)) && !isToday(new Date(nft.date)) && !isYesterday(new Date(nft.date))),
   getVisitedPastMonth: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => isThisMonth(new Date(nft.date)) && !isThisWeek(new Date(nft.date))),
-  getVisitedEarlier: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => !isThisMonth(new Date(nft.date)))
+  getVisitedEarlier: ({ visitedNFTs }: any) => visitedNFTs.filter(nft => !isThisMonth(new Date(nft.date))),
+  getCurrentlyViewedItem: ({ currentlyViewedItem }) => currentlyViewedItem,
+  getCurrentlyViewedCollection: ({ currentlyViewedCollection }) => currentlyViewedCollection,
 }
 
 export const mutations: MutationTree<HistoryState> = {
@@ -44,6 +77,12 @@ export const mutations: MutationTree<HistoryState> = {
       state.visitedNFTs.unshift(data)
     }
   },
+  UPDATE_CURRENTLY_VIEWED_ITEM (state: any, data: GalleryItem) {
+    state.currentlyViewedItem = data
+  },
+  UPDATE_CURRENTLY_VIEWED_COLLECTION (state: any, data: Collectionitem) {
+    state.currentlyViewedCollection = data
+  },
   UPDATE_CURRENT_COLLECTION(state: any, data: {id: string, nftIds: string[]}) {
     state.currentCollection = data
   }
@@ -51,7 +90,13 @@ export const mutations: MutationTree<HistoryState> = {
 
 export const actions: ActionTree<HistoryState, HistoryState> = {
   addHistoryItem({ commit }: { commit: Commit }, data: HistoryItem) {
-    commit('UPDATE_HISTORY_ITEM', data)
+    commit('UPDATE_CURRENTLY_VIEWED_ITEM', data)
+    const { id, title, image, collection, date } = data
+    const historyItem = { id, title, image, collection, date }
+    commit('UPDATE_HISTORY_ITEM', historyItem)
+  },
+  setCurrentlyViewedCollection({ commit }: { commit: Commit }, data: Collectionitem) {
+    commit('UPDATE_CURRENTLY_VIEWED_COLLECTION', data)
   },
   removeHistoryItem({ commit }: { commit: Commit }, data: string) {
     commit('UPDATE_HISTORY_ITEM', data)
