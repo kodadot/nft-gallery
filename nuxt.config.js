@@ -219,6 +219,7 @@ export default {
   publicRuntimeConfig: {
     prefix: process.env.URL_PREFIX || 'rmrk',
     baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
