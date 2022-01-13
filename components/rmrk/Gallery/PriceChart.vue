@@ -61,6 +61,9 @@ export default class PriceChart extends mixins(ChainMixin) {
   }
 
   protected getPriceChartData() {
+    if(this.Chart)
+      this.Chart.destroy()
+
     if (this.priceChartData.length) {
       const ctx = (
         document?.getElementById('priceChart') as HTMLCanvasElement
