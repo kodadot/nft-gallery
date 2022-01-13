@@ -17,8 +17,9 @@ const DELIVERY_URL = 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/'
 
 const urlOf = (ipfsHash: string) => DELIVERY_URL + ipfsHash + '/public'
 const withUrlOf = ([key, value]: ZipResult) => [key, urlOf(value)]
+const withValue = ([, value]: [string, MayString]): boolean => Boolean(value)
 
-export const getImageLinks = async (keys: string[]): P<KeyValue>  => {
+export const getCloudflareImageLinks = async (keys: string[]): P<KeyValue>  => {
   const values = keys.map(fastExtract).filter(Boolean)
   const cached = await getMany<string>(values, imageStore)
   const zipped = zip<string, MayString, ZipResult>(keys, cached)
@@ -26,9 +27,12 @@ export const getImageLinks = async (keys: string[]): P<KeyValue>  => {
   const deliveryLinks: KeyValue = await queryBatch(uncached).then(values => Object.entries(values).map(withUrlOf)).then(Object.fromEntries)
   setMany(Object.entries(deliveryLinks), imageStore).catch(console.warn)
   return {
-    // ...Object.fromEntries(zipped.map()),
+    ...Object.fromEntries((zipped.filter(withValue) as ZipResult[]).map(withUrlOf)),
     ...deliveryLinks,
   }
 }
 
 
+
+// MIND THE TYPE
+// onResult ->

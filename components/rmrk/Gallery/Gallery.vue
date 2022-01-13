@@ -81,8 +81,13 @@ import { SearchQuery } from './Search/types'
 import { getMany, update } from 'idb-keyval'
 import { denyList, statemineDenyList } from '@/utils/constants'
 import { DocumentNode } from 'graphql'
-import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
+import { WithData, NFTEntities, NFTWithCollectionMeta, NFTEntitiesWithCount } from 'components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
+import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { fastExtract } from '@/utils/ipfs'
+
+type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -139,8 +144,8 @@ export default class Gallery extends mixins(PrefixMixin) {
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
 
-    this.$apollo.addSmartQuery('nfts', {
-      query:  query as unknown as DocumentNode,
+    this.$apollo.addSmartQuery<GraphResponse>('nfts', {
+      query:  query.default,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'loadingState',
@@ -158,7 +163,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     })
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data }: WithData<GraphResponse>) {
     this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
@@ -166,29 +171,35 @@ export default class Gallery extends mixins(PrefixMixin) {
     }))
 
     const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
-    const storedMetadata = await getMany(metadataList).catch(() => metadataList)
+    const imageLinks = getCloudflareImageLinks(metadataList)
+    // const storedMetadata = await getMany(metadataList).catch(() => metadataList)
 
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
-          Vue.set(this.nfts, i, {
-            ...this.nfts[i],
-            ...meta,
-            image: getSanitizer(meta.image || '')(meta.image || '')
-          })
-          update(this.nfts[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
-        }
-      } else {
-        Vue.set(this.nfts, i, {
-          ...this.nfts[i],
-          ...m,
-          image: getSanitizer(m.image || '')(m.image || '')
-        })
-      }
-    })
+    this.nfts = this.nfts.map((nft: NFTWithCollectionMeta) => ({
+      ...nft,
+      image: imageLinks[fastExtract(nft.metadata || nft.collection.metadata)] || this.placeholder,
+    }))
+
+    // storedMetadata.forEach(async (m, i) => {
+    //   if (!m) {
+    //     try {
+    //       const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
+    //       Vue.set(this.nfts, i, {
+    //         ...this.nfts[i],
+    //         ...meta,
+    //         image: getSanitizer(meta.image || '')(meta.image || '')
+    //       })
+    //       update(this.nfts[i].metadata, () => meta)
+    //     } catch (e) {
+    //       console.warn('[ERR] unable to get metadata')
+    //     }
+    //   } else {
+    //     Vue.set(this.nfts, i, {
+    //       ...this.nfts[i],
+    //       ...m,
+    //       image: getSanitizer(m.image || '')(m.image || '')
+    //     })
+    //   }
+    // })
 
 
     // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
@@ -451,3 +462,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 }
 </style>
+
+function getCloudflareImageLinks(metadataList: string[]) {
+  throw new Error('Function not implemented.')
+}
