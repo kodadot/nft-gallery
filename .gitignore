@@ -83,5 +83,5 @@ typings/
 .vscode/
 .nuxt
 
-### its generated
-service-worker.js
+### its generated, this time is different
+## service-worker.js
