@@ -17,6 +17,7 @@ import { generateNftImage } from '@/utils/seoImageGenerator'
     const title = this.currentlyViewedItem.title
     const metaData = {
       title,
+      type: 'profile',
       description: this.currentlyViewedItem.description,
       url: this.$route.path,
       image: this.image,

@@ -14,6 +14,7 @@ import Contact from '@/components/landing/Contact.vue'
     const title = 'KodaDot cares about environmental impact'
     const metaData = {
       title,
+      type: 'article',
       url: `${this.$config.baseUrl}/contact`,
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }

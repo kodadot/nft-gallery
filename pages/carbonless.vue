@@ -114,6 +114,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     const title = 'KodaDot cares about environmental impact'
     const metaData = {
       title,
+      type: 'article',
       url: `${this.$config.baseUrl}/carbonless`,
       image: `${this.$config.baseUrl}/k_card_mint.png`,
     }

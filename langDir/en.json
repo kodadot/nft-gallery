@@ -458,6 +458,8 @@
     "showQr": "Show QR"
   },
   "spotlight": {
+    "title": "User Spotlight",
+    "subtitle": "Featuring the most active collectors and artits on RMRK.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
