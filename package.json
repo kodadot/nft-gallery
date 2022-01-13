@@ -86,6 +86,7 @@
     "@babel/helper-define-map": "^7.13.12",
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.8",
