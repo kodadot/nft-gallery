@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content field-group-container">
     <b-field grouped group-multiline>
       <Sort
         class="control"
@@ -146,5 +146,16 @@ export default class SearchBar extends Vue {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+</style>
+
+<style lang="scss">
+.field-group-container {
+  .is-grouped-multiline {
+    flex-wrap: initial!important;
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap!important;;
+    }
+  }
 }
 </style>
