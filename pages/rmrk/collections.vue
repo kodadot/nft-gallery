@@ -77,6 +77,7 @@ const components = {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
+      type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
       url: '/rmrk/collections',
       image: `${this.$config.baseUrl}/k_card_collections.png`,

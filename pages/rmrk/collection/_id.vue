@@ -20,6 +20,7 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
     const title = this.currentlyViewedCollection.name
     const metaData = {
       title,
+      type: 'profile',
       description: this.currentlyViewedCollection.description,
       url: this.$route.path,
       image: image,
