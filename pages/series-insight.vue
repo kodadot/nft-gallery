@@ -1,7 +1,18 @@
 <template>
   <section>
-    <h1 class="title is-2">{{ $t('series.title') }}</h1>
-    <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <h1 class="title is-2">{{ $t('series.title') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+      </div>
+      <div class="column">
+        <img
+            src="~/assets/rmrk-logo-pink-faded.png"
+            alt="RMRK"
+            class="rmrk-logo is-hidden-mobile"
+          >
+      </div>
+    </div>
 
     <SeriesTable />
   </section>
@@ -31,3 +42,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class Series extends Vue {
 }
 </script>
+
+<style scoped>
+.rmrk-logo {
+  aspect-ratio: 127 / 42
+}
+</style>
