@@ -335,33 +335,19 @@ export default class Transfer extends mixins(
   }
 
   @Watch('destinationAddress')
-  destinationChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.target = value
-    }
-    if (this.$route.query.usdamount) {
-      queryValue.usdamount = this.$route.query.usdamount
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    }).catch((e)=>{console.warn('Navigation error', e)})
+  destinationChanged(target: string): void {
+    const { usdamount } = this.$route.query
+    this.$router
+      .replace({ query: { target, usdamount } })
+      .catch(() => null) // null to further not throw navigation errors
   }
 
   @Watch('usdValue')
-  usdValueChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.usdamount = value
-    }
-    if (this.$route.query.target) {
-      queryValue.target = this.$route.query.target
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    }).catch((e)=>{console.warn('Navigation error', e)})
+  usdValueChanged(usdamount: string): void {
+    const { target } = this.$route.query
+    this.$router
+      .replace({ query: { target, usdamount } })
+      .catch(() => null) // null to further not throw navigation errors
   }
 
   async loadBalance() {
