@@ -24,7 +24,7 @@
         <span
           class="info--currentPrice"
           title="Current price"
-        >${{ $store.getters.getCurrentKSMValue }} </span>
+        >${{ $store.getters['fiat/getCurrentKSMValue'] }} </span>
       </div>
 
       <b-field>
@@ -198,14 +198,14 @@ export default class Transfer extends mixins(
   }
 
   protected created() {
-    this.$store.dispatch('fetchFiatPrice')
+    this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
   }
 
   protected onAmountFieldChange() {
     /* calculating usd value on the basis of price entered */
     if (this.price) {
-      this.usdValue = calculateUsdFromKsm(this.$store.getters.getCurrentKSMValue, this.price)
+      this.usdValue = calculateUsdFromKsm(this.$store.getters['fiat/getCurrentKSMValue'], this.price)
     } else {
       this.usdValue = 0
     }
@@ -214,7 +214,7 @@ export default class Transfer extends mixins(
   protected onUSDFieldChange() {
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
-      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+      this.price = calculateKsmFromUsd(this.$store.getters['fiat/getCurrentKSMValue'], this.usdValue)
     } else {
       this.price = 0
     }
@@ -222,7 +222,6 @@ export default class Transfer extends mixins(
 
   protected checkQueryParams() {
     const { query } = this.$route
-
     if (query.target) {
       const hasAddress = isAddress(query.target as string)
       if (hasAddress) {
@@ -239,7 +238,7 @@ export default class Transfer extends mixins(
     if (query.usdamount) {
       this.usdValue = Number(query.usdamount)
       // getting ksm value from the usd value
-      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+      this.price = calculateKsmFromUsd(this.$store.getters['fiat/getCurrentKSMValue'], this.usdValue)
     }
   }
 
@@ -310,7 +309,7 @@ export default class Transfer extends mixins(
 
   protected getUrl(): string {
     return urlBuilderTransaction(this.transactionValue,
-      this.$store.getters.getCurrentChain, 'subscan')
+      this.$store.getters['explorer/getCurrentChain'], 'subscan')
   }
 
   protected getExplorerUrl(): void {
@@ -336,33 +335,19 @@ export default class Transfer extends mixins(
   }
 
   @Watch('destinationAddress')
-  destinationChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.target = value
-    }
-    if (this.$route.query.usdamount) {
-      queryValue.usdamount = this.$route.query.usdamount
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    })
+  destinationChanged(target: string): void {
+    const { usdamount } = this.$route.query
+    this.$router
+      .replace({ query: { target, usdamount } })
+      .catch(() => null) // null to further not throw navigation errors
   }
 
   @Watch('usdValue')
-  usdValueChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.usdamount = value
-    }
-    if (this.$route.query.target) {
-      queryValue.target = this.$route.query.target
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    })
+  usdValueChanged(usdamount: string): void {
+    const { target } = this.$route.query
+    this.$router
+      .replace({ query: { target, usdamount } })
+      .catch(() => null) // null to further not throw navigation errors
   }
 
   async loadBalance() {

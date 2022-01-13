@@ -85,19 +85,15 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Sustainibility>({
-  metaInfo() {
+  head() {
+    const metaData = {
+      type: 'article',
+      description: 'KodaDot: Sustainibility mission',
+      url: '/sustainibility',
+      image: `${this.$config.baseUrl}/k_card_mint.png`,
+    }
     return {
-      title: 'KodaDot Kusama NFT explorer',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'KodaDot: Sustainibility mission' },
-        { property: 'og:title', content: 'KodaDot Kusama NFT explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:title', content: 'Low minting fees and carbonless NFTs'},
-        { property: 'twitter:description', content: 'KodaDot: Sustainibility mission'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
+      meta: [...this.$seoMeta(metaData)]
     }
   }
 })

@@ -121,7 +121,7 @@
             "
           >
             <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content">
+              <div class="card-content money-cursor">
                 <template v-if="hasPrice">
                   <div class="label">
                     {{ $t('price') }}
@@ -185,7 +185,7 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
@@ -210,36 +210,6 @@ import Orientation from '@/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component<GalleryItem>({
-  metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
-      this.nft.name as string
-    )}.png?price=${
-      Number(this.nft.price)
-        ? Vue.filter('formatBalance')(this.nft.price, 12, 'KSM')
-        : ''
-    }&image=${this.meta.image as string}&mime=${this.mimeType}`
-    return {
-      title: this.nft.name,
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: this.meta.description as string },
-        { property: 'og:title', content: this.nft.name as string },
-        {
-          property: 'og:description',
-          content: this.meta.description as string,
-        },
-        { property: 'og:image', content: image },
-        { property: 'og:video', content: this.meta.image as string },
-        { property: 'og:author', content: this.nft.currentOwner as string },
-        { property: 'twitter:title', content: this.nft.name as string },
-        {
-          property: 'twitter:description',
-          content: this.meta.description as string,
-        },
-        { property: 'twitter:image', content: image },
-      ],
-    }
-  },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
@@ -451,8 +421,18 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   @Watch('meta.image')
   handleNFTPopulationFinished(newVal) {
     if(newVal) {
-    // save visited detail page to history
-      this.$store.dispatch('history/addHistoryItem', { id: this.id, name: this.nft.name, image: this.meta.image, collection: (this.nft.collection as any).name, date: new Date() })
+      // save visited detail page to history
+      this.$store.dispatch('history/addHistoryItem', {
+        id: this.id,
+        name: this.nft.name,
+        image: this.meta.image,
+        collection: (this.nft.collection as any).name,
+        date: new Date(),
+        description: this.meta.description,
+        author: this.nft.currentOwner,
+        price: this.nft.price,
+        mimeType: this.mimeType
+      })
     }
   }
 }

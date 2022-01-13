@@ -23,7 +23,7 @@
           {{ $t('profile.user') }}
         </div>
         <div class="subtitle is-size-6">
-          <ProfileLink :address="id" :inline="true" :showTwitter="true"/>
+          <ProfileLink :address="id" :inline="true" showTwitter showDiscord/>
           <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
             <figure class="image is-24x24 subid__less-margin">
               <img alt="subid" src="/subid.svg" />
@@ -153,7 +153,8 @@ import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+
 
 const components = {
   GalleryCardList: () =>
@@ -173,53 +174,21 @@ const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
   name: 'Profile',
-  components,
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          vmid: 'og:title',
-          content: 'NFT Artist Profile on KodaDot'
-        },
-        {
-          property: 'og:description',
-          vmid: 'og:description',
-          content:
-            (this.firstNFTData.description as string) ||
-            'Find more NFTs from this creator'
-        },
-        {
-          property: 'og:image',
-          vmid: 'og:image',
-          content:
-            (this.firstNFTData.image as string) ||
-            (this.defaultNFTImage as string)
-        },
-        { property: 'twitter:site', content: '@KodaDot' },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        {
-          property: 'twitter:title',
-          vmid: 'twitter:title',
-          content: 'NFT Artist Profile on KodaDot'
-        },
-        {
-          property: 'twitter:description',
-          vmid: 'twitter:description',
-          content:
-            (this.firstNFTData.description as string) ||
-            'Find more NFTs from this creator'
-        },
-        {
-          property: 'twitter:image',
-          vmid: 'twitter:image',
-          content:
-            (this.firstNFTData.image as string) ||
-            (this.defaultNFTImage as string)
-        }
-      ]
+  head() {
+    const title = 'NFT Artist Profile on KodaDot'
+    const metaData = {
+      title,
+      type: 'profile',
+      description: this.firstNFTData.description || 'Find more NFTs from this creator',
+      url: `/westmint/u/${this.id}`,
+      image: this.firstNFTData.image || this.defaultNFTImage,
     }
-  }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)]
+    }
+  },
+  components
 })
 export default class Profile extends mixins(PrefixMixin) {
   public firstNFTData: any = {}

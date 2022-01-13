@@ -13,7 +13,7 @@
       <div class="info">
         <p class="title is-size-3">Teleport {{ unit }}</p>
         <span class="info--currentPrice" title="Current price"
-          >${{ $store.getters.getCurrentKSMValue }}
+          >${{ $store.getters['fiat/getCurrentKSMValue'] }}
         </span>
       </div>
 
@@ -187,8 +187,12 @@ export default class Transfer extends mixins(
       : ''
   }
 
+  layout() {
+    return 'centered-half-layout'
+  }
+
   protected created() {
-    this.$store.dispatch('fetchFiatPrice')
+    this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
   }
 
@@ -196,7 +200,7 @@ export default class Transfer extends mixins(
     /* calculating usd value on the basis of price entered */
     if (this.price) {
       this.usdValue = calculateUsdFromKsm(
-        this.$store.getters.getCurrentKSMValue,
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.price
       )
     } else {
@@ -208,7 +212,7 @@ export default class Transfer extends mixins(
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
       this.price = calculateKsmFromUsd(
-        this.$store.getters.getCurrentKSMValue,
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
       )
     } else {
@@ -236,7 +240,7 @@ export default class Transfer extends mixins(
       this.usdValue = Number(query.usdamount)
       // getting ksm value from the usd value
       this.price = calculateKsmFromUsd(
-        this.$store.getters.getCurrentKSMValue,
+        this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
       )
     }
@@ -324,7 +328,7 @@ export default class Transfer extends mixins(
   protected getUrl(): string {
     return urlBuilderTransaction(
       this.transactionValue,
-      this.$store.getters.getCurrentChain,
+      this.$store.getters['explorer/getCurrentChain'],
       'subscan'
     )
   }
@@ -428,7 +432,6 @@ export default class Transfer extends mixins(
 .box {
   &--container {
     display: flex;
-    justify-content: space-between;
     @media screen and (max-width: 1023px) {
       flex-direction: column;
     }
@@ -450,5 +453,3 @@ export default class Transfer extends mixins(
 }
 </style>
 
-function findCall(api: ApiPromise) { throw new Error('Function not
-implemented.') }

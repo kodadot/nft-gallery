@@ -1,7 +1,18 @@
 <template>
   <section>
-    <h1 class="title is-2">{{ $t('series.title') }}</h1>
-    <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <h1 class="title is-2">{{ $t('series.title') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('series.subtitle') }}</p>
+      </div>
+      <div class="column">
+        <img
+            src="~/assets/rmrk-logo-pink-faded.png"
+            alt="RMRK"
+            class="rmrk-logo is-hidden-mobile"
+          >
+      </div>
+    </div>
 
     <SeriesTable />
   </section>
@@ -10,39 +21,18 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Series>({
-  metaInfo() {
+  head() {
+    const title = 'NFT artist rank'
+    const metaData = {
+      title,
+      type: 'profile',
+      description: 'Discover new artists based on ranking',
+      url: '/series-insight',
+      image: `${this.$config.baseUrl}/k_card_series.png`,
+    }
     return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Kusama NFT Market explorer'
-        },
-        { property: 'og:url', content: 'https://kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Discover new artists based on rank'
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting'
-        },
-        {
-          property: 'og:image',
-          content: this.defaultSeriesMetaImage
-        },
-        {
-          property: 'twitter:title',
-          content: 'NFT artist rank'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Discover new artists based on rank'
-        },
-        {
-          property: 'twitter:image',
-          content: this.defaultSeriesMetaImage
-        }
-      ]
+      title,
+      meta: [...this.$seoMeta(metaData)]
     }
   },
   components: {
@@ -51,10 +41,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class Series extends Vue {
-  get defaultSeriesMetaImage(): string {
-    return (
-      `${this.$config.baseUrl}/k_card_series.png`
-    )
-  }
 }
 </script>
+
+<style scoped>
+.rmrk-logo {
+  aspect-ratio: 127 / 42
+}
+</style>

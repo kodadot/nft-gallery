@@ -25,7 +25,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter />
+            <ProfileLink :address="issuer" inline showTwitter showDiscord/>
           </div>
         </div>
       </div>
@@ -121,6 +121,7 @@ import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
+
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -139,48 +140,7 @@ const components = {
   VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
-  metaInfo() {
-    const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
-      this.collection.name as string
-    )}.png?price=Items: ${this.collection?.nfts?.length}&image=${
-      this.meta.image as string
-    }`
-    return {
-      title: 'KodaDot cares about environmental impact',
-      titleTemplate: '%s | Low Carbon NFTs',
-      meta: [
-        { name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
-        {
-          property: 'og:title',
-          content:
-            this.collection.name || 'KodaDot cares about environmental impact',
-        },
-        {
-          property: 'og:url',
-          content: 'https://nft.kodadot.xyz/' + this.$route.path,
-        },
-        { property: 'og:image', content: image },
-        {
-          property: 'og:description',
-          content:
-            this.meta.description || 'Creating Carbonless NFTs on Kusama',
-        },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        {
-          property: 'twitter:title',
-          content:
-            this.collection.name || 'KodaDOT cares about environmental impact',
-        },
-        {
-          property: 'twitter:description',
-          content:
-            this.meta.description || 'Creating Carbonless NFTs on Kusama',
-        },
-        { property: 'twitter:image', content: image },
-      ],
-    }
-  },
-  components,
+  components
 })
 export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   private id = ''
@@ -198,6 +158,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected total = 0
   protected stats: NFT[] = []
   protected priceData: any = []
+  private statsLoaded = false
 
   get isLoading(): boolean {
     return this.$apollo.queries.collection.loading
@@ -256,7 +217,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   public created(): void {
     this.checkId()
     this.checkActiveTab()
-    this.loadStats()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
@@ -297,6 +257,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       .then(({ data }) => data?.nFTEntities?.nodes || [])
       .then((nfts) => {
         this.stats = nfts
+        this.statsLoaded = true
         this.loadPriceData()
       })
   }
@@ -336,6 +297,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
       }
+      this.$store.dispatch('history/setCurrentlyViewedCollection', { name: this.name, image: this.image, description: this.description, numberOfItems: this.collection?.nfts?.length || 0 })
     }
   }
 
@@ -353,11 +315,18 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   @Watch('activeTab')
   protected onTabChange(val: string, oldVal: string): void {
-    if (shouldUpdate(val, oldVal)) {
+    let queryTab = this.$route.query.tab
+
+    if (shouldUpdate(val, oldVal) && (queryTab !== val)) {
       this.$router.replace({
         path: String(this.$route.path),
         query: { tab: val },
       })
+    }
+
+    // Load chart data once when clicked on activity tab for the first time.
+    if (val === 'activity' && !this.statsLoaded) {
+      this.loadStats()
     }
   }
 

@@ -458,6 +458,8 @@
     "showQr": "Show QR"
   },
   "spotlight": {
+    "title": "User Spotlight",
+    "subtitle": "Featuring the most active collectors and artits on RMRK.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
     "sold": "Sold",
@@ -490,7 +492,8 @@
     "submit": "Submit",
     "remove": "Remove",
     "correctAddress": "Correct address format",
-    "copyUrl": "Copy URL"
+    "copyUrl": "Copy URL",
+    "openUrl": "Open URL"
   },
   "helper": {
     "noCollections": "You have no collections",

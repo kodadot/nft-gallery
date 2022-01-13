@@ -1,5 +1,7 @@
 import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
 
+const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
+
 export default {
   server: {
     port: 9090, // default: 3000
@@ -13,15 +15,28 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'KodaDot - Polkadot / Kusama NFT Explorer',
+    title: 'KodaDot - Kusama NFT Market Explorer',
+    titleTemplate: '%s | Low Carbon NFTs',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
-      { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      // { property: 'og:site_name', content: 'KodaDot' },
+      { hid: 'description', name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
+      { property: 'og:locale', content: 'en_US' },
+      { property: 'twitter:site', content: '@KodaDot' },
+      { property: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: baseUrl },
+      { hid: 'og:title', property: 'og:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      { hid: 'og:description', property: 'og:description', content: 'Creating Carbonless NFTs on Kusama' },
+      { hid: 'og:image', property: 'og:image', content: `${baseUrl}/kodadot_card_root.png` },
+      { hid: 'twitter:url', name: 'twitter:url', content: baseUrl },
+      { hid: 'twitter:title', name: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
+      { hid: 'twitter:description', name: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama' },
+      { hid: 'twitter:image', name: 'twitter:image', content: `${baseUrl}/kodadot_card_root.png` },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -40,9 +55,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
-    '~/plugins/metaInfo',
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
@@ -106,7 +121,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    '@nuxtjs/google-analytics',
     '@nuxtjs/pwa',
   ],
 
@@ -126,16 +140,21 @@ export default {
     '@nuxtjs/i18n',
   ],
 
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
-    disabled: true,
-  },
-
   pwa: {
     manifest: {
       name: 'KodaDot - Polkadot / Kusama NFT explorer',
-      short_name: 'KodaDot'
+      short_name: 'KodaDot',
+      background_color: '#000000',
+      theme_color: '#000000',
     },
+    workbox: {
+      // importScripts: [
+      //   'service-worker.js'
+      // ],
+      // swDest: 'service-worker.js',
+      // swURL: './'
+    },
+
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
       purpose: ['any']
@@ -210,6 +229,7 @@ export default {
   publicRuntimeConfig: {
     prefix: process.env.URL_PREFIX || 'rmrk',
     baseUrl: process.env.BASE_URL || 'http://localhost:9090',
+    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
