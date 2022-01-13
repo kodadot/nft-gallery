@@ -149,9 +149,9 @@ export default {
     },
     workbox: {
       importScripts: [
-        'custom-sw.js'
-      ]
-      // swDest: 'service-worker.js',
+        'service-worker.js'
+      ],
+      swDest: 'service-worker.js',
       // swURL: './'
     },
 
