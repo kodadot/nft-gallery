@@ -19,7 +19,6 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
-    "@babel/core": "^7.16.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
@@ -29,7 +28,6 @@
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.0.3",
-    "@polkadot/dev": "^0.65.33",
     "@polkadot/extension-dapp": "^0.40.3",
     "@polkadot/extension-inject": "^0.40.3",
     "@polkadot/ui-keyring": "^0.85.4",
@@ -40,7 +38,6 @@
     "ansi-regex": "^5.0.1",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
-    "babel-jest": "^27.4.6",
     "buefy": "^0.9.10",
     "chart.js": "^3.6.0",
     "chartjs-adapter-luxon": "^1.1.0",
@@ -85,6 +82,7 @@
     "ws": "^7.4.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.7",
     "@babel/helper-define-map": "^7.13.12",
     "@babel/helper-regex": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
@@ -104,6 +102,7 @@
     "@vue/cli-plugin-typescript": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "all-contributors-cli": "^6.20.0",
+    "babel-jest": "^27.4.6",
     "eslint": "^8.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.2.0",
@@ -111,7 +110,6 @@
     "netlify-lambda": "^2.0.14",
     "sass": "^1.42.1",
     "sass-loader": "^10.2",
-    "ts-jest": "^27.1.2",
     "typescript": "^4.5.2",
     "vue-cli-plugin-i18n": "^1.0.1",
     "vue-debounce-decorator": "^1.0.1",
