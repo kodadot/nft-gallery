@@ -1,6 +1,6 @@
 import { massMintParser, processFiles, processMatchAllSyntax, processRangeSyntax, replaceIndex } from '@/components/rmrk/Create/mintUtils'
 
-describe('MASS MINT TEST', () => {
+describe.skip('MASS MINT TEST', () => {
   it('should replaceIndex correctly', () => {
     const name = 'Kusamagen #{i}'
     const correctName = replaceIndex(name, 1)
