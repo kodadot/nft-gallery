@@ -87,6 +87,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component<Sustainibility>({
   head() {
     const metaData = {
+      type: 'article',
       description: 'KodaDot: Sustainibility mission',
       url: '/sustainibility',
       image: `${this.$config.baseUrl}/k_card_mint.png`,

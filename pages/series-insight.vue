@@ -14,6 +14,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     const title = 'NFT artist rank'
     const metaData = {
       title,
+      type: 'profile',
       description: 'Discover new artists based on ranking',
       url: '/series-insight',
       image: `${this.$config.baseUrl}/k_card_series.png`,

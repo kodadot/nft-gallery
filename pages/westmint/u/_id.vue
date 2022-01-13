@@ -159,6 +159,7 @@ const eq = (tab: string) => (el: string) => tab === el
     const title = 'NFT Artist Profile on KodaDot'
     const metaData = {
       title,
+      type: 'profile',
       description: this.firstNFTData.description || 'Find more NFTs from this creator',
       url: `/westmint/u/${this.id}`,
       image: this.firstNFTData.image || this.defaultNFTImage,
