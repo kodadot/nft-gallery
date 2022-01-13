@@ -148,10 +148,10 @@ export default {
       theme_color: '#000000',
     },
     workbox: {
-      importScripts: [
-        'service-worker.js'
-      ],
-      swDest: 'service-worker.js',
+      // importScripts: [
+      //   'service-worker.js'
+      // ],
+      // swDest: 'service-worker.js',
       // swURL: './'
     },
 
