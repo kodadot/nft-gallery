@@ -148,7 +148,11 @@ export default {
       theme_color: '#000000',
     },
     workbox: {
-      swDest: 'service-worker.js',
+      // importScripts: [
+      //   'service-worker.js'
+      // ],
+      // swDest: 'service-worker.js',
+      // swURL: './'
     },
 
     // according to Google using purpose ['any', 'maskable'] is discouraged

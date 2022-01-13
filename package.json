@@ -15,7 +15,7 @@
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue ."
   },
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=16.13.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
