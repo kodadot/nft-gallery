@@ -39,7 +39,7 @@
             </b-input>
           </b-field>
           <b-field label="discord">
-            <b-input placeholder="Discord Username" v-model="identity.discord">
+            <b-input placeholder="Discord UserName#0000" v-model="identity.discord">
             </b-input>
           </b-field>
           <b-field label="riot">
