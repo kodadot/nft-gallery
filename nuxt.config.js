@@ -1,4 +1,4 @@
-import defineApolloConfig, { toApolloEndpoint } from './defineApolloConfig'
+import defineApolloConfig, { toApolloEndpoint } from './utils/config/defineApolloConfig'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
