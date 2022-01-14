@@ -154,7 +154,7 @@ export default class Landing extends Vue {
   color: $text;
 
   @include desktop {
-    background: url('/homepage-bg.jpg') center bottom;
+    background: url('/homepage-bg.webp') center bottom;
     background-repeat: no-repeat;
     background-size: contain;
   }
