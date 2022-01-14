@@ -2,7 +2,7 @@
 import { getMany, setMany, update } from 'idb-keyval'
 
 import { queryBatch } from '@/utils/cloudflare'
-import { fetchMetadata, fetchNFTMetadata, zip } from '~/components/rmrk/utils'
+import { fetchMetadata, zip } from '~/components/rmrk/utils'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
 import { emptyObject } from './empty'
