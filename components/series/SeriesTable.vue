@@ -54,9 +54,8 @@
 
     <b-table
       :data="data"
-      :default-sort="sortBy.field"
+      :default-sort="[sortBy.field, sortBy.value === -1 ? 'desc' : 'asc']"
       :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
-      backend-sorting
       hoverable
     >
       <b-table-column
@@ -380,13 +379,16 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     this.isLoading = false
   }
 
+  // isn't called for now since backend doesn't support sorting param afaik?
   public onSort(field: string, order: string) {
-    let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
+    this.sortBy.field = field
+    this.sortBy.value = order === 'desc' ? -1 : 1
+    // let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
     this.$router.replace({
       path: String(this.$route.path),
       query: { ...this.$route.query, sort: (order === 'desc' ? '-' : '+') + field },
     }).catch((e) => console.warn(e))
-    this.fetchCollectionsSeries(Number(this.nbRows), sort)
+    this.fetchCollectionsSeries(Number(this.nbRows), this.sortBy)
   }
 
   @Watch('nbRows')
