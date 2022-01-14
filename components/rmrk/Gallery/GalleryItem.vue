@@ -14,7 +14,7 @@
       </div>
     </b-message>
 
-    <div class="columns">
+    <div class="columns" :class="{ 'fixed-height': isFullScreenView }">
       <div
         class="image-wrapper"
         @mouseenter="showNavigation = true"
@@ -42,35 +42,33 @@
             class="image-preview has-text-centered"
             :class="{ fullscreen: isFullScreenView }"
           >
+            <img v-if="isFullScreenView" :src="meta.image || '/placeholder.svg'"  :alt="meta.description || 'KodaDot NFT minted multimedia'">
             <b-image
-              v-if="!isLoading && imageVisible && !meta.animation_url"
-              :src="meta.image || '/placeholder.svg'"
-              src-fallback="/placeholder.svg'"
-              alt="KodaDot NFT minted multimedia"
+              v-else-if="imageVisible"
+              :src="meta.image"
+              placeholder="/placeholder.svg"
+              :alt="meta.description || 'KodaDot NFT minted multimedia'"
               ratio="1by1"
               @error="onImageError"
-            ></b-image>
-            <img
-              class="fullscreen-image"
-              :src="meta.image || '/placeholder.svg'"
-              alt="KodaDot NFT minted multimedia"
-            />
-            <b-skeleton
-              height="524px"
-              size="is-large"
-              :active="isLoading"
-            ></b-skeleton>
-            <MediaResolver
-              v-if="meta.animation_url"
-              :class="{ withPicture: imageVisible }"
-              :src="meta.animation_url"
-              :poster="meta.image"
-              :description="meta.description"
-              :availableAnimations="[meta.animation_url]"
-              :mimeType="mimeType"
-            />
+            >
+            </b-image>
+            <div v-else class="media-container is-flex is-justify-content-center">
+              <MediaResolver
+                :src="meta.animation_url"
+                :poster="meta.image"
+                :description="meta.description"
+                :availableAnimations="[meta.animation_url]"
+                :mimeType="mimeType"
+                class="media-item"
+              />
+            </div>
           </div>
-          <Navigation v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1" :showNavigation="showNavigation" :items="nftsFromSameCollection" :currentId="nft.id"/>
+          <Navigation
+            v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
+            :showNavigation="showNavigation"
+            :items="nftsFromSameCollection"
+            :currentId="nft.id"
+          />
         </div>
         <button
           id="fullscreen-view"
@@ -278,7 +276,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             this.fetchCollectionItems()
           ])
         },
-        pollInterval: 5000,
+        // pollInterval: 5000,
       })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
@@ -438,12 +436,16 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 hr.comment-divider {
   border-top: 1px solid lightpink;
   border-bottom: 1px solid lightpink;
+}
+
+.fixed-height {
+  height: 748px;
 }
 
 .gallery-item {
@@ -470,6 +472,15 @@ hr.comment-divider {
     }
 
     .image-preview {
+      .media-container {
+        position: relative;
+        padding-top: 100%;
+        .media-item {
+          position: absolute;
+          top:0;
+          height: 100%
+        }
+      }
       &.fullscreen {
         position: fixed;
         width: 100%;
@@ -478,23 +489,9 @@ hr.comment-divider {
         left: 0;
         z-index: 999998;
         background: #000;
-
-        img.fullscreen-image {
-          display: block;
-          object-fit: contain;
-          width: 100%;
-          height: 100%;
-          overflow: auto;
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, 0);
-          overflow-y: hidden;
-        }
-
-        .image {
-          visibility: hidden;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
 
