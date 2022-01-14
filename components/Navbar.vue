@@ -185,7 +185,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   .navbar-dropdown{
     border: 2px solid $primary-light !important;
-    box-shadow: 15px 15px $primary-dark-transparent !important;
+    box-shadow: 13px 14px $primary-dark-transparent !important;
   }
 }
 </style>
