@@ -3,7 +3,7 @@
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-4">
+    <div class="popover-content-container p-4 ms-dos-shadow">
       <div class="columns mb-3">
         <div class="column is-one-quarter">
           <Identicon
@@ -58,13 +58,12 @@
 </template>
 
 <script lang="ts" >
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import {formatDistanceToNow} from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import shouldUpdate from '~/utils/shouldUpdate'
 
 type Address = string | undefined;
 type IdentityFields = Record<string, string>;
@@ -138,13 +137,15 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
 .tippy-container {
   display: inline-block
 }
 
 .popover-content-container {
-  border: 1px solid white;
+  border: 2px solid $primary;
   max-width: 350px
 }
 
@@ -163,5 +164,9 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
 .break-word {
   overflow-wrap: break-word;
+}
+
+.ms-dos-shadow {
+  box-shadow: 13px 14px $primary-dark-transparent;
 }
 </style>
