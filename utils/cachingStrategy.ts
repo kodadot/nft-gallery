@@ -20,17 +20,27 @@ const withUrlOf = ([key, value]: ZipResult) => [key, urlOf(value)]
 const withValue = ([, value]: [string, MayString]): boolean => Boolean(value)
 
 export const getCloudflareImageLinks = async (keys: string[]): P<KeyValue>  => {
-  const values = keys.map(fastExtract).filter(Boolean)
-  const cached = await getMany<string>(values, imageStore)
-  const zipped = zip<string, MayString, ZipResult>(keys, cached)
+  const values = Array.from(new Set(keys.map(fastExtract).filter(Boolean)))
+  const fromCache = await getMany<string>(values, imageStore)
+  const zipped = zip<string, MayString, ZipResult>(values, fromCache)
   const uncached = zipped.filter(([, value]) => !value).map(([key]) => key)
-  const deliveryLinks: KeyValue = await queryBatch(uncached).then(values => Object.entries(values).map(withUrlOf)).then(Object.fromEntries)
+  const cached = zipped.filter(withValue) as ZipResult[]
+  const deliveryLinks: KeyValue = await queryBatch(uncached).then(values => Object.entries(values).map(withUrlOf)).then(Object.fromEntries).catch(() => ({}))
   setMany(Object.entries(deliveryLinks), imageStore).catch(console.warn)
+
   return {
-    ...Object.fromEntries((zipped.filter(withValue) as ZipResult[]).map(withUrlOf)),
     ...deliveryLinks,
+    ...Object.fromEntries(cached),
   }
 }
+
+// const cachedCloudFlareLinks = async (values: string[]): P<KeyValue> => {
+//   const cached = await getMany<string>(values, imageStore)
+//   const zipped = zip<string, MayString, ZipResult>(keys, cached)
+//   const uncached = zipped.filter(([, value]) => !value).map(([key]) => key)
+//   const deliveryLinks: KeyValue = await queryBatch(uncached).then(values => Object.entries(values).map(withUrlOf)).then(Object.fromEntries).catch(() => ({}))
+//   setMany(Object.entries(deliveryLinks), imageStore).catch(console.warn)
+// }
 
 
 
