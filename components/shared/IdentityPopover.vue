@@ -3,7 +3,7 @@
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-4">
+    <div class="popover-content-container p-4 ms-dos-shadow ">
       <div class="columns mb-3">
         <div class="column is-one-quarter">
           <Identicon
@@ -138,13 +138,15 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
 .tippy-container {
   display: inline-block
 }
 
 .popover-content-container {
-  border: 1px solid white;
+  border: 2px solid $primary;
   max-width: 350px
 }
 
@@ -163,5 +165,9 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
 .break-word {
   overflow-wrap: break-word;
+}
+
+.ms-dos-shadow {
+  box-shadow: 15px 15px rgba(80, 8, 53, 0.7);
 }
 </style>
