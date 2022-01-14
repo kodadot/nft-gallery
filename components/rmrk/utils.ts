@@ -84,7 +84,6 @@ export const fetchMetadata = async <T>(
     }
 
     const { status, data } = await api.get(sanitizer(rmrk.metadata))
-    console.log('IPFS data', status, data)
     if (status < 400) {
       return data as T
     }
@@ -93,26 +92,6 @@ export const fetchMetadata = async <T>(
   }
 
   return emptyObject<T>()
-}
-
-export const fetchRmrkMeta = async (
-  rmrk: RMRK
-): Promise<CollectionMetadata> => {
-  try {
-    if (!rmrk.view.metadata) {
-      return emptyObject<CollectionMetadata>()
-    }
-
-    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata))
-    console.log('IPFS data', status, data)
-    if (status < 400) {
-      return data as CollectionMetadata
-    }
-  } catch (e) {
-    console.warn('IPFS Err', e)
-  }
-
-  return emptyObject<CollectionMetadata>()
 }
 
 export const unSanitizeArweaveId = (url: string): string  => {
