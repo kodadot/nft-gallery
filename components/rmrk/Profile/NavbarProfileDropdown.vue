@@ -58,6 +58,11 @@
           F.A.Q.
         </nuxt-link>
       </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <router-link :to="{ name: 'identity' }" >
+          Identity
+        </router-link>
+      </b-dropdown-item>
       <hr
         class="dropdown-divider"
         aria-role="menuitem"

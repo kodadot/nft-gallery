@@ -219,7 +219,7 @@ import { fetchNFTMetadata } from '@/components/rmrk/utils'
 import { get, set } from 'idb-keyval'
 import { MediaType } from '@/components/rmrk/types'
 import axios from 'axios'
-import Orientation from '@/directives/DeviceOrientation'
+import Orientation from '@/utils/directives/DeviceOrientation'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import Connector from '@vue-polkadot/vue-api'
 import { Option } from '@polkadot/types'
@@ -488,7 +488,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 hr.comment-divider {
