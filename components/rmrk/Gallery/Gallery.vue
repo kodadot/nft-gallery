@@ -84,7 +84,7 @@ import { DocumentNode } from 'graphql'
 import { WithData, NFTEntities, NFTWithCollectionMeta, NFTEntitiesWithCount } from 'components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
-import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { cacheOrFetchMetadata, getCloudflareImageLinks } from '@/utils/cachingStrategy'
 import { fastExtract } from '@/utils/ipfs'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
@@ -171,38 +171,22 @@ export default class Gallery extends mixins(PrefixMixin) {
     }))
 
     const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
-    const imageLinks = getCloudflareImageLinks(metadataList)
-    // const storedMetadata = await getMany(metadataList).catch(() => metadataList)
-
-    this.nfts = this.nfts.map((nft: NFTWithCollectionMeta) => ({
-      ...nft,
-      image: imageLinks[fastExtract(nft.metadata || nft.collection.metadata)] || this.placeholder,
-    }))
-
-    // storedMetadata.forEach(async (m, i) => {
-    //   if (!m) {
-    //     try {
-    //       const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
-    //       Vue.set(this.nfts, i, {
-    //         ...this.nfts[i],
-    //         ...meta,
-    //         image: getSanitizer(meta.image || '')(meta.image || '')
-    //       })
-    //       update(this.nfts[i].metadata, () => meta)
-    //     } catch (e) {
-    //       console.warn('[ERR] unable to get metadata')
-    //     }
-    //   } else {
-    //     Vue.set(this.nfts, i, {
-    //       ...this.nfts[i],
-    //       ...m,
-    //       image: getSanitizer(m.image || '')(m.image || '')
-    //     })
-    //   }
-    // })
+    const imageLinks = await getCloudflareImageLinks(metadataList)
+    const storedMetadata = await getMany<NFTMetadata>(metadataList)
 
 
-    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    storedMetadata.forEach(async (m, i) => {
+      const meta = await cacheOrFetchMetadata(m, metadataList[i])
+      Vue.set(this.nfts, i, {
+        ...this.nfts[i],
+        ...meta,
+        image: imageLinks[fastExtract(this.nfts[i].metadata || this.nfts[i].collection.metadata)] || getSanitizer(meta.image || '')(meta.image || ''),
+        animation_url: getSanitizer(meta.animation_url || '')(meta.animation_url || ''),
+      })
+    })
+
+
+    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
 
 
@@ -280,29 +264,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
-  }
-
-  setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
-
-      if (isGif && !target.ffInitialized) {
-        const ff = new Freezeframe(target, {
-          trigger: false,
-          overlay: true,
-          warnings: false
-        })
-
-        target.ffInitialized = true
-      }
-    })
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
   }
 }
 </script>
