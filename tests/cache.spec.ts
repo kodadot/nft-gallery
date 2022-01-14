@@ -2,10 +2,6 @@
  * @jest-environment jsdom
  */
 
-import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
-import { fastExtract } from '~/utils/ipfs'
-import { getMany } from 'idb-keyval'
-import { imageStore } from '~/utils/idbStore'
 import { queryBatch, querySingle } from '@/utils/cloudflare'
 import { zip } from '~/components/rmrk/utils'
 
