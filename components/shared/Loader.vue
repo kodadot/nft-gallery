@@ -56,6 +56,8 @@ export default class Loader extends Vue {
 
   protected randomNumber = randomIntegerBetween(1, 33)
 
+  public interval
+
   get randomFunFactHeading() {
     return i18n.t(`funfacts.${this.randomNumber}.heading`)
   }
@@ -70,6 +72,16 @@ export default class Loader extends Vue {
 
   set isLoading(value: boolean) {
     this.$emit('input', value)
+  }
+
+  public created(): void {
+    setInterval(() => {
+      this.interval = this.randomNumber = randomIntegerBetween(1, 33)
+    }, 8000)
+  }
+
+  public beforeDestroy() {
+    clearInterval(this.interval)
   }
 }
 </script>
