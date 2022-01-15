@@ -138,12 +138,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
-import i18n from '@/utils/config/i18n'
-import { getCurrentColor } from '@/utils/colors'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 @Component({
@@ -186,7 +184,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin-right: 0.5rem;
   }
   .navbar-dropdown{
-    border: 2px solid $primary-light!important;
+    border: 2px solid $primary-light !important;
+    box-shadow: 13px 14px $primary-dark-transparent !important;
   }
 }
 </style>

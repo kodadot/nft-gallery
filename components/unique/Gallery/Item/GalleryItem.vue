@@ -488,7 +488,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 hr.comment-divider {

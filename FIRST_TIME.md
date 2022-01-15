@@ -1,13 +1,22 @@
 We are using `yarn` workspace, as installing things via npm **will result in broken dependencies.**
 
-## Play-🕹
+# Quick Setup- 🏃‍♀️
 
-```shell
-git clone git@github.com:kodadot/nft-gallery.git
-yarn
-yarn dev
-open http://localhost:9090/
+Here is a quick setup guide for the project.
+
+```bash
+git clone https://github.com/kodadot/nft-gallery.git nft-gallery
+cd nft-gallery;
+echo 'NUXT_ENV_KEYRING=true
+      PINATA_API_KEY=
+      PINATA_SECRET_API_KEY=
+      PINATA_MASTER=
+      SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql' > .env
+yarn;yarn dev
 ```
+
+Open http://localhost:9090
+
 ## Docker-🐳
 If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
 
@@ -76,23 +85,8 @@ export default class Summary extends Vue {
 </script>
 ```
 
-# Quick Setup- 🏃‍♀️
-
-Here is a quick setup guide for the project.
-
-```bash
-git clone https://github.com/kodadot/nft-gallery.git
-touch .env
-```
-
-in `.env` add following properties:
-```bash
-NUXT_ENV_KEYRING=true
-PINATA_API_KEY=
-PINATA_SECRET_API_KEY=
-PINATA_MASTER=
-SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql
-```
+ 
+     
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
 To change the network go to the `/settings` and change the prefix.

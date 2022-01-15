@@ -28,8 +28,8 @@
           </b-checkbox>
       </b-field>
       <b-field>
-          <b-checkbox v-model="hidePriceValue" :disabled="!enabledAdvancedUI">
-            {{ $t('Hide price in gallery and collection view by default') }}
+          <b-checkbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
+            {{ $t('Always show price in gallery and collection view by default') }}
           </b-checkbox>
       </b-field>
       <div class="layout-wrapper">
@@ -115,12 +115,12 @@ export default class Interface extends Vue {
     this.$store.dispatch('preferences/setCompactCollection', value)
   }
 
-  get hidePriceValue(): boolean {
-    return this.$store.state.preferences.hidePriceGallery
+  get showPriceValue(): boolean {
+    return this.$store.state.preferences.showPriceGallery
   }
 
-  set hidePriceValue(value: boolean) {
-    this.$store.dispatch('preferences/setHidePriceValue', value)
+  set showPriceValue(value: boolean) {
+    this.$store.dispatch('preferences/setShowPriceValue', value)
   }
 
   get replaceBuyNowWithYolo(): boolean {
