@@ -76,7 +76,7 @@
           </b-field>
         </Search>
 
-        <GalleryCardList :items="collection.nfts" horizontalLayout />
+        <GalleryCardList :items="collection.nfts" :listed="!!(searchQuery && searchQuery.listed)" horizontalLayout />
 
         <Pagination
           class="py-5"
