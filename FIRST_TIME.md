@@ -93,6 +93,15 @@ PINATA_SECRET_API_KEY=
 PINATA_MASTER=
 SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql
 ```
+
+```bash
+echo 'NUXT_ENV_KEYRING=true
+      PINATA_API_KEY=
+      PINATA_SECRET_API_KEY=
+      PINATA_MASTER=
+      SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql' > .env
+```      
+     
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
 To change the network go to the `/settings` and change the prefix.
