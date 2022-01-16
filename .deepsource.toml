@@ -9,4 +9,8 @@ enabled = true
 
 [[transformers]]
 name = "prettier"
+<<<<<<< HEAD
 enabled = true
+=======
+enabled = true
+>>>>>>> adf27702039cb49602f855332c6ce4c37dac2bdb
