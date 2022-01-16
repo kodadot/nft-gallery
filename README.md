@@ -7,8 +7,9 @@
 ![Darling in the Franxx](https://media.giphy.com/media/10YWqUivkQPeeJWD3u/giphy.gif)
 
 ## Coordination for development
-[![KodaDot NFT Discord](https://badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
-[![KodaDot NFT Discord](https://badgen.net/discord/online-members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
+[![KodaDot NFT Discord](https://flat.badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
+[![KodaDot NFT Discord](https://flat.badgen.net/discord/online-members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
+[![@KodaDot](https://flat.badgen.net/twitter/follow/KodaDot)](https://twitter.com/kodadot)
 
 # Repository Statistics
 
@@ -29,49 +30,59 @@ Thank to [contributors-img](https://contrib.rocks).
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
 ### Hard facts about KodaDot development
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
-[![DeepScan grade](https://deepscan.io/api/teams/13903/projects/16948/branches/372223/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=13903&pid=16948&bid=372223)
 
-[![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![GitHub contributors](https://flat.badgen.net/github/contributors/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/graphs/contributors/)
+[![GitHub forks](https://flat.badgen.net/github/forks/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
+[![GitHub stars](https://flat.badgen.net/github/stars/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/stargazers/)
+[![GitHub watchers](https://flat.badgen.net/github/watchers/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/watchers/)
 
-[![GitHub watchers](https://badgen.net/github/watchers/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/watchers/)
-[![GitHub stars](https://badgen.net/github/stars/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/stargazers/)
-[![GitHub forks](https://badgen.net/github/forks/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
+[![GitHub issues-open](https://flat.badgen.net/github/open-issues/kodadot/nft-gallery?color=blue)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen)
+[![GitHub issues-closed](https://flat.badgen.net/github/closed-issues/kodadot/nft-gallery)](https://github.com/Naereen/StrapDown.js/issues?q=is%3Aclosed)
+[![GitHub issues](https://flat.badgen.net/github/issues/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/issues/)
 
-[![GitHub contributors](https://badgen.net/github/contributors/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/graphs/contributors/)
-[![GitHub branches](https://badgen.net/github/branches/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/network/)
-
-<!-- [![GitHub issues-open](https://badgen.net/github/open-issues/kodadot/nft-gallery)](https://github.com/Naereen/StrapDown.js/issues?q=is%3Aopen) I don't like orange -->
-[![GitHub issues](https://badgen.net/github/issues/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/issues/)
-[![GitHub issues-closed](https://badgen.net/github/closed-issues/kodadot/nft-gallery)](https://github.com/Naereen/StrapDown.js/issues?q=is%3Aclosed)
-
-[![GitHub total-pull-requests](https://badgen.net/github/prs/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/pull/)
-[![GitHub open-pull-requests](https://badgen.net/github/open-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aopen)
-
-[![GitHub pull-requests closed](https://badgen.net/github/closed-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aclosed)
-[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Amerged)
+[![GitHub open-pull-requests](https://flat.badgen.net/github/open-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aopen)
+[![GitHub pull-requests merged](https://flat.badgen.net/github/merged-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Amerged)
+[![GitHub pull-requests closed](https://flat.badgen.net/github/closed-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aclosed)
+[![GitHub total-pull-requests](https://flat.badgen.net/github/prs/kodadot/nft-gallery)](https://GitHub.com/kodadot/nft-gallery/pull/)
 
 
 [![GitHub release](https://flat.badgen.net/github/release/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/releases)
 [![GitHub license](https://flat.badgen.net/github/license/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/blob/master/LICENSE)
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 
-### Is it maintained?
+[![Github last commit](https://flat.badgen.net/github/last-commit/kodadot/nft-gallery/main?color=blue)](https://github.com/kodadot/nft-gallery/tree/main)
+
+### Static code analysis
+
+[![DeepScan Grade](https://flat.badgen.net/deepscan/grade/team/13903/project/16948/branch/372223?color=blue)](https://deepscan.io/dashboard/#view=project&tid=13903&pid=16948&bid=372223&prid=&subview=overview)
+[![DeepScan Issues](https://flat.badgen.net/deepscan/issues/team/13903/project/16948/branch/372223?color=blue&label=DeepScan%20Issues)](https://deepscan.io/dashboard/#view=project&tid=13903&pid=16948&bid=372223&prid=&subview=overview)
+[![DeepScan LoC](https://flat.badgen.net/deepscan/lines/team/13903/project/16948/branch/372223?label=DeepScan%20LoC)](https://deepscan.io/dashboard/#view=project&tid=13903&pid=16948&bid=372223&prid=&subview=overview)
+
+[![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
+[![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=resolved+issues&show_trend=true&token=MyayTJdwd-Fr4mnmUdMUxHik)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
+
+### Amount Rewards inside
+
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/&#36;/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/&#36;&#36;/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/&#36;&#36;&#36;/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/&#36;&#36;&#36;&#36;/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/&#36;&#36;&#36;&#36;&#36;/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
+
+<!-- ### Is it maintained? -- I guess if its not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
 
 ## Culture-🧫 - where you can read our recent updates
 * [Twitter](https://twitter.com/KodaDot)
-* [Discord](https://discord.gg/u6ymnbz4PR) 
+* [Discord](https://discord.gg/u6ymnbz4PR)
 
 ### Discontinued for now (if you want help us manage these, shout out on Discord)
 * [Telegram](https://t.me/kodadot)
 * [r/KodaDot](https://www.reddit.com/r/KodaDot/)
 
 ## Backlog on progress
-* We've [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours). 
+* We've [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 * You can [find most recent progress, roadmap, planned features, bug fixes, future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 
 ## Writings-📚  by KodaDot team members
@@ -107,7 +118,7 @@ Thank to [contributors-img](https://contrib.rocks).
 
 ## I want to contribute- 🙋‍
 
-Your **contribution** is more than welcome. 
+Your **contribution** is more than welcome.
 Please follow our [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guidelines](CONTRIBUTING.md)**
 
 ## Support the project ⭐
