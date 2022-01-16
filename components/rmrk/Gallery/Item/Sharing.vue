@@ -5,14 +5,16 @@
         <slot />
       </div>
 
-      <ShowQRModal class="control" :address="realworldFullPath" :title="label" />
+      <ShowQRModal
+        class="control"
+        :address="realworldFullPath"
+        :title="label" />
 
       <div class="control">
         <b-button
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="realworldFullPathShare"
-          type="is-primary"
-        >
+          type="is-primary">
           <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
       </div>
@@ -22,8 +24,7 @@
           position="is-left"
           :triggers="['click']"
           :auto-close="['outside', 'escape']"
-          multilined
-        >
+          multilined>
           <template v-slot:content>
             <ShareNetwork
               tag="button"
@@ -32,8 +33,7 @@
               :hashtags="hashtags"
               :url="realworldFullPath"
               :title="label"
-              twitter-user="KodaDot"
-            >
+              twitter-user="KodaDot">
               <b-icon size="is-large" pack="fab" icon="twitter" />
             </ShareNetwork>
             <ShareNetwork
@@ -41,8 +41,7 @@
               class="button share__button is-medium"
               network="telegram"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fab" icon="telegram" />
             </ShareNetwork>
             <ShareNetwork
@@ -51,8 +50,7 @@
               network="facebook"
               :hashtags="hashtags"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fab" icon="facebook" />
             </ShareNetwork>
             <ShareNetwork
@@ -60,8 +58,7 @@
               class="button share__button is-medium"
               network="messenger"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fab" icon="facebook-messenger" />
             </ShareNetwork>
             <ShareNetwork
@@ -69,8 +66,7 @@
               class="button share__button is-medium"
               network="whatsapp"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fab" icon="whatsapp" />
             </ShareNetwork>
             <ShareNetwork
@@ -78,8 +74,7 @@
               class="button share__button is-medium"
               network="pinterest"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fab" icon="pinterest" />
             </ShareNetwork>
             <ShareNetwork
@@ -87,16 +82,14 @@
               class="button share__button is-medium"
               network="email"
               :url="realworldFullPath"
-              :title="label"
-            >
+              :title="label">
               <b-icon size="is-large" pack="fas" icon="envelope" />
             </ShareNetwork>
             <b-button
               size="is-medium"
               v-clipboard:copy="iframeUri"
               @click="toast('Code copied to clipboard')"
-              class="share__button"
-            >
+              class="share__button">
               <b-icon size="is-medium" pack="fas" icon="code" />
             </b-button>
           </template>
@@ -109,7 +102,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { IFrame, emptyIframe } from '../../types'
 

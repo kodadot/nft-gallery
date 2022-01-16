@@ -13,6 +13,6 @@ export const units = [
   { name: 'Peta', value: 1e15 },
   { name: 'Exa', value: 1e18 },
   { name: 'Zeta', value: 1e21 },
-  { name: 'Yotta', value: 1e24 }
+  { name: 'Yotta', value: 1e24 },
 ]
 //# sourceMappingURL=constants.js.map

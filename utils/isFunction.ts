@@ -1,3 +1,3 @@
-const isFunction = (fn: any): boolean  => typeof fn === 'function'
+const isFunction = (fn: any): boolean => typeof fn === 'function'
 
 export default isFunction

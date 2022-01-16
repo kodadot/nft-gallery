@@ -12,8 +12,7 @@ class Query {
 
   static async getTokenBalance(
     api: ApiPromise,
-    accountId: string,
-
+    accountId: string
   ): Promise<string> {
     const cb = api.query.system.account
     const arg = accountId
@@ -21,7 +20,6 @@ class Query {
     const accountData = (balance as any).data.free.toString()
     return accountData
   }
-
 }
 
 export default Query

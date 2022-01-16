@@ -1,5 +1,10 @@
 <template>
-  <v-tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
+  <v-tippy
+    class="tippy-container"
+    interactive
+    :animate-fill="false"
+    placement="bottom"
+    :delay="[100, 800]">
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
@@ -10,8 +15,7 @@
             :size="60"
             :theme="'polkadot'"
             :value="identity.address"
-            class="popover-image avatar mr-5"
-          />
+            class="popover-image avatar mr-5" />
         </div>
         <div class="column is-three-quarters">
           <p class="has-text-weight-bold is-size-5 mb-1 break-word">
@@ -24,54 +28,54 @@
               size="is-small"
               class="copy-icon"
               v-clipboard:copy="identity.address"
-              @click.native="toast('Copied to clipboard')"
-            ></b-icon>
+              @click.native="toast('Copied to clipboard')"></b-icon>
           </p>
           <p class="is-size-7 is-flex is-align-items-center py-3">
-            <b-icon
-              icon="clock"
-              size="is-small"
-            />
+            <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
           </p>
         </div>
       </div>
 
-      <hr style="height: 1px;" class="m-0">
+      <hr style="height: 1px" class="m-0" />
 
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
-          <span class="is-size-7 is-uppercase">{{ $t("profile.collected") }}</span>
+          <span class="is-size-7 is-uppercase">{{
+            $t('profile.collected')
+          }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
-          <span class="is-size-7 is-uppercase">{{ $t("profile.created") }}</span>
+          <span class="is-size-7 is-uppercase">{{
+            $t('profile.created')
+          }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
-          <span class="is-size-7 is-uppercase">{{ $t("profile.sold") }}</span>
+          <span class="is-size-7 is-uppercase">{{ $t('profile.sold') }}</span>
         </div>
       </div>
     </div>
   </v-tippy>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import {formatDistanceToNow} from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-type Address = string | undefined;
-type IdentityFields = Record<string, string>;
+type Address = string | undefined
+type IdentityFields = Record<string, string>
 
 @Component({
   components: {
-    Identicon
-  }
+    Identicon,
+  },
 })
 export default class IdentityPopover extends mixins(PrefixMixin) {
   @Prop() public identity!: IdentityFields
@@ -94,7 +98,9 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
   }
 
   get formattedTimeToNow() {
-    return this.firstMintDate ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true }) : ''
+    return this.firstMintDate
+      ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true })
+      : ''
   }
 
   public async mounted() {
@@ -103,7 +109,10 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
   protected async fetchNFTStats() {
     try {
-      const query = this.urlPrefix === 'rmrk' ? await import('@/queries/nftStatsByIssuer.graphql') : await import('@/queries/unique/nftStatsByIssuer.graphql')
+      const query =
+        this.urlPrefix === 'rmrk'
+          ? await import('@/queries/nftStatsByIssuer.graphql')
+          : await import('@/queries/unique/nftStatsByIssuer.graphql')
       this.$apollo.addSmartQuery('collections', {
         query: query.default,
         manual: true,
@@ -115,7 +124,7 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
             account: this.identity.address || '',
           }
         },
-        fetchPolicy: 'cache-and-network'
+        fetchPolicy: 'cache-and-network',
       })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
@@ -141,12 +150,12 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 @import '@/styles/variables';
 
 .tippy-container {
-  display: inline-block
+  display: inline-block;
 }
 
 .popover-content-container {
   border: 2px solid $primary;
-  max-width: 350px
+  max-width: 350px;
 }
 
 .popover-image {

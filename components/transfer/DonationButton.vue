@@ -1,12 +1,7 @@
 <template>
-  <b-button
-    type="is-primary"
-    icon-left="gift"
-    @click="goToTransfer"
-  >
+  <b-button type="is-primary" icon-left="gift" @click="goToTransfer">
   </b-button>
 </template>
-
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
@@ -17,13 +12,12 @@ export default class DonationButton extends Vue {
   public goToTransfer() {
     this.$router.push({
       name: 'transfer',
-      query: { target: this.address, usdamount: '10', donation: 'true' }
+      query: { target: this.address, usdamount: '10', donation: 'true' },
     })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/variables";
-
+@import '@/styles/variables';
 </style>

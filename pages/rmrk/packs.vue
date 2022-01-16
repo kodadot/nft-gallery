@@ -2,16 +2,14 @@
   <Packs />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import Packs from '@/components/rmrk/Pack/Packs.vue'
 
 @Component({
   components: {
-    Packs
-  }
+    Packs,
+  },
 })
-
-export default class PacksPage extends Vue {
-}
+export default class PacksPage extends Vue {}
 </script>

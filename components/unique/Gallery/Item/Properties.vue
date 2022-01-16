@@ -4,8 +4,7 @@
       <div
         v-for="attr in attributes"
         :key="attr.key"
-        class="level-item has-text-centered mb-4"
-      >
+        class="level-item has-text-centered mb-4">
         <div>
           <p class="heading mb-1">{{ attr.key }}</p>
           <p class="title is-6">{{ attr.value }}</p>

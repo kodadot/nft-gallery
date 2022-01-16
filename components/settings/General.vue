@@ -4,28 +4,24 @@
       label="URL Prefix"
       selector="availableUrlPrefixes"
       setter="setUrlPrefix"
-      default-value="urlPrefix"
-    />
+      default-value="urlPrefix" />
     <SettingChooser
       label="Change node and indexer"
       selector="availableChanges"
       setter="setChange"
-      default-value="change"
-    />
+      default-value="change" />
     <SettingChooser
       label="Node URL"
       selector="availableNodesByPrefix"
       setter="setApiUrl"
       default-value="apiUrl"
       add-option="local"
-      add-method="addNode"
-    />
+      add-method="addNode" />
     <SettingChooser
       label="GraphQL Endpoint"
       selector="availableIndexerByPrefix"
       setter="setIndexer"
-      default-value="indexer"
-    />
+      default-value="indexer" />
 
     <!-- <SettingChooser
       label="Address Prefix"
@@ -37,8 +33,7 @@
       label="Default Icon Theme"
       selector="availableIcons"
       setter="setIcon"
-      default-value="icon"
-    />
+      default-value="icon" />
     <!-- <SettingChooser
       label="Interface Operation Mode"
       selector="availableUiModes"
@@ -49,11 +44,7 @@
     <!-- <SettingChooserExplorer label="Default Explorer Provider" selector="provider" setter="setExplorer" defaultValue="0" />
     <SettingChooserExplorer label="Default Explorer Chain" selector="chain" setter="setExplorer" defaultValue="0" />
     <SettingChooserDevelopment label="Development Mode" selector="options" setter="setDevelopment" /> -->
-    <b-button
-      :style="{ marginTop: '1em' }"
-      type="is-primary"
-      @click="refresh"
-    >
+    <b-button :style="{ marginTop: '1em' }" type="is-primary" @click="refresh">
       Clear Cache & Reload
     </b-button>
   </div>
@@ -69,16 +60,14 @@ import SettingChooserDevelopment from '@/components/settings/SettingChooserDevel
   components: {
     SettingChooser,
     SettingChooserExplorer,
-    SettingChooserDevelopment
+    SettingChooserDevelopment,
   },
 })
 export default class General extends Vue {
-
   // DEV: Not happy about this
   protected refresh() {
     window.sessionStorage.removeItem('vuex')
     window.location.reload()
   }
-
 }
 </script>

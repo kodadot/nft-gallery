@@ -18,13 +18,11 @@
       <div
         class="image-wrapper"
         @mouseenter="showNavigation = true"
-        @mouseleave="showNavigation = false"
-      >
+        @mouseleave="showNavigation = false">
         <button
           id="theatre-view"
           @click="toggleView"
-          v-if="!isLoading && imageVisible"
-        >
+          v-if="!isLoading && imageVisible">
           {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
           {{ $t('view') }}
         </button>
@@ -33,50 +31,49 @@
           :class="{
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
-          }"
-        >
+          }">
           <div
             v-orientation="
               viewMode === 'default' && !isFullScreenView && imageVisible
             "
             class="image-preview has-text-centered"
-            :class="{ fullscreen: isFullScreenView }"
-          >
-            <img v-if="isFullScreenView" :src="meta.image || '/placeholder.svg'"  :alt="meta.description || 'KodaDot NFT minted multimedia'">
+            :class="{ fullscreen: isFullScreenView }">
+            <img
+              v-if="isFullScreenView"
+              :src="meta.image || '/placeholder.svg'"
+              :alt="meta.description || 'KodaDot NFT minted multimedia'" />
             <b-image
               v-else-if="imageVisible"
               :src="meta.image"
               placeholder="/placeholder.svg"
               :alt="meta.description || 'KodaDot NFT minted multimedia'"
               ratio="1by1"
-              @error="onImageError"
-            >
+              @error="onImageError">
             </b-image>
-            <div v-else class="media-container is-flex is-justify-content-center">
+            <div
+              v-else
+              class="media-container is-flex is-justify-content-center">
               <MediaResolver
                 :src="meta.animation_url"
                 :poster="meta.image"
                 :description="meta.description"
                 :availableAnimations="[meta.animation_url]"
                 :mimeType="mimeType"
-                class="media-item"
-              />
+                class="media-item" />
             </div>
           </div>
           <Navigation
             v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
             :showNavigation="showNavigation"
             :items="nftsFromSameCollection"
-            :currentId="nft.id"
-          />
+            :currentId="nft.id" />
         </div>
         <button
           id="fullscreen-view"
           @keyup.esc="minimize"
           @click="toggleFullScreen"
           v-if="!isLoading && imageVisible"
-          :class="{ fullscreen: isFullScreenView }"
-        >
+          :class="{ fullscreen: isFullScreenView }">
           <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
           </b-icon>
         </button>
@@ -90,16 +87,20 @@
           :accountId="accountId"
           :currentOwnerId="nft.currentOwner"
           :nftId="nft.id"
-          :burned="nft.burned"
-        />
+          :burned="nft.burned" />
         <div class="nft-title">
           <Name :nft="nft" :isLoading="isLoading" />
         </div>
 
         <div v-if="meta.description" class="block">
-          <p class="label">{{ $t('legend')}}</p>
-          <b-skeleton :count="3" size="is-large" :active="isLoading"></b-skeleton>
-          <DescriptionWrapper v-if="!isLoading" :text="meta.description.replaceAll('\n', '  \n')" />
+          <p class="label">{{ $t('legend') }}</p>
+          <b-skeleton
+            :count="3"
+            size="is-large"
+            :active="isLoading"></b-skeleton>
+          <DescriptionWrapper
+            v-if="!isLoading"
+            :text="meta.description.replaceAll('\n', '  \n')" />
         </div>
       </div>
 
@@ -113,11 +114,7 @@
             </div>
           </div>
           <div
-            class="
-              column
-              is-flex is-flex-direction-column is-justify-content-space-between
-            "
-          >
+            class="column is-flex is-flex-direction-column is-justify-content-space-between">
             <div class="card bordered mb-4" aria-id="contentIdForA11y3">
               <div class="card-content money-cursor">
                 <template v-if="hasPrice">
@@ -132,8 +129,7 @@
                       v-if="nft.currentOwner === accountId"
                       type="is-warning"
                       outlined
-                      @click="handleUnlist"
-                    >
+                      @click="handleUnlist">
                       {{ $t('Unlist') }}
                     </b-button>
                   </div>
@@ -153,8 +149,7 @@
                           nft.animation_url,
                           nft.metadata,
                         ]"
-                        @change="handleAction"
-                      />
+                        @change="handleAction" />
                     </IndexerGuard>
                     <Auth />
                   </p>
@@ -165,7 +160,10 @@
             </div>
           </div>
         </div>
-        <PriceChart class="mt-4" :priceChartData="priceChartData" :openOnDefault="!compactGalleryItem" />
+        <PriceChart
+          class="mt-4"
+          :priceChartData="priceChartData"
+          :openOnDefault="!compactGalleryItem" />
       </div>
     </div>
 
@@ -175,14 +173,13 @@
           v-if="!isLoading"
           :events="nft.events"
           :open-on-default="!compactGalleryItem"
-          @setPriceChartData="setPriceChartData"
-        />
+          @setPriceChartData="setPriceChartData" />
       </div>
     </div>
   </section>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
@@ -222,7 +219,8 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
     // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
-    DescriptionWrapper: () => import('@/components/shared/collapse/DescriptionWrapper.vue'),
+    DescriptionWrapper: () =>
+      import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
   },
@@ -271,10 +269,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
           emotes: nFTEntity?.emotes?.nodes,
         }),
         result: () => {
-          Promise.all([
-            this.fetchMetadata(),
-            this.fetchCollectionItems()
-          ])
+          Promise.all([this.fetchMetadata(), this.fetchCollectionItems()])
         },
         // pollInterval: 5000,
       })
@@ -295,10 +290,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public async fetchCollectionItems() {
     const collectionId = (this.nft as any)?.collectionId
-    if(collectionId) {
+    if (collectionId) {
       // cancel request and get ids from store in case we already fetched collection data before
-      if(this.$store.state.history?.currentCollection?.id === collectionId) {
-        this.nftsFromSameCollection = this.$store.state.history.currentCollection?.nftIds || []
+      if (this.$store.state.history?.currentCollection?.id === collectionId) {
+        this.nftsFromSameCollection =
+          this.$store.state.history.currentCollection?.nftIds || []
         return
       }
       try {
@@ -311,13 +307,15 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         })
 
         const {
-          data: {
-            nFTEntities
-          }
-        } =  nfts
+          data: { nFTEntities },
+        } = nfts
 
-        this.nftsFromSameCollection = nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
-        this.$store.dispatch('history/setCurrentCollection', { id: collectionId, nftIds: this.nftsFromSameCollection })
+        this.nftsFromSameCollection =
+          nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
+        this.$store.dispatch('history/setCurrentCollection', {
+          id: collectionId,
+          nftIds: this.nftsFromSameCollection,
+        })
       } catch (e) {
         showNotification(`${e}`, notificationTypes.warn)
       }
@@ -331,9 +329,9 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       const meta = m
         ? m
         : await fetchNFTMetadata(
-          this.nft,
-          getSanitizer(this.nft.metadata, undefined, 'permafrost')
-        )
+            this.nft,
+            getSanitizer(this.nft.metadata, undefined, 'permafrost')
+          )
       console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
@@ -413,12 +411,12 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft()
+    ;(this.$refs.actions as AvailableActions).unlistNft()
   }
 
   @Watch('meta.image')
   handleNFTPopulationFinished(newVal) {
-    if(newVal) {
+    if (newVal) {
       // save visited detail page to history
       this.$store.dispatch('history/addHistoryItem', {
         id: this.id,
@@ -429,7 +427,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         description: this.meta.description,
         author: this.nft.currentOwner,
         price: this.nft.price,
-        mimeType: this.mimeType
+        mimeType: this.mimeType,
       })
     }
   }
@@ -477,8 +475,8 @@ hr.comment-divider {
         padding-top: 100%;
         .media-item {
           position: absolute;
-          top:0;
-          height: 100%
+          top: 0;
+          height: 100%;
         }
       }
       &.fullscreen {

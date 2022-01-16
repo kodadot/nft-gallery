@@ -1,17 +1,11 @@
 <template>
-  <audio
-    width="400"
-    controls
-  >
-    <source
-      :src="src"
-      :type="mimeType"
-    >
+  <audio width="400" controls>
+    <source :src="src" :type="mimeType" />
     Unable to show audio
   </audio>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})

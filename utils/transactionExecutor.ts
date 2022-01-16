@@ -8,7 +8,7 @@ import { DispatchError, Hash } from '@polkadot/types/interfaces'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
-export type UnsubscribeFn = () => string;
+export type UnsubscribeFn = () => string
 
 export const execResultValue = (execResult: ExecResult): string => {
   if (typeof execResult === 'function') {
@@ -18,7 +18,13 @@ export const execResultValue = (execResult: ExecResult): string => {
   return execResult
 }
 
-const exec = async (account: KeyringAccount | string, password: string | null, callback: (...params: any[]) => SubmittableExtrinsic<'promise'>, params: any[], statusCb: Callback<any>): Promise<ExecResult> => {
+const exec = async (
+  account: KeyringAccount | string,
+  password: string | null,
+  callback: (...params: any[]) => SubmittableExtrinsic<'promise'>,
+  params: any[],
+  statusCb: Callback<any>
+): Promise<ExecResult> => {
   try {
     const transfer = await callback(...params)
     const address = typeof account === 'string' ? account : account.address
@@ -26,12 +32,15 @@ const exec = async (account: KeyringAccount | string, password: string | null, c
     const hasCallback = typeof statusCb === 'function'
 
     const options = injector ? { signer: injector.signer } : undefined
-    const signer: AddressOrPair = injector ? address : extractFromKeyring(address, password)
+    const signer: AddressOrPair = injector
+      ? address
+      : extractFromKeyring(address, password)
 
     const tx = await transfer.signAsync(signer, options)
     const hash = hasCallback ? await tx.send(statusCb) : await transfer.send()
-    return typeof hash === 'function' ? constructCallback(hash, tx.hash.toHex()) : hash.toHex()
-
+    return typeof hash === 'function'
+      ? constructCallback(hash, tx.hash.toHex())
+      : hash.toHex()
   } catch (err) {
     console.warn(err)
     throw err
@@ -54,9 +63,13 @@ const constructCallback = (cb: () => void, result: string) => {
   }
 }
 
-
-export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: DispatchError) => void, onResult: (result: ISubmittableResult) => void = console.log) =>
-  (result: ISubmittableResult): void  => {
+export const txCb =
+  (
+    onSuccess: (blockHash: Hash) => void,
+    onError: (err: DispatchError) => void,
+    onResult: (result: ISubmittableResult) => void = console.log
+  ) =>
+  (result: ISubmittableResult): void => {
     onResult(result)
     if (result.dispatchError) {
       console.warn('[EXEC] dispatchError', result)
@@ -70,15 +83,20 @@ export const txCb = (onSuccess: (blockHash: Hash) => void, onError: (err: Dispat
     }
   }
 
-export const estimate = async (account: KeyringAccount | string, callback: (...params: any) => SubmittableExtrinsic<'promise'>, params: any[]): Promise<string> => {
+export const estimate = async (
+  account: KeyringAccount | string,
+  callback: (...params: any) => SubmittableExtrinsic<'promise'>,
+  params: any[]
+): Promise<string> => {
   const transfer = await callback(...params)
   const address = typeof account === 'string' ? account : account.address
   const injector = await getAddress(toDefaultAddress(address))
 
-  const info = await transfer.paymentInfo(address, injector ?  { signer: injector.signer } : {})
+  const info = await transfer.paymentInfo(
+    address,
+    injector ? { signer: injector.signer } : {}
+  )
   return info.partialFee.toString()
 }
-
-
 
 export default exec

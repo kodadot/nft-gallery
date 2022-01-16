@@ -6,7 +6,7 @@ import {
   RmrkView,
   RmrkEvent,
   CollectionMetadata,
-  MediaType
+  MediaType,
 } from './types'
 import api from '@/utils/fetch'
 import { RmrkWithMetaType, Interaction } from './service/scheme'
@@ -19,11 +19,13 @@ export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 
 export type ProviderKeyType = IPFSProviders
 export type ArweaveProviders = 'permafrost' | 'arweave'
-export type IPFSProviders = 'pinata' | 'cloudflare' | 'ipfs' | 'dweb' | 'kodadot'
-export type PriceDataType = [
-  date: Date,
-  value: number,
-]
+export type IPFSProviders =
+  | 'pinata'
+  | 'cloudflare'
+  | 'ipfs'
+  | 'dweb'
+  | 'kodadot'
+export type PriceDataType = [date: Date, value: number]
 
 export const ipfsProviders: Record<IPFSProviders, string> = {
   pinata: 'https://kodadot.mypinata.cloud/',
@@ -35,12 +37,15 @@ export const ipfsProviders: Record<IPFSProviders, string> = {
 
 export const arweaveProviders: Record<ArweaveProviders, string> = {
   permafrost: process.env.VUE_APP_PERMAFROST_URL + '/meta/',
-  arweave: process.env.VUE_APP_AR_URL+ '/' || 'https://arweave.net/',
+  arweave: process.env.VUE_APP_AR_URL + '/' || 'https://arweave.net/',
 }
 
 export type SanitizerFunc = (url: string) => string
 
-export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): string | undefined => {
+export const ipfsHashToUrl = (
+  ipfsHash?: string,
+  provider?: ProviderKeyType
+): string | undefined => {
   if (justHash(ipfsHash)) {
     return `${resolveProvider(provider)}ipfs/${ipfsHash}`
   }
@@ -48,10 +53,16 @@ export const ipfsHashToUrl = (ipfsHash?: string, provider?: ProviderKeyType): st
   return ipfsHash || ''
 }
 
-const resolveProvider = (key: ProviderKeyType = 'kodadot'): string => ipfsProviders[key]
-const resolveArProvider = (key: ArweaveProviders = 'arweave'): string => arweaveProviders[key]
+const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
+  ipfsProviders[key]
+const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
+  arweaveProviders[key]
 
-export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: (T1 | T2)[]) => T3): T3[] | (T1 | T2)[][] => {
+export const zip = <T1, T2, T3>(
+  a: T1[],
+  b: T2[],
+  cb?: (el: (T1 | T2)[]) => T3
+): T3[] | (T1 | T2)[][] => {
   const res = a.map((k, i) => [k, b[i]])
 
   if (cb) {
@@ -115,7 +126,7 @@ export const fetchRmrkMeta = async (
   return emptyObject<CollectionMetadata>()
 }
 
-export const unSanitizeArweaveId = (url: string): string  => {
+export const unSanitizeArweaveId = (url: string): string => {
   return unSanitizeUrl(url, 'ar://')
 }
 
@@ -125,7 +136,10 @@ const unSanitizeUrl = (url: string, prefix: string) => {
 
 const ar = /^ar:\/\//
 
-export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders): string  => {
+export const sanitizeArweaveUrl = (
+  url: string,
+  provider?: ArweaveProviders
+): string => {
   if (ar.test(url)) {
     return url.replace(ar, resolveArProvider(provider))
   }
@@ -133,7 +147,7 @@ export const sanitizeArweaveUrl = (url: string, provider?: ArweaveProviders): st
   return url
 }
 
-export const isIpfsUrl = (url: string): boolean  => {
+export const isIpfsUrl = (url: string): boolean => {
   return /^ipfs:\/\//.test(url)
 }
 
@@ -145,28 +159,34 @@ export const isArweaveUrl = (url: string) => {
   return ar.test(url)
 }
 
-
-export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProvider?: ArweaveProviders): SanitizerFunc => {
+export const getSanitizer = (
+  url: string,
+  ipfsProvider?: ProviderKeyType,
+  arProvider?: ArweaveProviders
+): SanitizerFunc => {
   if (isIpfsUrl(url)) {
-    return link => sanitizeIpfsUrl(link, ipfsProvider)
+    return (link) => sanitizeIpfsUrl(link, ipfsProvider)
   }
 
   if (isArweaveUrl(url)) {
-    return link => sanitizeArweaveUrl(link, arProvider)
+    return (link) => sanitizeArweaveUrl(link, arProvider)
   }
 
   if (isIpfsCid(url)) {
-    return link => sanitizeIpfsCid(link, ipfsProvider)
+    return (link) => sanitizeIpfsCid(link, ipfsProvider)
   }
 
-  return link => link
+  return (link) => link
 }
 
 export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType) => {
   return `${resolveProvider(provider)}ipfs/${url}`
 }
 
-export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): string => {
+export const sanitizeIpfsUrl = (
+  ipfsUrl: string,
+  provider?: ProviderKeyType
+): string => {
   if (isIpfsCid(ipfsUrl)) {
     return sanitizeIpfsCid(ipfsUrl, provider)
   }
@@ -184,25 +204,32 @@ export const sanitizeIpfsUrl = (ipfsUrl: string, provider?: ProviderKeyType): st
   return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
 
-export function sanitizeImage<T extends RmrkWithMetaType>(instance: T, provider?: ProviderKeyType): T {
+export function sanitizeImage<T extends RmrkWithMetaType>(
+  instance: T,
+  provider?: ProviderKeyType
+): T {
   return {
     ...instance,
-    image: sanitizeIpfsUrl(instance.image || '', provider)
+    image: sanitizeIpfsUrl(instance.image || '', provider),
   }
 }
 
-export function sanitizeObjectArray<T extends RmrkWithMetaType>(instances: T[], provider?: ProviderKeyType): T[] {
-  return instances.map(i => sanitizeImage(i, provider))
+export function sanitizeObjectArray<T extends RmrkWithMetaType>(
+  instances: T[],
+  provider?: ProviderKeyType
+): T[] {
+  return instances.map((i) => sanitizeImage(i, provider))
 }
 
-export function mapPriceToNumber(instances: NFTWithMeta[], provider?: ProviderKeyType): any[] {
-  return instances.map(i => ({...i, price: Number(i.price || 0)}))
+export function mapPriceToNumber(
+  instances: NFTWithMeta[],
+  provider?: ProviderKeyType
+): any[] {
+  return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
 }
 
 export const decodeRmrkString = (rmrkString: string): RMRK => {
-  const value = decode(
-    isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
-  )
+  const value = decode(isHex(rmrkString) ? hexToString(rmrkString) : rmrkString)
 
   return getRmrk(value)
 }
@@ -320,38 +347,54 @@ export const resolveMedia = (mimeType?: string): MediaType => {
   return result
 }
 
-export const decode = (value: string): string  => decodeURIComponent(value)
-export const sortByTimeStamp = (a: Interaction, b: Interaction) : number => b.timestamp < a.timestamp ? 1 : -1
+export const decode = (value: string): string => decodeURIComponent(value)
+export const sortByTimeStamp = (a: Interaction, b: Interaction): number =>
+  b.timestamp < a.timestamp ? 1 : -1
 export const sortByModification = (a: any, b: any) => b._mod - a._mod
 export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
-export const onlyEvents = (nft: NFT) : Interaction[] => nft.events
-export const eventTimestamp = (e: { timestamp : string }) : string => e.timestamp
-export const onlyPriceEvents = (e: { interaction: string }) : boolean => e.interaction !== 'MINTNFT'
-export const eventsBeforeTime = (time: string) => (evts: Interaction[]) : Interaction[] => {
-  const res = evts.filter(before(new Date(time)))
-  return res.length && res[res.length - 1].interaction === 'LIST' ? [res[res.length - 1]] : []
-}
-export const collectionFloorPriceList = (priceEvents : Interaction[][], decimals: number) => (time : string) : PriceDataType => {
-  const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
-  const priceEvent = listEventsBeforeTime.map((e: Interaction) => Number(e.meta) / 10 ** decimals).filter((price: number) => price > 0)
+export const onlyEvents = (nft: NFT): Interaction[] => nft.events
+export const eventTimestamp = (e: { timestamp: string }): string => e.timestamp
+export const onlyPriceEvents = (e: { interaction: string }): boolean =>
+  e.interaction !== 'MINTNFT'
+export const eventsBeforeTime =
+  (time: string) =>
+  (evts: Interaction[]): Interaction[] => {
+    const res = evts.filter(before(new Date(time)))
+    return res.length && res[res.length - 1].interaction === 'LIST'
+      ? [res[res.length - 1]]
+      : []
+  }
+export const collectionFloorPriceList =
+  (priceEvents: Interaction[][], decimals: number) =>
+  (time: string): PriceDataType => {
+    const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
+    const priceEvent = listEventsBeforeTime
+      .map((e: Interaction) => Number(e.meta) / 10 ** decimals)
+      .filter((price: number) => price > 0)
 
-  const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
-  return [new Date(time), floorPrice]
-}
-export const onlyBuyEvents = (nftEvents:Interaction[]) : Interaction[] => {
-  const buyEvents : Interaction[] = []
+    const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
+    return [new Date(time), floorPrice]
+  }
+export const onlyBuyEvents = (nftEvents: Interaction[]): Interaction[] => {
+  const buyEvents: Interaction[] = []
   nftEvents?.forEach((e: Interaction, index: number) => {
-    if (e.interaction === 'BUY' && index >= 1 && nftEvents[index - 1].interaction === 'LIST') {
-      buyEvents.push({...e, meta: nftEvents[index - 1].meta})
+    if (
+      e.interaction === 'BUY' &&
+      index >= 1 &&
+      nftEvents[index - 1].interaction === 'LIST'
+    ) {
+      buyEvents.push({ ...e, meta: nftEvents[index - 1].meta })
     }
   })
   return buyEvents
 }
-export const soldNFTPrice = (decimals : number) => (e : Interaction) : PriceDataType => [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
-
+export const soldNFTPrice =
+  (decimals: number) =>
+  (e: Interaction): PriceDataType =>
+    [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
 
 export const isJsonGltf = (value: any): boolean => {
   try {
@@ -359,7 +402,12 @@ export const isJsonGltf = (value: any): boolean => {
       return false
     }
 
-    if (!(value['buffers'] && /^data:application\/octet/.test(value['buffers'][0]['uri']))) {
+    if (
+      !(
+        value['buffers'] &&
+        /^data:application\/octet/.test(value['buffers'][0]['uri'])
+      )
+    ) {
       return false
     }
 

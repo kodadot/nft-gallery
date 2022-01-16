@@ -1,5 +1,3 @@
-
-
 query collectionForMint($account: String!) {
   collectionEntities(
     filter: { currentOwner: { equalTo: $account } }

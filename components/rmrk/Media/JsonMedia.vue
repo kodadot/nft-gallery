@@ -1,17 +1,15 @@
 <template>
   <div>
-    <div
-      v-for="item in data"
-      :key="item.key"
-    >
+    <div v-for="item in data" :key="item.key">
       <div>
-        <b>{{ item.key }}</b>: {{ item.value }}
+        <b>{{ item.key }}</b
+        >: {{ item.value }}
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import api from '@/utils/fetch'
 
@@ -27,7 +25,7 @@ export default class Unknown extends Vue {
       console.log('data', data)
       this.data = Object.entries(data).map(([key, value]) => ({
         key,
-        value: JSON.stringify(value)
+        value: JSON.stringify(value),
       }))
     }
   }

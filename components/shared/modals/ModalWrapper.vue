@@ -6,8 +6,7 @@
         :icon-left="icon"
         :expanded="expanded"
         @click="handleOpen"
-        :class="{ 'modal-wrapper-button__right': isRight }"
-      >
+        :class="{ 'modal-wrapper-button__right': isRight }">
         <template v-if="label">{{ label }}</template>
       </b-button>
     </slot>

@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class Money extends Vue {
-  @Prop({default: 0}) readonly value: number | string | undefined
+  @Prop({ default: 0 }) readonly value: number | string | undefined
   @Prop(Boolean) readonly inline!: boolean
 
   private readonly coinId: string = 'kusama'
@@ -32,9 +32,9 @@ export default class Money extends Vue {
 </script>
 
 <style lang="scss">
-  .money {
-    &--inline {
-      display: inline-block;
-    }
+.money {
+  &--inline {
+    display: inline-block;
   }
+}
 </style>

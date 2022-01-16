@@ -5,18 +5,14 @@ query collectionListWithSearch($first: Int!, $offset: Int) {
     orderBy: BLOCK_NUMBER_DESC
     first: $first
     offset: $offset
-    filter: {
-      metadata: { isNull: false },
-    }
+    filter: { metadata: { isNull: false } }
   ) {
     totalCount
     nodes {
       ...collection
       nfts(
         orderBy: BLOCK_NUMBER_DESC
-        filter: {
-        burned: { distinctFrom: true }
-      }
+        filter: { burned: { distinctFrom: true } }
       ) {
         nodes {
           id
