@@ -48,6 +48,8 @@ export default class Loader extends Vue {
 
   protected randomNumber = randomIntegerBetween(1, 33)
 
+  public interval
+
   get randomFunFactHeading() {
     return i18n.t(`funfacts.${this.randomNumber}.heading`)
   }
@@ -63,6 +65,16 @@ export default class Loader extends Vue {
   set isLoading(value: boolean) {
     this.$emit('input', value)
   }
+
+  public created(): void {
+    setInterval(() => {
+      this.interval = this.randomNumber = randomIntegerBetween(1, 33)
+    }, 8000)
+  }
+
+  public beforeDestroy() {
+    clearInterval(this.interval)
+  }
 }
 </script>
 
@@ -71,8 +83,12 @@ export default class Loader extends Vue {
 
 .loading-container {
   text-align: center;
-  background: #a7a9a6e3;
+  background: #1a1a1ae0;
   margin: 0rem 1rem;
+  width: 450px;
+  height: 400px;
+  border: 2px solid $primary-light;
+  box-shadow: 13px 14px $primary-dark-transparent;
 }
 .funfact-text {
   position: relative;
