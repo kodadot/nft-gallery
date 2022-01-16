@@ -1,32 +1,48 @@
 <template>
   <div v-show="history && history.length" class="history-browser">
-    <b-dropdown aria-role="list" scrollable position="is-bottom-left" max-height="400px" >
+    <b-dropdown
+      aria-role="list"
+      scrollable
+      position="is-bottom-left"
+      max-height="400px">
       <template #trigger>
-        <b-button
-          type="is-primary"
-          icon-left="history"
-        />
+        <b-button type="is-primary" icon-left="history" />
       </template>
       <div class="wrapper">
         <div v-if="visitedToday && visitedToday.length">
           <div class="list-header">Today</div>
-          <HistoryBrowserItem v-for="item in visitedToday" :key="item.id" :item="item" />
+          <HistoryBrowserItem
+            v-for="item in visitedToday"
+            :key="item.id"
+            :item="item" />
         </div>
         <div v-if="visitedYesterday && visitedYesterday.length">
           <div class="list-header">Yesterday</div>
-          <HistoryBrowserItem v-for="item in visitedYesterday" :key="item.id" :item="item" />
+          <HistoryBrowserItem
+            v-for="item in visitedYesterday"
+            :key="item.id"
+            :item="item" />
         </div>
         <div v-if="visitedPastWeek && visitedPastWeek.length">
           <div class="list-header">Last 7 Days</div>
-          <HistoryBrowserItem v-for="item in visitedPastWeek" :key="item.id" :item="item" />
+          <HistoryBrowserItem
+            v-for="item in visitedPastWeek"
+            :key="item.id"
+            :item="item" />
         </div>
         <div v-if="visitedPastMonth && visitedPastMonth.length">
           <div class="list-header">This Month</div>
-          <HistoryBrowserItem v-for="item in visitedToday" :key="item.id" :item="item" />
+          <HistoryBrowserItem
+            v-for="item in visitedToday"
+            :key="item.id"
+            :item="item" />
         </div>
         <div v-if="visitedEarlier && visitedEarlier.length">
           <div class="list-header">Earlier</div>
-          <HistoryBrowserItem v-for="item in visitedEarlier" :key="item.id" :item="item" />
+          <HistoryBrowserItem
+            v-for="item in visitedEarlier"
+            :key="item.id"
+            :item="item" />
         </div>
       </div>
     </b-dropdown>
@@ -40,7 +56,7 @@ import { HistoryItem } from '~/store/history'
 
 @Component({
   components: {
-    HistoryBrowserItem
+    HistoryBrowserItem,
   },
   filters: {
     truncate: function truncateFct(value, limit) {
@@ -48,8 +64,8 @@ import { HistoryItem } from '~/store/history'
         value = `${value.substring(0, limit - 3)}...`
       }
       return value
-    }
-  }
+    },
+  },
 })
 export default class HistoryBrowser extends Vue {
   get history() {
@@ -74,13 +90,13 @@ export default class HistoryBrowser extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .history-browser {
   margin: 12px 0 12px 12px;
 }
 @media screen and (min-width: 1024px) {
- .history-browser {
+  .history-browser {
     margin: 0;
   }
 }

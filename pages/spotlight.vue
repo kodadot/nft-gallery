@@ -7,23 +7,22 @@
       </div>
       <div class="column">
         <img
-            src="~/assets/rmrk-logo-pink-faded.png"
-            alt="RMRK"
-            class="rmrk-logo is-hidden-mobile"
-          >
+          src="~/assets/rmrk-logo-pink-faded.png"
+          alt="RMRK"
+          class="rmrk-logo is-hidden-mobile" />
       </div>
     </div>
 
     <SpotlightTable />
   </section>
 </template>
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Leaderboard>({
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
-    SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue')
+    SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
   },
   head() {
     const title = 'NFT artist rank'
@@ -36,16 +35,15 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
   },
 })
-export default class Leaderboard extends Vue {
-}
+export default class Leaderboard extends Vue {}
 </script>
 
 <style scoped>
 .rmrk-logo {
-  aspect-ratio: 127 / 42
+  aspect-ratio: 127 / 42;
 }
 </style>

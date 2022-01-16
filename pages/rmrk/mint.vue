@@ -2,13 +2,13 @@
   <SimpleMint />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
 
 @Component({
   components: {
-    SimpleMint
+    SimpleMint,
   },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
@@ -21,11 +21,9 @@ import SimpleMint from '@/components/rmrk/Create/SimpleMint.vue'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
-  }
+  },
 })
-
-export default class SimpleMintPage extends Vue {
-}
+export default class SimpleMintPage extends Vue {}
 </script>

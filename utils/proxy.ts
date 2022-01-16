@@ -6,7 +6,7 @@ import { extractCid, justHash } from '@/utils/ipfs'
 export const BASE_URL = 'https://beta.kodadot.xyz/.netlify/functions/'
 
 const api = Axios.create({
-  baseURL: BASE_URL
+  baseURL: BASE_URL,
 })
 
 export const pinJson = async (object: any) => {
@@ -24,7 +24,7 @@ export const pinJson = async (object: any) => {
 
 export const getKey = async (address: string) => {
   try {
-    const { status, data } = await api.get('getKey', { params: { address }})
+    const { status, data } = await api.get('getKey', { params: { address } })
     console.log('[PROXY] Obtain', status)
     if (status < 400) {
       return data
@@ -37,7 +37,7 @@ export const getKey = async (address: string) => {
 
 export const revokeKey = async (key: string) => {
   try {
-    const { status, data } = await api.get('revokeKey', { params: { key }})
+    const { status, data } = await api.get('revokeKey', { params: { key } })
     console.log('[PROXY] Revoke', status)
     if (status < 400) {
       return data as APIKeys
@@ -69,8 +69,8 @@ export const pinFile = async (file: Blob): Promise<string> => {
   try {
     const { status, data } = await api.post('pinFile', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data;'
-      }
+        'Content-Type': 'multipart/form-data;',
+      },
     })
     console.log('[PROXY] Pin Image', status, data)
     if (status < 400) {
@@ -94,8 +94,8 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
     const { status, data } = await Axios.post(SLATE_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`
-      }
+        Authorization: `Basic ${process.env.VUE_APP_SLATE_KEY}`,
+      },
     })
     console.log('[PROXY] SLATE Image', status, data)
     if (status < 400) {
@@ -111,8 +111,11 @@ export const pinFileViaSlate = async (file: Blob): Promise<string> => {
 }
 
 const PERMAFROST_URL = process.env.VUE_APP_PERMAFROST_URL
-export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: string): Promise<string> => {
-
+export const permaStore = async (
+  nftMeta: NFTMetadata,
+  file: Blob,
+  collection: string
+): Promise<string> => {
   if (!PERMAFROST_URL) {
     throw new Error('No Permafrost URL set')
   }
@@ -126,17 +129,20 @@ export const permaStore = async (nftMeta: NFTMetadata, file: Blob, collection: s
     } else {
       formData.append(key, value)
     }
-
   })
 
   formData.append('collection', collection)
 
   try {
-    const { status, data } = await Axios.post(PERMAFROST_URL + '/store', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    const { status, data } = await Axios.post(
+      PERMAFROST_URL + '/store',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }
-    })
+    )
     console.log('[PROXY] Permafrost', status, data)
     if (status < 400) {
       return data.arweaveId

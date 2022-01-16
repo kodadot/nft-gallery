@@ -81,10 +81,10 @@ export interface PackMetadata {
 }
 
 export type MassMintNFT = {
-  name: string;
-  description: string;
-  meta: number | string;
-  file?: File;
+  name: string
+  description: string
+  meta: number | string
+  file?: File
 }
 
 // export interface Collection {
@@ -198,9 +198,9 @@ export interface Pack extends BasePack {
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
-  return `${blocknumber ? blocknumber + '-' : ''}${
-    nft.collection
-  }-${nft.instance || nft.name}-${nft.sn}`
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
+    nft.instance || nft.name
+  }-${nft.sn}`
 }
 
 export const computeAndUpdateNft = (

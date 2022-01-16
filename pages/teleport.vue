@@ -4,8 +4,7 @@
     <nuxt-link
       v-if="$route.query.target"
       :to="`/rmrk/u/${destinationAddress}`"
-      class="linkartist"
-    >
+      class="linkartist">
       <b-icon icon="chevron-left" size="is-small" class="linkartist--icon" />
       Go to artist's profile
     </nuxt-link>
@@ -36,24 +35,21 @@
       <DisabledInput
         v-show="correctAddress && correctAddress !== destinationAddress"
         :label="$t('general.correctAddress')"
-        :value="correctAddress"
-      />
+        :value="correctAddress" />
       <div class="box--container">
         <b-field>
           <BalanceInput
             v-model="price"
             label="Amount"
             :calculate="false"
-            @input="onAmountFieldChange"
-          />
+            @input="onAmountFieldChange" />
         </b-field>
         <b-field class="mb-3">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
             label="USD"
-            @input="onUSDFieldChange"
-          />
+            @input="onUSDFieldChange" />
         </b-field>
       </div>
 
@@ -64,8 +60,7 @@
           :loading="isLoading"
           :disabled="disabled"
           outlined
-          @click="submit"
-        >
+          @click="submit">
           {{ $t('general.submit') }}
         </b-button>
         <b-button
@@ -74,8 +69,7 @@
           class="tx"
           icon-left="external-link-alt"
           outlined
-          @click="getExplorerUrl"
-        >
+          @click="getExplorerUrl">
           {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
           }}{{ '...' }}
         </b-button>
@@ -83,8 +77,7 @@
           v-if="transactionValue"
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="getUrl()"
-          type="is-primary"
-        >
+          type="is-primary">
           <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
         <b-button
@@ -94,8 +87,7 @@
           :loading="isLoading"
           @click="toast('Payment link copied to clipboard')"
           v-clipboard:copy="generatePaymentLink()"
-          outlined
-        >
+          outlined>
           {{ $t('Copy Payment link') }}
         </b-button>
       </div>
@@ -109,8 +101,7 @@
           class="tweetBtn"
           icon-left="share-square"
           outlined
-          @click="shareInTweet"
-        >
+          @click="shareInTweet">
           {{ $t('Tweet about your awesome donation') }}
         </b-button>
       </div>
@@ -452,4 +443,3 @@ export default class Transfer extends mixins(
   }
 }
 </style>
-

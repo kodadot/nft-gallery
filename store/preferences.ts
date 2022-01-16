@@ -1,14 +1,14 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
 export const state = (): {
-  layoutClass: string;
-  advancedUI: boolean;
-  theatreView: string;
-  compactGalleryItem: boolean;
-  compactCollection: boolean;
-  showPriceGallery: boolean;
-  galleryItemsPerPage: number;
-  collectionsPerPage: number;
+  layoutClass: string
+  advancedUI: boolean
+  theatreView: string
+  compactGalleryItem: boolean
+  compactCollection: boolean
+  showPriceGallery: boolean
+  galleryItemsPerPage: number
+  collectionsPerPage: number
   replaceBuyNowWithYolo: boolean
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
@@ -31,7 +31,8 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
-  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
+  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
+    replaceBuyNowWithYolo,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -40,7 +41,7 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
-    if(!data) {
+    if (!data) {
       state.layoutClass = 'is-half-desktop is-half-tablet'
       state.theatreView = 'theatre'
       state.compactGalleryItem = true

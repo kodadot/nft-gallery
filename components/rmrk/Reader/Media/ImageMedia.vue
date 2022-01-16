@@ -1,13 +1,10 @@
 <template>
   <figure class="image is-1by1 nft-image">
-    <img
-      :src="src"
-      :alt="mimeType"
-    >
+    <img :src="src" :alt="mimeType" />
   </figure>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})

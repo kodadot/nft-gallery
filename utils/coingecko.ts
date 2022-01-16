@@ -16,7 +16,7 @@ export const getKsmPrice = async (): Promise<void> => {
       params: {
         ids: 'kusama',
         vs_currencies: 'usd',
-      }
+      },
     })
 
     return data
@@ -31,8 +31,8 @@ export const getKSMUSD = async (): Promise<number> => {
     const { data } = await api.get('/simple/price', {
       params: {
         ids: coinId,
-        vs_currencies: 'usd'
-      }
+        vs_currencies: 'usd',
+      },
     })
 
     return data[coinId]['usd']

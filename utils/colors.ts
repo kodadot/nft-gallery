@@ -15,7 +15,8 @@ const chainCrab = '#7C30DD'
 const chainCrust = '#ff8812'
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)'
 const chainChainx = '#F6C94A'
-const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)'
+const chainDarwinia =
+  'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)'
 const chainHanonycash = '#0099CC'
 const chainHydrate = '#000000'
 const chainIntegritee = '#080808'
@@ -31,7 +32,8 @@ const chainRocco = '#6f36dc'
 const chainRoccoAcala = '#173DC9'
 const chainRoccoAres = '#70FF8B'
 const chainRoccoBifrost = '#002cc3'
-const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)'
+const chainRoccoDarwinia =
+  'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)'
 const chainRoccoDataHighway = '#000000'
 const chainRococoLaminar = '#004FFF'
 const chainRoccoTick = '#22bb22'
@@ -118,11 +120,14 @@ export const chainColors: Record<string, any> = [
   ['ZΞRO Alphaville', chainZero],
   ['Zenlink PC1', chainZenlink],
   ['Uniarts', chainUniarts],
-  ['SubDAO PC1', chainSubDAO]
-].reduce((colors, [chain, color]): Record<string, any> => ({
-  ...colors,
-  [chain.toLowerCase()]: color
-}), {})
+  ['SubDAO PC1', chainSubDAO],
+].reduce(
+  (colors, [chain, color]): Record<string, any> => ({
+    ...colors,
+    [chain.toLowerCase()]: color,
+  }),
+  {}
+)
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -145,21 +150,26 @@ export const nodeColors: Record<string, any> = [
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO]
+  ['SubDAO Collator', nodeSubDAO],
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]
-].reduce((colors, [node, color]): Record<string, any> => ({
-  ...colors,
-  [node.toLowerCase().replace(/-/g, ' ')]: color
-}), {})
+].reduce(
+  (colors, [node, color]): Record<string, any> => ({
+    ...colors,
+    [node.toLowerCase().replace(/-/g, ' ')]: color,
+  }),
+  {}
+)
 
-
-function sanitize (value?: string): string {
+function sanitize(value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || ''
 }
 
-export function getSystemChainColor (systemChain: string, systemName: string): string | undefined {
+export function getSystemChainColor(
+  systemChain: string,
+  systemName: string
+): string | undefined {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)]
 }
@@ -168,14 +178,15 @@ const kodaDotGreen = '#41b883'
 
 let currentColor = kodaDotGreen
 
-export const getCurrentColor = (): string  => currentColor
+export const getCurrentColor = (): string => currentColor
 
 export const changeCurrentColor = async () => {
   const { api } = Connector.getInstance()
   try {
     const chain = await api.rpc.system.chain()
     const node = await api.rpc.system.name()
-    currentColor = getSystemChainColor(chain.toHuman(), node.toHuman()) || kodaDotGreen
+    currentColor =
+      getSystemChainColor(chain.toHuman(), node.toHuman()) || kodaDotGreen
     return currentColor
   } catch (e) {
     console.warn('[COLORS] NO collor for this chain')

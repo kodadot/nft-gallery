@@ -24,13 +24,12 @@ import Metadata from '@/components/metadata/Metadata.vue'
   components: {
     General,
     Metadata,
-    Interface
+    Interface,
   },
 })
-
 export default class Settings extends Vue {
   get activeTab(): string {
-    return this.$route.query.tab as string || 'general'
+    return (this.$route.query.tab as string) || 'general'
   }
 
   set activeTab(val) {
@@ -39,6 +38,5 @@ export default class Settings extends Vue {
       query: { tab: val },
     })
   }
-
 }
 </script>

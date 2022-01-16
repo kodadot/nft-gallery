@@ -3,27 +3,34 @@
     <Loader v-model="isLoading" :status="status" />
     <div v-if="frozen" class="sub-title is-6 has-text-info">Frozen</div>
     <div v-if="accountId" class="buttons">
-      <b-button v-for="action in actions" :key="action" :type="iconType(action)[0]"
-      outlined
-      expanded
-      @click="handleAction(action)">
+      <b-button
+        v-for="action in actions"
+        :key="action"
+        :type="iconType(action)[0]"
+        outlined
+        expanded
+        @click="handleAction(action)">
         {{ action }}
       </b-button>
     </div>
-    <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" emptyOnError />
+    <component
+      class="mb-4"
+      v-if="showMeta"
+      :is="showMeta"
+      @input="updateMeta"
+      emptyOnError />
     <b-button
       v-if="showSubmit"
       type="is-primary"
       icon-left="paper-plane"
-      @click="submit"
-    >
+      @click="submit">
       Submit {{ selectedAction }}
     </b-button>
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Prop} from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -33,7 +40,11 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
 
-const ownerActions: NFTAction[] = [NFTAction.SEND, NFTAction.CONSUME, NFTAction.DELEGATE]
+const ownerActions: NFTAction[] = [
+  NFTAction.SEND,
+  NFTAction.CONSUME,
+  NFTAction.DELEGATE,
+]
 // const buyActions: NFTAction[] = [NFTAction.BUY]
 const delegatorActions: NFTAction[] = [NFTAction.SEND]
 
@@ -43,7 +54,7 @@ const needMeta: Record<string, string> = {
   DELEGATE: 'AddressInput',
 }
 
-type DescriptionTuple = [string, string] | [string];
+type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
   SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
@@ -53,12 +64,12 @@ const iconResolver: Record<string, DescriptionTuple> = {
 }
 
 const actionResolver: Record<string, [string, string]> = {
-  SEND: ['uniques','transfer'],
-  CONSUME: ['uniques','burn'],
-  DELEGATE: ['uniques','approveTransfer'],
-  FREEZE: ['uniques','freeze'],
-  THAW: ['uniques','thaw'],
-  REVOKE: ['uniques','cancelApproval'],
+  SEND: ['uniques', 'transfer'],
+  CONSUME: ['uniques', 'burn'],
+  DELEGATE: ['uniques', 'approveTransfer'],
+  FREEZE: ['uniques', 'freeze'],
+  THAW: ['uniques', 'thaw'],
+  REVOKE: ['uniques', 'cancelApproval'],
   // LIST: ['is-light'],
   // BUY: ['is-success is-dark']
 }
@@ -66,7 +77,7 @@ const actionResolver: Record<string, [string, string]> = {
 const components = {
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  Loader: () => import('@/components/shared/Loader.vue')
+  Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component({ components })
@@ -87,7 +98,9 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
   get actions() {
     if (this.isOwner) {
-      return this.delegateId ? [...ownerActions, NFTAction.REVOKE] : ownerActions
+      return this.delegateId
+        ? [...ownerActions, NFTAction.REVOKE]
+        : ownerActions
     }
     if (this.isDelegator) {
       return delegatorActions
@@ -116,7 +129,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 
   protected handleAction(action: NFTAction) {
-    if (shouldUpdate(action,  this.selectedAction)) {
+    if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
     } else {
       this.selectedAction = NFTAction.NONE
@@ -126,9 +139,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
   get isDelegator() {
     return (
-      this.delegateId &&
-      this.accountId &&
-      this.delegateId === this.accountId
+      this.delegateId && this.accountId && this.delegateId === this.accountId
     )
   }
 
@@ -169,20 +180,26 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
     const nft = await this.$apollo.query({
       query: nftById,
       variables: {
-        id: this.nftId
+        id: this.nftId,
       },
     })
 
-    const { data: {nFTEntity} } = nft
+    const {
+      data: { nFTEntity },
+    } = nft
     // DEV: nFTEntity.price == 0 is a feature to handle the buy flow
-    if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price == 0 || nFTEntity.price !== this.price ) {
+    if (
+      nFTEntity.currentOwner !== this.currentOwnerId ||
+      nFTEntity.burned ||
+      nFTEntity.price == 0 ||
+      nFTEntity.price !== this.price
+    ) {
       showNotification(
         `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
         notificationTypes.warn
       )
       throw new ReferenceError('NFT has changed')
     }
-
   }
 
   protected async submit() {
@@ -200,58 +217,69 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
       const [section, method] = action
 
-      let cb =  api.tx[section][method]
+      let cb = api.tx[section][method]
       let arg: any[] = this.getArgs()
 
       if (this.isConsume) {
         const burn = cb(...arg)
         cb = api.tx.utility.batchAll
-        arg = [[burn, api.tx.uniques.clearMetadata(this.collectionId, this.nftId)]]
+        arg = [
+          [burn, api.tx.uniques.clearMetadata(this.collectionId, this.nftId)],
+        ]
       }
 
-      const tx = await exec(this.accountId, '', cb, arg, txCb(
-        async (blockHash) => {
-          execResultValue(tx)
-          const header = await api.rpc.chain.getHeader(blockHash)
-          const blockNumber = header.number.toString()
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        arg,
+        txCb(
+          async (blockHash) => {
+            execResultValue(tx)
+            const header = await api.rpc.chain.getHeader(blockHash)
+            const blockNumber = header.number.toString()
 
-          showNotification(`[NFT] ${this.selectedAction} processed in block ${blockNumber}`, notificationTypes.info)
-          if (this.isConsume) {
-            this.unpinNFT()
+            showNotification(
+              `[NFT] ${this.selectedAction} processed in block ${blockNumber}`,
+              notificationTypes.info
+            )
+            if (this.isConsume) {
+              this.unpinNFT()
+            }
+
+            showNotification(
+              `[${this.selectedAction}] ${this.nftId}`,
+              notificationTypes.success
+            )
+            this.selectedAction = NFTAction.NONE
+            this.isLoading = false
+          },
+          (err) => {
+            execResultValue(tx)
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+            this.selectedAction = NFTAction.NONE
+            this.isLoading = false
+          },
+          (res) => {
+            if (res.status.isReady) {
+              this.status = 'loader.casting'
+              return
+            }
+
+            if (res.status.isInBlock) {
+              this.status = 'loader.block'
+              return
+            }
+
+            if (res.status.isFinalized) {
+              this.status = 'loader.finalized'
+              return
+            }
+
+            this.status = ''
           }
-
-          showNotification(
-            `[${this.selectedAction}] ${this.nftId}`,
-            notificationTypes.success
-          )
-          this.selectedAction = NFTAction.NONE
-          this.isLoading = false
-        },
-        err => {
-          execResultValue(tx)
-          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-          this.selectedAction = NFTAction.NONE
-          this.isLoading = false
-        },
-        res => {
-          if (res.status.isReady) {
-            this.status = 'loader.casting'
-            return
-          }
-
-          if (res.status.isInBlock) {
-            this.status = 'loader.block'
-            return
-          }
-
-          if (res.status.isFinalized) {
-            this.status = 'loader.finalized'
-            return
-          }
-
-          this.status = ''
-        }
-      ))
+        )
+      )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e)
@@ -259,13 +287,30 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
     }
   }
   getArgs() {
-    const { selectedAction, collectionId, nftId, currentOwnerId, meta, delegateId } = this
+    const {
+      selectedAction,
+      collectionId,
+      nftId,
+      currentOwnerId,
+      meta,
+      delegateId,
+    } = this
 
-    return NFTUtils.getActionParams(selectedAction, collectionId, nftId, NFTUtils.correctMeta(selectedAction, String(meta), currentOwnerId, delegateId))
+    return NFTUtils.getActionParams(
+      selectedAction,
+      collectionId,
+      nftId,
+      NFTUtils.correctMeta(
+        selectedAction,
+        String(meta),
+        currentOwnerId,
+        delegateId
+      )
+    )
   }
 
   protected unpinNFT() {
-    this.ipfsHashes.forEach(async hash => {
+    this.ipfsHashes.forEach(async (hash) => {
       if (hash) {
         try {
           await unpin(hash)
@@ -275,6 +320,5 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
       }
     })
   }
-
 }
 </script>

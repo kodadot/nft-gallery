@@ -4,8 +4,7 @@
       v-model="isSwitched"
       :rounded="false"
       :size="size"
-      :class="labelColor"
-    >
+      :class="labelColor">
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>
@@ -13,7 +12,7 @@
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { TranslateResult } from 'vue-i18n'
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 

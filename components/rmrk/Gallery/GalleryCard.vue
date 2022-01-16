@@ -1,76 +1,44 @@
 <template>
   <div
     class="card nft-card"
-    :class="{ 'is-current-owner': accountIsCurrentOwner() }"
-  >
+    :class="{ 'is-current-owner': accountIsCurrentOwner() }">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
       :link="link"
       :param="id"
-      tag="a"
-    >
-      <div
-        v-if="image"
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      tag="a">
+      <div v-if="image" class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
           :src="image"
           :alt="title"
-          custom-class="gallery__image-wrapper"
-        />
-        <span
-          v-if="price > 0 && showPriceValue"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+          custom-class="gallery__image-wrapper" />
+        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
-      <div
-        v-else
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      <div v-else class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image
-          :src="placeholder"
-          alt="Simple image"
-          ratio="1by1"
-        />
+        <b-image :src="placeholder" alt="Simple image" ratio="1by1" />
 
-        <span
-          v-if="price > 0"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+        <span v-if="price > 0" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
       <div class="card-content">
         <span
           class="title mb-0 is-4 has-text-centered has-text-primary"
-          :title="name"
-        >
+          :title="name">
           <div class="has-text-overflow-ellipsis">
             {{ nftName }}
           </div>
@@ -80,7 +48,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -96,7 +64,7 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ type: String,default: '/rmrk/gallery' }) public route!: string
+  @Prop({ type: String, default: '/rmrk/gallery' }) public route!: string
   @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string
   @Prop(String) public id!: string
   @Prop(String) public name!: string

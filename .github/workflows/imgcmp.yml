@@ -1,7 +1,7 @@
 #name: imgcmp
 #on:
 #  push:
-#    branches: [ main-nuxt ]
+#    branches: [ main ]
 #jobs:
 #  build:
 #    name: imgcmp

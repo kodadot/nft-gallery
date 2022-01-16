@@ -27,10 +27,13 @@ export function secondaryFileVisible(file?: Blob): boolean {
 }
 
 export function isSecondFileVisible(fileType: MediaType): boolean {
-  return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+  return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType)
 }
 
-export function isFileWithoutType(file: Blob | unknown, mediaType: MediaType): boolean {
+export function isFileWithoutType(
+  file: Blob | unknown,
+  mediaType: MediaType
+): boolean {
   return Boolean(file && mediaType === MediaType.UNKNOWN)
 }
 
@@ -73,7 +76,7 @@ function toMassMint(mints: string[][]) {
     massMintNFTs[fileName] = {
       name,
       description: rest.join('\n'),
-      meta: Number(price)
+      meta: Number(price),
     }
   }
 
@@ -84,7 +87,6 @@ export const isRangeSyntax = (text: string): boolean => {
   const r = /^\d+-\d*\n/
   return r.test(text)
 }
-
 
 export function between(
   x: number,
@@ -98,8 +100,10 @@ export function isMatchAll(text: string): boolean {
   return /^\.\.\.\n/.test(text)
 }
 
-export const replaceIndex = (line: string, replaceWith: string | number): string =>
-  hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line
+export const replaceIndex = (
+  line: string,
+  replaceWith: string | number
+): string => (hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line)
 
 const hasIndex = (line: string) => {
   const r = /{i}/
@@ -134,12 +138,14 @@ export function fromRange(min: number, max: number): string {
   return `${min}-${max === Infinity ? '' : max}`
 }
 
-export function getRange(parsed:  Record<string, MassMintNFT>): Range[] {
+export function getRange(parsed: Record<string, MassMintNFT>): Range[] {
   return Object.keys(parsed).map(toRange).filter(Boolean) as Range[]
 }
 
-
-export function processRangeSyntax(massMints: MassMintNFT[], parsed: Record<string, MassMintNFT>): MassMintNFT[] {
+export function processRangeSyntax(
+  massMints: MassMintNFT[],
+  parsed: Record<string, MassMintNFT>
+): MassMintNFT[] {
   const ranges = getRange(parsed)
   return massMints.map((item, index) => {
     const range = ranges.find(([min, max]) => between(index + 1, min, max))
@@ -149,29 +155,38 @@ export function processRangeSyntax(massMints: MassMintNFT[], parsed: Record<stri
       return {
         ...item,
         ...parsedItem,
-        description: replaceIndex(correctText(item.description, parsedItem.description), index + 1),
-        name: replaceIndex(correctText(item.name, parsedItem.name), index + 1)
+        description: replaceIndex(
+          correctText(item.description, parsedItem.description),
+          index + 1
+        ),
+        name: replaceIndex(correctText(item.name, parsedItem.name), index + 1),
       }
     }
     return item
   })
 }
 
-export function processMatchAllSyntax(massMints: MassMintNFT[], parsed: Record<string, MassMintNFT>): MassMintNFT[] {
+export function processMatchAllSyntax(
+  massMints: MassMintNFT[],
+  parsed: Record<string, MassMintNFT>
+): MassMintNFT[] {
   const applyForAll = parsed['...']
   return massMints.map((item, index) => ({
     ...item,
     ...applyForAll,
-    description: replaceIndex(correctText(item.description, applyForAll.description), index + 1),
-    name: replaceIndex(correctText(item.name, applyForAll.name), index + 1)
+    description: replaceIndex(
+      correctText(item.description, applyForAll.description),
+      index + 1
+    ),
+    name: replaceIndex(correctText(item.name, applyForAll.name), index + 1),
   }))
 }
 
 export function processFiles(files: File[]): MassMintNFT[] {
-  return files.map<MassMintNFT>(file => ({
+  return files.map<MassMintNFT>((file) => ({
     name: file.name,
     description: '',
     meta: 0,
-    file
+    file,
   }))
 }

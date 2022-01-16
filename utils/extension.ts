@@ -1,8 +1,4 @@
-import {
-  web3Enable,
-  web3FromAddress,
-} from '@polkadot/extension-dapp'
-
+import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
 
 export const enableExtension = () => web3Enable('KodaDot')
 

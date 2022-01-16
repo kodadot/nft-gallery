@@ -4,51 +4,57 @@
       {{ $t('user interface mode') }}
     </div>
     <b-switch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
-        {{ enabledAdvancedUI ? $t('advanced user interface') : $t('basic user interface') }}
+      {{
+        enabledAdvancedUI
+          ? $t('advanced user interface')
+          : $t('basic user interface')
+      }}
     </b-switch>
     <div class="box">
       <b-field>
-          <b-checkbox v-model="theatreView" :disabled="!enabledAdvancedUI">
-            {{ $t('Enable Theatre View on default') }}
-          </b-checkbox>
-      </b-field>
-        <b-field>
-          <b-checkbox v-model="compactGalleryItem" :disabled="!enabledAdvancedUI">
-              {{ $t('Fold history and price chart in NFT view on default') }}
-          </b-checkbox>
-      </b-field>
-      <b-field >
-          <b-checkbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
-            {{ $t('Fold description in collection view on default') }}
-          </b-checkbox>
+        <b-checkbox v-model="theatreView" :disabled="!enabledAdvancedUI">
+          {{ $t('Enable Theatre View on default') }}
+        </b-checkbox>
       </b-field>
       <b-field>
-          <b-checkbox v-model="replaceBuyNowWithYolo" :disabled="!enabledAdvancedUI">
-            {{ $t('Replace buy now with YOLO') }}
-          </b-checkbox>
+        <b-checkbox v-model="compactGalleryItem" :disabled="!enabledAdvancedUI">
+          {{ $t('Fold history and price chart in NFT view on default') }}
+        </b-checkbox>
       </b-field>
       <b-field>
-          <b-checkbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
-            {{ $t('Always show price in gallery and collection view by default') }}
-          </b-checkbox>
+        <b-checkbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
+          {{ $t('Fold description in collection view on default') }}
+        </b-checkbox>
+      </b-field>
+      <b-field>
+        <b-checkbox
+          v-model="replaceBuyNowWithYolo"
+          :disabled="!enabledAdvancedUI">
+          {{ $t('Replace buy now with YOLO') }}
+        </b-checkbox>
+      </b-field>
+      <b-field>
+        <b-checkbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
+          {{
+            $t('Always show price in gallery and collection view by default')
+          }}
+        </b-checkbox>
       </b-field>
       <div class="layout-wrapper">
-          <div class="label">
-            {{ $t('Layout Options') }}
-          </div>
-          <Layout :disabled="!enabledAdvancedUI" position="is-left" />
+        <div class="label">
+          {{ $t('Layout Options') }}
+        </div>
+        <Layout :disabled="!enabledAdvancedUI" position="is-left" />
       </div>
       <b-field :label="$t('Gallery Items Per Page')" class="field-width">
         <b-select
           v-model="galleryItemsPerPage"
           expanded
-          :disabled="!enabledAdvancedUI"
-        >
+          :disabled="!enabledAdvancedUI">
           <option
             v-for="option in paginationOptions"
             :key="option"
-            :value="option"
-          >
+            :value="option">
             {{ option }}
           </option>
         </b-select>
@@ -57,13 +63,11 @@
         <b-select
           v-model="collectionsPerPage"
           expanded
-          :disabled="!enabledAdvancedUI"
-        >
+          :disabled="!enabledAdvancedUI">
           <option
             v-for="option in paginationOptions"
             :key="option"
-            :value="option"
-          >
+            :value="option">
             {{ option }}
           </option>
         </b-select>
@@ -77,8 +81,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   components: {
-    Layout: () => import('@/components/rmrk/Gallery/Layout.vue')
-  }
+    Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  },
 })
 export default class Interface extends Vue {
   public paginationOptions = [9, 12, 24, 36]

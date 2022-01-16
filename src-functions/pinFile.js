@@ -7,7 +7,8 @@ export async function handler(event) {
   try {
     const { status, data } = await axios.post(BASE_URL, object, {
       headers: {
-        'Content-Type': event.headers['Content-Type'] || event.headers['content-type'],
+        'Content-Type':
+          event.headers['Content-Type'] || event.headers['content-type'],
         maxBodyLength: 'Infinity',
         pinata_api_key: process.env.PINATA_API_KEY,
         pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
@@ -19,8 +20,6 @@ export async function handler(event) {
       statusCode: status,
       body: JSON.stringify(data),
     }
-
-
   } catch (e) {
     console.log('Error', e.message, e.data)
     return {
@@ -28,6 +27,4 @@ export async function handler(event) {
       body: e.message,
     }
   }
-
 }
-

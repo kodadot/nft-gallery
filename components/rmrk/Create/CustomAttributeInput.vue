@@ -1,8 +1,5 @@
 <template>
-  <CollapseWrapper
-    :visible="visible"
-    :hidden="hidden"
-  >
+  <CollapseWrapper :visible="visible" :hidden="hidden">
     <b-button
       type="is-light"
       outlined
@@ -15,38 +12,39 @@
     <div
       v-for="(attribute, index) in attributes"
       :key="index"
-      class="custom-attribute-input mt-4 mb-4"
-    >
+      class="custom-attribute-input mt-4 mb-4">
       <AttributeInput
         v-bind.sync="attributes[index]"
         :index="index"
-        @remove="removeAttribute"
-      />
+        @remove="removeAttribute" />
     </div>
   </CollapseWrapper>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 
 const components = {
   AttributeInput: () => import('./AttributeInput.vue'),
-  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue')
+  CollapseWrapper: () =>
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
 }
 
 @Component({ components })
 export default class extends Vue {
   @Prop({ type: Number, default: 0 }) max!: number
-  @Prop({ type: String, default: 'collapse.collection.attributes.show' }) visible!: string
-  @Prop({ type: String, default: 'collapse.collection.attributes.hide' }) hidden!: string
+  @Prop({ type: String, default: 'collapse.collection.attributes.show' })
+  visible!: string
+  @Prop({ type: String, default: 'collapse.collection.attributes.hide' })
+  hidden!: string
   protected attributes: Attribute[] = []
 
   addAttribute(): void {
     if (!this.max || (this.max && this.attributes.length < this.max)) {
       this.attributes.push({
         value: '',
-        trait_type: ''
+        trait_type: '',
       })
     }
   }
@@ -72,11 +70,11 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-  .attribute-label {
-    font-size: calc(1rem * 0.75);
-  }
+.attribute-label {
+  font-size: calc(1rem * 0.75);
+}
 
-  .collapse-icon {
-    vertical-align: sub;
-  }
+.collapse-icon {
+  vertical-align: sub;
+}
 </style>

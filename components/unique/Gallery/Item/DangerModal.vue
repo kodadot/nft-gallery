@@ -56,19 +56,19 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
     return this.attributes && this.attributes.length
   }
 
-
   protected async submit(isMeta: boolean) {
     const { api } = Connector.getInstance()
     this.initTransactionLoader()
-    const cb = isMeta
-      ? api.tx.uniques.clearMetadata
-      : api.tx.utility.batchAll
+    const cb = isMeta ? api.tx.uniques.clearMetadata : api.tx.utility.batchAll
     const args = isMeta
       ? [this.collectionId, this.nftId]
-      : [this.attributes
-        .map(attr => attr.key)
-        .map(key => api.tx.uniques.clearAttribute(this.collectionId, this.nftId, key))
-      ]
+      : [
+          this.attributes
+            .map((attr) => attr.key)
+            .map((key) =>
+              api.tx.uniques.clearAttribute(this.collectionId, this.nftId, key)
+            ),
+        ]
 
     this.howAboutToExecute(this.accountId, cb, args, this.onSuccess)
 

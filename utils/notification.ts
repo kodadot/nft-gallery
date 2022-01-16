@@ -1,9 +1,8 @@
 import { NotificationProgrammatic as Notification } from 'buefy'
 
-export type NotificationType = { type: string, actionText: string }
+export type NotificationType = { type: string; actionText: string }
 export type AvailableNotification = 'success' | 'info' | 'danger' | 'warn'
 export type NotificationList = Record<AvailableNotification, NotificationType>
-
 
 export const notificationTypes: NotificationList = {
   success: {
@@ -25,8 +24,10 @@ export const notificationTypes: NotificationList = {
   },
 }
 
-
-export const showNotification = (message: string | null, params: any = notificationTypes.info): void  => {
+export const showNotification = (
+  message: string | null,
+  params: any = notificationTypes.info
+): void => {
   Notification.open({
     duration: 5000,
     message,

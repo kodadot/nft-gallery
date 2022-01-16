@@ -15,33 +15,35 @@
             @keydown.native.up="moveUp"
             @keydown.native.down="moveDown"
             @typing="updateSuggestion"
-            @select="updateSelected"
-            >
+            @select="updateSelected">
             <template slot-scope="props">
+              <div v-if="props.option.type === 'History'">
+                <div class="searchCache">{{ props.option.name }}</div>
+              </div>
 
-                <div v-if="props.option.type==='History'">
-                  <div class="searchCache"> {{props.option.name}} </div>
-                </div>
-
-                 <div v-else>
-                   <nuxt-link
-                    :to="{ name: 'rmrk-detail-id', params: { id: props.option.id }}"
-                    tag="div"
-                  >
+              <div v-else>
+                <nuxt-link
+                  :to="{
+                    name: 'rmrk-detail-id',
+                    params: { id: props.option.id },
+                  }"
+                  tag="div">
                   <div class="media">
-                  <div class="media-left">
-                    <BasicImage
-                      customClass="is-32x32"
-                      :src="props.option.image === '' ? props.option.animation_url : props.option.image"
-                    />
-                  </div>
-                  <div class="media-content">
+                    <div class="media-left">
+                      <BasicImage
+                        customClass="is-32x32"
+                        :src="
+                          props.option.image === ''
+                            ? props.option.animation_url
+                            : props.option.image
+                        " />
+                    </div>
+                    <div class="media-content">
                       {{ props.option.name }}
+                    </div>
                   </div>
-                  </div>
-                  </nuxt-link>
-                </div>
-
+                </nuxt-link>
+              </div>
             </template>
           </b-autocomplete>
         </b-field>
@@ -52,19 +54,25 @@
             :icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
             type="is-primary"
             expanded
-            @click="isVisible = !isVisible"
-          />
+            @click="isVisible = !isVisible" />
         </b-field>
         <slot />
       </div>
       <b-collapse
         aria-id="sortAndFilter"
         animation="opacitySlide"
-        v-model="isVisible"
-      >
+        v-model="isVisible">
         <div class="columns">
-          <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
-          <BasicSwitch class="is-flex column is-4" v-model="vListed" :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'" size="is-medium" labelColor="is-success" />
+          <Sort
+            class="column is-4 mb-0"
+            :value="sortBy"
+            @input="updateSortBy" />
+          <BasicSwitch
+            class="is-flex column is-4"
+            v-model="vListed"
+            :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
+            size="is-medium"
+            labelColor="is-success" />
         </div>
       </b-collapse>
     </div>
@@ -91,7 +99,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  }
+  },
 })
 export default class SearchBar extends mixins(PrefixMixin) {
   @Prop(String) public search!: string
@@ -109,10 +117,10 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   private first = 10
   private currentValue = 1
-  private result : NFT[] = []
-  private nfts : NFT[] = []
+  private result: NFT[] = []
+  private nfts: NFT[] = []
   private name = ''
-  private searched : NFT[] = []
+  private searched: NFT[] = []
   private highlightPos = 0
 
   public mounted(): void {
@@ -131,7 +139,6 @@ export default class SearchBar extends mixins(PrefixMixin) {
     this.updateListed(listed)
   }
 
-
   get searchQuery(): string {
     return this.search
   }
@@ -144,8 +151,10 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return this.currentValue * this.first - this.first
   }
 
-  get searchSuggestion(){
-    return this.result.length !== 0 ? this.filterSearch().concat(this.result) : this.filterSearch()
+  get searchSuggestion() {
+    return this.result.length !== 0
+      ? this.filterSearch().concat(this.result)
+      : this.filterSearch()
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -161,20 +170,17 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   searchResult() {
-    if(this.highlightPos){
-
+    if (this.highlightPos) {
       const searchCache = this.filterSearch()
-      if(this.highlightPos >= searchCache.length)
-        this.updateSelected(this.result[this.highlightPos-searchCache.length])
-      else
-        this.updateSearch(searchCache[this.highlightPos].name)
+      if (this.highlightPos >= searchCache.length)
+        this.updateSelected(this.result[this.highlightPos - searchCache.length])
+      else this.updateSearch(searchCache[this.highlightPos].name)
     }
 
-    if(!this.name)
-      return
+    if (!this.name) return
 
-    if(!this.oldSearchResult(this.name)){
-      const newResult = { 'type': 'History', 'name': this.name } as unknown as NFT
+    if (!this.oldSearchResult(this.name)) {
+      const newResult = { type: 'History', name: this.name } as unknown as NFT
       this.searched.push(newResult)
       localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
     }
@@ -195,12 +201,11 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return value
   }
 
-  updateSelected(value: any){
-    if(value.type == 'History'){
+  updateSelected(value: any) {
+    if (value.type == 'History') {
       this.updateSearch(value.name)
-    }
-    else{
-      this.$router.push({name:'rmrk-detail-id', params: {id:value.id}})
+    } else {
+      this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
     }
   }
 
@@ -211,12 +216,12 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return value
   }
 
-  moveUp(){
-    this.highlightPos = Math.max(0, this.highlightPos-1)
+  moveUp() {
+    this.highlightPos = Math.max(0, this.highlightPos - 1)
   }
 
-  moveDown(){
-    this.highlightPos = Math.min(this.result.length-1, this.highlightPos+1)
+  moveDown() {
+    this.highlightPos = Math.min(this.result.length - 1, this.highlightPos + 1)
   }
 
   async updateSuggestion(value: string) {
@@ -224,7 +229,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     this.query.search = value
     this.highlightPos = 0
 
-    try{
+    try {
       const nft = this.$apollo.query({
         query: nftListWithSearch,
         client: this.urlPrefix,
@@ -233,13 +238,13 @@ export default class SearchBar extends mixins(PrefixMixin) {
           offset: this.offset,
           denyList,
           orderBy: this.query.sortBy,
-          search: this.buildSearchParam()
-        }
+          search: this.buildSearchParam(),
+        },
       })
       const {
         data: {
-          nFTEntities: { nodes: nfts }
-        }
+          nFTEntities: { nodes: nfts },
+        },
       } = await nft
 
       this.result = nfts
@@ -247,10 +252,13 @@ export default class SearchBar extends mixins(PrefixMixin) {
         this.result.map(({ metadata }: any) => metadata)
       )
 
-      storedMetadata.forEach(async (m: { image: any }, i: string|number) => {
+      storedMetadata.forEach(async (m: { image: any }, i: string | number) => {
         if (!m) {
           try {
-            const meta = await fetchNFTMetadata(this.result[i], getSanitizer(this.result[i].metadata, undefined, 'permafrost'))
+            const meta = await fetchNFTMetadata(
+              this.result[i],
+              getSanitizer(this.result[i].metadata, undefined, 'permafrost')
+            )
             Vue.set(this.result, i, {
               ...this.result[i],
               ...meta,
@@ -268,10 +276,9 @@ export default class SearchBar extends mixins(PrefixMixin) {
           })
         }
       })
-    }catch (e: any) {
+    } catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', this.offset, e.message)
     }
-
   }
 
   @Debounce(100)
@@ -279,7 +286,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     this.$router
       .replace({
         name: String(this.$route.name),
-        query: { ...this.$route.query, search: this.searchQuery, [key]: value }
+        query: { ...this.$route.query, search: this.searchQuery, [key]: value },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
@@ -288,13 +295,13 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
     if (this.query.search) {
       params.push({
-        name: { likeInsensitive: `%${this.query.search}%` }
+        name: { likeInsensitive: `%${this.query.search}%` },
       })
     }
 
     if (this.query.listed) {
       params.push({
-        price: { greaterThan: '0' }
+        price: { greaterThan: '0' },
       })
     }
 
@@ -303,31 +310,34 @@ export default class SearchBar extends mixins(PrefixMixin) {
   private getSearchHistory() {
     // localStorage.kodaDotSearchResult = ''
     const cacheResult = localStorage.kodaDotSearchResult
-    if(cacheResult){
+    if (cacheResult) {
       this.searched = JSON.parse(cacheResult)
     }
   }
 
-  private filterSearch(){
-    if(!this.searched.length)
-      return []
-    return this.searched.filter(option => {
-      return option.name.toString().toLowerCase().indexOf((this.name || '').toLowerCase()) >= 0
+  private filterSearch() {
+    if (!this.searched.length) return []
+    return this.searched.filter((option) => {
+      return (
+        option.name
+          .toString()
+          .toLowerCase()
+          .indexOf((this.name || '').toLowerCase()) >= 0
+      )
     })
   }
 
-  private oldSearchResult(value: string): boolean{
-    const res = this.searched.filter(r => r.name === value)
-    return res.length ? true: false
+  private oldSearchResult(value: string): boolean {
+    const res = this.searched.filter((r) => r.name === value)
+    return res.length ? true : false
   }
 }
-
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/variables';
 
-.b-skeleton{
+.b-skeleton {
   height: 32px !important;
   width: 32px !important;
   position: absolute;

@@ -7,8 +7,7 @@
       :label="label"
       multilined
       square
-      :triggers="['hover', 'click']"
-    >
+      :triggers="['hover', 'click']">
       <b-button type="is-dark" :size="buttonsize">
         <b-icon :size="iconsize" icon="info" />
       </b-button>

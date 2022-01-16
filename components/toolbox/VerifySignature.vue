@@ -3,40 +3,37 @@
     <AccountSelect
       v-model="accountFrom"
       label="sign with following account"
-      :as-keyring="true"
-    />
+      :as-keyring="true" />
     <b-field label="using the following data">
       <b-input
         v-model="data"
         :disabled="!accountFrom"
-        @input="isHexData();complexVerifySignature()"
-      />
+        @input="
+          isHexData()
+          complexVerifySignature()
+        " />
     </b-field>
     <b-field
       label="the supplied signature"
-      :type="{ 'is-success': validSignature, 'is-danger': !validSignature }"
-    >
+      :type="{ 'is-success': validSignature, 'is-danger': !validSignature }">
       <b-input
         v-model="signature"
         :disabled="!accountFrom"
-        @input="complexVerifySignature()"
-      />
+        @input="complexVerifySignature()" />
     </b-field>
     <b-field grouped>
       <DisabledInput
         label="hex input data"
         :expanded="true"
-        :value="inputDataCheck"
-      />
+        :value="inputDataCheck" />
       <DisabledInput
         label="signature crypto type"
         :expanded="true"
-        :value="cryptoType"
-      />
+        :value="cryptoType" />
     </b-field>
   </div>
 </template>
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { isHex, u8aToHex } from '@polkadot/util'
@@ -48,8 +45,8 @@ import { emptyObject } from '@/utils/empty'
 @Component({
   components: {
     AccountSelect,
-    DisabledInput
-  }
+    DisabledInput,
+  },
 })
 export default class VerifySignature extends Vue {
   private data: any = ''
@@ -63,15 +60,14 @@ export default class VerifySignature extends Vue {
   private cryptoType = 'unknown'
 
   private isHexData(): void {
-    this.inputDataCheck = isHex(this.data)
-      ? 'Yes'
-      : 'No'
+    this.inputDataCheck = isHex(this.data) ? 'Yes' : 'No'
   }
 
   // yet we think this is sub-optimal, but it works!
   private complexVerifySignature(): void {
     this.keyringPubKey = u8aToHex(this.accountFrom.publicKey)
-    this.isValidSignature = isHex(this.signature) && this.signature.length === 130
+    this.isValidSignature =
+      isHex(this.signature) && this.signature.length === 130
     this.validSignature = false
     if (this.isValidSignature && this.keyringPubKey) {
       let isValidSr = false
@@ -88,7 +84,11 @@ export default class VerifySignature extends Vue {
         this.cryptoType = 'ed25519'
       } else {
         try {
-          isValidSr = schnorrkelVerify(this.data, this.signature, this.keyringPubKey)
+          isValidSr = schnorrkelVerify(
+            this.data,
+            this.signature,
+            this.keyringPubKey
+          )
           this.validSignature = true
         } catch (error) {
           console.log(error)

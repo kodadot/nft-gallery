@@ -1,11 +1,10 @@
-
 # Security Policy
 
 KodaDot is committed to resolving security vulnerabilities in our software quickly and carefully. We take the necessary steps to minimize risk, provide timely information, and deliver vulnerability fixes and mitigations required to address security issues.
 
 ## Reporting a Vulnerability
 
-Security vulnerabilities in KodaDot software should be reported by email to matej@metaprime.network or [Discord channel Anteriors](https://discord.gg/KkctBVQ8kP) 
+Security vulnerabilities in KodaDot software should be reported by email to matej@metaprime.network or [Discord channel Anteriors](https://discord.gg/KkctBVQ8kP)
 
 Your report should include the following:
 

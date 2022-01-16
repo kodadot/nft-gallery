@@ -2,7 +2,7 @@
   <Gallery />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<GalleryPage>({
@@ -17,11 +17,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
-  }
+  },
 })
-export default class GalleryPage extends Vue {
-}
+export default class GalleryPage extends Vue {}
 </script>
-

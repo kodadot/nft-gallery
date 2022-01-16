@@ -5,15 +5,18 @@ import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
 import { startOfToday, subDays } from 'date-fns'
 
-
 export const columns: Column[] = [
   { field: 'id', label: i18n.t('spotlight.id') },
   { field: 'rank', label: i18n.t('spotlight.score'), numeric: true },
   { field: 'unique', label: i18n.t('spotlight.unique'), numeric: true },
   { field: 'averagePrice', label: 'Floor price', numeric: true },
   { field: 'sold', label: i18n.t('spotlight.sold'), numeric: true },
-  { field: 'uniqueCollectors', label: i18n.t('spotlight.unique'), numeric: true },
-  { field: 'total', label: i18n.t('spotlight.total'), numeric: true }
+  {
+    field: 'uniqueCollectors',
+    label: i18n.t('spotlight.unique'),
+    numeric: true,
+  },
+  { field: 'total', label: i18n.t('spotlight.total'), numeric: true },
 ]
 
 export const nftFn = (a: any): RowSeries => {
@@ -22,21 +25,34 @@ export const nftFn = (a: any): RowSeries => {
   const collectionNfts = a.nfts.nodes
   const sold = a.nfts.nodes.reduce(soldFn, 0)
   const unique = a.nfts.nodes.reduce(uniqueFn, new Set()).size
-  const averagePrice = a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
-  const uniqueCollectors = [...new Set(a.nfts.nodes.map((nft: SimpleSeriesNFT) => nft.currentOwner))].length
+  const averagePrice =
+    a.nfts.nodes.filter(onlyOwned).reduce(sumFn, 0) / (a.nfts.nodes.length || 1)
+  const uniqueCollectors = [
+    ...new Set(a.nfts.nodes.map((nft: SimpleSeriesNFT) => nft.currentOwner)),
+  ].length
   const floorPrice = Math.min(
-    ...collectionNfts.map((nft: SimpleSeriesNFT) => Number(nft.price)).filter((price: number) => price > 0)
+    ...collectionNfts
+      .map((nft: SimpleSeriesNFT) => Number(nft.price))
+      .filter((price: number) => price > 0)
   )
 
   const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()
   const totalBuys = buyEvents.length
-  const volume =  Number(getVolume(buyEvents))
+  const volume = Number(getVolume(buyEvents))
   const dailyVolume = Number(getVolume(buyEvents.filter(after(yesterdayDate))))
   const weeklyVolume = Number(getVolume(buyEvents.filter(after(lastweekDate))))
-  const monthlyVolume = Number(getVolume(buyEvents.filter(after(lastmonthDate))))
-  const dailyrangeVolume = Number(getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate))))
-  const weeklyrangeVolume = Number(getVolume(buyEvents.filter(between(last2weekDate, lastweekDate))))
-  const monthlyrangeVolume = Number(getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate))))
+  const monthlyVolume = Number(
+    getVolume(buyEvents.filter(after(lastmonthDate)))
+  )
+  const dailyrangeVolume = Number(
+    getVolume(buyEvents.filter(between(sub2dayDate, yesterdayDate)))
+  )
+  const weeklyrangeVolume = Number(
+    getVolume(buyEvents.filter(between(last2weekDate, lastweekDate)))
+  )
+  const monthlyrangeVolume = Number(
+    getVolume(buyEvents.filter(between(last2monthDate, lastmonthDate)))
+  )
 
   return {
     id: a.id,
@@ -57,24 +73,22 @@ export const nftFn = (a: any): RowSeries => {
     dailyrangeVolume,
     weeklyrangeVolume,
     monthlyrangeVolume,
-    rank: sold * (unique / total)
+    rank: sold * (unique / total),
   }
 }
 
-const tokenDecimals = store.getters['chain/getChainPropertiesTokenDecimals'] as any
+const tokenDecimals = store.getters[
+  'chain/getChainPropertiesTokenDecimals'
+] as any
 const formatNumber = (val: SimpleSeriesNFT) =>
-  Number(
-    formatBalance(
-      val.price,
-      tokenDecimals,
-      false,
-      true
-    )
-  )
+  Number(formatBalance(val.price, tokenDecimals, false, true))
 const sumFn = (acc: number, val: SimpleSeriesNFT) => acc + formatNumber(val)
-const soldFn = (acc: number, val: SimpleSeriesNFT) => val.issuer !== val.currentOwner ? acc + 1 : acc
-const uniqueFn = (acc: Set<string>, val: SimpleSeriesNFT) => acc.add(val.metadata)
-const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) => issuer === currentOwner
+const soldFn = (acc: number, val: SimpleSeriesNFT) =>
+  val.issuer !== val.currentOwner ? acc + 1 : acc
+const uniqueFn = (acc: Set<string>, val: SimpleSeriesNFT) =>
+  acc.add(val.metadata)
+const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
+  issuer === currentOwner
 // const onlyBuyEvents = ({ events }: SimpleSeriesNFT) => events.filter((e: { interaction: string }) => e.interaction === 'BUY')
 // const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)

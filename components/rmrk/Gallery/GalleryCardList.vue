@@ -4,11 +4,7 @@
       <Layout />
     </template>
     <div class="columns is-multiline">
-      <div
-        :class="`column ${classLayout}`"
-        v-for="nft in items"
-        :key="nft.id"
-      >
+      <div :class="`column ${classLayout}`" v-for="nft in items" :key="nft.id">
         <GalleryCard
           :id="nft.id"
           :name="nft.name"
@@ -18,8 +14,7 @@
           :price="nft.price"
           :emoteCount="nft.emoteCount"
           :currentOwner="nft.currentOwner"
-          :listed="listed"
-        />
+          :listed="listed" />
       </div>
     </div>
   </div>
@@ -50,11 +45,10 @@ export default class GalleryCardList extends Vue {
     return nft.metadata || nft.collection?.metadata
   }
 }
-
 </script>
 <style>
 /* TODO: move to global */
-.b-radio.radio.button.is-selected{
+.b-radio.radio.button.is-selected {
   background-color: #db2980;
 }
 </style>

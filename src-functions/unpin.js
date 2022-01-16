@@ -1,8 +1,6 @@
 import axios from 'axios'
 
 export async function handler(event) {
-
-
   const hash = event.queryStringParameters.hash
 
   if (!hash) {
@@ -19,7 +17,7 @@ export async function handler(event) {
       headers: {
         'Content-Type': 'application/json',
         pinata_api_key: process.env.PINATA_API_KEY,
-        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
+        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
       },
     })
     console.log('[PINATA] Pin HASH', status, data)
@@ -28,8 +26,6 @@ export async function handler(event) {
       statusCode: status,
       body: JSON.stringify(data),
     }
-
-
   } catch (e) {
     console.log('Error', e.message)
     return {
@@ -37,6 +33,4 @@ export async function handler(event) {
       body: e.message,
     }
   }
-
 }
-

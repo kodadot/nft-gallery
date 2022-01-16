@@ -2,26 +2,19 @@
   <component :is="is">
     <template v-if="profileMode">
       <slot name="extra" />
-      <nuxt-link
-        :to="`${route}/${param}`"
-        :tag="tag"
-      >
+      <nuxt-link :to="`${route}/${param}`" :tag="tag">
         <slot />
       </nuxt-link>
     </template>
     <template v-else>
-      <a
-        :href="hrefLink"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a :href="hrefLink" target="_blank" rel="noopener noreferrer">
         <slot />
       </a>
     </template>
   </component>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import isShareMode from '@/utils/isShareMode'
