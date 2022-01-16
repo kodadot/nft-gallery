@@ -6,7 +6,7 @@ export const state = (): {
   theatreView: string;
   compactGalleryItem: boolean;
   compactCollection: boolean;
-  hidePriceGallery: boolean;
+  showPriceGallery: boolean;
   galleryItemsPerPage: number;
   collectionsPerPage: number;
   replaceBuyNowWithYolo: boolean
@@ -16,7 +16,7 @@ export const state = (): {
   theatreView: 'theatre',
   compactGalleryItem: true,
   compactCollection: false,
-  hidePriceGallery: false,
+  showPriceGallery: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
@@ -28,7 +28,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
-  getHidePriceValue: ({ hidePriceGallery }) => hidePriceGallery,
+  getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
@@ -45,7 +45,7 @@ export const mutations: MutationTree<PreferencesState> = {
       state.theatreView = 'theatre'
       state.compactGalleryItem = true
       state.compactCollection = false
-      state.hidePriceGallery = false
+      state.showPriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
     }
@@ -60,8 +60,8 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
     state.compactCollection = data
   },
-  SET_HIDE_PRICE(state: PreferencesState, data) {
-    state.hidePriceGallery = data
+  SET_SHOW_PRICE(state: PreferencesState, data) {
+    state.showPriceGallery = data
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
     state.replaceBuyNowWithYolo = data
@@ -90,8 +90,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   setCompactCollection({ commit }: { commit: Commit }, data) {
     commit('SET_COMPACT_COLLECTION', data)
   },
-  setHidePriceValue({ commit }: { commit: Commit }, data) {
-    commit('SET_HIDE_PRICE', data)
+  setShowPriceValue({ commit }: { commit: Commit }, data) {
+    commit('SET_SHOW_PRICE', data)
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)

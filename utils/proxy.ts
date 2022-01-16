@@ -3,7 +3,7 @@ import { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import { extractCid, justHash } from '@/utils/ipfs'
 
-export const BASE_URL = `${window.location.origin}/.netlify/functions/`
+export const BASE_URL = 'https://beta.kodadot.xyz/.netlify/functions/'
 
 const api = Axios.create({
   baseURL: BASE_URL

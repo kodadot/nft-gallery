@@ -3,6 +3,7 @@
     <b-select
       v-model="selectedAction"
       placeholder="Sort by"
+      class="select-dropdown"
     >
       <option
         v-for="action in actions"
@@ -37,3 +38,11 @@ export default class SearchSortDropdown extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+ .select-dropdown {
+  @media screen and (max-width: 1216px) and (min-width: 768px) {
+    width: 200px;
+  }
+ }
+</style>

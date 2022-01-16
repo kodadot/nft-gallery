@@ -18,6 +18,7 @@
           :price="nft.price"
           :emoteCount="nft.emoteCount"
           :currentOwner="nft.currentOwner"
+          :listed="listed"
         />
       </div>
     </div>
@@ -39,6 +40,7 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop() public items!: RmrkType[]
   @Prop(Boolean) public horizontalLayout!: boolean
+  @Prop(Boolean) public listed!: boolean
 
   get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']

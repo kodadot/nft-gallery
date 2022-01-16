@@ -14,6 +14,7 @@
         :type="iconType(action)[0]"
         outlined
         @click="handleAction(action)"
+        expanded
       >
         {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
       </b-button>
