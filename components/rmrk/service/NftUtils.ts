@@ -75,7 +75,15 @@ class NFTUtils {
     return NFTUtils.createCollection(nft.currentOwner, symbol, nft.name, nft.metadata, 1, version)
   }
 
-  public static createCollection(caller: string, symbol: string, name: string, metadata: string, max = 1, version = '1.0.0') {
+  public static createCollection(caller: string, symbol: string, name: string, metadata: string, max = 1, version = '1.0.0'): {id: string;
+_id: string;
+symbol: error;
+issuer: string;
+version: string;
+name: string;
+max: number;
+metadata: string;
+}  {
     const trimmedSymbol = slugify(symbol.trim().toUpperCase(), '_')
     return {
       id: generateId(caller, trimmedSymbol),

@@ -137,11 +137,11 @@ export const isIpfsUrl = (url: string): boolean  => {
   return /^ipfs:\/\//.test(url)
 }
 
-export const isIpfsCid = (url: string) => {
+export const isIpfsCid = (url: string): boolean  => {
   return /^[0-9a-zA-Z]{44,}$/.test(url)
 }
 
-export const isArweaveUrl = (url: string) => {
+export const isArweaveUrl = (url: string): boolean  => {
   return ar.test(url)
 }
 
@@ -162,7 +162,7 @@ export const getSanitizer = (url: string, ipfsProvider?: ProviderKeyType, arProv
   return link => link
 }
 
-export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType) => {
+export const sanitizeIpfsCid = (url: string, provider?: ProviderKeyType): string  => {
   return `${resolveProvider(provider)}ipfs/${url}`
 }
 
@@ -322,8 +322,8 @@ export const resolveMedia = (mimeType?: string): MediaType => {
 
 export const decode = (value: string): string  => decodeURIComponent(value)
 export const sortByTimeStamp = (a: Interaction, b: Interaction) : number => b.timestamp < a.timestamp ? 1 : -1
-export const sortByModification = (a: any, b: any) => b._mod - a._mod
-export const nftSort = (a: any, b: any) => b.blockNumber - a.blockNumber
+export const sortByModification = (a: any, b: any): number  => b._mod - a._mod
+export const nftSort = (a: any, b: any): number  => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 

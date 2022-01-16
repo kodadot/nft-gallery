@@ -48,7 +48,9 @@ class NFTUtils {
     }
   }
 
-  static apiCall(selectedAction: NFTAction) {
+  static apiCall(selectedAction: NFTAction): {0: string;
+1: string;
+}  {
     return actionResolver[selectedAction] || new Error('Action not found')
 
   }

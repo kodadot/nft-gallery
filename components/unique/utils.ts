@@ -8,7 +8,7 @@ export const tokenIdToRoute = (tokenId: string): { id: string, item: string } =>
   }
 }
 
-export const createTokenId = (collection: string, id: string) => `${collection}-${id}`
+export const createTokenId = (collection: string, id: string): string  => `${collection}-${id}`
 
 export const getRandomValues = (length: number): number[] => {
   const values = new Uint32Array(length)
