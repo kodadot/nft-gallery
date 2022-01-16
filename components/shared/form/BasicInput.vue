@@ -19,21 +19,21 @@
   </b-field>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator';
 
 @Component
 export default class BasicInput extends Vue {
   // Dev: make vValue required
-  @VModel({ type: String }) vValue!: string
-  @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: String, required: true }) placeholder!: string
-  @Prop({ type: Boolean, default: false }) expanded!: boolean
-  @Prop({ type: String }) message!: string
-  @Prop({ type: String, required: false }) maxlength!: string
-  @Prop({ type: String, required: false }) type!: string
+  @VModel({ type: String }) vValue!: string;
+  @Prop({ type: String, required: true }) label!: string;
+  @Prop({ type: String, required: true }) placeholder!: string;
+  @Prop({ type: Boolean, default: false }) expanded!: boolean;
+  @Prop({ type: String }) message!: string;
+  @Prop({ type: String, required: false }) maxlength!: string;
+  @Prop({ type: String, required: false }) type!: string;
 
-  protected hasFocus = false
+  protected hasFocus = false;
 }
 </script>
 

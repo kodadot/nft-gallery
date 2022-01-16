@@ -13,14 +13,14 @@
   </b-field>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
-import { isAccountLocked } from '@/utils/account'
+<script lang="ts">
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator';
+import { isAccountLocked } from '@/utils/account';
 
 @Component
 export default class PasswordInput extends Vue {
-  @Prop() public value!: string
-  @Prop({ default: '' }) public account!: string
+  @Prop() public value!: string;
+  @Prop({ default: '' }) public account!: string;
 
   // public mounted() {
   //   if (this.account) {
@@ -31,19 +31,16 @@ export default class PasswordInput extends Vue {
   //       console.warn('[Password] unable to get account', err)
   //     }
 
-
   //   }
   // }
 
   get accountLocked(): boolean | string {
-    return this.account && isAccountLocked(this.account)
+    return this.account && isAccountLocked(this.account);
   }
-
 
   @Emit('input')
   private handlePassword(password: string) {
-    return password
+    return password;
   }
-
 }
 </script>

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <av-waveform
@@ -17,12 +16,12 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 @Component({})
 export default class AppAudio extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
+  @Prop() public src!: string;
+  @Prop() public mimeType!: string;
 }
 </script>
 
@@ -31,5 +30,4 @@ div.media-audio__player div > canvas.media-audio__canvas,
 div.media-audio__player > div > audio.media-audio__audio {
   width: 100% !important;
 }
-
 </style>

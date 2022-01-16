@@ -119,27 +119,27 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import AuthMixin from '@/utils/mixins/authMixin'
-import shouldUpdate from '@/utils/shouldUpdate'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { calculateBalance } from '@/utils/formatBalance'
-import correctFormat from '@/utils/ss58Format'
+import { Component, mixins, Watch } from 'nuxt-property-decorator';
+import Connector from '@vue-polkadot/vue-api';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
+import TransactionMixin from '@/utils/mixins/txMixin';
+import AuthMixin from '@/utils/mixins/authMixin';
+import shouldUpdate from '@/utils/shouldUpdate';
+import ChainMixin from '@/utils/mixins/chainMixin';
+import { DispatchError } from '@polkadot/types/interfaces';
+import { calculateBalance } from '@/utils/formatBalance';
+import correctFormat from '@/utils/ss58Format';
 import {
   checkAddress,
   decodeAddress,
   encodeAddress,
   isAddress,
-} from '@polkadot/util-crypto'
-import { urlBuilderTransaction } from '@/utils/explorerGuide'
-import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
-import { findCall, getApiParams } from '@/utils/teleport'
+} from '@polkadot/util-crypto';
+import { urlBuilderTransaction } from '@/utils/explorerGuide';
+import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation';
+import { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import { findCall, getApiParams } from '@/utils/teleport';
 
 @Component({
   components: {
@@ -160,40 +160,40 @@ export default class Transfer extends mixins(
   AuthMixin,
   ChainMixin
 ) {
-  protected balance = '0'
-  protected destinationAddress = ''
-  protected transactionValue = ''
-  protected price = 0
-  protected usdValue = 0
-  protected sendingMyself = true
-  protected isParaTeleport = true
+  protected balance = '0';
+  protected destinationAddress = '';
+  protected transactionValue = '';
+  protected price = 0;
+  protected usdValue = 0;
+  protected sendingMyself = true;
+  protected isParaTeleport = true;
 
   get disabled(): boolean {
     return !(
       this.accountId &&
       this.price &&
       (this.sendingMyself || this.hasAddress)
-    )
+    );
   }
   get ss58Format(): number {
-    return this.chainProperties?.ss58Format
+    return this.chainProperties?.ss58Format;
   }
   get hasAddress(): boolean {
-    return isAddress(this.destinationAddress)
+    return isAddress(this.destinationAddress);
   }
   get correctAddress(): string {
     return this.hasAddress
       ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format))
-      : ''
+      : '';
   }
 
   layout() {
-    return 'centered-half-layout'
+    return 'centered-half-layout';
   }
 
   protected created() {
-    this.$store.dispatch('fiat/fetchFiatPrice')
-    this.checkQueryParams()
+    this.$store.dispatch('fiat/fetchFiatPrice');
+    this.checkQueryParams();
   }
 
   protected onAmountFieldChange() {
@@ -202,9 +202,9 @@ export default class Transfer extends mixins(
       this.usdValue = calculateUsdFromKsm(
         this.$store.getters['fiat/getCurrentKSMValue'],
         this.price
-      )
+      );
     } else {
-      this.usdValue = 0
+      this.usdValue = 0;
     }
   }
 
@@ -214,56 +214,59 @@ export default class Transfer extends mixins(
       this.price = calculateKsmFromUsd(
         this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
-      )
+      );
     } else {
-      this.price = 0
+      this.price = 0;
     }
   }
 
   protected checkQueryParams() {
-    const { query } = this.$route
+    const { query } = this.$route;
 
     if (query.target) {
-      const hasAddress = isAddress(query.target as string)
+      const hasAddress = isAddress(query.target as string);
       if (hasAddress) {
-        this.destinationAddress = query.target as string
+        this.destinationAddress = query.target as string;
       } else {
-        showNotification('Unable to use target address', notificationTypes.warn)
+        showNotification(
+          'Unable to use target address',
+          notificationTypes.warn
+        );
       }
     }
 
     if (query.amount) {
-      this.price = Number(query.amount)
+      this.price = Number(query.amount);
     }
 
     if (query.usdamount) {
-      this.usdValue = Number(query.usdamount)
+      this.usdValue = Number(query.usdamount);
       // getting ksm value from the usd value
       this.price = calculateKsmFromUsd(
         this.$store.getters['fiat/getCurrentKSMValue'],
         this.usdValue
-      )
+      );
     }
   }
 
   public async submit(): Promise<void> {
     showNotification(
       `${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`
-    )
-    this.initTransactionLoader()
+    );
+    this.initTransactionLoader();
 
     try {
-      const { api } = Connector.getInstance()
-      const isParaTeleport = await api.query.parachainInfo?.parachainId()
+      const { api } = Connector.getInstance();
+      const isParaTeleport = await api.query.parachainInfo?.parachainId();
 
-      const cb = findCall(api)
+      const cb = findCall(api);
       const arg = getApiParams(
         api,
         cb,
         isParaTeleport?.toString(),
         this.sendingMyself ? this.accountId : this.destinationAddress,
         calculateBalance(this.price, this.decimals).toString()
-      )
+      );
 
       const tx = await exec(
         this.accountId,
@@ -272,57 +275,57 @@ export default class Transfer extends mixins(
         arg,
         txCb(
           async (blockHash) => {
-            this.transactionValue = execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
+            this.transactionValue = execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
             showNotification(
               `[${this.unit}] Transfered ${this.price} ${this.unit} in block ${blockNumber}`,
               notificationTypes.success
-            )
+            );
 
-            this.destinationAddress = ''
-            this.price = 0
-            this.usdValue = 0
+            this.destinationAddress = '';
+            this.price = 0;
+            this.usdValue = 0;
             if (this.$route.query && !this.$route.query.donation) {
-              this.$router.push(this.$route.path)
+              this.$router.push(this.$route.path);
             }
 
-            this.isLoading = false
+            this.isLoading = false;
           },
           (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
           },
           (res) => this.resolveStatus(res.status)
         )
-      )
+      );
     } catch (e) {
-      console.error('[ERR: TRANSFER SUBMIT]', e)
+      console.error('[ERR: TRANSFER SUBMIT]', e);
       if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.danger)
+        showNotification(e.message, notificationTypes.danger);
       }
     }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
+    const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
+      const decoded = api.registry.findMetaError(dispatchError.asModule);
+      const { docs, name, section } = decoded;
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
-      )
+      );
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
         notificationTypes.danger
-      )
+      );
     }
 
-    this.isLoading = false
+    this.isLoading = false;
   }
 
   protected getUrl(): string {
@@ -330,82 +333,82 @@ export default class Transfer extends mixins(
       this.transactionValue,
       this.$store.getters['explorer/getCurrentChain'],
       'subscan'
-    )
+    );
   }
 
   protected getExplorerUrl(): void {
-    const url = this.getUrl()
-    window.open(url, '_blank')
+    const url = this.getUrl();
+    window.open(url, '_blank');
   }
 
   protected generatePaymentLink(): string {
-    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
+    return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`;
   }
 
   protected shareInTweet() {
     const text =
-      'I have just helped a really cool creator by donating. Check my donation proof:'
-    const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`
-    window.open(url, '_blank')
+      'I have just helped a really cool creator by donating. Check my donation proof:';
+    const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`;
+    window.open(url, '_blank');
   }
 
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string): void {
     if (shouldUpdate(value, oldVal)) {
-      this.loadBalance()
+      this.loadBalance();
     }
   }
 
   @Watch('destinationAddress')
   destinationChanged(value: string): void {
-    const queryValue: any = {}
+    const queryValue: any = {};
     if (value) {
-      queryValue.target = value
+      queryValue.target = value;
     }
     if (this.$route.query.usdamount) {
-      queryValue.usdamount = this.$route.query.usdamount
+      queryValue.usdamount = this.$route.query.usdamount;
     }
     this.$router.replace({
       name: String(this.$route.name),
       query: queryValue,
-    })
+    });
   }
 
   @Watch('usdValue')
   usdValueChanged(value: string): void {
-    const queryValue: any = {}
+    const queryValue: any = {};
     if (value) {
-      queryValue.usdamount = value
+      queryValue.usdamount = value;
     }
     if (this.$route.query.target) {
-      queryValue.target = this.$route.query.target
+      queryValue.target = this.$route.query.target;
     }
     this.$router.replace({
       name: String(this.$route.name),
       query: queryValue,
-    })
+    });
   }
 
   async loadBalance() {
     if (!this.accountId || !this.unit) {
-      return
+      return;
     }
 
-    await new Promise((a) => setTimeout(a, 1000))
-    const { api } = Connector.getInstance()
+    await new Promise((a) => setTimeout(a, 1000));
+    const { api } = Connector.getInstance();
 
     try {
-      const cb = api.query.system.account
-      const arg = this.accountId
-      const result = await cb(arg)
-      this.balance = (result as any).data.free.toString()
+      const cb = api.query.system.account;
+      const arg = this.accountId;
+      const result = await cb(arg);
+      this.balance = (result as any).data.free.toString();
     } catch (e) {
-      console.error('[ERR: BALANCE]', e)
+      console.error('[ERR: BALANCE]', e);
     }
   }
 
   private toast(message: string): void {
-    this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message);
   }
 }
 </script>
@@ -452,4 +455,3 @@ export default class Transfer extends mixins(
   }
 }
 </style>
-

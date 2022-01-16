@@ -33,9 +33,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import transform from '@/utils/urlTransformer'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { Component, Vue } from 'nuxt-property-decorator';
+import transform from '@/utils/urlTransformer';
+import { exist } from '@/components/rmrk/Gallery/Search/exist';
 
 @Component({
   components: {
@@ -44,49 +44,49 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
   },
 })
 export default class Transform extends Vue {
-  protected url = ''
+  protected url = '';
 
   middleware({ route, redirect }) {
-    const { url } = route.query
+    const { url } = route.query;
 
     if (url) {
       redirect({
         path: transform(url),
-      })
+      });
     }
   }
 
   public mounted(): void {
-    exist(this.$route.query.url, (value) => this.url = value)
+    exist(this.$route.query.url, (value) => (this.url = value));
   }
 
   layout() {
-    return 'centered-half-layout'
+    return 'centered-half-layout';
   }
 
   get transformedUrl(): string {
-    return transform(this.url)
+    return transform(this.url);
   }
 
   get fullUrl(): string {
-    return `${window.location.origin}${this.transformedUrl}`
+    return `${window.location.origin}${this.transformedUrl}`;
   }
 
   get disabled(): boolean {
-    return this.transformedUrl === ''
+    return this.transformedUrl === '';
   }
 
   private toast(): void {
-    const message = this.$t('helper.urlToTransform.copy').toString()
-    this.$buefy.toast.open(message)
+    const message = this.$t('helper.urlToTransform.copy').toString();
+    this.$buefy.toast.open(message);
   }
 
   private openUrl(): void {
-    const url = transform(this.$route.query.url.toString())
+    const url = transform(this.$route.query.url.toString());
 
     this.$router.push({
       path: url,
-    })
+    });
   }
 }
 </script>

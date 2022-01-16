@@ -1,5 +1,5 @@
 query nFTStatsByIssuer($account: String!) {
-   firstMint: nFTEntities(
+  firstMint: nFTEntities(
     filter: {
       issuer: { equalTo: $account }
       name: { notLike: "%Kanaria%" }
@@ -24,7 +24,7 @@ query nFTStatsByIssuer($account: String!) {
   ) {
     totalCount
   }
-  
+
   nFTCollected: nFTEntities(
     filter: {
       issuer: { notEqualTo: $account }
@@ -35,7 +35,7 @@ query nFTStatsByIssuer($account: String!) {
   ) {
     totalCount
   }
-  
+
   nFTSold: nFTEntities(
     filter: {
       issuer: { equalTo: $account }

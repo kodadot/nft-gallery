@@ -1,11 +1,7 @@
 <template>
   <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort
-        class="control"
-        :value="sortBy"
-        @input="updateSortBy"
-      />
+      <Sort class="control" :value="sortBy" @input="updateSortBy" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -29,11 +25,11 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { exist } from './exist'
+<script lang="ts">
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator';
+import { Debounce } from 'vue-debounce-decorator';
+import shouldUpdate from '@/utils/shouldUpdate';
+import { exist } from './exist';
 
 @Component({
   components: {
@@ -44,75 +40,75 @@ import { exist } from './exist'
   },
 })
 export default class SearchBar extends Vue {
-  @Prop(String) public search!: string
-  @Prop(String) public type!: string
-  @Prop(String) public sortBy!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop(String) public search!: string;
+  @Prop(String) public type!: string;
+  @Prop(String) public sortBy!: string;
+  @Prop(Boolean) public listed!: boolean;
 
-  protected isVisible = false
+  protected isVisible = false;
 
   public mounted(): void {
-    exist(this.$route.query.search, this.updateSearch)
-    exist(this.$route.query.type, this.updateType)
-    exist(this.$route.query.sort, this.updateSortBy)
-    exist(this.$route.query.listed, this.updateListed)
+    exist(this.$route.query.search, this.updateSearch);
+    exist(this.$route.query.type, this.updateType);
+    exist(this.$route.query.sort, this.updateSortBy);
+    exist(this.$route.query.listed, this.updateListed);
   }
 
   get vListed(): boolean {
-    return this.listed
+    return this.listed;
   }
 
   set vListed(listed: boolean) {
-    this.updateListed(listed)
+    this.updateListed(listed);
   }
 
   get searchQuery(): string {
-    return this.search
+    return this.search;
   }
 
   set searchQuery(value: string) {
-    this.updateSearch(value)
+    this.updateSearch(value);
   }
 
   get typeQuery(): string {
-    return this.type
+    return this.type;
   }
 
   set typeQuery(value: string) {
-    this.updateType(value)
+    this.updateType(value);
   }
 
   get replaceBuyNowWithYolo(): boolean {
-    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo'];
   }
 
   @Emit('update:listed')
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
-    const v = String(value)
-    this.replaceUrl(v, 'listed')
-    return v === 'true'
+    const v = String(value);
+    this.replaceUrl(v, 'listed');
+    return v === 'true';
   }
 
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
-    this.replaceUrl(value, 'type')
-    return value
+    this.replaceUrl(value, 'type');
+    return value;
   }
 
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
-    this.replaceUrl(value, 'sort')
-    return value
+    this.replaceUrl(value, 'sort');
+    return value;
   }
 
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
-    return value
+    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value);
+    return value;
   }
 
   @Debounce(100)
@@ -126,7 +122,7 @@ export default class SearchBar extends Vue {
           [key]: value,
         },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(console.warn /*Navigation Duplicate err fix later */);
   }
 }
 </script>
@@ -152,9 +148,9 @@ export default class SearchBar extends Vue {
 <style lang="scss">
 .field-group-container {
   .is-grouped-multiline {
-    flex-wrap: initial!important;
+    flex-wrap: initial !important;
     @media screen and (max-width: 768px) {
-      flex-wrap: wrap!important;;
+      flex-wrap: wrap !important;
     }
   }
 }

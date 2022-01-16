@@ -9,42 +9,31 @@
       ar
       ar-modes="scene-viewer webxr quick-look"
     >
-      <div
-        slot="progress-bar"
-        class="progress-bar hide"
-      >
+      <div slot="progress-bar" class="progress-bar hide">
         <div class="update-bar" />
       </div>
-      <button
-        id="ar-button"
-        slot="ar-button"
-        class="button is-dark"
-      >
-        AR
-      </button>
+      <button id="ar-button" slot="ar-button" class="button is-dark">AR</button>
     </model-viewer>
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import '@google/model-viewer'
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
+import '@google/model-viewer';
 
-
-
-const testSrc = 'http://localhost:8000/Astronaut.glb'
-const testIosSrc = 'http://localhost:8000/Astronaut.usdz'
+const testSrc = 'http://localhost:8000/Astronaut.glb';
+const testIosSrc = 'http://localhost:8000/Astronaut.usdz';
 
 @Component({})
 export default class ViewModel extends Vue {
-  @Prop({ default: testSrc }) public src!: string
-  @Prop({ default: testIosSrc }) public iosSrc!: string
+  @Prop({ default: testSrc }) public src!: string;
+  @Prop({ default: testIosSrc }) public iosSrc!: string;
 
   // get src() {
   //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }
 
   get poster() {
-    return ''
+    return '';
   }
 }
 </script>

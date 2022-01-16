@@ -16,18 +16,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { emptyArray } from '~/utils/empty'
-import { Attribute } from '../../types'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator';
+import { emptyArray } from '~/utils/empty';
+import { Attribute } from '../../types';
 
 const components = {
   CollapseCardWrapper: () =>
     import('@/components/shared/collapse/CollapseCardWrapper.vue'),
-}
+};
 
 @Component({ components })
 export default class Properties extends Vue {
   @Prop({ type: Array, default: () => emptyArray<Attribute>() })
-  public attributes!: Attribute[]
+  public attributes!: Attribute[];
 }
 </script>

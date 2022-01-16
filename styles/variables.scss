@@ -1,73 +1,73 @@
-@import './initial-variables.scss';
+@import "./initial-variables.scss";
 @import "~bulma/sass/utilities/_all";
 @import "./derived-variables.scss";
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: mergeColorMaps(
-    (
-        "white": (
-            $white,
-            $black,
-        ),
-        "black": (
-            $black,
-            $white,
-        ),
-        "light": (
-            $light,
-            $light-invert,
-        ),
-        "dark": (
-            $dark,
-            $dark-invert,
-        ),
-        "primary": (
-            $primary,
-            $primary-invert,
-            $primary-light,
-            $primary-dark,
-        ),
-        "link": (
-            $link,
-            $link-invert,
-            $link-light,
-            $link-dark,
-        ),
-        "info": (
-            $info,
-            $info-invert,
-            $info-light,
-            $info-dark,
-        ),
-        "success": (
-            $success,
-            $success-invert,
-            $success-light,
-            $success-dark,
-        ),
-        "warning": (
-            $warning,
-            $warning-invert,
-            $warning-light,
-            $warning-dark,
-        ),
-        "danger": (
-            $danger,
-            $danger-invert,
-            $danger-light,
-            $danger-dark,
-        ),
-        "grey":(
-            $grey-darker,
-            $white,
-        )
+  (
+    "white": (
+      $white,
+      $black,
     ),
-    $custom-colors
+    "black": (
+      $black,
+      $white,
+    ),
+    "light": (
+      $light,
+      $light-invert,
+    ),
+    "dark": (
+      $dark,
+      $dark-invert,
+    ),
+    "primary": (
+      $primary,
+      $primary-invert,
+      $primary-light,
+      $primary-dark,
+    ),
+    "link": (
+      $link,
+      $link-invert,
+      $link-light,
+      $link-dark,
+    ),
+    "info": (
+      $info,
+      $info-invert,
+      $info-light,
+      $info-dark,
+    ),
+    "success": (
+      $success,
+      $success-invert,
+      $success-light,
+      $success-dark,
+    ),
+    "warning": (
+      $warning,
+      $warning-invert,
+      $warning-light,
+      $warning-dark,
+    ),
+    "danger": (
+      $danger,
+      $danger-invert,
+      $danger-light,
+      $danger-dark,
+    ),
+    "grey": (
+      $grey-darker,
+      $white,
+    ),
+  ),
+  $custom-colors
 );
 
 // footer
 $footer-background-color: #1d1d1d;
-$footer-padding         : 0;
+$footer-padding: 0;
 
 // navbar
 $navbar-item-img-max-height: 60px;
@@ -86,8 +86,6 @@ $dropdown-item-hover-background-color: $primary;
 $navbar-dropdown-item-hover-background-color: $primary;
 $dropdown-content-shadow: 13px 14px $primary-dark-transparent;
 $dropdown-content-padding-bottom: 0;
-
-
 
 // title
 $title-color: $scheme-invert;
@@ -130,7 +128,6 @@ $pagination-disabled-background-color: mediumvioletred;
 $pagination-disabled-border-color: mediumvioletred;
 $pagination-color: $light-text;
 $pagination-active-color: $light-text;
-
 
 // table
 $table-head-cell-color: $text;

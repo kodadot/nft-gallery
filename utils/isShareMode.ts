@@ -1,3 +1,3 @@
-const isShareMode = !(window === window.parent)
+const isShareMode = !(window === window.parent);
 
-export default isShareMode
+export default isShareMode;

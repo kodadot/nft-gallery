@@ -110,7 +110,6 @@
           </div>
         </div>
 
-
         <div class="column is-6" v-if="detailVisible">
           <b-skeleton
             :count="2"
@@ -125,12 +124,7 @@
               </div>
             </div>
             <div
-              class="
-                column
-                is-flex
-                is-flex-direction-column
-                is-justify-content-space-between
-              "
+              class="column is-flex is-flex-direction-column is-justify-content-space-between"
             >
               <template v-if="detailVisible && !nft.burned">
                 <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
@@ -177,7 +171,14 @@
                         <Auth />
                       </p>
                     </div>
-                    <DangerModal v-if="accountId === nft.currentOwner" title="Danger Zone" :accountId="accountId" :nftId="id" :collectionId="collectionId" :attributes="nft.attributes"  />
+                    <DangerModal
+                      v-if="accountId === nft.currentOwner"
+                      title="Danger Zone"
+                      :accountId="accountId"
+                      :nftId="id"
+                      :collectionId="collectionId"
+                      :attributes="nft.attributes"
+                    />
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -201,31 +202,35 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme'
+import { Component, mixins } from 'nuxt-property-decorator';
+import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme';
 import {
   sanitizeIpfsUrl,
   resolveMedia,
   getSanitizer,
-} from '@/components/rmrk/utils'
-import { emptyObject } from '@/utils/empty'
+} from '@/components/rmrk/utils';
+import { emptyObject } from '@/utils/empty';
 
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { ClassMetadata, InstanceDetails, InstanceMetadata } from '@polkadot/types/interfaces'
+import { notificationTypes, showNotification } from '@/utils/notification';
+import {
+  ClassMetadata,
+  InstanceDetails,
+  InstanceMetadata,
+} from '@polkadot/types/interfaces';
 
-import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/unique/nftById.graphql'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
-import { get, set } from 'idb-keyval'
-import { MediaType } from '@/components/rmrk/types'
-import axios from 'axios'
-import Orientation from '@/utils/directives/DeviceOrientation'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import Connector from '@vue-polkadot/vue-api'
-import { Option } from '@polkadot/types'
-import { createTokenId, tokenIdToRoute } from '../../utils'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import onApiConnect from '@/utils/api/general'
+import isShareMode from '@/utils/isShareMode';
+import nftById from '@/queries/unique/nftById.graphql';
+import { fetchNFTMetadata } from '@/components/rmrk/utils';
+import { get, set } from 'idb-keyval';
+import { MediaType } from '@/components/rmrk/types';
+import axios from 'axios';
+import Orientation from '@/utils/directives/DeviceOrientation';
+import SubscribeMixin from '@/utils/mixins/subscribeMixin';
+import Connector from '@vue-polkadot/vue-api';
+import { Option } from '@polkadot/types';
+import { createTokenId, tokenIdToRoute } from '../../utils';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
+import onApiConnect from '@/utils/api/general';
 
 @Component<GalleryItem>({
   components: {
@@ -241,7 +246,8 @@ import onApiConnect from '@/utils/api/general'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
-    DangerModal: () => import('@/components/unique/Gallery/Item/DangerModal.vue'),
+    DangerModal: () =>
+      import('@/components/unique/Gallery/Item/DangerModal.vue'),
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
   },
   directives: {
@@ -249,82 +255,85 @@ import onApiConnect from '@/utils/api/general'
   },
 })
 export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
-  private id = ''
-  private collectionId = ''
+  private id = '';
+  private collectionId = '';
   // private accountId: string = '';
-  private passsword = ''
-  private nft: NFT = emptyObject<NFT>()
-  private imageVisible = true
-  private viewMode = 'default'
-  private isFullScreenView = false
-  public isLoading = false
-  public mimeType = ''
-  public meta: NFTMetadata = emptyObject<NFTMetadata>()
-  public emotes: Emote[] = []
-  public message = ''
+  private passsword = '';
+  private nft: NFT = emptyObject<NFT>();
+  private imageVisible = true;
+  private viewMode = 'default';
+  private isFullScreenView = false;
+  public isLoading = false;
+  public mimeType = '';
+  public meta: NFTMetadata = emptyObject<NFTMetadata>();
+  public emotes: Emote[] = [];
+  public message = '';
 
   get accountId() {
-    return this.$store.getters.getAuthAddress
+    return this.$store.getters.getAuthAddress;
   }
 
   get emoteVisible() {
-    return this.urlPrefix === 'rmrk'
+    return this.urlPrefix === 'rmrk';
   }
 
   public async created() {
-    this.checkId()
-    this.fetchCollection()
-    onApiConnect(api => {
-      this.loadMagic()
+    this.checkId();
+    this.fetchCollection();
+    onApiConnect((api) => {
+      this.loadMagic();
       this.subscribe(
         api.query.uniques.asset,
         [this.collectionId, this.id],
         this.observeOwner
-      )
-    })
+      );
+    });
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
-    console.log(data.toHuman())
-    const instance = data.unwrapOr(null)
+    console.log(data.toHuman());
+    const instance = data.unwrapOr(null);
     if (instance) {
-      this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
-      this.$set(this.nft, 'delegate', instance.approved.toHuman())
-      this.$set(this.nft, 'isFrozen', instance.isFrozen.isTrue)
+      this.$set(this.nft, 'currentOwner', instance.owner.toHuman());
+      this.$set(this.nft, 'delegate', instance.approved.toHuman());
+      this.$set(this.nft, 'isFrozen', instance.isFrozen.isTrue);
     } else {
       // check if not burned because burned returns null
-      this.nft = emptyObject<NFT>()
-      this.$set(this.nft, 'burned', true)
+      this.nft = emptyObject<NFT>();
+      this.$set(this.nft, 'burned', true);
     }
   }
 
   public async loadMagic() {
-    const { api } = Connector.getInstance()
-    await api?.isReady
+    const { api } = Connector.getInstance();
+    await api?.isReady;
     try {
-      console.log('loading magic', this.id)
-      const nftId = this.id || 0
+      console.log('loading magic', this.id);
+      const nftId = this.id || 0;
 
       let nftQ = await api.query.uniques
         .instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
-        .then((res) => res.unwrapOr(null))
+        .then((res) => res.unwrapOr(null));
 
       if (!nftQ) {
-        console.warn('nft with no metadata, trying collection')
+        console.warn('nft with no metadata, trying collection');
         nftQ = await api.query.uniques
           .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
-          .then((res) => res.unwrapOr(null))
+          .then((res) => res.unwrapOr(null));
       }
 
-      const nftData = nftQ?.toHuman()
+      const nftData = nftQ?.toHuman();
       if (!nftData?.data) {
-        showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
-        return
+        showNotification(
+          `No Metadata with ID ${nftId}`,
+          notificationTypes.warn
+        );
+        return;
       }
 
       const nft = await fetchNFTMetadata({
         metadata: nftData.data.toString(),
-      } as NFT)
+      } as NFT);
       this.meta = {
         ...nft,
         image: sanitizeIpfsUrl(nft.image || ''),
@@ -332,21 +341,21 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
           nft.animation_url || nft.image || '',
           'pinata'
         ),
-      }
+      };
       // TODO: add attributes as traits
-      const { attributes, ...rest } = nft
+      const { attributes, ...rest } = nft;
       this.nft = {
         ...this.nft,
         ...rest,
         ...nftData,
-      }
+      };
 
-      this.fetchAnimationData()
+      this.fetchAnimationData();
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-      console.warn(e)
+      showNotification(`${e}`, notificationTypes.warn);
+      console.warn(e);
     }
-    this.isLoading = false
+    this.isLoading = false;
   }
 
   private async fetchCollection() {
@@ -356,41 +365,41 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },
-    })
+    });
     const {
       data: { nFTEntity },
-    } = nft
+    } = nft;
 
     if (!nFTEntity) {
-      showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
-      return
+      showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn);
+      return;
     }
 
-    console.log('nft', nFTEntity)
+    console.log('nft', nFTEntity);
 
     this.nft = {
       ...this.nft,
       ...nFTEntity,
       metadata: nFTEntity.metadata || nFTEntity.collection.metadata,
-    }
+    };
   }
 
   onImageError(e: any) {
-    console.warn('Image error', e)
+    console.warn('Image error', e);
   }
 
   public async fetchAnimationData() {
     if (this.meta.animation_url && !this.mimeType) {
-      const { headers } = await axios.head(this.meta.animation_url)
-      this.mimeType = headers['content-type']
-      console.log(this.mimeType)
-      const mediaType = resolveMedia(this.mimeType)
+      const { headers } = await axios.head(this.meta.animation_url);
+      this.mimeType = headers['content-type'];
+      console.log(this.mimeType);
+      const mediaType = resolveMedia(this.mimeType);
       this.imageVisible = ![
         MediaType.VIDEO,
         MediaType.MODEL,
         MediaType.IFRAME,
         MediaType.OBJECT,
-      ].some((t) => t === mediaType)
+      ].some((t) => t === mediaType);
     }
   }
 
@@ -398,17 +407,17 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     // console.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
-      const m = await get(this.nft.metadata)
+      const m = await get(this.nft.metadata);
 
       const meta = m
         ? m
         : await fetchNFTMetadata(
-          this.nft,
-          getSanitizer(this.nft.metadata, undefined, 'permafrost')
-        )
-      console.log(meta)
+            this.nft,
+            getSanitizer(this.nft.metadata, undefined, 'permafrost')
+          );
+      console.log(meta);
 
-      const imageSanitizer = getSanitizer(meta.image)
+      const imageSanitizer = getSanitizer(meta.image);
       this.meta = {
         ...meta,
         image: imageSanitizer(meta.image),
@@ -416,68 +425,68 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
           meta.animation_url || meta.image,
           'pinata'
         ),
-      }
+      };
 
-      console.log(this.meta)
+      console.log(this.meta);
       if (this.meta.animation_url && !this.mimeType) {
-        const { headers } = await axios.head(this.meta.animation_url)
-        this.mimeType = headers['content-type']
-        console.log(this.mimeType)
-        const mediaType = resolveMedia(this.mimeType)
+        const { headers } = await axios.head(this.meta.animation_url);
+        this.mimeType = headers['content-type'];
+        console.log(this.mimeType);
+        const mediaType = resolveMedia(this.mimeType);
         this.imageVisible = ![
           MediaType.VIDEO,
           MediaType.MODEL,
           MediaType.IFRAME,
           MediaType.OBJECT,
-        ].some((t) => t === mediaType)
+        ].some((t) => t === mediaType);
       }
 
       if (!m) {
-        set(this.nft.metadata, meta)
+        set(this.nft.metadata, meta);
       }
     }
   }
 
   public checkId() {
     if (this.$route.params.id) {
-      const { id, item } = tokenIdToRoute(this.$route.params.id)
-      this.id = item
-      this.collectionId = id
+      const { id, item } = tokenIdToRoute(this.$route.params.id);
+      this.id = item;
+      this.collectionId = id;
     }
   }
 
   public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
+    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default';
   }
 
   public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView
+    this.isFullScreenView = !this.isFullScreenView;
   }
 
   public minimize(): void {
-    this.isFullScreenView = false
+    this.isFullScreenView = false;
   }
 
   public toast(message: string): void {
-    this.$buefy.toast.open(message)
+    this.$buefy.toast.open(message);
   }
 
   get hasPrice() {
-    return Number(this.nft.price) > 0
+    return Number(this.nft.price) > 0;
   }
 
   get nftId() {
-    const { id } = this.nft
-    return id
+    const { id } = this.nft;
+    return id;
   }
 
   get detailVisible() {
-    return !isShareMode
+    return !isShareMode;
   }
 
   protected handleAction(deleted: boolean) {
     if (deleted) {
-      showNotification('INSTANCE REMOVED', notificationTypes.warn)
+      showNotification('INSTANCE REMOVED', notificationTypes.warn);
     }
   }
 

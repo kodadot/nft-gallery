@@ -10,14 +10,8 @@
       :param="id"
       tag="a"
     >
-      <div
-        v-if="image"
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      <div v-if="image" class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
@@ -26,43 +20,21 @@
           :alt="title"
           custom-class="gallery__image-wrapper"
         />
-        <span
-          v-if="price > 0 && showPriceValue"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
-      <div
-        v-else
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      <div v-else class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image
-          :src="placeholder"
-          alt="Simple image"
-          ratio="1by1"
-        />
+        <b-image :src="placeholder" alt="Simple image" ratio="1by1" />
 
-        <span
-          v-if="price > 0"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+        <span v-if="price > 0" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
@@ -80,51 +52,51 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
-import { get, update } from 'idb-keyval'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { fetchNFTMetadata, getSanitizer } from '../utils'
-import { NFT } from '../service/scheme'
-import AuthMixin from '@/utils/mixins/authMixin'
+<script lang="ts">
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator';
+import { get, update } from 'idb-keyval';
+import shouldUpdate from '@/utils/shouldUpdate';
+import { fetchNFTMetadata, getSanitizer } from '../utils';
+import { NFT } from '../service/scheme';
+import AuthMixin from '@/utils/mixins/authMixin';
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-}
+};
 
 @Component({ components })
 export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ type: String,default: '/rmrk/gallery' }) public route!: string
-  @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string
-  @Prop(String) public id!: string
-  @Prop(String) public name!: string
-  protected image = ''
-  protected title = ''
-  @Prop([String, Number]) public emoteCount!: string | number
-  @Prop(String) public imageType!: string
-  @Prop(String) public price!: string
-  @Prop(String) public metadata!: string
-  @Prop(String) public currentOwner!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop({ type: String, default: '/rmrk/gallery' }) public route!: string;
+  @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string;
+  @Prop(String) public id!: string;
+  @Prop(String) public name!: string;
+  protected image = '';
+  protected title = '';
+  @Prop([String, Number]) public emoteCount!: string | number;
+  @Prop(String) public imageType!: string;
+  @Prop(String) public price!: string;
+  @Prop(String) public metadata!: string;
+  @Prop(String) public currentOwner!: string;
+  @Prop(Boolean) public listed!: boolean;
 
-  private placeholder = '/placeholder.webp'
+  private placeholder = '/placeholder.webp';
 
   async mounted() {
     if (this.metadata) {
-      const meta = await get(this.metadata)
+      const meta = await get(this.metadata);
       if (meta) {
-        this.image = getSanitizer(meta.image || '')(meta.image || '')
-        this.title = meta.name
+        this.image = getSanitizer(meta.image || '')(meta.image || '');
+        this.title = meta.name;
       } else {
         const m = await fetchNFTMetadata(
           { metadata: this.metadata } as NFT,
           getSanitizer(this.metadata, undefined, 'permafrost')
-        )
-        this.image = getSanitizer(m.image || '')(m.image || '')
-        this.title = m.name
-        update(this.metadata, () => m)
+        );
+        this.image = getSanitizer(m.image || '')(m.image || '');
+        this.title = m.name;
+        update(this.metadata, () => m);
       }
     }
   }
@@ -132,20 +104,20 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Watch('accountId', { immediate: true })
   hasAccount(value: string, oldVal: string) {
     if (shouldUpdate(value, oldVal)) {
-      this.accountIsCurrentOwner()
+      this.accountIsCurrentOwner();
     }
   }
 
   get showPriceValue(): boolean {
-    return this.listed || this.$store.getters['preferences/getShowPriceValue']
+    return this.listed || this.$store.getters['preferences/getShowPriceValue'];
   }
 
   get nftName(): string {
-    return this.name || this.title
+    return this.name || this.title;
   }
 
   public accountIsCurrentOwner() {
-    return this.accountId === this.currentOwner
+    return this.accountId === this.currentOwner;
   }
 }
 </script>

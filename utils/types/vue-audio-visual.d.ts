@@ -1,1 +1,1 @@
-declare module 'vue-audio-visual'
+declare module 'vue-audio-visual';

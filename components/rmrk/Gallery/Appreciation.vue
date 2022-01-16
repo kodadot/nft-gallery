@@ -1,9 +1,6 @@
 <template>
   <div class="nft-appreciation__main is-flex">
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
+    <Loader v-model="isLoading" :status="status" />
     <IndexerGuard>
       <b-button
         v-if="accountId"
@@ -18,117 +15,114 @@
         @select="onSelectEmoji"
       />
     </IndexerGuard>
-    <EmotionList
-      class="emote-list"
-      :emotions="emotions"
-    />
+    <EmotionList class="emote-list" :emotions="emotions" />
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import groupBy from '@/utils/groupBy'
-import EmotionList from './EmotionList.vue'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { VEmojiPicker } from 'v-emoji-picker'
-import emojiUnicode from 'emoji-unicode'
-import NFTUtils from '../service/NftUtils'
-import { IEmoji } from 'v-emoji-picker/lib/models/Emoji'
-import { Emote } from '../service/scheme'
+<script lang="ts">
+import { Component, mixins, Prop } from 'nuxt-property-decorator';
+import Connector from '@vue-polkadot/vue-api';
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor';
+import { notificationTypes, showNotification } from '@/utils/notification';
+import groupBy from '@/utils/groupBy';
+import EmotionList from './EmotionList.vue';
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin';
+import { VEmojiPicker } from 'v-emoji-picker';
+import emojiUnicode from 'emoji-unicode';
+import NFTUtils from '../service/NftUtils';
+import { IEmoji } from 'v-emoji-picker/lib/models/Emoji';
+import { Emote } from '../service/scheme';
 
 @Component({
   components: {
     EmotionList,
     VEmojiPicker,
     Loader: () => import('@/components/shared/Loader.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
-  }
+    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+  },
 })
 export default class Appreciation extends mixins(RmrkVersionMixin) {
-  @Prop() public emotes!: Emote[]
-  @Prop() public currentOwnerId!: string
-  @Prop() public accountId!: string
-  @Prop() public nftId!: string
-  @Prop(Boolean) public burned!: boolean
+  @Prop() public emotes!: Emote[];
+  @Prop() public currentOwnerId!: string;
+  @Prop() public accountId!: string;
+  @Prop() public nftId!: string;
+  @Prop(Boolean) public burned!: boolean;
 
-  protected showDialog = false
-  protected isLoading = false
-  protected status = ''
+  protected showDialog = false;
+  protected isLoading = false;
+  protected status = '';
 
   protected async onSelectEmoji(emoji: IEmoji) {
-    const { version, nftId } = this
-    const emote = emojiUnicode(emoji.data)
-      .split(' ')[0]
-      .toUpperCase()
+    const { version, nftId } = this;
+    const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase();
     if (emote) {
-      showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
-      const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote)
-      this.isLoading = true
-      await this.submit(rmrk)
+      showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`);
+      const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote);
+      this.isLoading = true;
+      await this.submit(rmrk);
     } else {
-      showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
+      showNotification('[EMOTE] Unable to emote', notificationTypes.warn);
     }
   }
 
   get emotions(): Record<string, string | number> {
-    this.emotes?.map((e, index) => this.emotes[index].value = e.value.toUpperCase())
-    return groupBy(this.emotes || [], 'value')
+    this.emotes?.map(
+      (e, index) => (this.emotes[index].value = e.value.toUpperCase())
+    );
+    return groupBy(this.emotes || [], 'value');
   }
 
   private async submit(rmrk: string) {
-    const { api } = Connector.getInstance()
+    const { api } = Connector.getInstance();
     // const rmrkService = getInstance();
     try {
-      showNotification(rmrk)
-      console.log('submit', rmrk)
+      showNotification(rmrk);
+      console.log('submit', rmrk);
       const tx = await exec(
         this.accountId,
         '',
         api.tx.system.remark,
         [rmrk],
         txCb(
-          async blockHash => {
-            execResultValue(tx)
-            showNotification(blockHash.toString(), notificationTypes.info)
+          async (blockHash) => {
+            execResultValue(tx);
+            showNotification(blockHash.toString(), notificationTypes.info);
 
             showNotification(
               `[EMOTE] ${this.nftId}`,
               notificationTypes.success
-            )
-            this.isLoading = false
-            this.showDialog = false
+            );
+            this.isLoading = false;
+            this.showDialog = false;
           },
-          err => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.isLoading = false
+          (err) => {
+            execResultValue(tx);
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger);
+            this.isLoading = false;
           },
-          res => {
+          (res) => {
             if (res.status.isReady) {
-              this.status = 'loader.casting'
-              return
+              this.status = 'loader.casting';
+              return;
             }
 
             if (res.status.isInBlock) {
-              this.status = 'loader.block'
-              return
+              this.status = 'loader.block';
+              return;
             }
 
             if (res.status.isFinalized) {
-              this.status = 'loader.finalized'
-              return
+              this.status = 'loader.finalized';
+              return;
             }
 
-            this.status = ''
+            this.status = '';
           }
         )
-      )
+      );
     } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      showNotification(`[ERR] ${e}`, notificationTypes.danger);
+      console.error(e);
     }
   }
 
@@ -153,7 +147,7 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .emote-picker {
   position: absolute;

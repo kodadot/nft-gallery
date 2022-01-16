@@ -3,13 +3,25 @@
     <Loader :value="isLoading" />
     <Search v-bind.sync="searchQuery">
       <b-field>
-        <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :per-page="first"
+        />
       </b-field>
     </Search>
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="collection in results" :key="collection.id">
+        <div
+          class="column is-4"
+          v-for="collection in results"
+          :key="collection.id"
+        >
           <div class="card collection-card">
             <nuxt-link
               :to="`collection/${collection.id}`"
@@ -17,14 +29,19 @@
               class="collection-card__skeleton"
             >
               <div class="card-image">
-                <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
+                <BasicImage
+                  :src="collection.image"
+                  :alt="collection.name"
+                  customClass="collection__image-wrapper"
+                />
               </div>
 
               <div class="card-content">
-                <nuxt-link
-                  :to="`collection/${collection.id}`"
-                >
-                  <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
+                <nuxt-link :to="`collection/${collection.id}`">
+                  <CollectionDetail
+                    :nfts="collection.nfts.nodes"
+                    :name="collection.name"
+                  />
                 </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
@@ -43,18 +60,25 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, mixins, Vue } from 'nuxt-property-decorator';
 
-import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
-import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
-import Freezeframe from 'freezeframe'
-import 'lazysizes'
+import {
+  CollectionWithMeta,
+  Collection,
+  Metadata,
+} from '@/components/rmrk/service/scheme';
+import {
+  fetchCollectionMetadata,
+  sanitizeIpfsUrl,
+} from '@/components/rmrk/utils';
+import { SearchQuery } from '@/components/rmrk/Gallery/Search/types';
+import Freezeframe from 'freezeframe';
+import 'lazysizes';
 
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
-import { getMany, update } from 'idb-keyval'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql';
+import { getMany, update } from 'idb-keyval';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean;
@@ -62,64 +86,67 @@ interface Image extends HTMLImageElement {
 
 type CollectionType = CollectionWithMeta;
 const components = {
-  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  GalleryCardList: () =>
+    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  Search: () =>
+    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
+  CollectionDetail: () =>
+    import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-}
+};
 
 @Component<Collections>({
   components,
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Low minting fees and carbonless NFTs';
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
       url: '/rmrk/collections',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
-    }
+    };
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
-    }
-  }
+      meta: [...this.$seoMeta(metaData)],
+    };
+  },
 })
 export default class Collections extends mixins(PrefixMixin) {
-  private collections: Collection[] = []
-  private meta: Metadata[] = []
-  public first = this.$store.state.preferences.collectionsPerPage
-  private placeholder = '/placeholder.webp'
-  private currentValue = 1
-  private total = 0
+  private collections: Collection[] = [];
+  private meta: Metadata[] = [];
+  public first = this.$store.state.preferences.collectionsPerPage;
+  private placeholder = '/placeholder.webp';
+  private currentValue = 1;
+  private total = 0;
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  }
+  };
 
   get isLoading(): boolean {
-    return this.$apollo.queries.collection.loading
+    return this.$apollo.queries.collection.loading;
   }
 
   get offset(): number {
-    return this.currentValue * this.first - this.first
+    return this.currentValue * this.first - this.first;
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
-    const params: any[] = []
+    const params: any[] = [];
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
-      })
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+      });
     }
 
-    return params
+    return params;
   }
 
   public async created() {
@@ -133,54 +160,54 @@ export default class Collections extends mixins(PrefixMixin) {
         return {
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
-          listed: this.searchQuery.listed ? [{price: { greaterThan: '0'}}] : [],
+          listed: this.searchQuery.listed
+            ? [{ price: { greaterThan: '0' } }]
+            : [],
           first: this.first,
           offset: this.offset,
-        }
+        };
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes
+        nfts: collectionEntity.nfts.nodes,
       }),
-    })
+    });
   }
 
   protected async handleResult({ data }: any) {
-    this.total = data.collectionEntities.totalCount
+    this.total = data.collectionEntities.totalCount;
     this.collections = data.collectionEntities.nodes.map((e: any) => ({
       ...e,
-    }))
+    }));
 
     const storedMetadata = await getMany(
       this.collections.map(({ metadata }: any) => metadata)
-    )
+    );
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchCollectionMetadata(this.collections[i])
+          const meta = await fetchCollectionMetadata(this.collections[i]);
           Vue.set(this.collections, i, {
             ...this.collections[i],
             ...meta,
-            image: sanitizeIpfsUrl(meta.image || '')
-          })
-          update(this.collections[i].metadata, () => meta)
+            image: sanitizeIpfsUrl(meta.image || ''),
+          });
+          update(this.collections[i].metadata, () => meta);
         } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+          console.warn('[ERR] unable to get metadata');
         }
       } else {
         Vue.set(this.collections, i, {
           ...this.collections[i],
           ...m,
-          image: sanitizeIpfsUrl(m.image || '')
-        })
+          image: sanitizeIpfsUrl(m.image || ''),
+        });
       }
-    })
+    });
 
-
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first);
   }
-
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
@@ -191,63 +218,64 @@ export default class Collections extends mixins(PrefixMixin) {
           first: this.first,
           offset,
         },
-      })
+      });
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList }
-        }
-      } = await collections
+          collectionEntities: { nodes: collectionList },
+        },
+      } = await collections;
 
-      const storedPromise = getMany(collectionList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(
+        collectionList.map(({ metadata }: any) => metadata)
+      );
 
-      const storedMetadata = await storedPromise
+      const storedMetadata = await storedPromise;
 
       storedMetadata.forEach(async (m, i) => {
         if (!m) {
           try {
-            const meta = await fetchCollectionMetadata(collectionList[i])
-            update(collectionList[i].metadata, () => meta)
+            const meta = await fetchCollectionMetadata(collectionList[i]);
+            update(collectionList[i].metadata, () => meta);
           } catch (e) {
-            console.warn('[ERR] unable to get metadata')
+            console.warn('[ERR] unable to get metadata');
           }
         }
-      })
+      });
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      console.warn('[PREFETCH] Unable fo fetch', offset, e.message);
     } finally {
       if (offset <= prefetchLimit) {
-        this.prefetchPage(offset + this.first, prefetchLimit)
+        this.prefetchPage(offset + this.first, prefetchLimit);
       }
     }
-
   }
 
   get results() {
-    return this.collections as CollectionWithMeta[]
+    return this.collections as CollectionWithMeta[];
   }
 
   setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
+    document.addEventListener('lazybeforeunveil', async (e) => {
+      const target = e.target as Image;
+      const type = target.dataset.type as string;
+      const isGif = type === 'image/gif';
 
       if (isGif && !target.ffInitialized) {
         new Freezeframe(target, {
           trigger: false,
           overlay: true,
-          warnings: false
-        })
+          warnings: false,
+        });
 
-        target.ffInitialized = true
+        target.ffInitialized = true;
       }
-    })
+    });
   }
 
   onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
+    const target = e.target as Image;
+    target.src = this.placeholder;
   }
 }
 </script>

@@ -1,9 +1,9 @@
-import { Component, Mixins } from 'vue-property-decorator'
-import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor'
-import TransactionMixin from './txMixin'
-import Connector from '@vue-polkadot/vue-api'
-import { notificationTypes, showNotification } from '../notification'
-import { DispatchError } from '@polkadot/types/interfaces'
+import { Component, Mixins } from 'vue-property-decorator';
+import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor';
+import TransactionMixin from './txMixin';
+import Connector from '@vue-polkadot/vue-api';
+import { notificationTypes, showNotification } from '../notification';
+import { DispatchError } from '@polkadot/types/interfaces';
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
@@ -19,7 +19,7 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
     onSuccess?: (blockNumber: string) => void
   ): Promise<void> {
     try {
-      const { api } = Connector.getInstance()
+      const { api } = Connector.getInstance();
       const tx = await exec(
         account,
         '',
@@ -27,48 +27,48 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
         args,
         txCb(
           async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
+            execResultValue(tx);
+            const header = await api.rpc.chain.getHeader(blockHash);
+            const blockNumber = header.number.toString();
 
             if (onSuccess) {
-              onSuccess(blockNumber)
+              onSuccess(blockNumber);
             }
 
-            this.isLoading = false
+            this.isLoading = false;
           },
           (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
+            execResultValue(tx);
+            this.onTxError(dispatchError);
+            this.isLoading = false;
           },
           (res) => this.resolveStatus(res.status)
         )
-      )
+      );
     } catch (e) {
       if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
-        this.isLoading = false
+        showNotification(e.toString(), notificationTypes.danger);
+        this.isLoading = false;
       }
     }
   }
 
   protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
+    const { api } = Connector.getInstance();
     if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
+      const decoded = api.registry.findMetaError(dispatchError.asModule);
+      const { docs, name, section } = decoded;
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
         notificationTypes.danger
-      )
+      );
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
         notificationTypes.danger
-      )
+      );
     }
 
-    this.isLoading = false
+    this.isLoading = false;
   }
 }

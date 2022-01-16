@@ -52,10 +52,7 @@
 
     <BasicSwitch v-model="vNsfw" label="mint.nfsw" />
 
-    <BalanceInput
-      label="Price"
-      @input="updateMeta"
-    />
+    <BalanceInput label="Price" @input="updateMeta" />
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
@@ -65,18 +62,18 @@
       has-icon
       aria-close-label="Close message"
     >
-      <span
-        class="has-text-primary"
-      >Setting the price now requires making an additional transaction.</span>
+      <span class="has-text-primary"
+        >Setting the price now requires making an additional transaction.</span
+      >
     </b-message>
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, PropSync } from 'nuxt-property-decorator'
-import { Attribute } from '../service/scheme'
-import { resolveMedia } from '../utils'
-import { MediaType } from '../types'
+<script lang="ts">
+import { Component, Prop, Vue, PropSync } from 'nuxt-property-decorator';
+import { Attribute } from '../service/scheme';
+import { resolveMedia } from '../utils';
+import { MediaType } from '../types';
 
 @Component({
   components: {
@@ -85,45 +82,42 @@ import { MediaType } from '../types'
     MetadataUpload: () => import('./DropUpload.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  }
+  },
 })
 export default class CreateItem extends Vue {
-  @PropSync('name', { type: String }) vName!: string
-  @PropSync('description', { type: String }) vDescription!: string
-  @PropSync('edition', { type: Number }) vEdition!: number
-  @PropSync('nsfw', { type: Boolean }) vNsfw!: boolean
-  @PropSync('price', { type: [Number, String] }) vPrice!: string | number
-  @PropSync('tags', { type: Array }) vTags!: Attribute[]
-  @PropSync('file', { type: Blob }) vFile!: Blob | null
-  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
+  @PropSync('name', { type: String }) vName!: string;
+  @PropSync('description', { type: String }) vDescription!: string;
+  @PropSync('edition', { type: Number }) vEdition!: number;
+  @PropSync('nsfw', { type: Boolean }) vNsfw!: boolean;
+  @PropSync('price', { type: [Number, String] }) vPrice!: string | number;
+  @PropSync('tags', { type: Array }) vTags!: Attribute[];
+  @PropSync('file', { type: Blob }) vFile!: Blob | null;
+  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null;
 
-
-  @Prop(Number) public max!: number
-  @Prop(Number) public alreadyMinted!: number
+  @Prop(Number) public max!: number;
+  @Prop(Number) public alreadyMinted!: number;
 
   protected updateMeta(value: number) {
-    console.log(typeof value, value)
-    this.vPrice = value
+    console.log(typeof value, value);
+    this.vPrice = value;
   }
 
   get fileType() {
-    return resolveMedia(this.vFile?.type)
+    return resolveMedia(this.vFile?.type);
   }
 
   get secondaryFileVisible() {
-    const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+    const fileType = this.fileType;
+    return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType);
   }
 
   get hasPrice() {
-    return Number(this.vPrice)
+    return Number(this.vPrice);
   }
 
   get clickableMax() {
-    return (this.max || Infinity) - this.alreadyMinted
+    return (this.max || Infinity) - this.alreadyMinted;
   }
-
-
 }
 </script>
 

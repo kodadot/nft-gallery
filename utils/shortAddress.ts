@@ -1,11 +1,15 @@
-const shortAddress = (address: string, begin?: number, end?: number): string => {
-  begin = begin ? begin : 6
-  end = end ? end : -6
+const shortAddress = (
+  address: string,
+  begin?: number,
+  end?: number
+): string => {
+  begin = begin ? begin : 6;
+  end = end ? end : -6;
 
   if (address) {
-    return `${address.slice(0, begin)}...${address.slice(end)}`
+    return `${address.slice(0, begin)}...${address.slice(end)}`;
   }
-  return ''
-}
+  return '';
+};
 
-export default shortAddress
+export default shortAddress;

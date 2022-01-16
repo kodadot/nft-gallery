@@ -1,41 +1,40 @@
-export const unSanitizeIpfsUrl = (url: string): string  => {
-  return `ipfs://ipfs/${url}`
-}
+export const unSanitizeIpfsUrl = (url: string): string => {
+  return `ipfs://ipfs/${url}`;
+};
 
 export const justHash = (ipfsLink?: string): boolean => {
-  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '')
-}
+  return /^[a-zA-Z0-9]+$/.test(ipfsLink || '');
+};
 
-const cidRegex = /ipfs\/([a-zA-Z0-9]+)\/?$/
+const cidRegex = /ipfs\/([a-zA-Z0-9]+)\/?$/;
 export const extractCid = (ipfsLink?: string): string => {
   if (!ipfsLink) {
-    return ''
+    return '';
   }
 
-  const match = ipfsLink.match(cidRegex)
+  const match = ipfsLink.match(cidRegex);
 
-  return match ? match[1] : ''
-}
+  return match ? match[1] : '';
+};
 
 type IpfsToArweaveType = {
   arweaveId: string;
   ipfsHash: string;
   statusCode: number;
-}
+};
 
-const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
+const IPFS2AR = 'https://ipfs2arweave.com/permapin/';
 export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
-  const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
+  const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink);
   try {
-    const res = await fetch(IPFS2AR + hash, {method: 'POST'})
+    const res = await fetch(IPFS2AR + hash, { method: 'POST' });
     if (res.ok) {
-      return (await res.json()).arweaveId
+      return (await res.json()).arweaveId;
     }
 
-    return ''
+    return '';
   } catch (e: any) {
-    console.error(`[IPFS2AR] Unable to Arweave ${e.message}`)
-    return ''
+    console.error(`[IPFS2AR] Unable to Arweave ${e.message}`);
+    return '';
   }
-
-}
+};
