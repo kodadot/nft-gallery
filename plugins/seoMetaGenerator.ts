@@ -15,7 +15,7 @@ type MetaProperties = {
   image?: string
 }
 
-export default function ({ app }, inject) {
+export default function ({ app }, inject): void  {
   const seoMeta = (meta: MetaProperties): MetaInfo['meta'] => {
     const baseUrl = app.$config.baseUrl
     const title = 'KodaDot - Kusama NFT Market Explorer'
