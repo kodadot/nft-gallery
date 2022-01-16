@@ -14,8 +14,18 @@ echo 'NUXT_ENV_KEYRING=true
       SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql' > .env
 yarn;yarn dev
 ```
-
 Open http://localhost:9090
+
+# Notice for contributors before 15/01/2022 ⚠️ 
+
+If you've had contributed before **15/01/2022 and have older fork of** `nft-gallery` there are currently two strategies to be up-to-date
+
+- Easiest - [Delete your fork and fork it as as new.](https://docs.github.com/en/repositories/creating-and-managing-repositories/deleting-a-repository)
+- Harder - [Sync your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
+
+### Ref
+- https://github.com/kodadot/nft-gallery/issues/1845
+- https://github.com/kodadot/nft-gallery/issues/1844
 
 ## Docker-🐳
 If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.

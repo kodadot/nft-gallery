@@ -2,7 +2,7 @@ name: Lint Files
 
 on:
   push:
-    branches: [ main, main-nuxt ]
+    branches: [ main ]
 
 jobs:
   lint:
