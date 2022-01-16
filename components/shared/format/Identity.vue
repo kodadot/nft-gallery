@@ -43,12 +43,15 @@
           >
         </template>
       </span>
-      <span v-else>
+      <template v-if="!hideIdentityPopover">
         <IdentityPopover :identity="{ ...identity, address }">
           <template #trigger>
             {{ name | toString }}
           </template>
-        </IdentityPopover>
+         </IdentityPopover>
+      </template>
+      <span v-else>
+         {{ name | toString }}
       </span>
     </template>
   </component>
@@ -83,6 +86,7 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public showTwitter!: boolean
   @Prop(Boolean) public showDiscord!: boolean
   @Prop(Boolean) public showOnchainIdentity!: boolean
+  @Prop(Boolean) public hideIdentityPopover!: boolean
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
 
