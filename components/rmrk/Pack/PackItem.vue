@@ -7,11 +7,8 @@
             {{ name }}
           </p>
           <p class="subtitle">
-            Curated by: <ProfileLink
-              v-if="owner"
-              :address="owner"
-              :inline="true"
-            />
+            Curated by:
+            <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
           <Sharing
             v-if="sharingVisible"
@@ -26,41 +23,41 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { emptyObject } from '@/utils/empty'
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { emptyObject } from '@/utils/empty';
+import { Component, Vue } from 'nuxt-property-decorator';
 // import { getInstance } from '../service/RmrkService';
-import { CompletePack } from '../service/scheme'
-import isShareMode from '@/utils/isShareMode'
+import { CompletePack } from '../service/scheme';
+import isShareMode from '@/utils/isShareMode';
 
 const components = {
-  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  GalleryCardList: () =>
+    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
-}
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+};
 
 @Component({ components })
 export default class PackItem extends Vue {
-  private id = ''
-  private pack: CompletePack = emptyObject<CompletePack>()
-  private isLoading = false
+  private id = '';
+  private pack: CompletePack = emptyObject<CompletePack>();
+  private isLoading = false;
 
   get name() {
-    return this.pack.name || this.id
+    return this.pack.name || this.id;
   }
 
   get owner() {
-    return this.pack.owner || ''
+    return this.pack.owner || '';
   }
 
   get nfts() {
-    return this.pack.nfts || []
+    return this.pack.nfts || [];
   }
 
   get sharingVisible() {
-    return !isShareMode
+    return !isShareMode;
   }
-
 
   // public async mounted() {
   // this.checkId();
@@ -68,7 +65,6 @@ export default class PackItem extends Vue {
   // if (!rmrkService || !this.id) {
   //   return;
   // }
-
 
   // this.isLoading = true;
 
@@ -90,12 +86,12 @@ export default class PackItem extends Vue {
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id
+      this.id = this.$route.params.id;
     }
   }
 
   get iframeSettings() {
-    return { width: '100%', height: '100vh' }
+    return { width: '100%', height: '100vh' };
   }
 
   nftMeta() {

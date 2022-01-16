@@ -10,10 +10,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                icon="envelope"
-                size="is-medium"
-              />
+              <b-icon icon="envelope" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -22,11 +19,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="medium"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="medium" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -35,11 +28,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="discord"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="discord" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -48,11 +37,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="youtube"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="youtube" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -61,11 +46,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="telegram"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="telegram" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -74,11 +55,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="twitter"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="twitter" size="is-medium" />
             </a>
           </li>
 
@@ -88,21 +65,13 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <b-icon
-                pack="fab"
-                icon="reddit-alien"
-                size="is-medium"
-              />
+              <b-icon pack="fab" icon="reddit-alien" size="is-medium" />
             </a>
           </li>
         </ul>
       </div>
       <ul class="footer__list">
-        <li
-          v-for="item in menu"
-          :key="item.name"
-          class="footer__list-item"
-        >
+        <li v-for="item in menu" :key="item.name" class="footer__list-item">
           <a
             v-if="item.external"
             :href="item.url"
@@ -111,10 +80,7 @@
           >
             {{ item.name }}
           </a>
-          <nuxt-link
-            v-else
-            :to="item.url"
-          >
+          <nuxt-link v-else :to="item.url">
             {{ item.name }}
           </nuxt-link>
         </li>
@@ -124,27 +90,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import i18n from '@/utils/config/i18n'
-import { TranslateResult } from 'vue-i18n/types'
+import { Component, Vue } from 'nuxt-property-decorator';
+import i18n from '@/utils/config/i18n';
+import { TranslateResult } from 'vue-i18n/types';
 
 interface Menu {
   name: TranslateResult;
   url: string;
-  external?: boolean
+  external?: boolean;
 }
 @Component({
-  components: {}
+  components: {},
 })
 export default class Footer extends Vue {
   public menu: Menu[] = [
     {
       name: i18n.t('About'),
-      url: '/about'
+      url: '/about',
     },
     {
       name: i18n.t('FAQ'),
-      url: '/rmrk/faq'
+      url: '/rmrk/faq',
     },
     // {
     //   name: i18n.t('Contact'),
@@ -152,18 +118,18 @@ export default class Footer extends Vue {
     // },
     {
       name: i18n.t('Partnerships & Ambassadors'),
-      url: '/partnership'
+      url: '/partnership',
     },
     {
       name: i18n.t('Press Kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
-      external: true
+      external: true,
     },
     {
       name: i18n.t('Jobs'),
-      url: '/jobs'
-    }
-  ]
+      url: '/jobs',
+    },
+  ];
 }
 </script>
 

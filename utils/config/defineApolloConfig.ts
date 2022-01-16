@@ -1,18 +1,21 @@
-import { INDEXERS } from '@vue-polkadot/vue-settings'
+import { INDEXERS } from '@vue-polkadot/vue-settings';
 
 type Endpoint = {
-  httpEndpoint: string
-}
+  httpEndpoint: string;
+};
 
-const toClient = (value: string): string => value !== 'kusama' ? value : 'rmrk'
-export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({ httpEndpoint })
+const toClient = (value: string): string =>
+  value !== 'kusama' ? value : 'rmrk';
+export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({
+  httpEndpoint,
+});
 
 export default () => {
-  const configs = {}
+  const configs = {};
 
-  INDEXERS.map(option => {
-    configs[toClient(option.info)] = toApolloEndpoint(String(option.value))
-  })
+  INDEXERS.map((option) => {
+    configs[toClient(option.info)] = toApolloEndpoint(String(option.value));
+  });
 
-  return configs
-}
+  return configs;
+};

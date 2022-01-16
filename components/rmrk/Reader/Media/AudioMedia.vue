@@ -1,22 +1,16 @@
 <template>
-  <audio
-    width="400"
-    controls
-  >
-    <source
-      :src="src"
-      :type="mimeType"
-    >
+  <audio width="400" controls>
+    <source :src="src" :type="mimeType" />
     Unable to show audio
   </audio>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
 @Component({})
 export default class AppAudio extends Vue {
-  @Prop() public src!: string
-  @Prop() public mimeType!: string
+  @Prop() public src!: string;
+  @Prop() public mimeType!: string;
 }
 </script>

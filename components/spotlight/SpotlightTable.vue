@@ -53,7 +53,9 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ props.row.unique }}</template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.unique
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -67,7 +69,9 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.uniqueCollectors
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -143,92 +147,96 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import { Column, Row } from './types'
-import { columns, nftFn } from './utils'
-import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
+import { Component, Prop, mixins } from 'nuxt-property-decorator';
+import { Column, Row } from './types';
+import { columns, nftFn } from './utils';
+import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql';
 
-import TransactionMixin from '@/utils/mixins/txMixin'
-import { denyList } from '@/utils/constants'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { get } from 'idb-keyval'
-import { identityStore } from '@/utils/idbStore'
-import { getRandomIntInRange } from '../rmrk/utils'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-type Address = string | GenericAccountId | undefined
+import TransactionMixin from '@/utils/mixins/txMixin';
+import { denyList } from '@/utils/constants';
+import { GenericAccountId } from '@polkadot/types/generic/AccountId';
+import { get } from 'idb-keyval';
+import { identityStore } from '@/utils/idbStore';
+import { getRandomIntInRange } from '../rmrk/utils';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
+type Address = string | GenericAccountId | undefined;
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SpotlightDetail: () => import('./SpotlightDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-}
+};
 
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
   PrefixMixin
 ) {
-  @Prop() public value!: any
-  protected data: Row[] = []
-  protected columns: Column[] = columns
-  protected usersWithIdentity: Row[] = []
-  protected toggleUsersWithIdentity = false
-  protected currentPage = 0
+  @Prop() public value!: any;
+  protected data: Row[] = [];
+  protected columns: Column[] = columns;
+  protected usersWithIdentity: Row[] = [];
+  protected toggleUsersWithIdentity = false;
+  protected currentPage = 0;
 
   async created() {
-    this.isLoading = true
+    this.isLoading = true;
     const collections = await this.$apollo.query({
       query: collectionSpotlightList,
       client: 'subsquid',
-    })
+    });
 
     const {
       data: { collectionEntities },
-    } = collections
+    } = collections;
 
-    this.data = collectionEntities.map((e): Row => ({
-      ...e,
-      averagePrice: Number(e.averagePrice),
-      collectors: e.sold,
-      rank: e.sold * (e.unique / e.total || 1),
-      uniqueCollectors: e.uniqueCollectors,
-      volume: BigInt(e.volume),
-    })).sort((a, b) => b.rank - a.rank)
+    this.data = collectionEntities
+      .map(
+        (e): Row => ({
+          ...e,
+          averagePrice: Number(e.averagePrice),
+          collectors: e.sold,
+          rank: e.sold * (e.unique / e.total || 1),
+          uniqueCollectors: e.uniqueCollectors,
+          volume: BigInt(e.volume),
+        })
+      )
+      .sort((a, b) => b.rank - a.rank);
 
     // this.data = spotlightAggQuery(
     //   collectionEntities?.nodes?.map(nftFn)
     // ) as Row[]
 
     for (let index = 0; index < this.data.length; index++) {
-      const result = await this.identityOf(this.data[index].id)
+      const result = await this.identityOf(this.data[index].id);
       if (result && Object.keys(result).length) {
-        this.usersWithIdentity[index] = this.data[index]
+        this.usersWithIdentity[index] = this.data[index];
       }
     }
 
-    this.isLoading = false
+    this.isLoading = false;
   }
 
   public async identityOf(account: Address) {
-    const address: string = this.resolveAddress(account)
-    const identity = await get(address, identityStore)
-    return identity
+    const address: string = this.resolveAddress(account);
+    const identity = await get(address, identityStore);
+    return identity;
   }
 
   private resolveAddress(account: Address): string {
     return account instanceof GenericAccountId
       ? account.toString()
-      : account || ''
+      : account || '';
   }
 
   public goToRandomPage() {
     const total = this.toggleUsersWithIdentity
       ? this.usersWithIdentity.length
-      : this.data.length
-    const pageSize = Math.floor(total / 20)
-    let randomNumber = getRandomIntInRange(1, pageSize)
-    this.currentPage = randomNumber
+      : this.data.length;
+    const pageSize = Math.floor(total / 20);
+    let randomNumber = getRandomIntInRange(1, pageSize);
+    this.currentPage = randomNumber;
   }
 }
 </script>

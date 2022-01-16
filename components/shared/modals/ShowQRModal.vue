@@ -6,24 +6,24 @@
   </ModalWrapper>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
 const components = {
   ModalWrapper: () => import('./ModalWrapper.vue'),
   QRCode: () => import('@/components/shared/QRCode.vue'),
-}
+};
 
 @Component({
   name: 'ShowQRModal',
-  components
+  components,
 })
 export default class ShowQRModal extends Vue {
-  @Prop({ type: String, required: true }) public address!: string
-  @Prop({ type: String}) public title!: string
+  @Prop({ type: String, required: true }) public address!: string;
+  @Prop({ type: String }) public title!: string;
 
   get qrCodePath(): string {
-    return this.address || 'https://http.cat/409'
+    return this.address || 'https://http.cat/409';
   }
 }
 </script>

@@ -1,9 +1,8 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
+import { NotificationProgrammatic as Notification } from 'buefy';
 
-export type NotificationType = { type: string, actionText: string }
-export type AvailableNotification = 'success' | 'info' | 'danger' | 'warn'
-export type NotificationList = Record<AvailableNotification, NotificationType>
-
+export type NotificationType = { type: string; actionText: string };
+export type AvailableNotification = 'success' | 'info' | 'danger' | 'warn';
+export type NotificationList = Record<AvailableNotification, NotificationType>;
 
 export const notificationTypes: NotificationList = {
   success: {
@@ -23,10 +22,12 @@ export const notificationTypes: NotificationList = {
     type: 'is-warning',
     actionText: 'Oh ok!',
   },
-}
+};
 
-
-export const showNotification = (message: string | null, params: any = notificationTypes.info): void  => {
+export const showNotification = (
+  message: string | null,
+  params: any = notificationTypes.info
+): void => {
   Notification.open({
     duration: 5000,
     message,
@@ -35,8 +36,8 @@ export const showNotification = (message: string | null, params: any = notificat
     actionText: 'OK',
     queue: false,
     ...params,
-  })
-}
+  });
+};
 
 export const infiniteNotif = (message: string) => {
   const notif = Notification.open({
@@ -45,7 +46,7 @@ export const infiniteNotif = (message: string) => {
     type: 'is-info is-light',
     position: 'is-top',
     queue: false,
-  })
+  });
 
-  return notif
-}
+  return notif;
+};

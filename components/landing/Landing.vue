@@ -8,27 +8,24 @@
             alt="First NFT market explorer on Kusama and Polkadot"
             class="mb-5"
             height="60"
-          >
+          />
           <h2
-            class="
-              title
-              is-1 is-flex is-flex-direction-column
-              uppercase
-              homepage__heading
-            "
+            class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading"
           >
             <span> Carbon neutral </span>
             <span class="text__stroked"> Kusama native </span>
             <span> NFT plaftorm </span>
-            <span
-              class="title is-6 homepage__subtitle uppercase text-semibold"
-            >
+            <span class="title is-6 homepage__subtitle uppercase text-semibold">
               Built on
               <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
           </h2>
           <div class="buttons">
-            <b-button tag="nuxt-link" :to="`/${prefix}/create`" type="is-primary">
+            <b-button
+              tag="nuxt-link"
+              :to="`/${prefix}/create`"
+              type="is-primary"
+            >
               {{ $t('Create') }}
             </b-button>
             <b-button
@@ -38,7 +35,11 @@
             >
               Collections
             </b-button>
-            <b-button tag="nuxt-link" :to="`/${prefix}/gallery`" type="is-primary">
+            <b-button
+              tag="nuxt-link"
+              :to="`/${prefix}/gallery`"
+              type="is-primary"
+            >
               Gallery
             </b-button>
             <b-button tag="nuxt-link" to="/spotlight" type="is-primary">
@@ -88,8 +89,8 @@
       <div class="homepage__box">
         <div class="homepage__box-content">
           <p>
-            Would you like to get featured on our gallery page? Perhaps you
-            have a business proposal in mind. Maybe you would like to be an
+            Would you like to get featured on our gallery page? Perhaps you have
+            a business proposal in mind. Maybe you would like to be an
             ambassador. Go to this section for all of the above.
           </p>
           <b-button
@@ -107,9 +108,7 @@
             </p>
             <p>
               <span> Struggling with KodaDot? </span>
-              <span>
-                Head over to our <a href="/rmrk/faq">FAQ page.</a>
-              </span>
+              <span> Head over to our <a href="/rmrk/faq">FAQ page.</a> </span>
             </p>
             <p>
               <span> Found issue? Have Feedback? </span>
@@ -132,15 +131,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
-const components = {}
+const components = {};
 @Component<Landing>({
-  components
+  components,
 })
 export default class Landing extends Vue {
-  @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
-  @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
+  @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string;
+  @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string;
 }
 </script>
 

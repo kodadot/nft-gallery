@@ -32,20 +32,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { RmrkType } from '@/components/rmrk/service/scheme'
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
+import { RmrkType } from '@/components/rmrk/service/scheme';
 
-@Component({ })
+@Component({})
 export default class Layout extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string
-  @Prop({ default: 'rmrk/detail' }) public link!: string
-  @Prop({ type: Boolean, default: false }) public readonly disabled!: boolean
-  @Prop({ type: String, default: 'is-right' }) public readonly position!: 'is-left' | 'is-right'
-  @Prop() public items!: RmrkType[]
-  public layout = this.$store.getters['preferences/getLayoutClass']
+  @Prop({ default: 'nftDetail' }) public type!: string;
+  @Prop({ default: 'rmrk/detail' }) public link!: string;
+  @Prop({ type: Boolean, default: false }) public readonly disabled!: boolean;
+  @Prop({ type: String, default: 'is-right' }) public readonly position!:
+    | 'is-left'
+    | 'is-right';
+  @Prop() public items!: RmrkType[];
+  public layout = this.$store.getters['preferences/getLayoutClass'];
 
-  public onInputChange (data :string) {
-    this.$store.dispatch('preferences/setLayoutClass', data)
+  public onInputChange(data: string) {
+    this.$store.dispatch('preferences/setLayoutClass', data);
   }
 }
 </script>

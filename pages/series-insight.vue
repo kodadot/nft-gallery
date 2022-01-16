@@ -7,45 +7,44 @@
       </div>
       <div class="column">
         <img
-            src="~/assets/rmrk-logo-pink-faded.png"
-            alt="RMRK"
-            class="rmrk-logo is-hidden-mobile"
-          >
+          src="~/assets/rmrk-logo-pink-faded.png"
+          alt="RMRK"
+          class="rmrk-logo is-hidden-mobile"
+        />
       </div>
     </div>
 
     <SeriesTable />
   </section>
 </template>
-<script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component<Series>({
   head() {
-    const title = 'NFT artist rank'
+    const title = 'NFT artist rank';
     const metaData = {
       title,
       type: 'profile',
       description: 'Discover new artists based on ranking',
       url: '/series-insight',
       image: `${this.$config.baseUrl}/k_card_series.png`,
-    }
+    };
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
-    }
+      meta: [...this.$seoMeta(metaData)],
+    };
   },
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
-    SeriesTable: () => import('@/components/series/SeriesTable.vue')
-  }
+    SeriesTable: () => import('@/components/series/SeriesTable.vue'),
+  },
 })
-export default class Series extends Vue {
-}
+export default class Series extends Vue {}
 </script>
 
 <style scoped>
 .rmrk-logo {
-  aspect-ratio: 127 / 42
+  aspect-ratio: 127 / 42;
 }
 </style>

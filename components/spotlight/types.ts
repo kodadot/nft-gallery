@@ -1,5 +1,5 @@
-import { TranslateResult } from 'vue-i18n'
-import { Interaction } from '../rmrk/service/scheme'
+import { TranslateResult } from 'vue-i18n';
+import { Interaction } from '../rmrk/service/scheme';
 
 export type Column = {
   field: keyof Row;
@@ -7,7 +7,7 @@ export type Column = {
   width?: number;
   numeric?: boolean;
   centered?: boolean;
-}
+};
 
 type VolumeType = number | bigint;
 
@@ -22,7 +22,7 @@ export type Row = {
   rank: number;
   uniqueCollectors: number;
   volume: VolumeType;
-}
+};
 
 export type SimpleSpotlightNFT = {
   issuer: string;
@@ -30,4 +30,4 @@ export type SimpleSpotlightNFT = {
   metadata: string;
   price: number;
   events: Interaction[];
-}
+};

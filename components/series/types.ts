@@ -1,5 +1,5 @@
-import { TranslateResult } from 'vue-i18n'
-import { Interaction } from '../rmrk/service/scheme'
+import { TranslateResult } from 'vue-i18n';
+import { Interaction } from '../rmrk/service/scheme';
 
 export type Column = {
   field: keyof RowSeries;

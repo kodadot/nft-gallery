@@ -1,26 +1,26 @@
-import type { MetaInfo } from 'vue-meta'
+import type { MetaInfo } from 'vue-meta';
 
 declare module 'vue/types/vue' {
   // this.$seoMeta inside Vue components
   interface Vue {
-    $seoMeta(meta: MetaProperties)
+    $seoMeta(meta: MetaProperties);
   }
 }
 
 type MetaProperties = {
   type?: string;
-  url ?: string;
-  title ?: string;
-  description ?: string;
-  image ?: string;
-}
+  url?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+};
 
-export default function({ app }, inject) {
+export default function ({ app }, inject) {
   const seoMeta = (meta: MetaProperties): MetaInfo['meta'] => {
-    const baseUrl = app.$config.baseUrl
-    const title = 'KodaDot - Kusama NFT Market Explorer'
-    const description = 'Creating Carbonless NFTs on Kusama'
-    const image = `${baseUrl}/kodadot_card_root.png`
+    const baseUrl = app.$config.baseUrl;
+    const title = 'KodaDot - Kusama NFT Market Explorer';
+    const description = 'Creating Carbonless NFTs on Kusama';
+    const image = `${baseUrl}/kodadot_card_root.png`;
     return [
       {
         hid: 'description',
@@ -72,7 +72,7 @@ export default function({ app }, inject) {
         name: 'twitter:image',
         content: meta?.image || image,
       },
-    ]
-  }
-  inject('seoMeta', seoMeta)
+    ];
+  };
+  inject('seoMeta', seoMeta);
 }

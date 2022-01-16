@@ -1,37 +1,35 @@
-import { Row } from '@/components/spotlight/types'
-import { RowSeries, SortType } from '@/components/series/types'
-import { Query, Aggregator } from 'mingo'
-import { NFTWithMeta } from '../../service/scheme'
-import { QueryType, SearchQuery } from './types'
+import { Row } from '@/components/spotlight/types';
+import { RowSeries, SortType } from '@/components/series/types';
+import { Query, Aggregator } from 'mingo';
+import { NFTWithMeta } from '../../service/scheme';
+import { QueryType, SearchQuery } from './types';
 
 export const basicFilterQuery = (value: string): Query => {
-  const rr = new RegExp(value, 'i')
-  const criteria: QueryType = basicCriteria(rr)
+  const rr = new RegExp(value, 'i');
+  const criteria: QueryType = basicCriteria(rr);
 
-  return new Query(criteria)
-}
+  return new Query(criteria);
+};
 
 const basicCriteria = (rr: RegExp, additionalQuery: never[] = []) => ({
-  $and: [
-    ...additionalQuery
-  ],
+  $and: [...additionalQuery],
   $or: [
-    { name: { $regex: rr} },
-    { instance: { $regex: rr} },
-    { currentOwner: { $regex: rr} },
-    { description: { $regex: rr} },
-    { collection: { $regex: rr} },
-  ]
-})
+    { name: { $regex: rr } },
+    { instance: { $regex: rr } },
+    { currentOwner: { $regex: rr } },
+    { description: { $regex: rr } },
+    { collection: { $regex: rr } },
+  ],
+});
 
-const queryOf = (criteria: QueryType) => new Query(criteria)
+const queryOf = (criteria: QueryType) => new Query(criteria);
 
 export const basicAggregation = (): Aggregator => {
   const agg = [
     {
       $match: {
-        burned: { $ne: true }
-      }
+        burned: { $ne: true },
+      },
     },
     {
       $group: {
@@ -47,13 +45,13 @@ export const basicAggregation = (): Aggregator => {
         type: { $first: '$type' },
         burned: { $first: '$burned' },
         emoteCount: { $first: '$emoteCount' },
-        count: { $sum: 1 }
-      }
-    }
-  ]
+        count: { $sum: 1 },
+      },
+    },
+  ];
 
-  return new Aggregator(agg)
-}
+  return new Aggregator(agg);
+};
 
 export const spotlightAggregation = (): Aggregator => {
   const agg = [
@@ -70,16 +68,16 @@ export const spotlightAggregation = (): Aggregator => {
         count: { $sum: '$count' },
         // collectors: { $setUnion: '$collectors' }, // TODO: Do not know how
         rank: { $sum: '$rank' },
-        volume: { $sum: '$volume' }
-      }
+        volume: { $sum: '$volume' },
+      },
     },
     {
-      $sort: { rank: -1 }
-    }
-  ]
+      $sort: { rank: -1 },
+    },
+  ];
 
-  return new Aggregator(agg)
-}
+  return new Aggregator(agg);
+};
 
 export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
   const agg = [
@@ -104,57 +102,64 @@ export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
         weeklyrangeVolume: { $sum: '$weeklyrangeVolume' },
         monthlyrangeVolume: { $sum: '$monthlyrangeVolume' },
         name: { $first: '$name' },
-        metadata: { $first: '$metadata' }
-      }
+        metadata: { $first: '$metadata' },
+      },
     },
     {
-      $sort: { [sort['field']]: sort['value'] }
+      $sort: { [sort['field']]: sort['value'] },
     },
     {
-      $limit: limit
-    }
-  ]
+      $limit: limit,
+    },
+  ];
 
-  return new Aggregator(agg)
-}
+  return new Aggregator(agg);
+};
 
 export const basicFilter = (value: string, nfts: NFTWithMeta[]): any[] => {
-  const query = basicFilterQuery(value)
-  return query.find(nfts).all()
-}
+  const query = basicFilterQuery(value);
+  return query.find(nfts).all();
+};
 
-export const expandedFilter = (value: SearchQuery, nfts: NFTWithMeta[]): any[] => {
+export const expandedFilter = (
+  value: SearchQuery,
+  nfts: NFTWithMeta[]
+): any[] => {
   // if (sort) {
   //   return query.find(nfts).sort(sort).all()
   // }
-  const rr = new RegExp(value.search, 'i')
-  const additionalQuery = value.type ? [{ type: { $regex: new RegExp(value.type, 'i')} }] as any : []
-  const criteria: QueryType = basicCriteria(rr, additionalQuery)
+  const rr = new RegExp(value.search, 'i');
+  const additionalQuery = value.type
+    ? ([{ type: { $regex: new RegExp(value.type, 'i') } }] as any)
+    : [];
+  const criteria: QueryType = basicCriteria(rr, additionalQuery);
 
-  const cursor = queryOf(criteria).find(nfts)
+  const cursor = queryOf(criteria).find(nfts);
 
   // if (value.sortBy) {
   //   cursor = cursor.sort(value.sortBy)
   // }
 
-  return cursor.all()
-}
+  return cursor.all();
+};
 
 export const basicAggQuery = (nfts: NFTWithMeta[]) => {
-  const query = basicAggregation()
-  return query.run(nfts)
-}
-
+  const query = basicAggregation();
+  return query.run(nfts);
+};
 
 export const spotlightAggQuery = (nfts: Row[]) => {
-  const query = spotlightAggregation()
-  return query.run(nfts)
-}
+  const query = spotlightAggregation();
+  return query.run(nfts);
+};
 
-export const seriesAggQuery = (limit: number, sort: SortType, nfts: RowSeries[]) => {
-  const query = seriesAggregation(limit, sort)
-  return query.run(nfts)
-}
-
+export const seriesAggQuery = (
+  limit: number,
+  sort: SortType,
+  nfts: RowSeries[]
+) => {
+  const query = seriesAggregation(limit, sort);
+  return query.run(nfts);
+};
 
 // dev sort({ age: 1 })

@@ -12,7 +12,13 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Identity ref="identity" :address="id" inline emit @change="handleIdentity" />
+              <Identity
+                ref="identity"
+                :address="id"
+                inline
+                emit
+                @change="handleIdentity"
+              />
             </a>
           </h1>
         </div>
@@ -24,8 +30,13 @@
             {{ $t('profile.user') }}
           </div>
           <div class="subtitle is-size-6">
-            <ProfileLink :address="id" :inline="true" showTwitter showDiscord/>
-            <a :href="`https://sub.id/#/${id}`" target="_blank" rel="noopener noreferrer" class="is-inline-flex is-align-items-center pt-2">
+            <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
+            <a
+              :href="`https://sub.id/#/${id}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="is-inline-flex is-align-items-center pt-2"
+            >
               <figure class="image is-24x24 subid__less-margin">
                 <img alt="subid" src="/subid.svg" />
               </figure>
@@ -54,8 +65,10 @@
       >
         <b-tab-item value="nft">
           <template #header>
-            {{ $t("profile.created") }}
-            <span class="tab-counter" v-if="totalCreated">{{ totalCreated }}</span>
+            {{ $t('profile.created') }}
+            <span class="tab-counter" v-if="totalCreated">{{
+              totalCreated
+            }}</span>
           </template>
           <PaginatedCardList
             :id="id"
@@ -71,7 +84,12 @@
           :label="`Collections - ${totalCollections}`"
           value="collection"
         >
-          <Pagination hasMagicBtn replace :total="totalCollections" v-model="currentCollectionPage" />
+          <Pagination
+            hasMagicBtn
+            replace
+            :total="totalCollections"
+            v-model="currentCollectionPage"
+          />
           <GalleryCardList
             :items="collections"
             link="westmint/collection"
@@ -86,7 +104,7 @@
         </b-tab-item>
         <b-tab-item value="sold">
           <template #header>
-            {{ $t("profile.sold") }}
+            {{ $t('profile.sold') }}
             <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
           </template>
           <PaginatedCardList
@@ -100,8 +118,10 @@
         </b-tab-item>
         <b-tab-item value="collected">
           <template #header>
-            {{ $t("profile.collected") }}
-            <span class="tab-counter" v-if="totalCollected">{{ totalCollected }}</span>
+            {{ $t('profile.collected') }}
+            <span class="tab-counter" v-if="totalCollected">{{
+              totalCollected
+            }}</span>
           </template>
           <PaginatedCardList
             :id="id"
@@ -123,19 +143,19 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
-import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/unique/collectionListByAccount.graphql'
-import nftListByIssuer from '@/queries/unique/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/unique/nftListCollected.graphql'
-import nftListSold from '@/queries/unique/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
+import { notificationTypes, showNotification } from '@/utils/notification';
+import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils';
+import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme';
+import isShareMode from '@/utils/isShareMode';
+import shouldUpdate from '@/utils/shouldUpdate';
+import shortAddress from '@/utils/shortAddress';
+import collectionList from '@/queries/unique/collectionListByAccount.graphql';
+import nftListByIssuer from '@/queries/unique/nftListByIssuer.graphql';
+import nftListCollected from '@/queries/unique/nftListCollected.graphql';
+import nftListSold from '@/queries/unique/nftListSold.graphql';
+import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql';
+import PrefixMixin from '@/utils/mixins/prefixMixin';
 
 const components = {
   GalleryCardList: () =>
@@ -149,106 +169,105 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
-}
+};
 
-const eq = (tab: string) => (el: string) => tab === el
+const eq = (tab: string) => (el: string) => tab === el;
 
 @Component<Profile>({
   components,
   head() {
-    const title = 'NFT Artist Profile on KodaDot'
+    const title = 'NFT Artist Profile on KodaDot';
     const metaData = {
       title,
       type: 'profile',
-      description: this.firstNFTData.description || 'Find more NFTs from this creator',
+      description:
+        this.firstNFTData.description || 'Find more NFTs from this creator',
       url: `/westmint/u/${this.id}`,
       image: this.firstNFTData.image || this.defaultNFTImage,
-    }
+    };
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
-    }
-  }
+      meta: [...this.$seoMeta(metaData)],
+    };
+  },
 })
 export default class Profile extends mixins(PrefixMixin) {
-  public firstNFTData: any = {}
-  protected id = ''
-  protected shortendId = ''
-  protected isLoading = false
-  protected collections: CollectionWithMeta[] = []
-  protected packs: Pack[] = []
-  protected name = ''
+  public firstNFTData: any = {};
+  protected id = '';
+  protected shortendId = '';
+  protected isLoading = false;
+  protected collections: CollectionWithMeta[] = [];
+  protected packs: Pack[] = [];
+  protected name = '';
   // protected property: {[key: string]: any} = {};
-  protected email = ''
-  protected twitter = ''
-  protected web = ''
-  protected legal = ''
-  protected riot = ''
-  private currentValue = 1
-  private first = 20
-  private total = 0
-  private currentCollectionPage = 1
-  protected totalCollections = 0
+  protected email = '';
+  protected twitter = '';
+  protected web = '';
+  protected legal = '';
+  protected riot = '';
+  private currentValue = 1;
+  private first = 20;
+  private total = 0;
+  private currentCollectionPage = 1;
+  protected totalCollections = 0;
 
-  protected totalCreated = 0
-  protected totalCollected = 0
-  protected totalSold = 0
+  protected totalCreated = 0;
+  protected totalCollected = 0;
+  protected totalSold = 0;
 
-  readonly nftListByIssuer = nftListByIssuer
-  readonly nftListCollected = nftListCollected
-  readonly nftListSold = nftListSold
+  readonly nftListByIssuer = nftListByIssuer;
+  readonly nftListCollected = nftListCollected;
+  readonly nftListSold = nftListSold;
 
   public async mounted() {
-    await this.fetchProfile()
+    await this.fetchProfile();
   }
 
   public checkId() {
     if (this.$route.params.id) {
-      this.id = this.$route.params.id
-      this.shortendId = shortAddress(this.id)
+      this.id = this.$route.params.id;
+      this.shortendId = shortAddress(this.id);
     }
   }
 
   get activeTab(): string {
-    return this.$route.query.tab as string || 'nft'
+    return (this.$route.query.tab as string) || 'nft';
   }
 
   set activeTab(val) {
-    this.$route.query.page = ''
+    this.$route.query.page = '';
     this.$router.replace({
       query: { tab: val },
-    })
+    });
   }
 
   get sharingVisible(): boolean {
-    return isShareMode
+    return isShareMode;
   }
 
   get customUrl(): string {
-    return `${window.location.origin}${this.$route.path}/${this.activeTab}`
+    return `${window.location.origin}${this.$route.path}/${this.activeTab}`;
   }
 
-  get iframeSettings(): {width: string, height: string, customUrl: string} {
-    return { width: '100%', height: '100vh', customUrl: this.customUrl }
+  get iframeSettings(): { width: string; height: string; customUrl: string } {
+    return { width: '100%', height: '100vh', customUrl: this.customUrl };
   }
 
   get offset(): number {
-    return this.currentValue * this.first - this.first
+    return this.currentValue * this.first - this.first;
   }
 
   get collectionOffset(): number {
-    return this.currentCollectionPage * this.first - this.first
+    return this.currentCollectionPage * this.first - this.first;
   }
 
   get defaultNFTImage(): string {
-    const url = new URL(window.location.href)
-    return (
-      `${url.protocol}//${url.hostname}/koda300x300.svg`
-    )
+    const url = new URL(window.location.href);
+    return `${url.protocol}//${url.hostname}/koda300x300.svg`;
   }
 
   protected async fetchProfile() {
-    this.checkId()
+    this.checkId();
 
     try {
       this.$apollo.addSmartQuery('collections', {
@@ -262,11 +281,11 @@ export default class Profile extends mixins(PrefixMixin) {
           return {
             account: this.id,
             first: this.first,
-            offset: this.collectionOffset
-          }
+            offset: this.collectionOffset,
+          };
         },
-        fetchPolicy: 'cache-and-network'
-      })
+        fetchPolicy: 'cache-and-network',
+      });
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
@@ -276,70 +295,69 @@ export default class Profile extends mixins(PrefixMixin) {
         result: this.handleResult,
         variables: () => {
           return {
-            account: this.id
-          }
+            account: this.id,
+          };
         },
-        fetchPolicy: 'cache-and-network'
-      })
+        fetchPolicy: 'cache-and-network',
+      });
 
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
       // console.log(packs)
     } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      showNotification(`${e}`, notificationTypes.danger);
+      console.warn(e);
     }
     // this.isLoading = false;
-
   }
 
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
-      const nfts = data.nFTEntities.nodes
+      const nfts = data.nFTEntities.nodes;
       if (nfts?.length) {
-        const meta = await fetchNFTMetadata(nfts[0])
+        const meta = await fetchNFTMetadata(nfts[0]);
         this.firstNFTData = {
           ...meta,
-          image: sanitizeIpfsUrl(meta.image || '')
-        }
+          image: sanitizeIpfsUrl(meta.image || ''),
+        };
       }
     }
   }
 
   protected async handleCollectionResult({ data }: any) {
     if (data) {
-      this.totalCollections = data.collectionEntities.totalCount
-      this.collections = data.collectionEntities.nodes
+      this.totalCollections = data.collectionEntities.totalCount;
+      this.collections = data.collectionEntities.nodes;
     }
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
-    this.email = identityFields?.email as string
-    this.twitter = identityFields?.twitter as string
-    this.riot = identityFields?.riot as string
-    this.web = identityFields?.web as string
-    this.legal = identityFields?.legal as string
+    this.email = identityFields?.email as string;
+    this.twitter = identityFields?.twitter as string;
+    this.riot = identityFields?.riot as string;
+    this.web = identityFields?.web as string;
+    this.legal = identityFields?.legal as string;
   }
 
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.fetchProfile()
+      this.fetchProfile();
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .invisible-tab > nav.tabs {
   display: none;
 }
 
 .tab-counter::before {
-  content: " - ";
+  content: ' - ';
   white-space: pre;
 }
 
@@ -349,6 +367,6 @@ export default class Profile extends mixins(PrefixMixin) {
 }
 
 .subid__less-margin {
-  margin: auto .5em auto 0;
+  margin: auto 0.5em auto 0;
 }
 </style>

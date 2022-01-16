@@ -1,1 +1,1 @@
-declare module 'emoji-unicode'
+declare module 'emoji-unicode';

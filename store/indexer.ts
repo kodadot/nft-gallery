@@ -1,6 +1,6 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
-import { SnackbarProgrammatic as Snackbar } from 'buefy'
-import checkIndexer from '@/queries/checkIndexer.graphql'
+import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex';
+import { SnackbarProgrammatic as Snackbar } from 'buefy';
+import checkIndexer from '@/queries/checkIndexer.graphql';
 
 export const state = () => ({
   indexer: {
@@ -9,43 +9,42 @@ export const state = () => ({
     lastProcessedHeight: undefined,
     lastProcessedTimestamp: undefined,
   },
-})
+});
 
-export type IndexerState = ReturnType<typeof state>
+export type IndexerState = ReturnType<typeof state>;
 
 export const getters: GetterTree<IndexerState, IndexerState> = {
   getIndexer: ({ indexer }: any) => indexer,
-}
+};
 
 export const mutations: MutationTree<IndexerState> = {
   SET_INDEXER_STATUS(state: any, data: any) {
-    state.indexer = Object.assign({}, state.indexer, data)
+    state.indexer = Object.assign({}, state.indexer, data);
   },
-}
+};
 
 export const actions: ActionTree<IndexerState, IndexerState> = {
   async fetchIndexer({ commit }: { commit: Commit }, prefix: string) {
     try {
-
       if (!this.app.apolloProvider?.clients) {
-        return
+        return;
       }
 
       const indexer = await this.app.apolloProvider.clients[prefix].query({
         query: checkIndexer,
-      })
+      });
 
       const {
         data: { _metadata: data },
-      }: any = await indexer
+      }: any = await indexer;
 
       console.log(
         `%cIndexer:
         Health: ${data?.indexerHealthy ? '❤️' : '💀'}
         Last: ${new Date(Number(data?.lastProcessedTimestamp))}`,
         'background: #222; color: #bada55; padding: 0.3em'
-      )
-      commit('SET_INDEXER_STATUS', data)
+      );
+      commit('SET_INDEXER_STATUS', data);
     } catch (error) {
       const type = {
         indefinite: true,
@@ -58,12 +57,12 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
         `,
         type: 'is-danger',
         hasIcon: true,
-      }
-      Snackbar.open(type as any)
-      console.warn('Do something', error)
+      };
+      Snackbar.open(type as any);
+      console.warn('Do something', error);
     }
   },
   upateIndexerStatus({ commit }: { commit: Commit }, data: any) {
-    commit('SET_INDEXER_STATUS', data)
+    commit('SET_INDEXER_STATUS', data);
   },
-}
+};

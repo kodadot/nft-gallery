@@ -1,6 +1,6 @@
-import Axios from 'axios'
+import Axios from 'axios';
 
-export const BASE_URL = 'https://api.coingecko.com/api/v3'
+export const BASE_URL = 'https://api.coingecko.com/api/v3';
 
 const api = Axios.create({
   baseURL: BASE_URL,
@@ -8,7 +8,7 @@ const api = Axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: false,
-})
+});
 
 export const getKsmPrice = async (): Promise<void> => {
   try {
@@ -16,30 +16,30 @@ export const getKsmPrice = async (): Promise<void> => {
       params: {
         ids: 'kusama',
         vs_currencies: 'usd',
-      }
-    })
+      },
+    });
 
-    return data
+    return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 export const getKSMUSD = async (): Promise<number> => {
-  const coinId = 'kusama'
+  const coinId = 'kusama';
   try {
     const { data } = await api.get('/simple/price', {
       params: {
         ids: coinId,
-        vs_currencies: 'usd'
-      }
-    })
+        vs_currencies: 'usd',
+      },
+    });
 
-    return data[coinId]['usd']
+    return data[coinId]['usd'];
   } catch (error) {
-    console.log(error)
-    return 1
+    console.log(error);
+    return 1;
   }
-}
+};
 
-export default api
+export default api;

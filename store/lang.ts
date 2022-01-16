@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex';
 
 export const state = () => ({
   lang: {},
@@ -107,24 +107,27 @@ export const state = () => ({
       // }
     ],
   },
-})
+});
 
-export type LangState = ReturnType<typeof state>
+export type LangState = ReturnType<typeof state>;
 
 export const getters: GetterTree<LangState, LangState> = {
   getUserLang: ({ language }: any) => language.userLang || 'en',
   getLangsFlags: ({ language }: any) => language.langsFlags,
-  getUserFlag: ({ language }: any) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
-}
+  getUserFlag: ({ language }: any) =>
+    language.langsFlags.find(
+      (lang: { value: string }) => lang.value === language.userLang
+    ).flag,
+};
 
 export const mutations: MutationTree<LangState> = {
   SET_LANGUAGE(state: any, data: any) {
-    state.language = Object.assign(state.language, data)
+    state.language = Object.assign(state.language, data);
   },
-}
+};
 
 export const actions: ActionTree<LangState, LangState> = {
   setLanguage({ commit }: { commit: Commit }, data: any) {
-    commit('SET_LANGUAGE', data)
+    commit('SET_LANGUAGE', data);
   },
-}
+};

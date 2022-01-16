@@ -22,37 +22,34 @@
   </b-field>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
-import { Attribute } from '../service/scheme'
+<script lang="ts">
+import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator';
+import { Attribute } from '../service/scheme';
 
-const valueOf = ({value}: Attribute) => String(value)
+const valueOf = ({ value }: Attribute) => String(value);
 
 @Component({})
 export default class extends Vue {
-  private allTags: string[] = [
-    'audio',
-    'video',
-    'image',
-    'music',
-    'abstract'
-  ]
-  @Prop() public value!: Attribute[]
-  @Prop({ default: 3 }) public max!: string | number
-  @Prop({ default: 'Select tags or create your own' }) public placeholder!: string
-  @Prop(Boolean) public simple!: boolean
+  private allTags: string[] = ['audio', 'video', 'image', 'music', 'abstract'];
+  @Prop() public value!: Attribute[];
+  @Prop({ default: 3 }) public max!: string | number;
+  @Prop({ default: 'Select tags or create your own' })
+  public placeholder!: string;
+  @Prop(Boolean) public simple!: boolean;
 
   get tags() {
-    return this.simple ? (this.value || []) as any[] as string[] : (this.value || []).map(valueOf)
+    return this.simple
+      ? ((this.value || []) as any[] as string[])
+      : (this.value || []).map(valueOf);
   }
 
   set tags(value: string[]) {
-    this.handleInput(value)
+    this.handleInput(value);
   }
 
   @Emit('input')
   handleInput(value: string[]) {
-    return this.simple ? value : value.map(v => ({ value: v }))
+    return this.simple ? value : value.map((v) => ({ value: v }));
   }
 }
 </script>

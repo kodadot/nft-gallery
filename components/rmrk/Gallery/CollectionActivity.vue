@@ -25,7 +25,9 @@
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
+          <p class="title">
+            {{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}
+          </p>
           <p class="heading">Unique / Owners</p>
         </div>
       </div>
@@ -41,10 +43,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money
-              :value="collectionDailyTradedVolumeNumber"
-              inline
-            />
+            <Money :value="collectionDailyTradedVolumeNumber" inline />
           </p>
           <p class="heading">24h Volume traded</p>
         </div>
@@ -54,57 +53,61 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
-import { subDays } from 'date-fns'
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
+import { Interaction, NFT } from '@/components/rmrk/service/scheme';
+import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math';
+import { subDays } from 'date-fns';
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
-}
+};
 
 @Component({ components })
 export default class extends Vue {
-  @Prop() public nfts!: NFT[]
-  public yesterdayDate: Date = subDays(Date.now(), 1)
+  @Prop() public nfts!: NFT[];
+  public yesterdayDate: Date = subDays(Date.now(), 1);
 
   get saleEvents(): Interaction[] {
     return this.nfts
       .map((nft) => nft.events)
       .map(pairListBuyEvent)
-      .flat()
+      .flat();
   }
 
   get collectionLength(): number {
-    return this.nfts.length
+    return this.nfts.length;
   }
 
   get listedCount(): number {
-    return this.onlyListedNfts.length
+    return this.onlyListedNfts.length;
   }
 
   get onlyListedNfts(): number[] {
-    return this.nfts.map((nft) => Number(nft.price)).filter((price) => price > 0)
+    return this.nfts
+      .map((nft) => Number(nft.price))
+      .filter((price) => price > 0);
   }
 
   get collectionFloorPrice(): number {
-    return Math.min(...this.onlyListedNfts)
+    return Math.min(...this.onlyListedNfts);
   }
 
   get disributionCount(): string {
-    return (this.differentOwnerCount / this.uniqueOwnerCount || 1).toFixed(4)
+    return (this.differentOwnerCount / this.uniqueOwnerCount || 1).toFixed(4);
   }
 
   get uniqueOwnerCount(): number {
-    return uniqueCount(this.tokensWithDifferentOwner.map(nft => nft.currentOwner))
+    return uniqueCount(
+      this.tokensWithDifferentOwner.map((nft) => nft.currentOwner)
+    );
   }
 
   get differentOwnerCount(): number {
-    return this.tokensWithDifferentOwner.length
+    return this.tokensWithDifferentOwner.length;
   }
 
   get tokensWithDifferentOwner(): NFT[] {
-    return this.nfts.filter(this.differentOwner)
+    return this.nfts.filter(this.differentOwner);
   }
 
   get collectionTradedVol(): number {
@@ -114,19 +117,19 @@ export default class extends Vue {
           (e: { interaction: string }) => e.interaction === 'BUY'
         )
       )
-      .filter((arr) => arr.length).length
+      .filter((arr) => arr.length).length;
   }
 
   get collectionTradedVolumeNumber(): bigint {
-    return getVolume(this.saleEvents)
+    return getVolume(this.saleEvents);
   }
 
   get collectionDailyTradedVolumeNumber(): bigint {
-    return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
+    return getVolume(this.saleEvents.filter(after(this.yesterdayDate)));
   }
 
   protected differentOwner(nft: any): boolean {
-    return nft.currentOwner !== nft.issuer
+    return nft.currentOwner !== nft.issuer;
   }
 }
 </script>

@@ -1,9 +1,9 @@
-export type QueryType = Record<string, unknown>
+export type QueryType = Record<string, unknown>;
 
 export type SortType = {
-  field: string,
-  value: -1 | 1
-}
+  field: string;
+  value: -1 | 1;
+};
 
 export type SortBy = Record<string, number>;
 
@@ -12,5 +12,4 @@ export type SearchQuery = {
   type?: string;
   sortBy?: string;
   listed: boolean;
-}
-
+};

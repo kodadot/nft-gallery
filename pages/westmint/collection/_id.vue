@@ -2,16 +2,14 @@
   <CollectionItem />
 </template>
 
-<script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
-import CollectionItem from '@/components/unique/Collection/Item/CollectionItem.vue'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
+import CollectionItem from '@/components/unique/Collection/Item/CollectionItem.vue';
 
 @Component({
   components: {
-    CollectionItem
-  }
+    CollectionItem,
+  },
 })
-
-export default class CollectionItemPage extends Vue {
-}
+export default class CollectionItemPage extends Vue {}
 </script>

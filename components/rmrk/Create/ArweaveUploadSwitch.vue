@@ -11,12 +11,12 @@
   </b-field>
 </template>
 
-<script lang="ts" >
-import { Component, Vue, ModelSync } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Vue, ModelSync } from 'nuxt-property-decorator';
 
 @Component({})
 export default class ArweaveUploadSwitch extends Vue {
   @ModelSync('value', 'input', { type: Boolean })
-  readonly checkedValue!: boolean
+  readonly checkedValue!: boolean;
 }
 </script>

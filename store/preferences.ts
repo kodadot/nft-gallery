@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
+import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex';
 
 export const state = (): {
   layoutClass: string;
@@ -9,7 +9,7 @@ export const state = (): {
   showPriceGallery: boolean;
   galleryItemsPerPage: number;
   collectionsPerPage: number;
-  replaceBuyNowWithYolo: boolean
+  replaceBuyNowWithYolo: boolean;
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
   advancedUI: false,
@@ -20,9 +20,9 @@ export const state = (): {
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
-})
+});
 
-export type PreferencesState = ReturnType<typeof state>
+export type PreferencesState = ReturnType<typeof state>;
 
 export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
@@ -31,75 +31,76 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
-  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
-}
+  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
+    replaceBuyNowWithYolo,
+};
 
 export const mutations: MutationTree<PreferencesState> = {
   SET_LAYOUT_CLASS(state: PreferencesState, data) {
-    state.layoutClass = data
+    state.layoutClass = data;
   },
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
-    if(!data) {
-      state.layoutClass = 'is-half-desktop is-half-tablet'
-      state.theatreView = 'theatre'
-      state.compactGalleryItem = true
-      state.compactCollection = false
-      state.showPriceGallery = false
-      state.galleryItemsPerPage = 12
-      state.collectionsPerPage = 9
+    if (!data) {
+      state.layoutClass = 'is-half-desktop is-half-tablet';
+      state.theatreView = 'theatre';
+      state.compactGalleryItem = true;
+      state.compactCollection = false;
+      state.showPriceGallery = false;
+      state.galleryItemsPerPage = 12;
+      state.collectionsPerPage = 9;
     }
-    state.advancedUI = data
+    state.advancedUI = data;
   },
   SET_THEATRE_VIEW(state: PreferencesState, data) {
-    state.theatreView = data ? 'theatre' : 'default'
+    state.theatreView = data ? 'theatre' : 'default';
   },
   SET_COMPACT_GALLERY_ITEM(state: PreferencesState, data) {
-    state.compactGalleryItem = data
+    state.compactGalleryItem = data;
   },
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
-    state.compactCollection = data
+    state.compactCollection = data;
   },
   SET_SHOW_PRICE(state: PreferencesState, data) {
-    state.showPriceGallery = data
+    state.showPriceGallery = data;
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
-    state.replaceBuyNowWithYolo = data
+    state.replaceBuyNowWithYolo = data;
   },
   SET_GALLERY_ITEMS_PER_PAGE(state: PreferencesState, data) {
-    state.galleryItemsPerPage = data
+    state.galleryItemsPerPage = data;
   },
   SET_COLLECTIONS_PER_PAGE(state: PreferencesState, data) {
-    state.collectionsPerPage = data
+    state.collectionsPerPage = data;
   },
-}
+};
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
   setLayoutClass({ commit }: { commit: Commit }, data) {
-    commit('SET_LAYOUT_CLASS', data)
+    commit('SET_LAYOUT_CLASS', data);
   },
   setAdvancedUI({ commit }: { commit: Commit }, data) {
-    commit('SET_ADVANCED_UI', data)
+    commit('SET_ADVANCED_UI', data);
   },
   setTheatreView({ commit }: { commit: Commit }, data) {
-    commit('SET_THEATRE_VIEW', data)
+    commit('SET_THEATRE_VIEW', data);
   },
   setCompactGalleryItem({ commit }: { commit: Commit }, data) {
-    commit('SET_COMPACT_GALLERY_ITEM', data)
+    commit('SET_COMPACT_GALLERY_ITEM', data);
   },
   setCompactCollection({ commit }: { commit: Commit }, data) {
-    commit('SET_COMPACT_COLLECTION', data)
+    commit('SET_COMPACT_COLLECTION', data);
   },
   setShowPriceValue({ commit }: { commit: Commit }, data) {
-    commit('SET_SHOW_PRICE', data)
+    commit('SET_SHOW_PRICE', data);
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
-    commit('SET_GALLERY_ITEMS_PER_PAGE', data)
+    commit('SET_GALLERY_ITEMS_PER_PAGE', data);
   },
   setCollectionsPerPage({ commit }: { commit: Commit }, data) {
-    commit('SET_COLLECTIONS_PER_PAGE', data)
+    commit('SET_COLLECTIONS_PER_PAGE', data);
   },
   setReplaceBuyNowWithYolo({ commit }: { commit: Commit }, data) {
-    commit('REPLACE_BUYNOW_WITH_YOLO', data)
+    commit('REPLACE_BUYNOW_WITH_YOLO', data);
   },
-}
+};

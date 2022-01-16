@@ -1,5 +1,10 @@
 <template>
-  <b-collapse :open="isOpen" class="card bordered" animation="slide" aria-id="contentIdForHistory">
+  <b-collapse
+    :open="isOpen"
+    class="card bordered"
+    animation="slide"
+    aria-id="contentIdForHistory"
+  >
     <template #trigger="props">
       <div
         class="card-header"
@@ -7,11 +12,10 @@
         aria-controls="contentIdForHistory"
       >
         <p class="card-header-title">
-            {{ $t('Price Chart') }}
+          {{ $t('Price Chart') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-          </b-icon>
+          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>
         </a>
       </div>
     </template>
@@ -24,50 +28,49 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator';
 
-import Chart from 'chart.js/auto'
-import 'chartjs-adapter-luxon'
-import zoomPlugin from 'chartjs-plugin-zoom'
-import { getChartData } from '@/utils/chart'
-import ChainMixin from '@/utils/mixins/chainMixin'
+import Chart from 'chart.js/auto';
+import 'chartjs-adapter-luxon';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import { getChartData } from '@/utils/chart';
+import ChainMixin from '@/utils/mixins/chainMixin';
 
-Chart.register(zoomPlugin)
+Chart.register(zoomPlugin);
 
-const components = {}
+const components = {};
 
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
-  @Prop() public priceChartData!: [Date, number][][]
-  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
+  @Prop() public priceChartData!: [Date, number][][];
+  @Prop({ type: Boolean, default: false })
+  private readonly openOnDefault!: boolean;
 
-
-  protected chartOptionsLine: any = {}
-  protected Chart!: Chart<'line', any, unknown>
-  protected isOpen = this.openOnDefault
+  protected chartOptionsLine: any = {};
+  protected Chart!: Chart<'line', any, unknown>;
+  protected isOpen = this.openOnDefault;
 
   protected onWindowResize() {
     if (this.Chart) {
-      this.Chart.resize()
+      this.Chart.resize();
     }
   }
 
   public async created() {
-    window.addEventListener('resize', this.onWindowResize)
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   public async mounted() {
-    this.getPriceChartData()
+    this.getPriceChartData();
   }
 
   protected getPriceChartData() {
-    if(this.Chart)
-      this.Chart.destroy()
+    if (this.Chart) this.Chart.destroy();
 
     if (this.priceChartData.length) {
       const ctx = (
         document?.getElementById('priceChart') as HTMLCanvasElement
-      )?.getContext('2d')
+      )?.getContext('2d');
       if (ctx) {
         const chart = new Chart(ctx, {
           type: 'line',
@@ -114,7 +117,7 @@ export default class PriceChart extends mixins(ChainMixin) {
                   },
                   mode: 'xy',
                   onZoomComplete({ chart }) {
-                    chart.update('none')
+                    chart.update('none');
                   },
                 },
               },
@@ -136,7 +139,7 @@ export default class PriceChart extends mixins(ChainMixin) {
                 },
                 ticks: {
                   callback: (value) => {
-                    return value
+                    return value;
                   },
                   major: {
                     enabled: true,
@@ -149,7 +152,7 @@ export default class PriceChart extends mixins(ChainMixin) {
               y: {
                 ticks: {
                   callback: (value) => {
-                    return `${Number(value).toFixed(2)} ${this.unit}`
+                    return `${Number(value).toFixed(2)} ${this.unit}`;
                   },
                   maxTicksLimit: 7,
                   color: '#fff',
@@ -160,16 +163,16 @@ export default class PriceChart extends mixins(ChainMixin) {
               },
             },
           },
-        })
+        });
 
-        this.Chart = chart
+        this.Chart = chart;
       }
     }
   }
 
   @Watch('priceChartData')
   async watchData(newPriceData: string[], oldPriceData: string[]) {
-    this.getPriceChartData()
+    this.getPriceChartData();
   }
 }
 </script>

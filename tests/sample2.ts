@@ -1715,4 +1715,4 @@ export const fullCollection = {
       },
     },
   },
-}
+};

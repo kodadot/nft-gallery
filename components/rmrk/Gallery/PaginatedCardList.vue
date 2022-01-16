@@ -12,7 +12,12 @@
         />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" horizontalLayout :route="route" :link="link" />
+    <GalleryCardList
+      :items="items"
+      horizontalLayout
+      :route="route"
+      :link="link"
+    />
     <Pagination
       class="pt-5 pb-5"
       replace
@@ -23,59 +28,60 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
-import { DocumentNode } from 'graphql'
-import { NFTWithMeta } from '../service/scheme'
-import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
+import { DocumentNode } from 'graphql';
+import { NFTWithMeta } from '../service/scheme';
+import { SearchQuery } from '@/components/rmrk/Gallery/Search/types';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () =>
+    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
-}
+};
 
 @Component({ components })
 export default class PaginatedCardList extends mixins(PrefixMixin) {
-  @Prop({ default: '/rmrk/detail' }) public route!: string
-  @Prop({ default: 'rmrk/detail' }) public link!: string
-  @Prop() public query!: DocumentNode
-  @Prop(String) public account!: string
-  @Prop(Boolean) public showSearchBar!: boolean
+  @Prop({ default: '/rmrk/detail' }) public route!: string;
+  @Prop({ default: 'rmrk/detail' }) public link!: string;
+  @Prop() public query!: DocumentNode;
+  @Prop(String) public account!: string;
+  @Prop(Boolean) public showSearchBar!: boolean;
 
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-  }
+  };
 
-  private currentValue = 1
-  private first = 20
-  private total = 0
-  protected items: NFTWithMeta[] = []
+  private currentValue = 1;
+  private first = 20;
+  private total = 0;
+  protected items: NFTWithMeta[] = [];
 
   private buildSearchParam(): Record<string, unknown>[] {
-    const params: any[] = []
+    const params: any[] = [];
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
-      })
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+      });
     }
 
     if (this.searchQuery.listed) {
       params.push({
-        price: { greaterThan: '0' }
-      })
+        price: { greaterThan: '0' },
+      });
     }
 
-    return params
+    return params;
   }
 
   get offset(): number {
-    return this.currentValue * this.first - this.first
+    return this.currentValue * this.first - this.first;
   }
 
   created() {
@@ -92,21 +98,19 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
           first: this.first,
-          offset: this.offset
-        }
+          offset: this.offset,
+        };
       },
-      fetchPolicy: 'cache-and-network'
-    })
+      fetchPolicy: 'cache-and-network',
+    });
   }
 
   protected async handleResult({ data }: any) {
     if (data) {
-      this.total = data.nFTEntities.totalCount
-      this.items = data.nFTEntities.nodes
-      this.$emit('change', this.total)
+      this.total = data.nFTEntities.totalCount;
+      this.items = data.nFTEntities.nodes;
+      this.$emit('change', this.total);
     }
   }
-
-
 }
 </script>

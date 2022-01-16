@@ -1,9 +1,7 @@
 <template>
   <div id="Eror" class="box container has-text-centered">
     <p class="title">Indexer Error</p>
-    <p class="subtitle">
-      Indexer is not working properly.
-    </p>
+    <p class="subtitle">Indexer is not working properly.</p>
     <img src="https://http.cat/500" alt="Internal error cat" />
     <p class="subtitle">
       If you think this should't happen, report us by
@@ -17,7 +15,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({})
 export default class Error extends Vue {}

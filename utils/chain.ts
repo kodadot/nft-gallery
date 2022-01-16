@@ -1,5 +1,5 @@
-import { ENDPOINTS } from '@vue-polkadot/vue-settings'
-import * as store from '~/store'
+import { ENDPOINTS } from '@vue-polkadot/vue-settings';
+import * as store from '~/store';
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
@@ -48,26 +48,29 @@ const prefixes: Record<string, number> = {
   uniarts: 45,
   reserved46: 46,
   reserved47: 47,
-  reserved48: 48
-}
+  reserved48: 48,
+};
 
 // DEV: from import known from '@polkadot/networks';
-const reduceKnownPrefixes = (arr: any[]): Record<string, number> => arr.reduce((acc, { network, prefix }) => Object.assign(acc, { [network]: prefix  }) ,{})
+const reduceKnownPrefixes = (arr: any[]): Record<string, number> =>
+  arr.reduce(
+    (acc, { network, prefix }) => Object.assign(acc, { [network]: prefix }),
+    {}
+  );
 
-export const getPrefixByStoreUrl = (apiUrl : any): string | undefined => {
+export const getPrefixByStoreUrl = (apiUrl: any): string | undefined => {
   if (!apiUrl) {
-    return 'undefined'
+    return 'undefined';
   }
 
-  return getChainPrefixByUrl(apiUrl)
-}
+  return getChainPrefixByUrl(apiUrl);
+};
 
 export const getChainPrefixByUrl = (url: string): string | undefined => {
-  const option =  ENDPOINTS.find(({ value }) => value === url)
+  const option = ENDPOINTS.find(({ value }) => value === url);
   if (!option) {
-    return undefined
+    return undefined;
   }
 
-  return prefixes[option.info] ? String(prefixes[option.info]) : undefined
-}
-
+  return prefixes[option.info] ? String(prefixes[option.info]) : undefined;
+};

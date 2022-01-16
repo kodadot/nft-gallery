@@ -9749,4 +9749,4 @@ export const fullCollection = {
       },
     },
   },
-}
+};

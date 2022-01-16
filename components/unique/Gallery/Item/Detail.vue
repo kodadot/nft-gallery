@@ -43,30 +43,30 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
-import isShareMode from '@/utils/isShareMode'
-import { NFTWithMeta } from '@/components/rmrk/service/scheme'
-import { emptyObject } from '@/utils/empty'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
+import isShareMode from '@/utils/isShareMode';
+import { NFTWithMeta } from '@/components/rmrk/service/scheme';
+import { emptyObject } from '@/utils/empty';
+import PrefixMixin from '~/utils/mixins/prefixMixin';
 // import Identity from '@/components/shared/format/Identity.vue'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
-}
+};
 
 @Component({ components })
 export default class Name extends mixins(PrefixMixin) {
-  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
-  @Prop() public isLoading!: boolean
+  @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta;
+  @Prop() public isLoading!: boolean;
 
   get detailVisible() {
-    return !isShareMode
+    return !isShareMode;
   }
 
   get carbonlessBadge() {
     return this.nft.attributes?.some(
       ({ trait_type, value }) => trait_type === 'carbonless' && value
-    )
+    );
   }
 }
 </script>

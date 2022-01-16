@@ -1,4 +1,4 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
+import { NotificationProgrammatic as Notification } from 'buefy';
 
 declare global {
   interface Window {
@@ -7,16 +7,16 @@ declare global {
 }
 
 export default async () => {
-  const workbox = await window.$workbox
+  const workbox = await window.$workbox;
   if (workbox) {
     workbox.addEventListener('installed', (event) => {
       console.log(
         'App is being served from cache by a service worker.\n' +
           'For more details, visit https://pwa.nuxtjs.org/'
-      )
+      );
 
       if (event.isUpdate) {
-        console.log('New content is available, please refresh.')
+        console.log('New content is available, please refresh.');
         const notif = Notification.open({
           message: 'New version is ready. Close to upgrade.',
           queue: false,
@@ -24,14 +24,14 @@ export default async () => {
           position: 'is-top-left',
           indefinite: true,
           hasIcon: true,
-        })
+        });
 
         notif.$on('close', () => {
-          window.sessionStorage.clear()
-          window.localStorage.clear()
-          window.location.reload()
-        })
+          window.sessionStorage.clear();
+          window.localStorage.clear();
+          window.location.reload();
+        });
       }
-    })
+    });
   }
-}
+};

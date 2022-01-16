@@ -9,7 +9,10 @@
       <b-input
         v-model="data"
         :disabled="!accountFrom"
-        @input="isHexData();complexVerifySignature()"
+        @input="
+          isHexData();
+          complexVerifySignature();
+        "
       />
     </b-field>
     <b-field
@@ -36,75 +39,78 @@
     </b-field>
   </div>
 </template>
-<script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
-import { KeyringPair } from '@polkadot/keyring/types'
-import { isHex, u8aToHex } from '@polkadot/util'
-import DisabledInput from '@/components/shared/DisabledInput.vue'
-import AccountSelect from '@/components/shared/AccountSelect.vue'
-import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto'
-import { emptyObject } from '@/utils/empty'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { isHex, u8aToHex } from '@polkadot/util';
+import DisabledInput from '@/components/shared/DisabledInput.vue';
+import AccountSelect from '@/components/shared/AccountSelect.vue';
+import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
+import { emptyObject } from '@/utils/empty';
 
 @Component({
   components: {
     AccountSelect,
-    DisabledInput
-  }
+    DisabledInput,
+  },
 })
 export default class VerifySignature extends Vue {
-  private data: any = ''
-  private signature = ''
-  private inputDataCheck = 'No'
-  private address: any = ''
-  private accountFrom: KeyringPair = emptyObject<KeyringPair>()
-  private validSignature = false
-  private isValidSignature = false
-  private keyringPubKey: any = ''
-  private cryptoType = 'unknown'
+  private data: any = '';
+  private signature = '';
+  private inputDataCheck = 'No';
+  private address: any = '';
+  private accountFrom: KeyringPair = emptyObject<KeyringPair>();
+  private validSignature = false;
+  private isValidSignature = false;
+  private keyringPubKey: any = '';
+  private cryptoType = 'unknown';
 
   private isHexData(): void {
-    this.inputDataCheck = isHex(this.data)
-      ? 'Yes'
-      : 'No'
+    this.inputDataCheck = isHex(this.data) ? 'Yes' : 'No';
   }
 
   // yet we think this is sub-optimal, but it works!
   private complexVerifySignature(): void {
-    this.keyringPubKey = u8aToHex(this.accountFrom.publicKey)
-    this.isValidSignature = isHex(this.signature) && this.signature.length === 130
-    this.validSignature = false
+    this.keyringPubKey = u8aToHex(this.accountFrom.publicKey);
+    this.isValidSignature =
+      isHex(this.signature) && this.signature.length === 130;
+    this.validSignature = false;
     if (this.isValidSignature && this.keyringPubKey) {
-      let isValidSr = false
-      let isValidEd = false
+      let isValidSr = false;
+      let isValidEd = false;
 
       try {
-        isValidEd = naclVerify(this.data, this.signature, this.keyringPubKey)
-        this.validSignature = true
+        isValidEd = naclVerify(this.data, this.signature, this.keyringPubKey);
+        this.validSignature = true;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       if (isValidEd) {
-        this.cryptoType = 'ed25519'
+        this.cryptoType = 'ed25519';
       } else {
         try {
-          isValidSr = schnorrkelVerify(this.data, this.signature, this.keyringPubKey)
-          this.validSignature = true
+          isValidSr = schnorrkelVerify(
+            this.data,
+            this.signature,
+            this.keyringPubKey
+          );
+          this.validSignature = true;
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
 
         if (isValidSr) {
-          this.cryptoType = 'sr25519'
+          this.cryptoType = 'sr25519';
         } else {
-          this.validSignature = false
+          this.validSignature = false;
         }
       }
     }
   }
 
   private handleAccountSelectionFrom(account: KeyringPair) {
-    this.accountFrom = account
+    this.accountFrom = account;
   }
 }
 </script>

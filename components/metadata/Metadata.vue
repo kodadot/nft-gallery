@@ -16,37 +16,31 @@
       label="Genesis Hash"
       :value="loading ? '' : chainProperties.genesisHash.toString()"
     />
-    <b-progress
-      v-if="loading"
-      size="is-large"
-      type="is-primary"
-      show-value
-    >
+    <b-progress v-if="loading" size="is-large" type="is-primary" show-value>
       Connecting
     </b-progress>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import DisabledInput from '@/components/shared/DisabledInput.vue'
+import { Component, Vue, Watch } from 'nuxt-property-decorator';
+import DisabledInput from '@/components/shared/DisabledInput.vue';
 
 @Component({
   components: {
-    DisabledInput
+    DisabledInput,
   },
 })
 export default class Summary extends Vue {
-  public loading = false
+  public loading = false;
 
   get chainProperties() {
-    return this.$store.getters['chain/getChainProperties']
+    return this.$store.getters['chain/getChainProperties'];
   }
 
   @Watch('$store.state.loading')
   public mapLoading(): void {
-    this.loading = this.$store.state.loading
+    this.loading = this.$store.state.loading;
   }
-
 }
 </script>

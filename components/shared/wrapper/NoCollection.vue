@@ -7,10 +7,11 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 @Component({})
 export default class NoCollection extends Vue {
-  @Prop({ type: String, default: 'helper.noCollections' }) public label!: string
+  @Prop({ type: String, default: 'helper.noCollections' })
+  public label!: string;
 }
 </script>

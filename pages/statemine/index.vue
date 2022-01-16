@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({
   components: {
@@ -13,10 +13,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
 export default class LandingPage extends Vue {
   middleware({ store }) {
     // If the user is not authenticated
-    const prefix = store.getters.currentUrlPrefix
+    const prefix = store.getters.currentUrlPrefix;
     if (prefix !== 'statemine') {
-      console.log('Not statemine')
-      store.dispatch('setUrlPrefix', 'statemine')
+      console.log('Not statemine');
+      store.dispatch('setUrlPrefix', 'statemine');
     }
   }
 }
