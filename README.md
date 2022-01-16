@@ -1,5 +1,11 @@
 # NFT Explorer for Kusama & Polkadot & Substrate ecosystem
 
+![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
+- Opensea for Polkadot, NFT paraverse of parachains, builded as public good.
+- [First Time here?](FIRST_TIME.md)
+
+![Darling in the Franxx](https://media.giphy.com/media/10YWqUivkQPeeJWD3u/giphy.gif)
+
 ## Coordination for development
 [![KodaDot NFT Discord](https://badgen.net/discord/members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
 [![KodaDot NFT Discord](https://badgen.net/discord/online-members/35hzy2dXXh)](https://discord.gg/35hzy2dXXh)
@@ -47,8 +53,9 @@ Thank to [contributors-img](https://contrib.rocks).
 [![GitHub pull-requests closed](https://badgen.net/github/closed-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Aclosed)
 [![GitHub pull-requests merged](https://badgen.net/github/merged-prs/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/pulls?q=is%3Amerged)
 
-[![GitHub license](https://badgen.net/github/license/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/blob/master/LICENSE)
 
+[![GitHub release](https://flat.badgen.net/github/release/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/releases)
+[![GitHub license](https://flat.badgen.net/github/license/kodadot/nft-gallery)](https://github.com/kodadot/nft-gallery/blob/master/LICENSE)
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/kodadot/nft-gallery)
 
 ### Is it maintained?
