@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api'
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { AnyTuple } from '@polkadot/types/types'
-import { BN_ZERO, isFunction } from '@polkadot/util'
+import { isFunction } from '@polkadot/util'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 

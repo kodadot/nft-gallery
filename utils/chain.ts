@@ -1,5 +1,4 @@
 import { ENDPOINTS } from '@vue-polkadot/vue-settings'
-import * as store from '~/store'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,
