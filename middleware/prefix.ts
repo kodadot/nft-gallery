@@ -1,6 +1,6 @@
 const withPrefix = /-/
 
-export default function ({ store, route }): void  {
+export default function ({ store, route }): void {
   const prefix = store.getters.currentUrlPrefix
   if (withPrefix.test(route.name)) {
     if (
