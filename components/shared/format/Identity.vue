@@ -48,10 +48,10 @@
           <template #trigger>
             {{ name | toString }}
           </template>
-         </IdentityPopover>
+        </IdentityPopover>
       </template>
       <span v-else>
-         {{ name | toString }}
+        {{ name | toString }}
       </span>
     </template>
   </component>
