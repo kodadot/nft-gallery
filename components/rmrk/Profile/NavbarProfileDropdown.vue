@@ -17,6 +17,7 @@
             :address="account"
             :inline="true"
             class="navbar__address"
+            hideIdentityPopover
           />
         </b-button>
 
