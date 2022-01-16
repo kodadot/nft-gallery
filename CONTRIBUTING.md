@@ -45,6 +45,12 @@ After you have created an account, you can visit [your dashboard](https://polkad
 ### Checking your KSM balance
 Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in __KSM__. If not, kindly _switch network_ by clicking the avatar on your top-left corner, search and select __KUSAMA__ under _KUSAMA & PARACHAINS_ and `switch` by selecting the __switch__ option at the top-most area of the opened side nav. Your __balances__ will now be in __KSM__.
 
+### Sharing your address to receive transfer
+After you have created an account, you can visit [your dashboard](https://polkadot.js.org/apps/) to carry out your operations. Kindly navigate to the __accounts section__ using the tab options and select _[accounts](https://polkadot.js.org/apps/#/accounts)_. Your available accounts will be listed and you can click on the preferred account avatar to copy address. Voilà, you are ready to receive!
+
+### Checking your KSM balance
+Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in __KSM__. If not, kindly _switch network_ by clicking the avatar on your top-left corner, search and select __KUSAMA__ under _KUSAMA & PARACHAINS_ and `switch` by selecting the __switch__ option at the top-most area of the opened side nav. Your __balances__ will now be in __KSM__.
+
 ### Bounty levels
 Our usual pay out structure for bounties is per label on issue. Here is table for overview
 
@@ -129,7 +135,6 @@ Doesn't tell me anything about why you're doing that
 
 **Tells me the problem that you have found, and the pull request shows me the action you have taken to solve it.**
 
-$$
 ### Is it of good quality
 
 * There are no spelling mistakes
