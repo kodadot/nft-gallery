@@ -25,4 +25,4 @@ module.exports = {
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
   },
-}
+};
