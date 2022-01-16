@@ -1,9 +1,6 @@
 <template>
   <div>
-    <b-tabs
-      v-model="activeTab"
-      multiline
-    >
+    <b-tabs v-model="activeTab" multiline>
       <b-tab-item label="Hash data">
         <HashData />
       </b-tab-item>
@@ -19,7 +16,7 @@
     </b-tabs>
   </div>
 </template>
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import SignMessage from './SignMessage.vue'
 import VerifySignature from './VerifySignature.vue'
@@ -30,7 +27,7 @@ const currentTabs: any = {
   hash: 0,
   sign: 1,
   verify: 2,
-  convert: 3
+  convert: 3,
 }
 
 @Component({
@@ -38,8 +35,8 @@ const currentTabs: any = {
     SignMessage,
     VerifySignature,
     HashData,
-    ConvertAddress
-  }
+    ConvertAddress,
+  },
 })
 export default class ToolBox extends Vue {
   private activeTab = 0

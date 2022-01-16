@@ -5,7 +5,8 @@ self.addEventListener('install', function (e) {
 
 self.addEventListener('activate', function (e) {
   console.log('activeListener')
-  self.registration.unregister()
+  self.registration
+    .unregister()
     .then(function () {
       console.log('unregister')
       return self.clients.matchAll()
@@ -15,6 +16,6 @@ self.addEventListener('activate', function (e) {
       // window.sessionStorage.clear()
       // window.localStorage.clear()
       // window.location.reload()
-      clients.forEach(client => client.navigate(client.url))
+      clients.forEach((client) => client.navigate(client.url))
     })
 })

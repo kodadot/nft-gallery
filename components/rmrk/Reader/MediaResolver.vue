@@ -3,11 +3,10 @@
     :is="resolveComponent"
     v-if="visible"
     :src="src"
-    :mime-type="mimeType"
-  />
+    :mime-type="mimeType" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { resolveMedia } from '../utils'
 
@@ -23,8 +22,8 @@ const SUFFIX = 'Media'
     VideoMedia,
     ImageMedia,
     AudioMedia,
-    Media
-  }
+    Media,
+  },
 })
 export default class MediaResolver extends Vue {
   @Prop() public src!: string
@@ -37,7 +36,5 @@ export default class MediaResolver extends Vue {
   get visible() {
     return this.src && this.mimeType
   }
-
-
 }
 </script>

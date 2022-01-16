@@ -11,7 +11,9 @@ const api = Axios.create({
   withCredentials: false,
 })
 
-export const fetchMimeType = async (ipfsLink?: string): Promise<string | undefined> => {
+export const fetchMimeType = async (
+  ipfsLink?: string
+): Promise<string | undefined> => {
   if (!ipfsLink) {
     return undefined
   }
@@ -22,10 +24,11 @@ export const fetchMimeType = async (ipfsLink?: string): Promise<string | undefin
     const { headers } = await api.head(assetUrl)
     return headers['content-type']
   } catch (e: any) {
-    console.warn(`[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`)
+    console.warn(
+      `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`
+    )
     return undefined
   }
 }
-
 
 export default api

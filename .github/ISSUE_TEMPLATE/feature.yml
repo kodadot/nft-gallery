@@ -10,7 +10,7 @@ body:
   - type: textarea
     id: feature-request
     attributes:
-      label: Is your feature request related to a problem? 
+      label: Is your feature request related to a problem?
       description: A clear and concise description of what the problem is
       placeholder: I'm always frustrated when [...]
       value: "I'm always frustrated when [...]"
@@ -20,7 +20,7 @@ body:
     id: solution
     attributes:
       label: Describe the solution you would like
-      description:  A clear and concise description of what you want to happen.
+      description: A clear and concise description of what you want to happen.
       placeholder: I would like to see
       value: "I would like to see"
     validations:
@@ -43,4 +43,3 @@ body:
       value: "Paste your vision"
     validations:
       required: true
-

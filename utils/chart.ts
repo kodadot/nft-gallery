@@ -1,21 +1,21 @@
-type ChartData = [Date, number][];
+type ChartData = [Date, number][]
 type GetQuartilesArgs = {
-  dataset: number[];
-  medianDetails: MedianDetails;
-};
+  dataset: number[]
+  medianDetails: MedianDetails
+}
 type MedianDetails = {
-  median: number;
-  medianIndex: null | number;
-};
-type RenderedChartData = { x: Date; y: number }[];
+  median: number
+  medianIndex: null | number
+}
+type RenderedChartData = { x: Date; y: number }[]
 interface Quartiles {
-  q1: number;
-  q2: number;
-  q3: number;
+  q1: number
+  q2: number
+  q3: number
 }
 interface HSpread extends Quartiles {
-  min: number;
-  max: number;
+  min: number
+  max: number
 }
 
 const getMedianDetails = (dataset: number[]): MedianDetails => {

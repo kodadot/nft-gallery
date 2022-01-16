@@ -14,9 +14,10 @@ echo 'NUXT_ENV_KEYRING=true
       SUBSQUID_ENDPOINT=https://app.gc.subsquid.io/beta/rubick/004/graphql' > .env
 yarn;yarn dev
 ```
+
 Open http://localhost:9090
 
-# Notice for contributors before 15/01/2022 ⚠️ 
+# Notice for contributors before 15/01/2022 ⚠️
 
 If you've had contributed before **15/01/2022 and have older fork of** `nft-gallery` there are currently two strategies to be up-to-date
 
@@ -24,10 +25,12 @@ If you've had contributed before **15/01/2022 and have older fork of** `nft-gall
 - Harder - [Sync your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 
 ### Ref
+
 - https://github.com/kodadot/nft-gallery/issues/1845
 - https://github.com/kodadot/nft-gallery/issues/1844
 
 ## Docker-🐳
+
 If you just want to try out our KodaDot on Kusama and have a full local setup with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
 
 - ### First time setup
@@ -49,9 +52,9 @@ If you just want to try out our KodaDot on Kusama and have a full local setup wi
 
   Simply run:
 
-    ```bash
-    docker-compose up
-    ```
+  ```bash
+  docker-compose up
+  ```
 
 Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
 KodaDot supports Hot Module Replacement on docker as well, any changes made will take effect immediately.
@@ -60,43 +63,50 @@ KodaDot supports Hot Module Replacement on docker as well, any changes made will
 
 In order to execute some transaction you can use `exec` located in `src/utils/transactionExecutor.ts`
 Usage:
+
 ```js
-import exec from '@/utils/transactionExecutor';
+import exec from "@/utils/transactionExecutor"
 
 // arguments: from which account, password for account, which action, array of parameters
-this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
+this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [
+  referendumId,
+  { aye, conviction },
+])
 ```
 
 #### Using reactive properties
+
 Some of the properties on the component needs to be automatically updated (currentBlock)
 
 Usage:
+
 ```html
 <template>
-  <div>{{ currentBlock  }}</div>
+  <div>{{ currentBlock }}</div>
 </template>
 
 <script lang="ts">
-// Skipping imports
-export default class Summary extends Vue {
-  private currentBlock: any = {};
-  private subs: any[] = [];
+  // Skipping imports
+  export default class Summary extends Vue {
+    private currentBlock: any = {}
+    private subs: any[] = []
 
-  public async mounted() {
-    this.subs.push(await api.derive.chain.bestNumber(value => this.currentBlock = value));
+    public async mounted() {
+      this.subs.push(
+        await api.derive.chain.bestNumber(
+          (value) => (this.currentBlock = value)
+        )
+      )
+    }
+
+    // Unsubscribe before destroying component
+    public beforeDestroy() {
+      this.subs.forEach((sub) => sub())
+    }
   }
-
-  // Unsubscribe before destroying component
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
-}
-
 </script>
 ```
 
- 
-     
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
 To change the network go to the `/settings` and change the prefix.
@@ -130,17 +140,22 @@ In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://viki
 
 To run also a subquery indexing node please [check this repo](https://github.com/vikiival/magick)
 
-
 ### Linting code
+
 #### Show all problems
+
 ```bash
 yarn lint
 ```
+
 #### Show only errors
+
 ```bash
 yarn lint --quiet
 ```
+
 #### Fix errors
+
 ```bash
 yarn lint --fix
 ```
@@ -149,44 +164,53 @@ yarn lint --fix
 
 In order to execute some transaction you can use `exec` located in `src/utils/transactionExecutor.ts`
 Usage:
+
 ```js
-import exec from '@/utils/transactionExecutor';
+import exec from "@/utils/transactionExecutor"
 
 // arguments: from which account, password for account, which action, array of parameters
-this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
+this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [
+  referendumId,
+  { aye, conviction },
+])
 ```
 
 #### Using reactive properties
+
 Some of the properties on the component needs to be automatically updated (currentBlock)
 
 Usage:
+
 ```html
 <template>
-  <div>{{ currentBlock  }}</div>
+  <div>{{ currentBlock }}</div>
 </template>
 
 <script lang="ts">
-// Skipping imports
-export default class Summary extends Vue {
-  private currentBlock: any = {};
-  private subs: any[] = [];
+  // Skipping imports
+  export default class Summary extends Vue {
+    private currentBlock: any = {}
+    private subs: any[] = []
 
-  public async mounted() {
-    this.subs.push(await api.derive.chain.bestNumber(value => this.currentBlock = value));
+    public async mounted() {
+      this.subs.push(
+        await api.derive.chain.bestNumber(
+          (value) => (this.currentBlock = value)
+        )
+      )
+    }
+
+    // Unsubscribe before destroying component
+    public beforeDestroy() {
+      this.subs.forEach((sub) => sub())
+    }
   }
-
-  // Unsubscribe before destroying component
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
-  }
-}
-
 </script>
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
+See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Generating changelog
 

@@ -14,8 +14,7 @@
       tag="router-link"
       to="/rmrk/collections"
       type="is-primary"
-      class="my-5"
-    >
+      class="my-5">
       Go to collections
     </b-button>
   </div>

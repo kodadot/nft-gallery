@@ -19,7 +19,7 @@ const nftSchema: Record<keyof NFT, boolean> = {
   emoteCount: false,
   blockNumber: false,
   emotes: false,
-  events: false
+  events: false,
 }
 
 export default class Consolidator {
@@ -27,24 +27,31 @@ export default class Consolidator {
     return true
   }
 
-  public static canTransfer(nft: NFT): void  {
+  public static canTransfer(nft: NFT): void {
     if (!nft.transferable) {
       throw new ValidationError(`NFT ${nft._id} is not transferable`)
     }
   }
 
-  public static isAvailableForSale(nft: NFT, previousOwner: string): boolean  {
+  public static isAvailableForSale(nft: NFT, previousOwner: string): boolean {
     return Consolidator.callerEquals(nft.currentOwner, previousOwner)
   }
 
-  public static consolidate(action: RmrkEvent | string, nft: NFT, previousOwner: string, caller: string): boolean  {
-    switch(action) {
-    case RmrkEvent.BUY:
-      return Consolidator.canBuy(nft, previousOwner)
-    case RmrkEvent.CONSUME:
-      return Consolidator.canConsume(nft, caller)
-    default:
-      console.warn(`[CONSOLIDATOR] NO consolidation for interaction ${action}`)
+  public static consolidate(
+    action: RmrkEvent | string,
+    nft: NFT,
+    previousOwner: string,
+    caller: string
+  ): boolean {
+    switch (action) {
+      case RmrkEvent.BUY:
+        return Consolidator.canBuy(nft, previousOwner)
+      case RmrkEvent.CONSUME:
+        return Consolidator.canConsume(nft, caller)
+      default:
+        console.warn(
+          `[CONSOLIDATOR] NO consolidation for interaction ${action}`
+        )
     }
 
     return true
@@ -78,11 +85,13 @@ export default class Consolidator {
 
   // }
 
-  public static collectionIdValid(collection: Collection, caller: string): void  {
-    const generatedId = caller.startsWith('0x') ? caller : generateId(
-      accountIdToPubKey(caller),
-      collection.symbol
-    )
+  public static collectionIdValid(
+    collection: Collection,
+    caller: string
+  ): void {
+    const generatedId = caller.startsWith('0x')
+      ? caller
+      : generateId(accountIdToPubKey(caller), collection.symbol)
     if (!Consolidator.callerEquals(collection._id, generatedId)) {
       throw new ValidationError(
         `Collection id missmatch ${collection._id} vs ${generatedId}`
@@ -100,7 +109,7 @@ export default class Consolidator {
 
   // public static validate() {}
 
-  public static requireCaller(caller = '', interaction: RmrkInteraction): void  {
+  public static requireCaller(caller = '', interaction: RmrkInteraction): void {
     if (!caller) {
       throw new ValidationError(
         `Unknown caller, doing ${interaction.toString()}`
@@ -108,7 +117,7 @@ export default class Consolidator {
     }
   }
 
-  public static isIssuer(collection: Collection, caller = ''): void  {
+  public static isIssuer(collection: Collection, caller = ''): void {
     if (!Consolidator.callerEquals(collection.issuer, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not issuer of ${collection._id}.\n Issuer is ${collection.issuer}!`
@@ -116,7 +125,7 @@ export default class Consolidator {
     }
   }
 
-  public static isOwner(nft: NFT, caller = ''): void  {
+  public static isOwner(nft: NFT, caller = ''): void {
     if (!Consolidator.callerEquals(nft.currentOwner, caller)) {
       throw new ValidationError(
         `Caller ${caller} is not owner of ${nft._id}.\n Owner is ${nft.currentOwner}!`
@@ -128,8 +137,7 @@ export default class Consolidator {
     return ownerId === caller
   }
 
-
-  public static nftValid(nft: NFT): void  {
+  public static nftValid(nft: NFT): void {
     Object.entries(nft).forEach(([key, value]) => {
       if ((nftSchema as any)[key] && !value) {
         throw new ValidationError(`${key} is missing on NFT ${nft.sn}`)
@@ -137,7 +145,7 @@ export default class Consolidator {
     })
   }
 
-  public static collectionValid(collection: Collection): void  {
+  public static collectionValid(collection: Collection): void {
     throw new Error('Not implemented')
   }
 }

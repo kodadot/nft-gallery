@@ -1,10 +1,7 @@
 <template>
   <div>
     <slot v-if="healthy" />
-    <p
-      v-else-if="showMessage"
-      class="has-text-warning"
-    >
+    <p v-else-if="showMessage" class="has-text-warning">
       {{ $t('general.indexerReadOnly') }}
     </p>
   </div>
@@ -25,4 +22,3 @@ export default class EmptyGuard extends mixins(IndexerMixin, PrefixMixin) {
   }
 }
 </script>
-

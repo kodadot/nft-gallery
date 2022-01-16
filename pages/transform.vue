@@ -7,8 +7,7 @@
       v-model="url"
       :label="$t('helper.urlToTransform.label')"
       :placeholder="$t('helper.urlToTransform.placeholder')"
-      @keydown.native.space.prevent
-    />
+      @keydown.native.space.prevent />
     <DisabledInput v-show="!disabled" label="KodaDot URL" :value="fullUrl" />
     <b-button
       type="is-primary"
@@ -16,8 +15,7 @@
       v-clipboard:copy="fullUrl"
       outlined
       @click="toast"
-      :disabled="disabled"
-    >
+      :disabled="disabled">
       {{ $t('general.copyUrl') }}
     </b-button>
     <b-button
@@ -25,8 +23,7 @@
       icon-left="external-link-alt"
       outlined
       @click="openUrl"
-      :disabled="disabled"
-    >
+      :disabled="disabled">
       {{ $t('general.openUrl') }}
     </b-button>
   </section>
@@ -57,7 +54,7 @@ export default class Transform extends Vue {
   }
 
   public mounted(): void {
-    exist(this.$route.query.url, (value) => this.url = value)
+    exist(this.$route.query.url, (value) => (this.url = value))
   }
 
   layout() {

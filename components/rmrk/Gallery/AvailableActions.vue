@@ -1,21 +1,14 @@
 <template>
   <div>
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
-    <div
-      v-if="accountId"
-      class="buttons"
-    >
+    <Loader v-model="isLoading" :status="status" />
+    <div v-if="accountId" class="buttons">
       <b-button
         v-for="action in actions"
         :key="action"
         :type="iconType(action)[0]"
         outlined
         @click="handleAction(action)"
-        expanded
-      >
+        expanded>
         {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
       </b-button>
     </div>
@@ -24,21 +17,19 @@
       v-if="showMeta"
       class="mb-4"
       empty-on-error
-      @input="updateMeta"
-    />
+      @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
       icon-left="paper-plane"
-      @click="submit"
-    >
+      @click="submit">
       Submit {{ selectedAction }}
     </b-button>
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Prop} from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -54,27 +45,30 @@ const buyActions = ['BUY']
 
 const needMeta: Record<string, string> = {
   SEND: 'AddressInput',
-  LIST: 'BalanceInput'
+  LIST: 'BalanceInput',
 }
 
-type DescriptionTuple = [string, string] | [string];
+type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
   SEND: ['is-info is-dark'],
   CONSUME: ['is-danger'],
   LIST: ['is-light'],
-  BUY: ['is-success is-dark']
+  BUY: ['is-success is-dark'],
 }
 
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | '';
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
-  Loader: () => import('@/components/shared/Loader.vue')
+  Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component({ components })
-export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMixin) {
+export default class AvailableActions extends mixins(
+  RmrkVersionMixin,
+  PrefixMixin
+) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
   @Prop() public price!: string
@@ -86,15 +80,13 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   protected status = ''
 
   get actions() {
-    return this.isOwner
-      ? ownerActions
-      : this.isAvailableToBuy
-        ? buyActions
-        : []
+    return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []
   }
 
   get showSubmit() {
-    return this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
+    return (
+      this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
+    )
   }
 
   get metaValid() {
@@ -118,7 +110,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   }
 
   protected handleAction(action: Action) {
-    if (shouldUpdate(action,  this.selectedAction)) {
+    if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
       if (action === 'BUY') {
         this.submit()
@@ -190,20 +182,26 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
       query: nftById,
       client: this.urlPrefix,
       variables: {
-        id: this.nftId
+        id: this.nftId,
       },
     })
 
-    const { data: {nFTEntity} } = nft
+    const {
+      data: { nFTEntity },
+    } = nft
 
-    if (nFTEntity.currentOwner !== this.currentOwnerId || nFTEntity.burned || nFTEntity.price === 0 || nFTEntity.price !== this.price ) {
+    if (
+      nFTEntity.currentOwner !== this.currentOwnerId ||
+      nFTEntity.burned ||
+      nFTEntity.price === 0 ||
+      nFTEntity.price !== this.price
+    ) {
       showNotification(
         `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
         notificationTypes.warn
       )
       throw new ReferenceError('NFT has changed')
     }
-
   }
 
   protected async submit() {
@@ -219,53 +217,64 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
       console.log('submit', rmrk)
       const isBuy = this.isBuy
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy ? [api.tx.system.remark(rmrk), api.tx.balances.transfer(this.currentOwnerId, this.price), somePercentFromTX(this.price)] : rmrk
+      const arg = isBuy
+        ? [
+            api.tx.system.remark(rmrk),
+            api.tx.balances.transfer(this.currentOwnerId, this.price),
+            somePercentFromTX(this.price),
+          ]
+        : rmrk
 
       if (isBuy) {
         await this.checkBuyBeforeSubmit()
       }
 
-      const tx = await exec(this.accountId, '', cb, [arg], txCb(
-        async (blockHash) => {
-          execResultValue(tx)
-          showNotification(blockHash.toString(), notificationTypes.info)
-          if (this.isConsume) {
-            this.unpinNFT()
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        [arg],
+        txCb(
+          async (blockHash) => {
+            execResultValue(tx)
+            showNotification(blockHash.toString(), notificationTypes.info)
+            if (this.isConsume) {
+              this.unpinNFT()
+            }
+
+            showNotification(
+              `[${this.selectedAction}] ${this.nftId}`,
+              notificationTypes.success
+            )
+            this.selectedAction = ''
+            this.isLoading = false
+          },
+          (err) => {
+            execResultValue(tx)
+            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+            this.selectedAction = ''
+            this.isLoading = false
+          },
+          (res) => {
+            if (res.status.isReady) {
+              this.status = 'loader.casting'
+              return
+            }
+
+            if (res.status.isInBlock) {
+              this.status = 'loader.block'
+              return
+            }
+
+            if (res.status.isFinalized) {
+              this.status = 'loader.finalized'
+              return
+            }
+
+            this.status = ''
           }
-
-          showNotification(
-            `[${this.selectedAction}] ${this.nftId}`,
-            notificationTypes.success
-          )
-          this.selectedAction = ''
-          this.isLoading = false
-        },
-        err => {
-          execResultValue(tx)
-          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-          this.selectedAction = ''
-          this.isLoading = false
-        },
-        res => {
-          if (res.status.isReady) {
-            this.status = 'loader.casting'
-            return
-          }
-
-          if (res.status.isInBlock) {
-            this.status = 'loader.block'
-            return
-          }
-
-          if (res.status.isFinalized) {
-            this.status = 'loader.finalized'
-            return
-          }
-
-          this.status = ''
-        }
-      ))
-
+        )
+      )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e)
@@ -274,7 +283,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   }
 
   protected unpinNFT() {
-    this.ipfsHashes.forEach(async hash => {
+    this.ipfsHashes.forEach(async (hash) => {
       if (hash) {
         try {
           await unpin(hash)
@@ -293,4 +302,3 @@ export default class AvailableActions extends mixins(RmrkVersionMixin, PrefixMix
   }
 }
 </script>
-

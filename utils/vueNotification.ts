@@ -38,13 +38,16 @@ class NotificationService extends Vue {
   }
 
   /**
- * Show error message
- */
+   * Show error message
+   */
   public error(message: string | null, params?: any) {
     this.danger(message, params)
   }
 
-  private showNotification(message: string | null, params = this.snackbarTypes.info) {
+  private showNotification(
+    message: string | null,
+    params = this.snackbarTypes.info
+  ) {
     this.$buefy.snackbar.open({
       duration: 10000,
       message,
@@ -55,9 +58,7 @@ class NotificationService extends Vue {
       ...params,
     })
   }
-
 }
-
 
 const bus = new NotificationService()
 export default bus

@@ -10,24 +10,35 @@
     <div class="level m-1" v-if="nfts">
       <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading--inline heading">{{ $t('Items') }} : <span class="money money--inline"> {{ collectionLength }} </span></p>
+          <p class="heading--inline heading">
+            {{ $t('Items') }} :
+            <span class="money money--inline"> {{ collectionLength }} </span>
+          </p>
         </div>
       </div>
       <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading--inline heading">{{ $t('Owned') }} : <span class="money money--inline"> {{ collectionSoldedNFT }} </span></p>
+          <p class="heading--inline heading">
+            {{ $t('Owned') }} :
+            <span class="money money--inline"> {{ collectionSoldedNFT }} </span>
+          </p>
         </div>
       </div>
     </div>
     <div class="level m-1" v-if="nfts">
       <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading--inline heading">{{ $t('Volume') }} : <Money :value="collectionTradedVolumeNumber" inline /></p>
+          <p class="heading--inline heading">
+            {{ $t('Volume') }} :
+            <Money :value="collectionTradedVolumeNumber" inline />
+          </p>
         </div>
       </div>
       <div class="level-item column is-6 has-text-centered">
         <div>
-          <p class="heading--inline heading">{{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline /></p>
+          <p class="heading--inline heading">
+            {{ $t('Floor') }} : <Money :value="collectionFloorPrice" inline />
+          </p>
         </div>
       </div>
     </div>
@@ -40,7 +51,7 @@ import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { getVolume, pairListBuyEvent } from '@/utils/math'
 
 const components = {
-  Money: () => import('@/components/shared/format/Money.vue')
+  Money: () => import('@/components/shared/format/Money.vue'),
 }
 
 @Component({ components })
@@ -50,7 +61,7 @@ export default class extends Vue {
 
   get saleEvents(): Interaction[] {
     return this.nfts
-      .map(nft => nft.events)
+      .map((nft) => nft.events)
       .map(pairListBuyEvent)
       .flat()
   }
@@ -61,7 +72,7 @@ export default class extends Vue {
 
   get collectionFloorPrice(): number {
     return Math.min(
-      ...this.nfts.map(nft => Number(nft.price)).filter(price => price > 0)
+      ...this.nfts.map((nft) => Number(nft.price)).filter((price) => price > 0)
     )
   }
 
@@ -71,12 +82,12 @@ export default class extends Vue {
 
   get collectionTradedVol(): number {
     return this.nfts
-      .map(nft =>
+      .map((nft) =>
         nft.events.filter(
           (e: { interaction: string }) => e.interaction === 'BUY'
         )
       )
-      .filter(arr => arr.length).length
+      .filter((arr) => arr.length).length
   }
 
   get collectionTradedVolumeNumber(): bigint {

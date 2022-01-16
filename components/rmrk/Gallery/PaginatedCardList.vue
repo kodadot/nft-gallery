@@ -8,17 +8,19 @@
           simple
           replace
           :total="total"
-          v-model="currentValue"
-        />
+          v-model="currentValue" />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" horizontalLayout :route="route" :link="link" />
+    <GalleryCardList
+      :items="items"
+      horizontalLayout
+      :route="route"
+      :link="link" />
     <Pagination
       class="pt-5 pb-5"
       replace
       :total="total"
-      v-model="currentValue"
-    />
+      v-model="currentValue" />
   </div>
 </template>
 
@@ -32,7 +34,8 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () =>
+    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
@@ -61,13 +64,13 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
     if (this.searchQuery.listed) {
       params.push({
-        price: { greaterThan: '0' }
+        price: { greaterThan: '0' },
       })
     }
 
@@ -92,10 +95,10 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
           first: this.first,
-          offset: this.offset
+          offset: this.offset,
         }
       },
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
     })
   }
 
@@ -106,7 +109,5 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
       this.$emit('change', this.total)
     }
   }
-
-
 }
 </script>

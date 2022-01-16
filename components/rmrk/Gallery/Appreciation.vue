@@ -1,31 +1,23 @@
 <template>
   <div class="nft-appreciation__main is-flex">
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
+    <Loader v-model="isLoading" :status="status" />
     <IndexerGuard>
       <b-button
         v-if="accountId"
         class="nft-appreciation__button"
         icon-left="heart"
-        @click="showDialog = !showDialog"
-      />
+        @click="showDialog = !showDialog" />
       <VEmojiPicker
         v-show="showDialog"
         label-search="Search your emote"
         class="emote-picker"
-        @select="onSelectEmoji"
-      />
+        @select="onSelectEmoji" />
     </IndexerGuard>
-    <EmotionList
-      class="emote-list"
-      :emotions="emotions"
-    />
+    <EmotionList class="emote-list" :emotions="emotions" />
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
@@ -44,8 +36,8 @@ import { Emote } from '../service/scheme'
     EmotionList,
     VEmojiPicker,
     Loader: () => import('@/components/shared/Loader.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
-  }
+    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+  },
 })
 export default class Appreciation extends mixins(RmrkVersionMixin) {
   @Prop() public emotes!: Emote[]
@@ -60,9 +52,7 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this
-    const emote = emojiUnicode(emoji.data)
-      .split(' ')[0]
-      .toUpperCase()
+    const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
       const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote)
@@ -74,7 +64,9 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
   }
 
   get emotions(): Record<string, string | number> {
-    this.emotes?.map((e, index) => this.emotes[index].value = e.value.toUpperCase())
+    this.emotes?.map(
+      (e, index) => (this.emotes[index].value = e.value.toUpperCase())
+    )
     return groupBy(this.emotes || [], 'value')
   }
 
@@ -90,23 +82,20 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
         api.tx.system.remark,
         [rmrk],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             showNotification(blockHash.toString(), notificationTypes.info)
 
-            showNotification(
-              `[EMOTE] ${this.nftId}`,
-              notificationTypes.success
-            )
+            showNotification(`[EMOTE] ${this.nftId}`, notificationTypes.success)
             this.isLoading = false
             this.showDialog = false
           },
-          err => {
+          (err) => {
             execResultValue(tx)
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
             this.isLoading = false
           },
-          res => {
+          (res) => {
             if (res.status.isReady) {
               this.status = 'loader.casting'
               return
@@ -153,7 +142,7 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .emote-picker {
   position: absolute;

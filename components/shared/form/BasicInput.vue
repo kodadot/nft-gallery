@@ -7,8 +7,7 @@
       @blur="hasFocus = false"
       @focus="hasFocus = true"
       :maxlength="maxlength"
-      :type="type"
-    />
+      :type="type" />
     <template #message>
       <transition name="fade">
         <span v-show="hasFocus && message" class="has-text-primary is-italic">{{
@@ -19,7 +18,7 @@
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component

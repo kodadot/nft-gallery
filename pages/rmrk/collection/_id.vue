@@ -2,14 +2,14 @@
   <CollectionItem />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
 
 @Component<CollectionItemPage>({
   name: 'CollectionItemPage',
   components: {
-    CollectionItem
+    CollectionItem,
   },
   head() {
     const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
@@ -27,11 +27,10 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
   },
 })
-
 export default class CollectionItemPage extends Vue {
   get currentlyViewedCollection() {
     return this.$store.getters['history/getCurrentlyViewedCollection']

@@ -1,9 +1,9 @@
 name: Create diagram
 on:
   schedule:
-# “At 00:42 on Monday.”
-#   - cron: '42 0 * * 1'
-    - cron: '50 11 * * 3'
+    # “At 00:42 on Monday.”
+    #   - cron: '42 0 * * 1'
+    - cron: "50 11 * * 3"
 # one more commit and i'm going to shower
 #  we are using cron to not polute commits history
 #  push:

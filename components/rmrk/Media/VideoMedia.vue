@@ -6,11 +6,10 @@
     autoplay
     :src="src"
     :poster="poster"
-    :type="mimeType"
-  />
+    :type="mimeType" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class VideoMedia extends Vue {
@@ -19,4 +18,3 @@ export default class VideoMedia extends Vue {
   @Prop(String) public mimeType!: string
 }
 </script>
-

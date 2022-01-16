@@ -2,7 +2,7 @@
   <div class="qr-code-wrapper"></div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import QRCode from '@keeex/qrcodejs-kx'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -11,16 +11,17 @@ import shouldUpdate from '@/utils/shouldUpdate'
 export default class QRCodeComponent extends Vue {
   @Prop({ type: String, required: true }) public text!: string
   @Prop({ type: Number, required: false, default: 256 }) public size!: number
-  @Prop({ type: String, required: false, default: '#000' }) public color!: string
+  @Prop({ type: String, required: false, default: '#000' })
+  public color!: string
   @Prop({ type: String, required: false, default: '#FFF' })
   public bgColor!: string
   @Prop({
     type: String,
-    validator: function(value) {
+    validator: function (value) {
       return value === 'L' || value === 'M' || value === 'Q' || value === 'H'
     },
     required: false,
-    default: 'H'
+    default: 'H',
   })
   public errorLevel!: string
 
@@ -31,9 +32,9 @@ export default class QRCodeComponent extends Vue {
       text: this.text,
       width: this.size,
       height: this.size,
-      colorDark : this.color,
-      colorLight : this.bgColor,
-      correctLevel : QRCode.CorrectLevel[this.errorLevel]
+      colorDark: this.color,
+      colorLight: this.bgColor,
+      correctLevel: QRCode.CorrectLevel[this.errorLevel],
     })
   }
 
@@ -52,7 +53,6 @@ export default class QRCodeComponent extends Vue {
       this.makeCode(val)
     }
   }
-
 }
 </script>
 

@@ -5,11 +5,10 @@
     :src="src"
     :alt="mimeType"
     sandbox="allow-scripts allow-same-origin"
-    allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;"
-  />
+    allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 @Component({})
 export default class ImageMedia extends Vue {

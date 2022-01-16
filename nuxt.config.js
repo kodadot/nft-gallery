@@ -1,11 +1,13 @@
-import defineApolloConfig, { toApolloEndpoint } from './utils/config/defineApolloConfig'
+import defineApolloConfig, {
+  toApolloEndpoint,
+} from './utils/config/defineApolloConfig'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default {
   server: {
     port: 9090, // default: 3000
-    host: '0.0.0.0'
+    host: '0.0.0.0',
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -24,23 +26,54 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
       // { property: 'og:site_name', content: 'KodaDot' },
-      { hid: 'description', name: 'description', content: 'Creating Carbonless NFTs on Kusama' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Creating Carbonless NFTs on Kusama',
+      },
       { property: 'og:locale', content: 'en_US' },
       { property: 'twitter:site', content: '@KodaDot' },
       { property: 'twitter:card', content: 'summary_large_image' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: baseUrl },
-      { hid: 'og:title', property: 'og:title', content: 'KodaDot - Kusama NFT Market Explorer' },
-      { hid: 'og:description', property: 'og:description', content: 'Creating Carbonless NFTs on Kusama' },
-      { hid: 'og:image', property: 'og:image', content: `${baseUrl}/kodadot_card_root.png` },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'KodaDot - Kusama NFT Market Explorer',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: 'Creating Carbonless NFTs on Kusama',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: `${baseUrl}/kodadot_card_root.png`,
+      },
       { hid: 'twitter:url', name: 'twitter:url', content: baseUrl },
-      { hid: 'twitter:title', name: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
-      { hid: 'twitter:description', name: 'twitter:description', content: 'Creating Carbonless NFTs on Kusama' },
-      { hid: 'twitter:image', name: 'twitter:image', content: `${baseUrl}/kodadot_card_root.png` },
+      {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: 'KodaDot - Kusama NFT Market Explorer',
+      },
+      {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: 'Creating Carbonless NFTs on Kusama',
+      },
+      {
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: `${baseUrl}/kodadot_card_root.png`,
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
+      },
     ],
   },
 
@@ -68,7 +101,7 @@ export default {
   ],
 
   router: {
-    middleware: ['prefix']
+    middleware: ['prefix'],
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -157,8 +190,8 @@ export default {
 
     // according to Google using purpose ['any', 'maskable'] is discouraged
     icon: {
-      purpose: ['any']
-    }
+      purpose: ['any'],
+    },
   },
 
   i18n: {
@@ -203,7 +236,10 @@ export default {
   },
 
   apollo: {
-    clientConfigs: { ...defineApolloConfig(), subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT) }// https://github.com/nuxt-community/apollo-module#options
+    clientConfigs: {
+      ...defineApolloConfig(),
+      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT),
+    }, // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -220,7 +256,7 @@ export default {
     webpack: {
       aggregateTimeout: 300,
       poll: 1000,
-    }
+    },
   },
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',

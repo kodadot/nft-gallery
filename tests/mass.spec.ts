@@ -1,4 +1,10 @@
-import { massMintParser, processFiles, processMatchAllSyntax, processRangeSyntax, replaceIndex } from '@/components/rmrk/Create/mintUtils'
+import {
+  massMintParser,
+  processFiles,
+  processMatchAllSyntax,
+  processRangeSyntax,
+  replaceIndex,
+} from '@/components/rmrk/Create/mintUtils'
 
 describe.skip('MASS MINT TEST', () => {
   it('should replaceIndex correctly', () => {
@@ -6,8 +12,6 @@ describe.skip('MASS MINT TEST', () => {
     const correctName = replaceIndex(name, 1)
     expect(correctName).toBe('Kusamagen #1')
   })
-
-
 
   it('massMintParser should work', () => {
     const commands = `...
@@ -25,16 +29,15 @@ Good kusama {i} of 5`
   })
 
   it('should process files', () => {
-    const files = [...Array(5).keys()].map(e => new File([], `${e+1}.jpg`))
+    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
     const parsed = processFiles(files)
     expect(parsed.length).toBe(5)
     expect(parsed[0].name).toBe('1.jpg')
     expect(parsed[0].meta).toBe(0)
   })
 
-
   it('should process range syntax correctly', () => {
-    const files = [...Array(5).keys()].map(e => new File([], `${e+1}.jpg`))
+    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `1-3
 Kusamagen #{i}
@@ -57,9 +60,8 @@ Good generative art`
     expect(massMints[4].description).toBe('Good generative art')
   })
 
-
   it('should process match all syntax correctly', () => {
-    const files = [...Array(5).keys()].map(e => new File([], `${e+1}.jpg`))
+    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `...
 Kusamagen #{i}
@@ -74,9 +76,8 @@ Good kusama {i} of 5`
     expect(massMints[0].description).toBe('Good kusama 1 of 5')
   })
 
-
   it('should skip name processing', () => {
-    const files = [...Array(5).keys()].map(e => new File([], `${e+1}.jpg`))
+    const files = [...Array(5).keys()].map((e) => new File([], `${e + 1}.jpg`))
     const ready = processFiles(files)
     const commands = `...
 -

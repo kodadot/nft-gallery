@@ -3,32 +3,24 @@
     <b-field label="Convert following address">
       <b-input v-model="address" />
     </b-field>
-    <DisabledInput
-      label="hex input data"
-      :value="isHexAddress"
-    />
-    <b-field
-      label="ETH address in Substrate"
-      grouped
-    >
+    <DisabledInput label="hex input data" :value="isHexAddress" />
+    <b-field label="ETH address in Substrate" grouped>
       <b-input
         class="toolbox-covert__eth-wrapper"
         placeholder="Substrate address"
         :value="convertedAddress"
-        disabled
-      />
+        disabled />
       <p class="control">
         <b-button
           v-clipboard:copy="convertedAddress"
           icon-left="copy"
-          @click="toast('Hash has been copied')"
-        />
+          @click="toast('Hash has been copied')" />
       </p>
     </b-field>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 import { blake2AsU8a } from '@polkadot/util-crypto/blake2'
@@ -36,7 +28,7 @@ import { encodeAddress } from '@polkadot/keyring'
 import { stringToU8a, u8aConcat, hexToU8a, isHex } from '@polkadot/util'
 
 const components = {
-  DisabledInput
+  DisabledInput,
 }
 
 @Component({ components })

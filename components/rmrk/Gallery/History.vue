@@ -1,6 +1,10 @@
 <template>
   <div class="block">
-    <b-collapse :open="isOpen" class="card bordered" animation="slide" aria-id="contentIdForHistory">
+    <b-collapse
+      :open="isOpen"
+      class="card bordered"
+      animation="slide"
+      aria-id="contentIdForHistory">
       <template #trigger="props">
         <div
           class="card-header"
@@ -10,8 +14,7 @@
             {{ $t('History') }}
           </p>
           <a class="card-header-icon">
-            <b-icon
-              :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
             </b-icon>
           </a>
         </div>
@@ -24,8 +27,7 @@
               <option
                 v-for="option in uniqType"
                 :value="option.Type"
-                :key="option.Type"
-              >
+                :key="option.Type">
                 {{ option.Type }}
               </option>
             </b-select>
@@ -39,14 +41,12 @@
               cell-class="short-identity__table"
               field="From"
               label="From"
-              v-slot="props"
-            >
+              v-slot="props">
               <router-link
                 :to="{
                   name: 'profile',
                   params: { id: props.row.From },
-                }"
-              >
+                }">
                 <Identity :address="props.row.From" inline noOverflow />
               </router-link>
             </b-table-column>
@@ -54,11 +54,9 @@
               cell-class="short-identity__table"
               field="To"
               label="To"
-              v-slot="props"
-            >
+              v-slot="props">
               <nuxt-link
-                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }"
-              >
+                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
                 <Identity :address="props.row.To" inline noOverflow />
               </nuxt-link>
             </b-table-column>
@@ -66,17 +64,20 @@
               cell-class="short-identity__table"
               field="Amount"
               label="Amount"
-              v-slot="props"
-            >
+              v-slot="props">
               {{ props.row.Amount }}
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
               field="Date"
               label="Date"
-              v-slot="props"
-            >
-              <a target="_blank" rel="noopener noreferrer" :href="getBlockUrl(props.row.Block)" >{{ props.row.Date }}</a>
+              v-slot="props">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                :href="getBlockUrl(props.row.Block)"
+                >{{ props.row.Date }}</a
+              >
             </b-table-column>
           </b-table>
         </div>
@@ -107,15 +108,15 @@ type TableRow = {
 }
 
 type ChartData = {
-  buy: any[],
-  list: any[],
+  buy: any[]
+  list: any[]
 }
-
 
 @Component({ components })
 export default class History extends mixins(ChainMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
-  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
+  @Prop({ type: Boolean, default: false })
+  private readonly openOnDefault!: boolean
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -195,10 +196,7 @@ export default class History extends mixins(ChainMixin) {
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {
-        chartData.list.push([
-          date,
-          parseFloat(event['Amount'].substring(0, 6)),
-        ])
+        chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
       } else if (newEvent['interaction'] === 'BUY') {
         chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }

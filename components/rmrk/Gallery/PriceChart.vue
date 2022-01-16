@@ -1,17 +1,19 @@
 <template>
-  <b-collapse :open="isOpen" class="card bordered" animation="slide" aria-id="contentIdForHistory">
+  <b-collapse
+    :open="isOpen"
+    class="card bordered"
+    animation="slide"
+    aria-id="contentIdForHistory">
     <template #trigger="props">
       <div
         class="card-header"
         role="button"
-        aria-controls="contentIdForHistory"
-      >
+        aria-controls="contentIdForHistory">
         <p class="card-header-title">
-            {{ $t('Price Chart') }}
+          {{ $t('Price Chart') }}
         </p>
         <a class="card-header-icon">
-          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-          </b-icon>
+          <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>
         </a>
       </div>
     </template>
@@ -39,8 +41,8 @@ const components = {}
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
   @Prop() public priceChartData!: [Date, number][][]
-  @Prop({ type: Boolean, default: false }) private readonly openOnDefault!: boolean
-
+  @Prop({ type: Boolean, default: false })
+  private readonly openOnDefault!: boolean
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
@@ -61,8 +63,7 @@ export default class PriceChart extends mixins(ChainMixin) {
   }
 
   protected getPriceChartData() {
-    if(this.Chart)
-      this.Chart.destroy()
+    if (this.Chart) this.Chart.destroy()
 
     if (this.priceChartData.length) {
       const ctx = (

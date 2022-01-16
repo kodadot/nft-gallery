@@ -1,23 +1,20 @@
 <template>
   <div>
-    <label><b>Add {{ label }}</b></label>
+    <label
+      ><b>Add {{ label }}</b></label
+    >
     <b-field class="add-option-wrapper">
-      <b-input
-        v-model="text"
-        placeholder="Name"
-      />
+      <b-input v-model="text" placeholder="Name" />
       <b-input
         v-model="value"
         placeholder="wss://kusama-rpc.polkadot.io/"
-        expanded
-      />
+        expanded />
       <p class="control">
         <b-button
           :disabled="!text || !value"
           type="is-primary"
           outlined
-          @click="onAddedOption"
-        >
+          @click="onAddedOption">
           Add
         </b-button>
       </p>

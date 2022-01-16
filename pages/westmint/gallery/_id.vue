@@ -2,16 +2,14 @@
   <GalleryItem />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import GalleryItem from '@/components/unique/Gallery/Item/GalleryItem.vue'
 
 @Component({
   components: {
-    GalleryItem
-  }
+    GalleryItem,
+  },
 })
-
-export default class GalleryItemPage extends Vue {
-}
+export default class GalleryItemPage extends Vue {}
 </script>

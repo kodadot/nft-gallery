@@ -9,7 +9,6 @@
         <AddressInput v-model="destinationAddress" :strict="false" />
       </b-field>
       <b-field>
-
         <b-button
           type="is-primary"
           icon-left="paper-plane"
@@ -17,8 +16,7 @@
           :loading="isLoading"
           :disabled="disabled"
           outlined
-          @click="submit"
-        >
+          @click="submit">
           {{ $t('general.submit') }}
         </b-button>
       </b-field>
@@ -50,7 +48,6 @@ export default class TransferCollectionModal extends mixins(
   @Prop({ type: String, required: true }) public collectionId!: string
   @Prop(String) public currentOwnerId!: string
   protected destinationAddress = ''
-
 
   get disabled(): boolean {
     return !this.hasAddress || !this.accountId

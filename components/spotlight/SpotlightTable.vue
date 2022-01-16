@@ -8,8 +8,7 @@
       detailed
       paginated
       pagination-position="top"
-      show-detail-icon
-    >
+      show-detail-icon>
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
@@ -23,15 +22,13 @@
           title="Go to random page"
           type="is-primary"
           icon-left="dice"
-          @click="goToRandomPage"
-        >
+          @click="goToRandomPage">
         </b-button>
       </template>
       <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
         <nuxt-link
           :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
-          v-if="!isLoading"
-        >
+          v-if="!isLoading">
           <Identity :address="props.row.id" inline noOverflow />
         </nuxt-link>
         <b-skeleton :active="isLoading"> </b-skeleton>
@@ -41,8 +38,7 @@
         field="sold"
         :label="$t('spotlight.sold')"
         v-slot="props"
-        sortable
-      >
+        sortable>
         <template v-if="!isLoading">{{ props.row.sold }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -53,21 +49,24 @@
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ props.row.unique }}</template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.unique
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
-        sortable
-      >
+        sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique collectors" append-to-body dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
-        <template v-slot="props" v-if="!isLoading">{{ props.row.uniqueCollectors }}</template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.uniqueCollectors
+        }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -75,8 +74,7 @@
         field="total"
         :label="$t('spotlight.total')"
         v-slot="props"
-        sortable
-      >
+        sortable>
         <template v-if="!isLoading">{{ props.row.total }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -85,8 +83,7 @@
         field="averagePrice"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
-        sortable
-      >
+        sortable>
         <template v-if="!isLoading"
           ><Money :value="props.row.averagePrice" inline
         /></template>
@@ -97,8 +94,7 @@
         field="count"
         :label="$t('spotlight.count')"
         v-slot="props"
-        sortable
-      >
+        sortable>
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -114,8 +110,7 @@
         field="rank"
         :label="$t('spotlight.score')"
         sortable
-        numeric
-      >
+        numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>
             {{ column.label }}
@@ -187,14 +182,18 @@ export default class SpotlightTable extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities.map((e): Row => ({
-      ...e,
-      averagePrice: Number(e.averagePrice),
-      collectors: e.sold,
-      rank: e.sold * (e.unique / e.total || 1),
-      uniqueCollectors: e.uniqueCollectors,
-      volume: BigInt(e.volume),
-    })).sort((a, b) => b.rank - a.rank)
+    this.data = collectionEntities
+      .map(
+        (e): Row => ({
+          ...e,
+          averagePrice: Number(e.averagePrice),
+          collectors: e.sold,
+          rank: e.sold * (e.unique / e.total || 1),
+          uniqueCollectors: e.uniqueCollectors,
+          volume: BigInt(e.volume),
+        })
+      )
+      .sort((a, b) => b.rank - a.rank)
 
     // this.data = spotlightAggQuery(
     //   collectionEntities?.nodes?.map(nftFn)

@@ -1,6 +1,6 @@
 export interface Attribute {
-  key: string;
-  value: string;
+  key: string
+  value: string
 }
 
 export interface Collection {
@@ -15,9 +15,8 @@ export interface Collection {
   burned: boolean
   frozen: boolean
   attributes: Attribute[]
-  metadataFrozen?: boolean;
+  metadataFrozen?: boolean
 }
-
 
 export interface Instance {
   id: string
