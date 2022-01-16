@@ -1,8 +1,8 @@
 {
   "url": "https://github.com/kodadot/nft-gallery/issues",
-  "homepage": "https://github.com/kodadot/nft-gallery/blob/main-nuxt/CONTRIBUTING.md",
+  "homepage": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md",
   "name": "nft-gallery-nuxt",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
