@@ -3,16 +3,12 @@
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
-        <b-button
-          type="is-primary"
-          class="navbar__button"
-        >
+        <b-button type="is-primary" class="navbar__button">
           <Identity
             :address="account"
             :inline="true"
             class="navbar__address"
-            hideIdentityPopover
-          />
+            hideIdentityPopover />
         </b-button>
 
         <!-- <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span> -->
