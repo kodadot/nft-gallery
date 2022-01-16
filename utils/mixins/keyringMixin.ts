@@ -28,7 +28,6 @@ export default class KeyringMixin extends Vue {
 
   public mounted(): void {
     this.mountWasmCrypto()
-
   }
 
   public getPair(address: string): KeyringPair {
@@ -38,6 +37,4 @@ export default class KeyringMixin extends Vue {
   public vueU8aToHex(publicKey: Uint8Array): string {
     return u8aToHex(publicKey)
   }
-
-
 }

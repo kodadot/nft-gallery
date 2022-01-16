@@ -3,28 +3,40 @@
     <Loader :value="isLoading" />
     <Search v-bind.sync="searchQuery">
       <b-field>
-        <Pagination hasMagicBtn simple replace preserveScroll :total="total" v-model="currentValue" :per-page="first" />
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :per-page="first" />
       </b-field>
     </Search>
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="collection in results" :key="collection.id">
+        <div
+          class="column is-4"
+          v-for="collection in results"
+          :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
               :to="`collection/${collection.id}`"
               tag="div"
-              class="collection-card__skeleton"
-            >
+              class="collection-card__skeleton">
               <div class="card-image">
-                <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
+                <BasicImage
+                  :src="collection.image"
+                  :alt="collection.name"
+                  customClass="collection__image-wrapper" />
               </div>
 
               <div class="card-content">
-                <nuxt-link
-                  :to="`collection/${collection.id}`"
-                >
-                  <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
+                <nuxt-link :to="`collection/${collection.id}`">
+                  <CollectionDetail
+                    :nfts="collection.nfts.nodes"
+                    :name="collection.name" />
                 </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
@@ -38,16 +50,22 @@
       :total="total"
       :perPage="first"
       v-model="currentValue"
-      replace
-    />
+      replace />
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '@/components/rmrk/service/scheme'
-import { fetchCollectionMetadata, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import {
+  CollectionWithMeta,
+  Collection,
+  Metadata,
+} from '@/components/rmrk/service/scheme'
+import {
+  fetchCollectionMetadata,
+  sanitizeIpfsUrl,
+} from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import Freezeframe from 'freezeframe'
 import 'lazysizes'
@@ -57,16 +75,19 @@ import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
-  ffInitialized: boolean;
+  ffInitialized: boolean
 }
 
-type CollectionType = CollectionWithMeta;
+type CollectionType = CollectionWithMeta
 const components = {
-  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  GalleryCardList: () =>
+    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  Search: () =>
+    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
+  CollectionDetail: () =>
+    import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
@@ -84,9 +105,9 @@ const components = {
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
-  }
+  },
 })
 export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
@@ -115,7 +136,7 @@ export default class Collections extends mixins(PrefixMixin) {
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
@@ -133,14 +154,16 @@ export default class Collections extends mixins(PrefixMixin) {
         return {
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
-          listed: this.searchQuery.listed ? [{price: { greaterThan: '0'}}] : [],
+          listed: this.searchQuery.listed
+            ? [{ price: { greaterThan: '0' } }]
+            : [],
           first: this.first,
           offset: this.offset,
         }
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes
+        nfts: collectionEntity.nfts.nodes,
       }),
     })
   }
@@ -162,7 +185,7 @@ export default class Collections extends mixins(PrefixMixin) {
           Vue.set(this.collections, i, {
             ...this.collections[i],
             ...meta,
-            image: sanitizeIpfsUrl(meta.image || '')
+            image: sanitizeIpfsUrl(meta.image || ''),
           })
           update(this.collections[i].metadata, () => meta)
         } catch (e) {
@@ -172,15 +195,13 @@ export default class Collections extends mixins(PrefixMixin) {
         Vue.set(this.collections, i, {
           ...this.collections[i],
           ...m,
-          image: sanitizeIpfsUrl(m.image || '')
+          image: sanitizeIpfsUrl(m.image || ''),
         })
       }
     })
 
-
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
   }
-
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
@@ -195,11 +216,13 @@ export default class Collections extends mixins(PrefixMixin) {
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList }
-        }
+          collectionEntities: { nodes: collectionList },
+        },
       } = await collections
 
-      const storedPromise = getMany(collectionList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(
+        collectionList.map(({ metadata }: any) => metadata)
+      )
 
       const storedMetadata = await storedPromise
 
@@ -220,7 +243,6 @@ export default class Collections extends mixins(PrefixMixin) {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
-
   }
 
   get results() {
@@ -228,7 +250,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
+    document.addEventListener('lazybeforeunveil', async (e) => {
       const target = e.target as Image
       const type = target.dataset.type as string
       const isGif = type === 'image/gif'
@@ -237,7 +259,7 @@ export default class Collections extends mixins(PrefixMixin) {
         new Freezeframe(target, {
           trigger: false,
           overlay: true,
-          warnings: false
+          warnings: false,
         })
 
         target.ffInitialized = true

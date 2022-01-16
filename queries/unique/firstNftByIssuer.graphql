@@ -1,11 +1,6 @@
-
-
 query firstNftByIssuer($account: String!) {
   nFTEntities(
-    filter: {
-      issuer: { equalTo: $account }
-      burned: { distinctFrom: true }
-    }
+    filter: { issuer: { equalTo: $account }, burned: { distinctFrom: true } }
     orderBy: BLOCK_NUMBER_DESC
     first: 1
   ) {

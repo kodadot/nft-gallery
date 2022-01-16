@@ -1,5 +1,8 @@
-
-const urlBuilderBlockNumber = (value: string, chain: string, provider: string): any => {
+const urlBuilderBlockNumber = (
+  value: string,
+  chain: string,
+  provider: string
+): any => {
   if (provider === 'subscan') {
     return `https://${chain}.${provider}.io/block/${value}`
   }
@@ -9,7 +12,11 @@ const urlBuilderBlockNumber = (value: string, chain: string, provider: string): 
   }
 }
 
-const urlBuilderAccount = (value: string, chain: string, provider: string): any => {
+const urlBuilderAccount = (
+  value: string,
+  chain: string,
+  provider: string
+): any => {
   if (provider === 'subscan') {
     return `https://${chain}.${provider}.io/account/${value}`
   }
@@ -19,7 +26,11 @@ const urlBuilderAccount = (value: string, chain: string, provider: string): any 
   }
 }
 
-const urlBuilderTransaction = (value: string, chain: string, provider: string): any => {
+const urlBuilderTransaction = (
+  value: string,
+  chain: string,
+  provider: string
+): any => {
   if (provider === 'subscan') {
     return `https://${chain}.${provider}.io/extrinsic/${value}`
   }

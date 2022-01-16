@@ -1,14 +1,7 @@
 <template>
   <div>
-    <b-field
-      :type="type"
-      :message="err"
-      :label="$t(label)"
-    >
-      <b-input
-        v-model="inputValue"
-        @input="handleInput"
-      />
+    <b-field :type="type" :message="err" :label="$t(label)">
+      <b-input v-model="inputValue" @input="handleInput" />
     </b-field>
   </div>
 </template>
@@ -36,7 +29,7 @@ export default class AddressInput extends Vue {
   }
 
   get type(): string {
-    return this.err ? 'is-danger': ''
+    return this.err ? 'is-danger' : ''
   }
 
   @Debounce(500)

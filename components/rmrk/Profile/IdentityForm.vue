@@ -6,16 +6,23 @@
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
-            {{ $t("identity.set") }}
+            {{ $t('identity.set') }}
           </p>
           <b-field>
-            <Identity class="subtitle has-text-weight-bold" ref="identity" :address="accountId" inline emit @change="handleIdentity" />
+            <Identity
+              class="subtitle has-text-weight-bold"
+              ref="identity"
+              :address="accountId"
+              inline
+              emit
+              @change="handleIdentity" />
           </b-field>
           <b-field label="Handle">
-            <b-input placeholder="My On-Chain Name" v-model="identity.display"
-            required
-            :validation-message="$t('identity.handleRequired')"
-            >
+            <b-input
+              placeholder="My On-Chain Name"
+              v-model="identity.display"
+              required
+              :validation-message="$t('identity.handleRequired')">
             </b-input>
           </b-field>
           <b-field label="Name">
@@ -26,8 +33,7 @@
             <b-input
               placeholder="somebody@example.com"
               type="email"
-              v-model="identity.email"
-            >
+              v-model="identity.email">
             </b-input>
           </b-field>
           <b-field label="web">
@@ -39,7 +45,9 @@
             </b-input>
           </b-field>
           <b-field label="discord">
-            <b-input placeholder="Discord UserName#0000" v-model="identity.discord">
+            <b-input
+              placeholder="Discord UserName#0000"
+              v-model="identity.discord">
             </b-input>
           </b-field>
           <b-field label="riot">
@@ -47,7 +55,9 @@
             </b-input>
           </b-field>
           <b-field>
-            <p class="subtitle is-size-6">{{ $t("identity.deposit") }} <Money :value="deposit" inline /></p>
+            <p class="subtitle is-size-6">
+              {{ $t('identity.deposit') }} <Money :value="deposit" inline />
+            </p>
           </b-field>
 
           <b-field>
@@ -57,9 +67,8 @@
               @click="shipIt"
               :disabled="disabled"
               :loading="isLoading"
-              outlined
-            >
-              {{ $t("identity.click") }}
+              outlined>
+              {{ $t('identity.click') }}
             </b-button>
           </b-field>
         </div>
@@ -67,7 +76,6 @@
     </div>
   </div>
 </template>
-
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
@@ -88,7 +96,7 @@ import { identityStore } from '@/utils/idbStore'
     PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
-  }
+  },
 })
 export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   // @Prop() public referendumId!: any;
@@ -100,7 +108,7 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
     twitter: '',
     discord: '',
     riot: '',
-    legal: ''
+    legal: '',
   }
   private deposit = '0'
 
@@ -140,7 +148,7 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
         cb,
         [x],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -154,12 +162,12 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -190,12 +198,11 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   }
 
   get disabled(): boolean {
-    return Object.values(this.identity).filter(val => val)?.length === 0
+    return Object.values(this.identity).filter((val) => val)?.length === 0
   }
 
   protected handleIdentity(identityFields: Record<string, string>): void {
-    this.identity = {...identityFields}
+    this.identity = { ...identityFields }
   }
-
 }
 </script>

@@ -3,27 +3,39 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right" />
+      <Pagination
+        hasMagicBtn
+        simple
+        :total="total"
+        v-model="currentValue"
+        :perPage="first"
+        replace
+        class="is-right" />
     </b-field>
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="collection in results" :key="collection.id">
+        <div
+          class="column is-4"
+          v-for="collection in results"
+          :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
               :to="`collection/${collection.id}`"
               tag="div"
-              class="collection-card__skeleton"
-            >
+              class="collection-card__skeleton">
               <div class="card-image">
-                <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
+                <BasicImage
+                  :src="collection.image"
+                  :alt="collection.name"
+                  customClass="collection__image-wrapper" />
               </div>
 
               <div class="card-content">
-                <nuxt-link
-                  :to="`collection/${collection.id}`"
-                >
-                  <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
+                <nuxt-link :to="`collection/${collection.id}`">
+                  <CollectionDetail
+                    :nfts="collection.nfts.nodes"
+                    :name="collection.name" />
                 </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
@@ -37,12 +49,11 @@
       :total="total"
       :perPage="first"
       v-model="currentValue"
-      replace
-    />
+      replace />
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 
 import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
@@ -56,22 +67,23 @@ import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
-  ffInitialized: boolean;
+  ffInitialized: boolean
 }
 
-type CollectionType = CollectionWithMeta;
+type CollectionType = CollectionWithMeta
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
-  CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
+  CollectionDetail: () =>
+    import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component<Collections>({
-  components
+  components,
 })
 export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
@@ -95,7 +107,9 @@ export default class Collections extends mixins(PrefixMixin) {
 
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
-    const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
+    const query = isRemark
+      ? await import('@/queries/collectionListWithSearch.graphql')
+      : await import('@/queries/unique/collectionListWithSearch.graphql')
 
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
@@ -111,7 +125,7 @@ export default class Collections extends mixins(PrefixMixin) {
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes
+        nfts: collectionEntity.nfts.nodes,
       }),
     })
   }
@@ -122,12 +136,13 @@ export default class Collections extends mixins(PrefixMixin) {
       ...e,
     }))
 
-    const metaList = this.collections.map(({ metadata }: MetaFragment) => metadata || '0x0000000000000000000000000000000000000000')
+    const metaList = this.collections.map(
+      ({ metadata }: MetaFragment) =>
+        metadata || '0x0000000000000000000000000000000000000000'
+    )
     console.log(metaList)
 
-    const storedMetadata = await getMany(
-      metaList
-    ).catch(() => metaList)
+    const storedMetadata = await getMany(metaList).catch(() => metaList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
@@ -136,7 +151,7 @@ export default class Collections extends mixins(PrefixMixin) {
           Vue.set(this.collections, i, {
             ...this.collections[i],
             ...meta,
-            image: sanitizeIpfsUrl(meta.image || '')
+            image: sanitizeIpfsUrl(meta.image || ''),
           })
           if (this.collections[i].metadata) {
             update(this.collections[i].metadata, () => meta)
@@ -148,20 +163,20 @@ export default class Collections extends mixins(PrefixMixin) {
         Vue.set(this.collections, i, {
           ...this.collections[i],
           ...m,
-          image: sanitizeIpfsUrl(m.image || '')
+          image: sanitizeIpfsUrl(m.image || ''),
         })
       }
     })
 
-
     // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
-
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
       const isRemark = this.urlPrefix === 'rmrk'
-      const query = isRemark ? await import('@/queries/collectionListWithSearch.graphql') : await import('@/queries/unique/collectionListWithSearch.graphql')
+      const query = isRemark
+        ? await import('@/queries/collectionListWithSearch.graphql')
+        : await import('@/queries/unique/collectionListWithSearch.graphql')
       const collections = this.$apollo.query({
         query: query.default,
         variables: {
@@ -172,11 +187,13 @@ export default class Collections extends mixins(PrefixMixin) {
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList }
-        }
+          collectionEntities: { nodes: collectionList },
+        },
       } = await collections
 
-      const storedPromise = getMany(collectionList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(
+        collectionList.map(({ metadata }: any) => metadata)
+      )
 
       const storedMetadata = await storedPromise
 
@@ -197,7 +214,6 @@ export default class Collections extends mixins(PrefixMixin) {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
-
   }
 
   get results() {
@@ -205,7 +221,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
+    document.addEventListener('lazybeforeunveil', async (e) => {
       const target = e.target as Image
       const type = target.dataset.type as string
       const isGif = type === 'image/gif'
@@ -214,7 +230,7 @@ export default class Collections extends mixins(PrefixMixin) {
         new Freezeframe(target, {
           trigger: false,
           overlay: true,
-          warnings: false
+          warnings: false,
         })
 
         target.ffInitialized = true
@@ -237,7 +253,6 @@ export default class Collections extends mixins(PrefixMixin) {
 }
 
 .collections {
-
   &__image-wrapper {
     position: relative;
     margin: auto;

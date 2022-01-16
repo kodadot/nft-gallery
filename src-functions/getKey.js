@@ -18,16 +18,16 @@ export async function handler(event) {
       endpoints: {
         pinning: {
           pinFileToIPFS: true,
-        }
-      }
-    }
+        },
+      },
+    },
   }
 
   try {
     const { status, data } = await axios.post(BASE_URL, object, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.PINATA_MASTER}`
+        Authorization: `Bearer ${process.env.PINATA_MASTER}`,
       },
     })
     console.log('[PINATA] Generate Key', status)
@@ -38,8 +38,6 @@ export async function handler(event) {
         body: JSON.stringify(data),
       }
     }
-
-
   } catch (e) {
     console.log('Error', e.message)
     return {
@@ -53,4 +51,3 @@ export async function handler(event) {
     body: JSON.stringify({}),
   }
 }
-

@@ -1,10 +1,15 @@
 <template>
   <b-field class="mt-4" :label="$t(label)" label-position="">
-    <b-slider v-model="vValue" :min="min" :max="max" :ticks="ticks" :lazy="lazy" />
+    <b-slider
+      v-model="vValue"
+      :min="min"
+      :max="max"
+      :ticks="ticks"
+      :lazy="lazy" />
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
 
 @Component

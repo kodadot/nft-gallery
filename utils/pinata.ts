@@ -4,8 +4,8 @@ import { extractCid, justHash } from '@/utils/ipfs'
 export const BASE_URL = 'https://api.pinata.cloud/pinning/'
 
 export type APIKeys = {
-  pinata_api_key: string;
-  pinata_api_secret: string;
+  pinata_api_key: string
+  pinata_api_secret: string
 }
 
 const api = Axios.create({
@@ -13,9 +13,9 @@ const api = Axios.create({
   headers: {
     'Content-Type': 'application/json',
     pinata_api_key: process.env.VUE_APP_PINATA_API_KEY,
-    pinata_secret_api_key: process.env.VUE_APP_PINATA_SECRET_API_KEY
+    pinata_secret_api_key: process.env.VUE_APP_PINATA_SECRET_API_KEY,
   },
-  withCredentials: false
+  withCredentials: false,
 })
 
 export const pinJson = async (object: any) => {
@@ -40,8 +40,8 @@ export const pinFile = async (file: Blob, keys: APIKeys): Promise<string> => {
       headers: {
         'Content-Type': 'multipart/form-data;',
         pinata_api_key: keys.pinata_api_key,
-        pinata_secret_api_key: keys.pinata_api_secret
-      }
+        pinata_secret_api_key: keys.pinata_api_secret,
+      },
     })
     console.log('[PINATA] Pin Image', status, data)
     if (status < 400) {
@@ -68,8 +68,6 @@ export const unpin = async (ipfsLink: string) => {
     throw e
   }
 }
-
-
 
 export default api
 // QmYt2FydonvVMsEqe2q3hvm38WDq21xM8Z5ZSHZw19PwjF;

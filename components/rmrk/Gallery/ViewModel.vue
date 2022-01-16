@@ -7,30 +7,18 @@
       camera-controls
       shadow-intensity="1"
       ar
-      ar-modes="scene-viewer webxr quick-look"
-    >
-      <div
-        slot="progress-bar"
-        class="progress-bar hide"
-      >
+      ar-modes="scene-viewer webxr quick-look">
+      <div slot="progress-bar" class="progress-bar hide">
         <div class="update-bar" />
       </div>
-      <button
-        id="ar-button"
-        slot="ar-button"
-        class="button is-dark"
-      >
-        AR
-      </button>
+      <button id="ar-button" slot="ar-button" class="button is-dark">AR</button>
     </model-viewer>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import '@google/model-viewer'
-
-
 
 const testSrc = 'http://localhost:8000/Astronaut.glb'
 const testIosSrc = 'http://localhost:8000/Astronaut.usdz'

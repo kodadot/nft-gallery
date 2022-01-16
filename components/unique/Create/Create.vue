@@ -4,15 +4,14 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import CreateCollection from './CreateCollection.vue'
 
 @Component({
   components: {
-    CreateCollection
-  }
+    CreateCollection,
+  },
 })
-export default class Create extends Vue {
-}
+export default class Create extends Vue {}
 </script>

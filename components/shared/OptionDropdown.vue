@@ -1,14 +1,10 @@
 <template>
   <b-field :label="label">
-    <b-select
-      v-model="selected"
-      :placeholder="description"
-    >
+    <b-select v-model="selected" :placeholder="description">
       <option
         v-for="option in options"
         :key="option.value"
-        :value="option.value"
-      >
+        :value="option.value">
         {{ option.text }}
       </option>
     </b-select>
@@ -20,7 +16,6 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class OptionDropdown extends Vue {
-
   get selected() {
     return this.selectedOption
   }
@@ -30,10 +25,9 @@ export default class OptionDropdown extends Vue {
     this.$emit('selected', value)
   }
 
-	@Prop() public label!: string
-	@Prop() public description!: string
-	@Prop() public options!: any[]
-	private selectedOption: any
-
+  @Prop() public label!: string
+  @Prop() public description!: string
+  @Prop() public options!: any[]
+  private selectedOption: any
 }
 </script>

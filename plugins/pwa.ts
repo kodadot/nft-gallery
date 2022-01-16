@@ -2,7 +2,7 @@ import { NotificationProgrammatic as Notification } from 'buefy'
 
 declare global {
   interface Window {
-    $workbox: any;
+    $workbox: any
   }
 }
 

@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
-        {{ $t("context") }}
+        {{ $t('context') }}
       </p>
 
       <b-field>
@@ -15,28 +15,28 @@
         label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
         expanded
         preview
-        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
-      />
+        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
       <BasicInput
         v-model="rmrkMint.name"
         :label="$t('mint.collection.name.label')"
         :message="$t('mint.collection.name.message')"
         :placeholder="$t('mint.collection.name.placeholder')"
         expanded
-        spellcheck="true"
-      />
+        spellcheck="true" />
 
       <b-field>
         <b-switch v-model="unlimited" :rounded="false">
-          {{ $t("mint.unlimited") }}
+          {{ $t('mint.unlimited') }}
         </b-switch>
       </b-field>
-      <b-field v-if="!unlimited" class="mt-1" :label="$i18n.t('Maximum NFTs in collection')">
+      <b-field
+        v-if="!unlimited"
+        class="mt-1"
+        :label="$i18n.t('Maximum NFTs in collection')">
         <b-numberinput
           v-model="rmrkMint.max"
           placeholder="1 is minumum"
-          :min="1"
-        ></b-numberinput>
+          :min="1"></b-numberinput>
       </b-field>
 
       <BasicInput
@@ -46,8 +46,7 @@
         :placeholder="$t('mint.collection.symbol.placeholder')"
         @keydown.native.space.prevent
         maxlength="10"
-        expanded
-      />
+        expanded />
       <BasicInput
         v-model="meta.description"
         maxlength="500"
@@ -56,22 +55,20 @@
         class="mb-0 mt-5"
         :label="$t('mint.collection.description.label')"
         :message="$t('mint.collection.description.message')"
-        :placeholder="$t('mint.collection.description.placeholder')"
-      />
+        :placeholder="$t('mint.collection.description.placeholder')" />
       <CustomAttributeInput
         :max="5"
         v-model="attributes"
         class="mb-3"
         visible="collapse.collection.attributes.show"
-        hidden="collapse.collection.attributes.hide"
-      />
+        hidden="collapse.collection.attributes.hide" />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
       <b-field>
-      <p class="has-text-weight-medium is-size-6 has-text-warning">
-        {{ $t("mint.deposit") }}: <Money :value="collectionDeposit" inline />
-      </p>
+        <p class="has-text-weight-medium is-size-6 has-text-warning">
+          {{ $t('mint.deposit') }}: <Money :value="collectionDeposit" inline />
+        </p>
       </b-field>
       <b-field>
         <b-button
@@ -80,9 +77,8 @@
           @click="submit"
           :disabled="disabled"
           :loading="isLoading"
-          outlined
-        >
-          {{ $t("create collection") }}
+          outlined>
+          {{ $t('create collection') }}
         </b-button>
       </b-field>
       <b-field>
@@ -92,16 +88,24 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import { emptyObject } from '@/utils/empty'
 
 import Connector from '@vue-polkadot/vue-api'
-import exec, { execResultValue, txCb, Extrinsic, estimate } from '@/utils/transactionExecutor'
+import exec, {
+  execResultValue,
+  txCb,
+  Extrinsic,
+  estimate,
+} from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { Collection, CollectionMetadata } from '@/components/rmrk/service/scheme'
+import {
+  Collection,
+  CollectionMetadata,
+} from '@/components/rmrk/service/scheme'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { pinJson, pinFileDirect } from '@/utils/proxy'
 import { decodeAddress } from '@polkadot/keyring'
@@ -127,7 +131,8 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
-  CustomAttributeInput: () => import('@/components/rmrk/Create/CustomAttributeInput.vue')
+  CustomAttributeInput: () =>
+    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
 }
 
 @Component({ components })
@@ -171,7 +176,13 @@ export default class CreateCollection extends mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint
-    return !(name && symbol && (this.unlimited || max) && this.accountId && this.image)
+    return !(
+      name &&
+      symbol &&
+      (this.unlimited || max) &&
+      this.accountId &&
+      this.image
+    )
   }
 
   get filePrice() {
@@ -186,7 +197,7 @@ export default class CreateCollection extends mixins(
     this.meta = {
       ...this.meta,
       attributes: [],
-      external_url: 'https://nft.kodadot.xyz'
+      external_url: 'https://nft.kodadot.xyz',
     }
 
     // TODO: upload image to IPFS
@@ -211,17 +222,15 @@ export default class CreateCollection extends mixins(
     const cols = this.$apollo.query({
       query: existingCollectionList,
       variables: {
-        ids: randomNumbers.map(String)
+        ids: randomNumbers.map(String),
       },
     })
     const {
       data: {
-        collectionEntities: {
-          nodes: collectionList
-        }
-      }
+        collectionEntities: { nodes: collectionList },
+      },
     } = await cols
-    const existingIds = collectionList.map(({ id }: {id: string}) => id)
+    const existingIds = collectionList.map(({ id }: { id: string }) => id)
     const newId = randomNumbers.find((id) => !existingIds.includes(id))
     return Number(newId)
   }
@@ -231,8 +240,9 @@ export default class CreateCollection extends mixins(
     const create = api.tx.uniques.create(randomId, this.accountId)
     // Option to freeze metadata
     const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-    const attributes = this.attributes.map(a =>
-      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value)))
+    const attributes = this.attributes.map((a) =>
+      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
+    )
 
     return [create, meta, ...attributes]
   }
@@ -240,7 +250,8 @@ export default class CreateCollection extends mixins(
   protected tryToEstimateTx(): Promise<string> {
     const { api } = Connector.getInstance()
     const cb = api.tx.utility.batchAll
-    const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
+    const metadata =
+      'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
     const randomId = 0
     const args = [this.cretateArgs(randomId, metadata)]
     return estimate(this.accountId, cb, args)
@@ -254,7 +265,13 @@ export default class CreateCollection extends mixins(
     const hasTokens = hasEnoughToken(balance, estimated, deposit)
     console.log('hasTokens', hasTokens)
     if (!hasEnoughToken(balance, estimated, deposit)) {
-      throw new Error(`Not enough tokens: Currently have ${formatBalance(balance, this.decimals, this.unit)} tokens`)
+      throw new Error(
+        `Not enough tokens: Currently have ${formatBalance(
+          balance,
+          this.decimals,
+          this.unit
+        )} tokens`
+      )
     }
   }
 
@@ -284,7 +301,7 @@ export default class CreateCollection extends mixins(
         cb,
         args,
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -296,12 +313,10 @@ export default class CreateCollection extends mixins(
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              )
+              const decoded = api.registry.findMetaError(dispatchError.asModule)
               const { docs, name, section } = decoded
               showNotification(
                 `[ERR] ${section}.${name}: ${docs.join(' ')}`,
@@ -316,7 +331,7 @@ export default class CreateCollection extends mixins(
 
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e: any) {

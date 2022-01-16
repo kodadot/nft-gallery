@@ -1,46 +1,29 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2020': true,
-    'node': true
+  env: {
+    browser: true,
+    es2020: true,
+    node: true,
   },
-  'extends': [
+  extends: [
     'eslint:recommended',
     'plugin:vue/essential',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
-  'parser': 'vue-eslint-parser',
-  'parserOptions': {
-    'ecmaVersion': 11,
-    'parser': '@typescript-eslint/parser',
-    'sourceType': 'module'
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    ecmaVersion: 11,
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module',
   },
-  'plugins': [
-    'vue',
-    'prettier',
-    '@typescript-eslint'
-  ],
-  'rules': {
+  plugins: ['vue', 'prettier', '@typescript-eslint'],
+  rules: {
     'no-trailing-spaces': 'error',
     'no-useless-catch': 1,
     'no-var': 'error',
-    'indent': [
-      'error', 2
-    ],
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'never'
-    ],
-    'max-classes-per-file': [
-      'error', 2
-    ],
-  }
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
+    'max-classes-per-file': ['error', 2],
+  },
 }

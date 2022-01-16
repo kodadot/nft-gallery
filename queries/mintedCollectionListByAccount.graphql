@@ -1,5 +1,3 @@
-
-
 query mintedCollectionListByAccount($account: String!) {
   collectionEntities(
     filter: { issuer: { equalTo: $account } }

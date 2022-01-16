@@ -4,7 +4,14 @@
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
       <b-field class="column">
-        <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="first" replace class="is-right remove-margin" />
+        <Pagination
+          hasMagicBtn
+          simple
+          :total="total"
+          v-model="currentValue"
+          :perPage="first"
+          replace
+          class="is-right remove-margin" />
       </b-field>
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
@@ -15,8 +22,7 @@
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
-              class="nft-card__skeleton"
-            >
+              class="nft-card__skeleton">
               <div class="card-image">
                 <span v-if="nft.emoteCount" class="card-image__emotes">
                   <b-icon icon="heart" />
@@ -24,8 +30,13 @@
                     nft.emoteCount
                   }}</span>
                 </span>
-                <BasicImage :src="nft.image" :alt="nft.name" customClass="gallery__image-wrapper" />
-                <span v-if="nft.price > 0 && showPriceValue" class="card-image__price">
+                <BasicImage
+                  :src="nft.image"
+                  :alt="nft.name"
+                  customClass="gallery__image-wrapper" />
+                <span
+                  v-if="nft.price > 0 && showPriceValue"
+                  class="card-image__price">
                   <Money :value="nft.price" inline />
                 </span>
               </div>
@@ -35,11 +46,8 @@
                   v-if="!isLoading"
                   class="title mb-0 is-4 has-text-centered"
                   id="hover-title"
-                  :title="nft.name"
-                >
-                  <nuxt-link
-                    :to="`/${urlPrefix}/gallery/${nft.id}`"
-                  >
+                  :title="nft.name">
+                  <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
                     <div class="has-text-overflow-ellipsis">
                       {{ nft.name }}
                     </div>
@@ -47,8 +55,7 @@
                   <p
                     v-if="nft.count > 2"
                     :title="`${nft.count} items available in collection`"
-                    class="is-absolute nft-collection-counter title is-6"
-                  >
+                    class="is-absolute nft-collection-counter title is-6">
                     「{{ nft.count }}」
                   </p>
                 </span>
@@ -64,12 +71,11 @@
       :total="total"
       :perPage="first"
       v-model="currentValue"
-      replace
-    />
+      replace />
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, mixins } from 'nuxt-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
@@ -85,12 +91,12 @@ import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface Image extends HTMLImageElement {
-  ffInitialized: boolean;
+  ffInitialized: boolean
 }
 
 const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
-type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata;
+type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Search: () => import('./Search/SearchBar.vue'),
@@ -130,17 +136,21 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.currentValue * this.first - this.first
   }
 
-
   get showPriceValue(): boolean {
-    return this.searchQuery?.listed || this.$store.getters['preferences/getShowPriceValue']
+    return (
+      this.searchQuery?.listed ||
+      this.$store.getters['preferences/getShowPriceValue']
+    )
   }
 
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
-    const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
+    const query = isRemark
+      ? await import('@/queries/nftListWithSearch.graphql')
+      : await import('@/queries/unique/nftListWithSearch.graphql')
 
     this.$apollo.addSmartQuery('nfts', {
-      query:  query as unknown as DocumentNode,
+      query: query as unknown as DocumentNode,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'loadingState',
@@ -152,9 +162,9 @@ export default class Gallery extends mixins(PrefixMixin) {
           offset: this.offset,
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam()
+          search: this.buildSearchParam(),
         }
-      }
+      },
     })
   }
 
@@ -162,20 +172,26 @@ export default class Gallery extends mixins(PrefixMixin) {
     this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
-      emoteCount: e?.emotes?.totalCount
+      emoteCount: e?.emotes?.totalCount,
     }))
 
-    const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
+    const metadataList: string[] = this.nfts.map(
+      ({ metadata, collection }: NFTWithCollectionMeta) =>
+        metadata || collection.metadata
+    )
     const storedMetadata = await getMany(metadataList).catch(() => metadataList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
         try {
-          const meta = await fetchNFTMetadata(this.nfts[i], getSanitizer(this.nfts[i].metadata, undefined, 'permafrost'))
+          const meta = await fetchNFTMetadata(
+            this.nfts[i],
+            getSanitizer(this.nfts[i].metadata, undefined, 'permafrost')
+          )
           Vue.set(this.nfts, i, {
             ...this.nfts[i],
             ...meta,
-            image: getSanitizer(meta.image || '')(meta.image || '')
+            image: getSanitizer(meta.image || '')(meta.image || ''),
           })
           update(this.nfts[i].metadata, () => meta)
         } catch (e) {
@@ -185,39 +201,42 @@ export default class Gallery extends mixins(PrefixMixin) {
         Vue.set(this.nfts, i, {
           ...this.nfts[i],
           ...m,
-          image: getSanitizer(m.image || '')(m.image || '')
+          image: getSanitizer(m.image || '')(m.image || ''),
         })
       }
     })
 
-
     // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
-
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
       const isRemark = this.urlPrefix === 'rmrk'
-      const query = isRemark ? await import('@/queries/nftListWithSearch.graphql') : await import('@/queries/unique/nftListWithSearch.graphql')
+      const query = isRemark
+        ? await import('@/queries/nftListWithSearch.graphql')
+        : await import('@/queries/unique/nftListWithSearch.graphql')
       const nfts = this.$apollo.query({
-        query:  query as unknown as DocumentNode,
+        query: query as unknown as DocumentNode,
         client: this.urlPrefix,
         variables: {
           first: this.first,
           offset,
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam()
-        }
+          search: this.buildSearchParam(),
+        },
       })
 
       const {
         data: {
-          nFTEntities: { nodes: nftList }
-        }
+          nFTEntities: { nodes: nftList },
+        },
       } = await nfts
 
-      const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
+      const metadataList: string[] = this.nfts.map(
+        ({ metadata, collection }: NFTWithCollectionMeta) =>
+          metadata || collection.metadata
+      )
 
       const storedPromise = getMany(metadataList).catch(() => metadataList)
 
@@ -240,7 +259,6 @@ export default class Gallery extends mixins(PrefixMixin) {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
-
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -248,13 +266,13 @@ export default class Gallery extends mixins(PrefixMixin) {
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
     if (this.searchQuery.listed) {
       params.push({
-        price: { greaterThan: '0' }
+        price: { greaterThan: '0' },
       })
     }
 
@@ -272,7 +290,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
+    document.addEventListener('lazybeforeunveil', async (e) => {
       const target = e.target as Image
       const type = target.dataset.type as string
       const isGif = type === 'image/gif'
@@ -281,7 +299,7 @@ export default class Gallery extends mixins(PrefixMixin) {
         const ff = new Freezeframe(target, {
           trigger: false,
           overlay: true,
-          warnings: false
+          warnings: false,
         })
 
         target.ffInitialized = true
@@ -303,12 +321,11 @@ export default class Gallery extends mixins(PrefixMixin) {
   filter: blur(7px);
 }
 
-.remove-margin nav  {
+.remove-margin nav {
   margin-bottom: 0 !important;
 }
 
 .gallery {
-
   &__image-wrapper {
     position: relative;
     margin: auto;

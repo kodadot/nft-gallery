@@ -1,17 +1,11 @@
 <template>
-  <video
-    width="400"
-    controls
-  >
-    <source
-      :src="src"
-      :type="mimeType"
-    >
+  <video width="400" controls>
+    <source :src="src" :type="mimeType" />
     Unable to show audio
   </video>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})

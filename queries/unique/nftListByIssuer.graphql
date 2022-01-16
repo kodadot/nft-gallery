@@ -3,10 +3,7 @@
 
 query nftListByIssuer($account: String!, $first: Int!, $offset: Int) {
   nFTEntities(
-    filter: {
-      issuer: { equalTo: $account }
-      burned: { distinctFrom: true }
-    }
+    filter: { issuer: { equalTo: $account }, burned: { distinctFrom: true } }
     orderBy: BLOCK_NUMBER_DESC
     first: $first
     offset: $offset

@@ -4,13 +4,16 @@ type Endpoint = {
   httpEndpoint: string
 }
 
-const toClient = (value: string): string => value !== 'kusama' ? value : 'rmrk'
-export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({ httpEndpoint })
+const toClient = (value: string): string =>
+  value !== 'kusama' ? value : 'rmrk'
+export const toApolloEndpoint = (httpEndpoint: string): Endpoint => ({
+  httpEndpoint,
+})
 
 export default () => {
   const configs = {}
 
-  INDEXERS.map(option => {
+  INDEXERS.map((option) => {
     configs[toClient(option.info)] = toApolloEndpoint(String(option.value))
   })
 
