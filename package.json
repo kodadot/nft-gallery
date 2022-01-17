@@ -48,7 +48,7 @@
     "chartjs-plugin-annotation": "^1.1.0",
     "chartjs-plugin-zoom": "^1.1.1",
     "core-js": "^3.15.1",
-    "css-loader": "4.2.0",
+    "css-loader": "4.3.0",
     "date-fns": "^2.25.0",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
