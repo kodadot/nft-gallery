@@ -1,11 +1,10 @@
 // TODO: hacky, but works for now
-import { getMany, setMany, update } from 'idb-keyval'
-
 import { queryBatch } from '@/utils/cloudflare'
-import { fetchMetadata, SomethingWithMeta, zip } from '~/components/rmrk/utils'
+import { getMany, setMany, update } from 'idb-keyval'
+import { fetchMetadata, zip } from '~/components/rmrk/utils'
+import { emptyObject } from './empty'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
-import { emptyObject } from './empty'
 
 type Option<T> = T | undefined
 type MayString = Option<string>

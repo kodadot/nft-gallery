@@ -76,23 +76,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
-import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
-import { fetchMetadata, fetchNFTMetadata, getSanitizer } from '../utils'
-import Freezeframe from 'freezeframe'
-import 'lazysizes'
-import { SearchQuery } from './Search/types'
-
-import { getMany, update } from 'idb-keyval'
-import { denyList, statemineDenyList } from '@/utils/constants'
-import { DocumentNode } from 'graphql'
-import { WithData, NFTEntities, NFTWithCollectionMeta, NFTEntitiesWithCount } from 'components/unique/graphqlResponseTypes'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 import { getCloudflareImageLinks, processMetadata } from '@/utils/cachingStrategy'
+import { denyList, statemineDenyList } from '@/utils/constants'
 import { fastExtract } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import { NFTEntitiesWithCount, NFTWithCollectionMeta, WithData } from 'components/unique/graphqlResponseTypes'
+import { DocumentNode } from 'graphql'
+import 'lazysizes'
+
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Metadata, NFTMetadata } from '../service/scheme'
+import { getSanitizer } from '../utils'
+import { SearchQuery } from './Search/types'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
