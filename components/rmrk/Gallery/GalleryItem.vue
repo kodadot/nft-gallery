@@ -411,7 +411,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    ;(this.$refs.actions as AvailableActions).unlistNft()
+    (this.$refs.actions as AvailableActions).unlistNft()
   }
 
   @Watch('meta.image')
