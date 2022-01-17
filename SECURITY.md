@@ -4,7 +4,7 @@ KodaDot is committed to resolving security vulnerabilities in our software quick
 
 ## Reporting a Vulnerability
 
-Security vulnerabilities in KodaDot software should be reported by email to matej@metaprime.network or [Discord channel Anteriors](https://discord.gg/KkctBVQ8kP)
+Security vulnerabilities in KodaDot software should be reported by email to matej@metaprime.network or [Create bug issue](https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug.yml&title=Be+descriptive+and+short) and strip out critical details and post to our Discord. 
 
 Your report should include the following:
 
