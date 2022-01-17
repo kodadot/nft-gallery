@@ -154,7 +154,7 @@ import {
 } from './mintUtils'
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
+import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface NFTAndMeta extends NFT {

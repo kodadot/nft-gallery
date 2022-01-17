@@ -120,7 +120,7 @@ import {
 } from '@/components/rmrk/Create/mintUtils'
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
+import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
 import { Attribute } from '@/components/rmrk/types'
 import onApiConnect from '~/utils/api/general'
 import {
