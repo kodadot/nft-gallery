@@ -45,7 +45,7 @@
     "buefy": "^0.9.10",
     "chart.js": "^3.6.0",
     "chartjs-adapter-luxon": "^1.1.0",
-    "chartjs-plugin-annotation": "^1.1.0",
+    "chartjs-plugin-annotation": "^1.2.1",
     "chartjs-plugin-zoom": "^1.1.1",
     "core-js": "^3.15.1",
     "css-loader": "4.2.0",
