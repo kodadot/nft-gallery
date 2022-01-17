@@ -15,6 +15,9 @@
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "jest --verbose ./tests"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "prettier": {
     "semi": false,
     "bracketSameLine": true
