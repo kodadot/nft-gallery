@@ -90,8 +90,9 @@ import { DocumentNode } from 'graphql'
 import { WithData, NFTEntities, NFTWithCollectionMeta, NFTEntitiesWithCount } from 'components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
-import { cacheOrFetchMetadata, getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { getCloudflareImageLinks, processMetadata } from '@/utils/cachingStrategy'
 import { fastExtract } from '@/utils/ipfs'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -180,13 +181,11 @@ export default class Gallery extends mixins(PrefixMixin) {
       emoteCount: e?.emotes?.totalCount,
     }))
 
-    const metadataList: string[] = this.nfts.map(({ metadata, collection }: NFTWithCollectionMeta) => metadata || collection.metadata)
+    const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
-    const storedMetadata = await getMany<NFTMetadata>(metadataList)
 
-
-    storedMetadata.forEach(async (m, i) => {
-      const meta = await cacheOrFetchMetadata(m, metadataList[i])
+    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      console.log('meta', meta, 'index', i)
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
@@ -223,27 +222,10 @@ export default class Gallery extends mixins(PrefixMixin) {
         },
       } = await nfts
 
-      const metadataList: string[] = this.nfts.map(
-        ({ metadata, collection }: NFTWithCollectionMeta) =>
-          metadata || collection.metadata
-      )
-
-      const storedPromise = getMany(metadataList).catch(() => metadataList)
-
-      const storedMetadata = await storedPromise
-
-      storedMetadata.forEach(async (m, i) => {
-        if (!m) {
-          try {
-            const meta = await fetchNFTMetadata(nftList[i])
-            update(nftList[i].metadata, () => meta)
-          } catch (e) {
-            console.warn('[ERR] unable to get metadata')
-          }
-        }
-      })
-    } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
+      processMetadata<NFTMetadata>(metadataList)
+    } catch (e) {
+      logError(e, msg => console.warn('[PREFETCH] Unable fo fetch', offset, msg))
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
@@ -435,7 +417,3 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 }
 </style>
-
-function getCloudflareImageLinks(metadataList: string[]) {
-  throw new Error('Function not implemented.')
-}

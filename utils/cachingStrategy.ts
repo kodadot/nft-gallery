@@ -2,7 +2,7 @@
 import { getMany, setMany, update } from 'idb-keyval'
 
 import { queryBatch } from '@/utils/cloudflare'
-import { fetchMetadata, zip } from '~/components/rmrk/utils'
+import { fetchMetadata, SomethingWithMeta, zip } from '~/components/rmrk/utils'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
 import { emptyObject } from './empty'
@@ -49,4 +49,14 @@ export const cacheOrFetchMetadata = async<T>(fromCache: T | undefined, metadata:
     console.warn('[ERR] unable to get metadata', e)
     return emptyObject<T>()
   }
+}
+
+export const processMetadata = async <T>(metadataList: string[], cb?: (meta: T, index: number) => void): P<void> => {
+  const storedMetadata = await getMany<T>(metadataList)
+  storedMetadata.forEach(async (m, i) => {
+    const meta = await cacheOrFetchMetadata(m, metadataList[i])
+    if (cb) {
+      cb(meta, i)
+    }
+  })
 }
