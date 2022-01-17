@@ -41,7 +41,7 @@
     "@vue-polkadot/vue-settings": "0.0.38-rc.10",
     "ansi-regex": "^5.0.1",
     "apollo-boost": "^0.4.9",
-    "axios": "^0.21.1",
+    "axios": "^0.24.0",
     "buefy": "^0.9.10",
     "chart.js": "^3.6.0",
     "chartjs-adapter-luxon": "^1.1.0",
