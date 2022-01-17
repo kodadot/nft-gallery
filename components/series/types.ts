@@ -11,7 +11,7 @@ export type Column = {
 
 export type SortType = {
   field: string
-  value: -1 | 1
+  value: 'ASC' | 'DESC'
 }
 
 type VolumeType = number | bigint

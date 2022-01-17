@@ -43,10 +43,10 @@
 
     <b-table
       :data="data"
-      :default-sort="sortBy.field"
-      :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
+      :default-sort="[sortBy.field, sortBy.value]"
       backend-sorting
-      hoverable>
+      hoverable
+      @sort="onSort">
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
@@ -99,7 +99,6 @@
         v-slot="props"
         field="dailyVolume"
         label="24h %"
-        sortable
         numeric
         cell-class="is-vcentered"
         :visible="nbDays === '24'">
@@ -127,7 +126,6 @@
         v-slot="props"
         field="weeklyVolume"
         label="7d %"
-        sortable
         numeric
         cell-class="is-vcentered"
         :visible="nbDays === '7'">
@@ -155,7 +153,6 @@
         v-slot="props"
         field="monthlyVolume"
         label="30d %"
-        sortable
         numeric
         cell-class="is-vcentered"
         :visible="nbDays === '30'">
@@ -183,7 +180,6 @@
         v-slot="props"
         field="floorPrice"
         :label="$t('series.floorprice')"
-        sortable
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
@@ -196,23 +192,9 @@
         field="totalBuys"
         :label="$t('series.buys')"
         v-slot="props"
-        sortable
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">{{ props.row.totalBuys }}</template>
-        <b-skeleton :active="isLoading" />
-      </b-table-column>
-
-      <b-table-column
-        v-slot="props"
-        field="uniqueCollectors"
-        :label="$t('series.owners')"
-        sortable
-        numeric
-        cell-class="is-vcentered">
-        <template v-if="!isLoading">
-          {{ props.row.uniqueCollectors }}
-        </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
@@ -246,7 +228,6 @@
         v-slot="props"
         field="rank"
         :label="$t('spotlight.score')"
-        sortable
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
@@ -266,20 +247,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
-import { columns, nftFn } from './utils'
+import { columns } from './utils'
 import collectionSeriesList from '@/queries/rmrk/subsquid/collectionSeriesList.graphql'
-import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
-import { NFTMetadata, Collection } from '../rmrk/service/scheme'
+import { NFTMetadata } from '../rmrk/service/scheme'
 import { denyList } from '@/utils/constants'
-import {
-  sanitizeIpfsUrl,
-  fetchCollectionMetadata,
-} from '@/components/rmrk/utils'
+import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
-import { get, set } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
@@ -295,7 +271,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
   protected nbRows = '10'
-  protected sortBy: SortType = { field: 'volume', value: -1 }
+  protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 
@@ -308,7 +284,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     })
     exist(this.$route.query.sort, (val) => {
       this.sortBy.field = val.slice(1)
-      this.sortBy.value = val.charAt(0) === '-' ? -1 : 1
+      this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
@@ -323,6 +299,9 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       client: 'subsquid',
       variables: {
         limit,
+        offset: 0,
+        orderBy: sort.field,
+        orderDirection: sort.value
       },
     })
 
@@ -338,7 +317,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
           rank: e.sold * (e.unique / e.total || 1),
         })
       )
-      .sort((a, b) => b.rank - a.rank)
 
     // this.data = seriesAggQuery(
     //   limit,
@@ -346,22 +324,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     //   collectionEntities?.nodes?.map(nftFn)
     // ) as RowSeries[]
 
-    // // fetch metadata for images
-    // for (let index = 0; index < this.data.length; index++) {
-    //   const image = await this.fetchMetadataImage(
-    //     this.data[index].metadata
-    //   )
-
-    //   if (image) {
-    //     this.data[index].image = image
-    //   }
-    // }
-
     this.isLoading = false
   }
 
   public onSort(field: string, order: string) {
-    let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
+    let sort: SortType = { field: field, value: order === 'desc' ? 'DESC' : 'ASC' }
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -393,17 +360,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         query: { ...this.$route.query, period: value },
       })
       .catch((e) => console.warn(e))
-  }
-
-  public async fetchMetadataImage(metadata: any) {
-    const m = await get(metadata)
-    const meta = m
-      ? m
-      : await fetchCollectionMetadata({ metadata } as Collection)
-    if (!m) {
-      set(metadata, meta)
-    }
-    return sanitizeIpfsUrl(meta.image || '')
   }
 
   public displayVolumePercent(
