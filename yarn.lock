@@ -6372,10 +6372,10 @@ chartjs-adapter-luxon@^1.1.0:
   resolved "https://registry.yarnpkg.com/chartjs-adapter-luxon/-/chartjs-adapter-luxon-1.1.0.tgz#0a0d9213db5de0ad3285fae896b4c4b74db9007b"
   integrity sha512-CS+xBWEyXYVLBZ3dSY/MwlSXhz8er4JjkApazY84ft/++oOLsmkt6TaXBCsUFudum7QdoYmpxiL/gSp20+emkw==
 
-chartjs-plugin-annotation@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-annotation/-/chartjs-plugin-annotation-1.1.0.tgz#76b76123d5167c0480817770e337d0a08784ee1c"
-  integrity sha512-I5xB26OarX5OD76jELYMpzh4MSdvL1aswmsbRm2EGABwEdFSdJpQjkr54zB5bXYpVcEqAHF3dZnqB+Akp61x5w==
+chartjs-plugin-annotation@^1.2.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-annotation/-/chartjs-plugin-annotation-1.2.2.tgz#0f66e7a9ca3d4062a4b6629b74fa2e1b6f308700"
+  integrity sha512-Yazdr1cGUrHZf/Dj0G+uY05QRXNiboZa/QgCmx9qgYDtpz66NczVYYIR75vH2sKO3ezHP3IRF0Cf7bXMxOEf1w==
 
 chartjs-plugin-zoom@^1.1.1:
   version "1.1.1"
