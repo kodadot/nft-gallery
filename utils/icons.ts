@@ -95,7 +95,7 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
 
-import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
 
 library.add(
   faPaperPlane,

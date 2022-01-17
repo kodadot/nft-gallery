@@ -1,5 +1,5 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import keyring, { Keyring } from '@polkadot/ui-keyring'
+import keyring from '@polkadot/ui-keyring'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'

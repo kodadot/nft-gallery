@@ -2,7 +2,6 @@ import { Attribute, MassMintNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import Connector from '@vue-polkadot/vue-api'
-import { min } from 'date-fns'
 type Range = [number, number]
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {

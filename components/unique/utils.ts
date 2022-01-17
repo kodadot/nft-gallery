@@ -10,7 +10,7 @@ export const tokenIdToRoute = (
   }
 }
 
-export const createTokenId = (collection: string, id: string) =>
+export const createTokenId = (collection: string, id: string): string =>
   `${collection}-${id}`
 
 export const getRandomValues = (length: number): number[] => {
