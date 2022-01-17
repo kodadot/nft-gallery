@@ -9,8 +9,9 @@ export default class IdentityMixin extends Vue {
       return Promise.resolve(identity)
     }
 
-    return await this.$store.dispatch('fetchIdentity', address)
+    return await this.$store
+      .dispatch('fetchIdentity', address)
       .then(() => this.$store.getters.getIdentityFor(address))
-      .then(id => id || {})
+      .then((id) => id || {})
   }
 }

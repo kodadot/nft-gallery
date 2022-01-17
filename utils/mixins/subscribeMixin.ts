@@ -1,12 +1,12 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 // declare type UnsubscribePromise = Promise<Unsubscribe>;
-declare type Unsubscribe = () => void;
+declare type Unsubscribe = () => void
 
 /*
-* refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
-* usage import Component, { mixins } from 'vue-class-component';
-* class ExtendedClass extends mixins(SubscribeMixin) {
-*/
+ * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
+ * usage import Component, { mixins } from 'vue-class-component';
+ * class ExtendedClass extends mixins(SubscribeMixin) {
+ */
 @Component
 export default class SubscribeMixin extends Vue {
   private subs: Unsubscribe[] = []
@@ -15,7 +15,7 @@ export default class SubscribeMixin extends Vue {
     this.subs.push(await fn(...args, callback))
   }
 
-  public beforeDestroy(): void  {
+  public beforeDestroy(): void {
     this.subs.forEach((sub) => sub())
   }
 }

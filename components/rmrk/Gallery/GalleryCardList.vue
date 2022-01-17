@@ -4,11 +4,7 @@
       <Layout />
     </template>
     <div class="columns is-multiline">
-      <div
-        :class="`column ${classLayout}`"
-        v-for="nft in items"
-        :key="nft.id"
-      >
+      <div :class="`column ${classLayout}`" v-for="nft in items" :key="nft.id">
         <GalleryCard
           :id="nft.id"
           :name="nft.name"
@@ -18,7 +14,7 @@
           :price="nft.price"
           :emoteCount="nft.emoteCount"
           :currentOwner="nft.currentOwner"
-        />
+          :listed="listed" />
       </div>
     </div>
   </div>
@@ -39,6 +35,7 @@ export default class GalleryCardList extends Vue {
   @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop() public items!: RmrkType[]
   @Prop(Boolean) public horizontalLayout!: boolean
+  @Prop(Boolean) public listed!: boolean
 
   get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']
@@ -48,11 +45,10 @@ export default class GalleryCardList extends Vue {
     return nft.metadata || nft.collection?.metadata
   }
 }
-
 </script>
 <style>
 /* TODO: move to global */
-.b-radio.radio.button.is-selected{
+.b-radio.radio.button.is-selected {
   background-color: #db2980;
 }
 </style>

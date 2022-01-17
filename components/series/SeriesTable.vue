@@ -31,23 +31,12 @@
         </b-radio-button>
       </b-field> -->
 
-      <b-field
-        class="has-text-right"
-        expanded
-      >
+      <b-field class="has-text-right" expanded>
         <b-select v-model="nbRows">
-          <option value="10">
-            10
-          </option>
-          <option value="20">
-            20
-          </option>
-          <option value="50">
-            50
-          </option>
-          <option value="100">
-            100
-          </option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
         </b-select>
       </b-field>
     </b-field>
@@ -57,14 +46,12 @@
       :default-sort="sortBy.field"
       :default-sort-direction="sortBy.value === -1 ? 'desc' : 'asc'"
       backend-sorting
-      hoverable
-    >
+      hoverable>
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
-        label="N°"
-      >
+        label="N°">
         {{ data.indexOf(props.row) + 1 }}
       </b-table-column>
 
@@ -72,22 +59,15 @@
         v-slot="props"
         field="image"
         label=""
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
           <b-image
             v-if="!isLoading"
             :src="props.row.image"
             :alt="props.row.name"
             ratio="1by1"
-            rounded
-          />
-          <b-skeleton
-            :active="isLoading"
-            circle
-            width="48px"
-            height="48px"
-          />
+            rounded />
+          <b-skeleton :active="isLoading" circle width="48px" height="48px" />
         </div>
       </b-table-column>
 
@@ -95,12 +75,8 @@
         v-slot="props"
         cell-class="is-vcentered"
         field="id"
-        label="Collection"
-      >
-        <nuxt-link
-          v-if="!isLoading"
-          :to="`/rmrk/collection/${props.row.id}`"
-        >
+        label="Collection">
+        <nuxt-link v-if="!isLoading" :to="`/rmrk/collection/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
         <b-skeleton :active="isLoading" />
@@ -112,13 +88,9 @@
         :label="$t('series.volume')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money
-            :value="props.row.volume"
-            inline
-          />
+          <Money :value="props.row.volume" inline />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -130,12 +102,16 @@
         sortable
         numeric
         cell-class="is-vcentered"
-        :visible="nbDays === '24'"
-      >
+        :visible="nbDays === '24'">
         <template v-if="!isLoading">
           <div
-            :class="displayVolumePercent(props.row.dailyVolume, props.row.dailyrangeVolume, true)"
-          >
+            :class="
+              displayVolumePercent(
+                props.row.dailyVolume,
+                props.row.dailyrangeVolume,
+                true
+              )
+            ">
             {{
               displayVolumePercent(
                 props.row.dailyVolume,
@@ -154,12 +130,16 @@
         sortable
         numeric
         cell-class="is-vcentered"
-        :visible="nbDays === '7'"
-      >
+        :visible="nbDays === '7'">
         <template v-if="!isLoading">
-         <div
-            :class="displayVolumePercent(props.row.weeklyVolume, props.row.weeklyrangeVolume, true)"
-          >
+          <div
+            :class="
+              displayVolumePercent(
+                props.row.weeklyVolume,
+                props.row.weeklyrangeVolume,
+                true
+              )
+            ">
             {{
               displayVolumePercent(
                 props.row.weeklyVolume,
@@ -178,12 +158,16 @@
         sortable
         numeric
         cell-class="is-vcentered"
-        :visible="nbDays === '30'"
-      >
+        :visible="nbDays === '30'">
         <template v-if="!isLoading">
-         <div
-            :class="displayVolumePercent(props.row.monthlyVolume, props.row.monthlyrangeVolume, true)"
-          >
+          <div
+            :class="
+              displayVolumePercent(
+                props.row.monthlyVolume,
+                props.row.monthlyrangeVolume,
+                true
+              )
+            ">
             {{
               displayVolumePercent(
                 props.row.monthlyVolume,
@@ -201,13 +185,9 @@
         :label="$t('series.floorprice')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money
-            :value="props.row.floorPrice"
-            inline
-          />
+          <Money :value="props.row.floorPrice" inline />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -218,8 +198,7 @@
         v-slot="props"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">{{ props.row.totalBuys }}</template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -230,8 +209,7 @@
         :label="$t('series.owners')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ props.row.uniqueCollectors }}
         </template>
@@ -244,8 +222,7 @@
         :label="$t('series.collected')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ props.row.sold }}
         </template>
@@ -258,8 +235,7 @@
         :label="$t('series.assets')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ props.row.total }}
         </template>
@@ -272,21 +248,15 @@
         :label="$t('spotlight.score')"
         sortable
         numeric
-        cell-class="is-vcentered"
-      >
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
-          {{
-            Math.ceil(props.row.rank)
-          }}
+          {{ Math.ceil(props.row.rank) }}
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
       <template #empty>
-        <div
-          v-if="!isLoading"
-          class="has-text-centered"
-        >
+        <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
         <b-skeleton :active="isLoading" />
@@ -295,7 +265,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
 import { columns, nftFn } from './utils'
@@ -303,7 +273,10 @@ import collectionSeriesList from '@/queries/rmrk/subsquid/collectionSeriesList.g
 import { seriesAggQuery } from '../rmrk/Gallery/Search/query'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { denyList } from '@/utils/constants'
-import { sanitizeIpfsUrl, fetchCollectionMetadata} from '@/components/rmrk/utils'
+import {
+  sanitizeIpfsUrl,
+  fetchCollectionMetadata,
+} from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import { get, set } from 'idb-keyval'
@@ -340,7 +313,10 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     await this.fetchCollectionsSeries(Number(this.nbRows))
   }
 
-  public async fetchCollectionsSeries(limit = 10, sort: SortType = this.sortBy) {
+  public async fetchCollectionsSeries(
+    limit = 10,
+    sort: SortType = this.sortBy
+  ) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSeriesList,
@@ -354,11 +330,15 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities.map((e): RowSeries => ({
-      ...e,
-      image: sanitizeIpfsUrl(e.image),
-      rank: e.sold * (e.unique / e.total || 1),
-    })).sort((a, b) => b.rank - a.rank)
+    this.data = collectionEntities
+      .map(
+        (e): RowSeries => ({
+          ...e,
+          image: sanitizeIpfsUrl(e.image),
+          rank: e.sold * (e.unique / e.total || 1),
+        })
+      )
+      .sort((a, b) => b.rank - a.rank)
 
     // this.data = seriesAggQuery(
     //   limit,
@@ -382,33 +362,44 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 
   public onSort(field: string, order: string) {
     let sort: SortType = { field: field, value: order === 'desc' ? -1 : 1 }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: { ...this.$route.query, sort: (order === 'desc' ? '-' : '+') + field },
-    }).catch((e) => console.warn(e))
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: {
+          ...this.$route.query,
+          sort: (order === 'desc' ? '-' : '+') + field,
+        },
+      })
+      .catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(this.nbRows), sort)
   }
 
   @Watch('nbRows')
   public onTopRowsChange(value: string) {
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: { ...this.$route.query, rows: value },
-    }).catch((e) => console.warn(e))
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, rows: value },
+      })
+      .catch((e) => console.warn(e))
     this.fetchCollectionsSeries(Number(value))
   }
 
   @Watch('nbDays')
   public onTopDaysChange(value: string) {
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: { ...this.$route.query, period: value },
-    }).catch((e) => console.warn(e))
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, period: value },
+      })
+      .catch((e) => console.warn(e))
   }
 
   public async fetchMetadataImage(metadata: any) {
     const m = await get(metadata)
-    const meta = m ? m : await fetchCollectionMetadata({ metadata } as Collection)
+    const meta = m
+      ? m
+      : await fetchCollectionMetadata({ metadata } as Collection)
     if (!m) {
       set(metadata, meta)
     }
@@ -421,8 +412,8 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     getClass?: boolean
   ) {
     /* added getClass for getting the class name for the row
-    * it would be true when you want to return the class name
-    */
+     * it would be true when you want to return the class name
+     */
     const vol = ((priceNow - priceAgo) / priceAgo) * 100
     if (vol === 0 || !parseFloat(String(vol)) || !isFinite(vol)) {
       return getClass ? '' : '---'
@@ -445,5 +436,4 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   color: #000;
   background-color: $primary;
 }
-
 </style>

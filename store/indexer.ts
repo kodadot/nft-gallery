@@ -26,7 +26,6 @@ export const mutations: MutationTree<IndexerState> = {
 export const actions: ActionTree<IndexerState, IndexerState> = {
   async fetchIndexer({ commit }: { commit: Commit }, prefix: string) {
     try {
-
       if (!this.app.apolloProvider?.clients) {
         return
       }

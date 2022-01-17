@@ -325,6 +325,14 @@
     "32": {
       "heading": "Did you know...",
       "question": "that you look beautiful today?"
+    },
+    "33": {
+      "heading": "Did you know...",
+      "question": "that people from all over the world contribute to our codebase?"
+    },
+    "34": {
+      "heading": "Did you know...",
+      "question": "KodaDot has offset 10,000 kilograms of CO2, which is equivalent to 2,500 cheeseburgers."
     }
   },
   "sort": {

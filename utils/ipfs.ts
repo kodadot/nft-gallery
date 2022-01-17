@@ -1,4 +1,4 @@
-export const unSanitizeIpfsUrl = (url: string): string  => {
+export const unSanitizeIpfsUrl = (url: string): string => {
   return `ipfs://ipfs/${url}`
 }
 
@@ -26,16 +26,16 @@ export const fastExtract = (ipfsLink?: string): string => {
 }
 
 type IpfsToArweaveType = {
-  arweaveId: string;
-  ipfsHash: string;
-  statusCode: number;
+  arweaveId: string
+  ipfsHash: string
+  statusCode: number
 }
 
 const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
 export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
   const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
   try {
-    const res = await fetch(IPFS2AR + hash, {method: 'POST'})
+    const res = await fetch(IPFS2AR + hash, { method: 'POST' })
     if (res.ok) {
       return (await res.json()).arweaveId
     }
@@ -45,5 +45,4 @@ export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
     console.error(`[IPFS2AR] Unable to Arweave ${e.message}`)
     return ''
   }
-
 }

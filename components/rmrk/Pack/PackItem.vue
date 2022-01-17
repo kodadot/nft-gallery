@@ -7,17 +7,13 @@
             {{ name }}
           </p>
           <p class="subtitle">
-            Curated by: <ProfileLink
-              v-if="owner"
-              :address="owner"
-              :inline="true"
-            />
+            Curated by:
+            <ProfileLink v-if="owner" :address="owner" :inline="true" />
           </p>
           <Sharing
             v-if="sharingVisible"
             :label="$t('sharing.pack')"
-            :iframe="iframeSettings"
-          />
+            :iframe="iframeSettings" />
         </div>
       </div>
     </div>
@@ -26,7 +22,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { emptyObject } from '@/utils/empty'
 import { Component, Vue } from 'nuxt-property-decorator'
 // import { getInstance } from '../service/RmrkService';
@@ -34,9 +30,10 @@ import { CompletePack } from '../service/scheme'
 import isShareMode from '@/utils/isShareMode'
 
 const components = {
-  GalleryCardList: () => import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  GalleryCardList: () =>
+    import('@/components/rmrk/Gallery/GalleryCardList.vue'),
   Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue')
+  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 }
 
 @Component({ components })
@@ -61,14 +58,12 @@ export default class PackItem extends Vue {
     return !isShareMode
   }
 
-
   // public async mounted() {
   // this.checkId();
   // // const rmrkService = getInstance();
   // if (!rmrkService || !this.id) {
   //   return;
   // }
-
 
   // this.isLoading = true;
 

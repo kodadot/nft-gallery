@@ -4,16 +4,14 @@
       v-model="vFile"
       label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
       expanded
-      preview
-    />
+      preview />
 
     <BasicInput
       v-model="vName"
       :label="$t('mint.nft.name.label')"
       :message="$t('mint.nft.name.message')"
       :placeholder="$t('mint.nft.name.placeholder')"
-      expanded
-    />
+      expanded />
 
     <BasicInput
       v-model="vDescription"
@@ -23,8 +21,7 @@
       class="mb-0"
       :label="$t('mint.nft.description.label')"
       :message="$t('mint.nft.description.message')"
-      :placeholder="$t('mint.nft.description.placeholder')"
-    />
+      :placeholder="$t('mint.nft.description.placeholder')" />
 
     <b-field :label="$i18n.t('Edition')" class="mt-5">
       <b-numberinput
@@ -32,8 +29,7 @@
         placeholder="1 is minumum"
         expanded
         :min="1"
-        :max="clickableMax"
-      ></b-numberinput>
+        :max="clickableMax"></b-numberinput>
     </b-field>
 
     <MetadataUpload
@@ -43,19 +39,14 @@
       icon="file-image"
       preview
       accept="image/png, image/jpeg, image/gif"
-      expanded
-    />
+      expanded />
     <AttributeTagInput
       v-model="vTags"
-      placeholder="Get discovered easier through tags"
-    />
+      placeholder="Get discovered easier through tags" />
 
     <BasicSwitch v-model="vNsfw" label="mint.nfsw" />
 
-    <BalanceInput
-      label="Price"
-      @input="updateMeta"
-    />
+    <BalanceInput label="Price" @input="updateMeta" />
     <b-message
       v-if="hasPrice"
       icon="exclamation-triangle"
@@ -63,16 +54,15 @@
       title="Additional transaction"
       type="is-primary"
       has-icon
-      aria-close-label="Close message"
-    >
-      <span
-        class="has-text-primary"
-      >Setting the price now requires making an additional transaction.</span>
+      aria-close-label="Close message">
+      <span class="has-text-primary"
+        >Setting the price now requires making an additional transaction.</span
+      >
     </b-message>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, PropSync } from 'nuxt-property-decorator'
 import { Attribute } from '../service/scheme'
 import { resolveMedia } from '../utils'
@@ -85,7 +75,7 @@ import { MediaType } from '../types'
     MetadataUpload: () => import('./DropUpload.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  }
+  },
 })
 export default class CreateItem extends Vue {
   @PropSync('name', { type: String }) vName!: string
@@ -96,7 +86,6 @@ export default class CreateItem extends Vue {
   @PropSync('tags', { type: Array }) vTags!: Attribute[]
   @PropSync('file', { type: Blob }) vFile!: Blob | null
   @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
-
 
   @Prop(Number) public max!: number
   @Prop(Number) public alreadyMinted!: number
@@ -112,7 +101,7 @@ export default class CreateItem extends Vue {
 
   get secondaryFileVisible() {
     const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some(t => t === fileType)
+    return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType)
   }
 
   get hasPrice() {
@@ -122,8 +111,6 @@ export default class CreateItem extends Vue {
   get clickableMax() {
     return (this.max || Infinity) - this.alreadyMinted
   }
-
-
 }
 </script>
 

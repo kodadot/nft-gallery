@@ -6,7 +6,7 @@
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
-            {{ $t("action.admin") }}
+            {{ $t('action.admin') }}
           </p>
           <b-field>
             <Auth />
@@ -17,13 +17,11 @@
               <b-select
                 placeholder="Select a collection"
                 v-model="selectedCollection"
-                expanded
-              >
+                expanded>
                 <option
                   v-for="option in collections"
                   :value="option"
-                  :key="option.id"
-                >
+                  :key="option.id">
                   {{ option.name }} {{ option.id }} ({{ option.available }})
                 </option>
               </b-select>
@@ -38,7 +36,11 @@
 
           <template v-if="selectedCollection">
             <ActionSelector v-model="action" />
-            <component class="mb-4" v-if="showMeta" :is="showMeta" @input="updateMeta" />
+            <component
+              class="mb-4"
+              v-if="showMeta"
+              :is="showMeta"
+              @input="updateMeta" />
 
             <BasicSwitch v-model="listed" label="action.omitListed" />
 
@@ -52,9 +54,8 @@
                 @click="sub"
                 :disabled="disabled"
                 :loading="isLoading"
-                outlined
-              >
-                {{ $t("action.click", [action]) }}
+                outlined>
+                {{ $t('action.click', [action]) }}
               </b-button>
             </b-field>
           </template>
@@ -67,10 +68,7 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import Connector from '@vue-polkadot/vue-api'
-import exec, {
-  execResultValue,
-  txCb,
-} from '@/utils/transactionExecutor'
+import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
@@ -83,17 +81,17 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import NFTUtils from '../../service/NftUtils'
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
 
-type EmptyPromise = Promise<void>;
+type EmptyPromise = Promise<void>
 
 type MintedCollection = {
-  id: string;
-  name: string;
-  available: number;
-  max: number;
-  metadata: string;
-  symbol: string;
-  nfts: { id: string, price: string }[];
-};
+  id: string
+  name: string
+  available: number
+  max: number
+  metadata: string
+  symbol: string
+  nfts: { id: string; price: string }[]
+}
 
 const needMeta: Record<string, string> = {
   SEND: 'SendHandler',
@@ -111,7 +109,7 @@ const components = {
 }
 
 @Component<AdminPanel>({
-  components
+  components,
 })
 export default class AdminPanel extends mixins(
   SubscribeMixin,
@@ -133,20 +131,20 @@ export default class AdminPanel extends mixins(
       query: collectionByAccountWithTokens,
       client: this.urlPrefix,
       variables: {
-        account: this.accountId
+        account: this.accountId,
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: 'network-only',
     })
 
     const {
-      data: { collectionEntities }
+      data: { collectionEntities },
     } = collections
 
     this.collections = collectionEntities.nodes
       ?.map((ce: any) => ({
         ...ce,
         available: ce.nfts?.totalCount,
-        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n)
+        nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n),
       }))
       .filter((ce: MintedCollection) => ce.available > 0)
   }
@@ -183,7 +181,6 @@ export default class AdminPanel extends mixins(
     this.metaFunction = value
   }
 
-
   protected async sub(): EmptyPromise {
     if (!this.selectedCollection) {
       throw ReferenceError('[MASS MINT] Unable to mint without collection')
@@ -202,11 +199,15 @@ export default class AdminPanel extends mixins(
 
       const cb = api.tx.utility.batchAll
 
-      const nfts = this.selectedCollection.nfts
-        .filter(this.skipListed)
-        // .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+      const nfts = this.selectedCollection.nfts.filter(this.skipListed)
+      // .map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
 
-      const final = this.showMeta && this.metaFunction ? this.metaFunction(nfts, this.version) : nfts.map(nft => NFTUtils.createInteraction(this.action, this.version, nft.id, ''))
+      const final =
+        this.showMeta && this.metaFunction
+          ? this.metaFunction(nfts, this.version)
+          : nfts.map((nft) =>
+              NFTUtils.createInteraction(this.action, this.version, nft.id, '')
+            )
 
       const args = final.map(this.toRemark)
 
@@ -216,7 +217,7 @@ export default class AdminPanel extends mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -228,12 +229,12 @@ export default class AdminPanel extends mixins(
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -262,4 +263,3 @@ export default class AdminPanel extends mixins(
   }
 }
 </script>
-

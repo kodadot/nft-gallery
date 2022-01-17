@@ -1,10 +1,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 /*
-* refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
-* import { Component, Mixins } from 'nuxt-property-decorator';
-* class ExtendedClass extends Mixins(ActualMixin) {
-*/
+ * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
+ * import { Component, Mixins } from 'nuxt-property-decorator';
+ * class ExtendedClass extends Mixins(ActualMixin) {
+ */
 @Component
 export default class ExtrinsicMixin extends Vue {
   private fnSection = ''
@@ -17,7 +17,7 @@ export default class ExtrinsicMixin extends Vue {
     return Object.keys(this.section).sort()
   }
 
-  protected setSection(section: any): void  {
+  protected setSection(section: any): void {
     this.section = section
   }
 
@@ -32,19 +32,19 @@ export default class ExtrinsicMixin extends Vue {
     return this.args
   }
 
-  protected handleSectionSelection(value: string): void  {
+  protected handleSectionSelection(value: string): void {
     this.fnSection = value
   }
 
-  protected handleMethodSelection(value: string): void  {
+  protected handleMethodSelection(value: string): void {
     this.fnMethod = value
   }
 
-  protected setArgs(args: any): void  {
+  protected setArgs(args: any): void {
     this.args = args
   }
 
-  protected handleSelectedArguments(value: any): void  {
+  protected handleSelectedArguments(value: any): void {
     this.selectedArguments = {
       ...this.selectedArguments,
       ...value,
@@ -72,9 +72,7 @@ export default class ExtrinsicMixin extends Vue {
     return this.args.map(this.argMapper)
   }
 
-  protected getFnMethodAndSection(): {fnMethod: string;
-fnSection: string;
-}  {
+  protected getFnMethodAndSection(): { fnMethod: string; fnSection: string } {
     const { fnMethod, fnSection } = this
     return { fnMethod, fnSection }
   }

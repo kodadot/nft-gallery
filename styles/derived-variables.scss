@@ -3,6 +3,7 @@
 $primary: #e6007e;
 // $primary: #ff149366;
 $primary-light: #d32e79;
+$primary-dark-transparent: rgba(90, 15, 60, 0.7);
 
 // $info: $cyan;
 $success: $green;
@@ -41,8 +42,6 @@ $dark: $black;
 // $light-invert: findColorInvert($light);
 // $dark-invert: findColorInvert($dark);
 
-
-
 // // General colors
 $scheme-main: $black;
 $scheme-main-bis: $black-bis;
@@ -50,7 +49,6 @@ $scheme-main-ter: $black-ter;
 $scheme-invert: $white;
 $scheme-invert-bis: $white-bis;
 $scheme-invert-ter: $white-ter;
-
 
 // $background: $white-ter;
 
@@ -111,7 +109,6 @@ $family-primary: $family-monospace;
 // $shades: mergeColorMaps(("black-bis": $black-bis, "black-ter": $black-ter, "grey-darker": $grey-darker, "grey-dark": $grey-dark, "grey": $grey, "grey-light": $grey-light, "grey-lighter": $grey-lighter, "white-ter": $white-ter, "white-bis": $white-bis), $custom-shades);
 
 // $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7;
-
 
 $text-strong: $scheme-invert;
 

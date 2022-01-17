@@ -2,13 +2,13 @@
   <Contact />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import Contact from '@/components/landing/Contact.vue'
 
 @Component({
   components: {
-    Contact
+    Contact,
   },
   head() {
     const title = 'KodaDot cares about environmental impact'
@@ -20,10 +20,9 @@ import Contact from '@/components/landing/Contact.vue'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
-  }
+  },
 })
-
 export default class ContactPage extends Vue {}
 </script>

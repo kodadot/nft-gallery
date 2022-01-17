@@ -3,12 +3,12 @@
     <Loader v-model="isLoading" :status="status" />
     <div class="box">
       <p class="title is-size-3">
-        {{ $t("context") }}
+        {{ $t('context') }}
       </p>
-      <p class="subtitle is-size-7">{{ $t("using") }} {{ version }}</p>
+      <p class="subtitle is-size-7">{{ $t('using') }} {{ version }}</p>
       <b-field>
         <div>
-          {{ $t("computed id") }}: <b>{{ rmrkId }}</b>
+          {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
         </div>
       </b-field>
       <b-field>
@@ -20,28 +20,28 @@
         label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
         expanded
         preview
-        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg"
-      />
+        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
       <BasicInput
         v-model="rmrkMint.name"
         :label="$t('mint.collection.name.label')"
         :message="$t('mint.collection.name.message')"
         :placeholder="$t('mint.collection.name.placeholder')"
         expanded
-        spellcheck="true"
-      />
+        spellcheck="true" />
 
       <b-field>
         <b-switch v-model="unlimited" :rounded="false">
-          {{ $t("mint.unlimited") }}
+          {{ $t('mint.unlimited') }}
         </b-switch>
       </b-field>
-      <b-field v-if="!unlimited" class="mt-1" :label="$i18n.t('Maximum NFTs in collection')">
+      <b-field
+        v-if="!unlimited"
+        class="mt-1"
+        :label="$i18n.t('Maximum NFTs in collection')">
         <b-numberinput
           v-model="rmrkMint.max"
           placeholder="1 is minumum"
-          :min="1"
-        ></b-numberinput>
+          :min="1"></b-numberinput>
       </b-field>
 
       <BasicInput
@@ -51,8 +51,7 @@
         :placeholder="$t('mint.collection.symbol.placeholder')"
         @keydown.native.space.prevent
         maxlength="10"
-        expanded
-      />
+        expanded />
       <BasicInput
         v-model="meta.description"
         maxlength="500"
@@ -61,8 +60,7 @@
         class="mb-0 mt-5"
         :label="$t('mint.collection.description.label')"
         :message="$t('mint.collection.description.message')"
-        :placeholder="$t('mint.collection.description.placeholder')"
-      />
+        :placeholder="$t('mint.collection.description.placeholder')" />
       <b-field>
         <PasswordInput v-model="password" :account="accountId" />
       </b-field>
@@ -73,9 +71,8 @@
           @click="submit"
           :disabled="disabled"
           :loading="isLoading"
-          outlined
-        >
-          {{ $t("create collection") }}
+          outlined>
+          {{ $t('create collection') }}
         </b-button>
       </b-field>
       <b-field>
@@ -85,8 +82,7 @@
               :label="$t('support.tooltip')"
               iconsize="is-small"
               buttonsize="is-small"
-              tooltipsize="is-medium"
-            />
+              tooltipsize="is-medium" />
           </template>
         </Support>
       </b-field>
@@ -94,7 +90,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import { emptyObject } from '@/utils/empty'
 
@@ -152,7 +148,13 @@ export default class CreateCollection extends mixins(
 
   get disabled(): boolean {
     const { name, symbol, max } = this.rmrkMint
-    return !(name && symbol && (this.unlimited || max) && this.accountId && this.image)
+    return !(
+      name &&
+      symbol &&
+      (this.unlimited || max) &&
+      this.accountId &&
+      this.image
+    )
   }
 
   public constructRmrkMint(metadata: string): Collection {
@@ -179,7 +181,7 @@ export default class CreateCollection extends mixins(
     this.meta = {
       ...this.meta,
       attributes: [],
-      external_url: 'https://nft.kodadot.xyz'
+      external_url: 'https://nft.kodadot.xyz',
     }
 
     // TODO: upload image to IPFS
@@ -229,7 +231,7 @@ export default class CreateCollection extends mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -241,12 +243,10 @@ export default class CreateCollection extends mixins(
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(
-                dispatchError.asModule
-              )
+              const decoded = api.registry.findMetaError(dispatchError.asModule)
               const { docs, name, section } = decoded
               showNotification(
                 `[ERR] ${section}.${name}: ${docs.join(' ')}`,
@@ -261,7 +261,7 @@ export default class CreateCollection extends mixins(
 
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e: any) {

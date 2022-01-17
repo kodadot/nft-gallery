@@ -1,9 +1,5 @@
 <template>
-  <b-switch
-    v-model="model"
-    :type="type"
-    :rounded="false"
-  >
+  <b-switch v-model="model" :type="type" :rounded="false">
     <div class="is-flex is-align-items-center">
       <span class="mr-2">
         {{ value ? `${activeMessage} ($ ${rounded})` : `${passiveMessage}` }}
@@ -13,10 +9,9 @@
   </b-switch>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { round } from '@/utils/support'
-
 
 @Component({})
 export default class Support extends Vue {
@@ -33,7 +28,6 @@ export default class Support extends Vue {
   get model() {
     return this.value
   }
-
 
   set model(value: boolean) {
     this.$emit('input', value)

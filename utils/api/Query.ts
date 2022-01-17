@@ -1,7 +1,4 @@
 import type { ApiPromise } from '@polkadot/api'
-import { AccountData } from '@polkadot/types/interfaces/balances'
-import { hexToBn } from '@polkadot/util'
-import { Codec } from '@polkadot/types/types'
 import BN from 'bn.js'
 
 class Query {
@@ -12,8 +9,7 @@ class Query {
 
   static async getTokenBalance(
     api: ApiPromise,
-    accountId: string,
-
+    accountId: string
   ): Promise<string> {
     const cb = api.query.system.account
     const arg = accountId
@@ -21,7 +17,6 @@ class Query {
     const accountData = (balance as any).data.free.toString()
     return accountData
   }
-
 }
 
 export default Query

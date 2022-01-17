@@ -1,12 +1,8 @@
 <template>
-  <object
-    class="iframe-model__wrapper"
-    :type="mimeType"
-    :data="src"
-  />
+  <object class="iframe-model__wrapper" :type="mimeType" :data="src" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 @Component({})
 export default class ImageMedia extends Vue {

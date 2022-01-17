@@ -1,19 +1,14 @@
 <template>
-  <div class="content">
+  <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort
-        class="control"
-        :value="sortBy"
-        @input="updateSortBy"
-      />
+      <Sort class="control" :value="sortBy" @input="updateSortBy" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
           type="search"
           v-model="searchQuery"
           icon="search"
-          expanded
-        >
+          expanded>
         </b-input>
       </b-field>
       <BasicSwitch
@@ -22,14 +17,13 @@
         :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
         size="is-medium"
         labelColor="is-success"
-        :message="$i18n.t('tooltip.buy')"
-      />
+        :message="$i18n.t('tooltip.buy')" />
       <slot />
     </b-field>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -146,5 +140,16 @@ export default class SearchBar extends Vue {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+</style>
+
+<style lang="scss">
+.field-group-container {
+  .is-grouped-multiline {
+    flex-wrap: initial !important;
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap !important;
+    }
+  }
 }
 </style>

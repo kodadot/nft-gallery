@@ -1,14 +1,14 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
 export const state = (): {
-  layoutClass: string;
-  advancedUI: boolean;
-  theatreView: string;
-  compactGalleryItem: boolean;
-  compactCollection: boolean;
-  hidePriceGallery: boolean;
-  galleryItemsPerPage: number;
-  collectionsPerPage: number;
+  layoutClass: string
+  advancedUI: boolean
+  theatreView: string
+  compactGalleryItem: boolean
+  compactCollection: boolean
+  showPriceGallery: boolean
+  galleryItemsPerPage: number
+  collectionsPerPage: number
   replaceBuyNowWithYolo: boolean
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
@@ -16,7 +16,7 @@ export const state = (): {
   theatreView: 'theatre',
   compactGalleryItem: true,
   compactCollection: false,
-  hidePriceGallery: false,
+  showPriceGallery: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
@@ -28,10 +28,11 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getLayoutClass: ({ layoutClass }) => layoutClass,
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
-  getHidePriceValue: ({ hidePriceGallery }) => hidePriceGallery,
+  getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
-  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) => replaceBuyNowWithYolo,
+  getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
+    replaceBuyNowWithYolo,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -40,12 +41,12 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_ADVANCED_UI(state: PreferencesState, data) {
     // if set to false reset state back to default
-    if(!data) {
+    if (!data) {
       state.layoutClass = 'is-half-desktop is-half-tablet'
       state.theatreView = 'theatre'
       state.compactGalleryItem = true
       state.compactCollection = false
-      state.hidePriceGallery = false
+      state.showPriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
     }
@@ -60,8 +61,8 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_COMPACT_COLLECTION(state: PreferencesState, data) {
     state.compactCollection = data
   },
-  SET_HIDE_PRICE(state: PreferencesState, data) {
-    state.hidePriceGallery = data
+  SET_SHOW_PRICE(state: PreferencesState, data) {
+    state.showPriceGallery = data
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
     state.replaceBuyNowWithYolo = data
@@ -90,8 +91,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   setCompactCollection({ commit }: { commit: Commit }, data) {
     commit('SET_COMPACT_COLLECTION', data)
   },
-  setHidePriceValue({ commit }: { commit: Commit }, data) {
-    commit('SET_HIDE_PRICE', data)
+  setShowPriceValue({ commit }: { commit: Commit }, data) {
+    commit('SET_SHOW_PRICE', data)
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)

@@ -3,19 +3,15 @@
     <b-select
       v-model="selectedAction"
       placeholder="Sort by"
-    >
-      <option
-        v-for="action in actions"
-        :key="action"
-        :value="action"
-      >
+      class="select-dropdown">
+      <option v-for="action in actions" :key="action" :value="action">
         {{ $t('sort.' + action) }}
       </option>
     </b-select>
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, VModel } from 'nuxt-property-decorator'
 
 @Component
@@ -31,9 +27,16 @@ export default class SearchSortDropdown extends Vue {
     'PRICE_ASC',
   ]
 
-
   get actions(): string[] {
     return this.sort
   }
 }
 </script>
+
+<style scoped lang="scss">
+.select-dropdown {
+  @media screen and (max-width: 1216px) and (min-width: 768px) {
+    width: 200px;
+  }
+}
+</style>

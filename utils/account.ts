@@ -1,7 +1,7 @@
 import { KeyringAccount } from '@/utils/types/types'
 import keyring from '@polkadot/ui-keyring'
 import { getAddress } from '@/utils/extension'
-import { decodeAddress, encodeAddress, } from '@polkadot/util-crypto'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import * as store from '~/store'
 import { Prefix } from '@polkadot/util-crypto/address/types'
 
@@ -23,11 +23,11 @@ const passwordRequired = async (account: KeyringAccount | string) => {
     return false
   }
 
-
   return isAccountLocked(address)
 }
 
-const accountToAddress = (account: KeyringAccount | string) => typeof account === 'string' ? account : account.address
+const accountToAddress = (account: KeyringAccount | string) =>
+  typeof account === 'string' ? account : account.address
 
 export const toDefaultAddress = (account: KeyringAccount | string) => {
   const address = accountToAddress(account)
@@ -38,7 +38,6 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
   const ss58Format = store.getters['chain/getChainProperties58Format']
 
   return encodeAddress(decodeAddress(address, <any>ss58Format))
-
 }
 
 export const pubKeyToAddress = (publicKey: string) => {
@@ -46,9 +45,14 @@ export const pubKeyToAddress = (publicKey: string) => {
   return encodeAddress(publicKey, <any>ss58Format)
 }
 
-export const formatAccount = (account: KeyringAccount | string, format?: Prefix) => {
+export const formatAccount = (
+  account: KeyringAccount | string,
+  format?: Prefix
+) => {
   const address = accountToAddress(account)
-  const ss58Format = format ? format : store.getters['chain/getChainProperties58Format']
+  const ss58Format = format
+    ? format
+    : store.getters['chain/getChainProperties58Format']
   return encodeAddress(decodeAddress(address), <any>ss58Format)
 }
 

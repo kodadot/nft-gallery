@@ -1,4 +1,3 @@
-
 <template>
   <component
     :is="resolveComponent"
@@ -6,14 +5,12 @@
     :src="src"
     :poster="poster"
     :description="description"
-    :availableAnimations="availableAnimations"
-  />
+    :availableAnimations="availableAnimations" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { resolveMedia } from '../utils'
-
 
 const VideoMedia = () => import('./VideoMedia.vue')
 const ImageMedia = () => import('./ImageMedia.vue')
@@ -33,8 +30,8 @@ const SUFFIX = 'Media'
     ModelMedia,
     IFrameMedia,
     ObjectMedia,
-    Media
-  }
+    Media,
+  },
 })
 export default class MediaResolver extends Vue {
   @Prop(String) public src!: string
@@ -71,6 +68,5 @@ export default class MediaResolver extends Vue {
   //   }
 
   // }
-
 }
 </script>

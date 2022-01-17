@@ -7,8 +7,7 @@
             :src="image"
             :alt="name"
             rounded
-            customClass="collection__image"
-          />
+            customClass="collection__image" />
         </div>
         <h1 class="title is-2">
           <template>
@@ -25,7 +24,7 @@
             {{ $t('creator') }}
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
-            <ProfileLink :address="issuer" inline showTwitter showDiscord/>
+            <ProfileLink :address="issuer" inline showTwitter showDiscord />
           </div>
         </div>
       </div>
@@ -39,8 +38,7 @@
           v-if="sharingVisible"
           class="mb-2"
           :label="name"
-          :iframe="iframeSettings"
-        >
+          :iframe="iframeSettings">
           <DonationButton :address="issuer" />
         </Sharing>
       </div>
@@ -52,14 +50,16 @@
           visible="collapse.collection.description.show"
           hidden="collapse.collection.description.hide"
           :open-on-default="!compactCollection"
-          isSelectable
-        >
+          isSelectable>
           <VueMarkdown :source="description" />
         </CollapseWrapper>
       </div>
     </div>
 
-    <b-tabs position="is-centered" v-model="activeTab" class="tabs-container-mobile">
+    <b-tabs
+      position="is-centered"
+      v-model="activeTab"
+      class="tabs-container-mobile">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery">
           <Layout class="mr-5" />
@@ -71,12 +71,14 @@
               preserveScroll
               :total="total"
               v-model="currentValue"
-              :per-page="first"
-            />
+              :per-page="first" />
           </b-field>
         </Search>
 
-        <GalleryCardList :items="collection.nfts" horizontalLayout />
+        <GalleryCardList
+          :items="collection.nfts"
+          :listed="!!(searchQuery && searchQuery.listed)"
+          horizontalLayout />
 
         <Pagination
           class="py-5"
@@ -84,8 +86,7 @@
           preserveScroll
           :total="total"
           v-model="currentValue"
-          :per-page="first"
-        />
+          :per-page="first" />
       </b-tab-item>
       <b-tab-item label="Activity" value="activity">
         <CollectionPriceChart :priceData="priceData" />
@@ -121,7 +122,6 @@ import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -136,11 +136,12 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollapseWrapper: () => import('@/components/shared/collapse/CollapseWrapper.vue'),
+  CollapseWrapper: () =>
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
 }
 @Component<CollectionItem>({
-  components
+  components,
 })
 export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   private id = ''
@@ -237,7 +238,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         }
         return {
           ...collectionEntity,
-          nfts: collectionEntity.nfts.nodes
+          nfts: collectionEntity.nfts.nodes,
         }
       },
       result: this.handleResult,
@@ -297,7 +298,12 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         ...meta,
         image: sanitizeIpfsUrl(meta.image || ''),
       }
-      this.$store.dispatch('history/setCurrentlyViewedCollection', { name: this.name, image: this.image, description: this.description, numberOfItems: this.collection?.nfts?.length || 0 })
+      this.$store.dispatch('history/setCurrentlyViewedCollection', {
+        name: this.name,
+        image: this.image,
+        description: this.description,
+        numberOfItems: this.collection?.nfts?.length || 0,
+      })
     }
   }
 
@@ -317,7 +323,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected onTabChange(val: string, oldVal: string): void {
     let queryTab = this.$route.query.tab
 
-    if (shouldUpdate(val, oldVal) && (queryTab !== val)) {
+    if (shouldUpdate(val, oldVal) && queryTab !== val) {
       this.$router.replace({
         path: String(this.$route.path),
         query: { tab: val },
@@ -341,7 +347,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 </script>
 
 <style lang="scss">
-
 .collection__image img {
   color: transparent;
 }

@@ -6,18 +6,18 @@
         <Auth />
       </b-field>
       <template v-if="accountId">
-        <b-field :label="$i18n.t('Collection')" :message="$t('Select collection where do you want mint your token')">
+        <b-field
+          :label="$i18n.t('Collection')"
+          :message="$t('Select collection where do you want mint your token')">
           <b-select
             placeholder="Select a collection"
             v-model="selectedCollection"
-            expanded
-          >
-            <option disabled selected value=""> -- </option>
+            expanded>
+            <option disabled selected value="">--</option>
             <option
               v-for="option in collections"
               :value="option"
-              :key="option.id"
-            >
+              :key="option.id">
               {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
                 option.max || Infinity
               }}
@@ -33,16 +33,17 @@
         v-if="selectedCollection"
         v-bind.sync="nft"
         :max="selectedCollection.max"
-        :alreadyMinted="selectedCollection.alreadyMinted"
-      />
+        :alreadyMinted="selectedCollection.alreadyMinted" />
       <b-field>
         <CollapseWrapper
           v-if="nft.edition > 1"
           visible="mint.expert.show"
           hidden="mint.expert.hide"
-          class="mt-3"
-        >
-          <BasicSwitch class="mt-3" v-model="postfix" label="mint.expert.postfix" />
+          class="mt-3">
+          <BasicSwitch
+            class="mt-3"
+            v-model="postfix"
+            label="mint.expert.postfix" />
         </CollapseWrapper>
       </b-field>
       <b-field>
@@ -55,9 +56,8 @@
           @click="submit"
           :disabled="disabled"
           :loading="isLoading"
-          outlined
-        >
-          {{ $t("mint.submit") }}
+          outlined>
+          {{ $t('mint.submit') }}
         </b-button>
       </b-field>
       <b-field>
@@ -67,13 +67,12 @@
           @click="estimateTx"
           :disabled="disabled"
           :loading="isLoading"
-          outlined
-        >
+          outlined>
           <template v-if="!estimated">
-            {{ $t("mint.estimate") }}
+            {{ $t('mint.estimate') }}
           </template>
           <template v-else>
-            {{ $t("mint.estimated") }}
+            {{ $t('mint.estimated') }}
             <Money :value="estimated" inline />
           </template>
         </b-button>
@@ -85,8 +84,7 @@
               :label="$t('support.tooltip')"
               iconsize="is-small"
               buttonsize="is-small"
-              tooltipsize="is-medium"
-            />
+              tooltipsize="is-medium" />
           </template>
         </Support>
       </b-field>
@@ -95,17 +93,19 @@
           v-model="hasCarbonOffset"
           :price="1"
           :activeMessage="$t('carbonOffset.carbonOffsetYes')"
-          :passiveMessage="$t('carbonOffset.carbonOffsetNo')"
-        >
+          :passiveMessage="$t('carbonOffset.carbonOffsetNo')">
           <template v-slot:tooltip>
             <Tooltip
               iconsize="is-small"
               buttonsize="is-small"
-              tooltipsize="is-large"
-            >
+              tooltipsize="is-large">
               <template v-slot:content>
                 {{ $t('carbonOffset.tooltip') }}
-                (<a class="has-text-black is-underlined" href='https://kodadot.xyz/carbonless'>https://kodadot.xyz/carbonless</a>)
+                (<a
+                  class="has-text-black is-underlined"
+                  href="https://kodadot.xyz/carbonless"
+                  >https://kodadot.xyz/carbonless</a
+                >)
               </template>
             </Tooltip>
           </template>
@@ -117,15 +117,14 @@
             :label="$t('arweave.tooltip')"
             iconsize="is-small"
             buttonsize="is-small"
-            tooltipsize="is-medium"
-          />
+            tooltipsize="is-medium" />
         </template>
       </ArweaveUploadSwitch>
     </div>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Watch, mixins } from 'nuxt-property-decorator'
 import CreateItem from './CreateItem.vue'
 import Tooltip from '@/components/shared/Tooltip.vue'
@@ -134,7 +133,7 @@ import Connector from '@vue-polkadot/vue-api'
 import exec, {
   execResultValue,
   txCb,
-  estimate
+  estimate,
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme'
@@ -151,7 +150,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import {
   nsfwAttribute,
   offsetAttribute,
-  secondaryFileVisible
+  secondaryFileVisible,
 } from './mintUtils'
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -159,17 +158,17 @@ import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 interface NFTAndMeta extends NFT {
-  meta: NFTMetadata;
+  meta: NFTMetadata
 }
 
 type MintedCollection = {
-  id: string;
-  name: string;
-  alreadyMinted: number;
-  max: number;
-  metadata: string;
-  symbol: string;
-};
+  id: string
+  name: string
+  alreadyMinted: number
+  max: number
+  metadata: string
+  symbol: string
+}
 
 @Component({
   components: {
@@ -184,13 +183,13 @@ type MintedCollection = {
     CollapseWrapper: () =>
       import('@/components/shared/collapse/CollapseWrapper.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  }
+  },
 })
 export default class CreateToken extends mixins(
   RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
-  PrefixMixin,
+  PrefixMixin
 ) {
   protected nft: MintNFT = {
     name: '',
@@ -200,7 +199,7 @@ export default class CreateToken extends mixins(
     nsfw: false,
     price: 0,
     file: undefined,
-    secondFile: undefined
+    secondFile: undefined,
   }
   protected collections: MintedCollection[] = []
   private selectedCollection: MintedCollection | null = null
@@ -230,19 +229,19 @@ export default class CreateToken extends mixins(
       query: collectionForMint,
       client: this.urlPrefix,
       variables: {
-        account: this.accountId
+        account: this.accountId,
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: 'network-only',
     })
 
     const {
-      data: { collectionEntities }
+      data: { collectionEntities },
     } = collections
 
     this.collections = collectionEntities.nodes
       ?.map((ce: any) => ({
         ...ce,
-        alreadyMinted: ce.nfts?.totalCount
+        alreadyMinted: ce.nfts?.totalCount,
       }))
       .filter(
         (ce: MintedCollection) => (ce.max || Infinity) - ce.alreadyMinted > 0
@@ -258,7 +257,7 @@ export default class CreateToken extends mixins(
   private calculatePrice() {
     this.filePrice = calculateCost(
       ([this.nft.file, this.nft.secondFile] as MaybeFile[]).filter(
-        a => typeof a !== 'undefined'
+        (a) => typeof a !== 'undefined'
       )
     )
   }
@@ -273,8 +272,8 @@ export default class CreateToken extends mixins(
       return [
         await supportTx([
           this.nft.file as MaybeFile,
-          this.nft.secondFile as MaybeFile
-        ])
+          this.nft.secondFile as MaybeFile,
+        ]),
       ]
     }
 
@@ -312,7 +311,9 @@ export default class CreateToken extends mixins(
         alreadyMinted,
         this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
       )
-      const mintString = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
+      const mintString = mint.map((nft) =>
+        NFTUtils.encodeNFT(nft, this.version)
+      )
 
       const isSingle =
         mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
@@ -321,10 +322,10 @@ export default class CreateToken extends mixins(
       const args = isSingle
         ? mintString[0]
         : [
-          ...mintString.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset())
-        ]
+            ...mintString.map(this.toRemark),
+            ...(await this.canSupport()),
+            ...(await this.canOffset()),
+          ]
 
       const tx = await exec(
         this.accountId,
@@ -332,7 +333,7 @@ export default class CreateToken extends mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -350,12 +351,12 @@ export default class CreateToken extends mixins(
               this.navigateToDetail(mint[0], blockNumber)
             }
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status, true)
+          (res) => this.resolveStatus(res.status, true)
         )
       )
     } catch (e) {
@@ -377,10 +378,10 @@ export default class CreateToken extends mixins(
       attributes: [
         ...(this.nft?.tags || []),
         ...nsfwAttribute(this.nft.nsfw),
-        ...offsetAttribute(this.hasCarbonOffset)
+        ...offsetAttribute(this.hasCarbonOffset),
       ],
       external_url: 'https://nft.kodadot.xyz',
-      type: this.nft.file.type
+      type: this.nft.file.type,
     }
 
     try {
@@ -425,14 +426,14 @@ export default class CreateToken extends mixins(
       showNotification(
         `[APP] Listing NFT to sale for ${formatBalance(price, {
           decimals: this.decimals,
-          withUnit: this.unit
+          withUnit: this.unit,
         })}`
       )
 
       const onlyNfts = remarks
 
-        .map(nft => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        .map(nft =>
+        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
+        .map((nft) =>
           NFTUtils.createInteraction('LIST', version, nft.id, String(price))
         )
 
@@ -450,7 +451,7 @@ export default class CreateToken extends mixins(
         cb,
         [args],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -460,7 +461,7 @@ export default class CreateToken extends mixins(
                 onlyNfts.length
               } NFTs with tag ${formatBalance(price, {
                 decimals: this.decimals,
-                withUnit: this.unit
+                withUnit: this.unit,
               })} in block ${blockNumber}`,
               notificationTypes.success
             )
@@ -468,12 +469,12 @@ export default class CreateToken extends mixins(
             this.isLoading = false
             this.navigateToDetail(remarks[0], originalBlockNumber)
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -495,7 +496,7 @@ export default class CreateToken extends mixins(
       this.alreadyMinted,
       this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
     )
-    const remarks = mint.map(nft => NFTUtils.encodeNFT(nft, this.version))
+    const remarks = mint.map((nft) => NFTUtils.encodeNFT(nft, this.version))
 
     const isSingle =
       remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
@@ -504,10 +505,10 @@ export default class CreateToken extends mixins(
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
       : [
-        ...remarks.map(this.toRemark),
-        ...(await this.canSupport()),
-        ...(await this.canOffset())
-      ]
+          ...remarks.map(this.toRemark),
+          ...(await this.canSupport()),
+          ...(await this.canOffset()),
+        ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
 
@@ -538,7 +539,7 @@ export default class CreateToken extends mixins(
     const go = () =>
       this.$router.push({
         path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
-        query: { message: 'congrats' }
+        query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
   }

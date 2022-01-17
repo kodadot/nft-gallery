@@ -1,39 +1,27 @@
 <template>
-  <b-field
-    :label="label"
-  >
-    <b-select
-      v-model="account"
-      placeholder="Select account"
-      expanded
-    >
-      <option
-        disabled
-        selected
-        value=""
-      >
-        --
-      </option>
+  <b-field :label="label">
+    <b-select v-model="account" placeholder="Select account" expanded>
+      <option disabled selected value="">--</option>
       <option
         v-for="option in options"
         :key="option.address"
-        :value="option.address"
-      >
-        <b v-if="option.meta.name">{{ option.meta.name }} :</b> {{ option.address | shortAddress(10, -10) }}
+        :value="option.address">
+        <b v-if="option.meta.name">{{ option.meta.name }} :</b>
+        {{ option.address | shortAddress(10, -10) }}
       </option>
     </b-select>
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring'
 import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({
   components: {
-    Tooltip
-  }
+    Tooltip,
+  },
 })
 export default class AccountSelect extends mixins(WithKeyring) {
   private tooltip = 'Owner\'s address of minted art'
@@ -41,7 +29,6 @@ export default class AccountSelect extends mixins(WithKeyring) {
   @Prop() public asKeyring!: boolean
   @Prop({ default: 'Account' }) public label!: boolean
   @Prop({ default: true }) tooltipVisible!: boolean
-
 
   get options() {
     return this.allAcctounts()
@@ -58,8 +45,6 @@ export default class AccountSelect extends mixins(WithKeyring) {
     } else {
       this.$emit('input', accountValue)
     }
-
   }
-
 }
 </script>

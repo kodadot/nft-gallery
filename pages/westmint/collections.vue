@@ -2,13 +2,13 @@
   <Collections />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import Collections from '@/components/rmrk/Gallery/Collections.vue'
 
 @Component({
   components: {
-    Collections
+    Collections,
   },
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -21,11 +21,9 @@ import Collections from '@/components/rmrk/Gallery/Collections.vue'
     }
     return {
       title,
-      meta: [...this.$seoMeta(metaData)]
+      meta: [...this.$seoMeta(metaData)],
     }
-  }
+  },
 })
-
-export default class CollectionsPage extends Vue {
-}
+export default class CollectionsPage extends Vue {}
 </script>

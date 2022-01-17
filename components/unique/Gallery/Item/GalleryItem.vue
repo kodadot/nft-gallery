@@ -19,8 +19,7 @@
           <button
             id="theatre-view"
             @click="toggleView"
-            v-if="!isLoading && imageVisible"
-          >
+            v-if="!isLoading && imageVisible">
             {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
             {{ $t('view') }}
           </button>
@@ -29,39 +28,33 @@
             :class="{
               'is-12 is-theatre': viewMode === 'theatre',
               'is-6 is-offset-3': viewMode === 'default',
-            }"
-          >
+            }">
             <div
               v-orientation="
                 viewMode === 'default' && !isFullScreenView && imageVisible
               "
               class="image-preview has-text-centered"
-              :class="{ fullscreen: isFullScreenView }"
-            >
+              :class="{ fullscreen: isFullScreenView }">
               <b-image
                 v-if="!isLoading && imageVisible && !meta.animation_url"
                 :src="meta.image || '/placeholder.svg'"
                 src-fallback="/placeholder.svg'"
                 alt="KodaDot NFT minted multimedia"
                 ratio="1by1"
-                @error="onImageError"
-              ></b-image>
+                @error="onImageError"></b-image>
               <img
                 class="fullscreen-image"
                 :src="meta.image || '/placeholder.svg'"
-                alt="KodaDot NFT minted multimedia"
-              />
+                alt="KodaDot NFT minted multimedia" />
               <b-skeleton
                 height="524px"
                 size="is-large"
-                :active="isLoading"
-              ></b-skeleton>
+                :active="isLoading"></b-skeleton>
               <MediaResolver
                 v-if="meta.animation_url"
                 :class="{ withPicture: imageVisible }"
                 :src="meta.animation_url"
-                :mimeType="mimeType"
-              />
+                :mimeType="mimeType" />
             </div>
           </div>
           <button
@@ -69,8 +62,7 @@
             @keyup.esc="minimize"
             @click="toggleFullScreen"
             v-if="!isLoading && imageVisible"
-            :class="{ fullscreen: isFullScreenView }"
-          >
+            :class="{ fullscreen: isFullScreenView }">
             <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
             </b-icon>
           </button>
@@ -85,8 +77,7 @@
             :accountId="accountId"
             :currentOwnerId="nft.currentOwner"
             :nftId="nft.id"
-            :burned="nft.burned"
-          />
+            :burned="nft.burned" />
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -96,13 +87,11 @@
             <VueMarkdown
               v-if="!isLoading"
               class="is-size-5"
-              :source="meta.description.replaceAll('\n', '  \n')"
-            />
+              :source="meta.description.replaceAll('\n', '  \n')" />
             <b-skeleton
               :count="3"
               size="is-large"
-              :active="isLoading"
-            ></b-skeleton>
+              :active="isLoading"></b-skeleton>
           </div>
 
           <div class="block" v-if="nft.attributes && nft.attributes.length">
@@ -110,13 +99,11 @@
           </div>
         </div>
 
-
         <div class="column is-6" v-if="detailVisible">
           <b-skeleton
             :count="2"
             size="is-large"
-            :active="isLoading"
-          ></b-skeleton>
+            :active="isLoading"></b-skeleton>
 
           <div class="columns">
             <div class="column">
@@ -125,13 +112,7 @@
               </div>
             </div>
             <div
-              class="
-                column
-                is-flex
-                is-flex-direction-column
-                is-justify-content-space-between
-              "
-            >
+              class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <template v-if="detailVisible && !nft.burned">
                 <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
                 <div class="card card-actions mb-4" aria-id="contentIdForA11y3">
@@ -148,8 +129,7 @@
                           v-if="nft.currentOwner === accountId"
                           type="is-warning"
                           outlined
-                          @click="handleUnlist"
-                        >
+                          @click="handleUnlist">
                           {{ $t('Unlist') }}
                         </b-button>
                       </div>
@@ -171,13 +151,18 @@
                               nft.animation_url,
                               nft.metadata,
                             ]"
-                            @change="handleAction"
-                          />
+                            @change="handleAction" />
                         </IndexerGuard>
                         <Auth />
                       </p>
                     </div>
-                    <DangerModal v-if="accountId === nft.currentOwner" title="Danger Zone" :accountId="accountId" :nftId="id" :collectionId="collectionId" :attributes="nft.attributes"  />
+                    <DangerModal
+                      v-if="accountId === nft.currentOwner"
+                      title="Danger Zone"
+                      :accountId="accountId"
+                      :nftId="id"
+                      :collectionId="collectionId"
+                      :attributes="nft.attributes" />
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -187,8 +172,7 @@
           <b-skeleton
             :count="2"
             size="is-large"
-            :active="isLoading"
-          ></b-skeleton>
+            :active="isLoading"></b-skeleton>
         </div>
       </div>
       <div class="columns">
@@ -211,7 +195,11 @@ import {
 import { emptyObject } from '@/utils/empty'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { ClassMetadata, InstanceDetails, InstanceMetadata } from '@polkadot/types/interfaces'
+import {
+  ClassMetadata,
+  InstanceDetails,
+  InstanceMetadata,
+} from '@polkadot/types/interfaces'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/unique/nftById.graphql'
@@ -241,7 +229,8 @@ import onApiConnect from '@/utils/api/general'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
-    DangerModal: () => import('@/components/unique/Gallery/Item/DangerModal.vue'),
+    DangerModal: () =>
+      import('@/components/unique/Gallery/Item/DangerModal.vue'),
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
   },
   directives: {
@@ -274,7 +263,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   public async created() {
     this.checkId()
     this.fetchCollection()
-    onApiConnect(api => {
+    onApiConnect((api) => {
       this.loadMagic()
       this.subscribe(
         api.query.uniques.asset,
@@ -403,9 +392,9 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       const meta = m
         ? m
         : await fetchNFTMetadata(
-          this.nft,
-          getSanitizer(this.nft.metadata, undefined, 'permafrost')
-        )
+            this.nft,
+            getSanitizer(this.nft.metadata, undefined, 'permafrost')
+          )
       console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
@@ -488,7 +477,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 hr.comment-divider {

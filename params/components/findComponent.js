@@ -31,8 +31,46 @@ import Vector from './Vector.vue'
 import Vote from './Vote.vue'
 import VoteThreshold from './VoteThreshold.vue'
 const components = [
-  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
-  { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  {
+    c: Account,
+    t: [
+      'AccountId',
+      'AccountIdOf',
+      'Address',
+      'AuthorityId',
+      'LookupSource',
+      'LookupTarget',
+      'SessionKey',
+      'ValidatorId',
+    ],
+  },
+  {
+    c: Amount,
+    t: [
+      'AccountIndex',
+      'AssetId',
+      'BlockNumber',
+      'Gas',
+      'Index',
+      'Nonce',
+      'ParaId',
+      'ProposalIndex',
+      'PropIndex',
+      'ReferendumIndex',
+      'i8',
+      'i16',
+      'i32',
+      'i64',
+      'i128',
+      'u8',
+      'u16',
+      'u32',
+      'u64',
+      'u128',
+      'u256',
+      'VoteIndex',
+    ],
+  },
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
@@ -62,32 +100,30 @@ const components = [
   })
   return componentList
 }, {})
-const getType = (({ displayName, info, sub, type }) => {
+const getType = ({ displayName, info, sub, type }) => {
   if (displayName) {
     return displayName
   }
   switch (info) {
-  case TypeDefInfo.Compact:
-    return sub.type
-  case TypeDefInfo.Option:
-    return 'Option'
-  case TypeDefInfo.Enum:
-    return 'Enum'
-  case TypeDefInfo.Struct:
-    return 'Struct'
-  case TypeDefInfo.Tuple:
-    if (components[type] === Account) {
+    case TypeDefInfo.Compact:
+      return sub.type
+    case TypeDefInfo.Option:
+      return 'Option'
+    case TypeDefInfo.Enum:
+      return 'Enum'
+    case TypeDefInfo.Struct:
+      return 'Struct'
+    case TypeDefInfo.Tuple:
+      if (components[type] === Account) {
+        return type
+      }
+      return 'Tuple'
+    case TypeDefInfo.Vec:
+      return ['Vec<KeyValue>'].includes(type) ? 'Vec<KeyValue>' : 'Vec'
+    default:
       return type
-    }
-    return 'Tuple'
-  case TypeDefInfo.Vec:
-    return ['Vec<KeyValue>'].includes(type)
-      ? 'Vec<KeyValue>'
-      : 'Vec'
-  default:
-    return type
   }
-})
+}
 export default function findComponent(def, overrides = {}) {
   console.log(def)
   const findOne = (componentType) => {
@@ -102,15 +138,12 @@ export default function findComponent(def, overrides = {}) {
       Component = findOne(getType(raw))
       if (Component) {
         return Component
-      }
-      else if (instance instanceof BN) {
+      } else if (instance instanceof BN) {
         return Amount
-      }
-      else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
         return findComponent(raw, overrides)
       }
-    }
-    catch (error) {
+    } catch (error) {
       // console.error(error.message);
     }
     console.warn(`Cannot find Component for ${type}, defaulting to Unknown`)

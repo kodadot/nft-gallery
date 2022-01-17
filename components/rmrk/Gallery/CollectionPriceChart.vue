@@ -11,8 +11,7 @@
         id="collectionPriceChart"
         @mousedown="onCanvasMouseDown"
         @mouseup="onCanvasMouseUp"
-        @mouseleave="onCanvasMouseLeave"
-      />
+        @mouseleave="onCanvasMouseLeave" />
     </div>
   </div>
 </template>
@@ -206,12 +205,12 @@ export default class PriceChart extends mixins(ChainMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "bulma/sass/utilities/mixins.sass";
+@import 'bulma/sass/utilities/mixins.sass';
 
 .chart-container {
   position: relative;
   height: 45vh;
-  width: 100%
+  width: 100%;
 }
 @media screen and (orientation: landscape) {
   .chart-container {

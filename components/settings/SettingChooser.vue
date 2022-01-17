@@ -1,25 +1,16 @@
 <template>
   <div class="setting-chooser-wrapper">
     <b-field :label="label">
-      <b-select
-        v-model="selected"
-        :placeholder="label"
-        expanded
-      >
+      <b-select v-model="selected" :placeholder="label" expanded>
         <option
           v-for="option in options"
           :key="option.value"
-          :value="option.value"
-        >
+          :value="option.value">
           {{ option.text }}
         </option>
       </b-select>
     </b-field>
-    <AddOption
-      v-if="hasAdd"
-      :label="label"
-      @add="handleAddedOption"
-    />
+    <AddOption v-if="hasAdd" :label="label" @add="handleAddedOption" />
   </div>
 </template>
 

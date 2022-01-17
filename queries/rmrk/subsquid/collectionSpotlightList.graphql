@@ -1,12 +1,12 @@
 query collectionSpotlightList {
-	collectionEntities: spotlightTable {
-		id
-		unique
-		sold
-		total
-		averagePrice: average
-		count: collections
-		uniqueCollectors
+  collectionEntities: spotlightTable {
+    id
+    unique
+    sold
+    total
+    averagePrice: average
+    count: collections
+    uniqueCollectors
     volume
-	}
+  }
 }

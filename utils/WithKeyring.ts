@@ -1,5 +1,5 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import keyring, { Keyring } from '@polkadot/ui-keyring'
+import keyring from '@polkadot/ui-keyring'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'
@@ -7,13 +7,10 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
 import { enableExtension } from '@/utils/extension'
 import correctFormat from '@/utils/ss58Format'
 
-import {
-  web3Accounts,
-  isWeb3Injected
-} from '@polkadot/extension-dapp'
+import { web3Accounts, isWeb3Injected } from '@polkadot/extension-dapp'
 import { getPrefixByStoreUrl } from '@/utils/chain'
 
-export type KeyringAccount = KeyringPair | InjectedAccountWithMeta;
+export type KeyringAccount = KeyringPair | InjectedAccountWithMeta
 
 @Component
 export default class WithKeyring extends Vue {
@@ -57,7 +54,12 @@ export default class WithKeyring extends Vue {
     const ss58Changed = typeof ss58 === 'number'
     const ss58Forever = ss58Changed ? ss58 : this.ss58Format
 
-    this.importedAccounts = await web3Accounts({ ss58Format: correctFormat(ss58Forever) >= 0 ? correctFormat(ss58Forever) : correctFormat(this.prefixByStore)  })
+    this.importedAccounts = await web3Accounts({
+      ss58Format:
+        correctFormat(ss58Forever) >= 0
+          ? correctFormat(ss58Forever)
+          : correctFormat(this.prefixByStore),
+    })
 
     // if ((!this.accountId || ss58Changed) && this.importedAccounts?.length && process.env.VUE_APP_KEYRING) {
     //   this.$store.dispatch('setAuth', { address: this.importedAccounts[0]?.address });
@@ -93,7 +95,7 @@ export default class WithKeyring extends Vue {
   }
 
   @Watch('ss58Format')
-  handleChange(val: string): void  {
+  handleChange(val: string): void {
     console.log('ss58Format', val)
     // https://github.com/polkadot-js/ui/pull/494
     keyring.setSS58Format(Number(val))

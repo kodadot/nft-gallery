@@ -15,7 +15,6 @@ export interface NFTWithCollectionMeta extends NFTFragment {
   collection: MetaFragment
 }
 
-
 export interface NFTEntity<T> {
   nFTEntity: T
 }

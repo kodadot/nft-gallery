@@ -5,17 +5,15 @@
         <b-button
           type="is-primary"
           :label="userFlag"
-          :icon-right="active ? 'caret-up' : 'caret-down'"
-        />
+          :icon-right="active ? 'caret-up' : 'caret-down'" />
       </template>
       <b-dropdown-item
         aria-role="listitem"
         v-for="lang in langsFlags"
         :key="lang.value"
         :value="userLang"
-        :class="{ 'is-active': userLang === lang.value}"
-        @click="setUserLang(lang.value)"
-      >
+        :class="{ 'is-active': userLang === lang.value }"
+        @click="setUserLang(lang.value)">
         {{ lang.flag }}
         {{ lang.label }}
       </b-dropdown-item>
@@ -23,12 +21,11 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class LocaleChanger extends Vue {
-
   get langsFlags(): string {
     return this.$store.getters['lang/getLangsFlags']
   }
@@ -43,14 +40,14 @@ export default class LocaleChanger extends Vue {
   }
 
   setUserLang(value: string) {
-    this.$store.dispatch('lang/setLanguage', { 'userLang': value})
+    this.$store.dispatch('lang/setLanguage', { userLang: value })
     this.$i18n.locale = value
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .language-switcher {
-    padding-left: 12px;
-  }
+.language-switcher {
+  padding-left: 12px;
+}
 </style>

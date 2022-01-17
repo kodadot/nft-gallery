@@ -1,9 +1,6 @@
 query nFTStatsByIssuer($account: String!) {
   nFTCreated: nFTEntities(
-    filter: {
-      issuer: { equalTo: $account }
-      burned: { distinctFrom: true }
-    }
+    filter: { issuer: { equalTo: $account }, burned: { distinctFrom: true } }
   ) {
     totalCount
   }

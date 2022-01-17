@@ -1,76 +1,44 @@
 <template>
   <div
     class="card nft-card"
-    :class="{ 'is-current-owner': accountIsCurrentOwner() }"
-  >
+    :class="{ 'is-current-owner': accountIsCurrentOwner() }">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
       :link="link"
       :param="id"
-      tag="a"
-    >
-      <div
-        v-if="image"
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      tag="a">
+      <div v-if="image" class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
           :src="image"
           :alt="title"
-          custom-class="gallery__image-wrapper"
-        />
-        <span
-          v-if="price > 0 && !hidePriceValue"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+          custom-class="gallery__image-wrapper" />
+        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
-      <div
-        v-else
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      <div v-else class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image
-          :src="placeholder"
-          alt="Simple image"
-          ratio="1by1"
-        />
+        <b-image :src="placeholder" alt="Simple image" ratio="1by1" />
 
-        <span
-          v-if="price > 0"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+        <span v-if="price > 0" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
       <div class="card-content">
         <span
           class="title mb-0 is-4 has-text-centered has-text-primary"
-          :title="name"
-        >
+          :title="name">
           <div class="has-text-overflow-ellipsis">
             {{ nftName }}
           </div>
@@ -80,8 +48,8 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { get, update } from 'idb-keyval'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { fetchNFTMetadata, getSanitizer } from '../utils'
@@ -96,17 +64,18 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string
-  @Prop({ default: 'rmrk/gallery' }) public link!: string
-  @Prop() public id!: string
-  @Prop() public name!: string
+  @Prop({ type: String, default: '/rmrk/gallery' }) public route!: string
+  @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string
+  @Prop(String) public id!: string
+  @Prop(String) public name!: string
   protected image = ''
   protected title = ''
-  @Prop() public emoteCount!: string | number
-  @Prop() public imageType!: string
-  @Prop() public price!: string
-  @Prop() public metadata!: string
-  @Prop() public currentOwner!: string
+  @Prop([String, Number]) public emoteCount!: string | number
+  @Prop(String) public imageType!: string
+  @Prop(String) public price!: string
+  @Prop(String) public metadata!: string
+  @Prop(String) public currentOwner!: string
+  @Prop(Boolean) public listed!: boolean
 
   private placeholder = '/placeholder.webp'
 
@@ -135,8 +104,8 @@ export default class GalleryCard extends mixins(AuthMixin) {
     }
   }
 
-  get hidePriceValue(): boolean {
-    return this.$store.getters['preferences/getHidePriceValue']
+  get showPriceValue(): boolean {
+    return this.listed || this.$store.getters['preferences/getShowPriceValue']
   }
 
   get nftName(): string {
