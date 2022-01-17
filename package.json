@@ -16,7 +16,7 @@
     "test": "jest --verbose ./tests"
   },
   "engines": {
-    "node": ">=16.13.0"
+    "node": ">=16"
   },
   "prettier": {
     "semi": false,
