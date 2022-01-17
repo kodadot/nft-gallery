@@ -1,6 +1,7 @@
 <template>
   <div class="is-flex is-justify-content-flex-end">
     <b-pagination
+      v-if="total > perPage"
       :total="total"
       :current.sync="current"
       :range-before="3"
