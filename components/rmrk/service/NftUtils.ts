@@ -106,7 +106,7 @@ class NFTUtils {
   ): {
     id: string
     _id: string
-    symbol: error
+    symbol: string
     issuer: string
     version: string
     name: string
