@@ -85,20 +85,13 @@ import { fastExtract } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { NFTEntitiesWithCount, NFTWithCollectionMeta, WithData } from 'components/unique/graphqlResponseTypes'
 import { DocumentNode } from 'graphql'
-import 'lazysizes'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { Metadata, NFTMetadata } from '../service/scheme'
+import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
-
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
-
-const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
 
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
@@ -116,16 +109,14 @@ const components = {
 })
 export default class Gallery extends mixins(PrefixMixin) {
   private nfts: NFTWithCollectionMeta[] = []
-  private meta: Metadata[] = []
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  private placeholder = '/Kodadot_logo.svg'
   private currentValue = 1
-  private total = 0
+  protected total = 0
   private loadingState = 0
 
   get first(): number {
