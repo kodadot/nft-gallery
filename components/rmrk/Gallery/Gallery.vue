@@ -174,7 +174,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
     processMetadata<NFTMetadata>(metadataList, (meta, i) => {
-      console.log('meta', meta, 'index', i)
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
