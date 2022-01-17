@@ -16,7 +16,7 @@ const api = Axios.create({
 })
 
 
-export const pinFile = async (file: Blob, keys: APIKeys): Promise<string> => {
+export const pinFileToIPFS = async (file: Blob, keys: APIKeys): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
 
