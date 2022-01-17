@@ -298,7 +298,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       query: collectionSeriesList,
       client: 'subsquid',
       variables: {
-        denyList,
+        // denyList, not yet
         limit,
         offset: 0,
         orderBy: sort.field,

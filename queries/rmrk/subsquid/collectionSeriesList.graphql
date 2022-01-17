@@ -1,11 +1,9 @@
 query collectionSeriesList(
-  $denyList: [String!]
   $limit: Float
   $orderBy: String
   $orderDirection: String
 ) {
   collectionEntities: seriesInsightTable(
-    filter: { issuer: { notIn: $denyList } }
     limit: $limit
     orderBy: $orderBy
     orderDirection: $orderDirection
