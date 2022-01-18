@@ -177,14 +177,13 @@ export default class SpotlightTable extends mixins(
     await this.fetchSpotlightData()
   }
 
-  public async fetchSpotlightData(limit = 10, sort = this.sortBy) {
+  public async fetchSpotlightData(sort = this.sortBy) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSpotlightList,
       client: 'subsquid',
       variables: {
         // denyList, not yet
-        limit,
         offset: '0',
         orderBy: sort.field,
         orderDirection: sort.value
@@ -228,7 +227,7 @@ export default class SpotlightTable extends mixins(
         },
       })
       .catch((e) => console.warn(e))
-    this.fetchSpotlightData(10, sort)
+    this.fetchSpotlightData(sort)
   }
 
   public async identityOf(account: Address) {
