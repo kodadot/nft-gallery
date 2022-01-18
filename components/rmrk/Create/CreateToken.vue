@@ -380,7 +380,7 @@ export default class CreateToken extends mixins(
         ...nsfwAttribute(this.nft.nsfw),
         ...offsetAttribute(this.hasCarbonOffset),
       ],
-      external_url: 'https://nft.kodadot.xyz',
+      external_url: 'https://kodadot.xyz',
       type: this.nft.file.type,
     }
 
