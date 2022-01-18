@@ -68,6 +68,7 @@ export default class HistoryBrowserItem extends Vue {
 @media screen and (min-width: 1024px) {
   .item {
     width: 400px;
+    transition: 0.6s;
   }
   .item button {
     display: none;
