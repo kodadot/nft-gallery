@@ -3,12 +3,15 @@
     <Loader :value="isLoading" />
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
-      hoverable
       :current-page="currentPage ? currentPage : 1"
+      :default-sort="[sortBy.field, sortBy.value]"
+      hoverable
       detailed
       paginated
       pagination-position="top"
-      show-detail-icon>
+      backend-sorting
+      show-detail-icon
+      @sort="onSort">
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
@@ -82,8 +85,7 @@
       <b-table-column
         field="averagePrice"
         :label="$t('spotlight.averagePrice')"
-        v-slot="props"
-        sortable>
+        v-slot="props">
         <template v-if="!isLoading"
           ><Money :value="props.row.averagePrice" inline
         /></template>
@@ -109,7 +111,6 @@
       <b-table-column
         field="rank"
         :label="$t('spotlight.score')"
-        sortable
         numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>
@@ -170,12 +171,24 @@ export default class SpotlightTable extends mixins(
   protected usersWithIdentity: Row[] = []
   protected toggleUsersWithIdentity = false
   protected currentPage = 0
+  protected sortBy = { field: 'sold', value: 'DESC' }
 
   async created() {
+    await this.fetchSpotlightData()
+  }
+
+  public async fetchSpotlightData(limit = 10, sort = this.sortBy) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSpotlightList,
       client: 'subsquid',
+      variables: {
+        // denyList, not yet
+        limit,
+        offset: '0',
+        orderBy: sort.field,
+        orderDirection: sort.value
+      },
     })
 
     const {
@@ -193,11 +206,6 @@ export default class SpotlightTable extends mixins(
           volume: BigInt(e.volume),
         })
       )
-      .sort((a, b) => b.rank - a.rank)
-
-    // this.data = spotlightAggQuery(
-    //   collectionEntities?.nodes?.map(nftFn)
-    // ) as Row[]
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
@@ -207,6 +215,20 @@ export default class SpotlightTable extends mixins(
     }
 
     this.isLoading = false
+  }
+
+  public onSort(field: string, order: string) {
+    let sort = { field: field, value: order === 'desc' ? 'DESC' : 'ASC' }
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: {
+          ...this.$route.query,
+          sort: (order === 'desc' ? '-' : '+') + field,
+        },
+      })
+      .catch((e) => console.warn(e))
+    this.fetchSpotlightData(10, sort)
   }
 
   public async identityOf(account: Address) {
