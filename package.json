@@ -18,8 +18,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.(js|ts|vue)": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=16"

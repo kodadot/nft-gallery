@@ -20,4 +20,4 @@ jobs:
         run: yarn
 
       - name: Run Code Lint
-        run: yarn lint:quiet --fix
+        run: yarn lint:fix
