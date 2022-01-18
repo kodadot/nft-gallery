@@ -6,11 +6,11 @@
 import Connector from '@vue-polkadot/vue-api'
 
 // defaults
-const emptyColor = '#99999'
+const emptyColor = "#99999";
 
 // based on chain name
 // alphabetical
-const chainBitCountry = '#191a2e'
+const chainBitCountry = "#191a2e"
 const chainCrab = '#7C30DD'
 const chainCrust = '#ff8812'
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)'

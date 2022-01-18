@@ -22,8 +22,8 @@
     }
   },
   "lint-staged": {
-    "*.(js|ts|vue)": [
-      "eslint --fix",
+    "*.ts": [
+      "yarn lint:fix",
       "git add"
     ]
   },
