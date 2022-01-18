@@ -324,10 +324,10 @@ export default class Transfer extends mixins(
     )
   }
 
-  protected getExplorerUrl(): void {
-    const url = this.getUrl()
-    window.open(url, '_blank')
-  }
+    protected getExplorerUrl(): void {
+        const url = this.getUrl();
+        window.open(url, '_blank');
+    }
 
   protected generatePaymentLink(): string {
     return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
