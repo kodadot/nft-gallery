@@ -19,10 +19,10 @@ type EstuaryApiResponse = {
 
 export const pinJson = async (object: Record<string, any>, name: string) => {
   try {
-    const { status, data } = await api.post(`pinJson/${name}`, object)
-    console.log('[PROXY] Pin JSON', status, data)
+    const { status, data } = await api.post<EstuaryApiResponse>(`pinJson/${name}`, object)
+    console.log('[PINNING] Pin JSON', status)
     if (status < 400) {
-      return data.IpfsHash
+      return data.cid
     }
   } catch (e) {
     console.warn(e)
@@ -34,7 +34,7 @@ export const pinJson = async (object: Record<string, any>, name: string) => {
 export const getKey = async (address: string): Promise<PinningKey> => {
   try {
     const { status, data } = await api.get<PinningKey>(`getKey/${address}`)
-    console.log('[PROXY] Obtain', status)
+    console.log('[PINNING] Obtain', status)
     return data
   } catch (e) {
     console.warn(e)
@@ -56,7 +56,7 @@ export const pinFileToIPFS = async (file: Blob, token: string): Promise<string> 
         'Authorization': `Bearer ${token}`
       },
     })
-    console.log('[ESTUARY] Pin Image', status, data)
+    console.log('[ESTUARY] Pin Image', status)
     if (status < 400) {
       return data.cid
     } else {
