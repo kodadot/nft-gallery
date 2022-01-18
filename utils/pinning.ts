@@ -23,6 +23,8 @@ export const pinJson = async (object: Record<string, any>, name: string) => {
     console.log('[PINNING] Pin JSON', status)
     if (status < 400) {
       return data.cid
+    } else {
+      throw new Error(`[PINNING] Unable to PIN JSON for reasons ${status} ${data}`)
     }
   } catch (e) {
     console.warn(e)
@@ -60,7 +62,7 @@ export const pinFileToIPFS = async (file: Blob, token: string): Promise<string> 
     if (status < 400) {
       return data.cid
     } else {
-      throw new Error('Unable to PIN for reasons')
+      throw new Error(`[PINNING] Unable to PIN Image for reasons ${status} ${data}`)
     }
   } catch (e) {
     console.warn(e)
