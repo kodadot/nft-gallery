@@ -326,7 +326,7 @@ export default class Transfer extends mixins(
 
     protected getExplorerUrl(): void {
         const url = this.getUrl()
-        window.open(url, "_blank");
+        window.open(url, '_blank')
     }
 
   protected generatePaymentLink(): string {
