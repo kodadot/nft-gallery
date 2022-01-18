@@ -13,7 +13,21 @@
     "generate": "nuxt generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
-    "test": "jest --verbose ./tests"
+    "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
+    "test": "jest --verbose ./tests",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,json,css,scss,md}": [
+      "prettier --write",
+      "yarn lint",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=16"
@@ -47,8 +61,8 @@
     "chartjs-adapter-luxon": "^1.1.0",
     "chartjs-plugin-annotation": "^1.2.1",
     "chartjs-plugin-zoom": "^1.1.1",
-    "css-loader": "4.3.0",
     "core-js": "^3.20.1",
+    "css-loader": "4.3.0",
     "date-fns": "^2.25.0",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
@@ -111,7 +125,9 @@
     "eslint": "^8.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.2.0",
+    "husky": "^7.0.0",
     "jest": "^27.4.7",
+    "lint-staged": "^12.1.7",
     "netlify-lambda": "^2.0.14",
     "prettier": "2.5.1",
     "sass": "^1.42.1",
