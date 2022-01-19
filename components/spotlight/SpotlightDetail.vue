@@ -9,9 +9,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
 
 const components = {
@@ -25,7 +24,7 @@ type NftSimpleView = {
 }
 
 @Component({ components })
-export default class SpotlightDetail extends mixins(PrefixMixin) {
+export default class SpotlightDetail extends Vue {
   @Prop(String) public account!: string
   protected nfts: NftSimpleView[] = []
   protected isLoading = true
@@ -33,7 +32,7 @@ export default class SpotlightDetail extends mixins(PrefixMixin) {
   protected async fetchNFT(account: string) {
     const nfts = await this.$apollo.query({
       query: nftSimpleListByAccount,
-      client: this.urlPrefix,
+      client: 'rmrk',
       variables: {
         account,
         first: 4,
