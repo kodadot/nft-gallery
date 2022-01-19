@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="title is-size-3">
-      {{ $t('context') }}
+      {{ $t(label) }}
     </p>
     <slot name="header"></slot>
     <b-field>
@@ -30,7 +30,7 @@
       maxlength="500"
       type="textarea"
       spellcheck="true"
-      class="mt-5"
+      :class="descriptionClass"
       :label="$t('mint.collection.description.label')"
       :message="$t('mint.collection.description.message')"
       :placeholder="$t('mint.collection.description.placeholder')" />
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, PropSync, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -50,9 +50,15 @@ const components = {
 
 @Component({ components })
 export default class BaseCollectionForm extends Vue {
+  @Prop({ type: String, default: 'context' }) label!: string
+  @Prop(Boolean) protectiveMargin!: boolean
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
   @PropSync('file', { type: Blob }) vFile!: Blob | null
+
+  get descriptionClass() {
+    return this.protectiveMargin ? 'mt-5' : ''
+  }
 }
 </script>
 
