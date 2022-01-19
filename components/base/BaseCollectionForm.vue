@@ -62,4 +62,3 @@ export default class BaseCollectionForm extends Vue {
 }
 </script>
 
-// v-bind.sync="nft"
