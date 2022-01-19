@@ -23,9 +23,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,vue,json,css,scss,md}": [
+    "*.{js,ts,vue,css,scss,md}": [
       "prettier --write",
-      "yarn lint",
+      "yarn lint:quiet",
       "git add"
     ]
   },
