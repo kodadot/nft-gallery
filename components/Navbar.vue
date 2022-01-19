@@ -20,9 +20,6 @@
           <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
             {{ $t('Simple') }}
           </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/permafrost/create">
-            {{ $t('Permafrost') }}
-          </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
