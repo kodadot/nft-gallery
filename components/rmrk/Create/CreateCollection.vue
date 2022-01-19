@@ -61,6 +61,7 @@ import {
   asSystemRemark,
   addressToHex,
 } from '@vue-polkadot/minimark'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 
 type BaseCollectionType = {
   name: string
@@ -127,16 +128,16 @@ export default class CreateCollection extends mixins(
 
   public async constructMeta() {
     const { file, name, description } = this.base
-    if (!file) {
-      throw new ReferenceError('No file found!')
-    }
 
     const pinningKey: PinningKey = await this.$store.dispatch(
       'pinning/fetchPinningKey',
       this.accountId
     )
 
-    const imageHash = await pinFileToIPFS(file, pinningKey.token)
+    const imageHash = !file
+      ? IPFS_KODADOT_IMAGE_PLACEHOLDER
+      : await pinFileToIPFS(file, pinningKey.token)
+    const type = !file ? 'image/png' : file.type
     const meta = createMetadata(
       name,
       description,
@@ -144,7 +145,7 @@ export default class CreateCollection extends mixins(
       undefined,
       [],
       undefined,
-      file.type
+      type
     )
     const metaHash = await pinJson(meta, imageHash)
 

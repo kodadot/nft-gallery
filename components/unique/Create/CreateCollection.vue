@@ -41,6 +41,7 @@ import { estimate, Extrinsic } from '@/utils/transactionExecutor'
 import { createMetadata } from '@vue-polkadot/minimark'
 import Connector from '@vue-polkadot/vue-api'
 import { Component, mixins } from 'nuxt-property-decorator'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getclassDeposit, getMetadataDeposit } from '../apiConstants'
@@ -102,16 +103,16 @@ export default class CreateCollection extends mixins(
 
   public async constructMeta() {
     const { file, name, description } = this.base
-    if (!file) {
-      throw new ReferenceError('No file found!')
-    }
 
     const pinningKey: PinningKey = await this.$store.dispatch(
       'pinning/fetchPinningKey',
       this.accountId
     )
 
-    const imageHash = await pinFileToIPFS(file, pinningKey.token)
+    const imageHash = !file
+      ? IPFS_KODADOT_IMAGE_PLACEHOLDER
+      : await pinFileToIPFS(file, pinningKey.token)
+    const type = !file ? 'image/png' : file.type
     const attributes = this.attributes.map((val) => ({
       ...val,
       display_type: null,
@@ -123,7 +124,7 @@ export default class CreateCollection extends mixins(
       undefined,
       attributes,
       undefined,
-      file.type
+      type
     )
     const metaHash = await pinJson(meta, imageHash)
 
