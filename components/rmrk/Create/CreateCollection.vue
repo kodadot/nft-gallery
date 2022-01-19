@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm v-bind.sync="base">
+    <BaseCollectionForm v-bind.sync="base" protectiveMargin>
       <template v-slot:header>
         <b-field>
           <div>
@@ -47,8 +47,6 @@ import Connector from '@vue-polkadot/vue-api'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { decodeAddress } from '@polkadot/keyring'
-import { u8aToHex } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
