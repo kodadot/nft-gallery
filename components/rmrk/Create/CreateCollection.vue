@@ -61,6 +61,7 @@ import {
   createMintInteaction,
   Interaction,
   asSystemRemark,
+  addressToHex,
 } from '@vue-polkadot/minimark'
 
 type BaseCollectionType = {
@@ -70,11 +71,6 @@ type BaseCollectionType = {
 }
 
 const components = {
-  Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('./DropUpload.vue'),
-  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
   BaseCollectionForm: () => import('@/components/base/BaseCollectionForm.vue'),
@@ -102,8 +98,8 @@ export default class CreateCollection extends mixins(
     return generateId(this.accountId, this.symbol)
   }
 
-  get accountIdToPubKey() {
-    return (this.accountId && u8aToHex(decodeAddress(this.accountId))) || ''
+  get accountIdToPubKey(): string {
+    return addressToHex(this.accountId)
   }
 
   get disabled(): boolean {
