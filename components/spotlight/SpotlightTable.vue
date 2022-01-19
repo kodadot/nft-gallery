@@ -46,7 +46,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+      <b-table-column field="unique" :label="$t('spotlight.unique')">
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" append-to-body dashed>
             {{ column.label }}
@@ -60,8 +60,7 @@
 
       <b-table-column
         field="uniqueCollectors"
-        :label="$t('spotlight.uniqueCollectors')"
-        sortable>
+        :label="$t('spotlight.uniqueCollectors')">
         <template v-slot:header="{ column }">
           <b-tooltip label="unique collectors" append-to-body dashed>
             {{ column.label }}
@@ -95,8 +94,7 @@
       <b-table-column
         field="count"
         :label="$t('spotlight.count')"
-        v-slot="props"
-        sortable>
+        v-slot="props">
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -108,10 +106,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
-        field="rank"
-        :label="$t('spotlight.score')"
-        numeric>
+      <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>
             {{ column.label }}
@@ -186,7 +181,7 @@ export default class SpotlightTable extends mixins(
         // denyList, not yet
         offset: '0',
         orderBy: sort.field,
-        orderDirection: sort.value
+        orderDirection: sort.value,
       },
     })
 
@@ -194,17 +189,16 @@ export default class SpotlightTable extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities
-      .map(
-        (e): Row => ({
-          ...e,
-          averagePrice: Number(e.averagePrice),
-          collectors: e.sold,
-          rank: e.sold * (e.unique / e.total || 1),
-          uniqueCollectors: e.uniqueCollectors,
-          volume: BigInt(e.volume),
-        })
-      )
+    this.data = collectionEntities.map(
+      (e): Row => ({
+        ...e,
+        averagePrice: Number(e.averagePrice),
+        collectors: e.sold,
+        rank: e.sold * (e.unique / e.total || 1),
+        uniqueCollectors: e.uniqueCollectors,
+        volume: BigInt(e.volume),
+      })
+    )
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
