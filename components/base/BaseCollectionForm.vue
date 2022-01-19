@@ -30,7 +30,6 @@
       maxlength="500"
       type="textarea"
       spellcheck="true"
-      :class="{'mt-5': protectiveMargin}"
       :label="$t('mint.collection.description.label')"
       :message="$t('mint.collection.description.message')"
       :placeholder="$t('mint.collection.description.placeholder')" />
@@ -55,10 +54,5 @@ export default class BaseCollectionForm extends Vue {
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
   @PropSync('file', { type: Blob }) vFile!: Blob | null
-
-  get descriptionClass() {
-    return this.protectiveMargin ? 'mt-5' : ''
-  }
 }
 </script>
-

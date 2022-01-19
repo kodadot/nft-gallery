@@ -25,6 +25,7 @@
           :label="$t('mint.collection.symbol.label')"
           :message="$t('mint.collection.symbol.message')"
           :placeholder="$t('mint.collection.symbol.placeholder')"
+          class="mb-5"
           @keydown.native.space.prevent
           maxlength="10"
           expanded />
