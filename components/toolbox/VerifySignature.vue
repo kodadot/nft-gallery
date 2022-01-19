@@ -39,7 +39,7 @@ import { KeyringPair } from '@polkadot/keyring/types'
 import { isHex, u8aToHex } from '@polkadot/util'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
-import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto'
+// import { signatureVerify } from '@polkadot/util-crypto'
 import { emptyObject } from '@/utils/empty'
 
 @Component({
@@ -65,42 +65,7 @@ export default class VerifySignature extends Vue {
 
   // yet we think this is sub-optimal, but it works!
   private complexVerifySignature(): void {
-    this.keyringPubKey = u8aToHex(this.accountFrom.publicKey)
-    this.isValidSignature =
-      isHex(this.signature) && this.signature.length === 130
-    this.validSignature = false
-    if (this.isValidSignature && this.keyringPubKey) {
-      let isValidSr = false
-      let isValidEd = false
-
-      try {
-        isValidEd = naclVerify(this.data, this.signature, this.keyringPubKey)
-        this.validSignature = true
-      } catch (error) {
-        console.log(error)
-      }
-
-      if (isValidEd) {
-        this.cryptoType = 'ed25519'
-      } else {
-        try {
-          isValidSr = schnorrkelVerify(
-            this.data,
-            this.signature,
-            this.keyringPubKey
-          )
-          this.validSignature = true
-        } catch (error) {
-          console.log(error)
-        }
-
-        if (isValidSr) {
-          this.cryptoType = 'sr25519'
-        } else {
-          this.validSignature = false
-        }
-      }
-    }
+    // TODO: signatureVerify
   }
 
   private handleAccountSelectionFrom(account: KeyringPair) {
