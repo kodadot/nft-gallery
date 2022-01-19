@@ -1,0 +1,1 @@
+import '@polkadot/api-augment'
