@@ -30,7 +30,7 @@
       maxlength="500"
       type="textarea"
       spellcheck="true"
-      class="mb-0 mt-5"
+      class="mt-5"
       :label="$t('mint.collection.description.label')"
       :message="$t('mint.collection.description.message')"
       :placeholder="$t('mint.collection.description.placeholder')" />
