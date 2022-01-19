@@ -3,7 +3,7 @@
     <div class="auth-avatar">
       <Avatar :value="account" :size="size" />
       <span class="subtitle has-text-weight-bold auth-avatar-title"
-        ><Identity :address="account" :inline="true"
+        ><Identity :address="account" :inline="true" hideIdentityPopover
       /></span>
     </div>
     <!-- <Money :value="balance" /> -->
