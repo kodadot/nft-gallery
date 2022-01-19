@@ -4055,6 +4055,13 @@
     "@typescript-eslint/types" "5.6.0"
     eslint-visitor-keys "^3.0.0"
 
+"@vue-polkadot/minimark@^0.0.1-rc.3":
+  version "0.0.1-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/minimark/-/minimark-0.0.1-rc.3.tgz#8063b9ef9facbc9f58ca4a6818d3cf8e8019b5e3"
+  integrity sha512-0bc+DpyOSHhIt17JN/3C/IM55ZgJIoT0wXqBVE12HcJZAuPEpd3MfpZBYq7trbO+U+7HbbSRpBQSjr00xrix2g==
+  dependencies:
+    slugify "^1.6.5"
+
 "@vue-polkadot/vue-api@0.0.46":
   version "0.0.46"
   resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.46.tgz#8c069c4d713aad5082fa64ab14e2807cc3bf50c3"
@@ -15564,6 +15571,11 @@ slugify@^1.5.3:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.2.tgz#4cb97220a2278e1b86fb017c6da668e6a865354c"
   integrity sha512-XMtI8qD84LwCpthLMBHlIhcrj10cgA+U/Ot8G6FD6uFuWZtMfKK75JO7l81nzpFJsPlsW6LT+VKqWQJW3+6New==
+
+slugify@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.5.tgz#c8f5c072bf2135b80703589b39a3d41451fbe8c8"
+  integrity sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==
 
 snake-case@^3.0.4:
   version "3.0.4"
