@@ -101,13 +101,13 @@ import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { Collection, CollectionMetadata } from '../service/scheme'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, pinFileDirect } from '@/utils/proxy'
 import { decodeAddress } from '@polkadot/keyring'
 import { u8aToHex } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost } from '@/utils/support'
 import NFTUtils from '../service/NftUtils'
 import TransactionMixin from '@/utils/mixins/txMixin'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -178,17 +178,19 @@ export default class CreateCollection extends mixins(
       throw new ReferenceError('No file found!')
     }
 
+    const pinningKey: PinningKey = await this.$store.dispatch('pinning/fetchPinningKey', this.accountId)
+
     this.meta = {
       ...this.meta,
       attributes: [],
-      external_url: 'https://nft.kodadot.xyz',
+      external_url: 'https://kodadot.xyz',
     }
 
     // TODO: upload image to IPFS
-    const imageHash = await pinFileDirect(this.image)
+    const imageHash = await pinFileToIPFS(this.image, pinningKey.token)
     this.meta.image = unSanitizeIpfsUrl(imageHash)
     // TODO: upload meta to IPFS
-    const metaHash = await pinJson(this.meta)
+    const metaHash = await pinJson(this.meta, imageHash)
 
     return unSanitizeIpfsUrl(metaHash)
   }

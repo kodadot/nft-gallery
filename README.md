@@ -64,13 +64,13 @@ Thank to [contributors-img](https://contrib.rocks).
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=resolved+issues&show_trend=true&token=MyayTJdwd-Fr4mnmUdMUxHik)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 
-### Amount Rewards inside
+### Amount of Rewards inside
 
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
 
 <!-- ### Is it maintained? -- I guess if its not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")

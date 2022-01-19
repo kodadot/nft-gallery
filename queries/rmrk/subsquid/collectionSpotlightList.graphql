@@ -1,5 +1,15 @@
-query collectionSpotlightList {
-  collectionEntities: spotlightTable {
+query collectionSpotlightList(
+  $limit: Float
+  $offset: String
+  $orderBy: String
+  $orderDirection: String
+) {
+  collectionEntities: spotlightTable(
+    limit: $limit
+    offset: $offset
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
     id
     unique
     sold
