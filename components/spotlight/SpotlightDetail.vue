@@ -33,7 +33,7 @@ export default class SpotlightDetail extends mixins(PrefixMixin) {
   protected async fetchNFT(account: string) {
     const nfts = await this.$apollo.query({
       query: nftSimpleListByAccount,
-      client: this.urlPrefix,
+      client: 'rmrk',
       variables: {
         account,
         first: 4,
