@@ -70,17 +70,6 @@
           {{ $t('mint.submit') }}
         </b-button>
       </b-field>
-      <b-field>
-        <Support v-model="hasSupport" :price="filePrice" />
-      </b-field>
-      <b-field>
-        <Support
-          v-model="hasCarbonOffset"
-          :price="1"
-          activeMessage="I'm making carbonless NFT"
-          passiveMessage="I don't want to have carbonless NFT" />
-      </b-field>
-      <ArweaveUploadSwitch v-model="arweaveUpload" />
     </div>
   </div>
 </template>
@@ -187,11 +176,8 @@ export default class CreateToken extends mixins(
 
   private password = ''
   private alreadyMinted = 0
-  private hasSupport = true
   private estimated = ''
-  private hasCarbonOffset = true
   private filePrice = 0
-  protected arweaveUpload = false
   protected postfix = true
   protected deposit = '0'
   protected depositPerByte = BigInt(0)
@@ -275,6 +261,18 @@ export default class CreateToken extends mixins(
 
   get disabled() {
     return !(this.nft.name && this.nft.file && this.selectedCollection)
+  }
+
+  get hasSupport(): boolean {
+    return this.$store.state.preferences.hasSupport
+  }
+
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
+  }
+
+  get arweaveUpload(): boolean {
+    return this.$store.state.preferences.arweaveUpload
   }
 
   @Watch('nft.file')
