@@ -4,7 +4,7 @@
     "enabled": true
   },
   "prHourlyLimit": 4,
-  "commitBody": "[skip ci]",
+  "commitMessagePrefix" : "[skip ci]",
   "automerge": true,
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
