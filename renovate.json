@@ -1,0 +1,69 @@
+{
+  "timezone": "Europe/Berlin",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "prHourlyLimit": 1,
+  "automerge": true,
+  "automergeType": "pr-comment",
+  "automergeComment": "lgtm",
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchSourceUrlPrefixes": [
+        "https://github.com/DefinitelyTyped",
+        "https://github.com/vuejs",
+        "https://github.com/FortAwesome",
+        "https://github.com/babel"
+      ],
+      "groupName": "merge with hazmat suit types & vue & fonts & babel"
+      "prHeader": "merge with hazmat suit, may include new vuejs & types"
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchPackagePatterns": [
+        "^axios",
+        "^nuxt",
+        "^model-viewer",
+        "^vue",
+        "^eslint",
+        "^lint",
+        "^buefy",
+        "^graphql",
+        "^typescript",
+        "^chartjs",
+        "^ws"
+      ],
+      "groupName": "merge with hazmat suit bundle"
+      "prHeader": "merge with hazmat suit, may include new packages bumps"
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchSourceUrlPrefixes": [
+        "https://github.com/polkadot-js/",
+        "https://github.com/vue-polkadot/"
+      ],
+      "groupName": "merge with hazmat suit",
+      "enabled": false
+    }
+  ],
+  "extends": [
+    "config:base"
+  ]
+}
