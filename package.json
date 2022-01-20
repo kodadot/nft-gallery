@@ -128,7 +128,7 @@
     "husky": "^7.0.4",
     "jest": "^27.4.7",
     "lint-staged": "^12.1.7",
-    "netlify-lambda": "^2.0.14",
+    "netlify-lambda": "^2.0.15",
     "prettier": "2.5.1",
     "sass": "^1.42.1",
     "sass-loader": "^10.2",
