@@ -17,7 +17,11 @@
         "digest"
       ],
       "matchPackagePatterns": [
-        "^vue"
+        "^nuxt",
+        "^vue",
+        "^eslint",
+        "^buefy",
+        "^graphql"
       ],
       "groupName": "merge with hazmat suit"
     },
