@@ -17,8 +17,26 @@
             @typing="updateSuggestion"
             @select="updateSelected">
             <template slot-scope="props">
-              <div v-if="props.option.type === 'History'">
-                <div class="searchCache">{{ props.option.name }}</div>
+              <div v-if="props.option.type === 'Search'">
+                <div class="media">
+                  <div class="media-left">
+                    <b-icon icon="search" size="is-medium"/>
+                  </div>
+                  <div class="media-content">{{ props.option.name }}</div>
+                </div>
+              </div>
+
+              <div v-else-if="props.option.type === 'History'">
+                <div class="media">
+                  <div class="media-left">
+                    <b-icon icon="history" size="is-medium"/>
+                  </div>
+                  <div class="media-content">{{ props.option.name }}</div>
+                  <div class="media-right"
+                    @click.stop.prevent="removeSearchHistory(props.option.name)">
+                    <b-button type="is-text" icon-left="times-circle" />
+                  </div>
+                </div>
               </div>
 
               <div v-else>
@@ -152,9 +170,21 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   get searchSuggestion() {
-    return this.result.length !== 0
-      ? this.filterSearch().concat(this.result)
-      : this.filterSearch()
+    const nameInSearch: boolean = this.oldSearchResult(this.name)
+    if(this.result.length !== 0){
+      const suggestions = this.filterSearch().concat(this.result)
+      if(nameInSearch || !this.name)
+        return suggestions
+      else
+        return ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(suggestions)
+    }
+    else{
+      const suggestions = this.filterSearch()
+      if(nameInSearch || !this.name)
+        return suggestions
+      else
+        return ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(suggestions)
+    }
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -169,16 +199,20 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return v === 'true'
   }
 
+  //Invoked when "enter" key is pressed
   searchResult() {
-    if (this.highlightPos) {
+    //When an item from the autocomplete list is highlighted
+    if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
+      //Higlighted item is NFT or search result from cache
       if (this.highlightPos >= searchCache.length)
         this.updateSelected(this.result[this.highlightPos - searchCache.length])
       else this.updateSearch(searchCache[this.highlightPos].name)
     }
-
+    //Searching empty string
     if (!this.name) return
 
+    //Current search string is present in cache or not
     if (!this.oldSearchResult(this.name)) {
       const newResult = { type: 'History', name: this.name } as unknown as NFT
       this.searched.push(newResult)
@@ -202,6 +236,9 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   updateSelected(value: any) {
+    //To handle clearing event
+    if(!value) return
+
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else {
@@ -225,9 +262,11 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   async updateSuggestion(value: string) {
-    // shouldUpdate(value, this.searchQuery)
+    //To handle empty string
+    if(!value) return
+
     this.query.search = value
-    this.highlightPos = 0
+    this.highlightPos = -1
 
     try {
       const nft = this.$apollo.query({
@@ -331,6 +370,13 @@ export default class SearchBar extends mixins(PrefixMixin) {
     const res = this.searched.filter((r) => r.name === value)
     return res.length ? true : false
   }
+
+  private removeSearchHistory(value:string){
+
+    const temp = this.searched.filter((r) => r.name !== value)
+    this.searched = temp
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
 }
 </script>
 
@@ -344,13 +390,15 @@ export default class SearchBar extends mixins(PrefixMixin) {
   top: 0;
   left: 0;
 }
-
 .card {
   border: 2px solid $primary-light;
 }
-
-.searchCache {
-  color: $primary;
-  font-size: 15px;
+.is-text {
+  &:hover,
+  &:focus{
+    background-color: $primary !important;
+    transition: all 3s !important;
+  };
 }
+
 </style>
