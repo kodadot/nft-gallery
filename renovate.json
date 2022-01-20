@@ -16,16 +16,24 @@
         "pin",
         "digest"
       ],
-      "matchPackagePatterns": [
-        "^nuxt",
-        "^vue",
-        "^eslint",
-        "^buefy",
-        "^graphql"
-      ],
       "matchSourceUrlPrefixes": [
-        "https://github.com/nuxt-community/i18n-module",
         "https://github.com/DefinitelyTyped/DefinitelyTyped"
+      ],
+      "groupName": "merge with hazmat suit types"
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchPackageNames": [
+        "nuxt",
+        "vue",
+        "eslint",
+        "buefy",
+        "graphql"
       ],
       "groupName": "merge with hazmat suit"
     },
