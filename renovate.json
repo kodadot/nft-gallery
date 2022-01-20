@@ -7,7 +7,7 @@
   "prHourlyLimit": 1,
   "automerge": true,
   "automergeType": "pr-comment",
-  "automergeComment": "lgtm"
+  "automergeComment": "lgtm",
   "rangeStrategy": "bump",
   "packageRules": [
     {
