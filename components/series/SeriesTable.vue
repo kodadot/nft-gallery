@@ -189,12 +189,13 @@
       </b-table-column>
 
       <b-table-column
-        field="totalBuys"
+        field="buys"
         :label="$t('series.buys')"
         v-slot="props"
         numeric
-        cell-class="is-vcentered">
-        <template v-if="!isLoading">{{ props.row.totalBuys }}</template>
+        cell-class="is-vcentered"
+        sortable>
+        <template v-if="!isLoading">{{ props.row.buys }}</template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
@@ -302,7 +303,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         limit,
         offset: 0,
         orderBy: sort.field,
-        orderDirection: sort.value
+        orderDirection: sort.value,
       },
     })
 
@@ -310,26 +311,22 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities
-      .map(
-        (e): RowSeries => ({
-          ...e,
-          image: sanitizeIpfsUrl(e.image),
-          rank: e.sold * (e.unique / e.total || 1),
-        })
-      )
-
-    // this.data = seriesAggQuery(
-    //   limit,
-    //   sort,
-    //   collectionEntities?.nodes?.map(nftFn)
-    // ) as RowSeries[]
+    this.data = collectionEntities.map(
+      (e): RowSeries => ({
+        ...e,
+        image: sanitizeIpfsUrl(e.image),
+        rank: e.sold * (e.unique / e.total || 1),
+      })
+    )
 
     this.isLoading = false
   }
 
   public onSort(field: string, order: string) {
-    let sort: SortType = { field: field, value: order === 'desc' ? 'DESC' : 'ASC' }
+    let sort: SortType = {
+      field: field,
+      value: order === 'desc' ? 'DESC' : 'ASC',
+    }
     this.$router
       .replace({
         path: String(this.$route.path),

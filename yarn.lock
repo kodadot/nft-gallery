@@ -3216,13 +3216,6 @@
     "@types/node-fetch" "^2.5.12"
     node-fetch "^2.6.6"
 
-"@polkadot/x-global@7.8.2":
-  version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/x-global/-/x-global-7.8.2.tgz#bc15bfd46e78b8a97622e07824f1e75566f3cb3a"
-  integrity sha512-olULRitxWv1tsSDgLdiVBbyzaU+OJbw8aTdmUMj9ZiIJstBzbNT/vsTWkX6JuMSLb9hw6ElaDXJ7zaffHY5siw==
-  dependencies:
-    "@babel/runtime" "^7.16.0"
-
 "@polkadot/x-global@8.3.2", "@polkadot/x-global@^8.3.2":
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/@polkadot/x-global/-/x-global-8.3.2.tgz#5d8800512b503ec755da5afceeabed9ab0047710"

@@ -16,7 +16,7 @@ query collectionSeriesList(
     sold
     name
     total
-    totalBuys: buys
+    buys
     unique
     uniqueCollectors
     volume
