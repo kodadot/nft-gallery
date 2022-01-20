@@ -17,9 +17,10 @@
         "digest"
       ],
       "matchSourceUrlPrefixes": [
-        "https://github.com/DefinitelyTyped/DefinitelyTyped"
+        "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "https://github.com/vuejs/"
       ],
-      "groupName": "merge with hazmat suit types"
+      "groupName": "merge with hazmat suit types & vue"
     },
     {
       "matchUpdateTypes": [
@@ -35,7 +36,9 @@
         "^lint",
         "^buefy",
         "^graphql",
-        "^typescript"
+        "^typescript",
+        "^chartjs",
+        "^ws
       ],
       "groupName": "merge with hazmat suit"
     },
