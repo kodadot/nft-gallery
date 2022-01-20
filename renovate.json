@@ -18,9 +18,11 @@
       ],
       "matchSourceUrlPrefixes": [
         "https://github.com/DefinitelyTyped/DefinitelyTyped",
-        "https://github.com/vuejs/"
+        "https://github.com/vuejs/",
+        "https://togithub.com/FortAwesome/Font-Awesome",
+        "https://togithub.com/babel/babel"
       ],
-      "groupName": "merge with hazmat suit types & vue"
+      "groupName": "merge with hazmat suit types & vue & fonts & babel"
     },
     {
       "matchUpdateTypes": [
@@ -30,7 +32,9 @@
         "digest"
       ],
       "matchPackagePatterns": [
+        "^axios",
         "^nuxt",
+        "^model-viewer",
         "^vue",
         "^eslint",
         "^lint",
