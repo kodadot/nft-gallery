@@ -12,12 +12,19 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchPackagePatterns": ["^polkadot"],
+      "matchPackagePatterns": ["^vue"],
+      "groupName": "merge with hazmat suit",
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchSourceUrlPrefixes": ["https://github.com/polkadot-js/"]
       "groupName": "merge with hazmat suit",
       "enabled": false
-    }
+    },
   ],
   "extends": [
     "config:base"
   ]
 }
+
+
