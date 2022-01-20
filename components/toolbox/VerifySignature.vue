@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { KeyringPair } from '@polkadot/keyring/types'
-import { isHex, u8aToHex } from '@polkadot/util'
+import { isHex } from '@polkadot/util'
 import DisabledInput from '@/components/shared/DisabledInput.vue'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
 // import { signatureVerify } from '@polkadot/util-crypto'
