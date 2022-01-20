@@ -1,8 +1,8 @@
 {
-  "timezone": "Europe/Berlin"
+  "timezone": "Europe/Berlin",
   // "schedule": "before 5am every weekday",
   "lockFileMaintenance": {
-    "enabled": true,
+    "enabled": true
    // "schedule": "after 10pm every weekday"
   },
   "packageRules": [{
