@@ -32,7 +32,7 @@ export const getKey = async (address: string): Promise<DirectUploadResult> => {
 
 export const upload = async (file: File, url: string): Promise<void> => {
   const formData = new FormData()
-  formData.append('data', file)
+  formData.append('file', file)
   const { status } = await Axios.post(url, formData, {
     headers: {
       'Content-Type': 'multipart/form-data;',
