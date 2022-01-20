@@ -28,12 +28,13 @@
         "pin",
         "digest"
       ],
-      "matchPackageNames": [
-        "nuxt",
-        "vue",
-        "eslint",
-        "buefy",
-        "graphql"
+      "matchPackagePatterns": [
+        "^nuxt",
+        "^vue",
+        "^eslint",
+        "^buefy",
+        "^graphql",
+        "^typescript"
       ],
       "groupName": "merge with hazmat suit"
     },
