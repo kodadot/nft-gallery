@@ -300,6 +300,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
               ...this.result[i],
               ...meta,
               image: getSanitizer(meta.image || '')(meta.image || ''),
+              type: 'NFT',
             })
             update(this.result[i].metadata, () => meta)
           } catch (e) {
@@ -310,6 +311,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
             ...this.result[i],
             ...m,
             image: getSanitizer(m.image || '')(m.image || ''),
+            type: 'NFT',
           })
         }
       })
@@ -376,6 +378,11 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 }
 </script>
+<style>
+a.dropdown-item{
+  padding-right: 1px;
+}
+</style>
 
 <style scoped lang="scss">
 @import '@/styles/variables';
@@ -393,7 +400,9 @@ export default class SearchBar extends mixins(PrefixMixin) {
 .media {
   align-items: center;
 }
-
+.is-32x32{
+  font-size: 0;
+}
 .is-text {
   &:hover,
   &:focus {
