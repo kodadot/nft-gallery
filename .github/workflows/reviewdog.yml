@@ -1,7 +1,9 @@
 name: reviewdog
+
 on:
   pull_request:
     branches: [main]
+
 jobs:
   eslint:
     name: runner / eslint
@@ -13,6 +15,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "16"
+
+      - name: Install Dependencies
+        run: yarn
 
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.14.0
