@@ -23,6 +23,10 @@
         "^buefy",
         "^graphql"
       ],
+      "matchSourceUrlPrefixes": [
+        "https://github.com/nuxt-community/i18n-module",
+        "https://github.com/DefinitelyTyped/DefinitelyTyped"
+      ],
       "groupName": "merge with hazmat suit"
     },
     {
