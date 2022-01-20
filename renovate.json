@@ -8,7 +8,7 @@
     "automerge": true,
     "automergeType": "pr-comment",
     "automergeComment": "lgtm"
-  }]
+  }],
 
   "extends": [
     "config:base"
