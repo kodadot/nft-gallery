@@ -16,7 +16,7 @@ export const round = (num: number): number =>
 
 export const cost = async (fee: number = BASE_FEE): Promise<number> => {
   const ksmPrice = await getKSMUSD()
-  console.log('[SUPPORT] KODAT', fee / ksmPrice, 'USD')
+  console.log('[SUPPORT] 💋💋💋', fee / ksmPrice, 'KSM')
   const decimals: number =
     store.getters['chain/getChainPropertiesTokenDecimals'] || 12
   return Math.round((fee / ksmPrice) * 10 ** decimals)
