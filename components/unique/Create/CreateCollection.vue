@@ -42,10 +42,11 @@ import { createMetadata } from '@vue-polkadot/minimark'
 import Connector from '@vue-polkadot/vue-api'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
-import ChainMixin from '~/utils/mixins/chainMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { getclassDeposit, getMetadataDeposit } from '../apiConstants'
 import { getRandomValues, hasEnoughToken } from '../utils'
+import { uploadDirect } from '@/utils/directUpload'
 
 type BaseCollectionType = {
   name: string
@@ -207,6 +208,11 @@ export default class CreateCollection extends mixins(
         this.cretateArgs(randomId, metadata),
         ...(await canSupport(this.hasSupport)),
       ]
+
+      if (this.base.file) {
+        console.log('[UPLOADING FILE]')
+        uploadDirect(this.base.file, this.accountId).catch(console.warn)
+      }
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(
