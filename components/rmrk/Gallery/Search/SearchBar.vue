@@ -379,7 +379,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
 }
 </script>
 <style>
-a.dropdown-item{
+.autocomplete .dropdown-item {
   padding-right: 1px;
 }
 </style>
@@ -400,7 +400,7 @@ a.dropdown-item{
 .media {
   align-items: center;
 }
-.is-32x32{
+.is-32x32 {
   font-size: 0;
 }
 .is-text {
