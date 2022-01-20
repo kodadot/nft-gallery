@@ -49,7 +49,7 @@ export const uploadDirect = async (
     const token = await getKey(address)
     await upload(file, token.uploadURL)
   } catch (e) {
-    console.warn(e)
+    console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }
 }
 
