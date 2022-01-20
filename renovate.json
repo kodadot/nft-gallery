@@ -13,7 +13,7 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "matchPackagePatterns": ["^vue"],
-      "groupName": "merge with hazmat suit",
+      "groupName": "merge with hazmat suit"
     },
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
