@@ -17,10 +17,10 @@
         "digest"
       ],
       "matchSourceUrlPrefixes": [
-        "https://github.com/DefinitelyTyped/DefinitelyTyped",
-        "https://github.com/vuejs/",
-        "https://togithub.com/FortAwesome/Font-Awesome",
-        "https://togithub.com/babel/babel"
+        "https://github.com/DefinitelyTyped",
+        "https://github.com/vuejs",
+        "https://togithub.com/FortAwesome",
+        "https://togithub.com/babel"
       ],
       "groupName": "merge with hazmat suit types & vue & fonts & babel"
     },
