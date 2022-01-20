@@ -1,9 +1,7 @@
 {
   "timezone": "Europe/Berlin",
-  // "schedule": "before 5am every weekday",
   "lockFileMaintenance": {
     "enabled": true
-   // "schedule": "after 10pm every weekday"
   },
   "packageRules": [{
     "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
