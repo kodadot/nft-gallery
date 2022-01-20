@@ -8,7 +8,7 @@
         <br />
         <div class="pl-4 pr-4">
           <b-icon size="is-large" icon="lightbulb" class="funfact-icon" />
-          <div>{{ randomFunFactQuestion }}</div>
+          <div class="question">{{ randomFunFactQuestion }}</div>
         </div>
       </div>
       <figure>
@@ -86,7 +86,6 @@ export default class Loader extends Vue {
   background: #1a1a1ae0;
   margin: 0rem 1rem;
   width: 450px;
-  height: 400px;
   border: 2px solid $primary-light;
   box-shadow: 13px 14px $primary-dark-transparent;
 }
@@ -105,6 +104,9 @@ export default class Loader extends Vue {
 }
 .funfact-icon {
   color: $primary-light;
+}
+.question {
+  min-height: 70px;
 }
 .loading-text {
   position: relative;

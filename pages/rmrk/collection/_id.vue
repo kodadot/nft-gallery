@@ -14,7 +14,7 @@ import CollectionItem from '@/components/rmrk/Gallery/CollectionItem.vue'
   head() {
     const image = `https://og-image-green-seven.vercel.app/${encodeURIComponent(
       this.currentlyViewedCollection.name as string
-    )}.png?price=Items:${this.currentlyViewedCollection.numberOfItems}&image=${
+    )}.jpeg?price=Items:${this.currentlyViewedCollection.numberOfItems}&image=${
       this.currentlyViewedCollection.image as string
     }`
     const title = this.currentlyViewedCollection.name

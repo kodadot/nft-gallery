@@ -137,8 +137,7 @@ import exec, {
 } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme'
-import { pinJson, getKey, revokeKey } from '@/utils/proxy'
-import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl, ipfsToArweave, extractCid } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
@@ -154,8 +153,8 @@ import {
 } from './mintUtils'
 import { formatBalance } from '@polkadot/util'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata
@@ -380,13 +379,13 @@ export default class CreateToken extends mixins(
         ...nsfwAttribute(this.nft.nsfw),
         ...offsetAttribute(this.hasCarbonOffset),
       ],
-      external_url: 'https://nft.kodadot.xyz',
+      external_url: 'https://kodadot.xyz',
       type: this.nft.file.type,
     }
 
     try {
-      const keys: APIKeys = await getKey(this.accountId)
-      const fileHash = await pinFileToIPFS(this.nft.file, keys)
+      const { token }: PinningKey = await this.$store.dispatch('pinning/fetchPinningKey', this.accountId)
+      const fileHash = await pinFileToIPFS(this.nft.file, token)
 
       if (!secondaryFileVisible(this.nft.file)) {
         meta.image = unSanitizeIpfsUrl(fileHash)
@@ -394,15 +393,14 @@ export default class CreateToken extends mixins(
       } else {
         meta.animation_url = unSanitizeIpfsUrl(fileHash)
         if (this.nft.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, keys)
+          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, token)
           meta.image = unSanitizeIpfsUrl(coverImageHash)
         }
       }
 
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn)
-
       // TODO: upload meta to IPFS
-      const metaHash = await pinJson(meta)
+      const metaHash = await pinJson(meta, extractCid(meta.image))
+      // const metaHash = await pinJson(meta)
       return unSanitizeIpfsUrl(metaHash)
     } catch (e) {
       throw new ReferenceError((e as Error).message)

@@ -228,8 +228,7 @@ import {
   NFT,
   getNftId,
 } from '../service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, getKey, revokeKey } from '@/utils/proxy'
+import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { supportTx, calculateCost, offsetTx, feeTx } from '@/utils/support'
@@ -237,7 +236,6 @@ import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { ipfsToArweave } from '@/utils/ipfs'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/utils/pinata'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -248,6 +246,7 @@ import {
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -721,8 +720,11 @@ export default class SimpleMint extends mixins(
     }
 
     try {
-      const keys: APIKeys = await getKey(this.accountId)
-      const fileHash = await pinFileToIPFS(this.file, keys)
+      const { token }: PinningKey = await this.$store.dispatch(
+        'pinning/fetchPinningKey',
+        this.accountId
+      )
+      const fileHash = await pinFileToIPFS(this.file, token)
 
       if (!this.secondaryFileVisible) {
         this.meta.image = unSanitizeIpfsUrl(fileHash)
@@ -732,14 +734,13 @@ export default class SimpleMint extends mixins(
       } else {
         this.meta.animation_url = unSanitizeIpfsUrl(fileHash)
         if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, keys)
+          const coverImageHash = await pinFileToIPFS(this.secondFile, token)
           this.meta.image = unSanitizeIpfsUrl(coverImageHash)
         }
       }
 
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn)
       // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta)
+      const metaHash = await pinJson(this.meta, extractCid(this.meta.image))
       return unSanitizeIpfsUrl(metaHash)
     } catch (e) {
       if (e instanceof Error) {

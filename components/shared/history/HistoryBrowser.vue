@@ -2,9 +2,7 @@
   <div v-show="history && history.length" class="history-browser">
     <b-dropdown
       aria-role="list"
-      scrollable
-      position="is-bottom-left"
-      max-height="400px">
+      position="is-bottom-left">
       <template #trigger>
         <b-button type="is-primary" icon-left="history" />
       </template>
@@ -102,10 +100,16 @@ export default class HistoryBrowser extends Vue {
 }
 .wrapper {
   border: 2px solid $primary;
+  max-height: 400px;
+  overflow: auto;
 }
 .list-header {
   padding: 10px 0 0 12px;
   font-size: 1.2rem;
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  background: $black;
+  z-index: 1;
 }
 </style>
