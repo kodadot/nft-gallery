@@ -3,7 +3,6 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-
   "prHourlyLimit": 1,
   "automerge": true,
   "automergeType": "pr-comment",
@@ -11,20 +10,33 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchPackagePatterns": ["^vue"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchPackagePatterns": [
+        "^vue"
+      ],
       "groupName": "merge with hazmat suit"
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchSourceUrlPrefixes": ["https://github.com/polkadot-js/", "https://github.com/vue-polkadot/"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchSourceUrlPrefixes": [
+        "https://github.com/polkadot-js/",
+        "https://github.com/vue-polkadot/"
+      ],
       "groupName": "merge with hazmat suit",
       "enabled": false
-    },
+    }
   ],
   "extends": [
     "config:base"
   ]
 }
-
-
