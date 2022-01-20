@@ -3,7 +3,7 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "prHourlyLimit": 4,
+  "prHourlyLimit": 5,
   "commitMessagePrefix" : "[skip ci]",
   "automerge": true,
   "automergeType": "pr-comment",
