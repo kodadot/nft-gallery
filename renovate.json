@@ -3,15 +3,20 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "prHourlyLimit": 1,
-  "rangeStrategy": "bump",
-  "packageRules": [{
-    "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-    "automerge": true,
-    "automergeType": "pr-comment",
-    "automergeComment": "lgtm"
-  }],
 
+  "prHourlyLimit": 1,
+  "automerge": true,
+  "automergeType": "pr-comment",
+  "automergeComment": "lgtm"
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchPackagePatterns": ["^polkadot"],
+      "groupName": "merge with hazmat suit",
+      "enabled": false
+    }
+  ],
   "extends": [
     "config:base"
   ]
