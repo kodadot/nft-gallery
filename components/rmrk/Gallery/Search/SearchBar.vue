@@ -20,7 +20,7 @@
               <div v-if="props.option.type === 'Search'">
                 <div class="media">
                   <div class="media-left">
-                    <b-icon icon="search" size="is-medium"/>
+                    <b-icon icon="search" size="is-medium" />
                   </div>
                   <div class="media-content">{{ props.option.name }}</div>
                 </div>
@@ -29,11 +29,14 @@
               <div v-else-if="props.option.type === 'History'">
                 <div class="media">
                   <div class="media-left">
-                    <b-icon icon="history" size="is-medium"/>
+                    <b-icon icon="history" size="is-medium" />
                   </div>
                   <div class="media-content">{{ props.option.name }}</div>
-                  <div class="media-right"
-                    @click.stop.prevent="removeSearchHistory(props.option.name)">
+                  <div
+                    class="media-right"
+                    @click.stop.prevent="
+                      removeSearchHistory(props.option.name)
+                    ">
                     <b-button type="is-text" icon-left="times-circle" />
                   </div>
                 </div>
@@ -171,20 +174,15 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   get searchSuggestion() {
     const nameInSearch: boolean = this.oldSearchResult(this.name)
-    if(this.result.length !== 0){
-      const suggestions = this.filterSearch().concat(this.result)
-      if(nameInSearch || !this.name)
-        return suggestions
-      else
-        return ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(suggestions)
-    }
-    else{
-      const suggestions = this.filterSearch()
-      if(nameInSearch || !this.name)
-        return suggestions
-      else
-        return ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(suggestions)
-    }
+
+    const suggestions = this.result.length
+      ? this.filterSearch().concat(this.result)
+      : this.filterSearch()
+    return nameInSearch || !this.name
+      ? suggestions
+      : ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(
+          suggestions
+        )
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -237,7 +235,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   updateSelected(value: any) {
     //To handle clearing event
-    if(!value) return
+    if (!value) return
 
     if (value.type == 'History') {
       this.updateSearch(value.name)
@@ -263,7 +261,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   async updateSuggestion(value: string) {
     //To handle empty string
-    if(!value) return
+    if (!value) return
 
     this.query.search = value
     this.highlightPos = -1
@@ -371,8 +369,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return res.length ? true : false
   }
 
-  private removeSearchHistory(value:string){
-
+  private removeSearchHistory(value: string): void {
     const temp = this.searched.filter((r) => r.name !== value)
     this.searched = temp
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
@@ -393,12 +390,15 @@ export default class SearchBar extends mixins(PrefixMixin) {
 .card {
   border: 2px solid $primary-light;
 }
-.is-text {
-  &:hover,
-  &:focus{
-    background-color: $primary !important;
-    transition: all 3s !important;
-  };
+.media {
+  align-items: center;
 }
 
+.is-text {
+  &:hover,
+  &:focus {
+    background-color: $primary !important;
+    transition: all 3s !important;
+  }
+}
 </style>
