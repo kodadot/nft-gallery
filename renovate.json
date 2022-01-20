@@ -3,6 +3,8 @@
   "lockFileMaintenance": {
     "enabled": true
   },
+  "prHourlyLimit": 1,
+  "rangeStrategy": "bump",
   "packageRules": [{
     "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
     "automerge": true,
