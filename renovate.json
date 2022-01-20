@@ -38,7 +38,7 @@
         "^graphql",
         "^typescript",
         "^chartjs",
-        "^ws
+        "^ws"
       ],
       "groupName": "merge with hazmat suit"
     },
