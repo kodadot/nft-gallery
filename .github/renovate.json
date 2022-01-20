@@ -3,8 +3,8 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "prHourlyLimit": 5,
-  "commitMessagePrefix" : "[skip ci]",
+
+  "commitMessagePrefix" : "[skip netlify]",
   "automerge": true,
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
