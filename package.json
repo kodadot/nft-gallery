@@ -45,7 +45,7 @@
     "@google/model-viewer": "^1.9.2",
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
-    "@nuxtjs/i18n": "^7.0.3",
+    "@nuxtjs/i18n": "^7.2.0",
     "@polkadot/extension-dapp": "^0.42.6",
     "@polkadot/extension-inject": "^0.42.6",
     "@polkadot/ui-keyring": "^0.89.2",
