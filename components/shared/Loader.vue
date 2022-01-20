@@ -87,7 +87,7 @@ export default class Loader extends Vue {
   margin: 0rem 1rem;
   width: 450px;
   border: 2px solid $primary-light;
-  box-shadow: 13px 14px $primary-dark-transparent;
+  box-shadow: $dropdown-content-shadow;
 }
 .funfact-text {
   position: relative;
