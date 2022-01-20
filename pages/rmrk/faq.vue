@@ -49,7 +49,7 @@ export default class Faq extends Vue {
     i18n.locale = this.$i18n.locale
     let i: number
     const qa: any = []
-    for (i = 1; i < 26; i++) {
+    for (i = 1; i < 28; i++) {
       qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
     }
     this.faqQuestionsAnswers = qa
