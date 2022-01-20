@@ -22,7 +22,7 @@
         "https://github.com/FortAwesome",
         "https://github.com/babel"
       ],
-      "groupName": "merge with hazmat suit types & vue & fonts & babel"
+      "groupName": "merge with hazmat suit types & vue & fonts & babel",
       "prHeader": "merge with hazmat suit, may include new vuejs & types"
     },
     {
@@ -45,7 +45,7 @@
         "^chartjs",
         "^ws"
       ],
-      "groupName": "merge with hazmat suit bundle"
+      "groupName": "merge with hazmat suit bundle",
       "prHeader": "merge with hazmat suit, may include new packages bumps"
     },
     {
