@@ -36,7 +36,7 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
-import { calculateCost, supportTx } from '@/utils/support'
+import { canSupport } from '@/utils/support'
 import { estimate, Extrinsic } from '@/utils/transactionExecutor'
 import { createMetadata } from '@vue-polkadot/minimark'
 import Connector from '@vue-polkadot/vue-api'
@@ -97,10 +97,6 @@ export default class CreateCollection extends mixins(
     return !(name && accountId)
   }
 
-  get filePrice() {
-    return calculateCost(this.base.file)
-  }
-
   public async constructMeta() {
     const { file, name, description } = this.base
 
@@ -129,14 +125,6 @@ export default class CreateCollection extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     return unSanitizeIpfsUrl(metaHash)
-  }
-
-  protected async canSupport() {
-    if (this.hasSupport && this.base.file) {
-      return [await supportTx(this.base.file)]
-    }
-
-    return []
   }
 
   protected async generateNewCollectionId(): Promise<number> {
@@ -215,11 +203,10 @@ export default class CreateCollection extends mixins(
       const cb = api.tx.utility.batchAll
       const randomId = await this.generateNewCollectionId()
 
-      // TODO: enable can support
-      const args = [this.cretateArgs(randomId, metadata)]
-      // const args = !this.hasSupport
-      //   ? mintString
-      //   : [this.toRemark(mintString), ...(await this.canSupport())]
+      const args = [
+        this.cretateArgs(randomId, metadata),
+        ...(await canSupport(this.hasSupport)),
+      ]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(

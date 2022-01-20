@@ -141,7 +141,7 @@ import { unSanitizeIpfsUrl, ipfsToArweave, extractCid } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support'
+import { canSupport } from '@/utils/support'
 import collectionForMint from '@/queries/collectionForMint.graphql'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -251,40 +251,9 @@ export default class CreateToken extends mixins(
     return !(this.nft.name && this.nft.file && this.selectedCollection)
   }
 
-  @Watch('nft.file')
-  @Watch('nft.secondFile')
-  private calculatePrice() {
-    this.filePrice = calculateCost(
-      ([this.nft.file, this.nft.secondFile] as MaybeFile[]).filter(
-        (a) => typeof a !== 'undefined'
-      )
-    )
-  }
-
   private toRemark(remark: string) {
     const { api } = Connector.getInstance()
     return api.tx.system.remark(remark)
-  }
-
-  protected async canSupport() {
-    if (this.hasSupport) {
-      return [
-        await supportTx([
-          this.nft.file as MaybeFile,
-          this.nft.secondFile as MaybeFile,
-        ]),
-      ]
-    }
-
-    return []
-  }
-
-  protected async canOffset() {
-    if (this.hasCarbonOffset) {
-      return [await offsetTx(1)]
-    }
-
-    return []
   }
 
   protected async submit() {
@@ -320,11 +289,7 @@ export default class CreateToken extends mixins(
       const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
       const args = isSingle
         ? mintString[0]
-        : [
-            ...mintString.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset()),
-          ]
+        : [...mintString.map(this.toRemark), ...(await canSupport(true, 3))]
 
       const tx = await exec(
         this.accountId,
@@ -384,7 +349,10 @@ export default class CreateToken extends mixins(
     }
 
     try {
-      const { token }: PinningKey = await this.$store.dispatch('pinning/fetchPinningKey', this.accountId)
+      const { token }: PinningKey = await this.$store.dispatch(
+        'pinning/fetchPinningKey',
+        this.accountId
+      )
       const fileHash = await pinFileToIPFS(this.nft.file, token)
 
       if (!secondaryFileVisible(this.nft.file)) {
@@ -479,7 +447,6 @@ export default class CreateToken extends mixins(
 
   protected async estimateTx() {
     this.isLoading = true
-    const { accountId, version } = this
     const { api } = Connector.getInstance()
 
     const mint = NFTUtils.createMultipleNFT(
@@ -499,11 +466,7 @@ export default class CreateToken extends mixins(
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
-      : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset()),
-        ]
+      : [...remarks.map(this.toRemark), ...(await canSupport(true, 3))]
 
     this.estimated = await estimate(this.accountId, cb, [args])
 
