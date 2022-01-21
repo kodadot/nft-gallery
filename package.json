@@ -54,7 +54,7 @@
     "@vue-polkadot/minimark": "^0.0.1-rc.3",
     "@vue-polkadot/vue-api": "0.0.49-rc.0",
     "@vue-polkadot/vue-settings": "0.0.38-rc.10",
-    "ansi-regex": "^5.0.1",
+    "ansi-regex": "^6.0.1",
     "apollo-boost": "^0.4.9",
     "axios": "^0.25.0",
     "buefy": "^0.9.14",
