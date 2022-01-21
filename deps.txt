@@ -1,0 +1,7 @@
+ansi-regex
+core-js
+css-loader
+json-schema
+jsonpointer
+nth-check
+ws
