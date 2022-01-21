@@ -9,6 +9,7 @@
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
   "rangeStrategy": "bump",
+  "schedule": ["after 10pm and before 5am every weekday"
   "packageRules": [
     {
       "matchUpdateTypes": [
@@ -24,7 +25,9 @@
         "https://github.com/babel"
       ],
       "groupName": "merge with hazmat suit types & vue & fonts & babel",
-      "prHeader": "merge with hazmat suit, may include new vuejs & types"
+      "prHeader": "merge with hazmat suit, may include new vuejs & types",
+      "rangeStrategy": "bump",
+      "schedule": ["after 10pm and before 5am every weekday"
     },
     {
       "matchUpdateTypes": [
@@ -47,7 +50,9 @@
         "^ws"
       ],
       "groupName": "merge with hazmat suit bundle",
-      "prHeader": "merge with hazmat suit, may include new packages bumps"
+      "prHeader": "merge with hazmat suit, may include new packages bumps",
+      "rangeStrategy": "bump",
+      "schedule": ["after 10pm and before 5am every weekday"
     },
     {
       "matchUpdateTypes": [
