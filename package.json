@@ -63,7 +63,7 @@
     "chartjs-plugin-annotation": "^1.2.2",
     "chartjs-plugin-zoom": "^1.2.0",
     "core-js": "^3.20.3",
-    "css-loader": "4.3.0",
+    "css-loader": "6.5.1",
     "date-fns": "^2.28.0",
     "emoji-unicode": "^2.0.1",
     "file-saver": "^2.0.5",
