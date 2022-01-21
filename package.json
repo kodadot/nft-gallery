@@ -10,7 +10,7 @@
     "dev-experimental": "nuxt --hostname localhost --port 9090",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate --analyze",
+    "generate": "nuxt generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
