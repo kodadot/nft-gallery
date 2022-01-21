@@ -239,7 +239,7 @@ export default {
   apollo: {
     clientConfigs: {
       ...defineApolloConfig(),
-      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT),
+      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || ''),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
