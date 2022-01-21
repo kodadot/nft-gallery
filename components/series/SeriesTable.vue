@@ -178,10 +178,11 @@
 
       <b-table-column
         v-slot="props"
-        field="floorPrice"
+        field="floor_price"
         :label="$t('series.floorprice')"
         numeric
-        cell-class="is-vcentered">
+        cell-class="is-vcentered"
+        sortable>
         <template v-if="!isLoading">
           <Money :value="props.row.floorPrice" inline />
         </template>
