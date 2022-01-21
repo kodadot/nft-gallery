@@ -20,7 +20,7 @@ jobs:
         run: yarn
 
       - name: Run eslint with reviewdog
-        uses: reviewdog/action-eslint@v1.14.0
+        uses: reviewdog/action-eslint@v1.15.0
         with:
           level: error
           github_token: ${{ secrets.GITHUB_TOKEN }}
