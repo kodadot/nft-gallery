@@ -88,6 +88,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/polkadot', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
@@ -95,7 +96,7 @@ export default {
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
-    { src: '~/plugins/vuex-persist', ssr: false },
+    { src: '~/plugins/vuex-persist', mode: 'client' },
     '~/plugins/vueTippy',
     '~/plugins/vueGtag',
   ],
@@ -238,13 +239,17 @@ export default {
   apollo: {
     clientConfigs: {
       ...defineApolloConfig(),
-      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT),
+      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || 'https://app.gc.subsquid.io/beta/rubick/004/graphql'),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend: function (config, { isDev, isClient }) {
+    extend: function (config) {
+      config.module.rules.push({
+        test: /\.js$/,
+        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+      })
       config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
       config.node = {
         fs: 'empty',

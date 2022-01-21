@@ -139,9 +139,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
   }
 
   &__skeleton {
-    .ff-canvas {
-      border-radius: 8px;
-    }
     transition: all 0.3s;
 
     .card-image {
@@ -200,10 +197,6 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
     &:hover .card-image img {
       transform: scale(1.1) translateY(-5%);
-    }
-
-    &:hover .ff-canvas {
-      transform: scale(1.1) translateY(-50%);
     }
 
     &:hover .card-image__emotes {

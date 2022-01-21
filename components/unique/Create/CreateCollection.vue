@@ -1,135 +1,64 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <div class="box">
-      <p class="title is-size-3">
-        {{ $t('context') }}
-      </p>
-
-      <b-field>
-        <Auth />
-      </b-field>
-
-      <MetadataUpload
-        v-model="image"
-        label="Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
-        expanded
-        preview
-        accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
-      <BasicInput
-        v-model="rmrkMint.name"
-        :label="$t('mint.collection.name.label')"
-        :message="$t('mint.collection.name.message')"
-        :placeholder="$t('mint.collection.name.placeholder')"
-        expanded
-        spellcheck="true" />
-
-      <b-field>
-        <b-switch v-model="unlimited" :rounded="false">
-          {{ $t('mint.unlimited') }}
-        </b-switch>
-      </b-field>
-      <b-field
-        v-if="!unlimited"
-        class="mt-1"
-        :label="$i18n.t('Maximum NFTs in collection')">
-        <b-numberinput
-          v-model="rmrkMint.max"
-          placeholder="1 is minumum"
-          :min="1"></b-numberinput>
-      </b-field>
-
-      <BasicInput
-        v-model="rmrkMint.symbol"
-        :label="$t('mint.collection.symbol.label')"
-        :message="$t('mint.collection.symbol.message')"
-        :placeholder="$t('mint.collection.symbol.placeholder')"
-        @keydown.native.space.prevent
-        maxlength="10"
-        expanded />
-      <BasicInput
-        v-model="meta.description"
-        maxlength="500"
-        type="textarea"
-        spellcheck="true"
-        class="mb-0 mt-5"
-        :label="$t('mint.collection.description.label')"
-        :message="$t('mint.collection.description.message')"
-        :placeholder="$t('mint.collection.description.placeholder')" />
-      <CustomAttributeInput
-        :max="5"
-        v-model="attributes"
-        class="mb-3"
-        visible="collapse.collection.attributes.show"
-        hidden="collapse.collection.attributes.hide" />
-      <b-field>
-        <PasswordInput v-model="password" :account="accountId" />
-      </b-field>
-      <b-field>
-        <p class="has-text-weight-medium is-size-6 has-text-warning">
-          {{ $t('mint.deposit') }}: <Money :value="collectionDeposit" inline />
-        </p>
-      </b-field>
-      <b-field>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="submit"
+    <BaseCollectionForm v-bind.sync="base">
+      <template v-slot:footer>
+        <CustomAttributeInput
+          :max="5"
+          v-model="attributes"
+          class="mb-3"
+          visible="collapse.collection.attributes.show"
+          hidden="collapse.collection.attributes.hide" />
+        <b-field>
+          <p class="has-text-weight-medium is-size-6 has-text-warning">
+            {{ $t('mint.deposit') }}:
+            <Money :value="collectionDeposit" inline />
+          </p>
+        </b-field>
+        <SubmitButton
+          label="create collection"
           :disabled="disabled"
           :loading="isLoading"
-          outlined>
-          {{ $t('create collection') }}
-        </b-button>
-      </b-field>
-      <b-field>
-        <Support v-model="hasSupport" :price="filePrice" />
-      </b-field>
-    </div>
+          @click="submit" />
+      </template>
+    </BaseCollectionForm>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import { emptyObject } from '@/utils/empty'
-
-import Connector from '@vue-polkadot/vue-api'
-import exec, {
-  execResultValue,
-  txCb,
-  Extrinsic,
-  estimate,
-} from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import {
-  Collection,
-  CollectionMetadata,
-} from '@/components/rmrk/service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, pinFileDirect } from '@/utils/proxy'
-import { decodeAddress } from '@polkadot/keyring'
-import { u8aToHex } from '@polkadot/util'
-import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost } from '@/utils/support'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
 import { Attribute } from '@/components/rmrk/types'
-import { getRandomValues, hasEnoughToken } from '../utils'
+import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
+import onApiConnect from '@/utils/api/general'
 import Query from '@/utils/api/Query'
 import formatBalance from '@/utils/formatBalance'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import { calculateCost, supportTx } from '@/utils/support'
+import { estimate, Extrinsic } from '@/utils/transactionExecutor'
+import { createMetadata } from '@vue-polkadot/minimark'
+import Connector from '@vue-polkadot/vue-api'
+import { Component, mixins } from 'nuxt-property-decorator'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import ChainMixin from '~/utils/mixins/chainMixin'
-import onApiConnect from '@/utils/api/general'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getclassDeposit, getMetadataDeposit } from '../apiConstants'
+import { getRandomValues, hasEnoughToken } from '../utils'
+
+type BaseCollectionType = {
+  name: string
+  file: File | null
+  description: string
+}
 
 const components = {
-  Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('@/components/rmrk/Create/DropUpload.vue'),
-  PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
-  Tooltip: () => import('@/components/shared/Tooltip.vue'),
-  Support: () => import('@/components/shared/Support.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
+  BaseCollectionForm: () => import('@/components/base/BaseCollectionForm.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   CustomAttributeInput: () =>
     import('@/components/rmrk/Create/CustomAttributeInput.vue'),
@@ -137,19 +66,17 @@ const components = {
 
 @Component({ components })
 export default class CreateCollection extends mixins(
-  SubscribeMixin,
-  RmrkVersionMixin,
-  TransactionMixin,
-  ChainMixin
+  MetaTransactionMixin,
+  ChainMixin,
+  AuthMixin,
+  PrefixMixin
 ) {
-  private rmrkMint: Collection = emptyObject<Collection>()
-  private meta: CollectionMetadata = emptyObject<CollectionMetadata>()
-  // private accountId: string = '';
-  private uploadMode = true
-  private image: Blob | null = null
-  private password = ''
+  private base: BaseCollectionType = {
+    name: '',
+    file: null,
+    description: '',
+  }
   private hasSupport = true
-  protected unlimited = true
   protected collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
@@ -162,56 +89,51 @@ export default class CreateCollection extends mixins(
     })
   }
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
-  }
-
-  get rmrkId(): string {
-    return generateId(this.accountId, this.rmrkMint?.symbol || '')
-  }
-
-  get accountIdToPubKey() {
-    return (this.accountId && u8aToHex(decodeAddress(this.accountId))) || ''
-  }
-
   get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint
-    return !(
-      name &&
-      symbol &&
-      (this.unlimited || max) &&
-      this.accountId &&
-      this.image
-    )
+    const {
+      base: { name },
+      accountId,
+    } = this
+    return !(name && accountId)
   }
 
   get filePrice() {
-    return calculateCost(this.image)
+    return calculateCost(this.base.file)
   }
 
   public async constructMeta() {
-    if (!this.image) {
-      throw new ReferenceError('No file found!')
-    }
+    const { file, name, description } = this.base
 
-    this.meta = {
-      ...this.meta,
-      attributes: [],
-      external_url: 'https://nft.kodadot.xyz',
-    }
+    const pinningKey: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
 
-    // TODO: upload image to IPFS
-    const imageHash = await pinFileDirect(this.image)
-    this.meta.image = unSanitizeIpfsUrl(imageHash)
-    // TODO: upload meta to IPFS
-    const metaHash = await pinJson(this.meta)
+    const imageHash = !file
+      ? IPFS_KODADOT_IMAGE_PLACEHOLDER
+      : await pinFileToIPFS(file, pinningKey.token)
+    const type = !file ? 'image/png' : file.type
+    const attributes = this.attributes.map((val) => ({
+      ...val,
+      display_type: null,
+    }))
+    const meta = createMetadata(
+      name,
+      description,
+      imageHash,
+      undefined,
+      attributes,
+      undefined,
+      type
+    )
+    const metaHash = await pinJson(meta, imageHash)
 
     return unSanitizeIpfsUrl(metaHash)
   }
 
   protected async canSupport() {
-    if (this.hasSupport && this.image) {
-      return [await supportTx(this.image)]
+    if (this.hasSupport && this.base.file) {
+      return [await supportTx(this.base.file)]
     }
 
     return []
@@ -221,6 +143,7 @@ export default class CreateCollection extends mixins(
     const randomNumbers = getRandomValues(10).map(String)
     const cols = this.$apollo.query({
       query: existingCollectionList,
+      client: this.urlPrefix,
       variables: {
         ids: randomNumbers.map(String),
       },
@@ -264,7 +187,7 @@ export default class CreateCollection extends mixins(
     const deposit = this.collectionDeposit
     const hasTokens = hasEnoughToken(balance, estimated, deposit)
     console.log('hasTokens', hasTokens)
-    if (!hasEnoughToken(balance, estimated, deposit)) {
+    if (!hasTokens) {
       throw new Error(
         `Not enough tokens: Currently have ${formatBalance(
           balance,
@@ -281,7 +204,10 @@ export default class CreateCollection extends mixins(
 
     try {
       await this.checkBalanceBeforeTx()
-      showNotification(`Creating Collection: ${this.rmrkMint.name}`)
+      showNotification(
+        `Creating collection ${this.base.name}`,
+        notificationTypes.info
+      )
       this.status = 'loader.ipfs'
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
@@ -295,45 +221,12 @@ export default class CreateCollection extends mixins(
       //   ? mintString
       //   : [this.toRemark(mintString), ...(await this.canSupport())]
 
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        args,
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[Collection] Saved ${this.rmrkMint.name} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            if (dispatchError.isModule) {
-              const decoded = api.registry.findMetaError(dispatchError.asModule)
-              const { docs, name, section } = decoded
-              showNotification(
-                `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-                notificationTypes.danger
-              )
-            } else {
-              showNotification(
-                `[ERR] ${dispatchError.toString()}`,
-                notificationTypes.danger
-              )
-            }
-
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status)
+      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
+        showNotification(
+          `[Collection] Saved ${this.base.name} in block ${blockNumber}`,
+          notificationTypes.success
         )
-      )
+      })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e)

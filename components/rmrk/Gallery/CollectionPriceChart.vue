@@ -20,7 +20,7 @@
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import Chart from 'chart.js/auto'
-import 'chartjs-adapter-luxon'
+import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import ChainMixin from '@/utils/mixins/chainMixin'
