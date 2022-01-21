@@ -1,5 +1,7 @@
 name: Snyk Security Testing
+
 on: push
+
 jobs:
   security:
     runs-on: ubuntu-latest

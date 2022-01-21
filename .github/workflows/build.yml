@@ -1,4 +1,4 @@
-name: Build Files
+name: Lint, Build & Test workflow
 
 on:
   pull_request:
@@ -18,6 +18,9 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
+
+      - name: Run Code Lint
+        run: yarn lint:quiet
 
       - name: Run Build
         run: yarn build
