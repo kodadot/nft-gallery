@@ -12513,10 +12513,10 @@ mimic-response@^3.1.0:
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-3.1.0.tgz#2d1d59af9c1b129815accc2c46a022a5ce1fa3c9"
   integrity sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==
 
-mingo@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/mingo/-/mingo-4.4.1.tgz#76ce40f9b7a909d704320cdb0ad2444155a74c12"
-  integrity sha512-aig/3anjeJ8VcXLqDQmB/iO8Z8BVzln2BeWcyeI5NtOiLMAQ5xX00QHX9piy8OBAC9pSDYWErY8MHoh8nlCHig==
+mingo@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/mingo/-/mingo-5.0.0.tgz#c75bc2c77bcd5544de0e3fc51064c5ff0816aa4c"
+  integrity sha512-JTw+s3nO2nebKJRt5rkGs2MLzs+UIL7pqD2fZDHyXPo5IFOs0ANTd6Bqo48/s4lZzQvB554pJ8ti+PG56fK3dQ==
 
 mini-css-extract-plugin@^0.9.0:
   version "0.9.0"
