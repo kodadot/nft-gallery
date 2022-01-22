@@ -67,14 +67,16 @@
             </b-button>
           </div>
         </div>
-        <div class="column has-text-right has-text-left-mobile">
-          <iframe
-            src="https://discord.com/widget?id=840514076538830888&theme=dark"
-            width="350"
-            height="500"
-            allowtransparency="true"
-            frameborder="0"
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <div
+          class="column has-text-right has-text-left-mobile discord-container">
+          <a
+            href="https://discord.gg/35hzy2dXXh"
+            target="_blank"
+            rel="noopener noreferrer">
+            <img
+              src="https://badgen.net/discord/online-members/35hzy2dXXh"
+              alt="Discord" />
+          </a>
         </div>
       </div>
 
