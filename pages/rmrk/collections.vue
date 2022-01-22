@@ -67,7 +67,6 @@ import {
   sanitizeIpfsUrl,
 } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
-import Freezeframe from 'freezeframe'
 import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
@@ -249,24 +248,6 @@ export default class Collections extends mixins(PrefixMixin) {
     return this.collections as CollectionWithMeta[]
   }
 
-  setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async (e) => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
-
-      if (isGif && !target.ffInitialized) {
-        new Freezeframe(target, {
-          trigger: false,
-          overlay: true,
-          warnings: false,
-        })
-
-        target.ffInitialized = true
-      }
-    })
-  }
-
   onError(e: Event) {
     const target = e.target as Image
     target.src = this.placeholder
@@ -297,25 +278,6 @@ export default class Collections extends mixins(PrefixMixin) {
     width: 100%;
     height: auto;
     transform: scale(1);
-  }
-
-  .ff-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow: hidden;
-
-    .ff-overlay {
-      z-index: 2;
-    }
-
-    .ff-image,
-    .ff-canvas {
-      top: 50%;
-      height: auto;
-      transform: translateY(-50%);
-      transition: all 0.3s !important;
-    }
   }
 
   .has-text-overflow-ellipsis {
@@ -352,10 +314,6 @@ export default class Collections extends mixins(PrefixMixin) {
       border: 2px solid $primary-light;
 
       &-image {
-        .ff-canvas {
-          border-radius: 8px;
-        }
-
         &__emotes {
           position: absolute;
           background-color: $primary-light;
@@ -434,10 +392,6 @@ export default class Collections extends mixins(PrefixMixin) {
         &:hover .collection__image-wrapper img {
           transform: scale(1.1);
           transition: transform 0.3s linear;
-        }
-
-        &:hover .ff-canvas {
-          transform: scale(1.1);
         }
 
         &:hover .card-image__emotes {
