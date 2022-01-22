@@ -25,8 +25,7 @@
   "lint-staged": {
     "*.{js,ts,vue,css,scss,md}": [
       "prettier --write",
-      "yarn lint:quiet",
-      "git add"
+      "yarn lint:quiet"
     ]
   },
   "engines": {

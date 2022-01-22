@@ -188,7 +188,7 @@ import {
 import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost, offsetTx, feeTx } from '@/utils/support'
+import { canSupport, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -317,8 +317,7 @@ export default class SimpleMint extends mixins(
       ? remarks.map(this.toRemark)
       : [
           ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset()),
+          ...(await canSupport(this.hasSupport, 3)),
         ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
@@ -394,8 +393,7 @@ export default class SimpleMint extends mixins(
         ? remarks.map(this.toRemark)
         : [
             ...remarks.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset()),
+            ...(await canSupport(this.hasSupport, 3)),
           ]
 
       const tx = await exec(
@@ -664,10 +662,6 @@ export default class SimpleMint extends mixins(
     return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }]
   }
 
-  get filePrice() {
-    return calculateCost(this.file)
-  }
-
   public async constructMeta(): Promise<string | undefined> {
     if (!this.file) {
       throw new ReferenceError('No file found!')
@@ -712,22 +706,6 @@ export default class SimpleMint extends mixins(
         throw new ReferenceError(e.message)
       }
     }
-  }
-
-  protected async canSupport() {
-    if (this.hasSupport && this.file) {
-      return [await supportTx(this.file)]
-    }
-
-    return []
-  }
-
-  protected async canOffset() {
-    if (this.hasCarbonOffset) {
-      return [await offsetTx(1)]
-    }
-
-    return []
   }
 
   private toRemark(remark: string) {
