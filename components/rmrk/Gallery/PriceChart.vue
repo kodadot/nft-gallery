@@ -29,7 +29,7 @@
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 
 import Chart from 'chart.js/auto'
-import 'chartjs-adapter-luxon'
+import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'
