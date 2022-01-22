@@ -176,6 +176,6 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 }
 
 .ms-dos-shadow {
-  box-shadow: 13px 14px $primary-dark-transparent;
+  box-shadow: $dropdown-content-shadow;
 }
 </style>

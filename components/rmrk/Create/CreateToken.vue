@@ -77,49 +77,6 @@
           </template>
         </b-button>
       </b-field>
-      <b-field>
-        <Support v-model="hasSupport" :price="filePrice">
-          <template v-slot:tooltip>
-            <Tooltip
-              :label="$t('support.tooltip')"
-              iconsize="is-small"
-              buttonsize="is-small"
-              tooltipsize="is-medium" />
-          </template>
-        </Support>
-      </b-field>
-      <b-field>
-        <Support
-          v-model="hasCarbonOffset"
-          :price="1"
-          :activeMessage="$t('carbonOffset.carbonOffsetYes')"
-          :passiveMessage="$t('carbonOffset.carbonOffsetNo')">
-          <template v-slot:tooltip>
-            <Tooltip
-              iconsize="is-small"
-              buttonsize="is-small"
-              tooltipsize="is-large">
-              <template v-slot:content>
-                {{ $t('carbonOffset.tooltip') }}
-                (<a
-                  class="has-text-black is-underlined"
-                  href="https://kodadot.xyz/carbonless"
-                  >https://kodadot.xyz/carbonless</a
-                >)
-              </template>
-            </Tooltip>
-          </template>
-        </Support>
-      </b-field>
-      <ArweaveUploadSwitch v-model="arweaveUpload">
-        <template v-slot:tooltip>
-          <Tooltip
-            :label="$t('arweave.tooltip')"
-            iconsize="is-small"
-            buttonsize="is-small"
-            tooltipsize="is-medium" />
-        </template>
-      </ArweaveUploadSwitch>
     </div>
   </div>
 </template>
@@ -205,11 +162,8 @@ export default class CreateToken extends mixins(
 
   private password = ''
   private alreadyMinted = 0
-  private hasSupport = true
   private estimated = ''
-  private hasCarbonOffset = true
   private filePrice = 0
-  protected arweaveUpload = false
   protected postfix = true
 
   get accountId() {
@@ -249,6 +203,18 @@ export default class CreateToken extends mixins(
 
   get disabled() {
     return !(this.nft.name && this.nft.file && this.selectedCollection)
+  }
+
+  get hasSupport(): boolean {
+    return this.$store.state.preferences.hasSupport
+  }
+
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
+  }
+
+  get arweaveUpload(): boolean {
+    return this.$store.state.preferences.arweaveUpload
   }
 
   private toRemark(remark: string) {
