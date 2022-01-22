@@ -11,7 +11,7 @@ export type Column = {
 
 export type SortType = {
   field: string
-  value: -1 | 1
+  value: 'ASC' | 'DESC'
 }
 
 type VolumeType = number | bigint
@@ -23,7 +23,7 @@ export type RowSeries = {
   metadata: string
   sold: number
   total: number
-  totalBuys: number
+  buys: number
   volume: VolumeType
   dailyVolume: VolumeType
   weeklyVolume: VolumeType

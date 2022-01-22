@@ -59,8 +59,9 @@
       </b-table-column>
 
       <b-table-column
-        field="uniqueCollectors"
-        :label="$t('spotlight.uniqueCollectors')">
+        field="unique_collectors"
+        :label="$t('spotlight.uniqueCollectors')"
+        sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique collectors" append-to-body dashed>
             {{ column.label }}
@@ -82,9 +83,10 @@
       </b-table-column>
 
       <b-table-column
-        field="averagePrice"
+        field="average"
         :label="$t('spotlight.averagePrice')"
-        v-slot="props">
+        v-slot="props"
+        sortable>
         <template v-if="!isLoading"
           ><Money :value="props.row.averagePrice" inline
         /></template>

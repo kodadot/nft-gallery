@@ -70,17 +70,6 @@
           {{ $t('mint.submit') }}
         </b-button>
       </b-field>
-      <b-field>
-        <Support v-model="hasSupport" :price="filePrice" />
-      </b-field>
-      <b-field>
-        <Support
-          v-model="hasCarbonOffset"
-          :price="1"
-          activeMessage="I'm making carbonless NFT"
-          passiveMessage="I don't want to have carbonless NFT" />
-      </b-field>
-      <ArweaveUploadSwitch v-model="arweaveUpload" />
     </div>
   </div>
 </template>
@@ -108,7 +97,7 @@ import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
 import PasswordInput from '@/components/shared/PasswordInput.vue'
 import NFTUtils, { basicUpdateFunction } from '../NftUtils'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { supportTx, MaybeFile, calculateCost, offsetTx } from '@/utils/support'
+import { canSupport } from '@/utils/support'
 import collectionForMint from '@/queries/unique/collectionForMint.graphql'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -187,11 +176,8 @@ export default class CreateToken extends mixins(
 
   private password = ''
   private alreadyMinted = 0
-  private hasSupport = true
   private estimated = ''
-  private hasCarbonOffset = true
   private filePrice = 0
-  protected arweaveUpload = false
   protected postfix = true
   protected deposit = '0'
   protected depositPerByte = BigInt(0)
@@ -277,58 +263,16 @@ export default class CreateToken extends mixins(
     return !(this.nft.name && this.nft.file && this.selectedCollection)
   }
 
-  @Watch('nft.file')
-  @Watch('nft.secondFile')
-  private calculatePrice() {
-    this.filePrice = calculateCost(
-      ([this.nft.file, this.nft.secondFile] as MaybeFile[]).filter(
-        (a) => typeof a !== 'undefined'
-      )
-    )
+  get hasSupport(): boolean {
+    return this.$store.state.preferences.hasSupport
   }
 
-  private toRemark(remark: string) {
-    const { api } = Connector.getInstance()
-    return api.tx.system.remark(remark)
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
   }
 
-  protected async canSupport() {
-    if (this.hasSupport) {
-      return [
-        await supportTx([
-          this.nft.file as MaybeFile,
-          this.nft.secondFile as MaybeFile,
-        ]),
-      ]
-    }
-
-    return []
-  }
-
-  protected async canOffset() {
-    if (this.hasCarbonOffset) {
-      return [await offsetTx(1)]
-    }
-
-    return []
-  }
-
-  protected createApiCall() {
-    const { api } = Connector.getInstance()
-    if (this.nft.price || this.nft.edition > 1) {
-      return api.tx.utility.batchAll
-    }
-    return api.tx.nft.mint
-  }
-  protected createApiParams(metadata: string) {
-    const { api } = Connector.getInstance()
-    const { id, alreadyMinted } = this.selectedCollection!
-    const args = NFTUtils.createNFT(id, alreadyMinted, this.accountId)
-    if (!this.nft.price) {
-      return args
-    }
-    const calls = [api.tx.nft.mint(...args)]
-    return [calls]
+  get arweaveUpload(): boolean {
+    return this.$store.state.preferences.arweaveUpload
   }
 
   protected async submit(): Promise<void> {
@@ -356,8 +300,10 @@ export default class CreateToken extends mixins(
           String(a.value)
         )
       )
+
+      const support = await canSupport(this.hasSupport)
       //
-      const args = [[create, meta, ...attributes]]
+      const args = [[create, meta, ...attributes, ...support]]
 
       const tx = await exec(
         this.accountId,

@@ -49,10 +49,11 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost } from '@/utils/support'
+import { canSupport } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
-import AuthMixin from '~/utils/mixins/authMixin'
+import { uploadDirect } from '@/utils/directUpload'
+import AuthMixin from '@/utils/mixins/authMixin'
 import {
   createMetadata,
   createCollection,
@@ -123,10 +124,6 @@ export default class CreateCollection extends mixins(
     return createCollection(this.accountId, symbol, name, metadata, count)
   }
 
-  get filePrice() {
-    return calculateCost(this.base.file)
-  }
-
   public async constructMeta() {
     const { file, name, description } = this.base
 
@@ -153,14 +150,6 @@ export default class CreateCollection extends mixins(
     return unSanitizeIpfsUrl(metaHash)
   }
 
-  protected async canSupport() {
-    if (this.hasSupport && this.base.file) {
-      return [await supportTx(this.base.file)]
-    }
-
-    return []
-  }
-
   protected async submit() {
     this.isLoading = true
     this.status = 'loader.ipfs'
@@ -185,7 +174,15 @@ export default class CreateCollection extends mixins(
         : api.tx.utility.batchAll
       const args = !this.hasSupport
         ? mintInteraction
-        : [asSystemRemark(api, mintInteraction), ...(await this.canSupport())]
+        : [
+            asSystemRemark(api, mintInteraction),
+            ...(await canSupport(this.hasSupport)),
+          ]
+
+      if (this.base.file) {
+        console.log('[UPLOADING FILE]')
+        uploadDirect(this.base.file, this.accountId).catch(console.warn)
+      }
 
       await this.howAboutToExecute(
         this.accountId,
