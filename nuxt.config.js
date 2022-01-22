@@ -171,6 +171,7 @@ export default {
     ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
+    '@nuxt/content',
   ],
 
   pwa: {

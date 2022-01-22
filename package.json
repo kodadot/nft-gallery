@@ -44,6 +44,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "@google/model-viewer": "^1.9.2",
     "@keeex/qrcodejs-kx": "^1.0.2",
+    "@nuxt/content": "^1.15.1",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.0.3",
     "@polkadot/extension-dapp": "^0.40.3",

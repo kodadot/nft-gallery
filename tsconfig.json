@@ -23,7 +23,8 @@
       "@nuxt/types",
       "@types/node",
       "vue-apollo",
-      "@types/jest"
+      "@types/jest",
+      "@nuxt/content"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist"]
