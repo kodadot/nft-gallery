@@ -37,7 +37,7 @@
                     @click.stop.prevent="
                       removeSearchHistory(props.option.name)
                     ">
-                    <b-button type="is-text" icon-left="times-circle" />
+                    <b-button type="is-text" icon-left="times" />
                   </div>
                 </div>
               </div>
@@ -139,7 +139,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
   private first = 10
   private currentValue = 1
   private result: NFT[] = []
-  private nfts: NFT[] = []
+  private searchString = ''
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
@@ -199,24 +199,41 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   //Invoked when "enter" key is pressed
   searchResult() {
+    const offset = this.oldSearchResult(this.searchString) ? 0 : 1
+
     //When an item from the autocomplete list is highlighted
     if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
       //Higlighted item is NFT or search result from cache
-      if (this.highlightPos >= searchCache.length)
-        this.updateSelected(this.result[this.highlightPos - searchCache.length])
-      else this.updateSearch(searchCache[this.highlightPos].name)
-    }
-    //Searching empty string
-    if (!this.name) return
+      if (this.highlightPos == 0 && offset) {
+        const newResult = {
+          type: 'History',
+          name: this.searchString,
+        } as unknown as NFT
+        this.searched.push(newResult)
+        localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+        this.updateSearch(this.searchString)
+      } else if (this.highlightPos >= searchCache.length + offset) {
+        this.updateSelected(
+          this.result[this.highlightPos - searchCache.length - offset]
+        )
+      } else this.updateSearch(searchCache[this.highlightPos - offset].name)
+    } else {
+      //Searching empty string
+      if (!this.searchString) return
 
-    //Current search string is present in cache or not
-    if (!this.oldSearchResult(this.name)) {
-      const newResult = { type: 'History', name: this.name } as unknown as NFT
-      this.searched.push(newResult)
-      localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+      //Current search string is not present in cache
+      if (offset) {
+        const newResult = {
+          type: 'History',
+          name: this.searchString,
+        } as unknown as NFT
+        this.searched.push(newResult)
+        localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+      }
+      this.updateSearch(this.searchString)
     }
-    this.updateSearch(this.name)
+    // this.searchString = ''
   }
 
   @Emit('update:type')
@@ -233,15 +250,16 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return value
   }
 
+  @Debounce(50)
   updateSelected(value: any) {
     //To handle clearing event
     if (!value) return
-
-    if (value.type == 'History') {
+    if (value.type == 'History' || value.type == 'Search') {
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
     }
+    // this.searchString = ''
   }
 
   @Emit('update:search')
@@ -256,10 +274,16 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   moveDown() {
-    this.highlightPos = Math.min(this.result.length - 1, this.highlightPos + 1)
+    const l =
+      this.result.length +
+      this.filterSearch().length +
+      (1 - Number(this.oldSearchResult(this.name))) -
+      1
+    this.highlightPos = Math.min(l, this.highlightPos + 1)
   }
 
   async updateSuggestion(value: string) {
+    this.searchString = value
     //To handle empty string
     if (!value) return
 
@@ -361,7 +385,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
         option.name
           .toString()
           .toLowerCase()
-          .indexOf((this.name || '').toLowerCase()) >= 0
+          .indexOf((this.searchString || '').toLowerCase()) >= 0
       )
     })
   }
