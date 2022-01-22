@@ -105,7 +105,7 @@
                 <b-input
                   v-model="batchAdresses"
                   type="textarea"
-                  placeholder="Distribute nfts to multiple addresses"
+                  :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
                   spellcheck="true"></b-input>
               </b-field>
               <BasicSlider
