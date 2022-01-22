@@ -13,13 +13,22 @@
         <template #label>
           <span>{{ $t('Create') }}</span>
         </template>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
-          {{ $t('Classic') }}
-        </b-navbar-item>
-        <template v-if="isRmrk">
-          <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
-            {{ $t('Simple') }}
+        <b-tooltip
+          label="Start by creating your collection and add NFTs to it"
+          position="is-right">
+          <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
+            {{ $t('Classic') }}
           </b-navbar-item>
+        </b-tooltip>
+        <template v-if="isRmrk">
+          <b-tooltip
+            label="Simplified process to create your NFT in a single step"
+            position="is-right"
+            style="display: block">
+            <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
+              {{ $t('Simple') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
