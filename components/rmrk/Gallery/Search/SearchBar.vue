@@ -197,7 +197,16 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return v === 'true'
   }
 
+  insertNewHistroy() {
+    const newResult = {
+      type: 'History',
+      name: this.searchString,
+    } as unknown as NFT
+    this.searched.push(newResult)
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
   //Invoked when "enter" key is pressed
+  @Debounce(50)
   searchResult() {
     const offset = this.oldSearchResult(this.searchString) ? 0 : 1
 
@@ -206,12 +215,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
       const searchCache = this.filterSearch()
       //Higlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
-        const newResult = {
-          type: 'History',
-          name: this.searchString,
-        } as unknown as NFT
-        this.searched.push(newResult)
-        localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+        this.insertNewHistroy()
         this.updateSearch(this.searchString)
       } else if (this.highlightPos >= searchCache.length + offset) {
         this.updateSelected(
@@ -224,12 +228,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
       //Current search string is not present in cache
       if (offset) {
-        const newResult = {
-          type: 'History',
-          name: this.searchString,
-        } as unknown as NFT
-        this.searched.push(newResult)
-        localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+        this.insertNewHistroy()
       }
       this.updateSearch(this.searchString)
     }
@@ -254,7 +253,10 @@ export default class SearchBar extends mixins(PrefixMixin) {
   updateSelected(value: any) {
     //To handle clearing event
     if (!value) return
-    if (value.type == 'History' || value.type == 'Search') {
+    if (value.type == 'History') {
+      this.updateSearch(value.name)
+    } else if (value.type == 'Search') {
+      this.insertNewHistroy()
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
