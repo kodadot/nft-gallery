@@ -42,7 +42,8 @@
       {
         "matchSourceUrlPrefixes": [
           "https://github.com/polkadot-js/",
-          "https://github.com/vue-polkadot/"
+          "https://github.com/vue-polkadot/",
+          "https://github.com/cloudacy/vue-markdown-render"  
         ],
         "groupName": "merge with hazmat suit",
         "enabled": false
