@@ -40,6 +40,7 @@
           :placeholder="$t('mint.nft.description.placeholder')" />
 
         <BasicNumberInput
+          v-if="hasEdition"
           v-model="vEdition"
           key="edition"
           :label="$t('mint.nft.edition.label')"
@@ -86,6 +87,7 @@ const components = {
 export default class BaseTokenForm extends Vue {
   @Prop({ type: String, default: 'context' }) label!: string
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
+  @Prop({ type: Boolean, default: true }) hasEdition!: boolean
 
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
