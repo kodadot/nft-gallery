@@ -9,10 +9,6 @@
     "automergeType": "pr-comment",
     "automergeComment": "lgtm",
     "rangeStrategy": "bump",
-    "schedule": [
-      "after 10pm",
-      "before 5am"
-    ],
     "packageRules": [
       {
         "matchSourceUrlPrefixes": [
@@ -24,10 +20,6 @@
         "groupName": "merge with hazmat suit types & vue & fonts & babel",
         "prHeader": "merge with hazmat suit, may include new vuejs & types",
         "rangeStrategy": "bump",
-        "schedule": [
-          "after 10pm",
-          "before 5am"
-        ]
       },
       {
         "matchPackagePatterns": [
@@ -46,10 +38,6 @@
         "groupName": "merge with hazmat suit bundle",
         "prHeader": "merge with hazmat suit, may include new packages bumps",
         "rangeStrategy": "bump",
-        "schedule": [
-          "after 10pm",
-          "before 5am"
-        ]
       },
       {
         "matchSourceUrlPrefixes": [
