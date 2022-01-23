@@ -32,7 +32,7 @@ const components = {
 }
 
 @Component({ components })
-export default class extends Vue {
+export default class CustomAttributeInput extends Vue {
   @Prop({ type: Number, default: 0 }) max!: number
   @Prop({ type: String, default: 'collapse.collection.attributes.show' })
   visible!: string
