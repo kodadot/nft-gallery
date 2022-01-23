@@ -9,7 +9,7 @@
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
   "rangeStrategy": "bump",
-  "schedule": ["after 10pm and before 5am every weekday"
+  "schedule": ["after 10pm and before 5am every day",
   "packageRules": [
     {
       "matchUpdateTypes": [
