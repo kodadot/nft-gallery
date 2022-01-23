@@ -1,117 +1,63 @@
 <template>
   <div>
-    <div class="box">
-      <Loader v-model="isLoading" :status="status" />
-      <b-field>
-        <Auth />
-      </b-field>
-      <template v-if="accountId">
-        <b-field
-          :label="$i18n.t('Collection')"
-          :message="$t('Select collection where do you want mint your token')">
-          <b-select
-            placeholder="Select a collection"
-            v-model="selectedCollection"
-            expanded>
-            <option disabled selected value="">--</option>
-            <option
-              v-for="option in collections"
-              :value="option"
-              :key="option.id">
-              {{ option.name }} {{ option.id }} {{ option.alreadyMinted }}/{{
-                option.max || Infinity
-              }}
-            </option>
-          </b-select>
-        </b-field>
+    <Loader v-model="isLoading" :status="status" />
+    <BaseTokenForm v-bind.sync="base" :collections="collections">
+      <template v-slot:main>
+        <AttributeTagInput
+          v-model="tags"
+          key="tags"
+          placeholder="Get discovered easier through tags" />
+
+        <BasicSwitch v-model="nsfw" label="mint.nfsw" />
+
+        <BalanceInput
+          label="Price"
+          expanded
+          key="price"
+          @input="updatePrice"
+          class="mb-5" />
+        <!-- TODO: add that msg -->
       </template>
-      <h6 v-if="selectedCollection" class="subtitle is-6">
-        You have minted {{ selectedCollection.alreadyMinted }} out of
-        {{ selectedCollection.max || Infinity }}
-      </h6>
-      <CreateItem
-        v-if="selectedCollection"
-        v-bind.sync="nft"
-        :max="selectedCollection.max"
-        :alreadyMinted="selectedCollection.alreadyMinted" />
-      <b-field>
-        <CollapseWrapper
-          v-if="nft.edition > 1"
-          visible="mint.expert.show"
-          hidden="mint.expert.hide"
-          class="mt-3">
-          <BasicSwitch
-            class="mt-3"
-            v-model="postfix"
-            label="mint.expert.postfix" />
-        </CollapseWrapper>
-      </b-field>
-      <b-field>
-        <PasswordInput v-model="password" :account="accountId" />
-      </b-field>
-      <b-field>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="submit"
+      <template v-slot:footer>
+        <SubmitButton
+          key="submit"
+          label="mint.submit"
           :disabled="disabled"
           :loading="isLoading"
-          outlined>
-          {{ $t('mint.submit') }}
-        </b-button>
-      </b-field>
-      <b-field>
-        <b-button
-          type="is-text"
-          icon-left="calculator"
-          @click="estimateTx"
-          :disabled="disabled"
-          :loading="isLoading"
-          outlined>
-          <template v-if="!estimated">
-            {{ $t('mint.estimate') }}
-          </template>
-          <template v-else>
-            {{ $t('mint.estimated') }}
-            <Money :value="estimated" inline />
-          </template>
-        </b-button>
-      </b-field>
-    </div>
+          @click="submit" />
+      </template>
+    </BaseTokenForm>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import CreateItem from './CreateItem.vue'
-import Tooltip from '@/components/shared/Tooltip.vue'
-import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
+import collectionForMint from '@/queries/collectionForMint.graphql'
+import { extractCid, ipfsToArweave, unSanitizeIpfsUrl } from '@/utils/ipfs'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import TransactionMixin from '@/utils/mixins/txMixin'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { canSupport } from '@/utils/support'
 import exec, {
+  estimate,
   execResultValue,
   txCb,
-  estimate,
 } from '@/utils/transactionExecutor'
+import { DispatchError } from '@polkadot/types/interfaces'
+import { formatBalance } from '@polkadot/util'
+import Connector from '@vue-polkadot/vue-api'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { NFT, NFTMetadata, MintNFT, getNftId } from '../service/scheme'
-import { unSanitizeIpfsUrl, ipfsToArweave, extractCid } from '@/utils/ipfs'
-import PasswordInput from '@/components/shared/PasswordInput.vue'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { canSupport } from '@/utils/support'
-import collectionForMint from '@/queries/collectionForMint.graphql'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import shouldUpdate from '@/utils/shouldUpdate'
+import { getNftId, MintNFT, NFT, NFTMetadata } from '../service/scheme'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import { formatBalance } from '@polkadot/util'
-import { DispatchError } from '@polkadot/types/interfaces'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { Attribute } from '../types'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata
@@ -126,27 +72,43 @@ type MintedCollection = {
   symbol: string
 }
 
-@Component({
-  components: {
-    Auth: () => import('@/components/shared/Auth.vue'),
-    CreateItem,
-    PasswordInput,
-    Tooltip,
-    Support,
-    Money: () => import('@/components/shared/format/Money.vue'),
-    Loader: () => import('@/components/shared/Loader.vue'),
-    ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
-    CollapseWrapper: () =>
-      import('@/components/shared/collapse/CollapseWrapper.vue'),
-    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  },
-})
+type BaseTokenType = {
+  name: string
+  file: File | null
+  description: string
+  selectedCollection: MintedCollection | null
+  edition: number
+  secondFile: File | null
+}
+
+const components = {
+  AttributeTagInput: () =>
+    import('@/components/rmrk/Create/AttributeTagInput.vue'),
+  CollapseWrapper: () =>
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+}
+
+@Component({ components })
 export default class CreateToken extends mixins(
   RmrkVersionMixin,
   TransactionMixin,
   ChainMixin,
   PrefixMixin
 ) {
+  protected base: BaseTokenType = {
+    name: '',
+    file: null,
+    description: '',
+    selectedCollection: null,
+    edition: 1,
+    secondFile: null,
+  }
   protected nft: MintNFT = {
     name: '',
     description: '',
@@ -159,12 +121,20 @@ export default class CreateToken extends mixins(
   }
   protected collections: MintedCollection[] = []
   private selectedCollection: MintedCollection | null = null
+  protected tags: Attribute[] = []
+  protected price: string | number = 0
+  protected nsfw = false
 
   private password = ''
   private alreadyMinted = 0
   private estimated = ''
   private filePrice = 0
   protected postfix = true
+
+  protected updatePrice(value: number) {
+    console.log(typeof value, value)
+    this.price = value
+  }
 
   get accountId() {
     return this.$store.getters.getAuthAddress
