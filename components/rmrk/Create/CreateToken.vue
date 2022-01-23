@@ -57,7 +57,10 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import { Attribute } from '../types'
+import { fil } from 'date-fns/locale'
+import { createMetadata, Attribute } from '@vue-polkadot/minimark'
+import { Optional } from '../service/types'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
 
 interface NFTAndMeta extends NFT {
   meta: NFTMetadata
@@ -109,16 +112,7 @@ export default class CreateToken extends mixins(
     edition: 1,
     secondFile: null,
   }
-  protected nft: MintNFT = {
-    name: '',
-    description: '',
-    edition: 1,
-    tags: [],
-    nsfw: false,
-    price: 0,
-    file: undefined,
-    secondFile: undefined,
-  }
+
   protected collections: MintedCollection[] = []
   private selectedCollection: MintedCollection | null = null
   protected tags: Attribute[] = []
@@ -172,7 +166,7 @@ export default class CreateToken extends mixins(
   }
 
   get disabled() {
-    return !(this.nft.name && this.nft.file && this.selectedCollection)
+    return !(this.base.name && this.base.file && this.selectedCollection)
   }
 
   get hasSupport(): boolean {
@@ -268,51 +262,49 @@ export default class CreateToken extends mixins(
   }
 
   public async constructMeta(): Promise<string> {
-    if (!this.nft.file) {
+    const { file, name, description, secondFile } = this.base
+
+    if (!file) {
       throw new ReferenceError('No file found!')
     }
 
-    const meta: NFTMetadata = {
-      name: this.nft.name,
-      description: this.nft.description,
-      attributes: [
-        ...(this.nft?.tags || []),
-        ...nsfwAttribute(this.nft.nsfw),
-        ...offsetAttribute(this.hasCarbonOffset),
-      ],
-      external_url: 'https://kodadot.xyz',
-      type: this.nft.file.type,
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
+    const fileHash = await pinFileToIPFS(file, token)
+    const secondFileHash = secondFile
+      ? await pinFileToIPFS(secondFile, token)
+      : undefined
+
+    let imageHash: string | undefined = fileHash
+    let animationUrl: string | undefined = undefined
+
+    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+    if (secondaryFileVisible(file)) {
+      animationUrl = fileHash
+      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
     }
 
-    try {
-      const { token }: PinningKey = await this.$store.dispatch(
-        'pinning/fetchPinningKey',
-        this.accountId
-      )
-      const fileHash = await pinFileToIPFS(this.nft.file, token)
+    const attributes = [
+      ...(this.tags || []),
+      ...nsfwAttribute(this.nsfw),
+      ...offsetAttribute(this.hasCarbonOffset),
+    ]
 
-      if (!secondaryFileVisible(this.nft.file)) {
-        meta.image = unSanitizeIpfsUrl(fileHash)
-        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : ''
-      } else {
-        meta.animation_url = unSanitizeIpfsUrl(fileHash)
-        if (this.nft.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, token)
-          meta.image = unSanitizeIpfsUrl(coverImageHash)
-        }
-      }
+    const meta = createMetadata(
+      name,
+      description,
+      imageHash,
+      animationUrl,
+      attributes,
+      'https://kodadot.xyz',
+      file.type
+    )
 
-      // TODO: upload meta to IPFS
-      const metaHash = await pinJson(meta, extractCid(meta.image))
-      // const metaHash = await pinJson(meta)
-      return unSanitizeIpfsUrl(metaHash)
-    } catch (e) {
-      throw new ReferenceError((e as Error).message)
-    }
-  }
-
-  protected calculateSerialNumber(index: number) {
-    return String(index + this.alreadyMinted + 1).padStart(16, '0')
+    const metaHash = await pinJson(meta, imageHash)
+    return unSanitizeIpfsUrl(metaHash)
   }
 
   public async listForSale(remarks: NFT[], originalBlockNumber: string) {
