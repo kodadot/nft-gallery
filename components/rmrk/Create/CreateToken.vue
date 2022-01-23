@@ -3,8 +3,6 @@
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm v-bind.sync="base" :collections="collections">
       <template v-slot:main>
-        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
-
         <AttributeTagInput
           v-model="tags"
           key="tags"
@@ -15,7 +13,8 @@
           expanded
           key="price"
           @input="updatePrice"
-          class="mb-5" />
+          class="mb-3" />
+        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <!-- TODO: add that msg -->
       </template>
       <template v-slot:footer>
