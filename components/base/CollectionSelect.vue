@@ -16,10 +16,10 @@
 
 <script lang="ts">
 import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
-import { MintedCollection } from './types'
+import { BaseMintedCollection as MintedCollection } from './types'
 
 @Component({})
-export default class extends Vue {
+export default class CollectionSelect extends Vue {
   @VModel({ default: null }) selectedCollection!: MintedCollection
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
 }
