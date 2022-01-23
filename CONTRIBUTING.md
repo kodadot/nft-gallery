@@ -47,10 +47,20 @@ KodaDot has started on [Kusama.network](https://kusama.network), we prefer to pa
 To create your KSM address in safely and long-term manner, we reccomend you to get [Polkadot.js wallet browser extension](https://guide.kusama.network/docs/learn-account-generation/#polkadotjs-browser-plugin). You can [learn more about creating KSM address process at official Kusama Guide](https://guide.kusama.network/docs/learn-account-generation/)
 
 ### Sharing your address to receive transfer
+
 After you have created an account, you can visit [your dashboard](https://polkadot.js.org/apps/) to carry out your operations. Kindly navigate to the __accounts section__ using the tab options and select _[accounts](https://polkadot.js.org/apps/#/accounts)_. Your available accounts will be listed and you can click on the preferred account avatar to copy address. Voilà, you are ready to receive!
 
+> Ensure you are connected to the Kusuma Network if you want to receive payment from us. And you need to be on the "via Parity" option.
+
+### Switching account/network
+
+While you are on your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard, check the top-left corner to confirm and ensure your current network. Click the avatar to see options to select from and switch as desired.
+
+> To switch to Kusuma Network, search and select __KUSAMA__ under _KUSAMA & PARACHAINS_ and `switch` by selecting the __switch__ option at the top-most area of the opened side nav.
+
 ### Checking your KSM balance
-Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in __KSM__. If not, kindly _switch network_ by clicking the avatar on your top-left corner, search and select __KUSAMA__ under _KUSAMA & PARACHAINS_ and `switch` by selecting the __switch__ option at the top-most area of the opened side nav. Your __balances__ will now be in __KSM__.
+
+Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in __KSM__. If not, kindly _switch network_ by clicking the avatar on your top-left corner, and switch to __*Kusuma*__. Your __balances__ will now be in __KSM__.
 
 ### Bounty levels
 
