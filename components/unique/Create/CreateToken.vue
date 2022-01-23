@@ -1,187 +1,118 @@
 <template>
   <div>
-    <div class="box">
-      <Loader v-model="isLoading" :status="status" />
-      <b-field>
-        <Auth />
-      </b-field>
-      <template v-if="accountId">
-        <b-field
-          :label="$i18n.t('Collection')"
-          :message="$t('Select collection where do you want mint your token')">
-          <b-select
-            placeholder="Select a collection"
-            v-model="selectedCollection"
-            expanded>
-            <option disabled selected value="">--</option>
-            <option
-              v-for="option in collections"
-              :value="option"
-              :key="option.id">
-              {{ option.name || option.id }} ({{ option.alreadyMinted }})
-            </option>
-          </b-select>
-        </b-field>
+    <Loader v-model="isLoading" :status="status" />
+    <BaseTokenForm
+      v-bind.sync="base"
+      :collections="collections"
+      :hasEdition="false">
+      <template v-slot:main>
+        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+        <CustomAttributeInput
+          key="attributes"
+          v-show="base.selectedCollection"
+          :max="5"
+          v-model="attributes"
+          class="mb-3"
+          visible="collapse.collection.attributes.show"
+          hidden="collapse.collection.attributes.hide" />
       </template>
-      <h6 v-if="selectedCollection" class="subtitle is-6">
-        You have minted {{ selectedCollection.alreadyMinted }} out of
-        {{ selectedCollection.max || Infinity }}
-      </h6>
-      <CreateItem
-        v-if="selectedCollection"
-        v-bind.sync="nft"
-        :max="selectedCollection.max"
-        :alreadyMinted="selectedCollection.alreadyMinted" />
-      <b-field>
-        <CollapseWrapper
-          v-if="nft.edition > 1"
-          visible="mint.expert.show"
-          hidden="mint.expert.hide"
-          class="mt-3">
-          <BasicSwitch
-            class="mt-3"
-            v-model="postfix"
-            label="mint.expert.postfix" />
-        </CollapseWrapper>
-      </b-field>
-      <CustomAttributeInput
-        v-show="selectedCollection"
-        :max="5"
-        v-model="attributes"
-        class="mb-3"
-        visible="collapse.collection.attributes.show"
-        hidden="collapse.collection.attributes.hide" />
-      <b-field>
-        <PasswordInput v-model="password" :account="accountId" />
-      </b-field>
-      <b-field>
-        <p class="has-text-weight-medium is-size-6 has-text-warning">
-          {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
-        </p>
-      </b-field>
-      <b-field>
-        <b-button
-          type="is-primary"
-          icon-left="paper-plane"
-          @click="submit"
+      <template v-slot:footer>
+        <b-field key="advanced">
+          <CollapseWrapper
+            v-if="base.edition > 1"
+            visible="mint.expert.show"
+            hidden="mint.expert.hide"
+            class="mt-3">
+            <BasicSwitch
+              class="mt-3"
+              v-model="postfix"
+              label="mint.expert.postfix" />
+          </CollapseWrapper>
+        </b-field>
+        <b-field key="deposit">
+          <p class="has-text-weight-medium is-size-6 has-text-warning">
+            {{ $t('mint.deposit') }}: <Money :value="deposit" inline />
+          </p>
+        </b-field>
+        <SubmitButton
+          key="submit"
+          label="mint.submit"
           :disabled="disabled"
           :loading="isLoading"
-          outlined>
-          {{ $t('mint.submit') }}
-        </b-button>
-      </b-field>
-    </div>
+          @click="submit" />
+      </template>
+    </BaseTokenForm>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Watch, mixins, Vue } from 'nuxt-property-decorator'
-import CreateItem from './CreateItem.vue'
-import Tooltip from '@/components/shared/Tooltip.vue'
-import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
-import exec, {
-  execResultValue,
-  txCb,
-  estimate,
-} from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import {
-  NFT,
-  NFTMetadata,
-  MintNFT,
-  getNftId,
-} from '@/components/rmrk/service/scheme'
-import { pinJson, getKey, revokeKey } from '@/utils/proxy'
-import { unSanitizeIpfsUrl, ipfsToArweave } from '@/utils/ipfs'
-import PasswordInput from '@/components/shared/PasswordInput.vue'
-import NFTUtils, { basicUpdateFunction } from '../NftUtils'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { canSupport } from '@/utils/support'
-import collectionForMint from '@/queries/unique/collectionForMint.graphql'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import shouldUpdate from '@/utils/shouldUpdate'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
 } from '@/components/rmrk/Create/mintUtils'
-import { formatBalance } from '@polkadot/util'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
 import { Attribute } from '@/components/rmrk/types'
-import onApiConnect from '~/utils/api/general'
-import {
-  getclassDeposit,
-  getInstanceDeposit,
-  getMetadataDeposit,
-} from '../apiConstants'
-import {
-  fetchCollectionMetadata,
-  sanitizeIpfsUrl,
-} from '~/components/rmrk/utils'
+import collectionForMint from '@/queries/unique/collectionForMint.graphql'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { canSupport } from '@/utils/support'
+import { createMetadata } from '@vue-polkadot/minimark'
+import Connector from '@vue-polkadot/vue-api'
 import { getMany, update } from 'idb-keyval'
+
+import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
+import { fetchCollectionMetadata } from '~/components/rmrk/utils'
+import onApiConnect from '~/utils/api/general'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import AuthMixin from '~/utils/mixins/authMixin'
+import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { getInstanceDeposit, getMetadataDeposit } from '../apiConstants'
 import { createTokenId, tokenIdToRoute } from '../utils'
 
-interface NFTAndMeta extends NFT {
-  meta: NFTMetadata
-}
-
-type MintedCollection = {
-  id: string
-  alreadyMinted: number
-  metadata: string
+type MintedCollection = BaseMintedCollection & {
   name?: string
   lastIndexUsed: number
 }
 
-@Component({
-  components: {
-    Auth: () => import('@/components/shared/Auth.vue'),
-    CreateItem,
-    PasswordInput,
-    Tooltip,
-    Support,
-    Money: () => import('@/components/shared/format/Money.vue'),
-    Loader: () => import('@/components/shared/Loader.vue'),
-    ArweaveUploadSwitch: () =>
-      import('@/components/rmrk/Create/ArweaveUploadSwitch.vue'),
-    CollapseWrapper: () =>
-      import('@/components/shared/collapse/CollapseWrapper.vue'),
-    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-    CustomAttributeInput: () =>
-      import('@/components/rmrk/Create/CustomAttributeInput.vue'),
-  },
-})
+const components = {
+  CustomAttributeInput: () =>
+    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
+  CollapseWrapper: () =>
+    import('@/components/shared/collapse/CollapseWrapper.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
+  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
+  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
+}
+
+@Component({ components })
 export default class CreateToken extends mixins(
-  RmrkVersionMixin,
-  TransactionMixin,
+  MetaTransactionMixin,
   ChainMixin,
-  PrefixMixin
+  PrefixMixin,
+  AuthMixin
 ) {
-  protected nft: MintNFT = {
+  protected base: BaseTokenType<MintedCollection> = {
     name: '',
+    file: null,
     description: '',
+    selectedCollection: null,
     edition: 1,
-    tags: [],
-    nsfw: false,
-    price: 0,
-    file: undefined,
-    secondFile: undefined,
+    secondFile: null,
   }
   protected collections: MintedCollection[] = []
-  private selectedCollection: MintedCollection | null = null
-
-  private password = ''
-  private alreadyMinted = 0
-  private estimated = ''
-  private filePrice = 0
   protected postfix = true
   protected deposit = '0'
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
+  protected nsfw = false
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -260,7 +191,7 @@ export default class CreateToken extends mixins(
   }
 
   get disabled() {
-    return !(this.nft.name && this.nft.file && this.selectedCollection)
+    return !(this.base.name && this.base.file && this.base.selectedCollection)
   }
 
   get hasSupport(): boolean {
@@ -276,25 +207,35 @@ export default class CreateToken extends mixins(
   }
 
   protected async submit(): Promise<void> {
-    if (!this.selectedCollection) {
+    if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
 
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { id, alreadyMinted, lastIndexUsed } = this.selectedCollection
+    const { edition, selectedCollection } = this.base
+    const {
+      alreadyMinted,
+      id: collectionId,
+      lastIndexUsed,
+    } = selectedCollection
+
     try {
       const metadata = await this.constructMeta()
-      // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       const cb = api.tx.utility.batchAll
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
-      const create = api.tx.uniques.mint(id, nextId, this.accountId)
+      const create = api.tx.uniques.mint(collectionId, nextId, this.accountId)
       // Option to freeze metadata
-      const meta = api.tx.uniques.setMetadata(id, nextId, metadata, false)
+      const meta = api.tx.uniques.setMetadata(
+        collectionId,
+        nextId,
+        metadata,
+        false
+      )
       const attributes = this.attributes.map((a) =>
         api.tx.uniques.setAttribute(
-          id,
+          collectionId,
           String(nextId),
           a.trait_type,
           String(a.value)
@@ -305,34 +246,14 @@ export default class CreateToken extends mixins(
       //
       const args = [[create, meta, ...attributes, ...support]]
 
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        args,
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[NFT] Saved ${this.nft.name} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.navigateToDetail(id, String(alreadyMinted))
-
-            this.isLoading = false
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status, true)
+      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
+        showNotification(
+          `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
+          notificationTypes.success
         )
-      )
+
+        this.navigateToDetail(collectionId, String(alreadyMinted))
+      })
     } catch (e) {
       if (e instanceof Error) {
         showNotification(e.toString(), notificationTypes.danger)
@@ -342,65 +263,48 @@ export default class CreateToken extends mixins(
   }
 
   public async constructMeta(): Promise<string> {
-    if (!this.nft.file) {
+    const { file, name, description, secondFile } = this.base
+
+    if (!file) {
       throw new ReferenceError('No file found!')
     }
 
-    const meta: NFTMetadata = {
-      name: this.nft.name,
-      description: this.nft.description,
-      attributes: [],
-      // attributes: [
-      //   ...(this.nft?.tags || []),
-      //   ...nsfwAttribute(this.nft.nsfw),
-      //   ...offsetAttribute(this.hasCarbonOffset),
-      // ],
-      external_url: 'https://nft.kodadot.xyz',
-      type: this.nft.file.type,
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
+    const fileHash = await pinFileToIPFS(file, token)
+    const secondFileHash = secondFile
+      ? await pinFileToIPFS(secondFile, token)
+      : undefined
+
+    let imageHash: string | undefined = fileHash
+    let animationUrl: string | undefined = undefined
+
+    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+    if (secondaryFileVisible(file)) {
+      animationUrl = fileHash
+      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
     }
 
-    try {
-      const keys: APIKeys = await getKey(this.accountId)
-      const fileHash = await pinFileToIPFS(this.nft.file, keys)
+    const attributes = [
+      ...nsfwAttribute(this.nsfw),
+      ...offsetAttribute(this.hasCarbonOffset),
+    ]
 
-      if (!secondaryFileVisible(this.nft.file)) {
-        meta.image = unSanitizeIpfsUrl(fileHash)
-        meta.image_ar = this.arweaveUpload ? await ipfsToArweave(fileHash) : ''
-      } else {
-        meta.animation_url = unSanitizeIpfsUrl(fileHash)
-        if (this.nft.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.nft.secondFile, keys)
-          meta.image = unSanitizeIpfsUrl(coverImageHash)
-        }
-      }
+    const meta = createMetadata(
+      name,
+      description,
+      imageHash,
+      animationUrl,
+      attributes,
+      'https://kodadot.xyz',
+      file.type
+    )
 
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn)
-
-      // TODO: upload meta to IPFS
-      const metaHash = await pinJson(meta)
-      return unSanitizeIpfsUrl(metaHash)
-    } catch (e) {
-      throw new ReferenceError((e as Error).message)
-    }
-  }
-
-  protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      showNotification(
-        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
-      )
-    } else {
-      showNotification(
-        `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
-      )
-    }
-
-    this.isLoading = false
+    const metaHash = await pinJson(meta, imageHash)
+    return unSanitizeIpfsUrl(metaHash)
   }
 
   protected navigateToDetail(collection: string, id: string): void {
