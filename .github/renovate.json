@@ -15,12 +15,6 @@
     ],
     "packageRules": [
       {
-        "matchUpdateTypes": [
-          "minor",
-          "patch",
-          "pin",
-          "digest"
-        ],
         "matchSourceUrlPrefixes": [
           "https://github.com/DefinitelyTyped",
           "https://github.com/vuejs",
