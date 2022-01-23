@@ -404,11 +404,6 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 }
 </script>
-<style>
-.autocomplete .dropdown-item {
-  padding-right: 1px;
-}
-</style>
 
 <style scoped lang="scss">
 @import '@/styles/variables';
