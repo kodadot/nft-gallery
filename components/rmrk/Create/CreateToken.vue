@@ -230,7 +230,10 @@ export default class CreateToken extends mixins(
             notificationTypes.success
           )
 
-          this.listForSale(mint, blockNumber)
+          if (this.hasPrice) {
+            const list = this.listForSale
+            setTimeout(() => list(mint, blockNumber), 300)
+          }
         }
       )
     } catch (e) {
