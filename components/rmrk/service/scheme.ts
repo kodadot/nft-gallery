@@ -1,3 +1,4 @@
+import { CreatedNFT } from '@vue-polkadot/minimark'
 import { sanitizeIpfsUrl } from '../utils'
 
 export interface CompletePack extends BasePack {
@@ -201,6 +202,18 @@ export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
     nft.instance || nft.name
   }-${nft.sn}`
+}
+
+export const toNFTId = (
+  nft: CreatedNFT,
+  blocknumber: string | number
+): string => {
+  const { collection, instance, sn } = nft
+  if (!collection || !instance || !sn) {
+    throw new ReferenceError('[APP] toNFTId: invalid nft')
+  }
+
+  return `${blocknumber}-${collection}-${instance}-${sn}`
 }
 
 export const computeAndUpdateNft = (
