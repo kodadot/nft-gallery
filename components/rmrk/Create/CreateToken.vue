@@ -24,6 +24,18 @@
         </b-message>
       </template>
       <template v-slot:footer>
+        <b-field key="advanced">
+          <CollapseWrapper
+            v-if="base.edition > 1"
+            visible="mint.expert.show"
+            hidden="mint.expert.hide"
+            class="mt-3">
+            <BasicSwitch
+              class="mt-3"
+              v-model="postfix"
+              label="mint.expert.postfix" />
+          </CollapseWrapper>
+        </b-field>
         <SubmitButton
           key="submit"
           label="mint.submit"
