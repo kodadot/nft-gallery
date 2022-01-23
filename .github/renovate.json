@@ -1,3 +1,4 @@
+{
     "timezone": "Europe/Berlin",
     "lockFileMaintenance": {
       "enabled": true
@@ -69,3 +70,4 @@
       "github>whitesource/merge-confidence:beta",
       "config:base"
     ]
+}
