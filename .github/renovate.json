@@ -52,7 +52,7 @@
       "groupName": "merge with hazmat suit bundle",
       "prHeader": "merge with hazmat suit, may include new packages bumps",
       "rangeStrategy": "bump",
-      "schedule": ["after 10pm and before 5am every day"],
+      "schedule": ["after 10pm and before 5am every day"]
     },
     {
       "matchUpdateTypes": [
