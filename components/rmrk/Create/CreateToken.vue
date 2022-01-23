@@ -81,23 +81,12 @@ import {
   secondaryFileVisible,
 } from './mintUtils'
 import AuthMixin from '~/utils/mixins/authMixin'
+import { BaseTokenType, BaseMintedCollection } from '~/components/base/types'
 
-type MintedCollection = {
-  id: string
+type MintedCollection = BaseMintedCollection & {
   name: string
-  alreadyMinted: number
   max: number
-  metadata: string
   symbol: string
-}
-
-type BaseTokenType = {
-  name: string
-  file: File | null
-  description: string
-  selectedCollection: MintedCollection | null
-  edition: number
-  secondFile: File | null
 }
 
 const components = {
@@ -121,7 +110,7 @@ export default class CreateToken extends mixins(
   PrefixMixin,
   AuthMixin
 ) {
-  protected base: BaseTokenType = {
+  protected base: BaseTokenType<MintedCollection> = {
     name: '',
     file: null,
     description: '',

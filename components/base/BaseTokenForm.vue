@@ -71,7 +71,7 @@
 import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
-import { MintedCollection } from './types'
+import { BaseMintedCollection as MintedCollection } from './types'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
