@@ -3,12 +3,12 @@
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm v-bind.sync="base" :collections="collections">
       <template v-slot:main>
+        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+
         <AttributeTagInput
           v-model="tags"
           key="tags"
           placeholder="Get discovered easier through tags" />
-
-        <BasicSwitch v-model="nsfw" label="mint.nfsw" />
 
         <BalanceInput
           label="Price"
@@ -31,40 +31,38 @@
 </template>
 
 <script lang="ts">
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import Connector from '@vue-polkadot/vue-api'
+import { formatBalance } from '@polkadot/util'
+import {
+  asSystemRemark,
+  Attribute,
+  CreatedNFT,
+  createInteraction,
+  createMetadata,
+  createMintInteaction,
+  createMultipleNFT,
+  Interaction,
+} from '@vue-polkadot/minimark'
+
 import collectionForMint from '@/queries/collectionForMint.graphql'
-import { extractCid, ipfsToArweave, unSanitizeIpfsUrl } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import TransactionMixin from '@/utils/mixins/txMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
-import exec, {
-  estimate,
-  execResultValue,
-  txCb,
-} from '@/utils/transactionExecutor'
-import { DispatchError } from '@polkadot/types/interfaces'
-import { formatBalance } from '@polkadot/util'
-import Connector from '@vue-polkadot/vue-api'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import NFTUtils, { basicUpdateFunction } from '../service/NftUtils'
-import { getNftId, MintNFT, NFT, NFTMetadata } from '../service/scheme'
+import { basicUpdateFunction } from '../service/NftUtils'
+import { toNFTId } from '../service/scheme'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import { fil } from 'date-fns/locale'
-import { createMetadata, Attribute } from '@vue-polkadot/minimark'
-import { Optional } from '../service/types'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
-
-interface NFTAndMeta extends NFT {
-  meta: NFTMetadata
-}
 
 type MintedCollection = {
   id: string
@@ -100,7 +98,7 @@ const components = {
 @Component({ components })
 export default class CreateToken extends mixins(
   RmrkVersionMixin,
-  TransactionMixin,
+  MetaTransactionMixin,
   ChainMixin,
   PrefixMixin
 ) {
@@ -181,11 +179,6 @@ export default class CreateToken extends mixins(
     return this.$store.state.preferences.arweaveUpload
   }
 
-  private toRemark(remark: string) {
-    const { api } = Connector.getInstance()
-    return api.tx.system.remark(remark)
-  }
-
   protected async submit() {
     if (!this.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
@@ -195,63 +188,48 @@ export default class CreateToken extends mixins(
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
     const { alreadyMinted, id: collectionId } = this.selectedCollection
+    const { name, edition } = this.base
 
     try {
       const metadata = await this.constructMeta()
-      // missin possibility to handle more than one remark
 
-      const mint = NFTUtils.createMultipleNFT(
-        this.nft.edition,
+      const mint = createMultipleNFT(
+        edition,
         this.accountId,
         collectionId,
-        this.nft.name,
+        name,
         metadata,
         alreadyMinted,
-        this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
-      )
-      const mintString = mint.map((nft) =>
-        NFTUtils.encodeNFT(nft, this.version)
+        this.postfix && edition > 1 ? basicUpdateFunction : undefined
       )
 
-      const isSingle =
-        mintString.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
+      const mintInteraction = mint.map((nft) =>
+        createMintInteaction(Interaction.MINTNFT, this.version, nft)
+      )
+
+      const enabledFees: boolean = this.hasSupport || this.hasCarbonOffset
+      const isSingle = mintInteraction.length === 1 && !enabledFees
 
       const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
       const args = isSingle
-        ? mintString[0]
-        : [...mintString.map(this.toRemark), ...(await canSupport(true, 3))]
+        ? mintInteraction[0]
+        : [
+            ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
+            ...(await canSupport(enabledFees, 3)),
+          ]
 
-      const tx = await exec(
+      await this.howAboutToExecute(
         this.accountId,
-        '',
         cb,
         [args],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
+        (blockNumber) => {
+          showNotification(
+            `[NFT] Saved ${this.base.name} in block ${blockNumber}`,
+            notificationTypes.success
+          )
 
-            showNotification(
-              `[NFT] Saved ${this.nft.edition} entries in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-
-            if (this.nft.price) {
-              this.listForSale(mint, blockNumber)
-            } else {
-              this.navigateToDetail(mint[0], blockNumber)
-            }
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status, true)
-        )
+          this.listForSale(mint, blockNumber)
+        }
       )
     } catch (e) {
       if (e instanceof Error) {
@@ -307,25 +285,22 @@ export default class CreateToken extends mixins(
     return unSanitizeIpfsUrl(metaHash)
   }
 
-  public async listForSale(remarks: NFT[], originalBlockNumber: string) {
+  public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
     try {
       const { api } = Connector.getInstance()
       this.isLoading = true
 
-      const { version } = this
-      const { price } = this.nft
-      showNotification(
-        `[APP] Listing NFT to sale for ${formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: this.unit,
-        })}`
-      )
+      const { version, price } = this
+      const balance = formatBalance(price, {
+        decimals: this.decimals,
+        withUnit: this.unit,
+      })
+      showNotification(`[💰] Listing NFT to sale for ${balance}`)
 
       const onlyNfts = remarks
-
-        .map((nft) => ({ ...nft, id: getNftId(nft, originalBlockNumber) }))
-        .map((nft) =>
-          NFTUtils.createInteraction('LIST', version, nft.id, String(price))
+        .map((nft) => toNFTId(nft, originalBlockNumber))
+        .map((id) =>
+          createInteraction(Interaction.LIST, version, id, String(price))
         )
 
       if (!onlyNfts.length) {
@@ -334,39 +309,19 @@ export default class CreateToken extends mixins(
       }
 
       const cb = api.tx.utility.batchAll
-      const args = onlyNfts.map(this.toRemark)
+      const args = onlyNfts.map((rmrk) => asSystemRemark(api, rmrk))
 
-      const tx = await exec(
+      await this.howAboutToExecute(
         this.accountId,
-        '',
         cb,
         [args],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[LIST] Saved prices for ${
-                onlyNfts.length
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit,
-              })} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-            this.navigateToDetail(remarks[0], originalBlockNumber)
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status)
-        )
+        (blockNumber) => {
+          showNotification(
+            `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
+            notificationTypes.success
+          )
+          this.navigateToDetail(remarks[0], originalBlockNumber)
+        }
       )
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.danger)
@@ -374,57 +329,14 @@ export default class CreateToken extends mixins(
   }
 
   protected async estimateTx() {
-    this.isLoading = true
-    const { api } = Connector.getInstance()
-
-    const mint = NFTUtils.createMultipleNFT(
-      this.nft.edition,
-      this.accountId,
-      this.selectedCollection?.symbol || '',
-      this.nft.name,
-      unSanitizeIpfsUrl(''),
-      this.alreadyMinted,
-      this.postfix && this.nft.edition > 1 ? basicUpdateFunction : undefined
-    )
-    const remarks = mint.map((nft) => NFTUtils.encodeNFT(nft, this.version))
-
-    const isSingle =
-      remarks.length === 1 && (!this.hasSupport || this.hasCarbonOffset)
-    const cb = api.tx.utility.batchAll
-
-    const args = !this.hasSupport
-      ? remarks.map(this.toRemark)
-      : [...remarks.map(this.toRemark), ...(await canSupport(true, 3))]
-
-    this.estimated = await estimate(this.accountId, cb, [args])
-
-    this.isLoading = false
+    // TODO: implement
   }
 
-  protected onTxError(dispatchError: DispatchError): void {
-    const { api } = Connector.getInstance()
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      showNotification(
-        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
-      )
-    } else {
-      showNotification(
-        `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
-      )
-    }
-
-    this.isLoading = false
-  }
-
-  protected navigateToDetail(nft: NFT, blockNumber: string) {
+  protected navigateToDetail(nft: CreatedNFT, blockNumber: string) {
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
+        path: `/rmrk/detail/${toNFTId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
