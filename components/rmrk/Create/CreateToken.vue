@@ -208,6 +208,8 @@ export default class CreateToken extends mixins(
       )
 
       const enabledFees: boolean = this.hasSupport || this.hasCarbonOffset
+      const feeMultiplier =
+        Number(this.hasSupport) + 2 * Number(this.hasCarbonOffset)
       const isSingle = mintInteraction.length === 1 && !enabledFees
 
       const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
@@ -215,7 +217,7 @@ export default class CreateToken extends mixins(
         ? mintInteraction[0]
         : [
             ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-            ...(await canSupport(enabledFees, 3)),
+            ...(await canSupport(enabledFees, feeMultiplier)),
           ]
 
       await this.howAboutToExecute(
