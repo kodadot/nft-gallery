@@ -19,7 +19,7 @@
         ],
         "groupName": "merge with hazmat suit types & vue & fonts & babel",
         "prHeader": "merge with hazmat suit, may include new vuejs & types",
-        "rangeStrategy": "bump",
+        "rangeStrategy": "bump"
       },
       {
         "matchPackagePatterns": [
@@ -37,7 +37,7 @@
         ],
         "groupName": "merge with hazmat suit bundle",
         "prHeader": "merge with hazmat suit, may include new packages bumps",
-        "rangeStrategy": "bump",
+        "rangeStrategy": "bump"
       },
       {
         "matchSourceUrlPrefixes": [
