@@ -26,7 +26,9 @@ body {
       }
     }
   }
-  
+.autocomplete .dropdown-item {
+  padding-right: 1px;
+}
   .select select,
   .taginput .taginput-container.is-focusable,
   .textarea,
