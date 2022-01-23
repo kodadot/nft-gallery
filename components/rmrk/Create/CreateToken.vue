@@ -290,7 +290,6 @@ export default class CreateToken extends mixins(
   public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
     try {
       const { api } = Connector.getInstance()
-      this.isLoading = true
 
       const { version, price } = this
       const balance = formatBalance(price, {
@@ -313,6 +312,7 @@ export default class CreateToken extends mixins(
       const cb = api.tx.utility.batchAll
       const args = onlyNfts.map((rmrk) => asSystemRemark(api, rmrk))
 
+      this.isLoading = true
       await this.howAboutToExecute(
         this.accountId,
         cb,
