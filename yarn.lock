@@ -1387,7 +1387,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.6", "@babel/runtime@^7.14.8", "@babel/runtime@^7.16.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.6", "@babel/runtime@^7.14.8", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.16.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -3058,13 +3058,6 @@
     "@babel/runtime" "^7.16.7"
     "@polkadot/util" "8.3.2"
 
-"@polkadot/networks@^7.4.1":
-  version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-7.8.2.tgz#24bc6f946069395c08a24da65c848f7158fb7abf"
-  integrity sha512-E/Bm4QUAfyBUCv0Bq9ldRVNG+trLHoOAv6ttzWKw/UHoa2cDe2UP9qTUnxtXWAmyIYWvLeoMHgStj+pWbLL8SA==
-  dependencies:
-    "@babel/runtime" "^7.16.0"
-
 "@polkadot/rpc-augment@7.4.1":
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-augment/-/rpc-augment-7.4.1.tgz#5c5ef315f880137e7fe41c82960dc83802f4c2b8"
@@ -4187,12 +4180,10 @@
   dependencies:
     "@polkadot/api" "^7.4.1"
 
-"@vue-polkadot/vue-settings@0.0.38-rc.10":
-  version "0.0.38-rc.10"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.38-rc.10.tgz#ef19b7f06703f7cb1861201bdcdf377a1e968765"
-  integrity sha512-CFF/iLXL/SRQdzP3JCnjVB1AuwZubCkD/NwVId/2EE2RzBdj7cS9Ogi34KF9YILaKPD410bULDnonLQBRt4G5A==
-  dependencies:
-    "@polkadot/networks" "^7.4.1"
+"@vue-polkadot/vue-settings@0.0.38-rc.13":
+  version "0.0.38-rc.13"
+  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.38-rc.13.tgz#5d1f9601f5b8f75b593973b5f9884343d58e356a"
+  integrity sha512-cW00SyfbzvJZjZmIwB4lw6MvAxRo79RdcyVL6XbQNb7DLtYElQtMU2Ofal82iAUzxZRDRtr0kgv5He1/6P6CLA==
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"

@@ -17,8 +17,7 @@
           key="file"
           label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
           expanded
-          preview
-          accept="image/png, image/jpeg, image/gif, image/svg+xml, image/svg" />
+          preview />
 
         <BasicInput
           v-model="vName"
