@@ -7,15 +7,21 @@
           v-model="tags"
           key="tags"
           placeholder="Get discovered easier through tags" />
-
+        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BalanceInput
           label="Price"
           expanded
           key="price"
           @input="updatePrice"
           class="mb-3" />
-        <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
-        <!-- TODO: add that msg -->
+        <b-message
+          v-if="hasPrice"
+          key="message"
+          type="is-primary"
+          has-icon
+          icon="exclamation-triangle">
+          {{ $t('warning.newTransactionWhilePriceSet') }}
+        </b-message>
       </template>
       <template v-slot:footer>
         <SubmitButton
@@ -62,6 +68,7 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 type MintedCollection = {
   id: string
@@ -99,7 +106,8 @@ export default class CreateToken extends mixins(
   RmrkVersionMixin,
   MetaTransactionMixin,
   ChainMixin,
-  PrefixMixin
+  PrefixMixin,
+  AuthMixin
 ) {
   protected base: BaseTokenType = {
     name: '',
@@ -114,20 +122,14 @@ export default class CreateToken extends mixins(
   protected tags: Attribute[] = []
   protected price: string | number = 0
   protected nsfw = false
-
-  private password = ''
-  private alreadyMinted = 0
-  private estimated = ''
-  private filePrice = 0
   protected postfix = true
 
   protected updatePrice(value: number) {
-    console.log(typeof value, value)
     this.price = value
   }
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
+  get hasPrice() {
+    return Number(this.price)
   }
 
   @Watch('accountId', { immediate: true })
