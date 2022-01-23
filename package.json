@@ -49,7 +49,6 @@
     "@polkadot/extension-inject": "^0.42.6",
     "@polkadot/ui-keyring": "^0.89.2",
     "@polkadot/vue-identicon": "^0.89.2",
-    "@types/file-saver": "^2.0.5",
     "@vue-polkadot/minimark": "^0.0.1-rc.3",
     "@vue-polkadot/vue-api": "0.0.49-rc.0",
     "@vue-polkadot/vue-settings": "0.0.38-rc.10",
