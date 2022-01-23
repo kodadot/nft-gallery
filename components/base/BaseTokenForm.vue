@@ -1,9 +1,5 @@
 <template>
   <div>
-    <p class="title is-size-3">
-      {{ $t(label) }}
-    </p>
-
     <slot name="header"></slot>
 
     <b-field>

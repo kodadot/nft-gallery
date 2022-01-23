@@ -111,7 +111,6 @@ export default class CreateToken extends mixins(
   }
 
   protected collections: MintedCollection[] = []
-  private selectedCollection: MintedCollection | null = null
   protected tags: Attribute[] = []
   protected price: string | number = 0
   protected nsfw = false
@@ -163,7 +162,7 @@ export default class CreateToken extends mixins(
   }
 
   get disabled() {
-    return !(this.base.name && this.base.file && this.selectedCollection)
+    return !(this.base.name && this.base.file && this.base.selectedCollection)
   }
 
   get hasSupport(): boolean {
@@ -179,15 +178,15 @@ export default class CreateToken extends mixins(
   }
 
   protected async submit() {
-    if (!this.selectedCollection) {
+    if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
     }
 
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { alreadyMinted, id: collectionId } = this.selectedCollection
-    const { name, edition } = this.base
+    const { name, edition, selectedCollection } = this.base
+    const { alreadyMinted, id: collectionId } = selectedCollection
 
     try {
       const metadata = await this.constructMeta()
