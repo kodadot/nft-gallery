@@ -413,6 +413,11 @@
         "label": "NFT description",
         "placeholder": "Enter NFT description",
         "message": "Description of your NFT. Markdown is supported"
+      },
+      "edition": {
+        "label": "Edition",
+        "placeholder": "Minimum is 1",
+        "message": "Number of NFTs to be minted"
       }
     }
   },
@@ -596,5 +601,8 @@
     "nft": "Check out this awesome NFT on KodaDot",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
+  },
+  "warning": {
+    "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
   }
 }
