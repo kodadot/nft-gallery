@@ -349,11 +349,12 @@ export default class CreateToken extends mixins(
     const meta: NFTMetadata = {
       name: this.nft.name,
       description: this.nft.description,
-      attributes: [
-        ...(this.nft?.tags || []),
-        ...nsfwAttribute(this.nft.nsfw),
-        ...offsetAttribute(this.hasCarbonOffset),
-      ],
+      attributes: [],
+      // attributes: [
+      //   ...(this.nft?.tags || []),
+      //   ...nsfwAttribute(this.nft.nsfw),
+      //   ...offsetAttribute(this.hasCarbonOffset),
+      // ],
       external_url: 'https://nft.kodadot.xyz',
       type: this.nft.file.type,
     }
