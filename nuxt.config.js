@@ -239,7 +239,10 @@ export default {
   apollo: {
     clientConfigs: {
       ...defineApolloConfig(),
-      subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || 'https://app.gc.subsquid.io/beta/rubick/004/graphql'),
+      subsquid: toApolloEndpoint(
+        process.env.SUBSQUID_ENDPOINT ||
+          'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+      ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
