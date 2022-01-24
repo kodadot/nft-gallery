@@ -1,6 +1,7 @@
 {
     "timezone": "Europe/Berlin",
     "lockFileMaintenance": {
+      "rangeStrategy": "bump",
       "enabled": true
     },
     "prHourlyLimit": 5,
