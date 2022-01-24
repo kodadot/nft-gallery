@@ -2,7 +2,7 @@
 
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
-- Opensea for Polkadot, NFT paraverse of parachains, built as public good.
+- Opensea for Polkadot, NFT paraverse of parachains, builded as public good.
 - [First Time here?](FIRST_TIME.md)
 
 ![Darling in the Franxx](https://media.giphy.com/media/10YWqUivkQPeeJWD3u/giphy.gif)
@@ -26,7 +26,7 @@
 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
-Our thanks go to [contributors-img](https://contrib.rocks).
+Thank to [contributors-img](https://contrib.rocks).
 
 ### Brief code structure
 
@@ -72,7 +72,7 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
 
-<!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
+<!-- ### Is it maintained? -- I guess if its not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
 
@@ -129,7 +129,7 @@ Please follow our [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guid
 
 ## Support the project ⭐
 
-If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us to get known and grow the community. 🙏 We will really appreciate that!
+If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏 We will really appreaciate that!
 
 ## Patronage 💸
 
