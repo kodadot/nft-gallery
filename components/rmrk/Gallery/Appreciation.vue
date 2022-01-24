@@ -13,7 +13,10 @@
         class="emote-picker"
         @select="onSelectEmoji" />
     </IndexerGuard>
-    <EmotionList class="emote-list" :emotions="emotions" />
+    <EmotionList
+      class="emote-list"
+      :emotions="emotions"
+      @selected="mapToEmoji" />
   </div>
 </template>
 
@@ -28,7 +31,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { VEmojiPicker } from 'v-emoji-picker'
 import emojiUnicode from 'emoji-unicode'
 import NFTUtils from '../service/NftUtils'
-import { IEmoji } from 'v-emoji-picker/lib/models/Emoji'
+import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import { Emote } from '../service/scheme'
 
 @Component({
@@ -61,6 +64,15 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
     } else {
       showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
     }
+  }
+
+  private mapToEmoji(key: string) {
+    const emoji: Emoji = {
+      data: String.fromCodePoint(parseInt(key, 16)),
+      category: '',
+      aliases: [],
+    }
+    this.onSelectEmoji(emoji)
   }
 
   get emotions(): Record<string, string | number> {

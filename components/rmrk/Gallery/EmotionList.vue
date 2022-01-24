@@ -5,7 +5,8 @@
     <div
       v-for="emoji in emotes"
       :key="emoji.key"
-      class="column nft-emotion__column">
+      class="column nft-emotion__column"
+      @click="$emit('selected', emoji.key)">
       <b-tag id="emoji-box" type="is-dark is-large">
         {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
         <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
@@ -57,6 +58,10 @@ export default class EmotionList extends Vue {
 
 .nft-emotion__image {
   width: 25px;
+}
+
+.nft-emotion__column {
+  cursor: pointer;
 }
 
 #emoji-box {
