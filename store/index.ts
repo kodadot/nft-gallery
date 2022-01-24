@@ -79,4 +79,4 @@ export const actions = {}
 
 export const getters = {}
 
-export const plugins = [vuexLocalStorage.plugin, apiPlugin, myPlugin]
+export const plugins = [apiPlugin, myPlugin]
