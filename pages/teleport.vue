@@ -11,7 +11,7 @@
     <div class="box">
       <div class="info">
         <p class="title is-size-3">Teleport {{ unit }}</p>
-        <span class="info--currentPrice" title="Current price"
+        <span v-if="isKSM" class="info--currentPrice" title="Current price"
           >${{ $store.getters['fiat/getCurrentKSMValue'] }}
         </span>
       </div>
@@ -36,7 +36,7 @@
         v-show="correctAddress && correctAddress !== destinationAddress"
         :label="$t('general.correctAddress')"
         :value="correctAddress" />
-      <div class="box--container">
+      <div class="box--container mb-3">
         <b-field>
           <BalanceInput
             v-model="price"
@@ -44,7 +44,7 @@
             :calculate="false"
             @input="onAmountFieldChange" />
         </b-field>
-        <b-field class="mb-3">
+        <b-field v-if="isKSM">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
@@ -129,7 +129,6 @@ import {
 } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { findCall, getApiParams } from '@/utils/teleport'
 
 @Component({
@@ -176,6 +175,10 @@ export default class Transfer extends mixins(
     return this.hasAddress
       ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format))
       : ''
+  }
+
+  get isKSM(): boolean {
+    return this.unit === 'KSM'
   }
 
   layout() {
@@ -320,14 +323,14 @@ export default class Transfer extends mixins(
     return urlBuilderTransaction(
       this.transactionValue,
       this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
+      'statescan'
     )
   }
 
-    protected getExplorerUrl(): void {
-        const url = this.getUrl()
-        window.open(url, '_blank')
-    }
+  protected getExplorerUrl(): void {
+    const url = this.getUrl()
+    window.open(url, '_blank')
+  }
 
   protected generatePaymentLink(): string {
     return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
