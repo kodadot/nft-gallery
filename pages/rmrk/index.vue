@@ -11,6 +11,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
   },
 })
 export default class LandingPage extends Vue {
+  layout() {
+    return 'full-width-layout'
+  }
+
   middleware({ store }) {
     // If the user is not authenticated
     const prefix = store.getters.currentUrlPrefix
