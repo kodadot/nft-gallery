@@ -176,11 +176,14 @@ export default class Gallery extends mixins(PrefixMixin) {
 
     const metadataList: string[] = this.nfts.map(
       ({ metadata, collection }: NFTWithCollectionMeta) =>
-        metadata || collection.metadata
+        metadata || collection.metadata || 'x'
     )
-    const storedMetadata = await getMany(metadataList).catch(() => metadataList)
+    const storedMetadata = await getMany(metadataList)
 
     storedMetadata.forEach(async (m, i) => {
+      if (!metadataList[i]) {
+        return
+      }
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(

@@ -1,8 +1,5 @@
 {
     "timezone": "Europe/Berlin",
-    "lockFileMaintenance": {
-      "enabled": true
-    },
     "prHourlyLimit": 5,
     "commitMessagePrefix": "[skip netlify]",
     "automerge": true,
