@@ -27,6 +27,12 @@
         </div>
       </b-field>
 
+      <b-field>
+        <div class="is-flex is-align-items-center">
+          {{ routeMessage }}
+        </div>
+      </b-field>
+
       <BasicSwitch v-model="sendingMyself" label="action.sendToMyself" />
 
       <b-field v-show="!sendingMyself">
@@ -130,6 +136,7 @@ import {
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 import { findCall, getApiParams } from '@/utils/teleport'
+import onApiConnect from '~/utils/api/general'
 
 @Component({
   components: {
@@ -157,6 +164,7 @@ export default class Transfer extends mixins(
   protected usdValue = 0
   protected sendingMyself = true
   protected isParaTeleport = true
+  protected paraTeleport: string | null = null
 
   get disabled(): boolean {
     return !(
@@ -188,6 +196,31 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
+    onApiConnect(async (api) => {
+      const paraId = await api.query.parachainInfo?.parachainId()
+      this.paraTeleport = paraId?.toString() || ''
+    })
+  }
+
+  get isRouteHidden(): boolean {
+    return this.paraTeleport === null
+  }
+
+  get routeMessage() {
+    const [from, to] = this.currentRoute
+    return this.$t('teleport.route', [this.unit, from, to])
+  }
+
+  get currentRoute(): [string, string] {
+    if (this.paraTeleport === '') {
+      return ['relaychain', 'parachain']
+    }
+
+    if (this.paraTeleport === null) {
+      return ['unknown', 'unknown']
+    }
+
+    return [`parachain ${this.paraTeleport}`, 'relaychain']
   }
 
   protected onAmountFieldChange() {
