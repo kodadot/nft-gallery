@@ -2,15 +2,14 @@
   <div
     v-show="emotes"
     class="columns is-mobile is-multiline is-gapless nft-emotion__main">
-    <div
-      v-for="emoji in emotes"
-      :key="emoji.key"
-      class="column is-clickable"
-      @click="$emit('selected', emoji.key)">
-      <b-tag id="emoji-box" type="is-dark is-large">
+    <div v-for="emoji in emotes" :key="emoji.key" class="column">
+      <b-button
+        id="emoji-box"
+        type="is-dark"
+        @click="$emit('selected', emoji.key)">
         {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
         <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
-      </b-tag>
+      </b-button>
     </div>
   </div>
 </template>
@@ -63,5 +62,8 @@ export default class EmotionList extends Vue {
 #emoji-box {
   margin-bottom: 1rem;
   border: 2px solid $primary;
+  padding: 0 0.75rem;
+  font-size: 1.25rem;
+  height: 2em;
 }
 </style>
