@@ -105,10 +105,11 @@ export default class Pagination extends Vue {
 }
 
 .info {
-  border: 1px solid $primary;
   font-size: 12px;
   margin: 0 0.25rem;
   height: 40px;
-  width: 88px;
+  width: 86px;
+  display: flex;
+  align-items: center;
 }
 </style>
