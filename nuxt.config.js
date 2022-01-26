@@ -2,7 +2,7 @@ import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
+const baseUrl = process.env.BASE_URL || 'https://kodadot.xyz'
 
 export default {
   server: {
