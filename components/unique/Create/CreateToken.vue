@@ -61,7 +61,7 @@ import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import { createMetadata } from '@vue-polkadot/minimark'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { getMany, update } from 'idb-keyval'
 
 import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'

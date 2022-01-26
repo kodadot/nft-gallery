@@ -1,4 +1,4 @@
-import { INDEXERS } from '@vue-polkadot/vue-settings'
+import { INDEXERS } from '@kodadot1/vuex-options'
 
 type Endpoint = {
   httpEndpoint: string

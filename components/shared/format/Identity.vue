@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, mixins, Emit } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { hexToString, isHex } from '@polkadot/util'

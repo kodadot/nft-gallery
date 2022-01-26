@@ -1,4 +1,4 @@
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 
 export function getInstanceDeposit(): bigint {
   const { api } = Connector.getInstance()

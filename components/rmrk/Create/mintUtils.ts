@@ -1,7 +1,7 @@
 import { MassMintNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { Attribute } from '@vue-polkadot/minimark'
 type Range = [number, number]
 

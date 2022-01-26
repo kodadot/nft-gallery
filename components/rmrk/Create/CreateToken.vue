@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { formatBalance } from '@polkadot/util'
 import {
   asSystemRemark,
