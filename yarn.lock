@@ -2704,6 +2704,20 @@
   resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
   integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
 
+"@kodadot1/sub-api@^0.0.1-rc.0":
+  version "0.0.1-rc.0"
+  resolved "https://registry.yarnpkg.com/@kodadot1/sub-api/-/sub-api-0.0.1-rc.0.tgz#d570f8e60abb66cebd94bffecbd64679cc4939b8"
+  integrity sha512-9a/pSkuk8bB2p+9dX3Gn8C/oA2TnJL1DzWqOawtvJWgELyQxs/AvBIL4djQetMvSV/AXhNrG/gUPXIuo9jWZKA==
+  dependencies:
+    "@polkadot/api" "^7.4.1"
+
+"@kodadot1/vuex-options@^0.0.1-rc.0":
+  version "0.0.1-rc.0"
+  resolved "https://registry.yarnpkg.com/@kodadot1/vuex-options/-/vuex-options-0.0.1-rc.0.tgz#19bb563b9db8aabe4ba01f90e68de067014f5ec2"
+  integrity sha512-4VIsspMtsLHPYSq/bccCE/uamj1r14FAidh1F7JeuSB/1cwM5e3THY2yePTSIQlNFzrHlPgUPrf+rPgqQFSZmg==
+  dependencies:
+    "@polkadot/networks" "^7.4.1"
+
 "@ledgerhq/devices@^6.11.2":
   version "6.11.2"
   resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-6.11.2.tgz#a0413b087f7c07adf2a91d23f84a4580cdbb36fe"
@@ -3569,6 +3583,13 @@
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@polkadot/util" "8.3.2"
+
+"@polkadot/networks@^7.4.1":
+  version "7.9.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-7.9.2.tgz#03e3f3ac6bdea177517436537826055df60bcb9a"
+  integrity sha512-4obI1RdW5/7TFwbwKA9oqw8aggVZ65JAUvIFMd2YmMC2T4+NiZLnok0WhRkhZkUnqjLIHXYNwq7Ho1i39dte0g==
+  dependencies:
+    "@babel/runtime" "^7.16.3"
 
 "@polkadot/rpc-augment@7.4.1":
   version "7.4.1"
@@ -4679,18 +4700,6 @@
   integrity sha512-0bc+DpyOSHhIt17JN/3C/IM55ZgJIoT0wXqBVE12HcJZAuPEpd3MfpZBYq7trbO+U+7HbbSRpBQSjr00xrix2g==
   dependencies:
     slugify "^1.6.5"
-
-"@vue-polkadot/vue-api@0.0.49-rc.0":
-  version "0.0.49-rc.0"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-api/-/vue-api-0.0.49-rc.0.tgz#ec45e9ea8e31e0997988b6dca0ce04ed07d6838a"
-  integrity sha512-JNRZGxH3om/1EEzNkdbM+hz7LMVAt/5NfXeWGe3t00h4G5zci/flFEjMM4oUTqg97Oqua9FnA3hLr8j/1cJqUw==
-  dependencies:
-    "@polkadot/api" "^7.4.1"
-
-"@vue-polkadot/vue-settings@0.0.38-rc.13":
-  version "0.0.38-rc.13"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/vue-settings/-/vue-settings-0.0.38-rc.13.tgz#5d1f9601f5b8f75b593973b5f9884343d58e356a"
-  integrity sha512-cW00SyfbzvJZjZmIwB4lw6MvAxRo79RdcyVL6XbQNb7DLtYElQtMU2Ofal82iAUzxZRDRtr0kgv5He1/6P6CLA==
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
