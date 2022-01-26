@@ -11,7 +11,7 @@
     <div class="box">
       <div class="info">
         <p class="title is-size-3">Transfer {{ unit }}</p>
-        <span class="info--currentPrice" title="Current price"
+        <span v-if="isKSM" class="info--currentPrice" title="Current price"
           >${{ $store.getters['fiat/getCurrentKSMValue'] }}
         </span>
       </div>
@@ -48,7 +48,7 @@
         v-show="correctAddress && correctAddress !== destinationAddress"
         :label="$t('general.correctAddress')"
         :value="correctAddress" />
-      <div class="box--container">
+      <div class="box--container mb-3">
         <b-field>
           <BalanceInput
             v-model="price"
@@ -56,7 +56,7 @@
             :calculate="false"
             @input="onAmountFieldChange" />
         </b-field>
-        <b-field class="mb-3">
+        <b-field v-if="isKSM">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
@@ -182,6 +182,10 @@ export default class Transfer extends mixins(
     return this.hasAddress
       ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format))
       : ''
+  }
+
+  get isKSM(): boolean {
+    return this.unit === 'KSM'
   }
 
   protected created() {
