@@ -60,7 +60,7 @@ import {
   createMintInteaction,
   createMultipleNFT,
   Interaction,
-} from '@vue-polkadot/minimark'
+} from '@kodadot1/minimark'
 
 import collectionForMint from '@/queries/collectionForMint.graphql'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'

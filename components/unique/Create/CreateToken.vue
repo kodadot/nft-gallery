@@ -60,7 +60,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
-import { createMetadata } from '@vue-polkadot/minimark'
+import { createMetadata } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { getMany, update } from 'idb-keyval'
 

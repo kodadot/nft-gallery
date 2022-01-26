@@ -62,7 +62,7 @@ import {
   Interaction,
   asSystemRemark,
   addressToHex,
-} from '@vue-polkadot/minimark'
+} from '@kodadot1/minimark'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 
 type BaseCollectionType = {

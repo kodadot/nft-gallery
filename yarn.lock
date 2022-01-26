@@ -2704,6 +2704,13 @@
   resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
   integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
 
+"@kodadot1/minimark@^0.0.1-rc.3":
+  version "0.0.1-rc.3"
+  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.3.tgz#f497d4b6db0d33638ab6b51254dd31eddbfd13df"
+  integrity sha512-r1INWKDMg8wcqCmoCRBhB20zP4Pfs0nA/qpIvdV75FBaY26Mx7yVmt8ONNLH3Tej1PumyakInOEb4hqTTzzS/A==
+  dependencies:
+    slugify "^1.6.5"
+
 "@kodadot1/sub-api@^0.0.1-rc.0":
   version "0.0.1-rc.0"
   resolved "https://registry.yarnpkg.com/@kodadot1/sub-api/-/sub-api-0.0.1-rc.0.tgz#d570f8e60abb66cebd94bffecbd64679cc4939b8"
@@ -4693,13 +4700,6 @@
   dependencies:
     "@typescript-eslint/types" "5.10.0"
     eslint-visitor-keys "^3.0.0"
-
-"@vue-polkadot/minimark@^0.0.1-rc.3":
-  version "0.0.1-rc.3"
-  resolved "https://registry.yarnpkg.com/@vue-polkadot/minimark/-/minimark-0.0.1-rc.3.tgz#8063b9ef9facbc9f58ca4a6818d3cf8e8019b5e3"
-  integrity sha512-0bc+DpyOSHhIt17JN/3C/IM55ZgJIoT0wXqBVE12HcJZAuPEpd3MfpZBYq7trbO+U+7HbbSRpBQSjr00xrix2g==
-  dependencies:
-    slugify "^1.6.5"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
