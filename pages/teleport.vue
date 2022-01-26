@@ -20,18 +20,14 @@
         <Auth />
       </b-field>
 
-      <b-field>
-        <div class="is-flex is-align-items-center">
-          {{ $t('general.balance') }}:
-          <Money :value="balance" inline />
-        </div>
-      </b-field>
+      <p class="subtitle is-size-6">
+        <span>{{ $t('general.balance') }}: </span>
+        <Money :value="balance" inline />
+      </p>
 
-      <b-field>
-        <div class="is-flex is-align-items-center">
-          {{ routeMessage }}
-        </div>
-      </b-field>
+      <p class="subtitle is-size-6">
+        {{ routeMessage }}
+      </p>
 
       <BasicSwitch v-model="sendingMyself" label="action.sendToMyself" />
 
