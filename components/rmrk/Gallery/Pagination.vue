@@ -1,5 +1,7 @@
 <template>
-  <div class="is-flex is-justify-content-flex-end" v-if="total > perPage">
+  <div
+    class="is-align-self-flex-end is-flex is-justify-content-flex-end"
+    v-if="total > perPage">
     <b-pagination
       :total="total"
       :current.sync="current"
@@ -7,7 +9,6 @@
       :range-after="3"
       :simple="simple"
       :per-page="perPage"
-      order=""
       tag="a"
       aria-next-label="Next page"
       aria-previous-label="Previous page"
@@ -98,7 +99,16 @@ export default class Pagination extends Vue {
 }
 </script>
 <style lang="scss">
+@import '@/styles/variables';
 .magicBtn {
   border-width: 1px;
+}
+
+.info {
+  border: 1px solid $primary;
+  font-size: 12px;
+  margin: 0 0.25rem;
+  height: 40px;
+  width: 88px;
 }
 </style>
