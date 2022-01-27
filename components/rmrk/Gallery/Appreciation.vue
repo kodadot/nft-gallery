@@ -170,7 +170,8 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 
 .nft-appreciation__button {
   border-radius: 0;
-  border: 2px solid $primary;
+  border: 0;
+  border-top: 2px solid $primary!important;
   color: $primary;
   margin-right: 15px;
 }

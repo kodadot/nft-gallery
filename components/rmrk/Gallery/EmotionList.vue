@@ -61,6 +61,6 @@ export default class EmotionList extends Vue {
 
 #emoji-box {
   margin-bottom: 1rem;
-  border: 2px solid $primary;
+  border-top: 2px solid $primary;
 }
 </style>
