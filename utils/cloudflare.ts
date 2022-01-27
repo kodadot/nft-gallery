@@ -2,12 +2,12 @@ import Axios from 'axios'
 
 export const BASE_URL = 'https://durable-jpeg.kodadot.workers.dev/'
 
-const headers =  {
+const headers = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,HEAD,POST',
   'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Headers': '*'
+  'Access-Control-Allow-Headers': '*',
 }
 
 const api = Axios.create({
@@ -28,7 +28,7 @@ export const queryBatch = async (
     const { status, data } = await api.post('batch', arg, {
       headers,
     })
-    console.log('[CLOUDFLARE] Batch', status, data)
+    console.log('[CLOUDFLARE] Batch', status, Object.keys(data).length)
     return data
   } catch (e) {
     console.warn(e)
