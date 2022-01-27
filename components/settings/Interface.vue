@@ -31,6 +31,10 @@
         v-model="showPriceValue"
         :disabled="!enabledAdvancedUI"
         label="preferences.priceVisible" />
+      <BasicCheckbox
+        v-model="enableAllArtworks"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.loadAllArtworks" />
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -141,6 +145,14 @@ export default class Interface extends Vue {
 
   set collectionsPerPage(value: number) {
     this.$store.dispatch('preferences/setCollectionsPerPage', value)
+  }
+
+  get enableAllArtworks(): boolean {
+    return this.$store.state.preferences.enableAllArtwork
+  }
+
+  set enableAllArtworks(value: boolean) {
+    this.$store.dispatch('preferences/setAllArtworkVisible', value)
   }
 }
 </script>
