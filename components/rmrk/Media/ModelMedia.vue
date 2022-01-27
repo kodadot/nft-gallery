@@ -8,8 +8,8 @@
       :alt="description"
       :availableAnimations="availableAnimations"
       auto-rotate
-      camera-controls
-      ar
+      :camera-controls="isDetail"
+      :ar="isDetail"
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
       autoplay>
@@ -28,9 +28,11 @@ export default class ViewModel extends Vue {
   @Prop({ type: String, default: '' }) public readonly poster?: string
   @Prop({ type: String, default: '' }) public readonly description?: string
   @Prop({ type: Array }) public readonly availableAnimations?: string[]
+  @Prop(Boolean) public preview!: boolean
 
-  // get src() {
-  //   return 'https://kristina-simakova.github.io/ar-webview/assets/RocketShip_1393.gltf';  // }
+  get isDetail(): boolean {
+    return !this.preview
+  }
 }
 </script>
 
@@ -44,7 +46,7 @@ export default class ViewModel extends Vue {
   height: 100%;
   width: 100%;
   min-width: 300px;
-  min-height: 592px;
+  min-height: 300px;
 }
 
 model-viewer#reveal {
