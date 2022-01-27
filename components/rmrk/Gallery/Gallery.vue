@@ -31,9 +31,16 @@
                   }}</span>
                 </span>
                 <BasicImage
+                  v-show="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
                   customClass="gallery__image-wrapper" />
+
+                <Yolo
+                  v-if="!nft.image && nft.animation_url"
+                  :src="nft.animation_url"
+                  :metadata="nft.metadata"
+                  :mimeType="nft.type" />
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
@@ -78,11 +85,18 @@
 <script lang="ts">
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
-import { getCloudflareImageLinks, processMetadata } from '@/utils/cachingStrategy'
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '@/utils/cachingStrategy'
 import { denyList, statemineDenyList } from '@/utils/constants'
 import { fastExtract } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
-import { NFTEntitiesWithCount, NFTWithCollectionMeta, WithData } from 'components/unique/graphqlResponseTypes'
+import {
+  NFTEntitiesWithCount,
+  NFTWithCollectionMeta,
+  WithData,
+} from 'components/unique/graphqlResponseTypes'
 import { DocumentNode } from 'graphql'
 import 'lazysizes'
 
@@ -101,6 +115,7 @@ const components = {
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  Yolo: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component<Gallery>({
@@ -138,6 +153,10 @@ export default class Gallery extends mixins(PrefixMixin) {
     )
   }
 
+  get enableAllArtworks(): boolean {
+    return this.$store.getters['preferences/getLoadAllArtwork']
+  }
+
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
@@ -145,7 +164,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       : await import('@/queries/unique/nftListWithSearch.graphql')
 
     this.$apollo.addSmartQuery<GraphResponse>('nfts', {
-      query:  query.default,
+      query: query.default,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'loadingState',
@@ -177,13 +196,20 @@ export default class Gallery extends mixins(PrefixMixin) {
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
-        image: imageLinks[fastExtract(this.nfts[i].metadata || this.nfts[i].collection.metadata)] || getSanitizer(meta.image || '')(meta.image || ''),
-        animation_url: getSanitizer(meta.animation_url || '')(meta.animation_url || ''),
+        image:
+          imageLinks[
+            fastExtract(
+              this.nfts[i].metadata || this.nfts[i].collection.metadata
+            )
+          ] || getSanitizer(meta.image || '')(meta.image || ''),
+        animation_url: getSanitizer(meta.animation_url || '')(
+          meta.animation_url || ''
+        ),
+        type: meta.type || '',
       })
     })
 
-
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
@@ -213,7 +239,9 @@ export default class Gallery extends mixins(PrefixMixin) {
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
       processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
-      logError(e, msg => console.warn('[PREFETCH] Unable fo fetch', offset, msg))
+      logError(e, (msg) =>
+        console.warn('[PREFETCH] Unable fo fetch', offset, msg)
+      )
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
@@ -361,6 +389,11 @@ export default class Gallery extends mixins(PrefixMixin) {
         }
 
         &:hover .gallery__image-wrapper img {
+          transform: scale(1.1);
+          transition: transform 0.3s linear;
+        }
+
+        &:hover .gallery__image-wrapper video {
           transform: scale(1.1);
           transition: transform 0.3s linear;
         }
