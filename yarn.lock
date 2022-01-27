@@ -2711,10 +2711,10 @@
   dependencies:
     slugify "^1.6.5"
 
-"@kodadot1/sub-api@^0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@kodadot1/sub-api/-/sub-api-0.0.1-rc.0.tgz#d570f8e60abb66cebd94bffecbd64679cc4939b8"
-  integrity sha512-9a/pSkuk8bB2p+9dX3Gn8C/oA2TnJL1DzWqOawtvJWgELyQxs/AvBIL4djQetMvSV/AXhNrG/gUPXIuo9jWZKA==
+"@kodadot1/sub-api@^0.0.1-rc.2":
+  version "0.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/@kodadot1/sub-api/-/sub-api-0.0.1-rc.2.tgz#69bb6f418ced984baeb1269868183277ebcb3e2b"
+  integrity sha512-VBs9X9hEah8TicA7t7hD4/JVMkfUy+6jlT7MOffbzC3bchxvZ/BE0IR3PnFLbWmImHjYvXp7TGXLw1O/X6Biwg==
   dependencies:
     "@polkadot/api" "^7.4.1"
 

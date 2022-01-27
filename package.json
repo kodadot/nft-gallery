@@ -44,7 +44,7 @@
     "@google/model-viewer": "^1.10.1",
     "@keeex/qrcodejs-kx": "^1.0.2",
     "@kodadot1/minimark": "^0.0.1-rc.3",
-    "@kodadot1/sub-api": "^0.0.1-rc.0",
+    "@kodadot1/sub-api": "^0.0.1-rc.2",
     "@kodadot1/vuex-options": "^0.0.1-rc.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.2.0",
