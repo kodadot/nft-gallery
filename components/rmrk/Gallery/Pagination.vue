@@ -99,7 +99,6 @@ export default class Pagination extends Vue {
 }
 </script>
 <style lang="scss">
-@import '@/styles/variables';
 .magicBtn {
   border-width: 1px;
 }
