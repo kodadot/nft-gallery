@@ -1,4 +1,4 @@
-import SettingModule from '@vue-polkadot/vue-settings'
+import SettingModule from '@kodadot1/vuex-options'
 
 // console.log(process.env.VUE_APP_WS_URL, process.env.NUXT_ENV_WS_URL)
 

@@ -123,7 +123,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'

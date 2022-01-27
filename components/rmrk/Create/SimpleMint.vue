@@ -169,7 +169,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, {
   execResultValue,
   txCb,

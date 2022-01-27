@@ -1,5 +1,5 @@
 import type { ApiPromise } from '@polkadot/api'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
 import { Store } from 'vuex'
 
