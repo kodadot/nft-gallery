@@ -607,5 +607,17 @@
   },
   "teleport": {
     "route": "Teleporting {0} from {1} to {2}"
+  },
+  "preferences": {
+    "basic": "basic user interface",
+    "advanced": "advanced user interface",
+    "theater": "Enable Theatre View on default",
+    "fold": {
+      "history": "Fold history and price chart in NFT view on default",
+      "description": "Fold description in collection view on default"
+    },
+    "yolo": "Replace BUY NOW with YOLO",
+    "priceVisible": "Always show price in gallery and collection view by default",
+    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)"
   }
 }

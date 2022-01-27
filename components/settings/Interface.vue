@@ -11,35 +11,26 @@
       }}
     </b-switch>
     <div class="box">
-      <b-field>
-        <b-checkbox v-model="theatreView" :disabled="!enabledAdvancedUI">
-          {{ $t('Enable Theatre View on default') }}
-        </b-checkbox>
-      </b-field>
-      <b-field>
-        <b-checkbox v-model="compactGalleryItem" :disabled="!enabledAdvancedUI">
-          {{ $t('Fold history and price chart in NFT view on default') }}
-        </b-checkbox>
-      </b-field>
-      <b-field>
-        <b-checkbox v-model="compactCollection" :disabled="!enabledAdvancedUI">
-          {{ $t('Fold description in collection view on default') }}
-        </b-checkbox>
-      </b-field>
-      <b-field>
-        <b-checkbox
-          v-model="replaceBuyNowWithYolo"
-          :disabled="!enabledAdvancedUI">
-          {{ $t('Replace buy now with YOLO') }}
-        </b-checkbox>
-      </b-field>
-      <b-field>
-        <b-checkbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
-          {{
-            $t('Always show price in gallery and collection view by default')
-          }}
-        </b-checkbox>
-      </b-field>
+      <BasicCheckbox
+        v-model="theatreView"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.theater" />
+      <BasicCheckbox
+        v-model="compactGalleryItem"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.fold.history" />
+      <BasicCheckbox
+        v-model="compactCollection"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.fold.description" />
+      <BasicCheckbox
+        v-model="replaceBuyNowWithYolo"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.yolo" />
+      <BasicCheckbox
+        v-model="showPriceValue"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.priceVisible" />
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -81,6 +72,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   components: {
+    BasicCheckbox: () => import('@/components/shared/form/BasicCheckbox.vue'),
     Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   },
 })
