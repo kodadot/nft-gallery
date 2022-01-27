@@ -132,7 +132,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
-    listed: true,
+    listed: false,
   }
 
   private first = 10
