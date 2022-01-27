@@ -77,7 +77,6 @@
 
 <script lang="ts">
 import { Component, mixins, Vue } from 'nuxt-property-decorator'
-
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 import { getCloudflareImageLinks, processMetadata } from '@/utils/cachingStrategy'
 import { denyList, statemineDenyList } from '@/utils/constants'
@@ -85,6 +84,7 @@ import { fastExtract } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { NFTEntitiesWithCount, NFTWithCollectionMeta, WithData } from 'components/unique/graphqlResponseTypes'
 import { DocumentNode } from 'graphql'
+import 'lazysizes'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NFTMetadata } from '../service/scheme'
@@ -281,25 +281,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     transform: scale(1);
   }
 
-  .ff-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow: hidden;
-
-    .ff-overlay {
-      z-index: 2;
-    }
-
-    .ff-image,
-    .ff-canvas {
-      top: 50%;
-      height: auto;
-      transform: translateY(-50%);
-      transition: all 0.3s !important;
-    }
-  }
-
   .has-text-overflow-ellipsis {
     overflow: hidden;
     white-space: nowrap;
@@ -334,10 +315,6 @@ export default class Gallery extends mixins(PrefixMixin) {
       border: 2px solid $primary-light;
 
       &-image {
-        .ff-canvas {
-          border-radius: 8px;
-        }
-
         &__emotes {
           position: absolute;
           background-color: $primary-light;
@@ -386,10 +363,6 @@ export default class Gallery extends mixins(PrefixMixin) {
         &:hover .gallery__image-wrapper img {
           transform: scale(1.1);
           transition: transform 0.3s linear;
-        }
-
-        &:hover .ff-canvas {
-          transform: scale(1.1);
         }
 
         &:hover .card-image__emotes {

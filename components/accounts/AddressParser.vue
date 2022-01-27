@@ -7,7 +7,7 @@
       <b-input
         @input="handleInput"
         type="textarea"
-        placeholder="Distribute nfts to multiple addresses"
+        :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
         spellcheck="true"
         custom-class="ap-textarea"></b-input>
     </b-field>

@@ -10,6 +10,9 @@
       <b-tab-item label="Interface" value="advanced">
         <Interface />
       </b-tab-item>
+      <b-tab-item label="Minting" value="minting">
+        <Minting />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -18,6 +21,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import General from '@/components/settings/General.vue'
 import Interface from '@/components/settings/Interface.vue'
+import Minting from '@/components/settings/Minting.vue'
 import Metadata from '@/components/metadata/Metadata.vue'
 
 @Component({
@@ -25,6 +29,7 @@ import Metadata from '@/components/metadata/Metadata.vue'
     General,
     Metadata,
     Interface,
+    Minting,
   },
 })
 export default class Settings extends Vue {

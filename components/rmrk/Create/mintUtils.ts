@@ -1,7 +1,8 @@
-import { Attribute, MassMintNFT } from '../service/scheme'
+import { MassMintNFT } from '../service/scheme'
 import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
+import { Attribute } from '@kodadot1/minimark'
 type Range = [number, number]
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {

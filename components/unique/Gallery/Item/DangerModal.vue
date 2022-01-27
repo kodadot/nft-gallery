@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { showNotification } from '~/utils/notification'
 import { Attribute } from '../../types'

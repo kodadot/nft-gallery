@@ -1,16 +1,12 @@
 <template>
-  <div class="columns">
-    <div class="column is-6 is-offset-3">
-      <section>
-        <br />
-        <b-tabs v-model="activeTab" destroy-on-hide expanded>
-          <b-tab-item v-for="x in components" :key="x" :label="x">
-            <component :is="x" />
-          </b-tab-item>
-        </b-tabs>
-      </section>
-    </div>
-  </div>
+  <section>
+    <br />
+    <b-tabs v-model="activeTab" destroy-on-hide expanded>
+      <b-tab-item v-for="x in components" :key="x" :label="x">
+        <component :is="x" />
+      </b-tab-item>
+    </b-tabs>
+  </section>
 </template>
 
 <script lang="ts">
@@ -22,6 +18,9 @@ const components = { Collection, NFT }
 
 @Component<Remark>({
   components,
+  layout() {
+    return 'centered-half-layout'
+  },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
     const metaData = {

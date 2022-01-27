@@ -3,7 +3,7 @@
     <div class="auth-avatar">
       <Avatar :value="account" :size="size" />
       <span class="subtitle has-text-weight-bold auth-avatar-title"
-        ><Identity :address="account" :inline="true"
+        ><Identity :address="account" :inline="true" hideIdentityPopover
       /></span>
     </div>
     <!-- <Money :value="balance" /> -->
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),

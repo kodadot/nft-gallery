@@ -1,6 +1,6 @@
 import { emptyObject } from '@/utils/empty'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import Vue from 'vue'
 
 export interface IdentityMap {

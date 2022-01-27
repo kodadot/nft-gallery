@@ -105,7 +105,7 @@
                 <b-input
                   v-model="batchAdresses"
                   type="textarea"
-                  placeholder="Distribute nfts to multiple addresses"
+                  :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
                   spellcheck="true"></b-input>
               </b-field>
               <BasicSlider
@@ -126,17 +126,6 @@
           </b-field>
           <b-field>
             <b-button
-              type="is-primary"
-              icon-left="paper-plane"
-              @click="sub"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined>
-              {{ $t('mint.submit') }}
-            </b-button>
-          </b-field>
-          <b-field>
-            <b-button
               type="is-text"
               icon-left="calculator"
               @click="estimateTx"
@@ -154,52 +143,20 @@
           </b-field>
           <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
-            <Support v-model="hasSupport" :price="filePrice">
-              <template v-slot:tooltip>
-                <Tooltip
-                  :label="$t('support.tooltip')"
-                  iconsize="is-small"
-                  buttonsize="is-small"
-                  tooltipsize="is-medium" />
-              </template>
-            </Support>
-          </b-field>
-          <b-field>
-            <Support
-              v-model="hasCarbonOffset"
-              :price="1"
-              :activeMessage="$t('carbonOffset.carbonOffsetYes')"
-              :passiveMessage="$t('carbonOffset.carbonOffsetNo')">
-              <template v-slot:tooltip>
-                <Tooltip
-                  iconsize="is-small"
-                  buttonsize="is-small"
-                  tooltipsize="is-large">
-                  <template v-slot:content>
-                    {{ $t('carbonOffset.tooltip') }}
-                    (<a
-                      class="has-text-black is-underlined"
-                      href="https://kodadot.xyz/carbonless"
-                      >https://kodadot.xyz/carbonless</a
-                    >)
-                  </template>
-                </Tooltip>
-              </template>
-            </Support>
-          </b-field>
-          <ArweaveUploadSwitch v-model="arweaveUpload">
-            <template v-slot:tooltip>
-              <Tooltip
-                :label="$t('arweave.tooltip')"
-                iconsize="is-small"
-                buttonsize="is-small"
-                tooltipsize="is-medium" />
-            </template>
-          </ArweaveUploadSwitch>
-          <b-field>
             <b-switch v-model="hasToS" :rounded="false">
               {{ $t('termOfService.accept') }}
             </b-switch>
+          </b-field>
+          <b-field>
+            <b-button
+              type="is-primary"
+              icon-left="paper-plane"
+              @click="sub"
+              :disabled="disabled"
+              :loading="isLoading"
+              outlined>
+              {{ $t('mint.submit') }}
+            </b-button>
           </b-field>
         </div>
       </section>
@@ -212,7 +169,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, {
   execResultValue,
   txCb,
@@ -228,16 +185,14 @@ import {
   NFT,
   getNftId,
 } from '../service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, getKey, revokeKey } from '@/utils/proxy'
+import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost, offsetTx, feeTx } from '@/utils/support'
+import { canSupport, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { ipfsToArweave } from '@/utils/ipfs'
-import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -248,6 +203,7 @@ import {
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -259,7 +215,6 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
@@ -288,12 +243,9 @@ export default class SimpleMint extends mixins(
   private secondFile: Blob | null = null
   private password = ''
   private hasToS = false
-  private hasSupport = true
   private nsfw = false
   private price = 0
   private estimated = ''
-  private hasCarbonOffset = true
-  protected arweaveUpload = false
   protected batchAdresses = ''
   protected postfix = true
   protected random = false
@@ -335,6 +287,18 @@ export default class SimpleMint extends mixins(
     )
   }
 
+  get hasSupport(): boolean {
+    return this.$store.state.preferences.hasSupport
+  }
+
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
+  }
+
+  get arweaveUpload(): boolean {
+    return this.$store.state.preferences.arweaveUpload
+  }
+
   protected async estimateTx() {
     this.isLoading = true
     const { accountId, version } = this
@@ -353,8 +317,7 @@ export default class SimpleMint extends mixins(
       ? remarks.map(this.toRemark)
       : [
           ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset()),
+          ...(await canSupport(this.hasSupport, 3)),
         ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
@@ -430,8 +393,7 @@ export default class SimpleMint extends mixins(
         ? remarks.map(this.toRemark)
         : [
             ...remarks.map(this.toRemark),
-            ...(await this.canSupport()),
-            ...(await this.canOffset()),
+            ...(await canSupport(this.hasSupport, 3)),
           ]
 
       const tx = await exec(
@@ -700,10 +662,6 @@ export default class SimpleMint extends mixins(
     return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }]
   }
 
-  get filePrice() {
-    return calculateCost(this.file)
-  }
-
   public async constructMeta(): Promise<string | undefined> {
     if (!this.file) {
       throw new ReferenceError('No file found!')
@@ -721,8 +679,11 @@ export default class SimpleMint extends mixins(
     }
 
     try {
-      const keys: APIKeys = await getKey(this.accountId)
-      const fileHash = await pinFileToIPFS(this.file, keys)
+      const { token }: PinningKey = await this.$store.dispatch(
+        'pinning/fetchPinningKey',
+        this.accountId
+      )
+      const fileHash = await pinFileToIPFS(this.file, token)
 
       if (!this.secondaryFileVisible) {
         this.meta.image = unSanitizeIpfsUrl(fileHash)
@@ -732,36 +693,19 @@ export default class SimpleMint extends mixins(
       } else {
         this.meta.animation_url = unSanitizeIpfsUrl(fileHash)
         if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, keys)
+          const coverImageHash = await pinFileToIPFS(this.secondFile, token)
           this.meta.image = unSanitizeIpfsUrl(coverImageHash)
         }
       }
 
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn)
       // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta)
+      const metaHash = await pinJson(this.meta, extractCid(this.meta.image))
       return unSanitizeIpfsUrl(metaHash)
     } catch (e) {
       if (e instanceof Error) {
         throw new ReferenceError(e.message)
       }
     }
-  }
-
-  protected async canSupport() {
-    if (this.hasSupport && this.file) {
-      return [await supportTx(this.file)]
-    }
-
-    return []
-  }
-
-  protected async canOffset() {
-    if (this.hasCarbonOffset) {
-      return [await offsetTx(1)]
-    }
-
-    return []
   }
 
   private toRemark(remark: string) {

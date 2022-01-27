@@ -3,12 +3,15 @@
     <Loader :value="isLoading" />
     <b-table
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
-      hoverable
       :current-page="currentPage ? currentPage : 1"
+      :default-sort="[sortBy.field, sortBy.value]"
+      hoverable
       detailed
       paginated
       pagination-position="top"
-      show-detail-icon>
+      backend-sorting
+      show-detail-icon
+      @sort="onSort">
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
@@ -43,7 +46,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+      <b-table-column field="unique" :label="$t('spotlight.unique')">
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" append-to-body dashed>
             {{ column.label }}
@@ -56,7 +59,7 @@
       </b-table-column>
 
       <b-table-column
-        field="uniqueCollectors"
+        field="unique_collectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template v-slot:header="{ column }">
@@ -80,7 +83,7 @@
       </b-table-column>
 
       <b-table-column
-        field="averagePrice"
+        field="average"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
         sortable>
@@ -93,8 +96,7 @@
       <b-table-column
         field="count"
         :label="$t('spotlight.count')"
-        v-slot="props"
-        sortable>
+        v-slot="props">
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -106,11 +108,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column
-        field="rank"
-        :label="$t('spotlight.score')"
-        sortable
-        numeric>
+      <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>
             {{ column.label }}
@@ -170,34 +168,39 @@ export default class SpotlightTable extends mixins(
   protected usersWithIdentity: Row[] = []
   protected toggleUsersWithIdentity = false
   protected currentPage = 0
+  protected sortBy = { field: 'sold', value: 'DESC' }
 
   async created() {
+    await this.fetchSpotlightData()
+  }
+
+  public async fetchSpotlightData(sort = this.sortBy) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: collectionSpotlightList,
       client: 'subsquid',
+      variables: {
+        // denyList, not yet
+        offset: '0',
+        orderBy: sort.field,
+        orderDirection: sort.value,
+      },
     })
 
     const {
       data: { collectionEntities },
     } = collections
 
-    this.data = collectionEntities
-      .map(
-        (e): Row => ({
-          ...e,
-          averagePrice: Number(e.averagePrice),
-          collectors: e.sold,
-          rank: e.sold * (e.unique / e.total || 1),
-          uniqueCollectors: e.uniqueCollectors,
-          volume: BigInt(e.volume),
-        })
-      )
-      .sort((a, b) => b.rank - a.rank)
-
-    // this.data = spotlightAggQuery(
-    //   collectionEntities?.nodes?.map(nftFn)
-    // ) as Row[]
+    this.data = collectionEntities.map(
+      (e): Row => ({
+        ...e,
+        averagePrice: Number(e.averagePrice),
+        collectors: e.sold,
+        rank: e.sold * (e.unique / e.total || 1),
+        uniqueCollectors: e.uniqueCollectors,
+        volume: BigInt(e.volume),
+      })
+    )
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
@@ -207,6 +210,20 @@ export default class SpotlightTable extends mixins(
     }
 
     this.isLoading = false
+  }
+
+  public onSort(field: string, order: string) {
+    let sort = { field: field, value: order === 'desc' ? 'DESC' : 'ASC' }
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: {
+          ...this.$route.query,
+          sort: (order === 'desc' ? '-' : '+') + field,
+        },
+      })
+      .catch((e) => console.warn(e))
+    this.fetchSpotlightData(sort)
   }
 
   public async identityOf(account: Address) {
