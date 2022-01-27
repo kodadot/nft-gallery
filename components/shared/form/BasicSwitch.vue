@@ -24,6 +24,7 @@ export default class BasicSwitch extends Vue {
   @Prop({ type: String }) size!: string
   @Prop({ type: String }) labelColor!: string
   @Prop({ type: String }) message!: string
+  @Prop({ type: Boolean }) disabled!: string
 
   get componentName(): string {
     return this.message ? 'b-tooltip' : 'span'
