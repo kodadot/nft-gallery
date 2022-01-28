@@ -92,6 +92,7 @@ export default {
     { src: '~/plugins/polkadot', mode: 'client' },
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
+    { src: '~/plugins/keyboardEvents', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
