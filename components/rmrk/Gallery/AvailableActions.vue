@@ -5,6 +5,7 @@
       <b-button
         v-for="action in actions"
         :key="action"
+        :class="action.toLowerCase() + '-btn'"
         :type="iconType(action)[0]"
         outlined
         @click="handleAction(action)"

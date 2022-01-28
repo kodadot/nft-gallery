@@ -100,6 +100,7 @@
             :active="isLoading"></b-skeleton>
           <DescriptionWrapper
             v-if="!isLoading"
+            class="description-wrapper"
             :text="meta.description.replaceAll('\n', '  \n')" />
         </div>
       </div>
@@ -161,7 +162,7 @@
           </div>
         </div>
         <PriceChart
-          class="mt-4"
+          class="mt-4 price-chart"
           :priceChartData="priceChartData"
           :openOnDefault="!compactGalleryItem" />
       </div>
@@ -171,6 +172,7 @@
       <div class="column">
         <History
           v-if="!isLoading"
+          class="history-chart"
           :events="nft.events"
           :open-on-default="!compactGalleryItem"
           @setPriceChartData="setPriceChartData" />
@@ -411,7 +413,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft()
+    let actions = this.$refs.actions as AvailableActions
+    actions.unlistNft()
   }
 
   @Watch('meta.image')
