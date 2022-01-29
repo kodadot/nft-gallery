@@ -4,7 +4,7 @@
       <b-input
         v-model="inputValue"
         type="number"
-        step="0.001"
+        :step="step"
         min="0"
         :expanded="expanded"
         @input="handleInput" />
@@ -35,6 +35,7 @@ export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ default: 'balance' }) public label!: string
   @Prop({ default: true }) public calculate!: boolean
   @Prop(Boolean) public expanded!: boolean
+  @Prop({ default: 0.001 }) public step!: number
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
 
