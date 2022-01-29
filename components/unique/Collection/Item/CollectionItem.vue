@@ -88,7 +88,7 @@ import {
 } from '@/components/rmrk/utils'
 import isShareMode from '@/utils/isShareMode'
 
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { Option } from '@polkadot/types'
 import { NFTWithMeta } from '@/components/rmrk/service/scheme'
 import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'

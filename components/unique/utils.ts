@@ -10,7 +10,7 @@ export const tokenIdToRoute = (
   }
 }
 
-export const createTokenId = (collection: string, id: string) =>
+export const createTokenId = (collection: string, id: string): string =>
   `${collection}-${id}`
 
 export const getRandomValues = (length: number): number[] => {
@@ -21,6 +21,9 @@ export const getRandomValues = (length: number): number[] => {
 
 export const hasEnoughToken = (balance: string, ...fees: string[]): boolean => {
   const balanceAmount = new BN(balance)
+  const zero = new BN(0)
   const feesAmount = fees.map((fee) => new BN(fee))
-  return feesAmount.reduce((total, fee) => total.add(fee), balanceAmount).ltn(0)
+  return feesAmount
+    .reduce((total, fee) => total.add(fee), zero)
+    .lt(balanceAmount)
 }

@@ -1,6 +1,7 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 
 export const state = (): {
+  // Interface
   layoutClass: string
   advancedUI: boolean
   theatreView: string
@@ -10,6 +11,10 @@ export const state = (): {
   galleryItemsPerPage: number
   collectionsPerPage: number
   replaceBuyNowWithYolo: boolean
+  // Minting
+  hasSupport: boolean
+  hasCarbonOffset: boolean
+  arweaveUpload: boolean
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
   advancedUI: false,
@@ -20,6 +25,9 @@ export const state = (): {
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
+  hasSupport: true,
+  hasCarbonOffset: true,
+  arweaveUpload: false,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -33,6 +41,9 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
     replaceBuyNowWithYolo,
+  getHasSupport: ({ hasSupport }) => hasSupport,
+  getHasCarbonOffset: ({ hasCarbonOffset }) => hasCarbonOffset,
+  getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -73,6 +84,15 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_COLLECTIONS_PER_PAGE(state: PreferencesState, data) {
     state.collectionsPerPage = data
   },
+  SET_HAS_SUPPORT(state: PreferencesState, data) {
+    state.hasSupport = data
+  },
+  SET_HAS_CARBON_OFFSET(state: PreferencesState, data) {
+    state.hasCarbonOffset = data
+  },
+  SET_ARWEAVE_UPLOAD(state: PreferencesState, data) {
+    state.arweaveUpload = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -102,5 +122,14 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setReplaceBuyNowWithYolo({ commit }: { commit: Commit }, data) {
     commit('REPLACE_BUYNOW_WITH_YOLO', data)
+  },
+  setHasSupport({ commit }: { commit: Commit }, data) {
+    commit('SET_HAS_SUPPORT', data)
+  },
+  setHasCarbonOffset({ commit }: { commit: Commit }, data) {
+    commit('SET_HAS_CARBON_OFFSET', data)
+  },
+  setArweaveUpload({ commit }: { commit: Commit }, data) {
+    commit('SET_ARWEAVE_UPLOAD', data)
   },
 }

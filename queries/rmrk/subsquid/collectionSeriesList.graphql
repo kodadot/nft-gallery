@@ -1,5 +1,13 @@
-query collectionSeriesList($limit: Float) {
-  collectionEntities: seriesInsightTable(limit: $limit) {
+query collectionSeriesList(
+  $limit: Float
+  $orderBy: String
+  $orderDirection: String
+) {
+  collectionEntities: seriesInsightTable(
+    limit: $limit
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
     id
     floorPrice
     averagePrice
@@ -8,7 +16,7 @@ query collectionSeriesList($limit: Float) {
     sold
     name
     total
-    totalBuys: buys
+    buys
     unique
     uniqueCollectors
     volume

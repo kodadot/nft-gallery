@@ -1,6 +1,5 @@
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import keyring, { Keyring } from '@polkadot/ui-keyring'
-import { cryptoWaitReady } from '@polkadot/util-crypto'
+import keyring from '@polkadot/ui-keyring'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
@@ -18,13 +17,6 @@ export default class WithKeyring extends Vue {
   protected keyringAccounts: KeyringPair[] = []
   protected importedAccounts: InjectedAccountWithMeta[] = []
   // protected keys: any = '';
-
-  public async mountWasmCrypto(): Promise<void> {
-    await cryptoWaitReady()
-    // console.log('wasmCrypto loadedX');
-    await this.loadKeyring()
-    // console.log('keyring initX');
-  }
 
   public async loadKeyring(ss58?: number): Promise<void> {
     this.keyringLoaded = true
@@ -82,8 +74,8 @@ export default class WithKeyring extends Vue {
     return [...this.keyringAccounts, ...this.importedAccounts]
   }
 
-  public created(): void {
-    this.mountWasmCrypto()
+  public async created() {
+    await this.loadKeyring()
   }
 
   public getPair(address: string): KeyringPair {

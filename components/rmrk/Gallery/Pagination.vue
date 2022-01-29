@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-justify-content-flex-end">
+  <div class="is-flex is-justify-content-flex-end" v-if="total > perPage">
     <b-pagination
       :total="total"
       :current.sync="current"

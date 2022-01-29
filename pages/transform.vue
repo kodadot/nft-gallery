@@ -79,7 +79,7 @@ export default class Transform extends Vue {
   }
 
   private openUrl(): void {
-    const url = transform(this.$route.query.url.toString())
+    const url = transform(this.url.toString())
 
     this.$router.push({
       path: url,

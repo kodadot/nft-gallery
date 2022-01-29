@@ -103,7 +103,16 @@ class NFTUtils {
     metadata: string,
     max = 1,
     version = '1.0.0'
-  ) {
+  ): {
+    id: string
+    _id: string
+    symbol: string
+    issuer: string
+    version: string
+    name: string
+    max: number
+    metadata: string
+  } {
     const trimmedSymbol = slugify(symbol.trim().toUpperCase(), '_')
     return {
       id: generateId(caller, trimmedSymbol),

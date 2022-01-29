@@ -80,7 +80,6 @@ import { Component, Vue, mixins } from 'nuxt-property-decorator'
 
 import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
 import { fetchMetadata, fetchNFTMetadata, getSanitizer } from '../utils'
-import Freezeframe from 'freezeframe'
 import 'lazysizes'
 import { SearchQuery } from './Search/types'
 
@@ -177,11 +176,14 @@ export default class Gallery extends mixins(PrefixMixin) {
 
     const metadataList: string[] = this.nfts.map(
       ({ metadata, collection }: NFTWithCollectionMeta) =>
-        metadata || collection.metadata
+        metadata || collection.metadata || 'x'
     )
-    const storedMetadata = await getMany(metadataList).catch(() => metadataList)
+    const storedMetadata = await getMany(metadataList)
 
     storedMetadata.forEach(async (m, i) => {
+      if (!metadataList[i]) {
+        return
+      }
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(
@@ -289,24 +291,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
-  setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async (e) => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
-
-      if (isGif && !target.ffInitialized) {
-        const ff = new Freezeframe(target, {
-          trigger: false,
-          overlay: true,
-          warnings: false,
-        })
-
-        target.ffInitialized = true
-      }
-    })
-  }
-
   onError(e: Event) {
     const target = e.target as Image
     target.src = this.placeholder
@@ -344,25 +328,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     transform: scale(1);
   }
 
-  .ff-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow: hidden;
-
-    .ff-overlay {
-      z-index: 2;
-    }
-
-    .ff-image,
-    .ff-canvas {
-      top: 50%;
-      height: auto;
-      transform: translateY(-50%);
-      transition: all 0.3s !important;
-    }
-  }
-
   .has-text-overflow-ellipsis {
     overflow: hidden;
     white-space: nowrap;
@@ -397,10 +362,6 @@ export default class Gallery extends mixins(PrefixMixin) {
       border: 2px solid $primary-light;
 
       &-image {
-        .ff-canvas {
-          border-radius: 8px;
-        }
-
         &__emotes {
           position: absolute;
           background-color: $primary-light;
@@ -449,10 +410,6 @@ export default class Gallery extends mixins(PrefixMixin) {
         &:hover .gallery__image-wrapper img {
           transform: scale(1.1);
           transition: transform 0.3s linear;
-        }
-
-        &:hover .ff-canvas {
-          transform: scale(1.1);
         }
 
         &:hover .card-image__emotes {

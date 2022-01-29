@@ -6,6 +6,7 @@
         type="number"
         step="0.001"
         min="0"
+        :expanded="expanded"
         @input="handleInput" />
       <p class="control balance">
         <b-select
@@ -31,10 +32,11 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 @Component
 export default class BalanceInput extends mixins(ChainMixin) {
   @Prop({ type: [Number, String], default: 0 }) value!: number
-  protected units: Unit[] = defaultUnits
-  private selectedUnit = 1
   @Prop({ default: 'balance' }) public label!: string
   @Prop({ default: true }) public calculate!: boolean
+  @Prop(Boolean) public expanded!: boolean
+  protected units: Unit[] = defaultUnits
+  private selectedUnit = 1
 
   get inputValue(): number {
     return this.value

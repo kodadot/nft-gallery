@@ -13,16 +13,22 @@
         <template #label>
           <span>{{ $t('Create') }}</span>
         </template>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
-          {{ $t('Classic') }}
-        </b-navbar-item>
+        <b-tooltip
+          label="Start by creating your collection and add NFTs to it"
+          position="is-right">
+          <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
+            {{ $t('Classic') }}
+          </b-navbar-item>
+        </b-tooltip>
         <template v-if="isRmrk">
-          <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
-            {{ $t('Simple') }}
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/permafrost/create">
-            {{ $t('Permafrost') }}
-          </b-navbar-item>
+          <b-tooltip
+            label="Simplified process to create your NFT in a single step"
+            position="is-right"
+            style="display: block">
+            <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
+              {{ $t('Simple') }}
+            </b-navbar-item>
+          </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
@@ -121,7 +127,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
-    box-shadow: 13px 14px $primary-dark-transparent !important;
+    box-shadow: $dropdown-content-shadow !important;
   }
 }
 </style>
