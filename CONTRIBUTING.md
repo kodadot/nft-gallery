@@ -1,11 +1,11 @@
 # Contributing to KodaDot: NFT gallery
 
-KodaDot NFT gallery has plan to be community-owned.
-We are welcoming community contribution from you.
-Take a sneak peak on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR.
-When everything went well, chances that you will be rewarded are high. We might give retro-active bounties where bounty label wasn't present if we like your commit.
+KodaDot NFT gallery has plan to be community-driven.
+We are welcome community contribution from you.
+Take a peak on our [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment and make PR.
+When everything went well, chances that you will be **rewarded are high**. We might give retro-active bounties where bounty label wasn't present if we like your commit.
 
-**For better coordination, pleasejoin our [Development channel Anteriors on Discord](https://discord.gg/KkctBVQ8kP)**
+**For better coordination, please join our [Development channel My-First-Pull-Request on Discord](https://discord.gg/kodadot)**
 
 ## Getting started
 
