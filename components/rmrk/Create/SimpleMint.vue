@@ -77,19 +77,12 @@
             @input="updateMeta"
             label="Price"
             expanded />
-          <b-message
-            v-if="price"
-            icon="exclamation-triangle"
-            class="mt-3"
-            title="Additional transaction"
-            type="is-primary"
-            has-icon
-            aria-close-label="Close message">
-            <span class="has-text-primary"
-              >Setting the price now requires making an additional
-              transaction.</span
-            >
-          </b-message>
+          <div class="content mt-3">
+            <p>
+              Hint: Setting the price now requires making an additional
+              transaction.
+            </p>
+          </div>
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
