@@ -8,7 +8,8 @@
           type="search"
           v-model="searchQuery"
           icon="search"
-          expanded>
+          expanded
+          class="input-search">
         </b-input>
       </b-field>
       <BasicSwitch
@@ -146,11 +147,18 @@ export default class SearchBar extends Vue {
 </style>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .field-group-container {
   .is-grouped-multiline {
     flex-wrap: initial !important;
     @media screen and (max-width: 768px) {
       flex-wrap: wrap !important;
+    }
+  }
+  .input-search {
+    input {
+      border: 1px solid $primary!important;
     }
   }
 }
