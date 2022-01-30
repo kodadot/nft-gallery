@@ -1,4 +1,4 @@
-import { ENDPOINTS } from '@vue-polkadot/vue-settings'
+import { ENDPOINTS } from '@kodadot1/vuex-options'
 
 const prefixes: Record<string, number> = {
   polkadot: 0,

@@ -1,4 +1,4 @@
-import { CreatedNFT } from '@vue-polkadot/minimark'
+import { CreatedNFT } from '@kodadot1/minimark'
 import { sanitizeIpfsUrl } from '../utils'
 
 export interface CompletePack extends BasePack {
