@@ -17,6 +17,7 @@
         :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
         size="is-medium"
         labelColor="is-success"
+        :disabled="disableToggle"
         :message="$i18n.t('tooltip.buy')" />
       <slot />
     </b-field>
@@ -42,6 +43,7 @@ export default class SearchBar extends Vue {
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public disableToggle!: boolean
 
   protected isVisible = false
 
