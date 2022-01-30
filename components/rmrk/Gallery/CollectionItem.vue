@@ -46,13 +46,9 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <CollapseWrapper
-          visible="collapse.collection.description.show"
-          hidden="collapse.collection.description.hide"
-          :open-on-default="!compactCollection"
-          isSelectable>
-          <VueMarkdown :source="description" />
-        </CollapseWrapper>
+        <DescriptionWrapper
+          v-if="!isLoading"
+          :text="description.replaceAll('\n', '  \n')" />
       </div>
     </div>
 
@@ -139,6 +135,8 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   VueMarkdown: () => import('vue-markdown-render'),
+  DescriptionWrapper: () =>
+    import('@/components/shared/collapse/DescriptionWrapper.vue'),
 }
 @Component<CollectionItem>({
   components,
