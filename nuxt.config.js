@@ -88,7 +88,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vuex-persist', mode: 'client' },
     { src: '~/plugins/polkadot', mode: 'client' },
+    { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
@@ -96,7 +98,6 @@ export default {
     '~/plugins/vueAudioVisual',
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
-    { src: '~/plugins/vuex-persist', mode: 'client' },
     '~/plugins/vueTippy',
     '~/plugins/vueGtag',
   ],
@@ -196,6 +197,7 @@ export default {
   },
 
   i18n: {
+    vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,

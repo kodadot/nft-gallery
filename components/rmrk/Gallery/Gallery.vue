@@ -3,16 +3,14 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <b-field class="column">
-        <Pagination
-          hasMagicBtn
-          simple
-          :total="total"
-          v-model="currentValue"
-          :perPage="first"
-          replace
-          class="is-right remove-margin" />
-      </b-field>
+      <Pagination
+        hasMagicBtn
+        simple
+        :total="total"
+        v-model="currentValue"
+        :perPage="first"
+        replace
+        class="remove-margin" />
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
@@ -116,7 +114,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
+    listed: true,
   }
   private placeholder = '/Kodadot_logo.svg'
   private currentValue = 1
@@ -176,11 +174,14 @@ export default class Gallery extends mixins(PrefixMixin) {
 
     const metadataList: string[] = this.nfts.map(
       ({ metadata, collection }: NFTWithCollectionMeta) =>
-        metadata || collection.metadata
+        metadata || collection.metadata || 'x'
     )
-    const storedMetadata = await getMany(metadataList).catch(() => metadataList)
+    const storedMetadata = await getMany(metadataList)
 
     storedMetadata.forEach(async (m, i) => {
+      if (!metadataList[i]) {
+        return
+      }
       if (!m) {
         try {
           const meta = await fetchNFTMetadata(
