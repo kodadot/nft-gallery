@@ -92,6 +92,10 @@ export default class HistoryBrowser extends Vue {
 
 .history-browser {
   margin: 12px 0 12px 12px;
+  .is-primary {
+    border: 0;
+    border-top: 2px solid $primary!important;
+  }
 }
 @media screen and (min-width: 1024px) {
   .history-browser {
