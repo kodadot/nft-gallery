@@ -1,4 +1,3 @@
-import '@polkadot/api-augment'
 import keyring from '@polkadot/ui-keyring'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import correctFormat from '~/utils/ss58Format'

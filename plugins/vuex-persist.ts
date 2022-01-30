@@ -12,4 +12,8 @@ export default ({ store }): void => {
     key: 'preferences',
     storage: window.localStorage,
   }).plugin(store)
+  new VuexPersistence({
+    key: 'setting',
+    storage: window.sessionStorage,
+  }).plugin(store)
 }
