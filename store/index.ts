@@ -1,19 +1,14 @@
 import type { ApiPromise } from '@polkadot/api'
-import VuexPersist from 'vuex-persist'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
+import { Store } from 'vuex'
 
-const vuexLocalStorage = new VuexPersist({
-  key: 'vuex',
-  storage: window.sessionStorage,
-})
-
-interface ChangeUrlAction {
+type VuexAction = {
   type: string
   payload: string
 }
 
-const apiPlugin = (store: any): void => {
+const apiPlugin = (store: Store<any>): void => {
   const { getInstance: Api } = Connector
 
   Api().on('connect', async (api: ApiPromise) => {
@@ -46,11 +41,10 @@ const apiPlugin = (store: any): void => {
   })
 }
 
-const myPlugin = (store: any): void => {
+const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
-  Api().connect(store.state.setting.apiUrl)
 
-  store.subscribeAction(({ type, payload }: ChangeUrlAction, _: any) => {
+  store.subscribeAction(({ type, payload }: VuexAction, _: any) => {
     if (type === 'setApiUrl' && payload) {
       store.commit('setLoading', true)
       Api().connect(payload)
@@ -85,4 +79,4 @@ export const actions = {}
 
 export const getters = {}
 
-export const plugins = [vuexLocalStorage.plugin, apiPlugin, myPlugin]
+export const plugins = [apiPlugin, myPlugin]

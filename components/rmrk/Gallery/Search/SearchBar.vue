@@ -1,81 +1,101 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="card-content">
-      <div class="columns mb-0">
-        <b-field class="column is-6 mb-0">
-          <b-autocomplete
-            v-model="name"
-            :data="searchSuggestion"
-            placeholder="Search..."
-            icon="search"
-            open-on-focus
-            clearable
-            max-height="350px"
-            @keydown.native.enter="searchResult"
-            @keydown.native.up="moveUp"
-            @keydown.native.down="moveDown"
-            @typing="updateSuggestion"
-            @select="updateSelected">
-            <template slot-scope="props">
-              <div v-if="props.option.type === 'History'">
-                <div class="searchCache">{{ props.option.name }}</div>
+    <div class="columns mb-0">
+      <b-field class="column is-6 mb-0">
+        <b-button
+          icon-left="filter"
+          aria-controls="sortAndFilter"
+          type="is-primary"
+          class="is-hidden-mobile mr-2"
+          @click="isVisible = !isVisible" />
+        <b-autocomplete
+          v-model="name"
+          :data="searchSuggestion"
+          placeholder="Search..."
+          icon="search"
+          open-on-focus
+          clearable
+          max-height="350px"
+          expanded
+          @keydown.native.enter="searchResult"
+          @keydown.native.up="moveUp"
+          @keydown.native.down="moveDown"
+          @typing="updateSuggestion"
+          @select="updateSelected">
+          <template slot-scope="props">
+            <div v-if="props.option.type === 'Search'">
+              <div class="media">
+                <div class="media-left">
+                  <b-icon icon="search" size="is-medium" />
+                </div>
+                <div class="media-content">{{ props.option.name }}</div>
               </div>
+            </div>
 
-              <div v-else>
-                <nuxt-link
-                  :to="{
-                    name: 'rmrk-detail-id',
-                    params: { id: props.option.id },
-                  }"
-                  tag="div">
-                  <div class="media">
-                    <div class="media-left">
-                      <BasicImage
-                        customClass="is-32x32"
-                        :src="
-                          props.option.image === ''
-                            ? props.option.animation_url
-                            : props.option.image
-                        " />
-                    </div>
-                    <div class="media-content">
-                      {{ props.option.name }}
-                    </div>
-                  </div>
-                </nuxt-link>
+            <div v-else-if="props.option.type === 'History'">
+              <div class="media">
+                <div class="media-left">
+                  <b-icon icon="history" size="is-medium" />
+                </div>
+                <div class="media-content">{{ props.option.name }}</div>
+                <div
+                  class="media-right"
+                  @click.stop.prevent="removeSearchHistory(props.option.name)">
+                  <b-button type="is-text" icon-left="times" />
+                </div>
               </div>
-            </template>
-          </b-autocomplete>
-        </b-field>
-        <b-field class="column is-3 mb-0">
-          <b-button
-            label="Sort & Filter"
-            aria-controls="sortAndFilter"
-            :icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
-            type="is-primary"
-            expanded
-            @click="isVisible = !isVisible" />
-        </b-field>
+            </div>
+
+            <div v-else>
+              <nuxt-link
+                :to="{
+                  name: 'rmrk-detail-id',
+                  params: { id: props.option.id },
+                }"
+                tag="div">
+                <div class="media">
+                  <div class="media-left">
+                    <BasicImage
+                      customClass="is-32x32"
+                      :src="
+                        props.option.image === ''
+                          ? props.option.animation_url
+                          : props.option.image
+                      " />
+                  </div>
+                  <div class="media-content">
+                    {{ props.option.name }}
+                  </div>
+                </div>
+              </nuxt-link>
+            </div>
+          </template>
+        </b-autocomplete>
+      </b-field>
+      <b-field expanded position="is-right" class="column is-6">
+        <b-button
+          icon-left="filter"
+          aria-controls="sortAndFilter"
+          type="is-primary"
+          class="is-hidden-tablet mr-2"
+          @click="isVisible = !isVisible" />
         <slot />
-      </div>
-      <b-collapse
-        aria-id="sortAndFilter"
-        animation="opacitySlide"
-        v-model="isVisible">
-        <div class="columns">
-          <Sort
-            class="column is-4 mb-0"
-            :value="sortBy"
-            @input="updateSortBy" />
-          <BasicSwitch
-            class="is-flex column is-4"
-            v-model="vListed"
-            :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
-            size="is-medium"
-            labelColor="is-success" />
-        </div>
-      </b-collapse>
+      </b-field>
     </div>
+    <b-collapse
+      aria-id="sortAndFilter"
+      animation="opacitySlide"
+      v-model="isVisible">
+      <div class="columns">
+        <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+        <BasicSwitch
+          class="is-flex column is-4"
+          v-model="vListed"
+          :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
+          size="is-medium"
+          labelColor="is-success" />
+      </div>
+    </b-collapse>
   </div>
 </template>
 
@@ -118,7 +138,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
   private first = 10
   private currentValue = 1
   private result: NFT[] = []
-  private nfts: NFT[] = []
+  private searchString = ''
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
@@ -152,9 +172,16 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   get searchSuggestion() {
-    return this.result.length !== 0
+    const nameInSearch: boolean = this.oldSearchResult(this.name)
+
+    const suggestions = this.result.length
       ? this.filterSearch().concat(this.result)
       : this.filterSearch()
+    return nameInSearch || !this.name
+      ? suggestions
+      : ([{ type: 'Search', name: this.name } as unknown] as NFT[]).concat(
+          suggestions
+        )
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -169,22 +196,42 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return v === 'true'
   }
 
+  insertNewHistroy() {
+    const newResult = {
+      type: 'History',
+      name: this.searchString,
+    } as unknown as NFT
+    this.searched.push(newResult)
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+  //Invoked when "enter" key is pressed
+  @Debounce(50)
   searchResult() {
-    if (this.highlightPos) {
+    const offset = this.oldSearchResult(this.searchString) ? 0 : 1
+
+    //When an item from the autocomplete list is highlighted
+    if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
-      if (this.highlightPos >= searchCache.length)
-        this.updateSelected(this.result[this.highlightPos - searchCache.length])
-      else this.updateSearch(searchCache[this.highlightPos].name)
-    }
+      //Higlighted item is NFT or search result from cache
+      if (this.highlightPos == 0 && offset) {
+        this.insertNewHistroy()
+        this.updateSearch(this.searchString)
+      } else if (this.highlightPos >= searchCache.length + offset) {
+        this.updateSelected(
+          this.result[this.highlightPos - searchCache.length - offset]
+        )
+      } else this.updateSearch(searchCache[this.highlightPos - offset].name)
+    } else {
+      //Searching empty string
+      if (!this.searchString) return
 
-    if (!this.name) return
-
-    if (!this.oldSearchResult(this.name)) {
-      const newResult = { type: 'History', name: this.name } as unknown as NFT
-      this.searched.push(newResult)
-      localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+      //Current search string is not present in cache
+      if (offset) {
+        this.insertNewHistroy()
+      }
+      this.updateSearch(this.searchString)
     }
-    this.updateSearch(this.name)
+    // this.searchString = ''
   }
 
   @Emit('update:type')
@@ -201,12 +248,19 @@ export default class SearchBar extends mixins(PrefixMixin) {
     return value
   }
 
+  @Debounce(50)
   updateSelected(value: any) {
+    //To handle clearing event
+    if (!value) return
     if (value.type == 'History') {
+      this.updateSearch(value.name)
+    } else if (value.type == 'Search') {
+      this.insertNewHistroy()
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
     }
+    // this.searchString = ''
   }
 
   @Emit('update:search')
@@ -221,13 +275,21 @@ export default class SearchBar extends mixins(PrefixMixin) {
   }
 
   moveDown() {
-    this.highlightPos = Math.min(this.result.length - 1, this.highlightPos + 1)
+    const l =
+      this.result.length +
+      this.filterSearch().length +
+      (1 - Number(this.oldSearchResult(this.name))) -
+      1
+    this.highlightPos = Math.min(l, this.highlightPos + 1)
   }
 
   async updateSuggestion(value: string) {
-    // shouldUpdate(value, this.searchQuery)
+    this.searchString = value
+    //To handle empty string
+    if (!value) return
+
     this.query.search = value
-    this.highlightPos = 0
+    this.highlightPos = -1
 
     try {
       const nft = this.$apollo.query({
@@ -263,6 +325,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
               ...this.result[i],
               ...meta,
               image: getSanitizer(meta.image || '')(meta.image || ''),
+              type: 'NFT',
             })
             update(this.result[i].metadata, () => meta)
           } catch (e) {
@@ -273,6 +336,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
             ...this.result[i],
             ...m,
             image: getSanitizer(m.image || '')(m.image || ''),
+            type: 'NFT',
           })
         }
       })
@@ -322,7 +386,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
         option.name
           .toString()
           .toLowerCase()
-          .indexOf((this.name || '').toLowerCase()) >= 0
+          .indexOf((this.searchString || '').toLowerCase()) >= 0
       )
     })
   }
@@ -330,6 +394,12 @@ export default class SearchBar extends mixins(PrefixMixin) {
   private oldSearchResult(value: string): boolean {
     const res = this.searched.filter((r) => r.name === value)
     return res.length ? true : false
+  }
+
+  private removeSearchHistory(value: string): void {
+    const temp = this.searched.filter((r) => r.name !== value)
+    this.searched = temp
+    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 }
 </script>
@@ -345,12 +415,17 @@ export default class SearchBar extends mixins(PrefixMixin) {
   left: 0;
 }
 
-.card {
-  border: 2px solid $primary-light;
+.media {
+  align-items: center;
 }
-
-.searchCache {
-  color: $primary;
-  font-size: 15px;
+.is-32x32 {
+  font-size: 0;
+}
+.is-text {
+  &:hover,
+  &:focus {
+    background-color: $primary !important;
+    transition: all 3s !important;
+  }
 }
 </style>

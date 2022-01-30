@@ -10,7 +10,7 @@ module.exports = {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!@vue-polkadot|@polkadot|@babel/runtime/helpers/esm/)',
+    '/node_modules/(?!@kodadot1|@polkadot|@babel/runtime/helpers/esm/)',
   ],
   moduleFileExtensions: [
     'ts', // if using TypeScript

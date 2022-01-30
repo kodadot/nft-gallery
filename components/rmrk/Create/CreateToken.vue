@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { formatBalance } from '@polkadot/util'
 import {
   asSystemRemark,
@@ -60,7 +60,7 @@ import {
   createMintInteaction,
   createMultipleNFT,
   Interaction,
-} from '@vue-polkadot/minimark'
+} from '@kodadot1/minimark'
 
 import collectionForMint from '@/queries/collectionForMint.graphql'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'

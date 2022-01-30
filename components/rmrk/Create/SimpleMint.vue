@@ -72,7 +72,11 @@
             v-model="rmrkMint.tags"
             placeholder="Get discovered easier through tags" />
 
-          <BalanceInput @input="updateMeta" label="Price" expanded />
+          <BalanceInput
+            :step="0.1"
+            @input="updateMeta"
+            label="Price"
+            expanded />
           <b-message
             v-if="price"
             icon="exclamation-triangle"
@@ -124,23 +128,6 @@
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
           </b-field>
-          <b-field>
-            <b-button
-              type="is-text"
-              icon-left="calculator"
-              @click="estimateTx"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined>
-              <template v-if="!estimated">
-                {{ $t('mint.estimate') }}
-              </template>
-              <template v-else>
-                {{ $t('mint.estimated') }}
-                <Money :value="estimated" inline />
-              </template>
-            </b-button>
-          </b-field>
           <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
             <b-switch v-model="hasToS" :rounded="false">
@@ -158,6 +145,14 @@
               {{ $t('mint.submit') }}
             </b-button>
           </b-field>
+          <b-field v-if="price">
+            <template>
+              <b-icon icon="calculator" />
+              <span class="pr-2">{{ $t('mint.estimated') }}</span>
+              <Money :value="estimated" inline />
+              <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
+            </template>
+          </b-field>
         </div>
       </section>
     </div>
@@ -165,11 +160,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, {
   execResultValue,
   txCb,
@@ -253,6 +248,10 @@ export default class SimpleMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
+
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
   }
 
   get fileType(): MediaType {
@@ -272,6 +271,11 @@ export default class SimpleMint extends mixins(
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')
+  }
+
+  get canCalculateTransactionFees(): boolean {
+    const { name, symbol, max } = this.rmrkMint
+    return !!(this.price && name && symbol && max)
   }
 
   get disabled(): boolean {
@@ -300,7 +304,6 @@ export default class SimpleMint extends mixins(
   }
 
   protected async estimateTx() {
-    this.isLoading = true
     const { accountId, version } = this
     const { api } = Connector.getInstance()
 
@@ -321,8 +324,6 @@ export default class SimpleMint extends mixins(
         ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
-
-    this.isLoading = false
   }
 
   get enoughTokens(): boolean {
@@ -721,6 +722,23 @@ export default class SimpleMint extends mixins(
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
+  }
+
+  protected getUsdFromKsm() {
+    let KSMVal = formatBalance(this.estimated, {
+      decimals: this.decimals,
+      withUnit: false,
+      forceUnit: '-',
+    })
+
+    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
+  }
+
+  @Watch('rmrkMint', { deep: true })
+  rmrkMintObjectChanged(): void {
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
   }
 }
 </script>

@@ -11,7 +11,7 @@
     <div class="box">
       <div class="info">
         <p class="title is-size-3">Teleport {{ unit }}</p>
-        <span class="info--currentPrice" title="Current price"
+        <span v-if="isKSM" class="info--currentPrice" title="Current price"
           >${{ $store.getters['fiat/getCurrentKSMValue'] }}
         </span>
       </div>
@@ -20,12 +20,14 @@
         <Auth />
       </b-field>
 
-      <b-field>
-        <div class="is-flex is-align-items-center">
-          {{ $t('general.balance') }}:
-          <Money :value="balance" inline />
-        </div>
-      </b-field>
+      <p class="subtitle is-size-6">
+        <span>{{ $t('general.balance') }}: </span>
+        <Money :value="balance" inline />
+      </p>
+
+      <p class="subtitle is-size-6">
+        {{ routeMessage }}
+      </p>
 
       <BasicSwitch v-model="sendingMyself" label="action.sendToMyself" />
 
@@ -36,7 +38,7 @@
         v-show="correctAddress && correctAddress !== destinationAddress"
         :label="$t('general.correctAddress')"
         :value="correctAddress" />
-      <div class="box--container">
+      <div class="box--container mb-3">
         <b-field>
           <BalanceInput
             v-model="price"
@@ -44,7 +46,7 @@
             :calculate="false"
             @input="onAmountFieldChange" />
         </b-field>
-        <b-field class="mb-3">
+        <b-field v-if="isKSM">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
@@ -111,7 +113,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
@@ -129,8 +131,8 @@ import {
 } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { findCall, getApiParams } from '@/utils/teleport'
+import onApiConnect from '~/utils/api/general'
 
 @Component({
   components: {
@@ -158,6 +160,7 @@ export default class Transfer extends mixins(
   protected usdValue = 0
   protected sendingMyself = true
   protected isParaTeleport = true
+  protected paraTeleport: string | null = null
 
   get disabled(): boolean {
     return !(
@@ -178,6 +181,10 @@ export default class Transfer extends mixins(
       : ''
   }
 
+  get isKSM(): boolean {
+    return this.unit === 'KSM'
+  }
+
   layout() {
     return 'centered-half-layout'
   }
@@ -185,6 +192,31 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
+    onApiConnect(async (api) => {
+      const paraId = await api.query.parachainInfo?.parachainId()
+      this.paraTeleport = paraId?.toString() || ''
+    })
+  }
+
+  get isRouteHidden(): boolean {
+    return this.paraTeleport === null
+  }
+
+  get routeMessage() {
+    const [from, to] = this.currentRoute
+    return this.$t('teleport.route', [this.unit, from, to])
+  }
+
+  get currentRoute(): [string, string] {
+    if (this.paraTeleport === '') {
+      return ['relaychain', 'parachain']
+    }
+
+    if (this.paraTeleport === null) {
+      return ['unknown', 'unknown']
+    }
+
+    return [`parachain ${this.paraTeleport}`, 'relaychain']
   }
 
   protected onAmountFieldChange() {
@@ -320,14 +352,14 @@ export default class Transfer extends mixins(
     return urlBuilderTransaction(
       this.transactionValue,
       this.$store.getters['explorer/getCurrentChain'],
-      'subscan'
+      'statescan'
     )
   }
 
-    protected getExplorerUrl(): void {
-        const url = this.getUrl()
-        window.open(url, '_blank')
-    }
+  protected getExplorerUrl(): void {
+    const url = this.getUrl()
+    window.open(url, '_blank')
+  }
 
   protected generatePaymentLink(): string {
     return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
