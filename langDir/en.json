@@ -604,5 +604,8 @@
   },
   "warning": {
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
+  },
+  "teleport": {
+    "route": "Teleporting {0} from {1} to {2}"
   }
 }

@@ -1,16 +1,14 @@
 <template>
-  <div
-    v-show="emotes"
-    class="columns is-mobile is-multiline is-gapless nft-emotion__main">
-    <div
+  <div v-show="emotes" class="buttons mb-2">
+    <b-button
       v-for="emoji in emotes"
       :key="emoji.key"
-      class="column nft-emotion__column">
-      <b-tag id="emoji-box" type="is-dark is-large">
-        {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
-        <span class="nft-emotion-tag__count">{{ emoji.count }}</span>
-      </b-tag>
-    </div>
+      type="is-outlined"
+      class="emoji-box mb-2"
+      @click="$emit('selected', emoji.key)">
+      {{ String.fromCodePoint(parseInt(emoji.key, 16)) }}
+      <span class="ml-1">{{ emoji.count }}</span>
+    </b-button>
   </div>
 </template>
 
@@ -45,22 +43,9 @@ export default class EmotionList extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
-
-.nft-emotion__main {
-  margin-top: 1em;
-}
-
-.nft-emotion-tag__count {
-  margin-left: 0.2rem;
-}
-
-.nft-emotion__image {
-  width: 25px;
-}
-
-#emoji-box {
-  margin-bottom: 1rem;
-  border-top: 2px solid $primary;
+.emoji-box {
+  padding: 0 0.75rem;
+  font-size: 1.25rem;
+  height: 2em;
 }
 </style>

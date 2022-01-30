@@ -3,7 +3,7 @@
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 
 // defaults
 const emptyColor = '#99999'

@@ -1,7 +1,7 @@
 import { Component, Mixins } from 'vue-property-decorator'
 import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor'
 import TransactionMixin from './txMixin'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '../notification'
 import { DispatchError } from '@polkadot/types/interfaces'
 
