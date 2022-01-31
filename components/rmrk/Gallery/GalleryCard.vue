@@ -50,16 +50,22 @@
 
 <script lang="ts">
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
-import { get, update } from 'idb-keyval'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { fetchNFTMetadata, getSanitizer } from '../utils'
-import { NFT } from '../service/scheme'
 import AuthMixin from '@/utils/mixins/authMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
+import {
+  getSingleCloudflareImage,
+  processSingleMetadata,
+} from '@/utils/cachingStrategy'
+
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { getSanitizer } from '@/components/rmrk/utils'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  PreviewMediaResolver: () =>
+    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component({ components })
@@ -70,6 +76,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop(String) public name!: string
   protected image = ''
   protected title = ''
+  protected animatedUrl = ''
   @Prop([String, Number]) public emoteCount!: string | number
   @Prop(String) public imageType!: string
   @Prop(String) public price!: string
@@ -77,23 +84,17 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop(String) public currentOwner!: string
   @Prop(Boolean) public listed!: boolean
 
-  private placeholder = '/placeholder.webp'
+  protected placeholder = '/placeholder.webp'
 
   async mounted() {
     if (this.metadata) {
-      const meta = await get(this.metadata)
-      if (meta) {
-        this.image = getSanitizer(meta.image || '')(meta.image || '')
-        this.title = meta.name
-      } else {
-        const m = await fetchNFTMetadata(
-          { metadata: this.metadata } as NFT,
-          getSanitizer(this.metadata, undefined, 'permafrost')
-        )
-        this.image = getSanitizer(m.image || '')(m.image || '')
-        this.title = m.name
-        update(this.metadata, () => m)
-      }
+      const metaP = processSingleMetadata<NFTMetadata>(this.metadata)
+      const image = await getSingleCloudflareImage(this.metadata)
+      const meta = await metaP
+
+      this.image = image || getSanitizer(meta.image || '')(meta.image || '')
+      this.title = meta.name
+      this.animatedUrl = meta.animation_url || ''
     }
   }
 
