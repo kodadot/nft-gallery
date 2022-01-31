@@ -132,9 +132,6 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
 }
