@@ -46,19 +46,30 @@ const bindGoToEvents = (event, app) => {
     case 'p':
       clickElement('.pagination-link.pagination-previous:not([disabled])')
       break
+    case 'r':
+      clickElement('.magicBtn')
+      break
     case 'a':
-      path = `/${urlPrefix}/u/${account}`
+      if (urlPrefix && account) {
+        path = `/${urlPrefix}/u/${account}`
+      }
       break
     case 'c':
-      path = `/${urlPrefix}/u/${account}`
-      query = { tab: 'collected' }
+      if (urlPrefix && account) {
+        path = `/${urlPrefix}/u/${account}`
+        query = { tab: 'collected' }
+      }
       break
     case 's':
-      path = `/${urlPrefix}/u/${account}`
-      query = { tab: 'sold' }
+      if (urlPrefix && account) {
+        path = `/${urlPrefix}/u/${account}`
+        query = { tab: 'sold' }
+      }
       break
     case 'm':
-      path = `/${urlPrefix}/mint`
+      if (urlPrefix) {
+        path = `/${urlPrefix}/mint`
+      }
       break
     case 't':
       path = '/transfer'
@@ -67,10 +78,26 @@ const bindGoToEvents = (event, app) => {
       path = '/series-insight'
       break
   }
-  app.router.push({
-    path: path,
-    query: query,
-  })
+  if (path) {
+    app.router.push({
+      path: path,
+      query: query,
+    })
+  }
+}
+
+const bindCtrlEvents = (event) => {
+  if (event.key == 'c') {
+    const dummyElement: HTMLInputElement = document.createElement('input')
+    const text = window.location.href
+
+    document.body.appendChild(dummyElement)
+    dummyElement.value = text
+    dummyElement.select()
+    document.execCommand('copy')
+    document.body.removeChild(dummyElement)
+    alert(`URL ${text} copied`)
+  }
 }
 
 const listenKeyboardEvents = (app) => {
@@ -84,6 +111,9 @@ const listenKeyboardEvents = (app) => {
     }
     if (keysPressed['a']) {
       bindItemDetailActionEvents(event)
+    }
+    if (keysPressed['Control']) {
+      bindCtrlEvents(event)
     }
   })
 
