@@ -121,6 +121,8 @@ import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
+import { mapOnlyMetadata } from '~/utils/mappers'
 
 const components = {
   GalleryCardList: () =>
@@ -224,6 +226,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       query: collectionById,
       client: this.urlPrefix,
       loadingKey: 'isLoading',
+      manual: true,
       variables: () => {
         return {
           id: this.id,
@@ -231,16 +234,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
           search: this.buildSearchParam(),
           first: this.first,
           offset: this.offset,
-        }
-      },
-      update: ({ collectionEntity }) => {
-        if (!collectionEntity) {
-          this.$router.push({ name: 'errorcollection' })
-          return
-        }
-        return {
-          ...collectionEntity,
-          nfts: collectionEntity.nfts.nodes,
         }
       },
       result: this.handleResult,
@@ -307,7 +300,20 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   }
 
   public async handleResult({ data }: any): Promise<void> {
-    this.total = data.collectionEntity.nfts.totalCount
+    const { collectionEntity } = data
+    if (!collectionEntity) {
+      this.$router.push({ name: 'errorcollection' })
+      return
+    }
+    await getCloudflareImageLinks(
+      collectionEntity.nfts.nodes.map(mapOnlyMetadata)
+    ).catch(console.warn)
+    this.collection = {
+      ...collectionEntity,
+      nfts: collectionEntity.nfts.nodes,
+    }
+    this.total = collectionEntity.nfts.totalCount
+
     await this.fetchMetadata()
   }
 
