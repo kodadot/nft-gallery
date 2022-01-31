@@ -54,26 +54,16 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
-import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import 'lazysizes'
-
-import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import 'lazysizes'
 import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Collection, CollectionWithMeta, Metadata } from '../service/scheme'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
-
-type CollectionType = CollectionWithMeta
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   CollectionDetail: () =>
     import('@/components/rmrk/Gallery/CollectionDetail.vue'),
