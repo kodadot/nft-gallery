@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { get } from 'idb-keyval'
+import { get, update } from 'idb-keyval'
 import { NFTMetadata } from '../service/scheme'
 import axios from 'axios'
 
@@ -26,16 +26,8 @@ export default class PreviewMediaResolver extends Vue {
   protected type = ''
 
   created() {
-    this.devsDoSomething()
+    this.fetchMimeType()
   }
-
-  // get visible() {
-  //   return this.src && this.mimeType
-  // }
-
-  // mounted() {
-  //   this.fetchContentType(this.src)
-  // }
 
   get properType() {
     return this.mimeType || this.type || 'image/webp'
@@ -45,34 +37,22 @@ export default class PreviewMediaResolver extends Vue {
     return this.src || '/placeholder.webp'
   }
 
-  protected async devsDoSomething() {
-    console.log('devsDoSomething')
+  protected async fetchMimeType() {
     if (this.mimeType) {
-      console.log('boys we have types', this.mimeType)
       return
     }
-    // First try if you have metadata :)
-    // if yes then get type of it
-    // otherwise fetch yolo
+
     const m = await get<NFTMetadata>(this.metadata)
     this.type = m?.type || ''
     if (!this.type) {
       const { headers } = await axios.head(this.src)
       console.log('headers', headers)
       this.type = headers['content-type']
+      update(this.metadata, (cached) => ({
+        ...(cached || {}),
+        type: this.type,
+      }))
     }
-
-    // todo now update meta
   }
-
-  // async fetchContentType(val: string) {
-  //   try {
-  //     const { headers } = await api.get(val);
-  //     this.resolveComponent =
-  // //   } catch (e) {
-  //     console.warn(`[MEDIA RESOLVER] Unable to get content type of ${val}`)
-  //   }
-
-  // }
 }
 </script>
