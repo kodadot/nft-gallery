@@ -113,11 +113,10 @@
               <Detail :nft="nft" :isLoading="isLoading" />
             </div>
           </div>
-          <div :class= "[hasPrice ? 'is-justify-content-space-between':'is-justify-content-center']"
-           class="column is-flex is-flex-direction-column">
+          <div
+            class="column is-flex is-flex-direction-column is-justify-content-space-between">
             <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div :class="{'money-cursor': hasPrice}"
-              class="card-content">
+              <div class="card-content money-cursor">
                 <template v-if="hasPrice">
                   <div class="label">
                     {{ $t('price') }}
@@ -138,7 +137,7 @@
 
                 <div class="content pt-4">
                   <p class="subtitle">
-                    <IndexerGuard v-if="hasPrice" class="pb-4" show-message>
+                    <IndexerGuard show-message class="pb-4">
                       <AvailableActions
                         ref="actions"
                         :account-id="accountId"
@@ -152,12 +151,11 @@
                         ]"
                         @change="handleAction" />
                     </IndexerGuard>
-                    <Auth v-if="hasPrice" />
-                    <Sharing v-if="!hasPrice" class="pb-4 is-flex is-justify-content-center" />
+                    <Auth />
                   </p>
                 </div>
 
-                <Sharing v-if="hasPrice" class="mb-4" />
+                <Sharing class="mb-4" />
               </div>
             </div>
           </div>
@@ -233,7 +231,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 export default class GalleryItem extends mixins(PrefixMixin) {
   private id = ''
   // private accountId: string = '';
-  // private passsword = ''
+  private passsword = ''
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
