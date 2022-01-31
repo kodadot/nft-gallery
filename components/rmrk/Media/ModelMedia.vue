@@ -39,6 +39,8 @@ export default class ViewModel extends Vue {
 <style lang="scss" scoped>
 .view-model {
   &__wrapper {
+    height: 100%;
+    width: 100%;
     z-index: 1;
     min-width: 0;
     position: relative;
