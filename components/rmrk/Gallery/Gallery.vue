@@ -3,16 +3,14 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery">
-      <b-field class="column">
-        <Pagination
-          hasMagicBtn
-          simple
-          :total="total"
-          v-model="currentValue"
-          :perPage="first"
-          replace
-          class="is-right remove-margin" />
-      </b-field>
+      <Pagination
+        hasMagicBtn
+        simple
+        :total="total"
+        v-model="currentValue"
+        :perPage="first"
+        replace
+        class="remove-margin" />
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
@@ -128,7 +126,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
+    listed: true,
   }
   private currentValue = 1
   protected total = 0

@@ -47,7 +47,13 @@ export default class LocaleChanger extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables';
+
 .language-switcher {
   padding-left: 12px;
+    .is-primary {
+      border: 0;
+      border-top: 2px solid $primary!important;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown position="is-bottom-left" aria-role="menu">
+  <b-dropdown position="is-bottom-left" aria-role="menu" >
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
@@ -149,12 +149,18 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
 <style lang="scss">
 @import 'bulma/sass/utilities/mixins.sass';
+@import '@/styles/variables';
 
 .navbar {
   &__identity {
     @include from($desktop) {
       display: none;
     }
+  }
+
+  &__button {
+    border: 0;
+    border-top: 2px solid $primary!important;
   }
 
   &__avatar {
