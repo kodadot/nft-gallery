@@ -76,8 +76,6 @@ const components = {
 })
 export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
-  private meta: Metadata[] = []
-  private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
   private loadingState = 0
@@ -207,11 +205,6 @@ export default class Collections extends mixins(PrefixMixin) {
 
   get results() {
     return this.collections as CollectionWithMeta[]
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
   }
 }
 </script>
