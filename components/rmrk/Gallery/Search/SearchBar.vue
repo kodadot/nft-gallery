@@ -57,11 +57,15 @@
                   <div class="media-left">
                     <BasicImage
                       customClass="is-32x32"
-                      :src="
-                        props.option.image === ''
-                          ? props.option.animation_url
-                          : props.option.image
-                      " />
+                      :src="props.option.image || '/placeholder.webp'" />
+                    <!-- <div class="preview-media-wrapper">
+                    <PreviewMediaResolver
+                      v-if="!props.option.image && props.option.animation_url"
+                      :src="props.option.animation_url"
+                      :metadata="props.option.metadata"
+                      :mimeType="props.option.type"
+                    />
+                    </div> -->
                   </div>
                   <div class="media-content">
                     {{ props.option.name }}
@@ -107,8 +111,7 @@ import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
 import { NFT, NFTMetadata } from '../../service/scheme'
-import { fetchNFTMetadata, getSanitizer } from '../../utils'
-import { getMany, update } from 'idb-keyval'
+import { getSanitizer } from '../../utils'
 import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -125,6 +128,7 @@ import { fastExtract } from '~/utils/ipfs'
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+    // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
 export default class SearchBar extends mixins(PrefixMixin) {
@@ -420,4 +424,8 @@ export default class SearchBar extends mixins(PrefixMixin) {
     transition: all 3s !important;
   }
 }
+// .preview-media-wrapper {
+//   width: 32px;
+//   height: 32px;
+// }
 </style>
