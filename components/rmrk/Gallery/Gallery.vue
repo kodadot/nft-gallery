@@ -34,7 +34,7 @@
                   :alt="nft.name"
                   customClass="gallery__image-wrapper" />
 
-                <Yolo
+                <PreviewMediaResolver
                   v-if="!nft.image && nft.animation_url"
                   :src="nft.animation_url"
                   :metadata="nft.metadata"
@@ -113,7 +113,8 @@ const components = {
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  Yolo: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+  PreviewMediaResolver: () =>
+    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component<Gallery>({
