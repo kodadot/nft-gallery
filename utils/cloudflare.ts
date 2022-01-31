@@ -25,10 +25,10 @@ export const queryBatch = async (
 ): Promise<Record<string, string>> => {
   try {
     const arg: BatchRequest = Array.isArray(object) ? { keys: object } : object
-    const { status, data } = await api.post('batch', arg, {
+    const { data } = await api.post('batch', arg, {
       headers,
     })
-    console.log('[CLOUDFLARE] Batch', status, Object.keys(data).length)
+
     return data
   } catch (e) {
     console.warn(e)

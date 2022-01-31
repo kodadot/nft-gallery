@@ -46,7 +46,6 @@ export default class PreviewMediaResolver extends Vue {
     this.type = m?.type || ''
     if (!this.type) {
       const { headers } = await axios.head(this.src)
-      console.log('headers', headers)
       this.type = headers['content-type']
       update(this.metadata, (cached) => ({
         ...(cached || {}),

@@ -23,7 +23,6 @@ export const getCloudflareImageLinks = async (keys: string[]): P<KeyValue> => {
   const fromCache = await getMany<string>(values, imageStore)
   const zipped = zip<string, MayString, ZipResult>(values, fromCache)
   const uncached = zipped.filter(([, value]) => !value).map(([key]) => key)
-  console.log('uncached', uncached.length)
   const cached = zipped.filter(withValue) as ZipResult[]
   const deliveryLinks: KeyValue = await queryBatch(uncached)
     .then((values) => Object.entries(values).map(withUrlOf))
