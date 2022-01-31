@@ -152,7 +152,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     )
   }
 
-  get enableAllArtworks(): boolean {
+  get getLoadAllArtwork(): boolean {
     return this.$store.getters['preferences/getLoadAllArtwork']
   }
 
