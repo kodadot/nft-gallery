@@ -90,7 +90,7 @@
       aria-id="sortAndFilter"
       animation="opacitySlide"
       v-model="isVisible">
-      <div class="columns">
+      <div class="columns mb-0">
         <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
         <BasicSwitch
           class="is-flex column is-4"

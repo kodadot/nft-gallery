@@ -1,25 +1,19 @@
 <template>
-  <CollectionList />
+  <Gallery />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
 
-const components = {
-  CollectionList,
-}
-
-@Component<CollectionListPage>({
-  components,
+@Component<GalleryPage>({
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/collections',
-      image: `${this.$config.baseUrl}/k_card_collections.png`,
+      url: '/rmrk/gallery',
+      image: `${this.$config.baseUrl}/k_card_gallery.png`,
     }
     return {
       title,
@@ -27,5 +21,5 @@ const components = {
     }
   },
 })
-export default class CollectionListPage extends Vue {}
+export default class GalleryPage extends Vue {}
 </script>

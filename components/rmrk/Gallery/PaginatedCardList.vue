@@ -15,7 +15,8 @@
       :items="items"
       horizontalLayout
       :route="route"
-      :link="link" />
+      :link="link"
+      :listed="searchQuery.listed" />
     <Pagination
       class="pt-5 pb-5"
       replace

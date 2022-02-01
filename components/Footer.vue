@@ -129,6 +129,12 @@ export default class Footer extends Vue {
 @import '@/styles/variables';
 
 .footer {
+  opacity: 0.3;
+
+  &:hover {
+    opacity: 1;
+  }
+
   &__wrapper {
     display: flex;
     justify-content: space-between;
