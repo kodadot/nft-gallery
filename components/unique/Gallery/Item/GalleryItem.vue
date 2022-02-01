@@ -59,7 +59,7 @@
             <div
               class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <template v-if="detailVisible && !nft.burned">
-                <div class="card card-actions mb-4" aria-id="contentIdForA11y3">
+                <div class="card bordered mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
                     <template v-if="hasPrice">
                       <div class="label">
