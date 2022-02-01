@@ -11,10 +11,10 @@ type CdnUpload = {
 
 type CdnUploadResponse = {
   result: {
-    id: string,
-    filename: string,
-    uploaded: string,
-    requireSignedURLs: boolean,
+    id: string
+    filename: string
+    uploaded: string
+    requireSignedURLs: boolean
     variants: string[]
   }
   success: boolean
@@ -67,17 +67,6 @@ export const revokeKey = async (key: string) => {
   throw new Error('Key not found')
 }
 
-export const getCdnUploadLink = async (): Promise<CdnUpload> => {
-  try {
-    const { status, data } = await api.get('cdnUpload')
-    console.log('[PROXY] CDN OK', status, data)
-    return data
-  } catch (e) {
-    console.warn(e)
-    throw e
-  }
-}
-
 export const pinFileDirect = async (file: Blob): Promise<string> => {
   try {
     const keys: APIKeys = await getKey(`${file.type}::${file.size}`)
@@ -106,29 +95,6 @@ export const pinFile = async (file: Blob): Promise<string> => {
     } else {
       throw new Error('Unable to PIN for reasons')
     }
-  } catch (e) {
-    console.warn(e)
-    throw e
-  }
-}
-
-export const uploadImageToCdn = async (file: Blob, ipfsHash: string): Promise<CdnUploadResponse> => {
-  const formData = new FormData()
-  formData.append('file', file)
-
-  try {
-    const UPLOAD_URL = await getCdnUploadLink().then(
-      ({ uploadURL }) => uploadURL
-    )
-    console.log('[PROXY] Upload to CDN', UPLOAD_URL)
-    const { status, data } = await Axios.post<CdnUploadResponse>(UPLOAD_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    saveKey(ipfsHash, data.result.id)
-    console.log('[PROXY] CDN Image', status, data)
-    return data
   } catch (e) {
     console.warn(e)
     throw e
