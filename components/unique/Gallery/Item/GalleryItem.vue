@@ -1,11 +1,16 @@
 <template>
-  <div class="wrapper section no-padding-desktop gallery-item mb-6">
-    <div class="container">
-      <b-message type="is-primary" v-if="message">
+  <BaseGalleryItem
+    :image="meta.image"
+    :animationUrl="meta.animation_url"
+    :description="meta.description"
+    :imageVisible="imageVisible"
+    :isLoading="isLoading">
+    <template v-slot:top v-if="message">
+      <b-message class="message-box" type="is-primary">
         <div class="columns">
           <div class="column is-four-fifths">
             <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 has-text-black">
+            <p class="subtitle is-size-5 subtitle-text">
               {{ $t('mint.shareWithFriends', [nft.name]) }} △
             </p>
           </div>
@@ -14,70 +19,10 @@
           </div>
         </div>
       </b-message>
-      <div class="columns">
-        <div class="image-wrapper">
-          <button
-            id="theatre-view"
-            @click="toggleView"
-            v-if="!isLoading && imageVisible">
-            {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
-            {{ $t('view') }}
-          </button>
-          <div
-            class="column"
-            :class="{
-              'is-12 is-theatre': viewMode === 'theatre',
-              'is-6 is-offset-3': viewMode === 'default',
-            }">
-            <div
-              v-orientation="
-                viewMode === 'default' && !isFullScreenView && imageVisible
-              "
-              class="image-preview has-text-centered"
-              :class="{ fullscreen: isFullScreenView }">
-              <b-image
-                v-if="!isLoading && imageVisible && !meta.animation_url"
-                :src="meta.image || '/placeholder.svg'"
-                src-fallback="/placeholder.svg'"
-                alt="KodaDot NFT minted multimedia"
-                ratio="1by1"
-                @error="onImageError"></b-image>
-              <img
-                class="fullscreen-image"
-                :src="meta.image || '/placeholder.svg'"
-                alt="KodaDot NFT minted multimedia" />
-              <b-skeleton
-                height="524px"
-                size="is-large"
-                :active="isLoading"></b-skeleton>
-              <MediaResolver
-                v-if="meta.animation_url"
-                :class="{ withPicture: imageVisible }"
-                :src="meta.animation_url"
-                :mimeType="mimeType" />
-            </div>
-          </div>
-          <button
-            id="fullscreen-view"
-            @keyup.esc="minimize"
-            @click="toggleFullScreen"
-            v-if="!isLoading && imageVisible"
-            :class="{ fullscreen: isFullScreenView }">
-            <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
-            </b-icon>
-          </button>
-        </div>
-      </div>
-
+    </template>
+    <template v-slot:main>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation
-            v-if="emoteVisible"
-            :emotes="nft.emotes"
-            :accountId="accountId"
-            :currentOwnerId="nft.currentOwner"
-            :nftId="nft.id"
-            :burned="nft.burned" />
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -114,7 +59,6 @@
             <div
               class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <template v-if="detailVisible && !nft.burned">
-                <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
                 <div class="card card-actions mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
                     <template v-if="hasPrice">
@@ -163,13 +107,8 @@
             :active="isLoading"></b-skeleton>
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <History v-if="!isLoading" :events="nft.events" />
-        </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </BaseGalleryItem>
 </template>
 
 <script lang="ts">
@@ -220,6 +159,8 @@ import onApiConnect from '@/utils/api/general'
     DangerModal: () =>
       import('@/components/unique/Gallery/Item/DangerModal.vue'),
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    BaseGalleryItem: () =>
+      import('@/components/shared/gallery/BaseGalleryItem.vue'),
   },
   directives: {
     orientation: Orientation,
