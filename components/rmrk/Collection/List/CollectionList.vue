@@ -63,16 +63,11 @@ import {
   Metadata,
   NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import {
-  fetchCollectionMetadata,
-  getSanitizer,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
-import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import {
