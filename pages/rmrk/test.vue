@@ -8,7 +8,12 @@
         <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
       </div>
       <div class="column has-text-right">
-        <b-button type="is-primary" inverted outlined icon-right="chevron-right"
+        <b-button
+          type="is-primary"
+          inverted
+          outlined
+          icon-right="chevron-right"
+          href="/rmrk/gallery?search=&sort=UPDATED_AT_DESC"
           >See More</b-button
         >
       </div>
@@ -20,14 +25,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
-import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
-import {
-  fetchMetadata,
-  fetchNFTMetadata,
-  getSanitizer,
-} from '@/components/rmrk/utils'
 import { getMany, update } from 'idb-keyval'
+import { getSanitizer } from '@/components/rmrk/utils'
+import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
 
 const components = {
   CarouselCardList: () => import('~/components/base/CarouselCardList.vue'),
@@ -43,7 +43,7 @@ const components = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/collections',
+      url: '/rmrk/test',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {

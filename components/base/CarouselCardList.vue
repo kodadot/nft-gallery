@@ -1,5 +1,8 @@
 <template>
-  <b-carousel-list :data="nfts" :items-to-show="4">
+  <b-carousel-list
+    :data="nfts"
+    :items-to-show="options.itemsToShow"
+    :breakpoints="options.breakpoints">
     <template #item="list">
       <div class="card mx-4">
         <div class="card-image">
@@ -58,7 +61,27 @@ const components = {
   components,
 })
 export default class CarouselList extends Vue {
-  @Prop({ required: true }) nfts!: any[]
+  @Prop({ required: true }) nfts!: any[] // mising type
+
+  get options() {
+    return {
+      itemsToShow: 2,
+      breakpoints: {
+        300: {
+          itemsToShow: 1,
+        },
+        500: {
+          itemsToShow: 2,
+        },
+        768: {
+          itemsToShow: 3.5,
+        },
+        1200: {
+          itemsToShow: 4.5,
+        },
+      },
+    }
+  }
 
   async created() {
     console.log(this.nfts)
@@ -67,8 +90,10 @@ export default class CarouselList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables';
+
 .card {
   border-radius: 8px;
-  border: 2px solid #d32e79;
+  border: 2px solid $primary;
 }
 </style>
