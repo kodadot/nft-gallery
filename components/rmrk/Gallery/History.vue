@@ -181,6 +181,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = i18n.t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
         event['Type'] = i18n.t('nft.event.CONSUME')
         event['From'] = newEvent['caller']

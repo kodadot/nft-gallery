@@ -149,6 +149,10 @@ body {
     color: $text !important;
   }
 
+  .card-header {
+    box-shadow: none !important;
+  }
+
   .is-color-pink {
     color: $primary-light;
   }
@@ -185,7 +189,7 @@ body {
 .card.bordered {
   border-radius: 0 !important;
   box-shadow: none;
-  border: 2px solid $primary;
+  border-top: 2px solid $primary;
 
   &-content {
     padding-left: 1rem;

@@ -1,102 +1,101 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="card-content">
-      <div class="columns mb-0">
-        <b-field class="column is-6 mb-0">
-          <b-autocomplete
-            v-model="name"
-            :data="searchSuggestion"
-            placeholder="Search..."
-            icon="search"
-            open-on-focus
-            clearable
-            max-height="350px"
-            @keydown.native.enter="searchResult"
-            @keydown.native.up="moveUp"
-            @keydown.native.down="moveDown"
-            @typing="updateSuggestion"
-            @select="updateSelected">
-            <template slot-scope="props">
-              <div v-if="props.option.type === 'Search'">
-                <div class="media">
-                  <div class="media-left">
-                    <b-icon icon="search" size="is-medium" />
-                  </div>
-                  <div class="media-content">{{ props.option.name }}</div>
+    <div class="columns mb-0">
+      <b-field class="column is-6 mb-0">
+        <b-button
+          icon-left="filter"
+          aria-controls="sortAndFilter"
+          type="is-primary"
+          class="is-hidden-mobile mr-2"
+          @click="isVisible = !isVisible" />
+        <b-autocomplete
+          v-model="name"
+          :data="searchSuggestion"
+          placeholder="Search..."
+          icon="search"
+          open-on-focus
+          clearable
+          max-height="350px"
+          expanded
+          @keydown.native.enter="searchResult"
+          @keydown.native.up="moveUp"
+          @keydown.native.down="moveDown"
+          @typing="updateSuggestion"
+          @select="updateSelected">
+          <template slot-scope="props">
+            <div v-if="props.option.type === 'Search'">
+              <div class="media">
+                <div class="media-left">
+                  <b-icon icon="search" size="is-medium" />
+                </div>
+                <div class="media-content">{{ props.option.name }}</div>
+              </div>
+            </div>
+
+            <div v-else-if="props.option.type === 'History'">
+              <div class="media">
+                <div class="media-left">
+                  <b-icon icon="history" size="is-medium" />
+                </div>
+                <div class="media-content">{{ props.option.name }}</div>
+                <div
+                  class="media-right"
+                  @click.stop.prevent="removeSearchHistory(props.option.name)">
+                  <b-button type="is-text" icon-left="times" />
                 </div>
               </div>
+            </div>
 
-              <div v-else-if="props.option.type === 'History'">
+            <div v-else>
+              <nuxt-link
+                :to="{
+                  name: 'rmrk-detail-id',
+                  params: { id: props.option.id },
+                }"
+                tag="div">
                 <div class="media">
                   <div class="media-left">
-                    <b-icon icon="history" size="is-medium" />
+                    <BasicImage
+                      customClass="is-32x32"
+                      :src="
+                        props.option.image === ''
+                          ? props.option.animation_url
+                          : props.option.image
+                      " />
                   </div>
-                  <div class="media-content">{{ props.option.name }}</div>
-                  <div
-                    class="media-right"
-                    @click.stop.prevent="
-                      removeSearchHistory(props.option.name)
-                    ">
-                    <b-button type="is-text" icon-left="times" />
+                  <div class="media-content">
+                    {{ props.option.name }}
                   </div>
                 </div>
-              </div>
-
-              <div v-else>
-                <nuxt-link
-                  :to="{
-                    name: 'rmrk-detail-id',
-                    params: { id: props.option.id },
-                  }"
-                  tag="div">
-                  <div class="media">
-                    <div class="media-left">
-                      <BasicImage
-                        customClass="is-32x32"
-                        :src="
-                          props.option.image === ''
-                            ? props.option.animation_url
-                            : props.option.image
-                        " />
-                    </div>
-                    <div class="media-content">
-                      {{ props.option.name }}
-                    </div>
-                  </div>
-                </nuxt-link>
-              </div>
-            </template>
-          </b-autocomplete>
-        </b-field>
-        <b-field class="column is-3 mb-0">
-          <b-button
-            label="Sort & Filter"
-            aria-controls="sortAndFilter"
-            :icon-right="isVisible ? 'chevron-up' : 'chevron-down'"
-            type="is-primary"
-            expanded
-            @click="isVisible = !isVisible" />
-        </b-field>
+              </nuxt-link>
+            </div>
+          </template>
+        </b-autocomplete>
+      </b-field>
+      <b-field expanded position="is-right" class="column is-6">
+        <b-button
+          icon-left="filter"
+          aria-controls="sortAndFilter"
+          type="is-primary"
+          class="is-hidden-tablet mr-2"
+          @click="isVisible = !isVisible" />
         <slot />
-      </div>
-      <b-collapse
-        aria-id="sortAndFilter"
-        animation="opacitySlide"
-        v-model="isVisible">
-        <div class="columns">
-          <Sort
-            class="column is-4 mb-0"
-            :value="sortBy"
-            @input="updateSortBy" />
-          <BasicSwitch
-            class="is-flex column is-4"
-            v-model="vListed"
-            :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
-            size="is-medium"
-            labelColor="is-success" />
-        </div>
-      </b-collapse>
+      </b-field>
     </div>
+    <b-collapse
+      aria-id="sortAndFilter"
+      animation="opacitySlide"
+      v-model="isVisible">
+      <div class="columns mb-0">
+        <Sort class="column is-4 mb-0" :value="sortBy" @input="updateSortBy" />
+        <BasicSwitch
+          class="is-flex column is-4"
+          v-model="vListed"
+          :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
+          size="is-medium"
+          labelColor="is-success" />
+      </div>
+    </b-collapse>
   </div>
 </template>
 
@@ -445,9 +444,7 @@ export default class SearchBar extends mixins(
   top: 0;
   left: 0;
 }
-.card {
-  border: 2px solid $primary-light;
-}
+
 .media {
   align-items: center;
 }

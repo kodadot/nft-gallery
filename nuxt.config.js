@@ -198,6 +198,7 @@ export default {
   },
 
   i18n: {
+    vueI18nLoader: true,
     defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,

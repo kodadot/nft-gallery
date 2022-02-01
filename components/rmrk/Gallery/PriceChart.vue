@@ -10,7 +10,7 @@
         role="button"
         aria-controls="contentIdForHistory">
         <p class="card-header-title">
-          {{ $t('Price Chart') }}
+          {{ $t('Chart') }}
         </p>
         <a class="card-header-icon">
           <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>

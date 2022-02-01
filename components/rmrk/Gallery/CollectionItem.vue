@@ -46,13 +46,9 @@
 
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <CollapseWrapper
-          visible="collapse.collection.description.show"
-          hidden="collapse.collection.description.hide"
-          :open-on-default="!compactCollection"
-          isSelectable>
-          <VueMarkdown :source="description" />
-        </CollapseWrapper>
+        <DescriptionWrapper
+          v-if="!isLoading"
+          :text="description.replaceAll('\n', '  \n')" />
       </div>
     </div>
 
@@ -61,7 +57,7 @@
       v-model="activeTab"
       class="tabs-container-mobile">
       <b-tab-item label="Collection" value="collection">
-        <Search v-bind.sync="searchQuery">
+        <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -136,9 +132,8 @@ const components = {
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-  VueMarkdown: () => import('vue-markdown-render'),
+  DescriptionWrapper: () =>
+    import('@/components/shared/collapse/DescriptionWrapper.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -157,6 +152,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   private currentValue = 1
   private first = 15
   protected total = 0
+  protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: any = []
   private statsLoaded = false
@@ -197,7 +193,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     return this.$store.getters['preferences/getCompactCollection']
   }
 
-  private buildSearchParam(): Record<string, unknown>[] {
+  private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
     const params: any[] = []
 
     if (this.searchQuery.search) {
@@ -206,7 +202,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       })
     }
 
-    if (this.searchQuery.listed) {
+    if (this.searchQuery.listed || checkForEmpty) {
       params.push({
         price: { greaterThan: '0' },
       })
@@ -218,6 +214,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   public created(): void {
     this.checkId()
     this.checkActiveTab()
+    this.checkIfEmptyListed()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
@@ -242,6 +239,24 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         }
       },
       result: this.handleResult,
+    })
+  }
+
+  public checkIfEmptyListed(): void {
+    this.$apollo.addSmartQuery('collection', {
+      query: collectionById,
+      client: this.urlPrefix,
+      loadingKey: 'isLoading',
+      variables: () => {
+        return {
+          id: this.id,
+          orderBy: this.searchQuery.sortBy,
+          search: this.buildSearchParam(true),
+          first: this.first,
+          offset: this.offset,
+        }
+      },
+      result: this.handleResultListed,
     })
   }
 
@@ -289,6 +304,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   public async handleResult({ data }: any): Promise<void> {
     this.total = data.collectionEntity.nfts.totalCount
     await this.fetchMetadata()
+  }
+
+  public async handleResultListed({ data }: any): Promise<void> {
+    this.totalListed = data.collectionEntity.nfts.totalCount
   }
 
   public async fetchMetadata(): Promise<void> {
