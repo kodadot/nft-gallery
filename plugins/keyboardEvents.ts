@@ -1,54 +1,13 @@
-let account = null
-let urlPrefix = null
 const keysPressed = {}
 
-const clickElement = (selector) => {
-  if (selector) {
-    const element: HTMLElement = document.querySelectorAll(
-      selector
-    )[0] as HTMLElement
-    if (element) {
-      element.click()
-    }
-  }
-}
+const bindGoToEvents = (event, app, store) => {
+  const account = store.getters.getAuthAddress
+  const urlPrefix = store.getters.currentUrlPrefix
 
-const bindItemDetailActionEvents = (event) => {
-  const mappings = {
-    b: '.buy-btn',
-    s: '.send-btn',
-    c: '.consume-btn',
-    l: '.list-btn',
-  }
-
-  const selector = mappings[event.key]
-  clickElement(selector)
-}
-
-const bindItemDetailEvents = (event) => {
-  const mappings = {
-    p: '.price-chart a',
-    h: '.history-chart a',
-    d: '.description-wrapper a',
-  }
-
-  const selector = mappings[event.key]
-  clickElement(selector)
-}
-
-const bindGoToEvents = (event, app) => {
   let path = ''
   let query = {}
+
   switch (event.key) {
-    case 'n':
-      clickElement('.pagination-link.pagination-next:not([disabled])')
-      break
-    case 'p':
-      clickElement('.pagination-link.pagination-previous:not([disabled])')
-      break
-    case 'r':
-      clickElement('.magicBtn')
-      break
     case 'a':
       if (urlPrefix && account) {
         path = `/${urlPrefix}/u/${account}`
@@ -86,8 +45,8 @@ const bindGoToEvents = (event, app) => {
   }
 }
 
-const bindCtrlEvents = (event) => {
-  if (event.key == 'c') {
+const bindCopyEvents = (event) => {
+  if (event.key == 'u') {
     const dummyElement: HTMLInputElement = document.createElement('input')
     const text = window.location.href
 
@@ -100,20 +59,14 @@ const bindCtrlEvents = (event) => {
   }
 }
 
-const listenKeyboardEvents = (app) => {
+const listenGlobalKeyboardEvents = (app, store) => {
   document.addEventListener('keydown', (event) => {
     keysPressed[event.key] = true
     if (keysPressed['g']) {
-      bindGoToEvents(event, app)
+      bindGoToEvents(event, app, store)
     }
-    if (keysPressed['e']) {
-      bindItemDetailEvents(event)
-    }
-    if (keysPressed['a']) {
-      bindItemDetailActionEvents(event)
-    }
-    if (keysPressed['Control']) {
-      bindCtrlEvents(event)
+    if (keysPressed['c']) {
+      bindCopyEvents(event)
     }
   })
 
@@ -123,8 +76,5 @@ const listenKeyboardEvents = (app) => {
 }
 
 export default ({ app, store }) => {
-  account = store.getters.getAuthAddress
-  urlPrefix = store.getters.currentUrlPrefix
-
-  listenKeyboardEvents(app)
+  listenGlobalKeyboardEvents(app, store)
 }

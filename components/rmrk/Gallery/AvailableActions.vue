@@ -5,7 +5,6 @@
       <b-button
         v-for="action in actions"
         :key="action"
-        :class="action.toLowerCase() + '-btn'"
         :type="iconType(action)[0]"
         outlined
         @click="handleAction(action)"
@@ -40,6 +39,7 @@ import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
@@ -68,7 +68,8 @@ const components = {
 @Component({ components })
 export default class AvailableActions extends mixins(
   RmrkVersionMixin,
-  PrefixMixin
+  PrefixMixin,
+  KeyboardEventsMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
@@ -79,6 +80,23 @@ export default class AvailableActions extends mixins(
   private meta: string | number = ''
   protected isLoading = false
   protected status = ''
+
+  public created() {
+    this.initKeyboardEventHandler({
+      a: this.bindActionEvents,
+    })
+  }
+
+  private bindActionEvents(event) {
+    const mappings = {
+      b: 'BUY',
+      s: 'SEND',
+      c: 'CONSUME',
+      l: 'LIST',
+    }
+
+    this.handleAction(mappings[event.key])
+  }
 
   get actions() {
     return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []

@@ -24,10 +24,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 @Component({
   components: {
@@ -37,7 +38,7 @@ import { exist } from './exist'
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
   },
 })
-export default class SearchBar extends Vue {
+export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
@@ -50,6 +51,32 @@ export default class SearchBar extends Vue {
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
+  }
+
+  public created() {
+    this.initKeyboardEventHandler({
+      f: this.bindFilterEvents,
+    })
+  }
+
+  private bindFilterEvents(event) {
+    switch (event.key) {
+      case 'b':
+        this.updateListed(!this.vListed)
+        break
+      case 'n':
+        this.updateSortBy('BLOCK_NUMBER_DESC')
+        break
+      case 'o':
+        this.updateSortBy('BLOCK_NUMBER_ASC')
+        break
+      case 'e':
+        this.updateSortBy('PRICE_DESC')
+        break
+      case 'c':
+        this.updateSortBy('PRICE_ASC')
+        break
+    }
   }
 
   get vListed(): boolean {

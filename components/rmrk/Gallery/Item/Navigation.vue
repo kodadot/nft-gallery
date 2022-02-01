@@ -16,17 +16,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
 }
 
 @Component({ components })
-export default class Navigation extends Vue {
+export default class Navigation extends mixins(KeyboardEventsMixin) {
   @Prop({ type: Array }) readonly items!: string[]
   @Prop(Boolean) public showNavigation!: boolean
   @Prop({ type: String }) readonly currentId!: string
+
+  public created() {
+    this.initKeyboardEventHandler({
+      g: this.bindActionEvents,
+    })
+  }
+
+  private bindActionEvents(event) {
+    switch (event.key) {
+      case 'n':
+        this.$router.push({
+          path: `/rmrk/gallery/${this.items[this.nextIndex]}`,
+        })
+        break
+      case 'p':
+        this.$router.push({
+          path: `/rmrk/gallery/${this.items[this.prevIndex]}`,
+        })
+        break
+    }
+  }
 
   get indexOfCurrentId(): number {
     return this.items.indexOf(this.currentId)
