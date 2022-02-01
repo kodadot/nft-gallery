@@ -46,9 +46,9 @@
         </b-navbar-item>
       </template>
       <b-navbar-dropdown arrowless collapsible label="Extra">
-        <b-navbar-item tag="nuxt-link" to="/rmrk/credit">
+        <!-- <b-navbar-item tag="nuxt-link" to="/rmrk/credit">
           {{ $t('Credit') }}
-        </b-navbar-item>
+        </b-navbar-item> -->
         <b-navbar-item tag="nuxt-link" to="/rmrk/faq">
           {{ $t('FAQ') }}
         </b-navbar-item>
