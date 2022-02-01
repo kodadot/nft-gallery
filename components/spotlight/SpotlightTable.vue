@@ -88,7 +88,7 @@
         v-slot="props"
         sortable>
         <template v-if="!isLoading"
-          ><Money :value="props.row.averagePrice" inline :hideUnit="true"
+          ><Money :value="props.row.averagePrice" inline hideUnit
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
