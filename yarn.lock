@@ -2709,10 +2709,10 @@
   dependencies:
     "@polkadot/api" "^7.4.1"
 
-"@kodadot1/vuex-options@^0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@kodadot1/vuex-options/-/vuex-options-0.0.1-rc.0.tgz#19bb563b9db8aabe4ba01f90e68de067014f5ec2"
-  integrity sha512-4VIsspMtsLHPYSq/bccCE/uamj1r14FAidh1F7JeuSB/1cwM5e3THY2yePTSIQlNFzrHlPgUPrf+rPgqQFSZmg==
+"@kodadot1/vuex-options@^0.0.1-rc.1":
+  version "0.0.1-rc.1"
+  resolved "https://registry.yarnpkg.com/@kodadot1/vuex-options/-/vuex-options-0.0.1-rc.1.tgz#fbc5b229aa6fba86a39669142bf0ef2d374beb2b"
+  integrity sha512-avFKSnKmpVRSAUp57KclobNkKo845fyMCX4SWkAUjqihTLi6UR5H1jsLcv0FeoxcwQnjkT2EcIkIll9uUzhvjg==
   dependencies:
     "@polkadot/networks" "^7.4.1"
 
