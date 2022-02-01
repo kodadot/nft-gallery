@@ -36,6 +36,9 @@ const bindGoToEvents = (event, app, store) => {
     case 'i':
       path = '/series-insight'
       break
+    case 'd':
+      path = '/spotlight'
+      break
   }
   if (path) {
     app.router.push({

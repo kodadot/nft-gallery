@@ -101,7 +101,7 @@ export default class keyboardShortcuts extends Vue {
       },
       {
         action: 'Copy current URL',
-        shortcut: 'ctrl+c',
+        shortcut: 'c+u',
       },
     ],
     item_detail: [
