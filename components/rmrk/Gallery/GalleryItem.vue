@@ -116,7 +116,7 @@
           <div
             class="column is-flex is-flex-direction-column is-justify-content-space-between">
             <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content money-cursor">
+              <div :class="{ 'money-cursor': hasPrice }" class="card-content">
                 <template v-if="hasPrice">
                   <div class="label">
                     {{ $t('price') }}
@@ -151,11 +151,14 @@
                         ]"
                         @change="handleAction" />
                     </IndexerGuard>
-                    <Auth />
+                    <Auth v-if="hasPrice" />
+                    <Sharing
+                      v-if="!hasPrice"
+                      class="pb-4 is-flex is-justify-content-center" />
                   </p>
                 </div>
 
-                <Sharing class="mb-4" />
+                <Sharing v-if="hasPrice" class="mb-4" />
               </div>
             </div>
           </div>
@@ -225,8 +228,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 })
 export default class GalleryItem extends mixins(PrefixMixin) {
   private id = ''
-  // private accountId: string = '';
-  private passsword = ''
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
@@ -563,23 +564,23 @@ hr.comment-divider {
   }
 
   .message-box {
-    background: $dark!important;
+    background: $dark !important;
     border: 2px solid $primary;
     box-shadow: $dropdown-content-shadow;
     .subtitle-text {
       color: $lightpink;
     }
     section {
-      border: none!important;
+      border: none !important;
     }
   }
 }
 </style>
 
 <style lang="scss">
-  .message-box {
-     .message-body {
-      border: none;
-   }
+.message-box {
+  .message-body {
+    border: none;
   }
+}
 </style>
