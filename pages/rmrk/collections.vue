@@ -389,6 +389,3 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 }
 </style>
-
-function metadataList(metadataList: any) { throw new Error('Function not
-implemented.') }
