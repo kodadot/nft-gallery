@@ -103,7 +103,7 @@
 
       <b-table-column field="volume" label="Volume" v-slot="props" sortable>
         <template v-if="!isLoading"
-          ><Money :value="props.row.volume" inline :hideUnit="true"
+          ><Money :value="props.row.volume" inline hideUnit
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
