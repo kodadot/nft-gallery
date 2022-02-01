@@ -233,7 +233,7 @@ export const mergeCollection = (
   ...metadata,
   image: shouldSanitize
     ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
+    : metadata.image || '',
 })
 
 export const mergeNFT = (
@@ -245,5 +245,5 @@ export const mergeNFT = (
   ...metadata,
   image: shouldSanitize
     ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
+    : metadata.image || '',
 })
