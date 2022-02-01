@@ -25,7 +25,7 @@
             label="Simplified process to create your NFT in a single step"
             position="is-right"
             style="display: block">
-            <b-navbar-item tag="nuxt-link" to="/rmrk/mint">
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/mint`">
               {{ $t('Simple') }}
             </b-navbar-item>
           </b-tooltip>
@@ -46,9 +46,9 @@
         </b-navbar-item>
       </template>
       <b-navbar-dropdown arrowless collapsible label="Extra">
-        <b-navbar-item tag="nuxt-link" to="/rmrk/credit">
+        <!-- <b-navbar-item tag="nuxt-link" to="/rmrk/credit">
           {{ $t('Credit') }}
-        </b-navbar-item>
+        </b-navbar-item> -->
         <b-navbar-item tag="nuxt-link" to="/rmrk/faq">
           {{ $t('FAQ') }}
         </b-navbar-item>
@@ -96,7 +96,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   get isRmrk(): boolean {
-    return this.urlPrefix === 'rmrk'
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 }
 </script>

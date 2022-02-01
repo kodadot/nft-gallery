@@ -123,7 +123,7 @@
                   </div>
                   <div class="price-block__container">
                     <div class="price-block__original">
-                      {{ nft.price | formatBalance(12, 'KSM') }}
+                      <Money :value="nft.price" inline />
                     </div>
                     <b-button
                       v-if="nft.currentOwner === accountId"
@@ -187,11 +187,6 @@ import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
-// import Money from '@/components/shared/format/Money.vue';
-// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import VueMarkdown from 'vue-markdown-render'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
@@ -411,7 +406,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    (this.$refs.actions as AvailableActions).unlistNft()
+    const availableActions = this.$refs.actions as AvailableActions
+    availableActions.unlistNft()
   }
 
   @Watch('meta.image')
