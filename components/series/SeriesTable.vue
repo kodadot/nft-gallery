@@ -184,7 +184,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline :hideUnit="true" />
+          <Money :value="props.row.floorPrice" inline hideUnit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
