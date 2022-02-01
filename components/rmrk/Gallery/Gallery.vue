@@ -140,6 +140,10 @@ export default class Gallery extends mixins(PrefixMixin) {
     )
   }
 
+  get isRmrk(): boolean {
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
@@ -166,6 +170,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   protected async handleResult({ data }: any) {
+    console.log('handleResult', data)
     this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
@@ -270,7 +275,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     }
 
-    if (this.searchQuery.listed) {
+    if (this.searchQuery.listed && this.isRmrk) {
       params.push({
         price: { greaterThan: '0' },
       })
