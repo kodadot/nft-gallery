@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <CarouselList :nfts="nfts" />
+    <CarouselCardList :nfts="nfts" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@ import {
 import { getMany, update } from 'idb-keyval'
 
 const components = {
-  CarouselList: () => import('@/components/base/CarouselList.vue'),
+  CarouselCardList: () => import('~/components/base/CarouselCardList.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
