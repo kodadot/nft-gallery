@@ -1,10 +1,10 @@
 <template>
   <section class="wrapper no-padding-desktop gallery-item">
-    <b-message type="is-primary" v-if="message">
+    <b-message class="message-box" type="is-primary" v-if="message">
       <div class="columns">
         <div class="column is-four-fifths">
           <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-          <p class="subtitle is-size-5 has-text-black">
+          <p class="subtitle is-size-5 subtitle-text">
             {{ $t('mint.shareWithFriends', [nft.name]) }} △
           </p>
         </div>
@@ -438,8 +438,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 @import '@/styles/variables';
 
 hr.comment-divider {
-  border-top: 1px solid lightpink;
-  border-bottom: 1px solid lightpink;
+  border-top: 1px solid $lightpink;
+  border-bottom: 1px solid $lightpink;
 }
 
 .fixed-height {
@@ -565,5 +565,25 @@ hr.comment-divider {
       padding: 0;
     }
   }
+
+  .message-box {
+    background: $dark!important;
+    border: 2px solid $primary;
+    box-shadow: $dropdown-content-shadow;
+    .subtitle-text {
+      color: $lightpink;
+    }
+    section {
+      border: none!important;
+    }
+  }
 }
+</style>
+
+<style lang="scss">
+  .message-box {
+     .message-body {
+      border: none;
+   }
+  }
 </style>

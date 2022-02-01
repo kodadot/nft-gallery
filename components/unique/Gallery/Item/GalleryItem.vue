@@ -481,8 +481,8 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 @import '@/styles/variables';
 
 hr.comment-divider {
-  border-top: 1px solid lightpink;
-  border-bottom: 1px solid lightpink;
+  border-top: 1px solid $lightpink;
+  border-bottom: 1px solid $lightpink;
 }
 
 .gallery-item {
