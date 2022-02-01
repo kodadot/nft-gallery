@@ -48,7 +48,6 @@ import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { uploadImageToCdn } from '@/utils/proxy'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
@@ -150,7 +149,7 @@ export default class CreateCollection extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     if (file) {
-      uploadImageToCdn(file, metaHash).catch(console.warn)
+      uploadDirect(file, metaHash).catch(console.warn)
     }
 
     return unSanitizeIpfsUrl(metaHash)
@@ -184,11 +183,6 @@ export default class CreateCollection extends mixins(
             asSystemRemark(api, mintInteraction),
             ...(await canSupport(this.hasSupport)),
           ]
-
-      if (this.base.file) {
-        console.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(console.warn)
-      }
 
       await this.howAboutToExecute(
         this.accountId,

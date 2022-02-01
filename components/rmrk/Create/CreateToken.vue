@@ -55,7 +55,6 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/pinning'
-import { uploadImageToCdn } from '@/utils/proxy'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
 import {
@@ -66,7 +65,7 @@ import {
   createMetadata,
   createMintInteaction,
   createMultipleNFT,
-  Interaction
+  Interaction,
 } from '@kodadot1/minimark'
 import { formatBalance } from '@polkadot/util'
 import Connector from '@kodadot1/sub-api'
@@ -80,9 +79,9 @@ import { toNFTId } from '../service/scheme'
 import {
   nsfwAttribute,
   offsetAttribute,
-  secondaryFileVisible
+  secondaryFileVisible,
 } from './mintUtils'
-
+import { uploadDirect } from '~/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -289,7 +288,7 @@ export default class CreateToken extends mixins(
     )
 
     const metaHash = await pinJson(meta, imageHash)
-    uploadImageToCdn(file, metaHash).catch(console.warn)
+    uploadDirect(file, metaHash).catch(console.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 
