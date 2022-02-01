@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import RampCredit from '@/components/credit/RampCredit.vue'
+import RampCredit from '@/components/common/RampCredit.vue'
 
 const components = {
   RampCredit,
