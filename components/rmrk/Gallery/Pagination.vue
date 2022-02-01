@@ -15,7 +15,7 @@
       aria-current-label="Current page"
       @change="onPageChange">
     </b-pagination>
-    <b-tooltip :label="$i18n.t('tooltip.random')">
+    <b-tooltip :label="$i18n.t('tooltip.random') + ' (g+r)'">
       <b-button
         class="ml-2 magicBtn"
         title="Go to random page"

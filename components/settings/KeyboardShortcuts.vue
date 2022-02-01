@@ -144,6 +144,10 @@ export default class keyboardShortcuts extends Vue {
         shortcut: 'f+n',
       },
       {
+        action: 'Filter old first',
+        shortcut: 'f+o',
+      },
+      {
         action: 'Filter expensive first',
         shortcut: 'f+e',
       },
