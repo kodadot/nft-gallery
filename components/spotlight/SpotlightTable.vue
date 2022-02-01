@@ -88,7 +88,7 @@
         v-slot="props"
         sortable>
         <template v-if="!isLoading"
-          ><Money :value="props.row.averagePrice" inline
+          ><Money :value="props.row.averagePrice" inline :hideUnit="true"
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -103,7 +103,7 @@
 
       <b-table-column field="volume" label="Volume" v-slot="props" sortable>
         <template v-if="!isLoading"
-          ><Money :value="props.row.volume" inline
+          ><Money :value="props.row.volume" inline :hideUnit="true"
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>

@@ -1,7 +1,10 @@
 <template>
   <div :class="['money', { 'money--inline': inline }]">
-    <span>
+    <span v-if="!hideUnit">
       {{ value | formatBalance(decimals, unit) }}
+    </span>
+    <span v-else>
+      {{ value | formatBalance(decimals, '') }}
     </span>
   </div>
 </template>
@@ -13,6 +16,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 export default class Money extends Vue {
   @Prop({ default: 0 }) readonly value: number | string | undefined
   @Prop(Boolean) readonly inline!: boolean
+  @Prop(Boolean) readonly hideUnit!: boolean
 
   private readonly coinId: string = 'kusama'
   private fiatValue = 0
