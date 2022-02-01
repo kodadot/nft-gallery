@@ -64,7 +64,6 @@ import {
   addressToHex,
 } from '@kodadot1/minimark'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
-import { fi } from 'date-fns/locale'
 
 type BaseCollectionType = {
   name: string
