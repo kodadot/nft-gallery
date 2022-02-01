@@ -101,13 +101,6 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="volume" label="Volume" v-slot="props" sortable>
-        <template v-if="!isLoading"
-          ><Money :value="props.row.volume" inline
-        /></template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
       <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" append-to-body dashed>

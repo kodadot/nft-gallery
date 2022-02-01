@@ -84,19 +84,6 @@
 
       <b-table-column
         v-slot="props"
-        field="volume"
-        :label="$t('series.volume')"
-        sortable
-        numeric
-        cell-class="is-vcentered">
-        <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline />
-        </template>
-        <b-skeleton :active="isLoading" />
-      </b-table-column>
-
-      <b-table-column
-        v-slot="props"
         field="dailyVolume"
         label="24h %"
         numeric
@@ -172,19 +159,6 @@
               )
             }}
           </div>
-        </template>
-        <b-skeleton :active="isLoading" />
-      </b-table-column>
-
-      <b-table-column
-        v-slot="props"
-        field="floor_price"
-        :label="$t('series.floorprice')"
-        numeric
-        cell-class="is-vcentered"
-        sortable>
-        <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
