@@ -11,6 +11,7 @@ export const state = (): {
   galleryItemsPerPage: number
   collectionsPerPage: number
   replaceBuyNowWithYolo: boolean
+  enableAllArtwork: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -28,6 +29,7 @@ export const state = (): {
   hasSupport: true,
   hasCarbonOffset: true,
   arweaveUpload: false,
+  enableAllArtwork: true,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -44,6 +46,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getHasSupport: ({ hasSupport }) => hasSupport,
   getHasCarbonOffset: ({ hasCarbonOffset }) => hasCarbonOffset,
   getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
+  getLoadAllArtwork: ({ enableAllArtwork }) => enableAllArtwork,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -93,6 +96,9 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ARWEAVE_UPLOAD(state: PreferencesState, data) {
     state.arweaveUpload = data
   },
+  SET_ALL_ARTWORK_VISIBLE(state: PreferencesState, data) {
+    state.enableAllArtwork = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -131,5 +137,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setArweaveUpload({ commit }: { commit: Commit }, data) {
     commit('SET_ARWEAVE_UPLOAD', data)
+  },
+  setAllArtworkVisible({ commit }: { commit: Commit }, data) {
+    commit('SET_ALL_ARTWORK_VISIBLE', data)
   },
 }

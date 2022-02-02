@@ -48,9 +48,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import { formatBalance } from '@polkadot/util'
+import collectionForMint from '@/queries/collectionForMint.graphql'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { pinFileToIPFS, PinningKey, pinJson } from '@/utils/pinning'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { canSupport } from '@/utils/support'
 import {
   asSystemRemark,
   Attribute,
@@ -61,17 +67,12 @@ import {
   createMultipleNFT,
   Interaction,
 } from '@kodadot1/minimark'
-
-import collectionForMint from '@/queries/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { canSupport } from '@/utils/support'
+import { formatBalance } from '@polkadot/util'
+import Connector from '@kodadot1/sub-api'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { basicUpdateFunction } from '../service/NftUtils'
 import { toNFTId } from '../service/scheme'
@@ -80,8 +81,7 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from './mintUtils'
-import AuthMixin from '~/utils/mixins/authMixin'
-import { BaseTokenType, BaseMintedCollection } from '~/components/base/types'
+import { uploadDirect } from '~/utils/directUpload'
 
 type MintedCollection = BaseMintedCollection & {
   name: string
@@ -288,6 +288,7 @@ export default class CreateToken extends mixins(
     )
 
     const metaHash = await pinJson(meta, imageHash)
+    uploadDirect(file, metaHash).catch(console.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 

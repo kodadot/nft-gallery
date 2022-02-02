@@ -26,9 +26,9 @@ body {
       }
     }
   }
-.autocomplete .dropdown-item {
-  padding-right: 1px;
-}
+  .autocomplete .dropdown-item {
+    padding-right: 1px;
+  }
   .select select,
   .taginput .taginput-container.is-focusable,
   .textarea,
@@ -184,6 +184,11 @@ body {
 .page-enter,
 .page-leave-active {
   opacity: 0;
+}
+
+button.button.is-bordered {
+  border: 0;
+  border-top: 2px solid $primary !important;
 }
 
 .card.bordered {
