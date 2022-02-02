@@ -111,7 +111,7 @@
     "eslint-plugin-vue": "^8.4.0",
     "husky": "^7.0.4",
     "jest": "^27.4.7",
-    "lint-staged": "^12.3.2",
+    "lint-staged": "^12.3.3",
     "netlify-lambda": "^2.0.15",
     "prettier": "2.5.1",
     "sass": "^1.49.4",
