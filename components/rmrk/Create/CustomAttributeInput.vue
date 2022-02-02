@@ -1,14 +1,5 @@
 <template>
   <CollapseWrapper :visible="visible" :hidden="hidden">
-    <b-button
-      type="is-light"
-      outlined
-      class="mt-2"
-      :disabled="disabled"
-      @click="addAttribute"
-      icon-left="plus"
-      >Add Attribute</b-button
-    >
     <div
       v-for="(attribute, index) in attributes"
       :key="index"
@@ -18,6 +9,15 @@
         :index="index"
         @remove="removeAttribute" />
     </div>
+    <b-button
+      type="is-light"
+      outlined
+      class="mt-2"
+      :disabled="disabled"
+      @click="addAttribute"
+      icon-left="plus"
+      >Add Attribute</b-button
+    >
   </CollapseWrapper>
 </template>
 

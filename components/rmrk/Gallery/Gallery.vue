@@ -152,6 +152,10 @@ export default class Gallery extends mixins(PrefixMixin) {
     )
   }
 
+  get isRmrk(): boolean {
+    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
   get getLoadAllArtwork(): boolean {
     return this.$store.getters['preferences/getLoadAllArtwork']
   }
@@ -257,7 +261,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     }
 
-    if (this.searchQuery.listed) {
+    if (this.searchQuery.listed && this.isRmrk) {
       params.push({
         price: { greaterThan: '0' },
       })

@@ -75,6 +75,7 @@
     <template #end>
       <HistoryBrowser />
       <LocaleChanger />
+      <ChainSelect />
       <NavbarProfileDropdown />
     </template>
   </b-navbar>
@@ -83,6 +84,7 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
+import ChainSelect from '@/components/shared/ChainSelect.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -92,6 +94,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     LocaleChanger,
     HistoryBrowser,
     NavbarProfileDropdown,
+    ChainSelect,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
