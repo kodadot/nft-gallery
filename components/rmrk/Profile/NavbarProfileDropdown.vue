@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown position="is-bottom-left" aria-role="menu" >
+  <b-dropdown position="is-bottom-left" aria-role="menu">
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
@@ -27,11 +27,11 @@
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link :to="`/${urlPrefix}/u/${account}`"> Profile </nuxt-link>
       </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
+      <!-- <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/rmrk/credit">
           {{ $t('Credit') }}
         </nuxt-link>
-      </b-dropdown-item>
+      </b-dropdown-item> -->
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/rmrk/faq"> F.A.Q. </nuxt-link>
       </b-dropdown-item>
@@ -160,7 +160,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
   &__button {
     border: 0;
-    border-top: 2px solid $primary!important;
+    border-top: 2px solid $primary !important;
   }
 
   &__avatar {

@@ -2709,10 +2709,10 @@
   dependencies:
     "@polkadot/api" "^7.4.1"
 
-"@kodadot1/vuex-options@^0.0.1-rc.0":
-  version "0.0.1-rc.0"
-  resolved "https://registry.yarnpkg.com/@kodadot1/vuex-options/-/vuex-options-0.0.1-rc.0.tgz#19bb563b9db8aabe4ba01f90e68de067014f5ec2"
-  integrity sha512-4VIsspMtsLHPYSq/bccCE/uamj1r14FAidh1F7JeuSB/1cwM5e3THY2yePTSIQlNFzrHlPgUPrf+rPgqQFSZmg==
+"@kodadot1/vuex-options@^0.0.1-rc.1":
+  version "0.0.1-rc.1"
+  resolved "https://registry.yarnpkg.com/@kodadot1/vuex-options/-/vuex-options-0.0.1-rc.1.tgz#fbc5b229aa6fba86a39669142bf0ef2d374beb2b"
+  integrity sha512-avFKSnKmpVRSAUp57KclobNkKo845fyMCX4SWkAUjqihTLi6UR5H1jsLcv0FeoxcwQnjkT2EcIkIll9uUzhvjg==
   dependencies:
     "@polkadot/networks" "^7.4.1"
 
@@ -14993,10 +14993,10 @@ sass-loader@^10.2:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@^1.49.0:
-  version "1.49.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.0.tgz#65ec1b1d9a6bc1bae8d2c9d4b392c13f5d32c078"
-  integrity sha512-TVwVdNDj6p6b4QymJtNtRS2YtLJ/CqZriGg0eIAbAKMlN8Xy6kbv33FsEZSF7FufFFM705SQviHjjThfaQ4VNw==
+sass@^1.49.4:
+  version "1.49.4"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.4.tgz#d2655e03e52b2212ab65d392bdef6d0931d8637c"
+  integrity sha512-xUU5ZlppOjgfEyIIcHpnmY+f+3/ieaadp25S/OqZ5+jBPeTAMJJblkhM6UD9jb4j/lzglz7VOL5kglYt+CvNdQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

@@ -1,10 +1,10 @@
 <template>
   <section class="wrapper no-padding-desktop gallery-item">
-    <b-message type="is-primary" v-if="message">
+    <b-message class="message-box" type="is-primary" v-if="message">
       <div class="columns">
         <div class="column is-four-fifths">
           <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-          <p class="subtitle is-size-5 has-text-black">
+          <p class="subtitle is-size-5 subtitle-text">
             {{ $t('mint.shareWithFriends', [nft.name]) }} △
           </p>
         </div>
@@ -123,7 +123,7 @@
                   </div>
                   <div class="price-block__container">
                     <div class="price-block__original">
-                      {{ nft.price | formatBalance(12, 'KSM') }}
+                      <Money :value="nft.price" inline />
                     </div>
                     <b-button
                       v-if="nft.currentOwner === accountId"
@@ -187,11 +187,6 @@ import { emptyObject } from '@/utils/empty'
 
 import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
-// import Money from '@/components/shared/format/Money.vue';
-// import/ Sharing from '@/components/rmrk/Gallery/Item/Sharing.vue';
-// import Facts from '@/components/rmrk/Gallery/Item/Facts.vue';
-// import Name from '@/components/rmrk/Gallery/Item/Name.vue';
-// import VueMarkdown from 'vue-markdown-render'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
@@ -411,8 +406,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   protected handleUnlist() {
     // call unlist function from the AvailableActions component
-    let actions = this.$refs.actions as AvailableActions
-    actions.unlistNft()
+    const availableActions = this.$refs.actions as AvailableActions
+    availableActions.unlistNft()
   }
 
   @Watch('meta.image')
@@ -439,8 +434,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 @import '@/styles/variables';
 
 hr.comment-divider {
-  border-top: 1px solid lightpink;
-  border-bottom: 1px solid lightpink;
+  border-top: 1px solid $lightpink;
+  border-bottom: 1px solid $lightpink;
 }
 
 .fixed-height {
@@ -566,5 +561,25 @@ hr.comment-divider {
       padding: 0;
     }
   }
+
+  .message-box {
+    background: $dark!important;
+    border: 2px solid $primary;
+    box-shadow: $dropdown-content-shadow;
+    .subtitle-text {
+      color: $lightpink;
+    }
+    section {
+      border: none!important;
+    }
+  }
 }
+</style>
+
+<style lang="scss">
+  .message-box {
+     .message-body {
+      border: none;
+   }
+  }
 </style>

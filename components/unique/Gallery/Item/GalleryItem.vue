@@ -121,18 +121,6 @@
                       <div class="label">
                         {{ $t('price') }}
                       </div>
-                      <div class="price-block__container">
-                        <div class="price-block__original">
-                          {{ nft.price | formatBalance(12, 'KSM') }}
-                        </div>
-                        <b-button
-                          v-if="nft.currentOwner === accountId"
-                          type="is-warning"
-                          outlined
-                          @click="handleUnlist">
-                          {{ $t('Unlist') }}
-                        </b-button>
-                      </div>
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
@@ -481,8 +469,8 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 @import '@/styles/variables';
 
 hr.comment-divider {
-  border-top: 1px solid lightpink;
-  border-bottom: 1px solid lightpink;
+  border-top: 1px solid $lightpink;
+  border-bottom: 1px solid $lightpink;
 }
 
 .gallery-item {

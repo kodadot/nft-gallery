@@ -35,9 +35,7 @@
       </b-field>
       <b-field>
         <b-checkbox v-model="showPriceValue" :disabled="!enabledAdvancedUI">
-          {{
-            $t('Always show price in gallery and collection view by default')
-          }}
+          {{ $t('Always show NFT price by default') }}
         </b-checkbox>
       </b-field>
       <div class="layout-wrapper">
