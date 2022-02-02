@@ -5,7 +5,7 @@
       <ShareNetwork
         v-if="identity.twitter && this.isOwner"
         tag="button"
-        class="button is-info is-dark is-outlined is-fullwidth"
+        class="button is-info is-dark is-outlined is-fullwidth twitter-btn"
         network="twitter"
         :hashtags="'KodaDot'"
         :url="realworldFullPath"
@@ -363,5 +363,12 @@ export default class AvailableActions extends mixins(
 .joy {
   font-size: 16px;
   margin-top: 2px;
+}
+.twitter-btn {
+  border-color: #1c9cef !important;
+  color: #1c9cef !important;
+  &:hover {
+    color: #fff !important;
+  }
 }
 </style>
