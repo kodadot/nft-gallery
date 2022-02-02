@@ -1,10 +1,11 @@
 <template>
   <b-carousel-list
     has-drag
+    icon-size="is-large"
+    :arrow-hover="false"
     :data="nfts"
     :items-to-show="options.itemsToShow"
     :breakpoints="options.breakpoints"
-    icon-size="is-medium"
     class="carousel-card-list">
     <template #item="list">
       <div class="card mx-4">
@@ -39,7 +40,7 @@
             <span>
               <Appreciation :accountId="accountId" :nftId="list.id" />
             </span>
-            <p class="control ml-auto">
+            <p class="control ml-auto" v-if="list.price">
               <Money :value="list.price" inline />
             </p>
           </b-field>
@@ -103,6 +104,9 @@ export default class CarouselList extends Vue {
 
 .carousel-card-list {
   overflow: inherit;
+  // .carousel-slides {
+  //   mask: linear-gradient(90deg, rgb(255, 255, 255) 45%, transparent);
+  // }
 }
 
 .card {
