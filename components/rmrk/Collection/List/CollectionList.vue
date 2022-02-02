@@ -61,17 +61,21 @@ import {
   CollectionWithMeta,
   Collection,
   Metadata,
+  NFTMetadata,
 } from '@/components/rmrk/service/scheme'
-import {
-  fetchCollectionMetadata,
-  sanitizeIpfsUrl,
-} from '@/components/rmrk/utils'
+import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
-import { getMany, update } from 'idb-keyval'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { mapOnlyMetadata } from '~/utils/mappers'
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '~/utils/cachingStrategy'
+import { CollectionMetadata } from '~/components/rmrk/types'
+import { fastExtract } from '~/utils/ipfs'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -158,30 +162,17 @@ export default class CollectionList extends mixins(PrefixMixin) {
       ...e,
     }))
 
-    const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
-    )
+    const metadataList: string[] = this.collections.map(mapOnlyMetadata)
+    const imageLinks = await getCloudflareImageLinks(metadataList)
 
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchCollectionMetadata(this.collections[i])
-          Vue.set(this.collections, i, {
-            ...this.collections[i],
-            ...meta,
-            image: sanitizeIpfsUrl(meta.image || ''),
-          })
-          update(this.collections[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
-        }
-      } else {
-        Vue.set(this.collections, i, {
-          ...this.collections[i],
-          ...m,
-          image: sanitizeIpfsUrl(m.image || ''),
-        })
-      }
+    processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
+      Vue.set(this.collections, i, {
+        ...this.collections[i],
+        ...meta,
+        image:
+          imageLinks[fastExtract(this.collections[i].metadata)] ||
+          getSanitizer(meta.image || '')(meta.image || ''),
+      })
     })
 
     this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
@@ -204,22 +195,8 @@ export default class CollectionList extends mixins(PrefixMixin) {
         },
       } = await collections
 
-      const storedPromise = getMany(
-        collectionList.map(({ metadata }: any) => metadata)
-      )
-
-      const storedMetadata = await storedPromise
-
-      storedMetadata.forEach(async (m, i) => {
-        if (!m) {
-          try {
-            const meta = await fetchCollectionMetadata(collectionList[i])
-            update(collectionList[i].metadata, () => meta)
-          } catch (e) {
-            console.warn('[ERR] unable to get metadata')
-          }
-        }
-      })
+      const metadataList: string[] = collectionList.map(mapOnlyMetadata)
+      processMetadata<NFTMetadata>(metadataList)
     } catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {

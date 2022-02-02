@@ -29,9 +29,16 @@
                   }}</span>
                 </span>
                 <BasicImage
+                  v-show="nft.image"
                   :src="nft.image"
                   :alt="nft.name"
                   customClass="gallery__image-wrapper" />
+
+                <PreviewMediaResolver
+                  v-if="!nft.image && nft.animation_url"
+                  :src="nft.animation_url"
+                  :metadata="nft.metadata"
+                  :mimeType="nft.type" />
                 <span
                   v-if="nft.price > 0 && showPriceValue"
                   class="card-image__price">
@@ -74,24 +81,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, mixins } from 'nuxt-property-decorator'
-
-import { NFTWithMeta, NFT, Metadata, NFTMetadata } from '../service/scheme'
-import { fetchMetadata, fetchNFTMetadata, getSanitizer } from '../utils'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '@/utils/cachingStrategy'
+import { denyList, statemineDenyList } from '@/utils/constants'
+import { fastExtract } from '@/utils/ipfs'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import {
+  NFTEntitiesWithCount,
+  NFTWithCollectionMeta,
+  WithData,
+} from 'components/unique/graphqlResponseTypes'
+import { DocumentNode } from 'graphql'
 import 'lazysizes'
+
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { NFTMetadata } from '../service/scheme'
+import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 
-import { getMany, update } from 'idb-keyval'
-import { denyList, statemineDenyList } from '@/utils/constants'
-import { DocumentNode } from 'graphql'
-import { NFTWithCollectionMeta } from 'components/unique/graphqlResponseTypes'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
-
-const controlFilters = [{ name: { notLikeInsensitive: '%Penis%' } }]
+type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
@@ -101,6 +113,8 @@ const components = {
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  PreviewMediaResolver: () =>
+    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component<Gallery>({
@@ -109,16 +123,14 @@ const components = {
 })
 export default class Gallery extends mixins(PrefixMixin) {
   private nfts: NFTWithCollectionMeta[] = []
-  private meta: Metadata[] = []
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
   }
-  private placeholder = '/Kodadot_logo.svg'
   private currentValue = 1
-  private total = 0
+  protected total = 0
   private loadingState = 0
 
   get first(): number {
@@ -140,14 +152,18 @@ export default class Gallery extends mixins(PrefixMixin) {
     )
   }
 
+  get getLoadAllArtwork(): boolean {
+    return this.$store.getters['preferences/getLoadAllArtwork']
+  }
+
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
 
-    this.$apollo.addSmartQuery('nfts', {
-      query: query as unknown as DocumentNode,
+    this.$apollo.addSmartQuery<GraphResponse>('nfts', {
+      query: query.default,
       manual: true,
       // update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'loadingState',
@@ -165,48 +181,34 @@ export default class Gallery extends mixins(PrefixMixin) {
     })
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data }: WithData<GraphResponse>) {
     this.total = data.nFTEntities.totalCount
     this.nfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount,
     }))
 
-    const metadataList: string[] = this.nfts.map(
-      ({ metadata, collection }: NFTWithCollectionMeta) =>
-        metadata || collection.metadata || 'x'
-    )
-    const storedMetadata = await getMany(metadataList)
+    const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
+    const imageLinks = await getCloudflareImageLinks(metadataList)
 
-    storedMetadata.forEach(async (m, i) => {
-      if (!metadataList[i]) {
-        return
-      }
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(
-            this.nfts[i],
-            getSanitizer(this.nfts[i].metadata, undefined, 'permafrost')
-          )
-          Vue.set(this.nfts, i, {
-            ...this.nfts[i],
-            ...meta,
-            image: getSanitizer(meta.image || '')(meta.image || ''),
-          })
-          update(this.nfts[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
-        }
-      } else {
-        Vue.set(this.nfts, i, {
-          ...this.nfts[i],
-          ...m,
-          image: getSanitizer(m.image || '')(m.image || ''),
-        })
-      }
+    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      Vue.set(this.nfts, i, {
+        ...this.nfts[i],
+        ...meta,
+        image:
+          imageLinks[
+            fastExtract(
+              this.nfts[i].metadata || this.nfts[i].collection.metadata
+            )
+          ] || getSanitizer(meta.image || '')(meta.image || ''),
+        animation_url: getSanitizer(meta.animation_url || '')(
+          meta.animation_url || ''
+        ),
+        type: meta.type || '',
+      })
     })
 
-    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
@@ -233,27 +235,12 @@ export default class Gallery extends mixins(PrefixMixin) {
         },
       } = await nfts
 
-      const metadataList: string[] = this.nfts.map(
-        ({ metadata, collection }: NFTWithCollectionMeta) =>
-          metadata || collection.metadata
+      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
+      processMetadata<NFTMetadata>(metadataList)
+    } catch (e) {
+      logError(e, (msg) =>
+        console.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
-
-      const storedPromise = getMany(metadataList).catch(() => metadataList)
-
-      const storedMetadata = await storedPromise
-
-      storedMetadata.forEach(async (m, i) => {
-        if (!m) {
-          try {
-            const meta = await fetchNFTMetadata(nftList[i])
-            update(nftList[i].metadata, () => meta)
-          } catch (e) {
-            console.warn('[ERR] unable to get metadata')
-          }
-        }
-      })
-    } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
@@ -287,11 +274,6 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
   }
 }
 </script>
@@ -406,6 +388,11 @@ export default class Gallery extends mixins(PrefixMixin) {
         }
 
         &:hover .gallery__image-wrapper img {
+          transform: scale(1.1);
+          transition: transform 0.3s linear;
+        }
+
+        &:hover .gallery__image-wrapper video {
           transform: scale(1.1);
           transition: transform 0.3s linear;
         }
