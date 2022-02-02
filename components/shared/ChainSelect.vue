@@ -11,7 +11,8 @@
       v-for="option in options"
       :key="option.value"
       :value="option.value"
-      :class="{ 'is-active': selected === option.value }">
+      :class="{ 'is-active': selected === option.value }"
+      :disabled="option.value === 'bsx'">
       {{ option.text }}
     </b-dropdown-item>
   </b-dropdown>
