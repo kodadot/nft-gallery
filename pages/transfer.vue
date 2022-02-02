@@ -132,14 +132,12 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import {
-  checkAddress,
-  decodeAddress,
-  encodeAddress,
-  isAddress,
-} from '@polkadot/util-crypto'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import onApiConnect from '~/utils/api/general'
+import type { ApiPromise } from '@polkadot/api'
+
 @Component({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
@@ -190,6 +188,9 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
+    onApiConnect(async (api) => {
+      this.loadBalance(api)
+    })
   }
 
   protected onAmountFieldChange() {
@@ -358,13 +359,12 @@ export default class Transfer extends mixins(
     this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
   }
 
-  async loadBalance() {
-    if (!this.accountId || !this.unit) {
+  async loadBalance(
+    api: ApiPromise = Connector.getInstance().api
+  ): Promise<void> {
+    if (!this.accountId || !this.unit || !api) {
       return
     }
-
-    await new Promise((a) => setTimeout(a, 1000))
-    const { api } = Connector.getInstance()
 
     try {
       const cb = api.query.system.account

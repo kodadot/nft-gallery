@@ -123,16 +123,12 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import {
-  checkAddress,
-  decodeAddress,
-  encodeAddress,
-  isAddress,
-} from '@polkadot/util-crypto'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 import { findCall, getApiParams } from '@/utils/teleport'
 import onApiConnect from '~/utils/api/general'
+import type { ApiPromise } from '@polkadot/api'
 
 @Component({
   components: {
@@ -195,6 +191,7 @@ export default class Transfer extends mixins(
     onApiConnect(async (api) => {
       const paraId = await api.query.parachainInfo?.parachainId()
       this.paraTeleport = paraId?.toString() || ''
+      this.loadBalance(api)
     })
   }
 
@@ -409,13 +406,12 @@ export default class Transfer extends mixins(
     })
   }
 
-  async loadBalance() {
-    if (!this.accountId || !this.unit) {
+  async loadBalance(
+    api: ApiPromise = Connector.getInstance().api
+  ): Promise<void> {
+    if (!this.accountId || !this.unit || !api) {
       return
     }
-
-    await new Promise((a) => setTimeout(a, 1000))
-    const { api } = Connector.getInstance()
 
     try {
       const cb = api.query.system.account
