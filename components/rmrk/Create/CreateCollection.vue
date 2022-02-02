@@ -147,6 +147,10 @@ export default class CreateCollection extends mixins(
     )
     const metaHash = await pinJson(meta, imageHash)
 
+    if (file) {
+      uploadDirect(file, metaHash).catch(console.warn)
+    }
+
     return unSanitizeIpfsUrl(metaHash)
   }
 
@@ -178,11 +182,6 @@ export default class CreateCollection extends mixins(
             asSystemRemark(api, mintInteraction),
             ...(await canSupport(this.hasSupport)),
           ]
-
-      if (this.base.file) {
-        console.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(console.warn)
-      }
 
       await this.howAboutToExecute(
         this.accountId,

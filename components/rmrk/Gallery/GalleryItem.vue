@@ -4,7 +4,9 @@
     :animationUrl="meta.animation_url"
     :description="meta.description"
     :imageVisible="imageVisible"
-    :isLoading="isLoading">
+    :isLoading="isLoading"
+    :mimeType="mimeType"
+    >
     <template v-slot:top v-if="message">
       <b-message class="message-box" type="is-primary">
         <div class="columns">
@@ -64,13 +66,13 @@
                 <Detail :nft="nft" :isLoading="isLoading" />
               </div>
             </div>
-            <div
-              class="column is-flex is-flex-direction-column is-justify-content-space-between">
-              <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-                <div class="card-content money-cursor">
-                  <template v-if="hasPrice">
-                    <div class="label">
-                      {{ $t('price') }}
+          <div
+            class="column is-flex is-flex-direction-column is-justify-content-space-between">
+            <div class="card bordered mb-4" aria-id="contentIdForA11y3">
+              <div :class="{ 'money-cursor': hasPrice }" class="card-content">
+                <template v-if="hasPrice">
+                  <div class="label">
+                    {{ $t('price') }}
                     </div>
                     <div class="price-block__container">
                       <div class="price-block__original">
@@ -180,8 +182,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 })
 export default class GalleryItem extends mixins(PrefixMixin) {
   private id = ''
-  // private accountId: string = '';
-  private passsword = ''
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
