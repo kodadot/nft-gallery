@@ -167,9 +167,9 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     display: flex;
     align-items: center;
 
-    @include until($desktop) {
-      padding: 0.5rem 0.75rem;
-    }
+    // @include until($desktop) {
+    //   padding: 0.5rem 0.75rem;
+    // }
   }
 
   &__avatar-icon {
