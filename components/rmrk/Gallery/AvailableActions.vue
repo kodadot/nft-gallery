@@ -11,7 +11,7 @@
         :url="realworldFullPath"
         :title="labelTwitter">
         <b-icon pack="fab" icon="twitter" />
-        <span class="joy">{{ 'SHARE JOY' }}</span>
+        <span class="joy">SHARE JOY</span>
       </ShareNetwork>
       <b-button
         v-for="action in actions"
