@@ -194,11 +194,13 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     this.fetchCollection()
     onApiConnect((api) => {
       this.loadMagic()
-      this.subscribe(
-        api.query.uniques.asset,
-        [this.collectionId, this.id],
-        this.observeOwner
-      )
+      if (api.query.uniques) {
+        this.subscribe(
+          api.query.uniques.asset,
+          [this.collectionId, this.id],
+          this.observeOwner
+        )
+      }
     })
   }
 
@@ -224,19 +226,20 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       const nftId = this.id || 0
 
       let nftQ = await api.query.uniques
-        .instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
+        ?.instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
         .then((res) => res.unwrapOr(null))
 
       if (!nftQ) {
         console.warn('nft with no metadata, trying collection')
         nftQ = await api.query.uniques
-          .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
+          ?.classMetadataOf<Option<ClassMetadata>>(this.collectionId)
           .then((res) => res.unwrapOr(null))
       }
 
       const nftData = nftQ?.toHuman()
       if (!nftData?.data) {
-        showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
+        console.warn(`No Metadata with ID ${nftId}`)
+        // showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
         return
       }
 
