@@ -9,13 +9,12 @@
       Go to artist's profile
     </nuxt-link>
     <div class="box">
-      <div class="info">
-        <p class="title is-size-3">Transfer {{ unit }}</p>
-        <span v-if="isKSM" class="info--currentPrice" title="Current price"
-          >${{ $store.getters['fiat/getCurrentKSMValue'] }}
-        </span>
-      </div>
-
+      <p class="title is-size-3">
+        Transfer {{ unit }}
+        <span v-if="isKSM" class="has-text-primary"
+          >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
+        >
+      </p>
       <b-field>
         <Auth />
       </b-field>
@@ -385,17 +384,6 @@ export default class Transfer extends mixins(
 
 <style scoped lang="scss">
 @import '@/styles/variables';
-.info {
-  display: flex;
-  align-items: center;
-  &--currentPrice {
-    margin-bottom: 1.5rem;
-    margin-left: 1.5rem;
-    color: $primary;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-}
 .tx {
   margin-left: 1rem;
 }
