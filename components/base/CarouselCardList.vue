@@ -1,8 +1,11 @@
 <template>
   <b-carousel-list
+    has-drag
     :data="nfts"
     :items-to-show="options.itemsToShow"
-    :breakpoints="options.breakpoints">
+    :breakpoints="options.breakpoints"
+    icon-size="is-medium"
+    class="carousel-card-list">
     <template #item="list">
       <div class="card mx-4">
         <div class="card-image">
@@ -13,31 +16,31 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title is-4">
+              <div class="title is-6 is-ellipsis">
                 <nuxt-link :to="`/rmrk/gallery/${list.id}`">
                   {{ list.name }}
                 </nuxt-link>
-              </p>
-              <p class="subtitle is-6">
+              </div>
+              <div class="subtitle is-7 has-text-light">
                 <nuxt-link
                   :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
-                  <!-- <Avatar :size="12" :value="list.issuer" /> -->
+                  <!-- <Identicon
+                    :size="18"
+                    :theme="'polkadot'"
+                    :value="list.issuer"
+                    class="mr-2" /> -->
                   <Identity :address="list.issuer" inline noOverflow />
                 </nuxt-link>
-              </p>
+              </div>
             </div>
           </div>
 
           <b-field grouped>
             <span>
-              <Money :value="list.price" inline />
+              <Appreciation :accountId="accountId" :nftId="list.id" />
             </span>
             <p class="control ml-auto">
-              <b-button
-                size="is-small"
-                type="is-success"
-                icon-left="money-bill-wave"
-                outlined />
+              <Money :value="list.price" inline />
             </p>
           </b-field>
         </div>
@@ -48,13 +51,15 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
-import 'lazysizes'
+import Identicon from '@polkadot/vue-identicon'
 
 const components = {
+  Identicon,
   Loader: () => import('@/components/shared/Loader.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
 }
 
 @Component<CarouselList>({
@@ -83,6 +88,10 @@ export default class CarouselList extends Vue {
     }
   }
 
+  get accountId(): string {
+    return this.$store.getters.getAuthAddress
+  }
+
   async created() {
     console.log(this.nfts)
   }
@@ -92,8 +101,23 @@ export default class CarouselList extends Vue {
 <style lang="scss" scoped>
 @import '@/styles/variables';
 
+.carousel-card-list {
+  overflow: inherit;
+}
+
 .card {
   border-radius: 8px;
   border: 2px solid $primary;
+
+  .media-content {
+    width: 100%;
+  }
+}
+
+/* move to global */
+.is-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
