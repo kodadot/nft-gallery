@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown aria-role="list" position="is-bottom-left">
+  <b-dropdown v-if="hasHistory" aria-role="list" position="is-bottom-left">
     <template #trigger>
       <b-button type="is-primary is-bordered" icon-left="history" />
     </template>
