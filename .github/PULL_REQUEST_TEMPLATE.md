@@ -25,6 +25,7 @@
 - [ ] I've tested it at </rmrk/collection/26902bc2f7c20c546a-1FVG7>
 - [ ] I've tested PR on mobile and everything seems works
 - [ ] I found edge cases
+- [ ] I've written some unit tests 🧪
 
 ### Had issue bounty label?
 

@@ -10,7 +10,7 @@
         <CustomAttributeInput
           key="attributes"
           v-show="base.selectedCollection"
-          :max="5"
+          :max="10"
           v-model="attributes"
           class="mb-3"
           visible="collapse.collection.attributes.show"

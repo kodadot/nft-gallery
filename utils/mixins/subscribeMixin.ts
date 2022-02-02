@@ -11,8 +11,10 @@ declare type Unsubscribe = () => void
 export default class SubscribeMixin extends Vue {
   private subs: Unsubscribe[] = []
 
-  public async subscribe(fn: any, args: any, callback: any) {
-    this.subs.push(await fn(...args, callback))
+  public async subscribe(fn: any, args: any[], callback: any) {
+    fn(...args, callback)
+      .then((sub: Unsubscribe) => this.subs.push(sub))
+      .catch(console.error)
   }
 
   public beforeDestroy(): void {

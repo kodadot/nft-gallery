@@ -57,11 +57,15 @@
                   <div class="media-left">
                     <BasicImage
                       customClass="is-32x32"
-                      :src="
-                        props.option.image === ''
-                          ? props.option.animation_url
-                          : props.option.image
-                      " />
+                      :src="props.option.image || '/placeholder.webp'" />
+                    <!-- <div class="preview-media-wrapper">
+                    <PreviewMediaResolver
+                      v-if="!props.option.image && props.option.animation_url"
+                      :src="props.option.animation_url"
+                      :metadata="props.option.metadata"
+                      :mimeType="props.option.type"
+                    />
+                    </div> -->
                   </div>
                   <div class="media-content">
                     {{ props.option.name }}
@@ -106,11 +110,16 @@ import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
-import { NFT } from '../../service/scheme'
-import { fetchNFTMetadata, getSanitizer } from '../../utils'
-import { getMany, update } from 'idb-keyval'
+import { NFT, NFTMetadata } from '../../service/scheme'
+import { getSanitizer } from '../../utils'
 import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { mapNFTorCollectionMetadata } from '~/utils/mappers'
+import {
+  getCloudflareImageLinks,
+  processMetadata,
+} from '~/utils/cachingStrategy'
+import { fastExtract } from '~/utils/ipfs'
 
 @Component({
   components: {
@@ -119,6 +128,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
     BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
     BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+    // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
 export default class SearchBar extends mixins(PrefixMixin) {
@@ -310,35 +320,21 @@ export default class SearchBar extends mixins(PrefixMixin) {
       } = await nft
 
       this.result = nfts
-      const storedMetadata = await getMany(
-        this.result.map(({ metadata }: any) => metadata)
-      )
 
-      storedMetadata.forEach(async (m: { image: any }, i: string | number) => {
-        if (!m) {
-          try {
-            const meta = await fetchNFTMetadata(
-              this.result[i],
-              getSanitizer(this.result[i].metadata, undefined, 'permafrost')
-            )
-            Vue.set(this.result, i, {
-              ...this.result[i],
-              ...meta,
-              image: getSanitizer(meta.image || '')(meta.image || ''),
-              type: 'NFT',
-            })
-            update(this.result[i].metadata, () => meta)
-          } catch (e) {
-            console.warn('[ERR] unable to get metadata')
-          }
-        } else {
-          Vue.set(this.result, i, {
-            ...this.result[i],
-            ...m,
-            image: getSanitizer(m.image || '')(m.image || ''),
-            type: 'NFT',
-          })
-        }
+      const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+      const imageLinks = await getCloudflareImageLinks(metadataList)
+
+      processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+        Vue.set(this.result, i, {
+          ...this.result[i],
+          ...meta,
+          image:
+            imageLinks[fastExtract(this.result[i].metadata)] ||
+            getSanitizer(meta.image || '')(meta.image || ''),
+          animation_url: getSanitizer(meta.animation_url || '')(
+            meta.animation_url || ''
+          ),
+        })
       })
     } catch (e: any) {
       console.warn('[PREFETCH] Unable fo fetch', this.offset, e.message)
@@ -428,4 +424,8 @@ export default class SearchBar extends mixins(PrefixMixin) {
     transition: all 3s !important;
   }
 }
+// .preview-media-wrapper {
+//   width: 32px;
+//   height: 32px;
+// }
 </style>

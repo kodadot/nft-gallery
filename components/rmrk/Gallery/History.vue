@@ -44,7 +44,7 @@
               v-slot="props">
               <router-link
                 :to="{
-                  name: 'profile',
+                  name: 'rmrk-u-id',
                   params: { id: props.row.From },
                 }">
                 <Identity :address="props.row.From" inline noOverflow />

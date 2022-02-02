@@ -130,7 +130,7 @@ export default class CollectionItem extends mixins(
   private formater = tokenIdToRoute
 
   get image() {
-    return sanitizeIpfsUrl(this.collection.image || '') || '/koda300x300.svg'
+    return sanitizeIpfsUrl(this.collection.image || '') || '/placeholder.webp'
   }
 
   get description() {
