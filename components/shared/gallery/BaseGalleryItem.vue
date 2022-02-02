@@ -83,6 +83,7 @@ export default class BaseGalleryItem extends Vue {
   public description!: string
   @Prop(Boolean) public imageVisible!: boolean
   @Prop(Boolean) public isLoading!: boolean
+  @Prop(String) public mimeType!: string
 
   private isFullScreenView = false
   private viewMode = this.$store.getters['preferences/getTheatreView']
