@@ -2,6 +2,7 @@ dist
 functions/
 yarn.lock
 data_ksmcc2/
+.yarn/
 
 package-lock.json
 # local env files
