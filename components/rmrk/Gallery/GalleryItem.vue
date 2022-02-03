@@ -227,7 +227,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public async created() {
     this.checkId()
-    console.log('created hook nft', this.id)
     exist(this.$route.query.message, (val) => {
       this.message = val === 'congrats' ? val : ''
       this.$router.replace({ query: null } as any)
