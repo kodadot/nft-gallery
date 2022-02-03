@@ -4,16 +4,21 @@
       {{ value | formatBalance(decimals, unit) }}
     </span>
     <span v-else>
-      {{ valueWithoutUnit }}
+      {{ value | formatBalance(decimals, '') | round(2) }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import formatBalance from '@/utils/formatBalance'
 
-@Component
+@Component({
+  filters: {
+    round: function roundOffNumber(value, limit) {
+      return Number(value.replace(/,/g, '')).toFixed(limit)
+    },
+  },
+})
 export default class Money extends Vue {
   @Prop({ default: 0 }) readonly value: number | string | undefined
   @Prop(Boolean) readonly inline!: boolean
@@ -21,11 +26,6 @@ export default class Money extends Vue {
 
   private readonly coinId: string = 'kusama'
   private fiatValue = 0
-
-  get valueWithoutUnit() {
-    const value = formatBalance(Number(this.value), this.decimals, '')
-    return Number(value).toFixed(2)
-  }
 
   get chainProperties() {
     return this.$store.getters['chain/getChainProperties']
