@@ -6,6 +6,10 @@
   # This is where Netlify will look for your lambda functions.
   functions = "src-functions"
 
+[build.environment]
+YARN_ENABLE_GLOBAL_CACHE = "true"
+YARN_GLOBAL_FOLDER = "/opt/buildhome/.yarn_cache"
+
 [functions]
   node_bundler = "esbuild"
 
