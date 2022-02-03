@@ -219,7 +219,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       this.fetchMetadata()
       this.fetchCollectionItems()
 
-      console.log('data', nFTEntity)
+      this.isLoading = false
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
     }
@@ -294,7 +294,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             this.nft,
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
-      console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
       this.meta = {
@@ -306,11 +305,9 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ),
       }
 
-      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![
           MediaType.VIDEO,
