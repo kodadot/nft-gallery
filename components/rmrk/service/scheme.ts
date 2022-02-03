@@ -156,6 +156,7 @@ export interface Collection {
 }
 
 export interface NFT {
+  image: string
   events: Interaction[]
   name: string
   instance: string

@@ -33,6 +33,7 @@
     "@vue-polkadot/vue-api": "0.0.46",
     "@vue-polkadot/vue-settings": "^0.0.20",
     "aframe": "^1.2.0",
+    "aframe-troika-text": "^0.6.0",
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.1",
     "buefy": "^0.9.10",

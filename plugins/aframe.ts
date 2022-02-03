@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import 'aframe';
+import 'aframe-troika-text';
 
 Vue.config.ignoredElements = [
   'a-scene',
@@ -14,5 +15,7 @@ Vue.config.ignoredElements = [
   'a-cursor',
   'a-entity',
   'a-mixin',
-  'a-gltf-model'
+  'a-gltf-model',
+  'a-troika-text',
+  'a-image'
 ]
