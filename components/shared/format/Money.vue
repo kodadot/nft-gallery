@@ -4,13 +4,14 @@
       {{ value | formatBalance(decimals, unit) }}
     </span>
     <span v-else>
-      {{ value | formatBalance(decimals, '') }}
+      {{ valueWithoutUnit }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import formatBalance from '@/utils/formatBalance'
 
 @Component
 export default class Money extends Vue {
@@ -20,6 +21,11 @@ export default class Money extends Vue {
 
   private readonly coinId: string = 'kusama'
   private fiatValue = 0
+
+  get valueWithoutUnit() {
+    const value = formatBalance(Number(this.value), this.decimals, '')
+    return Number(value).toFixed(2)
+  }
 
   get chainProperties() {
     return this.$store.getters['chain/getChainProperties']
