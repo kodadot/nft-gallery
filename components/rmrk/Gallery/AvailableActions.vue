@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <ShareNetwork
-        v-if="identity.twitter && this.isOwner"
+        v-if="identity && identity.twitter && this.isOwner"
         tag="button"
         class="button is-info is-dark is-outlined is-fullwidth twitter-btn"
         network="twitter"
