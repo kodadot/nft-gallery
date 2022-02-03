@@ -145,6 +145,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
+import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -199,6 +200,32 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
+  async fetch() {
+    try {
+      const {
+        data: { nFTEntity },
+      } = await this.$apollo.query({
+        client: this.urlPrefix,
+        query: nftById,
+        variables: {
+          id: this.id,
+        },
+      })
+
+      this.nft = {
+        ...nFTEntity,
+        emotes: nFTEntity?.emotes?.nodes,
+      }
+
+      this.fetchMetadata()
+      this.fetchCollectionItems()
+
+      this.isLoading = false
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   public async created() {
     this.checkId()
     exist(this.$route.query.message, (val) => {
@@ -206,28 +233,21 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       this.$router.replace({ query: null } as any)
     })
 
-    try {
-      // const nft = await rmrkService.getNFT(this.id);
-      this.$apollo.addSmartQuery('nft', {
-        client: this.urlPrefix,
-        query: nftById,
-        variables: {
-          id: this.id,
-        },
-        update: ({ nFTEntity }) => ({
-          ...nFTEntity,
-          emotes: nFTEntity?.emotes?.nodes,
-        }),
-        result: () => {
-          Promise.all([this.fetchMetadata(), this.fetchCollectionItems()])
-        },
-        // pollInterval: 5000,
-      })
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-    }
-
-    this.isLoading = false
+    this.$apollo.addSmartQuery<{ nft }>('nft', {
+      client: this.urlPrefix,
+      query: nftByIdMini,
+      manual: true,
+      variables: {
+        id: this.id,
+      },
+      result: ({ data }) => {
+        this.nft = {
+          ...this.nft,
+          ...data.nft,
+        }
+      },
+      pollInterval: 1000,
+    })
   }
 
   onImageError(e: any) {
@@ -282,7 +302,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             this.nft,
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
-      console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
       this.meta = {
@@ -294,11 +313,9 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ),
       }
 
-      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![
           MediaType.VIDEO,
