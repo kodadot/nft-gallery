@@ -5,8 +5,7 @@
     :description="meta.description"
     :imageVisible="imageVisible"
     :isLoading="isLoading"
-    :mimeType="mimeType"
-    >
+    :mimeType="mimeType">
     <template v-slot:top v-if="message">
       <b-message class="message-box" type="is-primary">
         <div class="columns">
@@ -66,13 +65,13 @@
                 <Detail :nft="nft" :isLoading="isLoading" />
               </div>
             </div>
-          <div
-            class="column is-flex is-flex-direction-column is-justify-content-space-between">
-            <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div :class="{ 'money-cursor': hasPrice }" class="card-content">
-                <template v-if="hasPrice">
-                  <div class="label">
-                    {{ $t('price') }}
+            <div
+              class="column is-flex is-flex-direction-column is-justify-content-space-between">
+              <div class="card bordered mb-4" aria-id="contentIdForA11y3">
+                <div :class="{ 'money-cursor': hasPrice }" class="card-content">
+                  <template v-if="hasPrice">
+                    <div class="label">
+                      {{ $t('price') }}
                     </div>
                     <div class="price-block__container">
                       <div class="price-block__original">
@@ -145,6 +144,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
+import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -199,35 +199,48 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  public async created() {
-    this.checkId()
-    exist(this.$route.query.message, (val) => {
-      this.message = val === 'congrats' ? val : ''
-      this.$router.replace({ query: null } as any)
-    })
-
+  async fetch() {
     try {
-      // const nft = await rmrkService.getNFT(this.id);
-      this.$apollo.addSmartQuery('nft', {
+      const {
+        data: { nFTEntity },
+      } = await this.$apollo.query({
         client: this.urlPrefix,
         query: nftById,
         variables: {
           id: this.id,
         },
-        update: ({ nFTEntity }) => ({
-          ...nFTEntity,
-          emotes: nFTEntity?.emotes?.nodes,
-        }),
-        result: () => {
-          Promise.all([this.fetchMetadata(), this.fetchCollectionItems()])
-        },
-        // pollInterval: 5000,
       })
+
+      this.nft = {
+        ...nFTEntity,
+        emotes: nFTEntity?.emotes?.nodes,
+      }
+
+      this.fetchMetadata()
+      this.fetchCollectionItems()
+
+      console.log('data', nFTEntity)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
     }
+  }
 
-    this.isLoading = false
+  public async created() {
+    this.checkId()
+    console.log('created hook nft', this.id)
+    exist(this.$route.query.message, (val) => {
+      this.message = val === 'congrats' ? val : ''
+      this.$router.replace({ query: null } as any)
+    })
+
+    this.$apollo.addSmartQuery('nft', {
+      client: this.urlPrefix,
+      query: nftByIdMini,
+      variables: {
+        id: this.id,
+      },
+      pollInterval: 1000,
+    })
   }
 
   onImageError(e: any) {
