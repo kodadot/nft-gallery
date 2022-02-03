@@ -1,16 +1,12 @@
 <template>
   <div class="arguments-wrapper">
-    <b-field
-      :label="$t(labelInput)"
-      class="balance"
-    >
+    <b-field :label="$t(labelInput)" class="balance">
       <b-input
         v-model="inputValue"
         type="number"
         step="0.001"
         min="0"
-        @input="handleInput"
-      />
+        @input="handleInput" />
       <div class="option">
         {{ label }}
       </div>
@@ -18,7 +14,7 @@
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
@@ -27,11 +23,11 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 
 @Component
 export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
-  @Prop({ type: [Number, String], default: 0 }) value!: number;
-  protected units: Unit[] = defaultUnits;
-  private selectedUnit = 1;
-  @Prop({ default: 'USD' }) public label!: string;
-  @Prop({ default: 'balance' }) public labelInput!: string;
+  @Prop({ type: [Number, String], default: 0 }) value!: number
+  protected units: Unit[] = defaultUnits
+  private selectedUnit = 1
+  @Prop({ default: 'USD' }) public label!: string
+  @Prop({ default: 'balance' }) public labelInput!: string
 
   get inputValue(): number {
     return this.value
@@ -65,7 +61,7 @@ export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 .option {
   border: 1px solid #fff;
   display: flex;

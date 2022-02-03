@@ -50,41 +50,41 @@ export default {
     return {
       isFavorite: null,
       hovering: false,
-    };
+    }
   },
   methods: {
     toggleFavorite() {
-      this.isFavorite = !this.isFavorite;
+      this.isFavorite = !this.isFavorite
     },
   },
   computed: {
     storageKey() {
-      return "item_" + this.item.id;
+      return 'item_' + this.item.id
     },
     favoriteColor() {
       if (this.isFavorite) {
-        return this.$brand.green;
+        return this.$brand.green
       } else {
-        return this.$brand.dark3;
+        return this.$brand.dark3
       }
     },
   },
   mounted() {
     if (localStorage[this.storageKey]) {
-      const localItem = JSON.parse(localStorage[this.storageKey]);
-      console.log(localItem);
+      const localItem = JSON.parse(localStorage[this.storageKey])
+      console.log(localItem)
       if (localItem.isFavorite) {
-        console.log(localItem.isFavorite);
-        this.isFavorite = localItem.isFavorite;
+        console.log(localItem.isFavorite)
+        this.isFavorite = localItem.isFavorite
       }
     }
   },
   watch: {
     isFavorite(value) {
-      let newItem = this.item;
-      newItem["isFavorite"] = this.isFavorite;
-      localStorage[this.storageKey] = JSON.stringify(newItem);
+      let newItem = this.item
+      newItem['isFavorite'] = this.isFavorite
+      localStorage[this.storageKey] = JSON.stringify(newItem)
     },
   },
-};
+}
 </script>

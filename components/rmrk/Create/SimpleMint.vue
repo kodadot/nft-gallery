@@ -23,8 +23,7 @@
             v-model="file"
             label="Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
             expanded
-            preview
-          />
+            preview />
 
           <BasicInput
             v-model="rmrkMint.name"
@@ -32,8 +31,7 @@
             :message="$t('mint.nft.name.message')"
             :placeholder="$t('mint.nft.name.placeholder')"
             expanded
-            spellcheck="true"
-          />
+            spellcheck="true" />
 
           <BasicInput
             v-model="rmrkMint.symbol"
@@ -42,8 +40,7 @@
             :placeholder="$t('mint.collection.symbol.placeholder')"
             @keydown.native.space.prevent
             maxlength="10"
-            expanded
-          />
+            expanded />
 
           <BasicInput
             v-model="meta.description"
@@ -53,16 +50,14 @@
             class="mb-0 mt-5"
             :label="$t('mint.nft.description.label')"
             :message="$t('mint.nft.description.message')"
-            :placeholder="$t('mint.nft.description.placeholder')"
-          />
+            :placeholder="$t('mint.nft.description.placeholder')" />
 
           <b-field :label="$i18n.t('Edition')" class="mt-5">
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
               expanded
-              :min="1"
-            ></b-numberinput>
+              :min="1"></b-numberinput>
           </b-field>
 
           <MetadataUpload
@@ -72,28 +67,22 @@
             icon="file-image"
             accept="image/png, image/jpeg, image/gif"
             expanded
-            preview
-          />
+            preview />
           <AttributeTagInput
             v-model="rmrkMint.tags"
-            placeholder="Get discovered easier through tags"
-          />
+            placeholder="Get discovered easier through tags" />
 
-          <BalanceInput @input="updateMeta" label="Price" expanded />
-          <b-message
-            v-if="price"
-            icon="exclamation-triangle"
-            class="mt-3"
-            title="Additional transaction"
-            type="is-primary"
-            has-icon
-            aria-close-label="Close message"
-          >
-            <span class="has-text-primary"
-              >Setting the price now requires making an additional
-              transaction.</span
-            >
-          </b-message>
+          <BalanceInput
+            :step="0.1"
+            @input="updateMeta"
+            label="Price"
+            expanded />
+          <div class="content mt-3">
+            <p>
+              Hint: Setting the price now requires making an additional
+              transaction.
+            </p>
+          </div>
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
@@ -102,8 +91,7 @@
             <CollapseWrapper
               v-if="rmrkMint.max > 1"
               visible="mint.expert.show"
-              hidden="mint.expert.hide"
-            >
+              hidden="mint.expert.hide">
               <p class="title is-6">
                 {{ $t('mint.expert.count', [parseAddresses.length]) }}
               </p>
@@ -114,20 +102,30 @@
                 <b-input
                   v-model="batchAdresses"
                   type="textarea"
-                  placeholder="Distribute nfts to multiple addresses"
-                  spellcheck="true"
-                ></b-input>
+                  :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
+                  spellcheck="true"></b-input>
               </b-field>
               <BasicSlider
                 v-model="distribution"
-                label="action.distributionCount"
-              />
+                label="action.distributionCount" />
               <b-field v-show="syncVisible">
-              <b-button outlined @click="syncEdition" icon-left="sync" type="is-warning">{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button>
+                <b-button
+                  outlined
+                  @click="syncEdition"
+                  icon-left="sync"
+                  type="is-warning"
+                  >{{ $t('mint.expert.sync', [actualDistribution]) }}</b-button
+                >
               </b-field>
               <BasicSwitch v-model="random" label="action.random" />
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
+          </b-field>
+          <BasicSwitch v-model="nsfw" label="mint.nfsw" />
+          <b-field>
+            <b-switch v-model="hasToS" :rounded="false">
+              {{ $t('termOfService.accept') }}
+            </b-switch>
           </b-field>
           <b-field>
             <b-button
@@ -136,46 +134,17 @@
               @click="sub"
               :disabled="disabled"
               :loading="isLoading"
-              outlined
-            >
+              outlined>
               {{ $t('mint.submit') }}
             </b-button>
           </b-field>
-          <b-field>
-            <b-button
-              type="is-text"
-              icon-left="calculator"
-              @click="estimateTx"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined
-            >
-              <template v-if="!estimated">
-                {{ $t('mint.estimate') }}
-              </template>
-              <template v-else>
-                {{ $t('mint.estimated') }}
-                <Money :value="estimated" inline />
-              </template>
-            </b-button>
-          </b-field>
-          <BasicSwitch v-model="nsfw" label="mint.nfsw" />
-          <b-field>
-            <Support v-model="hasSupport" :price="filePrice" />
-          </b-field>
-          <b-field>
-            <Support
-              v-model="hasCarbonOffset"
-              :price="1"
-              activeMessage="I'm making carbonless NFT"
-              passiveMessage="I don't want to have carbonless NFT"
-            />
-          </b-field>
-          <ArweaveUploadSwitch v-model="arweaveUpload" />
-          <b-field>
-            <b-switch v-model="hasToS" :rounded="false">
-              {{ $t('termOfService.accept') }}
-            </b-switch>
+          <b-field v-if="price">
+            <template>
+              <b-icon icon="calculator" />
+              <span class="pr-2">{{ $t('mint.estimated') }}</span>
+              <Money :value="estimated" inline />
+              <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
+            </template>
           </b-field>
         </div>
       </section>
@@ -184,11 +153,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, {
   execResultValue,
   txCb,
@@ -204,22 +173,34 @@ import {
   NFT,
   getNftId,
 } from '../service/scheme'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { pinJson, getKey, revokeKey } from '@/proxy'
+import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import { supportTx, calculateCost, offsetTx, feeTx } from '@/utils/support'
+import { canSupport, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { ipfsToArweave } from '@/utils/ipfs'
-import { APIKeys, pinFile as pinFileToIPFS } from '@/pinata'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
-import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
-import { sendFunction, shuffleFunction, toDistribute } from '@/components/accounts/utils'
+import {
+  isFileWithoutType,
+  isSecondFileVisible,
+  nsfwAttribute,
+  offsetAttribute,
+  secondaryFileVisible,
+} from '@/components/rmrk/Create/mintUtils'
+import {
+  sendFunction,
+  shuffleFunction,
+  toDistribute,
+} from '@/components/accounts/utils'
+import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { uploadDirect } from '@/utils/directUpload'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import { createMetadata } from '@kodadot1/minimark'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -231,7 +212,6 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  ArweaveUploadSwitch: () => import('./ArweaveUploadSwitch.vue'),
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
@@ -241,41 +221,6 @@ const components = {
 }
 
 @Component<SimpleMint>({
-  metaInfo() {
-    return {
-      meta: [
-        {
-          property: 'og:title',
-          content: 'KodaDot | Low fees and low carbon minting',
-        },
-        { property: 'og:url', content: 'https://nft.kodadot.xyz' },
-        {
-          property: 'og:description',
-          content: 'Create carbonless NFTs with low on-chain fees',
-        },
-        {
-          property: 'og:site_name',
-          content: 'Low fees and low carbon minting',
-        },
-        {
-          property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low fees and low carbon minting',
-        },
-        {
-          property: 'twitter:description',
-          content: 'Create carbonless NFTs with low on-chain fees',
-        },
-        {
-          property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_mint.jpg',
-        },
-      ],
-    }
-  },
   components,
 })
 export default class SimpleMint extends mixins(
@@ -291,16 +236,13 @@ export default class SimpleMint extends mixins(
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
   private uploadMode = true
-  private file: Blob | null = null
-  private secondFile: Blob | null = null
+  private file: File | null = null
+  private secondFile: File | null = null
   private password = ''
   private hasToS = false
-  private hasSupport = true
   private nsfw = false
   private price = 0
   private estimated = ''
-  private hasCarbonOffset = true
-  protected arweaveUpload = false
   protected batchAdresses = ''
   protected postfix = true
   protected random = false
@@ -308,6 +250,10 @@ export default class SimpleMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
+
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
   }
 
   get fileType(): MediaType {
@@ -316,7 +262,9 @@ export default class SimpleMint extends mixins(
 
   get secondaryFileVisible(): boolean {
     const fileType = this.fileType
-    return isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
+    return (
+      isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
+    )
   }
 
   get accountId(): string {
@@ -325,6 +273,11 @@ export default class SimpleMint extends mixins(
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')
+  }
+
+  get canCalculateTransactionFees(): boolean {
+    const { name, symbol, max } = this.rmrkMint
+    return !!(this.price && name && symbol && max)
   }
 
   get disabled(): boolean {
@@ -340,8 +293,19 @@ export default class SimpleMint extends mixins(
     )
   }
 
+  get hasSupport(): boolean {
+    return this.$store.state.preferences.hasSupport
+  }
+
+  get hasCarbonOffset(): boolean {
+    return this.$store.state.preferences.hasCarbonOffset
+  }
+
+  get arweaveUpload(): boolean {
+    return this.$store.state.preferences.arweaveUpload
+  }
+
   protected async estimateTx() {
-    this.isLoading = true
     const { accountId, version } = this
     const { api } = Connector.getInstance()
 
@@ -350,21 +314,18 @@ export default class SimpleMint extends mixins(
     const remarks: string[] = Array.isArray(result)
       ? result
       : [
-        NFTUtils.toString(result.collection, version),
-        ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
-      ]
+          NFTUtils.toString(result.collection, version),
+          ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
+        ]
 
     const args = !this.hasSupport
       ? remarks.map(this.toRemark)
       : [
-        ...remarks.map(this.toRemark),
-        ...(await this.canSupport()),
-        ...(await this.canOffset()),
-      ]
+          ...remarks.map(this.toRemark),
+          ...(await canSupport(this.hasSupport, 3)),
+        ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
-
-    this.isLoading = false
   }
 
   get enoughTokens(): boolean {
@@ -392,7 +353,7 @@ export default class SimpleMint extends mixins(
   }
 
   get syncVisible(): boolean {
-    return (this.rmrkMint.max < this.actualDistribution)
+    return this.rmrkMint.max < this.actualDistribution
   }
 
   get actualDistribution(): number {
@@ -427,17 +388,16 @@ export default class SimpleMint extends mixins(
       const remarks: string[] = Array.isArray(result)
         ? result
         : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
-        ]
+            NFTUtils.toString(result.collection, version),
+            ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
+          ]
 
       const args = !this.hasSupport
         ? remarks.map(this.toRemark)
         : [
-          ...remarks.map(this.toRemark),
-          ...(await this.canSupport()),
-          ...(await this.canOffset()),
-        ]
+            ...remarks.map(this.toRemark),
+            ...(await canSupport(this.hasSupport, 3)),
+          ]
 
       const tx = await exec(
         this.accountId,
@@ -487,10 +447,12 @@ export default class SimpleMint extends mixins(
     const { api } = Connector.getInstance()
     const random = await api.query.babe.randomness()
     return Array.from(random)
-
   }
 
-  protected async sendBatch(remarks: NFT[], originalBlockNumber: string): Promise<void> {
+  protected async sendBatch(
+    remarks: NFT[],
+    originalBlockNumber: string
+  ): Promise<void> {
     try {
       const { version, price } = this
       const addresses = this.parseAddresses
@@ -509,8 +471,27 @@ export default class SimpleMint extends mixins(
       }
 
       const { api } = Connector.getInstance()
-      const outOfTheNamesForTheRemarks = sendFunction(addresses, this.distribution, this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined )(onlyNfts.map(nft => nft.id), this.version)
-      const restOfTheRemarks = onlyNfts.length > addresses.length && this.price ? onlyNfts.slice(outOfTheNamesForTheRemarks.length).map(nft => NFTUtils.createInteraction('LIST', version, nft.id, String(price))) : []
+      const outOfTheNamesForTheRemarks = sendFunction(
+        addresses,
+        this.distribution,
+        this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined
+      )(
+        onlyNfts.map((nft) => nft.id),
+        this.version
+      )
+      const restOfTheRemarks =
+        onlyNfts.length > addresses.length && this.price
+          ? onlyNfts
+              .slice(outOfTheNamesForTheRemarks.length)
+              .map((nft) =>
+                NFTUtils.createInteraction(
+                  'LIST',
+                  version,
+                  nft.id,
+                  String(price)
+                )
+              )
+          : []
 
       this.isLoading = true
 
@@ -586,7 +567,7 @@ export default class SimpleMint extends mixins(
   }
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 
   get decimals(): number {
@@ -684,68 +665,52 @@ export default class SimpleMint extends mixins(
     return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }]
   }
 
-  get filePrice() {
-    return calculateCost(this.file)
-  }
-
   public async constructMeta(): Promise<string | undefined> {
-    if (!this.file) {
+    const { file, secondFile, rmrkMint, meta: m } = this
+    if (!file) {
       throw new ReferenceError('No file found!')
     }
 
-    this.meta = {
-      ...this.meta,
-      attributes: [
-        ...(this.rmrkMint?.tags || []),
-        ...this.nsfwAttribute(),
-        ...this.offsetAttribute(),
-      ],
-      external_url: 'https://nft.kodadot.xyz',
-      type: this.file.type,
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
+    const fileHash = await pinFileToIPFS(file, token)
+    const secondFileHash = secondFile
+      ? await pinFileToIPFS(secondFile, token)
+      : undefined
+
+    let imageHash: string | undefined = fileHash
+    let animationUrl: string | undefined = undefined
+
+    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+    if (secondaryFileVisible(file)) {
+      animationUrl = fileHash
+      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
     }
 
-    try {
-      const keys: APIKeys = await getKey(this.accountId)
-      const fileHash = await pinFileToIPFS(this.file, keys)
+    const attributes = [
+      ...nsfwAttribute(this.nsfw),
+      ...offsetAttribute(this.hasCarbonOffset),
+    ]
 
-      if (!this.secondaryFileVisible) {
-        this.meta.image = unSanitizeIpfsUrl(fileHash)
-        this.meta.image_ar = this.arweaveUpload
-          ? await ipfsToArweave(fileHash)
-          : ''
-      } else {
-        this.meta.animation_url = unSanitizeIpfsUrl(fileHash)
-        if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, keys)
-          this.meta.image = unSanitizeIpfsUrl(coverImageHash)
-        }
-      }
+    const meta = createMetadata(
+      rmrkMint.name,
+      m.description || '',
+      imageHash,
+      animationUrl,
+      attributes,
+      'https://kodadot.xyz',
+      file.type
+    )
 
-      revokeKey(keys.pinata_api_key).then(console.log, console.warn)
-      // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta)
-      return unSanitizeIpfsUrl(metaHash)
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new ReferenceError(e.message)
-      }
+    const metaHash = await pinJson(meta, imageHash)
+
+    if (file) {
+      uploadDirect(file, metaHash).catch(console.warn)
     }
-  }
-
-  protected async canSupport() {
-    if (this.hasSupport && this.file) {
-      return [await supportTx(this.file)]
-    }
-
-    return []
-  }
-
-  protected async canOffset() {
-    if (this.hasCarbonOffset) {
-      return [await offsetTx(1)]
-    }
-
-    return []
+    return unSanitizeIpfsUrl(metaHash)
   }
 
   private toRemark(remark: string) {
@@ -757,17 +722,27 @@ export default class SimpleMint extends mixins(
     showNotification('You will go to the detail in 2 seconds')
     const go = () =>
       this.$router.push({
-        name: 'nftDetail',
-        params: { id: getNftId(nft, blockNumber) },
+        path: `/rmrk/detail/${getNftId(nft, blockNumber)}`,
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
   }
+
+  protected getUsdFromKsm() {
+    let KSMVal = formatBalance(this.estimated, {
+      decimals: this.decimals,
+      withUnit: false,
+      forceUnit: '-',
+    })
+
+    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
+  }
+
+  @Watch('rmrkMint', { deep: true })
+  rmrkMintObjectChanged(): void {
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
+  }
 }
 </script>
-
-<style>
-.message.is-primary .message-body {
-  color: #d32e79 !important;
-}
-</style>

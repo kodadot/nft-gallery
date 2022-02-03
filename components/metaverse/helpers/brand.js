@@ -8,6 +8,6 @@ const brand = {
   blue: '#150485',
   green: '#03c4a1',
   pink: '#C62a88'
-};
+}
 
-export { brand };
+export { brand }

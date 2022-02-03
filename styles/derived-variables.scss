@@ -1,9 +1,12 @@
 @import "initial-variables";
 
-$primary: #db2980;
+$primary: #e6007e;
+// $primary: #ff149366;
+$primary-light: #d32e79;
+$primary-dark-transparent: rgba(90, 15, 60, 0.7);
 
 // $info: $cyan;
-// $success: $green;
+$success: $green;
 // $warning: $yellow;
 // $danger: $red;
 
@@ -39,8 +42,6 @@ $dark: $black;
 // $light-invert: findColorInvert($light);
 // $dark-invert: findColorInvert($dark);
 
-
-
 // // General colors
 $scheme-main: $black;
 $scheme-main-bis: $black-bis;
@@ -48,7 +49,6 @@ $scheme-main-ter: $black-ter;
 $scheme-invert: $white;
 $scheme-invert-bis: $white-bis;
 $scheme-invert-ter: $white-ter;
-
 
 // $background: $white-ter;
 
@@ -59,7 +59,7 @@ $scheme-invert-ter: $white-ter;
 
 // // Text colors
 
-$text: $white;
+$text: #f8f4f6;
 // $text-invert: findColorInvert($text);
 // $text-light: $grey;
 // $text-strong: $grey-darker;
@@ -110,5 +110,6 @@ $family-primary: $family-monospace;
 
 // $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7;
 
-
 $text-strong: $scheme-invert;
+
+$light-text: #f8f4f6;

@@ -1,5 +1,7 @@
 query nftListByCollection($id: String!) {
-  nFTEntities(filter: { collectionId: { equalTo: $id } }) {
+  nFTEntities(
+    filter: { collectionId: { equalTo: $id }, burned: { distinctFrom: true } }
+  ) {
     nodes {
       id
       currentOwner

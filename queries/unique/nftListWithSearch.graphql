@@ -1,0 +1,23 @@
+#import "../fragments/nft.graphql"
+#import "../fragments/collectionMeta.graphql"
+
+query nftListWithSearch(
+  $first: Int!
+  $offset: Int
+  $denyList: [String!]
+  $search: [NFTEntityFilter!]
+) {
+  nFTEntities(
+    orderBy: BLOCK_NUMBER_DESC
+    first: $first
+    offset: $offset
+    filter: { issuer: { notIn: $denyList }, and: $search }
+  ) {
+    totalCount
+    nodes {
+      metadata
+      ...nft
+      ...collectionMeta
+    }
+  }
+}

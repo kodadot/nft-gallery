@@ -10,8 +10,8 @@ import * as THREE from 'three'
 
 @Component({})
 export default class ArtFrame extends Vue {
-  @Prop() public position!: any;
-  @Prop() public rotation!: any;
-  @Prop() public src!: string;
+  @Prop() public position!: any
+  @Prop() public rotation!: any
+  @Prop() public src!: string
 }
 </script>

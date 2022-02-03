@@ -25,7 +25,9 @@
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}</p>
+          <p class="title">
+            {{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}
+          </p>
           <p class="heading">Unique / Owners</p>
         </div>
       </div>
@@ -41,10 +43,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money
-              :value="collectionDailyTradedVolumeNumber"
-              inline
-            />
+            <Money :value="collectionDailyTradedVolumeNumber" inline />
           </p>
           <p class="heading">24h Volume traded</p>
         </div>
@@ -84,7 +83,9 @@ export default class extends Vue {
   }
 
   get onlyListedNfts(): number[] {
-    return this.nfts.map((nft) => Number(nft.price)).filter((price) => price > 0)
+    return this.nfts
+      .map((nft) => Number(nft.price))
+      .filter((price) => price > 0)
   }
 
   get collectionFloorPrice(): number {
@@ -96,7 +97,9 @@ export default class extends Vue {
   }
 
   get uniqueOwnerCount(): number {
-    return uniqueCount(this.tokensWithDifferentOwner.map(nft => nft.currentOwner))
+    return uniqueCount(
+      this.tokensWithDifferentOwner.map((nft) => nft.currentOwner)
+    )
   }
 
   get differentOwnerCount(): number {

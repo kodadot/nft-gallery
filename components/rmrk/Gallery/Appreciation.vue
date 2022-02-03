@@ -1,33 +1,28 @@
 <template>
   <div class="nft-appreciation__main is-flex">
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
+    <Loader v-model="isLoading" :status="status" />
     <IndexerGuard>
       <b-button
         v-if="accountId"
         class="nft-appreciation__button"
         icon-left="heart"
-        @click="showDialog = !showDialog"
-      />
+        @click="showDialog = !showDialog" />
       <VEmojiPicker
         v-show="showDialog"
         label-search="Search your emote"
         class="emote-picker"
-        @select="onSelectEmoji"
-      />
+        @select="onSelectEmoji" />
     </IndexerGuard>
     <EmotionList
       class="emote-list"
       :emotions="emotions"
-    />
+      @selected="mapToEmoji" />
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import groupBy from '@/utils/groupBy'
@@ -36,7 +31,7 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { VEmojiPicker } from 'v-emoji-picker'
 import emojiUnicode from 'emoji-unicode'
 import NFTUtils from '../service/NftUtils'
-import { IEmoji } from 'v-emoji-picker/lib/models/Emoji'
+import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import { Emote } from '../service/scheme'
 
 @Component({
@@ -44,25 +39,23 @@ import { Emote } from '../service/scheme'
     EmotionList,
     VEmojiPicker,
     Loader: () => import('@/components/shared/Loader.vue'),
-    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue')
-  }
+    IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
+  },
 })
 export default class Appreciation extends mixins(RmrkVersionMixin) {
-  @Prop() public emotes!: Emote[];
-  @Prop() public currentOwnerId!: string;
-  @Prop() public accountId!: string;
-  @Prop() public nftId!: string;
-  @Prop(Boolean) public burned!: boolean;
+  @Prop() public emotes!: Emote[]
+  @Prop() public currentOwnerId!: string
+  @Prop() public accountId!: string
+  @Prop() public nftId!: string
+  @Prop(Boolean) public burned!: boolean
 
-  protected showDialog = false;
-  protected isLoading = false;
-  protected status = '';
+  protected showDialog = false
+  protected isLoading = false
+  protected status = ''
 
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this
-    const emote = emojiUnicode(emoji.data)
-      .split(' ')[0]
-      .toUpperCase()
+    const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
       const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote)
@@ -73,8 +66,19 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
     }
   }
 
+  private mapToEmoji(key: string) {
+    const emoji: Emoji = {
+      data: String.fromCodePoint(parseInt(key, 16)),
+      category: '',
+      aliases: [],
+    }
+    this.onSelectEmoji(emoji)
+  }
+
   get emotions(): Record<string, string | number> {
-    this.emotes?.map((e, index) => this.emotes[index].value = e.value.toUpperCase())
+    this.emotes?.map(
+      (e, index) => (this.emotes[index].value = e.value.toUpperCase())
+    )
     return groupBy(this.emotes || [], 'value')
   }
 
@@ -90,23 +94,20 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
         api.tx.system.remark,
         [rmrk],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             showNotification(blockHash.toString(), notificationTypes.info)
 
-            showNotification(
-              `[EMOTE] ${this.nftId}`,
-              notificationTypes.success
-            )
+            showNotification(`[EMOTE] ${this.nftId}`, notificationTypes.success)
             this.isLoading = false
             this.showDialog = false
           },
-          err => {
+          (err) => {
             execResultValue(tx)
             showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
             this.isLoading = false
           },
-          res => {
+          (res) => {
             if (res.status.isReady) {
               this.status = 'loader.casting'
               return
@@ -153,7 +154,7 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .emote-picker {
   position: absolute;
@@ -181,7 +182,8 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 
 .nft-appreciation__button {
   border-radius: 0;
-  border: 2px solid $primary;
+  border: 0;
+  border-top: 2px solid $primary!important;
   color: $primary;
   margin-right: 15px;
 }

@@ -1,0 +1,18 @@
+.opacitySlide-enter-active {
+  transition: 0.7s ease-in-out;
+}
+.opacitySlide-leave-active {
+  transition: 0.7s ease-in-out;
+}
+.opacitySlide-enter-to,
+.opacitySlide-leave {
+  max-height: 100px;
+  overflow: hidden;
+  opacity: 1;
+}
+.opacitySlide-enter,
+.opacitySlide-leave-to {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+}

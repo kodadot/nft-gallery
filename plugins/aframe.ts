@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import 'aframe';
-import 'aframe-troika-text';
+import 'aframe'
+import 'aframe-troika-text'
 
 Vue.config.ignoredElements = [
   'a-scene',

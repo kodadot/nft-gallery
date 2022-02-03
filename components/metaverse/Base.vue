@@ -40,8 +40,9 @@
                     <!-- v-bind:key="'api-' + item.id" -->
              <ItemCard3D
                 v-for="(nft, index) in nfts"
-                v-bind:item="nft"
-                v-bind:startPosition="calculatePosition(index)"
+                :item="nft"
+                :key="nft.id"
+                :startPosition="calculatePosition(index)"
               />
             </template>
           </a-entity>
@@ -179,18 +180,18 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import ItemCard3D from "./ItemCard3D.vue";
-import { rowSingle, rowDouble, rowTriple } from "./helpers/formation.js";
-import "./helpers/aframe-components.js";
-import { brand } from "./helpers/brand.js";
-import Axios from "axios";
-import { NFT } from '~/components/rmrk/service/scheme';
+import ItemCard3D from './ItemCard3D.vue'
+import { rowSingle, rowDouble, rowTriple } from './helpers/formation.js'
+import './helpers/aframe-components.js'
+import { brand } from './helpers/brand.js'
+import Axios from 'axios'
+import { NFT } from '~/components/rmrk/service/scheme'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
-import { getMany, update } from 'idb-keyval';
-import { fetchNFTMetadata, getSanitizer } from '~/components/rmrk/utils';
+import { getMany, update } from 'idb-keyval'
+import { fetchNFTMetadata, getSanitizer } from '~/components/rmrk/utils'
 
 //TODO: Handle brand variable
-Vue.prototype.$brand = brand;
+Vue.prototype.$brand = brand
 
 @Component({
   components: {
@@ -199,15 +200,15 @@ Vue.prototype.$brand = brand;
 })
 export default class Base extends Vue {
   public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FKodaGallery%20Glb.glb?v=1637765084722'
-  private nfts: NFT[] = [];
-  private layoutType = "rowTriple"
-  private dataSource = ""
+  private nfts: NFT[] = []
+  private layoutType = 'rowTriple'
+  private dataSource = ''
   private page = 1
   private pageSize = 12
   private offset = 0
 
-  @Prop(String) public id!: string;
-  $brand: any;
+  @Prop(String) public id!: string
+  $brand: any
 
   get formatedId(): string {
     return `issuer: ${this.id}`
@@ -218,30 +219,30 @@ export default class Base extends Vue {
   }
 
   private changeLayout(layout) {
-      this.layoutType = layout;
+      this.layoutType = layout
     }
 
  private calculatePosition(index) {
       switch (this.layoutType) {
-        case "rowSingle":
-          return rowSingle[index];
+        case 'rowSingle':
+          return rowSingle[index]
 
-        case "rowDouble":
-          return rowDouble[index];
+        case 'rowDouble':
+          return rowDouble[index]
 
-        case "rowTriple":
-          return rowTriple[index];
+        case 'rowTriple':
+          return rowTriple[index]
 
         default:
-          return rowSingle[index];
+          return rowSingle[index]
       }
   }
 
    private buttonColorAPI() {
-      return this.dataSource === "api" ? this.$brand.blue : this.$brand.dark2;
+      return this.dataSource === 'api' ? this.$brand.blue : this.$brand.dark2
     }
    private buttonColorFAV() {
-      return this.dataSource === "fav" ? this.$brand.blue : this.$brand.dark2;
+      return this.dataSource === 'fav' ? this.$brand.blue : this.$brand.dark2
     }
 
   private async fetchNFT() {
@@ -256,7 +257,7 @@ export default class Base extends Vue {
     const {
       data: { nFTEntities: { nodes: nftList } }
     } = await nfts
-      console.log("🚀 ~ file: Base.vue ~ line 248 ~ Base ~ fetchNFT ~ nftList", nftList)
+      console.log('🚀 ~ file: Base.vue ~ line 248 ~ Base ~ fetchNFT ~ nftList', nftList)
 
     const storedPromise = getMany(
       nftList.map(({ metadata }: any) => metadata)
@@ -290,20 +291,20 @@ export default class Base extends Vue {
 
    private loadPrevious() {
       if (this.page > 1) {
-        this.page = this.page - 1;
+        this.page = this.page - 1
         this.offset = this.pageSize * (this.page - 1)
-        console.log("🚀 ~ file: Base.vue ~ line 268 ~ Base ~ loadPrevious ~ this.offset", this.offset)
-        this.fetchNFT();
+        console.log('🚀 ~ file: Base.vue ~ line 268 ~ Base ~ loadPrevious ~ this.offset', this.offset)
+        this.fetchNFT()
       }
     }
   private loadNext() {
       //TODO: Handle next action once reached to the last page
 
       //if (this.page < this.itemResponse.headers["x-wp-totalpages"]) {
-        this.page = this.page + 1;
+        this.page = this.page + 1
         this.offset = this.pageSize * (this.page - 1)
-        console.log("🚀 ~ file: Base.vue ~ line 274 ~ Base ~ loadNext ~ this.offset", this.offset)
-        this.fetchNFT();
+        console.log('🚀 ~ file: Base.vue ~ line 274 ~ Base ~ loadNext ~ this.offset', this.offset)
+        this.fetchNFT()
       //}
     }
 }

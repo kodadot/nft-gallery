@@ -1,0 +1,25 @@
+name: Create diagram
+on:
+  schedule:
+    # “At 00:42 on Monday.”
+    #   - cron: '42 0 * * 1'
+    - cron: "50 11 * * 3"
+# one more commit and i'm going to shower
+#  we are using cron to not polute commits history
+#  push:
+#    branches:
+#      - main
+jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Update diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: ".github,.vscode,assets,langDir,static"
+          # "need exclude .md files from root, this one somehow doesnt work"
+          excluded_globs: "**/*.{editorconfig,gitignore,lock,json,md,png,toml,svg,yml}"
+          commit_message: "[skip ci] updated code diagram"
+          output_file: ".github/diagram.svg"

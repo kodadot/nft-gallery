@@ -14,7 +14,7 @@ const rowSingle = [
   '1.75 1.6 0',
   '2.25 1.6 0',
   '2.75 1.6 0'
-];
+]
 
 const rowDouble = [
   '-1.25 1.7 0',
@@ -32,7 +32,7 @@ const rowDouble = [
   '0.25 1.2 0',
   '0.75 1.2 0',
   '1.25 1.2 0'
-];
+]
 
 const rowTriple = [
   '-0.75 2 0',
@@ -49,6 +49,6 @@ const rowTriple = [
   '-0.25 1 0',
   '0.25 1 0',
   '0.75 1 0'
-];
+]
 
-export { rowSingle, rowDouble, rowTriple };
+export { rowSingle, rowDouble, rowTriple }

@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import ItemImage3D from "./ItemImage3D";
-import ItemFavorite3D from "./ItemFavorite3D";
+import ItemImage3D from './ItemImage3D'
+import ItemFavorite3D from './ItemFavorite3D'
 export default {
   components: {
     ItemImage3D,
@@ -87,38 +87,38 @@ export default {
     return {
       isFavorite: null,
       display: false,
-    };
+    }
   },
   methods: {
     trimString(value, maxChar) {
-      console.log(value,"***");
+      console.log(value,'***')
       // TODO: Replace this with something that can truncate after the end of a word
-      const length = value.length;
+      const length = value.length
       if (length >= maxChar + 3) {
-        return value.substring(0, maxChar - 3) + "...";
+        return value.substring(0, maxChar - 3) + '...'
       } else {
-        return value;
+        return value
       }
     },
     toggleCardMode() {
-      this.display = !this.display;
+      this.display = !this.display
     },
   },
   computed: {
     currentPosition() {
       if (this.display) {
-        return "0 1.7 0.4";
+        return '0 1.7 0.4'
       } else {
-        return this.startPosition;
+        return this.startPosition
       }
     },
     headerTitleStyle() {
       return (
-        "color: " + this.$brand.dark3 + "; "
+        'color: ' + this.$brand.dark3 + '; '
         // "color: " + this.$brand.light1 + "; opacity: 0.1; transparent: true"
-      );
+      )
     },
   },
-};
+}
 </script>
 

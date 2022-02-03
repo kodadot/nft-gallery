@@ -1,16 +1,11 @@
 <template>
   <div class="setting-chooser-wrapper">
     <b-field :label="label">
-      <b-select
-        v-model="selected"
-        :placeholder="label"
-        expanded
-      >
+      <b-select v-model="selected" :placeholder="label" expanded>
         <option
           v-for="option in options"
           :key="option.value"
-          :value="option.value"
-        >
+          :value="option.value">
           {{ option.text }}
         </option>
       </b-select>
@@ -23,19 +18,23 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class SettingChooserExplorer extends Vue {
-  @Prop() public label!: string;
-  @Prop() public selector!: string;
-  @Prop() public setter!: string;
-  @Prop() public defaultValue!: string;
-  @Prop() public addOption!: string;
-  @Prop() public addMethod!: string;
+  @Prop() public label!: string
+  @Prop() public selector!: string
+  @Prop() public setter!: string
+  @Prop() public defaultValue!: string
+  @Prop() public addOption!: string
+  @Prop() public addMethod!: string
 
   get options() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector]
+    return this.$store.state['explorer/explorerOptions'].availableOptions[
+      this.selector
+    ]
   }
 
   get selected() {
-    return this.$store.state.explorerOptions.availableOptions[this.selector][this.defaultValue].value
+    return this.$store.state['explorer/explorerOptions'].availableOptions[
+      this.selector
+    ][this.defaultValue].value
   }
 
   set selected(value) {
@@ -43,18 +42,19 @@ export default class SettingChooserExplorer extends Vue {
   }
 
   public async mounted() {
-    this.$store.commit('setExplorerOptions',{ availableOptions: {
-      provider: [
-        { text: 'Subscan', value: 'subscan' },
-        { text: 'Polkascan', value: 'polkascan'}
-      ],
-      chain: [
-        { text: 'Kusama', value: 'kusama' },
-        { text: 'Edgeware', value: 'edgeware' },
-        { text: 'Darwinia', value: 'crab' },
-      ]
-    }}
-    )
+    this.$store.dispatch('explorer/setExplorerOptions', {
+      availableOptions: {
+        provider: [
+          { text: 'Subscan', value: 'subscan' },
+          { text: 'Polkascan', value: 'polkascan' },
+        ],
+        chain: [
+          { text: 'Kusama', value: 'kusama' },
+          { text: 'Edgeware', value: 'edgeware' },
+          { text: 'Darwinia', value: 'crab' },
+        ],
+      },
+    })
   }
 }
 </script>

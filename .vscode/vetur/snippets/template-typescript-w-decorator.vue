@@ -1,17 +1,13 @@
 <template>
-  <div>
-
-
-  </div>
+  <div></div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 
 @Component({})
-export default class  extends Vue {
-
-  private value2: any;
-  @Prop() public value!: any;
+export default class extends Vue {
+  @Prop() public templateValue!: undefined
+  private templateValue2: undefined
 }
 </script>

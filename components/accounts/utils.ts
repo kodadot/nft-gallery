@@ -4,21 +4,24 @@ import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import NFTUtils from '../rmrk/service/NftUtils'
 
 export type ShuffleFunction = (arr: string[]) => string[]
-export type ProcessFunction = (nfts: string[] | AdminNFT[], version: string) => string[]
+export type ProcessFunction = (
+  nfts: string[] | AdminNFT[],
+  version: string
+) => string[]
 export type SendType = {
-  parsedAddresses: string[],
-  distribution: number,
+  parsedAddresses: string[]
+  distribution: number
   random: boolean
 }
 
-export type AdminNFT = { id: string, price: string }
+export type AdminNFT = { id: string; price: string }
 
 export const toDistribute = (length: number, distribution: number): number => {
-  return Math.floor(length * distribution / 100)
+  return Math.floor((length * distribution) / 100)
 }
 
 export const parseBatchAddresses = (batchAddresses: string): string[] => {
-  const ss58Format: any = store.getters.getChainProperties58Format
+  const ss58Format: any = store.getters['chain/getChainProperties58Format']
   const addresses = batchAddresses
     .split('\n')
     .map((x) => x.split('-'))
@@ -33,28 +36,43 @@ export const parseBatchAddresses = (batchAddresses: string): string[] => {
   return onlyValid
 }
 
-
-export const sendFunction = (parsedAddresses: string[], distribution: number, random?: ShuffleFunction): ProcessFunction => {
+export const sendFunction = (
+  parsedAddresses: string[],
+  distribution: number,
+  random?: ShuffleFunction
+): ProcessFunction => {
   const randomFn = random ? random : notRandomFunction
   const slice = toDistribute(parsedAddresses.length, distribution)
   const subset = randomFn(Array.from(new Set(parsedAddresses))).slice(0, slice)
   return (nfts: string[] | AdminNFT[], version: string) => {
-
     const lessTokensThanAdresses = nfts.length < subset.length
-    const final = subset.slice(0, lessTokensThanAdresses ? nfts.length : undefined)
-    return final.map((addr, index) => NFTUtils.createInteraction('SEND', version, justId(nfts[index]), String(addr)))
+    const final = subset.slice(
+      0,
+      lessTokensThanAdresses ? nfts.length : undefined
+    )
+    return final.map((addr, index) =>
+      NFTUtils.createInteraction(
+        'SEND',
+        version,
+        justId(nfts[index]),
+        String(addr)
+      )
+    )
   }
 }
 
-const justId = (nft: AdminNFT | string) => typeof nft === 'object' ? nft.id : nft
-
+const justId = (nft: AdminNFT | string) =>
+  typeof nft === 'object' ? nft.id : nft
 
 //TODO: skip if already in the list
-function notRandomFunction(array: string[]): string[]  {
+function notRandomFunction(array: string[]): string[] {
   return array
 }
 
-export const shuffleFunction = (seed: number[]): ShuffleFunction => (array: string[]): string[] => shuffle(array, seed)
+export const shuffleFunction =
+  (seed: number[]): ShuffleFunction =>
+  (array: string[]): string[] =>
+    shuffle(array, seed)
 
 export function shuffle(array: string[], seed: number[]): string[] {
   const copy = array.slice(0)
@@ -68,6 +86,5 @@ export function shuffle(array: string[], seed: number[]): string[] {
   }
   return copy
 }
-
 
 // api.query.babe.randomness()

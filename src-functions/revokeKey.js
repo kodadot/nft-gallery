@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-exports.handler = async (event) => {
+export async function handler(event) {
   const BASE_URL = 'https://api.pinata.cloud/users/revokeApiKey'
   const key = event.queryStringParameters.key
 
@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     const { status, data } = await axios.put(BASE_URL, object, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.PINATA_MASTER}`
+        Authorization: `Bearer ${process.env.PINATA_MASTER}`,
       },
     })
     console.log('[PINATA] Revoke Key', status, data)
@@ -30,8 +30,6 @@ exports.handler = async (event) => {
         body: JSON.stringify(data),
       }
     }
-
-
   } catch (e) {
     console.log('Error', e.message)
     return {
@@ -45,4 +43,3 @@ exports.handler = async (event) => {
     body: JSON.stringify({}),
   }
 }
-

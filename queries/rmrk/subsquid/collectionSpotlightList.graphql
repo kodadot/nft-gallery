@@ -1,0 +1,22 @@
+query collectionSpotlightList(
+  $limit: Float
+  $offset: String
+  $orderBy: String
+  $orderDirection: String
+) {
+  collectionEntities: spotlightTable(
+    limit: $limit
+    offset: $offset
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    id
+    unique
+    sold
+    total
+    averagePrice: average
+    count: collections
+    uniqueCollectors
+    volume
+  }
+}

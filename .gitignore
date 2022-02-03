@@ -14,6 +14,7 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+sw.*
 .vercel
 /test
 
@@ -81,3 +82,6 @@ typings/
 .env
 .vscode/
 .nuxt
+
+### its generated, this time is different
+## service-worker.js

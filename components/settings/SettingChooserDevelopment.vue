@@ -1,16 +1,11 @@
 <template>
   <div class="setting-chooser-wrapper">
     <b-field :label="label">
-      <b-select
-        v-model="selected"
-        :placeholder="label"
-        expanded
-      >
+      <b-select v-model="selected" :placeholder="label" expanded>
         <option
           v-for="option in options"
           :key="option.value"
-          :value="option.value"
-        >
+          :value="option.value">
           {{ option.text }}
         </option>
       </b-select>
@@ -23,9 +18,9 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class SettingChooserDevelopment extends Vue {
-  @Prop() public label!: string;
-  @Prop() public selector!: string;
-  @Prop() public setter!: string;
+  @Prop() public label!: string
+  @Prop() public selector!: string
+  @Prop() public setter!: string
 
   get options() {
     return this.$store.state.development[this.selector]
@@ -40,14 +35,13 @@ export default class SettingChooserDevelopment extends Vue {
   }
 
   public async mounted() {
-    this.$store.commit('setDevelopment',
-      { status: this.$store.state.development.status || false,
-        options: [
-          { text: 'Hide Dev Accounts & Refresh', value: false },
-          { text: 'Show Dev Accounts & Refresh', value: true },
-        ]
-      }
-    )
+    this.$store.commit('setDevelopment', {
+      status: this.$store.state.development.status || false,
+      options: [
+        { text: 'Hide Dev Accounts & Refresh', value: false },
+        { text: 'Show Dev Accounts & Refresh', value: true },
+      ],
+    })
   }
 }
 </script>

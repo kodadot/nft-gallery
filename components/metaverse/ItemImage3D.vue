@@ -1,7 +1,7 @@
 <template>
 <!-- v-if="!loading" -->
   <a-image
-    
+
     color="white"
     :src="item.image"
     width="0.36"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import Axios from 'axios'
 export default {
   props: {
     item: Object,
@@ -22,7 +22,7 @@ export default {
       imageResponse: null,
       loading: true,
       errored: false,
-    };
+    }
   },
   methods: {
     async loadImage() {
@@ -34,10 +34,10 @@ export default {
         .then((response) => (this.imageResponse = response))
 
         .catch((error) => {
-          console.log(error);
-          this.errored = true;
+          console.log(error)
+          this.errored = true
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.loading = false))
     },
   },
   computed: {
@@ -54,6 +54,6 @@ export default {
   mounted() {
     //this.loadImage();
   },
-};
+}
 </script>
 

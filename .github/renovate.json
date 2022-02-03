@@ -1,0 +1,58 @@
+{
+    "timezone": "Europe/Berlin",
+    "prHourlyLimit": 5,
+    "commitMessagePrefix": "[skip netlify]",
+    "automerge": true,
+    "automergeType": "pr-comment",
+    "automergeComment": "lgtm",
+    "rangeStrategy": "bump",
+    "schedule": [
+        "after 10pm every weekday",
+        "before 5am every weekday",
+        "every weekend"
+    ],
+    "packageRules": [
+      {
+        "matchSourceUrlPrefixes": [
+          "https://github.com/DefinitelyTyped",
+          "https://github.com/vuejs",
+          "https://github.com/FortAwesome",
+          "https://github.com/babel"
+        ],
+        "groupName": "merge with hazmat suit types & vue & fonts & babel",
+        "prHeader": "merge with hazmat suit, may include new vuejs & types",
+        "rangeStrategy": "bump"
+      },
+      {
+        "matchPackagePatterns": [
+          "^axios",
+          "^nuxt",
+          "^model-viewer",
+          "^vue",
+          "^eslint",
+          "^lint",
+          "^buefy",
+          "^graphql",
+          "^typescript",
+          "^chartjs",
+          "^ws"
+        ],
+        "groupName": "merge with hazmat suit bundle",
+        "prHeader": "merge with hazmat suit, may include new packages bumps",
+        "rangeStrategy": "bump"
+      },
+      {
+        "matchSourceUrlPrefixes": [
+          "https://github.com/polkadot-js/",
+          "https://github.com/vue-polkadot/",
+          "https://github.com/cloudacy/vue-markdown-render"  
+        ],
+        "groupName": "merge with hazmat suit",
+        "enabled": false
+      }
+    ],
+    "extends": [
+      "github>whitesource/merge-confidence:beta",
+      "config:base"
+    ]
+}

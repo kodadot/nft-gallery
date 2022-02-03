@@ -1,15 +1,9 @@
 <template>
   <div v-if="account">
     <div class="auth-avatar">
-      <Avatar
-        :value="account"
-        :size="size"
-      />
-      <span
-        class="subtitle has-text-weight-bold auth-avatar-title"
-      ><Identity
-        :address="account"
-        :inline="true"
+      <Avatar :value="account" :size="size" />
+      <span class="subtitle has-text-weight-bold auth-avatar-title"
+        ><Identity :address="account" :inline="true" hideIdentityPopover
       /></span>
     </div>
     <!-- <Money :value="balance" /> -->
@@ -18,25 +12,24 @@
     v-else
     v-model="account"
     :label="$i18n.t('Account')"
-    :tooltip-visible="false"
-  />
+    :tooltip-visible="false" />
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  Money: () => import('@/components/shared/format/Money.vue')
+  Money: () => import('@/components/shared/format/Money.vue'),
 }
 
 @Component({ components })
 export default class Auth extends Vue {
-  @Prop({ default: 24 }) public size!: number;
-  private balance = '';
+  @Prop({ default: 24 }) public size!: number
+  private balance = ''
 
   public mounted() {
     if (this.account) {

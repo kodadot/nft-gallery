@@ -1,11 +1,19 @@
-#import "./nft.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
 
-query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityFilter!], $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC) {
+query nftListWithSearch(
+  $first: Int!
+  $offset: Int
+  $denyList: [String!]
+  $search: [NFTEntityFilter!]
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   nFTEntities(
     orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
     filter: {
+      burned: { distinctFrom: true }
       name: { notLike: "%Kanaria%" }
       issuer: { notIn: $denyList }
       and: $search
@@ -14,6 +22,7 @@ query nftListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $searc
     totalCount
     nodes {
       ...nft
+      ...nftDetails
       emotes {
         totalCount
       }

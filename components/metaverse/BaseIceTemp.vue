@@ -41,15 +41,15 @@
 
 <script lang="ts" >
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { NFT } from '../rmrk/service/scheme';
+import { NFT } from '../rmrk/service/scheme'
 
 @Component({})
 export default class Base extends Vue {
   // public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FGlb1.glb?v=1636762271679'
   public space = 'https://cdn.glitch.me/6d877418-2a34-48a1-b3eb-2cc2670deeef%2FKodaGallery%20Glb.glb?v=1637765084722'
-  private value2: any;
-  @Prop({ type: Array, required: true }) public nfts!: NFT[];
-  @Prop(String) public id!: string;
+  private value2: any
+  @Prop({ type: Array, required: true }) public nfts!: NFT[]
+  @Prop(String) public id!: string
 
   get formatedId(): string {
     return `issuer: ${this.id}`

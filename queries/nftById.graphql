@@ -1,14 +1,19 @@
-#import "./nft.graphql"
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
 
 query nftById($id: String!) {
-    nFTEntity(id: $id) {
+  nFTEntity(id: $id) {
     ...nft
-      emotes {
-        nodes {
-          caller
-          value
-        }
+    ...nftDetails
+    collection {
+      name
+    }
+    emotes {
+      nodes {
+        caller
+        value
       }
+    }
     events
   }
 }

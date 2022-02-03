@@ -1,112 +1,180 @@
 <template>
   <div class="block">
-    <p class="label">
-      {{ $t('History') }}
-    </p>
-    <b-table
-      :data="data"
-      class="mb-4"
-      hoverable
-    >
-      <b-table-column
-        v-slot="props"
-        cell-class="short-identity__table"
-        field="Type"
-        label="Type"
-      >
-        {{ props.row.Type }}
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="short-identity__table"
-        field="From"
-        label="From"
-      >
-        <router-link :to="`/rmrk/u/${props.row.From}`">
-          <Identity
-            :address="props.row.From"
-            inline
-            no-overflow
-          />
-        </router-link>
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="short-identity__table"
-        field="To"
-        label="To"
-      >
-        <router-link :to="`/rmrk/u/${props.row.to}`">
-          <Identity
-            :address="props.row.To"
-            inline
-            no-overflow
-          />
-        </router-link>
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="short-identity__table"
-        field="Amount"
-        label="Amount"
-      >
-        {{ props.row.Amount }}
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        cell-class="short-identity__table"
-        field="Date"
-        label="Date"
-      >
-        {{ props.row.Date }}
-      </b-table-column>
-    </b-table>
+    <b-collapse
+      :open="isOpen"
+      class="card bordered"
+      animation="slide"
+      aria-id="contentIdForHistory">
+      <template #trigger="props">
+        <div
+          class="card-header"
+          role="button"
+          aria-controls="contentIdForHistory">
+          <p class="card-header-title">
+            {{ $t('History') }}
+          </p>
+          <a class="card-header-icon">
+            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
+            </b-icon>
+          </a>
+        </div>
+      </template>
+      <div class="card-content">
+        <div class="content">
+          <b-field>
+            <b-select placeholder="Select an event" v-model="selectedEvent">
+              <option value="all">All</option>
+              <option
+                v-for="option in uniqType"
+                :value="option.Type"
+                :key="option.Type">
+                {{ option.Type }}
+              </option>
+            </b-select>
+          </b-field>
 
-    <PriceChart :price-data="priceData" />
+          <b-table :data="data" class="mb-4" hoverable>
+            <b-table-column field="Type" label="Type" v-slot="props">
+              {{ props.row.Type }}
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="From"
+              label="From"
+              v-slot="props">
+              <router-link
+                :to="{
+                  name: 'rmrk-u-id',
+                  params: { id: props.row.From },
+                }">
+                <Identity :address="props.row.From" inline noOverflow />
+              </router-link>
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="To"
+              label="To"
+              v-slot="props">
+              <nuxt-link
+                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
+                <Identity :address="props.row.To" inline noOverflow />
+              </nuxt-link>
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="Amount"
+              label="Amount"
+              v-slot="props">
+              {{ props.row.Amount }}
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
+              field="Date"
+              label="Date"
+              v-slot="props">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                :href="getBlockUrl(props.row.Block)"
+                >{{ props.row.Date }}</a
+              >
+            </b-table-column>
+          </b-table>
+        </div>
+      </div>
+    </b-collapse>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
+import formatBalance from '@/utils/formatBalance'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
+import { Interaction } from '../service/scheme'
+import i18n from '@/utils/config/i18n'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
+}
+
+type TableRow = {
+  Type: string
+  From: string
+  To: string
+  Amount: string
+  Date: string
+  Block: string
+}
+
+type ChartData = {
+  buy: any[]
+  list: any[]
 }
 
 @Component({ components })
-export default class History extends Vue {
-  @Prop() public events!: any;
-  protected data: any = [];
-  protected priceData: any = [];
-  // protected eventData: Date[] = [];
+export default class History extends mixins(ChainMixin) {
+  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Boolean, default: false })
+  private readonly openOnDefault!: boolean
 
-  protected createTable() {
+  protected data: TableRow[] = []
+  protected copyTableData: TableRow[] = []
+  public isOpen = this.openOnDefault
+
+  get uniqType(): any[] {
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
+  }
+
+  get selectedEvent(): string {
+    return 'all'
+  }
+
+  set selectedEvent(event: string) {
+    if (event) {
+      this.data =
+        event === 'all'
+          ? this.copyTableData
+          : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
+    }
+  }
+
+  protected createTable(): void {
     let prevOwner = ''
     let curPrice = '0.0000000'
+    this.data = []
+    this.copyTableData = []
+
+    const chartData: ChartData = {
+      buy: [],
+      list: [],
+    }
 
     for (const newEvent of this.events) {
       const event: any = {}
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = 'CREATE'
+        event['Type'] = i18n.t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = 'SET-PRICE'
+        event['Type'] = i18n.t('nft.event.LIST')
         event['From'] = newEvent['caller']
         event['To'] = ''
         prevOwner = event['From']
         curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = 'GIFT'
+        event['Type'] = i18n.t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = 'BURNT'
+        event['Type'] = i18n.t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
+      } else if (newEvent['interaction'] === 'BUY') {
+        event['Type'] = i18n.t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
       // From
@@ -119,48 +187,45 @@ export default class History extends Vue {
       }
 
       // Amount
-      event['Amount'] = Vue.filter('formatBalance')(curPrice, 12, 'KSM')
+      event['Amount'] = formatBalance(curPrice, this.decimals, this.unit)
 
       // Date
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
-      if (event['Type'] === 'SET-PRICE' || event['Type'] === 'CREATE') {
-        this.priceData.push([date, this.formatPrice(event['Amount'])])
+
+      event['Block'] = String(newEvent['blockNumber'])
+
+      // Push to chart data
+      if (newEvent['interaction'] === 'LIST') {
+        chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
+      } else if (newEvent['interaction'] === 'BUY') {
+        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
       this.data.push(event)
+      this.copyTableData.push(event)
     }
 
     this.data = this.data.reverse()
+    this.copyTableData = this.copyTableData.reverse()
+    this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
 
-  protected parseDate(date: Date) {
+  protected parseDate(date: Date): string {
     const utcDate: string = date.toUTCString()
     return utcDate.substring(4)
   }
 
-  protected formatDate(date: Date) {
-    const yyyy = date.getUTCFullYear()
-    const mm = this.padDigits(date.getUTCMonth() + 1)
-    const dd = this.padDigits(date.getUTCDate())
-    const hrs = this.padDigits(date.getUTCHours())
-    const mins = this.padDigits(date.getUTCMinutes())
-    const secs = this.padDigits(date.getUTCSeconds())
-    const YYYY_MM_DD_HRS_MINS_SECS =
-      yyyy + '/' + mm + '/' + dd + '\n' + hrs + ':' +  mins + ':' + secs
-    return YYYY_MM_DD_HRS_MINS_SECS
+  protected getBlockUrl(block: string): string {
+    return urlBuilderBlockNumber(
+      block,
+      this.$store.getters['explorer/getCurrentChain'],
+      'subscan'
+    )
   }
 
-  protected padDigits(time: number) {
-    return time.toString().padStart(2, '0')
-  }
-
-  protected formatPrice(price: string) {
-    return parseFloat(price.substring(0, 6))
-  }
-
-  @Watch('events')
-  public async watchEvent() {
+  @Watch('events', { immediate: true })
+  public watchEvent(): void {
     if (this.events) {
       this.createTable()
     }

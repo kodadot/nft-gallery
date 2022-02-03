@@ -1,11 +1,7 @@
 <template>
-  <div class="content">
+  <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort
-        class="control"
-        :value="sortBy"
-        @input="updateSortBy"
-      />
+      <Sort class="control" :value="sortBy" @input="updateSortBy" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -13,21 +9,23 @@
           v-model="searchQuery"
           icon="search"
           expanded
-        >
+          class="input-search">
         </b-input>
       </b-field>
       <BasicSwitch
         class="is-flex control mb-5"
         v-model="vListed"
-        label="sort.listed"
+        :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
         size="is-medium"
-      />
+        labelColor="is-success"
+        :disabled="disableToggle"
+        :message="$i18n.t('tooltip.buy')" />
       <slot />
     </b-field>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -46,6 +44,7 @@ export default class SearchBar extends Vue {
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public disableToggle!: boolean
 
   protected isVisible = false
 
@@ -78,6 +77,10 @@ export default class SearchBar extends Vue {
 
   set typeQuery(value: string) {
     this.updateType(value)
+  }
+
+  get replaceBuyNowWithYolo(): boolean {
+    return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
   @Emit('update:listed')
@@ -113,7 +116,7 @@ export default class SearchBar extends Vue {
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: String(this.$route.name),
+        path: String(this.$route.path),
         query: {
           ...this.$route.query,
           search: this.searchQuery,
@@ -140,5 +143,23 @@ export default class SearchBar extends Vue {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+</style>
+
+<style lang="scss">
+@import '@/styles/variables';
+
+.field-group-container {
+  .is-grouped-multiline {
+    flex-wrap: initial !important;
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap !important;
+    }
+  }
+  .input-search {
+    input {
+      border: 1px solid $primary!important;
+    }
+  }
 }
 </style>

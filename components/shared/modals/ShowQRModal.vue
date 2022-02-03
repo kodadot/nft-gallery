@@ -6,7 +6,7 @@
   </ModalWrapper>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {
@@ -16,11 +16,11 @@ const components = {
 
 @Component({
   name: 'ShowQRModal',
-  components
+  components,
 })
 export default class ShowQRModal extends Vue {
   @Prop({ type: String, required: true }) public address!: string
-  @Prop({ type: String}) public title!: string
+  @Prop({ type: String }) public title!: string
 
   get qrCodePath(): string {
     return this.address || 'https://http.cat/409'

@@ -3,34 +3,43 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <b-field class="column">
-      <Pagination hasMagicBtn simple :total="total" v-model="currentValue" :perPage="perPage" replace class="is-right" />
+      <Pagination
+        hasMagicBtn
+        simple
+        :total="total"
+        v-model="currentValue"
+        :perPage="first"
+        replace
+        class="is-right" />
     </b-field>
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="collection in results" :key="collection.id">
+        <div
+          class="column is-4"
+          v-for="collection in results"
+          :key="collection.id">
           <div class="card collection-card">
-            <router-link
-              :to="{ name: 'collectionDetail', params: { id: collection.id } }"
+            <nuxt-link
+              :to="`/statemine/collection/${collection.id}`"
               tag="div"
-              class="collection-card__skeleton"
-            >
+              class="collection-card__skeleton">
               <div class="card-image">
-                <BasicImage :src="collection.image" :alt="collection.name" customClass="collection__image-wrapper" />
+                <BasicImage
+                  :src="collection.image"
+                  :alt="collection.name"
+                  customClass="collection__image-wrapper" />
               </div>
 
               <div class="card-content">
-                <router-link
-                  :to="{
-                    name: 'collectionDetail',
-                    params: { id: collection.id }
-                  }"
-                >
-                  <CollectionDetail :nfts="collection.nfts.nodes" :name="collection.name" />
-                </router-link>
+                <nuxt-link :to="`/statemine/collection/${collection.id}`">
+                  <CollectionDetail
+                    :nfts="collection.nfts.nodes"
+                    :name="collection.name" />
+                </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
               </div>
-            </router-link>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -38,84 +47,45 @@
     <Pagination
       class="pt-5 pb-5"
       :total="total"
-      :perPage="perPage"
+      :perPage="first"
       v-model="currentValue"
-      replace
-    />
+      replace />
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Vue } from 'nuxt-property-decorator'
+<script lang="ts">
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
-import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import Freezeframe from 'freezeframe'
-import 'lazysizes'
-
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import 'lazysizes'
+import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Collection, CollectionWithMeta, Metadata } from '../service/scheme'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean;
-}
-
-type CollectionType = CollectionWithMeta;
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
-  CollectionDetail: () => import('@/components/rmrk/Gallery/CollectionDetail.vue'),
+  CollectionDetail: () =>
+    import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component<Collections>({
-  metaInfo() {
-    return {
-      title: 'KodaDot - Kusama Explorer all collections',
-      meta: [
-        {
-          property: 'og:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'og:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        },
-        {
-          property: 'og:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:title',
-          content: 'Low minting fees and carbonless NFTs'
-        },
-        {
-          property: 'twitter:description',
-          content: 'Buy Carbonless NFTs on Kusama'
-        },
-        {
-          property: 'twitter:image',
-          content: 'https://nft.kodadot.xyz/kodadot_gallery.jpg'
-        }
-      ]
-    }
-  },
-  components
+  components,
 })
-export default class Collections extends Vue {
-  private collections: Collection[] = [];
-  private meta: Metadata[] = [];
-  private first = 9;
-  private perPage = 9;
-  private placeholder = '/koda300x300.svg';
-  private currentValue = 1;
-  private total = 0;
+export default class Collections extends mixins(PrefixMixin) {
+  private collections: Collection[] = []
+  private currentValue = 1
+  private total = 0
+  private loadingState = 0
+
+  get first(): number {
+    return this.$store.getters['preferences/getCollectionsPerPage']
+  }
 
   get isLoading() {
-    return this.$apollo.queries.collection.loading
+    return Boolean(this.loadingState)
   }
 
   get offset() {
@@ -123,10 +93,16 @@ export default class Collections extends Vue {
   }
 
   public async created() {
+    const isRemark = this.urlPrefix === 'rmrk'
+    const query = isRemark
+      ? await import('@/queries/collectionListWithSearch.graphql')
+      : await import('@/queries/unique/collectionListWithSearch.graphql')
+
     this.$apollo.addSmartQuery('collection', {
-      query: collectionListWithSearch,
+      query: query.default,
       manual: true,
-      loadingKey: 'isLoading',
+      loadingKey: 'loadingState',
+      client: this.urlPrefix,
       result: this.handleResult,
       variables: () => {
         return {
@@ -136,7 +112,7 @@ export default class Collections extends Vue {
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes
+        nfts: collectionEntity.nfts.nodes,
       }),
     })
   }
@@ -147,9 +123,13 @@ export default class Collections extends Vue {
       ...e,
     }))
 
-    const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
+    const metaList = this.collections.map(
+      ({ metadata }: MetaFragment) =>
+        metadata || '0x0000000000000000000000000000000000000000'
     )
+    console.log(metaList)
+
+    const storedMetadata = await getMany(metaList).catch(() => metaList)
 
     storedMetadata.forEach(async (m, i) => {
       if (!m) {
@@ -158,9 +138,11 @@ export default class Collections extends Vue {
           Vue.set(this.collections, i, {
             ...this.collections[i],
             ...meta,
-            image: sanitizeIpfsUrl(meta.image || '')
+            image: sanitizeIpfsUrl(meta.image || ''),
           })
-          update(this.collections[i].metadata, () => meta)
+          if (this.collections[i].metadata) {
+            update(this.collections[i].metadata, () => meta)
+          }
         } catch (e) {
           console.warn('[ERR] unable to get metadata')
         }
@@ -168,20 +150,22 @@ export default class Collections extends Vue {
         Vue.set(this.collections, i, {
           ...this.collections[i],
           ...m,
-          image: sanitizeIpfsUrl(m.image || '')
+          image: sanitizeIpfsUrl(m.image || ''),
         })
       }
     })
 
-
-    this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
+    // this.prefetchPage(this.offset + this.first, this.offset + (3 * this.first))
   }
-
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
+      const isRemark = this.urlPrefix === 'rmrk'
+      const query = isRemark
+        ? await import('@/queries/collectionListWithSearch.graphql')
+        : await import('@/queries/unique/collectionListWithSearch.graphql')
       const collections = this.$apollo.query({
-        query: collectionListWithSearch,
+        query: query.default,
         variables: {
           first: this.first,
           offset,
@@ -190,11 +174,13 @@ export default class Collections extends Vue {
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList }
-        }
+          collectionEntities: { nodes: collectionList },
+        },
       } = await collections
 
-      const storedPromise = getMany(collectionList.map(({ metadata }: any) => metadata))
+      const storedPromise = getMany(
+        collectionList.map(({ metadata }: any) => metadata)
+      )
 
       const storedMetadata = await storedPromise
 
@@ -215,48 +201,22 @@ export default class Collections extends Vue {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
-
   }
 
   get results() {
     return this.collections as CollectionWithMeta[]
   }
-
-  setFreezeframe() {
-    document.addEventListener('lazybeforeunveil', async e => {
-      const target = e.target as Image
-      const type = target.dataset.type as string
-      const isGif = type === 'image/gif'
-
-      if (isGif && !target.ffInitialized) {
-        new Freezeframe(target, {
-          trigger: false,
-          overlay: true,
-          warnings: false
-        })
-
-        target.ffInitialized = true
-      }
-    })
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
-  }
 }
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .card-image__burned {
   filter: blur(7px);
 }
 
 .collections {
-  @media screen and (max-width: 1023px) {
-    padding: 0 15px;
-  }
-
   &__image-wrapper {
     position: relative;
     margin: auto;
@@ -275,25 +235,6 @@ export default class Collections extends Vue {
     transform: scale(1);
   }
 
-  .ff-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow: hidden;
-
-    .ff-overlay {
-      z-index: 2;
-    }
-
-    .ff-image,
-    .ff-canvas {
-      top: 50%;
-      height: auto;
-      transform: translateY(-50%);
-      transition: all 0.3s !important;
-    }
-  }
-
   .has-text-overflow-ellipsis {
     overflow: hidden;
     white-space: nowrap;
@@ -307,10 +248,6 @@ export default class Collections extends Vue {
 
   .is-float-right {
     float: right;
-  }
-
-  .is-color-pink {
-    color: #d32e79;
   }
 
   .is-absolute {
@@ -329,16 +266,12 @@ export default class Collections extends Vue {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0px 0px 10px 0.5px #d32e79;
+      border: 2px solid $primary-light;
 
       &-image {
-        .ff-canvas {
-          border-radius: 8px;
-        }
-
         &__emotes {
           position: absolute;
-          background-color: #d32e79;
+          background-color: $primary-light;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
@@ -351,7 +284,7 @@ export default class Collections extends Vue {
 
         &__price {
           position: absolute;
-          background-color: #363636;
+          background-color: $grey-darker;
           border-radius: 4px;
           padding: 3px 8px;
           color: #fff;
@@ -414,10 +347,6 @@ export default class Collections extends Vue {
         &:hover .collection__image-wrapper img {
           transform: scale(1.1);
           transition: transform 0.3s linear;
-        }
-
-        &:hover .ff-canvas {
-          transform: scale(1.1);
         }
 
         &:hover .card-image__emotes {

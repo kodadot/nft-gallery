@@ -1,226 +1,137 @@
 <template>
-  <section class="hero is-dark homepage">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title is-1 homepage__title">
-          <span class="text__stroked">Koda</span>
-          <span>Dot</span>
-        </h1>
-        <h2 class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
-          <span>
-            Carbon neutral
-          </span>
-          <span class="text__stroked">
-            Kusama native
-          </span>
-          <span>
-            NFT plaftorm
-          </span>
-          <span class="title is-6 homepage__subtitle uppercase text-semibold">
-            Built on
-            <span class="text-bold text-primary">
-              RMRK Protocol
+  <section class="homepage section">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <img
+            src="~/assets/KODADOT.png"
+            alt="First NFT market explorer on Kusama and Polkadot"
+            class="mb-5"
+            height="60" />
+          <h2
+            class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
+            <span> Carbon neutral </span>
+            <span class="text__stroked"> Kusama native </span>
+            <span> NFT plaftorm </span>
+            <span class="title is-6 homepage__subtitle uppercase text-semibold">
+              Built on
+              <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
-          </span>
-        </h2>
-        <div class="buttons">
-          <b-dropdown
-            aria-role="list"
-            class="mr-2"
-          >
-            <template #trigger>
-              <b-button
-                label="Create"
-                type="is-primary"
-              />
-            </template>
-            <b-dropdown-item
-              aria-role="listitem"
-            >
-              <router-link to="/rmrk/create">
-                {{ $t('Classic') }}
-              </router-link>
-            </b-dropdown-item>
-            <b-dropdown-item
-              aria-role="listitem"
-            >
-              <router-link to="/rmrk/mint">
-                {{ $t('Simple') }}
-              </router-link>
-            </b-dropdown-item>
-          </b-dropdown>
-          <b-button
-            tag="router-link"
-            to="/rmrk/gallery"
-            type="is-primary"
-          >
-            Gallery
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/spotlight"
-            type="is-primary"
-          >
-            Spotlight
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/about"
-            type="is-primary"
-          >
-            About
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/rmrk/faq"
-            type="is-primary"
-          >
-            Faq
-          </b-button>
-          <b-button
-            tag="router-link"
-            to="/grants"
-            type="is-primary"
-          >
-            Grants
-          </b-button>
-        </div>
-        <div class="homepage__box">
-          <div class="homepage__box-content">
-            <p>
-              Would you like to get featured on our gallery page? Perhaps you have a business proposal in mind. Maybe you would like to be an ambassador. Go to this section for all of the above.
-            </p>
+          </h2>
+          <div class="buttons">
             <b-button
-              tag="router-link"
-              to="/partnership"
-              type="is-primary"
-              class="homepage__button--wrapped"
-            >
-              Partnership & Ambassador Program
+              tag="nuxt-link"
+              :to="`/${prefix}/create`"
+              type="is-primary">
+              {{ $t('Create') }}
             </b-button>
-            <div>
-              <p>
-                <span>
-                  Would you like to know how our journey started?
-                </span>
-                <span>
-                  If so, visit the About section.
-                </span>
-              </p>
-              <p>
-                <span>
-                  Struggling with KodaDot?
-                </span>
-                <span>
-                  Head over to our <a href="/rmrk/faq">FAQ page.</a>
-                </span>
-              </p>
-              <p>
-                <span>
-                  Found issue? Have Feedback?
-                </span>
-                <span>
-                  Create issue on our GitHub.
-                </span>
-              </p>
-            </div>
+            <b-button
+              tag="nuxt-link"
+              :to="`/${prefix}/collections`"
+              type="is-primary">
+              Collections
+            </b-button>
+            <b-button
+              tag="nuxt-link"
+              :to="`/${prefix}/gallery`"
+              type="is-primary">
+              Gallery
+            </b-button>
+            <b-button tag="nuxt-link" to="/spotlight" type="is-primary">
+              Spotlight
+            </b-button>
+            <b-button tag="nuxt-link" to="/series-insight" type="is-primary">
+              Series
+            </b-button>
+            <b-button tag="nuxt-link" to="/about" type="is-primary">
+              About
+            </b-button>
+            <b-button tag="nuxt-link" to="/rmrk/faq" type="is-primary">
+              Faq
+            </b-button>
+            <b-button
+              tag="a"
+              href="https://tally.so/r/mVP06w"
+              target="_blank"
+              rel="noopener noreferrer"
+              type="is-primary">
+              Grants
+            </b-button>
+            <b-button
+              tag="a"
+              href="https://en.wikipedia.org/wiki/Non-fungible_token"
+              target="_blank"
+              rel="noopener noreferrer"
+              type="is-primary">
+              What are NFTs?
+            </b-button>
           </div>
-          <b-button
-            tag="a"
-            href="https://github.com/kodadot/nft-gallery/issues/new/choose"
-            target="_blank"
-            rel="noopener noreferrer"
-            type="is-primary"
-          >
-            Kodadot Github
-          </b-button>
         </div>
+        <div
+          class="column has-text-right has-text-left-mobile discord-container">
+          <a
+            href="https://discord.gg/35hzy2dXXh"
+            target="_blank"
+            rel="noopener noreferrer">
+            <img
+              src="https://badgen.net/discord/online-members/35hzy2dXXh"
+              alt="Discord" />
+          </a>
+        </div>
+      </div>
+
+      <div class="homepage__box">
+        <div class="homepage__box-content">
+          <p>
+            Would you like to get featured on our gallery page? Perhaps you have
+            a business proposal in mind. Maybe you would like to be an
+            ambassador. Go to this section for all of the above.
+          </p>
+          <b-button
+            tag="nuxt-link"
+            to="/partnership"
+            type="is-primary"
+            class="homepage__button--wrapped">
+            Partnership & Ambassador Program
+          </b-button>
+          <div>
+            <p>
+              <span> Would you like to know how our journey started? </span>
+              <span> If so, visit the About section. </span>
+            </p>
+            <p>
+              <span> Struggling with KodaDot? </span>
+              <span> Head over to our <a href="/rmrk/faq">FAQ page.</a> </span>
+            </p>
+            <p>
+              <span> Found issue? Have Feedback? </span>
+              <span> Create issue on our GitHub. </span>
+            </p>
+          </div>
+        </div>
+        <b-button
+          tag="a"
+          href="https://github.com/kodadot/nft-gallery/issues/new/choose"
+          target="_blank"
+          rel="noopener noreferrer"
+          type="is-primary">
+          Kodadot Github
+        </b-button>
       </div>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
-import { denyList } from '@/constants'
-import { getMany, update } from 'idb-keyval'
-import { fetchNFTMetadata } from '../rmrk/utils'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-const components = {
-  Identity: () => import('@/components/shared/format/Identity.vue'),
-}
+const components = {}
 @Component<Landing>({
-  metaInfo() {
-    return {
-      meta: [
-        { property: 'og:title', content: 'KodaDot - Kusama NFT Market explorer'},
-        { property: 'og:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-        { property: 'og:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:title', content: 'KodaDot - Kusama NFT Market Explorer' },
-        { property: 'twitter:description', content: 'Low carbon NFT gallery on Kusama'},
-        { property: 'twitter:image', content: 'https://nft.kodadot.xyz/kodadot_carbonless.jpg'},
-      ]
-    }
-  },
-  components
+  components,
 })
 export default class Landing extends Vue {
-
-  public publicCommunity: any = [
-    ['🇦🇲 Armenia', 'https://t.me/kodadotarmenia'],
-    // ['🇧🇩 Bengali', 'https://t.me/KodaDot_Bengali'], seems not active
-    ['🇨🇿 Česko', 'https://t.me/joinchat/Fhnvbi5a_wRjNzFk'],
-    ['🇯🇵 Japan', 'https://t.me/kodadotjapan'],
-    ['🇵🇱 Polska', 'https://t.me/joinchat/HG7J2RAk906N7scb'],
-    ['🇵🇹 Portuguese', 'https://t.me/joinchat/1UHYFZpVYmE1OTZk'],
-    ['🇷🇺 Russia', 'https://t.me/kodadotru'],
-    ['🇪🇸 Spanish','https://t.me/joinchat/HkF3cxImJAJGoRH9'],
-    ['🇹🇷 Türkiye', 'https://t.me/KodaDotTR'],
-    ['🌐 Global KodaDot Discord', 'https://discord.gg/u6ymnbz4PR'],
-    ['🏗 Developers', 'https://discord.gg/KkctBVQ8kP'],
-    // ['🇻🇳 Việt Nam', 'https://t.me/joinchat/GR0OiagewrkTzD4u'], seems not active
-    ['Want to help translate?', 'https://github.com/kodadot/nft-gallery/tree/i18n/src/locales']
-  ]
-
-  public mounted() {
-    this.fetchFirstGalleryPage()
-  }
-
-  public async fetchFirstGalleryPage() {
-    const nfts = this.$apollo.query({
-      query: nftListWithSearch,
-      variables: {
-        first: 12,
-        offset: 0,
-        denyList,
-        search: []
-      }
-    })
-
-    const {
-      data: { nFTEntities: { nodes: nftList } }
-    } = await nfts
-
-    const storedPromise = getMany(
-      nftList.map(({ metadata }: any) => metadata)
-    )
-
-    const storedMetadata = await storedPromise
-
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchNFTMetadata(nftList[i])
-          update(nftList[i].metadata, () => meta)
-        } catch (e) {
-          console.warn('[ERR] unable to get metadata')
-        }
-      }
-    })
-
-
-  }
+  @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
+  @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
 }
 </script>
 
@@ -231,9 +142,10 @@ export default class Landing extends Vue {
   content: '';
   width: 100%;
   height: 100%;
+  color: $text;
 
   @include desktop {
-    background: url('/homepage-bg.jpg') center bottom;
+    background: url('/homepage-bg.webp') center bottom;
     background-repeat: no-repeat;
     background-size: contain;
   }
@@ -248,6 +160,7 @@ export default class Landing extends Vue {
 
   &__heading {
     font-size: 4rem;
+    color: $text;
   }
 
   &__box {
@@ -266,7 +179,8 @@ export default class Landing extends Vue {
   &__box-content {
     max-width: 464px;
 
-    p, .button {
+    p,
+    .button {
       margin-bottom: 32px;
     }
 

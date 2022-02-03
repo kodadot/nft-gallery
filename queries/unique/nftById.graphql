@@ -1,0 +1,11 @@
+#import "../fragments/nft.graphql"
+#import "../fragments/collectionMeta.graphql"
+
+query nftById($id: String!) {
+  nFTEntity(id: $id) {
+    ...nft
+    ...collectionMeta
+    attributes
+    events
+  }
+}

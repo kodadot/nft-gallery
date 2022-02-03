@@ -1,29 +1,34 @@
 <template>
   <div :class="['money', { 'money--inline': inline }]">
-    <span>
+    <span v-if="!hideUnit">
       {{ value | formatBalance(decimals, unit) }}
     </span>
-    <span v-if="fiatValue">
-      / {{ fiatValue | formatBalance(decimals, showFiatValue.toUpperCase()) }}
+    <span v-else>
+      {{ value | formatBalance(decimals, '') | round(2) }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import coingecko from '@/coingecko'
 
-@Component
+@Component({
+  filters: {
+    round: function roundOffNumber(value, limit) {
+      return Number(value.replace(/,/g, '')).toFixed(limit)
+    },
+  },
+})
 export default class Money extends Vue {
-  @Prop({default: 0}) readonly value: number | string | undefined
+  @Prop({ default: 0 }) readonly value: number | string | undefined
   @Prop(Boolean) readonly inline!: boolean
-  @Prop({default: ''}) readonly showFiatValue!: string
+  @Prop(Boolean) readonly hideUnit!: boolean
 
   private readonly coinId: string = 'kusama'
   private fiatValue = 0
 
   get chainProperties() {
-    return this.$store.getters.getChainProperties
+    return this.$store.getters['chain/getChainProperties']
   }
 
   get decimals(): number {
@@ -33,42 +38,13 @@ export default class Money extends Vue {
   get unit(): string {
     return this.chainProperties.tokenSymbol
   }
-
-  public mounted() {
-    if (this.showFiatValue) {
-      this.getFiatValue()
-    }
-  }
-
-  private async getFiatValue() {
-    try {
-      const price = this.$store.state.fiatPrice[this.coinId][this.showFiatValue]
-
-      if (price) {
-        this.fiatValue = price * Number(this.value)
-      } else {
-        const { data } = await coingecko.get('/simple/price', {
-          params: {
-            ids: this.coinId,
-            vs_currencies: this.showFiatValue
-          }
-        })
-
-        // 420 * 10 ** 12
-        this.fiatValue = data[this.coinId][this.showFiatValue] * Number(this.value)
-        this.$store.dispatch('setFiatPrice', data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
 }
 </script>
 
 <style lang="scss">
-  .money {
-    &--inline {
-      display: inline-block;
-    }
+.money {
+  &--inline {
+    display: inline-block;
   }
+}
 </style>

@@ -7,14 +7,9 @@
       expanded
       scrollable
       :max-height="200"
-      @input="handleInput"
-    >
+      @input="handleInput">
       <template #trigger>
-        <b-button
-          type="is-primary"
-          icon-left="bookmark"
-          expanded
-        >
+        <b-button type="is-primary" icon-left="bookmark" expanded>
           Save to pack ({{ currentMenu.length }})
         </b-button>
       </template>
@@ -23,8 +18,7 @@
         v-for="(menu, index) in menus"
         :key="index"
         :value="menu._id"
-        aria-role="listitem"
-      >
+        aria-role="listitem">
         <div class="media">
           <div class="menu-down">
             <h3>{{ menu.name }}</h3>
@@ -35,42 +29,38 @@
       <b-dropdown-item
         class="pack-saver-input__wrapper"
         custom
-        aria-role="listitem"
-      >
+        aria-role="listitem">
         <b-input
           v-model="newPackName"
           class="pack-saver-input__input"
           placeholder="New pack name"
-          expanded
-        />
+          expanded />
         <b-button
           type="is-info"
           outlined
           :disabled="!newPackName"
           icon-left="plus"
           :loading="isLoading"
-          @click="addPack"
-        />
+          @click="addPack" />
       </b-dropdown-item>
     </b-dropdown>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { Pack } from '@/components/rmrk/service/scheme'
 
-
 @Component
 export default class PackSaver extends Vue {
-  @Prop() public currentOwnerId!: string;
-  @Prop() public accountId!: string;
-  @Prop() public nftId!: string;
-  private currentMenu: string[] = [];
-  private savedMenu: Record<string,boolean> = {};
-  private menus: Pack[] = [];
-  private newPackName = '';
-  protected isLoading = false;
+  @Prop() public currentOwnerId!: string
+  @Prop() public accountId!: string
+  @Prop() public nftId!: string
+  private currentMenu: string[] = []
+  private savedMenu: Record<string, boolean> = {}
+  private menus: Pack[] = []
+  private newPackName = ''
+  protected isLoading = false
 
   // protected async addPack() {
   //   const rmrkService = getInstance();
@@ -168,12 +158,12 @@ export default class PackSaver extends Vue {
   //     }
   //   }
 
-//   @Watch('accountId')
-//   protected watchAccountId(val: string, oldVal: string) {
-//     if (shouldUpdate(val, oldVal)) {
-//       this.fetchPacksForUser(val);
-//     }
-//   }
+  //   @Watch('accountId')
+  //   protected watchAccountId(val: string, oldVal: string) {
+  //     if (shouldUpdate(val, oldVal)) {
+  //       this.fetchPacksForUser(val);
+  //     }
+  //   }
 }
 </script>
 

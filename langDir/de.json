@@ -39,6 +39,7 @@
   "Description": "Description",
   "Multimedia data": "Multimedia data",
   "Metadata IPFS Hash": "Metadata IPFS Hash",
+  "Learn More": "Erfahre mehr",
   "Add Token": "Add Token",
   "Mint": "Mint",
   "Transferable is by default": "Transferable is by default",
@@ -55,6 +56,15 @@
   "New here? We have F.A.Q.": "New here? We have F.A.Q.",
   "Feedback? We\\'d be happy to discuss it.": "Feedback? We'd be happy to discuss it.",
   "Read our story, how we started.": "Read our story, how we started.",
+  "User Interface Mode": "Aussehen der Benutzeroberfläche",
+  "Advanced User Interface": "Erweiterte Benutzeroberfläche",
+  "Basic User Interface": "Klassische Benutzeroberfläche",
+  "Enable Theatre View on default": "Aktiviere Theatre View als Standard-Ansicht",
+  "Fold history and price chart in NFT view on default": "Historie und Preis-Chart in NFT-Ansicht standardmäßig eingeklappt",
+  "Fold description in collection view on default": "Beschreibung in Sammlungen standardmäßig eingeklappt",
+  "Layout Options": "Anzeige-Optionen",
+  "Gallery Items Per Page": "Gallerie-Einträge pro Seite",
+  "Collections Per Page": "Sammlungen pro Seite",
   "Frequently Asked Question": "Frequently Asked Question",
   "faq": {
     "q": {
@@ -94,7 +104,7 @@
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)"
       },
       "3": {
-        "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us!",
+        "m": "You will go to the @.md:faq.a.3.l1 You need to first mint your Collection and then Token. If you want to video that, DM us! The current minimum fee for minting a NFT on KodaDot is around @.common:data.ksm.fee KSM.",
         "l1": "[Create](@.common:links.rmrk_create.href)."
       },
       "4": {

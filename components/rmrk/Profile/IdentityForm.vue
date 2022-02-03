@@ -2,70 +2,61 @@
   <div class="columns mb-6">
     <div class="column is-6 is-offset-3">
       <section>
-        <br>
-        <Loader
-          v-model="isLoading"
-          :status="status"
-        />
+        <br />
+        <Loader v-model="isLoading" :status="status" />
         <div class="box">
           <p class="title is-size-3">
-            {{ $t("identity.set") }}
+            {{ $t('identity.set') }}
           </p>
           <b-field>
             <Identity
-              ref="identity"
               class="subtitle has-text-weight-bold"
+              ref="identity"
               :address="accountId"
               inline
               emit
-              @change="handleIdentity"
-            />
+              @change="handleIdentity" />
           </b-field>
           <b-field label="Handle">
             <b-input
-              v-model="identity.display"
               placeholder="My On-Chain Name"
+              v-model="identity.display"
               required
-              :validation-message="$t('identity.handleRequired')"
-            />
+              :validation-message="$t('identity.handleRequired')">
+            </b-input>
           </b-field>
           <b-field label="Name">
-            <b-input
-              v-model="identity.legal"
-              placeholder="Full Legal Name"
-            />
+            <b-input placeholder="Full Legal Name" v-model="identity.legal">
+            </b-input>
           </b-field>
           <b-field label="email">
             <b-input
-              v-model="identity.email"
               placeholder="somebody@example.com"
               type="email"
-            />
+              v-model="identity.email">
+            </b-input>
           </b-field>
           <b-field label="web">
-            <b-input
-              v-model="identity.web"
-              placeholder="https://example.com"
-            />
+            <b-input placeholder="https://example.com" v-model="identity.web">
+            </b-input>
           </b-field>
           <b-field label="twitter">
+            <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
+            </b-input>
+          </b-field>
+          <b-field label="discord">
             <b-input
-              v-model="identity.twitter"
-              placeholder="@YourTwitterName"
-            />
+              placeholder="Discord UserName#0000"
+              v-model="identity.discord">
+            </b-input>
           </b-field>
           <b-field label="riot">
-            <b-input
-              v-model="identity.riot"
-              placeholder="@yourname:matrix.org"
-            />
+            <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
+            </b-input>
           </b-field>
           <b-field>
             <p class="subtitle is-size-6">
-              {{ $t("identity.deposit") }} <Money
-                :value="deposit"
-                inline
-              />
+              {{ $t('identity.deposit') }} <Money :value="deposit" inline />
             </p>
           </b-field>
 
@@ -73,12 +64,11 @@
             <b-button
               type="is-primary"
               icon-left="paper-plane"
+              @click="shipIt"
               :disabled="disabled"
               :loading="isLoading"
-              outlined
-              @click="shipIt"
-            >
-              {{ $t("identity.click") }}
+              outlined>
+              {{ $t('identity.click') }}
             </b-button>
           </b-field>
         </div>
@@ -87,13 +77,12 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 import { update } from 'idb-keyval'
@@ -107,20 +96,21 @@ import { identityStore } from '@/utils/idbStore'
     PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
-  }
+  },
 })
 export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   // @Prop() public referendumId!: any;
-  private password = '';
+  private password = ''
   private identity: Record<string, string> = {
     display: '',
     email: '',
     web: '',
     twitter: '',
+    discord: '',
     riot: '',
-    legal: ''
-  };
-  private deposit = '0';
+    legal: '',
+  }
+  private deposit = '0'
 
   public created(): void {
     setTimeout(() => {
@@ -158,7 +148,7 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
         cb,
         [x],
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -172,12 +162,12 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -208,12 +198,11 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   }
 
   get disabled(): boolean {
-    return Object.values(this.identity).filter(val => val)?.length === 0
+    return Object.values(this.identity).filter((val) => val)?.length === 0
   }
 
   protected handleIdentity(identityFields: Record<string, string>): void {
-    this.identity = {...identityFields}
+    this.identity = { ...identityFields }
   }
-
 }
 </script>

@@ -15,13 +15,19 @@
       }
     },
     "rmrk_credit": {
-      "href": "/#/rmrk/credit"
+      "href": "/rmrk/credit"
     },
     "rmrk_create": {
-      "href": "/#/rmrk/create"
+      "href": "/rmrk/create"
+    },
+    "rmrk_profile": {
+      "href": "/rmrk/u"
     },
     "binance_exchange": {
-      "href": "https://www.binance.com/en/register?ref=T1JB89F0"
+      "href": "https://accounts.binance.com/en/register?ref=T1JB89F0"
+    },
+    "bybit_exchange": {
+      "href": "https://www.bybit.com/en-US/"
     },
     "simpleswap_exchange": {
       "href": "https://simpleswap.io/?ref=6cc6e0c538ad"
@@ -32,6 +38,9 @@
     "coingecko_ksm_price": {
       "href": "https://www.coingecko.com/en/coins/kusama"
     },
+    "coingecko_ksm_markets": {
+      "href": "https://www.coingecko.com/en/coins/kusama#markets"
+    },
     "ramp_network": {
       "href": "https://ramp.network",
       "supported_countries": {
@@ -39,12 +48,30 @@
       }
     },
     "kodadot_social": {
+      "discord": {
+        "href": "https://discord.com/invite/gHrQTJam"
+      },
+      "discord_help": {
+        "href": "https://discord.gg/7fMUnabf"
+      },
       "twitter": {
         "href": "https://twitter.com/kodadot"
+      },
+      "open_issues": {
+        "href": "https://github.com/kodadot/nft-gallery/issues"
+      },
+      "contributing_guide": {
+        "href": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md"
+      },
+      "presskit": {
+        "href": "https://github.com/kodadot/kodadot-presskit/tree/main/v3"
       }
     },
     "rmrk_spec_emote_issue": {
       "href": "https://github.com/Swader/rmrk-spec/issues/10"
+    },
+    "chain_decision": {
+      "href": "https://github.com/kodadot/nft-gallery/issues/529"
     },
     "kusama_polkassembly": {
       "kodadot_nft_explorer_post": {
@@ -58,6 +85,14 @@
       "kusama_rpc_accounts": {
         "href": "https://cloudflare-ipfs.com/ipns/dotapps.io/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/accounts"
       }
+    },
+    "artist_grant_program": {
+      "href": "https://tally.so/r/mVP06w"
+    }
+  },
+  "data": {
+    "ksm": {
+      "fee": "0.00007"
     }
   }
 }

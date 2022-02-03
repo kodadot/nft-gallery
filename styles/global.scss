@@ -1,132 +1,209 @@
-html, body, div#__nuxt, div#__layout {
+html,
+body,
+div#__nuxt,
+div#__layout {
   height: 100%;
   margin: 0;
   width: 100%;
 }
 
 body {
-    .button {
-        text-transform: uppercase;
-        border-radius: 0;
-        font-weight: 500;
-        transition: all 0.3s;
-        color: $scheme-invert;
+  .button {
+    text-transform: uppercase;
+    border-radius: 0;
+    font-weight: 500;
+    transition: all 0.3s;
+    color: $scheme-invert;
 
-        &.is-primary {
-            border-color: $primary;
-            background-color: $scheme-main;
-
-            &:hover,
-            &:focus {
-                border-color: $primary;
-                background-color: $primary;
-            }
-        }
-    }
-
-    .select select,
-    .taginput .taginput-container.is-focusable,
-    .textarea,
-    .input {
-        color: $scheme-invert;
-    }
-
-    .select {
-        &:not(.is-multiple):not(.is-loading):hover::after {
-            border-color: $primary;
-        }
-
-        select {
-            option {
-                color: $scheme-invert;
-            }
-        }
-    }
-
-    .label {
-        color: $scheme-invert;
-    }
-
-    .select select[disabled],
-    .taginput [disabled].taginput-container.is-focusable,
-    [disabled].textarea, [disabled].input,
-    fieldset[disabled] .select select,
-    .select fieldset[disabled] select,
-    fieldset[disabled] .taginput .taginput-container.is-focusable,
-    .taginput fieldset[disabled] .taginput-container.is-focusable,
-    fieldset[disabled] .textarea,
-    fieldset[disabled] .input {
-        background-color: $scheme-main;
-    }
-
-    .notices .toast.is-dark {
-        background: $primary;
-    }
-
-    .label {
-        color: $primary;
-        text-transform: uppercase;
-        font-size: 16px;
-    }
-
-    .text {
-        &__stroked {
-            color: $primary;
-            -webkit-text-fill-color: $black;
-            -webkit-text-stroke-width: 2px;
-            -webkit-text-stroke-color: $primary;
-            padding: 0 8px 0 0;
-        }
-    }
-
-    .heading {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .is-flex-inline {
-        display: inline-flex;
-    }
-
-    .loading-overlay .loading-background {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-background {
-        background-color: rgba(0, 0, 0, 0.86);
-    }
-
-    a {
-        color: lightpink;
-    }
-
-    .message.is-primary {
-        background-color: #ffebfa !important;
-    }
-
-    .button.is-text {
-      &:hover {
-        background-color: #363636;
-      }
-
+    &.is-primary {
+      border-color: $primary;
+      background-color: $scheme-main;
+      color: $light-text;
+      &:hover,
       &:focus {
-        background-color: #363636;
-        border: none;
+        border-color: $primary;
+        background-color: $primary;
       }
     }
+  }
+  .autocomplete .dropdown-item {
+    padding-right: 1px;
+  }
+  .select select,
+  .taginput .taginput-container.is-focusable,
+  .textarea,
+  .input {
+    color: $scheme-invert;
+  }
 
-    .icon.is-primary {
-        color: #db2980 !important;
-    }
-    .navbar-start  {
-        .router-link-active {
-            color: $primary;
-            background-color: #121212;
-        }
+  .select {
+    &:not(.is-multiple):not(.is-loading):hover::after {
+      border-color: $primary;
     }
 
-    .orientation {
-        perspective: 30em;
+    select {
+      option {
+        color: $scheme-invert;
+      }
+    }
+  }
+
+  .label {
+    color: $scheme-invert;
+  }
+
+  .select select[disabled],
+  .taginput [disabled].taginput-container.is-focusable,
+  [disabled].textarea,
+  [disabled].input,
+  fieldset[disabled] .select select,
+  .select fieldset[disabled] select,
+  fieldset[disabled] .taginput .taginput-container.is-focusable,
+  .taginput fieldset[disabled] .taginput-container.is-focusable,
+  fieldset[disabled] .textarea,
+  fieldset[disabled] .input {
+    background-color: $scheme-main;
+  }
+
+  .notices .toast.is-dark {
+    background: $primary;
+  }
+
+  .label {
+    color: $primary;
+    text-transform: uppercase;
+    font-size: calc(1rem * 0.75);
+  }
+
+  .switch {
+    &.is-success {
+      color: $success;
+    }
+  }
+
+  .text {
+    &__stroked {
+      color: $primary;
+      -webkit-text-fill-color: $black;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: $primary;
+      padding: 0 8px 0 0;
+    }
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .is-flex-inline {
+    display: inline-flex;
+  }
+
+  .loading-overlay .loading-background {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.86);
+  }
+
+  a {
+    color: $lightpink;
+  }
+
+  .message.is-primary {
+    background-color: #ffebfa !important;
+  }
+
+  .button.is-text {
+    &:hover {
+      background-color: $grey-darker;
     }
 
+    &:focus {
+      background-color: $grey-darker;
+      border: none;
+    }
+  }
+
+  .icon.is-primary {
+    color: $primary !important;
+  }
+  .navbar-start .nuxt-link-active {
+    color: $primary;
+    background-color: #121212;
+  }
+
+  .orientation {
+    perspective: 30em;
+  }
+
+  pre {
+    background-color: $black;
+    color: $primary;
+  }
+
+  .title,
+  .card-header-title {
+    color: $text !important;
+  }
+
+  .card-header {
+    box-shadow: none !important;
+  }
+
+  .is-color-pink {
+    color: $primary-light;
+  }
+
+  .message.is-primary .message-body {
+    color: $primary-light !important;
+  }
+  .tabs-container-mobile {
+    .tab-content {
+      @media screen and (max-width: 1023px) {
+        padding: 1rem 0;
+      }
+    }
+  }
+
+  .money-cursor,
+  .money-cursor .button {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>💸</text></svg>"),
+      auto;
+  }
+}
+
+// global CSS for page transitions
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 250ms;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
+
+button.button.is-bordered {
+  border: 0;
+  border-top: 2px solid $primary !important;
+}
+
+.card.bordered {
+  border-radius: 0 !important;
+  box-shadow: none;
+  border-top: 2px solid $primary;
+
+  &-content {
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+
+  &-footer {
+    &-item {
+      padding: 0.75rem !important;
+    }
+  }
 }

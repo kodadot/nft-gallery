@@ -1,21 +1,20 @@
 <template>
   <div>
     <p class="title is-6">
-      {{ $t("mint.expert.count", [value.length]) }}
+      {{ $t('mint.expert.count', [value.length]) }}
     </p>
     <b-field :label="$i18n.t('mint.expert.batchSend')">
       <b-input
-
         @input="handleInput"
         type="textarea"
-        placeholder="Distribute nfts to multiple addresses"
+        :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
         spellcheck="true"
-      ></b-input>
+        custom-class="ap-textarea"></b-input>
     </b-field>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { parseBatchAddresses } from './utils'
 
@@ -29,3 +28,9 @@ export default class AddressParser extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.ap-textarea {
+  height: 400px !important;
+}
+</style>

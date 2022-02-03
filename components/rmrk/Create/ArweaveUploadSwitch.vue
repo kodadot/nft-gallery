@@ -1,15 +1,17 @@
 <template>
   <b-field>
-    <b-switch
-      v-model="checkedValue"
-      :rounded="false"
-    >
-      {{ checkedValue ? $t('arweave.uploadYes') : $t('arweave.uploadNo') }}
+    <b-switch v-model="checkedValue" :rounded="false">
+      <div class="is-flex is-align-items-center">
+        <span class="mr-2">
+          {{ checkedValue ? $t('arweave.uploadYes') : $t('arweave.uploadNo') }}
+        </span>
+        <slot name="tooltip" />
+      </div>
     </b-switch>
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, ModelSync } from 'nuxt-property-decorator'
 
 @Component({})

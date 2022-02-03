@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: Kodadot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    command: yarn dev
+    ports:
+      - "9090:9090"
+    env_file: .env
