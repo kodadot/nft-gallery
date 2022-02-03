@@ -19,8 +19,20 @@ export interface NFTEntity<T> {
   nFTEntity: T
 }
 
-export interface NFTEntities<T> {
+export type NFTEntities<T> = {
   nFTEntities: {
     nodes: T[]
   }
 }
+
+export type NFTEntitiesWithCount<T> = {
+  nFTEntities: {
+    totalCount: number
+    nodes: T[]
+  }
+}
+
+export type WithData<T> = {
+  data: T
+}
+
