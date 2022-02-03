@@ -207,6 +207,7 @@ export default class Base extends Vue {
   private offset = 0
 
   @Prop(String) public id!: string;
+  $brand: any;
 
   get formatedId(): string {
     return `issuer: ${this.id}`
@@ -261,10 +262,29 @@ export default class Base extends Vue {
       nftList.map(({ metadata }: any) => metadata)
     )
     this.nfts = await storedPromise
-    this.nfts.forEach((m, i) => {
-        m.image = getSanitizer(m.image)(m.image)
-        console.log("🚀 ~ file: Base.vue ~ line 266 ~ Base ~ this.nfts.forEach ~ .image", m.image)
+
+    this.nfts.forEach(async (m, i) => {
+      if (!m) {
+        try {
+          const meta = await fetchNFTMetadata(nftList[i])
+          Vue.set(this.nfts, i, {
+            ...this.nfts[i],
+            ...meta,
+            image: getSanitizer(meta.image || '')(meta.image || '')
+          })
+          // update(nftList[i].metadata, () => meta)
+        } catch (e) {
+          console.warn('[ERR] unable to get metadata')
+        }
+      }
     })
+
+    // console.log(this.nfts)
+    // this.nfts.forEach((m, i) => {
+    //   console.log(m)
+    //     m.image = getSanitizer(m.image)(m.image)
+    //     console.log("🚀 ~ file: Base.vue ~ line 266 ~ Base ~ this.nfts.forEach ~ .image", m.image)
+    // })
     //console.log("🚀 ~ file: Base.vue ~ line 225 ~ Base ~ fetchNFT ~ this.nfts", this.nfts)
   }
 

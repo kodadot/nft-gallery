@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     trimString(value, maxChar) {
-      
+      console.log(value,"***");
       // TODO: Replace this with something that can truncate after the end of a word
       const length = value.length;
       if (length >= maxChar + 3) {
