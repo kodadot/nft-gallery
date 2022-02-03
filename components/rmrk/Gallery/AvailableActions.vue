@@ -89,6 +89,7 @@ export default class AvailableActions extends mixins(
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
+  @Prop() public originialOwner!: string
   @Prop() public price!: string
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
@@ -128,7 +129,9 @@ export default class AvailableActions extends mixins(
 
   get labelTwitter() {
     return `I'm sharing the joy from my recent purchase ${
-      this.ownerIdentity?.twitter ? `made by ${this.ownerIdentity.twitter}` : ''
+      this.ownerIdentity?.twitter
+        ? `made by ${this.ownerIdentity?.twitter}`
+        : ''
     }`
   }
 
@@ -215,7 +218,7 @@ export default class AvailableActions extends mixins(
     return `${window.location.origin}${this.$route.fullPath}`
   }
 
-  @Watch('currentOwnerId', { immediate: true })
+  @Watch('originialOwner', { immediate: true })
   async watchOwnerAddress(newAddress: Address, oldAddress: Address) {
     if (shouldUpdate(newAddress, oldAddress)) {
       this.identityOf(newAddress).then((id) => (this.ownerIdentity = id))
