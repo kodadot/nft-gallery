@@ -33,6 +33,7 @@ export default class ChainSelect extends Vue {
 
   set selected(value) {
     this.$store.dispatch('setUrlPrefix', value)
+    this.$router.push({ path: `/${value}` })
   }
 }
 </script>
