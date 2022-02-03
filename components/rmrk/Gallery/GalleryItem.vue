@@ -232,11 +232,18 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       this.$router.replace({ query: null } as any)
     })
 
-    this.$apollo.addSmartQuery('nft', {
+    this.$apollo.addSmartQuery<{ nft }>('nft', {
       client: this.urlPrefix,
       query: nftByIdMini,
+      manual: true,
       variables: {
         id: this.id,
+      },
+      result: ({ data }) => {
+        this.nft = {
+          ...this.nft,
+          ...data.nft,
+        }
       },
       pollInterval: 1000,
     })
