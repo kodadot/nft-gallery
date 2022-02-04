@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      :style="{ maxHeight: `${rowHeight}px` }"
       :class="{
         'description-wrapper': activeWrapper && hasWrapper,
         'row-one': row === 1 && activeWrapper && hasWrapper,
@@ -25,7 +26,7 @@ const components = {
 @Component({ components })
 export default class DescriptionWrapper extends Vue {
   @Prop(String) public text!: string
-  @Prop(Number) public row!: number
+  @Prop(Number) public rowHeight = 130
   protected activeWrapper = true
   private maxCharsWrapper = 125
 
@@ -40,11 +41,7 @@ export default class DescriptionWrapper extends Vue {
 </script>
 <style>
 .description-wrapper {
-  max-height: 130px;
   word-break: break-word;
   mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
-}
-.row-one {
-  max-height: 50px;
 }
 </style>
