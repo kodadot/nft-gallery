@@ -142,7 +142,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
       userAddress: this.account,
       hostAppName: 'KodaDot',
       hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-      hostLogoUrl: 'https://nft.kodadot.xyz/apple-touch-icon.png',
+      hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
       variant: 'desktop',
     }).show()
   }
