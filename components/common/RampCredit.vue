@@ -10,18 +10,17 @@
         address. <br />
         KYC might requried, but you can verify with your Revolut card.
       </b-message>
-      <p />
       <AccountSelect v-model="accountId" label="Account" />
       <b-button
         type="is-primary"
         tag="a"
         :href="
-          `https://ramp.network/buy/?swapAsset=KSM` +
+          `https://ramp.network/buy/?defaultAsset=KSM` +
           `&userAddress=${accountId}` +
           `&hostAppName=KodaDot` +
-          `&hostLogoUrl=https://nft.kodadot.xyz/kodadot_logo_v1_transparent_400px.png` +
-          `&finalUrl=https://nft.kodadot.xyz` +
-          `hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
+          `&hostLogoUrl=https://kodadot.xyz/apple-touch-icon.png` +
+          `&finalUrl=https://kodadot.xyz` +
+          `&hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
         "
         target="_blank"
         rel="noopener noreferrer">
@@ -34,15 +33,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   AccountSelect,
 }
 
 @Component({ components })
-export default class RampCredit extends Vue {
-  private accountId = ''
+export default class RampCredit extends mixins(AuthMixin) {
+  layout() {
+    return 'centered-half-layout'
+  }
 }
 </script>
