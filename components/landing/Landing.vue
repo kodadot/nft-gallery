@@ -80,6 +80,10 @@
         </div>
       </div>
 
+      <div v-if="prefix === 'rmrk'">
+        <LatestSales class="my-4" />
+      </div>
+
       <div class="homepage__box">
         <div class="homepage__box-content">
           <p>
@@ -125,7 +129,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-const components = {}
+const components = {
+  LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
+}
 @Component<Landing>({
   components,
 })

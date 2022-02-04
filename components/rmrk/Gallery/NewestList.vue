@@ -4,8 +4,8 @@
 
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('Latest sales') }}</h1>
-        <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
+        <h1 class="title is-2">Newest List</h1>
+        <p class="subtitle is-size-5">Discover the latest items on sale</p>
       </div>
       <div class="column has-text-right">
         <b-button
@@ -25,18 +25,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { getMany, update } from 'idb-keyval'
 import { getSanitizer } from '@/components/rmrk/utils'
-import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
+import newestListNft from '@/queries/unique/newestListNft.graphql'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 
-@Component<LatestSales>({
+@Component<NewestList>({
   components,
 })
-export default class LatestSales extends Vue {
+export default class NewestList extends Vue {
   private nfts: any[] = []
   private events: any[] = []
 
@@ -44,9 +45,9 @@ export default class LatestSales extends Vue {
     return this.$apollo.queries.nfts.loading
   }
 
-  public fetch() {
+  public async created() {
     this.$apollo.addSmartQuery('nfts', {
-      query: lastSoldNft,
+      query: newestListNft,
       manual: true,
       client: 'subsquid',
       loadingKey: 'isLoading',
@@ -61,7 +62,7 @@ export default class LatestSales extends Vue {
       ...e.nft,
       image: getSanitizer(e.nft.meta.image)(e.nft.meta.image),
     }))
-    // TODO: get cached data
+    // TODO: cached data
   }
 }
 </script>

@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Identicon from '@polkadot/vue-identicon'
 
 const components = {
@@ -91,10 +91,6 @@ export default class CarouselList extends Vue {
 
   get accountId(): string {
     return this.$store.getters.getAuthAddress
-  }
-
-  async created() {
-    console.log(this.nfts)
   }
 }
 </script>
