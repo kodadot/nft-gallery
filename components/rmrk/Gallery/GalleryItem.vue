@@ -1,182 +1,139 @@
 <template>
-  <section class="wrapper no-padding-desktop gallery-item">
-    <b-message class="message-box" type="is-primary" v-if="message">
-      <div class="columns">
-        <div class="column is-four-fifths">
-          <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-          <p class="subtitle is-size-5 subtitle-text">
-            {{ $t('mint.shareWithFriends', [nft.name]) }} △
-          </p>
-        </div>
-        <div class="column">
-          <Sharing onlyCopyLink />
-        </div>
-      </div>
-    </b-message>
-
-    <div class="columns" :class="{ 'fixed-height': isFullScreenView }">
-      <div
-        class="image-wrapper"
-        @mouseenter="showNavigation = true"
-        @mouseleave="showNavigation = false">
-        <button
-          id="theatre-view"
-          @click="toggleView"
-          v-if="!isLoading && imageVisible">
-          {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
-          {{ $t('view') }}
-        </button>
-        <div
-          class="column"
-          :class="{
-            'is-12 is-theatre': viewMode === 'theatre',
-            'is-6 is-offset-3': viewMode === 'default',
-          }">
-          <div
-            v-orientation="
-              viewMode === 'default' && !isFullScreenView && imageVisible
-            "
-            class="image-preview has-text-centered"
-            :class="{ fullscreen: isFullScreenView }">
-            <img
-              v-if="isFullScreenView"
-              :src="meta.image || '/placeholder.svg'"
-              :alt="meta.description || 'KodaDot NFT minted multimedia'" />
-            <b-image
-              v-else-if="imageVisible"
-              :src="meta.image"
-              placeholder="/placeholder.svg"
-              :alt="meta.description || 'KodaDot NFT minted multimedia'"
-              ratio="1by1"
-              @error="onImageError">
-            </b-image>
-            <div
-              v-else
-              class="media-container is-flex is-justify-content-center">
-              <MediaResolver
-                :src="meta.animation_url"
-                :poster="meta.image"
-                :description="meta.description"
-                :availableAnimations="[meta.animation_url]"
-                :mimeType="mimeType"
-                class="media-item" />
-            </div>
+  <BaseGalleryItem
+    :image="meta.image"
+    :animationUrl="meta.animation_url"
+    :description="meta.description"
+    :imageVisible="imageVisible"
+    :isLoading="isLoading"
+    :mimeType="mimeType"
+    @mouseEntered="showNavigation = true"
+    @mouseLeft="showNavigation = false">
+    <template v-slot:top v-if="message">
+      <b-message class="message-box" type="is-primary">
+        <div class="columns">
+          <div class="column is-four-fifths">
+            <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
+            <p class="subtitle is-size-5 subtitle-text">
+              {{ $t('mint.shareWithFriends', [nft.name]) }} △
+            </p>
           </div>
-          <Navigation
-            v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
-            :showNavigation="showNavigation"
-            :items="nftsFromSameCollection"
-            :currentId="nft.id" />
+          <div class="column">
+            <Sharing onlyCopyLink />
+          </div>
         </div>
-        <button
-          id="fullscreen-view"
-          @keyup.esc="minimize"
-          @click="toggleFullScreen"
-          v-if="!isLoading && imageVisible"
-          :class="{ fullscreen: isFullScreenView }">
-          <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
-          </b-icon>
-        </button>
-      </div>
-    </div>
+      </b-message>
+    </template>
+    <template v-slot:image>
+      <Navigation
+        v-if="nftsFromSameCollection && nftsFromSameCollection.length > 1"
+        :showNavigation="showNavigation"
+        :items="nftsFromSameCollection"
+        :currentId="nft.id" />
+    </template>
+    <template v-slot:main>
+      <div class="columns">
+        <div class="column is-6">
+          <Appreciation
+            :emotes="nft.emotes"
+            :accountId="accountId"
+            :currentOwnerId="nft.currentOwner"
+            :nftId="nft.id"
+            :burned="nft.burned" />
+          <div class="nft-title">
+            <Name :nft="nft" :isLoading="isLoading" />
+          </div>
 
-    <div class="columns">
-      <div class="column is-6">
-        <Appreciation
-          :emotes="nft.emotes"
-          :accountId="accountId"
-          :currentOwnerId="nft.currentOwner"
-          :nftId="nft.id"
-          :burned="nft.burned" />
-        <div class="nft-title">
-          <Name :nft="nft" :isLoading="isLoading" />
+          <div v-if="meta.description" class="block">
+            <p class="label">{{ $t('legend') }}</p>
+            <b-skeleton
+              :count="3"
+              size="is-large"
+              :active="isLoading"></b-skeleton>
+            <DescriptionWrapper
+              v-if="!isLoading"
+              :text="meta.description.replaceAll('\n', '  \n')" />
+          </div>
         </div>
 
-        <div v-if="meta.description" class="block">
-          <p class="label">{{ $t('legend') }}</p>
+        <div class="column is-6" v-if="detailVisible">
           <b-skeleton
-            :count="3"
+            :count="2"
             size="is-large"
             :active="isLoading"></b-skeleton>
-          <DescriptionWrapper
-            v-if="!isLoading"
-            :text="meta.description.replaceAll('\n', '  \n')" />
-        </div>
-      </div>
 
-      <div class="column is-6" v-if="detailVisible">
-        <b-skeleton :count="2" size="is-large" :active="isLoading"></b-skeleton>
-
-        <div class="columns">
-          <div class="column">
-            <div class="nft-title">
-              <Detail :nft="nft" :isLoading="isLoading" />
+          <div class="columns">
+            <div class="column">
+              <div class="nft-title">
+                <Detail :nft="nft" :isLoading="isLoading" />
+              </div>
             </div>
-          </div>
-          <div
-            class="column is-flex is-flex-direction-column is-justify-content-space-between">
-            <div class="card bordered mb-4" aria-id="contentIdForA11y3">
-              <div class="card-content money-cursor">
-                <template v-if="hasPrice">
-                  <div class="label">
-                    {{ $t('price') }}
-                  </div>
-                  <div class="price-block__container">
-                    <div class="price-block__original">
-                      <Money :value="nft.price" inline />
+            <div
+              class="column is-flex is-flex-direction-column is-justify-content-space-between">
+              <div class="card bordered mb-4" aria-id="contentIdForA11y3">
+                <div :class="{ 'money-cursor': hasPrice }" class="card-content">
+                  <template v-if="hasPrice">
+                    <div class="label">
+                      {{ $t('price') }}
                     </div>
-                    <b-button
-                      v-if="nft.currentOwner === accountId"
-                      type="is-warning"
-                      outlined
-                      @click="handleUnlist">
-                      {{ $t('Unlist') }}
-                    </b-button>
+                    <div class="price-block__container">
+                      <div class="price-block__original">
+                        <Money :value="nft.price" inline />
+                      </div>
+                      <b-button
+                        v-if="nft.currentOwner === accountId"
+                        type="is-warning"
+                        outlined
+                        @click="handleUnlist">
+                        {{ $t('Unlist') }}
+                      </b-button>
+                    </div>
+                  </template>
+
+                  <div class="content pt-4">
+                    <p class="subtitle">
+                      <IndexerGuard show-message class="pb-4">
+                        <AvailableActions
+                          ref="actions"
+                          :account-id="accountId"
+                          :current-owner-id="nft.currentOwner"
+                          :price="nft.price"
+                          :originialOwner="nft.issuer"
+                          :nft-id="nft.id"
+                          :ipfs-hashes="[
+                            nft.image,
+                            nft.animation_url,
+                            nft.metadata,
+                          ]"
+                          @change="handleAction" />
+                      </IndexerGuard>
+                      <Auth />
+                    </p>
                   </div>
-                </template>
 
-                <div class="content pt-4">
-                  <p class="subtitle">
-                    <IndexerGuard show-message class="pb-4">
-                      <AvailableActions
-                        ref="actions"
-                        :account-id="accountId"
-                        :current-owner-id="nft.currentOwner"
-                        :price="nft.price"
-                        :nft-id="nft.id"
-                        :ipfs-hashes="[
-                          nft.image,
-                          nft.animation_url,
-                          nft.metadata,
-                        ]"
-                        @change="handleAction" />
-                    </IndexerGuard>
-                    <Auth />
-                  </p>
+                  <Sharing class="mb-4" />
                 </div>
-
-                <Sharing class="mb-4" />
               </div>
             </div>
           </div>
+          <PriceChart
+            class="mt-4"
+            :priceChartData="priceChartData"
+            :openOnDefault="!compactGalleryItem" />
         </div>
-        <PriceChart
-          class="mt-4"
-          :priceChartData="priceChartData"
-          :openOnDefault="!compactGalleryItem" />
       </div>
-    </div>
-
-    <div class="columns">
-      <div class="column">
-        <History
-          v-if="!isLoading"
-          :events="nft.events"
-          :open-on-default="!compactGalleryItem"
-          @setPriceChartData="setPriceChartData" />
+    </template>
+    <template v-slot:footer>
+      <div class="columns">
+        <div class="column">
+          <History
+            v-if="!isLoading"
+            :events="nft.events"
+            :open-on-default="!compactGalleryItem"
+            @setPriceChartData="setPriceChartData" />
+        </div>
       </div>
-    </div>
-  </section>
+    </template>
+  </BaseGalleryItem>
 </template>
 
 <script lang="ts">
@@ -190,6 +147,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
+import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -218,6 +176,8 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
+    BaseGalleryItem: () =>
+      import('@/components/shared/gallery/BaseGalleryItem.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -225,8 +185,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 })
 export default class GalleryItem extends mixins(PrefixMixin) {
   private id = ''
-  // private accountId: string = '';
-  private passsword = ''
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
@@ -244,6 +202,32 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
+  async fetch() {
+    try {
+      const {
+        data: { nFTEntity },
+      } = await this.$apollo.query({
+        client: this.urlPrefix,
+        query: nftById,
+        variables: {
+          id: this.id,
+        },
+      })
+
+      this.nft = {
+        ...nFTEntity,
+        emotes: nFTEntity?.emotes?.nodes,
+      }
+
+      this.fetchMetadata()
+      this.fetchCollectionItems()
+
+      this.isLoading = false
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   public async created() {
     this.checkId()
     exist(this.$route.query.message, (val) => {
@@ -251,28 +235,21 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       this.$router.replace({ query: null } as any)
     })
 
-    try {
-      // const nft = await rmrkService.getNFT(this.id);
-      this.$apollo.addSmartQuery('nft', {
-        client: this.urlPrefix,
-        query: nftById,
-        variables: {
-          id: this.id,
-        },
-        update: ({ nFTEntity }) => ({
-          ...nFTEntity,
-          emotes: nFTEntity?.emotes?.nodes,
-        }),
-        result: () => {
-          Promise.all([this.fetchMetadata(), this.fetchCollectionItems()])
-        },
-        // pollInterval: 5000,
-      })
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-    }
-
-    this.isLoading = false
+    this.$apollo.addSmartQuery<{ nft }>('nft', {
+      client: this.urlPrefix,
+      query: nftByIdMini,
+      manual: true,
+      variables: {
+        id: this.id,
+      },
+      result: ({ data }) => {
+        this.nft = {
+          ...this.nft,
+          ...data.nft,
+        }
+      },
+      pollInterval: 1000,
+    })
   }
 
   onImageError(e: any) {
@@ -327,7 +304,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
             this.nft,
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
-      console.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
       this.meta = {
@@ -339,11 +315,9 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ),
       }
 
-      // console.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        // console.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![
           MediaType.VIDEO,
@@ -563,23 +537,15 @@ hr.comment-divider {
   }
 
   .message-box {
-    background: $dark!important;
+    background: $dark !important;
     border: 2px solid $primary;
     box-shadow: $dropdown-content-shadow;
     .subtitle-text {
       color: $lightpink;
     }
     section {
-      border: none!important;
+      border: none !important;
     }
   }
 }
-</style>
-
-<style lang="scss">
-  .message-box {
-     .message-body {
-      border: none;
-   }
-  }
 </style>

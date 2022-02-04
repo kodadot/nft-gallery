@@ -17,6 +17,14 @@ export const extractCid = (ipfsLink?: string): string => {
   return match ? match[1] : ''
 }
 
+export const fastExtract = (ipfsLink?: string): string => {
+  if (!ipfsLink) {
+    return ''
+  }
+
+  return ipfsLink.replace('ipfs://ipfs/', '')
+}
+
 type IpfsToArweaveType = {
   arweaveId: string
   ipfsHash: string

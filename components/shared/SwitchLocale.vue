@@ -1,24 +1,22 @@
 <template>
-  <div class="language-switcher">
-    <b-dropdown aria-role="list">
-      <template #trigger="{ active }">
-        <b-button
-          type="is-primary"
-          :label="userFlag"
-          :icon-right="active ? 'caret-up' : 'caret-down'" />
-      </template>
-      <b-dropdown-item
-        aria-role="listitem"
-        v-for="lang in langsFlags"
-        :key="lang.value"
-        :value="userLang"
-        :class="{ 'is-active': userLang === lang.value }"
-        @click="setUserLang(lang.value)">
-        {{ lang.flag }}
-        {{ lang.label }}
-      </b-dropdown-item>
-    </b-dropdown>
-  </div>
+  <b-dropdown aria-role="list">
+    <template #trigger="{ active }">
+      <b-button
+        type="is-primary is-bordered"
+        :label="userFlag"
+        :icon-right="active ? 'caret-up' : 'caret-down'" />
+    </template>
+    <b-dropdown-item
+      aria-role="listitem"
+      v-for="lang in langsFlags"
+      :key="lang.value"
+      :value="userLang"
+      :class="{ 'is-active': userLang === lang.value }"
+      @click="setUserLang(lang.value)">
+      {{ lang.flag }}
+      {{ lang.label }}
+    </b-dropdown-item>
+  </b-dropdown>
 </template>
 
 <script lang="ts">
@@ -45,15 +43,3 @@ export default class LocaleChanger extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-.language-switcher {
-  padding-left: 12px;
-    .is-primary {
-      border: 0;
-      border-top: 2px solid $primary!important;
-  }
-}
-</style>

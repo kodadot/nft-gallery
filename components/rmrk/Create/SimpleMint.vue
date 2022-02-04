@@ -185,13 +185,22 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
-import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
+import {
+  isFileWithoutType,
+  isSecondFileVisible,
+  nsfwAttribute,
+  offsetAttribute,
+  secondaryFileVisible,
+} from '@/components/rmrk/Create/mintUtils'
 import {
   sendFunction,
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { uploadDirect } from '@/utils/directUpload'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import { createMetadata } from '@kodadot1/minimark'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -227,8 +236,8 @@ export default class SimpleMint extends mixins(
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
   private uploadMode = true
-  private file: Blob | null = null
-  private secondFile: Blob | null = null
+  private file: File | null = null
+  private secondFile: File | null = null
   private password = ''
   private hasToS = false
   private nsfw = false
@@ -657,49 +666,51 @@ export default class SimpleMint extends mixins(
   }
 
   public async constructMeta(): Promise<string | undefined> {
-    if (!this.file) {
+    const { file, secondFile, rmrkMint, meta: m } = this
+    if (!file) {
       throw new ReferenceError('No file found!')
     }
 
-    this.meta = {
-      ...this.meta,
-      attributes: [
-        ...(this.rmrkMint?.tags || []),
-        ...this.nsfwAttribute(),
-        ...this.offsetAttribute(),
-      ],
-      external_url: 'https://nft.kodadot.xyz',
-      type: this.file.type,
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
+    const fileHash = await pinFileToIPFS(file, token)
+    const secondFileHash = secondFile
+      ? await pinFileToIPFS(secondFile, token)
+      : undefined
+
+    let imageHash: string | undefined = fileHash
+    let animationUrl: string | undefined = undefined
+
+    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+    if (secondaryFileVisible(file)) {
+      animationUrl = fileHash
+      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
     }
 
-    try {
-      const { token }: PinningKey = await this.$store.dispatch(
-        'pinning/fetchPinningKey',
-        this.accountId
-      )
-      const fileHash = await pinFileToIPFS(this.file, token)
+    const attributes = [
+      ...nsfwAttribute(this.nsfw),
+      ...offsetAttribute(this.hasCarbonOffset),
+    ]
 
-      if (!this.secondaryFileVisible) {
-        this.meta.image = unSanitizeIpfsUrl(fileHash)
-        this.meta.image_ar = this.arweaveUpload
-          ? await ipfsToArweave(fileHash)
-          : ''
-      } else {
-        this.meta.animation_url = unSanitizeIpfsUrl(fileHash)
-        if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, token)
-          this.meta.image = unSanitizeIpfsUrl(coverImageHash)
-        }
-      }
+    const meta = createMetadata(
+      rmrkMint.name,
+      m.description || '',
+      imageHash,
+      animationUrl,
+      attributes,
+      'https://kodadot.xyz',
+      file.type
+    )
 
-      // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta, extractCid(this.meta.image))
-      return unSanitizeIpfsUrl(metaHash)
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new ReferenceError(e.message)
-      }
+    const metaHash = await pinJson(meta, imageHash)
+
+    if (file) {
+      uploadDirect(file, metaHash).catch(console.warn)
     }
+    return unSanitizeIpfsUrl(metaHash)
   }
 
   private toRemark(remark: string) {

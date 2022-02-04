@@ -2,6 +2,17 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
+      <ShareNetwork
+        v-if="identity && identity.twitter && this.isOwner"
+        tag="button"
+        class="button is-info is-dark is-outlined is-fullwidth twitter-btn"
+        network="twitter"
+        :hashtags="'KodaDot'"
+        :url="realworldFullPath"
+        :title="labelTwitter">
+        <b-icon pack="fab" icon="twitter" />
+        <span class="joy">SHARE JOY</span>
+      </ShareNetwork>
       <b-button
         v-for="action in actions"
         :key="action"
@@ -29,17 +40,24 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { get } from 'idb-keyval'
+import { identityStore } from '@/utils/idbStore'
+import { emptyObject } from '~/utils/empty'
+
+type Address = string | GenericAccountId | undefined
+type IdentityFields = Record<string, string>
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
@@ -73,6 +91,7 @@ export default class AvailableActions extends mixins(
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
+  @Prop() public originialOwner!: string
   @Prop() public price!: string
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
@@ -80,6 +99,9 @@ export default class AvailableActions extends mixins(
   private meta: string | number = ''
   protected isLoading = false
   protected status = ''
+  protected label = ''
+  private identity: IdentityFields = emptyObject<IdentityFields>()
+  private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
 
   public created() {
     this.initKeyboardEventHandler({
@@ -124,6 +146,14 @@ export default class AvailableActions extends mixins(
     return this.$store.getters['preferences/getReplaceBuyNowWithYolo']
   }
 
+  get labelTwitter() {
+    return `I'm sharing the joy from my recent purchase ${
+      this.ownerIdentity?.twitter
+        ? `made by ${this.ownerIdentity?.twitter}`
+        : ''
+    }`
+  }
+
   protected iconType(value: string) {
     return iconResolver[value]
   }
@@ -138,6 +168,18 @@ export default class AvailableActions extends mixins(
       this.selectedAction = ''
       this.meta = ''
     }
+  }
+
+  public async identityOf(account: Address) {
+    const address: string = this.resolveAddress(account)
+    const identity = await get(address, identityStore)
+    return identity
+  }
+
+  private resolveAddress(account: Address): string {
+    return account instanceof GenericAccountId
+      ? account.toString()
+      : account || ''
   }
 
   get isActionEmpty() {
@@ -189,6 +231,24 @@ export default class AvailableActions extends mixins(
 
   get isSend() {
     return this.selectedAction === 'SEND'
+  }
+
+  get realworldFullPath() {
+    return `${window.location.origin}${this.$route.fullPath}`
+  }
+
+  @Watch('originialOwner', { immediate: true })
+  async watchOwnerAddress(newAddress: Address, oldAddress: Address) {
+    if (shouldUpdate(newAddress, oldAddress)) {
+      this.identityOf(newAddress).then((id) => (this.ownerIdentity = id))
+    }
+  }
+
+  @Watch('accountId', { immediate: true })
+  async watchAddress(newAddress: Address, oldAddress: Address) {
+    if (shouldUpdate(newAddress, oldAddress)) {
+      this.identityOf(newAddress).then((id) => (this.identity = id))
+    }
   }
 
   protected updateMeta(value: string | number) {
@@ -321,3 +381,16 @@ export default class AvailableActions extends mixins(
   }
 }
 </script>
+<style scoped lang="scss">
+.joy {
+  font-size: 16px;
+  margin-top: 2px;
+}
+.twitter-btn {
+  border-color: #1c9cef !important;
+  color: #1c9cef !important;
+  &:hover {
+    color: #fff !important;
+  }
+}
+</style>
