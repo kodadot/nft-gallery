@@ -251,7 +251,7 @@ export default class Profile extends mixins(PrefixMixin) {
 
   get defaultNFTImage(): string {
     const url = new URL(window.location.href)
-    return `${url.protocol}//${url.hostname}/koda300x300.svg`
+    return `${url.protocol}//${url.hostname}/placeholder.webp`
   }
 
   protected async fetchProfile() {

@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <b-collapse
-      class="card"
+      class="card bordered"
       animation="slide"
       aria-id="contentIdForHistory"
       :open="isOpen">

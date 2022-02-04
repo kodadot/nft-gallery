@@ -21,7 +21,7 @@
           :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
-              :to="`collection/${collection.id}`"
+              :to="`/statemine/collection/${collection.id}`"
               tag="div"
               class="collection-card__skeleton">
               <div class="card-image">
@@ -32,7 +32,7 @@
               </div>
 
               <div class="card-content">
-                <nuxt-link :to="`collection/${collection.id}`">
+                <nuxt-link :to="`/statemine/collection/${collection.id}`">
                   <CollectionDetail
                     :nfts="collection.nfts.nodes"
                     :name="collection.name" />
@@ -54,26 +54,16 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 
-import { CollectionWithMeta, Collection, Metadata } from '../service/scheme'
-import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
-import 'lazysizes'
-
-import collectionListWithSearch from '@/queries/unique/collectionListWithSearch.graphql'
 import { getMany, update } from 'idb-keyval'
+import 'lazysizes'
 import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Collection, CollectionWithMeta, Metadata } from '../service/scheme'
+import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 
-interface Image extends HTMLImageElement {
-  ffInitialized: boolean
-}
-
-type CollectionType = CollectionWithMeta
 const components = {
-  GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   CollectionDetail: () =>
     import('@/components/rmrk/Gallery/CollectionDetail.vue'),
@@ -86,8 +76,6 @@ const components = {
 })
 export default class Collections extends mixins(PrefixMixin) {
   private collections: Collection[] = []
-  private meta: Metadata[] = []
-  private placeholder = '/placeholder.webp'
   private currentValue = 1
   private total = 0
   private loadingState = 0
@@ -217,11 +205,6 @@ export default class Collections extends mixins(PrefixMixin) {
 
   get results() {
     return this.collections as CollectionWithMeta[]
-  }
-
-  onError(e: Event) {
-    const target = e.target as Image
-    target.src = this.placeholder
   }
 }
 </script>

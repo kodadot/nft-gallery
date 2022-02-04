@@ -1,14 +1,19 @@
 #import "../fragments/nft.graphql"
 #import "../fragments/collectionMeta.graphql"
 
-query nftListCollected($account: String!, $first: Int!, $offset: Int) {
+query nftListCollected(
+  $account: String!
+  $first: Int!
+  $offset: Int
+  $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
+) {
   nFTEntities(
     filter: {
       issuer: { notEqualTo: $account }
       currentOwner: { equalTo: $account }
       burned: { distinctFrom: true }
     }
-    orderBy: BLOCK_NUMBER_DESC
+    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
   ) {

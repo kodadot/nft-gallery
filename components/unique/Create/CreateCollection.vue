@@ -4,7 +4,7 @@
     <BaseCollectionForm v-bind.sync="base">
       <template v-slot:footer>
         <CustomAttributeInput
-          :max="5"
+          :max="10"
           v-model="attributes"
           class="mb-3"
           visible="collapse.collection.attributes.show"

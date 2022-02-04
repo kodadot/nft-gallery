@@ -148,3 +148,4 @@ We have list of frequent participants in our codebase.
 
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
+- [KodaDot Documentation](https://docs.kodadot.xyz)

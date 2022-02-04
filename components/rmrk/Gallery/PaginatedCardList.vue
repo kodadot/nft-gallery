@@ -15,7 +15,8 @@
       :items="items"
       horizontalLayout
       :route="route"
-      :link="link" />
+      :link="link"
+      :listed="searchQuery.listed" />
     <Pagination
       class="pt-5 pb-5"
       replace
@@ -30,6 +31,8 @@ import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
+import { mapOnlyMetadata } from '~/utils/mappers'
 
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
@@ -104,8 +107,12 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
 
   protected async handleResult({ data }: any) {
     if (data) {
-      this.total = data.nFTEntities.totalCount
-      this.items = data.nFTEntities.nodes
+      const { nodes, totalCount } = data.nFTEntities
+      await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
+        console.warn
+      )
+      this.total = totalCount
+      this.items = nodes
       this.$emit('change', this.total)
     }
   }
