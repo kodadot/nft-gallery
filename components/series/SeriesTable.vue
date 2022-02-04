@@ -90,7 +90,7 @@
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
-          <Money :value="props.row.volume" inline />
+          <Money :value="props.row.volume" inline hideUnit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -184,7 +184,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline />
+          <Money :value="props.row.floorPrice" inline hideUnit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>

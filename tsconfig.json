@@ -21,6 +21,7 @@
       "webpack",
       "webpack-env",
       "@nuxt/types",
+      "@nuxtjs/i18n",
       "@types/node",
       "vue-apollo",
       "@types/jest"

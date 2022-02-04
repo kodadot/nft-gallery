@@ -26,9 +26,9 @@ body {
       }
     }
   }
-.autocomplete .dropdown-item {
-  padding-right: 1px;
-}
+  .autocomplete .dropdown-item {
+    padding-right: 1px;
+  }
   .select select,
   .taginput .taginput-container.is-focusable,
   .textarea,
@@ -109,7 +109,7 @@ body {
   }
 
   a {
-    color: lightpink;
+    color: $lightpink;
   }
 
   .message.is-primary {
@@ -149,6 +149,10 @@ body {
     color: $text !important;
   }
 
+  .card-header {
+    box-shadow: none !important;
+  }
+
   .is-color-pink {
     color: $primary-light;
   }
@@ -182,10 +186,15 @@ body {
   opacity: 0;
 }
 
+button.button.is-bordered {
+  border: 0;
+  border-top: 2px solid $primary !important;
+}
+
 .card.bordered {
   border-radius: 0 !important;
   box-shadow: none;
-  border: 2px solid $primary;
+  border-top: 2px solid $primary;
 
   &-content {
     padding-left: 1rem;

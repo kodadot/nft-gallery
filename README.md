@@ -2,7 +2,7 @@
 
 ![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
 
-- Opensea for Polkadot, NFT paraverse of parachains, builded as public good.
+- Opensea for Polkadot, NFT paraverse of parachains, built as public good.
 - [First Time here?](FIRST_TIME.md)
 
 ![Darling in the Franxx](https://media.giphy.com/media/10YWqUivkQPeeJWD3u/giphy.gif)
@@ -26,12 +26,15 @@
 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
-Thank to [contributors-img](https://contrib.rocks).
+Our thanks go to [contributors-img](https://contrib.rocks).
 
-### Brief code structure
+### Amount of Rewards inside
 
-![Visualization of this repo](.github/diagram.svg)
-[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
+[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
 
 ### Hard facts about KodaDot development
 
@@ -64,15 +67,13 @@ Thank to [contributors-img](https://contrib.rocks).
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=resolved+issues&show_trend=true&token=MyayTJdwd-Fr4mnmUdMUxHik)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 
-### Amount of Rewards inside
+### Brief code structure
 
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
-[![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
+![Visualization of this repo](.github/diagram.svg)
+[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
-<!-- ### Is it maintained? -- I guess if its not under 10d not worth showing off
+
+<!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
 
@@ -129,7 +130,7 @@ Please follow our [code of conduct](CODE_OF_CONDUCT.md) and **[contribution guid
 
 ## Support the project ⭐
 
-If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us getting known and grow the community. 🙏 We will really appreaciate that!
+If you feel awesome and want to support us in a small way, please consider starring and sharing the repo! This helps us to get known and grow the community. 🙏 We will really appreciate that!
 
 ## Patronage 💸
 
@@ -148,3 +149,4 @@ We have list of frequent participants in our codebase.
 
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
+- [KodaDot Documentation](https://docs.kodadot.xyz)

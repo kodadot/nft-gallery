@@ -44,7 +44,7 @@
               v-slot="props">
               <router-link
                 :to="{
-                  name: 'profile',
+                  name: 'rmrk-u-id',
                   params: { id: props.row.From },
                 }">
                 <Identity :address="props.row.From" inline noOverflow />
@@ -168,6 +168,7 @@ export default class History extends mixins(ChainMixin) {
         event['Type'] = i18n.t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
         event['Type'] = i18n.t('nft.event.CONSUME')
         event['From'] = newEvent['caller']

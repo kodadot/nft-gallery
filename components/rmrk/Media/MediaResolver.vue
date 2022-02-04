@@ -5,6 +5,7 @@
     :src="src"
     :poster="poster"
     :description="description"
+    :preview="preview"
     :availableAnimations="availableAnimations" />
 </template>
 
@@ -39,34 +40,10 @@ export default class MediaResolver extends Vue {
   @Prop(String) public poster?: string
   @Prop(String) public description?: string
   @Prop(Array) public availableAnimations?: string[]
+  @Prop(Boolean) public preview!: boolean
 
   get resolveComponent() {
     return resolveMedia(this.mimeType) + SUFFIX
   }
-
-  // get visible() {
-  //   return this.src && this.mimeType
-  // }
-
-  // mounted() {
-  //   this.fetchContentType(this.src)
-  // }
-
-  // @Watch('src')
-  // private async watchSrc(val: string, oldVal: string) {
-  //   if (shouldUpdate(val, oldVal)) {
-  //     await this.fetchContentType(val)
-  //   }
-  // }
-
-  // async fetchContentType(val: string) {
-  //   try {
-  //     const { headers } = await api.get(val);
-  //     this.resolveComponent =
-  // //   } catch (e) {
-  //     console.warn(`[MEDIA RESOLVER] Unable to get content type of ${val}`)
-  //   }
-
-  // }
 }
 </script>

@@ -8,7 +8,8 @@
           type="search"
           v-model="searchQuery"
           icon="search"
-          expanded>
+          expanded
+          class="input-search">
         </b-input>
       </b-field>
       <BasicSwitch
@@ -17,6 +18,7 @@
         :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
         size="is-medium"
         labelColor="is-success"
+        :disabled="disableToggle"
         :message="$i18n.t('tooltip.buy')" />
       <slot />
     </b-field>
@@ -42,6 +44,7 @@ export default class SearchBar extends Vue {
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public disableToggle!: boolean
 
   protected isVisible = false
 
@@ -144,11 +147,18 @@ export default class SearchBar extends Vue {
 </style>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .field-group-container {
   .is-grouped-multiline {
     flex-wrap: initial !important;
     @media screen and (max-width: 768px) {
       flex-wrap: wrap !important;
+    }
+  }
+  .input-search {
+    input {
+      border: 1px solid $primary!important;
     }
   }
 }

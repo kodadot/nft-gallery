@@ -1,11 +1,16 @@
 <template>
-  <div class="wrapper section no-padding-desktop gallery-item mb-6">
-    <div class="container">
-      <b-message type="is-primary" v-if="message">
+  <BaseGalleryItem
+    :image="meta.image"
+    :animationUrl="meta.animation_url"
+    :description="meta.description"
+    :imageVisible="imageVisible"
+    :isLoading="isLoading">
+    <template v-slot:top v-if="message">
+      <b-message class="message-box" type="is-primary">
         <div class="columns">
           <div class="column is-four-fifths">
             <p class="title is-3 has-text-black">{{ $t('mint.success') }} 🎉</p>
-            <p class="subtitle is-size-5 has-text-black">
+            <p class="subtitle is-size-5 subtitle-text">
               {{ $t('mint.shareWithFriends', [nft.name]) }} △
             </p>
           </div>
@@ -14,70 +19,10 @@
           </div>
         </div>
       </b-message>
-      <div class="columns">
-        <div class="image-wrapper">
-          <button
-            id="theatre-view"
-            @click="toggleView"
-            v-if="!isLoading && imageVisible">
-            {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
-            {{ $t('view') }}
-          </button>
-          <div
-            class="column"
-            :class="{
-              'is-12 is-theatre': viewMode === 'theatre',
-              'is-6 is-offset-3': viewMode === 'default',
-            }">
-            <div
-              v-orientation="
-                viewMode === 'default' && !isFullScreenView && imageVisible
-              "
-              class="image-preview has-text-centered"
-              :class="{ fullscreen: isFullScreenView }">
-              <b-image
-                v-if="!isLoading && imageVisible && !meta.animation_url"
-                :src="meta.image || '/placeholder.svg'"
-                src-fallback="/placeholder.svg'"
-                alt="KodaDot NFT minted multimedia"
-                ratio="1by1"
-                @error="onImageError"></b-image>
-              <img
-                class="fullscreen-image"
-                :src="meta.image || '/placeholder.svg'"
-                alt="KodaDot NFT minted multimedia" />
-              <b-skeleton
-                height="524px"
-                size="is-large"
-                :active="isLoading"></b-skeleton>
-              <MediaResolver
-                v-if="meta.animation_url"
-                :class="{ withPicture: imageVisible }"
-                :src="meta.animation_url"
-                :mimeType="mimeType" />
-            </div>
-          </div>
-          <button
-            id="fullscreen-view"
-            @keyup.esc="minimize"
-            @click="toggleFullScreen"
-            v-if="!isLoading && imageVisible"
-            :class="{ fullscreen: isFullScreenView }">
-            <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
-            </b-icon>
-          </button>
-        </div>
-      </div>
-
+    </template>
+    <template v-slot:main>
       <div class="columns">
         <div class="column is-6">
-          <Appreciation
-            v-if="emoteVisible"
-            :emotes="nft.emotes"
-            :accountId="accountId"
-            :currentOwnerId="nft.currentOwner"
-            :nftId="nft.id"
-            :burned="nft.burned" />
           <div class="nft-title">
             <Name :nft="nft" :isLoading="isLoading" />
           </div>
@@ -114,24 +59,11 @@
             <div
               class="column is-flex is-flex-direction-column is-justify-content-space-between">
               <template v-if="detailVisible && !nft.burned">
-                <!-- <PackSaver v-if="accountId" :accountId="accountId" :currentOwnerId="nft.currentOwner" :nftId="nft.id" /> -->
-                <div class="card card-actions mb-4" aria-id="contentIdForA11y3">
+                <div class="card bordered mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
                     <template v-if="hasPrice">
                       <div class="label">
                         {{ $t('price') }}
-                      </div>
-                      <div class="price-block__container">
-                        <div class="price-block__original">
-                          {{ nft.price | formatBalance(12, 'KSM') }}
-                        </div>
-                        <b-button
-                          v-if="nft.currentOwner === accountId"
-                          type="is-warning"
-                          outlined
-                          @click="handleUnlist">
-                          {{ $t('Unlist') }}
-                        </b-button>
                       </div>
                     </template>
                     <div class="content pt-4">
@@ -175,13 +107,8 @@
             :active="isLoading"></b-skeleton>
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <History v-if="!isLoading" :events="nft.events" />
-        </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </BaseGalleryItem>
 </template>
 
 <script lang="ts">
@@ -232,6 +159,8 @@ import onApiConnect from '@/utils/api/general'
     DangerModal: () =>
       import('@/components/unique/Gallery/Item/DangerModal.vue'),
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
+    BaseGalleryItem: () =>
+      import('@/components/shared/gallery/BaseGalleryItem.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -265,11 +194,13 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     this.fetchCollection()
     onApiConnect((api) => {
       this.loadMagic()
-      this.subscribe(
-        api.query.uniques.asset,
-        [this.collectionId, this.id],
-        this.observeOwner
-      )
+      if (api.query.uniques) {
+        this.subscribe(
+          api.query.uniques.asset,
+          [this.collectionId, this.id],
+          this.observeOwner
+        )
+      }
     })
   }
 
@@ -295,19 +226,20 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       const nftId = this.id || 0
 
       let nftQ = await api.query.uniques
-        .instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
+        ?.instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
         .then((res) => res.unwrapOr(null))
 
       if (!nftQ) {
         console.warn('nft with no metadata, trying collection')
         nftQ = await api.query.uniques
-          .classMetadataOf<Option<ClassMetadata>>(this.collectionId)
+          ?.classMetadataOf<Option<ClassMetadata>>(this.collectionId)
           .then((res) => res.unwrapOr(null))
       }
 
       const nftData = nftQ?.toHuman()
       if (!nftData?.data) {
-        showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
+        console.warn(`No Metadata with ID ${nftId}`)
+        // showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
         return
       }
 
@@ -481,8 +413,8 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 @import '@/styles/variables';
 
 hr.comment-divider {
-  border-top: 1px solid lightpink;
-  border-bottom: 1px solid lightpink;
+  border-top: 1px solid $lightpink;
+  border-bottom: 1px solid $lightpink;
 }
 
 .gallery-item {

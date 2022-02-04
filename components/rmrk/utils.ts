@@ -58,12 +58,8 @@ const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
   arweaveProviders[key]
 
-export const zip = <T1, T2, T3>(
-  a: T1[],
-  b: T2[],
-  cb?: (el: (T1 | T2)[]) => T3
-): T3[] | (T1 | T2)[][] => {
-  const res = a.map((k, i) => [k, b[i]])
+export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: [T1, T2]) => T3): T3[] | [T1, T2][] => {
+  const res: [T1, T2][] = a.map((k, i) => [k, b[i]])
 
   if (cb) {
     return res.map(cb)
@@ -95,7 +91,6 @@ export const fetchMetadata = async <T>(
     }
 
     const { status, data } = await api.get(sanitizer(rmrk.metadata))
-    console.log('IPFS data', status, data)
     if (status < 400) {
       return data as T
     }
@@ -106,27 +101,7 @@ export const fetchMetadata = async <T>(
   return emptyObject<T>()
 }
 
-export const fetchRmrkMeta = async (
-  rmrk: RMRK
-): Promise<CollectionMetadata> => {
-  try {
-    if (!rmrk.view.metadata) {
-      return emptyObject<CollectionMetadata>()
-    }
-
-    const { status, data } = await api.get(sanitizeIpfsUrl(rmrk.view.metadata))
-    console.log('IPFS data', status, data)
-    if (status < 400) {
-      return data as CollectionMetadata
-    }
-  } catch (e) {
-    console.warn('IPFS Err', e)
-  }
-
-  return emptyObject<CollectionMetadata>()
-}
-
-export const unSanitizeArweaveId = (url: string): string => {
+export const unSanitizeArweaveId = (url: string): string  => {
   return unSanitizeUrl(url, 'ar://')
 }
 

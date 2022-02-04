@@ -15,81 +15,81 @@ export type Scalars = {
 }
 
 export type RemarkEntity = {
-  __typename?: 'RemarkEntity'
+  __typename: 'RemarkEntity'
   id: Scalars['ID']
   value: Scalars['String']
   caller: Scalars['String']
   blockNumber: Scalars['String']
-  interaction?: Optional<Scalars['String']>
+  interaction: Optional<Scalars['String']>
 }
 
 export type FailedEntity = {
-  __typename?: 'FailedEntity'
+  __typename: 'FailedEntity'
   id: Scalars['ID']
   value: Scalars['String']
   reason: Scalars['String']
-  interaction?: Optional<Scalars['String']>
+  interaction: Optional<Scalars['String']>
 }
 
 export type CollectionEntity = {
-  __typename?: 'CollectionEntity'
-  version?: Optional<Scalars['String']>
-  name?: Optional<Scalars['String']>
+  __typename: 'CollectionEntity'
+  version: Optional<Scalars['String']>
+  name: Optional<Scalars['String']>
   max: Scalars['Int']
-  issuer?: Optional<Scalars['String']>
-  symbol?: Optional<Scalars['String']>
+  issuer: Optional<Scalars['String']>
+  symbol: Optional<Scalars['String']>
   id: Scalars['ID']
-  metadata?: Optional<Scalars['String']>
-  currentOwner?: Optional<Scalars['String']>
-  nfts?: Optional<Array<NftEntity>>
-  events?: Optional<Array<CollectionEvent>>
-  blockNumber?: Optional<Scalars['BigInt']>
-  meta?: Optional<MetadataEntity>
+  metadata: Optional<Scalars['String']>
+  currentOwner: Optional<Scalars['String']>
+  nfts: Optional<Array<NftEntity>>
+  events: Optional<Array<CollectionEvent>>
+  blockNumber: Optional<Scalars['BigInt']>
+  meta: Optional<MetadataEntity>
   createdAt: Scalars['DateTime']
 }
 
 export type NftEntity = {
-  __typename?: 'NFTEntity'
-  name?: Optional<Scalars['String']>
-  instance?: Optional<Scalars['String']>
-  transferable?: Optional<Scalars['Int']>
+  __typename: 'NFTEntity'
+  name: Optional<Scalars['String']>
+  instance: Optional<Scalars['String']>
+  transferable: Optional<Scalars['Int']>
   collection: CollectionEntity
-  issuer?: Optional<Scalars['String']>
-  sn?: Optional<Scalars['String']>
+  issuer: Optional<Scalars['String']>
+  sn: Optional<Scalars['String']>
   id: Scalars['ID']
-  metadata?: Optional<Scalars['String']>
-  currentOwner?: Optional<Scalars['String']>
+  metadata: Optional<Scalars['String']>
+  currentOwner: Optional<Scalars['String']>
   price: Scalars['BigInt']
   burned: Scalars['Boolean']
-  blockNumber?: Optional<Scalars['BigInt']>
-  events?: Optional<Array<Event>>
-  emotes?: Optional<Array<Emote>>
-  meta?: Optional<MetadataEntity>
+  blockNumber: Optional<Scalars['BigInt']>
+  events: Optional<Array<Event>>
+  emotes: Optional<Array<Emote>>
+  meta: Optional<MetadataEntity>
   createdAt: Scalars['DateTime']
   updatedAt: Scalars['DateTime']
 }
 
 export type MetadataEntity = {
-  __typename?: 'MetadataEntity'
+  __typename: 'MetadataEntity'
   id: Scalars['ID']
-  name?: Optional<Scalars['String']>
-  description?: Optional<Scalars['String']>
-  image?: Optional<Scalars['String']>
-  attributes?: Optional<Array<Attribute>>
-  animationUrl?: Optional<Scalars['String']>
-  type?: Optional<Scalars['String']>
+  name: Optional<Scalars['String']>
+  description: Optional<Scalars['String']>
+  image: Optional<Scalars['String']>
+  attributes: Optional<Array<Attribute>>
+  animationUrl: Optional<Scalars['String']>
+  type: Optional<Scalars['String']>
 }
 
 export type Attribute = {
-  __typename?: 'Attribute'
-  display?: Optional<Scalars['String']>
-  trait?: Optional<Scalars['String']>
+  __typename: 'Attribute'
+  display: Optional<Scalars['String']>
+  trait: Optional<Scalars['String']>
   value: Scalars['String']
 }
 
 export type EventType = {
   id: Scalars['ID']
-  blockNumber?: Optional<Scalars['BigInt']>
+  blockNumber: Optional<Scalars['BigInt']>
   timestamp: Scalars['DateTime']
   caller: Scalars['String']
   interaction: Interaction
@@ -97,9 +97,9 @@ export type EventType = {
 }
 
 export type Event = EventType & {
-  __typename?: 'Event'
+  __typename: 'Event'
   id: Scalars['ID']
-  blockNumber?: Optional<Scalars['BigInt']>
+  blockNumber: Optional<Scalars['BigInt']>
   timestamp: Scalars['DateTime']
   caller: Scalars['String']
   interaction: Interaction
@@ -108,16 +108,16 @@ export type Event = EventType & {
 }
 
 export type CollectionEvent = {
-  __typename?: 'CollectionEvent'
-  blockNumber?: Optional<Scalars['String']>
-  timestamp?: Optional<Scalars['DateTime']>
+  __typename: 'CollectionEvent'
+  blockNumber: Optional<Scalars['String']>
+  timestamp: Optional<Scalars['DateTime']>
   caller: Scalars['String']
   interaction: Scalars['String']
   meta: Scalars['String']
 }
 
 export type Emote = {
-  __typename?: 'Emote'
+  __typename: 'Emote'
   id: Scalars['ID']
   nft: NftEntity
   caller: Scalars['String']

@@ -72,20 +72,17 @@
             v-model="rmrkMint.tags"
             placeholder="Get discovered easier through tags" />
 
-          <BalanceInput @input="updateMeta" label="Price" expanded />
-          <b-message
-            v-if="price"
-            icon="exclamation-triangle"
-            class="mt-3"
-            title="Additional transaction"
-            type="is-primary"
-            has-icon
-            aria-close-label="Close message">
-            <span class="has-text-primary"
-              >Setting the price now requires making an additional
-              transaction.</span
-            >
-          </b-message>
+          <BalanceInput
+            :step="0.1"
+            @input="updateMeta"
+            label="Price"
+            expanded />
+          <div class="content mt-3">
+            <p>
+              Hint: Setting the price now requires making an additional
+              transaction.
+            </p>
+          </div>
 
           <b-field>
             <PasswordInput v-model="password" :account="accountId" />
@@ -124,23 +121,6 @@
               <BasicSwitch v-model="postfix" label="mint.expert.postfix" />
             </CollapseWrapper>
           </b-field>
-          <b-field>
-            <b-button
-              type="is-text"
-              icon-left="calculator"
-              @click="estimateTx"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined>
-              <template v-if="!estimated">
-                {{ $t('mint.estimate') }}
-              </template>
-              <template v-else>
-                {{ $t('mint.estimated') }}
-                <Money :value="estimated" inline />
-              </template>
-            </b-button>
-          </b-field>
           <BasicSwitch v-model="nsfw" label="mint.nfsw" />
           <b-field>
             <b-switch v-model="hasToS" :rounded="false">
@@ -158,6 +138,14 @@
               {{ $t('mint.submit') }}
             </b-button>
           </b-field>
+          <b-field v-if="price">
+            <template>
+              <b-icon icon="calculator" />
+              <span class="pr-2">{{ $t('mint.estimated') }}</span>
+              <Money :value="estimated" inline />
+              <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
+            </template>
+          </b-field>
         </div>
       </section>
     </div>
@@ -165,7 +153,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { MediaType } from '../types'
 import { emptyObject } from '@/utils/empty'
 import Support from '@/components/shared/Support.vue'
@@ -197,13 +185,22 @@ import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import correctFormat from '@/utils/ss58Format'
-import { isFileWithoutType, isSecondFileVisible } from './mintUtils'
+import {
+  isFileWithoutType,
+  isSecondFileVisible,
+  nsfwAttribute,
+  offsetAttribute,
+  secondaryFileVisible,
+} from '@/components/rmrk/Create/mintUtils'
 import {
   sendFunction,
   shuffleFunction,
   toDistribute,
 } from '@/components/accounts/utils'
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
+import { uploadDirect } from '@/utils/directUpload'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import { createMetadata } from '@kodadot1/minimark'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -239,8 +236,8 @@ export default class SimpleMint extends mixins(
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
   private uploadMode = true
-  private file: Blob | null = null
-  private secondFile: Blob | null = null
+  private file: File | null = null
+  private secondFile: File | null = null
   private password = ''
   private hasToS = false
   private nsfw = false
@@ -253,6 +250,10 @@ export default class SimpleMint extends mixins(
 
   protected updateMeta(value: number): void {
     this.price = value
+
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
   }
 
   get fileType(): MediaType {
@@ -272,6 +273,11 @@ export default class SimpleMint extends mixins(
 
   get rmrkId(): string {
     return generateId(this.accountId, this.rmrkMint?.symbol || '')
+  }
+
+  get canCalculateTransactionFees(): boolean {
+    const { name, symbol, max } = this.rmrkMint
+    return !!(this.price && name && symbol && max)
   }
 
   get disabled(): boolean {
@@ -300,7 +306,6 @@ export default class SimpleMint extends mixins(
   }
 
   protected async estimateTx() {
-    this.isLoading = true
     const { accountId, version } = this
     const { api } = Connector.getInstance()
 
@@ -321,8 +326,6 @@ export default class SimpleMint extends mixins(
         ]
 
     this.estimated = await estimate(this.accountId, cb, [args])
-
-    this.isLoading = false
   }
 
   get enoughTokens(): boolean {
@@ -663,49 +666,51 @@ export default class SimpleMint extends mixins(
   }
 
   public async constructMeta(): Promise<string | undefined> {
-    if (!this.file) {
+    const { file, secondFile, rmrkMint, meta: m } = this
+    if (!file) {
       throw new ReferenceError('No file found!')
     }
 
-    this.meta = {
-      ...this.meta,
-      attributes: [
-        ...(this.rmrkMint?.tags || []),
-        ...this.nsfwAttribute(),
-        ...this.offsetAttribute(),
-      ],
-      external_url: 'https://nft.kodadot.xyz',
-      type: this.file.type,
+    const { token }: PinningKey = await this.$store.dispatch(
+      'pinning/fetchPinningKey',
+      this.accountId
+    )
+
+    const fileHash = await pinFileToIPFS(file, token)
+    const secondFileHash = secondFile
+      ? await pinFileToIPFS(secondFile, token)
+      : undefined
+
+    let imageHash: string | undefined = fileHash
+    let animationUrl: string | undefined = undefined
+
+    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+    if (secondaryFileVisible(file)) {
+      animationUrl = fileHash
+      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
     }
 
-    try {
-      const { token }: PinningKey = await this.$store.dispatch(
-        'pinning/fetchPinningKey',
-        this.accountId
-      )
-      const fileHash = await pinFileToIPFS(this.file, token)
+    const attributes = [
+      ...nsfwAttribute(this.nsfw),
+      ...offsetAttribute(this.hasCarbonOffset),
+    ]
 
-      if (!this.secondaryFileVisible) {
-        this.meta.image = unSanitizeIpfsUrl(fileHash)
-        this.meta.image_ar = this.arweaveUpload
-          ? await ipfsToArweave(fileHash)
-          : ''
-      } else {
-        this.meta.animation_url = unSanitizeIpfsUrl(fileHash)
-        if (this.secondFile) {
-          const coverImageHash = await pinFileToIPFS(this.secondFile, token)
-          this.meta.image = unSanitizeIpfsUrl(coverImageHash)
-        }
-      }
+    const meta = createMetadata(
+      rmrkMint.name,
+      m.description || '',
+      imageHash,
+      animationUrl,
+      attributes,
+      'https://kodadot.xyz',
+      file.type
+    )
 
-      // TODO: upload meta to IPFS
-      const metaHash = await pinJson(this.meta, extractCid(this.meta.image))
-      return unSanitizeIpfsUrl(metaHash)
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new ReferenceError(e.message)
-      }
+    const metaHash = await pinJson(meta, imageHash)
+
+    if (file) {
+      uploadDirect(file, metaHash).catch(console.warn)
     }
+    return unSanitizeIpfsUrl(metaHash)
   }
 
   private toRemark(remark: string) {
@@ -721,6 +726,23 @@ export default class SimpleMint extends mixins(
         query: { message: 'congrats' },
       })
     setTimeout(go, 2000)
+  }
+
+  protected getUsdFromKsm() {
+    let KSMVal = formatBalance(this.estimated, {
+      decimals: this.decimals,
+      withUnit: false,
+      forceUnit: '-',
+    })
+
+    return this.$store.getters['fiat/getCurrentKSMValue'] * Number(KSMVal)
+  }
+
+  @Watch('rmrkMint', { deep: true })
+  rmrkMintObjectChanged(): void {
+    if (this.canCalculateTransactionFees) {
+      this.estimateTx()
+    }
   }
 }
 </script>
