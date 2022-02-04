@@ -18,8 +18,8 @@
           `https://ramp.network/buy/?defaultAsset=KSM` +
           `&userAddress=${accountId}` +
           `&hostAppName=KodaDot` +
-          `&hostLogoUrl=https://nft.kodadot.xyz/apple-touch-icon.png` +
-          `&finalUrl=https://nft.kodadot.xyz` +
+          `&hostLogoUrl=https://kodadot.xyz/apple-touch-icon.png` +
+          `&finalUrl=https://kodadot.xyz` +
           `&hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
         "
         target="_blank"
