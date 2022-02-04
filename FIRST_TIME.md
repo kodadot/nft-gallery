@@ -15,7 +15,7 @@ Copy and paste these commands to your terminal:
 
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git nft-gallery
-cd not-gallery;
+cd nft-gallery;
 yarn;
 ```
 
