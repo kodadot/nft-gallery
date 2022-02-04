@@ -33,19 +33,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import AccountSelect from '@/components/shared/AccountSelect.vue'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   AccountSelect,
 }
 
 @Component({ components })
-export default class RampCredit extends Vue {
-  get accountId(): string {
-    return this.$store.getters.getAuthAddress
-  }
-
+export default class RampCredit extends mixins(AuthMixin) {
   layout() {
     return 'centered-half-layout'
   }
