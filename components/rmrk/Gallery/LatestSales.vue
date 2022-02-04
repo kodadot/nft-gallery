@@ -56,7 +56,7 @@ export default class LatestSales extends Vue {
 
   protected async handleResult({ data }: any) {
     this.events = data.events
-    this.nfts = data?.events.map((e: any) => ({
+    this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       image: getSanitizer(e.nft.meta.image)(e.nft.meta.image),

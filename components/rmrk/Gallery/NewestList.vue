@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getMany, update } from 'idb-keyval'
 import { getSanitizer } from '@/components/rmrk/utils'
 import newestListNft from '@/queries/unique/newestListNft.graphql'
 
@@ -57,7 +56,7 @@ export default class NewestList extends Vue {
 
   protected async handleResult({ data }: any) {
     this.events = data.events
-    this.nfts = data?.events.map((e: any) => ({
+    this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       image: getSanitizer(e.nft.meta.image)(e.nft.meta.image),
