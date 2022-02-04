@@ -7,7 +7,7 @@ We are using a `yarn` workspace, as installing things via npm **will result in b
 ### Prerequisites 🎒
 
 ```MD
-node >= 14
+node >=16.13.2
 yarn 🧶
 ```
 
