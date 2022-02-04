@@ -55,6 +55,16 @@ export default class Navigation extends Vue {
   }
 
   public handleKeyEvent(event) {
+    // block navigation to next or prev NFT if any of the following elements is being focused
+    const activeElement = document.activeElement
+    const inputs = ['input', 'select', 'button', 'textarea']
+    if (
+      activeElement &&
+      inputs.indexOf(activeElement.tagName.toLowerCase()) !== -1
+    ) {
+      return
+    }
+
     if (event.key === 'ArrowLeft') {
       return this.gotoNextItem(true)
     }
