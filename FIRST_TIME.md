@@ -109,6 +109,7 @@ KodaDot supports Hot Module Replacement on docker; any changes made will take ef
 When you see conflict on `yarn.lock` and you are on your pull-request branch, merge upstream branch and run `yarn`, unless you have conflict on `package.json`, that requires manual resolve.
 
 ```bash
+git fetch --all 
 git merge origin/main
 yarn
 ```
