@@ -8,18 +8,24 @@
         <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
       </div>
       <div class="column has-text-right">
-        <b-button
+        <!-- <b-button
           type="is-primary"
           inverted
           outlined
           icon-right="chevron-right"
           href="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
           {{ $t('See More') }}
-        </b-button>
+        </b-button> -->
+        <Pagination
+          simple
+          preserveScroll
+          v-model="currentValue"
+          :total="total"
+          :perPage="1" />
       </div>
     </div>
 
-    <CarouselCardList :nfts="nfts" />
+    <CarouselCardList :nfts="nfts" :page="currentValue" />
   </div>
 </template>
 
@@ -30,6 +36,7 @@ import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 
@@ -39,6 +46,8 @@ const components = {
 export default class LatestSales extends Vue {
   private nfts: any[] = []
   private events: any[] = []
+  private currentValue = 0
+  private total = 0
 
   get isLoading(): boolean {
     return this.$apollo.queries.nfts.loading
@@ -56,6 +65,7 @@ export default class LatestSales extends Vue {
 
   protected async handleResult({ data }: any) {
     this.events = data.events
+    this.total = data.events.length
     this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,

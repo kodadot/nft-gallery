@@ -1,7 +1,8 @@
 <template>
   <b-carousel-list
+    v-model="page"
     has-drag
-    icon-size="is-large"
+    :arrow="false"
     :arrow-hover="false"
     :data="nfts"
     :items-to-show="options.itemsToShow"
@@ -68,6 +69,8 @@ const components = {
 })
 export default class CarouselList extends Vue {
   @Prop({ required: true }) nfts!: any[] // mising type
+  @Prop({ required: true }) page!: number
+  // protected currentValue = 0
 
   get options() {
     return {
@@ -100,9 +103,7 @@ export default class CarouselList extends Vue {
 
 .carousel-card-list {
   overflow: inherit;
-  // .carousel-slides {
-  //   mask: linear-gradient(90deg, rgb(255, 255, 255) 45%, transparent);
-  // }
+  mask: linear-gradient(90deg, rgb(255, 255, 255) 45%, transparent);
 }
 
 .card {
