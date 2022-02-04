@@ -52,6 +52,7 @@
     "@polkadot/extension-inject": "^0.42.6",
     "@polkadot/ui-keyring": "^0.89.2",
     "@polkadot/vue-identicon": "^0.89.2",
+    "@ramp-network/ramp-instant-sdk": "^3.0.0",
     "apollo-boost": "^0.4.9",
     "axios": "^0.25.0",
     "buefy": "^0.9.14",

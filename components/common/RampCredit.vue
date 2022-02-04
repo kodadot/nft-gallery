@@ -10,18 +10,17 @@
         address. <br />
         KYC might requried, but you can verify with your Revolut card.
       </b-message>
-      <p />
       <AccountSelect v-model="accountId" label="Account" />
       <b-button
         type="is-primary"
         tag="a"
         :href="
-          `https://ramp.network/buy/?swapAsset=KSM` +
+          `https://ramp.network/buy/?defaultAsset=KSM` +
           `&userAddress=${accountId}` +
           `&hostAppName=KodaDot` +
-          `&hostLogoUrl=https://nft.kodadot.xyz/kodadot_logo_v1_transparent_400px.png` +
+          `&hostLogoUrl=https://nft.kodadot.xyz/apple-touch-icon.png` +
           `&finalUrl=https://nft.kodadot.xyz` +
-          `hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
+          `&hostApiKey=a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc`
         "
         target="_blank"
         rel="noopener noreferrer">
@@ -43,6 +42,12 @@ const components = {
 
 @Component({ components })
 export default class RampCredit extends Vue {
-  private accountId = ''
+  get accountId(): string {
+    return this.$store.getters.getAuthAddress
+  }
+
+  layout() {
+    return 'centered-half-layout'
+  }
 }
 </script>
