@@ -1,11 +1,8 @@
 <template>
   <div>
     <div
-      :style="{ maxHeight: `${rowHeight}px` }"
-      :class="{
-        'description-wrapper': activeWrapper && hasWrapper,
-        'row-one': row === 1 && activeWrapper && hasWrapper,
-      }">
+      :style="[activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null]"
+      :class="{'description-wrapper': activeWrapper && hasWrapper }">
       <VueMarkdown :source="text" />
     </div>
     <div class="has-text-centered">
