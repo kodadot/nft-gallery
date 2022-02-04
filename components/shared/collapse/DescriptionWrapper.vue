@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
+    <div
+      :class="{
+        'description-wrapper': activeWrapper && hasWrapper,
+        'row-one': row === 1 && activeWrapper && hasWrapper,
+      }">
       <VueMarkdown :source="text" />
     </div>
     <div class="has-text-centered">
@@ -21,6 +25,7 @@ const components = {
 @Component({ components })
 export default class DescriptionWrapper extends Vue {
   @Prop(String) public text!: string
+  @Prop(Number) public row!: number
   protected activeWrapper = true
   private maxCharsWrapper = 125
 
@@ -38,5 +43,8 @@ export default class DescriptionWrapper extends Vue {
   max-height: 130px;
   word-break: break-word;
   mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
+}
+.row-one {
+  max-height: 50px;
 }
 </style>

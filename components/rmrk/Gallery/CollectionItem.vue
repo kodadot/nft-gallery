@@ -48,6 +48,7 @@
       <div class="column is-8 has-text-centered">
         <DescriptionWrapper
           v-if="!isLoading"
+          :row="1"
           :text="description.replaceAll('\n', '  \n')" />
       </div>
     </div>
