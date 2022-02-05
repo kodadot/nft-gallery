@@ -7,6 +7,7 @@ query lastSoldNft {
       name
       issuer
       meta {
+        id
         image
       }
     }

@@ -33,6 +33,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { getSanitizer } from '@/components/rmrk/utils'
 import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
+import {
+  getCloudflareImageLinks,
+  getProperImageLink,
+} from '~/utils/cachingStrategy'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -54,7 +58,9 @@ export default class LatestSales extends Vue {
   }
 
   public fetch() {
-    this.$apollo.addSmartQuery('nfts', {
+    this.$apollo.addSmartQuery<{
+      events: { meta; nft: { meta: { id; image } } }
+    }>('nfts', {
       query: lastSoldNft,
       manual: true,
       client: 'subsquid',
@@ -66,10 +72,14 @@ export default class LatestSales extends Vue {
   protected async handleResult({ data }: any) {
     this.events = data.events
     this.total = data.events.length
+    const images = await getCloudflareImageLinks(
+      data.events.map(({ nft: { meta } }) => meta.id)
+    )
+    const imageOf = getProperImageLink(images)
     this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
-      image: getSanitizer(e.nft.meta.image)(e.nft.meta.image),
+      image: imageOf(e.nft.meta.id, e.nft.meta.image),
     }))
     // TODO: get cached data
   }
