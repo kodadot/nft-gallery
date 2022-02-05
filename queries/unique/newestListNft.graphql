@@ -1,0 +1,14 @@
+
+query newestListNft {
+  events(limit: 10, where: { interaction_eq: LIST }, orderBy: blockNumber_DESC) {
+    meta
+    nft {
+      id
+      name
+      issuer
+      meta {
+        image
+      }
+    }
+  }
+}
