@@ -37,10 +37,10 @@ import { getRandomIntInRange } from '../utils'
 
 @Component({})
 export default class Pagination extends Vue {
-  @Prop() value!: number
-  @Prop() public total!: number
+  @Prop(Number) value!: number
+  @Prop(Number) public total!: number
   @Prop(Boolean) simple!: boolean
-  @Prop({ default: 20 }) public perPage!: number
+  @Prop({ type: Number, default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean

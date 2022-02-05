@@ -1,6 +1,6 @@
 <template>
   <b-carousel-list
-    v-model="page"
+    :value="current"
     has-drag
     :arrow="false"
     :arrow-hover="false"
@@ -23,16 +23,16 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
+              <b-field grouped>
+                <p class="control ml-auto" v-if="list.price">
+                  <Money :value="list.price" inline />
+                </p>
+              </b-field>
               <nuxt-link
                 :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
-                  <!-- <Identicon
-                  :size="18"
-                  :theme="'polkadot'"
-                  :value="list.issuer"
-                  class="mr-2" /> -->
-                  <Identity :address="list.issuer" inline noOverflow />
+                  <Identity :address="list.issuer" inline noOwerlow />
                 </div>
               </nuxt-link>
               <nuxt-link
@@ -42,25 +42,19 @@
                 }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="money-bill-alt" />
-                  <Identity :address="list.currentOwner" inline noOverflow />
+                  <Identity
+                    :address="list.currentOwner"
+                    inline
+                    noOverflow
+                    class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
+              <time class="is-size-7 icon-text">
+                <b-icon icon="clock" />
+                <span>{{ list.timestamp }}</span>
+              </time>
             </div>
           </div>
-
-          <b-field grouped>
-            <span>
-              <Appreciation :accountId="accountId" :nftId="list.id" />
-            </span>
-            <p class="control ml-auto" v-if="list.price">
-              <Money :value="list.price" inline />
-            </p>
-          </b-field>
-
-          <time class="is-size-7 icon-text">
-            <b-icon icon="clock" />
-            <span>{{ list.timestamp }}</span>
-          </time>
         </div>
       </div>
     </template>
@@ -85,8 +79,12 @@ const components = {
   components,
 })
 export default class CarouselList extends mixins(AuthMixin) {
-  @Prop({ required: true }) nfts!: any[] // mising type
-  @Prop({ required: true }) page!: number
+  @Prop({ type: Array, required: true }) nfts!: any[] // mising type
+  @Prop({ type: Number, required: true }) page!: number
+
+  get current() {
+    return this.page - 1 // 0-indexed
+  }
 
   get options() {
     return {
@@ -132,5 +130,10 @@ export default class CarouselList extends mixins(AuthMixin) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.force-clip {
+  max-width: 85%;
+  max-height: 24px;
 }
 </style>

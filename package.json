@@ -33,7 +33,8 @@
   },
   "prettier": {
     "semi": false,
-    "bracketSameLine": true
+    "bracketSameLine": true,
+    "singleQuote": true
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

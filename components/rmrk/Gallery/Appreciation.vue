@@ -6,7 +6,7 @@
         v-if="accountId"
         class="nft-appreciation__button"
         icon-left="heart"
-        @click="showDialog = !showDialog" />
+        @click="handleClick" />
       <VEmojiPicker
         v-show="showDialog"
         label-search="Search your emote"
@@ -23,7 +23,6 @@
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import groupBy from '@/utils/groupBy'
 import EmotionList from './EmotionList.vue'
@@ -33,6 +32,8 @@ import emojiUnicode from 'emoji-unicode'
 import NFTUtils from '../service/NftUtils'
 import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import { Emote } from '../service/scheme'
+import MetaTransactionMixin from '~/utils/mixins/metaMixin'
+import { createInteraction, Interaction } from '@kodadot1/minimark'
 
 @Component({
   components: {
@@ -42,24 +43,34 @@ import { Emote } from '../service/scheme'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
   },
 })
-export default class Appreciation extends mixins(RmrkVersionMixin) {
-  @Prop() public emotes!: Emote[]
-  @Prop() public currentOwnerId!: string
-  @Prop() public accountId!: string
-  @Prop() public nftId!: string
+export default class Appreciation extends mixins(
+  MetaTransactionMixin,
+  RmrkVersionMixin
+) {
+  @Prop({ type: Array }) public emotes!: Emote[]
+  @Prop({ type: String }) public currentOwnerId!: string
+  @Prop({ type: String }) public accountId!: string
+  @Prop({ type: String }) public nftId!: string
   @Prop(Boolean) public burned!: boolean
+  @Prop(Boolean) public simple!: boolean // submit heart directly
 
   protected showDialog = false
-  protected isLoading = false
-  protected status = ''
+
+  protected handleClick() {
+    if (this.simple) {
+      showNotification('[EMOTE] Sending ♥️')
+      return this.submit('2764') // heart emoji
+    } else {
+      this.showDialog = !this.showDialog
+    }
+  }
 
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this
     const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
-      const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote)
-      this.isLoading = true
+      const rmrk = createInteraction(Interaction.EMOTE, version, nftId, emote)
       await this.submit(rmrk)
     } else {
       showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
@@ -84,72 +95,22 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 
   private async submit(rmrk: string) {
     const { api } = Connector.getInstance()
-    // const rmrkService = getInstance();
+
     try {
-      showNotification(rmrk)
-      console.log('submit', rmrk)
-      const tx = await exec(
-        this.accountId,
-        '',
-        api.tx.system.remark,
-        [rmrk],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            showNotification(blockHash.toString(), notificationTypes.info)
-
-            showNotification(`[EMOTE] ${this.nftId}`, notificationTypes.success)
-            this.isLoading = false
-            this.showDialog = false
-          },
-          (err) => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.isLoading = false
-          },
-          (res) => {
-            if (res.status.isReady) {
-              this.status = 'loader.casting'
-              return
-            }
-
-            if (res.status.isInBlock) {
-              this.status = 'loader.block'
-              return
-            }
-
-            if (res.status.isFinalized) {
-              this.status = 'loader.finalized'
-              return
-            }
-
-            this.status = ''
-          }
+      const cb = api.tx.system.remark
+      const args = [rmrk]
+      this.initTransactionLoader()
+      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
+        showNotification(
+          `[EMOTE] Saved in ${blockNumber}`,
+          notificationTypes.success
         )
-      )
+      })
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
       console.error(e)
     }
   }
-
-  // async fetchAppreciationsForNFT(id: string) {
-  //   const rmrkService = getInstance();
-  //   try {
-  //     const appreciations = await rmrkService?.getAppreciationsForNFT(id);
-  //     this.emotions = groupBy(appreciations || [], 'metadata');
-  //     console.log(this.emotions);
-  //   } catch (e) {
-  //     console.warn(`[Appreciation] unable to fetch appreciations ${e}`);
-  //   }
-  // }
-
-  // @Watch('nftId')
-  // private watchNftId(val: string, oldVal: string) {
-  //   if (shouldUpdate(val, oldVal)) {
-  //     this.fetchAppreciationsForNFT(val);
-  //   }
-  // }
 }
 </script>
 
@@ -183,7 +144,7 @@ export default class Appreciation extends mixins(RmrkVersionMixin) {
 .nft-appreciation__button {
   border-radius: 0;
   border: 0;
-  border-top: 2px solid $primary!important;
+  border-top: 2px solid $primary !important;
   color: $primary;
   margin-right: 15px;
 }

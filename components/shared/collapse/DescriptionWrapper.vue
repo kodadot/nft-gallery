@@ -1,8 +1,10 @@
 <template>
   <div>
     <div
-      :style="[activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null]"
-      :class="{'description-wrapper': activeWrapper && hasWrapper }">
+      :style="[
+        activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null,
+      ]"
+      :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
       <VueMarkdown :source="text" />
     </div>
     <div class="has-text-centered">
@@ -23,7 +25,7 @@ const components = {
 @Component({ components })
 export default class DescriptionWrapper extends Vue {
   @Prop(String) public text!: string
-  @Prop(Number) public rowHeight = 130
+  @Prop({ type: Number, default: 130 }) public rowHeight!: number
   protected activeWrapper = true
   private maxCharsWrapper = 125
 

@@ -7,7 +7,8 @@
       ((showDiscord && discord) || !showDiscord)
     "
     v-clipboard:copy="address"
-    :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }">
+    :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
+    class="is-flex-wrap-wrap is-flex-grow-1">
     <template v-if="(showTwitter && twitter) || (showDiscord && discord)">
       <a
         :href="`https://twitter.com/${twitter}`"
