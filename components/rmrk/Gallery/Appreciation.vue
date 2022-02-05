@@ -23,7 +23,6 @@
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import groupBy from '@/utils/groupBy'
 import EmotionList from './EmotionList.vue'
@@ -34,6 +33,7 @@ import NFTUtils from '../service/NftUtils'
 import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import { Emote } from '../service/scheme'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
+import { createInteraction, Interaction } from '@kodadot1/minimark'
 
 @Component({
   components: {
@@ -70,7 +70,7 @@ export default class Appreciation extends mixins(
     const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)
-      const rmrk = NFTUtils.createInteraction('EMOTE', version, nftId, emote)
+      const rmrk = createInteraction(Interaction.EMOTE, version, nftId, emote)
       await this.submit(rmrk)
     } else {
       showNotification('[EMOTE] Unable to emote', notificationTypes.warn)
