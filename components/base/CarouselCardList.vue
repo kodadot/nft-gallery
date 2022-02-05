@@ -1,6 +1,6 @@
 <template>
   <b-carousel-list
-    v-model="page"
+    :value="current"
     has-drag
     :arrow="false"
     :arrow-hover="false"
@@ -85,8 +85,12 @@ const components = {
   components,
 })
 export default class CarouselList extends mixins(AuthMixin) {
-  @Prop({ required: true }) nfts!: any[] // mising type
-  @Prop({ required: true }) page!: number
+  @Prop({ type: Array, required: true }) nfts!: any[] // mising type
+  @Prop({ type: Number, required: true }) page!: number
+
+  get current() {
+    return this.page - 1 // 0-indexed
+  }
 
   get options() {
     return {
