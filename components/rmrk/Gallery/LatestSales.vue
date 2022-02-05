@@ -8,14 +8,6 @@
         <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
       </div>
       <div class="column has-text-right">
-        <!-- <b-button
-          type="is-primary"
-          inverted
-          outlined
-          icon-right="chevron-right"
-          href="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
-          {{ $t('See More') }}
-        </b-button> -->
         <Pagination
           simple
           preserveScroll
@@ -50,7 +42,7 @@ const components = {
 export default class LatestSales extends Vue {
   private nfts: any[] = []
   private events: any[] = []
-  private currentValue = 0
+  private currentValue = 1
   private total = 0
 
   get isLoading(): boolean {
