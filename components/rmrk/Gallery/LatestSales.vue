@@ -31,8 +31,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getSanitizer } from '@/components/rmrk/utils'
 import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
+import { formatDistanceToNow } from 'date-fns'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -79,9 +79,11 @@ export default class LatestSales extends Vue {
     this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
+      timestamp: formatDistanceToNow(new Date(e.timestamp), {
+        addSuffix: true,
+      }),
       image: imageOf(e.nft.meta.id, e.nft.meta.image),
     }))
-    // TODO: get cached data
   }
 }
 </script>
