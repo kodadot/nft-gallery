@@ -50,7 +50,7 @@
 
           <b-field grouped>
             <span>
-              <Appreciation :accountId="accountId" :nftId="list.id" />
+              <Appreciation :accountId="accountId" :nftId="list.id" simple />
             </span>
             <p class="control ml-auto" v-if="list.price">
               <Money :value="list.price" inline />
