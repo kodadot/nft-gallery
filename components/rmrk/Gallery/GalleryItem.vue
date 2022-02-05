@@ -5,7 +5,9 @@
     :description="meta.description"
     :imageVisible="imageVisible"
     :isLoading="isLoading"
-    :mimeType="mimeType">
+    :mimeType="mimeType"
+    @mouseEntered="showNavigation = true"
+    @mouseLeft="showNavigation = false">
     <template v-slot:top v-if="message">
       <b-message class="message-box" type="is-primary">
         <div class="columns">

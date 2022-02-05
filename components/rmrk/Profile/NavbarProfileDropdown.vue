@@ -27,11 +27,11 @@
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link :to="`/${urlPrefix}/u/${account}`"> Profile </nuxt-link>
       </b-dropdown-item>
-      <!-- <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/rmrk/credit">
+      <b-dropdown-item has-link aria-role="menuitem">
+        <a @click="showRampSDK">
           {{ $t('Credit') }}
-        </nuxt-link>
-      </b-dropdown-item> -->
+        </a>
+      </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/rmrk/faq"> F.A.Q. </nuxt-link>
       </b-dropdown-item>
@@ -111,9 +111,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 const components = {
   Avatar,
@@ -135,7 +136,18 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     return this.$store.getters.getAuthAddress
   }
 
-  checkExtension() {
+  protected showRampSDK(): void {
+    new RampInstantSDK({
+      defaultAsset: 'KSM', // todo: prefix
+      userAddress: this.account,
+      hostAppName: 'KodaDot',
+      hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
+      hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
+      variant: 'desktop',
+    }).show()
+  }
+
+  protected checkExtension(): void {
     if (!(window as any).injectedWeb3['polkadot-js']) {
       this.isExtension = true
       this.$buefy.toast.open({
