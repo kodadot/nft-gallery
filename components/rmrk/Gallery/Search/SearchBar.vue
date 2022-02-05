@@ -329,7 +329,8 @@ export default class SearchBar extends mixins(PrefixMixin) {
           ...this.result[i],
           ...meta,
           image:
-            imageLinks[fastExtract(this.result[i].metadata)] ||
+            (this.result[i]?.metadata &&
+              imageLinks[fastExtract(this.result[i].metadata)]) ||
             getSanitizer(meta.image || '')(meta.image || ''),
           animation_url: getSanitizer(meta.animation_url || '')(
             meta.animation_url || ''
