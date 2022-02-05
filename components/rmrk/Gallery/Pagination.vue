@@ -47,7 +47,8 @@ export default class Pagination extends Vue {
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
-      this.current = Number(val)
+      // when component is mounted, if there is search query present always start from first page
+      this.current = this.$route.query.search ? 1 : Number(val)
     })
     // console.log('query', this.$route.query)
     // if (

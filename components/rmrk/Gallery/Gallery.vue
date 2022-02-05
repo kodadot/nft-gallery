@@ -124,7 +124,7 @@ const components = {
 export default class Gallery extends mixins(PrefixMixin) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
-    search: '',
+    search: this.$route.query?.search?.toString() || '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
