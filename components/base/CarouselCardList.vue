@@ -18,20 +18,31 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <div class="title is-6 is-ellipsis">
+              <div class="title is-5 is-ellipsis">
                 <nuxt-link :to="`/rmrk/gallery/${list.id}`">
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <div class="subtitle is-7 has-text-light">
+              <div class="is-size-7">
                 <nuxt-link
                   :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
+                  <b-icon icon="palette" />
                   <!-- <Identicon
                     :size="18"
                     :theme="'polkadot'"
                     :value="list.issuer"
                     class="mr-2" /> -->
                   <Identity :address="list.issuer" inline noOverflow />
+                </nuxt-link>
+              </div>
+              <div class="is-size-7">
+                <nuxt-link
+                  :to="{
+                    name: 'rmrk-u-id',
+                    params: { id: list.currentOwner },
+                  }">
+                  <b-icon icon="money-bill-alt" />
+                  <Identity :address="list.currentOwner" inline noOverflow />
                 </nuxt-link>
               </div>
             </div>
@@ -45,6 +56,11 @@
               <Money :value="list.price" inline />
             </p>
           </b-field>
+
+          <time class="is-size-7 icon-text">
+            <b-icon icon="clock" />
+            <span>{{ list.timestamp }}</span>
+          </time>
         </div>
       </div>
     </template>
@@ -52,11 +68,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Identicon from '@polkadot/vue-identicon'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+// import Identicon from '@polkadot/vue-identicon'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
-  Identicon,
+  // Identicon,
   Loader: () => import('@/components/shared/Loader.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -67,11 +84,13 @@ const components = {
 @Component<CarouselList>({
   components,
 })
-export default class CarouselList extends Vue {
+export default class CarouselList extends mixins(AuthMixin) {
   @Prop({ required: true }) nfts!: any[] // mising type
   @Prop({ required: true }) page!: number
-  // protected currentValue = 0
 
+  created() {
+    console.log(this.nfts)
+  }
   get options() {
     return {
       itemsToShow: 2,
@@ -90,10 +109,6 @@ export default class CarouselList extends Vue {
         },
       },
     }
-  }
-
-  get accountId(): string {
-    return this.$store.getters.getAuthAddress
   }
 }
 </script>
