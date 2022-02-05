@@ -2,7 +2,7 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery">
+    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
       <Pagination
         hasMagicBtn
         simple

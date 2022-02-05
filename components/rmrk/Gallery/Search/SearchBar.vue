@@ -346,10 +346,17 @@ export default class SearchBar extends mixins(PrefixMixin) {
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: String(this.$route.name),
-        query: { ...this.$route.query, search: this.searchQuery, [key]: value },
+        path: this.$route.path,
+        query: {
+          ...this.$route.query,
+          search: this.searchQuery,
+          page: '1',
+          [key]: value,
+        },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
+    // if searchbar request or filter is set, pagination should always revert to page 1
+    this.$emit('resetPage')
   }
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
