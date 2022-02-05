@@ -27,12 +27,7 @@
                 :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
-                  <!-- <Identicon
-                  :size="18"
-                  :theme="'polkadot'"
-                  :value="list.issuer"
-                  class="mr-2" /> -->
-                  <Identity :address="list.issuer" inline noOverflow />
+                  <Identity :address="list.issuer" inline noOwerlow />
                 </div>
               </nuxt-link>
               <nuxt-link
@@ -42,7 +37,11 @@
                 }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="money-bill-alt" />
-                  <Identity :address="list.currentOwner" inline noOverflow />
+                  <Identity
+                    :address="list.currentOwner"
+                    inline
+                    noOverflow
+                    class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
             </div>
@@ -136,5 +135,10 @@ export default class CarouselList extends mixins(AuthMixin) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.force-clip {
+  max-width: 85%;
+  max-height: 24px;
 }
 </style>
