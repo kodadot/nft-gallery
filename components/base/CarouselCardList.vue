@@ -23,6 +23,11 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
+              <b-field grouped>
+                <p class="control ml-auto" v-if="list.price">
+                  <Money :value="list.price" inline />
+                </p>
+              </b-field>
               <nuxt-link
                 :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
@@ -44,22 +49,12 @@
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
+              <time class="is-size-7 icon-text">
+                <b-icon icon="clock" />
+                <span>{{ list.timestamp }}</span>
+              </time>
             </div>
           </div>
-
-          <b-field grouped>
-            <span>
-              <!-- <Appreciation :accountId="accountId" :nftId="list.id" simple /> -->
-            </span>
-            <p class="control ml-auto" v-if="list.price">
-              <Money :value="list.price" inline />
-            </p>
-          </b-field>
-
-          <time class="is-size-7 icon-text">
-            <b-icon icon="clock" />
-            <span>{{ list.timestamp }}</span>
-          </time>
         </div>
       </div>
     </template>
