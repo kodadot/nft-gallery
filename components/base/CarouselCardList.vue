@@ -23,28 +23,28 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <div class="is-size-7">
-                <nuxt-link
-                  :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
+              <nuxt-link
+                :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
+                <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
                   <!-- <Identicon
-                    :size="18"
-                    :theme="'polkadot'"
-                    :value="list.issuer"
-                    class="mr-2" /> -->
+                  :size="18"
+                  :theme="'polkadot'"
+                  :value="list.issuer"
+                  class="mr-2" /> -->
                   <Identity :address="list.issuer" inline noOverflow />
-                </nuxt-link>
-              </div>
-              <div class="is-size-7">
-                <nuxt-link
-                  :to="{
-                    name: 'rmrk-u-id',
-                    params: { id: list.currentOwner },
-                  }">
+                </div>
+              </nuxt-link>
+              <nuxt-link
+                :to="{
+                  name: 'rmrk-u-id',
+                  params: { id: list.currentOwner },
+                }">
+                <div class="is-size-7 icon-text">
                   <b-icon icon="money-bill-alt" />
                   <Identity :address="list.currentOwner" inline noOverflow />
-                </nuxt-link>
-              </div>
+                </div>
+              </nuxt-link>
             </div>
           </div>
 
@@ -88,9 +88,6 @@ export default class CarouselList extends mixins(AuthMixin) {
   @Prop({ required: true }) nfts!: any[] // mising type
   @Prop({ required: true }) page!: number
 
-  created() {
-    console.log(this.nfts)
-  }
   get options() {
     return {
       itemsToShow: 2,
