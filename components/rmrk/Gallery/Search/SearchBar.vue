@@ -9,6 +9,7 @@
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
+          class="gallery-search"
           v-model="name"
           :data="searchSuggestion"
           placeholder="Search..."
@@ -16,6 +17,7 @@
           open-on-focus
           clearable
           max-height="350px"
+          dropdown-position="is-bottom-left"
           expanded
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
@@ -145,7 +147,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     listed: false,
   }
 
-  private first = 10
+  private first = 30
   private currentValue = 1
   private result: NFT[] = []
   private searchString = ''
@@ -222,7 +224,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     //When an item from the autocomplete list is highlighted
     if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
-      //Higlighted item is NFT or search result from cache
+      //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
         this.insertNewHistroy()
         this.updateSearch(this.searchString)
@@ -324,7 +326,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
       const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
       const imageLinks = await getCloudflareImageLinks(metadataList)
 
-      processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
         Vue.set(this.result, i, {
           ...this.result[i],
           ...meta,
@@ -389,12 +391,11 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   private oldSearchResult(value: string): boolean {
     const res = this.searched.filter((r) => r.name === value)
-    return res.length ? true : false
+    return !!res.length
   }
 
   private removeSearchHistory(value: string): void {
-    const temp = this.searched.filter((r) => r.name !== value)
-    this.searched = temp
+    this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 }
@@ -424,8 +425,4 @@ export default class SearchBar extends mixins(PrefixMixin) {
     transition: all 3s !important;
   }
 }
-// .preview-media-wrapper {
-//   width: 32px;
-//   height: 32px;
-// }
 </style>
