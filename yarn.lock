@@ -17566,10 +17566,10 @@ vue-server-renderer@^2.6.12:
     serialize-javascript "^3.1.0"
     source-map "0.5.6"
 
-vue-social-sharing@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/vue-social-sharing/-/vue-social-sharing-3.0.8.tgz#5927c54a91b8cb4965dfa492c2ad4553591ba00c"
-  integrity sha512-56gOES9fq7kyzuW7+lVAKtoG9Wi4MGjIfMqXAFZv1QSwW00EN0X5zJDSQjZn1Y2cIU6DUG+1KfJB7r7nTuiISA==
+vue-social-sharing@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/vue-social-sharing/-/vue-social-sharing-3.0.9.tgz#72fda1e343cdb47cf52e3327a84a3612e9f82c11"
+  integrity sha512-Yg4oz5cSkr7ieMAgumwoRLnFhAaoUGCsN8lZE9yUkuQzbKid8yBOn4mLjfx/DA/E8nxYjunAfIUFs7eKIkBjPA==
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   version "4.1.3"
