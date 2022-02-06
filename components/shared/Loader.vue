@@ -44,7 +44,7 @@ export default class Loader extends Vue {
     }
   }
 
-  protected placeholder = '/infinity.svg'
+  protected placeholder = '/preloader.svg'
 
   protected randomNumber = randomIntegerBetween(1, 33)
 
@@ -92,7 +92,6 @@ export default class Loader extends Vue {
 .funfact-text {
   position: relative;
   color: white;
-  margin-bottom: 0.5rem;
   max-width: 450px;
 }
 .funcfact-heading {
