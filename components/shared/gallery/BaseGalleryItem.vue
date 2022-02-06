@@ -5,8 +5,8 @@
     <div class="columns" :class="{ 'fixed-height': isFullScreenView }">
       <div
         class="image-wrapper"
-        @mouseenter="showNavigation = true"
-        @mouseleave="showNavigation = false">
+        @mouseenter="$emit('mouseEntered')"
+        @mouseleave="$emit('mouseLeft')">
         <button
           id="theatre-view"
           @click="toggleView"

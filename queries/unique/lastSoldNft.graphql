@@ -1,0 +1,17 @@
+
+query lastSoldNft {
+  events(limit: 20, where: { interaction_eq: BUY }, orderBy: blockNumber_DESC) {
+    meta
+    timestamp
+    nft {
+      id
+      name
+      issuer
+      currentOwner
+      meta {
+        id
+        image
+      }
+    }
+  }
+}
