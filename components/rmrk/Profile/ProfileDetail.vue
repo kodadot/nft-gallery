@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
@@ -177,8 +177,6 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
-
-const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
   name: 'Profile',
@@ -337,6 +335,12 @@ export default class Profile extends mixins(PrefixMixin) {
     if (data) {
       this.totalCollections = data.collectionEntities.totalCount
       this.collections = data.collectionEntities.nodes
+    }
+    // in case user is only a collector, set tab to collected
+    if (this.totalCollections === 0) {
+      this.$router
+        .replace({ query: { tab: 'collected' } })
+        .catch(console.warn /*Navigation Duplicate err fix later */)
     }
   }
 
