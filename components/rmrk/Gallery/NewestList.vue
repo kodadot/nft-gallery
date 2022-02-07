@@ -9,11 +9,12 @@
       </div>
       <div class="column has-text-right">
         <b-button
+          tag="nuxt-link"
           type="is-primary"
           inverted
           outlined
           icon-right="chevron-right"
-          href="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
+          to="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
           {{ $t('See More') }}
         </b-button>
       </div>
@@ -25,7 +26,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getSanitizer } from '@/components/rmrk/utils'
+import {
+  getCloudflareImageLinks,
+  getProperImageLink,
+} from '~/utils/cachingStrategy'
+import { formatDistanceToNow } from 'date-fns'
 import newestListNft from '@/queries/unique/newestListNft.graphql'
 
 const components = {
@@ -34,34 +39,42 @@ const components = {
 }
 
 @Component<NewestList>({
-  components,
-})
-export default class NewestList extends Vue {
-  private nfts: any[] = []
-  private events: any[] = []
-
-  get isLoading(): boolean {
-    return this.$apollo.queries.nfts.loading
-  }
-
-  public async created() {
-    this.$apollo.addSmartQuery('nfts', {
+  fetch() {
+    this.$apollo.addSmartQuery<{
+      events: { meta; nft: { meta: { id; image } } }
+    }>('nfts', {
       query: newestListNft,
       manual: true,
       client: 'subsquid',
       loadingKey: 'isLoading',
       result: this.handleResult,
     })
+  },
+  components,
+})
+export default class NewestList extends Vue {
+  private nfts: any[] = []
+  private events: any[] = []
+  private total = 0
+
+  get isLoading(): boolean {
+    return this.$apollo.queries.nfts.loading
   }
 
   protected async handleResult({ data }: any) {
     this.events = data.events
+    const images = await getCloudflareImageLinks(
+      data.events.map(({ nft: { meta } }) => meta.id)
+    )
+    const imageOf = getProperImageLink(images)
     this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
-      image: getSanitizer(e.nft.meta.image)(e.nft.meta.image),
+      timestamp: formatDistanceToNow(new Date(e.timestamp), {
+        addSuffix: true,
+      }),
+      image: imageOf(e.nft.meta.id, e.nft.meta.image),
     }))
-    // TODO: cached data
   }
 }
 </script>

@@ -36,6 +36,7 @@
                 </div>
               </nuxt-link>
               <nuxt-link
+                v-if="list.currentOwner"
                 :to="{
                   name: 'rmrk-u-id',
                   params: { id: list.currentOwner },
