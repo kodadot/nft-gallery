@@ -39,18 +39,18 @@
           <slot name="image"></slot>
         </div>
         <button
+          id="theatre-view"
+          @click="toggleView"
+          v-if="!isLoading && imageVisible">
+          <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
+        </button>
+        <button
           id="fullscreen-view"
           @keyup.esc="minimize"
           @click="toggleFullScreen"
           v-if="!isLoading && imageVisible"
           :class="{ fullscreen: isFullScreenView }">
           <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
-        </button>
-        <button
-          id="theatre-view"
-          @click="toggleView"
-          v-if="!isLoading && imageVisible">
-          <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
         </button>
       </div>
     </div>
@@ -173,8 +173,8 @@ export default class BaseGalleryItem extends Vue {
 
   button#theatre-view {
     position: absolute;
-    bottom: 13px;
-    right: 13px;
+    bottom: 12px;
+    right: 75px;
     color: $light-text;
     @media screen and (max-width: 768px) {
       display: none;
@@ -183,8 +183,8 @@ export default class BaseGalleryItem extends Vue {
 
   button#fullscreen-view {
     position: absolute;
-    bottom: 13px;
-    right: 78px;
+    bottom: 12px;
+    right: 12px;
 
     &.fullscreen {
       position: fixed;
