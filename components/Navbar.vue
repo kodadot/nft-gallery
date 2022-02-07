@@ -45,38 +45,12 @@
           Series
         </b-navbar-item>
       </template>
-      <b-navbar-dropdown arrowless collapsible label="Extra">
-        <!-- <b-navbar-item tag="nuxt-link" to="/rmrk/credit">
-          {{ $t('Credit') }}
-        </b-navbar-item> -->
-        <b-navbar-item tag="nuxt-link" to="/rmrk/faq">
-          {{ $t('FAQ') }}
-        </b-navbar-item>
-        <b-navbar-item v-if="isRmrk" tag="nuxt-link" to="/rmrk/admin">
-          {{ $t('Admin') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/transfer">
-          {{ $t('Transfer') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/transform">
-          {{ $t('Transform') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/teleport">
-          {{ $t('Teleport') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/settings">
-          {{ $t('Settings') }}
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" to="/tutorials">
-        {{ $t('Tutorial') }}
-      </b-navbar-item>
     </template>
     <template #end>
       <HistoryBrowser />
       <LocaleChanger />
       <ChainSelect />
-      <NavbarProfileDropdown />
+      <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
   </b-navbar>
 </template>
