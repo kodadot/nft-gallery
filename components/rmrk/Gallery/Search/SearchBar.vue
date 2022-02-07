@@ -88,6 +88,9 @@
         <slot />
       </b-field>
     </div>
+    <div v-if="searchQuery" class="mt-3">
+      <span>Showing results for {{ searchQuery }}</span>
+    </div>
     <b-collapse
       aria-id="sortAndFilter"
       animation="opacitySlide"
