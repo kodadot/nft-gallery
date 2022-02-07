@@ -81,7 +81,9 @@ export default class Navigation extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/styles/variables';
+
 .navigation-container {
   pointer-events: none;
   position: absolute;
@@ -95,5 +97,7 @@ export default class Navigation extends Vue {
 }
 .navigation-container a {
   pointer-events: all;
+  border: 0 !important;
+  border-top: 2px solid $primary !important;
 }
 </style>

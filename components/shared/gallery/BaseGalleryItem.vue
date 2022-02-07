@@ -7,13 +7,6 @@
         class="image-wrapper"
         @mouseenter="$emit('mouseEntered')"
         @mouseleave="$emit('mouseLeft')">
-        <button
-          id="theatre-view"
-          @click="toggleView"
-          v-if="!isLoading && imageVisible">
-          {{ viewMode === 'default' ? $t('theatre') : $t('default') }}
-          {{ $t('view') }}
-        </button>
         <div
           class="column"
           :class="{
@@ -51,8 +44,13 @@
           @click="toggleFullScreen"
           v-if="!isLoading && imageVisible"
           :class="{ fullscreen: isFullScreenView }">
-          <b-icon :icon="isFullScreenView ? 'compress-alt' : 'arrows-alt'">
-          </b-icon>
+          <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
+        </button>
+        <button
+          id="theatre-view"
+          @click="toggleView"
+          v-if="!isLoading && imageVisible">
+          <b-icon :icon="viewMode === 'default' ? 'image' : 'cube'"> </b-icon>
         </button>
       </div>
     </div>
@@ -123,10 +121,6 @@ export default class BaseGalleryItem extends Vue {
     margin: 30px auto;
     width: 100%;
 
-    .image {
-      border: 2px solid $primary;
-    }
-
     .fullscreen-image {
       display: none;
     }
@@ -160,7 +154,8 @@ export default class BaseGalleryItem extends Vue {
     }
 
     button {
-      border: 2px solid $primary;
+      border: 0;
+      border-top: 2px solid $primary;
       color: #fff;
       font-weight: bold;
       text-transform: uppercase;
@@ -178,8 +173,8 @@ export default class BaseGalleryItem extends Vue {
 
   button#theatre-view {
     position: absolute;
-    top: 13px;
-    left: 13px;
+    bottom: 13px;
+    right: 13px;
     color: $light-text;
     @media screen and (max-width: 768px) {
       display: none;
@@ -189,7 +184,7 @@ export default class BaseGalleryItem extends Vue {
   button#fullscreen-view {
     position: absolute;
     bottom: 13px;
-    right: 13px;
+    right: 78px;
 
     &.fullscreen {
       position: fixed;
