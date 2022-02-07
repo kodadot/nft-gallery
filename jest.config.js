@@ -12,6 +12,7 @@ module.exports = {
   transformIgnorePatterns: [
     '/node_modules/(?!@kodadot1|@polkadot|@babel/runtime/helpers/esm/)',
   ],
+  testPathIgnorePatterns: ['<rootDir>/tests/cypress/'],
   moduleFileExtensions: [
     'ts', // if using TypeScript
     'js',
