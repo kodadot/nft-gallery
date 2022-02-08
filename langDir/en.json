@@ -107,8 +107,8 @@
     },
     "a": {
       "1": {
-        "m": "NFTs or non-fungible tokens refer to unique assets, which are stored on blockchain and maintain unique ownership."
-      },
+        "m": "NFTs or non-fungible tokens refer to unique assets, which are stored on blockchain and maintain unique ownership. @.md:faq.a.1.l1",
+        "l1": "[You can find more about Non-Fungible Token at Wikipedia](@.common:links.wikipedia.nft)"      },
       "2": {
         "m": "Minting is a process in which your cryptocurrency wallet and blockchain communicate together and make you able to create NFTs."
       },
