@@ -622,6 +622,7 @@
     },
     "yolo": "Replace BUY NOW with YOLO",
     "priceVisible": "Always show price in gallery and collection view by default",
-    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)"
+    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
+    "autoGenerateSymbol": "Auto generate collection symbol on default"
   }
 }

@@ -35,6 +35,10 @@
         v-model="enableAllArtworks"
         :disabled="!enabledAdvancedUI"
         label="preferences.loadAllArtworks" />
+      <BasicCheckbox
+        v-model="enableAllArtworks"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.autoGenerateSymbol" />
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -153,6 +157,14 @@ export default class Interface extends Vue {
 
   set enableAllArtworks(value: boolean) {
     this.$store.dispatch('preferences/setAllArtworkVisible', value)
+  }
+
+  get autoGenerateSymbol(): boolean {
+    return this.$store.state.preferences.autoGenerateSymbol
+  }
+
+  set autoGenerateSymbol(value: boolean) {
+    this.$store.dispatch('preferences/autoGenerateSymbol', value)
   }
 }
 </script>

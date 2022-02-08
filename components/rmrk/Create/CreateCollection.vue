@@ -21,6 +21,7 @@
             :min="1"></b-numberinput>
         </b-field>
         <BasicInput
+          v-if="!autoGenerateSymbol"
           v-model="symbol"
           :label="$t('mint.collection.symbol.label')"
           :message="$t('mint.collection.symbol.message')"
@@ -64,6 +65,7 @@ import {
   addressToHex,
 } from '@kodadot1/minimark'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
+import collectionSymbolsByAccount from '@/queries/collectionSymbolsByAccount.graphql'
 
 type BaseCollectionType = {
   name: string
@@ -101,6 +103,10 @@ export default class CreateCollection extends mixins(
 
   get accountIdToPubKey(): string {
     return addressToHex(this.accountId)
+  }
+
+  get autoGenerateSymbol(): boolean {
+    return this.$store.state.preferences.autoGenerateSymbol
   }
 
   get disabled(): boolean {
@@ -161,6 +167,7 @@ export default class CreateCollection extends mixins(
     try {
       const metadata = await this.constructMeta()
       const mint = this.constructRmrkMint(metadata)
+      console.log(mint)
       const mintInteraction = createMintInteaction(
         Interaction.MINT,
         this.version,
