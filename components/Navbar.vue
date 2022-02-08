@@ -47,8 +47,8 @@
       </template>
     </template>
     <template #end>
-      <HistoryBrowser />
-      <LocaleChanger />
+      <HistoryBrowser class="ml-2" />
+      <LocaleChanger class="ml-2" />
       <ChainSelect />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
@@ -86,6 +86,9 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     & > .container {
       .navbar-menu {
         margin-right: 0;
+        .button {
+          height: 42px;
+        }
       }
     }
   }
@@ -111,6 +114,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .logo {
     border: none !important;
+    margin-left: 0;
   }
 
   .navbar-brand {
