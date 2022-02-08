@@ -1,6 +1,5 @@
 {
     "timezone": "Europe/Berlin",
-    "prHourlyLimit": 5,
     "commitMessagePrefix": "[skip netlify]",
     "automerge": true,
     "automergeType": "pr-comment",
