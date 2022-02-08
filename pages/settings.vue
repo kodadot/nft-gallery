@@ -13,6 +13,9 @@
       <b-tab-item label="Minting" value="minting">
         <Minting />
       </b-tab-item>
+      <b-tab-item label="Keyboard shortcuts" value="keyboardShortcuts">
+        <keyboard-shortcuts />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -23,6 +26,7 @@ import General from '@/components/settings/General.vue'
 import Interface from '@/components/settings/Interface.vue'
 import Minting from '@/components/settings/Minting.vue'
 import Metadata from '@/components/metadata/Metadata.vue'
+import KeyboardShortcuts from '@/components/settings/KeyboardShortcuts.vue'
 
 @Component({
   components: {
@@ -30,6 +34,7 @@ import Metadata from '@/components/metadata/Metadata.vue'
     Metadata,
     Interface,
     Minting,
+    KeyboardShortcuts,
   },
 })
 export default class Settings extends Vue {
