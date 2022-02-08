@@ -16,7 +16,7 @@
       aria-current-label="Current page"
       @change="onPageChange">
     </b-pagination>
-    <b-tooltip :label="$i18n.t('tooltip.random')">
+    <b-tooltip :label="$i18n.t('tooltip.random') + ' (g+r)'">
       <b-button
         class="ml-2 magicBtn"
         title="Go to random page"
@@ -30,15 +30,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 @Component({})
-export default class Pagination extends Vue {
-  @Prop(Number) value!: number
-  @Prop(Number) public total!: number
+export default class Pagination extends mixins(KeyboardEventsMixin) {
+  @Prop() value!: number
+  @Prop() public total!: number
   @Prop(Boolean) simple!: boolean
   @Prop({ type: Number, default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
@@ -57,6 +58,31 @@ export default class Pagination extends Vue {
     // ) {
     //   this.updateSearch(this.$route.query.search);
     // }
+  }
+
+  public created() {
+    if (this.hasMagicBtn) {
+      this.initKeyboardEventHandler({
+        g: this.bindPaginationEvents,
+      })
+    }
+  }
+
+  private bindPaginationEvents(event) {
+    switch (event.key) {
+      case 'n':
+        if (this.current < Math.ceil(this.total / this.perPage))
+          this.current = this.current + 1
+        break
+      case 'p':
+        if (this.current > 1) {
+          this.current = this.current - 1
+        }
+        break
+      case 'r':
+        this.goToRandomPage()
+        break
+    }
   }
 
   public onPageChange() {

@@ -16,18 +16,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const components = {
   VueMarkdown: () => import('vue-markdown-render'),
 }
 
 @Component({ components })
-export default class DescriptionWrapper extends Vue {
+export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
   @Prop(String) public text!: string
   @Prop({ type: Number, default: 130 }) public rowHeight!: number
   protected activeWrapper = true
   private maxCharsWrapper = 125
+
+  public async created() {
+    this.initKeyboardEventHandler({
+      e: this.bindExpandEvents,
+    })
+  }
+
+  private bindExpandEvents(event) {
+    if (event.key === 'd') {
+      this.toggleDescription()
+    }
+  }
 
   get hasWrapper(): boolean {
     return this.text.length > this.maxCharsWrapper
