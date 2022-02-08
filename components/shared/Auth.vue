@@ -6,7 +6,10 @@
         ><Identity :address="account" :inline="true" hideIdentityPopover
       /></span>
     </div>
-    <!-- <Money :value="balance" /> -->
+    <div class="is-flex is-size-6">
+      <span class="mr-2">Balance</span>
+      <Money :value="balance" />
+    </div>
   </div>
   <AccountSelect
     v-else
@@ -30,18 +33,20 @@ const components = {
 export default class Auth extends Vue {
   @Prop({ default: 24 }) public size!: number
   private balance = ''
+  private interval
 
   public mounted() {
     if (this.account) {
       this.$emit('input', this.account)
-      // this.calculateBalance(this.account);
+      this.calculateBalance(this.account)
+      this.pollBalance(this.account)
     }
   }
 
   set account(account: string) {
-    console.log('setAuth', account)
     this.$store.dispatch('setAuth', { address: account })
-    // this.calculateBalance(account);
+    this.calculateBalance(account)
+    this.pollBalance(account)
   }
 
   get account() {
@@ -49,10 +54,24 @@ export default class Auth extends Vue {
   }
 
   protected async calculateBalance(account: string) {
-    console.log('calling balance', account)
     const { api } = Connector.getInstance()
     const balance = await api?.query.system.account(account)
     this.balance = balance?.data.free.toString()
+    this.$emit('update-balance', this.balance)
+  }
+
+  private async pollBalance(account) {
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
+
+    this.interval = setInterval(() => {
+      this.calculateBalance(account)
+    }, 5000)
+  }
+
+  public beforeDestroy() {
+    clearInterval(this.interval)
   }
 }
 </script>

@@ -104,9 +104,10 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
+                          :buyDisabled="isBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
-                      <Auth />
+                      <Auth @update-balance="setUserBalance" />
                     </p>
                   </div>
 
@@ -197,6 +198,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public message = ''
   public priceChartData: [Date, number][][] = []
   public showNavigation = false
+  public userBalance
+  public isBuyDisabled = false
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -353,6 +356,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public toast(message: string): void {
     this.$buefy.toast.open(message)
+  }
+
+  public setUserBalance(balance) {
+    this.userBalance = balance
+    this.isBuyDisabled = Number(this.nft.price) > Number(this.userBalance)
   }
 
   get hasPrice() {

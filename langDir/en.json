@@ -434,7 +434,8 @@
     "sold": "Nfts sold by",
     "collected": "Nfts collected by",
     "buy": "Show only nfts available for purchase",
-    "random": "Go to random page"
+    "random": "Go to random page",
+    "buyDisabled": "Not enough balance"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

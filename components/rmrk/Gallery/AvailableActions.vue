@@ -13,15 +13,31 @@
         <b-icon pack="fab" icon="twitter" />
         <span class="joy">SHARE JOY</span>
       </ShareNetwork>
-      <b-button
-        v-for="action in actions"
-        :key="action"
-        :type="iconType(action)[0]"
-        outlined
-        @click="handleAction(action)"
-        expanded>
-        {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
-      </b-button>
+      <template v-if="isOwner">
+        <b-button
+          v-for="action in actions"
+          :key="action"
+          :type="iconType(action)[0]"
+          outlined
+          @click="handleAction(action)"
+          expanded>
+          {{ action }}
+        </b-button>
+      </template>
+      <template v-else>
+        <b-tooltip
+          :active="buyDisabled"
+          :label="$i18n.t('tooltip.buyDisabled')">
+          <b-button
+            :type="iconType('BUY')[0]"
+            :disabled="buyDisabled"
+            outlined
+            @click="handleAction('BUY')"
+            expanded>
+            {{ replaceBuyNowWithYolo ? 'YOLO' : 'BUY' }}
+          </b-button>
+        </b-tooltip>
+      </template>
     </div>
     <component
       :is="showMeta"
@@ -95,6 +111,7 @@ export default class AvailableActions extends mixins(
   @Prop() public price!: string
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
+  @Prop({ default: false }) public buyDisabled!: boolean
   private selectedAction: Action = ''
   private meta: string | number = ''
   protected isLoading = false
@@ -391,6 +408,14 @@ export default class AvailableActions extends mixins(
   color: #1c9cef !important;
   &:hover {
     color: #fff !important;
+  }
+}
+</style>
+
+<style lang="scss">
+.buttons {
+  .b-tooltip {
+    width: 100%;
   }
 }
 </style>
