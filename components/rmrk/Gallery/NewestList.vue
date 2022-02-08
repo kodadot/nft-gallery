@@ -50,26 +50,28 @@ export default class NewestList extends Vue {
     return false
   }
 
-  async mounted() {
-    const result = await this.$apollo
-      .query<{
-        events: { meta; nft: { meta: { id; image } } }
-      }>({
-        query: lastNftListByEvent,
-        client: 'subsquid',
-        variables: {
-          limit: 10,
-          event: 'LIST',
-        },
-      })
-      .catch((e) => {
-        console.error(e)
-        return { data: null }
-      })
+  mounted() {
+    setTimeout(async () => {
+      const result = await this.$apollo
+        .query<{
+          events: { meta; nft: { meta: { id; image } } }
+        }>({
+          query: lastNftListByEvent,
+          client: 'subsquid',
+          variables: {
+            limit: 10,
+            event: 'LIST',
+          },
+        })
+        .catch((e) => {
+          console.error(e)
+          return { data: null }
+        })
 
-    if (result.data) {
-      this.handleResult(result)
-    }
+      if (result.data) {
+        this.handleResult(result)
+      }
+    }, 500)
   }
 
   protected async handleResult({ data }: any) {
