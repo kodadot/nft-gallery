@@ -1,0 +1,8 @@
+query collectionSymbolsByAccount($account: String!) {
+  collectionEntities(filter: { issuer: { equalTo: $account } }) {
+    nodes {
+      id
+      symbol
+    }
+  }
+}
