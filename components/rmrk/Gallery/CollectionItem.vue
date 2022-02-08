@@ -30,7 +30,7 @@
       </div>
 
       <div class="column is-6-tablet is-7-desktop is-8-widescreen">
-        <CollectionActivity :nfts="stats" />
+        <CollectionActivity :id="id" />
       </div>
 
       <div class="column has-text-right">
@@ -159,9 +159,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected stats: NFT[] = []
   protected priceData: any = []
   private statsLoaded = false
+  private queryLoading = 0
 
   get isLoading(): boolean {
-    return this.$apollo.queries.collection.loading
+    return Boolean(this.queryLoading)
   }
 
   get offset(): number {
@@ -221,7 +222,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
-      loadingKey: 'isLoading',
+      loadingKey: 'queryLoading',
       manual: true,
       variables: () => {
         return {
@@ -236,11 +237,14 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     })
   }
 
-  public checkIfEmptyListed(): void {
-    this.$apollo.addSmartQuery('collection', {
+  public async checkIfEmptyListed(): Promise<void> {
+    // if the collection is empty, we need to check if there are any listed NFTs
+    this.$apollo.addSmartQuery('totalListed', {
       query: collectionById,
       client: this.urlPrefix,
-      loadingKey: 'isLoading',
+      update: (data) => {
+        return data.collectionEntity.nfts.totalCount
+      },
       variables: () => {
         return {
           id: this.id,
@@ -250,7 +254,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
           offset: this.offset,
         }
       },
-      result: this.handleResultListed,
     })
   }
 
@@ -266,6 +269,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     nftStatsP
       .then(({ data }) => data?.nFTEntities?.nodes || [])
       .then((nfts) => {
+        console.log(nfts)
         this.stats = nfts
         this.statsLoaded = true
         this.loadPriceData()
@@ -311,10 +315,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     this.total = collectionEntity.nfts.totalCount
 
     await this.fetchMetadata()
-  }
-
-  public async handleResultListed({ data }: any): Promise<void> {
-    this.totalListed = data.collectionEntity.nfts.totalCount
   }
 
   public async fetchMetadata(): Promise<void> {
