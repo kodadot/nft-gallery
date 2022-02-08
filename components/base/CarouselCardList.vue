@@ -36,6 +36,7 @@
                 </div>
               </nuxt-link>
               <nuxt-link
+                v-if="list.currentOwner"
                 :to="{
                   name: 'rmrk-u-id',
                   params: { id: list.currentOwner },
@@ -80,7 +81,7 @@ const components = {
 })
 export default class CarouselList extends mixins(AuthMixin) {
   @Prop({ type: Array, required: true }) nfts!: any[] // mising type
-  @Prop({ type: Number, required: true }) page!: number
+  @Prop({ type: Number, default: 1 }) page!: number
 
   get current() {
     return this.page - 1 // 0-indexed

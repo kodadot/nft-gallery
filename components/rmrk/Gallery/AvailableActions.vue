@@ -51,6 +51,7 @@ import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
@@ -85,7 +86,8 @@ const components = {
 @Component({ components })
 export default class AvailableActions extends mixins(
   RmrkVersionMixin,
-  PrefixMixin
+  PrefixMixin,
+  KeyboardEventsMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
@@ -100,6 +102,23 @@ export default class AvailableActions extends mixins(
   protected label = ''
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
+
+  public created() {
+    this.initKeyboardEventHandler({
+      a: this.bindActionEvents,
+    })
+  }
+
+  private bindActionEvents(event) {
+    const mappings = {
+      b: 'BUY',
+      s: 'SEND',
+      c: 'CONSUME',
+      l: 'LIST',
+    }
+
+    this.handleAction(mappings[event.key])
+  }
 
   get actions() {
     return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []

@@ -33,13 +33,17 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 Chart.register(zoomPlugin)
 
 const components = {}
 
 @Component({ components })
-export default class PriceChart extends mixins(ChainMixin) {
+export default class PriceChart extends mixins(
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop() public priceChartData!: [Date, number][][]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
@@ -56,10 +60,19 @@ export default class PriceChart extends mixins(ChainMixin) {
 
   public async created() {
     window.addEventListener('resize', this.onWindowResize)
+    this.initKeyboardEventHandler({
+      e: this.bindExpandEvents,
+    })
   }
 
   public async mounted() {
     this.getPriceChartData()
+  }
+
+  private bindExpandEvents(event) {
+    if (event.key === 'p') {
+      this.isOpen = !this.isOpen
+    }
   }
 
   protected getPriceChartData() {

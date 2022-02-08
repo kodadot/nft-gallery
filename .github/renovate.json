@@ -1,53 +1,49 @@
 {
     "timezone": "Europe/Berlin",
-    "prHourlyLimit": 5,
     "commitMessagePrefix": "[skip netlify]",
     "automerge": true,
     "automergeType": "pr-comment",
     "automergeComment": "lgtm",
     "rangeStrategy": "bump",
+    "prHourlyLimit": 5,
     "schedule": [
-        "after 10pm every weekday",
-        "before 5am every weekday",
-        "every weekend"
+      "after 10pm every weekday",
+      "before 6am every weekday",
+      "every weekend"
     ],
     "packageRules": [
       {
-        "matchSourceUrlPrefixes": [
-          "https://github.com/DefinitelyTyped",
-          "https://github.com/vuejs",
-          "https://github.com/FortAwesome",
-          "https://github.com/babel"
-        ],
-        "groupName": "merge with hazmat suit types & vue & fonts & babel",
-        "prHeader": "merge with hazmat suit, may include new vuejs & types",
-        "rangeStrategy": "bump"
-      },
-      {
         "matchPackagePatterns": [
           "^axios",
-          "^nuxt",
-          "^model-viewer",
-          "^vue",
-          "^eslint",
-          "^lint",
+          "^babel",
           "^buefy",
-          "^graphql",
-          "^typescript",
           "^chartjs",
+          "DefinitelyTyped",
+          "fortawesome",
+          "^eslint",
+          "^graphql",
+          "^jest",
+          "^lint",
+          "^model-viewer",
+          "^nuxt",
+          "^vue",
+          "^vuejs",
+          "^typescript",
+          "typescript-eslint",
           "^ws"
         ],
-        "groupName": "merge with hazmat suit bundle",
-        "prHeader": "merge with hazmat suit, may include new packages bumps",
+        "groupName": "Bumped minor version of packages",
+        "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
         "rangeStrategy": "bump"
       },
       {
         "matchSourceUrlPrefixes": [
           "https://github.com/polkadot-js/",
           "https://github.com/vue-polkadot/",
-          "https://github.com/cloudacy/vue-markdown-render"  
+          "https://github.com/kodadot/packages",
+          "https://github.com/cloudacy/vue-markdown-render"
         ],
-        "groupName": "merge with hazmat suit",
+        "groupName": "merge with hazmat suit extra",
         "enabled": false
       }
     ],
