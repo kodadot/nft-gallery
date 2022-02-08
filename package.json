@@ -1,8 +1,17 @@
 {
-  "url": "https://github.com/kodadot/nft-gallery/issues",
-  "homepage": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md",
-  "name": "nft-gallery-nuxt",
-  "version": "2.0.0",
+  "homepage": "https://kodadot.xyz",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/npm/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kodadot/nft-gallery/issues"
+  },
+  "description": "Open Source NFT marketplace developed as public good",
+  "keywords": ["nft", "marketplace", "open source", "public good"],
+  "license": "MIT",
+  "name": "kodadot-nft-gallery",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -44,7 +53,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "@google/model-viewer": "^1.10.1",
     "@keeex/qrcodejs-kx": "^1.0.2",
-    "@kodadot1/minimark": "^0.0.1-rc.3",
+    "@kodadot1/minimark": "^0.0.1-rc.4",
     "@kodadot1/sub-api": "^0.0.1-rc.2",
     "@kodadot1/vuex-options": "^0.0.1-rc.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
