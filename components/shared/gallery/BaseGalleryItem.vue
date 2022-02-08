@@ -174,8 +174,9 @@ export default class BaseGalleryItem extends Vue {
   button#theatre-view {
     position: absolute;
     bottom: 12px;
-    right: 75px;
+    right: 68px;
     color: $light-text;
+    opacity: 0.6;
     @media screen and (max-width: 768px) {
       display: none;
     }
@@ -185,7 +186,7 @@ export default class BaseGalleryItem extends Vue {
     position: absolute;
     bottom: 12px;
     right: 12px;
-
+    opacity: 0.6;
     &.fullscreen {
       position: fixed;
       z-index: 999998;

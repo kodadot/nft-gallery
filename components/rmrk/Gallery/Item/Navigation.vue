@@ -121,5 +121,6 @@ export default class Navigation extends mixins(KeyboardEventsMixin) {
   pointer-events: all;
   border: 0 !important;
   border-top: 2px solid $primary !important;
+  opacity: 0.6;
 }
 </style>
