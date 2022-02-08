@@ -269,7 +269,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     nftStatsP
       .then(({ data }) => data?.nFTEntities?.nodes || [])
       .then((nfts) => {
-        console.log(nfts)
         this.stats = nfts
         this.statsLoaded = true
         this.loadPriceData()
