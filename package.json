@@ -1,9 +1,15 @@
 {
-  "url": "https://github.com/kodadot/nft-gallery/issues",
-  "homepage": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md",
+  "homepage": "https://kodadot.xyz",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/npm/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kodadot/nft-gallery/issues"
+  },
   "description": "Open Source NFT marketplace developed as public good",
   "keywords": ["nft", "marketplace", "open source", "public good"],
-  "license": "MIT License",
+  "license": "MIT",
   "name": "kodadot-nft-gallery",
   "version": "3.0.0",
   "private": true,
