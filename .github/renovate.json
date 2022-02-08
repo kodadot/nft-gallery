@@ -5,24 +5,20 @@
     "automergeType": "pr-comment",
     "automergeComment": "lgtm",
     "rangeStrategy": "bump",
+    "prHourlyLimit": 5,
+    "schedule": [
+      "after 10pm every weekday",
+      "before 6am every weekday",
+      "every weekend"
+    ],
     "packageRules": [
-      {
-        "matchSourceUrlPrefixes": [
-          "https://github.com/DefinitelyTyped",
-          "https://github.com/vuejs",
-          "https://github.com/FortAwesome",
-          "https://github.com/babel"
-        ],
-        "groupName": "merge with hazmat suit types & vue & fonts & babel",
-        "prHeader": "merge with hazmat suit, may include new vuejs & types",
-        "rangeStrategy": "bump"
-      },
       {
         "matchPackagePatterns": [
           "^axios",
           "^babel",
           "^buefy",
           "^chartjs",
+          "DefinitelyTyped",
           "fortawesome",
           "^eslint",
           "^graphql",
@@ -31,12 +27,13 @@
           "^model-viewer",
           "^nuxt",
           "^vue",
+          "^vuejs",
           "^typescript",
           "typescript-eslint",
           "^ws"
         ],
-        "groupName": "merge with hazmat suit bundle",
-        "prHeader": "merge with hazmat suit, may include new packages bumps",
+        "groupName": "Bumped minor version of packages",
+        "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
         "rangeStrategy": "bump"
       },
       {
