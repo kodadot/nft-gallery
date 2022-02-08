@@ -21,11 +21,13 @@
       {
         "matchPackagePatterns": [
           "^axios",
+          "^babel",
           "^buefy",
           "^chartjs",
-          "^fortawesome",
+          "fortawesome",
           "^eslint",
           "^graphql",
+          "^jest",
           "^lint",
           "^model-viewer",
           "^nuxt",
