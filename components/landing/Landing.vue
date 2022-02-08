@@ -82,6 +82,7 @@
 
       <div v-if="prefix === 'rmrk'">
         <LatestSales class="my-5" />
+        <NewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -92,6 +93,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {
   LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
+  NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
 }
 @Component<Landing>({
   components,

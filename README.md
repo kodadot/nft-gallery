@@ -82,18 +82,14 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 - [Twitter](https://twitter.com/KodaDot)
 - [Discord](https://discord.gg/u6ymnbz4PR)
 
-### Discontinued for now (if you want help us manage these, shout out on Discord)
-
-- [Telegram](https://t.me/kodadot)
-- [r/KodaDot](https://www.reddit.com/r/KodaDot/)
-
 ## Backlog on progress
 
 - We've [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 - You can [find most recent progress, roadmap, planned features, bug fixes, future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 
 ## Writings-📚 by KodaDot team members
-
+- [Wen-Statemine-by-KodaDot](medium.com/kodadot/wen-statemine-by-kodadot-b35ae13b70ff)
+- [Road To KodaDot v2](https://medium.com/kodadot/road-to-kodadot-v2-recapping-the-last-chapter-of-2021-9709fb4f3ee7)
 - [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
 - [We've organized first Dotsama meetup in Lisbon thanks to KodaDot](https://medium.com/kodadot/first-dotsama-meetup-in-lisbon-and-how-the-kodadot-team-helped-to-make-it-real-10b4ca63d0b5)
 - [Mass Airdrop and what we've learned](https://medium.com/kodadot/mass-airdrop-and-what-weve-learned-d063efb7c088)
@@ -120,7 +116,6 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 ## Development 🏗
 
 - [Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
-
 - [How to setup environment for first time and how to run the project.](FIRST_TIME.md)
 
 ## I want to contribute- 🙋‍

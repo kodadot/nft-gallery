@@ -9,6 +9,7 @@
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
+          class="gallery-search"
           v-model="name"
           :data="searchSuggestion"
           placeholder="Search..."
@@ -16,6 +17,7 @@
           open-on-focus
           clearable
           max-height="350px"
+          dropdown-position="is-bottom-left"
           expanded
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
@@ -86,6 +88,9 @@
         <slot />
       </b-field>
     </div>
+    <div v-if="searchQuery" class="mt-3">
+      <span>Showing results for {{ searchQuery }}</span>
+    </div>
     <b-collapse
       aria-id="sortAndFilter"
       animation="opacitySlide"
@@ -114,6 +119,7 @@ import { NFT, NFTMetadata } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
 import {
   getCloudflareImageLinks,
@@ -131,7 +137,10 @@ import { fastExtract } from '~/utils/ipfs'
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
-export default class SearchBar extends mixins(PrefixMixin) {
+export default class SearchBar extends mixins(
+  PrefixMixin,
+  KeyboardEventsMixin
+) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
@@ -145,7 +154,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     listed: false,
   }
 
-  private first = 10
+  private first = 30
   private currentValue = 1
   private result: NFT[] = []
   private searchString = ''
@@ -159,6 +168,32 @@ export default class SearchBar extends mixins(PrefixMixin) {
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
+  }
+
+  public created() {
+    this.initKeyboardEventHandler({
+      f: this.bindFilterEvents,
+    })
+  }
+
+  private bindFilterEvents(event) {
+    switch (event.key) {
+      case 'b':
+        this.updateListed(!this.vListed)
+        break
+      case 'n':
+        this.updateSortBy('BLOCK_NUMBER_DESC')
+        break
+      case 'o':
+        this.updateSortBy('BLOCK_NUMBER_ASC')
+        break
+      case 'e':
+        this.updateSortBy('PRICE_DESC')
+        break
+      case 'c':
+        this.updateSortBy('PRICE_ASC')
+        break
+    }
   }
 
   get vListed(): boolean {
@@ -222,7 +257,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
     //When an item from the autocomplete list is highlighted
     if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
-      //Higlighted item is NFT or search result from cache
+      //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
         this.insertNewHistroy()
         this.updateSearch(this.searchString)
@@ -324,7 +359,7 @@ export default class SearchBar extends mixins(PrefixMixin) {
       const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
       const imageLinks = await getCloudflareImageLinks(metadataList)
 
-      processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
         Vue.set(this.result, i, {
           ...this.result[i],
           ...meta,
@@ -397,12 +432,11 @@ export default class SearchBar extends mixins(PrefixMixin) {
 
   private oldSearchResult(value: string): boolean {
     const res = this.searched.filter((r) => r.name === value)
-    return res.length ? true : false
+    return !!res.length
   }
 
   private removeSearchHistory(value: string): void {
-    const temp = this.searched.filter((r) => r.name !== value)
-    this.searched = temp
+    this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 }
@@ -432,8 +466,4 @@ export default class SearchBar extends mixins(PrefixMixin) {
     transition: all 3s !important;
   }
 }
-// .preview-media-wrapper {
-//   width: 32px;
-//   height: 32px;
-// }
 </style>
