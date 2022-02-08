@@ -6,11 +6,6 @@
     "automergeType": "pr-comment",
     "automergeComment": "lgtm",
     "rangeStrategy": "bump",
-    "schedule": [
-        "after 10pm every weekday",
-        "before 5am every weekday",
-        "every weekend"
-    ],
     "packageRules": [
       {
         "matchSourceUrlPrefixes": [
