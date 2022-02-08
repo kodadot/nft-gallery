@@ -32,7 +32,11 @@
                 :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
                   <b-icon icon="palette" />
-                  <Identity :address="list.issuer" inline noOwerlow />
+                  <Identity
+                    :address="list.issuer"
+                    inline
+                    noOwerlow
+                    class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
               <nuxt-link
@@ -94,14 +98,26 @@ export default class CarouselList extends mixins(AuthMixin) {
         300: {
           itemsToShow: 1,
         },
-        500: {
+        600: {
           itemsToShow: 2,
         },
-        768: {
+        800: {
+          itemsToShow: 2.5,
+        },
+        900: {
+          itemsToShow: 3,
+        },
+        1000: {
           itemsToShow: 3.5,
         },
         1200: {
+          itemsToShow: 4,
+        },
+        1400: {
           itemsToShow: 4.5,
+        },
+        1800: {
+          itemsToShow: 5,
         },
       },
     }
@@ -114,7 +130,7 @@ export default class CarouselList extends mixins(AuthMixin) {
 
 .carousel-card-list {
   overflow: inherit;
-  mask: linear-gradient(90deg, rgb(255, 255, 255) 45%, transparent);
+  mask: linear-gradient(90deg, rgb(255, 255, 255) 65%, transparent);
 }
 
 .card {
