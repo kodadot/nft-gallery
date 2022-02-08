@@ -26,15 +26,17 @@
       {
         "matchPackagePatterns": [
           "^axios",
-          "^nuxt",
-          "^model-viewer",
-          "^vue",
-          "^eslint",
-          "^lint",
           "^buefy",
-          "^graphql",
-          "^typescript",
           "^chartjs",
+          "^fortawesome",
+          "^eslint",
+          "^graphql",
+          "^lint",
+          "^model-viewer",
+          "^nuxt",
+          "^vue",
+          "^typescript",
+          "^typescript-eslint",
           "^ws"
         ],
         "groupName": "merge with hazmat suit bundle",
@@ -45,9 +47,10 @@
         "matchSourceUrlPrefixes": [
           "https://github.com/polkadot-js/",
           "https://github.com/vue-polkadot/",
-          "https://github.com/cloudacy/vue-markdown-render"  
+          "https://github.com/kodadot/packages",
+          "https://github.com/cloudacy/vue-markdown-render"
         ],
-        "groupName": "merge with hazmat suit",
+        "groupName": "merge with hazmat suit extra",
         "enabled": false
       }
     ],
