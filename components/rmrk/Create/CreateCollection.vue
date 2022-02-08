@@ -116,8 +116,14 @@ export default class CreateCollection extends mixins(
       max,
       accountId,
       unlimited,
+      autoGenerateSymbol,
     } = this
-    return !(name && symbol && (unlimited || max) && accountId)
+    return !(
+      name &&
+      (symbol || autoGenerateSymbol) &&
+      (unlimited || max) &&
+      accountId
+    )
   }
 
   public constructRmrkMint(metadata: string): CreatedCollection {
