@@ -31,7 +31,7 @@ import {
   getProperImageLink,
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
-import newestListNft from '@/queries/unique/newestListNft.graphql'
+import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -39,17 +39,6 @@ const components = {
 }
 
 @Component<NewestList>({
-  fetch() {
-    this.$apollo.addSmartQuery<{
-      events: { meta; nft: { meta: { id; image } } }
-    }>('nfts', {
-      query: newestListNft,
-      manual: true,
-      client: 'subsquid',
-      loadingKey: 'isLoading',
-      result: this.handleResult,
-    })
-  },
   components,
 })
 export default class NewestList extends Vue {
@@ -58,7 +47,29 @@ export default class NewestList extends Vue {
   private total = 0
 
   get isLoading(): boolean {
-    return this.$apollo.queries.nfts.loading
+    return false
+  }
+
+  async mounted() {
+    const result = await this.$apollo
+      .query<{
+        events: { meta; nft: { meta: { id; image } } }
+      }>({
+        query: lastNftListByEvent,
+        client: 'subsquid',
+        variables: {
+          limit: 10,
+          event: 'LIST',
+        },
+      })
+      .catch((e) => {
+        console.error(e)
+        return { data: null }
+      })
+
+    if (result.data) {
+      this.handleResult(result)
+    }
   }
 
   protected async handleResult({ data }: any) {
