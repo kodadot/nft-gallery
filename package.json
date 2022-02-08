@@ -44,7 +44,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "@google/model-viewer": "^1.10.1",
     "@keeex/qrcodejs-kx": "^1.0.2",
-    "@kodadot1/minimark": "^0.0.1-rc.3",
+    "@kodadot1/minimark": "^0.0.1-rc.4",
     "@kodadot1/sub-api": "^0.0.1-rc.2",
     "@kodadot1/vuex-options": "^0.0.1-rc.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
