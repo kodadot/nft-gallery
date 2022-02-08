@@ -102,6 +102,18 @@ KodaDot supports Hot Module Replacement on docker; any changes made will take ef
 
 ## Dev hacks (FAQ) 🦇
 
+**0. How can I resolve conflict on yarn.lock?**
+
+> CONFLICT (content): Merge conflict in yarn.lock
+
+When you see conflict on `yarn.lock` and you are on your pull-request branch, merge upstream branch and run `yarn`, unless you have conflict on `package.json`, that requires manual resolve.
+
+```bash
+git fetch --all 
+git merge origin/main
+yarn
+```
+
 **1. How can I read some data from the GraphQL?**
 
 Every `.graphql` file is located in the `src/queries/`.

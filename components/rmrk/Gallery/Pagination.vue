@@ -41,14 +41,15 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop() value!: number
   @Prop() public total!: number
   @Prop(Boolean) simple!: boolean
-  @Prop({ default: 20 }) public perPage!: number
+  @Prop({ type: Number, default: 20 }) public perPage!: number
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean
 
   public mounted() {
     exist(this.$route.query.page, (val) => {
-      this.current = Number(val)
+      // when component is mounted, if there is search query present always start from first page
+      this.current = this.$route.query.search ? 1 : Number(val)
     })
     // console.log('query', this.$route.query)
     // if (

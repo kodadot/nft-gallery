@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
+    <div
+      :style="[
+        activeWrapper && hasWrapper ? { maxHeight: `${rowHeight}px` } : null,
+      ]"
+      :class="{ 'description-wrapper': activeWrapper && hasWrapper }">
       <VueMarkdown :source="text" />
     </div>
     <div class="has-text-centered">
@@ -22,6 +26,7 @@ const components = {
 @Component({ components })
 export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
   @Prop(String) public text!: string
+  @Prop({ type: Number, default: 130 }) public rowHeight!: number
   protected activeWrapper = true
   private maxCharsWrapper = 125
 
@@ -48,7 +53,6 @@ export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
 </script>
 <style>
 .description-wrapper {
-  max-height: 130px;
   word-break: break-word;
   mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
 }

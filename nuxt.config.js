@@ -143,10 +143,6 @@ export default {
         extensions: ['vue'],
       },
       {
-        path: '~/components/toolbox',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/transfer',
         extensions: ['vue'],
       },

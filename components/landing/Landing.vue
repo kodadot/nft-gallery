@@ -80,43 +80,9 @@
         </div>
       </div>
 
-      <div class="homepage__box">
-        <div class="homepage__box-content">
-          <p>
-            Would you like to get featured on our gallery page? Perhaps you have
-            a business proposal in mind. Maybe you would like to be an
-            ambassador. Go to this section for all of the above.
-          </p>
-          <b-button
-            tag="nuxt-link"
-            to="/partnership"
-            type="is-primary"
-            class="homepage__button--wrapped">
-            Partnership & Ambassador Program
-          </b-button>
-          <div>
-            <p>
-              <span> Would you like to know how our journey started? </span>
-              <span> If so, visit the About section. </span>
-            </p>
-            <p>
-              <span> Struggling with KodaDot? </span>
-              <span> Head over to our <a href="/rmrk/faq">FAQ page.</a> </span>
-            </p>
-            <p>
-              <span> Found issue? Have Feedback? </span>
-              <span> Create issue on our GitHub. </span>
-            </p>
-          </div>
-        </div>
-        <b-button
-          tag="a"
-          href="https://github.com/kodadot/nft-gallery/issues/new/choose"
-          target="_blank"
-          rel="noopener noreferrer"
-          type="is-primary">
-          Kodadot Github
-        </b-button>
+      <div v-if="prefix === 'rmrk'">
+        <LatestSales class="my-5" />
+        <NewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -125,7 +91,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-const components = {}
+const components = {
+  LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
+  NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
+}
 @Component<Landing>({
   components,
 })
@@ -144,12 +113,6 @@ export default class Landing extends Vue {
   height: 100%;
   color: $text;
 
-  @include desktop {
-    background: url('/homepage-bg.webp') center bottom;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
   &__title {
     display: inline-flex;
     padding: 16px 32px;
@@ -161,40 +124,6 @@ export default class Landing extends Vue {
   &__heading {
     font-size: 4rem;
     color: $text;
-  }
-
-  &__box {
-    max-width: 600px;
-    padding: 40px 48px;
-    margin: 120px 0 132px;
-    background-color: $scheme-main;
-    border: 4px solid $primary;
-    border-radius: 0;
-
-    @include desktop {
-      box-shadow: 28px -28px $black, 28px -28px 0 4px $primary;
-    }
-  }
-
-  &__box-content {
-    max-width: 464px;
-
-    p,
-    .button {
-      margin-bottom: 32px;
-    }
-
-    p {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &__button {
-    &--wrapped {
-      height: auto;
-      white-space: normal;
-    }
   }
 }
 

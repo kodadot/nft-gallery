@@ -1,7 +1,7 @@
 // TODO: hacky, but works for now
 import { queryBatch } from '@/utils/cloudflare'
 import { get, getMany, setMany, update } from 'idb-keyval'
-import { fetchMetadata, zip } from '~/components/rmrk/utils'
+import { fetchMetadata, getSanitizer, zip } from '~/components/rmrk/utils'
 import { emptyObject } from './empty'
 import { imageStore } from './idbStore'
 import { fastExtract } from './ipfs'
@@ -79,3 +79,9 @@ export const processMetadata = async <T>(
     }
   })
 }
+
+export const getProperImageLink =
+  (imageLinks: KeyValue) =>
+  (metadata: string, image: string): string => {
+    return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
+  }

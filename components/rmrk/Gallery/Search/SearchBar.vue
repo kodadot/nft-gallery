@@ -9,6 +9,7 @@
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
+          class="gallery-search"
           v-model="name"
           :data="searchSuggestion"
           placeholder="Search..."
@@ -16,6 +17,7 @@
           open-on-focus
           clearable
           max-height="350px"
+          dropdown-position="is-bottom-left"
           expanded
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
@@ -86,6 +88,9 @@
         <slot />
       </b-field>
     </div>
+    <div v-if="searchQuery" class="mt-3">
+      <span>Showing results for {{ searchQuery }}</span>
+    </div>
     <b-collapse
       aria-id="sortAndFilter"
       animation="opacitySlide"
@@ -149,7 +154,7 @@ export default class SearchBar extends mixins(
     listed: false,
   }
 
-  private first = 10
+  private first = 30
   private currentValue = 1
   private result: NFT[] = []
   private searchString = ''
@@ -252,7 +257,7 @@ export default class SearchBar extends mixins(
     //When an item from the autocomplete list is highlighted
     if (this.highlightPos >= 0) {
       const searchCache = this.filterSearch()
-      //Higlighted item is NFT or search result from cache
+      //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
         this.insertNewHistroy()
         this.updateSearch(this.searchString)
@@ -354,12 +359,13 @@ export default class SearchBar extends mixins(
       const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
       const imageLinks = await getCloudflareImageLinks(metadataList)
 
-      processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+      await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
         Vue.set(this.result, i, {
           ...this.result[i],
           ...meta,
           image:
-            imageLinks[fastExtract(this.result[i].metadata)] ||
+            (this.result[i]?.metadata &&
+              imageLinks[fastExtract(this.result[i].metadata)]) ||
             getSanitizer(meta.image || '')(meta.image || ''),
           animation_url: getSanitizer(meta.animation_url || '')(
             meta.animation_url || ''
@@ -375,10 +381,17 @@ export default class SearchBar extends mixins(
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        name: String(this.$route.name),
-        query: { ...this.$route.query, search: this.searchQuery, [key]: value },
+        path: this.$route.path,
+        query: {
+          ...this.$route.query,
+          search: this.searchQuery,
+          page: '1',
+          [key]: value,
+        },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
+    // if searchbar request or filter is set, pagination should always revert to page 1
+    this.$emit('resetPage')
   }
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
@@ -419,12 +432,11 @@ export default class SearchBar extends mixins(
 
   private oldSearchResult(value: string): boolean {
     const res = this.searched.filter((r) => r.name === value)
-    return res.length ? true : false
+    return !!res.length
   }
 
   private removeSearchHistory(value: string): void {
-    const temp = this.searched.filter((r) => r.name !== value)
-    this.searched = temp
+    this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 }
@@ -454,8 +466,4 @@ export default class SearchBar extends mixins(
     transition: all 3s !important;
   }
 }
-// .preview-media-wrapper {
-//   width: 32px;
-//   height: 32px;
-// }
 </style>

@@ -116,9 +116,27 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
+  .navbar-link {
+    &:hover {
+      background-color: $primary !important;
+      color: $text !important;
+    }
+  }
+
   .navbar-item {
     text-transform: uppercase;
     font-weight: 500;
+    border-top: 2px solid $primary;
+    margin-left: 0.5em;
+    transition: 0.3s;
+    &:hover {
+      background-color: $primary;
+      color: $text;
+    }
+  }
+
+  .logo {
+    border: none !important;
   }
 
   .navbar-brand {
@@ -131,6 +149,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
     box-shadow: $dropdown-content-shadow !important;
+    .navbar-item {
+      border: none !important;
+      margin-left: 0 !important;
+    }
   }
 }
 </style>
