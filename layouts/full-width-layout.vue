@@ -5,6 +5,7 @@
       <Nuxt />
     </main>
     <Footer />
+    <KeyboardShortcutsModal />
   </div>
 </template>
 
@@ -12,7 +13,12 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import isShareMode from '@/utils/isShareMode'
 
-@Component<Dashboard>({})
+@Component<Dashboard>({
+  components: {
+    KeyboardShortcutsModal: () =>
+      import('@/components/shared/modals/keyboardShortcutsModal.vue'),
+  },
+})
 export default class Dashboard extends Vue {
   get isNavbarVisible() {
     return !isShareMode

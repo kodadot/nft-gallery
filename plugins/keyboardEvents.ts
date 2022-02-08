@@ -71,6 +71,13 @@ const listenGlobalKeyboardEvents = (app, store) => {
     if (keysPressed['c']) {
       bindCopyEvents(event)
     }
+
+    if (event.key === '?') {
+      const element: HTMLElement = document.getElementById(
+        'keyboardShortcutsModal'
+      ) as HTMLElement
+      element.click()
+    }
   })
 
   document.addEventListener('keyup', (event) => {
