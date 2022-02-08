@@ -1,0 +1,26 @@
+query collectionStatsById($id: String!) {
+	stats: collectionEntity(id: $id) {
+    id
+		base: nfts {
+			count: totalCount
+      nfts: nodes {
+        currentOwner
+        events
+      }
+			aggregates {
+				distinctCount {
+					currentOwner
+        }
+			}
+		}
+		listed: nfts(filter: { price: { greaterThan: "0" } }) {
+			count: totalCount
+      aggregates {
+        floor: min {
+          value: price
+        }
+      }
+		}
+
+	}
+}
