@@ -49,12 +49,12 @@ export default class keyboardShortcuts extends Vue {
   ]
   public columns = [
     {
-      field: 'action',
-      label: 'Action',
-    },
-    {
       field: 'shortcut',
       label: 'Shortcut',
+    },
+    {
+      field: 'action',
+      label: 'Action',
     },
   ]
   public data = {
@@ -136,7 +136,7 @@ export default class keyboardShortcuts extends Vue {
     ],
     filters: [
       {
-        action: 'Filter by now',
+        action: 'Filter buy now',
         shortcut: 'f+b',
       },
       {
