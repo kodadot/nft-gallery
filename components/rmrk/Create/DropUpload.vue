@@ -10,7 +10,11 @@
         <div class="content has-text-centered">
           <p>
             <b-icon v-if="!file && !url" :icon="icon" size="is-large" />
-            <img v-if="url && !hasError" :src="url" @error="hasError = true" />
+            <img
+              class="h-20 image-fit-contain"
+              v-if="url && !hasError"
+              :src="url"
+              @error="hasError = true" />
             <b-icon v-if="hasError" icon="eye-slash" size="is-large" />
           </p>
           <p v-if="!file">
@@ -89,3 +93,13 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.h-20 {
+  height: 20em;
+}
+
+.image-fit-contain {
+  object-fit: cover;
+}
+</style>
