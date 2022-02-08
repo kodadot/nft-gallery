@@ -5,12 +5,6 @@
     "automergeType": "pr-comment",
     "automergeComment": "lgtm",
     "rangeStrategy": "bump",
-    "prHourlyLimit": 5,
-    "schedule": [
-      "after 10pm every weekday",
-      "before 6am every weekday",
-      "every weekend"
-    ],
     "packageRules": [
       {
         "matchPackagePatterns": [
