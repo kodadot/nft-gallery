@@ -32,7 +32,7 @@
           "^nuxt",
           "^vue",
           "^typescript",
-          "^typescript-eslint",
+          "typescript-eslint",
           "^ws"
         ],
         "groupName": "merge with hazmat suit bundle",
