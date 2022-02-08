@@ -1,8 +1,11 @@
 {
   "url": "https://github.com/kodadot/nft-gallery/issues",
   "homepage": "https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md",
-  "name": "nft-gallery-nuxt",
-  "version": "2.0.0",
+  "description": "Open Source NFT marketplace developed as public good",
+  "keywords": ["nft", "marketplace", "open source", "public good"],
+  "license": "MIT License",
+  "name": "kodadot-nft-gallery",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
