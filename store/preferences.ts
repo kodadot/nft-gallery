@@ -16,6 +16,7 @@ export const state = (): {
   hasSupport: boolean
   hasCarbonOffset: boolean
   arweaveUpload: boolean
+  autoGenerateSymbol: boolean
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
   advancedUI: false,
@@ -30,6 +31,7 @@ export const state = (): {
   hasCarbonOffset: true,
   arweaveUpload: false,
   enableAllArtwork: true,
+  autoGenerateSymbol: true,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -47,6 +49,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getHasCarbonOffset: ({ hasCarbonOffset }) => hasCarbonOffset,
   getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
   getLoadAllArtwork: ({ enableAllArtwork }) => enableAllArtwork,
+  getAutoGenerateSymbol: ({ autoGenerateSymbol }) => autoGenerateSymbol,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -99,6 +102,9 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ALL_ARTWORK_VISIBLE(state: PreferencesState, data) {
     state.enableAllArtwork = data
   },
+  SET_AUTO_GENERATE_SYMBOL(state: PreferencesState, data) {
+    state.autoGenerateSymbol = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -140,5 +146,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setAllArtworkVisible({ commit }: { commit: Commit }, data) {
     commit('SET_ALL_ARTWORK_VISIBLE', data)
+  },
+  setAutoGenerateSymbol({ commit }: { commit: Commit }, data) {
+    commit('SET_AUTO_GENERATE_SYMBOL', data)
   },
 }
