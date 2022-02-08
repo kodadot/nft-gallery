@@ -199,7 +199,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public priceChartData: [Date, number][][] = []
   public showNavigation = false
   public userBalance
-  public isBuyDisabled = false
+  public isBuyDisabled = true
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -360,7 +360,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setUserBalance(balance) {
     this.userBalance = balance
-    this.isBuyDisabled = Number(this.nft.price) > Number(this.userBalance)
+    this.isBuyDisabled =
+      this.nft.price && this.userBalance
+        ? Number(this.nft.price) > Number(this.userBalance)
+        : true
   }
 
   get hasPrice() {
