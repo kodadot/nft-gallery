@@ -111,7 +111,8 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
-import nftListByCollection from '@/queries/nftListByCollection.graphql'
+import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
+// collectionNftEventListById
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
@@ -157,9 +158,13 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
-  protected priceData: any = []
+  protected priceData: [PriceDataType[], PriceDataType[]] | [] = []
   private statsLoaded = false
   private queryLoading = 0
+
+  get hasChartData(): boolean {
+    return this.priceData.length > 0
+  }
 
   get isLoading(): boolean {
     return Boolean(this.queryLoading)
@@ -257,28 +262,31 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     })
   }
 
-  public loadStats(): void {
-    const nftStatsP = this.$apollo.query({
-      query: nftListByCollection,
+  protected async loadStats(): Promise<void> {
+    const { data } = await this.$apollo.query<{
+      collection: { nfts: { nodes: { events: Interaction[] }[] } }
+    }>({
+      query: collectionNftEventListById,
       client: this.urlPrefix,
       variables: {
         id: this.id,
       },
     })
 
-    nftStatsP
-      .then(({ data }) => data?.nFTEntities?.nodes || [])
-      .then((nfts) => {
-        this.stats = nfts
-        this.statsLoaded = true
-        this.loadPriceData()
-      })
+    if (!data) {
+      return
+    }
+    // console.log(data.collection.nfts.nodes)
+
+    const events: Interaction[][] =
+      data.collection.nfts.nodes.map((nft) => nft.events) || []
+
+    this.loadPriceData(events)
   }
 
-  public loadPriceData(): void {
+  public loadPriceData(events: Interaction[][]): void {
     this.priceData = []
 
-    const events: Interaction[][] = this.stats?.map(onlyEvents) || []
     const priceEvents: Interaction[][] = events.map(this.priceEvents) || []
 
     const overTime: string[] = priceEvents
@@ -356,7 +364,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity' && !this.statsLoaded) {
+    if (val === 'activity') {
       this.loadStats()
     }
   }
