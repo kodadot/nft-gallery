@@ -6,21 +6,21 @@ import { $group, $match, $project } from 'mingo/operators/pipeline'
 import 'setimmediate'
 import Vue from 'vue'
 
-// ensure the required operators are preloaded prior to using them.
-useOperators(OperatorType.PIPELINE, { $match, $group, $project } as OperatorMap)
-useOperators(OperatorType.ACCUMULATOR, {
-  $sum,
-  $first,
-  $push,
-  $avg,
-} as OperatorMap)
+export default async () => {
+  // ensure the required operators are preloaded prior to using them.
+  useOperators(OperatorType.PIPELINE, {
+    $match,
+    $group,
+    $project,
+  } as OperatorMap)
+  useOperators(OperatorType.ACCUMULATOR, {
+    $sum,
+    $first,
+    $push,
+    $avg,
+  } as OperatorMap)
 
-/**
- * skipcq
- * no-floating-promises: ignoreIIFE
- */
-;(async () => {
   await enableExtension()
-})()
 
-Vue.config.productionTip = false
+  Vue.config.productionTip = false
+}
