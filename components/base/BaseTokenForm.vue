@@ -12,7 +12,7 @@
       :collections="collections" />
 
     <transition-group name="fade">
-      <template v-if="vSelectedCollection">
+      <template v-if="vSelectedCollection || generateCollection">
         <MetadataUpload
           v-model="vFile"
           key="file"
