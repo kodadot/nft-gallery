@@ -7,6 +7,7 @@
     </b-field>
 
     <CollectionSelect
+      v-if="!generateCollection"
       v-model="vSelectedCollection"
       :collections="collections" />
 
@@ -88,6 +89,7 @@ export default class BaseTokenForm extends Vue {
   @Prop({ type: String, default: 'context' }) label!: string
   @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
   @Prop({ type: Boolean, default: true }) hasEdition!: boolean
+  @Prop({ type: Boolean, default: false }) generateCollection!: boolean
 
   @PropSync('name', { type: String }) vName!: string
   @PropSync('description', { type: String }) vDescription!: string
