@@ -49,7 +49,6 @@ import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport } from '@/utils/support'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
@@ -63,9 +62,11 @@ import {
   Interaction,
   asSystemRemark,
   addressToHex,
+  makeSymbol,
+  toCollectionId,
 } from '@kodadot1/minimark'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
-import collectionSymbolsByAccount from '@/queries/collectionSymbolsByAccount.graphql'
+import collectionSymbolsByAccount from '@/queries/collectionSymbolsByAccount.graphql' // TODO: implement
 
 type BaseCollectionType = {
   name: string
@@ -92,13 +93,13 @@ export default class CreateCollection extends mixins(
     file: null,
     description: '',
   }
-  private symbol = ''
+  private symbol = this.autoGenerateSymbol ? makeSymbol() : ''
   private max = 1
   protected unlimited = true
   protected hasSupport = true
 
   get rmrkId(): string {
-    return generateId(this.accountId, this.symbol)
+    return toCollectionId(this.accountId, this.symbol)
   }
 
   get accountIdToPubKey(): string {
