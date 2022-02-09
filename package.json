@@ -1,14 +1,19 @@
 {
   "homepage": "https://kodadot.xyz",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/npm/cli.git"
+    "type": "git",
+    "url": "https://github.com/npm/cli.git"
   },
   "bugs": {
     "url": "https://github.com/kodadot/nft-gallery/issues"
   },
   "description": "Open Source NFT marketplace developed as public good",
-  "keywords": ["nft", "marketplace", "open source", "public good"],
+  "keywords": [
+    "nft",
+    "marketplace",
+    "open source",
+    "public good"
+  ],
   "license": "MIT",
   "name": "kodadot-nft-gallery",
   "version": "3.0.0",
@@ -46,6 +51,7 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@fortawesome/fontawesome-common-types": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.3.0",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
