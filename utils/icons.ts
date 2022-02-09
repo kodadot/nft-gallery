@@ -51,6 +51,7 @@ import {
   faClock,
   faArrowsAlt,
   faCompressAlt,
+  faCompress,
   faCompressArrowsAlt,
   faAngleLeft,
   faAngleRight,
@@ -73,6 +74,9 @@ import {
   faHistory,
   faEllipsisH,
   faLightbulb,
+  faCube,
+  faExpand,
+  faImage,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -154,6 +158,7 @@ library.add(
   faCalculator,
   faArrowsAlt,
   faCompressAlt,
+  faCompress,
   faCompressArrowsAlt,
   faEyeSlash,
   faArrowUp,
@@ -172,6 +177,9 @@ library.add(
   faHistory,
   faEllipsisH,
   faLightbulb,
+  faCube,
+  faExpand,
+  faImage,
 
   // Social
   faTwitter,
