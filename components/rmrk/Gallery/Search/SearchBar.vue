@@ -311,7 +311,7 @@ export default class SearchBar extends mixins(
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    
     return value
   }
 
