@@ -14,6 +14,11 @@ useOperators(OperatorType.ACCUMULATOR, {
   $push,
   $avg,
 } as OperatorMap)
+
+/**
+ * skipcq
+ * no-floating-promises: ignoreIIFE
+ */
 ;(async () => {
   await enableExtension()
 })()
