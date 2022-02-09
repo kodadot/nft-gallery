@@ -105,6 +105,17 @@
           labelColor="is-success" />
       </div>
     </b-collapse>
+    <b-field>
+      <b-slider
+        v-model="rangeSlider"
+        :custom-formatter="(val) => `${val} KSM`"
+        :max="30"
+        :min="0"
+        :step="0.5"
+        ticks
+        @change="sliderChange">
+      </b-slider>
+    </b-field>
   </div>
 </template>
 
@@ -161,6 +172,7 @@ export default class SearchBar extends mixins(
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
+  private rangeSlider = [0, 5]
 
   public mounted(): void {
     this.getSearchHistory()
@@ -438,6 +450,10 @@ export default class SearchBar extends mixins(
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+
+  private sliderChange(event: any): void {
+    console.log('min ->', event[0], '  max ->', event[1])
   }
 }
 </script>
