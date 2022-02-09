@@ -5,6 +5,12 @@ import defineApolloConfig, {
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default {
+  vue: {
+    config: {
+      productionTip: false,
+    },
+  },
+
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',

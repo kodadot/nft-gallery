@@ -4,7 +4,6 @@ import { OperatorMap, OperatorType, useOperators } from 'mingo/core'
 import { $avg, $first, $push, $sum } from 'mingo/operators/accumulator'
 import { $group, $match, $project } from 'mingo/operators/pipeline'
 import 'setimmediate'
-import Vue from 'vue'
 
 export default async () => {
   // ensure the required operators are preloaded prior to using them.
@@ -21,6 +20,4 @@ export default async () => {
   } as OperatorMap)
 
   await enableExtension()
-
-  Vue.config.productionTip = false
 }
