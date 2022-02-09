@@ -9,6 +9,7 @@
           placeholder="Get discovered easier through tags" />
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BalanceInput
+          :step="0.1"
           label="Price"
           expanded
           key="price"
