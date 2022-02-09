@@ -244,3 +244,10 @@ button.button.is-bordered {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .gallery-column {
+    padding-left: 0!important;
+    padding-right: 0!important;
+  }
+}

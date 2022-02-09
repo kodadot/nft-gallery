@@ -17,7 +17,7 @@
     <div>
       <div class="columns is-multiline">
         <div
-          class="column is-4"
+          class="column is-4 gallery-column"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">

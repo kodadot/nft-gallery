@@ -15,7 +15,7 @@
           {{ $t('view') }}
         </button>
         <div
-          class="column"
+          class="column gallery-column"
           :class="{
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
