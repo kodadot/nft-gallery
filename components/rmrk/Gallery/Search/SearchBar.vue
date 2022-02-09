@@ -22,6 +22,7 @@
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
           @keydown.native.down="moveDown"
+          @keydown.native.delete="makeInputDirty"
           @typing="updateSuggestion"
           @select="updateSelected"
           @input="makeInputDirty">
@@ -449,7 +450,9 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
   private makeInputDirty() {
-    return (this.inputDirty = true)
+    if (!this.inputDirty) {
+      return (this.inputDirty = true)
+    }
   }
 }
 </script>
