@@ -34,15 +34,6 @@
             spellcheck="true" />
 
           <BasicInput
-            v-model="rmrkMint.symbol"
-            :label="$t('mint.collection.symbol.label')"
-            :message="$t('mint.collection.symbol.message')"
-            :placeholder="$t('mint.collection.symbol.placeholder')"
-            @keydown.native.space.prevent
-            maxlength="10"
-            expanded />
-
-          <BasicInput
             v-model="meta.description"
             maxlength="500"
             type="textarea"
@@ -200,7 +191,7 @@ import {
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 import { uploadDirect } from '@/utils/directUpload'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
-import { createMetadata } from '@kodadot1/minimark'
+import { createMetadata, makeSymbol } from '@kodadot1/minimark'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -232,6 +223,7 @@ export default class SimpleMint extends mixins(
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
     max: 1,
+    symbol: makeSymbol(),
   }
   private meta: NFTMetadata = emptyObject<NFTMetadata>()
   // private accountId: string = '';
