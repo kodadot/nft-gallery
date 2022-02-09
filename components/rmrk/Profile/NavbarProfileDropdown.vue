@@ -16,16 +16,26 @@
       <template v-else>
         <b-button
           type="is-primary"
-          class="navbar__button ml-3 my-3"
+          class="navbar__button"
           @click="checkExtension()">
           Log in
         </b-button>
       </template>
     </template>
-
     <template v-if="account">
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link :to="`/${urlPrefix}/u/${account}`"> Profile </nuxt-link>
+        <nuxt-link :to="`/${urlPrefix}/u/${account}`">
+          {{ $t('Profile') }}
+        </nuxt-link>
+      </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <nuxt-link to="/settings">{{ $t('Settings') }}</nuxt-link>
+      </b-dropdown-item>
+
+      <hr class="dropdown-divider" aria-role="menuitem" />
+
+      <b-dropdown-item v-if="isRmrk" has-link aria-role="menuitem">
+        <nuxt-link to="/rmrk/admin">{{ $t('Admin') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <a @click="showRampSDK">
@@ -33,34 +43,23 @@
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/rmrk/faq"> F.A.Q. </nuxt-link>
+        <router-link :to="{ name: 'identity' }">
+          {{ $t('Identity') }}
+        </router-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <router-link :to="{ name: 'identity' }"> Identity </router-link>
-      </b-dropdown-item>
-      <hr class="dropdown-divider" aria-role="menuitem" />
-      <b-dropdown-item has-link aria-role="menuitem">
-        <a
-          href="https://twitter.com/kodadot"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="is-flex is-align-items-center pl-3">
-          <b-icon pack="fab" icon="twitter" class="mr-1" />
-          <strong>KodaDot</strong>
-        </a>
+        <nuxt-link to="/teleport">{{ $t('Teleport') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <a
-          href="https://discord.gg/u6ymnbz4PR"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="is-flex is-align-items-center pl-3">
-          <b-icon pack="fab" icon="discord" class="mr-1" />
-          <strong>Discord</strong>
-        </a>
+        <nuxt-link to="/transfer">{{ $t('Transfer') }}</nuxt-link>
       </b-dropdown-item>
+      <b-dropdown-item has-link aria-role="menuitem">
+        <nuxt-link to="/transform">{{ $t('Transform') }}</nuxt-link>
+      </b-dropdown-item>
+
       <hr class="dropdown-divider" aria-role="menuitem" />
     </template>
+
     <b-dropdown-item v-if="account" custom aria-role="menuitem">
       <b-button
         type="is-primary"
@@ -125,6 +124,7 @@ const components = {
 @Component({ components })
 export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
+  @Prop() public isRmrk!: boolean
   protected changeAccount = false
   protected isExtension = false
 
@@ -178,10 +178,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   &__avatar {
     display: flex;
     align-items: center;
-
-    // @include until($desktop) {
-    //   padding: 0.5rem 0.75rem;
-    // }
   }
 
   &__avatar-icon {
