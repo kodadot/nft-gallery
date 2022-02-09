@@ -111,7 +111,6 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
 
   set current(value: number) {
     this.$emit('input', value)
-    
   }
 
   @Debounce(100)
