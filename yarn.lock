@@ -2828,11 +2828,12 @@
   resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
   integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
 
-"@kodadot1/minimark@^0.0.1-rc.3":
-  version "0.0.1-rc.3"
-  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.3.tgz#f497d4b6db0d33638ab6b51254dd31eddbfd13df"
-  integrity sha512-r1INWKDMg8wcqCmoCRBhB20zP4Pfs0nA/qpIvdV75FBaY26Mx7yVmt8ONNLH3Tej1PumyakInOEb4hqTTzzS/A==
+"@kodadot1/minimark@^0.0.1-rc.4":
+  version "0.0.1-rc.4"
+  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.4.tgz#ad40b97672d88423539f572d8ad9845073cc1c1d"
+  integrity sha512-bQlnUTscldn+UXJzmYiVIcYjLVFf1pbwzKll907pBtST+Clo3TdeqNHpOnQ7tegQUgGbQkFCPN2MNm8o48iHlA==
   dependencies:
+    nanoid "^3.2.0"
     slugify "^1.6.5"
 
 "@kodadot1/sub-api@^0.0.1-rc.2":
@@ -12901,7 +12902,7 @@ nan@^2.12.1, nan@^2.13.2, nan@^2.15.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
-nanoid@^3.1.23, nanoid@^3.1.30:
+nanoid@^3.1.23, nanoid@^3.1.30, nanoid@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
   integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==

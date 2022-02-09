@@ -129,7 +129,7 @@ export default class CarouselList extends mixins(AuthMixin) {
 @import '@/styles/variables';
 
 .carousel-card-list {
-  overflow: inherit;
+  overflow-x: auto;
   mask: linear-gradient(90deg, rgb(255, 255, 255) 75%, transparent);
 }
 
