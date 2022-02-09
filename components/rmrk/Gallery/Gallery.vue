@@ -16,7 +16,7 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4 gallery-column" v-for="nft in results" :key="nft.id">
+        <div class="column is-4 column-padding" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
