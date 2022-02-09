@@ -148,6 +148,8 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+
 type Address = string | GenericAccountId | undefined
 
 const components = {
@@ -160,7 +162,8 @@ const components = {
 @Component({ components })
 export default class SpotlightTable extends mixins(
   TransactionMixin,
-  PrefixMixin
+  PrefixMixin,
+  KeyboardEventsMixin
 ) {
   @Prop() public value!: any
   protected data: Row[] = []
@@ -172,6 +175,30 @@ export default class SpotlightTable extends mixins(
 
   async created() {
     await this.fetchSpotlightData()
+    this.initKeyboardEventHandler({
+      g: this.bindPaginationEvents,
+    })
+  }
+
+  private bindPaginationEvents(event) {
+    const total = this.toggleUsersWithIdentity
+      ? this.usersWithIdentity.length
+      : this.data.length
+    const pageSize = Math.floor(total / 20)
+
+    switch (event.key) {
+      case 'n':
+        if (this.currentPage < pageSize) this.currentPage = this.currentPage + 1
+        break
+      case 'p':
+        if (this.currentPage > 1) {
+          this.currentPage = this.currentPage - 1
+        }
+        break
+      case 'r':
+        this.goToRandomPage()
+        break
+    }
   }
 
   public async fetchSpotlightData(sort = this.sortBy) {

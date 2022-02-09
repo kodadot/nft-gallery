@@ -1,0 +1,20 @@
+query lastNftListByEvent($limit: Int!, $event: Interaction!) {
+  events(
+    limit: $limit
+    where: { interaction_eq: $event }
+    orderBy: timestamp_DESC
+  ) {
+    meta
+    timestamp
+    nft {
+      id
+      name
+      issuer
+      currentOwner
+      meta {
+        id
+        image
+      }
+    }
+  }
+}

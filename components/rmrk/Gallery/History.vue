@@ -93,6 +93,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import i18n from '@/utils/config/i18n'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -113,7 +114,7 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin) {
+export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
@@ -121,6 +122,18 @@ export default class History extends mixins(ChainMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
+
+  public async created() {
+    this.initKeyboardEventHandler({
+      e: this.bindExpandEvents,
+    })
+  }
+
+  private bindExpandEvents(event) {
+    if (event.key === 'h') {
+      this.isOpen = !this.isOpen
+    }
+  }
 
   get uniqType(): any[] {
     return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]

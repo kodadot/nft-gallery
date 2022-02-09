@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import lastSoldNft from '@/queries/unique/lastSoldNft.graphql'
+import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import {
   getCloudflareImageLinks,
@@ -46,19 +46,29 @@ export default class LatestSales extends Vue {
   private total = 0
 
   get isLoading(): boolean {
-    return this.$apollo.queries.nfts.loading
+    return false
   }
 
-  public fetch() {
-    this.$apollo.addSmartQuery<{
-      events: { meta; nft: { meta: { id; image } } }
-    }>('nfts', {
-      query: lastSoldNft,
-      manual: true,
-      client: 'subsquid',
-      loadingKey: 'isLoading',
-      result: this.handleResult,
-    })
+  async mounted() {
+    const result = await this.$apollo
+      .query<{
+        events: { meta; nft: { meta: { id; image } } }
+      }>({
+        query: lastNftListByEvent,
+        client: 'subsquid',
+        variables: {
+          limit: 10,
+          event: 'BUY',
+        },
+      })
+      .catch((e) => {
+        console.error(e)
+        return { data: null }
+      })
+
+    if (result.data) {
+      this.handleResult(result)
+    }
   }
 
   protected async handleResult({ data }: any) {

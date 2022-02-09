@@ -21,12 +21,6 @@
           <div class="buttons">
             <b-button
               tag="nuxt-link"
-              :to="`/${prefix}/create`"
-              type="is-primary">
-              {{ $t('Create') }}
-            </b-button>
-            <b-button
-              tag="nuxt-link"
               :to="`/${prefix}/collections`"
               type="is-primary">
               Collections
@@ -43,8 +37,18 @@
             <b-button tag="nuxt-link" to="/series-insight" type="is-primary">
               Series
             </b-button>
+          </div>
+          <div class="buttons">
             <b-button tag="nuxt-link" to="/about" type="is-primary">
               About
+            </b-button>
+            <b-button
+              tag="a"
+              href="https://docs.kodadot.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              type="is-primary">
+              Documentation
             </b-button>
             <b-button tag="nuxt-link" to="/rmrk/faq" type="is-primary">
               Faq
@@ -56,14 +60,6 @@
               rel="noopener noreferrer"
               type="is-primary">
               Grants
-            </b-button>
-            <b-button
-              tag="a"
-              href="https://en.wikipedia.org/wiki/Non-fungible_token"
-              target="_blank"
-              rel="noopener noreferrer"
-              type="is-primary">
-              What are NFTs?
             </b-button>
           </div>
         </div>
@@ -82,6 +78,7 @@
 
       <div v-if="prefix === 'rmrk'">
         <LatestSales class="my-5" />
+        <NewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -92,6 +89,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 const components = {
   LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
+  NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
 }
 @Component<Landing>({
   components,

@@ -55,7 +55,7 @@ const components = {
 }
 
 @Component({ components })
-export default class extends Vue {
+export default class CollectionDetail extends Vue {
   @Prop() public nfts!: NFT[]
   @Prop() public name!: string
 
