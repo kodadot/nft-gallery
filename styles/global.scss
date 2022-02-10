@@ -208,6 +208,10 @@ button.button.is-bordered {
   }
 }
 
+.b-tooltip {
+  width: 100%;
+}
+
 @media (max-width: 480px) {
   .gallery-search:focus-within {
     box-sizing: border-box;

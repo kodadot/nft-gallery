@@ -426,11 +426,3 @@ export default class AvailableActions extends mixins(
   }
 }
 </style>
-
-<style lang="scss">
-.buttons {
-  .b-tooltip {
-    width: 100%;
-  }
-}
-</style>

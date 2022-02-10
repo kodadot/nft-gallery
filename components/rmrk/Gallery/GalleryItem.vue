@@ -104,7 +104,7 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
-                          :buyDisabled="isBuyDisabled"
+                          :buyDisabled="hasBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
                       <Auth @update-balance="setUserBalance" />
@@ -198,8 +198,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public message = ''
   public priceChartData: [Date, number][][] = []
   public showNavigation = false
-  public userBalance
-  public isBuyDisabled = true
+  public userBalance = ''
+  public hasBuyDisabled = true
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -360,7 +360,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setUserBalance(balance) {
     this.userBalance = balance
-    this.isBuyDisabled =
+    this.hasBuyDisabled =
       this.nft.price && this.userBalance
         ? Number(this.nft.price) > Number(this.userBalance)
         : true
