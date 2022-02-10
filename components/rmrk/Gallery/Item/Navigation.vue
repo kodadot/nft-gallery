@@ -116,6 +116,10 @@ export default class Navigation extends mixins(KeyboardEventsMixin) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    right: -12px;
+    left: -12px;
+  }
 }
 .navigation-container a {
   pointer-events: all;
