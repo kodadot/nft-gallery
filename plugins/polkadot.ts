@@ -2,7 +2,7 @@ import keyring from '@polkadot/ui-keyring'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import correctFormat from '~/utils/ss58Format'
 
-export default ({ store, isDev }) => {
+export default ({ store, isDev }): void => {
   const ss58Format = store.getters['chain/getChainProperties58Format']
   cryptoWaitReady().then(() => {
     keyring.loadAll({
