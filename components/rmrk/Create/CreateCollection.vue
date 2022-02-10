@@ -64,9 +64,11 @@ import {
   addressToHex,
   makeSymbol,
   toCollectionId,
+  findUniqueSymbol,
 } from '@kodadot1/minimark'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import collectionSymbolsByAccount from '@/queries/collectionSymbolsByAccount.graphql' // TODO: implement
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 type BaseCollectionType = {
   name: string
@@ -86,7 +88,8 @@ const components = {
 export default class CreateCollection extends mixins(
   RmrkVersionMixin,
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  PrefixMixin
 ) {
   private base: BaseCollectionType = {
     name: '',
@@ -137,6 +140,26 @@ export default class CreateCollection extends mixins(
     return createCollection(this.accountId, symbol, name, metadata, count)
   }
 
+  protected async makeSureThatTheSymbolIsUnique() {
+    const { symbol, accountId } = this
+    const { data } = await this.$apollo.query<{
+      collections: { nodes: { symbol: string }[] }
+    }>({
+      query: collectionSymbolsByAccount,
+      client: this.urlPrefix,
+      variables: {
+        accountId,
+      },
+    })
+    const symbols = data.collections.nodes.map(({ symbol }) => symbol)
+    console.log('making sure that the symbol is unique', symbols)
+    const uniqueSymbol = findUniqueSymbol(symbol, symbols)
+    console.log('LGTM', symbols)
+    if (symbol !== uniqueSymbol) {
+      this.symbol = uniqueSymbol
+    }
+  }
+
   public async constructMeta() {
     const { file, name, description } = this.base
 
@@ -173,8 +196,9 @@ export default class CreateCollection extends mixins(
 
     try {
       const metadata = await this.constructMeta()
+      await this.makeSureThatTheSymbolIsUnique().catch(console.warn)
       const mint = this.constructRmrkMint(metadata)
-      console.log(mint)
+      console.log('mint', mint)
       const mintInteraction = createMintInteaction(
         Interaction.MINT,
         this.version,
