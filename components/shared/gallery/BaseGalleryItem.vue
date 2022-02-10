@@ -193,6 +193,9 @@ export default class BaseGalleryItem extends Vue {
       bottom: 0;
       right: 0;
     }
+    @media screen and (max-width: 768px) {
+      right: -12px;
+    }
   }
 
   .price-block {
