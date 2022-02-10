@@ -208,8 +208,10 @@ button.button.is-bordered {
   }
 }
 
-.b-tooltip {
-  width: 100%;
+.buttons {
+  .b-tooltip {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
