@@ -28,7 +28,14 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image :src="placeholder" alt="Simple image" ratio="1by1" />
+        <!-- missing error image & placeholder -->
+        <!-- <b-image :src="placeholder" alt="Simple image" ratio="1by1" /> -->
+
+        <PreviewMediaResolver
+          v-if="!image && animatedUrl"
+          :src="animatedUrl"
+          :metadata="metadata"
+          :mimeType="type" />
 
         <span v-if="price > 0" class="card-image__price">
           <Money :value="price" inline />
@@ -58,7 +65,8 @@ import {
 } from '@/utils/cachingStrategy'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/components/rmrk/utils'
+import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { fetchMimeType } from '@/utils/fetch'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
@@ -77,6 +85,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
   protected image = ''
   protected title = ''
   protected animatedUrl = ''
+  protected type = ''
   @Prop([String, Number]) public emoteCount!: string | number
   @Prop(String) public imageType!: string
   @Prop(String) public price!: string
@@ -86,15 +95,16 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
   protected placeholder = '/placeholder.webp'
 
-  async mounted() {
+  async fetch() {
     if (this.metadata) {
-      const metaP = processSingleMetadata<NFTMetadata>(this.metadata)
       const image = await getSingleCloudflareImage(this.metadata)
-      const meta = await metaP
+      const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
+      const mimetype = await fetchMimeType(meta.animation_url)
 
       this.image = image || getSanitizer(meta.image || '')(meta.image || '')
       this.title = meta.name
-      this.animatedUrl = meta.animation_url || ''
+      this.animatedUrl = sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      this.type = meta.type || mimetype || ''
     }
   }
 
