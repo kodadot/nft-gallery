@@ -103,7 +103,9 @@ export default class Navigation extends mixins(KeyboardEventsMixin) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/styles/variables';
+
 .navigation-container {
   pointer-events: none;
   position: absolute;
@@ -114,8 +116,15 @@ export default class Navigation extends mixins(KeyboardEventsMixin) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    right: -12px;
+    left: -12px;
+  }
 }
 .navigation-container a {
   pointer-events: all;
+  border: 0 !important;
+  border-top: 2px solid $primary !important;
+  opacity: 0.6;
 }
 </style>

@@ -2,6 +2,7 @@
   <div class="arguments-wrapper">
     <b-field :label="$t(label)" class="balance">
       <b-input
+        ref="balance"
         v-model="inputValue"
         type="number"
         :step="step"
@@ -23,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, Ref, mixins } from 'nuxt-property-decorator'
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
 import { Debounce } from 'vue-debounce-decorator'
@@ -39,12 +40,18 @@ export default class BalanceInput extends mixins(ChainMixin) {
   protected units: Unit[] = defaultUnits
   private selectedUnit = 1
 
+  @Ref('balance') readonly balance
+
   get inputValue(): number {
     return this.value
   }
 
   set inputValue(value: number) {
     this.handleInput(value)
+  }
+
+  public focusInput(): void {
+    this.balance?.focus()
   }
 
   formatSelectedValue(value: number): number {

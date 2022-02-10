@@ -85,6 +85,6 @@ const listenGlobalKeyboardEvents = (app, store) => {
   })
 }
 
-export default ({ app, store }) => {
+export default ({ app, store }): void => {
   listenGlobalKeyboardEvents(app, store)
 }

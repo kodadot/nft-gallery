@@ -71,7 +71,7 @@ export default class QueryMixin extends Vue {
       this.defaultValues = [...this.defaultValues, value]
       this.random = [...this.random, key]
       this.keys[key.name] = this.defaultValues.length - 1
-      this.subscribe(
+      await this.subscribe(
         method,
         key.name,
         args,
