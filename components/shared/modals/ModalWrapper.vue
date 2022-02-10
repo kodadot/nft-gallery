@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div :id="id">
     <slot name="trigger" v-bind:handleOpen="handleOpen">
       <b-button
         :type="buttonType"
         :icon-left="icon"
         :expanded="expanded"
         @click="handleOpen"
-        :id="id"
         :class="{
           'modal-wrapper-button__right': isRight,
           'is-invisible': isButtonHidden,

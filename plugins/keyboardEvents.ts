@@ -73,9 +73,9 @@ const listenGlobalKeyboardEvents = (app, store) => {
     }
 
     if (event.key === '?') {
-      const element: HTMLElement = document.getElementById(
-        'keyboardShortcutsModal'
-      ) as HTMLElement
+      const element: HTMLElement = document.querySelectorAll(
+        '#keyboardShortcutsModal > .button'
+      )[0] as HTMLElement
       element.click()
     }
   })
