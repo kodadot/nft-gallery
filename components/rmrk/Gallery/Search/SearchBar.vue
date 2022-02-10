@@ -104,9 +104,8 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
-    </b-collapse>
-    <b-field>
       <b-slider
+        class="column is-half"
         v-model="rangeSlider"
         :custom-formatter="(val) => `${val} KSM`"
         :max="30"
@@ -115,7 +114,7 @@
         ticks
         @change="sliderChange">
       </b-slider>
-    </b-field>
+    </b-collapse>
   </div>
 </template>
 
