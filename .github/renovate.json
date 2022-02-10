@@ -15,7 +15,7 @@
       {
         "matchPackagePatterns": [
           "^axios",
-          "^babel",
+          "babel",
           "^buefy",
           "^chartjs",
           "DefinitelyTyped",
@@ -41,7 +41,8 @@
           "https://github.com/polkadot-js/",
           "https://github.com/vue-polkadot/",
           "https://github.com/kodadot/packages",
-          "https://github.com/cloudacy/vue-markdown-render"
+          "https://github.com/cloudacy/vue-markdown-render",
+          "https://github.com/FortAwesome/Font-Awesome"
         ],
         "groupName": "merge with hazmat suit extra",
         "enabled": false

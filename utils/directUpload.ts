@@ -65,7 +65,7 @@ export const uploadDirect = async (
   try {
     const token = await getKey(ipfsHash)
     const { result } = await upload(file, token.uploadURL)
-    saveKey(ipfsHash, result.id)
+    await saveKey(ipfsHash, result.id)
   } catch (e) {
     console.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }

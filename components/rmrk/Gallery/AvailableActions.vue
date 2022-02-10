@@ -39,11 +39,16 @@
         </b-tooltip>
       </template>
     </div>
-    <component
-      :is="showMeta"
-      v-if="showMeta"
+    <BalanceInput
+      v-show="selectedAction === 'LIST'"
+      ref="balanceInput"
       class="mb-4"
       empty-on-error
+      @input="updateMeta" />
+    <AddressInput
+      v-show="selectedAction === 'SEND'"
+      ref="addressInput"
+      class="mb-4"
       @input="updateMeta" />
     <b-button
       v-if="showSubmit"
@@ -56,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -77,11 +82,6 @@ type IdentityFields = Record<string, string>
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
-
-const needMeta: Record<string, string> = {
-  SEND: 'AddressInput',
-  LIST: 'BalanceInput',
-}
 
 type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
@@ -120,6 +120,9 @@ export default class AvailableActions extends mixins(
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
 
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('addressInput') readonly addressInput
+
   public created() {
     this.initKeyboardEventHandler({
       a: this.bindActionEvents,
@@ -133,6 +136,8 @@ export default class AvailableActions extends mixins(
       c: 'CONSUME',
       l: 'LIST',
     }
+
+    event.preventDefault()
 
     this.handleAction(mappings[event.key])
   }
@@ -156,7 +161,7 @@ export default class AvailableActions extends mixins(
   }
 
   get showMeta() {
-    return needMeta[this.selectedAction]
+    return ['SEND', 'LIST'].includes(this.selectedAction)
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -178,8 +183,18 @@ export default class AvailableActions extends mixins(
   protected handleAction(action: Action) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
-      if (action === 'BUY') {
-        this.submit()
+      switch (action) {
+        case 'BUY':
+          this.submit()
+          break
+        case 'LIST':
+          this.balanceInput?.focusInput()
+          break
+        case 'SEND':
+          this.addressInput?.focusInput()
+          break
+        default:
+          break
       }
     } else {
       this.selectedAction = ''
