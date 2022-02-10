@@ -1,4 +1,9 @@
 import Vue from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library, config } from '@fortawesome/fontawesome-svg-core'
+
+// nuxt will handle css
+config.autoAddCss = false
 
 import {
   faPaperPlane,
@@ -102,8 +107,6 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-
 library.add(
   faPaperPlane,
   faFileImage,
@@ -200,7 +203,5 @@ library.add(
   faExternalLinkSquareAlt,
   faYoutube
 )
-
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.component('vue-fontawesome', FontAwesomeIcon)

@@ -1,20 +1,13 @@
 <template>
   <div>
     <LinkResolver
-      class="profile-link__wrapper"
+      class="is-flex is-align-items-center"
       :route="`/${urlPrefix}/u`"
       :param="address"
       link="u">
       <Identity :address="address" :inline="true" :vertical-align="true" />
       <template #extra>
-        <a
-          :href="`https://kusama.subscan.io/account/${address}`"
-          target="_blank"
-          rel="noopener noreferrer">
-          <figure class="image is-24x24 subscan__less-margin">
-            <img alt="subscan" src="/subscan.svg" />
-          </figure>
-        </a>
+        <Avatar :size="24" :value="address" class="mr-2" />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
@@ -28,6 +21,7 @@
       <Identity :address="address" :show-discord="showDiscord" class="pt-2" />
     </template>
     <a
+      v-if="showDotscanner"
       :href="`https://dotscanner.com/Kusama/account/${address}`"
       target="_blank"
       rel="noopener noreferrer"
@@ -56,6 +50,7 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
   @Prop() public address!: string
   @Prop(Boolean) public showTwitter!: boolean
   @Prop(Boolean) public showDiscord!: boolean
+  @Prop(Boolean) public showDotscanner!: boolean
   get shortendId(): string {
     return shortAddress(this.address)
   }
@@ -65,9 +60,5 @@ export default class ProfileLink extends mixins(InlineMixin, PrefixMixin) {
 <style scoped>
 .subscan__less-margin {
   margin: auto 0.5em auto 0;
-}
-
-.profile-link__wrapper {
-  display: flex;
 }
 </style>
