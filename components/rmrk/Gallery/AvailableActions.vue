@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="actions-wrap">
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <ShareNetwork
@@ -423,6 +423,16 @@ export default class AvailableActions extends mixins(
   color: #1c9cef !important;
   &:hover {
     color: #fff !important;
+  }
+}
+</style>
+
+<style lang="scss">
+.actions-wrap {
+  .buttons {
+    .b-tooltip {
+      width: 100%;
+    }
   }
 }
 </style>
