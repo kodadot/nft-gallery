@@ -42,13 +42,13 @@
               field="From"
               label="From"
               v-slot="props">
-              <router-link
+              <NuxtLink
                 :to="{
                   name: 'rmrk-u-id',
                   params: { id: props.row.From },
                 }">
                 <Identity :address="props.row.From" inline noOverflow />
-              </router-link>
+              </NuxtLink>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
