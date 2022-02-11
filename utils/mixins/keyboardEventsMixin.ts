@@ -6,13 +6,13 @@ export default class KeyboardEventsMixin extends Vue {
   private primaryKeyEvents = {}
 
   public created(): void {
-    document.addEventListener('keydown', (e) => this.onKeyDown(e))
-    document.addEventListener('keyup', (e) => this.onKeyUp(e))
+    document.addEventListener('keydown', this.onKeyDown.bind(this))
+    document.addEventListener('keyup', this.onKeyUp.bind(this))
   }
 
   public beforeDestroy(): void {
-    document.removeEventListener('keydown', (e) => this.onKeyDown(e))
-    document.removeEventListener('keyup', (e) => this.onKeyUp(e))
+    document.removeEventListener('keydown', this.onKeyDown.bind(this))
+    document.removeEventListener('keyup', this.onKeyUp.bind(this))
   }
 
   public initKeyboardEventHandler(primaryKeyEvents): void {
