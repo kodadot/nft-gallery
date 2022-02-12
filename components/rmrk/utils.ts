@@ -43,7 +43,7 @@ export const arweaveProviders: Record<ArweaveProviders, string> = {
 export type SanitizerFunc = (url: string) => string
 
 export const ipfsHashToUrl = (
-  ipfsHash?: string,
+  ipfsHash = '',
   provider?: ProviderKeyType
 ): string | undefined => {
   if (justHash(ipfsHash)) {
@@ -58,7 +58,11 @@ const resolveProvider = (key: ProviderKeyType = 'kodadot'): string =>
 const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
   arweaveProviders[key]
 
-export const zip = <T1, T2, T3>(a: T1[], b: T2[], cb?: (el: [T1, T2]) => T3): T3[] | [T1, T2][] => {
+export const zip = <T1, T2, T3>(
+  a: T1[],
+  b: T2[],
+  cb?: (el: [T1, T2]) => T3
+): T3[] | [T1, T2][] => {
   const res: [T1, T2][] = a.map((k, i) => [k, b[i]])
 
   if (cb) {
@@ -101,7 +105,7 @@ export const fetchMetadata = async <T>(
   return emptyObject<T>()
 }
 
-export const unSanitizeArweaveId = (url: string): string  => {
+export const unSanitizeArweaveId = (url: string): string => {
   return unSanitizeUrl(url, 'ar://')
 }
 
@@ -391,7 +395,9 @@ export const isJsonGltf = (value: any): boolean => {
 
     return true
   } catch (e) {
-    console.warn(`Unable to decide on isJsonGltf ${e}`)
+    if (e instanceof Error) {
+      console.warn(`Unable to decide on isJsonGltf ${e.message}`)
+    }
     return false
   }
 }

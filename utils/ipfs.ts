@@ -41,8 +41,10 @@ export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
     }
 
     return ''
-  } catch (e: any) {
-    console.error(`[IPFS2AR] Unable to Arweave ${e.message}`)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.error(`[IPFS2AR] Unable to Arweave ${e.message}`)
+    }
     return ''
   }
 }

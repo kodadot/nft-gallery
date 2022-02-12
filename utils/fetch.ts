@@ -24,9 +24,11 @@ export const fetchMimeType = async (
     const { headers } = await api.head(assetUrl)
     return headers['content-type']
   } catch (e: any) {
-    console.warn(
-      `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`
-    )
+    if (e instanceof Error) {
+      console.warn(
+        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`
+      )
+    }
     return undefined
   }
 }
