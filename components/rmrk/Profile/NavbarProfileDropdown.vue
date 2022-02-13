@@ -43,9 +43,9 @@
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <router-link :to="{ name: 'identity' }">
+        <nuxt-link :to="{ name: 'identity' }">
           {{ $t('Identity') }}
-        </router-link>
+        </nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link to="/teleport">{{ $t('Teleport') }}</nuxt-link>

@@ -22,8 +22,10 @@
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
           @keydown.native.down="moveDown"
+          @keydown.native.delete="makeInputDirty"
           @typing="updateSuggestion"
-          @select="updateSelected">
+          @select="updateSelected"
+          @input="makeInputDirty">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
               <div class="media">
@@ -161,6 +163,7 @@ export default class SearchBar extends mixins(
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
+  private inputDirty = false
 
   public mounted(): void {
     this.getSearchHistory()
@@ -201,6 +204,9 @@ export default class SearchBar extends mixins(
   }
 
   set vListed(listed: boolean) {
+    if (this.inputDirty) {
+      this.searchResult()
+    }
     this.updateListed(listed)
   }
 
@@ -241,7 +247,7 @@ export default class SearchBar extends mixins(
     return v === 'true'
   }
 
-  insertNewHistroy() {
+  insertNewHistory() {
     const newResult = {
       type: 'History',
       name: this.searchString,
@@ -252,6 +258,7 @@ export default class SearchBar extends mixins(
   //Invoked when "enter" key is pressed
   @Debounce(50)
   searchResult() {
+    this.inputDirty = false
     const offset = this.oldSearchResult(this.searchString) ? 0 : 1
 
     //When an item from the autocomplete list is highlighted
@@ -259,7 +266,7 @@ export default class SearchBar extends mixins(
       const searchCache = this.filterSearch()
       //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
         this.updateSearch(this.searchString)
       } else if (this.highlightPos >= searchCache.length + offset) {
         this.updateSelected(
@@ -272,7 +279,7 @@ export default class SearchBar extends mixins(
 
       //Current search string is not present in cache
       if (offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
       }
       this.updateSearch(this.searchString)
     }
@@ -289,6 +296,9 @@ export default class SearchBar extends mixins(
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
+    if (this.inputDirty) {
+      this.searchResult()
+    }
     this.replaceUrl(value, 'sort')
     return value
   }
@@ -300,7 +310,7 @@ export default class SearchBar extends mixins(
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
-      this.insertNewHistroy()
+      this.insertNewHistory()
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
@@ -438,6 +448,11 @@ export default class SearchBar extends mixins(
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+  private makeInputDirty() {
+    if (!this.inputDirty) {
+      return (this.inputDirty = true)
+    }
   }
 }
 </script>
