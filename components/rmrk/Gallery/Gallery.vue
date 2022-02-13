@@ -128,6 +128,8 @@ export default class Gallery extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    priceMin: 0,
+    priceMax: 5000000000000,
   }
   private currentValue = 1
   protected total = 0
@@ -180,6 +182,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         }
       },
     })
@@ -230,6 +234,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         },
       })
 

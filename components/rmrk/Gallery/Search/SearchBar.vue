@@ -105,6 +105,7 @@
           labelColor="is-success" />
       </div>
       <b-slider
+        v-if="listed"
         class="column is-half"
         v-model="rangeSlider"
         :custom-formatter="(val) => `${val} KSM`"
@@ -162,6 +163,8 @@ export default class SearchBar extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
+    priceMin: 0.25,
+    priceMax: 0.75,
   }
 
   private first = 30
@@ -451,8 +454,23 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 
-  private sliderChange(event: any): void {
-    console.log('min ->', event[0], '  max ->', event[1])
+  @Debounce(50)
+  private sliderChange([min, max]: [number, number]): void {
+    console.log('min ->', min, '  max ->', max)
+    this.sliderChangeMin(min * 1000000000000)
+    this.sliderChangeMax(max * 1000000000000)
+  }
+
+  @Emit('update:priceMin')
+  @Debounce(50)
+  private sliderChangeMin(min: number): void {
+    this.query.priceMin = min
+  }
+
+  @Emit('update:priceMax')
+  @Debounce(50)
+  private sliderChangeMax(max: number): void {
+    this.query.priceMax = max
   }
 }
 </script>
