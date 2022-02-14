@@ -398,7 +398,7 @@ export default class SearchBar extends mixins(
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        path: this.$route.path,
+        path: '/rmrk/gallery',
         query: {
           ...this.$route.query,
           search: this.searchQuery,
