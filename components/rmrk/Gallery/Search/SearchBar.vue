@@ -172,8 +172,8 @@ export default class SearchBar extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-    priceMin: 0.25,
-    priceMax: 0.75,
+    priceMin: 0,
+    priceMax: 5000000000000,
   }
 
   private first = 30
@@ -185,7 +185,6 @@ export default class SearchBar extends mixins(
   private highlightPos = 0
   private rangeSlider = [0, 5]
   private inputDirty = false
-
 
   public mounted(): void {
     this.getSearchHistory()
@@ -472,7 +471,6 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 
-
   @Debounce(50)
   private sliderChange([min, max]: [number, number]): void {
     console.log('min ->', min, '  max ->', max)
@@ -490,12 +488,11 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   private sliderChangeMax(max: number): void {
     this.query.priceMax = max
-
+  }
   private makeInputDirty() {
     if (!this.inputDirty) {
       return (this.inputDirty = true)
     }
-
   }
 }
 </script>
