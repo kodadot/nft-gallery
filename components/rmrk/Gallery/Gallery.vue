@@ -16,7 +16,7 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="nft in results" :key="nft.id">
+        <div class="column is-4 column-padding" v-for="nft in results" :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -344,7 +344,6 @@ export default class Gallery extends mixins(PrefixMixin) {
 
   .columns {
     padding-top: 10px;
-
     .card {
       border-radius: 8px;
       position: relative;

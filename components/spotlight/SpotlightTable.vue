@@ -5,6 +5,7 @@
       :data="toggleUsersWithIdentity ? usersWithIdentity : data"
       :current-page="currentPage ? currentPage : 1"
       :default-sort="[sortBy.field, sortBy.value]"
+      default-sort-direction="desc"
       hoverable
       detailed
       paginated
@@ -138,7 +139,7 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
-import { columns, nftFn } from './utils'
+import { columns } from './utils'
 import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'

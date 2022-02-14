@@ -6,10 +6,7 @@
         <span :class="{ 'has-text-info': nft.isFrozen }">{{ nft.name }}</span>
         <span v-if="carbonlessBadge">「🌱」</span>
       </span>
-      <b-skeleton
-        height="100px"
-        size="is-large"
-        :active="isLoading"></b-skeleton>
+      <b-skeleton size="is-large" :active="isLoading"></b-skeleton>
     </p>
     <p v-if="nft.isFrozen" class="title is-size-4 has-text-info">
       {{ $t('nft.frozen') }} 「❄️」
