@@ -9,6 +9,47 @@
       </b-navbar-item>
     </template>
     <template #start>
+      <!-- <b-navbar-dropdown arrowless collapsible>
+        <template #label>
+          <span>{{ $t('Create') }}</span>
+        </template>
+        <b-tooltip
+          label="Start by creating your collection and add NFTs to it"
+          position="is-right">
+          <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
+            {{ $t('Classic') }}
+          </b-navbar-item>
+        </b-tooltip>
+        <template v-if="isRmrk">
+          <b-tooltip
+            label="Simplified process to create your NFT in a single step"
+            position="is-right"
+            style="display: block">
+            <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/mint`">
+              {{ $t('Simple') }}
+            </b-navbar-item>
+          </b-tooltip>
+        </template>
+      </b-navbar-dropdown> -->
+
+      <!-- <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
+        {{ $t('Collections') }}
+      </b-navbar-item>
+      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
+        {{ $t('Gallery') }}
+      </b-navbar-item> -->
+      <!-- <template v-if="isRmrk">
+        <b-navbar-item tag="nuxt-link" to="/spotlight">
+          {{ $t('Spotlight') }}
+        </b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/series-insight">
+          Series
+        </b-navbar-item>
+      </template> -->
+    </template>
+    <template #end>
+      <HistoryBrowser class="ml-2" />
+      <LocaleChanger class="ml-2" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Create') }}</span>
@@ -31,25 +72,32 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
-        {{ $t('Collections') }}
-      </b-navbar-item>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
-        {{ $t('Gallery') }}
-      </b-navbar-item>
-      <template v-if="isRmrk">
-        <b-navbar-item tag="nuxt-link" to="/spotlight">
-          {{ $t('Spotlight') }}
+      <b-navbar-dropdown arrowless collapsible>
+        <template #label>
+          <span>{{ $t('Explore') }}</span>
+        </template>
+        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
+          {{ $t('Collections') }}
         </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/series-insight">
-          Series
+        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
+          {{ $t('Gallery') }}
         </b-navbar-item>
-      </template>
-    </template>
-    <template #end>
-      <HistoryBrowser class="ml-2" />
-      <LocaleChanger class="ml-2" />
-      <ChainSelect />
+      </b-navbar-dropdown>
+      <b-navbar-dropdown arrowless collapsible>
+        <template #label>
+          <span>{{ $t('Stats') }}</span>
+        </template>
+        <template v-if="isRmrk">
+          <b-navbar-item tag="nuxt-link" to="/spotlight">
+            {{ $t('Spotlight') }}
+          </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/series-insight">
+            Series
+          </b-navbar-item>
+        </template>
+      </b-navbar-dropdown>
+
+      <ChainSelect class="ml-2" />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
   </b-navbar>
