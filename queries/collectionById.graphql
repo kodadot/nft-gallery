@@ -1,4 +1,5 @@
-#import "./collection.graphql"
+#import "./fragments/collection.graphql"
+#import "./fragments/collectionDetails.graphql"
 
 query collectionById(
   $id: String!
@@ -9,6 +10,7 @@ query collectionById(
 ) {
   collectionEntity(id: $id) {
     ...collection
+    ...collectionDetails
     nfts(
       orderBy: [$orderBy, BLOCK_NUMBER_DESC]
       first: $first

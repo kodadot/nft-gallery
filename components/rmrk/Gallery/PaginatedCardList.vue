@@ -8,40 +8,47 @@
           simple
           replace
           :total="total"
-          v-model="currentValue"
-        />
+          v-model="currentValue" />
       </b-field>
     </Search>
-    <GalleryCardList :items="items" horizontalLayout />
+    <GalleryCardList
+      :items="items"
+      horizontalLayout
+      :route="route"
+      :link="link"
+      :listed="searchQuery.listed" />
     <Pagination
       class="pt-5 pb-5"
       replace
       :total="total"
-      v-model="currentValue"
-    />
+      v-model="currentValue" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
+import { mapOnlyMetadata } from '~/utils/mappers'
 
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () => import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () =>
+    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 @Component({ components })
-export default class PaginatedCardList extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string;
-  @Prop({ default: 'rmrk/detail' }) public link!: string;
-  @Prop() public query!: DocumentNode;
-  @Prop(String) public account!: string;
-  @Prop(Boolean) public showSearchBar!: boolean;
+export default class PaginatedCardList extends mixins(PrefixMixin) {
+  @Prop({ default: '/rmrk/detail' }) public route!: string
+  @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop() public query!: DocumentNode
+  @Prop(String) public account!: string
+  @Prop(Boolean) public showSearchBar!: boolean
 
   private searchQuery: SearchQuery = {
     search: '',
@@ -50,23 +57,23 @@ export default class PaginatedCardList extends Vue {
     listed: false,
   }
 
-  private currentValue = 1;
-  private first = 20;
-  private total = 0;
-  protected items: NFTWithMeta[] = [];
+  private currentValue = 1
+  private first = 20
+  private total = 0
+  protected items: NFTWithMeta[] = []
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` }
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
     if (this.searchQuery.listed) {
       params.push({
-        price: { greaterThan: '0' }
+        price: { greaterThan: '0' },
       })
     }
 
@@ -81,6 +88,7 @@ export default class PaginatedCardList extends Vue {
     this.$apollo.addSmartQuery('items', {
       query: this.query,
       manual: true,
+      client: this.urlPrefix,
       update: ({ nFTEntities }) => nFTEntities.nodes,
       loadingKey: 'isLoading',
       result: this.handleResult,
@@ -90,21 +98,23 @@ export default class PaginatedCardList extends Vue {
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
           first: this.first,
-          offset: this.offset
+          offset: this.offset,
         }
       },
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
     })
   }
 
   protected async handleResult({ data }: any) {
     if (data) {
-      this.total = data.nFTEntities.totalCount
-      this.items = data.nFTEntities.nodes
+      const { nodes, totalCount } = data.nFTEntities
+      await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
+        console.warn
+      )
+      this.total = totalCount
+      this.items = nodes
       this.$emit('change', this.total)
     }
   }
-
-
 }
 </script>

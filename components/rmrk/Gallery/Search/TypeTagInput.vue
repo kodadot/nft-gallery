@@ -10,24 +10,17 @@
       autocomplete
       open-on-focus
       type="is-primary"
-      @input="handleInput"
-    />
+      @input="handleInput" />
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 
 @Component({})
 export default class extends Vue {
-  private allTags: string[] = [
-    'audio',
-    'video',
-    'image',
-    'gif',
-    'svg'
-  ];
-  @Prop() public value!: string;
+  private allTags: string[] = ['audio', 'video', 'image', 'gif', 'svg']
+  @Prop() public value!: string
 
   get tags() {
     return this.value ? this.value.split('|') : []

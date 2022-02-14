@@ -1,78 +1,50 @@
 <template>
   <div
     class="card nft-card"
-    :class="{ 'is-current-owner': accountIsCurrentOwner() }"
-  >
+    :class="{ 'is-current-owner': accountIsCurrentOwner }">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
       :link="link"
       :param="id"
-      tag="a"
-    >
-      <div
-        v-if="image"
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      tag="a">
+      <div v-if="image" class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
         <BasicImage
           :src="image"
           :alt="title"
-          custom-class="gallery__image-wrapper"
-        />
-        <span
-          v-if="price > 0"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+          custom-class="gallery__image-wrapper" />
+        <span v-if="price > 0 && showPriceValue" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
-      <div
-        v-else
-        class="card-image"
-      >
-        <span
-          v-if="emoteCount"
-          class="card-image__emotes"
-        >
+      <div v-else class="card-image">
+        <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image
-          :src="placeholder"
-          alt="Simple image"
-          ratio="1by1"
-        />
+        <!-- missing error image & placeholder? -->
+        <PreviewMediaResolver
+          v-if="!image && animatedUrl"
+          :src="animatedUrl"
+          :metadata="metadata" />
 
-        <span
-          v-if="price > 0"
-          class="card-image__price"
-        >
-          <Money
-            :value="price"
-            inline
-          />
+        <span v-if="price > 0" class="card-image__price">
+          <Money :value="price" inline />
         </span>
       </div>
 
       <div class="card-content">
         <span
           class="title mb-0 is-4 has-text-centered has-text-primary"
-          :title="name"
-        >
+          :title="name">
           <div class="has-text-overflow-ellipsis">
-            {{ name }}
+            {{ nftName }}
           </div>
         </span>
       </div>
@@ -80,76 +52,76 @@
   </div>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { get, update } from 'idb-keyval'
-import shouldUpdate from '@/utils/shouldUpdate'
-import { fetchNFTMetadata, getSanitizer } from '../utils'
-import { NFT } from '../service/scheme'
+<script lang="ts">
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import AuthMixin from '@/utils/mixins/authMixin'
+import {
+  getSingleCloudflareImage,
+  processSingleMetadata,
+} from '@/utils/cachingStrategy'
+
+import { NFTMetadata } from '@/components/rmrk/service/scheme'
+import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  PreviewMediaResolver: () =>
+    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component({ components })
-export default class GalleryCard extends Vue {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string;
-  @Prop({ default: 'rmrk/gallery' }) public link!: string;
-  @Prop() public id!: string;
-  @Prop() public name!: string;
-  protected image = '';
-  protected title = '';
-  @Prop() public emoteCount!: string | number;
-  @Prop() public imageType!: string;
-  @Prop() public price!: string;
-  @Prop() public metadata!: string;
-  @Prop() public currentOwner!: string;
+export default class GalleryCard extends mixins(AuthMixin) {
+  @Prop({ type: String, default: '/rmrk/gallery' }) public route!: string
+  @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string
+  @Prop(String) public id!: string
+  @Prop(String) public name!: string
+  @Prop([String, Number]) public emoteCount!: string | number
+  @Prop(String) public imageType!: string
+  @Prop(String) public price!: string
+  @Prop(String) public metadata!: string
+  @Prop(String) public currentOwner!: string
+  @Prop(Boolean) public listed!: boolean
+  protected image = ''
+  protected title = ''
+  protected animatedUrl = ''
 
-  private placeholder = '/koda300x300.svg';
+  protected placeholder = '/placeholder.webp'
 
-  async mounted() {
+  async fetch() {
     if (this.metadata) {
-      const meta = await get(this.metadata)
-      if (meta) {
-        this.image = getSanitizer(meta.image || '')(meta.image || '')
-        this.title = meta.name
-      } else {
-        const m = await fetchNFTMetadata(
-          { metadata: this.metadata } as NFT,
-          getSanitizer(this.metadata, undefined, 'permafrost')
-        )
-        this.image = getSanitizer(m.image || '')(m.image || '')
-        this.title = m.name
-        update(this.metadata, () => m)
-      }
+      const image = await getSingleCloudflareImage(this.metadata)
+      const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
+
+      this.image = image || getSanitizer(meta.image || '')(meta.image || '')
+      this.title = meta.name
+      this.animatedUrl = sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
     }
   }
 
-  @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
-    if (shouldUpdate(value, oldVal)) {
-      this.accountIsCurrentOwner()
-    }
+  get showPriceValue(): boolean {
+    return this.listed || this.$store.getters['preferences/getShowPriceValue']
   }
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
+  get nftName(): string {
+    return this.name || this.title
   }
 
-  public accountIsCurrentOwner() {
+  get accountIsCurrentOwner(): boolean {
     return this.accountId === this.currentOwner
   }
 }
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
+
 .nft-card {
   border-radius: 8px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0px 2px 5px 0.5px #d32e79;
+  border: 2px solid $primary-light;
 
   &.is-current-owner {
     box-shadow: 0px 2px 5px 0.5px #41b883;
@@ -163,15 +135,12 @@ export default class GalleryCard extends Vue {
   }
 
   &__skeleton {
-    .ff-canvas {
-      border-radius: 8px;
-    }
     transition: all 0.3s;
 
     .card-image {
       &__emotes {
         position: absolute;
-        background-color: #d32e79;
+        background-color: $primary-light;
         border-radius: 4px;
         padding: 3px 8px;
         color: #fff;
@@ -184,7 +153,7 @@ export default class GalleryCard extends Vue {
 
       &__price {
         position: absolute;
-        background-color: #363636;
+        background-color: $grey-darker;
         border-radius: 4px;
         padding: 3px 8px;
         color: #fff;
@@ -224,10 +193,6 @@ export default class GalleryCard extends Vue {
 
     &:hover .card-image img {
       transform: scale(1.1) translateY(-5%);
-    }
-
-    &:hover .ff-canvas {
-      transform: scale(1.1) translateY(-50%);
     }
 
     &:hover .card-image__emotes {

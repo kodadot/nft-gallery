@@ -1,0 +1,29 @@
+name: Lint, Build & Test workflow
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Run Code Lint
+        run: yarn lint:quiet
+
+      - name: Run Build
+        run: yarn build
+
+      - name: Run Test
+        run: yarn test

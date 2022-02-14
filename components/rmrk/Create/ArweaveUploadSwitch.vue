@@ -11,7 +11,7 @@
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Vue, ModelSync } from 'nuxt-property-decorator'
 
 @Component({})

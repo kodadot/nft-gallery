@@ -1,14 +1,7 @@
 <template>
   <div>
-    <b-field
-      :type="type"
-      :message="err"
-      :label="$t(label)"
-    >
-      <b-input
-        v-model="inputValue"
-        @input="handleInput"
-      />
+    <b-field :type="type" :message="err" :label="$t(label)">
+      <b-input ref="address" v-model="inputValue" @input="handleInput" />
     </b-field>
   </div>
 </template>
@@ -17,15 +10,17 @@
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { Debounce } from 'vue-debounce-decorator'
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class AddressInput extends Vue {
-  @Prop(String) public value!: string;
-  private err: string | null = '';
-  @Prop({ type: String, default: 'insert address' }) public label!: string;
-  @Prop(Boolean) public emptyOnError!: boolean;
-  @Prop({ type: Boolean, default: true }) public strict!: boolean;
+  @Prop(String) public value!: string
+  private err: string | null = ''
+  @Prop({ type: String, default: 'insert address' }) public label!: string
+  @Prop(Boolean) public emptyOnError!: boolean
+  @Prop({ type: Boolean, default: true }) public strict!: boolean
+
+  @Ref('address') readonly address
 
   get inputValue(): string {
     return this.value
@@ -36,7 +31,11 @@ export default class AddressInput extends Vue {
   }
 
   get type(): string {
-    return this.err ? 'is-danger': ''
+    return this.err ? 'is-danger' : ''
+  }
+
+  public focusInput(): void {
+    this.address?.focus()
   }
 
   @Debounce(500)

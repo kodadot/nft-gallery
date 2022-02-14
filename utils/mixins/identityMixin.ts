@@ -1,5 +1,5 @@
-import { Registration } from '@polkadot/types/interfaces/identity/types';
-import Vue from 'vue';
+import { Registration } from '@polkadot/types/interfaces/identity/types'
+import Vue from 'vue'
 
 export default class IdentityMixin extends Vue {
   public async identityOf(address: string): Promise<Registration> {
@@ -9,8 +9,9 @@ export default class IdentityMixin extends Vue {
       return Promise.resolve(identity)
     }
 
-   return await this.$store.dispatch('fetchIdentity', address)
-    .then(() => this.$store.getters.getIdentityFor(address))
-    .then(id => id || {})
+    return await this.$store
+      .dispatch('fetchIdentity', address)
+      .then(() => this.$store.getters.getIdentityFor(address))
+      .then((id) => id || {})
   }
 }

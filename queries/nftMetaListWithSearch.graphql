@@ -1,16 +1,17 @@
-query nftMetaListWithSearch($first: Int!, $offset: Int, $search: [NFTEntityFilter!]) {
+query nftMetaListWithSearch(
+  $first: Int!
+  $offset: Int
+  $search: [NFTEntityFilter!]
+) {
   nFTEntities(
     orderBy: BLOCK_NUMBER_DESC
     first: $first
     offset: $offset
-    filter: {
-      name: { notLike: "%Kanaria%" }
-      and: $search
-    }
+    filter: { name: { notLike: "%Kanaria%" }, and: $search }
   ) {
     totalCount
     nodes {
-     metadata
+      metadata
     }
   }
 }

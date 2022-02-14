@@ -1,3 +1,4 @@
+import { CreatedNFT } from '@kodadot1/minimark'
 import { sanitizeIpfsUrl } from '../utils'
 
 export interface CompletePack extends BasePack {
@@ -81,10 +82,10 @@ export interface PackMetadata {
 }
 
 export type MassMintNFT = {
-  name: string;
-  description: string;
-  meta: number | string;
-  file?: File;
+  name: string
+  description: string
+  meta: number | string
+  file?: File
 }
 
 // export interface Collection {
@@ -198,9 +199,21 @@ export interface Pack extends BasePack {
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
-  return `${blocknumber ? blocknumber + '-' : ''}${
-    nft.collection
-  }-${nft.instance || nft.name}-${nft.sn}`
+  return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
+    nft.instance || nft.name
+  }-${nft.sn}`
+}
+
+export const toNFTId = (
+  nft: CreatedNFT,
+  blocknumber: string | number
+): string => {
+  const { collection, instance, sn } = nft
+  if (!collection || !instance || !sn) {
+    throw new ReferenceError('[APP] toNFTId: invalid nft')
+  }
+
+  return `${blocknumber}-${collection}-${instance}-${sn}`
 }
 
 export const computeAndUpdateNft = (

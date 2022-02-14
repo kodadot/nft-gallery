@@ -1,7 +1,7 @@
 # Dockerfile
-FROM node:14.18.1
+FROM node:16.13.2
 
-WORKDIR /kodadot-app
+WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .

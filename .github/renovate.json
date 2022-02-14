@@ -1,0 +1,55 @@
+{
+    "timezone": "Europe/Berlin",
+    "commitMessagePrefix": "[skip netlify]",
+    "automerge": true,
+    "automergeType": "pr-comment",
+    "automergeComment": "lgtm",
+    "rangeStrategy": "bump",
+    "prHourlyLimit": 5,
+    "schedule": [
+      "after 10pm every weekday",
+      "before 6am every weekday",
+      "every weekend"
+    ],
+    "packageRules": [
+      {
+        "matchPackagePatterns": [
+          "^axios",
+          "babel",
+          "^buefy",
+          "^chartjs",
+          "DefinitelyTyped",
+          "fortawesome",
+          "^eslint",
+          "^graphql",
+          "^jest",
+          "^lint",
+          "^model-viewer",
+          "^nuxt",
+          "^vue",
+          "^vuejs",
+          "^typescript",
+          "typescript-eslint",
+          "^ws"
+        ],
+        "groupName": "Bumped minor version of packages",
+        "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
+        "rangeStrategy": "bump"
+      },
+      {
+        "matchSourceUrlPrefixes": [
+          "https://github.com/polkadot-js/",
+          "https://github.com/vue-polkadot/",
+          "https://github.com/kodadot/packages",
+          "https://github.com/cloudacy/vue-markdown-render",
+          "https://github.com/FortAwesome/Font-Awesome"
+        ],
+        "groupName": "merge with hazmat suit extra",
+        "enabled": false
+      }
+    ],
+    "extends": [
+      "github>whitesource/merge-confidence:beta",
+      "config:base"
+    ]
+}

@@ -114,7 +114,10 @@ export type LangState = ReturnType<typeof state>
 export const getters: GetterTree<LangState, LangState> = {
   getUserLang: ({ language }: any) => language.userLang || 'en',
   getLangsFlags: ({ language }: any) => language.langsFlags,
-  getUserFlag: ({ language }: any) => language.langsFlags.find((lang: {value: string}) => lang.value === language.userLang).flag,
+  getUserFlag: ({ language }: any) =>
+    language.langsFlags.find(
+      (lang: { value: string }) => lang.value === language.userLang
+    ).flag,
 }
 
 export const mutations: MutationTree<LangState> = {

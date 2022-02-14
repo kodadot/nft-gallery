@@ -1,0 +1,7 @@
+query existingCollectionList($ids: [String!]) {
+  collectionEntities(filter: { id: { in: $ids } }) {
+    nodes {
+      id
+    }
+  }
+}

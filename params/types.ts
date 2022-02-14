@@ -2,30 +2,30 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types';
+import { TypeDef } from '@polkadot/types/types'
 // import { BareProps } from '@polkadot/react-components/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
-export type RawParamValue = any | undefined;
+export type RawParamValue = any | undefined
 
-export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
+export type RawParamValueArray = (RawParamValue | RawParamValue[])[]
 
-export type RawParamValues = RawParamValue | RawParamValueArray;
+export type RawParamValues = RawParamValue | RawParamValueArray
 
 export interface RawParam {
-  isValid: boolean;
-  value: RawParamValues;
+  isValid: boolean
+  value: RawParamValues
 }
 
 export interface RawParamOnChangeValue {
-  isValid: boolean;
-  value: RawParamValues;
+  isValid: boolean
+  value: RawParamValues
 }
-export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
-export type RawParamOnEnter = () => void;
+export type RawParamOnChange = (value: RawParamOnChangeValue) => void
+export type RawParamOnEnter = () => void
 
-export type RawParams = RawParam[];
+export type RawParams = RawParam[]
 
 // export interface BaseProps extends BareProps {
 //   defaultValue: RawParam;
@@ -43,16 +43,16 @@ export type RawParams = RawParam[];
 //   withLabel?: boolean;
 // }
 
-export type Size = 'full' | 'large' | 'medium' | 'small';
+export type Size = 'full' | 'large' | 'medium' | 'small'
 
-export type ComponentMap = Record<string, Vue.Component>;
+export type ComponentMap = Record<string, Vue.Component>
 
 export interface Unit {
-  name: string;
-  value: number;
+  name: string
+  value: number
 }
 
 export interface ParamDef {
-  name?: string;
-  type: TypeDef;
+  name?: string
+  type: TypeDef
 }

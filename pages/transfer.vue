@@ -1,85 +1,66 @@
 <template>
   <section>
-    <Loader
-      v-model="isLoading"
-      :status="status"
-    />
+    <Loader v-model="isLoading" :status="status" />
     <nuxt-link
       v-if="$route.query.target"
       :to="`/rmrk/u/${destinationAddress}`"
-      class="linkartist"
-    >
-      <b-icon
-        icon="chevron-left"
-        size="is-small"
-        class="linkartist--icon"
-      />
+      class="linkartist">
+      <b-icon icon="chevron-left" size="is-small" class="linkartist--icon" />
       Go to artist's profile
     </nuxt-link>
     <div class="box">
-      <div class="info">
-        <p class="title is-size-3">
-          Transfer {{ unit }}
-        </p>
-        <span
-          class="info--currentPrice"
-          title="Current price"
-        >${{ $store.getters.getCurrentKSMValue }} </span>
-      </div>
-
+      <p class="title is-size-3">
+        Transfer {{ unit }}
+        <span v-if="isKSM" class="has-text-primary"
+          >${{ $store.getters['fiat/getCurrentKSMValue'] }}</span
+        >
+      </p>
       <b-field>
         <Auth />
       </b-field>
-      <div
-        v-if="$route.query.target"
-        class="box--target-info"
-      >
+      <div v-if="$route.query.target" class="box--target-info">
         Your donation will be sent to:
         <a
           :href="`https://kusama.subscan.io/account/${$route.query.target}`"
           target="_blank"
           rel="noopener noreferrer"
-          class="box--target-info--url"
-        >
+          class="box--target-info--url">
           <Identity
             ref="identity"
             :address="$route.query.target"
             inline
-            show-onchain-identity
-          />
+            show-onchain-identity />
         </a>
       </div>
 
       <div class="is-flex is-align-items-center">
         <b-field>
-          {{ $t("general.balance") }}
-          <Money
-            :value="balance"
-            inline
-          />
+          {{ $t('general.balance') }}
+          <Money :value="balance" inline />
         </b-field>
       </div>
 
       <b-field>
         <AddressInput v-model="destinationAddress" :strict="false" />
       </b-field>
-      <DisabledInput v-show="correctAddress && correctAddress !== destinationAddress" :label="$t('general.correctAddress')" :value="correctAddress" />
-      <div class="box--container">
+      <DisabledInput
+        v-show="correctAddress && correctAddress !== destinationAddress"
+        :label="$t('general.correctAddress')"
+        :value="correctAddress" />
+      <div class="box--container mb-3">
         <b-field>
           <BalanceInput
             v-model="price"
             label="Amount"
             :calculate="false"
-            @input="onAmountFieldChange"
-          />
+            @input="onAmountFieldChange" />
         </b-field>
-        <b-field class="mb-3">
+        <b-field v-if="isKSM">
           <ReadOnlyBalanceInput
             v-model="usdValue"
             label-input="USD Value (approx)"
             label="USD"
-            @input="onUSDFieldChange"
-          />
+            @input="onUSDFieldChange" />
         </b-field>
       </div>
 
@@ -90,9 +71,8 @@
           :loading="isLoading"
           :disabled="disabled"
           outlined
-          @click="submit"
-        >
-          {{ $t("general.submit") }}
+          @click="submit">
+          {{ $t('general.submit') }}
         </b-button>
         <b-button
           v-if="transactionValue"
@@ -100,16 +80,15 @@
           class="tx"
           icon-left="external-link-alt"
           outlined
-          @click="getExplorerUrl"
-        >
-          {{ $t("View Transaction") }} {{ transactionValue.substring(0,6) }}{{ '...' }}
+          @click="getExplorerUrl">
+          {{ $t('View Transaction') }} {{ transactionValue.substring(0, 6)
+          }}{{ '...' }}
         </b-button>
         <b-button
           v-if="transactionValue"
           @click="toast('URL copied to clipboard')"
           v-clipboard:copy="getUrl()"
-          type="is-primary"
-        >
+          type="is-primary">
           <b-icon size="is-small" pack="fas" icon="link" />
         </b-button>
         <b-button
@@ -119,13 +98,13 @@
           :loading="isLoading"
           @click="toast('Payment link copied to clipboard')"
           v-clipboard:copy="generatePaymentLink()"
-          outlined
-        >
-          {{ $t("Copy Payment link") }}
+          outlined>
+          {{ $t('Copy Payment link') }}
         </b-button>
       </div>
       <div v-if="transactionValue && this.$route.query.donation">
-        <div class="is-size-5">🎉 Congratulations for supporting
+        <div class="is-size-5">
+          🎉 Congratulations for supporting
           <Identity ref="identity" :address="this.$route.query.target" inline />
         </div>
         <b-button
@@ -133,9 +112,8 @@
           class="tweetBtn"
           icon-left="share-square"
           outlined
-          @click="shareInTweet"
-        >
-          {{ $t("Tweet about your awesome donation") }}
+          @click="shareInTweet">
+          {{ $t('Tweet about your awesome donation') }}
         </b-button>
       </div>
     </div>
@@ -144,7 +122,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import Connector from '@vue-polkadot/vue-api'
+import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
@@ -154,31 +132,35 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
 import correctFormat from '@/utils/ss58Format'
-import { checkAddress, decodeAddress, encodeAddress, isAddress } from '@polkadot/util-crypto'
+import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
+import onApiConnect from '~/utils/api/general'
+import type { ApiPromise } from '@polkadot/api'
+
 @Component({
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-    ReadOnlyBalanceInput: () => import('@/components/shared/ReadOnlyBalanceInput.vue'),
+    ReadOnlyBalanceInput: () =>
+      import('@/components/shared/ReadOnlyBalanceInput.vue'),
     Identity: () => import('@/components/shared/format/Identity.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     AddressInput: () => import('@/components/shared/AddressInput.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     DisabledInput: () => import('@/components/shared/DisabledInput.vue'),
-  }
+  },
 })
 export default class Transfer extends mixins(
   TransactionMixin,
   AuthMixin,
   ChainMixin
 ) {
-  protected balance = '0';
-  protected destinationAddress = '';
-  protected transactionValue = '';
-  protected price = 0;
-  protected usdValue = 0;
+  protected balance = '0'
+  protected destinationAddress = ''
+  protected transactionValue = ''
+  protected price = 0
+  protected usdValue = 0
 
   layout() {
     return 'centered-half-layout'
@@ -194,18 +176,30 @@ export default class Transfer extends mixins(
     return isAddress(this.destinationAddress)
   }
   get correctAddress(): string {
-    return this.hasAddress ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format)) : ''
+    return this.hasAddress
+      ? encodeAddress(this.destinationAddress, correctFormat(this.ss58Format))
+      : ''
+  }
+
+  get isKSM(): boolean {
+    return this.unit === 'KSM'
   }
 
   protected created() {
-    this.$store.dispatch('fetchFiatPrice')
+    this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
+    onApiConnect(async (api) => {
+      this.loadBalance(api)
+    })
   }
 
   protected onAmountFieldChange() {
     /* calculating usd value on the basis of price entered */
     if (this.price) {
-      this.usdValue = calculateUsdFromKsm(this.$store.getters.getCurrentKSMValue, this.price)
+      this.usdValue = calculateUsdFromKsm(
+        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.price
+      )
     } else {
       this.usdValue = 0
     }
@@ -214,7 +208,10 @@ export default class Transfer extends mixins(
   protected onUSDFieldChange() {
     /* calculating price value on the basis of usd entered */
     if (this.usdValue) {
-      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+      this.price = calculateKsmFromUsd(
+        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.usdValue
+      )
     } else {
       this.price = 0
     }
@@ -222,7 +219,6 @@ export default class Transfer extends mixins(
 
   protected checkQueryParams() {
     const { query } = this.$route
-
     if (query.target) {
       const hasAddress = isAddress(query.target as string)
       if (hasAddress) {
@@ -239,22 +235,34 @@ export default class Transfer extends mixins(
     if (query.usdamount) {
       this.usdValue = Number(query.usdamount)
       // getting ksm value from the usd value
-      this.price = calculateKsmFromUsd(this.$store.getters.getCurrentKSMValue, this.usdValue)
+      this.price = calculateKsmFromUsd(
+        this.$store.getters['fiat/getCurrentKSMValue'],
+        this.usdValue
+      )
     }
   }
 
   public async submit(): Promise<void> {
-    showNotification(`${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
+    showNotification(
+      `${this.$route.query.target ? 'Sent for Sign' : 'Dispatched'}`
+    )
     this.initTransactionLoader()
 
     try {
       const { api } = Connector.getInstance()
       const cb = api.tx.balances.transfer
-      const arg = [this.destinationAddress, calculateBalance(this.price, this.decimals)]
+      const arg = [
+        this.destinationAddress,
+        calculateBalance(this.price, this.decimals),
+      ]
 
-      const tx = await exec(this.accountId, '', cb, arg,
+      const tx = await exec(
+        this.accountId,
+        '',
+        cb,
+        arg,
         txCb(
-          async blockHash => {
+          async (blockHash) => {
             this.transactionValue = execResultValue(tx)
             const header = await api.rpc.chain.getHeader(blockHash)
             const blockNumber = header.number.toString()
@@ -273,12 +281,12 @@ export default class Transfer extends mixins(
 
             this.isLoading = false
           },
-          dispatchError => {
+          (dispatchError) => {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
           },
-          res => this.resolveStatus(res.status)
+          (res) => this.resolveStatus(res.status)
         )
       )
     } catch (e) {
@@ -309,8 +317,11 @@ export default class Transfer extends mixins(
   }
 
   protected getUrl(): string {
-    return urlBuilderTransaction(this.transactionValue,
-      this.$store.getters.getCurrentChain, 'subscan')
+    return urlBuilderTransaction(
+      this.transactionValue,
+      this.$store.getters['explorer/getCurrentChain'],
+      'subscan'
+    )
   }
 
   protected getExplorerUrl(): void {
@@ -323,7 +334,8 @@ export default class Transfer extends mixins(
   }
 
   protected shareInTweet() {
-    const text = 'I have just helped a really cool creator by donating. Check my donation proof:'
+    const text =
+      'I have just helped a really cool creator by donating. Check my donation proof:'
     const url = `https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${this.getUrl()}`
     window.open(url, '_blank')
   }
@@ -336,42 +348,23 @@ export default class Transfer extends mixins(
   }
 
   @Watch('destinationAddress')
-  destinationChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.target = value
-    }
-    if (this.$route.query.usdamount) {
-      queryValue.usdamount = this.$route.query.usdamount
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    })
+  destinationChanged(target: string): void {
+    const { usdamount } = this.$route.query
+    this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
   }
 
   @Watch('usdValue')
-  usdValueChanged(value: string): void {
-    const queryValue: any = {}
-    if (value) {
-      queryValue.usdamount = value
-    }
-    if (this.$route.query.target) {
-      queryValue.target = this.$route.query.target
-    }
-    this.$router.replace({
-      path: String(this.$route.path),
-      query: queryValue,
-    })
+  usdValueChanged(usdamount: string): void {
+    const { target } = this.$route.query
+    this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
   }
 
-  async loadBalance() {
-    if (!this.accountId || !this.unit) {
+  async loadBalance(
+    api: ApiPromise = Connector.getInstance().api
+  ): Promise<void> {
+    if (!this.accountId || !this.unit || !api) {
       return
     }
-
-    await new Promise(a => setTimeout(a, 1000))
-    const { api } = Connector.getInstance()
 
     try {
       const cb = api.query.system.account
@@ -391,22 +384,11 @@ export default class Transfer extends mixins(
 
 <style scoped lang="scss">
 @import '@/styles/variables';
-.info {
-  display: flex;
-  align-items: center;
-  &--currentPrice {
-    margin-bottom: 1.5rem;
-    margin-left: 1.5rem;
-    color: $primary;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-}
 .tx {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 .tweetBtn {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 .box {
   &--container {

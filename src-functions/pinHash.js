@@ -1,8 +1,6 @@
 import axios from 'axios'
 
 export async function handler(event) {
-
-
   // const location = event.queryStringParameters.location || "home";
   const BASE_URL = 'https://api.pinata.cloud/pinning/pinByHash'
   const object = event.body
@@ -21,8 +19,6 @@ export async function handler(event) {
       statusCode: status,
       body: JSON.stringify(data),
     }
-
-
   } catch (e) {
     console.log('Error', e.message)
     return {
@@ -30,6 +26,4 @@ export async function handler(event) {
       body: e.message,
     }
   }
-
 }
-

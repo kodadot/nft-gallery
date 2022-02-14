@@ -1,0 +1,24 @@
+query collectionSeriesList(
+  $limit: Float
+  $orderBy: String
+  $orderDirection: String
+) {
+  collectionEntities: seriesInsightTable(
+    limit: $limit
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+  ) {
+    id
+    floorPrice
+    averagePrice
+    image
+    metadata
+    sold
+    name
+    total
+    buys
+    unique
+    uniqueCollectors
+    volume
+  }
+}

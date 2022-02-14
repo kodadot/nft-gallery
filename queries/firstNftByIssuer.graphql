@@ -1,5 +1,3 @@
-
-
 query firstNftByIssuer($account: String!) {
   nFTEntities(
     filter: {

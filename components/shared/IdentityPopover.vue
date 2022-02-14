@@ -1,96 +1,96 @@
 <template>
-  <tippy class="tippy-container" interactive :animate-fill="false" placement="bottom" :delay="[100, 800]">
+  <v-tippy
+    class="tippy-container"
+    interactive
+    :animate-fill="false"
+    placement="bottom"
+    :delay="[100, 800]">
     <template v-slot:trigger>
       <slot name="trigger" />
     </template>
-    <div class="popover-content-container p-4">
-      <div class="is-flex mb-3">
-        <div class="is-align-self-flex-start">
-          <!-- <Identicon
+    <div class="popover-content-container p-4 ms-dos-shadow">
+      <div class="columns mb-3">
+        <div class="column is-one-quarter">
+          <Identicon
             :size="60"
             :theme="'polkadot'"
             :value="identity.address"
-            class="popover-image avatar mr-5"
-          /> -->
+            class="popover-image avatar mr-5" />
         </div>
-        <div>
-          <p class="has-text-weight-bold is-size-4 mb-1">
+        <div class="column is-three-quarters">
+          <p class="has-text-weight-bold is-size-5 mb-1 break-word">
             {{ identity.display }}
           </p>
-          <p class="is-size-7">
-            {{ shortenedAddress }} 
+          <p class="is-size-7 mb-1">
+            {{ shortenedAddress }}
             <b-icon
               icon="copy"
               size="is-small"
               class="copy-icon"
               v-clipboard:copy="identity.address"
-              @click.native="toast('Copied to clipboard')"
-            ></b-icon>
+              @click.native="toast('Copied to clipboard')"></b-icon>
           </p>
-          <div class="py-1 is-size-7 py-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione soluta obcaecati 
-          </div>
-          <p class="is-size-7 is-flex is-align-items-center pb-3">
-            <b-icon
-              icon="clock"
-              size="is-small"
-            />
+          <p class="is-size-7 is-flex is-align-items-center py-3">
+            <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
           </p>
         </div>
       </div>
-      
-      <hr style="height: 1px;" class="m-0">
+
+      <hr style="height: 1px" class="m-0" />
 
       <div style="" class="popover-stats-container pt-3">
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCollected }}</p>
-          <span class="is-size-7">Bought</span>
+          <span class="is-size-7 is-uppercase">{{
+            $t('profile.collected')
+          }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalCreated }}</p>
-          <span class="is-size-7">Created</span>
+          <span class="is-size-7 is-uppercase">{{
+            $t('profile.created')
+          }}</span>
         </div>
         <div class="has-text-centered">
           <p class="has-text-weight-bold is-size-6">{{ totalSold }}</p>
-          <span class="is-size-7">Sold</span>
+          <span class="is-size-7 is-uppercase">{{ $t('profile.sold') }}</span>
         </div>
       </div>
     </div>
-  </tippy>
+  </v-tippy>
 </template>
 
-<script lang="ts" >
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import {formatDistanceToNow} from 'date-fns'
-import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+<script lang="ts">
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { formatDistanceToNow } from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import nftStatsByIssuer from '@/queries/nftStatsByIssuer.graphql'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
-type Address = string | GenericAccountId | undefined;
-type IdentityFields = Record<string, string>;
+type Address = string | undefined
+type IdentityFields = Record<string, string>
 
 @Component({
   components: {
-    Identicon
-  }
+    Identicon,
+  },
 })
-export default class IdentityPopover extends Vue {
+export default class IdentityPopover extends mixins(PrefixMixin) {
   @Prop() public identity!: IdentityFields
 
-  protected totalCreated = 0;
-  protected totalCollected = 0;
-  protected totalSold = 0;
-  protected firstMintDate = new Date();
+  protected totalCreated = 0
+  protected totalCollected = 0
+  protected totalSold = 0
+  protected firstMintDate = new Date()
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
   }
 
   private resolveAddress(account: Address): string {
-    return account instanceof GenericAccountId ? account.toString() : account || ''
+    return account ? account.toString() : ''
   }
 
   public toast(message: string): void {
@@ -98,7 +98,9 @@ export default class IdentityPopover extends Vue {
   }
 
   get formattedTimeToNow() {
-    return this.firstMintDate ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true }) : ''
+    return this.firstMintDate
+      ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true })
+      : ''
   }
 
   public async mounted() {
@@ -107,17 +109,22 @@ export default class IdentityPopover extends Vue {
 
   protected async fetchNFTStats() {
     try {
+      const query =
+        this.urlPrefix === 'rmrk'
+          ? await import('@/queries/nftStatsByIssuer.graphql')
+          : await import('@/queries/unique/nftStatsByIssuer.graphql')
       this.$apollo.addSmartQuery('collections', {
-        query: nftStatsByIssuer,
+        query: query.default,
         manual: true,
+        client: this.urlPrefix,
         loadingKey: 'isLoading',
         result: this.handleResult,
         variables: () => {
           return {
-            account: this.identity.address,
+            account: this.identity.address || '',
           }
         },
-        fetchPolicy: 'cache-and-network'
+        fetchPolicy: 'cache-and-network',
       })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
@@ -131,7 +138,7 @@ export default class IdentityPopover extends Vue {
       this.totalCollected = data.nFTCollected.totalCount
       this.totalSold = data.nFTSold.totalCount
 
-      if (data.firstMint.nodes.length > 0) {
+      if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
     }
@@ -139,14 +146,16 @@ export default class IdentityPopover extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/variables';
+
 .tippy-container {
-  display: inline-block
+  display: inline-block;
 }
 
 .popover-content-container {
-  border: 1px solid white;
-  max-width: 350px
+  border: 2px solid $primary;
+  max-width: 350px;
 }
 
 .popover-image {
@@ -160,5 +169,13 @@ export default class IdentityPopover extends Vue {
 
 .copy-icon {
   cursor: pointer;
+}
+
+.break-word {
+  overflow-wrap: break-word;
+}
+
+.ms-dos-shadow {
+  box-shadow: $dropdown-content-shadow;
 }
 </style>

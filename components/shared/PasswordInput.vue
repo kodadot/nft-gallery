@@ -2,25 +2,23 @@
   <b-field
     v-if="accountLocked"
     label="password 🤫 magic spell"
-    class="password-wrapper"
-  >
+    class="password-wrapper">
     <b-input
       :value="value"
       type="password"
       password-reveal
-      @input="handlePassword"
-    />
+      @input="handlePassword" />
   </b-field>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { Component, Prop, Vue, Emit } from 'nuxt-property-decorator'
 import { isAccountLocked } from '@/utils/account'
 
 @Component
 export default class PasswordInput extends Vue {
-  @Prop() public value!: string;
-  @Prop({ default: '' }) public account!: string;
+  @Prop() public value!: string
+  @Prop({ default: '' }) public account!: string
 
   // public mounted() {
   //   if (this.account) {
@@ -31,7 +29,6 @@ export default class PasswordInput extends Vue {
   //       console.warn('[Password] unable to get account', err)
   //     }
 
-
   //   }
   // }
 
@@ -39,11 +36,9 @@ export default class PasswordInput extends Vue {
     return this.account && isAccountLocked(this.account)
   }
 
-
   @Emit('input')
   private handlePassword(password: string) {
     return password
   }
-
 }
 </script>
