@@ -1,8 +1,9 @@
 <template>
   <div class="card mb-3 mt-5">
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0">
+      <b-field class="column is-6 mb-0" :class="searchColumnClass">
         <b-button
+          v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
           type="is-primary"
@@ -22,8 +23,10 @@
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
           @keydown.native.down="moveDown"
+          @keydown.native.delete="makeInputDirty"
           @typing="updateSuggestion"
-          @select="updateSelected">
+          @select="updateSelected"
+          @input="makeInputDirty">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
               <div class="media">
@@ -78,7 +81,11 @@
           </template>
         </b-autocomplete>
       </b-field>
-      <b-field expanded position="is-right" class="column is-6">
+      <b-field
+        expanded
+        position="is-right"
+        class="column is-6"
+        v-if="!hideFilter">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -155,7 +162,9 @@ export default class SearchBar extends mixins(
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
+  @Prop(String) public searchColumnClass!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public hideFilter!: boolean
 
   protected isVisible = false
   private query: SearchQuery = {
@@ -175,6 +184,8 @@ export default class SearchBar extends mixins(
   private searched: NFT[] = []
   private highlightPos = 0
   private rangeSlider = [0, 5]
+  private inputDirty = false
+
 
   public mounted(): void {
     this.getSearchHistory()
@@ -215,6 +226,9 @@ export default class SearchBar extends mixins(
   }
 
   set vListed(listed: boolean) {
+    if (this.inputDirty) {
+      this.searchResult()
+    }
     this.updateListed(listed)
   }
 
@@ -255,7 +269,7 @@ export default class SearchBar extends mixins(
     return v === 'true'
   }
 
-  insertNewHistroy() {
+  insertNewHistory() {
     const newResult = {
       type: 'History',
       name: this.searchString,
@@ -266,6 +280,7 @@ export default class SearchBar extends mixins(
   //Invoked when "enter" key is pressed
   @Debounce(50)
   searchResult() {
+    this.inputDirty = false
     const offset = this.oldSearchResult(this.searchString) ? 0 : 1
 
     //When an item from the autocomplete list is highlighted
@@ -273,7 +288,7 @@ export default class SearchBar extends mixins(
       const searchCache = this.filterSearch()
       //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
         this.updateSearch(this.searchString)
       } else if (this.highlightPos >= searchCache.length + offset) {
         this.updateSelected(
@@ -286,7 +301,7 @@ export default class SearchBar extends mixins(
 
       //Current search string is not present in cache
       if (offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
       }
       this.updateSearch(this.searchString)
     }
@@ -303,6 +318,9 @@ export default class SearchBar extends mixins(
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
+    if (this.inputDirty) {
+      this.searchResult()
+    }
     this.replaceUrl(value, 'sort')
     return value
   }
@@ -314,7 +332,7 @@ export default class SearchBar extends mixins(
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
-      this.insertNewHistroy()
+      this.insertNewHistory()
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
@@ -395,7 +413,7 @@ export default class SearchBar extends mixins(
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        path: this.$route.path,
+        path: '/rmrk/gallery',
         query: {
           ...this.$route.query,
           search: this.searchQuery,
@@ -454,6 +472,7 @@ export default class SearchBar extends mixins(
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
   }
 
+
   @Debounce(50)
   private sliderChange([min, max]: [number, number]): void {
     console.log('min ->', min, '  max ->', max)
@@ -471,6 +490,12 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   private sliderChangeMax(max: number): void {
     this.query.priceMax = max
+
+  private makeInputDirty() {
+    if (!this.inputDirty) {
+      return (this.inputDirty = true)
+    }
+
   }
 }
 </script>
