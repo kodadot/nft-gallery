@@ -107,7 +107,11 @@
                           :buyDisabled="hasBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
-                      <Auth @update-balance="setUserBalance" />
+                      <Auth />
+                    </p>
+                    <p class="subtitle is-size-6" v-if="accountId">
+                      <span>{{ $t('general.balance') }}: </span>
+                      <Money :value="balance" inline />
                     </p>
                   </div>
 
@@ -198,8 +202,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public message = ''
   public priceChartData: [Date, number][][] = []
   public showNavigation = false
-  public userBalance = ''
-  public hasBuyDisabled = true
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -358,14 +360,6 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     this.$buefy.toast.open(message)
   }
 
-  public setUserBalance(balance) {
-    this.userBalance = balance
-    this.hasBuyDisabled =
-      this.nft.price && this.userBalance
-        ? Number(this.nft.price) > Number(this.userBalance)
-        : true
-  }
-
   get hasPrice() {
     return Number(this.nft.price) > 0
   }
@@ -381,6 +375,14 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get compactGalleryItem(): boolean {
     return this.$store.state.preferences.compactGalleryItem
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get hasBuyDisabled(): boolean {
+    return this.balance ? Number(this.nft.price) > Number(this.balance) : true
   }
 
   protected handleAction(deleted: boolean) {

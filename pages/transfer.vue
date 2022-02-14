@@ -127,7 +127,6 @@ import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
-import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { calculateBalance } from '@/utils/formatBalance'
@@ -135,8 +134,6 @@ import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import onApiConnect from '~/utils/api/general'
-import type { ApiPromise } from '@polkadot/api'
 
 @Component({
   components: {
@@ -156,7 +153,6 @@ export default class Transfer extends mixins(
   AuthMixin,
   ChainMixin
 ) {
-  protected balance = '0'
   protected destinationAddress = ''
   protected transactionValue = ''
   protected price = 0
@@ -185,12 +181,13 @@ export default class Transfer extends mixins(
     return this.unit === 'KSM'
   }
 
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
-    onApiConnect(async (api) => {
-      this.loadBalance(api)
-    })
   }
 
   protected onAmountFieldChange() {
@@ -340,13 +337,6 @@ export default class Transfer extends mixins(
     window.open(url, '_blank')
   }
 
-  @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string): void {
-    if (shouldUpdate(value, oldVal)) {
-      this.loadBalance()
-    }
-  }
-
   @Watch('destinationAddress')
   destinationChanged(target: string): void {
     const { usdamount } = this.$route.query
@@ -357,23 +347,6 @@ export default class Transfer extends mixins(
   usdValueChanged(usdamount: string): void {
     const { target } = this.$route.query
     this.$router.replace({ query: { target, usdamount } }).catch(() => null) // null to further not throw navigation errors
-  }
-
-  async loadBalance(
-    api: ApiPromise = Connector.getInstance().api
-  ): Promise<void> {
-    if (!this.accountId || !this.unit || !api) {
-      return
-    }
-
-    try {
-      const cb = api.query.system.account
-      const arg = this.accountId
-      const result = await cb(arg)
-      this.balance = (result as any).data.free.toString()
-    } catch (e) {
-      console.error('[ERR: BALANCE]', e)
-    }
   }
 
   private toast(message: string): void {

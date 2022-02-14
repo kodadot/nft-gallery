@@ -10,6 +10,7 @@ export interface IdentityMap {
 export interface Auth {
   address: string
   source: 'keyring' | 'extension' | 'ledger'
+  balance: string
 }
 
 export interface IdentityStruct {
@@ -42,6 +43,9 @@ export const mutations = {
   addAuth(state: IdentityStruct, authRequest: Auth): void {
     state.auth = { ...authRequest }
   },
+  addBalance(state: IdentityStruct, balance: string): void {
+    Vue.set(state.auth, 'balance', balance)
+  },
 }
 
 export const actions = {
@@ -65,6 +69,9 @@ export const actions = {
   setAuth({ commit }: any, authRequest: Auth): void {
     commit('addAuth', authRequest)
   },
+  setBalance({ commit }: any, balance: string): void {
+    commit('addBalance', balance)
+  },
 }
 
 export const getters = {
@@ -81,5 +88,8 @@ export const getters = {
   },
   getAuthAddress(state: IdentityStruct): string {
     return state.auth.address
+  },
+  getAuthBalance(state: IdentityStruct): string {
+    return state.auth.balance
   },
 }
