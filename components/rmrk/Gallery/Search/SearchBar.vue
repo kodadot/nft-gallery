@@ -111,7 +111,7 @@
         :custom-formatter="(val) => `${val} KSM`"
         :max="30"
         :min="0"
-        :step="0.5"
+        :step="1"
         ticks
         @change="sliderChange">
       </b-slider>

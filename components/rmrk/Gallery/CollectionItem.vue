@@ -150,6 +150,8 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
+    priceMin: 0,
+    priceMax: 5000000000000,
   }
   public activeTab = 'collection'
   private currentValue = 1
