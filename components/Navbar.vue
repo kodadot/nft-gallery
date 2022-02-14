@@ -9,6 +9,10 @@
       </b-navbar-item>
     </template>
     <template #start>
+      <Search
+        hideFilter
+        class="search-navbar"
+        searchColumnClass="is-flex-grow-1" />
       <!-- <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Create') }}</span>
@@ -117,6 +121,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     HistoryBrowser,
     NavbarProfileDropdown,
     ChainSelect,
+    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
@@ -137,6 +142,9 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         .button {
           height: 42px;
         }
+      }
+      .navbar-start {
+        flex-grow: 1;
       }
     }
   }
@@ -179,6 +187,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       border: none !important;
       margin-left: 0 !important;
     }
+  }
+  .search-navbar {
+    flex-grow: 1;
+    margin: 0rem 1rem;
   }
 }
 </style>
