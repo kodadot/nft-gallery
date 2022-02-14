@@ -16,7 +16,6 @@
     </template>
     <template #end>
       <HistoryBrowser class="ml-2" />
-      <LocaleChanger class="ml-2" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Create') }}</span>
@@ -50,11 +49,11 @@
           {{ $t('Gallery') }}
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible>
+      <b-navbar-dropdown arrowless collapsible v-if="isRmrk">
         <template #label>
           <span>{{ $t('Stats') }}</span>
         </template>
-        <template v-if="isRmrk">
+        <template>
           <b-navbar-item tag="nuxt-link" to="/spotlight">
             {{ $t('Spotlight') }}
           </b-navbar-item>
@@ -63,8 +62,8 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-
       <ChainSelect class="ml-2" />
+      <LocaleChanger class="ml-2" />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
   </b-navbar>
