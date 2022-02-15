@@ -56,15 +56,12 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import LocaleChanger from '@/components/shared/SwitchLocale.vue'
 import ChainSelect from '@/components/shared/ChainSelect.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import onApiConnect from '~/utils/api/general'
-import Connector from '@kodadot1/sub-api'
-import type { ApiPromise } from '@polkadot/api'
 
 @Component({
   components: {
@@ -75,48 +72,12 @@ import type { ApiPromise } from '@polkadot/api'
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  mounted() {
-    onApiConnect(async (api) => {
-      this.loadBalance(api, this.account)
-    })
-  }
-
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 
   get account(): string {
     return this.$store.getters.getAuthAddress
-  }
-
-  async loadBalance(
-    api: ApiPromise = Connector.getInstance().api,
-    account: string
-  ): Promise<void> {
-    if (!this.account || !api) {
-      return
-    }
-
-    try {
-      const result = await api.query.system.account(account)
-      const balance = result.data.free.toString()
-      this.$store.dispatch('setBalance', balance)
-
-      // Here we subscribe to any balance changes and update the on-screen value
-      api?.query.system.account(account, (result) => {
-        const balance = result.data.free.toString()
-        this.$store.dispatch('setBalance', balance)
-      })
-    } catch (e) {
-      console.error('[ERR: BALANCE]', e)
-    }
-  }
-
-  @Watch('account')
-  authChanged(address: string): void {
-    onApiConnect(async (api) => {
-      this.loadBalance(api, address)
-    })
   }
 }
 </script>

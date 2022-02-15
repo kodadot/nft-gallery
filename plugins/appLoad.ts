@@ -79,5 +79,12 @@ const listenGlobalKeyboardEvents = (app, store) => {
 }
 
 export default ({ app, store }): void => {
+  // Bind Global Keyboard Events
   listenGlobalKeyboardEvents(app, store)
+
+  // Fetch User balance
+  const account = store.getters.getAuthAddress
+  if (account) {
+    store.dispatch('fetchBalance', account)
+  }
 }

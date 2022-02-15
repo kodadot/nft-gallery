@@ -2,6 +2,7 @@ import { emptyObject } from '@/utils/empty'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import Connector from '@kodadot1/sub-api'
 import Vue from 'vue'
+import onApiConnect from '~/utils/api/general'
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -66,8 +67,28 @@ export const actions = {
       console.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  setAuth({ commit }: any, authRequest: Auth): void {
+  async fetchBalance({ dispatch }: any, address: string) {
+    console.log('fetch balance')
+
+    onApiConnect(async (api) => {
+      try {
+        const result = await api.query.system.account(address)
+        const balance = result.data.free.toString()
+        dispatch('setBalance', balance)
+
+        // Here we subscribe to any balance changes
+        api?.query.system.account(address, (result) => {
+          const balance = result.data.free.toString()
+          dispatch('setBalance', balance)
+        })
+      } catch (e) {
+        console.error('[ERR: BALANCE]', e)
+      }
+    })
+  },
+  setAuth({ commit, dispatch }: any, authRequest: Auth): void {
     commit('addAuth', authRequest)
+    dispatch('fetchBalance', authRequest.address)
   },
   setBalance({ commit }: any, balance: string): void {
     commit('addBalance', balance)
