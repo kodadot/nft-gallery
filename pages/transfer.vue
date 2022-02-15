@@ -137,6 +137,7 @@ import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 import onApiConnect from '~/utils/api/general'
 import type { ApiPromise } from '@polkadot/api'
+import Query from '@/utils/api/Query'
 
 @Component({
   components: {
@@ -367,8 +368,7 @@ export default class Transfer extends mixins(
     }
 
     try {
-      const { availableBalance } = await api.derive.balances.all(this.accountId)
-      this.balance = availableBalance.toString()
+      this.balance = await Query.getTokenBalance(api, this.accountId)
     } catch (e) {
       console.error('[ERR: BALANCE]', e)
     }
