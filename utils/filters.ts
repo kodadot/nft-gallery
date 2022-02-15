@@ -18,9 +18,12 @@ export const toPercent = (value: number | undefined | BN): string => {
     return `${floatNum} %`
   }
 
-  const bnPercent: string = value.toString()
+  if (BN.isBN(value)) {
+    const bnPercent: string = value.toString()
+    return `${bnPercent} %`
+  }
 
-  return `${bnPercent} %`
+  return EMPTY
 }
 
 export const truncateStr = (s: string, maxLen = 20): string => {
