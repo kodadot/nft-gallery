@@ -75,10 +75,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
-
-  get account(): string {
-    return this.$store.getters.getAuthAddress
-  }
 }
 </script>
 
