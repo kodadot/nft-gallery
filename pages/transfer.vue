@@ -367,10 +367,8 @@ export default class Transfer extends mixins(
     }
 
     try {
-      const cb = api.query.system.account
-      const arg = this.accountId
-      const result = await cb(arg)
-      this.balance = (result as any).data.free.toString()
+      const { availableBalance } = await api.derive.balances.all(this.accountId)
+      this.balance = availableBalance.toString()
     } catch (e) {
       console.error('[ERR: BALANCE]', e)
     }
