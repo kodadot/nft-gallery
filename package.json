@@ -63,7 +63,7 @@
     "@kodadot1/vuex-options": "^0.0.1-rc.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.2.0",
-    "@polkadot/extension-dapp": "^0.42.6",
+    "@polkadot/extension-dapp": "^0.42.7",
     "@polkadot/extension-inject": "^0.42.6",
     "@polkadot/ui-keyring": "^0.89.2",
     "@polkadot/vue-identicon": "^0.89.2",
