@@ -1,8 +1,9 @@
 <template>
   <div class="card mb-3 mt-5">
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0">
+      <b-field class="column is-6 mb-0" :class="searchColumnClass">
         <b-button
+          v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
           type="is-primary"
@@ -80,7 +81,11 @@
           </template>
         </b-autocomplete>
       </b-field>
-      <b-field expanded position="is-right" class="column is-6">
+      <b-field
+        expanded
+        position="is-right"
+        class="column is-6"
+        v-if="!hideFilter">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -146,7 +151,9 @@ export default class SearchBar extends mixins(
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
+  @Prop(String) public searchColumnClass!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public hideFilter!: boolean
 
   protected isVisible = false
   private query: SearchQuery = {
@@ -391,7 +398,7 @@ export default class SearchBar extends mixins(
   replaceUrl(value: string, key = 'search'): void {
     this.$router
       .replace({
-        path: this.$route.path,
+        path: '/rmrk/gallery',
         query: {
           ...this.$route.query,
           search: this.searchQuery,

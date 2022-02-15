@@ -39,16 +39,12 @@
             :currentOwnerId="nft.currentOwner"
             :nftId="nft.id"
             :burned="nft.burned" />
-          <div class="nft-title">
-            <Name :nft="nft" :isLoading="isLoading" />
-          </div>
 
+          <Name :nft="nft" :isLoading="isLoading" class="mb-5" />
+
+          <b-skeleton :active="isLoading" :count="3"></b-skeleton>
           <div v-if="meta.description" class="block">
             <p class="label">{{ $t('legend') }}</p>
-            <b-skeleton
-              :count="3"
-              size="is-large"
-              :active="isLoading"></b-skeleton>
             <DescriptionWrapper
               v-if="!isLoading"
               :text="meta.description.replaceAll('\n', '  \n')" />
@@ -56,11 +52,6 @@
         </div>
 
         <div class="column is-6" v-if="detailVisible">
-          <b-skeleton
-            :count="2"
-            size="is-large"
-            :active="isLoading"></b-skeleton>
-
           <div class="columns">
             <div class="column">
               <div class="nft-title">
@@ -179,7 +170,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
-    Detail: () => import('@/components/rmrk/Gallery/Item/Detail.vue'),
+    Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
@@ -420,25 +411,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 <style lang="scss" scoped>
 @import '@/styles/variables';
 
-hr.comment-divider {
-  border-top: 1px solid $lightpink;
-  border-bottom: 1px solid $lightpink;
-}
-
-.fixed-height {
-  height: 748px;
-}
-
 .gallery-item {
-  .nft-title {
-    margin-bottom: 24px;
-  }
-
-  .gallery-item__skeleton {
-    width: 95%;
-    margin: auto;
-  }
-
   .image-wrapper {
     position: relative;
     margin: 30px auto;

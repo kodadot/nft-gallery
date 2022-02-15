@@ -108,6 +108,11 @@ body {
     background-color: rgba(0, 0, 0, 0.86);
   }
 
+  .modal-content {
+    border: 2px solid #d32e79;
+    box-shadow: 13px 14px rgba(90, 15, 60, 0.7);
+  }
+
   a {
     color: $lightpink;
   }
@@ -221,14 +226,14 @@ button.button.is-bordered {
     overflow: auto;
 
     > .control {
-      margin-right: auto!important;
+      margin-right: auto !important;
 
       > .input {
         height: 50px;
-    }
+      }
 
       > .icon {
-        top: 10%
+        top: 10%;
       }
     }
 
@@ -239,7 +244,7 @@ button.button.is-bordered {
       width: 97%;
 
       > .dropdown-content {
-        max-height: 500px!important;
+        max-height: 500px !important;
       }
     }
   }
