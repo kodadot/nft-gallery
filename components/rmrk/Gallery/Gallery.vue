@@ -16,7 +16,10 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4 column-padding" v-for="nft in results" :key="nft.id">
+        <div
+          class="column is-4 column-padding"
+          v-for="nft in results"
+          :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -129,7 +132,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
     priceMin: 0,
-    priceMax: 5000000000000,
+    priceMax: Number.MAX_SAFE_INTEGER,
   }
   private currentValue = 1
   protected total = 0

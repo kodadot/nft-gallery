@@ -109,8 +109,6 @@ export default class CollectionList extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-    priceMin: 0,
-    priceMax: 5000000000000,
   }
 
   get isLoading(): boolean {

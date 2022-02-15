@@ -55,8 +55,6 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
-    priceMin: 0,
-    priceMax: 5000000000000,
   }
 
   private currentValue = 1
