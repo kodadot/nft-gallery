@@ -1,6 +1,8 @@
 <template>
   <section class="curated-list">
     <b-carousel
+      :autoplay="false"
+      :has-drag="true"
       :indicator="true"
       :indicator-background="false"
       :indicator-inside="false"
@@ -9,6 +11,11 @@
       indicator-style="is-lines">
       <b-carousel-item v-for="(collection, i) in collections" :key="i">
         <b-image class="image" :src="collection.image"></b-image>
+        <!-- <section class="hero is-medium">
+          <div class="hero-body has-text-centered">
+              <h1 class="title">{{collection.name}}</h1>
+          </div>
+        </section> -->
         <div class="box">
           <div class="content has-text-left">
             <nuxt-link
@@ -37,8 +44,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-// import Identicon from '@polkadot/vue-identicon'
+import { Component, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
 import {
   getCloudflareImageLinks,
@@ -47,19 +53,16 @@ import {
 import collectionCuratedList from '@/queries/rmrk/subsquid/collectionCuratedList.graphql'
 
 const components = {
-  // Identicon,
-  // Loader: () => import('@/components/shared/Loader.vue'),
-  // Money: () => import('@/components/shared/format/Money.vue'),
+  // Identicon: () => import('@polkadot/vue-identicon'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  // BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  // Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
 }
 
 const curatedCollection = [
-  '800f8a914281765a7d-KITTY', // kitty
-  'fc71e5776756c96a50-🛸GUYFROMMARS', // guyfrommars
-  '160a6f4320f11acb25-LCKWV', // pixelbabe
-  '2644199cf3652aaa78-KK01', // kusamakings
+  '800f8a914281765a7d-KITTY', // Kitty
+  '2075be44ea4b9e422d-🐺', // WolfAngryClub
+  '160a6f4320f11acb25-LCKWV', // PixelBabe
+  '7472058104f9f93924-KSMRAI', // Kusamurais (substraknights)
+  '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
 ]
 
 @Component<CuratedList>({
@@ -67,6 +70,7 @@ const curatedCollection = [
 })
 export default class CuratedList extends mixins(AuthMixin) {
   private collections: [] = []
+
   async fetch() {
     const result = await this.$apollo
       .query<any>({
@@ -87,7 +91,6 @@ export default class CuratedList extends mixins(AuthMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    console.log(data)
     const images = await getCloudflareImageLinks(
       data.collectionEntities.map((e: any) => e.meta.id)
     )
@@ -96,7 +99,7 @@ export default class CuratedList extends mixins(AuthMixin) {
       ...e,
       image: imageOf(e.meta.id, e.meta.image),
     }))
-    console.log(this.collections)
+    // console.log(this.collections)
   }
 }
 </script>
@@ -106,12 +109,13 @@ export default class CuratedList extends mixins(AuthMixin) {
   .carousel,
   .carousel-item {
     max-height: 500px;
+    border-radius: 4px;
   }
   .carousel-indicator {
     justify-content: left;
 
     .indicator-style.is-lines {
-      height: 12px !important;
+      height: 18px !important;
       width: 42px !important;
       background-color: #c4c4c4;
       border: inherit;
