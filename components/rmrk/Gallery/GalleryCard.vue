@@ -1,7 +1,7 @@
 <template>
   <div
     class="card nft-card"
-    :class="{ 'is-current-owner': accountIsCurrentOwner() }">
+    :class="{ 'is-current-owner': accountIsCurrentOwner }">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
@@ -28,7 +28,11 @@
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
 
-        <b-image :src="placeholder" alt="Simple image" ratio="1by1" />
+        <!-- missing error image & placeholder? -->
+        <PreviewMediaResolver
+          v-if="!image && animatedUrl"
+          :src="animatedUrl"
+          :metadata="metadata" />
 
         <span v-if="price > 0" class="card-image__price">
           <Money :value="price" inline />
@@ -49,16 +53,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import AuthMixin from '@/utils/mixins/authMixin'
-import shouldUpdate from '@/utils/shouldUpdate'
 import {
   getSingleCloudflareImage,
   processSingleMetadata,
 } from '@/utils/cachingStrategy'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
-import { getSanitizer } from '@/components/rmrk/utils'
+import { getSanitizer, sanitizeIpfsUrl } from '@/components/rmrk/utils'
 
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
@@ -74,34 +77,26 @@ export default class GalleryCard extends mixins(AuthMixin) {
   @Prop({ type: String, default: 'rmrk/gallery' }) public link!: string
   @Prop(String) public id!: string
   @Prop(String) public name!: string
-  protected image = ''
-  protected title = ''
-  protected animatedUrl = ''
   @Prop([String, Number]) public emoteCount!: string | number
   @Prop(String) public imageType!: string
   @Prop(String) public price!: string
   @Prop(String) public metadata!: string
   @Prop(String) public currentOwner!: string
   @Prop(Boolean) public listed!: boolean
+  protected image = ''
+  protected title = ''
+  protected animatedUrl = ''
 
   protected placeholder = '/placeholder.webp'
 
-  async mounted() {
+  async fetch() {
     if (this.metadata) {
-      const metaP = processSingleMetadata<NFTMetadata>(this.metadata)
       const image = await getSingleCloudflareImage(this.metadata)
-      const meta = await metaP
+      const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
 
       this.image = image || getSanitizer(meta.image || '')(meta.image || '')
       this.title = meta.name
-      this.animatedUrl = meta.animation_url || ''
-    }
-  }
-
-  @Watch('accountId', { immediate: true })
-  hasAccount(value: string, oldVal: string) {
-    if (shouldUpdate(value, oldVal)) {
-      this.accountIsCurrentOwner()
+      this.animatedUrl = sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
     }
   }
 
@@ -113,7 +108,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
     return this.name || this.title
   }
 
-  public accountIsCurrentOwner() {
+  get accountIsCurrentOwner(): boolean {
     return this.accountId === this.currentOwner
   }
 }

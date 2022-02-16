@@ -204,7 +204,7 @@
       <b-table-column
         v-slot="props"
         field="sold"
-        :label="$t('series.collected')"
+        :label="$t('series.owners')"
         sortable
         numeric
         cell-class="is-vcentered">
