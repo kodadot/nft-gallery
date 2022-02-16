@@ -13,6 +13,7 @@ import { RmrkWithMetaType, Interaction } from './service/scheme'
 import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { justHash } from '@/utils/ipfs'
+import { logError } from '@/utils/mappers'
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
@@ -395,9 +396,9 @@ export const isJsonGltf = (value: any): boolean => {
 
     return true
   } catch (e) {
-    if (e instanceof Error) {
-      console.warn(`Unable to decide on isJsonGltf ${e.message}`)
-    }
+    logError(e, (msg) => {
+      console.warn(`Unable to decide on isJsonGltf ${msg}`)
+    })
     return false
   }
 }
