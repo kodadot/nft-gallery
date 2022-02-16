@@ -111,6 +111,21 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
+      <b-slider
+        v-if="listed"
+        class="column is-half"
+        v-model="rangeSlider"
+        :custom-formatter="(val) => `${val} KSM`"
+        :max="30"
+        :min="0"
+        :step="1"
+        ticks
+        @change="sliderChange">
+      </b-slider>
+      <span v-if="sliderDirty"
+        >Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+        {{ this.query.priceMax / 1000000000000 }}</span
+      >
     </b-collapse>
   </div>
 </template>
@@ -170,7 +185,9 @@ export default class SearchBar extends mixins(
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
+  private rangeSlider = [0, 5]
   private inputDirty = false
+  private sliderDirty = false
 
   public mounted(): void {
     this.getSearchHistory()
@@ -250,7 +267,7 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
     const v = String(value)
-    this.replaceUrl(v, 'listed')
+    this.replaceUrl(v, undefined, 'listed')
     return v === 'true'
   }
 
@@ -296,7 +313,7 @@ export default class SearchBar extends mixins(
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
-    this.replaceUrl(value, 'type')
+    this.replaceUrl(value, undefined, 'type')
     return value
   }
 
@@ -306,7 +323,7 @@ export default class SearchBar extends mixins(
     if (this.inputDirty) {
       this.searchResult()
     }
-    this.replaceUrl(value, 'sort')
+    this.replaceUrl(value, undefined, 'sort')
     return value
   }
 
@@ -395,7 +412,7 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string, key = 'search'): void {
+  replaceUrl(value: string, value2?, key = 'search', key2?): void {
     this.$router
       .replace({
         path: '/rmrk/gallery',
@@ -404,6 +421,7 @@ export default class SearchBar extends mixins(
           search: this.searchQuery,
           page: '1',
           [key]: value,
+          [key2]: value2,
         },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
@@ -455,6 +473,30 @@ export default class SearchBar extends mixins(
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+
+  @Debounce(50)
+  private sliderChange([min, max]: [number, number]): void {
+    if (!this.sliderDirty) {
+      this.sliderDirty = true
+    }
+    this.sliderChangeMin(min * 1000000000000)
+    this.sliderChangeMax(max * 1000000000000)
+    const priceMin = String(min)
+    const priceMax = String(max)
+    this.replaceUrl(priceMin, priceMax, 'min', 'max')
+  }
+
+  @Emit('update:priceMin')
+  @Debounce(50)
+  private sliderChangeMin(min: number): void {
+    this.query.priceMin = min
+  }
+
+  @Emit('update:priceMax')
+  @Debounce(50)
+  private sliderChangeMax(max: number): void {
+    this.query.priceMax = max
   }
   private makeInputDirty() {
     if (!this.inputDirty) {
