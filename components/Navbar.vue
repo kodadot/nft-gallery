@@ -153,6 +153,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     flex-grow: 1;
     margin: 0rem 1rem;
+    input {
+      border: inherit;
+      background-color: #29292f;
+      &::placeholder {
+        color: #898991 !important;
+      }
+    }
   }
 }
 </style>

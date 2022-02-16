@@ -16,7 +16,10 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4 column-padding" v-for="nft in results" :key="nft.id">
+        <div
+          class="column is-4 column-padding"
+          v-for="nft in results"
+          :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -128,6 +131,8 @@ export default class Gallery extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    priceMin: 0,
+    priceMax: Number.MAX_SAFE_INTEGER,
   }
   private currentValue = 1
   protected total = 0
@@ -180,6 +185,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         }
       },
     })
@@ -230,6 +237,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         },
       })
 
