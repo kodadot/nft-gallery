@@ -10,9 +10,9 @@
             height="60" />
           <h2
             class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
-            <span> Carbon neutral </span>
-            <span class="text__stroked"> Kusama native </span>
-            <span> NFT plaftorm </span>
+            <span> Discover, collect and sell Kusama NFTs </span>
+            <!-- <span class="text__stroked"> Kusama native </span>
+            <span> NFT plaftorm </span> -->
             <span class="title is-6 homepage__subtitle uppercase text-semibold">
               Built on
               <span class="text-bold text-primary"> {{ buildOn }} </span>
@@ -65,6 +65,7 @@
         </div>
         <div
           class="column has-text-right has-text-left-mobile discord-container">
+          <CuratedList />
           <a
             href="https://discord.gg/35hzy2dXXh"
             target="_blank"
@@ -77,8 +78,8 @@
       </div>
 
       <div v-if="prefix === 'rmrk'">
-        <LatestSales class="my-5" />
-        <NewestList class="my-5" />
+        <!-- <LatestSales class="my-5" />
+        <NewestList class="my-5" /> -->
       </div>
     </div>
   </section>
@@ -90,6 +91,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 const components = {
   LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
   NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
+  CuratedList: () => import('@/components/rmrk/Gallery/CuratedList.vue'),
 }
 @Component<Landing>({
   components,
