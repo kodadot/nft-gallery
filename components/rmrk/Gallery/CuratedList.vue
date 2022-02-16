@@ -10,14 +10,18 @@
       <b-carousel-item v-for="(collection, i) in collections" :key="i">
         <b-image class="image" :src="collection.image"></b-image>
         <div class="box">
-          <div class="content">
-            <h2 class="title is-5">{{ collection.name }}</h2>
-            <!-- <div class="my-2">{{ collection.description }}</div> -->
+          <div class="content has-text-left">
+            <nuxt-link
+              :to="{
+                name: 'rmrk-collection-id',
+                params: { id: collection.id },
+              }">
+              <h2 class="title is-5">{{ collection.name }}</h2>
+            </nuxt-link>
             <nuxt-link
               :to="{ name: 'rmrk-u-id', params: { id: collection.issuer } }">
               <div class="is-size-7 icon-text">
                 <b-icon icon="palette" />
-                <!-- DVYy1qnocE8t6ZvUfPx3rEjG829khNRXx3YrCGVHHj19Lcb -->
                 <Identity
                   :address="collection.issuer"
                   inline
@@ -109,12 +113,16 @@ export default class CuratedList extends mixins(AuthMixin) {
     .indicator-style.is-lines {
       height: 12px !important;
       width: 42px !important;
+      background-color: #c4c4c4;
+      border: inherit;
     }
   }
 
   .box {
     position: absolute;
-    opacity: 0.77;
+    border-radius: 4px;
+    background-color: rgba(9, 9, 9, 0.77);
+
     width: 40%;
     bottom: 2%;
     right: 2%;
