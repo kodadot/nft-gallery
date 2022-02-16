@@ -12,7 +12,6 @@
       pagination-position="top"
       backend-sorting
       show-detail-icon
-      sticky-header
       @sort="onSort">
       <template v-slot:top-left>
         <b-field class="mb-0">
@@ -30,11 +29,7 @@
           @click="goToRandomPage">
         </b-button>
       </template>
-      <b-table-column
-        sticky
-        field="id"
-        :label="$t('spotlight.id')"
-        v-slot="props">
+      <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
         <nuxt-link
           :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
           v-if="!isLoading">
@@ -300,5 +295,11 @@ export default class SpotlightTable extends mixins(
     margin-left: 2rem;
     margin-right: 0rem;
   }
+}
+
+.b-table .table th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
 }
 </style>

@@ -47,8 +47,6 @@
       default-sort-direction="desc"
       backend-sorting
       hoverable
-      sticky-header
-      :mobile-cards="false"
       @sort="onSort">
       <b-table-column
         v-slot="props"
@@ -61,7 +59,6 @@
       <b-table-column
         v-slot="props"
         field="image"
-        sticky
         label=""
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
@@ -394,5 +391,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
+}
+
+.b-table .table th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
 }
 </style>
