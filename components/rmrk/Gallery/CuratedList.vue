@@ -11,11 +11,6 @@
       indicator-style="is-lines">
       <b-carousel-item v-for="(collection, i) in collections" :key="i">
         <b-image class="image" :src="collection.image"></b-image>
-        <!-- <section class="hero is-medium">
-          <div class="hero-body has-text-centered">
-              <h1 class="title">{{collection.name}}</h1>
-          </div>
-        </section> -->
         <div class="box">
           <div class="content has-text-left">
             <nuxt-link
