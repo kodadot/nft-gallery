@@ -16,7 +16,10 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4 column-padding" v-for="nft in results" :key="nft.id">
+        <div
+          class="column is-4 column-padding"
+          v-for="nft in results"
+          :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -81,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 import {
   getCloudflareImageLinks,
@@ -102,6 +105,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -268,6 +272,13 @@ export default class Gallery extends mixins(PrefixMixin) {
     }
 
     return params
+  }
+
+  @Watch('$route.query.search')
+  protected onIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.search = this.$route.query?.search?.toString() || ''
+    }
   }
 
   get results() {
