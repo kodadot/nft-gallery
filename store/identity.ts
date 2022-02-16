@@ -5,8 +5,6 @@ import Vue from 'vue'
 import onApiConnect from '~/utils/api/general'
 import Query from '@/utils/api/Query'
 
-declare type Unsubscribe = () => void
-
 export interface IdentityMap {
   [address: string]: Registration
 }
@@ -20,7 +18,6 @@ export interface Auth {
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
-  balanceSubscribe: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -31,7 +28,6 @@ export interface IdenityRequest {
 const defaultState: IdentityStruct = {
   identities: {},
   auth: emptyObject<Auth>(),
-  balanceSubscribe: () => void 0,
 }
 
 // Disabling namespace to match with the original repo
@@ -97,7 +93,7 @@ export const actions = {
       }
     })
   },
-  setAuth({ commit, dispatch }: any, authRequest: Auth): void {
+  setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
     dispatch('fetchBalance', authRequest.address)
     dispatch('subscribeBalance', authRequest.address)
