@@ -47,6 +47,8 @@
       default-sort-direction="desc"
       backend-sorting
       hoverable
+      sticky-header
+      :mobile-cards="false"
       @sort="onSort">
       <b-table-column
         v-slot="props"
@@ -59,6 +61,7 @@
       <b-table-column
         v-slot="props"
         field="image"
+        sticky
         label=""
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
