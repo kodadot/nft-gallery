@@ -99,6 +99,10 @@ export default class CuratedList extends mixins(AuthMixin) {
 
 <style lang="scss">
 .curated-list {
+  .carousel,
+  .carousel-item {
+    max-height: 500px;
+  }
   .carousel-indicator {
     justify-content: left;
 
