@@ -5,6 +5,8 @@ import Vue from 'vue'
 import onApiConnect from '~/utils/api/general'
 import Query from '@/utils/api/Query'
 
+declare type Unsubscribe = () => void
+
 export interface IdentityMap {
   [address: string]: Registration
 }
@@ -18,6 +20,7 @@ export interface Auth {
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
+  balanceSubscribe: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -28,6 +31,7 @@ export interface IdenityRequest {
 const defaultState: IdentityStruct = {
   identities: {},
   auth: emptyObject<Auth>(),
+  balanceSubscribe: () => void 0,
 }
 
 // Disabling namespace to match with the original repo
@@ -68,7 +72,7 @@ export const actions = {
       console.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ dispatch }: any, address: string) {
+  async fetchBalance({ dispatch }, address: string) {
     onApiConnect(async (api) => {
       try {
         const balance = await Query.getTokenBalance(api, address)
@@ -78,11 +82,27 @@ export const actions = {
       }
     })
   },
+  async subscribeBalance({ dispatch }, address: string) {
+    onApiConnect(async (api) => {
+      try {
+        const balanceSub = await api.derive.balances.all(
+          address,
+          ({ availableBalance }) => {
+            dispatch('setBalance', availableBalance.toString())
+          }
+        )
+        dispatch('setSubscription', { key: 'balanceSub', sub: balanceSub })
+      } catch (e) {
+        console.error('[ERR: BALANCE]', e)
+      }
+    })
+  },
   setAuth({ commit, dispatch }: any, authRequest: Auth): void {
     commit('addAuth', authRequest)
     dispatch('fetchBalance', authRequest.address)
+    dispatch('subscribeBalance', authRequest.address)
   },
-  setBalance({ commit }: any, balance: string): void {
+  setBalance({ commit }, balance: string): void {
     commit('addBalance', balance)
   },
 }
