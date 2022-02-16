@@ -277,7 +277,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   @Watch('$route.query.search')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.searchQuery.search = this.$route.query?.search?.toString() || ''
+      this.searchQuery.search = val || ''
     }
   }
 
