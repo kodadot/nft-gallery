@@ -37,13 +37,13 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,vue,css,scss,md}": [
+    "*.{js,ts,vue,css,scss}": [
       "prettier --write",
       "yarn lint:quiet"
     ]
   },
   "engines": {
-    "node": ">=16.13.2"
+    "node": ">=v16.14.0"
   },
   "prettier": {
     "semi": false,
