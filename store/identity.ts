@@ -3,7 +3,8 @@ import { Registration } from '@polkadot/types/interfaces/identity/types'
 import Connector from '@kodadot1/sub-api'
 import Vue from 'vue'
 import onApiConnect from '~/utils/api/general'
-import Query from '@/utils/api/Query'
+
+declare type Unsubscribe = () => void
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -18,6 +19,7 @@ export interface Auth {
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
+  balanceSub: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -28,6 +30,7 @@ export interface IdenityRequest {
 const defaultState: IdentityStruct = {
   identities: {},
   auth: emptyObject<Auth>(),
+  balanceSub: () => void 0,
 }
 
 // Disabling namespace to match with the original repo
@@ -47,6 +50,13 @@ export const mutations = {
   },
   addBalance(state: IdentityStruct, balance: string): void {
     Vue.set(state.auth, 'balance', balance)
+  },
+  addBalanceSub(state: IdentityStruct, sub: Unsubscribe): void {
+    // Unsubscribe previous subscription
+    state.balanceSub()
+
+    // Set new subscription
+    Vue.set(state, 'balanceSub', sub)
   },
 }
 
@@ -68,17 +78,7 @@ export const actions = {
       console.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  async fetchBalance({ dispatch }, address: string) {
-    onApiConnect(async (api) => {
-      try {
-        const balance = await Query.getTokenBalance(api, address)
-        dispatch('setBalance', balance)
-      } catch (e) {
-        console.error('[ERR: BALANCE]', e)
-      }
-    })
-  },
-  async subscribeBalance({ dispatch }, address: string) {
+  async fetchBalance({ commit, dispatch }, address: string) {
     onApiConnect(async (api) => {
       try {
         const balanceSub = await api.derive.balances.all(
@@ -87,7 +87,7 @@ export const actions = {
             dispatch('setBalance', availableBalance.toString())
           }
         )
-        dispatch('setSubscription', { key: 'balanceSub', sub: balanceSub })
+        commit('addBalanceSub', balanceSub)
       } catch (e) {
         console.error('[ERR: BALANCE]', e)
       }
@@ -96,7 +96,6 @@ export const actions = {
   setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
     dispatch('fetchBalance', authRequest.address)
-    dispatch('subscribeBalance', authRequest.address)
   },
   setBalance({ commit }, balance: string): void {
     commit('addBalance', balance)
