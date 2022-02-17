@@ -296,4 +296,10 @@ export default class SpotlightTable extends mixins(
     margin-right: 0rem;
   }
 }
+
+.b-table .table th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
+}
 </style>

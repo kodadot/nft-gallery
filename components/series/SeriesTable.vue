@@ -392,4 +392,10 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   color: #000;
   background-color: $primary;
 }
+
+.b-table .table th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
+}
 </style>
