@@ -7,7 +7,7 @@ We are using a `yarn` workspace, as installing things via npm **will result in b
 ### Prerequisites 🎒
 
 ```MD
-node >=16.13.2
+node >=16.14.0
 yarn 🧶
 ```
 
@@ -109,7 +109,7 @@ KodaDot supports Hot Module Replacement on docker; any changes made will take ef
 When you see conflict on `yarn.lock` and you are on your pull-request branch, merge upstream branch and run `yarn`, unless you have conflict on `package.json`, that requires manual resolve.
 
 ```bash
-git fetch --all 
+git fetch --all
 git merge origin/main
 yarn
 ```
