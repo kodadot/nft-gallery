@@ -18,11 +18,8 @@ class Query {
     api: ApiPromise,
     accountId: string
   ): Promise<string> {
-    const cb = api.query.system.account
-    const arg = accountId
-    const balance = await cb(arg)
-    const accountData = (balance as any).data.free.toString()
-    return accountData
+    const { availableBalance } = await api.derive.balances.all(accountId)
+    return availableBalance.toString()
   }
 
   static getChainProperties(api: ApiPromise): ChainProperties {

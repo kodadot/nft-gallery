@@ -129,6 +129,7 @@ import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
 import { findCall, getApiParams } from '@/utils/teleport'
 import onApiConnect from '~/utils/api/general'
 import type { ApiPromise } from '@polkadot/api'
+import Query from '@/utils/api/Query'
 
 @Component({
   components: {
@@ -414,10 +415,7 @@ export default class Transfer extends mixins(
     }
 
     try {
-      const cb = api.query.system.account
-      const arg = this.accountId
-      const result = await cb(arg)
-      this.balance = (result as any).data.free.toString()
+      this.balance = await Query.getTokenBalance(api, this.accountId)
     } catch (e) {
       console.error('[ERR: BALANCE]', e)
     }
