@@ -44,6 +44,7 @@
     <b-table
       :data="data"
       :default-sort="[sortBy.field, sortBy.value]"
+      default-sort-direction="desc"
       backend-sorting
       hoverable
       @sort="onSort">
@@ -203,7 +204,7 @@
       <b-table-column
         v-slot="props"
         field="sold"
-        :label="$t('series.collected')"
+        :label="$t('series.owners')"
         sortable
         numeric
         cell-class="is-vcentered">

@@ -154,7 +154,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   }
   public activeTab = 'collection'
   private currentValue = 1
-  private first = 15
+  private first = 16
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []

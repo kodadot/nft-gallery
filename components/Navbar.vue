@@ -9,6 +9,13 @@
       </b-navbar-item>
     </template>
     <template #start>
+      <Search
+        hideFilter
+        class="search-navbar"
+        searchColumnClass="is-flex-grow-1" />
+    </template>
+    <template #end>
+      <HistoryBrowser class="ml-2" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Create') }}</span>
@@ -31,25 +38,32 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
-        {{ $t('Collections') }}
-      </b-navbar-item>
-      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
-        {{ $t('Gallery') }}
-      </b-navbar-item>
-      <template v-if="isRmrk">
-        <b-navbar-item tag="nuxt-link" to="/spotlight">
-          {{ $t('Spotlight') }}
+      <b-navbar-dropdown arrowless collapsible>
+        <template #label>
+          <span>{{ $t('Explore') }}</span>
+        </template>
+        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
+          {{ $t('Collections') }}
         </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/series-insight">
-          Series
+        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
+          {{ $t('Gallery') }}
         </b-navbar-item>
-      </template>
-    </template>
-    <template #end>
-      <HistoryBrowser class="ml-2" />
+      </b-navbar-dropdown>
+      <b-navbar-dropdown arrowless collapsible v-if="isRmrk">
+        <template #label>
+          <span>{{ $t('Stats') }}</span>
+        </template>
+        <template>
+          <b-navbar-item tag="nuxt-link" to="/spotlight">
+            {{ $t('Spotlight') }}
+          </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/series-insight">
+            Series
+          </b-navbar-item>
+        </template>
+      </b-navbar-dropdown>
+      <ChainSelect class="ml-2" />
       <LocaleChanger class="ml-2" />
-      <ChainSelect />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
   </b-navbar>
@@ -69,6 +83,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     HistoryBrowser,
     NavbarProfileDropdown,
     ChainSelect,
+    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
@@ -89,6 +104,9 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         .button {
           height: 42px;
         }
+      }
+      .navbar-start {
+        flex-grow: 1;
       }
     }
   }
@@ -130,6 +148,17 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     .navbar-item {
       border: none !important;
       margin-left: 0 !important;
+    }
+  }
+  .search-navbar {
+    flex-grow: 1;
+    margin: 0rem 1rem;
+    input {
+      border: inherit;
+      background-color: #29292f;
+      &::placeholder {
+        color: #898991 !important;
+      }
     }
   }
 }

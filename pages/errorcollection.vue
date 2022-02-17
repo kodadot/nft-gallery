@@ -11,7 +11,7 @@
       >
     </p>
     <b-button
-      tag="router-link"
+      tag="nuxt-link"
       to="/rmrk/collections"
       type="is-primary"
       class="my-5">

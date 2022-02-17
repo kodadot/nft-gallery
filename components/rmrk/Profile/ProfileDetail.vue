@@ -28,19 +28,23 @@
         </div>
         <div class="subtitle is-size-6">
           <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
-          <a
-            :href="`https://sub.id/#/${id}`"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="is-inline-flex is-align-items-center pt-2">
-            <figure class="image is-24x24 subid__less-margin">
-              <img alt="subid" src="/subid.svg" />
-            </figure>
-            {{ shortendId }}
-          </a>
         </div>
       </div>
       <div class="column has-text-right">
+        <div class="is-flex is-justify-content-right">
+          <div class="control" v-for="network in networks" :key="network.alt">
+            <b-button class="network-button" type="is-primary">
+              <a
+                :href="`${network.url}${id}`"
+                target="_blank"
+                rel="noopener noreferrer">
+                <figure class="image is-24x24">
+                  <img :alt="network.alt" :src="network.img" />
+                </figure>
+              </a>
+            </b-button>
+          </div>
+        </div>
         <Sharing
           class="mb-2"
           v-if="!sharingVisible"
@@ -51,101 +55,105 @@
       </div>
     </div>
 
-    <b-tabs
-      :class="{ 'invisible-tab': sharingVisible }"
-      class="tabs-container-mobile"
-      v-model="activeTab"
-      destroy-on-hide
-      expanded>
-      <b-tab-item value="nft" :headerClass="{ 'is-hidden': !totalCollections }">
-        <template #header>
-          <b-tooltip
-            :label="`${$i18n.t('tooltip.created')} ${shortendId}`"
-            append-to-body>
-            {{ $t('profile.created') }}
-            <span class="tab-counter" v-if="totalCreated">{{
-              totalCreated
-            }}</span>
-          </b-tooltip>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListByIssuer"
-          @change="totalCreated = $event"
-          :account="id"
-          :showSearchBar="true" />
-      </b-tab-item>
-      <b-tab-item
-        :label="`Collections - ${totalCollections}`"
-        value="collection"
-        :headerClass="{ 'is-hidden': !totalCollections }">
-        <template #header>
-          <b-tooltip
-            :label="`${$i18n.t('tooltip.collections')} ${shortendId}`"
-            append-to-body>
-            {{ $t('Collections') }}
-            <span class="tab-counter" v-if="totalCollections">{{
-              totalCollections
-            }}</span>
-          </b-tooltip>
-        </template>
-        <div class="is-flex is-justify-content-flex-end">
-          <Layout class="mr-5" />
+    <section>
+      <b-tabs
+        :class="{ 'invisible-tab': sharingVisible }"
+        class="tabs-container-mobile"
+        v-model="activeTab"
+        destroy-on-hide
+        expanded>
+        <b-tab-item
+          value="nft"
+          :headerClass="{ 'is-hidden': !totalCollections }">
+          <template #header>
+            <b-tooltip
+              :label="`${$i18n.t('tooltip.created')} ${shortendId}`"
+              append-to-body>
+              {{ $t('profile.created') }}
+              <span class="tab-counter" v-if="totalCreated">{{
+                totalCreated
+              }}</span>
+            </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListByIssuer"
+            @change="totalCreated = $event"
+            :account="id"
+            :showSearchBar="true" />
+        </b-tab-item>
+        <b-tab-item
+          :label="`Collections - ${totalCollections}`"
+          value="collection"
+          :headerClass="{ 'is-hidden': !totalCollections }">
+          <template #header>
+            <b-tooltip
+              :label="`${$i18n.t('tooltip.collections')} ${shortendId}`"
+              append-to-body>
+              {{ $t('Collections') }}
+              <span class="tab-counter" v-if="totalCollections">{{
+                totalCollections
+              }}</span>
+            </b-tooltip>
+          </template>
+          <div class="is-flex is-justify-content-flex-end">
+            <Layout class="mr-5" />
+            <Pagination
+              hasMagicBtn
+              replace
+              :total="totalCollections"
+              v-model="currentCollectionPage" />
+          </div>
+          <GalleryCardList
+            :items="collections"
+            type="collectionDetail"
+            route="/rmrk/collection"
+            link="rmrk/collection"
+            horizontalLayout />
           <Pagination
-            hasMagicBtn
             replace
+            class="pt-5 pb-5"
             :total="totalCollections"
             v-model="currentCollectionPage" />
-        </div>
-        <GalleryCardList
-          :items="collections"
-          type="collectionDetail"
-          route="/rmrk/collection"
-          link="rmrk/collection"
-          horizontalLayout />
-        <Pagination
-          replace
-          class="pt-5 pb-5"
-          :total="totalCollections"
-          v-model="currentCollectionPage" />
-      </b-tab-item>
-      <b-tab-item
-        value="sold"
-        :headerClass="{ 'is-hidden': !totalCollections }">
-        <template #header>
-          <b-tooltip
-            :label="`${$i18n.t('tooltip.sold')} ${shortendId}`"
-            append-to-body>
-            {{ $t('profile.sold') }}
-            <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
-          </b-tooltip>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListSold"
-          @change="totalSold = $event"
-          :account="id"
-          showSearchBar />
-      </b-tab-item>
-      <b-tab-item value="collected">
-        <template #header>
-          <b-tooltip
-            :label="`${$i18n.t('tooltip.collected')} ${shortendId}`"
-            append-to-body>
-            {{ $t('profile.collected') }}
-            <span class="tab-counter" v-if="totalCollected">{{
-              totalCollected
-            }}</span>
-          </b-tooltip>
-        </template>
-        <PaginatedCardList
-          :id="id"
-          :query="nftListCollected"
-          @change="totalCollected = $event"
-          :account="id"
-          showSearchBar />
-      </b-tab-item>
-    </b-tabs>
+        </b-tab-item>
+        <b-tab-item
+          value="sold"
+          :headerClass="{ 'is-hidden': !totalCollections }">
+          <template #header>
+            <b-tooltip
+              :label="`${$i18n.t('tooltip.sold')} ${shortendId}`"
+              append-to-body>
+              {{ $t('profile.sold') }}
+              <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
+            </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListSold"
+            @change="totalSold = $event"
+            :account="id"
+            showSearchBar />
+        </b-tab-item>
+        <b-tab-item value="collected">
+          <template #header>
+            <b-tooltip
+              :label="`${$i18n.t('tooltip.collected')} ${shortendId}`"
+              append-to-body>
+              {{ $t('profile.collected') }}
+              <span class="tab-counter" v-if="totalCollected">{{
+                totalCollected
+              }}</span>
+            </b-tooltip>
+          </template>
+          <PaginatedCardList
+            :id="id"
+            :query="nftListCollected"
+            @change="totalCollected = $event"
+            :account="id"
+            showSearchBar />
+        </b-tab-item>
+      </b-tabs>
+    </section>
   </section>
 </template>
 
@@ -216,10 +224,31 @@ export default class Profile extends mixins(PrefixMixin) {
   private total = 0
   private currentCollectionPage = 1
   protected totalCollections = 0
-
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+  protected networks = [
+    {
+      url: 'https://dotscanner.com/Kusama/account/',
+      als: 'dotscanner',
+      img: '/dotscanner.svg',
+    },
+    {
+      url: 'https://sub.id/#/',
+      als: 'subid',
+      img: '/subid.svg',
+    },
+    {
+      url: 'https://kusama.subscan.io/account/',
+      als: 'subscan',
+      img: '/subscan.svg',
+    },
+    {
+      url: 'https://polkascan.io/kusama/account/',
+      als: 'polkascan',
+      img: '/polkascan.png',
+    },
+  ]
 
   readonly nftListByIssuer = nftListByIssuer
   readonly nftListCollected = nftListCollected
@@ -378,7 +407,7 @@ export default class Profile extends mixins(PrefixMixin) {
   flex-basis: auto;
 }
 
-.subid__less-margin {
-  margin: auto 0.5em auto 0;
+.network-button {
+  width: 40px;
 }
 </style>

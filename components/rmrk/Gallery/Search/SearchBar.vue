@@ -1,8 +1,9 @@
 <template>
   <div class="card mb-3 mt-5">
     <div class="columns mb-0">
-      <b-field class="column is-6 mb-0">
+      <b-field class="column is-6 mb-0" :class="searchColumnClass">
         <b-button
+          v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
           type="is-primary"
@@ -22,8 +23,10 @@
           @keydown.native.enter="searchResult"
           @keydown.native.up="moveUp"
           @keydown.native.down="moveDown"
+          @keydown.native.delete="makeInputDirty"
           @typing="updateSuggestion"
-          @select="updateSelected">
+          @select="updateSelected"
+          @input="makeInputDirty">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
               <div class="media">
@@ -78,7 +81,11 @@
           </template>
         </b-autocomplete>
       </b-field>
-      <b-field expanded position="is-right" class="column is-6">
+      <b-field
+        expanded
+        position="is-right"
+        class="column is-6"
+        v-if="!hideFilter">
         <b-button
           icon-left="filter"
           aria-controls="sortAndFilter"
@@ -104,6 +111,21 @@
           size="is-medium"
           labelColor="is-success" />
       </div>
+      <b-slider
+        v-if="listed"
+        class="column is-half"
+        v-model="rangeSlider"
+        :custom-formatter="(val) => `${val} KSM`"
+        :max="30"
+        :min="0"
+        :step="1"
+        ticks
+        @change="sliderChange">
+      </b-slider>
+      <span v-if="sliderDirty"
+        >Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+        {{ this.query.priceMax / 1000000000000 }}</span
+      >
     </b-collapse>
   </div>
 </template>
@@ -144,7 +166,9 @@ export default class SearchBar extends mixins(
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
+  @Prop(String) public searchColumnClass!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public hideFilter!: boolean
 
   protected isVisible = false
   private query: SearchQuery = {
@@ -161,6 +185,9 @@ export default class SearchBar extends mixins(
   private name = ''
   private searched: NFT[] = []
   private highlightPos = 0
+  private rangeSlider = [0, 5]
+  private inputDirty = false
+  private sliderDirty = false
 
   public mounted(): void {
     this.getSearchHistory()
@@ -201,6 +228,9 @@ export default class SearchBar extends mixins(
   }
 
   set vListed(listed: boolean) {
+    if (this.inputDirty) {
+      this.searchResult()
+    }
     this.updateListed(listed)
   }
 
@@ -237,11 +267,11 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   updateListed(value: string | boolean): boolean {
     const v = String(value)
-    this.replaceUrl(v, 'listed')
+    this.replaceUrl(v, undefined, 'listed')
     return v === 'true'
   }
 
-  insertNewHistroy() {
+  insertNewHistory() {
     const newResult = {
       type: 'History',
       name: this.searchString,
@@ -252,6 +282,7 @@ export default class SearchBar extends mixins(
   //Invoked when "enter" key is pressed
   @Debounce(50)
   searchResult() {
+    this.inputDirty = false
     const offset = this.oldSearchResult(this.searchString) ? 0 : 1
 
     //When an item from the autocomplete list is highlighted
@@ -259,7 +290,7 @@ export default class SearchBar extends mixins(
       const searchCache = this.filterSearch()
       //Highlighted item is NFT or search result from cache
       if (this.highlightPos == 0 && offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
         this.updateSearch(this.searchString)
       } else if (this.highlightPos >= searchCache.length + offset) {
         this.updateSelected(
@@ -272,7 +303,7 @@ export default class SearchBar extends mixins(
 
       //Current search string is not present in cache
       if (offset) {
-        this.insertNewHistroy()
+        this.insertNewHistory()
       }
       this.updateSearch(this.searchString)
     }
@@ -282,14 +313,17 @@ export default class SearchBar extends mixins(
   @Emit('update:type')
   @Debounce(50)
   updateType(value: string): string {
-    this.replaceUrl(value, 'type')
+    this.replaceUrl(value, undefined, 'type')
     return value
   }
 
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
-    this.replaceUrl(value, 'sort')
+    if (this.inputDirty) {
+      this.searchResult()
+    }
+    this.replaceUrl(value, undefined, 'sort')
     return value
   }
 
@@ -300,7 +334,7 @@ export default class SearchBar extends mixins(
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
-      this.insertNewHistroy()
+      this.insertNewHistory()
       this.updateSearch(value.name)
     } else {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
@@ -378,15 +412,16 @@ export default class SearchBar extends mixins(
   }
 
   @Debounce(100)
-  replaceUrl(value: string, key = 'search'): void {
+  replaceUrl(value: string, value2?, key = 'search', key2?): void {
     this.$router
       .replace({
-        path: this.$route.path,
+        path: '/rmrk/gallery',
         query: {
           ...this.$route.query,
           search: this.searchQuery,
           page: '1',
           [key]: value,
+          [key2]: value2,
         },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
@@ -438,6 +473,35 @@ export default class SearchBar extends mixins(
   private removeSearchHistory(value: string): void {
     this.searched = this.searched.filter((r) => r.name !== value)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
+  }
+
+  @Debounce(50)
+  private sliderChange([min, max]: [number, number]): void {
+    if (!this.sliderDirty) {
+      this.sliderDirty = true
+    }
+    this.sliderChangeMin(min * 1000000000000)
+    this.sliderChangeMax(max * 1000000000000)
+    const priceMin = String(min)
+    const priceMax = String(max)
+    this.replaceUrl(priceMin, priceMax, 'min', 'max')
+  }
+
+  @Emit('update:priceMin')
+  @Debounce(50)
+  private sliderChangeMin(min: number): void {
+    this.query.priceMin = min
+  }
+
+  @Emit('update:priceMax')
+  @Debounce(50)
+  private sliderChangeMax(max: number): void {
+    this.query.priceMax = max
+  }
+  private makeInputDirty() {
+    if (!this.inputDirty) {
+      return (this.inputDirty = true)
+    }
   }
 }
 </script>

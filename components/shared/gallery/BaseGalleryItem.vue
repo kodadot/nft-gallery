@@ -8,7 +8,7 @@
         @mouseenter="$emit('mouseEntered')"
         @mouseleave="$emit('mouseLeft')">
         <div
-          class="column"
+          class="column column-padding"
           :class="{
             'is-12 is-theatre': viewMode === 'theatre',
             'is-6 is-offset-3': viewMode === 'default',
@@ -192,6 +192,9 @@ export default class BaseGalleryItem extends Vue {
       z-index: 999998;
       bottom: 0;
       right: 0;
+    }
+    @media screen and (max-width: 768px) {
+      right: -12px;
     }
   }
 
