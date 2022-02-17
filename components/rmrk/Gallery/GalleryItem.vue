@@ -332,6 +332,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public checkId() {
     if (this.$route.params.id) {
       this.id = this.$route.params.id
+
+      if (this.$route.hash) {
+        this.id += this.$route.hash
+      }
     }
   }
 
