@@ -12,6 +12,7 @@
       pagination-position="top"
       backend-sorting
       show-detail-icon
+      class="spotlight-sticky-header"
       @sort="onSort">
       <template v-slot:top-left>
         <b-field class="mb-0">
@@ -295,5 +296,11 @@ export default class SpotlightTable extends mixins(
     margin-left: 2rem;
     margin-right: 0rem;
   }
+}
+
+.spotlight-sticky-header th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
 }
 </style>
