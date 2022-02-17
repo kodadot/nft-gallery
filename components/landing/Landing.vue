@@ -30,13 +30,15 @@
             </a>
           </div>
           <div class="column">
-            <CuratedList v-if="prefix === 'rmrk'" />
+            <!-- <CuratedList /> -->
           </div>
         </div>
       </div>
-      <div v-if="prefix === 'rmrk'">
+      <div>
+        <!-- <CuratedList class="my-5"/> -->
+        <CuratedList class="my-5" />
         <!-- <LatestSales class="my-5" /> -->
-        <!-- <NewestList class="my-5" /> -->
+        <NewestList class="my-5" />
       </div>
     </div>
   </section>
