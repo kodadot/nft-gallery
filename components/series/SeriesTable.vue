@@ -47,6 +47,7 @@
       default-sort-direction="desc"
       backend-sorting
       hoverable
+      class="series-sticky-header"
       @sort="onSort">
       <b-table-column
         v-slot="props"
@@ -60,6 +61,7 @@
         v-slot="props"
         field="image"
         label=""
+        header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
           <b-image
@@ -393,9 +395,13 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   background-color: $primary;
 }
 
-.b-table .table th {
+.series-sticky-header th {
   top: 120px;
   position: sticky;
   background-color: #0a0a0a;
+}
+
+.front-stack-layer {
+  z-index: 1;
 }
 </style>
