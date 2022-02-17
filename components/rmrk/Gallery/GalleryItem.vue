@@ -95,9 +95,14 @@
                             nft.animation_url,
                             nft.metadata,
                           ]"
+                          :buyDisabled="hasBuyDisabled"
                           @change="handleAction" />
                       </IndexerGuard>
                       <Auth />
+                    </p>
+                    <p class="subtitle is-size-6" v-if="accountId">
+                      <span>{{ $t('general.balance') }}: </span>
+                      <Money :value="balance" inline />
                     </p>
                   </div>
 
@@ -361,6 +366,14 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get compactGalleryItem(): boolean {
     return this.$store.state.preferences.compactGalleryItem
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
+  }
+
+  get hasBuyDisabled(): boolean {
+    return this.balance ? Number(this.nft.price) > Number(this.balance) : true
   }
 
   protected handleAction(deleted: boolean) {
