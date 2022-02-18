@@ -50,6 +50,25 @@
                 Given a user is on the Collection page. 
                 When the user clicks on the From cheaper filter. 
                 Then the user should see the collections in the From cheaper order. 
+            Scenario: Collection Search 
+                Given a user is on the Collection page. 
+                When the user enters a search term in the search box. 
+                Then the user should see the collections that match the search term.
+            Scenario: Collection Buy Now
+                Given a user is on the Collection page. 
+                When the user clicks on the Buy Now button. 
+                Then the user should be redirected to the Buy Now page. 
+            Scenario: Collection Page Navigation
+                Given a user is on the Collection page. 
+                When the user clicks on the Next button. 
+                Then the user should be redirected to the next page.  
+            Scenario: Collection Random
+                Given a user is on the Collection page. 
+                When the user clicks on the Random button. 
+                Then the user should be redirected to a random page.
+                
+    [X] Completed - https://watch.screencastify.com/v/FlZzYMz7YpocLu9ZCSwg
+  
 
   - Gallery
 - Stats
