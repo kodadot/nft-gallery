@@ -122,11 +122,11 @@
         ticks
         @change="sliderChange">
       </b-slider>
-      <span v-if="sliderDirty"
-        >Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}</span
-      >
     </b-collapse>
+    <span v-if="query.priceMin !== undefined && query.priceMax !== undefined">
+      Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+      {{ this.query.priceMax / 1000000000000 }}
+    </span>
   </div>
 </template>
 
@@ -187,7 +187,6 @@ export default class SearchBar extends mixins(
   private highlightPos = 0
   private rangeSlider = [0, 5]
   private inputDirty = false
-  private sliderDirty = false
 
   public mounted(): void {
     this.getSearchHistory()
@@ -477,9 +476,6 @@ export default class SearchBar extends mixins(
 
   @Debounce(50)
   private sliderChange([min, max]: [number, number]): void {
-    if (!this.sliderDirty) {
-      this.sliderDirty = true
-    }
     this.sliderChangeMin(min * 1000000000000)
     this.sliderChangeMax(max * 1000000000000)
     const priceMin = String(min)
@@ -490,6 +486,7 @@ export default class SearchBar extends mixins(
   @Emit('update:priceMin')
   @Debounce(50)
   private sliderChangeMin(min: number): void {
+    console.log(this.query.priceMin)
     this.query.priceMin = min
   }
 
