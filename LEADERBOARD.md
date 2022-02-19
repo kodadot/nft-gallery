@@ -16,4 +16,5 @@
 | MiracleCorunus  | $153.72/0.43KSM       | $153.72/1                     | 5               | 1          | 4          | 315/131                      | 192                  | [Link to last transaction](https://kusama.subscan.io/extrinsic/10176854-4)                                                         |
 | LatinSoul       | $100.17/0.36KSM       | $100.17/1                     | 3               | 1          | 2          | 32/32                        | 7                    | [Link to last transaction](https://kusama.subscan.io/extrinsic/0x14101d25cb4ddc73159dfadabba18c6e3f98fa369dfce47cefde7699d964a538) |
 | fairywellos     | $52.95/0.12KSM        | $52.95/1                      | 2               | 1          | 1          | 22/3                         | 9                    | [Link to last transaction](https://kusama.subscan.io/extrinsic/0x9b8c61de44f59da4d0ba0ffda3b732470435bc9042604fe3c2f04a3df2585542) |
- **LEADERBOARD TABLE GENERATED AT 2022-18-02 FROM 987 PULL REQUESTS MADE BY CONTRIBUTIONS TO KODADOT**
+
+**LEADERBOARD TABLE GENERATED AT 2022-18-02 FROM 987 PULL REQUESTS MADE BY CONTRIBUTIONS TO KODADOT**
