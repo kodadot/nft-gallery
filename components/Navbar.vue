@@ -97,6 +97,9 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 @import '@/styles/variables';
 
 .navbar {
+  background: rgba(12, 12, 12, 0.7);
+  backdrop-filter: blur(20px);
+  transform: translateZ(0px);
   &.is-spaced {
     & > .container {
       .navbar-menu {
