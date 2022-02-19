@@ -93,7 +93,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '@/styles/variables';
 
 .navbar {
