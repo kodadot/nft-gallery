@@ -486,7 +486,6 @@ export default class SearchBar extends mixins(
   @Emit('update:priceMin')
   @Debounce(50)
   private sliderChangeMin(min: number): void {
-    console.log(this.query.priceMin)
     this.query.priceMin = min
   }
 
