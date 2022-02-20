@@ -1,4 +1,19 @@
 type ChartData = [Date, number][]
+
+export type CollectionChartData = {
+  date: Date
+  value: bigint | number
+  average?: bigint | number
+  count: number
+}
+
+export type MappingFunction<T> = (item: CollectionChartData) => T
+export const defaultMapper = (item: CollectionChartData) => item.value
+export const mapToAverage = (item: CollectionChartData) =>
+  item.average ?? BigInt(0)
+export const mapToCount = (item: CollectionChartData) => item.count
+export const getLabel = (item: CollectionChartData) => item.date
+
 type GetQuartilesArgs = {
   dataset: number[]
   medianDetails: MedianDetails
@@ -7,7 +22,8 @@ type MedianDetails = {
   median: number
   medianIndex: null | number
 }
-type RenderedChartData = { x: Date; y: number }[]
+type RenderedChartData<T = bigint | number> = { x: Date; y: T }[]
+
 interface Quartiles {
   q1: number
   q2: number
@@ -59,6 +75,15 @@ export const getChartData = (data: ChartData = []): RenderedChartData =>
   data.map((item) => ({
     x: item[0],
     y: item[1],
+  }))
+
+export const getCollectionChartData = (
+  data: CollectionChartData[] = [],
+  mapper = defaultMapper
+): RenderedChartData =>
+  data.map((item) => ({
+    x: item.date,
+    y: mapper(item),
   }))
 
 export const getMedianPoint = (data: ChartData = []): number => {
