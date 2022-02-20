@@ -25,6 +25,14 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
+const baseLineOptions = {
+  tension: 0.3,
+  pointBackgroundColor: 'white',
+  pointBorderColor: 'blue',
+  pointRadius: 4,
+  pointHoverRadius: 6,
+}
+
 import {
   getCollectionChartData,
   getLabel,
@@ -90,6 +98,7 @@ export default class PriceChart extends mixins(ChainMixin) {
         console.log(median)
         const chart = new Chart(ctx, {
           type: 'line',
+
           data: {
             labels: this.priceData[1].map(getLabel),
             datasets: [
@@ -97,40 +106,34 @@ export default class PriceChart extends mixins(ChainMixin) {
                 label: 'Floor Price',
                 data: getCollectionChartData(this.priceData[0]),
                 borderColor: '#d32e79',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 4,
-                pointHoverRadius: 6,
+                ...baseLineOptions,
               },
               {
                 label: 'Sold NFT Price',
                 data: getCollectionChartData(this.priceData[1]),
                 borderColor: '#00BB7F',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 4,
-                pointHoverRadius: 6,
+                ...baseLineOptions,
               },
               {
                 label: 'Trailing Average',
-                data: getCollectionChartData(
-                  this.priceData[1],
-                  mapToAverage
-                ) as any,
+                data: getCollectionChartData(this.priceData[1], mapToAverage),
                 borderColor: 'yellow',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 0,
-                pointHoverRadius: 0,
+                ...baseLineOptions,
               },
             ],
           },
           options: {
             maintainAspectRatio: false,
             plugins: {
+              tooltip: {
+                callbacks: {
+                  afterLabel: ({ dataIndex, dataset }) => {
+                    return `Count: ${
+                      (dataset.data[dataIndex] as any).count || 0
+                    }`
+                  },
+                },
+              },
               annotation: {
                 annotations: {
                   median: {

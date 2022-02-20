@@ -84,6 +84,7 @@ export const getCollectionChartData = (
   data.map((item) => ({
     x: item.date,
     y: mapper(item),
+    count: item.count,
   }))
 
 export const getCollectionMedian = (data: CollectionChartData[] = []) => {
