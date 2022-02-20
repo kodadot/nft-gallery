@@ -30,6 +30,7 @@ import {
   getLabel,
   CollectionChartData as ChartData,
   mapToAverage,
+  getCollectionMedian,
 } from '@/utils/chart'
 
 Chart.register(zoomPlugin)
@@ -85,6 +86,8 @@ export default class PriceChart extends mixins(ChainMixin) {
       )?.getContext('2d')
 
       if (ctx) {
+        const median = getCollectionMedian(this.priceData[1])
+        console.log(median)
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
@@ -132,8 +135,8 @@ export default class PriceChart extends mixins(ChainMixin) {
                 annotations: {
                   median: {
                     type: 'line',
-                    // yMin: getMedianPoint(this.priceData[1]),
-                    // yMax: getMedianPoint(this.priceData[1]),
+                    yMin: median,
+                    yMax: median,
                     borderColor: '#00BB7F',
                     borderWidth: 2,
                     borderDash: [10, 5],

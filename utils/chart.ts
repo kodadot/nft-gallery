@@ -86,6 +86,15 @@ export const getCollectionChartData = (
     y: mapper(item),
   }))
 
+export const getCollectionMedian = (data: CollectionChartData[] = []) => {
+  const dataset = data
+    .map((item) => item.value)
+    .map(Number)
+    .sort((a, b) => b - a)
+  const { median } = getMedianDetails(dataset)
+  return median
+}
+
 export const getMedianPoint = (data: ChartData = []): number => {
   const dataset = data.map((item) => item[1]).sort((a, b) => b - a)
   const { median } = getMedianDetails(dataset)
