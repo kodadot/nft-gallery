@@ -12,6 +12,7 @@
       pagination-position="top"
       backend-sorting
       show-detail-icon
+      class="spotlight-sticky-header"
       @sort="onSort">
       <template v-slot:top-left>
         <b-field class="mb-0">
@@ -30,11 +31,13 @@
         </b-button>
       </template>
       <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
-        <nuxt-link
-          :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
-          v-if="!isLoading">
-          <Identity :address="props.row.id" inline noOverflow />
-        </nuxt-link>
+        <template v-if="!isLoading">
+          <nuxt-link
+            :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
+            v-if="!isLoading">
+            <Identity :address="props.row.id" inline noOverflow />
+          </nuxt-link>
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -49,7 +52,7 @@
 
       <b-table-column field="unique" :label="$t('spotlight.unique')">
         <template v-slot:header="{ column }">
-          <b-tooltip label="unique items" append-to-body dashed>
+          <b-tooltip label="unique items" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -64,7 +67,7 @@
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template v-slot:header="{ column }">
-          <b-tooltip label="unique collectors" append-to-body dashed>
+          <b-tooltip label="unique collectors" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -111,7 +114,7 @@
 
       <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
         <template v-slot:header="{ column }">
-          <b-tooltip label="sold * (unique / total)" append-to-body dashed>
+          <b-tooltip label="sold * (unique / total)" dashed>
             {{ column.label }}
           </b-tooltip>
         </template>
@@ -143,7 +146,6 @@ import { columns } from './utils'
 import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
-import { denyList } from '@/utils/constants'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
@@ -276,7 +278,7 @@ export default class SpotlightTable extends mixins(
   }
 }
 </script>
-<style>
+<style scoped lang="scss">
 .spotlight .magicBtn {
   position: absolute;
   right: 0;
@@ -295,5 +297,11 @@ export default class SpotlightTable extends mixins(
     margin-left: 2rem;
     margin-right: 0rem;
   }
+}
+
+.spotlight-sticky-header th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
 }
 </style>
