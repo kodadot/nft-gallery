@@ -112,6 +112,7 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
 import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
 // collectionNftEventListById
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -121,6 +122,8 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import { mapDecimals } from '@/utils/mappers'
 
 const components = {
   GalleryCardList: () =>
@@ -158,7 +161,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
-  protected priceData: [PriceDataType[], PriceDataType[]] | [] = []
+  protected priceData: [ChartData[], ChartData[]] | [] = []
   private statsLoaded = false
   private queryLoading = 0
 
@@ -264,10 +267,11 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   protected async loadStats(): Promise<void> {
     const { data } = await this.$apollo.query<{
-      collection: { nfts: { nodes: { events: Interaction[] }[] } }
+      buys: ChartData[]
+      listings: ChartData[]
     }>({
-      query: collectionNftEventListById,
-      client: this.urlPrefix,
+      query: collectionChartById,
+      client: 'subsquid',
       variables: {
         id: this.id,
       },
@@ -278,32 +282,34 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     }
     // console.log(data.collection.nfts.nodes)
 
-    const events: Interaction[][] =
-      data.collection.nfts.nodes.map((nft) => nft.events) || []
+    // const events: Interaction[][] =
+    //   data.collection.nfts.nodes.map((nft) => nft.events) || []
 
-    this.loadPriceData(events)
+    this.loadPriceData(data)
   }
 
-  public loadPriceData(events: Interaction[][]): void {
+  public loadPriceData({
+    buys,
+    listings,
+  }: {
+    buys: ChartData[]
+    listings: ChartData[]
+  }): void {
     this.priceData = []
 
-    const priceEvents: Interaction[][] = events.map(this.priceEvents) || []
+    const mapToDecimals = mapDecimals(this.decimals, false)
+    const soldPriceData = buys.map((buy) => ({
+      ...buy,
+      value: mapToDecimals(buy.value),
+      average: mapToDecimals(buy.average || 0),
+    }))
 
-    const overTime: string[] = priceEvents
-      .flat()
-      .sort(sortByTimeStamp)
-      .map(eventTimestamp)
+    const listedPriceData = listings.map((listing) => ({
+      ...listing,
+      value: mapToDecimals(listing.value),
+    }))
 
-    const floorPriceData: PriceDataType[] = overTime.map(
-      collectionFloorPriceList(priceEvents, this.decimals)
-    )
-
-    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
-    const soldPriceData: PriceDataType[] = buyEvents?.map(
-      soldNFTPrice(this.decimals)
-    )
-
-    this.priceData = [floorPriceData, soldPriceData]
+    this.priceData = [listedPriceData, soldPriceData]
   }
 
   public async handleResult({ data }: any): Promise<void> {
