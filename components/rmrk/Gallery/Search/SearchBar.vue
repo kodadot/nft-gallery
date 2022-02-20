@@ -81,15 +81,6 @@
             </div>
           </template>
         </b-autocomplete>
-        <div
-          v-if="searchQuery"
-          :class="{ 'ml-4': true, 'is-size-4': isVisible || !sliderDirty }">
-          <div>Showing results for {{ searchQuery }}</div>
-          <div v-if="!isVisible && sliderDirty" class="is-size-7">
-            Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-            {{ this.query.priceMax / 1000000000000 }}
-          </div>
-        </div>
       </b-field>
       <b-field
         expanded
@@ -104,6 +95,9 @@
           @click="isVisible = !isVisible" />
         <slot />
       </b-field>
+    </div>
+    <div v-if="searchQuery" class="mb-3">
+      <span>Showing results for {{ searchQuery }}</span>
     </div>
     <b-collapse
       aria-id="sortAndFilter"
@@ -129,11 +123,11 @@
         ticks
         @change="sliderChange">
       </b-slider>
-      <span v-if="sliderDirty"
-        >Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}</span
-      >
     </b-collapse>
+    <span v-if="query.priceMin !== undefined && query.priceMax !== undefined">
+      Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+      {{ this.query.priceMax / 1000000000000 }}
+    </span>
   </div>
 </template>
 
@@ -195,7 +189,6 @@ export default class SearchBar extends mixins(
   private highlightPos = 0
   private rangeSlider = [0, 5]
   private inputDirty = false
-  private sliderDirty = false
 
   public mounted(): void {
     this.getSearchHistory()
@@ -485,9 +478,6 @@ export default class SearchBar extends mixins(
 
   @Debounce(50)
   private sliderChange([min, max]: [number, number]): void {
-    if (!this.sliderDirty) {
-      this.sliderDirty = true
-    }
     this.sliderChangeMin(min * 1000000000000)
     this.sliderChangeMax(max * 1000000000000)
     const priceMin = String(min)
