@@ -28,10 +28,10 @@
           </a>
         </div>
         <div class="column">
-          <CuratedList />
+          <CuratedList v-if="prefix === 'rmrk'" />
         </div>
       </div>
-      <div>
+      <div v-if="prefix === 'rmrk'">
         <LatestSales class="my-5" />
         <NewestList class="my-5" />
       </div>
