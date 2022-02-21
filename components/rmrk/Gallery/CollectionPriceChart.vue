@@ -95,7 +95,6 @@ export default class PriceChart extends mixins(ChainMixin) {
 
       if (ctx) {
         const median = getCollectionMedian(this.priceData[1])
-        console.log(median)
         const chart = new Chart(ctx, {
           type: 'line',
 
