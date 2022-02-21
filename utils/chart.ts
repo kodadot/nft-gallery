@@ -111,8 +111,8 @@ export const getHSpread = (data: ChartData = []): HSpread => {
   return { min, max, q1, q2, q3 }
 }
 
-export const getMovingAverage = (data: ChartData = []): number[] => {
-  const dataset = data.map((item) => item[1])
+export const getMovingAverage = (data: RenderedChartData = []): number[] => {
+  const dataset = data.map(({ y }) => y) as number[]
   const movingAverageArray: number[] = []
   const average = 3
 

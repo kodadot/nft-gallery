@@ -39,6 +39,7 @@ import {
   CollectionChartData as ChartData,
   mapToAverage,
   getCollectionMedian,
+  getMovingAverage,
 } from '@/utils/chart'
 
 Chart.register(zoomPlugin)
@@ -115,7 +116,9 @@ export default class PriceChart extends mixins(ChainMixin) {
               },
               {
                 label: 'Trailing Average',
-                data: getCollectionChartData(this.priceData[1], mapToAverage),
+                data: getMovingAverage(
+                  getCollectionChartData(this.priceData[1], mapToAverage)
+                ) as any,
                 borderColor: 'yellow',
                 ...baseLineOptions,
               },
