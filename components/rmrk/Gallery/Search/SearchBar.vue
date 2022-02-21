@@ -175,7 +175,7 @@ export default class SearchBar extends mixins(
     search: '',
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
+    listed: true,
   }
 
   private first = 30
@@ -224,6 +224,7 @@ export default class SearchBar extends mixins(
   }
 
   get vListed(): boolean {
+    this.query.listed = this.listed
     return this.listed
   }
 
