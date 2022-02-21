@@ -19,6 +19,7 @@
           <p class="card-header-title">
             {{ label || title }}
           </p>
+          <slot name="hint" />
         </header>
         <div class="card-content">
           <slot></slot>
