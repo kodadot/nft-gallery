@@ -2,7 +2,7 @@
   <section class="curated-list">
     <b-carousel
       animated="fade"
-      interval="5000"
+      :interval="5000"
       :pause-hover="true"
       :has-drag="true"
       :indicator="true"
@@ -12,7 +12,7 @@
       indicator-position="is-bottom"
       indicator-style="is-lines">
       <b-carousel-item v-for="(collection, i) in collections" :key="i">
-        <b-image class="image" :src="collection.image"></b-image>
+        <b-image ratio="1by1" class="image" :src="collection.image"></b-image>
         <div class="box">
           <div class="content has-text-left">
             <nuxt-link
