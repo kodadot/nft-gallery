@@ -1,8 +1,8 @@
 const keysPressed = {}
 
 const bindGoToEvents = (event, app, store) => {
-  const account = store.getters.getAuthAddress
-  const urlPrefix = store.getters.currentUrlPrefix
+  const account: string = store.getters.getAuthAddress
+  const urlPrefix: string = store.getters.currentUrlPrefix
 
   let path = ''
   let query = {}

@@ -14,11 +14,13 @@ export const toPercent = (value: number | undefined | BN): string => {
   }
 
   if (isNumber(value)) {
-    return Number.isInteger(value) ? `${value}.00 %` : `${value} %`
+    const floatNum = Number.parseFloat(value.toString()).toFixed(2)
+    return `${floatNum} %`
   }
 
   if (BN.isBN(value)) {
-    return `${value.toString()} %`
+    const bnPercent: string = value.toString()
+    return `${bnPercent} %`
   }
 
   return EMPTY

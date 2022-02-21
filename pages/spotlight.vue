@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-@Component<Leaderboard>({
+@Component<Spotlight>({
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
@@ -39,10 +39,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class Leaderboard extends Vue {}
+export default class Spotlight extends Vue {}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .rmrk-logo {
   aspect-ratio: 127 / 42;
 }

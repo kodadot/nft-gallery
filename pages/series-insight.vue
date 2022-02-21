@@ -20,6 +20,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Series>({
+  components: {
+    Identity: () => import('@/components/shared/format/Identity.vue'),
+    SeriesTable: () => import('@/components/series/SeriesTable.vue'),
+  },
   head() {
     const title = 'NFT artist rank'
     const metaData = {
@@ -34,15 +38,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-  components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
-    SeriesTable: () => import('@/components/series/SeriesTable.vue'),
-  },
 })
 export default class Series extends Vue {}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .rmrk-logo {
   aspect-ratio: 127 / 42;
 }

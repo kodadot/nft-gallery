@@ -101,8 +101,16 @@ export default class Footer extends Vue {
       url: '/about',
     },
     {
+      name: i18n.t('Documentation'),
+      url: 'https://docs.kodadot.xyz/',
+    },
+    {
       name: i18n.t('FAQ'),
       url: '/rmrk/faq',
+    },
+    {
+      name: i18n.t('Grant'),
+      url: 'https://tally.so/r/mVP06w',
     },
     // {
     //   name: i18n.t('Contact'),
@@ -125,7 +133,7 @@ export default class Footer extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/styles/variables';
 
 .footer {
