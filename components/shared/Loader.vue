@@ -38,7 +38,7 @@ export default class Loader extends Vue {
       let newRandomNumber = this.randomNumber
       // make sure same quote isn't fetched again
       while (newRandomNumber === this.randomNumber) {
-        newRandomNumber = randomIntegerBetween(1, 33)
+        newRandomNumber = randomIntegerBetween(1, 35)
       }
       this.randomNumber = newRandomNumber
     }
@@ -46,7 +46,7 @@ export default class Loader extends Vue {
 
   protected placeholder = '/preloader.svg'
 
-  protected randomNumber = randomIntegerBetween(1, 33)
+  protected randomNumber = randomIntegerBetween(1, 35)
 
   public interval
 
@@ -68,7 +68,7 @@ export default class Loader extends Vue {
 
   public created(): void {
     setInterval(() => {
-      this.interval = this.randomNumber = randomIntegerBetween(1, 33)
+      this.interval = this.randomNumber = randomIntegerBetween(1, 35)
     }, 8000)
   }
 

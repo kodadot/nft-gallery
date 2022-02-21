@@ -1,11 +1,13 @@
 <template>
   <section class="curated-list">
     <b-carousel
-      :autoplay="false"
+      animated="fade"
+      interval="5000"
+      :pause-hover="true"
       :has-drag="true"
       :indicator="true"
-      :indicator-background="false"
       :indicator-inside="false"
+      :indicator-background="false"
       indicator-mode="click"
       indicator-position="is-bottom"
       indicator-style="is-lines">
