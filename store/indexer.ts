@@ -1,6 +1,7 @@
 import { GetterTree, ActionTree, MutationTree, Commit } from 'vuex'
 import { SnackbarProgrammatic as Snackbar } from 'buefy'
 import checkIndexer from '@/queries/checkIndexer.graphql'
+import { formatDistanceToNow } from 'date-fns'
 
 export const state = () => ({
   indexer: {
@@ -38,10 +39,15 @@ export const actions: ActionTree<IndexerState, IndexerState> = {
         data: { _metadata: data },
       }: any = await indexer
 
+      const lastProcessedTime = formatDistanceToNow(
+        new Date(Number(data?.lastProcessedTimestamp)),
+        { addSuffix: true }
+      )
+
       console.log(
         `%cIndexer:
         Health: ${data?.indexerHealthy ? '❤️' : '💀'}
-        Last: ${new Date(Number(data?.lastProcessedTimestamp))}`,
+        Last: ${lastProcessedTime}`,
         'background: #222; color: #bada55; padding: 0.3em'
       )
       commit('SET_INDEXER_STATUS', data)

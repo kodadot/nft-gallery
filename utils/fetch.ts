@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
+import { logError } from '@/utils/mappers'
 
 export const BASE_URL = 'https://ipfs.io/'
 
@@ -24,9 +25,11 @@ export const fetchMimeType = async (
     const { headers } = await api.head(assetUrl)
     return headers['content-type']
   } catch (e: any) {
-    console.warn(
-      `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${e.message}`
-    )
+    logError(e, (msg) => {
+      console.warn(
+        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`
+      )
+    })
     return undefined
   }
 }

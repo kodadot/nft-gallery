@@ -81,8 +81,14 @@
             </div>
           </template>
         </b-autocomplete>
-        <div v-if="searchQuery" class="mt-3 ml-4">
-          <span>Showing results for {{ searchQuery }}</span>
+        <div
+          v-if="searchQuery"
+          :class="{ 'ml-4': true, 'is-size-4': isVisible || !sliderDirty }">
+          <div>Showing results for {{ searchQuery }}</div>
+          <div v-if="!isVisible && sliderDirty" class="is-size-7">
+            Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+            {{ this.query.priceMax / 1000000000000 }}
+          </div>
         </div>
       </b-field>
       <b-field
