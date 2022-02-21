@@ -82,6 +82,7 @@ import {
   faCube,
   faExpand,
   faImage,
+  faChartLine,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -183,6 +184,7 @@ library.add(
   faCube,
   faExpand,
   faImage,
+  faChartLine,
 
   // Social
   faTwitter,
