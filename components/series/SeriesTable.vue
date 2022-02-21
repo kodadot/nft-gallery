@@ -125,7 +125,7 @@
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         v-slot="props"
         field="weeklyVolume"
         label="7d %"
@@ -150,7 +150,7 @@
           </div>
         </template>
         <b-skeleton :active="isLoading" />
-      </b-table-column>
+      </b-table-column> -->
 
       <b-table-column
         v-slot="props"
