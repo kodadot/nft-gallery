@@ -9,7 +9,7 @@
       indicator-mode="click"
       indicator-position="is-bottom"
       indicator-style="is-lines">
-      <b-carousel-item v-for="(collection, i) in carousels" :key="i">
+      <b-carousel-item v-for="(collection, i) in collections" :key="i">
         <b-image class="image" :src="collection.image"></b-image>
         <div class="box">
           <div class="content has-text-left">
@@ -65,15 +65,6 @@ const curatedCollection = [
 })
 export default class CuratedList extends mixins(AuthMixin) {
   private collections: [] = []
-
-  get carousels() {
-    return [
-      { title: 'Slide 1', color: 'info' },
-      { title: 'Slide 2', color: 'success' },
-      { title: 'Slide 3', color: 'warning' },
-      { title: 'Slide 4', color: 'danger' },
-    ]
-  }
 
   async fetch() {
     const result = await this.$apollo
