@@ -10,16 +10,10 @@
       indicator-position="is-bottom"
       indicator-style="is-lines">
       <b-carousel-item v-for="(collection, i) in carousels" :key="i">
-        <!-- <b-image class="image" :src="collection.image"></b-image> -->
-        <section :class="`hero is-medium is-${collection.color}`">
-          <div class="hero-body has-text-centered">
-            <h1 class="title">{{ collection.title }}</h1>
-          </div>
-        </section>
+        <b-image class="image" :src="collection.image"></b-image>
         <div class="box">
           <div class="content has-text-left">
-            {{ i }}
-            <!-- <nuxt-link
+            <nuxt-link
               :to="{
                 name: 'rmrk-collection-id',
                 params: { id: collection.id },
@@ -36,7 +30,7 @@
                   noOwerlow
                   class="force-clip is-ellipsis" />
               </div>
-            </nuxt-link> -->
+            </nuxt-link>
           </div>
         </div>
       </b-carousel-item>
@@ -82,21 +76,21 @@ export default class CuratedList extends mixins(AuthMixin) {
   }
 
   async fetch() {
-    // const result = await this.$apollo
-    //   .query<any>({
-    //     query: collectionCuratedList,
-    //     client: 'subsquid',
-    //     variables: {
-    //       list: curatedCollection,
-    //     },
-    //   })
-    //   .catch((e) => {
-    //     console.error(e)
-    //     return { data: null }
-    //   })
-    // if (result.data) {
-    //   await this.handleResult(result)
-    // }
+    const result = await this.$apollo
+      .query<any>({
+        query: collectionCuratedList,
+        client: 'subsquid',
+        variables: {
+          list: curatedCollection,
+        },
+      })
+      .catch((e) => {
+        console.error(e)
+        return { data: null }
+      })
+    if (result.data) {
+      await this.handleResult(result)
+    }
   }
 
   protected async handleResult({ data }: any) {
@@ -108,7 +102,6 @@ export default class CuratedList extends mixins(AuthMixin) {
       ...e,
       image: imageOf(e.meta.id, e.meta.image),
     }))
-    // console.log(this.collections)
   }
 }
 </script>
