@@ -113,7 +113,6 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
 import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-// collectionNftEventListById
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
