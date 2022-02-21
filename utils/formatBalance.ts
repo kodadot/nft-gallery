@@ -28,7 +28,7 @@ function format(
 }
 
 export function calculateBalance(value: number, decimals = 12): number {
-  return value * Math.pow(10, decimals)
+  return Math.trunc(value * Math.pow(10, decimals))
 }
 
 export default format
