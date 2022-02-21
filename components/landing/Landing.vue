@@ -8,63 +8,16 @@
             alt="First NFT market explorer on Kusama and Polkadot"
             class="mb-5"
             height="60" />
-          <h2
+          <h3
             class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
-            <span> Carbon neutral </span>
-            <span class="text__stroked"> Kusama native </span>
-            <span> NFT plaftorm </span>
+            <span class="text__stroked my-5">
+              Discover, collect and sell Kusama NFTs
+            </span>
             <span class="title is-6 homepage__subtitle uppercase text-semibold">
               Built on
               <span class="text-bold text-primary"> {{ buildOn }} </span>
             </span>
-          </h2>
-          <div class="buttons">
-            <b-button
-              tag="nuxt-link"
-              :to="`/${prefix}/collections`"
-              type="is-primary">
-              Collections
-            </b-button>
-            <b-button
-              tag="nuxt-link"
-              :to="`/${prefix}/gallery`"
-              type="is-primary">
-              Gallery
-            </b-button>
-            <b-button tag="nuxt-link" to="/spotlight" type="is-primary">
-              Spotlight
-            </b-button>
-            <b-button tag="nuxt-link" to="/series-insight" type="is-primary">
-              Series
-            </b-button>
-          </div>
-          <div class="buttons">
-            <b-button tag="nuxt-link" to="/about" type="is-primary">
-              About
-            </b-button>
-            <b-button
-              tag="a"
-              href="https://docs.kodadot.xyz"
-              target="_blank"
-              rel="noopener noreferrer"
-              type="is-primary">
-              Documentation
-            </b-button>
-            <b-button tag="nuxt-link" to="/rmrk/faq" type="is-primary">
-              Faq
-            </b-button>
-            <b-button
-              tag="a"
-              href="https://tally.so/r/mVP06w"
-              target="_blank"
-              rel="noopener noreferrer"
-              type="is-primary">
-              Grants
-            </b-button>
-          </div>
-        </div>
-        <div
-          class="column has-text-right has-text-left-mobile discord-container">
+          </h3>
           <a
             href="https://discord.gg/35hzy2dXXh"
             target="_blank"
@@ -74,9 +27,11 @@
               alt="Discord" />
           </a>
         </div>
+        <div class="column">
+          <CuratedList />
+        </div>
       </div>
-
-      <div v-if="prefix === 'rmrk'">
+      <div>
         <LatestSales class="my-5" />
         <NewestList class="my-5" />
       </div>
@@ -90,6 +45,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 const components = {
   LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
   NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
+  CuratedList: () => import('@/components/rmrk/Gallery/CuratedList.vue'),
 }
 @Component<Landing>({
   components,

@@ -49,7 +49,7 @@ export default class LatestSales extends Vue {
     return false
   }
 
-  async mounted() {
+  async fetch() {
     const result = await this.$apollo
       .query<{
         events: { meta; nft: { meta: { id; image } } }
@@ -67,7 +67,7 @@ export default class LatestSales extends Vue {
       })
 
     if (result.data) {
-      this.handleResult(result)
+      await this.handleResult(result)
     }
   }
 
