@@ -15,6 +15,7 @@
       {
         "matchPackagePatterns": [
           "^axios",
+          "^babel",
           "babel",
           "^buefy",
           "^chartjs",
@@ -26,8 +27,11 @@
           "^lint",
           "^model-viewer",
           "^nuxt",
-          "vue",
+          "^vue",
           "^vuejs",
+          "vuejs/core",
+          "MatteoGabriele/vue-gtag",
+          "vuejs/vuex",
           "^typescript",
           "typescript-eslint",
           "^ws"

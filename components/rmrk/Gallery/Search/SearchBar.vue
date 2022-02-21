@@ -10,6 +10,7 @@
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
+          v-if="!hideSearchInput"
           class="gallery-search"
           v-model="name"
           :data="searchSuggestion"
@@ -80,6 +81,9 @@
             </div>
           </template>
         </b-autocomplete>
+        <div v-if="searchQuery" class="mt-3 ml-4">
+          <span>Showing results for {{ searchQuery }}</span>
+        </div>
       </b-field>
       <b-field
         expanded
@@ -94,9 +98,6 @@
           @click="isVisible = !isVisible" />
         <slot />
       </b-field>
-    </div>
-    <div v-if="searchQuery" class="mt-3">
-      <span>Showing results for {{ searchQuery }}</span>
     </div>
     <b-collapse
       aria-id="sortAndFilter"
@@ -169,6 +170,7 @@ export default class SearchBar extends mixins(
   @Prop(String) public searchColumnClass!: string
   @Prop(Boolean) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
+  @Prop(Boolean) public hideSearchInput!: boolean
 
   protected isVisible = false
   private query: SearchQuery = {

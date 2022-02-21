@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div class="columns">
-      <div v-for="nft in nfts" :key="nft.id" class="column">
-        <GalleryCard :id="nft.id" :name="nft.name" :metadata="nft.metadata" />
-      </div>
+  <div class="columns">
+    <div v-for="nft in nfts" :key="nft.id" class="column">
+      <GalleryCard :id="nft.id" :name="nft.name" :metadata="nft.metadata" />
     </div>
   </div>
 </template>
