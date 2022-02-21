@@ -78,7 +78,9 @@ export default class Landing extends Vue {
     color: $text;
   }
 }
-
+.title {
+  word-break: normal;
+}
 .subtitle {
   text-decoration: underline;
 }
