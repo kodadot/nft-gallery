@@ -127,6 +127,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     border-top: 2px solid $primary;
     margin-left: 0.5em;
     transition: 0.3s;
+    background: $black;
     &:hover {
       background-color: $primary;
       color: $text;
@@ -156,6 +157,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .search-navbar {
     flex-grow: 1;
     margin: 0rem 1rem;
+    background-color: transparent;
+    box-shadow: none;
     input {
       border: inherit;
       background-color: #29292f;
