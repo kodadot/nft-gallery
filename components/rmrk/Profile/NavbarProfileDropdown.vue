@@ -18,7 +18,7 @@
           type="is-primary"
           class="navbar__button"
           @click="checkExtension()">
-          Log in
+          Connect
         </b-button>
       </template>
     </template>
@@ -114,11 +114,13 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import WalletModalVue from '@/components/rmrk/Profile/WalletModal.vue'
 
 const components = {
   Avatar,
   AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  WalletModal: () => import('@/components/rmrk/Profile/WalletModal.vue'),
 }
 
 @Component({ components })
@@ -150,10 +152,30 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   protected checkExtension(): void {
     if (!(window as any).injectedWeb3['polkadot-js']) {
       this.isExtension = true
-      this.$buefy.toast.open({
+      this.$buefy.notification.open({
+        duration: 5500,
         message: 'You need to install the browser extension - polkadot.js!',
-        duration: 90000,
+        type: 'is-info',
+        hasIcon: true,
       })
+      this.$buefy.modal.open({
+        parent: this,
+        component: WalletModalVue,
+        hasModalCard: true,
+        customClass: 'custom-class custom-class-2',
+        trapFocus: true,
+      })
+      // this.$buefy.dialog.alert({
+      //   title: 'Install Polkadot Extension',
+      //   message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
+      //   type: 'is-info',
+      //   hasIcon: true,
+      //   canCancel: true
+      // })
+      // this.$buefy.toast.open({
+      //   message: 'You need to install the browser extension - polkadot.js!',
+      //   duration: 90000,
+      // })
     }
   }
 }
