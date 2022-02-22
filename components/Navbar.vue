@@ -10,6 +10,7 @@
     </template>
     <template #start>
       <Search
+        v-if="!mobileExplorer"
         hideFilter
         class="search-navbar"
         searchColumnClass="is-flex-grow-1" />
@@ -87,8 +88,28 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
+  public mobileExplorer = false
+  private isExplorer: boolean =
+    this.$route.path == '/rmrk/collections' ||
+    this.$route.path == '/rmrk/gallery'
+
+  created() {
+    if (this.isExplorer) {
+      window.addEventListener('resize', this.onResize)
+      return (this.mobileExplorer = window.innerWidth <= 1023)
+    }
+  }
+
+  private onResize(e) {
+    return (this.mobileExplorer = window.innerWidth <= 1023)
+  }
+
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
