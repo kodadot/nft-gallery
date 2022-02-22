@@ -114,13 +114,12 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import WalletModalVue from '@/components/rmrk/Profile/WalletModal.vue'
+import WalletModal from '~/components/common/WalletModal.vue'
 
 const components = {
   Avatar,
   AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
-  WalletModal: () => import('@/components/rmrk/Profile/WalletModal.vue'),
 }
 
 @Component({ components })
@@ -160,7 +159,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
       })
       this.$buefy.modal.open({
         parent: this,
-        component: WalletModalVue,
+        component: WalletModal,
         hasModalCard: true,
         customClass: 'custom-class custom-class-2',
         trapFocus: true,

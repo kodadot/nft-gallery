@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { supportWallets, Wallet } from '@/utils/config/wallets'
 
 @Component({})
 export default class extends Vue {
