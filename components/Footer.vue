@@ -86,7 +86,7 @@ export default class Footer extends Vue {
     },
     {
       name: i18n.t('Grant'),
-      url: 'https://tally.so/r/mVP06w',
+      url: 'https://form.kodadot.xyz/grant',
       external: true,
     },
     // {
