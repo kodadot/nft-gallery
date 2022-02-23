@@ -3,7 +3,9 @@ export enum SupportWallet {
   MetaMask = 'metamask',
   Clover = 'clover',
   Math = 'mathwallet',
+  Ledger = 'ledger',
   Nova = 'nova',
+  Talisman = 'talisman',
 }
 
 export const WalletModalOption = {
@@ -12,9 +14,11 @@ export const WalletModalOption = {
   NoExtension: 'NoExtension',
   PolkadotJs: SupportWallet.PolkadotJs,
   Clover: SupportWallet.Clover,
+  Ledger: SupportWallet.Ledger,
   MetaMask: SupportWallet.MetaMask,
   Math: SupportWallet.Math,
   Nova: SupportWallet.Nova,
+  Talisman: SupportWallet.Talisman,
 }
 
 export const SubstrateWallets = [
@@ -22,6 +26,7 @@ export const SubstrateWallets = [
   SupportWallet.Clover,
   SupportWallet.Math,
   SupportWallet.Nova,
+  SupportWallet.Talisman,
 ]
 
 export interface Wallet {
@@ -62,6 +67,15 @@ export const supportWalletObj = {
     isSupportBrowserExtension: true,
     isSupportMobileApp: false,
   },
+  [SupportWallet.Ledger]: {
+    // img: require('@/assets/partners/logo-ledger.svg'),
+    name: 'Ledger',
+    source: SupportWallet.Ledger,
+    walletUrl: 'https://www.ledger.com/ledger-live',
+    guideUrl: 'https://www.ledger.com/ledger-live',
+    isSupportBrowserExtension: false,
+    isSupportMobileApp: false,
+  },
   [SupportWallet.Math]: {
     // img: require('/src/assets/img/logo-mathwallet.png'),
     name: 'Math Wallet',
@@ -79,6 +93,15 @@ export const supportWalletObj = {
     guideUrl: 'https://novawallet.io/',
     isSupportBrowserExtension: false,
     isSupportMobileApp: true,
+  },
+  [SupportWallet.Talisman]: {
+    // img: require('@/assets/partners/logo-talisman.svg'),
+    name: 'Talisman',
+    source: SupportWallet.Talisman,
+    walletUrl: 'https://app.talisman.xyz/',
+    guideUrl: 'https://app.talisman.xyz/',
+    isSupportBrowserExtension: true,
+    isSupportMobileApp: false,
   },
 }
 

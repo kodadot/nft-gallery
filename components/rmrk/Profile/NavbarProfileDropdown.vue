@@ -17,7 +17,7 @@
         <b-button
           type="is-primary"
           class="navbar__button"
-          @click="checkExtension()">
+          @click="connectWalletModal()">
           Connect
         </b-button>
       </template>
@@ -68,6 +68,7 @@
         Change account
       </b-button>
     </b-dropdown-item>
+
     <b-dropdown-item
       v-if="!isExtension && (changeAccount || !account)"
       custom
@@ -77,35 +78,6 @@
         :label="$i18n.t('Account')"
         :tooltip-visible="false" />
     </b-dropdown-item>
-    <template v-if="isExtension && (changeAccount || !account)">
-      <b-dropdown-item has-link aria-role="menuitem">
-        <a
-          href="https://polkadot.js.org/extension/"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="is-flex is-align-items-center pl-3">
-          Install Desktop Wallet Extension
-        </a>
-      </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
-        <a
-          href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="is-flex is-align-items-center pl-3">
-          Install Chrome Wallet Extension
-        </a>
-      </b-dropdown-item>
-      <b-dropdown-item has-link aria-role="menuitem">
-        <a
-          href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="is-flex is-align-items-center pl-3">
-          Install Firefox Wallet Extension
-        </a>
-      </b-dropdown-item>
-    </template>
   </b-dropdown>
 </template>
 
@@ -148,34 +120,13 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     }).show()
   }
 
-  protected checkExtension(): void {
-    if (!(window as any).injectedWeb3['polkadot-js']) {
-      this.isExtension = true
-      this.$buefy.notification.open({
-        duration: 5500,
-        message: 'You need to install the browser extension - polkadot.js!',
-        type: 'is-info',
-        hasIcon: true,
-      })
-      this.$buefy.modal.open({
-        parent: this,
-        component: WalletModal,
-        hasModalCard: true,
-        customClass: 'custom-class custom-class-2',
-        trapFocus: true,
-      })
-      // this.$buefy.dialog.alert({
-      //   title: 'Install Polkadot Extension',
-      //   message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
-      //   type: 'is-info',
-      //   hasIcon: true,
-      //   canCancel: true
-      // })
-      // this.$buefy.toast.open({
-      //   message: 'You need to install the browser extension - polkadot.js!',
-      //   duration: 90000,
-      // })
-    }
+  protected connectWalletModal(): void {
+    this.$buefy.modal.open({
+      parent: this,
+      component: WalletModal,
+      hasModalCard: true,
+      trapFocus: true,
+    })
   }
 }
 </script>
