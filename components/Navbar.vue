@@ -127,7 +127,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     border-top: 2px solid $primary;
     margin-left: 0.5em;
     transition: 0.3s;
-    background: rgba(9, 9, 9, .55);
+    background: rgba(9, 9, 9, 0.55);
     &:hover {
       background-color: $primary;
       color: $text;
@@ -160,6 +160,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
+    max-width: 350px;
     input {
       border: inherit;
       background-color: #29292f;
