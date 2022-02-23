@@ -196,6 +196,10 @@ button.button.is-bordered {
   border-top: 2px solid $primary !important;
 }
 
+button.button.navbar-link-background {
+  background-color: #0909098c;
+}
+
 .card.bordered {
   border-radius: 0 !important;
   box-shadow: none;

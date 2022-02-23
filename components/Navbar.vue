@@ -15,7 +15,7 @@
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end>
-      <HistoryBrowser class="ml-2" />
+      <HistoryBrowser class="ml-2 navbar-link-background" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Create') }}</span>
@@ -127,7 +127,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     border-top: 2px solid $primary;
     margin-left: 0.5em;
     transition: 0.3s;
-    background: $black;
+    background: rgba(9, 9, 9, .55);
     &:hover {
       background-color: $primary;
       color: $text;
@@ -137,6 +137,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .logo {
     border: none !important;
     margin-left: 0;
+    background: transparent;
   }
 
   .navbar-brand {
