@@ -6,14 +6,6 @@
         <ul class="footer__list icons__list">
           <li class="icons__list-item">
             <a
-              href="https://kodadot.substack.com"
-              target="_blank"
-              rel="noopener noreferrer">
-              <b-icon icon="envelope" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://medium.com/kodadot"
               target="_blank"
               rel="noopener noreferrer">
@@ -38,27 +30,10 @@
           </li>
           <li class="icons__list-item">
             <a
-              href="https://t.me/kodadot"
-              target="_blank"
-              rel="noopener noreferrer">
-              <b-icon pack="fab" icon="telegram" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://twitter.com/KodaDot"
               target="_blank"
               rel="noopener noreferrer">
               <b-icon pack="fab" icon="twitter" size="is-medium" />
-            </a>
-          </li>
-
-          <li class="icons__list-item">
-            <a
-              href="https://www.reddit.com/r/KodaDot/"
-              target="_blank"
-              rel="noopener noreferrer">
-              <b-icon pack="fab" icon="reddit-alien" size="is-medium" />
             </a>
           </li>
         </ul>
