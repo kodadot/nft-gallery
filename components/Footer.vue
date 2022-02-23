@@ -78,6 +78,7 @@ export default class Footer extends Vue {
     {
       name: i18n.t('Documentation'),
       url: 'https://docs.kodadot.xyz/',
+      external: true,
     },
     {
       name: i18n.t('FAQ'),
@@ -86,6 +87,7 @@ export default class Footer extends Vue {
     {
       name: i18n.t('Grant'),
       url: 'https://tally.so/r/mVP06w',
+      external: true,
     },
     // {
     //   name: i18n.t('Contact'),
