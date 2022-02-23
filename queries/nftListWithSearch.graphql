@@ -7,15 +7,12 @@ query nftListWithSearch(
   $denyList: [String!]
   $search: [NFTEntityFilter!]
   $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
-  $priceMin: BigFloat
-  $priceMax: BigFloat
 ) {
   nFTEntities(
     orderBy: [$orderBy, BLOCK_NUMBER_DESC]
     first: $first
     offset: $offset
     filter: {
-      price: { greaterThan: $priceMin, lessThanOrEqualTo: $priceMax }
       burned: { distinctFrom: true }
       name: { notLike: "%Kanaria%" }
       issuer: { notIn: $denyList }
