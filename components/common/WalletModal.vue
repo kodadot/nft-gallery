@@ -27,11 +27,15 @@
             size="is-medium"
             icon-right="chevron-right"
             expanded>
+            <b-image
+              :src="wallet.img"
+              class="is-24x24"
+              style="display: inline-block; vertical-align: middle"></b-image>
             {{ wallet.name }}
           </b-button>
         </div>
 
-        <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
+        <!-- <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
           <b-button
             v-for="wallet in talismanSupportedWallets"
             @click="setPluginWallet(wallet)"
@@ -41,7 +45,7 @@
             expanded>
             {{ wallet.title }}
           </b-button>
-        </div>
+        </div> -->
 
         <div
           class="buttons my-5"
@@ -68,7 +72,7 @@
         </div>
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle has-text-centered">You win!</div>
+          <div class="subtitle has-text-centered">Choose your account</div>
           <AccountSelect
             v-model="account"
             :label="$i18n.t('Account')"
@@ -80,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { supportWallets, Wallet } from '@/utils/config/wallets'
 import { getWallets } from '@talisman-connect/wallets'
 
@@ -97,6 +101,7 @@ export default class extends Vue {
   protected extensionUrl = ''
 
   set account(account: string) {
+    this.$parent.close() // it does work
     this.$store.dispatch('setAuth', { address: account })
   }
 

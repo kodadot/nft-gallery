@@ -17,11 +17,12 @@
         <b-button
           type="is-primary"
           class="navbar__button"
-          @click="connectWalletModal()">
+          @click="openWalletConnectModal()">
           Connect
         </b-button>
       </template>
     </template>
+
     <template v-if="account">
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link :to="`/${urlPrefix}/u/${account}`">
@@ -58,16 +59,19 @@
       </b-dropdown-item>
 
       <hr class="dropdown-divider" aria-role="menuitem" />
-    </template>
 
-    <b-dropdown-item v-if="account" custom aria-role="menuitem">
-      <b-button
-        type="is-primary"
-        expanded
-        @click="changeAccount = !changeAccount">
-        Change account
-      </b-button>
-    </b-dropdown-item>
+      <b-dropdown-item custom aria-role="menuitem">
+        <div class="buttons">
+          <b-button type="is-primary" @click="changeAccount = !changeAccount">
+            Change account
+          </b-button>
+          <b-button
+            type="is-primary"
+            icon-left="sign-out-alt"
+            @click="disconnect()"></b-button>
+        </div>
+      </b-dropdown-item>
+    </template>
 
     <b-dropdown-item
       v-if="changeAccount || !account"
@@ -100,6 +104,10 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public isRmrk!: boolean
   protected changeAccount = false
 
+  protected disconnect() {
+    this.$store.dispatch('setAuth', { address: '' }) // null not working
+  }
+
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })
   }
@@ -119,7 +127,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     }).show()
   }
 
-  protected connectWalletModal(): void {
+  protected openWalletConnectModal(): void {
     this.$buefy.modal.open({
       parent: this,
       component: WalletModal,

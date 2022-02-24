@@ -41,7 +41,7 @@ export interface Wallet {
 
 export const supportWalletObj = {
   [SupportWallet.PolkadotJs]: {
-    // img: require('/src/assets/img/logo-polkadot-js.png'),
+    img: require('@/assets/partners/logo-polkadot-js.png'),
     name: 'Polkadot.js',
     source: SupportWallet.PolkadotJs,
     walletUrl: 'https://polkadot.js.org/extension/',
@@ -49,17 +49,17 @@ export const supportWalletObj = {
     isSupportBrowserExtension: true,
     isSupportMobileApp: false,
   },
-  [SupportWallet.MetaMask]: {
-    // img: require('/src/assets/img/metamask.png'),
-    name: 'MetaMask',
-    source: SupportWallet.MetaMask,
-    walletUrl: 'https://metamask.io/',
-    guideUrl: 'https://metamask.io/',
-    isSupportBrowserExtension: true,
-    isSupportMobileApp: true,
-  },
+  // [SupportWallet.MetaMask]: {
+  //   img: require('@/assets/partners/metamask.png'),
+  //   name: 'MetaMask',
+  //   source: SupportWallet.MetaMask,
+  //   walletUrl: 'https://metamask.io/',
+  //   guideUrl: 'https://metamask.io/',
+  //   isSupportBrowserExtension: true,
+  //   isSupportMobileApp: true,
+  // },
   [SupportWallet.Clover]: {
-    // img: require('/src/assets/img/logo-clover.png'),
+    img: require('@/assets/partners/logo-clover.png'),
     name: 'Clover',
     source: SupportWallet.Clover,
     walletUrl: 'https://clover.finance/',
@@ -68,7 +68,7 @@ export const supportWalletObj = {
     isSupportMobileApp: false,
   },
   [SupportWallet.Ledger]: {
-    // img: require('@/assets/partners/logo-ledger.svg'),
+    img: require('@/assets/partners/logo-ledger.svg'),
     name: 'Ledger',
     source: SupportWallet.Ledger,
     walletUrl: 'https://www.ledger.com/ledger-live',
@@ -77,7 +77,7 @@ export const supportWalletObj = {
     isSupportMobileApp: false,
   },
   [SupportWallet.Math]: {
-    // img: require('/src/assets/img/logo-mathwallet.png'),
+    img: require('@/assets/partners/logo-mathwallet.png'),
     name: 'Math Wallet',
     source: SupportWallet.Math,
     walletUrl: 'https://mathwallet.org/en-us/',
@@ -86,7 +86,7 @@ export const supportWalletObj = {
     isSupportMobileApp: true,
   },
   [SupportWallet.Nova]: {
-    // img: require('/src/assets/img/logo-nova.png'),
+    img: require('@/assets/partners/logo-nova.png'),
     name: 'Nova Wallet',
     source: SupportWallet.Nova,
     walletUrl: 'https://novawallet.io/',
@@ -95,7 +95,7 @@ export const supportWalletObj = {
     isSupportMobileApp: true,
   },
   [SupportWallet.Talisman]: {
-    // img: require('@/assets/partners/logo-talisman.svg'),
+    img: require('@/assets/partners/logo-talisman.svg'),
     name: 'Talisman',
     source: SupportWallet.Talisman,
     walletUrl: 'https://app.talisman.xyz/spiritkeys',
