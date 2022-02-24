@@ -98,7 +98,7 @@ export const supportWalletObj = {
     // img: require('@/assets/partners/logo-talisman.svg'),
     name: 'Talisman',
     source: SupportWallet.Talisman,
-    walletUrl: 'https://app.talisman.xyz/',
+    walletUrl: 'https://app.talisman.xyz/spiritkeys',
     guideUrl: 'https://app.talisman.xyz/',
     isSupportBrowserExtension: true,
     isSupportMobileApp: false,

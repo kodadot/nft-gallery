@@ -70,7 +70,7 @@
     </b-dropdown-item>
 
     <b-dropdown-item
-      v-if="!isExtension && (changeAccount || !account)"
+      v-if="changeAccount || !account"
       custom
       aria-role="menuitem">
       <AccountSelect
@@ -99,7 +99,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
   protected changeAccount = false
-  protected isExtension = false
 
   set account(account: string) {
     this.$store.dispatch('setAuth', { address: account })

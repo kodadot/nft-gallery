@@ -31,6 +31,18 @@
           </b-button>
         </div>
 
+        <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
+          <b-button
+            v-for="wallet in talismanSupportedWallets"
+            @click="setPluginWallet(wallet)"
+            :key="wallet.extensionName"
+            size="is-medium"
+            icon-right="chevron-right"
+            expanded>
+            {{ wallet.title }}
+          </b-button>
+        </div>
+
         <div
           class="buttons my-5"
           v-show="hasSelectedWalletProvider && !hasWalletProviderExtension">
@@ -96,9 +108,22 @@ export default class extends Vue {
     return supportWallets
   }
 
-  protected created() {
-    const supportedWallets: any[] = getWallets()
-    console.log(supportedWallets)
+  get talismanSupportedWallets() {
+    return getWallets()
+  }
+
+  protected async setPluginWallet(wallet: any): Promise<void> {
+    console.log(wallet)
+    try {
+      await wallet.enable('kodadot')
+      const unsubscribe = await wallet.subscribeAccounts((accounts: any[]) => {
+        // Save accounts...
+        // Also save the selected wallet name as well...
+        console.log(accounts)
+      })
+    } catch (err) {
+      // Handle error. Refer to `libs/wallets/src/lib/errors`
+    }
   }
 
   protected setWallet(source: string): void {
