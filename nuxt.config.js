@@ -255,6 +255,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      '@kodadot1/sub-api',
+      '@polkadot/extension-dapp',
+      '@polkadot/util-crypto',
+      '@polkadot/keyring',
+    ],
     extend: function (config) {
       config.module.rules.push({
         test: /\.js$/,
