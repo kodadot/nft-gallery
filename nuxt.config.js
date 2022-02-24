@@ -260,6 +260,9 @@ export default {
       '@polkadot/extension-dapp',
       '@polkadot/util-crypto',
       '@polkadot/keyring',
+      '@polkadot/ui-keyring',
+      '@polkadot/ui-settings',
+      '@polkadot/hw-ledger',
     ],
     extend: function (config) {
       config.module.rules.push({
