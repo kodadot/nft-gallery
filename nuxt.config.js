@@ -255,6 +255,37 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      '@kodadot1/sub-api',
+      '@polkadot/^',
+      '@polkadot/api',
+      '@polkadot/types',
+      '@polkadot/types-create',
+      '@polkadot/types-known',
+      '@polkadot/types-argument',
+      '@polkadot/x-ws',
+      '@polkadot/x-fetch',
+      '@polkadot/x-bigint',
+      '@polkadot/x-global',
+      '@polkadot/x-textencoder',
+      '@polkadot/x-textdecoder',
+      '@polkadot/x-randomvalues',
+      '@polkadot/util-crypto',
+      '@polkadot/vue-identicon',
+      '@polkadot/util',
+      '@polkadot/ui-shared',
+      '@polkadot/ui-keyring',
+      '@polkadot/ui-settings',
+      '@polkadot/extension-dapp',
+      '@polkadot/extension-inject',
+      '@polkadot/rpc-provide',
+      '@polkadot/rpc-core',
+      '@polkadot/rpc-argument',
+      '@polkadot/rpc-augment',
+      '@polkadot/networks',
+      '@polkadot/keyring',
+      '@polkadot/hw-ledger',
+    ],
     extend: function (config) {
       config.module.rules.push({
         test: /\.js$/,

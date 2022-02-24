@@ -33,7 +33,7 @@
 
         <div
           class="buttons my-5"
-          v-show="!hasWalletProviderExtension && !hasWalletProviderExtension">
+          v-show="hasSelectedWalletProvider && !hasWalletProviderExtension">
           <b-button
             tag="a"
             :href="guideUrl"
@@ -70,6 +70,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { supportWallets, Wallet } from '@/utils/config/wallets'
+import { getWallets } from '@talisman-connect/wallets'
 
 @Component({
   components: {
@@ -93,6 +94,11 @@ export default class extends Vue {
 
   get wallets() {
     return supportWallets
+  }
+
+  protected created() {
+    const supportedWallets: any[] = getWallets()
+    console.log(supportedWallets)
   }
 
   protected setWallet(source: string): void {
