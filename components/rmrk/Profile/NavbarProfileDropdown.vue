@@ -10,9 +10,8 @@
             class="navbar__address"
             hideIdentityPopover />
         </b-button>
-
-        <!-- <span class="navbar__identity subtitle is-4 is-align-self-center"><Identity :address="account" :inline="true"/></span> -->
       </span>
+
       <template v-else>
         <b-button
           type="is-primary"
@@ -61,15 +60,19 @@
       <hr class="dropdown-divider" aria-role="menuitem" />
 
       <b-dropdown-item custom aria-role="menuitem">
-        <div class="buttons">
-          <b-button type="is-primary" @click="changeAccount = !changeAccount">
-            Change account
-          </b-button>
-          <b-button
-            type="is-primary"
-            icon-left="sign-out-alt"
-            @click="disconnect()"></b-button>
-        </div>
+        <b-field>
+          <p class="control">
+            <b-button type="is-primary" @click="changeAccount = !changeAccount">
+              Change account
+            </b-button>
+          </p>
+          <p class="control">
+            <b-button
+              type="is-primary"
+              icon-left="sign-out-alt"
+              @click="disconnect()" />
+          </p>
+        </b-field>
       </b-dropdown-item>
     </template>
 
