@@ -35,7 +35,7 @@ export default () => {
     silentTranslationWarn: true,
     modifiers: {
       md: (str) => md.renderInline(str),
-      common: (str) => str.split('.').reduce((o, i) => o[i], commonData as any),
+      common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
     },
     messages: loadLocaleMessages(),
   }
