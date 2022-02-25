@@ -143,12 +143,7 @@ import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import { SearchQuery, SearchSuggestion } from './types'
 import { denyList } from '@/utils/constants'
-import {
-  NFT,
-  NFTMetadata,
-  Collection,
-  CollectionMetadata,
-} from '../../service/scheme'
+import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import shouldUpdate from '~/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -192,8 +187,8 @@ export default class SearchBar extends mixins(
 
   private first = 30
   private currentValue = 1
-  private nftResult: any[] = []
-  private collectionResult: Collection[] = []
+  private nftResult: NFTWithMeta[] = []
+  private collectionResult: CollectionWithMeta[] = []
   private searchString = ''
   private name = ''
   private searched: NFT[] = []
@@ -461,8 +456,8 @@ export default class SearchBar extends mixins(
         } = result
         const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
         getCloudflareImageLinks(metadataList).then((imageLinks) => {
-          const nftResult: any[] = []
-          processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+          const nftResult: NFTWithMeta[] = []
+          processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
@@ -509,8 +504,8 @@ export default class SearchBar extends mixins(
           mapNFTorCollectionMetadata
         )
         getCloudflareImageLinks(metadataList).then((imageLinks) => {
-          const collectionResult: any[] = []
-          processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+          const collectionResult: CollectionWithMeta[] = []
+          processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
             collectionResult.push({
               ...collections[i],
               ...meta,
@@ -518,9 +513,6 @@ export default class SearchBar extends mixins(
                 (collections[i]?.metadata &&
                   imageLinks[fastExtract(collections[i].metadata)]) ||
                 getSanitizer(meta.image || '')(meta.image || ''),
-              animation_url: getSanitizer(meta.animation_url || '')(
-                meta.animation_url || ''
-              ),
             })
           }).then(() => {
             this.collectionResult = collectionResult
