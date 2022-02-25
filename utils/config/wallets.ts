@@ -2,7 +2,7 @@ import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
 
-export enum SupportWallet {
+export enum SupportWalletExtension {
   PolkadotJs = 'polkadot-js',
   MetaMask = 'metamask',
   Clover = 'clover',
@@ -12,28 +12,15 @@ export enum SupportWallet {
   Talisman = 'talisman',
 }
 
-export const WalletModalOption = {
-  SelectWallet: 'SelectWallet',
-  SelectSubstrateAccount: 'SelectSubstrateAccount',
-  NoExtension: 'NoExtension',
-  PolkadotJs: SupportWallet.PolkadotJs,
-  Clover: SupportWallet.Clover,
-  Ledger: SupportWallet.Ledger,
-  MetaMask: SupportWallet.MetaMask,
-  Math: SupportWallet.Math,
-  Nova: SupportWallet.Nova,
-  Talisman: SupportWallet.Talisman,
-}
-
 export const SubstrateWallets = [
-  SupportWallet.PolkadotJs,
-  SupportWallet.Clover,
-  SupportWallet.Math,
-  SupportWallet.Nova,
-  SupportWallet.Talisman,
+  SupportWalletExtension.PolkadotJs,
+  SupportWalletExtension.Clover,
+  SupportWalletExtension.Math,
+  SupportWalletExtension.Nova,
+  SupportWalletExtension.Talisman,
 ]
 
-export const supportWallets = [
+export const SupportedWallets = [
   new PolkadotjsWallet(),
   new NovaWallet(),
   new TalismanWallet(),
@@ -42,7 +29,7 @@ export const supportWallets = [
 export function getWalletBySource(
   source: string | unknown
 ): Wallet | undefined {
-  return supportWallets.find((wallet) => {
+  return SupportedWallets.find((wallet) => {
     return wallet.extensionName === source
   })
 }

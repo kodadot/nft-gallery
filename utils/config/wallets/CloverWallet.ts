@@ -1,4 +1,4 @@
-import { SupportWallet } from '@/utils/config/wallets'
+import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 
 export class CloverWallet extends BaseDotsamaWallet {
@@ -6,7 +6,7 @@ export class CloverWallet extends BaseDotsamaWallet {
   extensionName = 'clover'
   img = ''
   name = 'Clover'
-  source = SupportWallet.Clover
+  source = SupportWalletExtension.Clover
   walletUrl = 'https://clover.finance/'
   guideUrl = 'https://docs.clover.finance/quick-start/about-clover'
   isBrowserExtension = true

@@ -35,18 +35,6 @@
           </b-button>
         </div>
 
-        <!-- <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
-          <b-button
-            v-for="wallet in talismanSupportedWallets"
-            @click="setPluginWallet(wallet)"
-            :key="wallet.extensionName"
-            size="is-medium"
-            icon-right="chevron-right"
-            expanded>
-            {{ wallet.title }}
-          </b-button>
-        </div> -->
-
         <div
           class="buttons my-5"
           v-show="hasSelectedWalletProvider && !hasWalletProviderExtension">
@@ -85,8 +73,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { supportWallets, Wallet } from '@/utils/config/wallets'
-// import { getWallets } from '@talisman-connect/wallets'
+import { SupportedWallets, Wallet } from '@/utils/config/wallets'
 import { InjectedWindow } from '@polkadot/extension-inject/types'
 
 @Component({
@@ -102,7 +89,7 @@ export default class extends Vue {
   protected extensionUrl = ''
 
   set account(account: string) {
-    this.$emit('close') // it does work
+    this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
   }
 
@@ -111,7 +98,7 @@ export default class extends Vue {
   }
 
   get wallets() {
-    return supportWallets
+    return SupportedWallets
   }
 
   protected setWallet(wallet: Wallet): void {
@@ -131,7 +118,7 @@ export default class extends Vue {
       })
       console.log('you need to install wallet')
     } else {
-      // web3 wallet connect logic here & show accountSelect
+      // web3 wallet connect logic here & show accountSelect, async or not?
       // async () => {
       wallet.enable()
       wallet.subscribeAccounts((accounts) => {

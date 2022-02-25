@@ -14,7 +14,7 @@ const DAPP_NAME = 'Kodadot'
 export class BaseDotsamaWallet implements Wallet {
   img = ''
   name = ''
-  extensionName = '' // source SupportWallet
+  extensionName = '' // source SupportWalletExtensionn
   source = ''
   walletUrl = ''
   guideUrl = ''
