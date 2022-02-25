@@ -1,5 +1,6 @@
 import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
+import { SubWallet } from '~/utils/config/wallets/SubWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
 
 export enum SupportWalletExtension {
@@ -9,6 +10,7 @@ export enum SupportWalletExtension {
   Math = 'mathwallet',
   Ledger = 'ledger',
   Nova = 'nova',
+  SubWallet = 'subwallet-js',
   Talisman = 'talisman',
 }
 
@@ -17,12 +19,14 @@ export const SubstrateWallets = [
   SupportWalletExtension.Clover,
   SupportWalletExtension.Math,
   SupportWalletExtension.Nova,
+  SupportWalletExtension.SubWallet,
   SupportWalletExtension.Talisman,
 ]
 
 export const SupportedWallets = [
   new PolkadotjsWallet(),
   new NovaWallet(),
+  new SubWallet(),
   new TalismanWallet(),
 ]
 
