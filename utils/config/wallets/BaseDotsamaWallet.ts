@@ -57,15 +57,6 @@ export class BaseDotsamaWallet implements Wallet {
     return injectedExtension
   }
 
-  transformError = (err: Error): Error => {
-    if (err.message.includes('pending authorization request')) {
-      return new logError(err, (msg) =>
-        console.warn('[TRANSFORM] Unable to request authorization', msg)
-      )
-    }
-    return err
-  }
-
   enable = async () => {
     if (!this.installed) {
       return
@@ -86,9 +77,9 @@ export class BaseDotsamaWallet implements Wallet {
       }
 
       this._extension = extension
-      this._signer = extension?.signer
-      this._metadata = extension?.metadata
-      this._provider = extension?.provider
+      this._signer = extension.signer
+      this._metadata = extension.metadata
+      this._provider = extension.provider
     } catch (err) {
       logError(err, (msg) => console.warn('[ENABLE] Unable to enable :)', msg))
     }
@@ -96,7 +87,7 @@ export class BaseDotsamaWallet implements Wallet {
 
   subscribeAccounts = async (callback: SubscriptionFn) => {
     if (!this._extension) {
-      await this?.enable()
+      await this.enable()
     }
 
     if (!this._extension) {
@@ -124,7 +115,7 @@ export class BaseDotsamaWallet implements Wallet {
 
   getAccounts = async () => {
     if (!this._extension) {
-      await this?.enable()
+      await this.enable()
     }
 
     if (!this._extension) {
