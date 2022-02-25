@@ -20,16 +20,12 @@
           icon="search"
           open-on-focus
           clearable
-          max-height="450px"
+          max-height="550px"
           dropdown-position="is-bottom-left"
           expanded
-          @keydown.native.enter="searchResult"
-          @keydown.native.up="moveUp"
-          @keydown.native.down="moveDown"
-          @keydown.native.delete="makeInputDirty"
           @typing="updateSuggestion"
-          @select="updateSelected"
-          @input="makeInputDirty">
+          @keydown.native.enter="nativeSearch"
+          @select="updateSelected">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
               <div class="media">
@@ -136,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
@@ -192,12 +188,11 @@ export default class SearchBar extends mixins(
   private searchString = ''
   private name = ''
   private searched: NFT[] = []
-  private highlightPos = 0
   private rangeSlider = [0, 5]
-  private inputDirty = false
   private sliderDirty = false
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
+  private keyDownNativeEnterFlag = true
 
   public mounted(): void {
     this.getSearchHistory()
@@ -239,9 +234,6 @@ export default class SearchBar extends mixins(
   }
 
   set vListed(listed: boolean) {
-    if (this.inputDirty) {
-      this.searchResult()
-    }
     this.updateListed(listed)
   }
 
@@ -330,42 +322,17 @@ export default class SearchBar extends mixins(
   }
 
   insertNewHistory() {
+    for (const s of this.searched) {
+      if (s.name === this.searchString) {
+        return
+      }
+    }
     const newResult = {
       type: 'History',
       name: this.searchString,
     } as unknown as NFT
     this.searched.push(newResult)
     localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-  //Invoked when "enter" key is pressed
-  @Debounce(50)
-  searchResult() {
-    this.inputDirty = false
-    const offset = this.oldSearchResult(this.searchString) ? 0 : 1
-
-    //When an item from the autocomplete list is highlighted
-    if (this.highlightPos >= 0) {
-      const searchCache = this.filterSearch()
-      //Highlighted item is NFT or search result from cache
-      if (this.highlightPos == 0 && offset) {
-        this.insertNewHistory()
-        this.updateSearch(this.searchString)
-      } else if (this.highlightPos >= searchCache.length + offset) {
-        this.updateSelected(
-          this.nftResult[this.highlightPos - searchCache.length - offset]
-        )
-      } else this.updateSearch(searchCache[this.highlightPos - offset].name)
-    } else {
-      //Searching empty string
-      if (!this.searchString) return
-
-      //Current search string is not present in cache
-      if (offset) {
-        this.insertNewHistory()
-      }
-      this.updateSearch(this.searchString)
-    }
-    // this.searchString = ''
   }
 
   @Emit('update:type')
@@ -378,24 +345,34 @@ export default class SearchBar extends mixins(
   @Emit('update:sortBy')
   @Debounce(400)
   updateSortBy(value: string): string {
-    if (this.inputDirty) {
-      this.searchResult()
-    }
     this.replaceUrl(value, undefined, 'sort')
     return value
+  }
+
+  nativeSearch() {
+    this.keyDownNativeEnterFlag = true
+    setTimeout(() => {
+      if (this.keyDownNativeEnterFlag) {
+        this.updateSelected({
+          type: 'Search',
+          name: this.searchString,
+        })
+      }
+    }, 100) // it means no highlight and not highlight select
   }
 
   @Debounce(50)
   updateSelected(value: any) {
     //To handle clearing event
+    this.keyDownNativeEnterFlag = false
     if (!value) return
+
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
       this.insertNewHistory()
       this.updateSearch(value.name)
     } else if (value.__typename === 'NFTEntity') {
-      console.log('nftentity')
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
     } else if (value.__typename === 'CollectionEntity') {
       this.$router.push({
@@ -403,7 +380,6 @@ export default class SearchBar extends mixins(
         params: { id: value.id },
       })
     }
-    // this.searchString = ''
   }
 
   @Emit('update:search')
@@ -413,19 +389,6 @@ export default class SearchBar extends mixins(
     return value
   }
 
-  moveUp() {
-    this.highlightPos = Math.max(0, this.highlightPos - 1)
-  }
-
-  moveDown() {
-    const l =
-      this.nftResult.length +
-      this.filterSearch().length +
-      (1 - Number(this.oldSearchResult(this.name))) -
-      1
-    this.highlightPos = Math.min(l, this.highlightPos + 1)
-  }
-
   @Debounce(50)
   updateSuggestion(value: string) {
     this.searchString = value
@@ -433,7 +396,6 @@ export default class SearchBar extends mixins(
     if (!value) return
 
     this.query.search = value
-    this.highlightPos = -1
     this.searchSuggestionEachTypeMaxNum = 3
 
     this.$apollo
@@ -616,11 +578,6 @@ export default class SearchBar extends mixins(
   @Debounce(50)
   private sliderChangeMax(max: number): void {
     this.query.priceMax = max
-  }
-  private makeInputDirty() {
-    if (!this.inputDirty) {
-      return (this.inputDirty = true)
-    }
   }
 }
 </script>
