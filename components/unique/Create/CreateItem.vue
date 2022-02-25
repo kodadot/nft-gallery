@@ -6,16 +6,16 @@
       expanded
       preview />
 
-    <b-field grouped :label="$i18n.t('Name')">
+    <b-field grouped :label="$t('Name')">
       <b-input
         v-model="vName"
         placeholder="Name your NFT"
         expanded
         class="mr-0"
         spellcheck="true" />
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.name')" />
+      <Tooltip iconsize="is-medium" :label="$t('tooltip.name')" />
     </b-field>
-    <b-field :label="$i18n.t('nft.description')" class="mb-0">
+    <b-field :label="$t('nft.description')" class="mb-0">
       <b-input
         v-model="vDescription"
         maxlength="500"
@@ -23,14 +23,14 @@
         placeholder="Describe your NFT"
         spellcheck="true" />
     </b-field>
-    <b-field grouped :label="$i18n.t('Edition')">
+    <b-field grouped :label="$t('Edition')">
       <b-numberinput
         v-model="vEdition"
         placeholder="1 is minumum"
         expanded
         :min="1"
         :max="clickableMax" />
-      <Tooltip iconsize="is-medium" :label="$i18n.t('tooltip.edition')" />
+      <Tooltip iconsize="is-medium" :label="$t('tooltip.edition')" />
     </b-field>
     <MetadataUpload
       v-if="secondaryFileVisible"
