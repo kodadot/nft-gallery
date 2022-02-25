@@ -102,7 +102,7 @@ export default class extends Vue {
   protected extensionUrl = ''
 
   set account(account: string) {
-    // this.$parent.close() // it does work
+    this.$emit('close') // it does work
     this.$store.dispatch('setAuth', { address: account })
   }
 
