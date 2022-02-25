@@ -22,7 +22,7 @@
         <div class="buttons my-5" v-show="!hasSelectedWalletProvider">
           <b-button
             v-for="(wallet, index) in wallets"
-            @click="setWallet(wallet.source)"
+            @click="setWallet(wallet)"
             :key="index"
             size="is-medium"
             icon-right="chevron-right"
@@ -86,7 +86,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { supportWallets, Wallet } from '@/utils/config/wallets'
-import { getWallets } from '@talisman-connect/wallets'
+// import { getWallets } from '@talisman-connect/wallets'
+import { InjectedWindow } from '@polkadot/extension-inject/types'
 
 @Component({
   components: {
@@ -113,44 +114,30 @@ export default class extends Vue {
     return supportWallets
   }
 
-  get talismanSupportedWallets() {
-    return getWallets()
-  }
-
-  protected async setPluginWallet(wallet: any): Promise<void> {
-    console.log(wallet)
-    try {
-      await wallet.enable('kodadot')
-      const unsubscribe = await wallet.subscribeAccounts((accounts: any[]) => {
-        // Save accounts...
-        // Also save the selected wallet name as well...
-        console.log(accounts)
-      })
-    } catch (err) {
-      // Handle error. Refer to `libs/wallets/src/lib/errors`
-    }
-  }
-
-  protected setWallet(source: string): void {
+  protected setWallet(wallet: Wallet): void {
     this.hasSelectedWalletProvider = true
+    const injectedWindow = window as Window & InjectedWindow
+    console.log(injectedWindow?.injectedWeb3)
 
-    if (!(window as any).injectedWeb3[source]) {
+    if (!wallet.installed) {
       this.hasWalletProviderExtension = false
+      this.guideUrl = wallet.guideUrl
+      this.extensionUrl = wallet.walletUrl
       this.$buefy.notification.open({
         duration: 5500,
-        message: `You need to install the - ${source} - browser extension`,
+        message: `You need to install the - ${wallet.source} - browser extension`,
         type: 'is-info',
         hasIcon: true,
       })
-      const selectedWallet = supportWallets.find(
-        (w: Wallet) => w.source === source
-      )
-      if (selectedWallet) {
-        this.guideUrl = selectedWallet.guideUrl
-        this.extensionUrl = selectedWallet.walletUrl
-      }
+      console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect
+      // async () => {
+      wallet.enable()
+      wallet.subscribeAccounts((accounts) => {
+        console.log(accounts)
+      })
+      // }
       this.hasWalletProviderExtension = true
     }
   }

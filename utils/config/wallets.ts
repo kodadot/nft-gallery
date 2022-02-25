@@ -1,3 +1,7 @@
+import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
+import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
+import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
+
 export enum SupportWallet {
   PolkadotJs = 'polkadot-js',
   MetaMask = 'metamask',
@@ -29,86 +33,76 @@ export const SubstrateWallets = [
   SupportWallet.Talisman,
 ]
 
-export interface Wallet {
-  img: any
+export const supportWallets = [
+  new PolkadotjsWallet(),
+  new NovaWallet(),
+  new TalismanWallet(),
+]
+
+export function getWalletBySource(
+  source: string | unknown
+): Wallet | undefined {
+  return supportWallets.find((wallet) => {
+    return wallet.extensionName === source
+  })
+}
+
+export function isWalletInstalled(source: string | unknown): boolean {
+  const wallet = getWalletBySource(source)
+  return wallet?.installed as boolean
+}
+
+export type SubscriptionFn = (
+  accounts: WalletAccount[] | undefined
+) => void | Promise<void>
+
+export interface WalletAccount {
+  address: string
+  source: string
+  name?: string
+  wallet?: Wallet
+  signer?: unknown
+}
+
+interface WalletData {
+  extensionName: string
+  source: string
   name: string
-  source: SupportWallet
   walletUrl: string
   guideUrl: string
-  isSupportBrowserExtension: boolean
-  isSupportMobileApp: boolean
+  img: string
+  isBrowserExtension: boolean
+  isMobileApp: boolean
 }
 
-export const supportWalletObj = {
-  [SupportWallet.PolkadotJs]: {
-    img: require('@/assets/partners/logo-polkadot-js.png'),
-    name: 'Polkadot.js',
-    source: SupportWallet.PolkadotJs,
-    walletUrl: 'https://polkadot.js.org/extension/',
-    guideUrl: 'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
-    isSupportBrowserExtension: true,
-    isSupportMobileApp: false,
-  },
-  // [SupportWallet.MetaMask]: {
-  //   img: require('@/assets/partners/metamask.png'),
-  //   name: 'MetaMask',
-  //   source: SupportWallet.MetaMask,
-  //   walletUrl: 'https://metamask.io/',
-  //   guideUrl: 'https://metamask.io/',
-  //   isSupportBrowserExtension: true,
-  //   isSupportMobileApp: true,
-  // },
-  [SupportWallet.Clover]: {
-    img: require('@/assets/partners/logo-clover.png'),
-    name: 'Clover',
-    source: SupportWallet.Clover,
-    walletUrl: 'https://clover.finance/',
-    guideUrl: 'https://docs.clover.finance/quick-start/about-clover',
-    isSupportBrowserExtension: true,
-    isSupportMobileApp: false,
-  },
-  [SupportWallet.Ledger]: {
-    img: require('@/assets/partners/logo-ledger.svg'),
-    name: 'Ledger',
-    source: SupportWallet.Ledger,
-    walletUrl: 'https://www.ledger.com/ledger-live',
-    guideUrl: 'https://www.ledger.com/ledger-live',
-    isSupportBrowserExtension: false,
-    isSupportMobileApp: false,
-  },
-  [SupportWallet.Math]: {
-    img: require('@/assets/partners/logo-mathwallet.png'),
-    name: 'Math Wallet',
-    source: SupportWallet.Math,
-    walletUrl: 'https://mathwallet.org/en-us/',
-    guideUrl: 'https://blog.mathwallet.org/?p=540',
-    isSupportBrowserExtension: true,
-    isSupportMobileApp: true,
-  },
-  [SupportWallet.Nova]: {
-    img: require('@/assets/partners/logo-nova.png'),
-    name: 'Nova Wallet',
-    source: SupportWallet.Nova,
-    walletUrl: 'https://novawallet.io/',
-    guideUrl: 'https://novawallet.io/',
-    isSupportBrowserExtension: false,
-    isSupportMobileApp: true,
-  },
-  [SupportWallet.Talisman]: {
-    img: require('@/assets/partners/logo-talisman.svg'),
-    name: 'Talisman',
-    source: SupportWallet.Talisman,
-    walletUrl: 'https://app.talisman.xyz/spiritkeys',
-    guideUrl: 'https://app.talisman.xyz/',
-    isSupportBrowserExtension: true,
-    isSupportMobileApp: false,
-  },
+interface WalletExtension {
+  installed: boolean | undefined
+
+  // The raw extension object which will have everything a dapp developer needs.
+  // Refer to a specific wallet's extension documentation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  extension: any
+
+  // The raw signer object for convenience. Usually the implementer can derive this from the extension object.
+  // Refer to a specific wallet's extension documentation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  signer: any
 }
 
-export const objToArray = (obj: any): any[] => {
-  const keys = Object.keys(obj)
-  const array = keys.map((k) => obj[k])
-  return array
+interface Signer {
+  // Sign function
+  sign?: (address: string, payload: string) => unknown
 }
 
-export const supportWallets = objToArray(supportWalletObj) as Wallet[]
+interface Connector {
+  enable: () => unknown
+
+  // The subscribe to accounts function
+  subscribeAccounts: (callback: SubscriptionFn) => unknown
+}
+
+export interface Wallet
+  extends WalletData,
+    WalletExtension,
+    Connector,
+    Signer {}
