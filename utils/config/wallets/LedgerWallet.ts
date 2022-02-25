@@ -2,9 +2,8 @@ import { SupportWalletExtension } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 
 export class LedgerWallet extends BaseDotsamaWallet {
-  // img: require('@/assets/partners/logo-nova.png'),
+  img = require('@/assets/partners/logo-ledger.svg')
   extensionName = 'ledger'
-  img = ''
   name = 'Ledger'
   source = SupportWalletExtension.Ledger
   walletUrl = 'https://www.ledger.com/ledger-live'
