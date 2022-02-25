@@ -19,11 +19,16 @@
             "
             class="image-preview has-text-centered"
             :class="{ fullscreen: isFullScreenView }">
-            <img v-if="isFullScreenView" :src="image" :alt="description" />
+            <img
+              v-if="isFullScreenView"
+              :src="image"
+              :alt="description"
+              @contextmenu.prevent />
             <BasicImage
               v-else-if="imageVisible"
               :src="image"
-              :alt="description" />
+              :alt="description"
+              @contextmenu.native.prevent />
             <div
               v-else
               class="media-container is-flex is-justify-content-center">
