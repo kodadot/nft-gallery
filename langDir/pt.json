@@ -16,7 +16,7 @@
   "Profile": "Perfil",
   "settings": "Configurações",
   "Settings": "Configurações",
-  "first NFT market explorer on Kusama and Polkadot": "primeiro explorador de mercado de NFT na Kusama e Polkadot",
+  "first NFT market explorer on Kusama and Polkadot": "primeiro explorador de mercado de NFTs na Kusama e Polkadot",
   "legend": "Legenda",
   "collection": "Coleção",
   "Collection": "Coleção",
@@ -35,7 +35,7 @@
   "Symbol you want to trade it under": "Símbolo que você gostaria de negociar",
   "Describe your collection, it will show under collection view": "Descreva sua coleção, isso irá aparecer abaixo da visão da coleção",
   "Add collection cover which will show up at collection view": "Adicionar capa de coleção que irá mostrar na visão da coleção",
-  "Select collection where do you want mint your token": "Selecione a coleção onde deseja cunhar/'mintar' o seu token",
+  "Select collection where do you want mint your token": "Selecione a coleção onde deseja cunhar o seu token",
   "Maximum NFTs in collection": "Máximo de NFTs na coleção",
   "Account": "Conta",
   "Name": "Nome",
@@ -47,7 +47,7 @@
   "See More": "Veja mais",
   "Latest sales": "Últimas vendas",
   "Add Token": "Adicionar Token",
-  "Mint": "\"Mintar\"",
+  "Mint": "Cunhar",
   "Transferable is by default": "Transferível está ativo por padrão",
   "Serial Number": "Número de Série",
   "Name of your token": "Nome do seu token",
@@ -81,7 +81,7 @@
     "q": {
       "1": "O que são NFTs?",
       "2": "O que é cunhagem?",
-      "3": "Como eu posso cunhar/'mintar' NFTs?",
+      "3": "Como eu posso cunhar NFTs?",
       "4": "Qual é o processo quando eu sou um criador de NFT?",
       "5": "Como eu posso vender KSM obtido com a minha arte?",
       "6": "Como eu posso obter KSM como um novato?",
@@ -89,7 +89,7 @@
       "8": "Como eu posso comprar KSM com ETH, DAI, BTC?",
       "9": "Eu estou recebendo erros. Como eu posso resolvê-los?",
       "10": "O que significa SEND, CONSUME, LIST?",
-      "11": "Eu cunhei/'mintei' um NFT, mas eu não vejo ele na galeria, onde está?",
+      "11": "Eu cunhei um NFT, mas eu não vejo ele na galeria, onde está?",
       "12": "Existe outro jeito para obter uma pequena quantia de KSM?",
       "13": "Como eu posso vender meu NFT?",
       "14": "Royalties streams settings?",
@@ -112,14 +112,14 @@
         "m": "NFTs ou tokens não fungiveis referem-se à ativos únicos, que são armazenados na blockchain e preservam a propriedade unica. @.md:faq.a.1.l1",
         "l1": "[Você pode encontrar mais sobre Tokens Não Fungíveis na Wikipedia](@.common:links.wikipedia.nft)"      },
       "2": {
-        "m": "Cunhagem/\"Mintagem\" é um processo no qual sua carteira de criptomoedas e a blockchain comunicam-se juntas para que você possa criar NFTs."
+        "m": "Cunhagem é um processo no qual sua carteira de criptomoedas e a blockchain comunicam-se juntas para que você possa criar NFTs."
       },
       "3": {
-        "m": "No canto superior esquerdo, você clica em @.md:faq.a.3.l1 e escolhe mintar/cunhar de forma <b>Simples</b> ou <b>Clássica</b>.",
+        "m": "No canto superior esquerdo, você clica em @.md:faq.a.3.l1 e escolhe cunhar de forma <b>Simples</b> ou <b>Clássica</b>.",
         "l1": "[Create](@.common:links.rmrk_create.href)"
       },
       "4": {
-        "m": "Primeiramente, você precisa instalar @.md:faq.a.4.l1, <b>faça o backup da sua seed</b>. Então você pode depositar no seu endereço de carteira @.md:faq.a.4.l2 ou usar nosso @.md:faq.a.4.l3 recurso. Uma vez que você obteve os fundos, dirija-se à @.md:faq.a.4.l4, escolha Coleção. Aguarde até que a Coleção seja cunhada/\"mintada\", então você pode ir para @.md:faq.a.4.l5 e cunhar seu primeiro token! Sinta-se à vontade para compartilhar ele com a gente no nosso @.md:faq.a.4.l6",
+        "m": "Primeiramente, você precisa instalar @.md:faq.a.4.l1, <b>faça o backup da sua seed</b>. Então você pode depositar no seu endereço de carteira @.md:faq.a.4.l2 ou usar nosso @.md:faq.a.4.l3 recurso. Uma vez que você obteve os fundos, dirija-se à @.md:faq.a.4.l4, escolha Coleção. Aguarde até que a Coleção seja cunhada, então você pode ir para @.md:faq.a.4.l5 e cunhar seu primeiro token! Sinta-se à vontade para compartilhar ele com a gente no nosso @.md:faq.a.4.l6",
         "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
         "l2": "[here](@.common:links.rmrk_credit.href)",
         "l3": "[grant](@.common:links.artist_grant_program.href)",
@@ -163,7 +163,7 @@
         "l2": "[Você pode achar exemplos de como NFTs mintados/cunhados aparecem através do explorador, quando você olha em extrinsics](@.common:links.kusama_scanner.extrinsic.href)"
       },
       "12": {
-        "m": "Sim, se o problema por exemplo é problematico para você sacar de uma exchange ou usar um fiat-onramp, você pode visitar nosso discord e pedir por uma pequena quantia de KSM no canal @.md:faq.a.12.l1 em nosso discord ou peça por @.md:faq.a.12.l2 para cobrir os custos de mint.",
+        "m": "Sim, se o problema por exemplo é problematico para você sacar de uma exchange ou usar um fiat-onramp, você pode visitar nosso discord e pedir por uma pequena quantia de KSM no canal @.md:faq.a.12.l1 em nosso discord ou peça por @.md:faq.a.12.l2 para cobrir os custos de cunhagem.",
         "l1": "[help](@.common:links.kodadot_social.discord_help.href)",
         "l2": "[grant](@.common:links.artist_grant_program.href)"
       },
@@ -381,11 +381,11 @@
     "estimate": "Mostrar as taxas de transação",
     "estimated": "Taxas de transação custarão cerca de",
     "success": "Parabéns para o seu novo NFT(s)",
-    "shareWithFriends": "Share {0} with your friends",
+    "shareWithFriends": "Compartilhe {0} com seus amigos",
     "unlimited": "Itens ilimitados na sua coleção",
     "nfsw": "Conteúdo explicito (NSFW)",
     "mass": "Cunhagem em massa de NFTs",
-    "command": "Lista de comandos para cunhagem em massaList of commands for mass mint",
+    "command": "Lista de comandos para cunhagem em massa",
     "transform": "Transformar comandos em NFT",
     "deposit": "Deposito atual",
     "expert": {
@@ -427,7 +427,7 @@
       "edition": {
         "label": "Edição",
         "placeholder": "Mínimo é 1",
-        "message": "Número de NFTs a serem mintados/cunhados"
+        "message": "Número de NFTs a serem cunhados"
       }
     }
   },
@@ -450,11 +450,11 @@
     "name": "Nomeie seu NFT",
     "frozen": "NFT está congelado",
     "event": {
-      "MINTNFT": "🖼  'MINTADO'",
+      "MINTNFT": "🖼  'CUNHAR'",
       "LIST": "📰  LISTAR",
-      "SEND": "🎁  PRESENTE",
-      "CONSUME": "🔥 QUEIMA",
-      "BUY": "🤝  COMPRA"
+      "SEND": "🎁  PRESENTEAR",
+      "CONSUME": "🔥 QUEIMAR",
+      "BUY": "🤝  COMPRAR"
     }
   },
   "loader": {
@@ -575,7 +575,7 @@
     "tutorial": {
       "basic": {
         "title": "Cunhagem em massa básica",
-        "description": "Esse é a mintagem/cunhagem básica, isso irá criar NFTs com o mesmo símbolo e nome, mas diferentes quantidades. Isso também irá criar valores diferentes de NFTs com o mesmo símbolo e nome, mas diferente quantia."
+        "description": "Esse é a cunhagem básica, isso irá criar NFTs com o mesmo símbolo e nome, mas diferentes quantidades. Isso também irá criar valores diferentes de NFTs com o mesmo símbolo e nome, mas diferente quantia."
       },
       "range": {
         "title": "Alcance da cunhagem em massa",
