@@ -255,12 +255,13 @@
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
 import { columns } from './utils'
-import collectionSeriesList from '@/queries/rmrk/subsquid/collectionSeriesList.graphql'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { NFTMetadata } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { toSort } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -295,18 +296,17 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 
   public async fetchCollectionsSeries(
     limit = 10,
-    sort: SortType = this.sortBy
+    sort: string = toSort(this.sortBy)
   ) {
     this.isLoading = true
     const collections = await this.$apollo.query({
-      query: collectionSeriesList,
+      query: seriesInsightList,
       client: 'subsquid',
       variables: {
         // denyList, not yet
         limit,
         offset: 0,
-        orderBy: sort.field,
-        orderDirection: sort.value,
+        orderBy: sort || 'volume_DESC',
       },
     })
 
@@ -339,7 +339,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         },
       })
       .catch((e) => console.warn(e))
-    this.fetchCollectionsSeries(Number(this.nbRows), sort)
+    this.fetchCollectionsSeries(Number(this.nbRows), toSort(sort))
   }
 
   @Watch('nbRows')
