@@ -101,6 +101,16 @@
           outlined>
           {{ $t('Copy Payment link') }}
         </b-button>
+        <b-button
+          v-if="accountId"
+          type="is-success"
+          icon-left="money-bill"
+          :loading="isLoading"
+          @click="toast('Your payout link copied to clipboard')"
+          v-clipboard:copy="generateSelfPaymentLink()"
+          outlined>
+          {{ $t('Payout to my address') }}
+        </b-button>
       </div>
       <div v-if="transactionValue && this.$route.query.donation">
         <div class="is-size-5">
@@ -328,6 +338,10 @@ export default class Transfer extends mixins(
 
   protected generatePaymentLink(): string {
     return `${window.location.origin}/transfer?target=${this.destinationAddress}&usdamount=${this.usdValue}&donation=true`
+  }
+
+  protected generateSelfPaymentLink(): string {
+    return `${window.location.origin}/transfer?target=${this.accountId}&usdamount=${this.usdValue}&donation=true`
   }
 
   protected shareInTweet() {
