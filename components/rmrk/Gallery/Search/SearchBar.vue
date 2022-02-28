@@ -266,13 +266,13 @@ export default class SearchBar extends mixins(
     const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
 
     // whether show Search
-    const currentSearchNameInHistorySearch = this.oldSearchResult(this.name)
-    if (!currentSearchNameInHistorySearch && this.name) {
-      suggestions.push({
-        type: 'Search',
-        item: [{ type: 'Search', name: this.name }],
-      })
-    }
+    // const currentSearchNameInHistorySearch = this.oldSearchResult(this.name)
+    // if (!currentSearchNameInHistorySearch && this.name) {
+    //   suggestions.push({
+    //     type: 'Search',
+    //     item: [{ type: 'Search', name: this.name }],
+    //   })
+    // }
 
     // whether show History
     if (this.filterSearch().length > 0) {
