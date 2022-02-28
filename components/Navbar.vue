@@ -15,7 +15,7 @@
     </template>
     <template #start>
       <Search
-        v-if="!mobileExplorer"
+        v-if="!mobileGallery"
         :class="{ 'nav-search-shrink': !showNavbar }"
         hideFilter
         class="search-navbar"
@@ -94,20 +94,18 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  public mobileExplorer = false
-  private isExplorer: boolean =
-    this.$route.path == '/rmrk/collections' ||
-    this.$route.path == '/rmrk/gallery'
+  public mobileGallery = false
+  private isGallery: boolean = this.$route.path == '/rmrk/gallery'
 
   created() {
-    if (this.isExplorer) {
+    if (this.isGallery) {
       window.addEventListener('resize', this.onResize)
-      return (this.mobileExplorer = window.innerWidth <= 1023)
+      return (this.mobileGallery = window.innerWidth <= 1023)
     }
   }
 
   private onResize(e) {
-    return (this.mobileExplorer = window.innerWidth <= 1023)
+    return (this.mobileGallery = window.innerWidth <= 1023)
   }
 
   private showNavbar = true
@@ -144,7 +142,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 </script>
 
 <style lang="scss">
-@import '@/styles/variables';
+@import '~@/styles/variables';
 
 @media (min-width: 1024px) {
   .navbar-shrink {
