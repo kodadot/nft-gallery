@@ -1,5 +1,12 @@
 <template>
   <div class="card mb-3 mt-5">
+    <div class="row" v-if="!isVisible && !hideSearchInput">
+      <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
+      <div v-if="sliderDirty" class="is-size-7">
+        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+        {{ this.query.priceMax / 1000000000000 }}
+      </div>
+    </div>
     <div class="columns mb-0">
       <b-field class="column is-6 mb-0" :class="searchColumnClass">
         <b-button
@@ -81,11 +88,9 @@
             </div>
           </template>
         </b-autocomplete>
-        <div
-          v-if="searchQuery"
-          :class="{ 'ml-4': true, 'is-size-4': isVisible || !sliderDirty }">
-          <div>Showing results for {{ searchQuery }}</div>
-          <div v-if="!isVisible && sliderDirty" class="is-size-7">
+        <div v-if="!isVisible && hideSearchInput">
+          <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
+          <div v-if="sliderDirty" class="is-size-7">
             Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
             {{ this.query.priceMax / 1000000000000 }}
           </div>
@@ -129,10 +134,11 @@
         ticks
         @change="sliderChange">
       </b-slider>
-      <span v-if="sliderDirty"
-        >Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
-        {{ this.query.priceMax / 1000000000000 }}</span
-      >
+      <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
+      <div v-if="sliderDirty" class="is-size-7">
+        Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
+        {{ this.query.priceMax / 1000000000000 }}
+      </div>
     </b-collapse>
   </div>
 </template>
