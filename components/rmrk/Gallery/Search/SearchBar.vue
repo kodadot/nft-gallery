@@ -285,6 +285,17 @@ export default class SearchBar extends mixins(
       })
     }
 
+    // whether show Collection Item
+    if (this.collectionResult.length > 0) {
+      suggestions.push({
+        type: 'Collections',
+        item:
+          this.collectionResult.length > eachTypeMaxNum
+            ? this.collectionResult.slice(0, eachTypeMaxNum)
+            : this.collectionResult,
+      })
+    }
+
     // whether show NFT Item
     if (this.nftResult.length > 0) {
       suggestions.push({
@@ -296,16 +307,6 @@ export default class SearchBar extends mixins(
       })
     }
 
-    // whether show Collection Item
-    if (this.collectionResult.length > 0) {
-      suggestions.push({
-        type: 'Collections',
-        item:
-          this.collectionResult.length > eachTypeMaxNum
-            ? this.collectionResult.slice(0, eachTypeMaxNum)
-            : this.collectionResult,
-      })
-    }
     return suggestions
   }
 
@@ -349,6 +350,7 @@ export default class SearchBar extends mixins(
     return value
   }
 
+  // not highlight search, just input keyword and enter
   nativeSearch() {
     this.keyDownNativeEnterFlag = true
     setTimeout(() => {
@@ -389,6 +391,7 @@ export default class SearchBar extends mixins(
     return value
   }
 
+  // when user type some keyword, frontEnd will query related information
   @Debounce(50)
   updateSuggestion(value: string) {
     this.searchString = value
