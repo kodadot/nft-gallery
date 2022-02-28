@@ -52,7 +52,7 @@
             :message="$t('mint.nft.description.message')"
             :placeholder="$t('mint.nft.description.placeholder')" />
 
-          <b-field :label="$i18n.t('Edition')" class="mt-5">
+          <b-field :label="$t('Edition')" class="mt-5">
             <b-numberinput
               v-model="rmrkMint.max"
               placeholder="1 is minumum"
@@ -98,7 +98,7 @@
               <p class="sub-title is-6 has-text-warning" v-show="syncVisible">
                 {{ $t('mint.expert.countGlitch', [parseAddresses.length]) }}
               </p>
-              <b-field :label="$i18n.t('mint.expert.batchSend')">
+              <b-field :label="$t('mint.expert.batchSend')">
                 <b-input
                   v-model="batchAdresses"
                   type="textarea"

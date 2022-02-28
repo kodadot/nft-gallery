@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'nuxt-property-decorator'
-import i18n from '@/utils/config/i18n'
 
 @Component({})
 export default class FrequentlyAsked extends Vue {
@@ -46,11 +45,10 @@ export default class FrequentlyAsked extends Vue {
 
   @Watch('$i18n.locale', { immediate: true, deep: true })
   public i18nLoadQandA(): any {
-    i18n.locale = this.$i18n.locale
     let i: number
     const qa: any = []
     for (i = 1; i < 28; i++) {
-      qa.push([i18n.t(`faq.q.${i}`), i18n.t(`faq.a.${i}.m`)])
+      qa.push([this.$t(`faq.q.${i}`), this.$t(`faq.a.${i}.m`)])
     }
     this.faqQuestionsAnswers = qa
   }
