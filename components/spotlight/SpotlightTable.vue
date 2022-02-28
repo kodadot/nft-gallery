@@ -142,7 +142,6 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
-import { columns } from './utils'
 import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
@@ -170,11 +169,28 @@ export default class SpotlightTable extends mixins(
 ) {
   @Prop() public value!: any
   protected data: Row[] = []
-  protected columns: Column[] = columns
   protected usersWithIdentity: Row[] = []
   protected toggleUsersWithIdentity = false
   protected currentPage = 0
   protected sortBy = { field: 'sold', value: 'DESC' }
+  protected columns: Column[] = [
+    { field: 'id', label: this.$t('spotlight.id') },
+    { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
+    { field: 'unique', label: this.$t('spotlight.unique'), numeric: true },
+    { field: 'total', label: this.$t('spotlight.total'), numeric: true },
+    {
+      field: 'averagePrice',
+      label: this.$t('spotlight.averagePrice'),
+      numeric: true,
+    },
+    { field: 'count', label: this.$t('spotlight.count'), numeric: true },
+    {
+      field: 'collectors',
+      label: this.$t('spotlight.collectors'),
+      numeric: true,
+    },
+    { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
+  ]
 
   async created() {
     await this.fetchSpotlightData()

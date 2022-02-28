@@ -13,6 +13,11 @@
         <b-table :data="data['filters']" :columns="filterColumns"></b-table>
       </div>
     </template>
+    <template #hint>
+      <p class="box has-text-right is-size-7">
+        press <b-tag type="is-primary" rounded>?</b-tag> to open shortcuts menu
+      </p>
+    </template>
   </ModalWrapper>
 </template>
 
