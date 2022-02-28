@@ -1,23 +1,8 @@
-import i18n from '@/utils/config/i18n'
-import { Column, RowSeries, SimpleSeriesNFT } from './types'
+import { RowSeries, SimpleSeriesNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
 import { startOfToday, subDays } from 'date-fns'
-
-export const columns: Column[] = [
-  { field: 'id', label: i18n.t('spotlight.id') },
-  { field: 'rank', label: i18n.t('spotlight.score'), numeric: true },
-  { field: 'unique', label: i18n.t('spotlight.unique'), numeric: true },
-  { field: 'averagePrice', label: 'Floor price', numeric: true },
-  { field: 'sold', label: i18n.t('spotlight.sold'), numeric: true },
-  {
-    field: 'uniqueCollectors',
-    label: i18n.t('spotlight.unique'),
-    numeric: true,
-  },
-  { field: 'total', label: i18n.t('spotlight.total'), numeric: true },
-]
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!

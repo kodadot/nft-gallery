@@ -115,7 +115,8 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
-import nftListByCollection from '@/queries/nftListByCollection.graphql'
+import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
@@ -125,6 +126,8 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import { mapDecimals } from '@/utils/mappers'
 
 const components = {
   GalleryCardList: () =>
@@ -166,9 +169,13 @@ export default class CollectionItem extends mixins(
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
-  protected priceData: any = []
+  protected priceData: [ChartData[], ChartData[]] | [] = []
   private statsLoaded = false
   private queryLoading = 0
+
+  get hasChartData(): boolean {
+    return this.priceData.length > 0
+  }
 
   get isLoading(): boolean {
     return Boolean(this.queryLoading)
@@ -270,45 +277,51 @@ export default class CollectionItem extends mixins(
     })
   }
 
-  public loadStats(): void {
-    const nftStatsP = this.$apollo.query({
-      query: nftListByCollection,
-      client: this.urlPrefix,
+  protected async loadStats(): Promise<void> {
+    const { data } = await this.$apollo.query<{
+      buys: ChartData[]
+      listings: ChartData[]
+    }>({
+      query: collectionChartById,
+      client: 'subsquid',
       variables: {
         id: this.id,
       },
     })
 
-    nftStatsP
-      .then(({ data }) => data?.nFTEntities?.nodes || [])
-      .then((nfts) => {
-        this.stats = nfts
-        this.statsLoaded = true
-        this.loadPriceData()
-      })
+    if (!data) {
+      return
+    }
+    // console.log(data.collection.nfts.nodes)
+
+    // const events: Interaction[][] =
+    //   data.collection.nfts.nodes.map((nft) => nft.events) || []
+
+    this.loadPriceData(data)
   }
 
-  public loadPriceData(): void {
+  public loadPriceData({
+    buys,
+    listings,
+  }: {
+    buys: ChartData[]
+    listings: ChartData[]
+  }): void {
     this.priceData = []
 
-    const events: Interaction[][] = this.stats?.map(onlyEvents) || []
-    const priceEvents: Interaction[][] = events.map(this.priceEvents) || []
+    const mapToDecimals = mapDecimals(this.decimals, false)
+    const soldPriceData = buys.map((buy) => ({
+      ...buy,
+      value: mapToDecimals(buy.value),
+      average: mapToDecimals(buy.average || 0),
+    }))
 
-    const overTime: string[] = priceEvents
-      .flat()
-      .sort(sortByTimeStamp)
-      .map(eventTimestamp)
+    const listedPriceData = listings.map((listing) => ({
+      ...listing,
+      value: mapToDecimals(listing.value),
+    }))
 
-    const floorPriceData: PriceDataType[] = overTime.map(
-      collectionFloorPriceList(priceEvents, this.decimals)
-    )
-
-    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
-    const soldPriceData: PriceDataType[] = buyEvents?.map(
-      soldNFTPrice(this.decimals)
-    )
-
-    this.priceData = [floorPriceData, soldPriceData]
+    this.priceData = [listedPriceData, soldPriceData]
   }
 
   public async handleResult({ data }: any): Promise<void> {
@@ -370,7 +383,7 @@ export default class CollectionItem extends mixins(
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity' && !this.statsLoaded) {
+    if (val === 'activity') {
       this.loadStats()
     }
   }

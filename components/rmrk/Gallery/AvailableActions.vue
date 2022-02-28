@@ -25,9 +25,7 @@
         </b-button>
       </template>
       <template v-else>
-        <b-tooltip
-          :active="buyDisabled"
-          :label="$i18n.t('tooltip.buyDisabled')">
+        <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
             :type="iconType('BUY')[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
