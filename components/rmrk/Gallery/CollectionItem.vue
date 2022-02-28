@@ -124,8 +124,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { formatDistanceToNow } from 'date-fns'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 
 const components = {
   GalleryCardList: () =>
@@ -147,7 +146,11 @@ const components = {
 @Component<CollectionItem>({
   components,
 })
-export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
+export default class CollectionItem extends mixins(
+  ChainMixin,
+  PrefixMixin,
+  CreatedAtMixin
+) {
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
@@ -166,7 +169,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   protected priceData: any = []
   private statsLoaded = false
   private queryLoading = 0
-  protected firstMintDate = new Date()
 
   get isLoading(): boolean {
     return Boolean(this.queryLoading)
@@ -202,12 +204,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   get compactCollection(): boolean {
     return this.$store.getters['preferences/getCompactCollection']
-  }
-
-  get formattedTimeToNow() {
-    return this.firstMintDate
-      ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true })
-      : ''
   }
 
   get showMintTime(): boolean {
@@ -254,10 +250,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     })
   }
 
-  public async mounted() {
-    await this.fetchNFTStats()
-  }
-
   public async checkIfEmptyListed(): Promise<void> {
     // if the collection is empty, we need to check if there are any listed NFTs
     this.$apollo.addSmartQuery('totalListed', {
@@ -276,31 +268,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         }
       },
     })
-  }
-
-  protected async fetchNFTStats() {
-    try {
-      const query =
-        this.urlPrefix === 'rmrk'
-          ? await import('@/queries/nftStatsByIssuer.graphql')
-          : await import('@/queries/unique/nftStatsByIssuer.graphql')
-      this.$apollo.addSmartQuery('collections', {
-        query: query.default,
-        manual: true,
-        client: this.urlPrefix,
-        loadingKey: 'isLoading',
-        result: this.handleMintTimeResult,
-        variables: () => {
-          return {
-            account: this.issuer || '',
-          }
-        },
-        fetchPolicy: 'cache-and-network',
-      })
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
-    }
   }
 
   public loadStats(): void {
@@ -344,18 +311,13 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     this.priceData = [floorPriceData, soldPriceData]
   }
 
-  public async handleMintTimeResult({ data }: any): Promise<void> {
-    if (data?.firstMint?.nodes.length > 0) {
-      this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
-    }
-  }
-
   public async handleResult({ data }: any): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
       this.$router.push({ name: 'errorcollection' })
       return
     }
+    this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
     ).catch(console.warn)
