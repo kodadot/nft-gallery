@@ -254,7 +254,6 @@
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Column, RowSeries, SortType } from './types'
-import { columns } from './utils'
 import collectionSeriesList from '@/queries/rmrk/subsquid/collectionSeriesList.graphql'
 import { NFTMetadata } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -271,11 +270,23 @@ const components = {
 @Component({ components })
 export default class SeriesTable extends mixins(PrefixMixin) {
   protected data: RowSeries[] = []
-  protected columns: Column[] = columns
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
   protected nbRows = '10'
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
+  protected columns: Column[] = [
+    { field: 'id', label: this.$t('spotlight.id') },
+    { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
+    { field: 'unique', label: this.$t('spotlight.unique'), numeric: true },
+    { field: 'averagePrice', label: 'Floor price', numeric: true },
+    { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
+    {
+      field: 'uniqueCollectors',
+      label: this.$t('spotlight.unique'),
+      numeric: true,
+    },
+    { field: 'total', label: this.$t('spotlight.total'), numeric: true },
+  ]
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 

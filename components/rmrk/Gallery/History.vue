@@ -92,7 +92,6 @@ import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
-import i18n from '@/utils/config/i18n'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const components = {
@@ -168,26 +167,26 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = i18n.t('nft.event.MINTNFT')
+        event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = i18n.t('nft.event.LIST')
+        event['Type'] = this.$t('nft.event.LIST')
         event['From'] = newEvent['caller']
         event['To'] = ''
         prevOwner = event['From']
         curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = i18n.t('nft.event.SEND')
+        event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
         curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = i18n.t('nft.event.CONSUME')
+        event['Type'] = this.$t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = i18n.t('nft.event.BUY')
+        event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
       // From
