@@ -24,7 +24,7 @@
           "^eslint",
           "eslint",
           "jest",
-          "saas",
+          "sass",
           "^graphql",
           "^jest",
           "^lint",
