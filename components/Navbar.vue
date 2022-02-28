@@ -94,22 +94,14 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  public mobileGallery = false
+  private mobileGallery = false
   private isGallery: boolean = this.$route.path == '/rmrk/gallery'
-
-  created() {
-    if (this.isGallery) {
-      window.addEventListener('resize', this.onResize)
-      return (this.mobileGallery = window.innerWidth <= 1023)
-    }
-  }
+  private showNavbar = true
+  private lastScrollPosition = 0
 
   private onResize(e) {
     return (this.mobileGallery = window.innerWidth <= 1023)
   }
-
-  private showNavbar = true
-  private lastScrollPosition = 0
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -129,20 +121,21 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
+    if (this.isGallery) {
+      window.addEventListener('resize', this.onResize)
+      return (this.mobileGallery = window.innerWidth <= 1023)
+    }
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
-  }
-
-  destroyed() {
     window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
 
 <style lang="scss">
-@import '~@/styles/variables';
+@import '@/styles/variables';
 
 @media (min-width: 1024px) {
   .navbar-shrink {
