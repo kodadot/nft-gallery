@@ -74,7 +74,7 @@
       aria-role="menuitem">
       <AccountSelect
         v-model="account"
-        :label="$i18n.t('Account')"
+        :label="$t('Account')"
         :tooltip-visible="false" />
     </b-dropdown-item>
     <template v-if="isExtension && (changeAccount || !account)">

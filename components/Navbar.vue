@@ -1,5 +1,10 @@
 <template>
-  <b-navbar fixed-top spaced wrapper-class="container" close-on-click>
+  <b-navbar
+    fixed-top
+    spaced
+    wrapper-class="container"
+    close-on-click
+    :class="{ 'navbar-shrink': !showNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -11,6 +16,7 @@
     <template #start>
       <Search
         v-if="!mobileExplorer"
+        :class="{ 'nav-search-shrink': !showNavbar }"
         hideFilter
         class="search-navbar"
         searchColumnClass="is-flex-grow-1" />
@@ -104,8 +110,31 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return (this.mobileExplorer = window.innerWidth <= 1023)
   }
 
+  private showNavbar = true
+  private lastScrollPosition = 0
+
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
+  }
+
+  onScroll() {
+    const currentScrollPosition = document.documentElement.scrollTop
+    if (currentScrollPosition < 0) {
+      return
+    }
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+      return
+    }
+    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    this.lastScrollPosition = currentScrollPosition
+  }
+
+  mounted() {
+    window.addEventListener('scroll', this.onScroll)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll)
   }
 
   destroyed() {
@@ -117,7 +146,20 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
+@media (min-width: 1024px) {
+  .navbar-shrink {
+    box-shadow: none;
+    max-height: 70px;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  .nav-search-shrink {
+    padding-bottom: 0 !important;
+  }
+}
 .navbar {
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
   &.is-spaced {
     & > .container {
       .navbar-menu {
@@ -173,7 +215,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   .search-navbar {
     flex-grow: 1;
-    margin: 0rem 1rem;
+    margin: 0 1rem;
     input {
       border: inherit;
       background-color: #29292f;
