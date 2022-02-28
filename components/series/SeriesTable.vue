@@ -125,7 +125,7 @@
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
-      <b-table-column
+      <!-- <b-table-column
         v-slot="props"
         field="weeklyVolume"
         label="7d %"
@@ -150,7 +150,7 @@
           </div>
         </template>
         <b-skeleton :active="isLoading" />
-      </b-table-column>
+      </b-table-column> -->
 
       <b-table-column
         v-slot="props"
@@ -238,6 +238,20 @@
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
         </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        field="chart"
+        label="Chart">
+        <nuxt-link
+          v-if="!isLoading"
+          :to="`/rmrk/collection/${props.row.id}?tab=activity`"
+          target="_blank">
+          <b-icon icon="chart-line"> </b-icon>
+        </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
 
