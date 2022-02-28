@@ -104,7 +104,7 @@
         <b-button
           v-if="accountId && price > 0"
           type="is-info"
-          icon-left="user"
+          icon-left="wallet"
           :loading="isLoading"
           @click="toast('Your payout link copied to clipboard')"
           v-clipboard:copy="generatePaymentLink(accountId)"
