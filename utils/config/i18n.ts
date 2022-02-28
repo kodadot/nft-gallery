@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import VueI18n, { LocaleMessages } from 'vue-i18n'
+import { LocaleMessages } from 'vue-i18n'
 import MarkdownIt from 'markdown-it'
 import commonData from '@/langDir/all_lang.json'
-
-Vue.use(VueI18n)
 
 const md = MarkdownIt({
   breaks: false,
@@ -31,13 +28,15 @@ function loadLocaleMessages(): LocaleMessages {
   return messages
 }
 
-// const locale = store.getters['lang/getUserLang'];
-export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
-  modifiers: {
-    md: (str) => md.renderInline(str),
-    common: (str) => str.split('.').reduce((o, i) => o[i], commonData as any),
-  },
-  messages: loadLocaleMessages(),
-})
+export default () => {
+  return {
+    locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+    silentTranslationWarn: true,
+    modifiers: {
+      md: (str) => md.renderInline(str),
+      common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
+    },
+    messages: loadLocaleMessages(),
+  }
+}
