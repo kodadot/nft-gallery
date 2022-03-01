@@ -22,16 +22,18 @@
         <div class="content">
           <b-table :data="data[collapse.key]">
             <b-table-column field="shortcut" label="Shortcut" v-slot="props">
-              <span
-                v-for="(shortcut, index) in props.row.shortcut.split('+')"
-                :key="shortcut">
-                <kbd class="keyboard-shortcut-kbd">
-                  {{ shortcut }}
-                </kbd>
-                <span v-if="index < props.row.shortcut.split('+').length - 1">
-                  +
+              <div>
+                <span
+                  v-for="(shortcut, index) in props.row.shortcut.split('+')"
+                  :key="shortcut">
+                  <kbd class="keyboard-shortcut-kbd">
+                    {{ shortcut }}
+                  </kbd>
+                  <span v-if="index < props.row.shortcut.split('+').length - 1">
+                    +
+                  </span>
                 </span>
-              </span>
+              </div>
             </b-table-column>
             <b-table-column field="action" label="Action" v-slot="props">
               {{ props.row.action }}
