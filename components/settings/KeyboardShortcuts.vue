@@ -20,7 +20,25 @@
       </template>
       <div class="card-content">
         <div class="content">
-          <b-table :data="data[collapse.key]" :columns="columns"></b-table>
+          <b-table :data="data[collapse.key]">
+            <b-table-column field="shortcut" label="Shortcut" v-slot="props">
+              <div>
+                <span
+                  v-for="(shortcut, index) in props.row.shortcut.split('+')"
+                  :key="shortcut">
+                  <kbd class="keyboard-shortcut-kbd">
+                    {{ shortcut }}
+                  </kbd>
+                  <span v-if="index < props.row.shortcut.split('+').length - 1">
+                    +
+                  </span>
+                </span>
+              </div>
+            </b-table-column>
+            <b-table-column field="action" label="Action" v-slot="props">
+              {{ props.row.action }}
+            </b-table-column>
+          </b-table>
         </div>
       </div>
     </b-collapse>
@@ -29,7 +47,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import '@/styles/keyboard-shortcut.scss'
 @Component({})
 export default class keyboardShortcuts extends Vue {
   public isOpen = 0
@@ -45,16 +63,6 @@ export default class keyboardShortcuts extends Vue {
     {
       key: 'filters',
       title: 'Filters',
-    },
-  ]
-  public columns = [
-    {
-      field: 'shortcut',
-      label: 'Shortcut',
-    },
-    {
-      field: 'action',
-      label: 'Action',
     },
   ]
   public data = {

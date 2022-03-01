@@ -11,3 +11,7 @@ export const getAddress = async (address: string) => {
     return null
   }
 }
+
+export const isMobileDevice =
+  'ontouchstart' in document.documentElement &&
+  navigator.userAgent.match(/Mobi/)
