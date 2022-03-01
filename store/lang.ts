@@ -36,6 +36,11 @@ export const state = () => ({
         label: 'Français',
       },
       {
+        value: 'id',
+        flag: '🇮🇩',
+        label: 'Indonesia',
+      },
+      {
         value: 'jp',
         flag: '🇯🇵',
         label: '日本語',
@@ -99,11 +104,6 @@ export const state = () => ({
       //   value: 'it',
       //   flag: '🇮🇹',
       //   label: 'Italiano'
-      // },
-      // {
-      //   value: 'id',
-      //   flag: '🇮🇩',
-      //   label: 'Indonesia'
       // },
       // {
       //   value: 'hi',
