@@ -1,15 +1,18 @@
 import { PolkadotjsWallet } from '~/utils/config/wallets/PolkadotjsWallet'
+import { MathWallet } from '~/utils/config/wallets/MathWallet'
 import { NovaWallet } from '~/utils/config/wallets/NovaWallet'
 import { SubWallet } from '~/utils/config/wallets/SubWallet'
 import { TalismanWallet } from '~/utils/config/wallets/TalismanWallet'
+import { isMobileDevice } from '~/utils/extension'
 
+// source as 'polkadot-js' in mobile app
 export enum SupportWalletExtension {
   PolkadotJs = 'polkadot-js',
   MetaMask = 'metamask',
   Clover = 'clover',
-  Math = 'mathwallet',
   Ledger = 'ledger',
-  Nova = 'nova',
+  Math = 'polkadot-js', // mathwallet
+  Nova = 'polkadot-js', // nova
   SubWallet = 'subwallet-js',
   Talisman = 'talisman',
 }
@@ -23,12 +26,9 @@ export const SubstrateWallets = [
   SupportWalletExtension.Talisman,
 ]
 
-export const SupportedWallets = [
-  new PolkadotjsWallet(),
-  new NovaWallet(),
-  new SubWallet(),
-  new TalismanWallet(),
-]
+export const SupportedWallets = isMobileDevice
+  ? [new MathWallet(), new NovaWallet()]
+  : [new PolkadotjsWallet(), new SubWallet(), new TalismanWallet()]
 
 export function getWalletBySource(
   source: string | unknown
