@@ -3,7 +3,7 @@
     <p class="title is-6">
       {{ $t('mint.expert.count', [value.length]) }}
     </p>
-    <b-field :label="$i18n.t('mint.expert.batchSend')">
+    <b-field :label="$t('mint.expert.batchSend')">
       <b-input
         @input="handleInput"
         type="textarea"

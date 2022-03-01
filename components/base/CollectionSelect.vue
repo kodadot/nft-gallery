@@ -1,6 +1,6 @@
 <template>
   <b-field
-    :label="$i18n.t('Collection')"
+    :label="$t('Collection')"
     :message="$t('Select collection where do you want mint your token')">
     <b-select
       placeholder="Select a collection"

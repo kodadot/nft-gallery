@@ -58,7 +58,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import i18n from '@/utils/config/i18n'
 import { TranslateResult } from 'vue-i18n/types'
 
 interface Menu {
@@ -72,38 +71,34 @@ interface Menu {
 export default class Footer extends Vue {
   public menu: Menu[] = [
     {
-      name: i18n.t('About'),
+      name: this.$t('About'),
       url: '/about',
     },
     {
-      name: i18n.t('Documentation'),
+      name: this.$t('Documentation'),
       url: 'https://docs.kodadot.xyz/',
       external: true,
     },
     {
-      name: i18n.t('FAQ'),
+      name: this.$t('FAQ'),
       url: '/rmrk/faq',
     },
     {
-      name: i18n.t('Grant'),
+      name: this.$t('Grant'),
       url: 'https://form.kodadot.xyz/grant',
       external: true,
     },
-    // {
-    //   name: i18n.t('Contact'),
-    //   url: '/contact'
-    // },
     {
-      name: i18n.t('Partnerships & Ambassadors'),
+      name: this.$t('Partnerships & Ambassadors'),
       url: '/partnership',
     },
     {
-      name: i18n.t('Press Kit'),
+      name: this.$t('Press Kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
     },
     {
-      name: i18n.t('Jobs'),
+      name: this.$t('Jobs'),
       url: '/jobs',
     },
   ]

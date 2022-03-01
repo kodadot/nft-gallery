@@ -23,7 +23,7 @@
       :message="$t('mint.nft.description.message')"
       :placeholder="$t('mint.nft.description.placeholder')" />
 
-    <b-field :label="$i18n.t('Edition')" class="mt-5">
+    <b-field :label="$t('Edition')" class="mt-5">
       <b-numberinput
         v-model="vEdition"
         placeholder="1 is minumum"

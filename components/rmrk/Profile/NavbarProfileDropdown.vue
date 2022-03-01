@@ -3,7 +3,9 @@
     <template #trigger>
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
-        <b-button type="is-primary" class="navbar__button">
+        <b-button
+          type="is-primary navbar-link-background"
+          class="navbar__button">
           <Identity
             :address="account"
             :inline="true"
@@ -82,7 +84,7 @@
       aria-role="menuitem">
       <AccountSelect
         v-model="account"
-        :label="$i18n.t('Account')"
+        :label="$t('Account')"
         :tooltip-visible="false" />
     </b-dropdown-item>
   </b-dropdown>
