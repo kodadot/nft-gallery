@@ -1,7 +1,7 @@
 <template>
   <b-dropdown v-if="hasHistory" aria-role="list" position="is-bottom-left">
     <template #trigger>
-      <b-button type="is-primary is-bordered" icon-left="history" />
+      <b-button type="is-primary is-bordered" class="navbar-link-background" icon-left="history" />
     </template>
     <div class="wrapper">
       <div v-if="visitedToday && visitedToday.length">
@@ -109,4 +109,5 @@ export default class HistoryBrowser extends Vue {
   background: $black;
   z-index: 1;
 }
+
 </style>

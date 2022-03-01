@@ -67,7 +67,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$i18n.t('tooltip.created')} ${shortendId}`"
+              :label="`${this.$t('tooltip.created')} ${shortendId}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter" v-if="totalCreated">{{
@@ -88,7 +88,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$i18n.t('tooltip.collections')} ${shortendId}`"
+              :label="`${this.$t('tooltip.collections')} ${shortendId}`"
               append-to-body>
               {{ $t('Collections') }}
               <span class="tab-counter" v-if="totalCollections">{{
@@ -121,7 +121,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$i18n.t('tooltip.sold')} ${shortendId}`"
+              :label="`${this.$t('tooltip.sold')} ${shortendId}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -137,7 +137,7 @@
         <b-tab-item value="collected">
           <template #header>
             <b-tooltip
-              :label="`${$i18n.t('tooltip.collected')} ${shortendId}`"
+              :label="`${this.$t('tooltip.collected')} ${shortendId}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter" v-if="totalCollected">{{

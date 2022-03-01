@@ -1,23 +1,7 @@
-import i18n from '@/utils/config/i18n'
-import { Column, Row, SimpleSpotlightNFT } from './types'
+import { Row, SimpleSpotlightNFT } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent } from '@/utils/math'
-
-export const columns: Column[] = [
-  { field: 'id', label: i18n.t('spotlight.id') },
-  { field: 'sold', label: i18n.t('spotlight.sold'), numeric: true },
-  { field: 'unique', label: i18n.t('spotlight.unique'), numeric: true },
-  { field: 'total', label: i18n.t('spotlight.total'), numeric: true },
-  {
-    field: 'averagePrice',
-    label: i18n.t('spotlight.averagePrice'),
-    numeric: true,
-  },
-  { field: 'count', label: i18n.t('spotlight.count'), numeric: true },
-  { field: 'collectors', label: i18n.t('spotlight.collectors'), numeric: true },
-  { field: 'rank', label: i18n.t('spotlight.score'), numeric: true },
-]
 
 export const nftFn = (a: any): Row => {
   const sold = a.nfts.nodes.reduce(soldFn, 0)

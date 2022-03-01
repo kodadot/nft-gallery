@@ -24,7 +24,6 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { randomIntegerBetween } from '@/utils/calculation'
-import i18n from '@/utils/config/i18n'
 
 @Component({})
 export default class Loader extends Vue {
@@ -38,7 +37,7 @@ export default class Loader extends Vue {
       let newRandomNumber = this.randomNumber
       // make sure same quote isn't fetched again
       while (newRandomNumber === this.randomNumber) {
-        newRandomNumber = randomIntegerBetween(1, 33)
+        newRandomNumber = randomIntegerBetween(1, 35)
       }
       this.randomNumber = newRandomNumber
     }
@@ -46,16 +45,16 @@ export default class Loader extends Vue {
 
   protected placeholder = '/preloader.svg'
 
-  protected randomNumber = randomIntegerBetween(1, 33)
+  protected randomNumber = randomIntegerBetween(1, 35)
 
   public interval
 
   get randomFunFactHeading() {
-    return i18n.t(`funfacts.${this.randomNumber}.heading`)
+    return this.$t(`funfacts.${this.randomNumber}.heading`)
   }
 
   get randomFunFactQuestion() {
-    return i18n.t(`funfacts.${this.randomNumber}.question`)
+    return this.$t(`funfacts.${this.randomNumber}.question`)
   }
 
   get isLoading() {
@@ -68,7 +67,7 @@ export default class Loader extends Vue {
 
   public created(): void {
     setInterval(() => {
-      this.interval = this.randomNumber = randomIntegerBetween(1, 33)
+      this.interval = this.randomNumber = randomIntegerBetween(1, 35)
     }, 8000)
   }
 

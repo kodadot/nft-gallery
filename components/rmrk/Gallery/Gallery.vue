@@ -2,7 +2,10 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
+    <Search
+      v-bind.sync="searchQuery"
+      @resetPage="currentValue = 1"
+      :hideSearchInput="notMobile">
       <Pagination
         hasMagicBtn
         simple
@@ -132,12 +135,13 @@ export default class Gallery extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
-    priceMin: 0,
-    priceMax: Number.MAX_SAFE_INTEGER,
+    priceMin: undefined,
+    priceMax: undefined,
   }
   private currentValue = 1
   protected total = 0
   private loadingState = 0
+  private notMobile = false
 
   get first(): number {
     return this.$store.getters['preferences/getGalleryItemsPerPage']
@@ -167,6 +171,8 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   public async created() {
+    window.addEventListener('resize', this.onResize)
+    this.notMobile = window.innerWidth >= 1023
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
@@ -203,7 +209,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
-    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+    await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
@@ -220,7 +226,10 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     })
 
-    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
+    await this.prefetchPage(
+      this.offset + this.first,
+      this.offset + 3 * this.first
+    )
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
@@ -250,14 +259,14 @@ export default class Gallery extends mixins(PrefixMixin) {
       } = await nfts
 
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      processMetadata<NFTMetadata>(metadataList)
+      await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
       logError(e, (msg) =>
         console.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
     } finally {
       if (offset <= prefetchLimit) {
-        this.prefetchPage(offset + this.first, prefetchLimit)
+        await this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
   }
@@ -271,12 +280,28 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     }
 
-    if (this.searchQuery.listed && this.isRmrk) {
+    if (
+      this.searchQuery.priceMin == undefined &&
+      this.searchQuery.listed &&
+      this.isRmrk
+    ) {
       params.push({
         price: { greaterThan: '0' },
       })
     }
 
+    if (
+      this.searchQuery.priceMin != undefined &&
+      this.searchQuery.listed &&
+      this.isRmrk
+    ) {
+      params.push({
+        price: {
+          greaterThan: this.searchQuery.priceMin,
+          lessThanOrEqualTo: this.searchQuery.priceMax,
+        },
+      })
+    }
     return params
   }
 
@@ -295,6 +320,14 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+  }
+
+  private onResize(e) {
+    return (this.notMobile = window.innerWidth >= 1024)
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

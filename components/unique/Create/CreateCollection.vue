@@ -29,7 +29,6 @@
 import { Attribute } from '@/components/rmrk/types'
 import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
 import onApiConnect from '@/utils/api/general'
-import Query from '@/utils/api/Query'
 import formatBalance from '@/utils/formatBalance'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import AuthMixin from '@/utils/mixins/authMixin'
@@ -96,6 +95,10 @@ export default class CreateCollection extends mixins(
       accountId,
     } = this
     return !(name && accountId)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
   }
 
   public async constructMeta() {
@@ -170,16 +173,14 @@ export default class CreateCollection extends mixins(
   }
 
   protected async checkBalanceBeforeTx(): Promise<void> {
-    const { api } = Connector.getInstance()
-    const balance = await Query.getTokenBalance(api, this.accountId)
     const estimated = await this.tryToEstimateTx()
     const deposit = this.collectionDeposit
-    const hasTokens = hasEnoughToken(balance, estimated, deposit)
+    const hasTokens = hasEnoughToken(this.balance, estimated, deposit)
     console.log('hasTokens', hasTokens)
     if (!hasTokens) {
       throw new Error(
         `Not enough tokens: Currently have ${formatBalance(
-          balance,
+          this.balance,
           this.decimals,
           this.unit
         )} tokens`

@@ -72,7 +72,6 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 ![Visualization of this repo](.github/diagram.svg)
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
-
 <!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
@@ -86,7 +85,8 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 
 - [Find most recent progress, features and future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
 - [We are document our recent additions to KodaDot in long-form writings](https://docs.kodadot.xyz/writings.html)
- 
+- [On the past, present and future of data storage at KodaDot](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
+
 ## Working version ▶️
 
 - [Explore and Mint NFTs](https://kodadot.xyz/)

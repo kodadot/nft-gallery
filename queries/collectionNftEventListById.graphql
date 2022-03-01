@@ -1,0 +1,10 @@
+query collectionNftEventListById($id: String!) {
+  collection: collectionEntity(id: $id) {
+    id
+    nfts(filter: { burned: { distinctFrom: true }}) {
+      nodes {
+        events
+      }
+    }
+  }
+}

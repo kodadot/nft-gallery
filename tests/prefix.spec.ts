@@ -16,6 +16,7 @@ describe('PREFIX TEST', (): void => {
 
   beforeAll(async () => {
     prefixes = URL_PREFIXES.map((option) => option.value as string).map(
+      // skipcq allowRegExp
       (value) => RegExp(`^${value}`)
     )
   })
