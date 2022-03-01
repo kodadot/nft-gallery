@@ -6,11 +6,23 @@
     :isButtonHidden="true">
     <template v-slot:default>
       <div class="is-flex is-justify-content-space-between">
-        <b-table :data="data['navigation']" :columns="navColumns"></b-table>
-        <b-table
-          :data="data['item_detail']"
-          :columns="itemDetailColumns"></b-table>
-        <b-table :data="data['filters']" :columns="filterColumns"></b-table>
+        <b-table :data="data[type]" v-for="type in types" :key="type">
+          <b-table-column field="text" :label="labels[type]" v-slot="props">
+            {{ props.row.text }}
+          </b-table-column>
+          <b-table-column field="shortcut" v-slot="props">
+            <span
+              v-for="(shortcut, index) in props.row.shortcut.split('+')"
+              :key="shortcut">
+              <kbd class="keyboard-shortcut-kbd">
+                {{ shortcut }}
+              </kbd>
+              <span v-if="index < props.row.shortcut.split('+').length - 1">
+                +
+              </span>
+            </span>
+          </b-table-column>
+        </b-table>
       </div>
     </template>
     <template #hint>
@@ -23,9 +35,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import '@/styles/keyboard-shortcut.scss'
 const components = {
   ModalWrapper: () => import('./ModalWrapper.vue'),
+}
+
+interface DifferentTypeShortCuts {
+  navigation: string | { text: string; shortcut: string }[]
+  item_detail: string | { text: string; shortcut: string }[]
+  filters: string | { text: string; shortcut: string }[]
 }
 
 @Component({
@@ -34,39 +52,7 @@ const components = {
 })
 export default class KeyboardShortcutsModal extends Vue {
   public title = 'Keyboard Shortcuts'
-  public navColumns = [
-    {
-      field: 'text',
-      label: 'Navigation',
-    },
-    {
-      field: 'shortcut',
-      label: '',
-    },
-  ]
-
-  public itemDetailColumns = [
-    {
-      field: 'text',
-      label: 'Item Detail',
-    },
-    {
-      field: 'shortcut',
-      label: '',
-    },
-  ]
-
-  public filterColumns = [
-    {
-      field: 'text',
-      label: 'Filters',
-    },
-    {
-      field: 'shortcut',
-      label: '',
-    },
-  ]
-  public data = {
+  public data: DifferentTypeShortCuts = {
     navigation: [
       {
         text: 'Next page',
@@ -166,5 +152,11 @@ export default class KeyboardShortcutsModal extends Vue {
       },
     ],
   }
+  public labels: DifferentTypeShortCuts = {
+    navigation: 'Navigation',
+    item_detail: 'Item Detail',
+    filters: 'Filters',
+  }
+  public types = Object.keys(this.data)
 }
 </script>
