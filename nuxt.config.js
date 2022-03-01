@@ -252,12 +252,17 @@ export default {
   build: {
     transpile: [
       '@kodadot1/sub-api',
+      '@polkadot/api',
+      '@polkadot/rpc-core',
+      '@polkadot/rpc-provider',
+      '@polkadot/types',
       '@polkadot/extension-dapp',
       '@polkadot/util-crypto',
       '@polkadot/keyring',
       '@polkadot/ui-keyring',
       '@polkadot/ui-settings',
       '@polkadot/hw-ledger',
+      '@polkadot/types-codec',
     ],
     extend: function (config) {
       config.module.rules.push({

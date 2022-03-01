@@ -15,3 +15,8 @@ export type SearchQuery = {
   priceMin?: number
   priceMax?: number
 }
+
+export type SearchSuggestion = {
+  type: string
+  item: any
+}
