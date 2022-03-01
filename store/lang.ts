@@ -101,6 +101,11 @@ export const state = () => ({
       //   label: 'Italiano'
       // },
       // {
+      //   value: 'id',
+      //   flag: '🇮🇩',
+      //   label: 'Indonesia'
+      // },
+      // {
       //   value: 'hi',
       //   flag: '🇮🇳',
       //   label: 'हिन्दी'
