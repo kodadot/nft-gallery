@@ -47,7 +47,7 @@
   "See More": "Lihat lebih banyak",
   "Latest sales": "Baru Terjual",
   "Add Token": "Tambahkan Token",
-  "Mint": "Ctak",
+  "Mint": "Cetak",
   "Transferable is by default": "Dapat ditransfer secara default",
   "Serial Number": "Nomor Seri",
   "Name of your token": "Nama Token Anda",
@@ -77,7 +77,7 @@
   "Frequently Asked Question": "Pertanyaan yang sering di ajukan",
   "I am helping to cover costs": "Saya membantu menutupi biaya",
   "I do not want to support": "Saya tidak ingin mendukung",
-  "Tanya Jawab"
+  "faq": {
     "q": {
       "1": "Apa itu NFT?",
       "2": "Apa itu minting?",
