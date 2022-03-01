@@ -5,7 +5,7 @@
     <Search
       v-bind.sync="searchQuery"
       @resetPage="currentValue = 1"
-      hideSearchInput>
+      :hideSearchInput="notMobile">
       <Pagination
         hasMagicBtn
         simple
@@ -141,6 +141,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   private currentValue = 1
   protected total = 0
   private loadingState = 0
+  private notMobile = false
 
   get first(): number {
     return this.$store.getters['preferences/getGalleryItemsPerPage']
@@ -170,6 +171,8 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   public async created() {
+    window.addEventListener('resize', this.onResize)
+    this.notMobile = window.innerWidth >= 1023
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
@@ -317,6 +320,14 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+  }
+
+  private onResize(e) {
+    return (this.notMobile = window.innerWidth >= 1024)
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
