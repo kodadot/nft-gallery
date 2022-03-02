@@ -3,7 +3,7 @@
     <b-select v-model="account" placeholder="Select account" expanded>
       <option disabled selected value="">--</option>
       <option
-        v-for="option in options"
+        v-for="option in accountsList"
         :key="option.address"
         :value="option.address">
         <b v-if="option.meta.name">{{ option.meta.name }} :</b>
@@ -16,19 +16,14 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import WithKeyring, { KeyringAccount } from '@/utils/WithKeyring'
-import Tooltip from '@/components/shared/Tooltip.vue'
 
 @Component({
-  components: {
-    Tooltip,
-  },
+  components: {},
 })
 export default class AccountSelect extends mixins(WithKeyring) {
-  private tooltip = 'Owner\'s address of minted art'
   @Prop({ default: '' }) public value!: string | KeyringAccount
   @Prop() public asKeyring!: boolean
   @Prop({ default: 'Account' }) public label!: boolean
-  @Prop({ default: true }) tooltipVisible!: boolean
 
   get options() {
     return this.allAcctounts()

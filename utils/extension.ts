@@ -5,7 +5,6 @@ export const enableExtension = async () => await web3Enable('KodaDot')
 export const getAddress = async (address: string) => {
   try {
     const injector = await web3FromAddress(address)
-    console.log(injector)
     return injector
   } catch (e) {
     console.warn(`[EXTENSION] No Addr ${address}`)
