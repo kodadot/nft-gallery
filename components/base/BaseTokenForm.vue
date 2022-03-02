@@ -33,7 +33,7 @@
           v-model="vDescription"
           key="description"
           maxlength="500"
-          class="mb-5 mt-5"
+          class="my-5"
           type="textarea"
           spellcheck="true"
           :label="$t('mint.nft.description.label')"
