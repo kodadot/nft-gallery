@@ -61,14 +61,7 @@
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
           <div class="subtitle has-text-centered">Choose your account</div>
-          <div
-            class="block"
-            v-for="account in walletAccounts"
-            :key="account.name">
-            <div>{{ account.name }}</div>
-            <div>{{ account.address | shortAddress(10, -10) }}</div>
-            <em>{{ account.source }}</em>
-          </div>
+
           <b-field :label="$i18n.t('Account')">
             <b-select v-model="account" placeholder="Select account" expanded>
               <option disabled selected value="">--</option>
