@@ -21,7 +21,8 @@
       :message="$t('mint.collection.name.message')"
       :placeholder="$t('mint.collection.name.placeholder')"
       expanded
-      spellcheck="true" />
+      spellcheck="true"
+      maxlength="60" />
 
     <slot name="main"></slot>
 
