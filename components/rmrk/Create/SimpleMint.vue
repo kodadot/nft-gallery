@@ -30,6 +30,7 @@
             :label="$t('mint.nft.name.label')"
             :message="$t('mint.nft.name.message')"
             :placeholder="$t('mint.nft.name.placeholder')"
+            @blur.native.capture="generateSymbol"
             expanded
             spellcheck="true" />
 
@@ -199,8 +200,15 @@ import {
 } from '@/components/accounts/utils'
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 import { uploadDirect } from '@/utils/directUpload'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
+import {
+  denyList,
+  IPFS_KODADOT_IMAGE_PLACEHOLDER,
+  statemineDenyList,
+} from '~/utils/constants'
 import { createMetadata } from '@kodadot1/minimark'
+import Vue from 'vue'
+import nftListByAccount from '@/queries/nftListByAccount.graphql'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -227,7 +235,8 @@ export default class SimpleMint extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -247,6 +256,58 @@ export default class SimpleMint extends mixins(
   protected postfix = true
   protected random = false
   protected distribution = 100
+  protected first = 100
+  protected nfts: NFT[] = []
+
+  // query for nfts information by accountId
+  public async created() {
+    this.$apollo.addSmartQuery('collections', {
+      query: nftListByAccount,
+      manual: true,
+      client: this.urlPrefix,
+      loadingKey: 'loadingState',
+      result: this.handleResult,
+      variables: {
+        account: this.accountId,
+        first: this.first,
+      },
+    })
+  }
+
+  // handle query results
+  public handleResult(data: any) {
+    const {
+      data: {
+        nFTEntities: { nodes },
+      },
+    } = data
+    this.nfts = nodes
+  }
+
+  // set symbol name
+  private generateSymbol(): void {
+    if (!this.rmrkMint?.symbol && this.rmrkMint.name?.length) {
+      const symbol = this.generateSymbolCore(this.rmrkMint.name, this.nfts)
+      Vue.set(this.rmrkMint, 'symbol', symbol)
+    }
+  }
+
+  // core: to generate symbol? name
+  private generateSymbolCore(name: string, nfts: NFT[]): string {
+    // todo: right way to generate good symbol? name
+    let symbol = name.replaceAll(' ', '_')
+    const existSameSymbol = nfts.some((nft) => nft.name === symbol)
+    if (existSameSymbol) {
+      let lastOne = Number(symbol[symbol.length - 1])
+      if (isNaN(lastOne)) {
+        lastOne = 1
+      }
+      lastOne = (lastOne + 1) % 10
+      symbol = `${symbol.slice(0, -1)}${lastOne}`
+    }
+    symbol = symbol.length > 10 ? symbol.slice(0, 10) : symbol
+    return symbol
+  }
 
   protected updateMeta(value: number): void {
     this.price = value
