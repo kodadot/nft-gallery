@@ -69,7 +69,7 @@ body:
       label: Screenshots
       description: Screenshot/Video is worth more than debug logs!
       placeholder: Paste from your clipboard or upload screenshots/video
-      value: "Paste from your clipboard or upload screenshots"
+      value: "Paste from your clipboard or upload screenshots/video"
     validations:
       required: true
   - type: textarea
