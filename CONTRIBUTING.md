@@ -186,6 +186,12 @@ For content changes, make sure that you:
 * Check that all of your changes render correctly in staging. Remember, that lists and tables can be tricky.
 * If there are any failing checks in your PR, troubleshoot them until they're all passing.
 
+### Update strategy
+Try to submit your PR as soon as possible. That's always a good way to avoid conflict with other commits.
+
+However, if it really happens, we want to you update your branch with `merge commit` rather than `rebase`. The reason is
+we don't want to mix the merging strategies, and we want we can only see your commits in your PR.
+
 ### Pull request template
 When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 
