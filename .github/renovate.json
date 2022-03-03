@@ -31,6 +31,7 @@
           "^lint",
           "^model-viewer",
           "^nuxt",
+          "nuxt-buefy",
           "^vue",
           "^vuejs",
           "vuejs/core",
