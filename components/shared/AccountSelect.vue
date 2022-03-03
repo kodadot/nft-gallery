@@ -3,7 +3,7 @@
     <b-select v-model="account" placeholder="Select account" expanded>
       <option disabled selected value="">--</option>
       <option
-        v-for="option in accountsList"
+        v-for="option in options"
         :key="option.address"
         :value="option.address">
         <b v-if="option.meta.name">{{ option.meta.name }} :</b>
