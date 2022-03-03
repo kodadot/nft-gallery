@@ -5680,7 +5680,7 @@ bser@2.1.1:
   dependencies:
     node-int64 "^0.4.0"
 
-buefy@^0.9.10, buefy@^0.9.19:
+buefy@^0.9.19:
   version "0.9.19"
   resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.9.19.tgz#98fab4b20d62e992dbe7f720fbfc01dfa1bf86a6"
   integrity sha512-5AonCrtZvTfoWJwqmoTl8JbHjjn/U+q0LrSScgUWRZBaquzb8xgzWoownG4dzNHq5veQdOOxA0aUVyK+x7X07g==
@@ -12238,12 +12238,12 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-nuxt-buefy@^0.4.20:
-  version "0.4.20"
-  resolved "https://registry.yarnpkg.com/nuxt-buefy/-/nuxt-buefy-0.4.20.tgz#edc3924d2838e7427bba57c3b6cdbb830a5de08c"
-  integrity sha512-J+pE8uflFULSY5lwwOvGimDdsi02RjMueqdDNgy5JrKIkd5vwyHxYsKNEp94+GSFVqs6Lu6J08OTj6Qiq4ugxg==
+nuxt-buefy@^0.4.21:
+  version "0.4.21"
+  resolved "https://registry.yarnpkg.com/nuxt-buefy/-/nuxt-buefy-0.4.21.tgz#10b7c6be68bb83a4894458dde30887aa3d2c52d5"
+  integrity sha512-utUqw6IYqpaEhm5V9Cm2RukcAQlkBvXcZVr1V4KSubSabc4NAx2Geec101fHhOoYkG3ZN4T4BytzXUYZbR/2Hg==
   dependencies:
-    buefy "^0.9.10"
+    buefy "^0.9.19"
 
 nuxt-property-decorator@^2.9.1:
   version "2.9.1"
