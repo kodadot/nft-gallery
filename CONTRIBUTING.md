@@ -186,7 +186,7 @@ For content changes, make sure that you:
 * Check that all of your changes render correctly in staging. Remember, that lists and tables can be tricky.
 * If there are any failing checks in your PR, troubleshoot them until they're all passing.
 
-### Update strategy
+### Update strategy: always update with `merge commit`
 Try to submit your PR as soon as possible. That's always a good way to avoid conflict with other commits.
 
 However, if it really happens, we want to you update your branch with `merge commit` rather than `rebase`. The reason is
