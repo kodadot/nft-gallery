@@ -15,7 +15,7 @@
       </span>
 
       <template v-else>
-        <ConnectWalletButton />
+        <ConnectWalletButton class="navbar__button" />
       </template>
     </template>
 
@@ -78,7 +78,6 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import WalletModal from '~/components/common/WalletModal.vue'
 
 const components = {
   Avatar,

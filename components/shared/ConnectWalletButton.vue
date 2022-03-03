@@ -1,8 +1,5 @@
 <template>
-  <b-button
-    type="is-primary"
-    class="navbar__button"
-    @click="openWalletConnectModal()">
+  <b-button type="is-primary" @click="openWalletConnectModal()">
     {{ buttonText }}
   </b-button>
 </template>
