@@ -200,11 +200,7 @@ import {
 } from '@/components/accounts/utils'
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 import { uploadDirect } from '@/utils/directUpload'
-import {
-  denyList,
-  IPFS_KODADOT_IMAGE_PLACEHOLDER,
-  statemineDenyList,
-} from '~/utils/constants'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
 import { createMetadata } from '@kodadot1/minimark'
 import Vue from 'vue'
 import nftListByAccount from '@/queries/nftListByAccount.graphql'
