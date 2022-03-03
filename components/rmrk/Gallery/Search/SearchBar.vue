@@ -509,7 +509,7 @@ export default class SearchBar extends mixins(
   replaceUrl(value: string, value2?, key = 'search', key2?): void {
     this.$router
       .replace({
-        path: '/rmrk/gallery',
+        path: String(this.$route.path),
         query: {
           ...this.$route.query,
           search: this.searchQuery,
