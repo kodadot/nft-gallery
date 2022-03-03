@@ -2,6 +2,9 @@ import { emptyObject } from '@/utils/empty'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import Connector from '@kodadot1/sub-api'
 import Vue from 'vue'
+import onApiConnect from '~/utils/api/general'
+
+declare type Unsubscribe = () => void
 
 export interface IdentityMap {
   [address: string]: Registration
@@ -10,11 +13,13 @@ export interface IdentityMap {
 export interface Auth {
   address: string
   source: 'keyring' | 'extension' | 'ledger'
+  balance: string
 }
 
 export interface IdentityStruct {
   identities: IdentityMap
   auth: Auth
+  balanceSub: Unsubscribe
 }
 
 export interface IdenityRequest {
@@ -25,6 +30,7 @@ export interface IdenityRequest {
 const defaultState: IdentityStruct = {
   identities: {},
   auth: emptyObject<Auth>(),
+  balanceSub: () => void 0,
 }
 
 // Disabling namespace to match with the original repo
@@ -41,6 +47,16 @@ export const mutations = {
   },
   addAuth(state: IdentityStruct, authRequest: Auth): void {
     state.auth = { ...authRequest }
+  },
+  addBalance(state: IdentityStruct, balance: string): void {
+    Vue.set(state.auth, 'balance', balance)
+  },
+  addBalanceSub(state: IdentityStruct, sub: Unsubscribe): void {
+    // Unsubscribe previous subscription
+    state.balanceSub()
+
+    // Set new subscription
+    Vue.set(state, 'balanceSub', sub)
   },
 }
 
@@ -62,8 +78,27 @@ export const actions = {
       console.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
-  setAuth({ commit }: any, authRequest: Auth): void {
+  async fetchBalance({ commit, dispatch }, address: string) {
+    onApiConnect(async (api) => {
+      try {
+        const balanceSub = await api.derive.balances.all(
+          address,
+          ({ availableBalance }) => {
+            dispatch('setBalance', availableBalance.toString())
+          }
+        )
+        commit('addBalanceSub', balanceSub)
+      } catch (e) {
+        console.error('[ERR: BALANCE]', e)
+      }
+    })
+  },
+  setAuth({ commit, dispatch }, authRequest: Auth): void {
     commit('addAuth', authRequest)
+    dispatch('fetchBalance', authRequest.address)
+  },
+  setBalance({ commit }, balance: string): void {
+    commit('addBalance', balance)
   },
 }
 
@@ -81,5 +116,8 @@ export const getters = {
   },
   getAuthAddress(state: IdentityStruct): string {
     return state.auth.address
+  },
+  getAuthBalance(state: IdentityStruct): string {
+    return state.auth.balance
   },
 }

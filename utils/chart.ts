@@ -1,4 +1,19 @@
 type ChartData = [Date, number][]
+
+export type CollectionChartData = {
+  date: Date
+  value: bigint | number
+  average?: bigint | number
+  count: number
+}
+
+export type MappingFunction<T> = (item: CollectionChartData) => T
+export const defaultMapper = (item: CollectionChartData) => item.value
+export const mapToAverage = (item: CollectionChartData) =>
+  item.average ?? BigInt(0)
+export const mapToCount = (item: CollectionChartData) => item.count
+export const getLabel = (item: CollectionChartData) => item.date
+
 type GetQuartilesArgs = {
   dataset: number[]
   medianDetails: MedianDetails
@@ -7,7 +22,8 @@ type MedianDetails = {
   median: number
   medianIndex: null | number
 }
-type RenderedChartData = { x: Date; y: number }[]
+type RenderedChartData<T = bigint | number> = { x: Date; y: T }[]
+
 interface Quartiles {
   q1: number
   q2: number
@@ -61,6 +77,25 @@ export const getChartData = (data: ChartData = []): RenderedChartData =>
     y: item[1],
   }))
 
+export const getCollectionChartData = (
+  data: CollectionChartData[] = [],
+  mapper = defaultMapper
+): RenderedChartData =>
+  data.map((item) => ({
+    x: item.date,
+    y: mapper(item),
+    count: item.count,
+  }))
+
+export const getCollectionMedian = (data: CollectionChartData[] = []) => {
+  const dataset = data
+    .map((item) => item.value)
+    .map(Number)
+    .sort((a, b) => b - a)
+  const { median } = getMedianDetails(dataset)
+  return median
+}
+
 export const getMedianPoint = (data: ChartData = []): number => {
   const dataset = data.map((item) => item[1]).sort((a, b) => b - a)
   const { median } = getMedianDetails(dataset)
@@ -76,8 +111,8 @@ export const getHSpread = (data: ChartData = []): HSpread => {
   return { min, max, q1, q2, q3 }
 }
 
-export const getMovingAverage = (data: ChartData = []): number[] => {
-  const dataset = data.map((item) => item[1])
+export const getMovingAverage = (data: RenderedChartData = []): number[] => {
+  const dataset = data.map(({ y }) => y) as number[]
   const movingAverageArray: number[] = []
   const average = 3
 
