@@ -1,0 +1,634 @@
+{
+  "translation": "indonesia",
+  "create": "Buat",
+  "Create": "Buat",
+  "credit": "Kredit",
+  "Credit": "Kredit",
+  "gallery": "Galeri",
+  "Gallery": "Galeri",
+  "Classic": "Klasik",
+  "accounts": "Akun",
+  "Accounts": "Akun",
+  "transfer": "Transfer",
+  "Transfer": "Transfer",
+  "Transform": "Mengubah",
+  "Identity": "Identitas",
+  "Profile": "Profil",
+  "settings": "Pengaturan",
+  "Settings": "Pengaturan",
+  "first NFT market explorer on Kusama and Polkadot": "Penjelajah Pasar NFT pertama di Kusama dan Polkadot",
+  "legend": "Legends",
+  "collection": "Koleksi",
+  "Collection": "Koleksi",
+  "owner": "Pemilik",
+  "actions": "Tindakan",
+  "facts": "Fakta",
+  "instance": "Conth",
+  "Instance": "Contoh",
+  "context": "Buat Koleksi NFT anda",
+  "using": "Gunakan",
+  "computed id": "Computed id",
+  "content": "Isi",
+  "create collection": "Buat Koleksi",
+  "Owner address of minted art": "Alamat pemilik karya seni yang di cetak",
+  "Name you want to show in gallery view": "Nama yang ingin Anda tampilkan di galeri",
+  "Symbol you want to trade it under": "Simbol yang ingin anda perdagankan di bawah",
+  "Describe your collection, it will show under collection view": "Deskripsi koleksi anda, itu akan di tampilkan di bawah koleksi",
+  "Add collection cover which will show up at collection view": "Tambahkan sampul koleksi, itu akan muncul di tampilan koleksi",
+  "Select collection where do you want mint your token": "Pilih koleksi dimana anda ingin mencetak token anda",
+  "Maximum NFTs in collection": "Jumlah Maksimum dalam koleksi",
+  "Account": "Akun",
+  "Name": "Nama",
+  "Symbol": "Simbol (nama pendek)",
+  "Description": "Deskripsi",
+  "Multimedia data": "Multimedia data",
+  "Metadata IPFS Hash": "Metadata IPFS Hash",
+  "Learn More": "Belajar lagi",
+  "See More": "Lihat lebih banyak",
+  "Latest sales": "Baru Terjual",
+  "Add Token": "Tambahkan Token",
+  "Mint": "Cetak",
+  "Transferable is by default": "Dapat ditransfer secara default",
+  "Serial Number": "Nomor Seri",
+  "Name of your token": "Nama Token Anda",
+  "Instance_tooltip": "Class Instance seperti pengenal NFT, seperti ticker pasar. Ini adalah \"nama pendek computer-friendly\"",
+  "Upload will upload your image of the NFT": "Unggah akan mengunggah gambar NFT anda",
+  "Click to add image": "Klik untuk menambahkan gambar",
+  "Add Animated File": "Tambahkan File Animasi",
+  "Image data": "Data Gambar",
+  "Explorer": "Explorer",
+  "Gallery of NFT Tokens and Collectibles": "Galeri Token dan Koleksi NFT",
+  "Create your NFT Token & Collectibles": "Buat Token & Koleksi NFT Anda",
+  "New here? We have F.A.Q.": "Baru disini? Kami memiliki F.A.Q.",
+  "Feedback? We\\'d be happy to discuss it.": "Masukan? Kami akan dengan senang hati mendiskusikannya.",
+  "Read our story, how we started.": "Baca cerita kami, bagaimana kamu memulai.",
+  "User Interface Mode": "Mode Antarmuka Pengguna",
+  "Minting Settings": "Pengaturan Minting",
+  "Advanced User Interface": "Antarmuka Pengguna Tingkat Lanjut",
+  "Basic User Interface": "Antarmuka Pengguna Dasar",
+  "Enable Theatre View on default": "Aktifkan Tampilan Teater secara default",
+  "Fold history and price chart in NFT view on default": "Riwayat dan grafik harga dalam tampian NFT secara default",
+  "Fold description in collection view on default": "Deskripsi dalam tampilan koleksi secara default",
+  "Replace buy now with YOLO": "Ganti, Beli sekarang dengan YOLO",
+  "Always show NFT price by default": "Selalu tampilkan harga NFT secara default",
+  "Layout Options": "Pengaturan Tataletak",
+  "Gallery Items Per Page": "Item Galeri Per Halaman",
+  "Collections Per Page": "Koleksi Per Halaman",
+  "Frequently Asked Question": "Pertanyaan yang sering di ajukan",
+  "I am helping to cover costs": "Saya membantu menutupi biaya",
+  "I do not want to support": "Saya tidak ingin mendukung",
+  "faq": {
+    "q": {
+      "1": "Apa itu NFT?",
+      "2": "Apa itu minting?",
+      "3": "Bagaimana saya bisa mencetak NFT?",
+      "4": "Bagaimana alurnya saat saya menjadi NFT kreator?",
+      "5": "Bagaimana saya bisa menjual KSM yang saya dapatkan untuk karya saya?",
+      "6": "Bagaimana saya bisa mendapatkan KSM sebagai pendatang baru?",
+      "7": "Bisakah saya menggunakan ini di dunia virtual?",
+      "8": "Bagaimana saya bisa membeli KSM dengan ETH, DAI, BTC?",
+      "9": "Saya mendapatkan kesalahan. Bagaimana saya bisa menyelesaikannya?",
+      "10": "Apa yang dimaksud dengan KIRIM, KONSUMSI, DAFTAR?",
+      "11": "Saya sudah mencetak NFT, tetapi saya tidak melihatnya di galeri, di mana itu?",
+      "12": "Apakah ada cara lain untuk mendapatkan KSM dalam jumlah kecil?",
+      "13": "Bagaimana saya bisa menjual NFT saya?",
+      "14": "Pengaturan aliran royalti?",
+      "15": "Mengapa Anda memilih untuk membangun Kusama/Polkadot dan bukan Ethereum?",
+      "16": "Apa perbedaan antara membuat Klasik, Sederhana, dan Permafrost?",
+      "17": "Apakah Anda didanai?",
+      "18": "Apakah Anda memiliki saluran Telegram?",
+      "19": "Apakah Anda akan memiliki mode atau implementasi AR/VR?",
+      "20": "Bagaimana cara membuka konsol pengembang?",
+      "21": "Bagaimana cara memperbarui metadata untuk ekstensi?",
+      "22": "Saya mendapatkan \"Kesalahan saldo rendah atau kurang\"",
+      "23": "Bagaimana cara mengatur identitas?",
+      "24": "Apakah ada token KodaDot resmi?",
+      "25": "Bagaimana saya bisa berkontribusi pada proyek?",
+      "26": "Apakah mungkin untuk memindahkan nfts dari satu koleksi ke koleksi lainnya?",
+      "27": "Di mana saya dapat mengakses presskit KodaDot terbaru?"
+    },
+    "a": {
+      "1": {
+        "m": "NFT atau token yang tidak dapat dipertukarkan mengacu pada aset unik, yang disimpan di blockchain dan mempertahankan kepemilikan unik. @.md:faq.a.1.l1",
+        "l1": "[Anda dapat menemukan lebih banyak tentang Token Non-Fungible di Wikipedia](@.common:links.wikipedia.nft)"      },
+      "2": {
+        "m": "Pencetakan adalah proses di mana dompet cryptocurrency dan blockchain Anda berkomunikasi bersama dan membuat Anda dapat membuat NFT."
+      },
+      "3": {
+        "m": "Di pojok kiri atas, klik @.md:faq.a.3.l1 dan pilih mint <b>Simple</b> atau <b>Classic</b>. mint",
+        "l1": "[Create](@.common:links.rmrk_create.href)"
+      },
+      "4": {
+        "m": "Pertama-tama, Anda perlu menginstal @.md:faq.a.4.l1, <b>cadangan seed anda</b>. Kemudian Anda dapat mengisi ulang alamat dompet Anda @.md:faq.a.4.l2 atau gunakan kami @.md:faq.a.4.l3 fitur. Setelah Anda memiliki dana, menuju ke @.md:faq.a.4.l4, pilih Koleksi. Tunggu sampai Koleksi dicetak, lalu kamu pergi ke @.md:faq.a.4.l5 dan Cetak token pertama anda! Jangan ragu untuk membagikannya kepada kami di @.md:faq.a.4.l6",
+        "l1": "[Polkadot Extension](@.common:links.polkadot_js_extension.href)",
+        "l2": "[here](@.common:links.rmrk_credit.href)",
+        "l3": "[grant](@.common:links.artist_grant_program.href)",
+        "l4": "[Create](@.common:links.rmrk_create.href)",
+        "l5": "[Create Token](@.common:links.rmrk_create.href)",
+        "l6": "[Create Token.](@.common:links.kodadot_social.discord.href)"
+      },
+      "5": {
+        "m": "Saat ini, ada banyak @.md:faq.a.5.l1 yang mendukung perdagangan KSM. Yang paling aman mungkin @.md:faq.a.5.l2 and @.md:faq.a.5.l3 atau coba decentralized @.md:faq.a.5.l4",
+        "l1": "[exchanges](@.common:links.coingecko_ksm_markets.href)",
+        "l2": "[Binance](@.common:links.binance_exchange.href)",
+        "l3": "[Bybit](@.common:links.bybit_exchange.href)",
+        "l4": "[simpleswap.](@.common:links.simpleswap_exchange.href)"
+      },
+      "6": {
+        "m": "Kami merekomendasikan untuk mendapatkan KSM melalui pertukaran kustodian seperti @.md:faq.a.6.l1 dan @.md:faq.a.6.l2 atau Anda dapat menggunakan integrasi jaringan RAMP kami - jalan fiat @.md:faq.a.6.l3 Jika Anda kesulitan dengan ini, jangan ragu untuk meminta @.md:faq.a.6.l4 atau beri tahu kami di @.md:faq.a.6.l5 saluran di discord.",
+        "l1": "[Binance](@.common:links.binance_exchange.href)",
+        "l2": "[Bybit](@.common:links.bybit_exchange.href)",
+        "l3": "[here.](@.common:links.rmrk_credit.href)",
+        "l4": "[grant](@.common:links.artist_grant_program.href)",
+        "l5": "[help](@.common:links.kodadot_social.discord_help.href)"
+      },
+      "7": {
+        "m": "Kami sedang menjajaki kemungkinan, kami sebenarnya berencana untuk secara aktif meneliti ini di tonggak sejarah kami 2."
+      },
+      "8": {
+        "m": "Untuk harga terbaik, anda bisa @.md:faq.a.8.l1 Untuk pengalaman terbaik @.md:faq.a.8.l2 If anda @.md:faq.a.8.l3",
+        "l1": "[gunakan pertukaran kustodian dari daftar.](@.common:links.coingecko_ksm_price.href)",
+        "l2": "[kami menyarankan Anda untuk menggunakan Binance.](@.common:links.binance_exchange.href)",
+        "l3": "[mencari perdagangan sederhana, coba SimpleSwap.](@.common:links.simpleswap_exchange.href)"
+      },
+      "9": {
+        "m": "Kami mencoba memberikan pembaruan tambahan setiap hari & perbaikan ASAP. Kami mungkin telah menerbitkan versi baru dan browser Anda telah men-cache versi lama. Jika Anda menggunakan Windows, coba tahan Ctrl lalu tekan F5. Pengguna Mac, tahan CMD dan Shift lalu tekan R. Jika ini tidak membantu, DM kami di Twitter atau perselisihan dengan tangkapan layar di mana konsol pengembang terbuka."
+      },
+      "10": {
+        "m": "SEND akan mengirimkannya ke seseorang, CONSUME akan membakarnya, LIST akan mencantumkannya untuk dijual sehingga seseorang dapat membelinya dari Anda."
+      },
+      "11": {
+        "m": "Cara terbaik adalah dengan memeriksa @.md:faq.a.11.l1 dan cari alamat anda. @.md:faq.a.11.l2",
+        "l1": "[Subscan Explorer](@.common:links.kusama_scanner.href)",
+        "l2": "[Anda dapat menemukan contoh bagaimana NFT yang dicetak terlihat melalui explorer, ketika Anda melihat pada ekstrinsik.](@.common:links.kusama_scanner.extrinsic.href)"
+      },
+      "12": {
+        "m": "Ya, jika misalnya bermasalah bagi Anda untuk menarik diri dari pertukaran atau menggunakan fiat-onramp, Anda dapat mengunjungi discord kami dan meminta sejumlah kecil KSM di @.md:faq.a.12.l1 saluran di perselisihan kami atau minta @.md:faq.a.12.l2 untuk menutupi biaya pencetakan.",
+        "l1": "[Bantuan](@.common:links.kodadot_social.discord_help.href)",
+        "l2": "[Diberikan](@.common:links.artist_grant_program.href)"
+      },
+      "13": {
+        "m": "Jika Anda belum menetapkan harga NFT di awal, navigasikan ke @.md:faq.a.13.l1, pilih NFT Anda di Created dan klik LIST, yang akan membuat anda dapat mengatur harga.",
+        "l1": "[profil](@.common:links.rmrk_profile.href)"
+      },
+      "14": {
+        "m": "Saat ini, kami tidak memiliki logika rantai, tetapi kami berencana untuk mengimplementasikan sesuatu yang hebat, segera. @.md:faq.a.14.l1",
+        "l1": "[Tetap bersama kami dan ikuti kami @KodaDot!](@.common:links.kodadot_social.twitter.href)"
+      },
+      "15": {
+        "m": "Kami percaya bahwa biaya untuk tindakan di Ethereum mungkin tinggi di masa depan dan PoW saat ini tidak ramah lingkungan. Kami percaya pada efek jaringan dari efek Kusama/Polkadot dari parachains lain. Jawaban yang lebih rinci dapat ditemukan @.md:faq.a.15.l1",
+        "l1": "[Disini.](@.common:links.chain_decision.href)"
+      },
+      "16": {
+        "m": "<b>CLASSIC</b> mari anda membuat koleksi dan menambahkan NFT ke dalamnya. <b>SIMPLE</b> mint akan membuat koleksi NFT dan menambahkannya ke profil anda dan <b>PERMAFROST</b> adalah pencetakan NFT menggunakan protokol Arweave: Protokol mencocokkan orang-orang yang memiliki ruang hard drive yang tersisa dengan individu dan organisasi yang perlu menyimpan data atau meng-host konten secara permanen."
+      },
+      "17": {
+        "m": "Saat ini, kami memiliki @.md:faq.a.17.l1 Kami secara aktif mencari opsi pendanaan, akhirnya kami akan mengumpulkan dana pribadi. DM kami, jika Anda tertarik dengan penjualan pribadi.",
+        "l1": "[Pendanaan Perbendaharaan Kusama untuk Milestone 1.](@.common:links.kusama_polkassembly.kodadot_nft_explorer_post.href)"
+      },
+      "18": {
+        "m": "Kami hanya memiliki saluran pribadi untuk pembuat NFT. Jangan ragu untuk DM kami jika Anda adalah pembuat NFT!"
+      },
+      "19": {
+        "m": "Ya, itu bagian dari Milestone 2 kami, pantau terus!"
+      },
+      "20": {
+        "m": "Jika Anda menggunakan Mac, di Chrome tekan <b>Option, CMD, J</b>, Firefox <b>Command + Option + K</b>."
+      },
+      "21": {
+        "m": "Pergi ke @.md:faq.a.21.l1 dan klik tombol <b>Perbarui metadata</b>, lalu segarkan jendela Anda. Itu harus bekerja dengan jenis rantai baru-baru ini.",
+        "l1": "[Dotapps.io, Pengaturan > Metadata](@.common:links.dotapps_io.kusama_rpc_settings_metadata.href)"
+      },
+      "22": {
+        "m": "Periksa apakah anda punya <b>transferable</b> $KSM di akun Anda, tidak dipertaruhkan. Itu berbeda. Bisa di cek di @.md:faq.a.22.l1 dan pada keseimbangan terungkap, di mana <b>Transferable</b> jumlah akan ditampilkan.",
+        "l1": "[Dotapps.io > Comptes](@.common:links.dotapps_io.kusama_rpc_accounts.href)"
+      },
+      "23": {
+        "m": "Anda dapat mempelajari lebih lanjut @.md:faq.a.23.l1",
+        "l1": "[Cara mengatur identitas di jaringan Kusama](@.common:links.kusama_network.docs.mirror_learn_identity.href)."
+      },
+      "24": {
+        "m": "Tidak, tidak ada token resmi yang diluncurkan. Harap ikuti media sosial resmi dan waspadai upaya penipuan dan penipuan dari sumber tidak resmi. DYOR."
+      },
+      "25": {
+        "m": "Kami selalu menerima kontribusi dari komunitas kami. Ada banyak @.md:faq.a.25.l1 untuk semua tingkat keahlian - beberapa bahkan akan dihargai dalam $KSM. @.md:faq.a.25.l2",
+        "l1": "[masalah terbuka](@.common:links.kodadot_social.open_issues.href)",
+        "l2": "[Berikan kontribusi pertama Anda!](@.common:links.kodadot_social.contributing_guide.href)"
+      },
+      "26": {
+        "m": "Tidak, kemungkinan ini tidak ada di sini saat ini. Jika Anda ingin mengusulkan perubahan, jangan ragu untuk membuat @.md:faq.a.26.l1 di Github.",
+        "l1": "[issue](@.common:links.kodadot_social.open_issues.href)"
+      },
+      "27": {
+        "m": "Anda dapat mengakses presskit KodaDot terbaru @.md:faq.a.27.l1",
+        "l1": "[Disini.](@.common:links.kodadot_social.presskit.href)"
+      }
+    }
+  },
+  "funfacts": {
+    "1": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa pada tahun 2015 kami meluncurkan NFT resmi pertama yang disebut Etheria?"
+    },
+    "2": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa standar 'seperti NFT' pertama di Kusama secara harfiah hanyalah string byte?"
+    },
+    "3": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot telah dimulai sebagai penulisan ulang dasbor DotApps berbasis React ke dalam Vuejs?"
+    },
+    "4": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot sedang membangun lanskap NFT eksperimental?"
+    },
+    "5": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa ada begitu banyak karya seni NFT psychadelic dan trippy? Kami juga tidak tahu."
+    },
+    "6": {
+      "heading": "Bisakah kamu menebak...",
+      "question": "berapa banyak parachains yang didukung KodaDot? Dapatkan jawaban yang tepat di Discord kami!"
+    },
+    "7": {
+      "heading": "Bisakah kamu menebak...",
+      "question": "berapa banyak forks GitHub yang dimiliki repository KodaDot?"
+    },
+    "8": {
+      "heading": "Bisakah kamu menebak...",
+      "question": "Berapa banyak bintang GitHub yang dimiliki repositori KodaDot?"
+    },
+    "9": {
+      "heading": "Menurut mu ...",
+      "question": "KodaDot harus meluncurkan token $kodanya sendiri?"
+    },
+    "10": {
+      "heading": "Bisakah kamu menebak...",
+      "question": "Berapa banyak NFT yang diindeks KodaDot dari semua parachains?"
+    },
+    "11": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot memiliki aplikasi seluler?"
+    },
+    "12": {
+      "heading": "Tahukah kamu....",
+      "question": "Bahwa KodaDot adalah salah satu galeri NFT pertama yang mendukung augmented reality untuk objek 3D, pada awal Januari 2021?"
+    },
+    "13": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot mengalami masalah pada hari-hari awalnya? Ya, semua startup mengalami kegagalan untuk belajar dari kesalahan. Begitulah cara kami tahu bahwa produk kami semakin baik."
+    },
+    "14": {
+      "heading": "Tahukah kamu...",
+      "question": "bahwa KodaDot memiliki nilai-nilai inti dan etos yang didistribusikan, didesentralisasi, dan dimiliki oleh komunitas? Cobalah berpartisipasi dalam komunitas kami yang terus berkembang!"
+    },
+    "15": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot telah mengganti tiga logonya dalam satu bulan?"
+    },
+    "16": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa terjemahan komunitas KodaDot adalah peretasan pertumbuhan terbesar untuk membangun komunitas untuk berpartisipasi?"
+    },
+    "17": {
+      "heading": "Tahukah kamu...",
+      "question": "bahwa KodaDot memiliki 420 anggota Discord di dek pitch investor mereka? Kebetulan sekali."
+    },
+    "18": {
+      "heading": "Tahukah kamu....",
+      "question": "Bahwa pendiri KodaDot mendorong forking basis kodenya dan menyambut lebih banyak instance KodaDot di alam liar?"
+    },
+    "19": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa salah satu pendiri KodaDot menjalankan infrastruktur untuk eSports pada tahun 2006?"
+    },
+    "20": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa fakta-fakta ini bahkan tidak penting? Kami hanya senang menghabiskan waktu bersama Anda sampai tindakan Anda diselesaikan ke dalam Blockchain."
+    },
+    "21": {
+      "heading": "Tahukah kamu...",
+      "question": "Minum cukup air untuk tetap terhidrasi!"
+    },
+    "22": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa kami memiliki lebih dari 500 masalah terbuka di simpanan kami di GitHub?"
+    },
+    "23": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot mempromosikan budaya inklusif untuk menyambut berbagai seniman yang berkontribusi pada pertumbuhannya?"
+    },
+    "24": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa jika Anda membuat permintaan tarik pada repositori KodaDot, fakta menyenangkan Anda dapat ditampilkan di sini?"
+    },
+    "25": {
+      "heading": "Apakah Anda memeriksa ...",
+      "question": "penjualan JPEG anda hari ini?"
+    },
+    "26": {
+      "heading": "Apakah kamu...",
+      "question": "Mencetak sesuatu yang indah hari ini?"
+    },
+    "27": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa versi pertama KodaDot terlihat lebih buruk daripada Craiglist pada tahun 1999?"
+    },
+    "28": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa pendiri KodaDot memenangkan beberapa hackathon Ethereum dan Polkadot di masa lalu?"
+    },
+    "29": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot harus memberhentikan beberapa lusin investor yang tertarik untuk mendukung kami?"
+    },
+    "30": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa KodaDot peduli dengan perubahan iklim dengan menanam pohon di Portugal, yang disebut KodaForest?"
+    },
+    "31": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa pendiri KodaDot percaya pada realitas simulasi?"
+    },
+    "32": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa kamu terlihat cantik hari ini?"
+    },
+    "33": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa orang-orang dari seluruh dunia berkontribusi pada basis kode kami?"
+    },
+    "34": {
+      "heading": "Tahukah kamu...",
+      "question": "KodaDot telah mengimbangi 10.000 kilogram CO2, yang setara dengan 2.500 burger keju."
+    },
+    "35": {
+      "heading": "Tahukah kamu...",
+      "question": "Bahwa anda bisa mendapatkan ikhtisar dari semua pintasan yang tersedia dengan menekan?"
+    }
+  },
+  "sort": {
+    "BLOCK_NUMBER_DESC": "Urutan Pertama",
+    "BLOCK_NUMBER_ASC": "Urutan Akhir",
+    "UPDATED_AT_DESC": "Aktifitas Terbaru",
+    "UPDATED_AT_ASC": "Aktifitas Terakhir",
+    "PRICE_DESC": "Harga Rendah Ke Tinggi",
+    "PRICE_ASC": "Harga Tinggi Ke Rendah",
+    "listed": "Beli Sekarang"
+  },
+  "mint": {
+    "submit": "Klik untuk membuat NFT(s)",
+    "estimate": "Tampilkan biaya transaksi",
+    "estimated": "Biaya transaksi akan dikenakan biaya sekitar",
+    "success": "Selamat untuk NFT(s) baru anda",
+    "shareWithFriends": "Bagikan {0} dengan teman Anda",
+    "unlimited": "Item tak terbatas di dalam koleksi Anda",
+    "nfsw": "Konten Explicit (NSFW)",
+    "mass": "Cetak Masal NFT",
+    "command": "Daftar perintah untuk mint massal",
+    "transform": "Ubah perintah di NFT",
+    "deposit": "Deposit saat ini",
+    "expert": {
+      "show": "Tampilkan pengaturan lanjutan",
+      "hide": "Sembunyikan pengaturan lanjutan",
+      "count": "Saat ini cocok dengan {0} alamat",
+      "countGlitch": "Anda memiliki lebih banyak alamat daripada edisi yang tersedia. Ini dapat menyebabkan masalah. Pertimbangkan untuk mengatur bidang EDITION setidaknya ke {0}",
+      "postfix": "Tambahkan hashtag dan indeks setelah nama (Misal nya #1)",
+      "sync": "Sinkronkan edisi ke {0}"
+    },
+    "collection": {
+      "name": {
+        "label": "Nama koleksi",
+        "placeholder": "Masukkan nama koleksi",
+        "message": "Nama koleksi Anda. Itu akan terlihat di galeri"
+      },
+      "description": {
+        "label": "Deskripsi Koleksi",
+        "placeholder": "Masukkan deskripsi Koleksi",
+        "message": "Deskripsi Koleksi Anda. Penurunan harga didukung"
+      },
+      "symbol": {
+        "label": "Simbol (nama pendek)",
+        "placeholder": "3-5 nama panjang karakter",
+        "message": "Simbol yang dikaitkan dengan NFT: misalnya, Kusama diberi label sebagai KSM"
+      }
+    },
+    "nft": {
+      "name": {
+        "label": "nama",
+        "placeholder": "Masukkan nama NFT",
+        "message": "Nama NFT Anda. Itu akan terlihat di galeri"
+      },
+      "description": {
+        "label": "Deskripsi NFT NFT",
+        "placeholder": "Masukkan Deskripsi NFT",
+        "message": "Deskripsi NFT Anda. Penurunan harga didukung"
+      },
+      "edition": {
+        "label": "Edisi",
+        "placeholder": "Minimal adalah 1",
+        "message": "Jumlah NFT yang akan dicetak"
+      }
+    }
+  },
+  "tooltip": {
+    "symbol": "Simbol yang dikaitkan dengan NFT: misalnya, Kusama diberi label sebagai KSM",
+    "name": "NFT akan terlihat dengan nama ini di galeri",
+    "edition": "Jumlah Item",
+    "created": "Dibuat oleh",
+    "collections": "Koleksi dibuat oleh",
+    "sold": "Nfts Dijual oleh",
+    "collected": "Nfts dikoleksi oleh",
+    "buy": "Hanya tampilkan nft yang tersedia untuk dibeli",
+    "random": "Pergi ke halaman acak",
+    "buyDisabled": "Saldo tidak cukup"
+  },
+  "nft": {
+    "carbonless": "NFT ini tanpa karbon",
+    "burned": "NFT dibakar",
+    "description": "Deskripsi NFT",
+    "name": "Beri nama NFT Anda",
+    "frozen": "NFT dibekukan",
+    "event": {
+      "MINTNFT": "🖼  CETAK",
+      "LIST": "📰  DAFTAR",
+      "SEND": "🎁  HADIAH",
+      "CONSUME": "🔥 BAKAR",
+      "BUY": "🤝 BELI"
+    }
+  },
+  "loader": {
+    "casting": "(1/3) Mentransmisikan tx ke blockchain",
+    "finalized": "(3/3) Selesai",
+    "block": "(2/3) Transaksi di blok",
+    "pinImage": "Sematkan Gambar",
+    "pinMeta": "Sematkan Metadata",
+    "constructTx": "Membangun transaksi",
+    "sign": "Menunggu tanggapan dari singer",
+    "ipfs": "Mengunggah data ke IPFS",
+    "arweave": "Menyimpan data melalui PermaFrost",
+    "uploading": "({0}/{1}) Mengunggah data ke IPFS",
+    "checkBalance": "Memeriksa apakah anda memiliki saldo yang cukup"
+  },
+  "Spotlight": "Sorotan",
+  "Simple": "Sederhana",
+  "About": "Tentang",
+  "FAQ": "FAQ",
+  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+  "Press Kit": "Press Kit",
+  "Jobs": "Jobs",
+  "theatre": "teater",
+  "view": "Lihat",
+  "price": "Harga",
+  "arweave": {
+    "uploadYes": "Unggah gambar NFT ke Arweave",
+    "uploadNo": "Jangan gunakan Arweave",
+    "tooltip": "Menggunakan Arweave berarti Anda menyimpan multimedia Anda selamanya di Arweave, bagus untuk aset kecil seperti JPEG."
+  },
+  "carbonOffset": {
+    "carbonOffsetYes": "Saya membuat NFT tanpa carbonless",
+    "carbonOffsetNo": "Saya tidak ingin memiliki NFT tanpa carbonless",
+    "tooltip": "NFT tanpa carbonless berarti Anda membantu menutupi biaya untuk kredit carbonless dan menanam pohon"
+  },
+  "support": {
+    "tooltip": "Biaya pertanggungan berarti bahwa pengguna membantu mendukung biaya awal untuk KodaDot yang menyimpan JPEG Anda atas nama Anda."
+  },
+  "termOfService": {
+    "accept": "Saya mengonfirmasi bahwa saya memegang kepemilikan hak cipta penuh atas aset digital yang dikirimkan (atau memiliki izin yang memadai dari pemilik untuk menggunakan aset tersebut)"
+  },
+  "profile": {
+    "user": "Pengguna",
+    "created": "Dibuat",
+    "collected": "Dikumpulkan",
+    "sold": "Terjual",
+    "showQr": "Tampilkan QR"
+  },
+  "spotlight": {
+    "title": "Sorotan Pengguna",
+    "subtitle": "Menampilkan kolektor dan seniman paling aktif di RMRK.",
+    "filter_accounts": "Akun Dengan Identitas",
+    "id": "Pencipta",
+    "sold": "Terjual",
+    "unique": "∃!",
+    "total": "Total",
+    "averagePrice": "Ø Harga",
+    "count": "Σ Koleksi",
+    "collectors": "Kolektor",
+    "score": "Skor",
+    "empty": "Kosong",
+    "uniqueCollectors": "∃! Kolektor"
+  },
+  "series": {
+    "title": "Koleksi Teratas",
+    "subtitle": "NFT teratas di RMRK, diberi peringkat berdasarkan volume, harga minimum, dan statistik lainnya.",
+    "assets": "Assets",
+    "buys": "Membeli",
+    "collected": "Dikumpulkan",
+    "floorprice": "Harga Lantai",
+    "owners": "Pemilik",
+    "volume": "Volume Perdagangan"
+  },
+  "tutorial": {
+    "create": "1. Buat akun polkadot js",
+    "ksm": "2. Dapatkan KSM",
+    "mint": "3. Minting"
+  },
+  "general": {
+    "balance": "Saldo",
+    "submit": "Kirim",
+    "remove": "Hapus",
+    "correctAddress": "Format alamat yang benar",
+    "copyUrl": "Salin URL",
+    "openUrl": "Buka URL"
+  },
+  "helper": {
+    "noCollections": "Anda tidak memiliki koleksi",
+    "noInfinityCollections": "Anda tidak memiliki koleksi dengan NFT tak terbatas",
+    "indexerReadOnly": "Aplikasi dalam mode hanya baca, coba muat ulang aplikasi atau kunjungi Discord",
+    "clickToCreate": "Klik di sini untuk membuat koleksi",
+    "urlToTransform": {
+      "label": "URL untuk diubah",
+      "placeholder": "singular.rmrk.app/collectibles/",
+      "copy": "Tautan Kodadot berhasil disalin"
+    }
+  },
+  "cookies": {
+    "notice": "Kami menggunakan pihak ketiga 🍪 untuk mempersonalisasi pengalaman situs Anda",
+    "accept": "Menerima",
+    "decline": "Menolak"
+  },
+  "action": {
+    "admin": "Panel admin",
+    "click": "Klik untuk {0} NFT",
+    "omitListed": "Lewati terdaftar NFT(s)",
+    "random": "Gunakan acak",
+    "distributionCount": "Persen yang akan dibagikan",
+    "sendToMyself": "Kirim ke alamat sendiri"
+  },
+  "identity": {
+    "set": "Buat identitas on-chain",
+    "click": "Klik untuk membuat identitas",
+    "handleRequired": "Pegangan Anda diperlukan",
+    "deposit": "Deposit"
+  },
+  "massMint": {
+    "tutorial": {
+      "basic": {
+        "title": "Mint massal dasar ",
+        "description": "Ini adalah mint massal dasar, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
+      },
+      "range": {
+        "title": "Kisaran Mint massal",
+        "description": "Anda dapat menentukan kisaran mint massal, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
+      },
+      "all": {
+        "title": "Mint massal semua",
+        "description": "Anda dapat menentukan kisaran mint massal, itu akan membuat NFT dengan simbol dan nama yang sama, tetapi jumlah yang berbeda. Ini juga akan membuat jumlah NFT yang berbeda dengan simbol dan nama yang sama, tetapi jumlah yang berbeda."
+      }
+    },
+    "syntax": {
+      "file": "Nama file (misalnya. semarang_1.jpg)",
+      "name": "Nama NFT (misalnya. semarang_1.jpg)",
+      "amount": "Harga token (misalnya. 0.01)",
+      "description": "Deskripsi multiline dari token (misalnya. semarang kota atlas)",
+      "range": "Rentang token (misalnya. 1-5)",
+      "all": "Berlaku untuk semua token (gunakan tiga titik: ...)"
+    }
+  },
+  "collapse": {
+    "collection": {
+      "description": {
+        "show": "Tunjukkan deskripsi",
+        "hide": "Sembunyikan deskripsi"
+      },
+      "attributes": {
+        "show": "Tampilkan atribut on-chain",
+        "hide": "Sembunyikan atribut on-chain"
+      }
+    }
+  },
+  "sharing": {
+    "collection": "Lihat Koleksi mengagumkan ini di KodaDot",
+    "nft": "Lihat NFT yang luar biasa ini di KodaDot",
+    "pack": "Lihat Pack mengagumkan ini di KodaDot",
+    "profile": "Lihat Profil keren ini di KodaDot"
+  },
+  "warning": {
+    "newTransactionWhilePriceSet": "Menetapkan harga sekarang membutuhkan transaksi tambahan."
+  },
+  "teleport": {
+    "route": "Teleportasi {0} dari {1} ke {2}"
+  },
+  "preferences": {
+    "basic": "Antarmuka pengguna dasar",
+    "advanced": "Antarmuka pengguna tingkat lanjut",
+    "theater": "Aktifkan Tampilan Teater secara default",
+    "fold": {
+      "history": "Fold riwayat dan grafik harga dalam tampilan NFT secara default",
+      "description": "Fold deskripsi dalam tampilan koleksi secara default"
+    },
+    "yolo": "Ganti BELI SEKARANG dengan YOLO",
+    "priceVisible": "Selalu tampilkan harga di galeri dan tampilan koleksi secara default",
+    "loadAllArtworks": "Muat semua karya seni di galeri secara default (video, dll.)"
+  }
+}
