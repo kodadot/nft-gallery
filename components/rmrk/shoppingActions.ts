@@ -37,7 +37,7 @@ const constructRmrk = (
   }`
 }
 
-const checkBuyBeforeSubmit = async ({
+export const checkBuyBeforeSubmit = async ({
   urlPrefix,
   nftId,
   currentOwnerId,
@@ -58,6 +58,7 @@ const checkBuyBeforeSubmit = async ({
   } = nft
 
   if (
+    !nFTEntity ||
     nFTEntity.currentOwner !== currentOwnerId ||
     nFTEntity.burned ||
     nFTEntity.price === 0 ||
