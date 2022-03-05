@@ -181,7 +181,7 @@
 
       <b-table-column
         v-slot="props"
-        field="floor_price"
+        field="floorPrice"
         :label="$t('series.floorprice')"
         numeric
         cell-class="is-vcentered"
