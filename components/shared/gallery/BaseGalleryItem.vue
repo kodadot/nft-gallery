@@ -18,7 +18,10 @@
               viewMode === 'default' && !isFullScreenView && imageVisible
             "
             class="image-preview has-text-centered"
-            :class="{ fullscreen: isFullScreenView }">
+            :class="{
+              fullscreen: isFullScreenView,
+              tile: isTileView,
+            }">
             <img
               v-if="isFullScreenView"
               :src="image"
@@ -40,6 +43,13 @@
                 :mimeType="mimeType"
                 class="media-item" />
             </div>
+            <div
+              id="tile-placeholder"
+              v-show="isTileView"
+              :style="{ 'background-image': 'url(' + image + ')' }"
+              :alt="description"
+              @click="exitTileView"
+              @contextmenu.prevent />
           </div>
           <slot name="image"></slot>
         </div>
@@ -56,6 +66,14 @@
           v-if="!isLoading && imageVisible"
           :class="{ fullscreen: isFullScreenView }">
           <b-icon :icon="isFullScreenView ? 'compress' : 'expand'"> </b-icon>
+        </button>
+        <button
+          id="tile-view"
+          @click="toggleTileView"
+          @keyup.esc="exitTileView"
+          v-if="!isLoading && imageVisible"
+          :class="{ tile: isTileView }">
+          <b-icon :icon="isTileView ? 'compress' : 'table'"> </b-icon>
         </button>
       </div>
     </div>
@@ -89,10 +107,19 @@ export default class BaseGalleryItem extends Vue {
   @Prop(String) public mimeType!: string
 
   private isFullScreenView = false
+  private isTileView = false
   private viewMode = this.$store.getters['preferences/getTheatreView']
 
   public toggleView(): void {
     this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
+  }
+
+  public toggleTileView(): void {
+    this.setTileView(!this.isTileView)
+  }
+
+  public setTileView(value: boolean) {
+    this.isTileView = value
   }
 
   public setFullScreenView(value: boolean) {
@@ -105,6 +132,9 @@ export default class BaseGalleryItem extends Vue {
 
   public minimize(): void {
     this.setFullScreenView(false)
+  }
+  public exitTileView(): void {
+    this.setTileView(false)
   }
 
   public onImageError(e: any) {
@@ -152,6 +182,22 @@ export default class BaseGalleryItem extends Vue {
         justify-content: center;
         align-items: center;
       }
+      &.tile {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999998;
+        background: #000;
+        div#tile-placeholder {
+          background-repeat: repeat;
+          background-position: center;
+          background-size: 33.33%;
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
 
     .column {
@@ -179,7 +225,7 @@ export default class BaseGalleryItem extends Vue {
   button#theatre-view {
     position: absolute;
     bottom: 12px;
-    right: 68px;
+    right: 124px;
     color: $light-text;
     opacity: 0.6;
     @media screen and (max-width: 768px) {
@@ -190,7 +236,7 @@ export default class BaseGalleryItem extends Vue {
   button#fullscreen-view {
     position: absolute;
     bottom: 12px;
-    right: 12px;
+    right: 68px;
     opacity: 0.6;
     &.fullscreen {
       position: fixed;
@@ -200,6 +246,22 @@ export default class BaseGalleryItem extends Vue {
     }
     @media screen and (max-width: 768px) {
       right: -12px;
+    }
+  }
+
+  button#tile-view {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    opacity: 0.6;
+    &.tile {
+      position: fixed;
+      z-index: 999998;
+      bottom: 0;
+      right: 0;
+    }
+    @media screen and (max-width: 768px) {
+      display: none;
     }
   }
 
