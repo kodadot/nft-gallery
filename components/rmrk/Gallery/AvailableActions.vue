@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="actions-wrap">
     <Loader v-model="isLoading" :status="status" />
     <div v-if="accountId" class="buttons">
       <ShareNetwork
@@ -13,26 +13,46 @@
         <b-icon pack="fab" icon="twitter" />
         <span class="joy">SHARE JOY</span>
       </ShareNetwork>
-      <b-button
-        v-for="action in actions"
-        :key="action"
-        :type="iconType(action)[0]"
-        outlined
-        @click="handleAction(action)"
-        expanded>
-        {{ action === 'BUY' && replaceBuyNowWithYolo ? 'YOLO' : action }}
-      </b-button>
+      <template v-if="isOwner">
+        <b-button
+          v-for="action in actions"
+          :key="action"
+          :type="iconType(action)[0]"
+          outlined
+          @click="handleAction(action)"
+          expanded>
+          {{ action }}
+        </b-button>
+      </template>
+      <template v-else>
+        <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
+          <b-button
+            :type="iconType('BUY')[0]"
+            :disabled="buyDisabled || !isAvailableToBuy"
+            outlined
+            @click="handleAction('BUY')"
+            expanded>
+            {{ replaceBuyNowWithYolo ? 'YOLO' : 'BUY' }}
+          </b-button>
+        </b-tooltip>
+      </template>
     </div>
-    <component
-      :is="showMeta"
-      v-if="showMeta"
+    <BalanceInput
+      v-show="selectedAction === 'LIST'"
+      ref="balanceInput"
       class="mb-4"
       empty-on-error
+      @input="updateMeta" />
+    <AddressInput
+      v-show="selectedAction === 'SEND'"
+      ref="addressInput"
+      class="mb-4"
       @input="updateMeta" />
     <b-button
       v-if="showSubmit"
       type="is-primary"
       icon-left="paper-plane"
+      :disabled="disabled"
       @click="submit">
       Submit {{ selectedAction }}
     </b-button>
@@ -40,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -51,20 +71,17 @@ import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
+import { isAddress } from '@polkadot/util-crypto'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
 const ownerActions = ['SEND', 'CONSUME', 'LIST']
 const buyActions = ['BUY']
-
-const needMeta: Record<string, string> = {
-  SEND: 'AddressInput',
-  LIST: 'BalanceInput',
-}
 
 type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
@@ -85,7 +102,8 @@ const components = {
 @Component({ components })
 export default class AvailableActions extends mixins(
   RmrkVersionMixin,
-  PrefixMixin
+  PrefixMixin,
+  KeyboardEventsMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
@@ -93,6 +111,7 @@ export default class AvailableActions extends mixins(
   @Prop() public price!: string
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
+  @Prop({ default: false }) public buyDisabled!: boolean
   private selectedAction: Action = ''
   private meta: string | number = ''
   protected isLoading = false
@@ -100,6 +119,32 @@ export default class AvailableActions extends mixins(
   protected label = ''
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
+
+  @Ref('balanceInput') readonly balanceInput
+  @Ref('addressInput') readonly addressInput
+
+  public created() {
+    this.initKeyboardEventHandler({
+      a: this.bindActionEvents,
+    })
+  }
+
+  get disabled(): boolean {
+    return this.selectedAction === 'SEND' && !isAddress(this.meta.toString())
+  }
+
+  private bindActionEvents(event) {
+    const mappings = {
+      b: 'BUY',
+      s: 'SEND',
+      c: 'CONSUME',
+      l: 'LIST',
+    }
+
+    event.preventDefault()
+
+    this.handleAction(mappings[event.key])
+  }
 
   get actions() {
     return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []
@@ -120,7 +165,7 @@ export default class AvailableActions extends mixins(
   }
 
   get showMeta() {
-    return needMeta[this.selectedAction]
+    return ['SEND', 'LIST'].includes(this.selectedAction)
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -142,8 +187,18 @@ export default class AvailableActions extends mixins(
   protected handleAction(action: Action) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
-      if (action === 'BUY') {
-        this.submit()
+      switch (action) {
+        case 'BUY':
+          this.submit()
+          break
+        case 'LIST':
+          this.balanceInput?.focusInput()
+          break
+        case 'SEND':
+          this.addressInput?.focusInput()
+          break
+        default:
+          break
       }
     } else {
       this.selectedAction = ''
@@ -372,6 +427,13 @@ export default class AvailableActions extends mixins(
   color: #1c9cef !important;
   &:hover {
     color: #fff !important;
+  }
+}
+.actions-wrap {
+  .buttons {
+    .b-tooltip {
+      width: 100%;
+    }
   }
 }
 </style>

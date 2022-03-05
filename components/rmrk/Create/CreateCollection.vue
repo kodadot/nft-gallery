@@ -14,7 +14,7 @@
         <b-field
           v-if="!unlimited"
           class="mt-1"
-          :label="$i18n.t('Maximum NFTs in collection')">
+          :label="$t('Maximum NFTs in collection')">
           <b-numberinput
             v-model="max"
             placeholder="1 is minumum"

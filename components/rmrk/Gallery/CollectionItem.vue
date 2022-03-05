@@ -25,12 +25,16 @@
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" inline showTwitter showDiscord />
+            <p v-if="showMintTime" class="is-flex is-align-items-center py-3">
+              <b-icon icon="clock" size="is-medium" />
+              <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
+            </p>
           </div>
         </div>
       </div>
 
       <div class="column is-6-tablet is-7-desktop is-8-widescreen">
-        <CollectionActivity :nfts="stats" />
+        <CollectionActivity :id="id" />
       </div>
 
       <div class="column has-text-right">
@@ -111,7 +115,8 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
-import nftListByCollection from '@/queries/nftListByCollection.graphql'
+import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
@@ -120,6 +125,9 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import { mapDecimals } from '@/utils/mappers'
 
 const components = {
   GalleryCardList: () =>
@@ -141,7 +149,11 @@ const components = {
 @Component<CollectionItem>({
   components,
 })
-export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
+export default class CollectionItem extends mixins(
+  ChainMixin,
+  PrefixMixin,
+  CreatedAtMixin
+) {
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
@@ -153,15 +165,20 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
   }
   public activeTab = 'collection'
   private currentValue = 1
-  private first = 15
+  private first = 16
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
-  protected priceData: any = []
+  protected priceData: [ChartData[], ChartData[]] | [] = []
   private statsLoaded = false
+  private queryLoading = 0
+
+  get hasChartData(): boolean {
+    return this.priceData.length > 0
+  }
 
   get isLoading(): boolean {
-    return this.$apollo.queries.collection.loading
+    return Boolean(this.queryLoading)
   }
 
   get offset(): number {
@@ -196,6 +213,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     return this.$store.getters['preferences/getCompactCollection']
   }
 
+  get showMintTime(): boolean {
+    return this.$store.state.preferences.showMintTimeCollection
+  }
+
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
     const params: any[] = []
 
@@ -221,7 +242,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
-      loadingKey: 'isLoading',
+      loadingKey: 'queryLoading',
       manual: true,
       variables: () => {
         return {
@@ -236,11 +257,14 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     })
   }
 
-  public checkIfEmptyListed(): void {
-    this.$apollo.addSmartQuery('collection', {
+  public async checkIfEmptyListed(): Promise<void> {
+    // if the collection is empty, we need to check if there are any listed NFTs
+    this.$apollo.addSmartQuery('totalListed', {
       query: collectionById,
       client: this.urlPrefix,
-      loadingKey: 'isLoading',
+      update: (data) => {
+        return data.collectionEntity.nfts.totalCount
+      },
       variables: () => {
         return {
           id: this.id,
@@ -250,49 +274,54 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
           offset: this.offset,
         }
       },
-      result: this.handleResultListed,
     })
   }
 
-  public loadStats(): void {
-    const nftStatsP = this.$apollo.query({
-      query: nftListByCollection,
-      client: this.urlPrefix,
+  protected async loadStats(): Promise<void> {
+    const { data } = await this.$apollo.query<{
+      buys: ChartData[]
+      listings: ChartData[]
+    }>({
+      query: collectionChartById,
+      client: 'subsquid',
       variables: {
         id: this.id,
       },
     })
 
-    nftStatsP
-      .then(({ data }) => data?.nFTEntities?.nodes || [])
-      .then((nfts) => {
-        this.stats = nfts
-        this.statsLoaded = true
-        this.loadPriceData()
-      })
+    if (!data) {
+      return
+    }
+    // console.log(data.collection.nfts.nodes)
+
+    // const events: Interaction[][] =
+    //   data.collection.nfts.nodes.map((nft) => nft.events) || []
+
+    this.loadPriceData(data)
   }
 
-  public loadPriceData(): void {
+  public loadPriceData({
+    buys,
+    listings,
+  }: {
+    buys: ChartData[]
+    listings: ChartData[]
+  }): void {
     this.priceData = []
 
-    const events: Interaction[][] = this.stats?.map(onlyEvents) || []
-    const priceEvents: Interaction[][] = events.map(this.priceEvents) || []
+    const mapToDecimals = mapDecimals(this.decimals, false)
+    const soldPriceData = buys.map((buy) => ({
+      ...buy,
+      value: mapToDecimals(buy.value),
+      average: mapToDecimals(buy.average || 0),
+    }))
 
-    const overTime: string[] = priceEvents
-      .flat()
-      .sort(sortByTimeStamp)
-      .map(eventTimestamp)
+    const listedPriceData = listings.map((listing) => ({
+      ...listing,
+      value: mapToDecimals(listing.value),
+    }))
 
-    const floorPriceData: PriceDataType[] = overTime.map(
-      collectionFloorPriceList(priceEvents, this.decimals)
-    )
-
-    const buyEvents = events.map(onlyBuyEvents)?.flat().sort(sortByTimeStamp)
-    const soldPriceData: PriceDataType[] = buyEvents?.map(
-      soldNFTPrice(this.decimals)
-    )
-
-    this.priceData = [floorPriceData, soldPriceData]
+    this.priceData = [listedPriceData, soldPriceData]
   }
 
   public async handleResult({ data }: any): Promise<void> {
@@ -301,6 +330,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       this.$router.push({ name: 'errorcollection' })
       return
     }
+    this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
     ).catch(console.warn)
@@ -311,10 +341,6 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     this.total = collectionEntity.nfts.totalCount
 
     await this.fetchMetadata()
-  }
-
-  public async handleResultListed({ data }: any): Promise<void> {
-    this.totalListed = data.collectionEntity.nfts.totalCount
   }
 
   public async fetchMetadata(): Promise<void> {
@@ -357,7 +383,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity' && !this.statsLoaded) {
+    if (val === 'activity') {
       this.loadStats()
     }
   }

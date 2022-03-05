@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection" v-if="nfts">
+    <div class="level my-4 collection" v-if="stats">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
@@ -53,43 +53,91 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
 import { Interaction, NFT } from '@/components/rmrk/service/scheme'
 import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
 import { subDays } from 'date-fns'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import collectionStatsById from '@/queries/collectionStatsById.graphql'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
 }
+type Stats = {
+  listedCount: number
+  collectionLength: number
+  collectionFloorPrice: number
+  uniqueOwnerCount: number
+  differentOwnerCount: number
+  saleEvents: Interaction[]
+}
 
 @Component({ components })
-export default class extends Vue {
-  @Prop() public nfts!: NFT[]
+export default class CollectionActivity extends mixins(PrefixMixin) {
+  @Prop({ type: String, required: true }) public id!: string
   public yesterdayDate: Date = subDays(Date.now(), 1)
 
+  protected stats: Stats = {
+    listedCount: 0,
+    collectionLength: 0,
+    collectionFloorPrice: 0,
+    uniqueOwnerCount: 0,
+    differentOwnerCount: 0,
+    saleEvents: [],
+  }
+
+  async fetch() {
+    if (!this.id) {
+      console.warn('CollectionActivity: id is not defined')
+      return
+    }
+
+    const { data } = await this.$apollo
+      .query({
+        query: collectionStatsById,
+        client: this.urlPrefix,
+        variables: {
+          id: this.id,
+        },
+      })
+      .catch((e) => {
+        console.warn(e)
+        return { data: null }
+      })
+
+    if (!data) {
+      console.log('stats is null')
+      return
+    }
+
+    this.stats = {
+      listedCount: data.stats.listed.count,
+      collectionLength: data.stats.base.count,
+      collectionFloorPrice: data.stats.listed.aggregates.floor.value,
+      uniqueOwnerCount: data.stats.base.aggregates.distinctCount.currentOwner,
+      differentOwnerCount: data.stats.base.nfts.filter(this.differentOwner)
+        .length,
+      saleEvents: data.stats.base.nfts
+        .map((nft) => nft.events)
+        .map(pairListBuyEvent)
+        .flat(),
+    }
+  }
+
   get saleEvents(): Interaction[] {
-    return this.nfts
-      .map((nft) => nft.events)
-      .map(pairListBuyEvent)
-      .flat()
+    return this.stats.saleEvents
   }
 
   get collectionLength(): number {
-    return this.nfts.length
+    return this.stats.collectionLength
   }
 
   get listedCount(): number {
-    return this.onlyListedNfts.length
-  }
-
-  get onlyListedNfts(): number[] {
-    return this.nfts
-      .map((nft) => Number(nft.price))
-      .filter((price) => price > 0)
+    return this.stats.listedCount
   }
 
   get collectionFloorPrice(): number {
-    return Math.min(...this.onlyListedNfts)
+    return this.stats.collectionFloorPrice
   }
 
   get disributionCount(): string {
@@ -97,27 +145,11 @@ export default class extends Vue {
   }
 
   get uniqueOwnerCount(): number {
-    return uniqueCount(
-      this.tokensWithDifferentOwner.map((nft) => nft.currentOwner)
-    )
+    return this.stats.uniqueOwnerCount
   }
 
   get differentOwnerCount(): number {
-    return this.tokensWithDifferentOwner.length
-  }
-
-  get tokensWithDifferentOwner(): NFT[] {
-    return this.nfts.filter(this.differentOwner)
-  }
-
-  get collectionTradedVol(): number {
-    return this.nfts
-      .map((nft) =>
-        nft.events.filter(
-          (e: { interaction: string }) => e.interaction === 'BUY'
-        )
-      )
-      .filter((arr) => arr.length).length
+    return this.stats.differentOwnerCount
   }
 
   get collectionTradedVolumeNumber(): bigint {
@@ -128,7 +160,10 @@ export default class extends Vue {
     return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
   }
 
-  protected differentOwner(nft: any): boolean {
+  protected differentOwner(nft: {
+    issuer: string
+    currentOwner: string
+  }): boolean {
     return nft.currentOwner !== nft.issuer
   }
 }

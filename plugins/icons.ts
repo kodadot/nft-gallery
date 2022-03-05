@@ -1,4 +1,9 @@
 import Vue from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library, config } from '@fortawesome/fontawesome-svg-core'
+
+// nuxt will handle css
+config.autoAddCss = false
 
 import {
   faPaperPlane,
@@ -51,6 +56,7 @@ import {
   faClock,
   faArrowsAlt,
   faCompressAlt,
+  faCompress,
   faCompressArrowsAlt,
   faAngleLeft,
   faAngleRight,
@@ -73,6 +79,13 @@ import {
   faHistory,
   faEllipsisH,
   faLightbulb,
+  faCube,
+  faExpand,
+  faImage,
+  faSignOutAlt,
+  faWallet,
+  faChartLine,
+  faTable,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -97,8 +110,6 @@ import {
   faRedditAlien,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
 
 library.add(
   faPaperPlane,
@@ -154,7 +165,9 @@ library.add(
   faCalculator,
   faArrowsAlt,
   faCompressAlt,
+  faCompress,
   faCompressArrowsAlt,
+  faTable,
   faEyeSlash,
   faArrowUp,
   faUser,
@@ -172,6 +185,12 @@ library.add(
   faHistory,
   faEllipsisH,
   faLightbulb,
+  faCube,
+  faExpand,
+  faImage,
+  faSignOutAlt,
+  faWallet,
+  faChartLine,
 
   // Social
   faTwitter,
@@ -192,7 +211,5 @@ library.add(
   faExternalLinkSquareAlt,
   faYoutube
 )
-
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.component('vue-fontawesome', FontAwesomeIcon)

@@ -2,7 +2,7 @@ export const generateNftImage = (
   name: string,
   price: string,
   image: string,
-  mimeType?: string
+  mimeType = ''
 ): string => {
   return `https://og-image-green-seven.vercel.app/${encodeURIComponent(
     name

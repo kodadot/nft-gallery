@@ -8,6 +8,7 @@ export const state = (): {
   compactGalleryItem: boolean
   compactCollection: boolean
   showPriceGallery: boolean
+  showMintTimeCollection: boolean
   galleryItemsPerPage: number
   collectionsPerPage: number
   replaceBuyNowWithYolo: boolean
@@ -24,6 +25,7 @@ export const state = (): {
   compactGalleryItem: true,
   compactCollection: false,
   showPriceGallery: false,
+  showMintTimeCollection: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
   replaceBuyNowWithYolo: false,
@@ -41,6 +43,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
+  getShowMintTime: ({ showMintTimeCollection }) => showMintTimeCollection,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
@@ -80,6 +83,9 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_SHOW_PRICE(state: PreferencesState, data) {
     state.showPriceGallery = data
+  },
+  SET_SHOW_MINT_TIME(state: PreferencesState, data) {
+    state.showMintTimeCollection = data
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
     state.replaceBuyNowWithYolo = data
@@ -125,6 +131,9 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setShowPriceValue({ commit }: { commit: Commit }, data) {
     commit('SET_SHOW_PRICE', data)
+  },
+  setShowMintTime({ commit }: { commit: Commit }, data) {
+    commit('SET_SHOW_MINT_TIME', data)
   },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)

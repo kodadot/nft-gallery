@@ -2,7 +2,10 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
+    <Search
+      v-bind.sync="searchQuery"
+      @resetPage="currentValue = 1"
+      :hideSearchInput="notMobile">
       <Pagination
         hasMagicBtn
         simple
@@ -16,7 +19,10 @@
 
     <div>
       <div class="columns is-multiline">
-        <div class="column is-4" v-for="nft in results" :key="nft.id">
+        <div
+          class="column is-4 column-padding"
+          v-for="nft in results"
+          :key="nft.id">
           <div class="card nft-card">
             <nuxt-link
               :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -81,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 import {
   getCloudflareImageLinks,
@@ -102,6 +108,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -128,10 +135,13 @@ export default class Gallery extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    priceMin: undefined,
+    priceMax: undefined,
   }
   private currentValue = 1
   protected total = 0
   private loadingState = 0
+  private notMobile = false
 
   get first(): number {
     return this.$store.getters['preferences/getGalleryItemsPerPage']
@@ -161,6 +171,8 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   public async created() {
+    window.addEventListener('resize', this.onResize)
+    this.notMobile = window.innerWidth >= 1023
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
@@ -180,6 +192,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         }
       },
     })
@@ -195,7 +209,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
-    processMetadata<NFTMetadata>(metadataList, (meta, i) => {
+    await processMetadata<NFTMetadata>(metadataList, (meta, i) => {
       Vue.set(this.nfts, i, {
         ...this.nfts[i],
         ...meta,
@@ -212,7 +226,10 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     })
 
-    this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
+    await this.prefetchPage(
+      this.offset + this.first,
+      this.offset + 3 * this.first
+    )
   }
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
@@ -230,6 +247,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           denyList: isRemark ? denyList : statemineDenyList,
           orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
+          priceMin: this.searchQuery.priceMin,
+          priceMax: this.searchQuery.priceMax,
         },
       })
 
@@ -240,14 +259,14 @@ export default class Gallery extends mixins(PrefixMixin) {
       } = await nfts
 
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      processMetadata<NFTMetadata>(metadataList)
+      await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
       logError(e, (msg) =>
         console.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
     } finally {
       if (offset <= prefetchLimit) {
-        this.prefetchPage(offset + this.first, prefetchLimit)
+        await this.prefetchPage(offset + this.first, prefetchLimit)
       }
     }
   }
@@ -261,13 +280,36 @@ export default class Gallery extends mixins(PrefixMixin) {
       })
     }
 
-    if (this.searchQuery.listed && this.isRmrk) {
+    if (
+      this.searchQuery.priceMin == undefined &&
+      this.searchQuery.listed &&
+      this.isRmrk
+    ) {
       params.push({
         price: { greaterThan: '0' },
       })
     }
 
+    if (
+      this.searchQuery.priceMin != undefined &&
+      this.searchQuery.listed &&
+      this.isRmrk
+    ) {
+      params.push({
+        price: {
+          greaterThan: this.searchQuery.priceMin,
+          lessThanOrEqualTo: this.searchQuery.priceMax,
+        },
+      })
+    }
     return params
+  }
+
+  @Watch('$route.query.search')
+  protected onIdChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.searchQuery.search = val || ''
+    }
   }
 
   get results() {
@@ -278,6 +320,14 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.nfts as SearchedNftsWithMeta[]
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+  }
+
+  private onResize(e) {
+    return (this.notMobile = window.innerWidth >= 1024)
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
@@ -338,7 +388,6 @@ export default class Gallery extends mixins(PrefixMixin) {
 
   .columns {
     padding-top: 10px;
-
     .card {
       border-radius: 8px;
       position: relative;

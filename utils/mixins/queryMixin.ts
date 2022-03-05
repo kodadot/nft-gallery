@@ -58,6 +58,11 @@ export default class QueryMixin extends Vue {
   }: any) {
     try {
       if (key.name in this.keys) {
+        /**
+         * skipcq
+         * We already know that `key.name` is a string, because it's a property of the object,
+         * and already been subscribed.
+         */
         throw EvalError(`${key.name} already subscribed`)
       }
       const value = await this.extractValue({
@@ -71,7 +76,7 @@ export default class QueryMixin extends Vue {
       this.defaultValues = [...this.defaultValues, value]
       this.random = [...this.random, key]
       this.keys[key.name] = this.defaultValues.length - 1
-      this.subscribe(
+      await this.subscribe(
         method,
         key.name,
         args,

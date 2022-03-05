@@ -1,6 +1,6 @@
 import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
 
-export const enableExtension = () => web3Enable('KodaDot')
+export const enableExtension = async () => await web3Enable('KodaDot')
 
 export const getAddress = async (address: string) => {
   try {
@@ -11,3 +11,7 @@ export const getAddress = async (address: string) => {
     return null
   }
 }
+
+export const isMobileDevice =
+  'ontouchstart' in document.documentElement &&
+  navigator.userAgent.match(/Mobi/)

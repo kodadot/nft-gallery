@@ -42,13 +42,13 @@
               field="From"
               label="From"
               v-slot="props">
-              <router-link
+              <nuxt-link
                 :to="{
                   name: 'rmrk-u-id',
                   params: { id: props.row.From },
                 }">
                 <Identity :address="props.row.From" inline noOverflow />
-              </router-link>
+              </nuxt-link>
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
@@ -92,7 +92,7 @@ import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
-import i18n from '@/utils/config/i18n'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -113,7 +113,7 @@ type ChartData = {
 }
 
 @Component({ components })
-export default class History extends mixins(ChainMixin) {
+export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
@@ -121,6 +121,18 @@ export default class History extends mixins(ChainMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
+
+  public async created() {
+    this.initKeyboardEventHandler({
+      e: this.bindExpandEvents,
+    })
+  }
+
+  private bindExpandEvents(event) {
+    if (event.key === 'h') {
+      this.isOpen = !this.isOpen
+    }
+  }
 
   get uniqType(): any[] {
     return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
@@ -155,26 +167,26 @@ export default class History extends mixins(ChainMixin) {
 
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = i18n.t('nft.event.MINTNFT')
+        event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = i18n.t('nft.event.LIST')
+        event['Type'] = this.$t('nft.event.LIST')
         event['From'] = newEvent['caller']
         event['To'] = ''
         prevOwner = event['From']
         curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = i18n.t('nft.event.SEND')
+        event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
         curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = i18n.t('nft.event.CONSUME')
+        event['Type'] = this.$t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = i18n.t('nft.event.BUY')
+        event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
       // From

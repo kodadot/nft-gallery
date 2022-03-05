@@ -41,7 +41,7 @@ export default class Money extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .money {
   &--inline {
     display: inline-block;

@@ -72,7 +72,6 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 ![Visualization of this repo](.github/diagram.svg)
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
 
-
 <!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
@@ -82,29 +81,11 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 - [Twitter](https://twitter.com/KodaDot)
 - [Discord](https://discord.gg/u6ymnbz4PR)
 
-### Discontinued for now (if you want help us manage these, shout out on Discord)
+## Writings on development ✍️
 
-- [Telegram](https://t.me/kodadot)
-- [r/KodaDot](https://www.reddit.com/r/KodaDot/)
-
-## Backlog on progress
-
-- We've [bi-weekly digest, what we call **Meta_Hours**](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
-- You can [find most recent progress, roadmap, planned features, bug fixes, future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
-
-## Writings-📚 by KodaDot team members
-
-- [KodaDot 2.0 -- Beta](https://medium.com/kodadot/kodadot-2-0-beta-d136f6ff139)
-- [We've organized first Dotsama meetup in Lisbon thanks to KodaDot](https://medium.com/kodadot/first-dotsama-meetup-in-lisbon-and-how-the-kodadot-team-helped-to-make-it-real-10b4ca63d0b5)
-- [Mass Airdrop and what we've learned](https://medium.com/kodadot/mass-airdrop-and-what-weve-learned-d063efb7c088)
-- [Introducing Series Insights](https://medium.com/kodadot/introducing-series-insights-dde52dbadf5d)
-- [JPEG summer is over. It's over, right?](https://medium.com/kodadot/jpeg-summer-is-over-its-over-right-e893ca2eeaa9)
-- [Hello Kusummer](https://medium.com/kodadot/hello-kusummer-kodadot-edition-faca87753418)
-- [Client-first NFT gallery: Technical examination](https://medium.com/kodadot/client-first-nft-gallery-technical-examination-33db09dfdc97)
-- [How to Embed your NFT on Kusama through KodaDot](https://medium.com/kodadot/how-to-embed-your-nft-on-kusama-through-kodadot-ee52c2384b0d)
-- [Traverse to the prime show](https://medium.com/kodadot/traverse-to-the-prime-show-733d6046d3f5)
-- [The First Multilingual NFT Gallery in Polkadot ecosystem running live on Kusama](https://medium.com/kodadot/the-first-multilingual-nft-gallery-in-polkadot-ecosystem-running-live-on-kusama-b8f7566770be)
-- [Read our story, how we started.](https://medium.com/kodadot/kodadot-nft-explorer-f2c3a326a856)
+- [Find most recent progress, features and future ideations](https://github.com/kodadot/nft-gallery/discussions/categories/meta-hours).
+- [We are document our recent additions to KodaDot in long-form writings](https://docs.kodadot.xyz/writings.html)
+- [On the past, present and future of data storage at KodaDot](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
 
 ## Working version ▶️
 
@@ -120,7 +101,6 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 ## Development 🏗
 
 - [Contribution is welcome!](CONTRIBUTING.md) and well rewarded in $KSM!
-
 - [How to setup environment for first time and how to run the project.](FIRST_TIME.md)
 
 ## I want to contribute- 🙋‍

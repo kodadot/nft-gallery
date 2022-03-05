@@ -9,18 +9,18 @@ jobs:
     name: runner / eslint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "16.14.0"
 
       - name: Install Dependencies
         run: yarn
 
       - name: Run eslint with reviewdog
-        uses: reviewdog/action-eslint@v1.15.0
+        uses: reviewdog/action-eslint@v1.16.0
         with:
           level: error
           github_token: ${{ secrets.GITHUB_TOKEN }}

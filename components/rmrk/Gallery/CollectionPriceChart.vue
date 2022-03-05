@@ -25,7 +25,22 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import ChainMixin from '@/utils/mixins/chainMixin'
 
-import { getChartData, getMedianPoint, getMovingAverage } from '@/utils/chart'
+const baseLineOptions = {
+  tension: 0.3,
+  pointBackgroundColor: 'white',
+  pointBorderColor: 'blue',
+  pointRadius: 4,
+  pointHoverRadius: 6,
+}
+
+import {
+  getCollectionChartData,
+  getLabel,
+  CollectionChartData as ChartData,
+  mapToAverage,
+  getCollectionMedian,
+  getMovingAverage,
+} from '@/utils/chart'
 
 Chart.register(zoomPlugin)
 Chart.register(annotationPlugin)
@@ -34,7 +49,10 @@ const components = {}
 
 @Component({ components })
 export default class PriceChart extends mixins(ChainMixin) {
-  @Prop() public priceData!: [Date, number][][]
+  @Prop({ type: Array, required: true }) public priceData!: [
+    ChartData[],
+    ChartData[]
+  ] // [listings, buys]
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
@@ -77,52 +95,53 @@ export default class PriceChart extends mixins(ChainMixin) {
       )?.getContext('2d')
 
       if (ctx) {
+        const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctx, {
           type: 'line',
+
           data: {
-            labels: this.priceData[1].map((item) => item[0]),
+            labels: this.priceData[1].map(getLabel),
             datasets: [
               {
                 label: 'Floor Price',
-                data: getChartData(this.priceData[0]),
+                data: getCollectionChartData(this.priceData[0]),
                 borderColor: '#d32e79',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 4,
-                pointHoverRadius: 6,
+                ...baseLineOptions,
               },
               {
                 label: 'Sold NFT Price',
-                data: getChartData(this.priceData[1]),
+                data: getCollectionChartData(this.priceData[1]),
                 borderColor: '#00BB7F',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 4,
-                pointHoverRadius: 6,
+                ...baseLineOptions,
               },
               {
                 label: 'Trailing Average',
-                data: getMovingAverage(this.priceData[1]) as any,
+                data: getMovingAverage(
+                  getCollectionChartData(this.priceData[1], mapToAverage)
+                ) as any,
                 borderColor: 'yellow',
-                tension: 0.3,
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'blue',
-                pointRadius: 0,
-                pointHoverRadius: 0,
+                ...baseLineOptions,
               },
             ],
           },
           options: {
             maintainAspectRatio: false,
             plugins: {
+              tooltip: {
+                callbacks: {
+                  afterLabel: ({ dataIndex, dataset }) => {
+                    return `Count: ${
+                      (dataset.data[dataIndex] as any).count || 0
+                    }`
+                  },
+                },
+              },
               annotation: {
                 annotations: {
                   median: {
                     type: 'line',
-                    yMin: getMedianPoint(this.priceData[1]),
-                    yMax: getMedianPoint(this.priceData[1]),
+                    yMin: median,
+                    yMax: median,
                     borderColor: '#00BB7F',
                     borderWidth: 2,
                     borderDash: [10, 5],

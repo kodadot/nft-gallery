@@ -11,6 +11,7 @@ query collectionById(
   collectionEntity(id: $id) {
     ...collection
     ...collectionDetails
+    createdAt
     nfts(
       orderBy: [$orderBy, BLOCK_NUMBER_DESC]
       first: $first

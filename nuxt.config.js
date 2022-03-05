@@ -5,6 +5,12 @@ import defineApolloConfig, {
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default {
+  vue: {
+    config: {
+      productionTip: false,
+    },
+  },
+
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
@@ -84,7 +90,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['styles/index.scss'],
+  css: ['styles/index.scss', '@fortawesome/fontawesome-svg-core/styles.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -92,6 +98,9 @@ export default {
     { src: '~/plugins/polkadot', mode: 'client' },
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
+    { src: '~/plugins/keyboardEvents', mode: 'client' },
+    { src: '~/plugins/userBalance', mode: 'client' },
+    { src: '~/plugins/icons', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -139,10 +148,6 @@ export default {
       },
       {
         path: '~/components/spotlight',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/toolbox',
         extensions: ['vue'],
       },
       {
@@ -230,12 +235,7 @@ export default {
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
     strategy: 'no_prefix',
-    vueI18n: {
-      fallbackLocale: 'en',
-      // hide the warning message from the console.
-      silentTranslationWarn: true,
-      // silentFallbackWarn: true,
-    },
+    vueI18n: '~/utils/config/i18n',
   },
 
   apollo: {
@@ -243,13 +243,27 @@ export default {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
         process.env.SUBSQUID_ENDPOINT ||
-          'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+          'https://app.gc.subsquid.io/beta/rubick/005/graphql'
       ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      '@kodadot1/sub-api',
+      '@polkadot/api',
+      '@polkadot/rpc-core',
+      '@polkadot/rpc-provider',
+      '@polkadot/types',
+      '@polkadot/extension-dapp',
+      '@polkadot/util-crypto',
+      '@polkadot/keyring',
+      '@polkadot/ui-keyring',
+      '@polkadot/ui-settings',
+      '@polkadot/hw-ledger',
+      '@polkadot/types-codec',
+    ],
     extend: function (config) {
       config.module.rules.push({
         test: /\.js$/,
