@@ -25,9 +25,7 @@
         </b-button>
       </template>
       <template v-else>
-        <b-tooltip
-          :active="buyDisabled"
-          :label="$i18n.t('tooltip.buyDisabled')">
+        <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
             :type="iconType('BUY')[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
@@ -54,6 +52,7 @@
       v-if="showSubmit"
       type="is-primary"
       icon-left="paper-plane"
+      :disabled="disabled"
       @click="submit">
       Submit {{ selectedAction }}
     </b-button>
@@ -76,6 +75,7 @@ import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
+import { isAddress } from '@polkadot/util-crypto'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -127,6 +127,10 @@ export default class AvailableActions extends mixins(
     this.initKeyboardEventHandler({
       a: this.bindActionEvents,
     })
+  }
+
+  get disabled(): boolean {
+    return this.selectedAction === 'SEND' && !isAddress(this.meta.toString())
   }
 
   private bindActionEvents(event) {

@@ -1,0 +1,16 @@
+query collectionChartById($id: String!) {
+  buys: collectionBuyChartById(id: $id) {
+    date
+    value
+    average
+    count
+  }
+  listings: collectionListChartById(id: $id) {
+    date
+    value
+    count
+  }
+}
+
+
+

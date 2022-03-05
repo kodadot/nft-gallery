@@ -26,13 +26,14 @@
           :message="$t('mint.nft.name.message')"
           :placeholder="$t('mint.nft.name.placeholder')"
           expanded
-          spellcheck="true" />
+          spellcheck="true"
+          maxlength="60" />
 
         <BasicInput
           v-model="vDescription"
           key="description"
           maxlength="500"
-          class="mb-5"
+          class="my-5"
           type="textarea"
           spellcheck="true"
           :label="$t('mint.nft.description.label')"

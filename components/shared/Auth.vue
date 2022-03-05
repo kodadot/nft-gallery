@@ -10,7 +10,7 @@
   <AccountSelect
     v-else
     v-model="account"
-    :label="$i18n.t('Account')"
+    :label="$t('Account')"
     :tooltip-visible="false" />
 </template>
 

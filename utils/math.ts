@@ -49,3 +49,11 @@ export const between =
 export function uniqueCount<T>(self: T[]): number {
   return new Set(self).size
 }
+
+export function toDecimals(value: number, decimals: number): number {
+  return value * 10 ** decimals
+}
+
+export function fromDecimals(value: number, decimals: number): number {
+  return value / 10 ** decimals
+}

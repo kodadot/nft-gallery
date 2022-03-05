@@ -235,12 +235,7 @@ export default {
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
     strategy: 'no_prefix',
-    vueI18n: {
-      fallbackLocale: 'en',
-      // hide the warning message from the console.
-      silentTranslationWarn: true,
-      // silentFallbackWarn: true,
-    },
+    vueI18n: '~/utils/config/i18n',
   },
 
   apollo: {
@@ -248,13 +243,27 @@ export default {
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
         process.env.SUBSQUID_ENDPOINT ||
-          'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+          'https://app.gc.subsquid.io/beta/rubick/005/graphql'
       ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      '@kodadot1/sub-api',
+      '@polkadot/api',
+      '@polkadot/rpc-core',
+      '@polkadot/rpc-provider',
+      '@polkadot/types',
+      '@polkadot/extension-dapp',
+      '@polkadot/util-crypto',
+      '@polkadot/keyring',
+      '@polkadot/ui-keyring',
+      '@polkadot/ui-settings',
+      '@polkadot/hw-ledger',
+      '@polkadot/types-codec',
+    ],
     extend: function (config) {
       config.module.rules.push({
         test: /\.js$/,

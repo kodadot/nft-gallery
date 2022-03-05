@@ -2,7 +2,7 @@
   <b-dropdown v-model="selected" aria-role="list">
     <template #trigger="{ active }">
       <b-button
-        type="is-primary is-bordered"
+        type="is-primary is-bordered navbar-link-background"
         :label="selected"
         :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>

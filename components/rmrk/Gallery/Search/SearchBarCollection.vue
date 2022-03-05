@@ -19,7 +19,7 @@
         size="is-medium"
         labelColor="is-success"
         :disabled="disableToggle"
-        :message="$i18n.t('tooltip.buy')" />
+        :message="$t('tooltip.buy')" />
       <slot />
     </b-field>
   </div>
@@ -185,7 +185,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   }
   .input-search {
     input {
-      border: 1px solid $primary!important;
+      border: 1px solid $primary !important;
     }
   }
 }
