@@ -38,13 +38,13 @@
       </template>
     </div>
     <BalanceInput
-      v-show="selectedAction === 'LIST'"
+      v-show="isList"
       ref="balanceInput"
       class="mb-4"
       empty-on-error
       @input="updateMeta" />
     <AddressInput
-      v-show="selectedAction === 'SEND'"
+      v-show="isSend"
       ref="addressInput"
       class="mb-4"
       @input="updateMeta" />
@@ -61,37 +61,26 @@
 
 <script lang="ts">
 import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { unpin } from '@/utils/proxy'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
-import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
-import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
-
+import { ShoppingAction, getActions, submitAction } from '../shoppingActions'
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
-const ownerActions = ['SEND', 'CONSUME', 'LIST']
-const buyActions = ['BUY']
-
 type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
-  SEND: ['is-info is-dark'],
-  CONSUME: ['is-danger'],
-  LIST: ['is-light'],
-  BUY: ['is-success is-dark'],
+  [ShoppingAction.SEND]: ['is-info is-dark'],
+  [ShoppingAction.CONSUME]: ['is-danger'],
+  [ShoppingAction.LIST]: ['is-light'],
+  [ShoppingAction.BUY]: ['is-success is-dark'],
 }
-
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -112,7 +101,7 @@ export default class AvailableActions extends mixins(
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
-  private selectedAction: Action = ''
+  private selectedAction: ShoppingAction | null = null
   private meta: string | number = ''
   protected isLoading = false
   protected status = ''
@@ -130,15 +119,18 @@ export default class AvailableActions extends mixins(
   }
 
   get disabled(): boolean {
-    return this.selectedAction === 'SEND' && !isAddress(this.meta.toString())
+    return (
+      this.selectedAction === ShoppingAction.SEND &&
+      !isAddress(this.meta.toString())
+    )
   }
 
   private bindActionEvents(event) {
     const mappings = {
-      b: 'BUY',
-      s: 'SEND',
-      c: 'CONSUME',
-      l: 'LIST',
+      b: ShoppingAction.BUY,
+      s: ShoppingAction.SEND,
+      c: ShoppingAction.CONSUME,
+      l: ShoppingAction.LIST,
     }
 
     event.preventDefault()
@@ -147,7 +139,7 @@ export default class AvailableActions extends mixins(
   }
 
   get actions() {
-    return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []
+    return getActions(this.isOwner, this.isAvailableToBuy)
   }
 
   get showSubmit() {
@@ -165,7 +157,10 @@ export default class AvailableActions extends mixins(
   }
 
   get showMeta() {
-    return ['SEND', 'LIST'].includes(this.selectedAction)
+    return !!(
+      this.selectedAction &&
+      [ShoppingAction.SEND, ShoppingAction.LIST].includes(this.selectedAction)
+    )
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -180,28 +175,28 @@ export default class AvailableActions extends mixins(
     }`
   }
 
-  protected iconType(value: string) {
-    return iconResolver[value]
+  protected iconType(action: ShoppingAction) {
+    return iconResolver[action]
   }
 
-  protected handleAction(action: Action) {
+  protected handleAction(action: ShoppingAction) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
       switch (action) {
-        case 'BUY':
+        case ShoppingAction.BUY:
           this.submit()
           break
-        case 'LIST':
+        case ShoppingAction.LIST:
           this.balanceInput?.focusInput()
           break
-        case 'SEND':
+        case ShoppingAction.SEND:
           this.addressInput?.focusInput()
           break
         default:
           break
       }
     } else {
-      this.selectedAction = ''
+      this.selectedAction = null
       this.meta = ''
     }
   }
@@ -218,55 +213,40 @@ export default class AvailableActions extends mixins(
       : account || ''
   }
 
-  get isActionEmpty() {
-    return this.selectedAction === ''
-  }
-
-  get isOwner() {
+  get isOwner(): boolean {
     console.log(
       '{ currentOwnerId, accountId }',
       this.currentOwnerId,
       this.accountId
     )
 
-    return (
+    return !!(
       this.currentOwnerId &&
       this.accountId &&
       this.currentOwnerId === this.accountId
     )
   }
 
-  get isAvailableToBuy() {
+  get isAvailableToBuy(): boolean {
     const { price, accountId } = this
-    return accountId && Number(price) > 0
+    return !!(accountId && Number(price) > 0)
   }
 
-  private handleSelect(value: Action) {
+  private handleSelect(value: ShoppingAction) {
     this.selectedAction = value
     this.meta = ''
   }
 
-  private constructRmrk(): string {
-    const { selectedAction, version, meta, nftId } = this
-    return `RMRK::${selectedAction}::${version}::${nftId}${
-      this.metaValid ? '::' + meta : ''
-    }`
-  }
-
   get isBuy() {
-    return this.selectedAction === 'BUY'
-  }
-
-  get isConsume() {
-    return this.selectedAction === 'CONSUME'
+    return this.selectedAction === ShoppingAction.BUY
   }
 
   get isList() {
-    return this.selectedAction === 'LIST'
+    return this.selectedAction === ShoppingAction.LIST
   }
 
   get isSend() {
-    return this.selectedAction === 'SEND'
+    return this.selectedAction === ShoppingAction.SEND
   }
 
   get realworldFullPath() {
@@ -292,126 +272,64 @@ export default class AvailableActions extends mixins(
     this.meta = value
   }
 
-  protected async checkBuyBeforeSubmit() {
-    const nft = await this.$apollo.query({
-      query: nftById,
-      client: this.urlPrefix,
-      variables: {
-        id: this.nftId,
-      },
-    })
-
-    const {
-      data: { nFTEntity },
-    } = nft
-
-    if (
-      nFTEntity.currentOwner !== this.currentOwnerId ||
-      nFTEntity.burned ||
-      nFTEntity.price === 0 ||
-      nFTEntity.price !== this.price
-    ) {
-      showNotification(
-        `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-        notificationTypes.warn
-      )
-      throw new ReferenceError('NFT has changed')
-    }
-  }
-
   protected async submit() {
-    const { api } = Connector.getInstance()
-    const rmrk = this.constructRmrk()
+    const {
+      urlPrefix,
+      accountId,
+      version,
+      meta,
+      nftId,
+      metaValid,
+      currentOwnerId,
+      price,
+    } = this
     this.isLoading = true
 
-    try {
-      if (this.isActionEmpty) {
-        throw new ReferenceError('No action selected')
-      }
-      showNotification(rmrk)
-      console.log('submit', rmrk)
-      const isBuy = this.isBuy
-      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
-      const arg = isBuy
-        ? [
-            api.tx.system.remark(rmrk),
-            api.tx.balances.transfer(this.currentOwnerId, this.price),
-            somePercentFromTX(this.price),
-          ]
-        : rmrk
-
-      if (isBuy) {
-        await this.checkBuyBeforeSubmit()
-      }
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [arg],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            showNotification(blockHash.toString(), notificationTypes.info)
-            if (this.isConsume) {
-              this.unpinNFT()
-            }
-
-            showNotification(
-              `[${this.selectedAction}] ${this.nftId}`,
-              notificationTypes.success
-            )
-            this.selectedAction = ''
-            this.isLoading = false
-          },
-          (err) => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.selectedAction = ''
-            this.isLoading = false
-          },
-          (res) => {
-            if (res.status.isReady) {
-              this.status = 'loader.casting'
-              return
-            }
-
-            if (res.status.isInBlock) {
-              this.status = 'loader.block'
-              return
-            }
-
-            if (res.status.isFinalized) {
-              this.status = 'loader.finalized'
-              return
-            }
-
-            this.status = ''
-          }
-        )
-      )
-    } catch (e) {
-      showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+    const finishCb = () => {
+      this.selectedAction = null
       this.isLoading = false
     }
-  }
 
-  protected unpinNFT() {
-    this.ipfsHashes.forEach(async (hash) => {
-      if (hash) {
-        try {
-          await unpin(hash)
-        } catch (e) {
-          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
-        }
+    const onResult = (res) => {
+      if (res.status.isReady) {
+        this.status = 'loader.casting'
+        return
       }
+
+      if (res.status.isInBlock) {
+        this.status = 'loader.block'
+        return
+      }
+
+      if (res.status.isFinalized) {
+        this.status = 'loader.finalized'
+        return
+      }
+      this.status = ''
+    }
+
+    submitAction({
+      action: this.selectedAction,
+      urlPrefix,
+      accountId,
+      version,
+      meta,
+      nftId,
+      metaValid,
+      currentOwnerId,
+      price,
+      apollo: this.$apollo,
+      ipfsHashes: this.ipfsHashes,
+      onResult,
+      onError: finishCb,
+      onSuccess: finishCb,
+      onCatchError: finishCb,
     })
   }
 
   unlistNft() {
     // change the selected action to list and change meta value to 0
-    this.selectedAction = 'LIST'
+    this.selectedAction = ShoppingAction.LIST
     this.meta = 0
     this.submit()
   }
