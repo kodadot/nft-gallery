@@ -4,7 +4,12 @@ import TransactionMixin from './txMixin'
 import Connector from '@kodadot1/sub-api'
 import { notificationTypes, showNotification } from '../notification'
 import { DispatchError } from '@polkadot/types/interfaces'
-
+import { Interaction, createInteraction } from '@kodadot1/minimark'
+import { somePercentFromTX } from '@/utils/support'
+import {
+  checkBuyBeforeSubmit,
+  unpinNFT,
+} from '@/components/rmrk/shoppingActions'
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
  * import { Component, Mixins } from 'vue-property-decorator';
@@ -12,6 +17,8 @@ import { DispatchError } from '@polkadot/types/interfaces'
  */
 @Component
 export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
+  protected selectedAction
+
   public async howAboutToExecute(
     account: string,
     cb: (...params: any[]) => Extrinsic,
@@ -70,5 +77,99 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
     }
 
     this.isLoading = false
+  }
+
+  public submitAction = async ({
+    action,
+    accountId,
+    version,
+    meta,
+    nftId,
+    urlPrefix,
+    currentOwnerId,
+    price,
+    apollo,
+    ipfsHashes,
+  }) => {
+    const { api } = Connector.getInstance()
+    const rmrk = createInteraction(action, version, nftId, meta)
+
+    this.isLoading = true
+
+    const finishCb = () => {
+      this.selectedAction = null
+      this.isLoading = false
+    }
+
+    const onResult = (res) => {
+      if (res.status.isReady) {
+        this.status = 'loader.casting'
+        return
+      }
+
+      if (res.status.isInBlock) {
+        this.status = 'loader.block'
+        return
+      }
+
+      if (res.status.isFinalized) {
+        this.status = 'loader.finalized'
+        return
+      }
+      this.status = ''
+    }
+
+    try {
+      if (!action) {
+        throw new ReferenceError('No action selected')
+      }
+      showNotification(rmrk)
+      console.log('submit', rmrk)
+      const isBuy = action === Interaction.BUY
+      const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
+      const arg = isBuy
+        ? [
+            api.tx.system.remark(rmrk),
+            api.tx.balances.transfer(currentOwnerId, price),
+            somePercentFromTX(price),
+          ]
+        : rmrk
+
+      if (isBuy) {
+        await checkBuyBeforeSubmit({
+          urlPrefix,
+          nftId,
+          currentOwnerId,
+          price,
+          action,
+          apollo,
+        })
+      }
+
+      const statusCallback = txCb(
+        async (blockHash) => {
+          execResultValue(tx)
+          showNotification(blockHash.toString(), notificationTypes.info)
+          if (action === Interaction.CONSUME) {
+            unpinNFT(ipfsHashes)
+          }
+
+          showNotification(`[${action}] ${nftId}`, notificationTypes.success)
+          finishCb()
+        },
+        (err) => {
+          execResultValue(tx)
+          showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
+          finishCb()
+        },
+        onResult
+      )
+
+      const tx = await exec(accountId, '', cb, [arg], statusCallback)
+    } catch (e) {
+      showNotification(`[ERR] ${e}`, notificationTypes.danger)
+      console.error(e)
+      finishCb()
+    }
   }
 }

@@ -8,7 +8,6 @@ jest.mock('@/queries/nftById.graphql', () => ({
 }))
 
 import {
-  submitAction,
   checkBuyBeforeSubmit,
   getActions,
   ownerActions,
@@ -87,38 +86,5 @@ describe('SUBMIT ACTION TEST', (): void => {
         },
       })
     expect(fn).not.toThrow(Error)
-  })
-
-  const commonParm = {
-    urlPrefix: 'prefix',
-    accountId: 'xxx',
-    version: 'version',
-    meta: 'meta',
-    nftId: 'nftId',
-    metaValid: true,
-    currentOwnerId: 'id',
-    price: 2,
-    apollo: {
-      query: () => ({
-        data: {
-          nFTEntity: {
-            price: 4.5,
-            currentOwner: 'id',
-            burned: false,
-          },
-        },
-      }),
-    },
-    ipfsHashes: ipfsUrlList,
-  }
-
-  it('submitAction test: has not action', async () => {
-    const fn = () =>
-      submitAction({
-        ...commonParm,
-      }).catch((e) => {
-        expect(e).toBeInstanceOf(TypeError)
-      })
-    await fn()
   })
 })

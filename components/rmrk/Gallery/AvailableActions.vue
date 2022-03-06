@@ -66,20 +66,23 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
-import { ShoppingAction, getActions, submitAction } from '../shoppingActions'
+import { getActions } from '../shoppingActions'
+import { Interaction } from '@kodadot1/minimark'
+
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
 type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
-  [ShoppingAction.SEND]: ['is-info is-dark'],
-  [ShoppingAction.CONSUME]: ['is-danger'],
-  [ShoppingAction.LIST]: ['is-light'],
-  [ShoppingAction.BUY]: ['is-success is-dark'],
+  [Interaction.SEND]: ['is-info is-dark'],
+  [Interaction.CONSUME]: ['is-danger'],
+  [Interaction.LIST]: ['is-light'],
+  [Interaction.BUY]: ['is-success is-dark'],
 }
 
 const components = {
@@ -92,7 +95,8 @@ const components = {
 export default class AvailableActions extends mixins(
   RmrkVersionMixin,
   PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  MetaTransactionMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
@@ -101,7 +105,7 @@ export default class AvailableActions extends mixins(
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
-  private selectedAction: ShoppingAction | null = null
+  protected selectedAction: Interaction | null = null
   private meta: string | number = ''
   protected isLoading = false
   protected status = ''
@@ -120,17 +124,17 @@ export default class AvailableActions extends mixins(
 
   get disabled(): boolean {
     return (
-      this.selectedAction === ShoppingAction.SEND &&
+      this.selectedAction === Interaction.SEND &&
       !isAddress(this.meta.toString())
     )
   }
 
   private bindActionEvents(event) {
     const mappings = {
-      b: ShoppingAction.BUY,
-      s: ShoppingAction.SEND,
-      c: ShoppingAction.CONSUME,
-      l: ShoppingAction.LIST,
+      b: Interaction.BUY,
+      s: Interaction.SEND,
+      c: Interaction.CONSUME,
+      l: Interaction.LIST,
     }
 
     event.preventDefault()
@@ -159,7 +163,7 @@ export default class AvailableActions extends mixins(
   get showMeta() {
     return !!(
       this.selectedAction &&
-      [ShoppingAction.SEND, ShoppingAction.LIST].includes(this.selectedAction)
+      [Interaction.SEND, Interaction.LIST].includes(this.selectedAction)
     )
   }
 
@@ -175,21 +179,21 @@ export default class AvailableActions extends mixins(
     }`
   }
 
-  protected iconType(action: ShoppingAction) {
+  protected iconType(action: Interaction) {
     return iconResolver[action]
   }
 
-  protected handleAction(action: ShoppingAction) {
+  protected handleAction(action: Interaction) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
       switch (action) {
-        case ShoppingAction.BUY:
+        case Interaction.BUY:
           this.submit()
           break
-        case ShoppingAction.LIST:
+        case Interaction.LIST:
           this.balanceInput?.focusInput()
           break
-        case ShoppingAction.SEND:
+        case Interaction.SEND:
           this.addressInput?.focusInput()
           break
         default:
@@ -232,21 +236,21 @@ export default class AvailableActions extends mixins(
     return !!(accountId && Number(price) > 0)
   }
 
-  private handleSelect(value: ShoppingAction) {
+  private handleSelect(value: Interaction) {
     this.selectedAction = value
     this.meta = ''
   }
 
   get isBuy() {
-    return this.selectedAction === ShoppingAction.BUY
+    return this.selectedAction === Interaction.BUY
   }
 
   get isList() {
-    return this.selectedAction === ShoppingAction.LIST
+    return this.selectedAction === Interaction.LIST
   }
 
   get isSend() {
-    return this.selectedAction === ShoppingAction.SEND
+    return this.selectedAction === Interaction.SEND
   }
 
   get realworldFullPath() {
@@ -279,57 +283,27 @@ export default class AvailableActions extends mixins(
       version,
       meta,
       nftId,
-      metaValid,
       currentOwnerId,
       price,
     } = this
-    this.isLoading = true
 
-    const finishCb = () => {
-      this.selectedAction = null
-      this.isLoading = false
-    }
-
-    const onResult = (res) => {
-      if (res.status.isReady) {
-        this.status = 'loader.casting'
-        return
-      }
-
-      if (res.status.isInBlock) {
-        this.status = 'loader.block'
-        return
-      }
-
-      if (res.status.isFinalized) {
-        this.status = 'loader.finalized'
-        return
-      }
-      this.status = ''
-    }
-
-    submitAction({
+    this.submitAction({
       action: this.selectedAction,
       urlPrefix,
       accountId,
       version,
       meta,
       nftId,
-      metaValid,
       currentOwnerId,
       price,
       apollo: this.$apollo,
       ipfsHashes: this.ipfsHashes,
-      onResult,
-      onError: finishCb,
-      onSuccess: finishCb,
-      onCatchError: finishCb,
     })
   }
 
   unlistNft() {
     // change the selected action to list and change meta value to 0
-    this.selectedAction = ShoppingAction.LIST
+    this.selectedAction = Interaction.LIST
     this.meta = 0
     this.submit()
   }

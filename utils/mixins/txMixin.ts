@@ -8,8 +8,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
  */
 @Component
 export default class TransactionMixin extends Vue {
-  public status = ''
-  public isLoading = false
+  protected status = ''
+  protected isLoading = false
 
   public resolveStatus(status: ExtrinsicStatus, omitFinalized?: boolean): void {
     if (status.isReady) {
