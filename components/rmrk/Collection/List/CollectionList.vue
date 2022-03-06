@@ -270,10 +270,8 @@ export default class CollectionList extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {

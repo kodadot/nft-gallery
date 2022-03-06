@@ -389,10 +389,8 @@ export default class Gallery extends mixins(PrefixMixin) {
   .columns {
     padding-top: 10px;
     .card {
-      border-radius: 8px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
