@@ -96,7 +96,9 @@
           </div>
         </div>
       </b-field>
-      <b-field position="is-right" class="column is-6">
+      <b-field
+        position="is-right"
+        :class="{ 'column is-6': isGallery || isCollections }">
         <slot />
       </b-field>
     </div>
@@ -193,6 +195,7 @@ export default class Search extends mixins(PrefixMixin, KeyboardEventsMixin) {
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
   private isGallery: boolean = this.$route.path == '/rmrk/gallery'
+  private isCollections: boolean = this.$route.path == '/rmrk/collections'
 
   public mounted(): void {
     this.getSearchHistory()
