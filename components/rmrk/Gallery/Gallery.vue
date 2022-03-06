@@ -22,7 +22,7 @@
       v-model="currentValue"
       :perPage="first"
       replaceaaa
-      class="mobile-pagination remove-margin is-justify-content-center" />
+      class="mobile-pagination remove-margin is-justify-content-flex-start" />
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
     <div>

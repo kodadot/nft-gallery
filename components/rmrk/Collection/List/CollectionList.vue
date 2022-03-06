@@ -21,7 +21,7 @@
       v-model="currentValue"
       :perPage="first"
       replaceaaa
-      class="mobile-pagination remove-margin is-justify-content-center" />
+      class="mobile-pagination remove-margin is-justify-content-flex-start" />
 
     <div>
       <div class="columns is-multiline">
