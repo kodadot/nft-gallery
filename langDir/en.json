@@ -368,12 +368,12 @@
     }
   },
   "sort": {
-    "BLOCK_NUMBER_DESC": "New first",
-    "BLOCK_NUMBER_ASC": "Old first",
-    "UPDATED_AT_DESC": "Last interacted",
-    "UPDATED_AT_ASC": "Long time no interaction",
-    "PRICE_DESC": "From most expensive",
-    "PRICE_ASC": "From cheaper",
+    "BLOCK_NUMBER_DESC": "Recently Created",
+    "BLOCK_NUMBER_ASC": "Oldest",
+    "UPDATED_AT_DESC": "Recently Interacted",
+    "UPDATED_AT_ASC": "Unpopular",
+    "PRICE_DESC": "Price: High to Low",
+    "PRICE_ASC": "Price: Low to High",
     "listed": "Buy now"
   },
   "mint": {
