@@ -266,7 +266,6 @@ export default class Collections extends mixins(PrefixMixin) {
       border-radius: 8px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
