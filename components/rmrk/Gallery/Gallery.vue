@@ -437,7 +437,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
         }
 
         &:hover .gallery__image-wrapper img {

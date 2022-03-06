@@ -343,10 +343,11 @@ export default class CollectionList extends mixins(PrefixMixin) {
         }
 
         &:hover .card-content {
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
         }

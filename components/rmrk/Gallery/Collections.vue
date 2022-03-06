@@ -339,9 +339,10 @@ export default class Collections extends mixins(PrefixMixin) {
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
         }
 
         &:hover .collection__image-wrapper img {
