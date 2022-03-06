@@ -1,10 +1,10 @@
 <template>
   <div :class="['money', { 'money--inline': inline }]">
     <span v-if="!hideUnit">
-      {{ value | formatBalance(decimals, unit) }}
+      {{ value | checkInvalid | formatBalance(decimals, unit) }}
     </span>
     <span v-else>
-      {{ value | formatBalance(decimals, '') | round(2) }}
+      {{ value | checkInvalid | formatBalance(decimals, '') | round(2) }}
     </span>
   </div>
 </template>
@@ -14,6 +14,10 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({
   filters: {
+    checkInvalid: (value) => {
+      if (value === Infinity) return '0'
+      return value
+    },
     round: function roundOffNumber(value, limit) {
       return Number(value.replace(/,/g, '')).toFixed(limit)
     },

@@ -153,7 +153,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   protected createTable(): void {
     let prevOwner = ''
-    let curPrice = '0.0000000'
+    let curPrice = '0'
     this.data = []
     this.copyTableData = []
 
