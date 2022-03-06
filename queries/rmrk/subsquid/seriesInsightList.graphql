@@ -5,6 +5,7 @@ query seriesInsightList(
   collectionEntities: series(
     limit: $limit
     orderBy: [$orderBy]
+    where: { floorPrice_isNull: false }
   ) {
     id
     floorPrice
