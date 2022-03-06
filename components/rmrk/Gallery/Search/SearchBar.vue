@@ -154,6 +154,7 @@ import { denyList } from '@/utils/constants'
 import { NFT, NFTWithMeta, CollectionWithMeta } from '../../service/scheme'
 import { getSanitizer } from '../../utils'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { EventBus, COMMON_EVENTS } from '@/utils/eventBus'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { mapNFTorCollectionMetadata } from '~/utils/mappers'
@@ -520,7 +521,8 @@ export default class SearchBar extends mixins(
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
     // if searchbar request or filter is set, pagination should always revert to page 1
-    this.$emit('resetPage')
+
+    EventBus.$emit(COMMON_EVENTS.RESET_SEARCH_PAGE)
   }
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []

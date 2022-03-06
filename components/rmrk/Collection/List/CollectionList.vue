@@ -76,6 +76,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
+import { EventBus, COMMON_EVENTS } from '@/utils/eventBus'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -109,6 +110,12 @@ export default class CollectionList extends mixins(PrefixMixin) {
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
+  }
+
+  mounted() {
+    EventBus.$on(COMMON_EVENTS.RESET_SEARCH_PAGE, () => {
+      this.currentValue = 1
+    })
   }
 
   get isLoading(): boolean {
