@@ -15,7 +15,7 @@
     </template>
     <template #start>
       <Search
-        v-if="!mobileGallery"
+        v-if="!isExplorer"
         :class="{ 'nav-search-shrink': !showNavbar }"
         hideFilter
         class="search-navbar"
@@ -90,18 +90,15 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     HistoryBrowser,
     NavbarProfileDropdown,
     ChainSelect,
-    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+    Search: () => import('~/components/rmrk/Gallery/Search/Search.vue'),
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  private mobileGallery = false
-  private isGallery: boolean = this.$route.path == '/rmrk/gallery'
+  private isExplorer: boolean =
+    this.$route.path == '/rmrk/gallery' ||
+    this.$route.path == '/rmrk/collections'
   private showNavbar = true
   private lastScrollPosition = 0
-
-  private onResize(e) {
-    return (this.mobileGallery = window.innerWidth <= 1023)
-  }
 
   get isRmrk(): boolean {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
@@ -121,15 +118,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   mounted() {
     window.addEventListener('scroll', this.onScroll)
-    if (this.isGallery) {
-      window.addEventListener('resize', this.onResize)
-      return (this.mobileGallery = window.innerWidth <= 1023)
-    }
   }
 
   beforeDestroy() {
     window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

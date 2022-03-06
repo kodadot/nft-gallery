@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-3 mt-5">
-    <div class="row" v-if="!isVisible && !hideSearchInput">
+    <div class="row" v-if="!hideSearchInput && !isVisible">
       <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
       <div v-if="sliderDirty" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
@@ -14,7 +14,7 @@
           icon-left="filter"
           aria-controls="sortAndFilter"
           type="is-primary"
-          class="is-hidden-mobile mr-2"
+          class="mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
           v-if="!hideSearchInput"
@@ -88,7 +88,7 @@
             </a>
           </template>
         </b-autocomplete>
-        <div v-if="!isVisible && hideSearchInput">
+        <div v-if="hideSearchInput">
           <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
           <div v-if="sliderDirty" class="is-size-7">
             Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
@@ -96,17 +96,7 @@
           </div>
         </div>
       </b-field>
-      <b-field
-        expanded
-        position="is-right"
-        class="column is-6"
-        v-if="!hideFilter">
-        <b-button
-          icon-left="filter"
-          aria-controls="sortAndFilter"
-          type="is-primary"
-          class="is-hidden-tablet mr-2"
-          @click="isVisible = !isVisible" />
+      <b-field position="is-right" class="column is-6">
         <slot />
       </b-field>
     </div>
@@ -124,7 +114,7 @@
           labelColor="is-success" />
       </div>
       <b-slider
-        v-if="listed"
+        v-if="listed && isGallery"
         class="column is-half"
         v-model="rangeSlider"
         :custom-formatter="(val) => `${val} KSM`"
@@ -173,10 +163,7 @@ import { fastExtract } from '~/utils/ipfs'
     // PreviewMediaResolver: () => import('@/components/rmrk/Media/PreviewMediaResolver.vue'), // TODO: need to fix CSS for model-viewer
   },
 })
-export default class SearchBar extends mixins(
-  PrefixMixin,
-  KeyboardEventsMixin
-) {
+export default class Search extends mixins(PrefixMixin, KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
@@ -205,6 +192,7 @@ export default class SearchBar extends mixins(
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
+  private isGallery: boolean = this.$route.path == '/rmrk/gallery'
 
   public mounted(): void {
     this.getSearchHistory()
@@ -296,7 +284,6 @@ export default class SearchBar extends mixins(
             : this.filterSearch(),
       })
     }
-
     // whether show Collection Item
     if (this.collectionResult.length > 0) {
       suggestions.push({

@@ -1,18 +1,27 @@
 <template>
   <div class="collections">
+    <h3 class="title is-1">
+      <span class="text__stroked my-5 uppercase"> COLLECTIONS </span>
+    </h3>
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery">
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :per-page="first" />
-      </b-field>
+    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
+      <Pagination
+        hasMagicBtn
+        simple
+        :total="total"
+        v-model="currentValue"
+        :perPage="first"
+        replace
+        class="desktop-pagination remove-margin is-justify-content-flex-end" />
     </Search>
+    <Pagination
+      hasMagicBtn
+      simple
+      :total="total"
+      v-model="currentValue"
+      :perPage="first"
+      replaceaaa
+      class="mobile-pagination remove-margin is-justify-content-center" />
 
     <div>
       <div class="columns is-multiline">
@@ -46,7 +55,7 @@
       </div>
     </div>
     <Pagination
-      class="pt-5 pb-5"
+      class="pt-5 pb-5 is-justify-content-flex-end"
       :total="total"
       :perPage="first"
       v-model="currentValue"
@@ -84,8 +93,7 @@ interface Image extends HTMLImageElement {
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Search: () =>
-    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/rmrk/Gallery/Search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   CollectionDetail: () =>
@@ -366,6 +374,16 @@ export default class CollectionList extends mixins(PrefixMixin) {
         }
       }
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .desktop-pagination {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 768px) {
+  .mobile-pagination {
+    display: none !important;
   }
 }
 </style>

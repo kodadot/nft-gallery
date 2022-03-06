@@ -37,8 +37,7 @@ import { mapOnlyMetadata } from '~/utils/mappers'
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-  Search: () =>
-    import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
+  Search: () => import('@/components/rmrk/Gallery/Search/Search.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 

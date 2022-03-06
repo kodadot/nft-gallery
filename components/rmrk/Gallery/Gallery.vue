@@ -1,11 +1,11 @@
 <template>
   <div class="gallery container">
+    <h3 class="title is-1">
+      <span class="text__stroked my-5 uppercase"> Gallery </span>
+    </h3>
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search
-      v-bind.sync="searchQuery"
-      @resetPage="currentValue = 1"
-      :hideSearchInput="notMobile">
+    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
       <Pagination
         hasMagicBtn
         simple
@@ -13,8 +13,16 @@
         v-model="currentValue"
         :perPage="first"
         replace
-        class="remove-margin" />
+        class="desktop-pagination remove-margin is-justify-content-flex-end" />
     </Search>
+    <Pagination
+      hasMagicBtn
+      simple
+      :total="total"
+      v-model="currentValue"
+      :perPage="first"
+      replaceaaa
+      class="mobile-pagination remove-margin is-justify-content-center" />
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
     <div>
@@ -78,7 +86,7 @@
       </div>
     </div>
     <Pagination
-      class="pt-5 pb-5"
+      class="pt-5 pb-5 is-justify-content-flex-end"
       :total="total"
       :perPage="first"
       v-model="currentValue"
@@ -115,7 +123,7 @@ type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 type SearchedNftsWithMeta = NFTWithCollectionMeta & NFTMetadata
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
-  Search: () => import('./Search/SearchBar.vue'),
+  Search: () => import('./Search/Search.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Pagination: () => import('./Pagination.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -141,8 +149,6 @@ export default class Gallery extends mixins(PrefixMixin) {
   private currentValue = 1
   protected total = 0
   private loadingState = 0
-  private notMobile = false
-
   get first(): number {
     return this.$store.getters['preferences/getGalleryItemsPerPage']
   }
@@ -171,8 +177,6 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   public async created() {
-    window.addEventListener('resize', this.onResize)
-    this.notMobile = window.innerWidth >= 1023
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
@@ -321,14 +325,6 @@ export default class Gallery extends mixins(PrefixMixin) {
 
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
-
-  private onResize(e) {
-    return (this.notMobile = window.innerWidth >= 1024)
-  }
-
-  destroyed() {
-    window.removeEventListener('resize', this.onResize)
-  }
 }
 </script>
 
@@ -460,6 +456,16 @@ export default class Gallery extends mixins(PrefixMixin) {
         }
       }
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .desktop-pagination {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 768px) {
+  .mobile-pagination {
+    display: none !important;
   }
 }
 </style>

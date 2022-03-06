@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="is-align-self-flex-end is-flex is-justify-content-flex-end"
-    v-if="total > perPage">
+  <div class="is-align-self-flex-end is-flex" v-if="total > perPage">
     <b-pagination
       :total="total"
       :current.sync="current"
@@ -30,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
@@ -94,8 +92,7 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   public goToRandomPage() {
     this.onPageChange()
     const pageSize = Math.ceil(this.total / this.perPage)
-    let randomNumber = getRandomIntInRange(1, pageSize)
-    this.current = randomNumber
+    this.current = getRandomIntInRange(1, pageSize)
   }
 
   public scrollTop() {
