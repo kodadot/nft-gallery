@@ -63,7 +63,7 @@
       </b-table-column>
 
       <b-table-column
-        field="unique_collectors"
+        field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template v-slot:header="{ column }">
