@@ -353,7 +353,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -391,7 +391,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     .card {
       position: relative;
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 0px;
 
       &-image {
         &__emotes {
@@ -419,6 +419,10 @@ export default class Gallery extends mixins(PrefixMixin) {
           z-index: 3;
           transition: all 0.3s;
         }
+      }
+
+      .gallery__image-wrapper img {
+        border-radius: 0px !important;
       }
 
       @media screen and (min-width: 1024px) {

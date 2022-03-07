@@ -233,7 +233,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -270,7 +270,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
+      border-radius: 0px;
       position: relative;
       overflow: hidden;
 
