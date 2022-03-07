@@ -95,9 +95,15 @@ You can contribute to the GitHub KodaDot & Metaprime content and site in several
 
 Our small, but mighty 💪 developer community is maintaining this repo, to preserve our bandwidth, off topic conversations will be closed.
 
-## Dynamics of Pull Requests
+## Dynamics of Contributing 
 
-Whenever you open PR against our repository, our best recommendation is to finish quickly, i.e. being merged under 72h since opening/last discussion, if it's not complex issue requiring deeper attention of more members.
+### Assign Issues
+
+Whenever someone will comment on issue that they want to fix issue, they have approximately 48 hours to open PR with working solution. Whenever they fail to do so, you can take it as we might have in repository few dead issues. Till we will have assign bot, this is way to go. Until issue is explicitly stated as competition issue we want to avoid double work as we have lot's of issues in our repository.
+
+### Pull Requests
+
+Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e. b**eing merged under 72h since opening/last discussion**, if it's not complex issue requiring deeper attention of more members. Otherwise you will raising chance to facing lot's of merge conflicts.
 
 ### Avoiding stalled PRs
 
