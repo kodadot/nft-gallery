@@ -63,11 +63,11 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { formatDistanceToNow } from 'date-fns'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -77,13 +77,15 @@ type IdentityFields = Record<string, string>
     Identicon,
   },
 })
-export default class IdentityPopover extends mixins(PrefixMixin) {
+export default class IdentityPopover extends mixins(
+  PrefixMixin,
+  CreatedAtMixin
+) {
   @Prop() public identity!: IdentityFields
 
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
-  protected firstMintDate = new Date()
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
@@ -95,12 +97,6 @@ export default class IdentityPopover extends mixins(PrefixMixin) {
 
   public toast(message: string): void {
     this.$buefy.toast.open(message)
-  }
-
-  get formattedTimeToNow() {
-    return this.firstMintDate
-      ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true })
-      : ''
   }
 
   public async mounted() {

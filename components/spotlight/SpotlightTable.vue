@@ -63,7 +63,7 @@
       </b-table-column>
 
       <b-table-column
-        field="unique_collectors"
+        field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
         <template v-slot:header="{ column }">
@@ -142,7 +142,7 @@
 <script lang="ts">
 import { Component, Prop, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
-import collectionSpotlightList from '@/queries/rmrk/subsquid/collectionSpotlightList.graphql'
+import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -151,6 +151,8 @@ import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { toSort } from '../series/utils'
+import { SortType } from '../series/types'
 
 type Address = string | GenericAccountId | undefined
 
@@ -172,7 +174,7 @@ export default class SpotlightTable extends mixins(
   protected usersWithIdentity: Row[] = []
   protected toggleUsersWithIdentity = false
   protected currentPage = 0
-  protected sortBy = { field: 'sold', value: 'DESC' }
+  protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
     { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
@@ -220,16 +222,15 @@ export default class SpotlightTable extends mixins(
     }
   }
 
-  public async fetchSpotlightData(sort = this.sortBy) {
+  public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
     this.isLoading = true
     const collections = await this.$apollo.query({
-      query: collectionSpotlightList,
+      query: spotlightList,
       client: 'subsquid',
       variables: {
         // denyList, not yet
-        offset: '0',
-        orderBy: sort.field,
-        orderDirection: sort.value,
+        offset: 0,
+        orderBy: sort || 'sold_DESC',
       },
     })
 
@@ -259,7 +260,10 @@ export default class SpotlightTable extends mixins(
   }
 
   public onSort(field: string, order: string) {
-    let sort = { field: field, value: order === 'desc' ? 'DESC' : 'ASC' }
+    let sort: SortType = {
+      field: field,
+      value: order === 'desc' ? 'DESC' : 'ASC',
+    }
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -269,7 +273,7 @@ export default class SpotlightTable extends mixins(
         },
       })
       .catch((e) => console.warn(e))
-    this.fetchSpotlightData(sort)
+    this.fetchSpotlightData(toSort(sort))
   }
 
   public async identityOf(account: Address) {

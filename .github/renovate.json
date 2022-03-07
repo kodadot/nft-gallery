@@ -30,6 +30,7 @@
           "^graphql",
           "^jest",
           "^lint",
+          "lint-staged",
           "^model-viewer",
           "^nuxt",
           "nuxt-buefy",
