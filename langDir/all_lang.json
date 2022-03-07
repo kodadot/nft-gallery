@@ -5,6 +5,12 @@
       "docs": {
         "mirror_learn_identity": {
           "href": "https://guide.kusama.network/docs/learn-identity"
+        },
+        "existential_deposit": {
+          "href": "https://docs.kodadot.xyz/FAQ.html#what-is-existential-deposit-ed"
+        },
+        "minting_tutorial": {
+          "href": "https://docs.kodadot.xyz/tutorials/how-to-kodadot-phone-ios.html#how-to-mint-nfts-from-ios-device"
         }
       }
     },
@@ -90,7 +96,7 @@
       }
     },
     "artist_grant_program": {
-      "href": "https://tally.so/r/mVP06w"
+      "href": "https://form.kodadot.xyz/grant"
     }
   },
   "data": {
