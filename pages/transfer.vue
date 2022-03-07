@@ -144,7 +144,6 @@ import correctFormat from '@/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { urlBuilderTransaction } from '@/utils/explorerGuide'
 import { calculateUsdFromKsm, calculateKsmFromUsd } from '@/utils/calculation'
-import onApiConnect from '@/utils/api/general'
 
 @Component({
   components: {
@@ -168,12 +167,14 @@ export default class Transfer extends mixins(
   protected transactionValue = ''
   protected price = 0
   protected usdValue = 0
-  private isApiConnected = false
 
   layout() {
     return 'centered-half-layout'
   }
 
+  get isApiConnected() {
+    return this.$store.getters.getApiConnected
+  }
   get disabled(): boolean {
     return (
       !this.hasAddress || !this.price || !this.accountId || !this.isApiConnected
@@ -202,7 +203,6 @@ export default class Transfer extends mixins(
   protected created() {
     this.$store.dispatch('fiat/fetchFiatPrice')
     this.checkQueryParams()
-    onApiConnect(this.onApiConnect)
   }
 
   protected onAmountFieldChange() {
@@ -370,10 +370,6 @@ export default class Transfer extends mixins(
 
   private toast(message: string): void {
     this.$buefy.toast.open(message)
-  }
-
-  private onApiConnect(): void {
-    this.isApiConnected = true
   }
 }
 </script>
