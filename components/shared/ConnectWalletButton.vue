@@ -1,6 +1,6 @@
 <template>
   <b-button type="is-primary" @click="openWalletConnectModal()">
-    {{ buttonText }}
+    {{ $t(label) }}
   </b-button>
 </template>
 
@@ -10,7 +10,7 @@ import WalletModal from '~/components/common/WalletModal.vue'
 
 @Component({})
 export default class extends Vue {
-  @Prop({ default: 'Connect' }) public buttonText!: string // i18
+  @Prop({ default: 'general.connect' }) public label!: string // i18
 
   protected openWalletConnectModal(): void {
     this.$buefy.modal.open({

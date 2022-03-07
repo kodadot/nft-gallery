@@ -59,7 +59,7 @@
       <b-dropdown-item custom aria-role="menuitem">
         <b-field>
           <p class="control">
-            <ConnectWalletButton buttonText="Change account" />
+            <ConnectWalletButton label="general.change_account" />
           </p>
           <p class="control">
             <b-button

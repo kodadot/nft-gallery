@@ -89,7 +89,7 @@ import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
     AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
   },
 })
-export default class extends Vue {
+export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
   protected hasSelectedWalletProvider = false
   protected hasWalletProviderExtension = false

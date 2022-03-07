@@ -7,7 +7,7 @@
       /></span>
     </div>
   </div>
-  <ConnectWalletButton v-else buttonText="Connect your wallet" />
+  <ConnectWalletButton v-else label="general.connect_wallet" />
 </template>
 
 <script lang="ts">
