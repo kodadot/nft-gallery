@@ -92,9 +92,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
 
 @Component({
-  components: {
-    AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
-  },
+  components: {},
 })
 export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
@@ -108,6 +106,7 @@ export default class WalletModal extends Vue {
   set account(account: string) {
     this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
+    localStorage.setItem('selected_account', account)
   }
 
   get account() {

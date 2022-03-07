@@ -93,6 +93,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
   protected disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working
+    localStorage.removeItem('selected_account')
   }
 
   set account(account: string) {
