@@ -62,12 +62,13 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
+import collectionListWithSearch from '~/queries/collectionListWithSearch.graphql'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -103,32 +104,39 @@ export default class IdentityPopover extends mixins(
     await this.fetchNFTStats()
   }
 
+  @Watch('identity.address')
   protected async fetchNFTStats() {
     try {
-      const query =
-        this.urlPrefix === 'rmrk'
-          ? await import('@/queries/nftStatsByIssuer.graphql')
-          : await import('@/queries/unique/nftStatsByIssuer.graphql')
-      this.$apollo.addSmartQuery('collections', {
-        query: query.default,
-        manual: true,
-        client: this.urlPrefix,
-        loadingKey: 'isLoading',
-        result: this.handleResult,
-        variables: () => {
-          return {
+      const data = this.$store.getters['identityMint/getIdentityMintFor'](
+        this.identity.address
+      )
+      if (data) {
+        // if cache exist
+        await this.handleResult({ data, type: 'cache' })
+      } else {
+        const query =
+          this.urlPrefix === 'rmrk'
+            ? await import('@/queries/nftStatsByIssuer.graphql')
+            : await import('@/queries/unique/nftStatsByIssuer.graphql')
+        this.$apollo.addSmartQuery('collections', {
+          query: query.default,
+          manual: true,
+          client: this.urlPrefix,
+          loadingKey: 'isLoading',
+          result: this.handleResult,
+          variables: {
             account: this.identity.address || '',
-          }
-        },
-        fetchPolicy: 'cache-and-network',
-      })
+          },
+          fetchPolicy: 'cache-and-network',
+        })
+      }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       console.warn(e)
     }
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data, type }: any) {
     if (data) {
       this.totalCreated = data.nFTCreated.totalCount
       this.totalCollected = data.nFTCollected.totalCount
@@ -136,6 +144,12 @@ export default class IdentityPopover extends mixins(
 
       if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
+      }
+      if (type !== 'cache') {
+        await this.$store.dispatch('identityMint/setIdentity', {
+          address: this.identity.address,
+          data,
+        })
       }
     }
   }
