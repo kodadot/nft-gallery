@@ -68,7 +68,6 @@ import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
-import collectionListWithSearch from '~/queries/collectionListWithSearch.graphql'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
