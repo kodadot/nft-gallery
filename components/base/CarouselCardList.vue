@@ -134,6 +134,7 @@ export default class CarouselList extends mixins(AuthMixin) {
 }
 
 .card {
+  border-radius: 8px;
   .media-content {
     width: 100%;
   }

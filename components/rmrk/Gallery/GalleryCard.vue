@@ -118,6 +118,7 @@ export default class GalleryCard extends mixins(AuthMixin) {
 @import '@/styles/variables';
 
 .nft-card {
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
 

@@ -270,6 +270,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
+      border-radius: 8px;
       position: relative;
       overflow: hidden;
 
