@@ -53,7 +53,7 @@
       type="is-primary"
       icon-left="paper-plane"
       :disabled="disabled"
-      @click="submit">
+      @click="submitAction">
       Submit {{ selectedAction }}
     </b-button>
   </div>
@@ -106,7 +106,7 @@ export default class AvailableActions extends mixins(
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
   protected selectedAction: Interaction | null = null
-  private meta: string | number = ''
+  protected meta: string | number = ''
   protected isLoading = false
   protected status = ''
   protected label = ''
@@ -161,10 +161,8 @@ export default class AvailableActions extends mixins(
   }
 
   get showMeta() {
-    return !!(
-      this.selectedAction &&
-      [Interaction.SEND, Interaction.LIST].includes(this.selectedAction)
-    )
+    if (!this.selectedAction) return false
+    return [Interaction.SEND, Interaction.LIST].includes(this.selectedAction)
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -188,7 +186,7 @@ export default class AvailableActions extends mixins(
       this.selectedAction = action
       switch (action) {
         case Interaction.BUY:
-          this.submit()
+          this.submitAction()
           break
         case Interaction.LIST:
           this.balanceInput?.focusInput()
@@ -276,36 +274,11 @@ export default class AvailableActions extends mixins(
     this.meta = value
   }
 
-  protected async submit() {
-    const {
-      urlPrefix,
-      accountId,
-      version,
-      meta,
-      nftId,
-      currentOwnerId,
-      price,
-    } = this
-
-    this.submitAction({
-      action: this.selectedAction,
-      urlPrefix,
-      accountId,
-      version,
-      meta,
-      nftId,
-      currentOwnerId,
-      price,
-      apollo: this.$apollo,
-      ipfsHashes: this.ipfsHashes,
-    })
-  }
-
   unlistNft() {
     // change the selected action to list and change meta value to 0
     this.selectedAction = Interaction.LIST
     this.meta = 0
-    this.submit()
+    this.submitAction()
   }
 }
 </script>

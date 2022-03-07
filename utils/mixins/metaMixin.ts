@@ -1,4 +1,4 @@
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, Mixins, Prop } from 'vue-property-decorator'
 import exec, { execResultValue, Extrinsic, txCb } from '../transactionExecutor'
 import TransactionMixin from './txMixin'
 import Connector from '@kodadot1/sub-api'
@@ -18,6 +18,13 @@ import {
 @Component
 export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
   protected selectedAction
+  protected urlPrefix
+  protected version
+  protected meta
+  protected nftId
+  protected currentOwnerId
+  protected price
+  protected ipfsHashes
 
   public async howAboutToExecute(
     account: string,
@@ -79,18 +86,12 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
     this.isLoading = false
   }
 
-  public submitAction = async ({
-    action,
-    accountId,
-    version,
-    meta,
-    nftId,
-    urlPrefix,
-    currentOwnerId,
-    price,
-    apollo,
-    ipfsHashes,
-  }) => {
+  public submitAction = async () => {
+    const { urlPrefix, version, meta, nftId, currentOwnerId, price } = this
+    const action = this.selectedAction
+    const apollo = this.$apollo
+    const accountId = this.$store.getters.getAuthAddress
+
     const { api } = Connector.getInstance()
     const rmrk = createInteraction(action, version, nftId, meta)
 
@@ -151,7 +152,7 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
           execResultValue(tx)
           showNotification(blockHash.toString(), notificationTypes.info)
           if (action === Interaction.CONSUME) {
-            unpinNFT(ipfsHashes)
+            unpinNFT(this.ipfsHashes)
           }
 
           showNotification(`[${action}] ${nftId}`, notificationTypes.success)
