@@ -60,7 +60,14 @@
         </div>
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle has-text-centered">Choose your account</div>
+          <div class="subtitle has-text-centered">
+            Choose your
+            <b-image
+              :src="selectedWalletProvider.img"
+              class="is-24x24"
+              style="display: inline-block; vertical-align: middle" />
+            <b>{{ selectedWalletProvider.extensionName }}</b> account
+          </div>
 
           <b-field :label="$i18n.t('Account')">
             <b-select v-model="account" placeholder="Select account" expanded>
@@ -91,6 +98,7 @@ import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
 })
 export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
+  protected selectedWalletProvider!: Wallet
   protected hasSelectedWalletProvider = false
   protected hasWalletProviderExtension = false
   protected guideUrl = ''
@@ -111,6 +119,7 @@ export default class WalletModal extends Vue {
   }
 
   protected setWallet(wallet: Wallet): void {
+    this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
 
     if (!wallet.installed) {
