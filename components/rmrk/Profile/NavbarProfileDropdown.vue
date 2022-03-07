@@ -15,12 +15,7 @@
       </span>
 
       <template v-else>
-        <b-button
-          type="is-primary"
-          class="navbar__button"
-          @click="openWalletConnectModal()">
-          Connect
-        </b-button>
+        <ConnectWalletButton class="navbar__button" />
       </template>
     </template>
 
@@ -64,9 +59,7 @@
       <b-dropdown-item custom aria-role="menuitem">
         <b-field>
           <p class="control">
-            <b-button type="is-primary" @click="changeAccount = !changeAccount">
-              Change account
-            </b-button>
+            <ConnectWalletButton label="general.change_account" />
           </p>
           <p class="control">
             <b-button
@@ -77,16 +70,6 @@
         </b-field>
       </b-dropdown-item>
     </template>
-
-    <b-dropdown-item
-      v-if="changeAccount || !account"
-      custom
-      aria-role="menuitem">
-      <AccountSelect
-        v-model="account"
-        :label="$t('Account')"
-        :tooltip-visible="false" />
-    </b-dropdown-item>
   </b-dropdown>
 </template>
 
@@ -95,11 +78,11 @@ import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Avatar from '@/components/shared/Avatar.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import WalletModal from '~/components/common/WalletModal.vue'
 
 const components = {
   Avatar,
-  AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
+  ConnectWalletButton: () =>
+    import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
 }
 
@@ -107,7 +90,6 @@ const components = {
 export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
   @Prop() public value!: any
   @Prop() public isRmrk!: boolean
-  protected changeAccount = false
 
   protected disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working
@@ -130,15 +112,6 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
       hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
       variant: 'desktop',
     }).show()
-  }
-
-  protected openWalletConnectModal(): void {
-    this.$buefy.modal.open({
-      parent: this,
-      component: WalletModal,
-      hasModalCard: true,
-      trapFocus: true,
-    })
   }
 }
 </script>

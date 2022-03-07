@@ -535,6 +535,9 @@
   },
   "general": {
     "balance": "Balance",
+    "connect": "Connect",
+    "connect_wallet": "Connect your wallet",
+    "change_account": "Change account",
     "submit": "Submit",
     "remove": "Remove",
     "correctAddress": "Correct address format",

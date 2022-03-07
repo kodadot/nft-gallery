@@ -92,7 +92,6 @@ import { identityStore } from '@/utils/idbStore'
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-    AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
     PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
