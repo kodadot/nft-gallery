@@ -60,11 +60,11 @@
         </div>
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle has-text-centered">
+          <div class="subtitle is-size-6 has-text-centered">
             Choose your
             <b-image
               :src="selectedWalletProvider.img"
-              class="is-24x24"
+              class="is-16x16"
               style="display: inline-block; vertical-align: middle" />
             <b>{{ selectedWalletProvider.extensionName }}</b> account
           </div>
