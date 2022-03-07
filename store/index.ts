@@ -40,7 +40,7 @@ const apiPlugin = (store: Store<any>): void => {
     console.warn('[API] error', error)
     // Api().disconnect()
   })
-  Api().on('disconnected', async () => {
+  Api().on('disconnected', () => {
     store.commit('setApiConnected', false)
     console.log('[API] disconnected')
   })
