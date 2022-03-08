@@ -122,7 +122,6 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
-import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -137,7 +136,6 @@ import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import collectionByIdWithNftEventDetails from '@/queries/collectionByIdWithNftEventDetails.graphql'
-import { Collection } from '~/components/unique/types'
 
 const components = {
   GalleryCardList: () =>
