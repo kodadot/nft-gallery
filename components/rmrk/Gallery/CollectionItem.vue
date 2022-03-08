@@ -354,7 +354,9 @@ export default class CollectionItem extends mixins(
           return n.events
         }
       })
-      this.eventsOfNftCollection = [...events]
+     const sortedEventByDate = events.sort((a:Interaction,b:Interaction) => a.timestamp > b.timestamp ? 0 : -1 ) 
+
+      this.eventsOfNftCollection = [...sortedEventByDate]
     }
   }
 
