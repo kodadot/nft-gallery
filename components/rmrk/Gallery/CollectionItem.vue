@@ -92,6 +92,13 @@
       <b-tab-item label="Activity" value="activity">
         <CollectionPriceChart :priceData="priceData" />
       </b-tab-item>
+      <b-tab-item label="History" value="history">
+        <History
+          v-if="!isLoading"
+          :events="eventsOfNftCollection"
+          :open-on-default="isCompactHistoryItem"
+          @setPriceChartData="setPriceChartData" />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -128,6 +135,9 @@ import { mapOnlyMetadata } from '~/utils/mappers'
 import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import collectionByIdWithNftEventDetails from '@/queries/collectionByIdWithNftEventDetails.graphql'
+import { Collection } from '~/components/unique/types'
 
 const components = {
   GalleryCardList: () =>
@@ -145,6 +155,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
+  History: () => import('@/components/rmrk/Gallery/History.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -172,6 +183,10 @@ export default class CollectionItem extends mixins(
   protected priceData: [ChartData[], ChartData[]] | [] = []
   private statsLoaded = false
   private queryLoading = 0
+  private nftsFromSameCollection: NFT[] = []
+  private eventsOfNftCollection: Interaction[] | [] = []
+  public priceChartData: [Date, number][][] = []
+  private compactHistoryItem:boolean=true
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -195,6 +210,10 @@ export default class CollectionItem extends mixins(
 
   get name(): string {
     return this.collection.name || this.id
+  }
+
+  get isCompactHistoryItem(): boolean {
+    return this.compactHistoryItem
   }
 
   get nfts(): NFT[] {
@@ -255,6 +274,7 @@ export default class CollectionItem extends mixins(
       },
       result: this.handleResult,
     })
+    console.log('this.collection', this.collection)
   }
 
   public async checkIfEmptyListed(): Promise<void> {
@@ -275,6 +295,9 @@ export default class CollectionItem extends mixins(
         }
       },
     })
+  }
+  public setPriceChartData(data: [Date, number][][]) {
+    this.priceChartData = data
   }
 
   protected async loadStats(): Promise<void> {
@@ -298,6 +321,41 @@ export default class CollectionItem extends mixins(
     //   data.collection.nfts.nodes.map((nft) => nft.events) || []
 
     this.loadPriceData(data)
+  }
+
+  // Get collection query with NFT Events on it
+  protected async fetchHistorySales() {
+    try {
+      const collectionWithEvents = await this.$apollo.query({
+        query: collectionByIdWithNftEventDetails,
+        client: this.urlPrefix,
+        variables: {
+          id: this.id,
+        },
+      })
+        this.nftsFromSameCollection = [
+        ...collectionWithEvents.data.collection.nfts.nodes.map((n: NFT) => n),
+        ]
+      this.getEventsOfCollection(this.nftsFromSameCollection)
+
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+  // Set state of all EVENTS on each Nft of this collection, needed for History.vue props
+  protected getEventsOfCollection(nftsByCollection: NFT[] | []) {
+    if (nftsByCollection.length > 0) {
+      const events: Interaction[] = []
+      nftsByCollection.forEach((n: NFT) => {
+        if (n.events && n.events.length > 0) {
+          n.events.forEach((e: Interaction) => {
+            events.push(e)
+          })
+          return n.events
+        }
+      })
+      this.eventsOfNftCollection = [...events]
+    }
   }
 
   public loadPriceData({
@@ -385,6 +443,8 @@ export default class CollectionItem extends mixins(
     // Load chart data once when clicked on activity tab for the first time.
     if (val === 'activity') {
       this.loadStats()
+    } else if (val === 'history') {
+      this.fetchHistorySales()
     }
   }
 

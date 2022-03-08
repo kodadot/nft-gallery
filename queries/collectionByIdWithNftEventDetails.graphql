@@ -1,0 +1,16 @@
+#import "./fragments/nft.graphql"
+#import "./fragments/nftDetails.graphql"
+
+query collectionByIdWithNftEventDetails($id: String!) {
+  collection: collectionEntity(id: $id) {
+    id
+    createdAt
+    nfts(filter: { burned: { distinctFrom: true }}) {
+      nodes {
+        events
+        ...nft
+        ...nftDetails
+      }
+    }
+  }
+}
