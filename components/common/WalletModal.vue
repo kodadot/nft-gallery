@@ -134,7 +134,6 @@ export default class extends Vue {
 <style lang="scss" scoped>
 @import '@/styles/variables';
 .wallet {
-  border-radius: 10px;
   max-width: 400px;
   border: 2px solid $primary;
   &.modal-card {
@@ -150,8 +149,7 @@ export default class extends Vue {
   }
 
   .buttons button {
-    border-radius: 6px;
-    background-color: #404144;
+    border-radius: 0;
     justify-content: space-between;
   }
 }
