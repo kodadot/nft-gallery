@@ -326,7 +326,7 @@ export default class CollectionItem extends mixins(
   // Get collection query with NFT Events on it
   protected async fetchHistorySales() {
     try {
-      const eventsOfNftCollection = await this.$apollo.query({
+      const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
         client: 'subsquid',
         variables: {
