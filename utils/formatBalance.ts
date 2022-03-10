@@ -32,7 +32,9 @@ export function calculateBalance(value: number, decimals = 12): number {
 }
 
 export function checkInvalidBalanceFilter(value) {
-  if (value === Infinity) return '0'
+  if (value === Infinity) {
+    return '0'
+  }
   return value
 }
 
