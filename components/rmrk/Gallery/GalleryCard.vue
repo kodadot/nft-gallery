@@ -187,7 +187,8 @@ export default class GalleryCard extends mixins(AuthMixin) {
       bottom: 0;
       opacity: 1;
       z-index: 2;
-      background: #000 !important;
+      background: $frosted-glass-background;
+      backdrop-filter: $frosted-glass-backdrop-filter;
     }
 
     &:hover .card-image img {
