@@ -226,7 +226,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -263,10 +263,9 @@ export default class Collections extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
+      border-radius: 0px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
