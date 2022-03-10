@@ -1,0 +1,12 @@
+query spotlightLitst($limit: Int, $offset: Int, $orderBy: SpotlightOrderByInput) {
+  collectionEntities: spotlights(limit: $limit, offset: $offset, orderBy: [$orderBy]) {
+    id
+    unique
+    sold
+    total
+    averagePrice: average
+    count: collections
+    uniqueCollectors
+    volume
+  }
+}

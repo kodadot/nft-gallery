@@ -5,7 +5,7 @@ export class SubWallet extends BaseDotsamaWallet {
   img = require('@/assets/partners/logo-subwallet.svg')
   extensionName = 'subwallet-js'
   name = 'SubWallet'
-  source = SupportWalletExtension.Talisman
+  source = SupportWalletExtension.SubWallet
   walletUrl =
     'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0'
   guideUrl = 'https://connect.subwallet.app/#/welcome'

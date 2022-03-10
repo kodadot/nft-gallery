@@ -13,14 +13,10 @@ export type KeyringAccount = KeyringPair | InjectedAccountWithMeta
 
 @Component
 export default class WithKeyring extends Vue {
-  protected keyringLoaded = false
   protected keyringAccounts: KeyringPair[] = []
   protected importedAccounts: InjectedAccountWithMeta[] = []
-  // protected keys: any = '';
 
   public async loadKeyring(ss58?: number): Promise<void> {
-    this.keyringLoaded = true
-    // this.keys = keyring;
     this.mapAccounts()
     await this.extensionAccounts(ss58)
   }

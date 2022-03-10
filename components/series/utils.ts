@@ -1,4 +1,4 @@
-import { RowSeries, SimpleSeriesNFT } from './types'
+import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
@@ -78,6 +78,9 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
 // const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)
 const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
+
+export const toSort = (sortBy: SortType): string =>
+  `${sortBy.field}_${sortBy.value}`
 
 const today = startOfToday()
 const yesterdayDate: Date = subDays(today, 1)

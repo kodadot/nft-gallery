@@ -32,6 +32,10 @@
         :disabled="!enabledAdvancedUI"
         label="preferences.priceVisible" />
       <BasicCheckbox
+        v-model="showMintTime"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.mintTimeVisible" />
+      <BasicCheckbox
         v-model="enableAllArtworks"
         :disabled="!enabledAdvancedUI"
         label="preferences.loadAllArtworks" />
@@ -121,6 +125,14 @@ export default class Interface extends Vue {
 
   set showPriceValue(value: boolean) {
     this.$store.dispatch('preferences/setShowPriceValue', value)
+  }
+
+  get showMintTime(): boolean {
+    return this.$store.state.preferences.showMintTimeCollection
+  }
+
+  set showMintTime(value: boolean) {
+    this.$store.dispatch('preferences/setShowMintTime', value)
   }
 
   get replaceBuyNowWithYolo(): boolean {

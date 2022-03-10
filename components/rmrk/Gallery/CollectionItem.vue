@@ -25,6 +25,10 @@
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" inline showTwitter showDiscord />
+            <p v-if="showMintTime" class="is-flex is-align-items-center py-3">
+              <b-icon icon="clock" size="is-medium" />
+              <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -121,6 +125,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
 
@@ -144,7 +149,11 @@ const components = {
 @Component<CollectionItem>({
   components,
 })
-export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
+export default class CollectionItem extends mixins(
+  ChainMixin,
+  PrefixMixin,
+  CreatedAtMixin
+) {
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
@@ -202,6 +211,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   get compactCollection(): boolean {
     return this.$store.getters['preferences/getCompactCollection']
+  }
+
+  get showMintTime(): boolean {
+    return this.$store.state.preferences.showMintTimeCollection
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
@@ -317,6 +330,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       this.$router.push({ name: 'errorcollection' })
       return
     }
+    this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
     ).catch(console.warn)
@@ -386,6 +400,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
 <style lang="scss">
 .collection__image img {
+  border-radius: 0px;
   color: transparent;
 }
 </style>
