@@ -122,11 +122,15 @@
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-pwa": "^4.5.15",
     "@vue/cli-plugin-typescript": "^4.5.15",
+    "@vue/cli-service": "^4.0.0-0",
     "all-contributors-cli": "^6.20.0",
     "babel-jest": "^27.5.1",
+    "consola": "^2.15.3",
     "eslint": "^8.10.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
+    "esm": "^3.2.25",
+    "graphql-tag": "^2.12.6",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^12.3.5",
@@ -136,6 +140,7 @@
     "sass-loader": "^10.2",
     "typescript": "^4.6.2",
     "vue-debounce-decorator": "^1.0.1",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.46.0"
   }
 }
