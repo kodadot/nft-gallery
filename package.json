@@ -114,6 +114,7 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@open-wc/webpack-import-meta-loader": "^0.4.7",
+    "@polkadot/util": "^8.4.1",
     "@polkadot/util-crypto": "^8.4.1",
     "@types/jest": "^27.4.1",
     "@types/markdown-it": "^12.2.3",
