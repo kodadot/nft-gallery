@@ -2962,6 +2962,17 @@
     eventemitter3 "^4.0.7"
     store "^2.0.12"
 
+"@polkadot/ui-settings@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-1.1.1.tgz#8109dda337ad5bf117162e74817500e03653637a"
+  integrity sha512-yLdDi7q5DI2auCU6jotDKFdUVjpoCABMruJ4agjR0+KinlXpTiFEiFsabOhjOQtztJysPKI/aZe2L+gFyntdjQ==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+    "@polkadot/networks" "^8.4.1"
+    "@polkadot/util" "^8.4.1"
+    eventemitter3 "^4.0.7"
+    store "^2.0.12"
+
 "@polkadot/ui-shared@0.89.3":
   version "0.89.3"
   resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-0.89.3.tgz#8a3b81613c67442b74ad13922586d5f09b56818d"
