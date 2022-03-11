@@ -382,7 +382,6 @@ export default class Profile extends mixins(PrefixMixin) {
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
-    console.log('identityFields', identityFields)
     this.displayName = identityFields?.display as string
     this.email = identityFields?.email as string
     this.twitter = identityFields?.twitter as string
