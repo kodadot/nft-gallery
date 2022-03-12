@@ -3,6 +3,7 @@ query allCollectionSaleEvents($id: ID!, $and: [EventWhereInput!]) {
     meta
     interaction
     blockNumber
+    timestamp
     caller
     id
   }

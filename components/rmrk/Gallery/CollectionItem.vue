@@ -96,9 +96,7 @@
         <History
           v-if="!isLoading"
           :events="eventsOfNftCollection"
-          :selectedEvent="defaultEventSelected"
-          @selectedEvent="defaultEventSelected"
-          :open-on-default="isCompactHistoryItem"
+          :open-on-default="isOpenHistory"
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
     </b-tabs>
@@ -138,6 +136,7 @@ import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import { sortedEventByDate } from '~/utils/sorting'
 
 const components = {
   GalleryCardList: () =>
@@ -184,9 +183,9 @@ export default class CollectionItem extends mixins(
   private statsLoaded = false
   private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
-  public defaultEventSelected = 'all'
+  public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
-  private compactHistoryItem: boolean = true
+  private openHistory: boolean = true
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -212,8 +211,8 @@ export default class CollectionItem extends mixins(
     return this.collection.name || this.id
   }
 
-  get isCompactHistoryItem(): boolean {
-    return this.compactHistoryItem
+  get isOpenHistory(): boolean {
+    return this.openHistory
   }
 
   get nfts(): NFT[] {
@@ -324,7 +323,7 @@ export default class CollectionItem extends mixins(
   }
 
   // Get collection query with NFT Events on it
-  protected async fetchHistorySales() {
+  protected async fetchHistoryEvents() {
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
@@ -336,32 +335,14 @@ export default class CollectionItem extends mixins(
           },
         },
       })
-      console.log('eventsOfNftCollection', eventsOfNftCollection)
-      if (eventsOfNftCollection && eventsOfNftCollection.data.events.length) {
-        let events: Interaction[] = eventsOfNftCollection.data.events
+      if (data && data.events && data.events.length) {
+        let events: Interaction[] = data.events
+        // TODO : default value of HISTORY for BUY
         // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
-        if (
-          events.filter((e: Interaction) => e.interaction == 'BUY').length > 0
-        ) {
-          this.defaultEventSelected = 'BUY'
-          this.getEventsOfCollection(events as Interaction[])
-        } else {
-          this.defaultEventSelected = 'all'
-          this.getEventsOfCollection(events as Interaction[])
-        }
+        this.eventsOfNftCollection = [...sortedEventByDate(events)]
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
-    }
-  }
-  // Set state of all EVENTS on each Nft of this collection, needed for History.vue props
-  private getEventsOfCollection(events: Interaction[] | []) {
-    if (events.length > 0) {
-      const sortedEventByDate = events.sort((a: Interaction, b: Interaction) =>
-        a.timestamp > b.timestamp ? 0 : -1
-      )
-      this.eventsOfNftCollection = [...sortedEventByDate]
-      return sortedEventByDate
     }
   }
 
@@ -451,7 +432,7 @@ export default class CollectionItem extends mixins(
     if (val === 'activity') {
       this.loadStats()
     } else if (val === 'history') {
-      this.fetchHistorySales()
+      this.fetchHistoryEvents()
     }
   }
 
