@@ -10,6 +10,8 @@ export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
 export type UnsubscribeFn = () => string
 
+const MOCK_ADDRESS = '5CXYc64cbkCRzpH78ZmCkTCZtaLJRAn74f4RJJZDybwFi5Gk'
+
 export const execResultValue = (execResult: ExecResult): string => {
   if (typeof execResult === 'function') {
     return execResult()
@@ -89,9 +91,10 @@ export const estimate = async (
   params: any[]
 ): Promise<string> => {
   const transfer = await callback(...params)
-  const address = typeof account === 'string' ? account : account.address
+  let address = typeof account === 'string' ? account : account.address
+  // if user have not connect wallet, we provide a mock address to estimate fee
+  address = address ? address : MOCK_ADDRESS
   const injector = await getAddress(toDefaultAddress(address))
-
   const info = await transfer.paymentInfo(
     address,
     injector ? { signer: injector.signer } : {}
