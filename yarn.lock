@@ -2936,7 +2936,7 @@
     "@polkadot/util-crypto" "^8.4.1"
     rxjs "^7.5.4"
 
-"@polkadot/ui-keyring@^0.89.2":
+"@polkadot/ui-keyring@0.89.3":
   version "0.89.3"
   resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.89.3.tgz#e2590f57a6cbde4af62c966ba1bcacf6263ea313"
   integrity sha512-kADmBmFQTY96jxA5mfdi1ws4sp5GgQ3RCKE9ro+93CcgBMN6UAzq+Nx70xl7djMsexsHVR1UIWJgMKErMvaAGw==
@@ -2959,17 +2959,6 @@
     "@babel/runtime" "^7.16.7"
     "@polkadot/networks" "^8.3.3"
     "@polkadot/util" "^8.3.3"
-    eventemitter3 "^4.0.7"
-    store "^2.0.12"
-
-"@polkadot/ui-settings@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-1.1.1.tgz#8109dda337ad5bf117162e74817500e03653637a"
-  integrity sha512-yLdDi7q5DI2auCU6jotDKFdUVjpoCABMruJ4agjR0+KinlXpTiFEiFsabOhjOQtztJysPKI/aZe2L+gFyntdjQ==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@polkadot/networks" "^8.4.1"
-    "@polkadot/util" "^8.4.1"
     eventemitter3 "^4.0.7"
     store "^2.0.12"
 
