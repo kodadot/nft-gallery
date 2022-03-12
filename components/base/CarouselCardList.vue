@@ -12,7 +12,10 @@
       <div class="card mx-4">
         <div class="card-image">
           <nuxt-link :to="`/rmrk/gallery/${list.id}`">
-            <BasicImage :src="list.image" :alt="list.name" />
+            <BasicImage
+              :src="list.image"
+              :alt="list.name"
+              custom-class="carousel__image-wrapper" />
           </nuxt-link>
         </div>
         <div class="card-content">
@@ -134,9 +137,6 @@ export default class CarouselList extends mixins(AuthMixin) {
 }
 
 .card {
-  border-radius: 8px;
-  border: 2px solid $primary;
-
   .media-content {
     width: 100%;
   }
@@ -152,5 +152,21 @@ export default class CarouselList extends mixins(AuthMixin) {
 .force-clip {
   max-width: 85%;
   max-height: 24px;
+}
+
+.card-image {
+  overflow: hidden;
+}
+</style>
+
+<style lang="scss">
+.card {
+  &:hover .carousel__image-wrapper img {
+    transform: scale(1.1);
+    transition: transform 0.3s linear;
+  }
+  .carousel__image-wrapper img {
+    transition: all 0.3s;
+  }
 }
 </style>
