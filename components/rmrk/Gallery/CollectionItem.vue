@@ -400,6 +400,7 @@ export default class CollectionItem extends mixins(
 
 <style lang="scss">
 .collection__image img {
+  border-radius: 0px;
   color: transparent;
 }
 </style>

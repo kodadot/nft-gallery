@@ -82,7 +82,8 @@ export default class Loader extends Vue {
 
 .loading-container {
   text-align: center;
-  background: #1a1a1ae0;
+  background: $frosted-glass-background;
+  backdrop-filter: $frosted-glass-backdrop-filter;
   margin: 0rem 1rem;
   width: 450px;
   border: 2px solid $primary-light;
