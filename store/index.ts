@@ -71,7 +71,7 @@ export const state = () => ({
   development: {},
   error: null,
   isApiConnected: false,
-  isNetworkConnected: false,
+  isNetworkConnected: true,
 })
 
 export type IndexState = ReturnType<typeof state>
