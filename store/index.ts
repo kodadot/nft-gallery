@@ -2,7 +2,7 @@ import type { ApiPromise } from '@polkadot/api'
 import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
 import { onNetworkStatusChange } from '@/utils/network'
-import { GetterTree, Store } from 'vuex'
+import { GetterTree, MutationTree, Store } from 'vuex'
 
 type VuexAction = {
   type: string
@@ -76,7 +76,7 @@ export const state = () => ({
 
 export type IndexState = ReturnType<typeof state>
 
-export const mutations = {
+export const mutations: MutationTree<IndexState> = {
   keyringLoaded(state: any): void {
     state.keyringLoaded = true
   },
@@ -86,10 +86,10 @@ export const mutations = {
   setLoading(state: any, toggleTo: boolean): void {
     state.loading = toggleTo
   },
-  setApiConnected(state: any, toggleTo: boolean): void {
+  setApiConnected(state, toggleTo: boolean): void {
     state.isApiConnected = toggleTo
   },
-  setNetworkConnected(state: any, toggleTo: boolean): void {
+  setNetworkConnected(state, toggleTo: boolean): void {
     state.isNetworkConnected = toggleTo
   },
   setError(state: any, error: Error): void {
