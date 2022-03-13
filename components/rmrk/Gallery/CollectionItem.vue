@@ -96,7 +96,7 @@
         <History
           v-if="!isLoading"
           :events="eventsOfNftCollection"
-          :open-on-default="isOpenHistory"
+          :openOnDefault="isHistoryOpen"
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
     </b-tabs>
@@ -211,7 +211,7 @@ export default class CollectionItem extends mixins(
     return this.collection.name || this.id
   }
 
-  get isOpenHistory(): boolean {
+  get isHistoryOpen(): boolean {
     return this.openHistory
   }
 
@@ -273,7 +273,6 @@ export default class CollectionItem extends mixins(
       },
       result: this.handleResult,
     })
-    console.log('this.collection', this.collection)
   }
 
   public async checkIfEmptyListed(): Promise<void> {

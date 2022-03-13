@@ -4,7 +4,7 @@ import { Interaction } from '~/components/rmrk/service/scheme'
 export const sortedEventByDate = (
   events: Interaction[],
   order: String = 'DESC'
-) => {
+): Interaction[] => {
   if (events.length == 0) {
     return events
   }
