@@ -5,8 +5,9 @@ export interface NetworkStatus {
 export function onNetworkStatusChange(
   callback: (status: NetworkStatus) => void
 ) {
-  navigator.connection.addEventListener('change', () => {
-    const isConnected = navigator.onLine
-    callback({ isConnected })
-  })
+  const updateNetworkStatus = () => {
+    callback({ isConnected: navigator.onLine })
+  }
+  window.addEventListener('offline', updateNetworkStatus)
+  window.addEventListener('online', updateNetworkStatus)
 }
