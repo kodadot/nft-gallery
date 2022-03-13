@@ -117,6 +117,14 @@ export default class Identity extends mixins(InlineMixin) {
     }
   }
 
+  public async mounted() {
+    Connector.getInstance().on('connect', async () => {
+      this.identity = await this.fetchIdentity(
+        this.resolveAddress(this.address)
+      )
+    })
+  }
+
   public async identityOf(account: Address): Promise<IdentityFields> {
     if (!account) {
       return Promise.resolve(emptyObject<IdentityFields>())
