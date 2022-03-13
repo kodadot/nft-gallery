@@ -1,7 +1,11 @@
 <template>
   <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort class="control" :value="sortBy" @input="updateSortBy" />
+      <Sort
+        class="control"
+        :value="sortBy"
+        @input="updateSortBy"
+        :excludeSort="['PRICE_ASC', 'PRICE_DESC']" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -72,12 +76,6 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         break
       case 'o':
         this.updateSortBy('BLOCK_NUMBER_ASC')
-        break
-      case 'e':
-        this.updateSortBy('PRICE_DESC')
-        break
-      case 'c':
-        this.updateSortBy('PRICE_ASC')
         break
     }
   }
