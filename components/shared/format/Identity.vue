@@ -64,6 +64,7 @@ import Connector from '@kodadot1/sub-api'
 import InlineMixin from '@/utils/mixins/inlineMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { hexToString, isHex } from '@polkadot/util'
+import onApiConnect from '@/utils/api/general'
 import { emptyObject } from '@/utils/empty'
 import { Data } from '@polkadot/types'
 import shortAddress from '@/utils/shortAddress'
@@ -117,8 +118,8 @@ export default class Identity extends mixins(InlineMixin) {
     }
   }
 
-  public async mounted() {
-    Connector.getInstance().on('connect', async () => {
+  mounted() {
+    onApiConnect(async () => {
       this.identity = await this.fetchIdentity(
         this.resolveAddress(this.address)
       )
