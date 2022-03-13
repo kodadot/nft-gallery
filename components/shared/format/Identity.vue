@@ -118,6 +118,10 @@ export default class Identity extends mixins(InlineMixin) {
     }
   }
 
+  /**
+   * Vue Lifecycle Hooks
+   * https://vuejs.org/guide/essentials/lifecycle.html
+   */
   mounted() {
     onApiConnect(async () => {
       this.identity = await this.fetchIdentity(
