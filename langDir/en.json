@@ -494,11 +494,12 @@
     "name": "Name your NFT",
     "frozen": "NFT is frozen",
     "event": {
-      "MINTNFT": "🖼  MINT",
-      "LIST": "📰  LIST",
-      "SEND": "🎁  GIFT",
+      "MINTNFT": "🖼 MINT",
+      "LIST": "📰 LIST",
+      "UNLIST": "🗞 UNLIST",
+      "SEND": "🎁 GIFT",
       "CONSUME": "🔥 BURN",
-      "BUY": "🤝  BUY"
+      "BUY": "🤝 BUY"
     }
   },
   "loader": {
