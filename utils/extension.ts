@@ -1,7 +1,8 @@
 import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
 import { WalletAccount } from '@/utils/config/wallets'
 
-export const enableExtension = async () => await web3Enable('KodaDot')
+export const enableExtension = async () =>
+  await web3Enable('KodaDot').then((extensions) => console.log(extensions))
 
 export const getAddress = async (address: string) => {
   try {
