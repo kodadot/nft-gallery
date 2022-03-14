@@ -103,7 +103,7 @@ Whenever you open PR against our repository, our best recommendation is to finis
 
 ### Avoiding stalled PRs
 
-When the issue is **converted to draft, and you don't reply within 24-48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
+When the issue is **converted to a draft, and you don't reply within 24-48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
 ### 🐞 Issues
 
