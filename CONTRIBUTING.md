@@ -50,11 +50,9 @@ KodaDot has started on [Kusama.network](https://kusama.network), we prefer to pa
 
 To create your KSM address in safely and long-term manner, we recommend you to get [Polkadot.js wallet browser extension](https://guide.kusama.network/docs/learn-account-generation/#polkadotjs-browser-plugin). You can [learn more about creating KSM address process at official Kusama Guide](https://guide.kusama.network/docs/learn-account-generation/)
 
-### Sharing your address to receive transfer
+### Sharing your address to receive reward
 
-After you have created an account, you can visit [your dashboard](https://polkadot.js.org/apps/) to carry out your operations. Kindly navigate to the __accounts section__ using the tab options and select _[accounts](https://polkadot.js.org/apps/#/accounts)_. Your available accounts will be listed and you can click on the preferred account avatar to copy address. Voilà, you are ready to receive!
-
-> Ensure you are connected to the Kusuma Network if you want to receive payment from us. And you need to be on the "via Parity" option.
+After you have created an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to create payment link. Entering amount like 100 USD and clicking button _Copy Payout address_  will copy link to your clipboard and you can share it with us, like whenever you are filling up bug report or submitting pull-request
 
 ### Switching account/network
 
