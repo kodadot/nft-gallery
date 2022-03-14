@@ -127,7 +127,10 @@ export default class AvailableActions extends mixins(
     })
   }
 
+  get disabled(): boolean {
+  return this.selectedAction === 'SEND' && !isAddress(this.meta.toString())
   private bindActionEvents(event) {
+  }
     const mappings = {
       b: 'BUY',
       s: 'SEND',
