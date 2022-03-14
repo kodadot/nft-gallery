@@ -13,7 +13,7 @@ If everything goes well, chances that you will be **rewarded are high**. We migh
 
 Before you being:
 
-- As the development tool, we use **Node.js.** Check to see if you're on the version of **Node.js we support.**
+- We utilize **Node.js** as a development tool. To avoid potential compatibility issues, check if you're on the version of **Node.js we support.**
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
 - [Learn how to set up your environment for the first time](FIRST_TIME.md)
 
