@@ -18,5 +18,5 @@ export default async () => {
     $avg,
   } as OperatorMap)
 
-  await enableExtension()
+  // await enableExtension()
 }
