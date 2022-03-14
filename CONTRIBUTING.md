@@ -78,7 +78,7 @@ You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 After you've **completed a few PRs, which we've merged to the upstream `main` branch**, you will be eligible to join our closer team.
 We are happy to give you **one or two long-term tasks** to see how you can tackle more complicated and complex issues.
 
-The process behind this is to see if we **click together as part of the team in the long run.**
+The reasoning behind this is to see if we **click together as a team in the long run.**
 We are curious _about your character traits, acting, and helping others_ if they have an issue with their PR.
 
 We can guarantee you a payroll from this phase, which will be discussed based on your location, skillset, previous experience, and quality of delivered code.
