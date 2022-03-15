@@ -33,7 +33,7 @@
             </b-select>
           </b-field>
 
-          <b-table :data="data" class="mb-4" hoverable>
+          <b-table :data="data" class="mb-4" hoverable :key="Date.now()">
             <b-table-column field="Type" label="Type" v-slot="props">
               {{ props.row.Type }}
             </b-table-column>
