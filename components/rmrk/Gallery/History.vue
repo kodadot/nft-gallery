@@ -20,8 +20,8 @@
         </div>
       </template>
       <div class="card-content">
-        <div class="content">
-          <b-field>
+        <div class="box">
+          <div class="table-nav">
             <b-select placeholder="Select an event" v-model="selectedEvent">
               <option value="all">All</option>
               <option
@@ -31,9 +31,14 @@
                 {{ option.Type }}
               </option>
             </b-select>
-          </b-field>
-
-          <b-table :data="data" class="mb-4" hoverable>
+            <Pagination
+              :total="total"
+              :perPage="itemsPerPage"
+              v-model="currentPage"
+              replace
+              preserveScroll />
+          </div>
+          <b-table :data="showList" class="mb-4" hoverable>
             <b-table-column field="Type" label="Type" v-slot="props">
               {{ props.row.Type }}
             </b-table-column>
@@ -93,9 +98,12 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 
 type TableRow = {
@@ -117,6 +125,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
+  private currentPage = 1
+  private event = 'all'
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -128,10 +138,29 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     })
   }
 
+  public mounted() {
+    exist(this.$route.query.event, (val) => {
+      this.event = val ? decodeURI(val) : 'all'
+    })
+  }
+
   private bindExpandEvents(event) {
     if (event.key === 'h') {
       this.isOpen = !this.isOpen
     }
+  }
+
+  get total() {
+    return this.data.length
+  }
+
+  get itemsPerPage(): number {
+    return this.$store.getters['preferences/getHistoryItemsPerPage']
+  }
+
+  get showList() {
+    const endIndex = this.currentPage * this.itemsPerPage
+    return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
 
   get uniqType(): any[] {
@@ -139,16 +168,29 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get selectedEvent(): string {
-    return 'all'
+    return this.event
   }
 
   set selectedEvent(event: string) {
     if (event) {
+      this.currentPage = 1
+      this.event = event
+      this.replaceUrl(event)
       this.data =
         event === 'all'
           ? this.copyTableData
           : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
     }
+  }
+
+  @Debounce(100)
+  replaceUrl(value: string, key = 'event') {
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, [key]: encodeURI(value) },
+      })
+      .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 
   protected createTable(): void {
@@ -247,10 +289,16 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.box {
+  .table-nav {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
