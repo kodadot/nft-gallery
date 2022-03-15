@@ -150,7 +150,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
   }
 
-  get total() {
+  get total(): number {
     return this.data.length
   }
 
