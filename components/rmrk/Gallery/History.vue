@@ -19,73 +19,71 @@
           </a>
         </div>
       </template>
-      <div class="card-content">
-        <div class="box">
-          <div class="table-nav">
-            <b-select placeholder="Select an event" v-model="selectedEvent">
-              <option value="all">All</option>
-              <option
-                v-for="option in uniqType"
-                :value="option.Type"
-                :key="option.Type">
-                {{ option.Type }}
-              </option>
-            </b-select>
-            <Pagination
-              :total="total"
-              :perPage="itemsPerPage"
-              v-model="currentPage"
-              replace
-              preserveScroll />
-          </div>
-          <b-table :data="showList" class="mb-4" hoverable>
-            <b-table-column field="Type" label="Type" v-slot="props">
-              {{ props.row.Type }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="From"
-              label="From"
-              v-slot="props">
-              <nuxt-link
-                :to="{
-                  name: 'rmrk-u-id',
-                  params: { id: props.row.From },
-                }">
-                <Identity :address="props.row.From" inline noOverflow />
-              </nuxt-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="To"
-              label="To"
-              v-slot="props">
-              <nuxt-link
-                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
-                <Identity :address="props.row.To" inline noOverflow />
-              </nuxt-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Amount"
-              label="Amount"
-              v-slot="props">
-              {{ props.row.Amount }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Date"
-              label="Date"
-              v-slot="props">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)"
-                >{{ props.row.Date }}</a
-              >
-            </b-table-column>
-          </b-table>
+      <div class="box">
+        <div class="is-flex is-justify-content-space-between">
+          <b-select placeholder="Select an event" v-model="selectedEvent">
+            <option value="all">All</option>
+            <option
+              v-for="option in uniqType"
+              :value="option.Type"
+              :key="option.Type">
+              {{ option.Type }}
+            </option>
+          </b-select>
+          <Pagination
+            :total="total"
+            :perPage="itemsPerPage"
+            v-model="currentPage"
+            replace
+            preserveScroll />
         </div>
+        <b-table :data="showList" class="mb-4" hoverable>
+          <b-table-column field="Type" label="Type" v-slot="props">
+            {{ props.row.Type }}
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="From"
+            label="From"
+            v-slot="props">
+            <nuxt-link
+              :to="{
+                name: 'rmrk-u-id',
+                params: { id: props.row.From },
+              }">
+              <Identity :address="props.row.From" inline noOverflow />
+            </nuxt-link>
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="To"
+            label="To"
+            v-slot="props">
+            <nuxt-link
+              :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
+              <Identity :address="props.row.To" inline noOverflow />
+            </nuxt-link>
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="Amount"
+            label="Amount"
+            v-slot="props">
+            {{ props.row.Amount }}
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="Date"
+            label="Date"
+            v-slot="props">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="getBlockUrl(props.row.Block)"
+              >{{ props.row.Date }}</a
+            >
+          </b-table-column>
+        </b-table>
       </div>
     </b-collapse>
   </div>
@@ -140,7 +138,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   public mounted() {
     exist(this.$route.query.event, (val) => {
-      this.event = val ? decodeURI(val) : 'all'
+      this.event = val ? decodeURIComponent(val) : 'all'
     })
   }
 
@@ -188,7 +186,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     this.$router
       .replace({
         path: String(this.$route.path),
-        query: { ...this.$route.query, [key]: encodeURI(value) },
+        query: { ...this.$route.query, [key]: encodeURIComponent(value) },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
