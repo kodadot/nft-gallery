@@ -1,5 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
-
+import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 @Component
 export default class KeyboardEventsMixin extends Vue {
   private keysPressed = {}
@@ -19,7 +19,11 @@ export default class KeyboardEventsMixin extends Vue {
     this.primaryKeyEvents = primaryKeyEvents
   }
 
-  private onKeyDown(event) {
+  private onKeyDown(event: KeyboardEvent) {
+    if (shouldIgnoreKeyDownEvent(event)) {
+      return
+    }
+
     this.keysPressed[event.key] = true
     for (const eventKey in this.primaryKeyEvents) {
       if (this.keysPressed[eventKey]) {
