@@ -151,22 +151,24 @@ export default class WalletModal extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables';
 .wallet {
-  border-radius: 10px;
   max-width: 400px;
-
-  .modal-card-head {
-    background-color: rgb(44, 45, 48) !important;
-    border-bottom: inherit;
+  border: 2px solid $primary;
+  &.modal-card {
+    background: $frosted-glass-background;
+    backdrop-filter: $frosted-glass-light-backdrop-filter;
+  }
+  .modal-card-body {
+    background: unset;
   }
 
-  .modal-card-body {
-    background-color: rgb(44, 45, 48) !important;
+  .modal-card-head {
+    background: unset;
   }
 
   .buttons button {
-    border-radius: 6px;
-    background-color: #404144;
+    border-radius: 0;
     justify-content: space-between;
   }
 }
