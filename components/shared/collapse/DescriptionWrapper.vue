@@ -55,5 +55,6 @@ export default class DescriptionWrapper extends mixins(KeyboardEventsMixin) {
 .description-wrapper {
   word-break: break-word;
   mask: linear-gradient(rgb(255, 255, 255) 45%, transparent);
+  pointer-events: none; /* unclickable */
 }
 </style>

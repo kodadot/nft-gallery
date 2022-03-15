@@ -1,0 +1,23 @@
+query seriesInsightList(
+  $limit: Int
+  $orderBy: SeriesOrderByInput
+) {
+  collectionEntities: series(
+    limit: $limit
+    orderBy: [$orderBy]
+    where: { floorPrice_isNull: false }
+  ) {
+    id
+    floorPrice
+    averagePrice
+    image
+    metadata
+    sold
+    name
+    total
+    buys
+    unique
+    uniqueCollectors
+    volume
+  }
+}
