@@ -3,7 +3,7 @@ import { Interaction } from '~/components/rmrk/service/scheme'
 // Sort events by Timestamp
 export const sortedEventByDate = (
   events: Interaction[],
-  order: String = 'DESC'
+  order = 'DESC'
 ): Interaction[] => {
   if (events.length == 0) {
     return events
@@ -18,5 +18,5 @@ export const sortedEventByDate = (
       a.timestamp > b.timestamp ? -1 : 0
     )
   }
-  return events;
+  return events
 }
