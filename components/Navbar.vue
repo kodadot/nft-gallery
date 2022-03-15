@@ -4,7 +4,8 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :class="{ 'navbar-shrink': !showNavbar }">
+    v-if="showNavbar"
+    :class="{ 'navbar-shrink': !showFixedTitleNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -16,12 +17,12 @@
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{ 'nav-search-shrink': !showNavbar }"
+        :class="{ 'nav-search-shrink': !showFixedTitleNavbar }"
         hideFilter
         class="search-navbar"
         searchColumnClass="is-flex-grow-1" />
     </template>
-    <template #end>
+    <template #end v-if="showFixedTitleNavbar">
       <HistoryBrowser class="ml-2 navbar-link-background" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
@@ -73,6 +74,9 @@
       <LocaleChanger class="ml-2" />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
+    <template #end v-else>
+      <div class="title">{{ textScrollDown }}</div>
+    </template>
   </b-navbar>
 </template>
 
@@ -83,6 +87,10 @@ import ChainSelect from '@/components/shared/ChainSelect.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import Identity from '@/components/shared/format/Identity.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import { identityStore } from '@/utils/idbStore'
+import { get } from 'idb-keyval'
 
 @Component({
   components: {
@@ -90,14 +98,17 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     HistoryBrowser,
     NavbarProfileDropdown,
     ChainSelect,
-    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+    Search,
+    Identity,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   private mobileGallery = false
   private isGallery: boolean = this.$route.path == '/rmrk/gallery'
+  private showFixedTitleNavbar = false
   private showNavbar = true
   private lastScrollPosition = 0
+  private identityName = ''
 
   private onResize(e) {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -107,15 +118,62 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 
+  get isCollection(): boolean {
+    return this.$route.path.indexOf('/rmrk/collection') >= 0
+  }
+  get isGalleryDetail(): boolean {
+    return this.$route.path.indexOf('/rmrk/detail') >= 0
+  }
+  get isUserProfile(): boolean {
+    return this.$route.path.indexOf('/rmrk/u') >= 0
+  }
+  get currentCollectionName() {
+    return (
+      this.$store.getters['history/getCurrentlyViewedCollection']?.name || ''
+    )
+  }
+  get currentGalleryItemName() {
+    return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get textScrollDown() {
+    let text = ''
+    if (this.isCollection) {
+      text = this.currentCollectionName
+    } else if (this.isGalleryDetail) {
+      text = this.currentGalleryItemName
+    } else if (this.isUserProfile) {
+      const address = this.$route.params.id
+      text = this.identityName ? this.identityName : address
+      if (!this.identityName) {
+        this.fetchIdentity(address)
+      }
+    }
+    return text
+  }
+
+  async fetchIdentity(address) {
+    const identity = await get(address, identityStore)
+    if (identity && identity.display) {
+      this.identityName = identity.display
+    }
+  }
+
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
-    if (currentScrollPosition < 0) {
+    if (currentScrollPosition <= 0) {
+      this.showNavbar = true
       return
     }
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    const fixedNavAppearDistance = 200
+    const scrollUp = currentScrollPosition < this.lastScrollPosition
+    this.showNavbar = !(
+      scrollUp && currentScrollPosition > fixedNavAppearDistance
+    )
+    this.showFixedTitleNavbar = currentScrollPosition < fixedNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -161,9 +219,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         .button {
           height: 42px;
         }
-      }
-      .navbar-start {
-        flex-grow: 1;
       }
     }
   }
