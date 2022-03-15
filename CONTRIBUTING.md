@@ -6,8 +6,7 @@ We are welcoming community contributions from you.
 Take a sneak peek on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment, and make PR.
 If everything goes well, chances that you will be **rewarded are high**. We might give retro-active bounties where the bounty label wasn't present if we like your commit.
 
-**For better coordination, please join our [Development channel (#garage) on Discord](https://discord.gg/KkctBVQ8kP)**
-
+**For better coordination, please join our [Development channel (#coordination) on Discord](https://discord.gg/4CeHXamhqB)**
 
 ## Getting started
 
@@ -22,7 +21,7 @@ Before you being:
 
 We are working primarily on two metrics. Issues have priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**. Then we have bounties for issues in the range of **$ - $$$$$**.
 
-If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a huge difference for users to fix high-priority issues. If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience** if you are interested in having continuous payroll from us.
+If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a huge difference for users to fix high-priority issues. If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience** if you are interested to be part of internal team and having continuous payroll from us.
 
 ### Open a pull request
 
@@ -30,7 +29,7 @@ When you update the code, and you'd like to propose them for review, use the pul
 
 ### Submit your PR & Get it reviewed
 
-- Once you submit your PR, others from the developers' community will review it with you. The first thing you'll want to do is a [self-review](#self-review).
+- Once you submit your PR, others from the developers community will review it with you. The first thing you'll want to do is a [self-review](#self-review).
 - After that, we may have questions; check back on your PR to keep up with the conversation.
 - Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
 
@@ -100,25 +99,25 @@ Whenever someone comments on an issue that they want to fix, they have approxima
 
 ### Pull Requests
 
-Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e., b**eing merged under 72h since opening/last discussion**, if it's not a complex issue requiring more profound attention of more members. Otherwise, you will be raising the chance to face many merge conflicts.
+Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e., **being merged under 72h since opening/last discussion**, if it's not a complex issue requiring more profound attention of more members. Otherwise, you will be raising the chance to face many merge conflicts.
 
 ### Avoiding stalled PRs
 
-When the issue is **converted to a draft, and you don't reply within 24-48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
+When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
-### 🐞 Issues
+### Issues 🐞 
 
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet, and you shouldn't begin work on it.
 
 If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
 
-### 🛠️ Pull requests
+### Pull requests 🛠️ 
 
 A pull request is a way to suggest changes in our repository.
 
 When we merge those changes, they should be deployed to the live site within 24 hours. 🌍 To learn more about opening a pull request in this repo, see Opening a pull request below.
 
-### ❓ support
+### Support ❓ 
 
 We are a small team working hard to keep up with the documentation demands of a continuously changing product. Unfortunately, we can't help with support questions in this repository. If you are experiencing a problem with GitHub unrelated to our documentation, please get in touch with GitHub Support directly. Any issues, discussions, or pull requests opened here requesting support will be given information about contacting GitHub Support, then closed and locked.
 
