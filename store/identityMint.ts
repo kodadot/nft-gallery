@@ -21,10 +21,8 @@ export const mutations: MutationTree<State> = {
     state: IdentityMintStruct,
     identityMintRequest: IdentityMintRequest
   ): void {
-    const { address, data } = identityMintRequest
-    if (!state.identities[address]) {
-      state.identities[address] = data
-    }
+    const { address, cacheData } = identityMintRequest
+    state.identities[address] = cacheData
   },
 }
 
@@ -38,10 +36,11 @@ export const actions: ActionTree<State, State> = {
 }
 
 export interface MintInfo {
-  firstMint: { nodes: any[] }
-  nFTCollected: { totalCount: number }
-  nFTCreated: { totalCount: number }
-  nFTSold: { totalCount: number }
+  totalCreated: number
+  totalCollected: number
+  totalSold: number
+  firstMintDate: Date
+  updatedAt: Date
 }
 
 export interface IdentityMintMap {
@@ -54,5 +53,5 @@ export interface IdentityMintStruct {
 
 export interface IdentityMintRequest {
   address: string
-  data: MintInfo
+  cacheData: MintInfo
 }

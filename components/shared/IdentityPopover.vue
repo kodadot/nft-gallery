@@ -64,6 +64,7 @@
 <script lang="ts">
 import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { MintInfo } from '@/store/identityMint'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -109,8 +110,8 @@ export default class IdentityPopover extends mixins(
       const data = this.$store.getters['identityMint/getIdentityMintFor'](
         this.identity.address
       )
-      if (data) {
-        // if cache exist
+      if (data && Date.now() - data.updatedAt < 12 * 60 * 60 * 1000) {
+        // if cache exist and in 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
         const query =
@@ -135,19 +136,37 @@ export default class IdentityPopover extends mixins(
     }
   }
 
-  protected async handleResult({ data, type }: any) {
-    if (data) {
-      this.totalCreated = data.nFTCreated.totalCount
-      this.totalCollected = data.nFTCollected.totalCount
-      this.totalSold = data.nFTSold.totalCount
+  protected async handleResult({
+    data,
+    type,
+  }: {
+    data: MintInfo | any
+    type?: 'cache'
+  }) {
+    if (type === 'cache') {
+      this.totalCreated = data.totalCreated
+      this.totalCollected = data.totalCollected
+      this.totalSold = data.totalSold
+      this.firstMintDate = data.firstMintDate
+    } else {
+      if (data) {
+        this.totalCreated = data.nFTCreated.totalCount
+        this.totalCollected = data.nFTCollected.totalCount
+        this.totalSold = data.nFTSold.totalCount
 
-      if (data?.firstMint?.nodes.length > 0) {
-        this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
-      }
-      if (type !== 'cache') {
+        if (data?.firstMint?.nodes.length > 0) {
+          this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
+        }
+        const cacheData = {
+          totalCreated: this.totalCreated,
+          totalCollected: this.totalCollected,
+          totalSold: this.totalSold,
+          firstMintDate: this.firstMintDate,
+          updatedAt: Date.now(),
+        }
         await this.$store.dispatch('identityMint/setIdentity', {
           address: this.identity.address,
-          data,
+          cacheData,
         })
       }
     }
