@@ -233,7 +233,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -270,10 +270,9 @@ export default class CollectionList extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
+      border-radius: 0px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
@@ -343,10 +342,11 @@ export default class CollectionList extends mixins(PrefixMixin) {
         }
 
         &:hover .card-content {
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
         }
