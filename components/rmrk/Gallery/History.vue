@@ -150,7 +150,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
   }
 
-  get total() {
+  get total(): number {
     return this.data.length
   }
 
@@ -158,7 +158,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return this.$store.getters['preferences/getHistoryItemsPerPage']
   }
 
-  get showList() {
+  get showList(): TableRow[] {
     const endIndex = this.currentPage * this.itemsPerPage
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
