@@ -39,6 +39,19 @@
             </b-table-column>
             <b-table-column
               cell-class="short-identity__table"
+              field="Item"
+              label="Item"
+              v-slot="props">
+              <nuxt-link
+                :to="{
+                  name: 'rmrk-gallery-id',
+                  params: { id: props.row.Item },
+                }">
+                {{ shortAddress(props.row.Item) }}
+              </nuxt-link>
+            </b-table-column>
+            <b-table-column
+              cell-class="short-identity__table"
               field="From"
               label="From"
               v-slot="props">
@@ -72,12 +85,17 @@
               field="Date"
               label="Date"
               v-slot="props">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)"
-                >{{ props.row.Date }}</a
-              >
+              <b-tooltip
+                :label="props.row.Date"
+                position="is-right"
+                append-to-body>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :href="getBlockUrl(props.row.Block)">
+                  {{ props.row.Time }}</a
+                >
+              </b-tooltip>
             </b-table-column>
           </b-table>
         </div>
@@ -93,6 +111,8 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import shortAddress from '@/utils/shortAddress'
+import { formatDistanceToNow } from 'date-fns'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -121,6 +141,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
+  public shortAddress = shortAddress
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -190,6 +211,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
+      // Item
+      event['Item'] = newEvent['id']
+
       // From
       if (!('From' in event)) event['From'] = prevOwner
 
@@ -207,6 +231,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       // Date
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
+
+      // Time
+      event['Time'] = formatDistanceToNow(date, { addSuffix: true })
 
       event['Block'] = String(newEvent['blockNumber'])
 
@@ -252,5 +279,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.b-tooltip {
+  z-index: 9999;
 }
 </style>
