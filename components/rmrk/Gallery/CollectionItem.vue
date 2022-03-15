@@ -185,7 +185,7 @@ export default class CollectionItem extends mixins(
   public eventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
-  private openHistory: boolean = true
+  private openHistory = true
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
