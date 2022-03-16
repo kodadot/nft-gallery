@@ -69,6 +69,7 @@ import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
+import { isAfter, subHours } from 'date-fns'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -110,8 +111,11 @@ export default class IdentityPopover extends mixins(
       const data = this.$store.getters['identityMint/getIdentityMintFor'](
         this.identity.address
       )
-      if (data && Date.now() - data.updatedAt < 12 * 60 * 60 * 1000) {
-        // if cache exist and in 12h
+      if (
+        data?.updatedAt &&
+        isAfter(data.updatedAt, subHours(Date.now(), 12))
+      ) {
+        // if cache exist and within 12h
         await this.handleResult({ data, type: 'cache' })
       } else {
         const query =
@@ -148,27 +152,25 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.totalCollected
       this.totalSold = data.totalSold
       this.firstMintDate = data.firstMintDate
-    } else {
-      if (data) {
-        this.totalCreated = data.nFTCreated.totalCount
-        this.totalCollected = data.nFTCollected.totalCount
-        this.totalSold = data.nFTSold.totalCount
+    } else if (data) {
+      this.totalCreated = data.nFTCreated.totalCount
+      this.totalCollected = data.nFTCollected.totalCount
+      this.totalSold = data.nFTSold.totalCount
 
-        if (data?.firstMint?.nodes.length > 0) {
-          this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
-        }
-        const cacheData = {
-          totalCreated: this.totalCreated,
-          totalCollected: this.totalCollected,
-          totalSold: this.totalSold,
-          firstMintDate: this.firstMintDate,
-          updatedAt: Date.now(),
-        }
-        await this.$store.dispatch('identityMint/setIdentity', {
-          address: this.identity.address,
-          cacheData,
-        })
+      if (data?.firstMint?.nodes.length > 0) {
+        this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
+      const cacheData = {
+        totalCreated: this.totalCreated,
+        totalCollected: this.totalCollected,
+        totalSold: this.totalSold,
+        firstMintDate: this.firstMintDate,
+        updatedAt: Date.now(),
+      }
+      await this.$store.dispatch('identityMint/setIdentity', {
+        address: this.identity.address,
+        cacheData,
+      })
     }
   }
 }
