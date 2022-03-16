@@ -24,11 +24,8 @@
           <b-field>
             <b-select placeholder="Select an event" v-model="selectedEvent">
               <option value="all">All</option>
-              <option
-                v-for="option in uniqType"
-                :value="option.Type"
-                :key="option.Type">
-                {{ option.Type }}
+              <option v-for="option in uniqType" :value="option" :key="option">
+                {{ option }}
               </option>
             </b-select>
           </b-field>
@@ -51,7 +48,7 @@
               </nuxt-link>
             </b-table-column>
             <b-table-column
-              :visible="['all', 'BUY', 'GIFT'].includes(currentSelectedEvent)"
+              :visible="typeWithToProp.includes(currentSelectedEvent)"
               cell-class="short-identity__table"
               field="To"
               label="To"
@@ -122,7 +119,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
-  public currentSelectedEvent = 'all'
+  public All = 'all'
+  public currentSelectedEvent = this.All
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -136,19 +134,28 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
   }
 
-  get uniqType(): any[] {
-    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
+  get uniqType(): string[] {
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).keys()]
+  }
+
+  get typeWithToProp(): string[] {
+    const uniqType = this.uniqType
+    const types = uniqType.filter((type) =>
+      this.copyTableData.find((data) => data.Type === type && data.To)
+    )
+    types.push(this.All)
+    return types
   }
 
   get selectedEvent(): string {
-    return 'all'
+    return this.All
   }
 
   set selectedEvent(event: string) {
     if (event) {
-      this.currentSelectedEvent = event.replace(/[^a-zA-Z]/g, '')
+      this.currentSelectedEvent = event
       this.data =
-        event === 'all'
+        event === this.All
           ? this.copyTableData
           : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
     }
