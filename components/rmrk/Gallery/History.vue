@@ -23,14 +23,14 @@
         <div class="content">
           <b-field>
             <b-select placeholder="Select an event" v-model="selectedEvent">
-              <option value="all">All</option>
+              <option value="">All</option>
               <option v-for="option in uniqType" :value="option" :key="option">
                 {{ option }}
               </option>
             </b-select>
           </b-field>
 
-          <b-table :data="data" class="mb-4" hoverable :key="Date.now()">
+          <b-table :data="data" class="mb-4" hoverable custom-row-key="ID">
             <b-table-column field="Type" label="Type" v-slot="props">
               {{ props.row.Type }}
             </b-table-column>
@@ -48,7 +48,7 @@
               </nuxt-link>
             </b-table-column>
             <b-table-column
-              :visible="typeWithToProp.includes(currentSelectedEvent)"
+              :visible="['', 'BUY', 'SEND'].includes(currentSelectedEventType)"
               cell-class="short-identity__table"
               field="To"
               label="To"
@@ -103,6 +103,7 @@ type TableRow = {
   Amount: string
   Date: string
   Block: string
+  ID: string
 }
 
 type ChartData = {
@@ -119,8 +120,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
-  public All = 'all'
-  public currentSelectedEvent = this.All
+  public eventTypeTranslationMap = {}
+  public currentSelectedEventType = ''
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -138,26 +139,21 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return [...new Map(this.copyTableData.map((v) => [v.Type, v])).keys()]
   }
 
-  get typeWithToProp(): string[] {
-    const uniqType = this.uniqType
-    const types = uniqType.filter((type) =>
-      this.copyTableData.find((data) => data.Type === type && data.To)
-    )
-    types.push(this.All)
-    return types
-  }
-
   get selectedEvent(): string {
-    return this.All
+    return ''
   }
 
   set selectedEvent(event: string) {
-    if (event) {
-      this.currentSelectedEvent = event
-      this.data =
-        event === this.All
-          ? this.copyTableData
-          : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
+    if (event === '') {
+      // select all events
+      this.currentSelectedEventType = ''
+      this.data = this.copyTableData
+    } else {
+      this.currentSelectedEventType =
+        this.eventTypeTranslationMap[JSON.stringify(event)]
+      this.data = [
+        ...new Set(this.copyTableData.filter((v) => v.Type === event)),
+      ]
     }
   }
 
@@ -181,6 +177,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'LIST') {
+        // no need to save in eventTypeTranslationMap because there is no "To" prop
         event['Type'] = parseInt(newEvent['meta'])
           ? this.$t('nft.event.LIST')
           : this.$t('nft.event.UNLIST')
@@ -189,6 +186,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         prevOwner = event['From']
         curPrice = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
+        this.eventTypeTranslationMap[
+          JSON.stringify(this.$t('nft.event.SEND'))
+        ] = 'SEND'
         event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
@@ -197,6 +197,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['From'] = newEvent['caller']
         event['To'] = ''
       } else if (newEvent['interaction'] === 'BUY') {
+        this.eventTypeTranslationMap[JSON.stringify(this.$t('nft.event.BUY'))] =
+          'BUY'
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
@@ -219,6 +221,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['Date'] = this.parseDate(date)
 
       event['Block'] = String(newEvent['blockNumber'])
+
+      // ID for b-table: Use a unique key of your data Object for each row.
+      event['ID'] = newEvent['id']
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {
