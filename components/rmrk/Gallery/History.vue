@@ -51,6 +51,7 @@
               </nuxt-link>
             </b-table-column>
             <b-table-column
+              :visible="['all', 'BUY', 'GIFT'].includes(currentSelectedEvent)"
               cell-class="short-identity__table"
               field="To"
               label="To"
@@ -121,6 +122,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
+  public currentSelectedEvent = 'all'
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -144,6 +146,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   set selectedEvent(event: string) {
     if (event) {
+      this.currentSelectedEvent = event.replace(/[^a-zA-Z]/g, '')
       this.data =
         event === 'all'
           ? this.copyTableData
