@@ -10,17 +10,19 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionFloorPrice" inline />
+            <Money :value="collectionDailyTradedVolumeNumber" inline /> ⊆
+            <Money :value="collectionTradedVolumeNumber" inline />
           </p>
-          <p class="heading">Floor price</p>
+          <p class="heading">24h / Total Volume traded</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionTradedVolumeNumber" inline />
+            <Money :value="highestBuyPrice" inline /> ⊆
+            {{ totalPurchases }}
           </p>
-          <p class="heading">Volume traded</p>
+          <p class="heading">Highest Transaction Price / Total Purchases</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -43,9 +45,9 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline />
+            <Money :value="collectionFloorPrice" inline />
           </p>
-          <p class="heading">24h Volume traded</p>
+          <p class="heading">Floor price</p>
         </div>
       </div>
     </div>
@@ -59,6 +61,10 @@ import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import collectionStatsById from '@/queries/collectionStatsById.graphql'
+import { Interaction as InteractionEvent } from '../service/scheme'
+import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { getHighestPriceFromEvent } from '@/utils/math'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -84,6 +90,12 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
     uniqueOwnerCount: 0,
     differentOwnerCount: 0,
     saleEvents: [],
+  }
+  totalPurchases = 0
+  highestBuyPrice = 0
+
+  public created(): void {
+    this.fetchBuyEvents()
   }
 
   async fetch() {
@@ -158,6 +170,30 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 
   get collectionDailyTradedVolumeNumber(): bigint {
     return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
+  }
+
+  protected async fetchBuyEvents() {
+    try {
+      const { data } = await this.$apollo.query<{ events: InteractionEvent[] }>(
+        {
+          query: allCollectionSaleEvents,
+          client: 'subsquid',
+          variables: {
+            id: this.id,
+            and: {
+              interaction_eq: 'BUY',
+            },
+          },
+        }
+      )
+      if (data && data.events && data.events.length) {
+        let events: InteractionEvent[] = data.events
+        this.totalPurchases = data.events.length
+        this.highestBuyPrice = getHighestPriceFromEvent(events)
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
   }
 
   protected differentOwner(nft: {
