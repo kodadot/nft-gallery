@@ -124,9 +124,7 @@ export default class Identity extends mixins(InlineMixin) {
    */
   mounted() {
     onApiConnect(async () => {
-      this.identity = await this.fetchIdentity(
-        this.resolveAddress(this.address)
-      )
+      this.identity = await this.identityOf(this.resolveAddress(this.address))
     })
   }
 
