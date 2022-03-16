@@ -34,6 +34,8 @@
           "^model-viewer",
           "^nuxt",
           "nuxt-buefy",
+          "vuejs/vue-cli",
+          "vue/cli-plugin",
           "^vue",
           "^vuejs",
           "vuejs/core",
