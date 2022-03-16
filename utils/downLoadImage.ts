@@ -1,4 +1,4 @@
-export async function downloadImage(imageSrc: string, name = 'unnamed') {
+export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
   if (!imageSrc) return
   const image = await fetch(imageSrc)
   const imageBlog = await image.blob()
