@@ -174,11 +174,15 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       this.currentPage = 1
       this.event = event
       this.replaceUrl(event)
-      this.data =
-        event === 'all'
-          ? this.copyTableData
-          : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
     }
+  }
+
+  protected filterData() {
+    const event = this.event
+    this.data =
+      event === 'all'
+        ? this.copyTableData
+        : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
   }
 
   @Debounce(100)
@@ -262,6 +266,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
 
     this.data = this.data.reverse()
+    this.filterData()
     this.copyTableData = this.copyTableData.reverse()
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
@@ -283,6 +288,13 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   public watchEvent(): void {
     if (this.events) {
       this.createTable()
+    }
+  }
+
+  @Watch('event', { immediate: true })
+  public watchInteractionEvent(): void {
+    if (this.event) {
+      this.filterData()
     }
   }
 }
