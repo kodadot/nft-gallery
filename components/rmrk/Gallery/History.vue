@@ -280,8 +280,4 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.b-tooltip {
-  z-index: 9999;
-}
 </style>
