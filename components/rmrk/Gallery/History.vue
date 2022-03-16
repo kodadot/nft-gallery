@@ -214,6 +214,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'LIST') {
         event['Type'] = parseInt(newEvent['meta'])
           ? this.$t('nft.event.LIST')
@@ -226,10 +227,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
         event['Type'] = this.$t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'BUY') {
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
