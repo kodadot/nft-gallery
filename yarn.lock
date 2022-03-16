@@ -1985,10 +1985,10 @@
   resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
   integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
 
-"@kodadot1/minimark@^0.0.1-rc.5":
-  version "0.0.1-rc.5"
-  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.5.tgz#c160f497da5c9f397d89a988f0e98e87e7c7f49c"
-  integrity sha512-LLvbhUmkyAsqEDajEphb0q8rF+lM8/BwcopF3XQyu4GZGcqQRQIIPyPV0geunm1PmXrvBcFr/81H90Nttsg3kQ==
+"@kodadot1/minimark@^0.0.1-rc.6":
+  version "0.0.1-rc.6"
+  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.6.tgz#07be0beb3bd4a11ed077488d74504cabc6c4ebba"
+  integrity sha512-ZNF0MJJIJJJ2vLB/Bp1jwy0Op4RQjRQeOFOJr7aYmdJkHxh04Ihj0cDAdk4vlxtnOPjBhkpSnRmNPezzJ6p1cg==
   dependencies:
     nanoid "^3.2.0"
     slugify "^1.6.5"
@@ -6839,7 +6839,7 @@ colorette@^2.0.16:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
   integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
 
-colors@1.4.0:
+colors@*, colors@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
@@ -8477,6 +8477,11 @@ etag@^1.8.1, etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+event-pubsub@4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/event-pubsub/-/event-pubsub-4.2.3.tgz#0d3142f47ac7e0da38cdc38402d97e2510bc5ecc"
+  integrity sha1-DTFC9HrH4No4zcOEAtl+JRC8Xsw=
 
 event-pubsub@4.3.0:
   version "4.3.0"
@@ -11510,12 +11515,12 @@ js-cookie@^3.0.1:
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
   integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
 
-js-message@1.0.7:
+js-message@1.0.7, js-message@>=1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/js-message/-/js-message-1.0.7.tgz#fbddd053c7a47021871bb8b2c95397cc17c20e47"
   integrity sha512-efJLHhLjIyKRewNS9EGZ4UpI8NguuL6fKkhRxVuMmrGV2xN/0APGdQYwLFky5w9naebSZ0OwAGp0G6/2Cg90rA==
 
-js-queue@2.0.2:
+js-queue@2.0.2, js-queue@>=2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/js-queue/-/js-queue-2.0.2.tgz#0be590338f903b36c73d33c31883a821412cd482"
   integrity sha512-pbKLsbCfi7kriM3s1J4DDCo7jQkI58zPLHi0heXPzPlj0hjUsm+FesPUbE0DSbIVIK503A36aUBoCN7eMFedkA==
@@ -12864,6 +12869,17 @@ node-ipc@9.2.1:
     js-message "1.0.7"
     js-queue "2.0.2"
 
+node-ipc@^9.1.1:
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/node-ipc/-/node-ipc-9.2.2.tgz#158df14dffeb4891ac048441ad175e34006e7a3f"
+  integrity sha512-e+cCHxf0zs4scDkTrFruxOFjhRsmgiGbKqMvcMrBHZnkvLUWHOBayDnKNADKndg3UkTnqHJ9nADcJbjFFaqTNQ==
+  dependencies:
+    colors "*"
+    event-pubsub "4.2.3"
+    js-message ">=1.0.5"
+    js-queue ">=2.0.0"
+    peacenotwar "^9.1.6"
+
 node-libs-browser@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/node-libs-browser/-/node-libs-browser-2.2.1.tgz#b64f513d18338625f90346d27b0d235e631f6425"
@@ -13634,6 +13650,11 @@ pbkdf2@^3.0.3, pbkdf2@^3.0.9:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+peacenotwar@^9.1.6:
+  version "9.1.6"
+  resolved "https://registry.yarnpkg.com/peacenotwar/-/peacenotwar-9.1.6.tgz#8c96d0841fdd2af25a44002893d716fe5aabdee9"
+  integrity sha512-pApXV74SJsXxrJ7XQohl+oqLf00U0tKNrmHUa5ct7XfYUHnvGNaQfBFo9JpTpDbkn4bpNrPekVeO50Zfd/vMAA==
 
 pegjs@^0.10.0:
   version "0.10.0"
