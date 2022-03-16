@@ -19,68 +19,71 @@
           </a>
         </div>
       </template>
-      <div class="card-content">
-        <div class="content">
-          <b-field>
-            <b-select placeholder="Select an event" v-model="selectedEvent">
-              <option value="all">All</option>
-              <option
-                v-for="option in uniqType"
-                :value="option.Type"
-                :key="option.Type">
-                {{ option.Type }}
-              </option>
-            </b-select>
-          </b-field>
-
-          <b-table :data="data" class="mb-4" hoverable>
-            <b-table-column field="Type" label="Type" v-slot="props">
-              {{ props.row.Type }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="From"
-              label="From"
-              v-slot="props">
-              <nuxt-link
-                :to="{
-                  name: 'rmrk-u-id',
-                  params: { id: props.row.From },
-                }">
-                <Identity :address="props.row.From" inline noOverflow />
-              </nuxt-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="To"
-              label="To"
-              v-slot="props">
-              <nuxt-link
-                :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
-                <Identity :address="props.row.To" inline noOverflow />
-              </nuxt-link>
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Amount"
-              label="Amount"
-              v-slot="props">
-              {{ props.row.Amount }}
-            </b-table-column>
-            <b-table-column
-              cell-class="short-identity__table"
-              field="Date"
-              label="Date"
-              v-slot="props">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="getBlockUrl(props.row.Block)"
-                >{{ props.row.Date }}</a
-              >
-            </b-table-column>
-          </b-table>
+      <div class="box">
+        <div class="is-flex is-justify-content-space-between">
+          <b-select placeholder="Select an event" v-model="selectedEvent">
+            <option value="all">All</option>
+            <option
+              v-for="option in uniqType"
+              :value="option.Type"
+              :key="option.Type">
+              {{ option.Type }}
+            </option>
+          </b-select>
+          <Pagination
+            :total="total"
+            :perPage="itemsPerPage"
+            v-model="currentPage"
+            replace
+            preserveScroll />
         </div>
+        <b-table :data="showList" class="mb-4" hoverable>
+          <b-table-column field="Type" label="Type" v-slot="props">
+            {{ props.row.Type }}
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="From"
+            label="From"
+            v-slot="props">
+            <nuxt-link
+              :to="{
+                name: 'rmrk-u-id',
+                params: { id: props.row.From },
+              }">
+              <Identity :address="props.row.From" inline noOverflow />
+            </nuxt-link>
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="To"
+            label="To"
+            v-slot="props">
+            <nuxt-link
+              :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
+              <Identity :address="props.row.To" inline noOverflow />
+            </nuxt-link>
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="Amount"
+            label="Amount"
+            v-slot="props">
+            {{ props.row.Amount }}
+          </b-table-column>
+          <b-table-column
+            cell-class="short-identity__table"
+            field="Date"
+            label="Date"
+            v-slot="props">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              :href="getBlockUrl(props.row.Block)"
+              >{{ props.row.Date }}</a
+            >
+          </b-table-column>
+        </b-table>
       </div>
     </b-collapse>
   </div>
@@ -93,9 +96,12 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
+  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 
 type TableRow = {
@@ -117,6 +123,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
+  private currentPage = 1
+  private event = 'all'
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -128,10 +136,29 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     })
   }
 
+  public mounted() {
+    exist(this.$route.query.event, (val) => {
+      this.event = val ? decodeURIComponent(val) : 'all'
+    })
+  }
+
   private bindExpandEvents(event) {
     if (event.key === 'h') {
       this.isOpen = !this.isOpen
     }
+  }
+
+  get total(): number {
+    return this.data.length
+  }
+
+  get itemsPerPage(): number {
+    return this.$store.getters['preferences/getHistoryItemsPerPage']
+  }
+
+  get showList(): TableRow[] {
+    const endIndex = this.currentPage * this.itemsPerPage
+    return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
 
   get uniqType(): any[] {
@@ -139,16 +166,33 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get selectedEvent(): string {
-    return 'all'
+    return this.event
   }
 
   set selectedEvent(event: string) {
     if (event) {
-      this.data =
-        event === 'all'
-          ? this.copyTableData
-          : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
+      this.currentPage = 1
+      this.event = event
+      this.replaceUrl(event)
     }
+  }
+
+  protected filterData() {
+    const event = this.event
+    this.data =
+      event === 'all'
+        ? this.copyTableData
+        : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
+  }
+
+  @Debounce(100)
+  replaceUrl(value: string, key = 'event') {
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, [key]: encodeURIComponent(value) },
+      })
+      .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 
   protected createTable(): void {
@@ -170,6 +214,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'LIST') {
         event['Type'] = parseInt(newEvent['meta'])
           ? this.$t('nft.event.LIST')
@@ -182,10 +227,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
         event['Type'] = this.$t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
+        curPrice = '0'
       } else if (newEvent['interaction'] === 'BUY') {
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
@@ -222,6 +269,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
 
     this.data = this.data.reverse()
+    this.filterData()
     this.copyTableData = this.copyTableData.reverse()
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
@@ -245,12 +293,25 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       this.createTable()
     }
   }
+
+  @Watch('event', { immediate: true })
+  public watchInteractionEvent(): void {
+    if (this.event) {
+      this.filterData()
+    }
+  }
 }
 </script>
-<style>
+<style lang="scss">
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.box {
+  .table-nav {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
