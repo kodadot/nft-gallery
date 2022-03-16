@@ -42,6 +42,7 @@
             {{ props.row.Type }}
           </b-table-column>
           <b-table-column
+            v-if="isCollectionPage"
             cell-class="short-identity__table"
             field="Item"
             label="Item"
@@ -126,6 +127,7 @@ const components = {
 
 type TableRow = {
   Type: string
+  Item?: string // only in collection
   From: string
   To: string
   Amount: string
@@ -145,6 +147,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   private readonly openOnDefault!: boolean
   private currentPage = 1
   private event = 'all'
+  private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -259,7 +262,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       } else event['Type'] = newEvent['interaction']
 
       // Item
-      event['Item'] = newEvent['id']
+      if (this.isCollectionPage) {
+        event['Item'] = newEvent['id']?.replace(
+          /-(BUY|CONSUME|LIST|MINT|MINFNFT|SEND).+$/,
+          ''
+        )
+      }
 
       // From
       if (!('From' in event)) event['From'] = prevOwner
