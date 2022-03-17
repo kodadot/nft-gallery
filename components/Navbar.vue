@@ -76,11 +76,11 @@
     <template #end v-else>
       <BasicImage
         class="mr-2 collection-image"
-        v-if="isCollection && currentCollectionName.image"
-        :src="currentCollectionName.image"
-        :alt="textScrollDown"
+        v-show="inCollectionPage && currentCollection.image"
+        :src="currentCollection.image"
+        :alt="navBarTitle"
         rounded />
-      <div class="title">{{ textScrollDown }}</div>
+      <div class="title">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
@@ -115,7 +115,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   private isGallery: boolean = this.$route.path == '/rmrk/gallery'
   private showTopNavbar = true
   private lastScrollPosition = 0
-  private identityName = ''
+  private artistName = ''
 
   private onResize(e) {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -125,49 +125,53 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 
-  get isCollection(): boolean {
+  get inCollectionPage(): boolean {
     return this.$route.path.indexOf('/rmrk/collection/') >= 0
   }
-  get isGalleryDetail(): boolean {
+  get inGalleryDetailPage(): boolean {
     return (
       this.$route.path.indexOf('/rmrk/detail') >= 0 ||
       this.$route.path.indexOf('/rmrk/gallery') >= 0
     )
   }
-  get isUserProfile(): boolean {
+  get inUserProfilePage(): boolean {
     return this.$route.path.indexOf('/rmrk/u') >= 0
   }
 
   get isTargetPage(): boolean {
-    return this.isCollection || this.isGalleryDetail || this.isUserProfile
+    return (
+      this.inCollectionPage ||
+      this.inGalleryDetailPage ||
+      this.inUserProfilePage
+    )
   }
-  get currentCollectionName() {
+  get currentCollection() {
     return this.$store.getters['history/getCurrentlyViewedCollection'] || {}
   }
   get currentGalleryItemName() {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
 
-  get textScrollDown() {
-    let text = ''
-    if (this.isCollection) {
-      text = this.currentCollectionName.name
-    } else if (this.isGalleryDetail) {
-      text = this.currentGalleryItemName
-    } else if (this.isUserProfile) {
+  get navBarTitle() {
+    let title = ''
+    if (this.inCollectionPage) {
+      title = this.currentCollection.name
+    } else if (this.inGalleryDetailPage) {
+      title = this.currentGalleryItemName
+    } else if (this.inUserProfilePage) {
       const address = this.$route.params.id
-      text = this.identityName ? this.identityName : address
-      if (!this.identityName) {
-        this.fetchIdentity(address)
+      title = this.artistName ? this.artistName : address
+      if (!this.artistName) {
+        this.fetchArtistIdentity(address)
       }
     }
-    return text
+    return title
   }
 
-  async fetchIdentity(address) {
+  async fetchArtistIdentity(address) {
     const identity = await get(address, identityStore)
     if (identity && identity.display) {
-      this.identityName = identity.display
+      this.artistName = identity.display
     }
   }
 
