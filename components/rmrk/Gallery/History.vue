@@ -146,7 +146,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
   private currentPage = 1
-  private event = 'all'
+  private event: any = this.$t('nft.event.BUY')
   private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
   protected data: TableRow[] = []
