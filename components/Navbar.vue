@@ -74,14 +74,14 @@
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
     <template #end v-else>
-      <div class="image is-48x48 mr-2">
+      <div class="image is-32x32 mr-2">
         <BasicImage
           v-show="inCollectionPage && currentCollection.image"
           :src="currentCollection.image"
           :alt="navBarTitle"
           rounded />
       </div>
-      <div class="title">{{ navBarTitle }}</div>
+      <div class="title is-4">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
