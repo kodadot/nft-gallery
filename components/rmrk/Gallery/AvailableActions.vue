@@ -76,7 +76,7 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
-import { downloadImage } from '@/utils/downloadImage'
+import { downloadImage } from '@/utils/download'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { downloadImage } from '@/utils/downloadImage'
+import { downloadImage } from '@/utils/download'
 const MOCK_IMAGE_URL = 'https://www.test.com/'
 
 global.fetch = jest.fn(() =>
@@ -15,7 +15,7 @@ global.URL = {
 }
 global.document = window.document
 
-describe('DOWNLOAD IMAGE TEST', (): void => {
+describe('DOWNLOAD TEST', (): void => {
   it('TEST downloadImage', async () => {
     const link = await downloadImage(MOCK_IMAGE_URL, 'nftName')
     expect(link.tagName).toBe('A')
