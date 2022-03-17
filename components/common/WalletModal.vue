@@ -88,8 +88,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 @Component({
   components: {},
@@ -117,6 +118,13 @@ export default class WalletModal extends Vue {
     return SupportedWallets
   }
 
+  @Watch('walletAccounts', { immediate: true })
+  handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
+    if (shouldUpdate(value, oldVal)) {
+      this.walletAccounts = value
+    }
+  }
+
   protected setWallet(wallet: Wallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
@@ -140,8 +148,7 @@ export default class WalletModal extends Vue {
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
-          // this.walletAccounts = accounts
-          this.walletAccounts = Object.assign({}, this.walletAccounts, accounts)
+          this.walletAccounts = accounts
         }
       })
       // }
