@@ -15,7 +15,7 @@ export const getAddress = async (address: string) => {
 
 export const getSelectedAccount = (accounts: WalletAccount[]) => {
   try {
-    const selectedAddress = localStorage.getItem('selected_account')
+    const selectedAddress = localStorage.getItem('kodaauth')
     const account = accounts.find(
       (account) => account.address === selectedAddress
     )

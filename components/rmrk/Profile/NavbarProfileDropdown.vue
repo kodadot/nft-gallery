@@ -93,7 +93,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
   protected disconnect() {
     this.$store.dispatch('setAuth', { address: '' }) // null not working
-    localStorage.removeItem('selected_account')
+    localStorage.removeItem('kodaauth')
   }
 
   set account(account: string) {

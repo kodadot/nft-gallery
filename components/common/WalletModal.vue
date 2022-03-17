@@ -106,7 +106,7 @@ export default class WalletModal extends Vue {
   set account(account: string) {
     this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
-    localStorage.setItem('selected_account', account)
+    localStorage.setItem('kodaauth', account)
   }
 
   get account() {
@@ -120,6 +120,7 @@ export default class WalletModal extends Vue {
   protected setWallet(wallet: Wallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
+    this.walletAccounts = []
 
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
