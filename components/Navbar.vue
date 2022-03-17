@@ -214,13 +214,17 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    max-width: 350px;
+    max-width: 400px;
     margin: 0 1rem;
     input {
       border: inherit;
-      background-color: #29292f;
+      background-color: rgba(41, 41, 47, 0.5);
       &::placeholder {
         color: #898991 !important;
+      }
+      &:focus {
+        box-shadow: none !important;
+        border-top: 2px solid $primary;
       }
     }
   }
