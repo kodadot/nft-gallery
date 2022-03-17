@@ -143,15 +143,13 @@ export default class WalletModal extends Vue {
       console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
-      // async () => {
-      wallet.enable()
+      // wallet.enable()
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
           this.walletAccounts = accounts
         }
       })
-      // }
       this.hasWalletProviderExtension = true
     }
   }
