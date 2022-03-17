@@ -151,6 +151,6 @@
     "webpack": "^4.46.0"
   },
   "resolutions": {
-    "node-ipc@>9.2.1 <10": "9.2.1"
+    "node-ipc": "9.2.1"
   }
 }
