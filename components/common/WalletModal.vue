@@ -140,7 +140,8 @@ export default class WalletModal extends Vue {
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
-          this.walletAccounts = accounts
+          // this.walletAccounts = accounts
+          this.walletAccounts = Object.assign({}, this.walletAccounts, accounts)
         }
       })
       // }
