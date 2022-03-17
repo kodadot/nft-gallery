@@ -1976,10 +1976,10 @@
   resolved "https://registry.yarnpkg.com/@keeex/qrcodejs-kx/-/qrcodejs-kx-1.0.2.tgz#033c7b8ee8ca64eca834daa2ae7180d927b63ac1"
   integrity sha512-YsCxWGO4P/ietkyTGV2YMAbwyYdFHJEfP48AcHQVAgJe6ybON/y8DAcHHdE9yItSKRQeQJ4tad9+wCPfZNH4mw==
 
-"@kodadot1/minimark@^0.0.1-rc.5":
-  version "0.0.1-rc.5"
-  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.5.tgz#c160f497da5c9f397d89a988f0e98e87e7c7f49c"
-  integrity sha512-LLvbhUmkyAsqEDajEphb0q8rF+lM8/BwcopF3XQyu4GZGcqQRQIIPyPV0geunm1PmXrvBcFr/81H90Nttsg3kQ==
+"@kodadot1/minimark@^0.0.1-rc.6":
+  version "0.0.1-rc.6"
+  resolved "https://registry.yarnpkg.com/@kodadot1/minimark/-/minimark-0.0.1-rc.6.tgz#07be0beb3bd4a11ed077488d74504cabc6c4ebba"
+  integrity sha512-ZNF0MJJIJJJ2vLB/Bp1jwy0Op4RQjRQeOFOJr7aYmdJkHxh04Ihj0cDAdk4vlxtnOPjBhkpSnRmNPezzJ6p1cg==
   dependencies:
     nanoid "^3.2.0"
     slugify "^1.6.5"
