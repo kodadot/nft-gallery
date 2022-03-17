@@ -49,8 +49,14 @@ export default class Layout extends Vue {
   }
 }
 </script>
-<style>
+<style lang="scss">
+@import '@/styles/variables';
+
 .b-radio.radio.button.is-selected {
   background-color: #db2980;
+}
+.b-radio.radio.button {
+  border: none !important;
+  border-top: 1px solid $primary !important;
 }
 </style>
