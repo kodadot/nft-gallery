@@ -4,7 +4,7 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :class="{ 'navbar-shrink': !showNavbar }">
+    :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
@@ -16,12 +16,12 @@
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{ 'nav-search-shrink': !showNavbar }"
+        :class="{ 'nav-search-shrink': !showTopNavbar }"
         hideFilter
         class="search-navbar"
         searchColumnClass="is-flex-grow-1" />
     </template>
-    <template #end>
+    <template #end v-if="showTopNavbar">
       <HistoryBrowser class="ml-2 navbar-link-background" />
       <b-navbar-dropdown arrowless collapsible>
         <template #label>
@@ -73,6 +73,16 @@
       <LocaleChanger class="ml-2" />
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
+    <template #end v-else>
+      <div class="image is-32x32 mr-2">
+        <BasicImage
+          v-show="inCollectionPage && currentCollection.image"
+          :src="currentCollection.image"
+          :alt="navBarTitle"
+          rounded />
+      </div>
+      <div class="title is-4">{{ navBarTitle }}</div>
+    </template>
   </b-navbar>
 </template>
 
@@ -83,6 +93,12 @@ import ChainSelect from '@/components/shared/ChainSelect.vue'
 import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import Identity from '@/components/shared/format/Identity.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+
+import { identityStore } from '@/utils/idbStore'
+import { get } from 'idb-keyval'
 
 @Component({
   components: {
@@ -90,14 +106,17 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     HistoryBrowser,
     NavbarProfileDropdown,
     ChainSelect,
-    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+    Search,
+    Identity,
+    BasicImage,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   private mobileGallery = false
   private isGallery: boolean = this.$route.path == '/rmrk/gallery'
-  private showNavbar = true
+  private showTopNavbar = true
   private lastScrollPosition = 0
+  private artistName = ''
 
   private onResize(e) {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -107,15 +126,65 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 
+  get inCollectionPage(): boolean {
+    return this.$route.name === 'rmrk-collection-id'
+  }
+  get inGalleryDetailPage(): boolean {
+    return this.$route.name === 'rmrk-gallery-id'
+  }
+  get inUserProfilePage(): boolean {
+    return this.$route.name === 'rmrk-u-id'
+  }
+
+  get isTargetPage(): boolean {
+    return (
+      this.inCollectionPage ||
+      this.inGalleryDetailPage ||
+      this.inUserProfilePage
+    )
+  }
+  get currentCollection() {
+    return this.$store.getters['history/getCurrentlyViewedCollection'] || {}
+  }
+  get currentGalleryItemName() {
+    return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get navBarTitle(): string {
+    let title = ''
+    if (this.inCollectionPage) {
+      title = this.currentCollection.name
+    } else if (this.inGalleryDetailPage) {
+      title = this.currentGalleryItemName
+    } else if (this.inUserProfilePage) {
+      const address = this.$route.params.id
+      title = this.artistName ? this.artistName : address
+      if (!this.artistName) {
+        this.fetchArtistIdentity(address)
+      }
+    }
+    return title
+  }
+
+  async fetchArtistIdentity(address) {
+    const identity = await get(address, identityStore)
+    if (identity && identity.display) {
+      this.artistName = identity.display
+    }
+  }
+
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
-    if (currentScrollPosition < 0) {
+    if (currentScrollPosition <= 0) {
+      this.showTopNavbar = true
       return
     }
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    const fixedTitleNavAppearDistance = 200
+    this.showTopNavbar =
+      currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -161,9 +230,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         .button {
           height: 42px;
         }
-      }
-      .navbar-start {
-        flex-grow: 1;
       }
     }
   }
@@ -214,13 +280,17 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    max-width: 350px;
+    max-width: 400px;
     margin: 0 1rem;
     input {
       border: inherit;
-      background-color: #29292f;
+      background-color: rgba(41, 41, 47, 0.5);
       &::placeholder {
         color: #898991 !important;
+      }
+      &:focus {
+        box-shadow: none !important;
+        border-top: 2px solid $primary;
       }
     }
   }

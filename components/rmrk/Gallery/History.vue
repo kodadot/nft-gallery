@@ -42,6 +42,20 @@
             {{ props.row.Type }}
           </b-table-column>
           <b-table-column
+            v-if="isCollectionPage"
+            cell-class="short-identity__table"
+            field="Item"
+            label="Item"
+            v-slot="props">
+            <nuxt-link
+              :to="{
+                name: 'rmrk-gallery-id',
+                params: { id: props.row.Item },
+              }">
+              {{ shortAddress(props.row.Item) }}
+            </nuxt-link>
+          </b-table-column>
+          <b-table-column
             cell-class="short-identity__table"
             field="From"
             label="From"
@@ -76,12 +90,17 @@
             field="Date"
             label="Date"
             v-slot="props">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              :href="getBlockUrl(props.row.Block)"
-              >{{ props.row.Date }}</a
-            >
+            <b-tooltip
+              :label="props.row.Date"
+              position="is-right"
+              append-to-body>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                :href="getBlockUrl(props.row.Block)">
+                {{ props.row.Time }}</a
+              >
+            </b-tooltip>
           </b-table-column>
         </b-table>
       </div>
@@ -96,6 +115,8 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import shortAddress from '@/utils/shortAddress'
+import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 
@@ -106,6 +127,7 @@ const components = {
 
 type TableRow = {
   Type: string
+  Item?: string // only in collection
   From: string
   To: string
   Amount: string
@@ -125,10 +147,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   private readonly openOnDefault!: boolean
   private currentPage = 1
   private event = 'all'
+  private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
   public isOpen = this.openOnDefault
+  public shortAddress = shortAddress
 
   public async created() {
     this.initKeyboardEventHandler({
@@ -237,6 +261,14 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
 
+      // Item
+      if (this.isCollectionPage) {
+        event['Item'] = newEvent['id']?.replace(
+          /-(BUY|CONSUME|LIST|MINT|MINFNFT|SEND).+$/,
+          ''
+        )
+      }
+
       // From
       if (!('From' in event)) event['From'] = prevOwner
 
@@ -254,6 +286,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       // Date
       const date = new Date(newEvent['timestamp'])
       event['Date'] = this.parseDate(date)
+
+      // Time
+      event['Time'] = formatDistanceToNow(date, { addSuffix: true })
 
       event['Block'] = String(newEvent['blockNumber'])
 
