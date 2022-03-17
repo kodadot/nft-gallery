@@ -61,6 +61,7 @@
       position="is-centered"
       v-model="activeTab"
       ref="tabsContainer"
+      :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
@@ -425,12 +426,9 @@ export default class CollectionItem extends mixins(
       if (val !== 'true') {
         return
       }
-      // setTimeout make sure the tab component loaded
-      setTimeout(() => {
-        this.tabsContainer.$el.scrollIntoView()
-        this.$router.replace({
-          query: { ...this.$route.query, ['locate']: 'false' },
-        })
+      this.tabsContainer.$el.scrollIntoView()
+      this.$router.replace({
+        query: { ...this.$route.query, ['locate']: 'false' },
       })
     })
   }
