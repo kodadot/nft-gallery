@@ -38,7 +38,11 @@
             preserveScroll />
         </div>
         <b-table :data="showList" class="mb-4" hoverable>
-          <b-table-column field="Type" label="Type" v-slot="props">
+          <b-table-column
+            field="Type"
+            label="Type"
+            v-slot="props"
+            cell-class="type-table">
             {{ props.row.Type }}
           </b-table-column>
           <b-table-column
@@ -342,6 +346,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.type-table {
+  white-space: nowrap;
 }
 .box {
   .table-nav {
