@@ -161,14 +161,13 @@ export default class WalletModal extends Vue {
 .wallet {
   max-width: 400px;
   border: 2px solid $primary;
+
   &.modal-card {
     background: $frosted-glass-background;
     backdrop-filter: $frosted-glass-light-backdrop-filter;
   }
-  .modal-card-body {
-    background: unset;
-  }
 
+  .modal-card-body,
   .modal-card-head {
     background: unset;
   }
