@@ -74,12 +74,13 @@
       <NavbarProfileDropdown :isRmrk="isRmrk" />
     </template>
     <template #end v-else>
-      <BasicImage
-        class="mr-2 collection-image"
-        v-show="inCollectionPage && currentCollection.image"
-        :src="currentCollection.image"
-        :alt="navBarTitle"
-        rounded />
+      <div class="image is-48x48 mr-2">
+        <BasicImage
+          v-show="inCollectionPage && currentCollection.image"
+          :src="currentCollection.image"
+          :alt="navBarTitle"
+          rounded />
+      </div>
       <div class="title">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
@@ -126,16 +127,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   get inCollectionPage(): boolean {
-    return this.$route.path.indexOf('/rmrk/collection/') >= 0
+    return this.$route.name === 'rmrk-collection-id'
   }
   get inGalleryDetailPage(): boolean {
-    return (
-      this.$route.path.indexOf('/rmrk/detail') >= 0 ||
-      this.$route.path.indexOf('/rmrk/gallery') >= 0
-    )
+    return this.$route.name === 'rmrk-gallery-id'
   }
   get inUserProfilePage(): boolean {
-    return this.$route.path.indexOf('/rmrk/u') >= 0
+    return this.$route.name === 'rmrk-u-id'
   }
 
   get isTargetPage(): boolean {
@@ -152,7 +150,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
   }
 
-  get navBarTitle() {
+  get navBarTitle(): string {
     let title = ''
     if (this.inCollectionPage) {
       title = this.currentCollection.name
@@ -276,11 +274,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       border: none !important;
       margin-left: 0 !important;
     }
-  }
-  .collection-image {
-    width: 40px;
-    height: 40px;
-    padding: 0;
   }
   .search-navbar {
     flex-grow: 1;
