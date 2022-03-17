@@ -60,6 +60,7 @@
     <b-tabs
       position="is-centered"
       v-model="activeTab"
+      ref="tabsContainer"
       class="tabs-container-mobile">
       <b-tab-item label="Collection" value="collection">
         <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
@@ -105,7 +106,7 @@
 
 <script lang="ts">
 import { emptyObject } from '@/utils/empty'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl,
@@ -164,6 +165,7 @@ export default class CollectionItem extends mixins(
   PrefixMixin,
   CreatedAtMixin
 ) {
+  @Ref('tabsContainer') readonly tabsContainer
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
@@ -319,6 +321,7 @@ export default class CollectionItem extends mixins(
     //   data.collection.nfts.nodes.map((nft) => nft.events) || []
 
     this.loadPriceData(data)
+    this.checkTabLocate()
   }
 
   // Get collection query with NFT Events on it
@@ -339,6 +342,7 @@ export default class CollectionItem extends mixins(
         // TODO : default value of HISTORY for BUY
         // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
         this.eventsOfNftCollection = [...sortedEventByDate(events)]
+        this.checkTabLocate()
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
@@ -413,6 +417,21 @@ export default class CollectionItem extends mixins(
   public checkActiveTab(): void {
     exist(this.$route.query.tab, (val) => {
       this.activeTab = val
+    })
+  }
+
+  checkTabLocate() {
+    exist(this.$route.query.locate, (val) => {
+      if (val !== 'true') {
+        return
+      }
+      // setTimeout make sure the tab component loaded
+      setTimeout(() => {
+        this.tabsContainer.$el.scrollIntoView()
+        this.$router.replace({
+          query: { ...this.$route.query, ['locate']: 'false' },
+        })
+      })
     })
   }
 
