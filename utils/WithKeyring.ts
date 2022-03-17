@@ -3,7 +3,7 @@ import keyring from '@polkadot/ui-keyring'
 import { KeyringPair } from '@polkadot/keyring/types'
 import { u8aToHex } from '@polkadot/util'
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
-// import { enableExtension } from '@/utils/extension'
+import { enableExtension } from '@/utils/extension'
 import correctFormat from '@/utils/ss58Format'
 
 import { web3Accounts, isWeb3Injected } from '@polkadot/extension-dapp'
@@ -18,7 +18,7 @@ export default class WithKeyring extends Vue {
 
   public async loadKeyring(ss58?: number): Promise<void> {
     this.mapAccounts()
-    // await this.extensionAccounts(ss58)
+    await this.extensionAccounts(ss58)
   }
 
   public mapAccounts(): void {
@@ -33,26 +33,26 @@ export default class WithKeyring extends Vue {
     return this.chainProperties?.ss58Format
   }
 
-  // public async extensionAccounts(ss58?: number) {
-  //   if (!isWeb3Injected) {
-  //     console.warn('Extension not working, reload might fix things')
-  //     await enableExtension()
-  //   }
+  public async extensionAccounts(ss58?: number) {
+    if (!isWeb3Injected) {
+      console.warn('Extension not working, reload might fix things')
+      await enableExtension()
+    }
 
-  //   const ss58Changed = typeof ss58 === 'number'
-  //   const ss58Forever = ss58Changed ? ss58 : this.ss58Format
+    const ss58Changed = typeof ss58 === 'number'
+    const ss58Forever = ss58Changed ? ss58 : this.ss58Format
 
-  //   this.importedAccounts = await web3Accounts({
-  //     ss58Format:
-  //       correctFormat(ss58Forever) >= 0
-  //         ? correctFormat(ss58Forever)
-  //         : correctFormat(this.prefixByStore),
-  //   })
+    this.importedAccounts = await web3Accounts({
+      ss58Format:
+        correctFormat(ss58Forever) >= 0
+          ? correctFormat(ss58Forever)
+          : correctFormat(this.prefixByStore),
+    })
 
-  //   // if ((!this.accountId || ss58Changed) && this.importedAccounts?.length && process.env.VUE_APP_KEYRING) {
-  //   //   this.$store.dispatch('setAuth', { address: this.importedAccounts[0]?.address });
-  //   // }
-  // }
+    // if ((!this.accountId || ss58Changed) && this.importedAccounts?.length && process.env.VUE_APP_KEYRING) {
+    //   this.$store.dispatch('setAuth', { address: this.importedAccounts[0]?.address });
+    // }
+  }
 
   get accountId() {
     return this.$store.getters.getAuthAddress
@@ -70,9 +70,9 @@ export default class WithKeyring extends Vue {
     return [...this.keyringAccounts, ...this.importedAccounts]
   }
 
-  // public async created() {
-  //   await this.loadKeyring()
-  // }
+  public async created() {
+    await this.loadKeyring()
+  }
 
   public getPair(address: string): KeyringPair {
     return keyring.getPair(address)
@@ -87,7 +87,7 @@ export default class WithKeyring extends Vue {
     console.log('ss58Format', val)
     // https://github.com/polkadot-js/ui/pull/494
     keyring.setSS58Format(Number(val))
-    // await this.loadKeyring(Number(val))
+    await this.loadKeyring(Number(val))
   }
 
   // public passwordRequired(address: string): boolean {

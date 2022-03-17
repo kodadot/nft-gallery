@@ -121,8 +121,6 @@ export default class WalletModal extends Vue {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
 
-    console.log(wallet)
-
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
       this.guideUrl = wallet.guideUrl
