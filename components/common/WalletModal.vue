@@ -69,7 +69,7 @@
             <b>{{ selectedWalletProvider.extensionName }}</b> account
           </div>
 
-          <b-field :label="$i18n.t('Account')">
+          <b-field :label="$i18n.t('Account')" v-if="walletAccounts.length">
             <b-select v-model="account" placeholder="Select account" expanded>
               <option disabled selected value="">--</option>
               <option
