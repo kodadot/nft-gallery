@@ -403,7 +403,7 @@ export default class CollectionItem extends mixins(
         name: this.name,
         image: this.image,
         description: this.description,
-        numberOfItems: this.collection?.nfts?.length || 0,
+        numberOfItems: this.total || 0,
       })
     }
   }
