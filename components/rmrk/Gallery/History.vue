@@ -347,9 +347,11 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .type-table {
   white-space: nowrap;
 }
+
 .box {
   .table-nav {
     display: flex;
