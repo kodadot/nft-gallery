@@ -11,6 +11,7 @@ export const state = (): {
   showMintTimeCollection: boolean
   galleryItemsPerPage: number
   collectionsPerPage: number
+  historyItemsPerPage: number
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
   // Minting
@@ -27,6 +28,7 @@ export const state = (): {
   showMintTimeCollection: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
+  historyItemsPerPage: 12,
   replaceBuyNowWithYolo: false,
   hasSupport: true,
   hasCarbonOffset: true,
@@ -44,6 +46,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getShowMintTime: ({ showMintTimeCollection }) => showMintTimeCollection,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
+  getHistoryItemsPerPage: ({ historyItemsPerPage }) => historyItemsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
     replaceBuyNowWithYolo,
   getHasSupport: ({ hasSupport }) => hasSupport,
@@ -66,6 +69,7 @@ export const mutations: MutationTree<PreferencesState> = {
       state.showPriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
+      state.historyItemsPerPage = 12
     }
     state.advancedUI = data
   },

@@ -62,12 +62,14 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { MintInfo } from '@/store/identityMint'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
+import { isAfter, subHours } from 'date-fns'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -103,33 +105,54 @@ export default class IdentityPopover extends mixins(
     await this.fetchNFTStats()
   }
 
+  @Watch('identity.address')
   protected async fetchNFTStats() {
     try {
-      const query =
-        this.urlPrefix === 'rmrk'
-          ? await import('@/queries/nftStatsByIssuer.graphql')
-          : await import('@/queries/unique/nftStatsByIssuer.graphql')
-      this.$apollo.addSmartQuery('collections', {
-        query: query.default,
-        manual: true,
-        client: this.urlPrefix,
-        loadingKey: 'isLoading',
-        result: this.handleResult,
-        variables: () => {
-          return {
+      const data = this.$store.getters['identityMint/getIdentityMintFor'](
+        this.identity.address
+      )
+      if (
+        data?.updatedAt &&
+        isAfter(data.updatedAt, subHours(Date.now(), 12))
+      ) {
+        // if cache exist and within 12h
+        await this.handleResult({ data, type: 'cache' })
+      } else {
+        const query =
+          this.urlPrefix === 'rmrk'
+            ? await import('@/queries/nftStatsByIssuer.graphql')
+            : await import('@/queries/unique/nftStatsByIssuer.graphql')
+        this.$apollo.addSmartQuery('collections', {
+          query: query.default,
+          manual: true,
+          client: this.urlPrefix,
+          loadingKey: 'isLoading',
+          result: this.handleResult,
+          variables: {
             account: this.identity.address || '',
-          }
-        },
-        fetchPolicy: 'cache-and-network',
-      })
+          },
+          fetchPolicy: 'cache-and-network',
+        })
+      }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       console.warn(e)
     }
   }
 
-  protected async handleResult({ data }: any) {
-    if (data) {
+  protected async handleResult({
+    data,
+    type,
+  }: {
+    data: MintInfo | any
+    type?: 'cache'
+  }) {
+    if (type === 'cache') {
+      this.totalCreated = data.totalCreated
+      this.totalCollected = data.totalCollected
+      this.totalSold = data.totalSold
+      this.firstMintDate = data.firstMintDate
+    } else if (data) {
       this.totalCreated = data.nFTCreated.totalCount
       this.totalCollected = data.nFTCollected.totalCount
       this.totalSold = data.nFTSold.totalCount
@@ -137,6 +160,17 @@ export default class IdentityPopover extends mixins(
       if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
+      const cacheData = {
+        totalCreated: this.totalCreated,
+        totalCollected: this.totalCollected,
+        totalSold: this.totalSold,
+        firstMintDate: this.firstMintDate,
+        updatedAt: Date.now(),
+      }
+      await this.$store.dispatch('identityMint/setIdentity', {
+        address: this.identity.address,
+        cacheData,
+      })
     }
   }
 }

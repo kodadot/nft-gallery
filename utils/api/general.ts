@@ -1,7 +1,7 @@
 import type { ApiPromise } from '@polkadot/api'
 import Connector from '@kodadot1/sub-api'
 
-export type ApiCallbackFunction = (api: ApiPromise) => any
+export type ApiCallbackFunction = (api: ApiPromise) => void
 
 export default function onApiConnect(cb: ApiCallbackFunction): void {
   const { getInstance: Api } = Connector
@@ -12,7 +12,6 @@ export default function onApiConnect(cb: ApiCallbackFunction): void {
   }
 
   Api().on('connect', (api: ApiPromise) => {
-    console.log('[API] has been connected')
     api.isReady.then(cb)
   })
 }
