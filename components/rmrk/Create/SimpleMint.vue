@@ -175,14 +175,13 @@ import {
   getNftId,
   Collection,
 } from '../service/scheme'
-import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { ipfsToArweave } from '@/utils/ipfs'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -275,7 +274,7 @@ export default class SimpleMint extends mixins(
   }
 
   // handle query results
-  public handleResult(data: any) {
+  public handleResult(data) {
     const collectionEntities = data?.data?.collectionEntities
     if (collectionEntities) {
       this.collections = collectionEntities.nodes

@@ -118,7 +118,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   private lastScrollPosition = 0
   private artistName = ''
 
-  private onResize(e) {
+  private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
   }
 

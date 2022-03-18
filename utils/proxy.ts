@@ -2,23 +2,6 @@ import Axios from 'axios'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
 import { extractCid, justHash } from '@/utils/ipfs'
-import { saveKey } from '@/utils/cloudflare'
-
-type CdnUpload = {
-  id: string
-  uploadURL: string
-}
-
-type CdnUploadResponse = {
-  result: {
-    id: string
-    filename: string
-    uploaded: string
-    requireSignedURLs: boolean
-    variants: string[]
-  }
-  success: boolean
-}
 
 export const BASE_URL = 'https://beta.kodadot.xyz/.netlify/functions/'
 
@@ -26,7 +9,7 @@ const api = Axios.create({
   baseURL: BASE_URL,
 })
 
-export const pinJson = async (object: any) => {
+export const pinJson = async (object) => {
   try {
     const { status, data } = await api.post('pinJson', object)
     console.log('[PROXY] Pin JSON', status, data)

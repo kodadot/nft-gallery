@@ -1,4 +1,3 @@
-import { RmrkType } from './scheme'
 import { RmrkEvent, RmrkInteraction } from '../types'
 import { Collection, NFT } from './scheme'
 import { u8aToHex } from '@polkadot/util'
@@ -99,11 +98,7 @@ export default class Consolidator {
     }
   }
 
-  public static test(
-    rmrk: RmrkType,
-    interaction: RmrkInteraction,
-    caller: string
-  ): boolean {
+  public static test(): boolean {
     return true
   }
 
@@ -139,13 +134,13 @@ export default class Consolidator {
 
   public static nftValid(nft: NFT): void {
     Object.entries(nft).forEach(([key, value]) => {
-      if ((nftSchema as any)[key] && !value) {
+      if (nftSchema[key] && !value) {
         throw new ValidationError(`${key} is missing on NFT ${nft.sn}`)
       }
     })
   }
 
-  public static collectionValid(collection: Collection): void {
+  public static collectionValid(): void {
     throw new Error('Not implemented')
   }
 }

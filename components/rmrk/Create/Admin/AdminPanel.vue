@@ -141,7 +141,7 @@ export default class AdminPanel extends mixins(
     } = collections
 
     this.collections = collectionEntities.nodes
-      ?.map((ce: any) => ({
+      ?.map((ce) => ({
         ...ce,
         available: ce.nfts?.totalCount,
         nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n),
@@ -187,8 +187,6 @@ export default class AdminPanel extends mixins(
     }
 
     this.isLoading = true
-    const { accountId } = this
-    const { symbol, available } = this.selectedCollection
 
     this.initTransactionLoader()
     this.status = 'loader.ipfs'

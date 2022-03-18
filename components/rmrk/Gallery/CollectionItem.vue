@@ -110,14 +110,7 @@ import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl,
   fetchCollectionMetadata,
-  sortByTimeStamp,
-  onlyEvents,
   onlyPriceEvents,
-  eventTimestamp,
-  soldNFTPrice,
-  collectionFloorPriceList,
-  PriceDataType,
-  onlyBuyEvents,
 } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
@@ -369,7 +362,7 @@ export default class CollectionItem extends mixins(
     this.priceData = [listedPriceData, soldPriceData]
   }
 
-  public async handleResult({ data }: any): Promise<void> {
+  public async handleResult({ data }): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
       this.$router.push({ name: 'errorcollection' })

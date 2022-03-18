@@ -178,7 +178,7 @@ export default class Identity extends mixins(InlineMixin) {
     }
 
     const final = Array.from(identity.info)
-      .filter(([_, value]) => !Array.isArray(value) && !value.isEmpty)
+      .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
       .reduce((acc, [key, value]) => {
         acc[key] = this.handleRaw(value as unknown as Data)
         return acc

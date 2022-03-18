@@ -255,6 +255,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
         ),
       }
       // TODO: add attributes as traits
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { attributes, ...rest } = nft
       this.nft = {
         ...this.nft,
@@ -296,7 +297,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     }
   }
 
-  onImageError(e: any) {
+  onImageError(e) {
     console.warn('Image error', e)
   }
 

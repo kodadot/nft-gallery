@@ -81,7 +81,7 @@
 <script lang="ts">
 import { emptyObject } from '@/utils/empty'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import {
   fetchCollectionMetadata,
   sanitizeIpfsUrl,
@@ -94,7 +94,7 @@ import { NFTWithMeta } from '@/components/rmrk/service/scheme'
 import { ClassDetails, ClassMetadata } from '@polkadot/types/interfaces'
 import collectionById from '@/queries/unique/collectionById.graphql'
 import { CollectionMetadata } from '@/components/rmrk/service/scheme'
-import { createTokenId, tokenIdToRoute } from '../../utils'
+import { tokenIdToRoute } from '../../utils'
 import { Collection, Attribute } from '@/components/unique/types'
 import AuthMixin from '@/utils/mixins/authMixin'
 import { mixins } from 'vue-class-component'
