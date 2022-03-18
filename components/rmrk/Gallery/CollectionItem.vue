@@ -110,14 +110,7 @@ import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl,
   fetchCollectionMetadata,
-  sortByTimeStamp,
-  onlyEvents,
   onlyPriceEvents,
-  eventTimestamp,
-  soldNFTPrice,
-  collectionFloorPriceList,
-  PriceDataType,
-  onlyBuyEvents,
 } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
