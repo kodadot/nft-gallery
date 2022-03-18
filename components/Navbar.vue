@@ -280,7 +280,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    max-width: 400px;
+    width: 400px;
     margin: 0 1rem;
     input {
       border: inherit;
