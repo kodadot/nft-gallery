@@ -2,7 +2,10 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search v-bind.sync="searchQuery" :hideSearchInput="notMobile">
+    <Search
+      v-bind.sync="searchQuery"
+      @resetPage="currentValue = 1"
+      :hideSearchInput="notMobile">
       <Pagination
         hasMagicBtn
         simple
@@ -106,7 +109,6 @@ import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
-import { EventBus, COMMON_EVENTS } from '@/utils/eventBus'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -140,12 +142,6 @@ export default class Gallery extends mixins(PrefixMixin) {
   protected total = 0
   private loadingState = 0
   private notMobile = false
-
-  mounted() {
-    EventBus.$on(COMMON_EVENTS.RESET_SEARCH_PAGE, () => {
-      this.currentValue = 1
-    })
-  }
 
   get first(): number {
     return this.$store.getters['preferences/getGalleryItemsPerPage']

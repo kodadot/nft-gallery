@@ -31,7 +31,6 @@ import { Debounce } from 'vue-debounce-decorator'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { EventBus, COMMON_EVENTS } from '@/utils/eventBus'
 
 @Component({
   components: {
@@ -152,7 +151,6 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         },
       })
       .catch(console.warn /*Navigation Duplicate err fix later */)
-    EventBus.$emit(COMMON_EVENTS.RESET_SEARCH_PAGE)
   }
 }
 </script>
