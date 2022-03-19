@@ -125,9 +125,14 @@ const components = {
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 
+type TableRowItem = {
+  id: string
+  name: string
+}
+
 type TableRow = {
   Type: string
-  Item?: object // only in collection
+  Item?: TableRowItem // only in collection
   From: string
   To: string
   Amount: string
