@@ -18,6 +18,7 @@
           "^babel",
           "babel",
           "@babel",
+          "@babel/core",
           "buefy",
           "^buefy",
           "^chartjs",
