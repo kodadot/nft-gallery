@@ -1,7 +1,7 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery">
+    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
       <b-field>
         <Pagination
           hasMagicBtn
