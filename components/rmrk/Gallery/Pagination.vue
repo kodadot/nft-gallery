@@ -46,20 +46,6 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean
 
-  public mounted() {
-    exist(this.$route.query.page, (val) => {
-      // when component is mounted, if there is search query present always start from first page
-      this.current = this.$route.query.search ? 1 : Number(val)
-    })
-    // console.log('query', this.$route.query)
-    // if (
-    //   this.$route.query.search &&
-    //   typeof this.$route.query.search === 'string'
-    // ) {
-    //   this.updateSearch(this.$route.query.search);
-    // }
-  }
-
   public created() {
     if (this.hasMagicBtn) {
       this.initKeyboardEventHandler({
