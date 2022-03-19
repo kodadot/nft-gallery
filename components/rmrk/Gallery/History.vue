@@ -20,7 +20,7 @@
         </div>
       </template>
       <div class="box">
-        <div class="is-flex is-justify-content-space-between">
+        <div class="is-flex is-justify-content-space-between box-container">
           <b-select placeholder="Select an event" v-model="selectedEvent">
             <option value="all">All</option>
             <option
@@ -356,6 +356,11 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   .table-nav {
     display: flex;
     justify-content: space-between;
+  }
+  .box-container {
+    @media screen and (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
   }
 }
 </style>
