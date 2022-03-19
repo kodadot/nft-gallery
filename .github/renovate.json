@@ -17,6 +17,7 @@
           "^axios",
           "^babel",
           "babel",
+          "@babel",
           "buefy",
           "^buefy",
           "^chartjs",
