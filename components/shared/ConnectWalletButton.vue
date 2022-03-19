@@ -1,5 +1,7 @@
 <template>
-  <b-button type="is-primary is-bordered" @click="openWalletConnectModal()">
+  <b-button
+    type="is-primary is-bordered-light"
+    @click="openWalletConnectModal()">
     {{ $t(label) }}
   </b-button>
 </template>
