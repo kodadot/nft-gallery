@@ -98,6 +98,9 @@ export default class Identity extends mixins(InlineMixin) {
 
   get name(): Address {
     const name = this.identity.display
+    if (name?.length > 20) {
+      return shortAddress(name)
+    }
     return (name as string) || this.shortenedAddress
   }
 

@@ -1,4 +1,3 @@
-import { enableExtension } from '@/utils/extension'
 import { OperatorMap, OperatorType, useOperators } from 'mingo/core'
 import { $avg, $first, $push, $sum } from 'mingo/operators/accumulator'
 import { $group, $match, $project } from 'mingo/operators/pipeline'
@@ -17,6 +16,4 @@ export default async () => {
     $push,
     $avg,
   } as OperatorMap)
-
-  await enableExtension()
 }
