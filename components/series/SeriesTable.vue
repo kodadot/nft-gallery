@@ -243,14 +243,28 @@
 
       <b-table-column
         v-slot="props"
-        cell-class="is-vcentered"
+        cell-class="is-vcentered has-text-centered"
         field="chart"
         label="Chart">
         <nuxt-link
           v-if="!isLoading"
-          :to="`/rmrk/collection/${props.row.id}?tab=activity`"
+          :to="`/rmrk/collection/${props.row.id}?tab=activity&locate=true`"
           target="_blank">
           <b-icon icon="chart-line"> </b-icon>
+        </nuxt-link>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered"
+        field="history"
+        label="History">
+        <nuxt-link
+          v-if="!isLoading"
+          :to="`/rmrk/collection/${props.row.id}?tab=history&locate=true`"
+          target="_blank">
+          <b-icon icon="list-ul"> </b-icon>
         </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
