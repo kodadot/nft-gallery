@@ -24,7 +24,7 @@
           {{ action }}
         </b-button>
       </template>
-      <template v-else>
+      <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
             :type="iconType('BUY')[0]"
@@ -184,6 +184,11 @@ export default class AvailableActions extends mixins(
         ? `made by ${this.ownerIdentity?.twitter}`
         : ''
     }`
+  }
+
+  get isForSale() {
+    const price = parseInt(this.price)
+    return price > 0
   }
 
   protected iconType(value: string) {
