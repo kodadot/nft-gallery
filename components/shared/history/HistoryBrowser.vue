@@ -2,7 +2,7 @@
   <b-dropdown v-if="hasHistory" aria-role="list" position="is-bottom-left">
     <template #trigger>
       <b-button
-        type="is-primary is-bordered"
+        type="is-primary is-bordered-light"
         class="navbar-link-background"
         icon-left="history" />
     </template>

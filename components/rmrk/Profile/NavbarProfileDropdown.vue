@@ -4,7 +4,7 @@
       <span v-if="account" class="is-mobile is-vcentered navbar__avatar">
         <!-- <Avatar class="navbar__avatar-icon" :value="account" :size="34" /> -->
         <b-button
-          type="is-primary navbar-link-background"
+          type="is-primary navbar-link-background is-bordered-light"
           class="navbar__button">
           <Identity
             :address="account"
