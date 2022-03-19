@@ -357,7 +357,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -393,10 +393,9 @@ export default class Gallery extends mixins(PrefixMixin) {
   .columns {
     padding-top: 10px;
     .card {
-      border-radius: 8px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
+      border-radius: 0px;
 
       &-image {
         &__emotes {
@@ -426,6 +425,10 @@ export default class Gallery extends mixins(PrefixMixin) {
         }
       }
 
+      .gallery__image-wrapper img {
+        border-radius: 0px !important;
+      }
+
       @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
@@ -441,7 +444,8 @@ export default class Gallery extends mixins(PrefixMixin) {
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
         }
 
         &:hover .gallery__image-wrapper img {

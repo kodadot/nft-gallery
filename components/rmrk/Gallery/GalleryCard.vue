@@ -118,10 +118,9 @@ export default class GalleryCard extends mixins(AuthMixin) {
 @import '@/styles/variables';
 
 .nft-card {
-  border-radius: 8px;
   position: relative;
   overflow: hidden;
-  border: 2px solid $primary-light;
+  border-radius: 0px !important;
 
   &.is-current-owner {
     box-shadow: 0px 2px 5px 0.5px #41b883;
@@ -188,7 +187,8 @@ export default class GalleryCard extends mixins(AuthMixin) {
       bottom: 0;
       opacity: 1;
       z-index: 2;
-      background: #000 !important;
+      background: $frosted-glass-background;
+      backdrop-filter: $frosted-glass-backdrop-filter;
     }
 
     &:hover .card-image img {
@@ -204,5 +204,11 @@ export default class GalleryCard extends mixins(AuthMixin) {
       bottom: 62px;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.gallery__image-wrapper img {
+  border-radius: 0px !important;
 }
 </style>

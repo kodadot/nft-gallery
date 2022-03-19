@@ -7,11 +7,7 @@
       /></span>
     </div>
   </div>
-  <AccountSelect
-    v-else
-    v-model="account"
-    :label="$t('Account')"
-    :tooltip-visible="false" />
+  <ConnectWalletButton v-else label="general.connect_wallet" />
 </template>
 
 <script lang="ts">
@@ -19,7 +15,8 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
-  AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
+  ConnectWalletButton: () =>
+    import('@/components/shared/ConnectWalletButton.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
 }

@@ -172,8 +172,20 @@ export default class Transfer extends mixins(
     return 'centered-half-layout'
   }
 
+  get isApiConnected() {
+    return this.$store.getters.getApiConnected
+  }
+  get isNetworkConnected() {
+    return this.$store.getters.getNetworkConnected
+  }
   get disabled(): boolean {
-    return !this.hasAddress || !this.price || !this.accountId
+    return (
+      !this.hasAddress ||
+      !this.price ||
+      !this.accountId ||
+      !this.isApiConnected ||
+      !this.isNetworkConnected
+    )
   }
   get ss58Format(): number {
     return this.chainProperties?.ss58Format

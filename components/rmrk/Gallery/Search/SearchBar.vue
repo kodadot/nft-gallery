@@ -13,7 +13,7 @@
           v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
-          type="is-primary"
+          type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
