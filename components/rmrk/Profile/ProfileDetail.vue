@@ -18,6 +18,13 @@
               @change="handleIdentity" />
           </a>
         </h1>
+
+        <span v-if="!displayName">
+          Add on-chain recognition for
+          <nuxt-link :to="`/identity`">
+            {{ shortendId }}
+          </nuxt-link>
+        </span>
       </div>
     </div>
 
@@ -216,6 +223,7 @@ export default class Profile extends mixins(PrefixMixin) {
   // protected property: {[key: string]: any} = {};
   protected email = ''
   protected twitter = ''
+  protected displayName = ''
   protected web = ''
   protected legal = ''
   protected riot = ''
@@ -374,6 +382,7 @@ export default class Profile extends mixins(PrefixMixin) {
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
+    this.displayName = identityFields?.display as string
     this.email = identityFields?.email as string
     this.twitter = identityFields?.twitter as string
     this.riot = identityFields?.riot as string
