@@ -1,19 +1,20 @@
 <template>
   <div :class="['money', { 'money--inline': inline }]">
     <span v-if="!hideUnit">
-      {{ value | formatBalance(decimals, unit) }}
+      {{ value | checkInvalidBalance | formatBalance(decimals, unit) }}
     </span>
     <span v-else>
-      {{ value | formatBalance(decimals, '') | round(2) }}
+      {{ value | checkInvalidBalance | formatBalance(decimals, '') | round(2) }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
+import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
 @Component({
   filters: {
+    checkInvalidBalance: checkInvalidBalanceFilter,
     round: function roundOffNumber(value, limit) {
       return Number(value.replace(/,/g, '')).toFixed(limit)
     },

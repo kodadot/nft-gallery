@@ -1,3 +1,5 @@
+import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
+
 const keysPressed = {}
 
 const bindGoToEvents = (event, app, store) => {
@@ -63,7 +65,11 @@ const bindCopyEvents = (event) => {
 }
 
 const listenGlobalKeyboardEvents = (app, store) => {
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (shouldIgnoreKeyDownEvent(event)) {
+      return
+    }
+
     keysPressed[event.key] = true
     if (keysPressed['g']) {
       bindGoToEvents(event, app, store)

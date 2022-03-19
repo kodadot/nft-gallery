@@ -5,6 +5,7 @@ import { Callback, ISubmittableResult } from '@polkadot/types/types'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces'
+import { KODADOT_DAO } from '@/utils/support'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -89,7 +90,9 @@ export const estimate = async (
   params: any[]
 ): Promise<string> => {
   const transfer = await callback(...params)
-  const address = typeof account === 'string' ? account : account.address
+  const address =
+    typeof account === 'string' ? account ?? KODADOT_DAO : account.address
+  // if user have not connect wallet, we provide a mock address to estimate fee
   const injector = await getAddress(toDefaultAddress(address))
 
   const info = await transfer.paymentInfo(

@@ -47,7 +47,7 @@ export default class FrequentlyAsked extends Vue {
   public i18nLoadQandA(): any {
     let i: number
     const qa: any = []
-    for (i = 1; i < 28; i++) {
+    for (i = 1; i <= 37; i++) {
       qa.push([this.$t(`faq.q.${i}`), this.$t(`faq.a.${i}.m`)])
     }
     this.faqQuestionsAnswers = qa

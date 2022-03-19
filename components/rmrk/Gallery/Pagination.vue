@@ -18,7 +18,7 @@
     </b-pagination>
     <b-tooltip :label="$t('tooltip.random') + ' (g+r)'">
       <b-button
-        class="ml-2 magicBtn"
+        class="ml-2 magicBtn is-bordered-light share-button"
         title="Go to random page"
         v-if="hasMagicBtn"
         type="is-primary"
