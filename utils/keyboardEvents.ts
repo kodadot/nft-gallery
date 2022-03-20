@@ -1,6 +1,9 @@
+const IGNORE_KEY_DOWN_EVENT_TAG_NAME_LIST = ['INPUT', 'TEXTAREA']
+
 export const shouldIgnoreKeyDownEvent = (event: KeyboardEvent) => {
   const target = event.target
-  if (target && (target as HTMLElement).tagName === 'INPUT') {
+  const targetTagName = (target as HTMLElement).tagName ?? ''
+  if (IGNORE_KEY_DOWN_EVENT_TAG_NAME_LIST.includes(targetTagName)) {
     return true
   }
   return false
