@@ -1,7 +1,7 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery">
+    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
       <b-field>
         <Pagination
           hasMagicBtn
@@ -55,8 +55,8 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
-
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import shouldUpdate from '~/utils/shouldUpdate'
 import {
   CollectionWithMeta,
   Collection,
@@ -102,7 +102,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   private meta: Metadata[] = []
   public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/placeholder.webp'
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   private total = 0
   private searchQuery: SearchQuery = {
     search: '',
@@ -203,6 +203,14 @@ export default class CollectionList extends mixins(PrefixMixin) {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
+    }
+  }
+
+  @Watch('$route.query.search')
+  protected onSearchChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.currentValue = 1
+      this.searchQuery.search = val || ''
     }
   }
 

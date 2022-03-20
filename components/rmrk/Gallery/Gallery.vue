@@ -138,7 +138,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     priceMin: undefined,
     priceMax: undefined,
   }
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   protected total = 0
   private loadingState = 0
   private notMobile = false
@@ -306,8 +306,9 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   @Watch('$route.query.search')
-  protected onIdChange(val: string, oldVal: string) {
+  protected onSearchChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
+      this.currentValue = 1
       this.searchQuery.search = val || ''
     }
   }

@@ -13,7 +13,7 @@
           v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
-          type="is-primary"
+          type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
@@ -396,10 +396,19 @@ export default class SearchBar extends mixins(
     }
   }
 
+  redirectToGalleryPageIfNeed() {
+    if (this.$route.name === 'index') {
+      this.$router.replace({
+        name: 'rmrk-gallery',
+      })
+    }
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    this.redirectToGalleryPageIfNeed()
     return value
   }
 
