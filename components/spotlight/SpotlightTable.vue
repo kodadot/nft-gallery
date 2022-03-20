@@ -304,6 +304,14 @@ export default class SpotlightTable extends mixins(
   right: 0;
 }
 
+.spotlight-sticky-header th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
+}
+</style>
+
+<style lang="scss">
 .spotlight .level-right {
   margin-right: 3rem;
 }
@@ -317,11 +325,5 @@ export default class SpotlightTable extends mixins(
     margin-left: 2rem;
     margin-right: 0rem;
   }
-}
-
-.spotlight-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background-color: #0a0a0a;
 }
 </style>
