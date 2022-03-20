@@ -23,11 +23,8 @@
         <div class="is-flex is-justify-content-space-between box-container">
           <b-select placeholder="Select an event" v-model="selectedEvent">
             <option value="all">All</option>
-            <option
-              v-for="option in uniqType"
-              :value="option.Type"
-              :key="option.Type">
-              {{ option.Type }}
+            <option v-for="option in uniqType" :value="option" :key="option">
+              {{ option }}
             </option>
           </b-select>
           <Pagination
@@ -37,7 +34,7 @@
             replace
             preserveScroll />
         </div>
-        <b-table :data="showList" class="mb-4" hoverable>
+        <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
           <b-table-column
             field="Type"
             label="Type"
@@ -73,6 +70,7 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
+            :visible="['all', '🤝 BUY', '🎁 GIFT'].includes(event)"
             cell-class="short-identity__table"
             field="To"
             label="To"
@@ -194,8 +192,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
 
-  get uniqType(): any[] {
-    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).values()]
+  get uniqType(): string[] {
+    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).keys()]
   }
 
   get selectedEvent(): string {
@@ -297,6 +295,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['Time'] = formatDistanceToNow(date, { addSuffix: true })
 
       event['Block'] = String(newEvent['blockNumber'])
+
+      // ID for b-table: Use a unique key of your data Object for each row.
+      event['ID'] = newEvent['id']
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {

@@ -180,6 +180,7 @@ export interface Interaction {
   timestamp: string
   blockNumber: number | string
   interaction: string
+  id: string
 }
 
 export interface BasePack {
