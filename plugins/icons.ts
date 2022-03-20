@@ -85,6 +85,7 @@ import {
   faSignOutAlt,
   faWallet,
   faChartLine,
+  faListUl,
   faTable,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -191,6 +192,7 @@ library.add(
   faSignOutAlt,
   faWallet,
   faChartLine,
+  faListUl,
 
   // Social
   faTwitter,

@@ -4,6 +4,7 @@
       <b-tooltip label="Large display">
         <b-radio-button
           type="is-primary"
+          class="collection-radio-btn"
           v-model="layout"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
@@ -16,6 +17,7 @@
       <b-tooltip label="Small display">
         <b-radio-button
           type="is-primary"
+          class="collection-radio-btn"
           v-model="layout"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
@@ -49,8 +51,14 @@ export default class Layout extends Vue {
   }
 }
 </script>
-<style>
+<style lang="scss">
+@import '@/styles/variables';
+
 .b-radio.radio.button.is-selected {
   background-color: #db2980;
+}
+.collection-radio-btn .b-radio.radio.button {
+  border: none !important;
+  border-top: 1px solid $primary !important;
 }
 </style>
