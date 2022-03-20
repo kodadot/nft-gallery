@@ -54,9 +54,9 @@
             <nuxt-link
               :to="{
                 name: 'rmrk-gallery-id',
-                params: { id: props.row.Item },
+                params: { id: props.row.Item.id },
               }">
-              {{ shortAddress(props.row.Item) }}
+              {{ props.row.Item.name }}
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -129,9 +129,14 @@ const components = {
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
 }
 
+type TableRowItem = {
+  id: string
+  name: string
+}
+
 type TableRow = {
   Type: string
-  Item?: string // only in collection
+  Item?: TableRowItem // only in collection
   From: string
   To: string
   Amount: string
@@ -267,10 +272,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
       // Item
       if (this.isCollectionPage) {
-        event['Item'] = newEvent['id']?.replace(
-          /-(BUY|CONSUME|LIST|MINT|MINFNFT|SEND).+$/,
-          ''
-        )
+        event['Item'] = newEvent['nft']
       }
 
       // From
