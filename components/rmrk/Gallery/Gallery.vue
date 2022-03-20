@@ -138,7 +138,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     priceMin: undefined,
     priceMax: undefined,
   }
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   protected total = 0
   private loadingState = 0
   private notMobile = false

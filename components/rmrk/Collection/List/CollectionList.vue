@@ -102,7 +102,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   private meta: Metadata[] = []
   public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/placeholder.webp'
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   private total = 0
   private searchQuery: SearchQuery = {
     search: '',
