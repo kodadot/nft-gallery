@@ -43,7 +43,7 @@
     ]
   },
   "engines": {
-    "node": ">=v16.14.0"
+    "node": ">=v16.14.2"
   },
   "prettier": {
     "semi": false,
