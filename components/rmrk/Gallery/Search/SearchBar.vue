@@ -396,10 +396,19 @@ export default class SearchBar extends mixins(
     }
   }
 
+  redirectToGalleryPageIfNeed() {
+    if (this.$route.name === 'index') {
+      this.$router.replace({
+        name: 'rmrk-gallery',
+      })
+    }
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    this.redirectToGalleryPageIfNeed()
     return value
   }
 
