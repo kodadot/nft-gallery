@@ -1,12 +1,19 @@
-import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
-import { WalletAccount } from '@/utils/config/wallets'
+import { web3Enable } from '@polkadot/extension-dapp'
+import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
 
 export const enableExtension = async () => await web3Enable('KodaDot')
 
 export const getAddress = async (address: string) => {
   try {
-    const injector = await web3FromAddress(address)
-    return injector
+    const walletName = localStorage.getItem('wallet')
+    console.log(walletName)
+    const wallet = getWalletBySource(walletName)
+    await wallet?.enable()
+    if (wallet?.extension) {
+      return wallet.extension
+    }
+
+    throw new Error('Wallet not found')
   } catch (e) {
     console.warn(`[EXTENSION] No Addr ${address}`)
     return null
