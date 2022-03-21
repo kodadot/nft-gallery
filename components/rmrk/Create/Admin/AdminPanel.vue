@@ -187,8 +187,6 @@ export default class AdminPanel extends mixins(
     }
 
     this.isLoading = true
-    const { accountId } = this
-    const { symbol, available } = this.selectedCollection
 
     this.initTransactionLoader()
     this.status = 'loader.ipfs'

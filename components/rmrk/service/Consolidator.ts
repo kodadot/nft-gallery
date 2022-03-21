@@ -1,4 +1,3 @@
-import { RmrkType } from './scheme'
 import { RmrkEvent, RmrkInteraction } from '../types'
 import { Collection, NFT } from './scheme'
 import { u8aToHex } from '@polkadot/util'
@@ -99,11 +98,7 @@ export default class Consolidator {
     }
   }
 
-  public static test(
-    rmrk: RmrkType,
-    interaction: RmrkInteraction,
-    caller: string
-  ): boolean {
+  public static test(): boolean {
     return true
   }
 
@@ -145,7 +140,7 @@ export default class Consolidator {
     })
   }
 
-  public static collectionValid(collection: Collection): void {
+  public static collectionValid(): void {
     throw new Error('Not implemented')
   }
 }

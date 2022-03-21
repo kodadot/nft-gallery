@@ -63,17 +63,6 @@ const iconResolver: Record<string, DescriptionTuple> = {
   REVOKE: ['is-warning is-dark'],
 }
 
-const actionResolver: Record<string, [string, string]> = {
-  SEND: ['uniques', 'transfer'],
-  CONSUME: ['uniques', 'burn'],
-  DELEGATE: ['uniques', 'approveTransfer'],
-  FREEZE: ['uniques', 'freeze'],
-  THAW: ['uniques', 'thaw'],
-  REVOKE: ['uniques', 'cancelApproval'],
-  // LIST: ['is-light'],
-  // BUY: ['is-success is-dark']
-}
-
 const components = {
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),

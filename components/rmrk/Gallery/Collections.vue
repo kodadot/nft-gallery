@@ -60,7 +60,7 @@ import { getMany, update } from 'idb-keyval'
 import 'lazysizes'
 import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { Collection, CollectionWithMeta, Metadata } from '../service/scheme'
+import { Collection, CollectionWithMeta } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 
 const components = {
