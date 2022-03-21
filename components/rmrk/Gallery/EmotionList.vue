@@ -1,7 +1,7 @@
 <template>
   <div v-show="emotes" class="buttons mb-2">
     <b-button
-      v-for="emoji in emotes"
+      v-for="emoji in emotes.slice(0, DISPLAYED_EMOJI)"
       :key="emoji.key"
       type="is-outlined"
       class="emoji-box mb-2"
@@ -9,12 +9,20 @@
       {{ emoji.parsed }}
       <span class="ml-1">{{ emoji.count }}</span>
     </b-button>
+
+    <b-button
+      v-if="emotes.length > DISPLAYED_EMOJI"
+      class="emoji-box mb-2"
+      @click="openEmotionModal()">
+      <b-icon pack="fas" icon="info-circle" />
+    </b-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Provide } from 'nuxt-property-decorator'
 import orderBy from 'lodash/orderBy'
+import EmotionModal from './EmotionModal.vue'
 import { Emotion } from '../service/scheme'
 
 const issuerId = (emotion: Emotion) => emotion.caller
@@ -33,6 +41,7 @@ interface Emoji {
 @Component
 export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion
+  @Provide() DISPLAYED_EMOJI = 5
 
   /**
    * parse emoji from codepoint to emoji
@@ -46,6 +55,17 @@ export default class EmotionList extends Vue {
     }
 
     return ''
+  }
+
+  openEmotionModal(): void {
+    this.$buefy.modal.open({
+      parent: this,
+      component: EmotionModal,
+      hasModalCard: true,
+      props: {
+        emotes: this.emotes,
+      },
+    })
   }
 
   get emotes(): Emoji[] {
