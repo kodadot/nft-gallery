@@ -1,5 +1,4 @@
 import { fastExtract } from '@/utils/ipfs'
-import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
 
 describe('IPFS UTILS TEST', (): void => {
   let ipfsUrlList: string[]
@@ -23,7 +22,9 @@ describe('IPFS UTILS TEST', (): void => {
 
   it('can fast extract', () => {
     const extracted = fastExtract(ipfsUrlList[0])
-    expect(extracted).toBe('bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m')
+    expect(extracted).toBe(
+      'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m'
+    )
   })
 
   // it('can correctlyBuild a cache map', async () => {

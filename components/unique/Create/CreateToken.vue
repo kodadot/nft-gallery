@@ -214,7 +214,7 @@ export default class CreateToken extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { edition, selectedCollection } = this.base
+    const { selectedCollection } = this.base
     const {
       alreadyMinted,
       id: collectionId,
