@@ -15,7 +15,10 @@
           }">
           <div
             v-orientation="
-              viewMode === 'default' && !isFullScreenView && imageVisible
+              viewMode === 'default' &&
+              !isFullScreenView &&
+              !isTileView &&
+              imageVisible
             "
             class="image-preview has-text-centered"
             :class="{

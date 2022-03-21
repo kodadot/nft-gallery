@@ -2,7 +2,7 @@
   <b-dropdown aria-role="list">
     <template #trigger="{ active }">
       <b-button
-        type="is-primary is-bordered navbar-link-background"
+        type="is-primary is-bordered-light navbar-link-background"
         :label="userFlag"
         :icon-right="active ? 'caret-up' : 'caret-down'" />
     </template>
