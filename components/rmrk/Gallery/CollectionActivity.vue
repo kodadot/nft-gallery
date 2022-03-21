@@ -56,7 +56,11 @@
 
 <script lang="ts">
 import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
-import { Interaction, NFT } from '@/components/rmrk/service/scheme'
+import {
+  Interaction,
+  NFT,
+  CollectionEventsStats,
+} from '@/components/rmrk/service/scheme'
 import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -173,17 +177,17 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 
   protected async fetchBuyEvents() {
     try {
-      const { data } = await this.$apollo.query<{ events: InteractionEvent[] }>(
-        {
-          query: collectionBuyEventStatsById,
-          client: 'subsquid',
-          variables: {
-            id: this.id,
-          },
-        }
-      )
+      const { data } = await this.$apollo.query<{
+        stats: CollectionEventsStats[]
+      }>({
+        query: collectionBuyEventStatsById,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+        },
+      })
       if (data && data.stats && data.stats[0]) {
-        const { max, count }: { max: string; count: number } = data.stats[0]
+        const { max, count } = data.stats[0]
         this.totalPurchases = count
         this.highestBuyPrice = parseInt(max)
       }

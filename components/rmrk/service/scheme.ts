@@ -199,6 +199,11 @@ export interface Pack extends BasePack {
   social?: Record<string, string>
 }
 
+export interface CollectionEventsStats {
+  max: string
+  count: number
+}
+
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
     nft.instance || nft.name
