@@ -47,11 +47,9 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) hasMagicBtn!: boolean
 
   public created() {
-    if (this.hasMagicBtn) {
-      this.initKeyboardEventHandler({
-        g: this.bindPaginationEvents,
-      })
-    }
+    this.initKeyboardEventHandler({
+      g: this.bindPaginationEvents,
+    })
   }
 
   private bindPaginationEvents(event) {
@@ -66,7 +64,9 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
         }
         break
       case 'r':
-        this.goToRandomPage()
+        if (this.hasMagicBtn) {
+          this.goToRandomPage()
+        }
         break
     }
   }
