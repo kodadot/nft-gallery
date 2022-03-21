@@ -18,6 +18,13 @@
               @change="handleIdentity" />
           </a>
         </h1>
+
+        <span v-if="!displayName">
+          Add on-chain recognition for
+          <nuxt-link :to="`/identity`">
+            {{ shortendId }}
+          </nuxt-link>
+        </span>
       </div>
     </div>
 
@@ -33,7 +40,7 @@
       <div class="column has-text-right">
         <div class="is-flex is-justify-content-right">
           <div class="control" v-for="network in networks" :key="network.alt">
-            <b-button class="network-button" type="is-primary">
+            <b-button class="share-button" type="is-primary is-bordered-light">
               <a
                 :href="`${network.url}${id}`"
                 target="_blank"
@@ -67,7 +74,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.created')} ${shortendId}`"
+              :label="`${$t('tooltip.created')} ${displayName}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter" v-if="totalCreated">{{
@@ -88,7 +95,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collections')} ${shortendId}`"
+              :label="`${$t('tooltip.collections')} ${displayName}`"
               append-to-body>
               {{ $t('Collections') }}
               <span class="tab-counter" v-if="totalCollections">{{
@@ -121,7 +128,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.sold')} ${shortendId}`"
+              :label="`${$t('tooltip.sold')} ${displayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -137,7 +144,7 @@
         <b-tab-item value="collected">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collected')} ${shortendId}`"
+              :label="`${$t('tooltip.collected')} ${displayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter" v-if="totalCollected">{{
@@ -216,6 +223,7 @@ export default class Profile extends mixins(PrefixMixin) {
   // protected property: {[key: string]: any} = {};
   protected email = ''
   protected twitter = ''
+  protected displayName = ''
   protected web = ''
   protected legal = ''
   protected riot = ''
@@ -374,6 +382,7 @@ export default class Profile extends mixins(PrefixMixin) {
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
+    this.displayName = identityFields?.display as string
     this.email = identityFields?.email as string
     this.twitter = identityFields?.twitter as string
     this.riot = identityFields?.riot as string
@@ -405,9 +414,5 @@ export default class Profile extends mixins(PrefixMixin) {
 .title {
   flex-grow: 0;
   flex-basis: auto;
-}
-
-.network-button {
-  width: 40px;
 }
 </style>

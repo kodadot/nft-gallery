@@ -1,7 +1,8 @@
 import type { ApiPromise } from '@polkadot/api'
 import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
-import { Store } from 'vuex'
+import { onNetworkStatusChange } from '@/utils/network'
+import { GetterTree, MutationTree, Store } from 'vuex'
 
 type VuexAction = {
   type: string
@@ -12,6 +13,7 @@ const apiPlugin = (store: Store<any>): void => {
   const { getInstance: Api } = Connector
 
   Api().on('connect', async (api: ApiPromise) => {
+    store.commit('setApiConnected', true)
     const { chainSS58, chainDecimals, chainTokens } = api.registry
     const { genesisHash } = api
     console.log('[API] Connect to <3', store.state.setting.apiUrl, {
@@ -39,12 +41,22 @@ const apiPlugin = (store: Store<any>): void => {
     console.warn('[API] error', error)
     // Api().disconnect()
   })
+  Api().on('disconnected', () => {
+    store.commit('setApiConnected', false)
+    console.log('[API] disconnected')
+  })
+}
+
+const networkPlugin = (store: Store<unknown>): void => {
+  onNetworkStatusChange((status) => {
+    store.commit('setNetworkConnected', status.isConnected)
+  })
 }
 
 const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
 
-  store.subscribeAction(({ type, payload }: VuexAction, _: any) => {
+  store.subscribeAction(({ type, payload }: VuexAction) => {
     if (type === 'setApiUrl' && payload) {
       store.commit('setLoading', true)
       Api().connect(payload)
@@ -58,8 +70,13 @@ export const state = () => ({
   chainProperties: {},
   development: {},
   error: null,
+  isApiConnected: false,
+  isNetworkConnected: true,
 })
-export const mutations = {
+
+export type IndexState = ReturnType<typeof state>
+
+export const mutations: MutationTree<IndexState> = {
   keyringLoaded(state: any): void {
     state.keyringLoaded = true
   },
@@ -69,14 +86,28 @@ export const mutations = {
   setLoading(state: any, toggleTo: boolean): void {
     state.loading = toggleTo
   },
+  setApiConnected(state, toggleTo: boolean): void {
+    state.isApiConnected = toggleTo
+  },
+  setNetworkConnected(state, toggleTo: boolean): void {
+    state.isNetworkConnected = toggleTo
+  },
   setError(state: any, error: Error): void {
     state.loading = false
     state.error = error.message
+    state.isApiConnected = false
   },
 }
 
 export const actions = {}
 
-export const getters = {}
+export const getters: GetterTree<IndexState, IndexState> = {
+  getApiConnected(state: IndexState): boolean {
+    return state.isApiConnected
+  },
+  getNetworkConnected(state: IndexState): boolean {
+    return state.isNetworkConnected
+  },
+}
 
-export const plugins = [apiPlugin, myPlugin]
+export const plugins = [apiPlugin, networkPlugin, myPlugin]

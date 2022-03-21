@@ -24,7 +24,7 @@
           {{ action }}
         </b-button>
       </template>
-      <template v-else>
+      <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
             :type="iconType('BUY')[0]"
@@ -76,11 +76,12 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
+import { downloadImage } from '@/utils/download'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
-const ownerActions = ['SEND', 'CONSUME', 'LIST']
+const ownerActions = ['SEND', 'CONSUME', 'LIST', 'DOWNLOAD']
 const buyActions = ['BUY']
 
 type DescriptionTuple = [string, string] | [string]
@@ -89,9 +90,10 @@ const iconResolver: Record<string, DescriptionTuple> = {
   CONSUME: ['is-danger'],
   LIST: ['is-light'],
   BUY: ['is-success is-dark'],
+  DOWNLOAD: ['is-warning'],
 }
 
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'DOWNLOAD' | ''
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -139,6 +141,7 @@ export default class AvailableActions extends mixins(
       s: 'SEND',
       c: 'CONSUME',
       l: 'LIST',
+      d: 'DOWNLOAD',
     }
 
     event.preventDefault()
@@ -152,7 +155,10 @@ export default class AvailableActions extends mixins(
 
   get showSubmit() {
     return (
-      this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
+      this.selectedAction &&
+      (!this.showMeta || this.metaValid) &&
+      !this.isBuy &&
+      !this.isDownload
     )
   }
 
@@ -180,6 +186,11 @@ export default class AvailableActions extends mixins(
     }`
   }
 
+  get isForSale() {
+    const price = parseInt(this.price)
+    return price > 0
+  }
+
   protected iconType(value: string) {
     return iconResolver[value]
   }
@@ -197,6 +208,11 @@ export default class AvailableActions extends mixins(
         case 'SEND':
           this.addressInput?.focusInput()
           break
+        case 'DOWNLOAD': {
+          const { image, name } = this.currentGalleryItemImage
+          image && downloadImage(image, name)
+          break
+        }
         default:
           break
       }
@@ -269,8 +285,16 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === 'SEND'
   }
 
+  get isDownload() {
+    return this.selectedAction === 'DOWNLOAD'
+  }
+
   get realworldFullPath() {
     return `${window.location.origin}${this.$route.fullPath}`
+  }
+
+  get currentGalleryItemImage(): { image: string; name: string } {
+    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
   }
 
   @Watch('originialOwner', { immediate: true })

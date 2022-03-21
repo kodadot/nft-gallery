@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
