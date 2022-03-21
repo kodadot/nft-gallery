@@ -123,6 +123,7 @@ export default class AdminPanel extends mixins(
   private action: 'SEND' | 'CONSUME' | 'LIST' = 'CONSUME'
   protected collections: MintedCollection[] = []
   private selectedCollection: MintedCollection | null = null
+  private isMetaValid = false
   protected listed = true
   protected metaFunction: ProcessFunction | undefined = undefined
 
@@ -161,7 +162,7 @@ export default class AdminPanel extends mixins(
   }
 
   get disabled(): boolean {
-    return false
+    return Boolean(this.showMeta && !this.isMetaValid)
   }
 
   private toRemark(remark: string) {
@@ -177,8 +178,12 @@ export default class AdminPanel extends mixins(
     return needMeta[this.action]
   }
 
-  protected updateMeta(value: ProcessFunction): void {
-    this.metaFunction = value
+  protected updateMeta(value: {
+    metaFunction: ProcessFunction
+    isValidMeta: boolean
+  }): void {
+    this.isMetaValid = value.isValidMeta
+    this.metaFunction = value.metaFunction
   }
 
   protected async sub(): EmptyPromise {
