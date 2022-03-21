@@ -323,7 +323,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
-  private onResize(e) {
+  private onResize() {
     return (this.notMobile = window.innerWidth >= 1024)
   }
 

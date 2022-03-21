@@ -1,6 +1,5 @@
 import { getKSMUSD } from '@/utils/coingecko'
 import Connector from '@kodadot1/sub-api'
-import * as store from '~/store'
 import { pubKeyToAddress } from './account'
 import correctFormat from './ss58Format'
 import { Extrinsic } from './transactionExecutor'

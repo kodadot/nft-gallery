@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
 import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
@@ -158,8 +158,6 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
 }
-
-const eq = (tab: string) => (el: string) => tab === el
 
 @Component<Profile>({
   components,
