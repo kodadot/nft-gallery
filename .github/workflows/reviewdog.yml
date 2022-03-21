@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.14.0"
+          node-version: '16'
 
       - name: Install Dependencies
         run: yarn
@@ -25,6 +25,6 @@ jobs:
           level: error
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          eslint_flags: "--quiet --ignore-path .gitignore --ext .js,.ts,.vue ."
+          eslint_flags: '--quiet --ignore-path .gitignore --ext .js,.ts,.vue .'
           fail_on_error: true
           filter_mode: nofilter
