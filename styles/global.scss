@@ -196,6 +196,15 @@ button.button.is-bordered {
   border-top: 2px solid $primary !important;
 }
 
+button.button.is-bordered-light {
+  border: 0;
+  border-top: 1px solid $primary !important;
+}
+
+.share-button {
+  width: 40px;
+}
+
 button.button.navbar-link-background {
   background-color: $blacklight;
 }
@@ -260,4 +269,10 @@ button.button.navbar-link-background {
     padding-right: 0!important;
     margin: 0 -12px!important
   }
+}
+
+// global css for pagination
+.pagination-link {
+  border: none!important;
+  border-top: 1px solid $primary!important;
 }

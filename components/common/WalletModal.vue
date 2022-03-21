@@ -69,7 +69,7 @@
             <b>{{ selectedWalletProvider.extensionName }}</b> account
           </div>
 
-          <b-field :label="$i18n.t('Account')">
+          <b-field :label="$i18n.t('Account')" v-if="walletAccounts.length">
             <b-select v-model="account" placeholder="Select account" expanded>
               <option disabled selected value="">--</option>
               <option
@@ -88,13 +88,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 @Component({
-  components: {
-    AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
-  },
+  components: {},
 })
 export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
@@ -108,6 +107,8 @@ export default class WalletModal extends Vue {
   set account(account: string) {
     this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
+    localStorage.setItem('kodaauth', account)
+    localStorage.setItem('wallet', this.selectedWalletProvider.extensionName)
   }
 
   get account() {
@@ -118,9 +119,17 @@ export default class WalletModal extends Vue {
     return SupportedWallets
   }
 
+  @Watch('walletAccounts', { immediate: true })
+  handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
+    if (shouldUpdate(value, oldVal)) {
+      this.walletAccounts = value
+    }
+  }
+
   protected setWallet(wallet: Wallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
+    this.walletAccounts = []
 
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
@@ -135,15 +144,13 @@ export default class WalletModal extends Vue {
       console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
-      // async () => {
-      wallet.enable()
+      // wallet.enable()
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
           this.walletAccounts = accounts
         }
       })
-      // }
       this.hasWalletProviderExtension = true
     }
   }
@@ -155,14 +162,13 @@ export default class WalletModal extends Vue {
 .wallet {
   max-width: 400px;
   border: 2px solid $primary;
+
   &.modal-card {
     background: $frosted-glass-background;
     backdrop-filter: $frosted-glass-light-backdrop-filter;
   }
-  .modal-card-body {
-    background: unset;
-  }
 
+  .modal-card-body,
   .modal-card-head {
     background: unset;
   }

@@ -244,7 +244,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .navbar-item {
     text-transform: uppercase;
     font-weight: 500;
-    border-top: 2px solid $primary;
+    border-top: 1px solid $primary;
     margin-left: 0.5em;
     transition: 0.3s;
     background: rgba(9, 9, 9, 0.55);
