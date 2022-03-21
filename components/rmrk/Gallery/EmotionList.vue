@@ -34,6 +34,11 @@ interface Emoji {
 export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion
 
+  /**
+   * parse emoji from codepoint to emoji
+   * @param codepoint Emoji Codepoint
+   * @returns Emoticon 👨🏻‍🌾
+   */
   parseEmoji(codepoint): string {
     if (codepoint) {
       const toInt = codepoint.split('-').map((code) => parseInt(code, 16))
