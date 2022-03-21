@@ -147,7 +147,7 @@ export default class CreateToken extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.collections = collectionEntities.nodes?.map((ce) => ({
+    this.collections = collectionEntities.nodes?.map((ce: any) => ({
       ...ce,
       alreadyMinted: ce.nfts?.totalCount,
       lastIndexUsed:
@@ -166,7 +166,7 @@ export default class CreateToken extends mixins(
 
   protected async loadCollectionMeta() {
     const storedMetadata = await getMany(
-      this.collections.map(({ metadata }) => metadata)
+      this.collections.map(({ metadata }: any) => metadata)
     )
 
     storedMetadata.forEach(async (m, i) => {

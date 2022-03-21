@@ -50,7 +50,7 @@ const prefixes: Record<string, number> = {
   reserved48: 48,
 }
 
-export const getPrefixByStoreUrl = (apiUrl): string | undefined => {
+export const getPrefixByStoreUrl = (apiUrl: any): string | undefined => {
   if (!apiUrl) {
     return 'undefined'
   }

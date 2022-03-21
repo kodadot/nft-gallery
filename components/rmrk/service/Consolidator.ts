@@ -134,7 +134,7 @@ export default class Consolidator {
 
   public static nftValid(nft: NFT): void {
     Object.entries(nft).forEach(([key, value]) => {
-      if (nftSchema[key] && !value) {
+      if ((nftSchema as any)[key] && !value) {
         throw new ValidationError(`${key} is missing on NFT ${nft.sn}`)
       }
     })

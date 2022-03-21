@@ -204,7 +204,7 @@ export function sanitizeObjectArray<T extends RmrkWithMetaType>(
   return instances.map((i) => sanitizeImage(i, provider))
 }
 
-export function mapPriceToNumber(instances: NFTWithMeta[]) {
+export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
   return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
 }
 

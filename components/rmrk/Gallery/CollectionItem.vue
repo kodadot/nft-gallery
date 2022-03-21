@@ -367,7 +367,7 @@ export default class CollectionItem extends mixins(
     this.priceData = [listedPriceData, soldPriceData]
   }
 
-  public async handleResult({ data }): Promise<void> {
+  public async handleResult({ data }: any): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
       this.$router.push({ name: 'errorcollection' })

@@ -274,7 +274,7 @@ export default class SimpleMint extends mixins(
   }
 
   // handle query results
-  public handleResult(data) {
+  public handleResult(data: any) {
     const collectionEntities = data?.data?.collectionEntities
     if (collectionEntities) {
       this.collections = collectionEntities.nodes

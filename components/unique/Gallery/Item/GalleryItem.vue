@@ -297,7 +297,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     }
   }
 
-  onImageError(e) {
+  onImageError(e: any) {
     console.warn('Image error', e)
   }
 

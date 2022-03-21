@@ -9,7 +9,7 @@ const api = Axios.create({
   baseURL: BASE_URL,
 })
 
-export const pinJson = async (object) => {
+export const pinJson = async (object: any) => {
   try {
     const { status, data } = await api.post('pinJson', object)
     console.log('[PROXY] Pin JSON', status, data)

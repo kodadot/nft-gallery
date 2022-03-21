@@ -141,7 +141,7 @@ export default class AdminPanel extends mixins(
     } = collections
 
     this.collections = collectionEntities.nodes
-      ?.map((ce) => ({
+      ?.map((ce: any) => ({
         ...ce,
         available: ce.nfts?.totalCount,
         nfts: ce.nfts?.nodes?.map((n: AdminNFT) => n),
