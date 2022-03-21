@@ -126,7 +126,7 @@ export default class WalletModal extends Vue {
     }
   }
 
-  protected async setWallet(wallet: BaseDotsamaWallet): Promise<void> {
+  protected setWallet(wallet: BaseDotsamaWallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
