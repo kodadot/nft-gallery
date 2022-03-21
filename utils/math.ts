@@ -57,19 +57,3 @@ export function toDecimals(value: number, decimals: number): number {
 export function fromDecimals(value: number, decimals: number): number {
   return value / 10 ** decimals
 }
-
-export function getHighestPriceFromEvent(events: Interaction[]): number {
-  try {
-    let maxPrice = 0
-    events.forEach((event) => {
-      const price = parseInt(event.meta)
-      if (price > maxPrice) {
-        maxPrice = price
-      }
-    })
-    return maxPrice
-  } catch (error) {
-    console.error(error)
-    return 0
-  }
-}

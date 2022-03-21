@@ -62,9 +62,8 @@ import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import collectionStatsById from '@/queries/collectionStatsById.graphql'
 import { Interaction as InteractionEvent } from '../service/scheme'
-import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import collectionBuyEventStatsById from '@/queries/rmrk/subsquid/collectionBuyEventStatsById.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { getHighestPriceFromEvent } from '@/utils/math'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -176,20 +175,17 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
     try {
       const { data } = await this.$apollo.query<{ events: InteractionEvent[] }>(
         {
-          query: allCollectionSaleEvents,
+          query: collectionBuyEventStatsById,
           client: 'subsquid',
           variables: {
             id: this.id,
-            and: {
-              interaction_eq: 'BUY',
-            },
           },
         }
       )
-      if (data && data.events && data.events.length) {
-        let events: InteractionEvent[] = data.events
-        this.totalPurchases = data.events.length
-        this.highestBuyPrice = getHighestPriceFromEvent(events)
+      if (data && data.stats && data.stats[0]) {
+        const { max, count }: { max: string; count: number } = data.stats[0]
+        this.totalPurchases = count
+        this.highestBuyPrice = parseInt(max)
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
