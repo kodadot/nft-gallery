@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
@@ -45,20 +45,6 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean
-
-  public mounted() {
-    exist(this.$route.query.page, (val) => {
-      // when component is mounted, if there is search query present always start from first page
-      this.current = this.$route.query.search ? 1 : Number(val)
-    })
-    // console.log('query', this.$route.query)
-    // if (
-    //   this.$route.query.search &&
-    //   typeof this.$route.query.search === 'string'
-    // ) {
-    //   this.updateSearch(this.$route.query.search);
-    // }
-  }
 
   public created() {
     if (this.hasMagicBtn) {
@@ -112,6 +98,11 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   set current(value: number) {
     this.$emit('input', value)
     this.replace && this.replaceUrl(String(value))
+  }
+
+  @Watch('value')
+  watchPageValue(val) {
+    this.replace && this.replaceUrl(String(val))
   }
 
   @Debounce(100)
