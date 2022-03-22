@@ -29,7 +29,8 @@
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "jest --verbose ./tests",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "preinstall": "npx only-allow pnpm"
   },
   "husky": {
     "hooks": {
