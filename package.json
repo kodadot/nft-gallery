@@ -44,7 +44,7 @@
     ]
   },
   "engines": {
-    "node": ">=v16.14.2"
+    "node": ">=v16"
   },
   "prettier": {
     "semi": false,
