@@ -1,6 +1,7 @@
 import { OperatorMap, OperatorType, useOperators } from 'mingo/core'
 import { $avg, $first, $push, $sum } from 'mingo/operators/accumulator'
 import { $group, $match, $project } from 'mingo/operators/pipeline'
+import { enableExtension, isMobileDevice } from '@/utils/extension'
 import 'setimmediate'
 
 export default async () => {
@@ -16,4 +17,8 @@ export default async () => {
     $push,
     $avg,
   } as OperatorMap)
+
+  if (isMobileDevice) {
+    await enableExtension()
+  }
 }

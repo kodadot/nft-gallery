@@ -4,10 +4,6 @@ import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
 export const enableExtension = async () => await web3Enable('KodaDot')
 
 export const getAddress = async (address: string) => {
-  if (isMobileDevice) {
-    await enableExtension()
-  }
-
   try {
     const walletName = localStorage.getItem('wallet')
     console.log(walletName)
