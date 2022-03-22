@@ -4,7 +4,7 @@
     <Search
       v-bind.sync="searchQuery"
       @resetPage="currentValue = 1"
-      :defaultSort="collectionSortConfigure">
+      :sortOption="collectionSortOption">
       <b-field>
         <Pagination
           hasMagicBtn
@@ -114,7 +114,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
     listed: false,
   }
 
-  private collectionSortConfigure: string[] = [
+  private collectionSortOption: string[] = [
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
     'UPDATED_AT_DESC',

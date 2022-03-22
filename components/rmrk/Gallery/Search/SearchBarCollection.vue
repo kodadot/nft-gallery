@@ -5,7 +5,7 @@
         class="control"
         :value="sortBy"
         @input="updateSortBy"
-        :defaultSort="defaultSort" />
+        :sortOption="sortOption" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -50,7 +50,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
   @Prop(Boolean) public disableToggle!: boolean
-  @Prop(Array) public defaultSort?: string[]
+  @Prop(Array) public sortOption?: string[]
   protected isVisible = false
 
   public mounted(): void {
