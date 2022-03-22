@@ -21,6 +21,11 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
+      - name: Use .npmrc
+        uses: bduff9/use-npmrc@v1.1
+        with:
+          dot-npmrc: node-linker=hoisted
+
       - name: Install Dependencies
         run: pnpm install
 
