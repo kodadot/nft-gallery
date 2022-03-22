@@ -10,17 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.15.1
-
-      - name: Set node version to 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-
       - name: Use .npmrc
         uses: bduff9/use-npmrc@v1.1
         with:
@@ -28,8 +17,17 @@ jobs:
 
       - run: cat .npmrc
 
-      - name: Install Dependencies
-        run: pnpm install
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
+          run_install: true
+
+      - name: Set node version to 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
 
       - name: Run Code Lint
         run: pnpm lint:quiet
