@@ -9,7 +9,6 @@ import {
   InjectedProvider,
   InjectedWindow,
 } from '@polkadot/extension-inject/types'
-import { web3Enable } from '@polkadot/extension-dapp'
 
 const DAPP_NAME = 'Kodadot'
 
@@ -66,13 +65,12 @@ export class BaseDotsamaWallet implements Wallet {
 
     try {
       const injectedExtension = this.rawExtension
-      // const rawExtension = await injectedExtension?.enable(DAPP_NAME)
-      const rawExtension = await web3Enable(DAPP_NAME)
+      const rawExtension = await injectedExtension?.enable(DAPP_NAME)
       if (!rawExtension) {
         return
       }
 
-      const extension: any = {
+      const extension: InjectedExtension = {
         ...rawExtension,
         // Manually add `InjectedExtensionInfo` so as to have a consistent response.
         name: this.extensionName,
