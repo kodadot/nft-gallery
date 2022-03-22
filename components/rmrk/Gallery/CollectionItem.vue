@@ -170,7 +170,7 @@ export default class CollectionItem extends mixins(
     listed: false,
   }
   public activeTab = 'collection'
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   private first = 16
   protected total = 0
   protected totalListed = 0
