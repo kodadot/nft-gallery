@@ -313,7 +313,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     this.data = this.data.reverse()
     this.filterData()
 
-    if (this.data.length === 0) {
+    if (!this.data.length) {
       this.event = 'all'
     }
 
