@@ -18,8 +18,8 @@ export default async () => {
     $avg,
   } as OperatorMap)
 
-  if (isMobileDevice) {
-    window.alert('yeet!')
-    await enableExtension()
-  }
+  // if (isMobileDevice) {
+  //   window.alert('yeet!')
+  //   await enableExtension()
+  // }
 }

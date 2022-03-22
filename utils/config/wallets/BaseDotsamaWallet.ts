@@ -46,14 +46,14 @@ export class BaseDotsamaWallet implements Wallet {
   }
 
   get installed() {
-    const injectedWindow = window as Window & InjectedWindow
+    const injectedWindow = navigator as Navigator & InjectedWindow
     const injectedExtension = injectedWindow?.injectedWeb3?.[this.extensionName]
 
     return !!injectedExtension
   }
 
   get rawExtension() {
-    const injectedWindow = window as Window & InjectedWindow
+    const injectedWindow = navigator as Navigator & InjectedWindow
     const injectedExtension = injectedWindow?.injectedWeb3?.[this.extensionName]
     return injectedExtension
   }
