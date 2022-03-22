@@ -57,7 +57,7 @@ export default class TransferCollectionModal extends mixins(
     return isAddress(this.destinationAddress)
   }
 
-  protected async submit(isMeta: boolean) {
+  protected async submit() {
     const { api } = Connector.getInstance()
     this.initTransactionLoader()
     const cb = api.tx.uniques.transferOwnership
