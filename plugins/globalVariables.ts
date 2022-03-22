@@ -19,6 +19,7 @@ export default async () => {
   } as OperatorMap)
 
   if (isMobileDevice) {
+    window.alert('yeet!')
     await enableExtension()
   }
 }
