@@ -26,6 +26,8 @@ jobs:
         with:
           dot-npmrc: node-linker=hoisted
 
+      - run: cat .npmrc
+
       - name: Install Dependencies
         run: pnpm install
 
