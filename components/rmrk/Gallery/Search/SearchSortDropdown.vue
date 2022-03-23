@@ -12,11 +12,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, VModel } from 'nuxt-property-decorator'
+import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class SearchSortDropdown extends Vue {
   @VModel({ type: String }) selectedAction!: string
+  @Prop(Array) public sortOption?: string[]
 
   private sort: string[] = [
     'BLOCK_NUMBER_DESC',
@@ -28,7 +29,7 @@ export default class SearchSortDropdown extends Vue {
   ]
 
   get actions(): string[] {
-    return this.sort
+    return this.sortOption || this.sort
   }
 }
 </script>
@@ -38,7 +39,7 @@ export default class SearchSortDropdown extends Vue {
 
 .select-dropdown {
   select {
-    border: 1px solid $primary!important;
+    border: 1px solid $primary !important;
   }
   @media screen and (max-width: 1216px) and (min-width: 768px) {
     width: 200px;
