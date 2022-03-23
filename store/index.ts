@@ -56,7 +56,7 @@ const networkPlugin = (store: Store<unknown>): void => {
 const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
 
-  store.subscribeAction(({ type, payload }: VuexAction, _: any) => {
+  store.subscribeAction(({ type, payload }: VuexAction) => {
     if (type === 'setApiUrl' && payload) {
       store.commit('setLoading', true)
       Api().connect(payload)

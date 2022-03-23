@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { showNotification } from '~/utils/notification'

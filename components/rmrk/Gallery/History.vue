@@ -313,6 +313,11 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     this.data = this.data.reverse()
     this.filterData()
+
+    if (!this.data.length) {
+      this.event = 'all'
+    }
+
     this.copyTableData = this.copyTableData.reverse()
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
