@@ -134,11 +134,11 @@
     "lint-staged": "^12.3.7",
     "netlify-lambda": "^2.0.15",
     "prettier": "2.6.0",
+    "raw-loader": "^4.0.2",
     "sass": "^1.49.9",
     "sass-loader": "^10.2",
     "typescript": "^4.6.2",
     "vue-debounce-decorator": "^1.0.1",
-    "vue-md-loader": "1.1.10",
     "vue-template-compiler": "^2.6.14"
   }
 }

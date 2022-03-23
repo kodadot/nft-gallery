@@ -1,23 +1,48 @@
 <template>
   <section class="content">
-    <Contributing v-if="type === 'contribute'" />
-    <FirstTime v-else />
+    <VueMarkdown :source="text()" :options="options" />
   </section>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import hljs from 'highlight.js'
 import Contributing from '../CONTRIBUTING.md'
 import FirstTime from '../FIRST_TIME.md'
 
+const highlight = function (str, lang) {
+  if (lang && hljs.getLanguage(lang)) {
+    try {
+      return hljs.highlight(str, { language: lang }).value
+    } catch (__) {
+      return ''
+    }
+  }
+  return ''
+}
+
 @Component({
   components: {
-    Contributing,
-    FirstTime,
+    VueMarkdown: () => import('vue-markdown-render'),
+  },
+  data() {
+    return {
+      options: {
+        highlight,
+      },
+    }
   },
 })
 export default class Contribute extends Vue {
   @Prop(String) public type!: 'contribute' | 'first_time'
+
+  text() {
+    if (this.type === 'contribute') {
+      return Contributing
+    }
+
+    return FirstTime
+  }
 }
 </script>
 

@@ -1,4 +1,3 @@
-import hljs from 'highlight.js'
 import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
@@ -269,27 +268,7 @@ export default {
       // add markdown loader
       config.module.rules.push({
         test: /\.md$/,
-        loaders: [
-          'vue-loader',
-          {
-            loader: 'vue-md-loader',
-            options: {
-              markdown: {
-                highlight: function (str, lang) {
-                  if (lang && hljs.getLanguage(lang)) {
-                    try {
-                      return hljs.highlight(str, { language: lang }).value
-                    } catch (__) {
-                      return ''
-                    }
-                  }
-
-                  return ''
-                },
-              },
-            },
-          },
-        ],
+        use: 'raw-loader',
       })
 
       config.module.rules.push({
