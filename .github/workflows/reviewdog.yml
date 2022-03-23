@@ -11,17 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'pnpm'
-
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
           run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
 
       - name: Run eslint with reviewdog
         uses: reviewdog/action-eslint@v1.16.0
