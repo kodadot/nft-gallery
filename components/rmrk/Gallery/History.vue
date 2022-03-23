@@ -32,6 +32,7 @@
             :perPage="itemsPerPage"
             v-model="currentPage"
             replace
+            enableListenKeyboardEvent
             preserveScroll />
         </div>
         <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
