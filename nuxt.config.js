@@ -178,7 +178,13 @@ export default {
     ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
+    '@nuxtjs/markdownit',
   ],
+
+  markdownit: {
+    injected: true,
+    use: ['markdown-it-highlightjs'],
+  },
 
   pwa: {
     manifest: {

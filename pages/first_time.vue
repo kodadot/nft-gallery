@@ -1,0 +1,14 @@
+<template>
+  <ContentMarkdown type="first_time" />
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component({
+  components: {
+    ContentMarkdown: () => import('@/components/ContentMarkdown.vue'),
+  },
+})
+export default class Contribute extends Vue {}
+</script>
