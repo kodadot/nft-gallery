@@ -1,6 +1,7 @@
 <template>
   <section class="content">
-    <div v-html="text()" />
+    <Contributing v-if="type === 'contribute'" />
+    <FirstTime v-else />
   </section>
 </template>
 
@@ -9,17 +10,14 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Contributing from '../CONTRIBUTING.md'
 import FirstTime from '../FIRST_TIME.md'
 
-@Component({})
+@Component({
+  components: {
+    Contributing,
+    FirstTime,
+  },
+})
 export default class Contribute extends Vue {
   @Prop(String) public type!: 'contribute' | 'first_time'
-
-  text() {
-    if (this.type === 'first_time') {
-      return FirstTime
-    }
-
-    return Contributing
-  }
 }
 </script>
 

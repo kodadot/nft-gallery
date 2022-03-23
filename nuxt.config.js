@@ -1,3 +1,4 @@
+import hljs from 'highlight.js'
 import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
@@ -178,13 +179,7 @@ export default {
     ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    '@nuxtjs/markdownit',
   ],
-
-  markdownit: {
-    injected: true,
-    use: ['markdown-it-highlightjs'],
-  },
 
   pwa: {
     manifest: {
@@ -271,6 +266,32 @@ export default {
       '@polkadot/types-codec',
     ],
     extend: function (config) {
+      // add markdown loader
+      config.module.rules.push({
+        test: /\.md$/,
+        loaders: [
+          'vue-loader',
+          {
+            loader: 'vue-md-loader',
+            options: {
+              markdown: {
+                highlight: function (str, lang) {
+                  if (lang && hljs.getLanguage(lang)) {
+                    try {
+                      return hljs.highlight(str, { language: lang }).value
+                    } catch (__) {
+                      return ''
+                    }
+                  }
+
+                  return ''
+                },
+              },
+            },
+          },
+        ],
+      })
+
       config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
