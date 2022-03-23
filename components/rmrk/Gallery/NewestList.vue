@@ -59,8 +59,11 @@ export default class NewestList extends Vue {
           query: lastNftListByEvent,
           client: 'subsquid',
           variables: {
-            limit: 15,
+            limit: 10,
             event: 'LIST',
+            and: {
+              meta_not_eq: '0',
+            },
           },
         })
         .catch((e) => {
@@ -79,21 +82,15 @@ export default class NewestList extends Vue {
     const images = await getCloudflareImageLinks(
       data.events.map(({ nft: { meta } }) => meta.id)
     )
-    // show the last 10 nfts listed (meta of UNLIST event is 0)
     const imageOf = getProperImageLink(images)
-    this.nfts = data.events
-      .filter((e) => {
-        return parseInt(e.meta)
-      })
-      .slice(0, 10)
-      .map((e: any) => ({
-        price: e.meta,
-        ...e.nft,
-        timestamp: formatDistanceToNow(new Date(e.timestamp), {
-          addSuffix: true,
-        }),
-        image: imageOf(e.nft.meta.id, e.nft.meta.image),
-      }))
+    this.nfts = data.events.map((e: any) => ({
+      price: e.meta,
+      ...e.nft,
+      timestamp: formatDistanceToNow(new Date(e.timestamp), {
+        addSuffix: true,
+      }),
+      image: imageOf(e.nft.meta.id, e.nft.meta.image),
+    }))
   }
 }
 </script>
