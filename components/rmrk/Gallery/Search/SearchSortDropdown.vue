@@ -16,8 +16,6 @@ import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class SearchSortDropdown extends Vue {
-  @Prop({ type: Array, default: () => [] }) excludeSort!: string[]
-
   @VModel({ type: String }) selectedAction!: string
   @Prop(Array) public sortOption?: string[]
 
