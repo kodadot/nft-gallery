@@ -4,7 +4,7 @@
 
 [build]
   # This will be your default build command.
-  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm generate"
+  command = "npx pnpm build"
   # This is the directory that you are publishing from.
   publish = "dist"
   # This is where Netlify will look for your lambda functions.
@@ -18,11 +18,11 @@
    port = 9000
    targetPort = 9090
 
-# [context.deploy-preview]
-# command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npx pnpm generate'
+[context.deploy-preview]
+command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npx pnpm build'
 
-# [context.production]
-# command = 'export BASE_URL=$URL && env && npx pnpm generate'
+[context.production]
+command = 'export BASE_URL=$URL && env && npx pnpm build'
 
 [[redirects]]
   from = "/*"
