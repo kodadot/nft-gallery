@@ -19,6 +19,7 @@ export default class SearchSortDropdown extends Vue {
   @Prop({ type: Array, default: () => [] }) excludeSort!: string[]
 
   @VModel({ type: String }) selectedAction!: string
+  @Prop(Array) public sortOption?: string[]
 
   private sort: string[] = [
     'BLOCK_NUMBER_DESC',
@@ -30,13 +31,7 @@ export default class SearchSortDropdown extends Vue {
   ]
 
   get actions(): string[] {
-    if (this.excludeSort.length > 0) {
-      return this.sort.filter((sort) => {
-        return !this.excludeSort.includes(sort)
-      })
-    }
-
-    return this.sort
+    return this.sortOption || this.sort
   }
 }
 </script>
