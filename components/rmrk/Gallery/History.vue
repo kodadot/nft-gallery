@@ -153,7 +153,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
-  private currentPage = parseInt((this.$route.query?.page as string) || '1')
+  private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
   private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
