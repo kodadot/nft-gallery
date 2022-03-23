@@ -18,11 +18,11 @@
    port = 9000
    targetPort = 9090
 
-[context.deploy-preview]
-command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npx pnpm generate'
+# [context.deploy-preview]
+# command = 'export BASE_URL=$DEPLOY_PRIME_URL && env && npx pnpm generate'
 
-[context.production]
-command = 'export BASE_URL=$URL && env && npx pnpm generate'
+# [context.production]
+# command = 'export BASE_URL=$URL && env && npx pnpm generate'
 
 [[redirects]]
   from = "/*"
