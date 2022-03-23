@@ -24,6 +24,7 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
+    // skipcq
     'vue/multi-word-component-names': [
       'error',
       {
