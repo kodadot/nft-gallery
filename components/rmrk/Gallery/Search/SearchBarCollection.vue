@@ -1,7 +1,11 @@
 <template>
   <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort class="control" :value="sortBy" @input="updateSortBy" />
+      <Sort
+        class="control"
+        :value="sortBy"
+        @input="updateSortBy"
+        :sortOption="sortOption" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -46,7 +50,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
   @Prop(Boolean) public disableToggle!: boolean
-
+  @Prop(Array) public sortOption?: string[]
   protected isVisible = false
 
   public mounted(): void {
