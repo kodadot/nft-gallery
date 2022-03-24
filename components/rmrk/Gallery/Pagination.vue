@@ -45,13 +45,18 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean
+  @Prop(Boolean) enableListenKeyboardEvent?: boolean
 
   public created() {
-    if (this.hasMagicBtn) {
+    if (this.enableKeyboardEvenHandler) {
       this.initKeyboardEventHandler({
         g: this.bindPaginationEvents,
       })
     }
+  }
+
+  get enableKeyboardEvenHandler() {
+    return this.hasMagicBtn || this.enableListenKeyboardEvent
   }
 
   private bindPaginationEvents(event) {

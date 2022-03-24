@@ -1,7 +1,7 @@
-query lastNftListByEvent($limit: Int!, $event: Interaction!) {
+query lastNftListByEvent($limit: Int!, $event: Interaction!, $and: [EventWhereInput!]) {
   events(
     limit: $limit
-    where: { interaction_eq: $event }
+    where: { interaction_eq: $event, AND: $and }
     orderBy: timestamp_DESC
   ) {
     meta

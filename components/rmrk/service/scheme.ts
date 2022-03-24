@@ -141,6 +141,7 @@ export interface Emotion {
   _id: string
   remarkId: string
   issuer: string
+  caller: string
   metadata: string
 }
 
