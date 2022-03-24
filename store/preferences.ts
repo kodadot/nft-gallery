@@ -21,7 +21,7 @@ export const state = (): {
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
   advancedUI: false,
-  theatreView: 'theatre',
+  theatreView: 'default',
   compactGalleryItem: true,
   compactCollection: false,
   showPriceGallery: false,
