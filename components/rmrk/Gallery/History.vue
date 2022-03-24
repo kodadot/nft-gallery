@@ -32,6 +32,7 @@
             :perPage="itemsPerPage"
             v-model="currentPage"
             replace
+            enableListenKeyboardEvent
             preserveScroll />
         </div>
         <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
@@ -152,7 +153,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
   private readonly openOnDefault!: boolean
-  private currentPage = 1
+  private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
   private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
@@ -312,6 +313,11 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     this.data = this.data.reverse()
     this.filterData()
+
+    if (!this.data.length) {
+      this.event = 'all'
+    }
+
     this.copyTableData = this.copyTableData.reverse()
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }

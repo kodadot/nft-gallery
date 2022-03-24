@@ -76,9 +76,9 @@ export default class Appreciation extends mixins(
     }
   }
 
-  private mapToEmoji(key: string) {
+  private mapToEmoji(parsed: string) {
     const emoji: Emoji = {
-      data: String.fromCodePoint(parseInt(key, 16)),
+      data: parsed,
       category: '',
       aliases: [],
     }

@@ -1,7 +1,10 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery" @resetPage="currentValue = 1">
+    <Search
+      v-bind.sync="searchQuery"
+      @resetPage="currentValue = 1"
+      :sortOption="collectionSortOption">
       <b-field>
         <Pagination
           hasMagicBtn
@@ -110,6 +113,13 @@ export default class CollectionList extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
+
+  private collectionSortOption: string[] = [
+    'BLOCK_NUMBER_DESC',
+    'BLOCK_NUMBER_ASC',
+    'UPDATED_AT_DESC',
+    'UPDATED_AT_ASC',
+  ]
 
   get isLoading(): boolean {
     return this.$apollo.queries.collection.loading

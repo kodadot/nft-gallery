@@ -74,6 +74,7 @@
               preserveScroll
               :total="total"
               v-model="currentValue"
+              v-if="activeTab === 'collection'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -86,6 +87,7 @@
         <Pagination
           class="py-5"
           replace
+          v-if="activeTab === 'collection'"
           preserveScroll
           :total="total"
           v-model="currentValue"
@@ -96,7 +98,7 @@
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
-          v-if="!isLoading"
+          v-if="!isLoading && activeTab === 'history'"
           :events="eventsOfNftCollection"
           :openOnDefault="isHistoryOpen"
           @setPriceChartData="setPriceChartData" />
@@ -170,7 +172,7 @@ export default class CollectionItem extends mixins(
     listed: false,
   }
   public activeTab = 'collection'
-  private currentValue = 1
+  private currentValue = parseInt(this.$route.query?.page as string) || 1
   private first = 16
   protected total = 0
   protected totalListed = 0
