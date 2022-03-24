@@ -10,7 +10,7 @@ import highlight from '~/utils/highlight'
 
 import '@/styles/content-markdown.scss'
 
-import Contributing from '../CONTRIBUTING.md'
+import FirstTimeMD from '../FIRST_TIME.md'
 
 @Component({
   components: {
@@ -24,9 +24,9 @@ import Contributing from '../CONTRIBUTING.md'
     }
   },
 })
-export default class Contribute extends Vue {
+export default class FirstTime extends Vue {
   get content() {
-    return Contributing
+    return FirstTimeMD
   }
 }
 </script>
