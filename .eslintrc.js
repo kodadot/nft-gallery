@@ -24,12 +24,14 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
-    'vue/multi-word-component-names': [
-      'error',
-      {
-        ignores: ['default'],
-      },
-    ],
   },
   ignorePatterns: ['*.md'],
+  overrides: [
+    {
+      files: ['layouts/**/*.{js,ts,vue}'],
+      rules: {
+        'vue/multi-word-component-names': 'off',
+      },
+    },
+  ],
 }
