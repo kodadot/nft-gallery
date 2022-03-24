@@ -53,9 +53,9 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
-import { Interaction, NFT } from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent, uniqueCount } from '@/utils/math'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Interaction } from '@/components/rmrk/service/scheme'
+import { after, getVolume, pairListBuyEvent } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import collectionStatsById from '@/queries/collectionStatsById.graphql'

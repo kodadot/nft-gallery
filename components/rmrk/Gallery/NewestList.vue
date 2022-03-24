@@ -61,6 +61,9 @@ export default class NewestList extends Vue {
           variables: {
             limit: 10,
             event: 'LIST',
+            and: {
+              meta_not_eq: '0',
+            },
           },
         })
         .catch((e) => {
