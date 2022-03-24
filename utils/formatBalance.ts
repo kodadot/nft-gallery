@@ -8,7 +8,10 @@ function format(
   withSi?: boolean
 ) {
   try {
-    return formatBalance(balance, {
+    const fixedBalance =
+      typeof balance === 'number' ? balance.toFixed() : balance
+
+    return formatBalance(fixedBalance, {
       decimals,
       withUnit,
       forceUnit: '-',
