@@ -337,7 +337,7 @@ export default class CollectionItem extends mixins(
         let events: Interaction[] = data.events
         // TODO : default value of HISTORY for BUY
         // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
-        this.eventsOfNftCollection = [...sortedEventByDate(events)]
+        this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
         this.checkTabLocate()
       }
     } catch (e) {
