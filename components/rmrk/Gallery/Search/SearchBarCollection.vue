@@ -72,16 +72,16 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         this.updateListed(!this.vListed)
         break
       case 'n':
-        this.updateSortBy('BLOCK_NUMBER_DESC')
+        this.updateSortBy(this.sortOption?.[0] || '')
         break
       case 'o':
-        this.updateSortBy('BLOCK_NUMBER_ASC')
+        this.updateSortBy(this.sortOption?.[1] || '')
+        break
+      case 'a':
+        this.updateSortBy(this.sortOption?.[2] || '')
         break
       case 'e':
-        this.updateSortBy('PRICE_DESC')
-        break
-      case 'c':
-        this.updateSortBy('PRICE_ASC')
+        this.updateSortBy(this.sortOption?.[3] || '')
         break
     }
   }
