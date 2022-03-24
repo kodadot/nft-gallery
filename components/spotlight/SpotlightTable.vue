@@ -23,7 +23,7 @@
           </div>
         </b-field>
         <b-button
-          class="ml-2 magicBtn"
+          class="ml-2 magicBtn is-bordered-light"
           title="Go to random page"
           type="is-primary"
           icon-left="dice"
