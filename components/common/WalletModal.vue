@@ -89,7 +89,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
-import { SupportedWallets, Wallet, WalletAccount } from '@/utils/config/wallets'
+import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
+import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
 
 @Component({
@@ -97,7 +98,7 @@ import shouldUpdate from '@/utils/shouldUpdate'
 })
 export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
-  protected selectedWalletProvider!: Wallet
+  protected selectedWalletProvider!: BaseDotsamaWallet
   protected hasSelectedWalletProvider = false
   protected hasWalletProviderExtension = false
   protected guideUrl = ''
@@ -126,7 +127,7 @@ export default class WalletModal extends Vue {
     }
   }
 
-  protected setWallet(wallet: Wallet): void {
+  protected setWallet(wallet: BaseDotsamaWallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
@@ -145,6 +146,18 @@ export default class WalletModal extends Vue {
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
       // wallet.enable()
+
+      // init account
+      wallet
+        .getAccounts()
+        .then((data) => {
+          this.walletAccounts = data ?? []
+        })
+        .catch((e) => {
+          console.error('init account error', e)
+        })
+
+      // subscribe change
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
