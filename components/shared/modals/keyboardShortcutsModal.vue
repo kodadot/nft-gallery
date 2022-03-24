@@ -138,15 +138,15 @@ export default class KeyboardShortcutsModal extends Vue {
     ],
     filters: [
       {
-        text: 'Buy now',
+        text: this.$tc('sort.listed'),
         shortcut: 'f+b',
       },
       {
-        text: 'New first',
+        text: this.$tc('sort.BLOCK_NUMBER_DESC'),
         shortcut: 'f+n',
       },
       {
-        text: 'Old first',
+        text: this.$tc('sort.BLOCK_NUMBER_ASC'),
         shortcut: 'f+o',
       },
     ],
@@ -174,11 +174,11 @@ export default class KeyboardShortcutsModal extends Vue {
     if (routeName?.includes('collections')) {
       return this.addShortcuts([
         {
-          text: 'Last Interacted',
+          text: this.$tc('sort.UPDATED_AT_DESC'),
           shortcut: 'f+a',
         },
         {
-          text: 'Least Interacted',
+          text: this.$tc('sort.UPDATED_AT_ASC'),
           shortcut: 'f+e',
         },
       ])
@@ -187,11 +187,11 @@ export default class KeyboardShortcutsModal extends Vue {
     if (routeName?.includes('gallery')) {
       return this.addShortcuts([
         {
-          text: 'Expensive first',
+          text: this.$tc('sort.PRICE_DESC'),
           shortcut: 'f+e',
         },
         {
-          text: 'Cheap first',
+          text: this.$tc('sort.PRICE_ASC'),
           shortcut: 'f+c',
         },
       ])
