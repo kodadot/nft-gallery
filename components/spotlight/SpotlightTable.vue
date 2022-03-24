@@ -23,7 +23,7 @@
           </div>
         </b-field>
         <b-button
-          class="ml-2 magicBtn"
+          class="ml-2 magicBtn is-bordered-light"
           title="Go to random page"
           type="is-primary"
           icon-left="dice"
@@ -50,7 +50,7 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="unique" :label="$t('spotlight.unique')">
+      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" dashed>
             {{ column.label }}
@@ -91,16 +91,17 @@
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
         sortable>
-        <template v-if="!isLoading"
-          ><Money :value="props.row.averagePrice" inline hideUnit
-        /></template>
+        <template v-if="!isLoading">
+          <Money :value="props.row.averagePrice" inline hideUnit />
+        </template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
       <b-table-column
-        field="count"
+        field="collections"
         :label="$t('spotlight.count')"
-        v-slot="props">
+        v-slot="props"
+        sortable>
         <template v-if="!isLoading">{{ props.row.count }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
@@ -140,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 
@@ -169,7 +170,6 @@ export default class SpotlightTable extends mixins(
   PrefixMixin,
   KeyboardEventsMixin
 ) {
-  @Prop() public value!: any
   protected data: Row[] = []
   protected usersWithIdentity: Row[] = []
   protected toggleUsersWithIdentity = false
@@ -185,7 +185,11 @@ export default class SpotlightTable extends mixins(
       label: this.$t('spotlight.averagePrice'),
       numeric: true,
     },
-    { field: 'count', label: this.$t('spotlight.count'), numeric: true },
+    {
+      field: 'collections',
+      label: this.$t('spotlight.count'),
+      numeric: true,
+    },
     {
       field: 'collectors',
       label: this.$t('spotlight.collectors'),
@@ -304,6 +308,14 @@ export default class SpotlightTable extends mixins(
   right: 0;
 }
 
+.spotlight-sticky-header th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
+}
+</style>
+
+<style lang="scss">
 .spotlight .level-right {
   margin-right: 3rem;
 }
@@ -317,11 +329,5 @@ export default class SpotlightTable extends mixins(
     margin-left: 2rem;
     margin-right: 0rem;
   }
-}
-
-.spotlight-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background-color: #0a0a0a;
 }
 </style>
