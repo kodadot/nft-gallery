@@ -6,7 +6,7 @@
     :isButtonHidden="true">
     <template v-slot:default>
       <div class="is-flex is-justify-content-space-between">
-        <b-table :data="data[type]" v-for="type in types" :key="type">
+        <b-table :data="updateData[type]" v-for="type in types" :key="type">
           <b-table-column field="text" :label="labels[type]" v-slot="props">
             {{ props.row.text }}
           </b-table-column>
@@ -38,19 +38,24 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import '@/styles/keyboard-shortcut.scss'
-const components = {
-  ModalWrapper: () => import('./ModalWrapper.vue'),
-}
 
 interface DifferentTypeShortCuts {
-  navigation: string | { text: string; shortcut: string }[]
-  item_detail: string | { text: string; shortcut: string }[]
-  filters: string | { text: string; shortcut: string }[]
+  navigation: { text: string; shortcut: string }[]
+  item_detail: { text: string; shortcut: string }[]
+  filters: { text: string; shortcut: string }[]
+}
+
+interface DifferentTypeName {
+  navigation: string
+  item_detail: string
+  filters: string
 }
 
 @Component({
   name: 'KeyboardShortcutsModal',
-  components,
+  components: {
+    ModalWrapper: () => import('./ModalWrapper.vue'),
+  },
 })
 export default class KeyboardShortcutsModal extends Vue {
   public title = 'Keyboard Shortcuts'
@@ -144,21 +149,55 @@ export default class KeyboardShortcutsModal extends Vue {
         text: 'Old first',
         shortcut: 'f+o',
       },
-      {
-        text: 'Expensive first',
-        shortcut: 'f+e',
-      },
-      {
-        text: 'Cheap first',
-        shortcut: 'f+c',
-      },
     ],
   }
-  public labels: DifferentTypeShortCuts = {
+  public labels: DifferentTypeName = {
     navigation: 'Navigation',
     item_detail: 'Item Detail',
     filters: 'Filters',
   }
   public types = Object.keys(this.data)
+
+  addShortcuts(shortcuts): DifferentTypeShortCuts {
+    const { navigation, item_detail, filters } = this.data
+
+    return {
+      navigation,
+      item_detail,
+      filters: [...filters, ...shortcuts],
+    }
+  }
+
+  get updateData(): DifferentTypeShortCuts {
+    const routeName = this.$nuxt.$route.name
+
+    if (routeName?.includes('collections')) {
+      return this.addShortcuts([
+        {
+          text: 'Last Interacted',
+          shortcut: 'f+a',
+        },
+        {
+          text: 'Least Interacted',
+          shortcut: 'f+e',
+        },
+      ])
+    }
+
+    if (routeName?.includes('gallery')) {
+      return this.addShortcuts([
+        {
+          text: 'Expensive first',
+          shortcut: 'f+e',
+        },
+        {
+          text: 'Cheap first',
+          shortcut: 'f+c',
+        },
+      ])
+    }
+
+    return this.data
+  }
 }
 </script>

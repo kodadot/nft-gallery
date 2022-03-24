@@ -77,10 +77,10 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
       case 'o':
         this.updateSortBy(this.sortOption?.[1] || '')
         break
-      case 'u':
+      case 'a':
         this.updateSortBy(this.sortOption?.[2] || '')
         break
-      case 'a':
+      case 'e':
         this.updateSortBy(this.sortOption?.[3] || '')
         break
     }
