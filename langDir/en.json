@@ -416,8 +416,8 @@
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
     "UPDATED_AT_ASC": "Long time no interaction",
-    "PRICE_DESC": "From most expensive",
-    "PRICE_ASC": "From cheaper",
+    "PRICE_DESC": "Ascending",
+    "PRICE_ASC": "Descending",
     "listed": "Buy now"
   },
   "mint": {
