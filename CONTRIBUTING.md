@@ -216,6 +216,13 @@ The aim of this repository is:
 * The content is usable by someone who hasn't written something like this before
 * Foster a culture of respect and gratitude in the open-source community.
 
+### Better comfort
+For crafting much better culture and DEVUX, we reccomend some extension to browse issue faster
+- [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
+- [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
+- [Gifs for Github](https://chrome.google.com/webstore/detail/gifs-for-github/dkgjnpbipbdaoaadbdhpiokaemhlphep)
+- Feel free add your extension which helps you organize and being productive on Github
+
 ### Does it follow the contributor covenant
 
 This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
