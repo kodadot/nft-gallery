@@ -16,7 +16,12 @@ import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
   filters: {
     checkInvalidBalance: checkInvalidBalanceFilter,
     round: function roundOffNumber(value, limit) {
-      return Number(value.replace(/,/g, '')).toFixed(limit)
+      // `undefined` params in toLocaleString() means use host default language
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString#using_options
+      return Number(value.replace(/,/g, '')).toLocaleString(undefined, {
+        minimumFractionDigits: limit,
+        maximumFractionDigits: limit,
+      })
     },
   },
 })
