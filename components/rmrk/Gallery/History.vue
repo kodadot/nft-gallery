@@ -228,10 +228,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   protected createTable(): void {
-    let prevOwner = ''
-    let curPrice = '0'
     this.data = []
     this.copyTableData = []
+    const priceCollectorMap: Record<string, string> = {}
+    const ownerCollectorMap: Record<string, string> = {}
 
     const chartData: ChartData = {
       buy: [],
@@ -241,30 +241,30 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     for (const newEvent of this.events) {
       const event: any = {}
 
+      const nftId = newEvent['nft']?.id
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
         event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
-        curPrice = '0'
       } else if (newEvent['interaction'] === 'LIST') {
         event['Type'] = parseInt(newEvent['meta'])
           ? this.$t('nft.event.LIST')
           : this.$t('nft.event.UNLIST')
         event['From'] = newEvent['caller']
         event['To'] = ''
-        prevOwner = event['From']
-        curPrice = newEvent['meta']
+        ownerCollectorMap[nftId] = newEvent['caller']
+        priceCollectorMap[nftId] = newEvent['meta']
       } else if (newEvent['interaction'] === 'SEND') {
         event['Type'] = this.$t('nft.event.SEND')
         event['From'] = newEvent['caller']
         event['To'] = newEvent['meta']
-        curPrice = '0'
+        priceCollectorMap[nftId] = '0'
       } else if (newEvent['interaction'] === 'CONSUME') {
         event['Type'] = this.$t('nft.event.CONSUME')
         event['From'] = newEvent['caller']
         event['To'] = ''
-        curPrice = '0'
+        priceCollectorMap[nftId] = '0'
       } else if (newEvent['interaction'] === 'BUY') {
         event['Type'] = this.$t('nft.event.BUY')
       } else event['Type'] = newEvent['interaction']
@@ -275,15 +275,16 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       }
 
       // From
-      if (!('From' in event)) event['From'] = prevOwner
+      if (!('From' in event)) event['From'] = ownerCollectorMap[nftId]
 
       // To
       if (!('To' in event)) {
         event['To'] = newEvent['caller']
-        prevOwner = event['To']
+        ownerCollectorMap[nftId] = event['To']
       }
 
       // Amount
+      const curPrice = priceCollectorMap[nftId]
       event['Amount'] = parseInt(curPrice)
         ? formatBalance(curPrice, this.decimals, this.unit)
         : '-'
@@ -310,15 +311,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       this.data.push(event)
       this.copyTableData.push(event)
     }
-
-    this.data = this.data.reverse()
     this.filterData()
 
     if (!this.data.length) {
       this.event = 'all'
     }
 
-    this.copyTableData = this.copyTableData.reverse()
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
 
