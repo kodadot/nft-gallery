@@ -209,7 +209,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     }
   }
 
-  protected filterData() {
+  protected updateDataByEvent() {
     const event = this.event
     this.data =
       event === 'all'
@@ -308,10 +308,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
-      this.data.push(event)
       this.copyTableData.push(event)
     }
-    this.filterData()
+    this.copyTableData = this.copyTableData.reverse()
+    this.updateDataByEvent()
 
     if (!this.data.length) {
       this.event = 'all'
@@ -343,7 +343,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Watch('event', { immediate: true })
   public watchInteractionEvent(): void {
     if (this.event) {
-      this.filterData()
+      this.updateDataByEvent()
     }
   }
 }
