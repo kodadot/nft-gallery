@@ -245,6 +245,9 @@ export default {
         process.env.SUBSQUID_ENDPOINT ||
           'https://app.gc.subsquid.io/beta/rubick/005/graphql'
       ),
+      legacysquid: toApolloEndpoint(
+        'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+      ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
@@ -265,6 +268,12 @@ export default {
       '@polkadot/types-codec',
     ],
     extend: function (config) {
+      // add markdown loader
+      config.module.rules.push({
+        test: /\.md$/,
+        use: 'raw-loader',
+      })
+
       config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
