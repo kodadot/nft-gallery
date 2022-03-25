@@ -7,7 +7,7 @@
         :hasImg="false"
         errorTitle="Offline Detected"
         errorSubtitle="Please check your network connections" />
-      <Nuxt />
+      <Nuxt v-else />
     </main>
     <Footer />
   </div>
