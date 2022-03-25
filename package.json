@@ -41,7 +41,7 @@
   "lint-staged": {
     "*.{js,ts,vue}": [
       "prettier --write",
-      "yarn lint:quiet"
+      "pnpm lint:quiet"
     ]
   },
   "engines": {
