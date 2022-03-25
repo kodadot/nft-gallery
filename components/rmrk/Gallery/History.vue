@@ -2,7 +2,8 @@
   <div class="block">
     <b-collapse
       :open="isOpen"
-      class="card bordered"
+      class="card"
+      :class="hideCollapse ? 'collapseHidden' : 'bordered'"
       animation="slide"
       aria-id="contentIdForHistory">
       <template #trigger="props">
@@ -152,6 +153,9 @@ type ChartData = {
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
+  hideCollapse!: boolean
+
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
@@ -357,6 +361,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
 .type-table {
   white-space: nowrap;
+}
+
+.collapseHidden {
+  .collapse-trigger {
+    display: none;
+  }
 }
 
 .box {
