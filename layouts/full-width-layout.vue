@@ -7,16 +7,8 @@
         :hasImg="false"
         errorTitle="Offline Detected"
         errorSubtitle="Please check your network connections" />
-      <Nuxt />
+      <Nuxt v-else/>
     </main>
     <Footer />
   </div>
 </template>
-<script>
-import { Component, Vue } from 'nuxt-property-decorator'
-import Error from '@/components/shared/Error.vue'
-@Component({
-  components: { Error },
-})
-export default class FullWidthLayout extends Vue {}
-</script>
