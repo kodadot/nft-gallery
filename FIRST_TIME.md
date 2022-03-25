@@ -137,14 +137,14 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
+  import { Component, mixins } from 'nuxt-property-decorator'
 
-  import nftByIdMinimal from "@/queries/nftByIdMinimal.graphql"
-  import PrefixMixin from "~/utils/mixins/prefixMixin"
+  import nftByIdMinimal from '@/queries/nftByIdMinimal.graphql'
+  import PrefixMixin from '~/utils/mixins/prefixMixin'
 
   @Component({})
   export default class GalleryItem extends mixins(PrefixMixin) {
-    id: string = ""
+    id: string = ''
     nft: NFT = emptyObject<NFT>()
 
     async fetch() {
@@ -155,7 +155,7 @@ Then we can use it like this:
       })
 
       this.nft = data.nFTEntity
-      console.log("nft", this.nft)
+      console.log('nft', this.nft)
     }
   }
 </script>
@@ -165,18 +165,18 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, Vue } from "nuxt-property-decorator"
-  import Connector from "@kodadot1/sub-api"
+  import { Component, Vue } from 'nuxt-property-decorator'
+  import Connector from '@kodadot1/sub-api'
 
   @Component({})
   export default class GalleryItem extends Vue {
-    id = "0"
-    collectionId = "0"
+    id = '0'
+    collectionId = '0'
 
     async fetch() {
       const { api } = Connector.getInstance()
       const nft = await api.query.uniques.asset(this.collectionId, this.id)
-      console.log("nft", nft)
+      console.log('nft', nft)
     }
   }
 </script>
@@ -186,13 +186,13 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
-  import SubscribeMixin from "@/utils/mixins/subscribeMixin"
+  import { Component, mixins } from 'nuxt-property-decorator'
+  import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 
   @Component({})
   export default class GalleryItem extends mixins(SubscribeMixin) {
-    id = "0"
-    collectionId = "0"
+    id = '0'
+    collectionId = '0'
 
     async created() {
       this.subscribe(
@@ -206,19 +206,20 @@ Then we can use it like this:
 ```
 
 **4. How can I make an on-chain transaction?**
+
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
-  import MetaTransactionMixin from "@/utils/mixins/metaMixin"
+  import { Component, mixins } from 'nuxt-property-decorator'
+  import MetaTransactionMixin from '@/utils/mixins/metaMixin'
   // import AuthMixin from '~/utils/mixins/authMixin' // get currently logged in account
 
-  import Connector from "@kodadot1/sub-api"
+  import Connector from '@kodadot1/sub-api'
 
   @Component({})
   export default class GalleryItem extends mixins(MetaTransactionMixin) {
     async submit() {
       const cb = api.tx.system.remark
-      const args = "Hello World"
+      const args = 'Hello World'
 
       await this.howAboutToExecute(
         this.accountId, // sender can be obtained from the AuthMixin
