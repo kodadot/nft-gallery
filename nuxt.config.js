@@ -283,6 +283,7 @@ export default {
         fs: 'empty',
       }
     },
+    postcss: null,
   },
 
   watchers: {
