@@ -1,13 +1,20 @@
+import { defineNuxtConfig } from '@nuxt/bridge'
+
 import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
-export default {
+export default defineNuxtConfig({
+  alias: {
+    tslib: 'tslib/tslib.es6.js',
+  },
+
   vue: {
     config: {
       productionTip: false,
+      runtimeCompiler: true,
     },
   },
 
@@ -160,7 +167,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
     '@nuxtjs/pwa',
   ],
 
@@ -264,7 +270,7 @@ export default {
       '@polkadot/hw-ledger',
       '@polkadot/types-codec',
     ],
-    extend: function (config) {
+    extend(config) {
       // add markdown loader
       config.module.rules.push({
         test: /\.md$/,
@@ -275,7 +281,8 @@ export default {
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
-      config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+      // config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+      config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
       config.node = {
         fs: 'empty',
       }
@@ -299,4 +306,4 @@ export default {
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
-}
+})

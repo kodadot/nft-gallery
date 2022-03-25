@@ -83,5 +83,8 @@ typings/
 .vscode/
 .nuxt
 
+# Exclude built Nitro folder from git https://v3.nuxtjs.org/getting-started/bridge#exclude-built-nitro-folder-from-git
+.output
+
 ### its generated, this time is different
 ## service-worker.js
