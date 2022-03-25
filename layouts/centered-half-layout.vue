@@ -20,11 +20,3 @@
     <Footer />
   </div>
 </template>
-<script>
-import { Component, Vue } from 'nuxt-property-decorator'
-import Error from '@/components/shared/Error.vue'
-@Component({
-  components: { Error },
-})
-export default class CenteredHalfLayout extends Vue {}
-</script>

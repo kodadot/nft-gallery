@@ -16,11 +16,3 @@
     <Footer />
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import Error from '@/components/shared/Error.vue'
-@Component({
-  components: { Error },
-})
-export default class DefaultLayout extends Vue {}
-</script>
