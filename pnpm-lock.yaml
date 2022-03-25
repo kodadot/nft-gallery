@@ -44,7 +44,7 @@ specifiers:
   chart.js: ^3.7.1
   chartjs-adapter-date-fns: ^2.0.0
   chartjs-plugin-annotation: ^1.4.0
-  chartjs-plugin-zoom: ^1.2.0
+  chartjs-plugin-zoom: ^1.2.1
   consola: ^2.15.3
   css-loader: 5.2.7
   cypress: ^9.5.2
@@ -74,7 +74,7 @@ specifiers:
   setimmediate: ^1.0.5
   slugify: ^1.6.5
   ts-loader: 8.3.0
-  typescript: ^4.6.2
+  typescript: ^4.6.3
   v-emoji-picker: ^2.3.3
   vue: ^2.6.14
   vue-apollo: ^3.1.0
@@ -101,7 +101,7 @@ dependencies:
   '@kodadot1/minimark': 0.0.1-rc.6
   '@kodadot1/sub-api': 0.0.1-rc.3
   '@kodadot1/vuex-options': 0.0.1-rc.2
-  '@nuxtjs/apollo': 4.0.1-rc.5_400fdc1a100fc3702d05133428d6316e
+  '@nuxtjs/apollo': 4.0.1-rc.5_1f0c20eb37cf64718bfd38f83aa67633
   '@nuxtjs/i18n': 7.2.0
   '@polkadot/extension-dapp': 0.42.9
   '@polkadot/extension-inject': 0.42.9
@@ -114,7 +114,7 @@ dependencies:
   chart.js: 3.7.1
   chartjs-adapter-date-fns: 2.0.0_chart.js@3.7.1
   chartjs-plugin-annotation: 1.4.0_chart.js@3.7.1
-  chartjs-plugin-zoom: 1.2.0_chart.js@3.7.1
+  chartjs-plugin-zoom: 1.2.1_chart.js@3.7.1
   css-loader: 5.2.7_webpack@5.70.0
   cypress: 9.5.2
   date-fns: 2.28.0
@@ -125,7 +125,7 @@ dependencies:
   lazysizes: 5.3.2
   lodash: 4.17.21
   mingo: 5.1.0
-  nuxt: 2.15.8_consola@2.15.3+typescript@4.6.2
+  nuxt: 2.15.8_consola@2.15.3+typescript@4.6.3
   nuxt-buefy: 0.4.21_vue@2.6.14
   nuxt-property-decorator: 2.9.1_vue@2.6.14+vuex@3.6.2
   setimmediate: 1.0.5
@@ -160,8 +160,8 @@ devDependencies:
   '@types/markdown-it': 12.2.3
   '@types/webpack': 5.28.0
   '@types/webpack-env': 1.16.3
-  '@typescript-eslint/eslint-plugin': 5.16.0_3fed250b11519414a4c7d52468dd6bf5
-  '@typescript-eslint/parser': 5.16.0_eslint@8.11.0+typescript@4.6.2
+  '@typescript-eslint/eslint-plugin': 5.16.0_bc68a9cd5bf604202498b1a9faaf9387
+  '@typescript-eslint/parser': 5.16.0_eslint@8.11.0+typescript@4.6.3
   all-contributors-cli: 6.20.0
   babel-jest: 27.5.1_@babel+core@7.17.8
   consola: 2.15.3
@@ -177,8 +177,8 @@ devDependencies:
   raw-loader: 4.0.2_webpack@5.70.0
   sass: 1.49.9
   sass-loader: 10.2.1_sass@1.49.9+webpack@5.70.0
-  ts-loader: 8.3.0_typescript@4.6.2+webpack@5.70.0
-  typescript: 4.6.2
+  ts-loader: 8.3.0_typescript@4.6.3+webpack@5.70.0
+  typescript: 4.6.3
   vue-debounce-decorator: 1.0.1
   webpack: 5.70.0
 
@@ -1612,7 +1612,7 @@ packages:
       lodash.once: 4.1.1
     dev: false
 
-  /@endemolshinegroup/cosmiconfig-typescript-loader/1.0.2_e485c09958b06bf585ce769a699a629c:
+  /@endemolshinegroup/cosmiconfig-typescript-loader/1.0.2_ad5b0c62320b48b6782fdf84727b6cb5:
     resolution: {integrity: sha512-ZHkXKq2XFFmAUdmSZrmqUSIrRM4O9gtkdpxMmV+LQl7kScUnbo6pMnXu6+FTDgZ12aW6SDoZoOJfS56WD+Eu6A==}
     engines: {node: '>=8.0.0', yarn: '>=1.3.0'}
     peerDependencies:
@@ -1621,7 +1621,7 @@ packages:
       cosmiconfig: 5.2.1
       lodash.get: 4.4.2
       make-error: 1.3.6
-      ts-node: 8.10.2_typescript@4.6.2
+      ts-node: 8.10.2_typescript@4.6.3
       tslib: 1.14.1
     transitivePeerDependencies:
       - typescript
@@ -2536,13 +2536,13 @@ packages:
       - supports-color
     dev: false
 
-  /@nuxt/builder/2.15.8_typescript@4.6.2:
+  /@nuxt/builder/2.15.8_typescript@4.6.3:
     resolution: {integrity: sha512-WVhN874LFMdgRiJqpxmeKI+vh5lhCUBVOyR9PhL1m1V/GV3fb+Dqc1BKS6XgayrWAWavPLveCJmQ/FID0puOfQ==}
     dependencies:
       '@nuxt/devalue': 1.2.5
       '@nuxt/utils': 2.15.8
       '@nuxt/vue-app': 2.15.8
-      '@nuxt/webpack': 2.15.8_typescript@4.6.2
+      '@nuxt/webpack': 2.15.8_typescript@4.6.3
       chalk: 4.1.2
       chokidar: 3.5.3
       consola: 2.15.3
@@ -2848,7 +2848,7 @@ packages:
       vue-server-renderer: 2.6.14
     dev: false
 
-  /@nuxt/webpack/2.15.8_typescript@4.6.2:
+  /@nuxt/webpack/2.15.8_typescript@4.6.3:
     resolution: {integrity: sha512-CzJYFed23Ow/UK0+cI1FVthDre1p2qc8Q97oizG39d3/SIh3aUHjgj8c60wcR+RSxVO0FzZMXkmq02NmA7vWJg==}
     dependencies:
       '@babel/core': 7.17.8
@@ -2872,7 +2872,7 @@ packages:
       memory-fs: 0.5.0
       optimize-css-assets-webpack-plugin: 5.0.8_webpack@4.46.0
       pify: 5.0.0
-      pnp-webpack-plugin: 1.7.0_typescript@4.6.2
+      pnp-webpack-plugin: 1.7.0_typescript@4.6.3
       postcss: 7.0.39
       postcss-import: 12.0.1
       postcss-import-resolver: 2.0.0
@@ -2905,7 +2905,7 @@ packages:
       - webpack-command
     dev: false
 
-  /@nuxtjs/apollo/4.0.1-rc.5_400fdc1a100fc3702d05133428d6316e:
+  /@nuxtjs/apollo/4.0.1-rc.5_1f0c20eb37cf64718bfd38f83aa67633:
     resolution: {integrity: sha512-A5ITCdks87NND6t116nBFTqENiMfUYkFy+b8xDTRV4rz5NHhpYAfoDZDRKDnlszOBYOCvBjro/GDJH+KWW7siQ==}
     peerDependencies:
       apollo-cache-inmemory: ^1.6.6
@@ -2913,7 +2913,7 @@ packages:
       cross-fetch: 3.1.5
       universal-cookie: 4.0.4
       vue-apollo: 3.1.0_graphql-tag@2.12.6
-      vue-cli-plugin-apollo: 0.22.2_typescript@4.6.2
+      vue-cli-plugin-apollo: 0.22.2_typescript@4.6.3
       webpack-node-externals: 2.5.2
     transitivePeerDependencies:
       - '@types/node'
@@ -4261,7 +4261,7 @@ packages:
     resolution: {integrity: sha512-fbF6oTd4sGGy0xjHPKAt+eS2CrxJ3+6gQ3FGcBoIJR2TLAyCkCyI8JqZNy+FeON0AhVgNJoUumVoZQjBFUqHkw==}
     dev: false
 
-  /@typescript-eslint/eslint-plugin/5.16.0_3fed250b11519414a4c7d52468dd6bf5:
+  /@typescript-eslint/eslint-plugin/5.16.0_bc68a9cd5bf604202498b1a9faaf9387:
     resolution: {integrity: sha512-SJoba1edXvQRMmNI505Uo4XmGbxCK9ARQpkvOd00anxzri9RNQk0DDCxD+LIl+jYhkzOJiOMMKYEHnHEODjdCw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -4272,23 +4272,23 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.16.0_eslint@8.11.0+typescript@4.6.2
+      '@typescript-eslint/parser': 5.16.0_eslint@8.11.0+typescript@4.6.3
       '@typescript-eslint/scope-manager': 5.16.0
-      '@typescript-eslint/type-utils': 5.16.0_eslint@8.11.0+typescript@4.6.2
-      '@typescript-eslint/utils': 5.16.0_eslint@8.11.0+typescript@4.6.2
+      '@typescript-eslint/type-utils': 5.16.0_eslint@8.11.0+typescript@4.6.3
+      '@typescript-eslint/utils': 5.16.0_eslint@8.11.0+typescript@4.6.3
       debug: 4.3.4
       eslint: 8.11.0
       functional-red-black-tree: 1.0.1
       ignore: 5.2.0
       regexpp: 3.2.0
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.6.2
-      typescript: 4.6.2
+      tsutils: 3.21.0_typescript@4.6.3
+      typescript: 4.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser/5.16.0_eslint@8.11.0+typescript@4.6.2:
+  /@typescript-eslint/parser/5.16.0_eslint@8.11.0+typescript@4.6.3:
     resolution: {integrity: sha512-fkDq86F0zl8FicnJtdXakFs4lnuebH6ZADDw6CYQv0UZeIjHvmEw87m9/29nk2Dv5Lmdp0zQ3zDQhiMWQf/GbA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -4300,10 +4300,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.16.0
       '@typescript-eslint/types': 5.16.0
-      '@typescript-eslint/typescript-estree': 5.16.0_typescript@4.6.2
+      '@typescript-eslint/typescript-estree': 5.16.0_typescript@4.6.3
       debug: 4.3.4
       eslint: 8.11.0
-      typescript: 4.6.2
+      typescript: 4.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4316,7 +4316,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.16.0
     dev: true
 
-  /@typescript-eslint/type-utils/5.16.0_eslint@8.11.0+typescript@4.6.2:
+  /@typescript-eslint/type-utils/5.16.0_eslint@8.11.0+typescript@4.6.3:
     resolution: {integrity: sha512-SKygICv54CCRl1Vq5ewwQUJV/8padIWvPgCxlWPGO/OgQLCijY9G7lDu6H+mqfQtbzDNlVjzVWQmeqbLMBLEwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -4326,11 +4326,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.16.0_eslint@8.11.0+typescript@4.6.2
+      '@typescript-eslint/utils': 5.16.0_eslint@8.11.0+typescript@4.6.3
       debug: 4.3.4
       eslint: 8.11.0
-      tsutils: 3.21.0_typescript@4.6.2
-      typescript: 4.6.2
+      tsutils: 3.21.0_typescript@4.6.3
+      typescript: 4.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4340,7 +4340,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@typescript-eslint/typescript-estree/5.16.0_typescript@4.6.2:
+  /@typescript-eslint/typescript-estree/5.16.0_typescript@4.6.3:
     resolution: {integrity: sha512-SE4VfbLWUZl9MR+ngLSARptUv2E8brY0luCdgmUevU6arZRY/KxYoLI/3V/yxaURR8tLRN7bmZtJdgmzLHI6pQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -4355,13 +4355,13 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.5
-      tsutils: 3.21.0_typescript@4.6.2
-      typescript: 4.6.2
+      tsutils: 3.21.0_typescript@4.6.3
+      typescript: 4.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/utils/5.16.0_eslint@8.11.0+typescript@4.6.2:
+  /@typescript-eslint/utils/5.16.0_eslint@8.11.0+typescript@4.6.3:
     resolution: {integrity: sha512-iYej2ER6AwmejLWMWzJIHy3nPJeGDuCqf8Jnb+jAQVoPpmWzwQOfa9hWVB8GIQE5gsCv/rfN4T+AYb/V06WseQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -4370,7 +4370,7 @@ packages:
       '@types/json-schema': 7.0.10
       '@typescript-eslint/scope-manager': 5.16.0
       '@typescript-eslint/types': 5.16.0
-      '@typescript-eslint/typescript-estree': 5.16.0_typescript@4.6.2
+      '@typescript-eslint/typescript-estree': 5.16.0_typescript@4.6.3
       eslint: 8.11.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0_eslint@8.11.0
@@ -5117,7 +5117,7 @@ packages:
       zen-observable: 0.8.15
     dev: false
 
-  /apollo-codegen-core/0.40.7_typescript@4.6.2:
+  /apollo-codegen-core/0.40.7_typescript@4.6.3:
     resolution: {integrity: sha512-lVnmXUS+7RiDPINDKGU6e/F668BXKARdgM27j0n7w8kHZ2AEC3YbSL3KNseRtyMhqWb4y9NRde/W2nMtB6pqfw==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
@@ -5125,7 +5125,7 @@ packages:
       '@babel/parser': 7.17.8
       '@babel/types': 7.16.0
       apollo-env: 0.10.1
-      apollo-language-server: 1.26.7_typescript@4.6.2
+      apollo-language-server: 1.26.7_typescript@4.6.3
       ast-types: 0.14.2
       common-tags: 1.8.2
       recast: 0.20.5
@@ -5134,13 +5134,13 @@ packages:
       - typescript
     dev: false
 
-  /apollo-codegen-flow/0.38.7_typescript@4.6.2:
+  /apollo-codegen-flow/0.38.7_typescript@4.6.3:
     resolution: {integrity: sha512-YzqMLQlLrUGLvJetmS2FA9iN92cc2AOHcyn+JY64mzceiBPcg57OJfCRFcoNZVpaQvpO9EYDkdTWPEPcnU7BEw==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
       '@babel/generator': 7.16.0
       '@babel/types': 7.16.0
-      apollo-codegen-core: 0.40.7_typescript@4.6.2
+      apollo-codegen-core: 0.40.7_typescript@4.6.3
       change-case: 4.1.2
       common-tags: 1.8.2
       inflected: 2.1.0
@@ -5149,11 +5149,11 @@ packages:
       - typescript
     dev: false
 
-  /apollo-codegen-scala/0.39.7_typescript@4.6.2:
+  /apollo-codegen-scala/0.39.7_typescript@4.6.3:
     resolution: {integrity: sha512-0h0lSwyAkOCG9oOs+g9lCdirL/oVuSGeQ1LBojHNroLjELPCHFFA3woK7dx+ryBhthHkN6/XraqSIi/QPxESzw==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
-      apollo-codegen-core: 0.40.7_typescript@4.6.2
+      apollo-codegen-core: 0.40.7_typescript@4.6.3
       change-case: 4.1.2
       common-tags: 1.8.2
       inflected: 2.1.0
@@ -5162,11 +5162,11 @@ packages:
       - typescript
     dev: false
 
-  /apollo-codegen-swift/0.40.7_typescript@4.6.2:
+  /apollo-codegen-swift/0.40.7_typescript@4.6.3:
     resolution: {integrity: sha512-0t/n67tVT3D57NDwiqdP70aZ0CcAs0cNVOriCtT1SzyXRJcOJPRBnR/ouZcod9TjjFGvD2T9hgej2nT0ne4VCQ==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
-      apollo-codegen-core: 0.40.7_typescript@4.6.2
+      apollo-codegen-core: 0.40.7_typescript@4.6.3
       change-case: 4.1.2
       common-tags: 1.8.2
       inflected: 2.1.0
@@ -5175,13 +5175,13 @@ packages:
       - typescript
     dev: false
 
-  /apollo-codegen-typescript/0.40.7_typescript@4.6.2:
+  /apollo-codegen-typescript/0.40.7_typescript@4.6.3:
     resolution: {integrity: sha512-/yMz1E9K3iUdkbJiwGesVVDfWfsT4xrxaIcbDPnhjkwAvH8Dxgy+L6b+PNVjPS//laBFij50W+BaH2+px5Qzaw==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
       '@babel/generator': 7.16.0
       '@babel/types': 7.16.0
-      apollo-codegen-core: 0.40.7_typescript@4.6.2
+      apollo-codegen-core: 0.40.7_typescript@4.6.3
       change-case: 4.1.2
       common-tags: 1.8.2
       inflected: 2.1.0
@@ -5224,14 +5224,14 @@ packages:
       sha.js: 2.4.11
     dev: false
 
-  /apollo-language-server/1.26.7_typescript@4.6.2:
+  /apollo-language-server/1.26.7_typescript@4.6.3:
     resolution: {integrity: sha512-wY5oryqcbKEoFlwlXgCa8Aj0d2k5Bok7tpJfK4TQsKvvpZ5uP4qetZj69DXDz4wM0oHEx80iUdYCmxetxi6PkA==}
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
       '@apollo/federation': 0.27.0_graphql@15.8.0
       '@apollographql/apollo-tools': 0.5.2
       '@apollographql/graphql-language-service-interface': 2.0.2_graphql@15.8.0
-      '@endemolshinegroup/cosmiconfig-typescript-loader': 1.0.2_e485c09958b06bf585ce769a699a629c
+      '@endemolshinegroup/cosmiconfig-typescript-loader': 1.0.2_ad5b0c62320b48b6782fdf84727b6cb5
       apollo-datasource: 0.9.0
       apollo-env: 0.10.1
       apollo-graphql: 0.9.5_graphql@15.8.0
@@ -5582,7 +5582,7 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /apollo/2.33.9_typescript@4.6.2:
+  /apollo/2.33.9_typescript@4.6.3:
     resolution: {integrity: sha512-bfapwkHnarxUW498AoLkNNN69e1U1a8ghK+xm2qiKCNhFwEBU9MlhwyBEg522Modbmg1XD+DtSi7gl7N5msBrQ==}
     engines: {node: '>=8', npm: '>=6'}
     hasBin: true
@@ -5596,14 +5596,14 @@ packages:
       '@oclif/plugin-not-found': 1.2.4
       '@oclif/plugin-plugins': 1.10.1
       '@oclif/plugin-warn-if-update-available': 1.7.0
-      apollo-codegen-core: 0.40.7_typescript@4.6.2
-      apollo-codegen-flow: 0.38.7_typescript@4.6.2
-      apollo-codegen-scala: 0.39.7_typescript@4.6.2
-      apollo-codegen-swift: 0.40.7_typescript@4.6.2
-      apollo-codegen-typescript: 0.40.7_typescript@4.6.2
+      apollo-codegen-core: 0.40.7_typescript@4.6.3
+      apollo-codegen-flow: 0.38.7_typescript@4.6.3
+      apollo-codegen-scala: 0.39.7_typescript@4.6.3
+      apollo-codegen-swift: 0.40.7_typescript@4.6.3
+      apollo-codegen-typescript: 0.40.7_typescript@4.6.3
       apollo-env: 0.10.1
       apollo-graphql: 0.9.5_graphql@15.8.0
-      apollo-language-server: 1.26.7_typescript@4.6.2
+      apollo-language-server: 1.26.7_typescript@4.6.3
       chalk: 2.4.2
       cli-ux: 5.6.3
       env-ci: 5.4.1
@@ -6578,8 +6578,8 @@ packages:
       chart.js: 3.7.1
     dev: false
 
-  /chartjs-plugin-zoom/1.2.0_chart.js@3.7.1:
-    resolution: {integrity: sha512-cLYKUHHx4bevuZQDpEKdjpvZ6HGu6NF8laTThgA0I9af+PV1N4qVTRZmyDNh0SAzsHZPtDOhuO3I7B4CF1lstw==}
+  /chartjs-plugin-zoom/1.2.1_chart.js@3.7.1:
+    resolution: {integrity: sha512-2zbWvw2pljrtMLMXkKw1uxYzAne5PtjJiOZftcut4Lo3Ee8qUt95RpMKDWrZ+pBZxZKQKOD/etdU4pN2jxZUmg==}
     peerDependencies:
       chart.js: ^3.2.0
     dependencies:
@@ -12200,13 +12200,13 @@ packages:
       - vuex
     dev: false
 
-  /nuxt/2.15.8_consola@2.15.3+typescript@4.6.2:
+  /nuxt/2.15.8_consola@2.15.3+typescript@4.6.3:
     resolution: {integrity: sha512-ceK3qLg/Baj7J8mK9bIxqw9AavrF+LXqwYEreBdY/a4Sj8YV4mIvhqea/6E7VTCNNGvKT2sJ/TTJjtfQ597lTA==}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@nuxt/babel-preset-app': 2.15.8
-      '@nuxt/builder': 2.15.8_typescript@4.6.2
+      '@nuxt/builder': 2.15.8_typescript@4.6.3
       '@nuxt/cli': 2.15.8
       '@nuxt/components': 2.2.1_consola@2.15.3
       '@nuxt/config': 2.15.8
@@ -12219,7 +12219,7 @@ packages:
       '@nuxt/utils': 2.15.8
       '@nuxt/vue-app': 2.15.8
       '@nuxt/vue-renderer': 2.15.8
-      '@nuxt/webpack': 2.15.8_typescript@4.6.2
+      '@nuxt/webpack': 2.15.8_typescript@4.6.3
     transitivePeerDependencies:
       - bufferutil
       - consola
@@ -12701,11 +12701,11 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /pnp-webpack-plugin/1.7.0_typescript@4.6.2:
+  /pnp-webpack-plugin/1.7.0_typescript@4.6.3:
     resolution: {integrity: sha512-2Rb3vm+EXble/sMXNSu6eoBx8e79gKqhNq9F5ZWW6ERNCTE/Q0wQNne5541tE5vKjfM8hpNCYL+LGc1YTfI0dg==}
     engines: {node: '>=6'}
     dependencies:
-      ts-pnp: 1.2.0_typescript@4.6.2
+      ts-pnp: 1.2.0_typescript@4.6.3
     transitivePeerDependencies:
       - typescript
     dev: false
@@ -15356,7 +15356,7 @@ packages:
       webpack: 5.70.0
     dev: true
 
-  /ts-loader/8.3.0_typescript@4.6.2+webpack@5.70.0:
+  /ts-loader/8.3.0_typescript@4.6.3+webpack@5.70.0:
     resolution: {integrity: sha512-MgGly4I6cStsJy27ViE32UoqxPTN9Xly4anxxVyaIWR+9BGxboV4EyJBGfR3RePV7Ksjj3rHmPZJeIt+7o4Vag==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -15368,11 +15368,11 @@ packages:
       loader-utils: 2.0.2
       micromatch: 4.0.4
       semver: 7.3.5
-      typescript: 4.6.2
+      typescript: 4.6.3
       webpack: 5.70.0
     dev: true
 
-  /ts-node/8.10.2_typescript@4.6.2:
+  /ts-node/8.10.2_typescript@4.6.3:
     resolution: {integrity: sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
@@ -15383,11 +15383,11 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       source-map-support: 0.5.21
-      typescript: 4.6.2
+      typescript: 4.6.3
       yn: 3.1.1
     dev: false
 
-  /ts-pnp/1.2.0_typescript@4.6.2:
+  /ts-pnp/1.2.0_typescript@4.6.3:
     resolution: {integrity: sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==}
     engines: {node: '>=6'}
     peerDependencies:
@@ -15396,7 +15396,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      typescript: 4.6.2
+      typescript: 4.6.3
     dev: false
 
   /tslib/1.14.1:
@@ -15417,14 +15417,14 @@ packages:
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
 
-  /tsutils/3.21.0_typescript@4.6.2:
+  /tsutils/3.21.0_typescript@4.6.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.6.2
+      typescript: 4.6.3
     dev: true
 
   /tty-browserify/0.0.0:
@@ -15523,8 +15523,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript/4.6.2:
-    resolution: {integrity: sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==}
+  /typescript/4.6.3:
+    resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -15944,7 +15944,7 @@ packages:
       vue: 2.6.14
     dev: false
 
-  /vue-cli-plugin-apollo/0.22.2_typescript@4.6.2:
+  /vue-cli-plugin-apollo/0.22.2_typescript@4.6.3:
     resolution: {integrity: sha512-HatlgKTChTnaSFTU2rdYDlL6Ui8t8Lzl9aqWiEd4vpbylZA/OlMFSbuNH33UoIgyJl783yo1WFod7FqNTj2zsg==}
     peerDependencies:
       '@vue/cli-shared-utils': ^3.0.0 || ^4.0.0-0
@@ -15953,7 +15953,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      apollo: 2.33.9_typescript@4.6.2
+      apollo: 2.33.9_typescript@4.6.3
       apollo-cache-inmemory: 1.6.6_graphql@15.8.0
       apollo-client: 2.6.10_graphql@15.8.0
       apollo-link: 1.2.14_graphql@15.8.0
@@ -15979,8 +15979,8 @@ packages:
       node-fetch: 2.6.7
       nodemon: 2.0.15
       subscriptions-transport-ws: 0.9.19_graphql@15.8.0
-      ts-node: 8.10.2_typescript@4.6.2
-      typescript: 4.6.2
+      ts-node: 8.10.2_typescript@4.6.3
+      typescript: 4.6.3
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
