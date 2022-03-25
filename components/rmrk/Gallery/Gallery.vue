@@ -16,7 +16,8 @@
         class="remove-margin" />
     </Search>
     <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
-    <div v-if="isNetworkConnected">
+
+    <div>
       <div class="columns is-multiline">
         <div
           class="column is-4 column-padding"
@@ -75,26 +76,13 @@
           </div>
         </div>
       </div>
-      <Pagination
-        class="pt-5 pb-5"
-        :total="total"
-        :perPage="first"
-        v-model="currentValue"
-        replace />
     </div>
-    <div id="Error" class="box container" v-else>
-      <p class="title">Offline Detected</p>
-      <p class="subtitle">Please check your network connections</p>
-      <p class="subtitle">
-        If you think this should't happen, report us by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title="
-          >creating bug issue with steps to reproduce and screenshot.</a
-        >
-      </p>
-    </div>
+    <Pagination
+      class="pt-5 pb-5"
+      :total="total"
+      :perPage="first"
+      v-model="currentValue"
+      replace />
   </div>
 </template>
 
@@ -172,10 +160,6 @@ export default class Gallery extends mixins(PrefixMixin) {
       this.searchQuery?.listed ||
       this.$store.getters['preferences/getShowPriceValue']
     )
-  }
-
-  get isNetworkConnected(): boolean {
-    return this.$store.getters.getNetworkConnected
   }
 
   get isRmrk(): boolean {
