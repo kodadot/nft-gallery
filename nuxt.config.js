@@ -251,6 +251,9 @@ export default defineNuxtConfig({
         process.env.SUBSQUID_ENDPOINT ||
           'https://app.gc.subsquid.io/beta/rubick/005/graphql'
       ),
+      legacysquid: toApolloEndpoint(
+        'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+      ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
@@ -287,6 +290,7 @@ export default defineNuxtConfig({
         fs: 'empty',
       }
     },
+    postcss: null,
   },
 
   watchers: {

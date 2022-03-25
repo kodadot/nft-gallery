@@ -24,6 +24,7 @@
     "dev-experimental": "nuxi dev --hostname localhost --port 9090",
     "build": "nuxi build",
     "start": "nuxi preview",
+    "generate:pnpm": "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm generate",
     "generate": "nuxi generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
@@ -39,11 +40,12 @@
   "lint-staged": {
     "*.{js,ts,vue}": [
       "prettier --write",
-      "yarn lint:quiet"
+      "pnpm lint:quiet"
     ]
   },
   "engines": {
-    "node": ">=v16.14.2"
+    "npm": "please-use-pnpm",
+    "node": ">=v16"
   },
   "prettier": {
     "semi": false,

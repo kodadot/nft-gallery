@@ -4,7 +4,12 @@
     <main class="is-flex-grow-1">
       <section class="section">
         <div class="container">
-          <Nuxt />
+          <Error
+            v-if="$nuxt.isOffline"
+            :hasImg="false"
+            errorTitle="Offline Detected"
+            errorSubtitle="Please check your network connections" />
+          <Nuxt v-else />
         </div>
       </section>
     </main>
