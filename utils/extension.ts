@@ -3,6 +3,20 @@ import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
 
 export const enableExtension = async () => await web3Enable('KodaDot')
 
+export const getInjectedExtensions = async () => {
+  const extensions = await web3Enable('Kodadot')
+  return extensions
+}
+
+export const getInjector = async (accounts: WalletAccount[]) => {
+  const account = getSelectedAccount(accounts)
+  const extensions = await getInjectedExtensions()
+  const injector = extensions.find(
+    (extension) => extension.name === account?.source
+  )
+  return injector
+}
+
 export const getAddress = async (address: string) => {
   try {
     const walletName = localStorage.getItem('wallet')
