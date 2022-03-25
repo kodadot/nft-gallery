@@ -101,6 +101,7 @@
           v-if="!isLoading && activeTab === 'history'"
           :events="eventsOfNftCollection"
           :openOnDefault="isHistoryOpen"
+          hideCollapse
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
     </b-tabs>
