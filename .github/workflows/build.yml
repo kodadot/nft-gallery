@@ -14,13 +14,15 @@ jobs:
         uses: pnpm/action-setup@v2.2.1
         with:
           version: latest
-          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Run Code Lint
         run: pnpm lint:quiet
