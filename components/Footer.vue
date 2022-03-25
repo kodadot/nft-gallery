@@ -105,6 +105,10 @@ export default class Footer extends Vue {
       name: this.$t('Jobs'),
       url: '/jobs',
     },
+    {
+      name: this.$t('Contribute'),
+      url: '/contribute',
+    },
   ]
 }
 </script>
