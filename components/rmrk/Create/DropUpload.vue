@@ -75,7 +75,6 @@ export default class DropUpload extends Vue {
       // console.log(reader.si);
     }
     this.$emit('input', file)
-    console.log(file.size)
     if (this.preview) {
       this.url = URL.createObjectURL(file)
       this.hasError = false
