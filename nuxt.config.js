@@ -265,6 +265,12 @@ export default {
       '@polkadot/types-codec',
     ],
     extend: function (config) {
+      // add markdown loader
+      config.module.rules.push({
+        test: /\.md$/,
+        use: 'raw-loader',
+      })
+
       config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),

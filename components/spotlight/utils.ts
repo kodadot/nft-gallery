@@ -27,6 +27,7 @@ export const nftFn = (a: any): Row => {
     volume,
     rank: sold * (unique / total),
     uniqueCollectors,
+    collections: a.collections,
   }
 }
 
