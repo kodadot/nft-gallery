@@ -6,7 +6,12 @@
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">
-              <Nuxt />
+              <Error
+                v-if="$nuxt.isOffline"
+                :hasImg="false"
+                errorTitle="Offline Detected"
+                errorSubtitle="Please check your network connections" />
+              <Nuxt v-else />
             </div>
           </div>
         </div>
@@ -15,3 +20,11 @@
     <Footer />
   </div>
 </template>
+<script>
+import { Component, Vue } from 'nuxt-property-decorator'
+import Error from '@/components/shared/Error.vue'
+@Component({
+  components: { Error },
+})
+export default class CenteredHalfLayout extends Vue {}
+</script>
