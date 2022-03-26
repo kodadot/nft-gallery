@@ -134,6 +134,12 @@ export default class CarouselList extends mixins(AuthMixin) {
 .carousel-card-list {
   overflow-x: auto;
   mask: linear-gradient(90deg, rgb(255, 255, 255) 75%, transparent);
+  &::-webkit-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .card {
