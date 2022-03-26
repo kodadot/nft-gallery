@@ -29,8 +29,8 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
-    "test": "vitest run --reporter verbose",
-    "test:watch": "vitest --reporter verbose",
+    "test": "vitest run --reporter verbose --allowOnly",
+    "test:watch": "vitest --reporter verbose --allowOnly",
     "prepare": "husky install"
   },
   "husky": {
