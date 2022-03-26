@@ -372,8 +372,8 @@
     "BLOCK_NUMBER_ASC": "Urutan Akhir",
     "UPDATED_AT_DESC": "Aktifitas Terbaru",
     "UPDATED_AT_ASC": "Aktifitas Terakhir",
-    "PRICE_DESC": "Harga Rendah Ke Tinggi",
-    "PRICE_ASC": "Harga Tinggi Ke Rendah",
+    "PRICE_DESC": "Harga Tinggi Ke Rendah",
+    "PRICE_ASC": "Harga Rendah Ke Tinggi",
     "listed": "Beli Sekarang"
   },
   "mint": {
