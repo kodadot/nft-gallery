@@ -4,13 +4,13 @@ FROM node:16.14.2
 WORKDIR /app
 
 COPY package.json .
-COPY yarn.lock .
+COPY pnpm-lock.yaml .
 
-RUN yarn install
+RUN pnpm install
 
 COPY . .
 
 ENV HOST 0.0.0.0
 EXPOSE 9090
 
-CMD [ "yarn", "dev" ]
+CMD [ "pnpm", "dev" ]
