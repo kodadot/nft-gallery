@@ -28,7 +28,8 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
-    "test": "jest --verbose ./tests",
+    "test": "vitest run --reporter verbose",
+    "test:watch": "vitest --reporter verbose",
     "prepare": "husky install"
   },
   "husky": {
@@ -123,14 +124,13 @@
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "all-contributors-cli": "^6.20.0",
-    "babel-jest": "^27.5.1",
     "consola": "^2.15.3",
     "eslint": "^8.11.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
     "graphql-tag": "^2.12.6",
     "husky": "^7.0.4",
-    "jest": "^27.5.1",
+    "jsdom": "^19.0.0",
     "lint-staged": "^12.3.7",
     "netlify-lambda": "^2.0.15",
     "prettier": "2.6.0",
@@ -139,6 +139,7 @@
     "sass-loader": "^10.2",
     "ts-loader": "8.3.0",
     "typescript": "^4.6.2",
+    "vitest": "^0.7.11",
     "vue-debounce-decorator": "^1.0.1",
     "webpack": "^5.70.0"
   }
