@@ -28,7 +28,7 @@ import { Attribute } from '../service/scheme'
 const valueOf = ({ value }: Attribute) => String(value)
 
 @Component({})
-export default class extends Vue {
+export default class AttributeTagInput extends Vue {
   private allTags: string[] = ['audio', 'video', 'image', 'music', 'abstract']
   @Prop() public value!: Attribute[]
   @Prop({ default: 3 }) public max!: string | number

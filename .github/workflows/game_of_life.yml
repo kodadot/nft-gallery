@@ -1,2 +1,0 @@
-- name: Game Of Life Build Badge
-  uses: solidify/github-action-game-of-life@v1.1.1

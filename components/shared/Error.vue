@@ -29,4 +29,3 @@ export default class Error extends Vue {
   }
 }
 </script>
-
