@@ -17,7 +17,7 @@
     "every weekend"
   ],
   "enabledManagers": ["regex"],
-  "regexMangers": [
+  "regexManagers": [
     {
       "fileMatch": ["(^|/)Dockerfile%"],
       "matchStrings": ["ENV NODE_VERSION (?<currentValue>.*?)\n"],
