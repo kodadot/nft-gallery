@@ -35,7 +35,7 @@ import Tooltip from '@/components/shared/Tooltip.vue'
     Tooltip,
   },
 })
-export default class extends Vue {
+export default class DropUpload extends Vue {
   @Prop({
     default:
       'Drop your NFT here or click to upload or simply paste image from clipboard',
@@ -75,7 +75,6 @@ export default class extends Vue {
       // console.log(reader.si);
     }
     this.$emit('input', file)
-    console.log(file.size)
     if (this.preview) {
       this.url = URL.createObjectURL(file)
       this.hasError = false
