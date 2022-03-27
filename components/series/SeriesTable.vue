@@ -436,7 +436,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 .series-sticky-header th {
   top: 70px;
   position: sticky;
-  background-color: #0a0a0a;
 }
 
 .front-stack-layer {

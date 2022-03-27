@@ -50,7 +50,7 @@ export default class PriceChart extends mixins(
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
-  protected isOpen = this.openOnDefault
+  protected isOpen = this.openOnDefault || false
 
   protected onWindowResize() {
     if (this.Chart) {
