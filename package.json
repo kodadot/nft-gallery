@@ -45,7 +45,7 @@
   },
   "engines": {
     "npm": "please-use-pnpm",
-    "node": ">=v16.14.2"
+    "node": "^16"
   },
   "prettier": {
     "semi": false,
