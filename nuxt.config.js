@@ -299,12 +299,6 @@ export default defineNuxtConfig({
     postcss: null,
   },
 
-  // watchers: {
-  //   webpack: {
-  //     aggregateTimeout: 300,
-  //     poll: 1000,
-  //   },
-  // },
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
