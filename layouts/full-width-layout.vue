@@ -1,27 +1,14 @@
 <template>
   <div class="min-h-full is-flex is-flex-direction-column">
-    <Navbar v-if="isNavbarVisible" />
+    <Navbar />
     <main class="is-flex-grow-1">
-      <Nuxt />
+      <Error
+        v-if="$nuxt.isOffline"
+        :hasImg="false"
+        errorTitle="Offline Detected"
+        errorSubtitle="Please check your network connections" />
+      <Nuxt v-else />
     </main>
     <Footer />
-    <KeyboardShortcutsModal />
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import isShareMode from '@/utils/isShareMode'
-
-@Component<Dashboard>({
-  components: {
-    KeyboardShortcutsModal: () =>
-      import('@/components/shared/modals/keyboardShortcutsModal.vue'),
-  },
-})
-export default class Dashboard extends Vue {
-  get isNavbarVisible() {
-    return !isShareMode
-  }
-}
-</script>

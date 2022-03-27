@@ -50,13 +50,6 @@ const prefixes: Record<string, number> = {
   reserved48: 48,
 }
 
-// DEV: from import known from '@polkadot/networks';
-const reduceKnownPrefixes = (arr: any[]): Record<string, number> =>
-  arr.reduce(
-    (acc, { network, prefix }) => Object.assign(acc, { [network]: prefix }),
-    {}
-  )
-
 export const getPrefixByStoreUrl = (apiUrl: any): string | undefined => {
   if (!apiUrl) {
     return 'undefined'

@@ -1,7 +1,11 @@
 <template>
   <div class="content field-group-container">
     <b-field grouped group-multiline>
-      <Sort class="control" :value="sortBy" @input="updateSortBy" />
+      <Sort
+        class="control"
+        :value="sortBy"
+        @input="updateSortBy"
+        :sortOption="sortOption" />
       <b-field expanded class="control">
         <b-input
           placeholder="Search..."
@@ -46,7 +50,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
   @Prop(Boolean) public disableToggle!: boolean
-
+  @Prop(Array) public sortOption?: string[]
   protected isVisible = false
 
   public mounted(): void {
@@ -68,16 +72,16 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
         this.updateListed(!this.vListed)
         break
       case 'n':
-        this.updateSortBy('BLOCK_NUMBER_DESC')
+        this.updateSortBy(this.sortOption?.[0] || '')
         break
       case 'o':
-        this.updateSortBy('BLOCK_NUMBER_ASC')
+        this.updateSortBy(this.sortOption?.[1] || '')
+        break
+      case 'a':
+        this.updateSortBy(this.sortOption?.[2] || '')
         break
       case 'e':
-        this.updateSortBy('PRICE_DESC')
-        break
-      case 'c':
-        this.updateSortBy('PRICE_ASC')
+        this.updateSortBy(this.sortOption?.[3] || '')
         break
     }
   }

@@ -2,11 +2,12 @@
 
 How to check your translations locally?
 
-You will need [nodejs enviroment](https://nodejs.org/en/download/) and [yarn](https://classic.yarnpkg.com/en/docs/install).
+You will need [nodejs enviroment](https://nodejs.org/en/download/) and [pnpm](https://pnpm.io/installation).
 
 Particular commands you need to write to your terminal
 
 Look up on instructions at [First_Time](https://github.com/kodadot/nft-gallery/blob/main/FIRST_TIME.md#hyper-start-)
+
 1. If it is everything runs, that great!
 2. Now open in your editor your language .json file which is in `langDir`, for Spanish i.e. `es.json`
 3. Everytime you hit save, reload page to see your changes live.
@@ -26,7 +27,7 @@ We've [made video how to translate from the browser](https://discord.gg/kodadot)
 4. Make changes
 5. Commit
 6. Create pull request to our repository
-![](assets/edit_and_commit.png)
+   ![](assets/edit_and_commit.png)
 
 We welcome your contribution.
 You will be historical part of KodaDot NFT contribution!

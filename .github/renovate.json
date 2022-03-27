@@ -1,71 +1,56 @@
 {
-    "timezone": "Europe/Berlin",
-    "commitMessagePrefix": "[skip netlify]",
-    "automerge": true,
-    "automergeType": "pr-comment",
-    "automergeComment": "lgtm",
-    "rangeStrategy": "bump",
-    "prHourlyLimit": 5,
-    "schedule": [
-      "after 10pm every weekday",
-      "before 6am every weekday",
-      "every weekend"
-    ],
-    "packageRules": [
-      {
-        "matchPackagePatterns": [
-          "^axios",
-          "^babel",
-          "babel",
-          "@babel",
-          "@babel/core",
-          "buefy",
-          "^buefy",
-          "^chartjs",
-          "cypress",
-          "DefinitelyTyped",
-          "fortawesome",
-          "^eslint",
-          "eslint",
-          "jest",
-          "^graphql",
-          "^jest",
-          "^lint",
-          "lint-staged",
-          "^model-viewer",
-          "^nuxt",
-          "nuxt-buefy",
-          "prettier",
-          "sass",
-          "^typescript",
-          "typescript-eslint",
-          "vuejs/vue-cli",
-          "vue/cli-plugin",
-          "^vue",
-          "^vuejs",
-          "vuejs/core",
-          "MatteoGabriele/vue-gtag",
-          "vuejs/vuex",
-          "^ws"
-        ],
-        "groupName": "Bumped minor version of packages",
-        "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
-        "rangeStrategy": "bump"
-      },
-      {
-        "matchSourceUrlPrefixes": [
-          "https://github.com/polkadot-js/",
-          "https://github.com/vue-polkadot/",
-          "https://github.com/kodadot/packages",
-          "https://github.com/cloudacy/vue-markdown-render",
-          "https://github.com/FortAwesome/Font-Awesome"
-        ],
-        "groupName": "merge with hazmat suit extra",
-        "enabled": false
-      }
-    ],
-    "extends": [
-      "github>whitesource/merge-confidence:beta",
-      "config:base"
-    ]
+  "timezone": "Europe/Berlin",
+  "commitMessagePrefix": "[skip netlify]",
+  "automerge": true,
+  "automergeType": "pr-comment",
+  "automergeComment": "lgtm",
+  "rangeStrategy": "bump",
+  "extends": [
+    "github>whitesource/merge-confidence:beta",
+    "config:base",
+    ":dependencyDashboard"
+  ],
+  "prHourlyLimit": 5,
+  "schedule": [
+    "after 10pm every weekday",
+    "before 6am every weekday",
+    "every weekend"
+  ],
+  "enabledManagers": ["regex"],
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|/)Dockerfile%"],
+      "matchStrings": ["ENV NODE_VERSION (?<currentValue>.*?)\n"],
+      "depNameTemplate": "node",
+      "datasourceTemplate": "node"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "updateTypes": ["minor", "patch", "pin"],
+      "groupName": "Bumped minor version of packages",
+      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺"
+    },
+    {
+      "matchSourceUrlPrefixes": [
+        "https://github.com/polkadot-js/",
+        "https://github.com/vue-polkadot/",
+        "https://github.com/kodadot/packages",
+        "https://github.com/cloudacy/vue-markdown-render",
+        "https://github.com/FortAwesome/Font-Awesome",
+        "https://github.com/TypeStrong/ts-loader"
+      ],
+      "groupName": "merge with hazmat suit extra",
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": true,
+      "matchManagers": ["regex"]
+    }
+  ]
 }

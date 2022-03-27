@@ -1,13 +1,20 @@
+import { defineNuxtConfig } from '@nuxt/bridge'
+
 import defineApolloConfig, {
   toApolloEndpoint,
 } from './utils/config/defineApolloConfig'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
-export default {
+export default defineNuxtConfig({
+  alias: {
+    tslib: 'tslib/tslib.es6.js',
+  },
+
   vue: {
     config: {
       productionTip: false,
+      runtimeCompiler: true,
     },
   },
 
@@ -15,6 +22,12 @@ export default {
     port: 9090, // default: 3000
     host: '0.0.0.0',
   },
+
+  // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
+  bridge: {
+    nitro: process.env.NODE_ENV !== 'production',
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -160,7 +173,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
     '@nuxtjs/pwa',
   ],
 
@@ -245,6 +257,9 @@ export default {
         process.env.SUBSQUID_ENDPOINT ||
           'https://app.gc.subsquid.io/beta/rubick/005/graphql'
       ),
+      legacysquid: toApolloEndpoint(
+        'https://app.gc.subsquid.io/beta/rubick/004/graphql'
+      ),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
@@ -264,24 +279,25 @@ export default {
       '@polkadot/hw-ledger',
       '@polkadot/types-codec',
     ],
-    extend: function (config) {
+    extend(config) {
+      // add markdown loader
+      config.module.rules.push({
+        test: /\.md$/,
+        use: 'raw-loader',
+      })
+
       config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
       })
-      config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+      config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
       config.node = {
         fs: 'empty',
       }
     },
+    postcss: null,
   },
 
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000,
-    },
-  },
   // env: {
   //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
   // },
@@ -293,4 +309,4 @@ export default {
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
-}
+})

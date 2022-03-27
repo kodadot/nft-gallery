@@ -26,4 +26,12 @@ module.exports = {
     'max-classes-per-file': ['error', 2],
   },
   ignorePatterns: ['*.md'],
+  overrides: [
+    {
+      files: ['layouts/**/*.{js,ts,vue}'],
+      rules: {
+        'vue/multi-word-component-names': 'off',
+      },
+    },
+  ],
 }

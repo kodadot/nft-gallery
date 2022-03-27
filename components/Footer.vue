@@ -1,6 +1,7 @@
 <template>
   <footer class="footer">
     <CookieBanner />
+    <KeyboardShortcutsModal />
     <div class="container footer__wrapper">
       <div class="icons">
         <ul class="footer__list icons__list">
@@ -66,7 +67,10 @@ interface Menu {
   external?: boolean
 }
 @Component({
-  components: {},
+  components: {
+    KeyboardShortcutsModal: () =>
+      import('@/components/shared/modals/keyboardShortcutsModal.vue'),
+  },
 })
 export default class Footer extends Vue {
   public menu: Menu[] = [
@@ -100,6 +104,10 @@ export default class Footer extends Vue {
     {
       name: this.$t('Jobs'),
       url: '/jobs',
+    },
+    {
+      name: this.$t('Contribute'),
+      url: '/contribute',
     },
   ]
 }

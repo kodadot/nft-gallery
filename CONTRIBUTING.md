@@ -1,6 +1,5 @@
 # Contributing to KodaDot: NFT gallery
 
-
 KodaDot NFT gallery has a plan to be community-owned.
 We are welcoming community contributions from you.
 Take a sneak peek on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment, and make PR.
@@ -13,7 +12,7 @@ If everything goes well, chances that you will be **rewarded are high**. We migh
 Before you being:
 
 - We utilize [**Node.js**](https://nodejs.org) as a development tool. To avoid potential compatibility issues, check if you're on the version of **Node.js we support.**
-- Make sure that you use [**yarn**](https://yarnpkg.com) as the package manager.
+- Make sure that you use [**pnpm**](https://pnpm.io/installation) as the package manager.
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
 - [Learn how to set up your environment for the first time](FIRST_TIME.md)
 
@@ -50,25 +49,25 @@ To create your KSM address in safely and long-term manner, we recommend you to g
 
 ### Sharing your address to receive the reward
 
-After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button _Copy Payout address_  will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
+After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button _Copy Payout address_ will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
 
 ### Switching account/network
 
 While you are on your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard, check the top-left corner to confirm and ensure your current network. Click the avatar to see options to select from and switch as desired.
 
-> To switch to Kusuma Network, search and select __KUSAMA__ under _KUSAMA & PARACHAINS_ and `switch` by selecting the __switch__ option at the top-most area of the opened side nav.
+> To switch to Kusuma Network, search and select **KUSAMA** under _KUSAMA & PARACHAINS_ and `switch` by selecting the **switch** option at the top-most area of the opened side nav.
 
 ### Checking your KSM balance
 
-Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in __KSM__. If not, kindly _switch network_ by clicking the avatar on your top-left corner, and switch to __*Kusuma*__. Your __balances__ will now be in __KSM__.
+Check `balances` under your _[accounts](https://polkadot.js.org/apps/#/accounts)_ dashboard to see that. Because we use KSM, you need to ensure you are on the _Kusuma network_. Check the top-left corner to confirm and ensure your `balance` is in **KSM**. If not, kindly _switch network_ by clicking the avatar on your top-left corner, and switch to **_Kusuma_**. Your **balances** will now be in **KSM**.
 
 ### Bounty levels
 
 Our typical payout structure for bounties is per label on the issue. Here is the table for an overview
 
-|                              $                               |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                         |
-| :----------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
-|                            50-100                            |                        150-300                        |                              450-600                              |                           700 - 1000                            |                                         1000+                                         |
+|                              $                               |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                          |
+| :----------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
+|                            50-100                            |                        150-300                        |                              450-600                              |                           700 - 1000                            |                                         1000+                                          |
 | Beginner, few lines, <br /> lot of comments/assistance on PR | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not break anything | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you, and you have alignment with project |
 
 You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
@@ -105,19 +104,19 @@ Whenever you open PR against our repository, our best recommendation is to finis
 
 When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
-### Issues 🐞 
+### Issues 🐞
 
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet, and you shouldn't begin work on it.
 
 If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
 
-### Pull requests 🛠️ 
+### Pull requests 🛠️
 
 A pull request is a way to suggest changes in our repository.
 
 When we merge those changes, they should be deployed to the live site within 24 hours. 🌍 To learn more about opening a pull request in this repo, see Opening a pull request below.
 
-### Support ❓ 
+### Support ❓
 
 We are a small team working hard to keep up with the documentation demands of a continuously changing product. Unfortunately, we can't help with support questions in this repository. If you are experiencing a problem with GitHub unrelated to our documentation, please get in touch with GitHub Support directly. Any issues, discussions, or pull requests opened here requesting support will be given information about contacting GitHub Support, then closed and locked.
 
@@ -162,12 +161,13 @@ Doesn't tell me anything about why you're doing that
 
 ### Is it of good quality
 
-* There are no spelling mistakes
-* It reads well
-* For English language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
-* Haven't used force-push. If that is the case, PR will be closed.
+- There are no spelling mistakes
+- It reads well
+- For English language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
+- Haven't used force-push. If that is the case, PR will be closed.
 
 ### Reviewing
+
 We (usually the core team, sometimes KodaDot engineers or support too!) review every PR. The purpose of reviews is to create the best content for people who use KodaDot.
 
 💛 Reviews are always respectful, acknowledging that everyone did the best possible job with the knowledge they had at the time.
@@ -177,44 +177,56 @@ We (usually the core team, sometimes KodaDot engineers or support too!) review e
 💛 Reviews are constructive and start a conversation around feedback.
 
 ### Self-review
+
 You should always review your PR first.
 
 For content changes, make sure that you:
 
-* Confirm that the changes address every part of the content design plan from your issue (if there are differences, explain them).
-* Review the content for technical accuracy.
-* Review the entire pull request using the localization checklist.
-* Copy-edit the changes for grammar, spelling, and adherence to the style guide.
-* Check new or updated Liquid statements to confirm that versioning is correct.
-* Check that all of your changes render correctly in staging. Remember that lists and tables can be tricky.
-* If there are any failing checks in your PR, troubleshoot them until they're all passing.
+- Confirm that the changes address every part of the content design plan from your issue (if there are differences, explain them).
+- Review the content for technical accuracy.
+- Review the entire pull request using the localization checklist.
+- Copy-edit the changes for grammar, spelling, and adherence to the style guide.
+- Check new or updated Liquid statements to confirm that versioning is correct.
+- Check that all of your changes render correctly in staging. Remember that lists and tables can be tricky.
+- If there are any failing checks in your PR, troubleshoot them until they're all passing.
 
 ### Update strategy: always use `merge`
+
 Try to submit your PR as soon as possible. That's always an excellent way to avoid conflict with other commits.
 
 However, if the conflict happens, we want you always use `merge` to resolve it. The reason is
 we don't want to mix the merging strategies, and we want to see only your commits in your PR.
 
 ### Pull request template
+
 When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 
 # Troubleshooting
 
 ### Code quality
 
-We follow what we have in `.eslintrc.js`, and you can see warnings and errors by running `yarn lint`. With `yarn lint --fix`, you will get auto fixed code.
+We follow what we have in `.eslintrc.js`, and you can see warnings and errors by running `pnpm lint`. With `pnpm lint --fix`, you will get auto fixed code.
 
 ### Don't have access to push to the repository
-You need to fork the repository, commit a change to your repository, and [create pull request](https://opensource.com/article/19/7/create-pull-request-github).
 
+You need to fork the repository, commit a change to your repository, and [create pull request](https://opensource.com/article/19/7/create-pull-request-github).
 
 ### Does it move this repository closer to my vision for the repository
 
 The aim of this repository is:
 
-* To provide a [README](README.md) and assorted documents anyone can copy and paste into their project
-* The content is usable by someone who hasn't written something like this before
-* Foster a culture of respect and gratitude in the open-source community.
+- To provide a [README](README.md) and assorted documents anyone can copy and paste into their project
+- The content is usable by someone who hasn't written something like this before
+- Foster a culture of respect and gratitude in the open-source community.
+
+### Better comfort
+
+For crafting much better culture and DEVUX, we reccomend some extension to browse issue faster
+
+- [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
+- [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
+- [Gifs for Github](https://chrome.google.com/webstore/detail/gifs-for-github/dkgjnpbipbdaoaadbdhpiokaemhlphep)
+- Feel free add your extension which helps you organize and being productive on Github
 
 ### Does it follow the contributor covenant
 
