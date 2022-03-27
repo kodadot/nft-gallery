@@ -68,7 +68,7 @@
     "@nuxtjs/i18n": "^7.2.0",
     "@polkadot/extension-dapp": "^0.42.6",
     "@polkadot/extension-inject": "^0.42.7",
-    "@polkadot/ui-keyring": "0.89.3",
+    "@polkadot/ui-keyring": "0.89.4-1",
     "@polkadot/vue-identicon": "^0.89.2",
     "@ramp-network/ramp-instant-sdk": "^3.0.0",
     "apollo-boost": "^0.4.9",
