@@ -1,11 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-
 import { downloadImage } from '@/utils/download'
 const MOCK_IMAGE_URL = 'https://www.test.com/'
 
-global.fetch = jest.fn(() =>
+global.fetch = vitest.fn(() =>
   Promise.resolve({
     blob: () => 'imageBlog',
   })
