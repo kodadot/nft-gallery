@@ -209,6 +209,8 @@ export default class SearchBar extends mixins(
   public mounted(): void {
     this.getSearchHistory()
     exist(this.$route.query.search, this.updateSearch)
+    exist(this.$route.query.min, this.updatePriceMin)
+    exist(this.$route.query.max, this.updatePriceMax)
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
@@ -410,6 +412,28 @@ export default class SearchBar extends mixins(
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
     this.redirectToGalleryPageIfNeed()
     return value
+  }
+
+  updatePriceMin(value: string) {
+    const min = Number(value)
+    if (!Number.isNaN(min)) {
+      if (!this.sliderDirty) {
+        this.sliderDirty = true
+      }
+      this.rangeSlider = [min, this.rangeSlider[1]]
+      this.sliderChangeMin(min * 1000000000000)
+    }
+  }
+
+  updatePriceMax(value: string) {
+    const max = Number(value)
+    if (!Number.isNaN(max)) {
+      if (!this.sliderDirty) {
+        this.sliderDirty = true
+      }
+      this.rangeSlider = [this.rangeSlider[0], max]
+      this.sliderChangeMax(max * 1000000000000)
+    }
   }
 
   // when user type some keyword, frontEnd will query related information
