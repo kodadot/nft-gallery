@@ -16,7 +16,7 @@ Copy and paste these commands to your terminal:
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git nft-gallery
 cd nft-gallery;
-pnpm;
+pnpm i;
 ```
 
 It will clone your project and install all dependencies.
