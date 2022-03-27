@@ -2,7 +2,7 @@
   <div class="card mb-3 mt-5">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
-      <div v-if="sliderDirty" class="is-size-7">
+      <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
         {{ this.query.priceMax / 1000000000000 }}
       </div>
