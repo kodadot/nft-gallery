@@ -1,7 +1,4 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
-/**
- * @jest-environment jsdom
- */
 
 import { checkInvalidBalanceFilter } from '@/utils/formatBalance'
 import format from '@/utils/formatBalance'

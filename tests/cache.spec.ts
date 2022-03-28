@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { queryBatch, querySingle } from '@/utils/cloudflare'
 import { zip } from '~/components/rmrk/utils'
 
@@ -50,7 +46,12 @@ describe('CACHE TEST', (): void => {
   })
 
   it.only('can zip correctly', async () => {
-    const cache = [undefined, '5a3a69c3-dad2-4cd2-38af-6cb48ace2b00', '6ad86b0d-1e57-4db8-8061-98cdeb9e9e00', undefined]
+    const cache = [
+      undefined,
+      '5a3a69c3-dad2-4cd2-38af-6cb48ace2b00',
+      '6ad86b0d-1e57-4db8-8061-98cdeb9e9e00',
+      undefined,
+    ]
     const zipped = zip(extracted, cache)
     expect(zipped).toBeDefined()
     expect(zipped.length).toBe(4)

@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 
 describe('should ignore keyDown event TEST', (): void => {
