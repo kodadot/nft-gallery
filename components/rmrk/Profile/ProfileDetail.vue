@@ -347,6 +347,7 @@ export default class Profile extends mixins(PrefixMixin) {
       variables: {
         account: this.id,
         offset: this.collectionOffset,
+        first: this.first,
       },
     })
     this.handleCollectionResult(result)
@@ -367,7 +368,7 @@ export default class Profile extends mixins(PrefixMixin) {
 
   protected async handleCollectionResult({ data }: any) {
     if (data) {
-      this.totalCollections = data.collectionEntities.length
+      this.totalCollections = data.stats.totalCount
       this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
@@ -392,6 +393,10 @@ export default class Profile extends mixins(PrefixMixin) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchProfile()
     }
+  }
+  @Watch('currentCollectionPage', { immediate: true })
+  private handleCurrentPageChange() {
+    this.fetchCollectionList()
   }
 }
 </script>
