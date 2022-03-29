@@ -172,12 +172,12 @@ import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -313,22 +313,7 @@ export default class Profile extends mixins(PrefixMixin) {
     this.checkId()
 
     try {
-      this.$apollo.addSmartQuery('collections', {
-        query: collectionList,
-        client: this.urlPrefix,
-        manual: true,
-        // update: ({ nFTEntities }) => nFTEntities.nodes,
-        loadingKey: 'isLoading',
-        result: this.handleCollectionResult,
-        variables: () => {
-          return {
-            account: this.id,
-            first: this.first,
-            offset: this.collectionOffset,
-          }
-        },
-        fetchPolicy: 'cache-and-network',
-      })
+      this.fetchCollectionList()
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
@@ -355,6 +340,18 @@ export default class Profile extends mixins(PrefixMixin) {
     // this.isLoading = false;
   }
 
+  private async fetchCollectionList() {
+    const result = await this.$apollo.query({
+      query: collectionListByAccount,
+      client: 'subsquid',
+      variables: {
+        account: this.id,
+        offset: this.collectionOffset,
+      },
+    })
+    this.handleCollectionResult(result)
+  }
+
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
       const nfts = data.nFTEntities.nodes
@@ -370,8 +367,8 @@ export default class Profile extends mixins(PrefixMixin) {
 
   protected async handleCollectionResult({ data }: any) {
     if (data) {
-      this.totalCollections = data.collectionEntities.totalCount
-      this.collections = data.collectionEntities.nodes
+      this.totalCollections = data.collectionEntities.length
+      this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
     if (this.totalCollections === 0) {
