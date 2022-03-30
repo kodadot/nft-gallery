@@ -392,7 +392,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     availableActions.unlistNft()
   }
 
-  @Watch('meta.image')
+  @Watch('meta', { deep: true })
   handleNFTPopulationFinished(newVal) {
     if (newVal) {
       // save visited detail page to history

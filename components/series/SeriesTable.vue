@@ -301,7 +301,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
   protected nbDays = '7'
-  protected nbRows = '10'
+  protected nbRows = '50'
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
