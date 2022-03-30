@@ -343,7 +343,7 @@ export default class Profile extends mixins(PrefixMixin) {
   private async fetchCollectionList() {
     const result = await this.$apollo.query({
       query: collectionListByAccount,
-      client: 'subsquid',
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
       variables: {
         account: this.id,
         offset: this.collectionOffset,
