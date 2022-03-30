@@ -9,6 +9,8 @@
       :availableAnimations="availableAnimations"
       auto-rotate
       :camera-controls="isDetail"
+      camera-orbit="0deg 75deg 6m"
+      max-camera-orbit="Infinity 157.5deg 6m"
       :ar="isDetail"
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
