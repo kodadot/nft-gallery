@@ -152,18 +152,17 @@ type ChartData = {
 @Component({ components })
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
-  @Prop({ type: Boolean, default: false })
-  @Prop({ type: Boolean, default: false })
-  hideCollapse!: boolean
-
+  @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
+  @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
+
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
   private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
-  public isOpen = this.openOnDefault
+  public isOpen = false
   public shortAddress = shortAddress
 
   public async created() {
@@ -176,6 +175,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     exist(this.$route.query.event, (val) => {
       this.event = val ? decodeURIComponent(val) : 'all'
     })
+    this.isOpen = this.openOnDefault
   }
 
   private bindExpandEvents(event) {

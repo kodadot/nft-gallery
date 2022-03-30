@@ -41,7 +41,7 @@ import { Component, Prop, Vue, Provide } from 'nuxt-property-decorator'
     ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   },
 })
-export default class extends Vue {
+export default class EmotionModal extends Vue {
   @Prop() emotes!: string[]
   @Provide() DISPLAYED_EMOJI = 10
 
