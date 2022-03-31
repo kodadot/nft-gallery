@@ -1,0 +1,14 @@
+query nftEntitiesByIDs($ids: [ID!]!) {
+  nftEntities(where: { id_in: $ids }) {
+    id
+    name
+    currentOwner
+    issuer
+    meta {
+      id
+      image
+    }
+    price
+    updatedAt
+  }
+}
