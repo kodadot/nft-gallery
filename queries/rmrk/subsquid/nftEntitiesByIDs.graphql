@@ -1,5 +1,5 @@
 query nftEntitiesByIDs($ids: [ID!]!) {
-  nftEntities(where: { id_in: $ids }) {
+  nftEntities(where: { id_in: $ids, price_gt: "0" }, limit: 10) {
     id
     name
     currentOwner

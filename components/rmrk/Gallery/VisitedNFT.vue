@@ -38,10 +38,9 @@ export default class VisitedNFT extends Vue {
     const {
       history: { visitedNFTs },
     } = getHistory && JSON.parse(getHistory)
-    const nfts = visitedNFTs.slice(0, 10)
 
-    if (nfts.length > this.MIN_NFTS) {
-      const ids = nfts.map((nft) => nft.id)
+    if (visitedNFTs.length > this.MIN_NFTS) {
+      const ids = visitedNFTs.map((nft) => nft.id)
       const { data } = await this.$apollo.query({
         query: nftEntitiesByIDs,
         client: 'subsquid',
@@ -49,19 +48,21 @@ export default class VisitedNFT extends Vue {
           ids,
         },
       })
-
+      const nfts = data.nftEntities
       const images = await getCloudflareImageLinks(
-        data.nftEntities.map((nft) => nft.meta.id)
+        nfts.map((nft) => nft.meta.id)
       )
       const imageOf = getProperImageLink(images)
 
-      this.nfts = data.nftEntities.map((nft) => ({
-        ...nft,
-        timestamp: formatDistanceToNow(new Date(nft.updatedAt), {
-          addSuffix: true,
-        }),
-        image: imageOf(nft.meta.id, nft.meta.image),
-      }))
+      if (nfts.length > this.MIN_NFTS) {
+        this.nfts = nfts.map((nft) => ({
+          ...nft,
+          timestamp: formatDistanceToNow(new Date(nft.updatedAt), {
+            addSuffix: true,
+          }),
+          image: imageOf(nft.meta.id, nft.meta.image),
+        }))
+      }
     }
   }
 }
