@@ -92,7 +92,12 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { getInjectedExtensions, isMobileDevice } from '~/utils/extension'
+import {
+  enableExtension,
+  getInjectedExtensions,
+  isMobileDevice,
+} from '~/utils/extension'
+import onApiConnect from '~/utils/api/general'
 
 @Component({
   components: {},
@@ -136,11 +141,11 @@ export default class WalletModal extends Vue {
     if (isMobileDevice) {
       console.log('isMobile', window)
       window.alert('yeet!')
-      // await enableExtension()
-      // async () => {
-      //   const extensions = await getInjectedExtensions()
-      //   console.log(extensions)
-      // }
+      onApiConnect(async (api) => {
+        await enableExtension()
+        const extensions = await getInjectedExtensions()
+        console.log(api, extensions)
+      })
     }
 
     if (!wallet.installed) {
