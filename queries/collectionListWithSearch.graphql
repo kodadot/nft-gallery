@@ -4,30 +4,30 @@
 query collectionListWithSearch(
   $first: Int!
   $offset: Int
-  $search: [CollectionEntityFilter!]
-  $listed: [NFTEntityFilter!]
-  $orderBy: CollectionEntitiesOrderBy = BLOCK_NUMBER_DESC
+  $search: [CollectionEntityWhereInput!]
+  $orderBy: CollectionEntityOrderByInput = blockNumber_DESC
 ) {
   collectionEntities(
-    orderBy: [$orderBy, BLOCK_NUMBER_DESC]
-    first: $first
+    orderBy: [$orderBy, blockNumber_DESC]
+    limit: $first
     offset: $offset
-    filter: { id: { notLike: "%KAN%" }, and: $search }
+    where: { nfts_some: { burned_eq: false }, AND: $search }
+  ) {
+    ...collection
+    ...collectionDetails
+    nfts {
+      id
+      metadata
+      name
+      price
+      burned
+      currentOwner
+    }
+  }
+  stats: collectionEntitiesConnection(
+    where: { nfts_some: { burned_eq: false }, AND: $search }
+    orderBy: blockNumber_DESC
   ) {
     totalCount
-    nodes {
-      ...collection
-      ...collectionDetails
-      nfts(filter: { burned: { distinctFrom: true }, and: $listed }) {
-        nodes {
-          id
-          metadata
-          name
-          price
-          burned
-          currentOwner
-        }
-      }
-    }
   }
 }

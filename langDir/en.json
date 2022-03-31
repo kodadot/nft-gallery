@@ -416,6 +416,10 @@
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
     "UPDATED_AT_ASC": "Least Interacted",
+    "blockNumber_DESC": "New first",
+    "blockNumber_ASC": "Old first",
+    "updatedAt_DESC": "Last interacted",
+    "updatedAt_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "listed": "Buy now"

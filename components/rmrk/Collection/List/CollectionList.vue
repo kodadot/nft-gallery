@@ -38,7 +38,7 @@
               <div class="card-content">
                 <nuxt-link :to="`/rmrk/collection/${collection.id}`">
                   <CollectionDetail
-                    :nfts="collection.nfts.nodes"
+                    :nfts="collection.nfts"
                     :name="collection.name" />
                 </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
@@ -110,15 +110,15 @@ export default class CollectionList extends mixins(PrefixMixin) {
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
+    sortBy: 'blockNumber_DESC',
     listed: false,
   }
 
   private collectionSortOption: string[] = [
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
+    'blockNumber_DESC',
+    'blockNumber_ASC',
+    'updatedAt_DESC',
+    'updatedAt_ASC',
   ]
 
   get isLoading(): boolean {
@@ -134,7 +134,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+        name_contains: this.searchQuery.search,
       })
     }
 
@@ -145,7 +145,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
     this.$apollo.addSmartQuery('collection', {
       query: collectionListWithSearch,
       manual: true,
-      client: this.urlPrefix,
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
       loadingKey: 'isLoading',
       result: this.handleResult,
       variables: () => {
@@ -161,17 +161,14 @@ export default class CollectionList extends mixins(PrefixMixin) {
       },
       update: ({ collectionEntity }) => ({
         ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes,
+        nfts: collectionEntity.nfts,
       }),
     })
   }
 
   protected async handleResult({ data }: any) {
-    this.total = data.collectionEntities.totalCount
-    this.collections = data.collectionEntities.nodes.map((e: any) => ({
-      ...e,
-    }))
-
+    this.total = data.stats.totalCount
+    this.collections = data.collectionEntities
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
 
@@ -192,7 +189,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
-        client: this.urlPrefix,
+        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
         variables: {
           first: this.first,
           offset,
@@ -201,7 +198,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList },
+          collectionEntities: { collectionList },
         },
       } = await collections
 

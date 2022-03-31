@@ -239,7 +239,7 @@ export default class CollectionItem extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+        name: `%${this.searchQuery.search}%`,
       })
     }
 
