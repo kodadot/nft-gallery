@@ -8,15 +8,6 @@ export const getInjectedExtensions = async () => {
   return extensions
 }
 
-export const getInjector = async (accounts: WalletAccount[]) => {
-  const account = getSelectedAccount(accounts)
-  const extensions = await getInjectedExtensions()
-  const injector = extensions.find(
-    (extension) => extension.name === account?.source
-  )
-  return injector
-}
-
 export const getAddress = async (address: string) => {
   try {
     const walletName = localStorage.getItem('wallet')

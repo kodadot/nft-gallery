@@ -91,15 +91,11 @@
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import shouldUpdate from '@/utils/shouldUpdate'
-import {
-  enableExtension,
-  getInjectedExtensions,
-  isMobileDevice,
-} from '~/utils/extension'
-import onApiConnect from '~/utils/api/general'
 import { web3Accounts } from '@polkadot/extension-dapp'
-import correctFormat from '~/utils/ss58Format'
+import { enableExtension, isMobileDevice } from '@/utils/extension'
+import shouldUpdate from '@/utils/shouldUpdate'
+import onApiConnect from '@/utils/api/general'
+import correctFormat from '@/utils/ss58Format'
 
 @Component({
   components: {},
@@ -169,7 +165,6 @@ export default class WalletModal extends Vue {
         type: 'is-info',
         hasIcon: true,
       })
-      console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
       // wallet.enable()
