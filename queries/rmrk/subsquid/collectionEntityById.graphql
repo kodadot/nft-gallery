@@ -1,0 +1,22 @@
+query collectionEntityById($id: ID!, $nftId: ID!) {
+  collectionEntityById(id: $id) {
+    id
+    name
+    nfts(
+      limit: 10
+      orderBy: createdAt_DESC
+      where: { price_gt: "0", id_not_eq: $nftId }
+    ) {
+      name
+      price
+      id
+      currentOwner
+      issuer
+      meta {
+        id
+        image
+      }
+      updatedAt
+    }
+  }
+}

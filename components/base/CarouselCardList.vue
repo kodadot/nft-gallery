@@ -71,8 +71,9 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-// import Identicon from '@polkadot/vue-identicon'
 import AuthMixin from '@/utils/mixins/authMixin'
+
+import type { CarouselNFTs } from './types'
 
 const components = {
   // Identicon,
@@ -87,7 +88,7 @@ const components = {
   components,
 })
 export default class CarouselList extends mixins(AuthMixin) {
-  @Prop({ type: Array, required: true }) nfts!: any[] // mising type
+  @Prop({ type: Array, required: true }) nfts!: CarouselNFTs[]
   @Prop({ type: Number, default: 1 }) page!: number
 
   get current() {

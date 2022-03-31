@@ -119,6 +119,11 @@
       </div>
     </template>
     <template v-slot:footer>
+      <RelatedNFT
+        v-if="id && nft.collectionId"
+        :nftId="id"
+        :collectionId="nft.collectionId" />
+
       <div class="columns">
         <div class="column">
           <History
@@ -174,6 +179,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
+    RelatedNFT: () => import('./RelatedNFTFromCollection.vue'),
   },
   directives: {
     orientation: Orientation,
