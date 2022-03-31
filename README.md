@@ -67,15 +67,6 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=active+issues&show_trend=true)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 [![DeepSource](https://deepsource.io/gh/kodadot/nft-gallery.svg/?label=resolved+issues&show_trend=true&token=MyayTJdwd-Fr4mnmUdMUxHik)](https://deepsource.io/gh/kodadot/nft-gallery/?ref=repository-badge)
 
-### Brief code structure
-
-![Visualization of this repo](.github/diagram.svg)
-[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
-
-<!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
-
 ## Culture-🧫 - where you can read our recent updates
 
 - [Twitter](https://twitter.com/KodaDot)
@@ -130,3 +121,22 @@ We have list of frequent participants in our codebase.
 - Want to be on this list? Become frequent participant by contributing more, [come with us](https://open.spotify.com/track/5kTBiVnjq9xKmZL9dNs8zL?si=9fc60b8b87764969)!
 - [You can learn about our Contributors base](https://github.com/kodadot/nft-gallery/graphs/contributors)
 - [KodaDot Documentation](https://docs.kodadot.xyz)
+
+
+### Brief code structure
+
+![Visualization of this repo](.github/diagram.svg)
+[Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
+
+<!-- ### Is it maintained? -- I guess if it's not under 10d not worth showing off
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
+
+### Repography
+
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
+[![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
+[![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
