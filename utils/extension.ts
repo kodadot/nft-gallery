@@ -20,7 +20,6 @@ export const getInjector = async (accounts: WalletAccount[]) => {
 export const getAddress = async (address: string) => {
   try {
     const walletName = localStorage.getItem('wallet')
-    console.log(walletName)
     const wallet = getWalletBySource(walletName)
     await wallet?.enable()
     if (wallet?.extension) {

@@ -149,18 +149,12 @@ export default class WalletModal extends Vue {
     this.walletAccounts = []
 
     if (isMobileDevice) {
-      console.log('isMobile', window)
-      window.alert('yeet!')
-      onApiConnect(async (api) => {
+      onApiConnect(async () => {
         await enableExtension()
-        const extensions = await getInjectedExtensions()
-        console.log(api, extensions)
-
+        this.hasWalletProviderExtension = true
         this.walletAccounts = (await web3Accounts({
           ss58Format: correctFormat(this.ss58Format),
         })) as any[]
-
-        this.hasWalletProviderExtension = true
         return
       })
     }
