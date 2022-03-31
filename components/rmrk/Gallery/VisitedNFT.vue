@@ -22,10 +22,17 @@ import { CarouselNFTs } from '@/components/base/types'
     CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
   },
 })
+/**
+ * class name
+ */
 export default class VisitedNFT extends Vue {
   MIN_NFTS = 3
   nfts: CarouselNFTs[] = []
 
+  /**
+   * Nuxt built-in data fetching
+   * https://nuxtjs.org/docs/features/data-fetching/
+   */
   async fetch() {
     const getHistory = localStorage.getItem('history')
     const {

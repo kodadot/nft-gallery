@@ -22,6 +22,9 @@ import { CarouselNFTs } from '@/components/base/types'
     CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
   },
 })
+/**
+ * class name
+ */
 export default class RelatedNFTFromCollection extends Vue {
   @Prop({ type: String, required: true }) nftId!: string
   @Prop({ type: String, required: true }) collectionId!: string
@@ -29,6 +32,10 @@ export default class RelatedNFTFromCollection extends Vue {
   MIN_NFTS = 3
   nfts: CarouselNFTs[] = []
 
+  /**
+   * Nuxt built-in data fetching
+   * https://nuxtjs.org/docs/features/data-fetching/
+   */
   async fetch() {
     const { data } = await this.$apollo.query({
       query: collectionEntityById,
