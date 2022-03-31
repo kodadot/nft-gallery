@@ -98,6 +98,8 @@ import {
   isMobileDevice,
 } from '~/utils/extension'
 import onApiConnect from '~/utils/api/general'
+import { web3Accounts } from '@polkadot/extension-dapp'
+import correctFormat from '~/utils/ss58Format'
 
 @Component({
   components: {},
@@ -126,6 +128,14 @@ export default class WalletModal extends Vue {
     return SupportedWallets
   }
 
+  get chainProperties() {
+    return this.$store.getters['chain/getChainProperties']
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
   @Watch('walletAccounts', { immediate: true })
   handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
     if (shouldUpdate(value, oldVal)) {
@@ -145,6 +155,13 @@ export default class WalletModal extends Vue {
         await enableExtension()
         const extensions = await getInjectedExtensions()
         console.log(api, extensions)
+
+        this.walletAccounts = (await web3Accounts({
+          ss58Format: correctFormat(this.ss58Format),
+        })) as any[]
+
+        this.hasWalletProviderExtension = true
+        return
       })
     }
 
