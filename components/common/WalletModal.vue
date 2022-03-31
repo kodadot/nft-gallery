@@ -92,6 +92,7 @@ import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
 import shouldUpdate from '@/utils/shouldUpdate'
+import { getInjectedExtensions, isMobileDevice } from '~/utils/extension'
 
 @Component({
   components: {},
@@ -131,6 +132,16 @@ export default class WalletModal extends Vue {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
+
+    if (isMobileDevice) {
+      console.log('isMobile', window)
+      window.alert('yeet!')
+      // await enableExtension()
+      // async () => {
+      //   const extensions = await getInjectedExtensions()
+      //   console.log(extensions)
+      // }
+    }
 
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
