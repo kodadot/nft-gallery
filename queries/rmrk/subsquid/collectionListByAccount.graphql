@@ -1,0 +1,13 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+
+
+query collectionListByAccount($account: String!, $first: Int, $offset: Int) {
+  collectionEntities(where: {issuer_eq: $account, nfts_some: {burned_eq: false}}, orderBy: blockNumber_DESC, limit: $first, offset: $offset) {
+    ...collection
+    ...collectionDetails
+  }
+  stats: collectionEntitiesConnection(where: {issuer_eq: $account, nfts_some: {burned_eq: false}}, orderBy: blockNumber_DESC) {
+    totalCount
+  }
+}
