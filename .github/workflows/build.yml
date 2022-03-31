@@ -8,22 +8,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: 16
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install
 
       - name: Run Code Lint
-        run: yarn lint:quiet
+        run: pnpm lint:quiet
 
       - name: Run Build
-        run: yarn build
+        run: pnpm build
 
       - name: Run Test
-        run: yarn test
+        run: pnpm test

@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/app
-    command: yarn dev
+    command: pnpm dev
     ports:
       - "9090:9090"
     env_file: .env

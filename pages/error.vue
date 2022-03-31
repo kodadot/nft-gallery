@@ -7,7 +7,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import ErrorMsg from '@/components/shared/Error.vue'
 
 @Component({
-  components: { ErrorMsg }
+  components: { ErrorMsg },
 })
 export default class Error extends Vue {}
 </script>
