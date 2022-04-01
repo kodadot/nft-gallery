@@ -18,7 +18,8 @@
               viewMode === 'default' &&
               !isFullScreenView &&
               !isTileView &&
-              imageVisible
+              imageVisible &&
+              isGyroEffectEnabled
             "
             class="image-preview has-text-centered"
             :class="{
@@ -90,6 +91,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Orientation from '@/utils/directives/DeviceOrientation'
+import { isMobileDevice } from '~/utils/extension'
 
 const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
@@ -112,6 +114,13 @@ export default class BaseGalleryItem extends Vue {
   private isFullScreenView = false
   private isTileView = false
   private viewMode = this.$store.getters['preferences/getTheatreView']
+
+  get isGyroEffectEnabled(): boolean {
+    if (isMobileDevice) {
+      return true
+    }
+    return this.$store.getters['preferences/getEnableGyroEffect']
+  }
 
   public toggleView(): void {
     this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
