@@ -37,7 +37,7 @@ export default class GalleryItemCarousel extends Vue {
    * https://nuxtjs.org/docs/features/data-fetching/
    */
   public async fetch() {
-    if (this.type === 'related') {
+    if (this.type === 'related' && this.collectionId) {
       const { data } = await this.$apollo.query({
         query: collectionEntityById,
         client: 'subsquid',
