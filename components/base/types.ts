@@ -14,7 +14,7 @@ export type BaseTokenType<T = BaseMintedCollection> = {
   secondFile: File | null
 }
 
-export type CarouselNFTs = {
+export type CarouselNFT = {
   currentOwner: string
   id: string
   image: string

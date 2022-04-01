@@ -119,13 +119,11 @@
       </div>
     </template>
     <template v-slot:footer>
-      <RelatedNFT
-        class="my-5"
+      <GalleryItemRelated
         v-if="id && nft.collectionId"
         :nftId="id"
-        :collectionId="nft.collectionId" />
-
-      <VisitedNFT class="my-5" />
+        :collectionId="nft.collectionId"
+        :collectionLength="nftsFromSameCollection.length" />
 
       <div class="columns">
         <div class="column">
@@ -166,7 +164,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
@@ -174,7 +171,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
-    // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -182,8 +178,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    RelatedNFT: () => import('./RelatedNFTFromCollection.vue'),
-    VisitedNFT: () => import('./VisitedNFT.vue'),
+    GalleryItemRelated: () => import('./GalleryItemRelated.vue'),
   },
   directives: {
     orientation: Orientation,

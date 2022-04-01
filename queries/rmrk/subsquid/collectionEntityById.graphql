@@ -1,3 +1,6 @@
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+
 query collectionEntityById($id: ID!, $nftId: ID!) {
   collectionEntityById(id: $id) {
     id
@@ -7,14 +10,12 @@ query collectionEntityById($id: ID!, $nftId: ID!) {
       orderBy: [price_ASC, updatedAt_DESC]
       where: { price_gt: "0", id_not_eq: $nftId }
     ) {
-      name
-      price
+      ...nftDetails
       id
       currentOwner
       issuer
       meta {
-        id
-        image
+        ...baseMeta
       }
       updatedAt
     }
