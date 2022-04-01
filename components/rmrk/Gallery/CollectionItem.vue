@@ -104,6 +104,13 @@
           hideCollapse
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
+      <b-tab-item label="Holder" value="holder">
+        <Holder
+          v-if="!isLoading && activeTab === 'holder'"
+          :events="ownerEventsOfNftCollection"
+          :openOnDefault="isHolderOpen"
+          hideCollapse />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -153,6 +160,7 @@ const components = {
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -182,9 +190,11 @@ export default class CollectionItem extends mixins(
   private statsLoaded = false
   private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
+  public ownerEventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
   private openHistory = true
+  private openHolder = true
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -212,6 +222,10 @@ export default class CollectionItem extends mixins(
 
   get isHistoryOpen(): boolean {
     return this.openHistory
+  }
+
+  get isHolderOpen(): boolean {
+    return this.openHolder
   }
 
   get nfts(): NFT[] {
@@ -322,7 +336,7 @@ export default class CollectionItem extends mixins(
   }
 
   // Get collection query with NFT Events on it
-  protected async fetchHistoryEvents() {
+  protected async fetchCollectionEvents() {
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
@@ -339,6 +353,10 @@ export default class CollectionItem extends mixins(
         // TODO : default value of HISTORY for BUY
         // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        // copy array and reverse
+        this.ownerEventsOfNftCollection = [
+          ...this.eventsOfNftCollection,
+        ].reverse()
         this.checkTabLocate()
       }
     } catch (e) {
@@ -443,8 +461,8 @@ export default class CollectionItem extends mixins(
     // Load chart data once when clicked on activity tab for the first time.
     if (val === 'activity') {
       this.loadStats()
-    } else if (val === 'history') {
-      this.fetchHistoryEvents()
+    } else if (val === 'history' || val === 'holder') {
+      this.fetchCollectionEvents()
     }
   }
 
