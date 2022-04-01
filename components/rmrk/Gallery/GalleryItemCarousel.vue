@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div class="my-5">
-      <p class="subtitle is-size-4">{{ title }}</p>
-      <CarouselCardList :nfts="data" />
-    </div>
+  <div class="my-5">
+    <p class="subtitle is-size-4">{{ title }}</p>
+    <CarouselCardList :nfts="data" />
   </div>
 </template>
 
