@@ -418,6 +418,7 @@
     "UPDATED_AT_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
+    "SN_ASC": "Serial Number Ascending",
     "listed": "Buy now"
   },
   "mint": {
@@ -588,7 +589,9 @@
     "remove": "Remove",
     "correctAddress": "Correct address format",
     "copyUrl": "Copy URL",
-    "openUrl": "Open URL"
+    "openUrl": "Open URL",
+    "copyRewardTooltip": "Your reward link copied to clipboard",
+    "copyRewardLink": "Copy Reward Me link"
   },
   "helper": {
     "noCollections": "You have no collections",

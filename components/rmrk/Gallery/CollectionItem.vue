@@ -64,7 +64,10 @@
       :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
       <b-tab-item label="Items" value="items">
-        <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
+        <Search
+          v-bind.sync="searchQuery"
+          :disableToggle="!totalListed"
+          :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -187,7 +190,6 @@ export default class CollectionItem extends mixins(
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private statsLoaded = false
   private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
   public ownerEventsOfNftCollection: Interaction[] | [] = []
@@ -195,6 +197,16 @@ export default class CollectionItem extends mixins(
   public priceChartData: [Date, number][][] = []
   private openHistory = true
   private openHolder = true
+
+  collectionProfileSortOption: string[] = [
+    'BLOCK_NUMBER_DESC',
+    'BLOCK_NUMBER_ASC',
+    'UPDATED_AT_DESC',
+    'UPDATED_AT_ASC',
+    'PRICE_DESC',
+    'PRICE_ASC',
+    'SN_ASC',
+  ]
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
