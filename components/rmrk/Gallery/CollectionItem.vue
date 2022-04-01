@@ -104,7 +104,7 @@
           hideCollapse
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
-      <b-tab-item label="Holder" value="holder">
+      <b-tab-item label="Holders" value="holder">
         <Holder
           v-if="!isLoading && activeTab === 'holder'"
           :events="ownerEventsOfNftCollection"
