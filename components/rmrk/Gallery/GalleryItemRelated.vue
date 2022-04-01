@@ -69,14 +69,14 @@ export default class RelatedNFTFromCollection extends Vue {
 
     const queries = [
       this.collectionLength > this.MIN_NFTS && (await queryRelated),
-      visitedNFTs.length >= this.MIN_NFTS && (await queryVisited),
+      ids.length >= this.MIN_NFTS && (await queryVisited),
     ]
 
     const [dataRelated, dataVisited] = await Promise.all(queries)
     const [related, visited] = await Promise.all([
       dataRelated &&
-        (await this.formatNFT(dataRelated?.data?.collectionEntityById?.nfts)),
-      dataVisited && (await this.formatNFT(dataVisited?.data?.nftEntities)),
+        (await this.formatNFT(dataRelated.data?.collectionEntityById?.nfts)),
+      dataVisited && (await this.formatNFT(dataVisited.data?.nftEntities)),
     ])
 
     this.nftRelated = related || []
@@ -89,6 +89,8 @@ export default class RelatedNFTFromCollection extends Vue {
    * Update timestamp
    */
   public async formatNFT(data) {
+    if (!data) return undefined
+
     const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
     const imageOf = getProperImageLink(images)
 

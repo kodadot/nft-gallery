@@ -1,3 +1,4 @@
+#import "../../fragments/nftSubsquid.graphql"
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
 
@@ -10,14 +11,11 @@ query collectionEntityById($id: ID!, $nftId: ID!) {
       orderBy: [price_ASC, updatedAt_DESC]
       where: { price_gt: "0", id_not_eq: $nftId }
     ) {
+      ...nftSubsquid
       ...nftDetails
-      id
-      currentOwner
-      issuer
       meta {
         ...baseMeta
       }
-      updatedAt
     }
   }
 }
