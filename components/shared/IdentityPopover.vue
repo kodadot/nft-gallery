@@ -104,7 +104,6 @@ export default class IdentityPopover extends mixins(
   protected totalSold = 0
 
   get shortenedAddress(): Address {
-    console.log('identityyy', this.identity)
     return shortAddress(this.resolveAddress(this.identity.address))
   }
 
