@@ -418,6 +418,7 @@
     "UPDATED_AT_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
+    "SN_ASC": "Serial Number Ascending",
     "listed": "Buy now"
   },
   "mint": {
