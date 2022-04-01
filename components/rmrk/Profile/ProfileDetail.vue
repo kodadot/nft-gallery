@@ -178,6 +178,7 @@ import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   GalleryCardList: () =>
@@ -340,8 +341,11 @@ export default class Profile extends mixins(PrefixMixin) {
     // this.isLoading = false;
   }
 
+  @Debounce(100)
   private async fetchCollectionList() {
-    if (!this.id) return
+    if (!this.id) {
+      this.checkId()
+    }
     const result = await this.$apollo.query({
       query: collectionListByAccount,
       client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
@@ -396,8 +400,10 @@ export default class Profile extends mixins(PrefixMixin) {
     }
   }
   @Watch('currentCollectionPage', { immediate: true })
-  private handleCurrentPageChange() {
-    this.fetchCollectionList()
+  private handleCurrentPageChange(page: number) {
+    if (page) {
+      this.fetchCollectionList()
+    }
   }
 }
 </script>
