@@ -69,7 +69,7 @@ export default class RelatedNFTFromCollection extends Vue {
 
     const queries = [
       this.collectionLength > this.MIN_NFTS && (await queryRelated),
-      ids.length >= this.MIN_NFTS && (await queryVisited),
+      ids?.length >= this.MIN_NFTS && (await queryVisited),
     ]
 
     const [dataRelated, dataVisited] = await Promise.all(queries)
