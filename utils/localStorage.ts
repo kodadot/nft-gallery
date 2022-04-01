@@ -8,7 +8,7 @@ export type VisitedNFT = {
 /**
  * Get visited NFTs from localStorage
  */
-export const visitedNFTs = (): VisitedNFT[] => {
+export const visitedNFT = (): VisitedNFT[] => {
   const getHistory = localStorage.getItem('history')
   if (!getHistory) {
     return []

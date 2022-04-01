@@ -119,11 +119,11 @@
       </div>
     </template>
     <template v-slot:footer>
-      <GalleryItemRelated
-        v-if="id && nft.collectionId"
-        :nftId="id"
-        :collectionId="nft.collectionId"
-        :collectionLength="nftsFromSameCollection.length" />
+      <GalleryItemCarousel
+        v-if="showRelatedCarousel"
+        type="related"
+        :collectionId="nft.collectionId" />
+      <GalleryItemCarousel type="visited" />
 
       <div class="columns">
         <div class="column">
@@ -178,7 +178,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
-    GalleryItemRelated: () => import('./GalleryItemRelated.vue'),
+    GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -383,6 +383,12 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get hasBuyDisabled(): boolean {
     return this.balance ? Number(this.nft.price) > Number(this.balance) : true
+  }
+
+  get showRelatedCarousel(): boolean {
+    return (
+      Boolean(this.nft.collectionId) && this.nftsFromSameCollection.length > 0
+    )
   }
 
   protected handleAction(deleted: boolean) {

@@ -163,6 +163,7 @@ export interface NFT {
   instance: string
   transferable: number
   collection: string
+  collectionId?: string
   sn: string
   _id: string
   id: string
