@@ -16,7 +16,7 @@ export const visitedNFTs = (): VisitedNFT[] => {
 
   const {
     history: { visitedNFTs },
-  } = getHistory && JSON.parse(getHistory)
+  } = JSON.parse(getHistory)
 
   return visitedNFTs
 }
