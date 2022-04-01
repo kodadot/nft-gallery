@@ -12,7 +12,7 @@
           role="button"
           aria-controls="contentIdForHistory">
           <p class="card-header-title">
-            {{ $t('History') }}
+            {{ $t('Holders') }}
           </p>
           <a class="card-header-icon">
             <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
@@ -54,7 +54,6 @@
           :current-page.sync="currentPage"
           :default-sort="['Amount', 'desc']">
           <b-table-column
-            cell-class="short-identity__table"
             :visible="columnsVisible['Name'].display"
             field="Holder"
             label="Name"
@@ -67,8 +66,8 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
-            cell-class="short-identity__table"
             :visible="columnsVisible['Amount'].display"
+            numeric
             field="Amount"
             label="Amount"
             sortable
@@ -76,7 +75,6 @@
             {{ props.row.Amount }}
           </b-table-column>
           <b-table-column
-            cell-class="short-identity__table"
             :visible="columnsVisible['Bought'].display"
             field="Bought"
             label="Bought"
@@ -85,7 +83,6 @@
             {{ props.row.BoughtFormatted }}
           </b-table-column>
           <b-table-column
-            cell-class="short-identity__table"
             :visible="columnsVisible['Sale'].display"
             field="Sale"
             label="Sale"
@@ -94,7 +91,6 @@
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
-            cell-class="short-identity__table"
             :visible="columnsVisible['Date'].display"
             field="Date"
             label="Date"
@@ -126,22 +122,16 @@
               </td>
               <td
                 v-show="columnsVisible['Amount'].display"
-                class="short-identity__table">
+                class="has-text-right">
                 {{ item.Amount }}
               </td>
-              <td
-                v-show="columnsVisible['Bought'].display"
-                class="short-identity__table">
+              <td v-show="columnsVisible['Bought'].display">
                 {{ item.BoughtFormatted }}
               </td>
-              <td
-                v-show="columnsVisible['Sale'].display"
-                class="short-identity__table">
+              <td v-show="columnsVisible['Sale'].display">
                 {{ item.SaleFormatted }}
               </td>
-              <td
-                v-show="columnsVisible['Date'].display"
-                class="short-identity__table">
+              <td v-show="columnsVisible['Date'].display">
                 <b-tooltip
                   :label="item.Date"
                   position="is-right"
@@ -408,17 +398,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 }
 </script>
-<style lang="scss">
-.short-identity__table {
-  max-width: 50em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.type-table {
-  white-space: nowrap;
-}
-
+<style lang="scss" scoped>
 .collapseHidden {
   .collapse-trigger {
     display: none;
