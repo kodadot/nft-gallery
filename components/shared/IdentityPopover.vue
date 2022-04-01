@@ -21,6 +21,20 @@
           <p class="has-text-weight-bold is-size-5 mb-1 break-word">
             {{ identity.display }}
           </p>
+          <a
+            :href="`https://twitter.com/${identity.twitter}`"
+            class="is-flex is-align-items-center mb-2"
+            target="_blank"
+            rel="noopener noreferrer"
+            v-if="identity.twitter">
+            <b-icon
+              pack="fab"
+              icon="twitter"
+              class="is-flex is-justify-content-space-between" />
+            <span>
+              {{ identity.twitter | toString }}
+            </span>
+          </a>
           <p class="is-size-7 mb-1">
             {{ shortenedAddress }}
             <b-icon
@@ -90,6 +104,7 @@ export default class IdentityPopover extends mixins(
   protected totalSold = 0
 
   get shortenedAddress(): Address {
+    console.log('identityyy', this.identity)
     return shortAddress(this.resolveAddress(this.identity.address))
   }
 
