@@ -14,6 +14,7 @@ export const state = (): {
   historyItemsPerPage: number
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
+  enableGyroEffect: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -34,6 +35,7 @@ export const state = (): {
   hasCarbonOffset: true,
   arweaveUpload: false,
   enableAllArtwork: true,
+  enableGyroEffect: false,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -53,6 +55,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getHasCarbonOffset: ({ hasCarbonOffset }) => hasCarbonOffset,
   getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
   getLoadAllArtwork: ({ enableAllArtwork }) => enableAllArtwork,
+  getEnableGyroEffect: ({ enableGyroEffect }) => enableGyroEffect,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -109,6 +112,9 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ALL_ARTWORK_VISIBLE(state: PreferencesState, data) {
     state.enableAllArtwork = data
   },
+  SET_ENABLE_GYRO_EFFECT(state: PreferencesState, data) {
+    state.enableGyroEffect = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -153,5 +159,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setAllArtworkVisible({ commit }: { commit: Commit }, data) {
     commit('SET_ALL_ARTWORK_VISIBLE', data)
+  },
+  setEnableGyroEffect({ commit }: { commit: Commit }, data) {
+    commit('SET_ENABLE_GYRO_EFFECT', data)
   },
 }

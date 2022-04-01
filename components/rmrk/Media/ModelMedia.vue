@@ -8,7 +8,7 @@
       :alt="description"
       :availableAnimations="availableAnimations"
       auto-rotate
-      :camera-controls="isDetail"
+      :camera-controls="isDetail && enableGyroEffect"
       :ar="isDetail"
       ar-modes="webxr scene-viewer quick-look"
       shadow-intensity="1"
@@ -21,6 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import '@google/model-viewer'
+import { isMobileDevice } from '~/utils/extension'
 
 @Component({})
 export default class ViewModel extends Vue {
@@ -32,6 +33,13 @@ export default class ViewModel extends Vue {
 
   get isDetail(): boolean {
     return !this.preview
+  }
+
+  get enableGyroEffect(): boolean {
+    if (isMobileDevice) {
+      return true
+    }
+    return this.$store.getters['preferences/getEnableGyroEffect']
   }
 }
 </script>
