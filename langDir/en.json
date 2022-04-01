@@ -588,7 +588,9 @@
     "remove": "Remove",
     "correctAddress": "Correct address format",
     "copyUrl": "Copy URL",
-    "openUrl": "Open URL"
+    "openUrl": "Open URL",
+    "copyRewardTooltip": "Your reward link copied to clipboard",
+    "copyRewardLink": "Copy Reward Me link"
   },
   "helper": {
     "noCollections": "You have no collections",

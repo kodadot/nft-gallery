@@ -106,10 +106,10 @@
           type="is-info"
           icon-left="wallet"
           :loading="isLoading"
-          @click="toast('Your reward link copied to clipboard')"
+          @click="toast($t('general.copyRewardTooltip'))"
           v-clipboard:copy="generatePaymentLink(accountId)"
           outlined>
-          {{ $t('Copy Reward Me link') }}
+          {{ $t('general.copyRewardLink') }}
         </b-button>
       </div>
       <div v-if="transactionValue && this.$route.query.donation">
