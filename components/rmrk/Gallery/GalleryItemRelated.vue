@@ -1,36 +1,35 @@
 <template>
   <div>
-    <div class="my-5" v-if="nftRelated.length >= MIN_NFTS">
-      <p class="subtitle is-size-4">More From This Collection</p>
-      <CarouselCardList :nfts="nftRelated" />
-    </div>
-    <div class="my-5" v-if="nftVisited.length >= MIN_NFTS">
-      <p class="subtitle is-size-4">Visited NFTs</p>
-      <CarouselCardList :nfts="nftVisited" />
-    </div>
+    <GalleryItemCarousel
+      v-if="nftRelated.length >= MIN_NFTS"
+      :data="nftRelated"
+      :title="$t('nft.related')" />
+    <GalleryItemCarousel
+      v-if="nftVisited.length >= MIN_NFTS"
+      :data="nftVisited"
+      :title="$t('nft.visited')" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Provide } from 'nuxt-property-decorator'
-import { formatDistanceToNow } from 'date-fns'
-import {
-  getCloudflareImageLinks,
-  getProperImageLink,
-} from '~/utils/cachingStrategy'
+import { formatNFT } from '~/utils/carousel'
+import { visitedNFTs } from '~/utils/localStorage'
+
 import collectionEntityById from '@/queries/rmrk/subsquid/collectionEntityById.graphql'
 import nftEntitiesByIDs from '@/queries/rmrk/subsquid/nftEntitiesByIDs.graphql'
+
 import { CarouselNFT } from '@/components/base/types'
 
 @Component({
   components: {
-    CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
+    GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
   },
 })
 /**
  * class name
  */
-export default class RelatedNFTFromCollection extends Vue {
+export default class GalleryItemRelated extends Vue {
   @Prop({ type: String, required: true }) nftId!: string
   @Prop({ type: String, required: true }) collectionId!: string
   @Prop({ type: Number, required: true }) collectionLength!: number
@@ -44,12 +43,8 @@ export default class RelatedNFTFromCollection extends Vue {
    * https://nuxtjs.org/docs/features/data-fetching/
    */
   async fetch() {
-    // check visited NFT from localStorage.history
-    const getHistory = localStorage.getItem('history')
-    const {
-      history: { visitedNFTs },
-    } = getHistory && JSON.parse(getHistory)
-    const ids = visitedNFTs?.map((nft) => nft.id)
+    // get IDs from visitedNFTs()
+    const ids = visitedNFTs()?.map((nft) => nft.id)
 
     const queryRelated = this.$apollo.query({
       query: collectionEntityById,
@@ -75,32 +70,12 @@ export default class RelatedNFTFromCollection extends Vue {
     const [dataRelated, dataVisited] = await Promise.all(queries)
     const [related, visited] = await Promise.all([
       dataRelated &&
-        (await this.formatNFT(dataRelated.data?.collectionEntityById?.nfts)),
-      dataVisited && (await this.formatNFT(dataVisited.data?.nftEntities)),
+        (await formatNFT(dataRelated.data?.collectionEntityById?.nfts)),
+      dataVisited && (await formatNFT(dataVisited.data?.nftEntities)),
     ])
 
     this.nftRelated = related || []
     this.nftVisited = visited || []
-  }
-
-  /**
-   * Format the data to fit with CarouselNFT[]
-   * Get cloudflare images
-   * Update timestamp
-   */
-  public async formatNFT(data) {
-    if (!data) return undefined
-
-    const images = await getCloudflareImageLinks(data.map((nft) => nft.meta.id))
-    const imageOf = getProperImageLink(images)
-
-    return data.map((nft) => ({
-      ...nft,
-      timestamp: formatDistanceToNow(new Date(nft.updatedAt), {
-        addSuffix: true,
-      }),
-      image: imageOf(nft.meta.id, nft.meta.image),
-    }))
   }
 }
 </script>
