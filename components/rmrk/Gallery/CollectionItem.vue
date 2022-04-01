@@ -63,7 +63,7 @@
       ref="tabsContainer"
       :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
-      <b-tab-item label="Collection" value="collection">
+      <b-tab-item label="Items" value="items">
         <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
           <Layout class="mr-5" />
           <b-field>
@@ -74,7 +74,7 @@
               preserveScroll
               :total="total"
               v-model="currentValue"
-              v-if="activeTab === 'collection'"
+              v-if="activeTab === 'items'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -87,13 +87,13 @@
         <Pagination
           class="py-5"
           replace
-          v-if="activeTab === 'collection'"
+          v-if="activeTab === 'items'"
           preserveScroll
           :total="total"
           v-model="currentValue"
           :per-page="first" />
       </b-tab-item>
-      <b-tab-item label="Activity" value="activity">
+      <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
@@ -104,9 +104,9 @@
           hideCollapse
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
-      <b-tab-item label="Holders" value="holder">
+      <b-tab-item label="Holders" value="holders">
         <Holder
-          v-if="!isLoading && activeTab === 'holder'"
+          v-if="!isLoading && activeTab === 'holders'"
           :events="ownerEventsOfNftCollection"
           :openOnDefault="isHolderOpen"
           hideCollapse />
@@ -180,7 +180,7 @@ export default class CollectionItem extends mixins(
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  public activeTab = 'collection'
+  public activeTab = 'items'
   private currentValue = parseInt(this.$route.query?.page as string) || 1
   private first = 16
   protected total = 0
@@ -459,9 +459,9 @@ export default class CollectionItem extends mixins(
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity') {
+    if (val === 'chart') {
       this.loadStats()
-    } else if (val === 'history' || val === 'holder') {
+    } else if (val === 'history' || val === 'holders') {
       this.fetchCollectionEvents()
     }
   }
