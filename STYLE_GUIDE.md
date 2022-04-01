@@ -89,6 +89,37 @@ Use shorthands for vue attributes
 - `@click` instead of `v-on:click`
 - ...
 
+
+### Fetching Data
+Though we haven't yet transitioned most of our data fetching logic to Nuxt lifecycles, the following syntax should be considered best practice:
+```typescript
+// pages
+import { Component } from 'nuxt-property-decorator'
+
+@Component({
+  async asyncData({ app, $config, params }) {
+    const res = await app?.apolloProvider?.clients[$config.prefix].query({
+      query: queryGql,
+      variables: {
+        id: params.id
+      },
+    })
+
+    return {
+      data: res.data,
+      total: res.total,
+    }
+  }
+})
+export default class ClassName extends Vue {
+  data?: Type
+  total?: Type
+
+  [...]
+}
+```
+
+
 ### Reusability Through Abstraction
 If your component will be used on several occasions in many different contexts, you should think about the way you pass data to your components and the way events are handled.
 In regards to event handling, you should always aim to emit events happening in your component, while the handling should be done in the parent or page itself. Thereby, the click of a button can trigger all kinds of functionality, without having to be aware of its context.
