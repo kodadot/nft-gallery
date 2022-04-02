@@ -92,7 +92,7 @@
           </b-table-column>
           <b-table-column
             :visible="columnsVisible['Date'].display"
-            field="Date"
+            field="Timestamp"
             label="Date"
             sortable
             v-slot="props">
@@ -267,6 +267,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       const commonInfo = {
         Date: dateStr,
         Time: formatTime,
+        Timestamp: timestamp,
         Block: block,
         Amount: 1,
       }
