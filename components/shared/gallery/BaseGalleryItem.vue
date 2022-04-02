@@ -18,7 +18,8 @@
               viewMode === 'default' &&
               !isFullScreenView &&
               !isTileView &&
-              imageVisible
+              imageVisible &&
+              isGyroEffectEnabled
             "
             class="image-preview has-text-centered"
             :class="{
@@ -115,6 +116,13 @@ export default class BaseGalleryItem extends Vue {
   private viewMode = isMobileDevice
     ? 'theater'
     : this.$store.getters['preferences/getTheatreView']
+
+  get isGyroEffectEnabled(): boolean {
+    if (isMobileDevice) {
+      return true
+    }
+    return this.$store.getters['preferences/getEnableGyroEffect']
+  }
 
   public toggleView(): void {
     this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
