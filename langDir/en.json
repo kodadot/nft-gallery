@@ -577,6 +577,18 @@
     "owners": "Owners",
     "volume": "Volume"
   },
+  "activity": {
+    "listed": "Listed",
+    "totalItems": "Total Items",
+    "todayTraded": "24H",
+    "totalTraded": "TOTAL VOLUME TRADED",
+    "highestTransactionPrice": "HIGHEST TRANSACTION PRICE",
+    "totalBuys": "TOTAL BUYS",
+    "unique": "UNIQUE",
+    "owners": "OWNERS",
+    "distribution": "DISTRIBUTION",
+    "floorPrice": "FLOOR PRICE"
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
