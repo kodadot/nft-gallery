@@ -49,9 +49,11 @@ To create your KSM address in safely and long-term manner, we recommend you to g
 
 ### Sharing your address to receive the reward
 
-After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY PAYMENT LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
+After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
 
-your receiving address should be looks like this, `https://kodadot.xyz/transfer/?target={your address place here}&usdamount=100`
+your receiving address should be looks like this
+
+`https://kodadot.xyz/transfer?target=${your address}&usdamount=100&donation=true`
 
 ### Switching account/network
 
