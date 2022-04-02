@@ -494,6 +494,8 @@
     "description": "NFT description",
     "name": "Name your NFT",
     "frozen": "NFT is frozen",
+    "related": "More From This Collection",
+    "visited": "Visited NFTs",
     "event": {
       "MINTNFT": "🖼 MINT",
       "LIST": "📰 LIST",
