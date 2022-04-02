@@ -92,7 +92,7 @@
           </b-table-column>
           <b-table-column
             :visible="columnsVisible['Date'].display"
-            field="Date"
+            field="Timestamp"
             label="Date"
             sortable
             v-slot="props">
@@ -178,7 +178,10 @@ type TableRow = {
   Sale: string
   SaleFormatted?: string
   Date: string
+  Time: string
+  SortKey: number
   Block: string
+  Amount: number
   Items?: TableRow[]
   Item: NFTItem
 }
@@ -257,12 +260,14 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     for (const newEvent of this.events) {
       const date = new Date(newEvent['timestamp'])
+      const timestamp = date.getTime()
       const dateStr = parseDate(date)
       const formatTime = formatDistanceToNow(date, { addSuffix: true })
       const block = String(newEvent['blockNumber'])
       const commonInfo = {
         Date: dateStr,
         Time: formatTime,
+        Timestamp: timestamp,
         Block: block,
         Amount: 1,
       }
@@ -272,6 +277,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
             Holder: newEvent['caller'],
+            SortKey: timestamp,
             Bought: 0,
             Sale: 0,
             ...commonInfo,
@@ -295,11 +301,13 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
             itemRowMap[nftId]['Bought'] = 0
+            itemRowMap[nftId]['SortKey'] = timestamp
           }
         } else {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
             Holder: newEvent['meta'],
+            SortKey: timestamp,
             Bought: 0,
             Sale: 0,
             ...commonInfo,
@@ -320,11 +328,13 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
             itemRowMap[nftId]['Bought'] = bought
+            itemRowMap[nftId]['SortKey'] = timestamp
           }
         } else {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
             Holder: newEvent['caller'],
+            SortKey: timestamp,
             Bought: bought,
             Sale: 0,
             ...commonInfo,
@@ -363,6 +373,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       group['Items'].forEach((item) => {
         parsePriceForItem(item, this.decimals, this.unit)
       })
+      group['Items'] = group['Items'].sort((a, b) => b.SortKey - a.SortKey)
     })
     return holderGroupsList
   }
