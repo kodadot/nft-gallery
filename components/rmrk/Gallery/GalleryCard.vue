@@ -41,7 +41,8 @@
 
       <div class="card-content">
         <span
-          class="title mb-0 is-4 has-text-centered has-text-primary"
+          class="has-text-centered has-text-primary"
+          :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">
             {{ nftName }}
@@ -110,6 +111,13 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
   get accountIsCurrentOwner(): boolean {
     return this.accountId === this.currentOwner
+  }
+
+  get largeDisplay(): boolean {
+    return (
+      this.$store.getters['preferences/getLayoutClass'] ===
+      'is-half-desktop is-half-tablet'
+    )
   }
 }
 </script>

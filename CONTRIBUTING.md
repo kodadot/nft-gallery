@@ -116,6 +116,10 @@ A pull request is a way to suggest changes in our repository.
 
 When we merge those changes, they should be deployed to the live site within 24 hours. 🌍 To learn more about opening a pull request in this repo, see Opening a pull request below.
 
+### Code reviews 🕵️‍♀️
+
+As on daily basis is no wonder we can get 10-20 pull-requests on daily basis, code reviews are current bottleneck. To help us, you should have enough contributed and merged PRs into main branch, familiarity with code base and prefer high quality code. If you want to be member let us know in coordination channel best to be part of [Code Review Guild of KodaDot](https://github.com/orgs/kodadot/teams/code-review-guild)
+
 ### Support ❓
 
 We are a small team working hard to keep up with the documentation demands of a continuously changing product. Unfortunately, we can't help with support questions in this repository. If you are experiencing a problem with GitHub unrelated to our documentation, please get in touch with GitHub Support directly. Any issues, discussions, or pull requests opened here requesting support will be given information about contacting GitHub Support, then closed and locked.

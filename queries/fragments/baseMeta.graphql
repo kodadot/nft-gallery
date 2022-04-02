@@ -1,0 +1,4 @@
+fragment baseMeta on MetadataEntity {
+  id
+  image
+}

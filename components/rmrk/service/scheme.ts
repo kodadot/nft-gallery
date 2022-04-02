@@ -163,6 +163,7 @@ export interface NFT {
   instance: string
   transferable: number
   collection: string
+  collectionId?: string
   sn: string
   _id: string
   id: string
@@ -198,6 +199,11 @@ export interface Pack extends BasePack {
   collections: Record<string, boolean>
   nfts: Record<string, boolean>
   social?: Record<string, string>
+}
+
+export interface CollectionEventsStats {
+  max: string
+  count: number
 }
 
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {

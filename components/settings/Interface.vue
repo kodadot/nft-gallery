@@ -39,6 +39,10 @@
         v-model="enableAllArtworks"
         :disabled="!enabledAdvancedUI"
         label="preferences.loadAllArtworks" />
+      <BasicCheckbox
+        v-model="enableGyroEffect"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.enableGyroEffect" />
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -165,6 +169,14 @@ export default class Interface extends Vue {
 
   set enableAllArtworks(value: boolean) {
     this.$store.dispatch('preferences/setAllArtworkVisible', value)
+  }
+
+  get enableGyroEffect(): boolean {
+    return this.$store.state.preferences.enableGyroEffect
+  }
+
+  set enableGyroEffect(value: boolean) {
+    this.$store.dispatch('preferences/setEnableGyroEffect', value)
   }
 }
 </script>
