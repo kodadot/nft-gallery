@@ -204,25 +204,27 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private customGroups: TableRow[] = []
-
-  public isOpen = false
-
-  private showDetailIcon = true
-  get columnsVisible() {
-    return {
-      Name: { title: this.nameHeaderLabel, display: true },
-      Amount: { title: 'Amount', display: true },
-      Bought: { title: 'Bought', display: true },
-      Sale: { title: 'Sale', display: true },
-      Date: { title: this.dateHeaderLabel, display: true },
-    }
+  private columnsVisible = {
+    Name: { title: 'Name', display: true },
+    Amount: { title: 'Amount', display: true },
+    Bought: { title: 'Bought', display: true },
+    Sale: { title: 'Sale', display: true },
+    Date: { title: 'Date', display: true },
   }
+  public isOpen = false
+  private showDetailIcon = true
 
   public async created() {
     this.initKeyboardEventHandler({
       e: this.bindExpandEvents,
       g: this.bindPaginationEvents,
     })
+    this.initColumnVisibleConfig()
+  }
+
+  private initColumnVisibleConfig() {
+    this.columnsVisible['Name'].title = this.nameHeaderLabel
+    this.columnsVisible['Date'].title = this.dateHeaderLabel
   }
 
   private bindPaginationEvents(event) {
@@ -391,7 +393,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       } else {
         customGroups[groupName] = {
           ...item,
-          Id: item['CollectionId'] + item['Item']['Id'],
+          Id: item['CollectionId'] + item['Item']['id'],
           Items: [item],
         }
       }
