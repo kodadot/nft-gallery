@@ -486,7 +486,8 @@
     "collected": "Nfts collected by",
     "buy": "Show only nfts available for purchase",
     "random": "Go to random page",
-    "buyDisabled": "Not enough balance"
+    "buyDisabled": "Not enough balance",
+    "holdings": "Collections owned by"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -550,6 +551,7 @@
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold",
+    "holdings": "Holdings",
     "showQr": "Show QR"
   },
   "spotlight": {

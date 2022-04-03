@@ -159,6 +159,18 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
+        <b-tab-item
+          value="holdings"
+          :headerClass="{ 'is-hidden': !totalCollections }">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              append-to-body>
+              {{ $t('profile.holdings') }}
+            </b-tooltip>
+          </template>
+          <Holding v-if="totalCollections" :account-id="id" />
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
@@ -191,6 +203,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
 }
 
 @Component<Profile>({
