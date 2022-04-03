@@ -208,12 +208,14 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   public isOpen = false
 
   private showDetailIcon = true
-  private columnsVisible = {
-    Name: { title: 'Name', display: true },
-    Amount: { title: 'Amount', display: true },
-    Bought: { title: 'Bought', display: true },
-    Sale: { title: 'Sale', display: true },
-    Date: { title: 'Date', display: true },
+  get columnsVisible() {
+    return {
+      Name: { title: this.nameHeaderLabel, display: true },
+      Amount: { title: 'Amount', display: true },
+      Bought: { title: 'Bought', display: true },
+      Sale: { title: 'Sale', display: true },
+      Date: { title: this.dateHeaderLabel, display: true },
+    }
   }
 
   public async created() {
