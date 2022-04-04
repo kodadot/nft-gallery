@@ -17,6 +17,7 @@ import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEv
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '~/utils/sorting'
 import nftListOwned from '@/queries/nftListOwned.graphql'
+import type { Instance } from '@/components/unique/types.ts'
 
 const components = {
   Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
@@ -50,7 +51,7 @@ export default class Holding extends mixins(PrefixMixin) {
   protected async handleNftListResult({ data }: any) {
     if (data && data.nFTEntities) {
       const collectionIdSet = new Set<string>()
-      data.nFTEntities.nodes.forEach((item) => {
+      data.nFTEntities.nodes.forEach((item: Instance) => {
         collectionIdSet.add(item.collectionId)
       })
       this.collectionIdList = Array.from(collectionIdSet)

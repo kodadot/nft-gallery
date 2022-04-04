@@ -186,6 +186,7 @@ type TableRow = {
   SaleFormatted?: string
   Date: string
   Time: string
+  Id: string
   SortKey: number
   Block: string
   Amount: number
@@ -197,10 +198,10 @@ type TableRow = {
 export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
-  @Prop({ type: String, default: '' }) groupKeyOption: string
-  @Prop({ type: String, default: 'Name' }) nameHeaderLabel: string
-  @Prop({ type: String, default: 'Date' }) dateHeaderLabel: string
-  @Prop({ type: String, default: '' }) collapseTitleOption: string
+  @Prop({ type: String, default: '' }) groupKeyOption!: string
+  @Prop({ type: String, default: 'Name' }) nameHeaderLabel!: string
+  @Prop({ type: String, default: 'Date' }) dateHeaderLabel!: string
+  @Prop({ type: String, default: '' }) collapseTitleOption!: string
 
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
@@ -365,25 +366,27 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     return Object.values(itemRowMap)
   }
 
-  private getGroupNameFromRow(item: TableRow) {
+  private getGroupNameFromRow(item: TableRow): string {
     if (this.groupKey === 'Holder') {
       return item['Holder']
     } else if (this.groupKey === 'CollectionId') {
       return item['Item']['collection']['id']
     }
+    return item['Holder']
   }
 
-  private getCustomRowFilter() {
+  private getCustomRowFilter(): (item: TableRow) => boolean {
     if (this.groupKey === 'Holder') {
       return (item) => item.Holder !== '-'
     } else if (this.groupKey === 'CollectionId') {
       return (item) => item.Holder === this.$route.params.id
     }
+    return () => true
   }
 
-  private generatecustomGroups(itemRowList): TableRow[] {
+  private generatecustomGroups(itemRowList: TableRow[]): TableRow[] {
     const customGroups: Record<string, TableRow> = {}
-    itemRowList.filter(this.getCustomRowFilter()).forEach((item) => {
+    itemRowList.filter(this.getCustomRowFilter()).forEach((item: TableRow) => {
       item = {
         Bought: 0,
         Sale: 0,
@@ -391,7 +394,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       }
       const groupName = this.getGroupNameFromRow(item)
       if (customGroups[groupName]) {
-        customGroups[groupName].Items.push(item)
+        customGroups[groupName].Items?.push(item)
         customGroups[groupName]['Bought'] =
           customGroups[groupName]['Bought'] + item['Bought']
         customGroups[groupName]['Sale'] =
@@ -409,11 +412,13 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     customGroupsList.forEach((group) => {
       parsePriceForItem(group, this.decimals, this.unit)
-      group['Amount'] = group['Items'].length
-      group['Items'].forEach((item) => {
+      if (!group['Items']) return
+      let groupItems: TableRow[] = group['Items']
+      group['Amount'] = groupItems.length
+      groupItems.forEach((item) => {
         parsePriceForItem(item, this.decimals, this.unit)
       })
-      group['Items'] = group['Items'].sort((a, b) => b.SortKey - a.SortKey)
+      group['Items'] = groupItems.sort((a, b) => b.SortKey - a.SortKey)
     })
     return customGroupsList
   }
