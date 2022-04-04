@@ -1,5 +1,7 @@
 # Contributing to KodaDot: NFT gallery
 
+testing auto assignment in pull request this should be closed
+
 KodaDot NFT gallery has a plan to be community-owned.
 We are welcoming community contributions from you.
 Take a sneak peek on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment, and make PR.
