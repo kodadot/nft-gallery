@@ -222,37 +222,37 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
 // Reserved for future adjustments
 
-// @media only screen and (max-width: 1140px) {
+// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
 //   a#NavProfile {
 //     display: none;
 //   }
 // }
 
-// @media only screen and (max-width: 1160px) {
+// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
 //   a#NavStats {
 //     display: none;
 //   }
 // }
 
-// @media only screen and (max-width: 1190px) {
+// @media only screen and (min-width: 1215px) and (max-width: 1190px) {
 //   div#NavHistoryBrowser {
 //     display: none;
 //   }
 // }
 
-@media only screen and (max-width: 1215px) {
+@media only screen and (min-width: 1024px) and (max-width: 1215px) {
   div#NavChainSelect {
     display: none;
   }
 }
 
-@media only screen and (max-width: 1230px) {
+@media only screen and (min-width: 1024px) and (max-width: 1230px) {
   a#NavCreate {
     display: none;
   }
 }
 
-@media only screen and (max-width: 1337px) {
+@media only screen and (min-width: 1024px) and (max-width: 1337px) {
   div#NavLocaleChanger {
     display: none;
   }
