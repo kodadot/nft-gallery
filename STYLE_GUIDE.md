@@ -126,13 +126,13 @@ In regards to event handling, you should always aim to emit events happening in 
 ```vue
 <template>
     <!-- ParentComponent.vue -->
-    <ChildComponent @button-clicked="sendFormRequest" />
+    <ChildComponent @remove="removeItemFromList" />
 </template>
 ```
 ```vue
 <template>
     <!-- ChildComponent.vue -->
-    <div @click="$emit('@button-clicked')" />
+    <div @click="$emit('remove')" />
 </template>
 ```
 
@@ -181,3 +181,18 @@ get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']
 }
 ```
+
+## General Conventions
+### if...else
+Even if the statement of a block is just one line, stick to a more elaborate syntax:
+❗ bad
+```js
+if (something) return 1
+```
+
+
+✅ good
+```js
+if (something) {
+  return 1
+}
