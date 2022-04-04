@@ -49,7 +49,11 @@ To create your KSM address in safely and long-term manner, we recommend you to g
 
 ### Sharing your address to receive the reward
 
-After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button _Copy Payout address_ will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
+After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
+
+your receiving address should be looks like this
+
+`https://kodadot.xyz/transfer?target=${your address}&usdamount=100&donation=true`
 
 ### Switching account/network
 
@@ -115,6 +119,10 @@ If you've found something in the content or the website that should be updated, 
 A pull request is a way to suggest changes in our repository.
 
 When we merge those changes, they should be deployed to the live site within 24 hours. 🌍 To learn more about opening a pull request in this repo, see Opening a pull request below.
+
+### Code reviews 🕵️‍♀️
+
+As on daily basis is no wonder we can get 10-20 pull-requests on daily basis, code reviews are current bottleneck. To help us, you should have enough contributed and merged PRs into main branch, familiarity with code base and prefer high quality code. If you want to be member let us know in coordination channel best to be part of [Code Review Guild of KodaDot](https://github.com/orgs/kodadot/teams/code-review-guild)
 
 ### Support ❓
 

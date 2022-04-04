@@ -418,6 +418,7 @@
     "UPDATED_AT_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
+    "SN_ASC": "Serial Number Ascending",
     "listed": "Buy now"
   },
   "mint": {
@@ -493,6 +494,8 @@
     "description": "NFT description",
     "name": "Name your NFT",
     "frozen": "NFT is frozen",
+    "related": "More From This Collection",
+    "visited": "Visited NFTs",
     "event": {
       "MINTNFT": "🖼 MINT",
       "LIST": "📰 LIST",
@@ -574,6 +577,18 @@
     "owners": "Owners",
     "volume": "Volume"
   },
+  "activity": {
+    "listed": "Listed",
+    "totalItems": "Total Items",
+    "todayTraded": "24H",
+    "totalTraded": "TOTAL VOLUME TRADED",
+    "highestTransactionPrice": "HIGHEST TRANSACTION PRICE",
+    "totalBuys": "TOTAL BUYS",
+    "unique": "UNIQUE",
+    "owners": "OWNERS",
+    "distribution": "DISTRIBUTION",
+    "floorPrice": "FLOOR PRICE"
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
@@ -588,7 +603,9 @@
     "remove": "Remove",
     "correctAddress": "Correct address format",
     "copyUrl": "Copy URL",
-    "openUrl": "Open URL"
+    "openUrl": "Open URL",
+    "copyRewardTooltip": "Your reward link copied to clipboard",
+    "copyRewardLink": "Copy Reward Me link"
   },
   "helper": {
     "noCollections": "You have no collections",
@@ -679,6 +696,7 @@
     "yolo": "Replace BUY NOW with YOLO",
     "priceVisible": "Always show price in gallery and collection view by default",
     "mintTimeVisible": "Always show mint time in collection view by default",
-    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)"
+    "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
+    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs"
   }
 }

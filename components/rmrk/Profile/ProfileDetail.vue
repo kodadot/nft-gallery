@@ -74,7 +74,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.created')} ${displayName}`"
+              :label="`${$t('tooltip.created')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter" v-if="totalCreated">{{
@@ -95,7 +95,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collections')} ${displayName}`"
+              :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('Collections') }}
               <span class="tab-counter" v-if="totalCollections">{{
@@ -128,7 +128,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.sold')} ${displayName}`"
+              :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -144,7 +144,7 @@
         <b-tab-item value="collected">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collected')} ${displayName}`"
+              :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter" v-if="totalCollected">{{
@@ -178,6 +178,7 @@ import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   GalleryCardList: () =>
@@ -292,6 +293,10 @@ export default class Profile extends mixins(PrefixMixin) {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
+  get labelDisplayName(): string {
+    return this.displayName ?? this.shortendId
+  }
+
   get iframeSettings(): { width: string; height: string; customUrl: string } {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
@@ -340,7 +345,11 @@ export default class Profile extends mixins(PrefixMixin) {
     // this.isLoading = false;
   }
 
+  @Debounce(100)
   private async fetchCollectionList() {
+    if (!this.id) {
+      this.checkId()
+    }
     const result = await this.$apollo.query({
       query: collectionListByAccount,
       client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
@@ -395,8 +404,10 @@ export default class Profile extends mixins(PrefixMixin) {
     }
   }
   @Watch('currentCollectionPage', { immediate: true })
-  private handleCurrentPageChange() {
-    this.fetchCollectionList()
+  private handleCurrentPageChange(page: number) {
+    if (page) {
+      this.fetchCollectionList()
+    }
   }
 }
 </script>

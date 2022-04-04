@@ -219,7 +219,6 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  SendHandler: () => import('@/components/rmrk/Create/Admin/SendHandler.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
