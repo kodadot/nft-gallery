@@ -47,7 +47,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible id.native="NavExplore">
+      <b-navbar-dropdown arrowless collapsible id="NavExplore">
         <template #label>
           <span>{{ $t('Explore') }}</span>
         </template>
