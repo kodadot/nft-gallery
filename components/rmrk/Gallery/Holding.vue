@@ -5,6 +5,7 @@
     openOnDefault
     date-header-label="Last Activity"
     name-header-label="Collection"
+    :collapseTitleOption="$t('Holdings')"
     hideCollapse />
 </template>
 

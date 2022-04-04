@@ -12,7 +12,7 @@
           role="button"
           aria-controls="contentIdForHistory">
           <p class="card-header-title">
-            {{ $t('Holders') }}
+            {{ collapseTitleOption || $t('Holders') }}
           </p>
           <a class="card-header-icon">
             <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
@@ -200,6 +200,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: String, default: '' }) groupKeyOption: string
   @Prop({ type: String, default: 'Name' }) nameHeaderLabel: string
   @Prop({ type: String, default: 'Date' }) dateHeaderLabel: string
+  @Prop({ type: String, default: '' }) collapseTitleOption: string
 
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
@@ -448,7 +449,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .collapseHidden {
   .collapse-trigger {
     display: none;
