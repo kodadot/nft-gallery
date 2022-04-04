@@ -167,7 +167,7 @@
               {{ $t('profile.holdings') }}
             </b-tooltip>
           </template>
-          <Holding v-if="totalCollections" :account-id="id" />
+          <Holding :account-id="id" />
         </b-tab-item>
       </b-tabs>
     </section>
