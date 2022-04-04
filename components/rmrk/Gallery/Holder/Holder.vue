@@ -83,7 +83,7 @@
           </b-table-column>
           <b-table-column
             :visible="columnsVisible['Bought'].display"
-            field="BoughtFormatted"
+            field="Bought"
             label="Bought"
             sortable
             v-slot="props">
@@ -91,7 +91,7 @@
           </b-table-column>
           <b-table-column
             :visible="columnsVisible['Sale'].display"
-            field="SaleFormatted"
+            field="Sale"
             label="Sale"
             sortable
             v-slot="props">
@@ -383,6 +383,11 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   private generatecustomGroups(itemRowList): TableRow[] {
     const customGroups: Record<string, TableRow> = {}
     itemRowList.filter(this.getCustomRowFilter()).forEach((item) => {
+      item = {
+        Bought: 0,
+        Sale: 0,
+        ...item,
+      }
       const groupName = this.getGroupNameFromRow(item)
       if (customGroups[groupName]) {
         customGroups[groupName].Items.push(item)

@@ -1,6 +1,6 @@
 <template>
   <Holder
-    :events="ownerEventsOfNftCollection"
+    :events="ownerEventsOfNft"
     group-key-option="CollectionId"
     openOnDefault
     date-header-label="Last Activity"
@@ -13,9 +13,9 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
-import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '~/utils/sorting'
+import nftListOwned from '@/queries/nftListOwned.graphql'
 
 const components = {
   Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
@@ -26,40 +26,36 @@ export default class Holding extends mixins(PrefixMixin) {
   @Prop({ type: String, default: '' }) accountId: string
   private collectionIdList: string[] = []
 
-  public ownerEventsOfNftCollection: Interaction[] | [] = []
-  public totalCollections = 0
+  public ownerEventsOfNft: Interaction[] | [] = []
 
-  async fetchHoldingInfo() {
-    await this.fetchCollectionList()
-    if (this.collectionIdList.length) {
-      this.fetchCollectionEvents()
-    }
-  }
-
-  private async fetchCollectionList() {
-    const result = await this.$apollo.query({
-      query: collectionListByAccount,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
-      variables: {
-        account: this.accountId,
-        offset: 0,
+  async fetchNftListOwned() {
+    this.$apollo.addSmartQuery('items', {
+      query: nftListOwned,
+      manual: true,
+      client: this.urlPrefix,
+      update: ({ nFTEntities }) => nFTEntities.nodes,
+      loadingKey: 'isLoading',
+      result: this.handleNftListResult,
+      variables: () => {
+        return {
+          account: this.accountId,
+          offset: 0,
+        }
       },
+      fetchPolicy: 'cache-and-network',
     })
-    this.handleCollectionResult(result)
   }
 
-  protected async handleCollectionResult({ data }: any) {
-    if (data) {
-      this.totalCollections = data.stats.totalCount
-      this.collectionIdList = data.collectionEntities.map(
-        (collection) => collection.id
-      )
-    }
-    // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0) {
-      this.$router
-        .replace({ query: { tab: 'collected' } })
-        .catch(console.warn /*Navigation Duplicate err fix later */)
+  protected async handleNftListResult({ data }: any) {
+    if (data && data.nFTEntities) {
+      const collectionIdSet = new Set<string>()
+      data.nFTEntities.nodes.forEach((item) => {
+        collectionIdSet.add(item.collectionId)
+      })
+      this.collectionIdList = Array.from(collectionIdSet)
+      if (this.collectionIdList.length) {
+        this.fetchCollectionEvents()
+      }
     }
   }
 
@@ -73,7 +69,7 @@ export default class Holding extends mixins(PrefixMixin) {
         },
       })
       if (data && data.events && data.events.length) {
-        this.ownerEventsOfNftCollection = sortedEventByDate(data.events, 'ASC')
+        this.ownerEventsOfNft = sortedEventByDate(data.events, 'ASC')
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
@@ -83,7 +79,7 @@ export default class Holding extends mixins(PrefixMixin) {
   @Watch('accountId', { immediate: true })
   public watchAccountId(): void {
     if (this.accountId) {
-      this.fetchHoldingInfo()
+      this.fetchNftListOwned()
     }
   }
 }

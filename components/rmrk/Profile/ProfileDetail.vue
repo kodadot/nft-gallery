@@ -159,9 +159,7 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item
-          value="holdings"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+        <b-tab-item value="holdings">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.holdings')} ${displayName}`"
