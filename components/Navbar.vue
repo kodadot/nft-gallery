@@ -269,7 +269,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       .navbar-menu {
         margin-right: 0;
         .button {
-          height: 42px;
+          height: 40px;
         }
       }
     }
