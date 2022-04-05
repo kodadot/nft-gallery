@@ -86,6 +86,7 @@ export default class NewestList extends mixins(PrefixMixin) {
         const nFTEntity = await this.fetchnFTEntity(event.nft.id)
         event.nft.meta = {
           id: nFTEntity.metadata,
+          image: '',
         }
       }
     }
