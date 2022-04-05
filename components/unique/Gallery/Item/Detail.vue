@@ -5,9 +5,10 @@
     </p>
     <p class="subtitle is-size-6">
       <nuxt-link
+        v-if="nft.collection"
         :to="`/${urlPrefix}/collection/${nft.collectionId}`"
         v-show="!isLoading">
-        {{ nft.collectionId }}
+        {{ nft.collection.name }}
       </nuxt-link>
       <b-skeleton :active="isLoading"></b-skeleton>
     </p>

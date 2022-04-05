@@ -91,7 +91,11 @@
 import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
 import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import { web3Accounts } from '@polkadot/extension-dapp'
+import { enableExtension, isMobileDevice } from '@/utils/extension'
 import shouldUpdate from '@/utils/shouldUpdate'
+import onApiConnect from '@/utils/api/general'
+import correctFormat from '@/utils/ss58Format'
 
 @Component({
   components: {},
@@ -120,6 +124,14 @@ export default class WalletModal extends Vue {
     return SupportedWallets
   }
 
+  get chainProperties() {
+    return this.$store.getters['chain/getChainProperties']
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
   @Watch('walletAccounts', { immediate: true })
   handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
     if (shouldUpdate(value, oldVal)) {
@@ -132,6 +144,17 @@ export default class WalletModal extends Vue {
     this.hasSelectedWalletProvider = true
     this.walletAccounts = []
 
+    if (isMobileDevice) {
+      onApiConnect(async () => {
+        await enableExtension()
+        this.hasWalletProviderExtension = true
+        this.walletAccounts = (await web3Accounts({
+          ss58Format: correctFormat(this.ss58Format),
+        })) as any[]
+        return
+      })
+    }
+
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
       this.guideUrl = wallet.guideUrl
@@ -142,7 +165,6 @@ export default class WalletModal extends Vue {
         type: 'is-info',
         hasIcon: true,
       })
-      console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
       // wallet.enable()
