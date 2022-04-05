@@ -44,7 +44,9 @@
               v-clipboard:copy="identity.address"
               @click.native="toast('Copied to clipboard')"></b-icon>
           </p>
-          <p class="is-size-7 is-flex is-align-items-center py-3">
+          <p
+            class="is-size-7 is-flex is-align-items-center py-3"
+            v-if="totalCreated">
             <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
           </p>
