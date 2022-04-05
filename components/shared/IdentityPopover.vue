@@ -50,6 +50,12 @@
             <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
           </p>
+          <p
+            class="is-size-7 is-flex is-align-items-center py-3"
+            v-if="totalCollected && lastBoughtDate">
+            <b-icon icon="clock" size="is-small" />
+            <span class="ml-2">Last bought {{ lastBoughtDate }}</span>
+          </p>
         </div>
       </div>
 
@@ -86,6 +92,7 @@ import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -107,6 +114,14 @@ export default class IdentityPopover extends mixins(
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
+  }
+  get lastBoughtDate(): Address {
+    if (this.identity?.lastCollectedDate) {
+      return formatDistanceToNow(new Date(this.identity.lastCollectedDate), {
+        addSuffix: true,
+      })
+    }
+    return ''
   }
 
   private resolveAddress(account: Address): string {

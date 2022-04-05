@@ -15,6 +15,7 @@
               :address="id"
               inline
               emit
+              :lastCollectedDate="lastCollectedDate"
               @change="handleIdentity" />
           </a>
         </h1>
@@ -155,7 +156,7 @@
           <PaginatedCardList
             :id="id"
             :query="nftListCollected"
-            @change="totalCollected = $event"
+            @change="onCollectedChange"
             :account="id"
             showSearchBar />
         </b-tab-item>
@@ -235,6 +236,7 @@ export default class Profile extends mixins(PrefixMixin) {
   protected totalCollections = 0
   protected totalCreated = 0
   protected totalCollected = 0
+  protected lastCollectedDate = ''
   protected totalSold = 0
   protected networks = [
     {
@@ -395,6 +397,12 @@ export default class Profile extends mixins(PrefixMixin) {
     this.riot = identityFields?.riot as string
     this.web = identityFields?.web as string
     this.legal = identityFields?.legal as string
+  }
+
+  protected onCollectedChange(count, item) {
+    this.totalCollected = count
+    // 0th one would have the latest collected information
+    this.lastCollectedDate = item[0].updatedAt
   }
 
   @Watch('$route.params.id')
