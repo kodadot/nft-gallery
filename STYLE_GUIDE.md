@@ -1,12 +1,12 @@
 # KodaDot Style Guide v1.0
 
-As codebases grow in size and complexity, it is necessary to establish and maintain some kind of **style guide which each and every contributor should conform to**. While tools like ESLint and Prettier are able to support us in this regard, additional rules are needed to allow us to better communicate with each other. Since our community is coming from all around the world, working together in an asynchronous manner, **clear communication** is  of utmost importance.
+As codebases grow in size and complexity, it is necessary to establish and maintain some kind of **style guide to which each contributor should conform**. While tools like ESLint and Prettier can support us in this regard, additional rules are needed to allow us to better communicate with each other. Since our community is coming from all around the world, working together asynchronously, **clear communication** is of utmost importance.
 
 The following set of conventions should make it easier for you to understand our code and aid you in making meaningful contributions to the project:
 
 ## Naming Conventions
 Give your functions, components and files **speaking/self-explanatory names** (e.g. `getCollectionById()`, `KeyboardShortcuts.vue`, `setIdentity.ts`).
-With a few exceptions, code and comments should be written in **english** only.
+With a few exceptions, code and comments should be written in **English** only.
 
 ### Nuxt/Vue-specific Files
 - **Pages** and **layouts** use **kebab-case** (`series-insight.vue`)
@@ -121,8 +121,8 @@ export default class ClassName extends Vue {
 
 
 ### Reusability Through Abstraction
-If your component will be used on several occasions in many different contexts, you should think about the way you pass data to your components and the way events are handled.
-In regards to event handling, you should always aim to emit events happening in your component, while the handling should be done in the parent or page itself. Thereby, the click of a button can trigger all kinds of functionality, without having to be aware of its context.
+If your component will be used on several occasions in many different contexts, you should think about how you pass data to your components and how events are handled.
+Regarding event handling, you should always aim to emit events happening in your component, while the handling should be done in the parent or page itself. Thereby, the click of a button can trigger all kinds of functionality without being aware of its context.
 ```vue
 <template>
     <!-- ParentComponent.vue -->
@@ -136,7 +136,7 @@ In regards to event handling, you should always aim to emit events happening in 
 </template>
 ```
 
-Make reusable components as generic as possible. The naming should therefore only imply the functionality of component itself, and not what it does in the given context.
+Make reusable components as generic as possible. Therefore, the naming should only imply the functionality of the component itself and not what it does in the given context.
 ```vue
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
@@ -196,3 +196,4 @@ if (something) return 1
 if (something) {
   return 1
 }
+```
