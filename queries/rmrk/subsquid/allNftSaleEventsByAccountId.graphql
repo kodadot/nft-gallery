@@ -1,6 +1,11 @@
 query allNftSaleEventsByAccountId($id: String) {
   nftEntities(where: {currentOwner_eq: $id}) {
     id
+    name
+    collection {
+      id
+      name
+    }
     events(orderBy: timestamp_DESC) {
       meta
       interaction
@@ -8,14 +13,6 @@ query allNftSaleEventsByAccountId($id: String) {
       timestamp
       caller
       id
-      nft {
-        id
-        name
-        collection {
-          id
-          name
-        }
-      }
     }
   }
 }

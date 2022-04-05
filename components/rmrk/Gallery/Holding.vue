@@ -40,7 +40,15 @@ export default class Holding extends mixins(PrefixMixin) {
       if (data && data.nftEntities && data.nftEntities.length) {
         const events = []
         data.nftEntities.forEach((item) => {
-          events.push(...item.events)
+          const nftEvents = item.events
+          nftEvents.forEach((e) => {
+            e.nft = {
+              id: item.id,
+              name: item.name,
+              collection: item.collection,
+            }
+          })
+          events.push(...nftEvents)
         })
         this.ownerEventsOfNft = sortedEventByDate(events, 'ASC')
       }
