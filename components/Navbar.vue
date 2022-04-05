@@ -234,25 +234,25 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 //   }
 // }
 
-// @media only screen and (min-width: 1215px) and (max-width: 1190px) {
-//   div#NavHistoryBrowser {
-//     display: none;
-//   }
-// }
-
-@media only screen and (min-width: 1024px) and (max-width: 1337px) {
-  .navbar-menu .search-navbar {
-    width: 300px !important;
+@media only screen and (min-width: 1024px) and (max-width: 1100px) {
+  div#NavHistoryBrowser {
+    display: none;
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1180px) {
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  a#NavCreate {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1250px) {
   div#NavChainSelect {
     display: none;
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1220px) {
+@media only screen and (min-width: 1024px) and (max-width: 1340px) {
   div#NavLocaleChanger {
     display: none;
   }
@@ -316,12 +316,16 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       margin-left: 0 !important;
     }
   }
+  .navbar-start {
+    flex: 1;
+  }
   .search-navbar {
     flex-grow: 1;
     margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    width: 400px;
+    min-width: 350px;
+    flex: 1;
     margin: 0 1rem;
     input {
       border: inherit;
