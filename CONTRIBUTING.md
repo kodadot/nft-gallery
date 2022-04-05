@@ -15,6 +15,7 @@ Before you being:
 - Make sure that you use [**pnpm**](https://pnpm.io/installation) as the package manager.
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
 - [Learn how to set up your environment for the first time](FIRST_TIME.md)
+- Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
 
 ### Which issue should you pick?
 
