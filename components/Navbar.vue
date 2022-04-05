@@ -240,14 +240,14 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 //   }
 // }
 
-@media only screen and (min-width: 1024px) and (max-width: 1215px) {
-  div#NavChainSelect {
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  a#NavCreate {
     display: none;
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1230px) {
-  a#NavCreate {
+@media only screen and (min-width: 1024px) and (max-width: 1220px) {
+  div#NavChainSelect {
     display: none;
   }
 }
