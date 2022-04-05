@@ -7,7 +7,7 @@ query collectionEntityById($id: ID!, $nftId: ID!) {
     id
     name
     nfts(
-      limit: 10
+      limit: 20
       orderBy: [price_ASC, updatedAt_DESC]
       where: { price_gt: "0", id_not_eq: $nftId }
     ) {
