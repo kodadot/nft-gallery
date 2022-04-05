@@ -22,8 +22,10 @@
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
-      <HistoryBrowser class="ml-2 navbar-link-background" />
-      <b-navbar-dropdown arrowless collapsible>
+      <HistoryBrowser
+        class="ml-2 navbar-link-background"
+        id="NavHistoryBrowser" />
+      <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
           <span>{{ $t('Create') }}</span>
         </template>
@@ -45,7 +47,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible>
+      <b-navbar-dropdown arrowless collapsible id="NavExplore">
         <template #label>
           <span>{{ $t('Explore') }}</span>
         </template>
@@ -56,7 +58,7 @@
           {{ $t('Gallery') }}
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible v-if="isRmrk">
+      <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('Stats') }}</span>
         </template>
@@ -69,9 +71,9 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="ml-2" />
-      <LocaleChanger class="ml-2" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" />
+      <ChainSelect class="ml-2" id="NavChainSelect" />
+      <LocaleChanger class="ml-2" id="NavLocaleChanger" />
+      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -217,6 +219,45 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     padding-bottom: 0 !important;
   }
 }
+
+// Reserved for future adjustments
+
+// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
+//   a#NavProfile {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
+//   a#NavStats {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 1215px) and (max-width: 1190px) {
+//   div#NavHistoryBrowser {
+//     display: none;
+//   }
+// }
+
+@media only screen and (min-width: 1024px) and (max-width: 1337px) {
+  .navbar-menu .search-navbar {
+    width: 300px !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1180px) {
+  div#NavChainSelect {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1220px) {
+  div#NavLocaleChanger {
+    display: none;
+  }
+}
+
 .navbar {
   background: rgba(12, 12, 12, 0.7);
   backdrop-filter: blur(20px);
