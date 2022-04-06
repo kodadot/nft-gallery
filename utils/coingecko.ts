@@ -41,7 +41,7 @@ export const getKSMUSD = async (): Promise<number> => {
     return value
   } catch (error) {
     console.log(error)
-    return Number(localStorage.getItem('KSM') ?? 100)
+    return Number(localStorage.getItem('KSM') || 100)
   }
 }
 
