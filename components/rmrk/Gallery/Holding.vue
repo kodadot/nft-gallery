@@ -38,7 +38,7 @@ export default class Holding extends mixins(PrefixMixin) {
         },
       })
       if (data && data.nftEntities && data.nftEntities.length) {
-        const events = []
+        const events: any[] = []
         data.nftEntities.forEach((item) => {
           const nftEvents = item.events.map((event) => ({
             ...event,
