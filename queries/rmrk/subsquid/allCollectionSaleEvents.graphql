@@ -1,5 +1,5 @@
-query allCollectionSaleEvents($ids: [ID!], $and: [EventWhereInput!]) {
-  events(where: { nft: { collection: { id_in: $ids } }, AND: $and }) {
+query allCollectionSaleEvents($id: ID!, $and: [EventWhereInput!]) {
+  events(where: { nft: { collection: { id_eq: $id } }, AND: $and }) {
     meta
     interaction
     blockNumber
@@ -9,10 +9,6 @@ query allCollectionSaleEvents($ids: [ID!], $and: [EventWhereInput!]) {
     nft {
       id
       name
-      collection {
-        id
-        name
-      }
     }
   }
 }

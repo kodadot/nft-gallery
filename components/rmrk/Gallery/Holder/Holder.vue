@@ -392,9 +392,9 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     const customGroups: Record<string, TableRow> = {}
     itemRowList.filter(this.getCustomRowFilter()).forEach((item: TableRow) => {
       item = {
-        Bought: 0,
-        Sale: 0,
         ...item,
+        Bought: item.Bought ?? 0,
+        Sale: item.Sale ?? 0,
       }
 
       const groupName = this.getGroupNameFromRow(item)
