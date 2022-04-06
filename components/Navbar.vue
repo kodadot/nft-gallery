@@ -297,8 +297,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .logo {
     border: none !important;
-    margin-left: 0;
     background: transparent;
+    @include tablet {
+      margin-left: 0;
+    }
   }
 
   .navbar-brand {

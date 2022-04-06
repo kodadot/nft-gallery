@@ -6,10 +6,10 @@
           <img
             src="~/assets/KODADOT.png"
             alt="First NFT market explorer on Kusama and Polkadot"
-            class="mb-5"
+            class="mb-5 is-hidden-mobile"
             height="60" />
           <h3
-            class="title is-1 is-flex is-flex-direction-column uppercase homepage__heading">
+            class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
             <span class="text__stroked my-5">
               Discover, collect and sell Kusama NFTs
             </span>
@@ -58,6 +58,12 @@ export default class Landing extends Vue {
 
 <style lang="scss" scoped>
 @import '@/styles/variables';
+
+@include mobile {
+  .homepage.section {
+    padding-top: 0;
+  }
+}
 
 .homepage {
   content: '';
