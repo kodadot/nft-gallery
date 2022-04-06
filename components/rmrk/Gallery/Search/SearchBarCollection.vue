@@ -139,7 +139,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    value !== this.searchQuery && this.replaceUrl(value)
     return value
   }
 

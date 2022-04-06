@@ -3,24 +3,18 @@
     <Loader :value="isLoading" />
     <Search
       v-bind.sync="searchQuery"
-      @resetPage="currentValue = 1"
+      @resetPage="resetPage"
       :sortOption="collectionSortOption">
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :per-page="first" />
-      </b-field>
     </Search>
 
     <div>
-      <div class="columns is-multiline">
+      <infinite-loading
+        v-if="startPage > 1"
+        direction="top"
+        @infinite="reachTopHandler"></infinite-loading>
+      <div class="columns is-multiline" @scroll="onScroll">
         <div
-          class="column is-4 column-padding"
+          class="column is-4 column-padding scroll-item"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -47,19 +41,14 @@
           </div>
         </div>
       </div>
+      <infinite-loading @infinite="reachBottomHandler"></infinite-loading>
     </div>
-    <Pagination
-      class="pt-5 pb-5"
-      :total="total"
-      :perPage="first"
-      v-model="currentValue"
-      replace />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
-import shouldUpdate from '~/utils/shouldUpdate'
+import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
   Collection,
@@ -114,6 +103,12 @@ export default class CollectionList extends mixins(PrefixMixin) {
     listed: false,
   }
 
+  private startPage = parseInt(this.$route.query?.page as string) || 1
+  private endPage = this.startPage
+  private isLoading = true
+  private scrollItemHeight = 300
+  private itemsPerRow = 3
+
   private collectionSortOption: string[] = [
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
@@ -121,12 +116,21 @@ export default class CollectionList extends mixins(PrefixMixin) {
     'UPDATED_AT_ASC',
   ]
 
-  get isLoading(): boolean {
-    return this.$apollo.queries.collection.loading
+  get offset(): number {
+    return this.endPage * this.first - this.first
   }
 
-  get offset(): number {
-    return this.currentValue * this.first - this.first
+  get canLoadNextPage() {
+    return this.endPage < Math.ceil(this.total / this.first)
+  }
+
+  @Debounce(500)
+  private resetPage() {
+    this.startPage = 1
+    this.endPage = 1
+    this.collections = []
+    this.isLoading = true
+    this.fetchPageData(1)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -141,36 +145,62 @@ export default class CollectionList extends mixins(PrefixMixin) {
     return params
   }
 
+  private async reachTopHandler($state) {
+    this.startPage -= 1
+    await this.fetchPageData(this.startPage, 'up')
+    $state.loaded()
+  }
+
+  private async reachBottomHandler($state) {
+    this.endPage += 1
+    await this.fetchPageData(this.endPage)
+    $state.loaded()
+  }
+
   public async created() {
-    this.$apollo.addSmartQuery('collection', {
+    this.fetchPageData(this.startPage)
+  }
+
+  private mounted() {
+    window.addEventListener('resize', this.onResize)
+    window.addEventListener('scroll', this.onScroll)
+    this.onResize()
+  }
+
+  private beforeDestroy() {
+    window.addEventListener('resize', this.onResize)
+    window.removeEventListener('scroll', this.onScroll)
+  }
+
+  public async fetchPageData(page, loadDirection = 'down') {
+    const result = await this.$apollo.query({
       query: collectionListWithSearch,
       manual: true,
       client: this.urlPrefix,
-      loadingKey: 'isLoading',
-      result: this.handleResult,
-      variables: () => {
-        return {
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(),
-          listed: this.searchQuery.listed
-            ? [{ price: { greaterThan: '0' } }]
-            : [],
-          first: this.first,
-          offset: this.offset,
-        }
+      variables: {
+        orderBy: this.searchQuery.sortBy,
+        search: this.buildSearchParam(),
+        listed: this.searchQuery.listed
+          ? [{ price: { greaterThan: '0' } }]
+          : [],
+        first: this.first,
+        offset: (page - 1) * this.first,
       },
-      update: ({ collectionEntity }) => ({
-        ...collectionEntity,
-        nfts: collectionEntity.nfts.nodes,
-      }),
     })
+    this.handleResult(result, loadDirection)
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data }: any, loadDirection = 'down') {
     this.total = data.collectionEntities.totalCount
-    this.collections = data.collectionEntities.nodes.map((e: any) => ({
+    const newCollections = data.collectionEntities.nodes.map((e: any) => ({
       ...e,
     }))
+
+    if (loadDirection === 'up') {
+      this.collections = newCollections.concat(this.collections)
+    } else {
+      this.collections = this.collections.concat(newCollections)
+    }
 
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
@@ -185,6 +215,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
       })
     })
 
+    this.isLoading = false
     this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
   }
 
@@ -218,9 +249,45 @@ export default class CollectionList extends mixins(PrefixMixin) {
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.currentValue = 1
+    if (val !== oldVal) {
+      this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
+    this.resetPage()
+  }
+
+  @Debounce(100)
+  replaceUrlPage(page: string) {
+    if (page === this.$route.query.page) return
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, page },
+      })
+      .catch(console.warn /*Navigation Duplicate err fix later */)
+  }
+
+  get pageHeight() {
+    return this.scrollItemHeight * (this.first / this.itemsPerRow)
+  }
+
+  @Debounce(1000)
+  onScroll() {
+    const currentPage =
+      Math.floor(document.documentElement.scrollTop / this.pageHeight) +
+      this.startPage
+    this.replaceUrlPage(String(currentPage))
+  }
+  onResize() {
+    try {
+      this.scrollItemHeight =
+        document.body.querySelector('.scroll-item').clientHeight
+    } catch (err) {
+      console.warn('resize scroll item', err)
     }
   }
 
