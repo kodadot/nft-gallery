@@ -245,7 +245,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     for (const newEvent of this.events) {
       const event: any = {}
 
-      const nftId = newEvent['nft']?.id
+      const nftId = (newEvent['nft'] as any)?.id
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
         event['Type'] = this.$t('nft.event.MINTNFT')

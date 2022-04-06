@@ -296,7 +296,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         CollectionId: collectionId,
         Amount: 1,
       }
-      const nftId = newEvent['nft']?.id
+      const nftId = (newEvent['nft'] as any)?.id
       if (newEvent['interaction'] === 'MINTNFT') {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
