@@ -23,14 +23,14 @@ const components = {
 
 @Component({ components })
 export default class Holding extends mixins(PrefixMixin) {
-  @Prop({ type: String, default: '' }) accountId: string
+  @Prop({ type: String, default: '' }) accountId!: string
   private collectionIdList: string[] = []
 
   public ownerEventsOfNft: Interaction[] | [] = []
 
   protected async fetchNftEvents() {
     try {
-      const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+      const { data } = await this.$apollo.query<{ events: any[] }>({
         query: allNftSaleEventsByAccountId,
         client: 'subsquid',
         variables: {
@@ -40,14 +40,14 @@ export default class Holding extends mixins(PrefixMixin) {
       if (data && data.nftEntities && data.nftEntities.length) {
         const events = []
         data.nftEntities.forEach((item) => {
-          const nftEvents = item.events
-          nftEvents.forEach((e) => {
-            e.nft = {
+          const nftEvents = item.events.map((event) => ({
+            ...event,
+            nft: {
               id: item.id,
               name: item.name,
               collection: item.collection,
-            }
-          })
+            },
+          }))
           events.push(...nftEvents)
         })
         this.ownerEventsOfNft = sortedEventByDate(events, 'ASC')

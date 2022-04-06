@@ -182,7 +182,7 @@ type TableRow = {
   Holder: string
   Bought: number
   BoughtFormatted?: string
-  Sale: string
+  Sale: number
   SaleFormatted?: string
   Date: string
   Time: string
@@ -392,6 +392,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         Sale: 0,
         ...item,
       }
+
       const groupName = this.getGroupNameFromRow(item)
       if (customGroups[groupName]) {
         customGroups[groupName].Items?.push(item)

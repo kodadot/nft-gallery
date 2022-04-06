@@ -1,5 +1,5 @@
 query allNftSaleEventsByAccountId($id: String) {
-  nftEntities(where: {currentOwner_eq: $id}) {
+  nftEntities(where: { currentOwner_eq: $id, burned_eq: false }) {
     id
     name
     collection {
