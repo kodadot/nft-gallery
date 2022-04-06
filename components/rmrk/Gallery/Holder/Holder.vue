@@ -74,7 +74,10 @@
                 name: 'rmrk-collection-id',
                 params: { id: props.row.CollectionId },
               }">
-              {{ props.row.Item.collection.name }}
+              <Identity
+                :address="props.row.Item.collection.issuer"
+                inline
+                :customNameOption="props.row.Item.collection.name" />
             </nuxt-link>
           </b-table-column>
           <b-table-column
