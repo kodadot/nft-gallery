@@ -9,6 +9,10 @@ query allCollectionSaleEvents($id: ID!, $and: [EventWhereInput!]) {
     nft {
       id
       name
+      collection {
+        id
+        name
+      }
     }
   }
 }

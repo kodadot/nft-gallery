@@ -12,7 +12,7 @@
           role="button"
           aria-controls="contentIdForHistory">
           <p class="card-header-title">
-            {{ $t('Holders') }}
+            {{ collapseTitleOption || $t('Holders') }}
           </p>
           <a class="card-header-icon">
             <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
@@ -40,9 +40,9 @@
           :data="showList"
           class="mb-4"
           hoverable
-          custom-row-key="Date"
+          custom-row-key="Id"
           :show-detail-icon="showDetailIcon"
-          detail-key="Holder"
+          :detail-key="groupKey"
           custom-detail-row
           detailed
           paginated
@@ -55,14 +55,26 @@
           :default-sort="['Amount', 'desc']">
           <b-table-column
             :visible="columnsVisible['Name'].display"
-            field="Holder"
-            label="Name"
+            :field="groupKey"
+            cell-class="short-name-column"
+            :label="nameHeaderLabel"
             v-slot="props">
-            <span v-if="props.row.Holder === '-'">{{ props.row.Holder }}</span>
             <nuxt-link
-              v-else
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.Holder } }">
+              v-if="groupKey === 'Holder'"
+              :to="{
+                name: 'rmrk-u-id',
+                params: { id: props.row.Holder },
+                query: { tab: 'holdings' },
+              }">
               <Identity :address="props.row.Holder" inline noOverflow />
+            </nuxt-link>
+            <nuxt-link
+              v-else-if="groupKey === 'CollectionId'"
+              :to="{
+                name: 'rmrk-collection-id',
+                params: { id: props.row.CollectionId },
+              }">
+              {{ props.row.Item.collection.name }}
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -93,7 +105,7 @@
           <b-table-column
             :visible="columnsVisible['Date'].display"
             field="Timestamp"
-            label="Date"
+            :label="dateHeaderLabel"
             sortable
             v-slot="props">
             <b-tooltip
@@ -111,7 +123,9 @@
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
               <td v-if="showDetailIcon"></td>
-              <td v-show="columnsVisible['Name'].display">
+              <td
+                class="short-name-column"
+                v-show="columnsVisible['Name'].display">
                 <nuxt-link
                   :to="{
                     name: 'rmrk-gallery-id',
@@ -175,10 +189,11 @@ type TableRow = {
   Holder: string
   Bought: number
   BoughtFormatted?: string
-  Sale: string
+  Sale: number
   SaleFormatted?: string
   Date: string
   Time: string
+  Id: string
   SortKey: number
   Block: string
   Amount: number
@@ -189,16 +204,15 @@ type TableRow = {
 @Component({ components })
 export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: Interaction[]
-  @Prop({ type: Boolean, default: true })
-  private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
+  @Prop({ type: String, default: '' }) groupKeyOption!: string
+  @Prop({ type: String, default: 'Name' }) nameHeaderLabel!: string
+  @Prop({ type: String, default: 'Date' }) dateHeaderLabel!: string
+  @Prop({ type: String, default: '' }) collapseTitleOption!: string
 
+  private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
-  private holderGroups: TableRow[] = []
-
-  public isOpen = false
-
-  private showDetailIcon = true
+  private customGroups: TableRow[] = []
   private columnsVisible = {
     Name: { title: 'Name', display: true },
     Amount: { title: 'Amount', display: true },
@@ -206,12 +220,20 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     Sale: { title: 'Sale', display: true },
     Date: { title: 'Date', display: true },
   }
+  public isOpen = false
+  private showDetailIcon = true
 
   public async created() {
     this.initKeyboardEventHandler({
       e: this.bindExpandEvents,
       g: this.bindPaginationEvents,
     })
+    this.initColumnVisibleConfig()
+  }
+
+  private initColumnVisibleConfig() {
+    this.columnsVisible['Name'].title = this.nameHeaderLabel
+    this.columnsVisible['Date'].title = this.dateHeaderLabel
   }
 
   private bindPaginationEvents(event) {
@@ -239,7 +261,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get total(): number {
-    return this.holderGroups.length
+    return this.customGroups.length
   }
 
   get itemsPerPage(): number {
@@ -247,12 +269,16 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get showList(): TableRow[] {
-    return this.holderGroups
+    return this.customGroups
+  }
+
+  get groupKey() {
+    return this.groupKeyOption || 'Holder'
   }
 
   protected createTable(): void {
     const NFTList = this.generateNFTList()
-    this.holderGroups = this.generateHolderGroups(NFTList)
+    this.customGroups = this.generatecustomGroups(NFTList)
   }
 
   private generateNFTList(): TableRow[] {
@@ -264,14 +290,16 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       const dateStr = parseDate(date)
       const formatTime = formatDistanceToNow(date, { addSuffix: true })
       const block = String(newEvent['blockNumber'])
+      const collectionId = newEvent['nft']['collection']['id']
       const commonInfo = {
         Date: dateStr,
         Time: formatTime,
         Timestamp: timestamp,
         Block: block,
+        CollectionId: collectionId,
         Amount: 1,
       }
-      const nftId = newEvent['nft']?.id
+      const nftId = (newEvent['nft'] as any)?.id
       if (newEvent['interaction'] === 'MINTNFT') {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
@@ -345,37 +373,62 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     return Object.values(itemRowMap)
   }
 
-  private generateHolderGroups(itemRowList): TableRow[] {
-    const holderGroups: Record<string, TableRow> = {}
-    itemRowList
-      .filter((item) => item.Holder !== '-')
-      .forEach((item) => {
-        const holder = item['Holder']
-        if (holderGroups[holder]) {
-          holderGroups[holder].Items.push(item)
-          holderGroups[holder]['Bought'] =
-            holderGroups[holder]['Bought'] + item['Bought']
-          holderGroups[holder]['Sale'] =
-            holderGroups[holder]['Sale'] + item['Sale']
-        } else {
-          holderGroups[holder] = {
-            ...item,
-            Items: [item],
-          }
+  private getGroupNameFromRow(item: TableRow): string {
+    if (this.groupKey === 'Holder') {
+      return item['Holder']
+    } else if (this.groupKey === 'CollectionId') {
+      return item['Item']['collection']['id']
+    }
+    return item['Holder']
+  }
+
+  private getCustomRowFilter(): (item: TableRow) => boolean {
+    if (this.groupKey === 'Holder') {
+      return (item) => item.Holder !== '-'
+    } else if (this.groupKey === 'CollectionId') {
+      return (item) => item.Holder === this.$route.params.id
+    }
+    return () => true
+  }
+
+  private generatecustomGroups(itemRowList: TableRow[]): TableRow[] {
+    const customGroups: Record<string, TableRow> = {}
+    itemRowList.filter(this.getCustomRowFilter()).forEach((item: TableRow) => {
+      item = {
+        ...item,
+        Bought: item.Bought ?? 0,
+        Sale: item.Sale ?? 0,
+      }
+
+      const groupName = this.getGroupNameFromRow(item)
+      if (customGroups[groupName]) {
+        customGroups[groupName].Items?.push(item)
+        customGroups[groupName]['Bought'] =
+          customGroups[groupName]['Bought'] + item['Bought']
+        customGroups[groupName]['Sale'] =
+          customGroups[groupName]['Sale'] + item['Sale']
+      } else {
+        customGroups[groupName] = {
+          ...item,
+          Id: item['CollectionId'] + item['Item']['id'],
+          Items: [item],
         }
-      })
+      }
+    })
 
-    const holderGroupsList = Object.values(holderGroups)
+    const customGroupsList = Object.values(customGroups)
 
-    holderGroupsList.forEach((group) => {
+    customGroupsList.forEach((group) => {
       parsePriceForItem(group, this.decimals, this.unit)
-      group['Amount'] = group['Items'].length
-      group['Items'].forEach((item) => {
+      if (!group['Items']) return
+      let groupItems: TableRow[] = group['Items']
+      group['Amount'] = groupItems.length
+      groupItems.forEach((item) => {
         parsePriceForItem(item, this.decimals, this.unit)
       })
-      group['Items'] = group['Items'].sort((a, b) => b.SortKey - a.SortKey)
+      group['Items'] = groupItems.sort((a, b) => b.SortKey - a.SortKey)
     })
-    return holderGroupsList
+    return customGroupsList
   }
 
   protected getBlockUrl(block: string): string {
@@ -409,7 +462,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .collapseHidden {
   .collapse-trigger {
     display: none;
@@ -425,6 +478,9 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     @media screen and (max-width: 768px) {
       flex-direction: column-reverse;
     }
+  }
+  .short-name-column {
+    max-width: 20em;
   }
 }
 </style>
