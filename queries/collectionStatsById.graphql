@@ -16,7 +16,7 @@ query collectionStatsById($id: String!) {
     listed: nfts(filter: { price: { greaterThan: "0" } }) {
       count: totalCount
       aggregates {
-        floor: min {
+        floor: max {
           value: price
         }
       }
