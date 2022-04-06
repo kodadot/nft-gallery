@@ -402,7 +402,7 @@ export default class Profile extends mixins(PrefixMixin) {
   protected onCollectedChange(count, item) {
     this.totalCollected = count
     // 0th one would have the latest collected information
-    this.lastCollectedDate = item[0].updatedAt
+    this.lastCollectedDate = item[0].createdAt
   }
 
   @Watch('$route.params.id')

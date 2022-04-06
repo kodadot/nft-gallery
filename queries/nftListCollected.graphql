@@ -22,7 +22,7 @@ query nftListCollected(
     nodes {
       ...nft
       ...nftDetails
-      updatedAt
+      createdAt
     }
   }
 }
