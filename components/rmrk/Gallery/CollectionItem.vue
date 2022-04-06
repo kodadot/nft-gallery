@@ -354,7 +354,7 @@ export default class CollectionItem extends mixins(
         query: allCollectionSaleEvents,
         client: 'subsquid',
         variables: {
-          ids: this.id,
+          id: this.id,
           and: {
             // interaction_eq: 'BUY',
           },
