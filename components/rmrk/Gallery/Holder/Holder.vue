@@ -56,6 +56,7 @@
           <b-table-column
             :visible="columnsVisible['Name'].display"
             :field="groupKey"
+            cell-class="short-name-column"
             :label="nameHeaderLabel"
             v-slot="props">
             <nuxt-link
@@ -122,7 +123,9 @@
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
               <td v-if="showDetailIcon"></td>
-              <td v-show="columnsVisible['Name'].display">
+              <td
+                class="short-name-column"
+                v-show="columnsVisible['Name'].display">
                 <nuxt-link
                   :to="{
                     name: 'rmrk-gallery-id',
@@ -475,6 +478,9 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     @media screen and (max-width: 768px) {
       flex-direction: column-reverse;
     }
+  }
+  .short-name-column {
+    max-width: 20em;
   }
 }
 </style>
