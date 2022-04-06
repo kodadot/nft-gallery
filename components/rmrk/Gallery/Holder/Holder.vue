@@ -60,7 +60,11 @@
             v-slot="props">
             <nuxt-link
               v-if="groupKey === 'Holder'"
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.Holder } }">
+              :to="{
+                name: 'rmrk-u-id',
+                params: { id: props.row.Holder },
+                query: { tab: 'holdings' },
+              }">
               <Identity :address="props.row.Holder" inline noOverflow />
             </nuxt-link>
             <nuxt-link
