@@ -392,7 +392,7 @@ export default class Profile extends mixins(PrefixMixin) {
       this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0 && this.$router.query.tab !== 'holdings') {
+    if (this.totalCollections === 0 && this.$route.query.tab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
         .catch(console.warn /*Navigation Duplicate err fix later */)
