@@ -114,6 +114,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/keyboardEvents', mode: 'client' },
     { src: '~/plugins/userBalance', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
+    '~/plugins/consola',
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
