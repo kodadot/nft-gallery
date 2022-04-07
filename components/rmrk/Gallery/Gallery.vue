@@ -443,6 +443,7 @@ export default class Gallery extends mixins(PrefixMixin) {
           z-index: 2;
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
+          border-radius: 0;
         }
 
         &:hover .gallery__image-wrapper img {
