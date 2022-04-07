@@ -12,10 +12,11 @@
 <script lang="ts">
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
+import { Interaction, NftEvents } from '../service/scheme'
 import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '~/utils/sorting'
+import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
 const components = {
   Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
@@ -24,13 +25,11 @@ const components = {
 @Component({ components })
 export default class Holding extends mixins(PrefixMixin) {
   @Prop({ type: String, default: '' }) accountId!: string
-  private collectionIdList: string[] = []
-
   public ownerEventsOfNft: Interaction[] | [] = []
 
   protected async fetchNftEvents() {
     try {
-      const { data } = await this.$apollo.query<{ nftEntities: any[] }>({
+      const { data } = await this.$apollo.query<NftEvents>({
         query: allNftSaleEventsByAccountId,
         client: 'subsquid',
         variables: {
@@ -38,9 +37,9 @@ export default class Holding extends mixins(PrefixMixin) {
         },
       })
       if (data && data.nftEntities && data.nftEntities.length) {
-        const events: any[] = []
+        const events: NftHolderEvent[] = []
         data.nftEntities.forEach((item) => {
-          const nftEvents = item.events.map((event) => ({
+          const nftEvents = item.events.map((event: Interaction) => ({
             ...event,
             nft: {
               id: item.id,

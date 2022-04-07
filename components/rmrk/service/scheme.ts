@@ -206,6 +206,15 @@ export interface CollectionEventsStats {
   count: number
 }
 
+export interface NftEvents {
+  nftEntities: {
+    id: string
+    name: string
+    collection: Collection
+    events: Interaction[]
+  }[]
+}
+
 export const getNftId = (nft: NFT, blocknumber?: string | number): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection}-${
     nft.instance || nft.name

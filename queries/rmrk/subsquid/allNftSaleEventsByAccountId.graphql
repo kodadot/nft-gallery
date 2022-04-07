@@ -5,6 +5,7 @@ query allNftSaleEventsByAccountId($id: String) {
     collection {
       id
       name
+      issuer
     }
     events(orderBy: timestamp_DESC) {
       meta
