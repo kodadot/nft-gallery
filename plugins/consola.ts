@@ -7,11 +7,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-const logger = consola.create({
-  // level: 4,
-  reporters: [new consola.JSONReporter()],
-})
-
 export default ({ app }, inject) => {
-  inject('consola', logger)
+  inject('consola', consola)
 }
