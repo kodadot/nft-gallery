@@ -23,7 +23,7 @@
     </template>
     <template #end v-if="showTopNavbar">
       <HistoryBrowser
-        class="ml-2 navbar-link-background"
+        class="custom-navbar-item navbar-link-background"
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
@@ -71,8 +71,8 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="ml-2" id="NavChainSelect" />
-      <LocaleChanger class="ml-2" id="NavLocaleChanger" />
+      <ChainSelect class="custom-navbar-item" id="NavChainSelect" />
+      <LocaleChanger class="custom-navbar-item" id="NavLocaleChanger" />
       <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
@@ -258,7 +258,30 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .navbar {
+    .navbar-item {
+      margin-left: 0 !important;
+    }
+    .custom-navbar-item {
+      margin-left: 0 !important;
+    }
+    .navbar-dropdown .b-tooltip {
+      width: 100%;
+    }
+  }
+  #NavProfile {
+    width: 100vw;
+    margin-left: 0;
+    button {
+      width: 100vw;
+      background: $primary;
+    }
+  }
+}
+
 .navbar {
+  width: 100vw;
   background: rgba(12, 12, 12, 0.7);
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
@@ -293,6 +316,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       background-color: $primary;
       color: $text;
     }
+  }
+
+  .custom-navbar-item {
+    margin-left: 0.5em;
   }
 
   .logo {
