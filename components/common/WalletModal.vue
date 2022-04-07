@@ -176,7 +176,7 @@ export default class WalletModal extends Vue {
           this.walletAccounts = data ?? []
         })
         .catch((e) => {
-          console.error('init account error', e)
+          this.$consola.error('init account error', e)
         })
 
       // subscribe change

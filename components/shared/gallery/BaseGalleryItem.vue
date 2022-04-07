@@ -152,7 +152,7 @@ export default class BaseGalleryItem extends Vue {
   }
 
   public onImageError(e: any) {
-    console.warn('Image error', e)
+    this.$consola.warn('Image error', e)
   }
 }
 </script>

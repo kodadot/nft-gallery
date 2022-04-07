@@ -79,7 +79,7 @@ export default class PackSaver extends Vue {
 
   //   } catch (e) {
   //     showNotification(`[ERR] ${e}`, notificationTypes.danger);
-  //     console.error(e);
+  //     this.$consola.error(e);
   //   }
 
   //   this.isLoading = false
@@ -88,14 +88,14 @@ export default class PackSaver extends Vue {
 
   // @Debounce(1500)
   // protected handleInput(value: string[]) {
-  //   console.log('new value is,', value, 'database has', this.savedMenu)
+  //   this.$consola.log('new value is,', value, 'database has', this.savedMenu)
   //   const changeLog: Record<string, boolean> = {...this.savedMenu};
   //   Object.keys(changeLog).forEach(m => {
   //     changeLog[m] = false
   //   })
 
   //   value.forEach(id => changeLog[id] = true)
-  //   console.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
+  //   this.$consola.log('[SHOULD SAVE]', changeLog, 'from', this.savedMenu)
   //   this.submit(changeLog)
   // }
 
@@ -109,7 +109,7 @@ export default class PackSaver extends Vue {
   //       }
   //     } catch (e) {
   //       showNotification(`[ERR] ${e}`, notificationTypes.danger);
-  //       console.error(e);
+  //       this.$consola.error(e);
   //     }
   // }
 
@@ -127,13 +127,13 @@ export default class PackSaver extends Vue {
   //   try {
 
   //     showNotification(rmrk);
-  //     console.log('submit', rmrk);
+  //     this.$consola.log('submit', rmrk);
   //     const tx = await exec(this.accountId, '', api.tx.system.remark, [rmrk]);
   //     showNotification(execResultValue(tx), notificationTypes.success);
-  //     console.warn('TX IN', tx);
+  //     this.$consola.warn('TX IN', tx);
   //     const persisted = await rmrkService?.resolve(rmrk, this.accountId);
-  //     console.log(persisted);
-  //     console.log('SAVED', persisted?._id);
+  //     this.$consola.log(persisted);
+  //     this.$consola.log('SAVED', persisted?._id);
   //     showNotification(
   //       `[TEXTILE] ${persisted?._id}`,
   //       notificationTypes.success
@@ -141,7 +141,7 @@ export default class PackSaver extends Vue {
 
   //   } catch (e) {
   //     showNotification(`[ERR] ${e}`, notificationTypes.danger);
-  //     console.error(e);
+  //     this.$consola.error(e);
   //   }
   // }
 
@@ -149,12 +149,12 @@ export default class PackSaver extends Vue {
   //     const rmrkService = getInstance();
   //     try {
   //       const packs = await rmrkService?.getPackListForAccount(id);
-  //       console.log(packs);
+  //       this.$consola.log(packs);
   //       this.menus = packs || [];
   //       this.currentMenu =  this.menus.filter(m =>  m.nfts[this.nftId]).map(m => m.id)
   //       this.savedMenu = this.currentMenu.reduce((acc, val) => ({...acc, [val]: true }) ,{});
   //     } catch (e) {
-  //       console.warn(`[Pack] unable to fetch appreciations ${e}`);
+  //       this.$consola.warn(`[Pack] unable to fetch appreciations ${e}`);
   //     }
   //   }
 

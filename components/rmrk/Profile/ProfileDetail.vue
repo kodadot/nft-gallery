@@ -348,10 +348,10 @@ export default class Profile extends mixins(PrefixMixin) {
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
-      // console.log(packs)
+      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     // this.isLoading = false;
   }
@@ -395,7 +395,7 @@ export default class Profile extends mixins(PrefixMixin) {
     if (this.totalCollections === 0 && this.activeTab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
-        .catch(console.warn /*Navigation Duplicate err fix later */)
+        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
   }
 
