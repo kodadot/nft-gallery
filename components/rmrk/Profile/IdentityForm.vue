@@ -1,84 +1,77 @@
 <template>
-  <div class="columns mb-6">
-    <div class="column is-6 is-offset-3">
-      <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
-        <div class="box">
-          <b-tooltip
-            label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
-            position="is-bottom">
-            <p class="title is-size-3">
-              {{ $t('identity.set') }}
-            </p>
-          </b-tooltip>
-          <b-field>
-            <Identity
-              class="subtitle has-text-weight-bold"
-              ref="identity"
-              :address="accountId"
-              inline
-              emit
-              @change="handleIdentity" />
-          </b-field>
-          <b-field label="Handle">
-            <b-input
-              placeholder="My On-Chain Name"
-              v-model="identity.display"
-              required
-              :validation-message="$t('identity.handleRequired')">
-            </b-input>
-          </b-field>
-          <b-field label="Name">
-            <b-input placeholder="Full Legal Name" v-model="identity.legal">
-            </b-input>
-          </b-field>
-          <b-field label="email">
-            <b-input
-              placeholder="somebody@example.com"
-              type="email"
-              v-model="identity.email">
-            </b-input>
-          </b-field>
-          <b-field label="web">
-            <b-input placeholder="https://example.com" v-model="identity.web">
-            </b-input>
-          </b-field>
-          <b-field label="twitter">
-            <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
-            </b-input>
-          </b-field>
-          <b-field label="discord">
-            <b-input
-              placeholder="Discord UserName#0000"
-              v-model="identity.discord">
-            </b-input>
-          </b-field>
-          <b-field label="riot">
-            <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
-            </b-input>
-          </b-field>
-          <b-field>
-            <p class="subtitle is-size-6">
-              {{ $t('identity.deposit') }} <Money :value="deposit" inline />
-            </p>
-          </b-field>
+  <section>
+    <Loader v-model="isLoading" :status="status" />
+    <div class="box">
+      <b-tooltip
+        label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
+        position="is-bottom">
+        <p class="title is-size-3">
+          {{ $t('identity.set') }}
+        </p>
+      </b-tooltip>
+      <b-field>
+        <Identity
+          class="subtitle has-text-weight-bold"
+          ref="identity"
+          :address="accountId"
+          inline
+          emit
+          @change="handleIdentity" />
+      </b-field>
+      <b-field label="Handle">
+        <b-input
+          placeholder="My On-Chain Name"
+          v-model="identity.display"
+          required
+          :validation-message="$t('identity.handleRequired')">
+        </b-input>
+      </b-field>
+      <b-field label="Name">
+        <b-input placeholder="Full Legal Name" v-model="identity.legal">
+        </b-input>
+      </b-field>
+      <b-field label="email">
+        <b-input
+          placeholder="somebody@example.com"
+          type="email"
+          v-model="identity.email">
+        </b-input>
+      </b-field>
+      <b-field label="web">
+        <b-input placeholder="https://example.com" v-model="identity.web">
+        </b-input>
+      </b-field>
+      <b-field label="twitter">
+        <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
+        </b-input>
+      </b-field>
+      <b-field label="discord">
+        <b-input placeholder="Discord UserName#0000" v-model="identity.discord">
+        </b-input>
+      </b-field>
+      <b-field label="riot">
+        <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
+        </b-input>
+      </b-field>
+      <b-field>
+        <p class="subtitle is-size-6">
+          {{ $t('identity.deposit') }} <Money :value="deposit" inline />
+        </p>
+      </b-field>
 
-          <b-field>
-            <b-button
-              type="is-primary"
-              icon-left="paper-plane"
-              @click="shipIt"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined>
-              {{ $t('identity.click') }}
-            </b-button>
-          </b-field>
-        </div>
-      </section>
+      <b-field>
+        <b-button
+          type="is-primary"
+          icon-left="paper-plane"
+          @click="submit"
+          :disabled="disabled"
+          :loading="isLoading"
+          outlined>
+          {{ $t('identity.click') }}
+        </b-button>
+      </b-field>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -132,24 +125,22 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
       })
     )
   }
-  public async shipIt(): Promise<void> {
-    const { api } = Connector.getInstance()
+  public async submit(): Promise<void> {
+    this.initTransactionLoader()
 
     try {
+      const { api } = Connector.getInstance()
+      const cb = api.tx.identity.setIdentity
       const enhancedData = this.enhanceIdentityData()
-      const x = {
+      const arg = {
         ...enhancedData,
       }
 
-      this.isLoading = true
-      this.status = 'loader.sign'
-
-      const cb = api.tx.identity.setIdentity
       const tx = await exec(
         this.accountId,
         '',
         cb,
-        [x],
+        [arg],
         txCb(
           async (blockHash) => {
             execResultValue(tx)
