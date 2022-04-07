@@ -183,6 +183,16 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
 }
 
+export type NftHolderEvent = {
+  nft: {
+    id: string
+    name: string
+    collection: {
+      id: string
+    }
+  }
+} & Interaction
+
 type NFTItem = {
   id: string
   name: string
@@ -190,23 +200,29 @@ type NFTItem = {
 
 type TableRow = {
   Holder: string
-  Bought: number
+  Bought?: number
   BoughtFormatted?: string
-  Sale: number
+  Sale?: number
   SaleFormatted?: string
-  Date: string
-  Time: string
-  Id: string
-  SortKey: number
-  Block: string
+  Id?: string
+  SortKey?: number
   Amount: number
   Items?: TableRow[]
   Item: NFTItem
+} & BaseTableRow
+
+type BaseTableRow = {
+  Date: string
+  Time: string
+  Timestamp: number
+  Block: string
+  CollectionId: string
+  Amount: number
 }
 
 @Component({ components })
 export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Array }) public events!: NftHolderEvent[]
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
   @Prop({ type: String, default: '' }) groupKeyOption!: string
   @Prop({ type: String, default: 'Name' }) nameHeaderLabel!: string
@@ -285,7 +301,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   private generateNFTList(): TableRow[] {
-    const itemRowMap: Record<string, any> = {}
+    const itemRowMap: Record<string, TableRow> = {}
 
     for (const newEvent of this.events) {
       const date = new Date(newEvent['timestamp'])
@@ -302,7 +318,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         CollectionId: collectionId,
         Amount: 1,
       }
-      const nftId = (newEvent['nft'] as any)?.id
+      const nftId = newEvent['nft'].id
       if (newEvent['interaction'] === 'MINTNFT') {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
@@ -401,15 +417,15 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         ...item,
         Bought: item.Bought ?? 0,
         Sale: item.Sale ?? 0,
-      }
+      } as TableRow
 
       const groupName = this.getGroupNameFromRow(item)
       if (customGroups[groupName]) {
         customGroups[groupName].Items?.push(item)
-        customGroups[groupName]['Bought'] =
-          customGroups[groupName]['Bought'] + item['Bought']
+        customGroups[groupName].Bought =
+          (customGroups[groupName]['Bought'] ?? 0) + (item['Bought'] ?? 0)
         customGroups[groupName]['Sale'] =
-          customGroups[groupName]['Sale'] + item['Sale']
+          (customGroups[groupName]['Sale'] ?? 0) + (item['Sale'] ?? 0)
       } else {
         customGroups[groupName] = {
           ...item,
@@ -429,7 +445,9 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       groupItems.forEach((item) => {
         parsePriceForItem(item, this.decimals, this.unit)
       })
-      group['Items'] = groupItems.sort((a, b) => b.SortKey - a.SortKey)
+      group['Items'] = groupItems.sort(
+        (a, b) => (b.SortKey ?? 0) - (a.SortKey ?? 0)
+      )
     })
     return customGroupsList
   }
