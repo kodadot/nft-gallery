@@ -177,6 +177,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
     vertical-align: text-bottom;
   }
 
+  .card-content {
+    border-radius: 0;
+  }
+
   @media screen and (min-width: 1024px) {
     .card-content {
       position: absolute;
