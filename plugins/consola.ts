@@ -1,7 +1,7 @@
 import consola from 'consola'
 
 declare module 'vue/types/vue' {
-  // this.$seoMeta inside Vue components
+  // this.$consola inside Vue components
   interface Vue {
     $consola
   }
