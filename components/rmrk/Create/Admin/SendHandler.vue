@@ -70,7 +70,7 @@ export default class SendHandler extends Vue {
       random: this.random,
       distribution: this.distribution,
     }
-    console.log('SendType change', self)
+    this.$consola.log('SendType change', self)
 
     return {
       isValidMeta: self.parsedAddresses.length > 0,

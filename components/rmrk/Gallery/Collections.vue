@@ -127,7 +127,7 @@ export default class Collections extends mixins(PrefixMixin) {
       ({ metadata }: MetaFragment) =>
         metadata || '0x0000000000000000000000000000000000000000'
     )
-    console.log(metaList)
+    this.$consola.log(metaList)
 
     const storedMetadata = await getMany(metaList).catch(() => metaList)
 
@@ -144,7 +144,7 @@ export default class Collections extends mixins(PrefixMixin) {
             update(this.collections[i].metadata, () => meta)
           }
         } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+          this.$consola.warn('[ERR] unable to get metadata')
         }
       } else {
         Vue.set(this.collections, i, {
@@ -190,12 +190,12 @@ export default class Collections extends mixins(PrefixMixin) {
             const meta = await fetchCollectionMetadata(collectionList[i])
             update(collectionList[i].metadata, () => meta)
           } catch (e) {
-            console.warn('[ERR] unable to get metadata')
+            this.$consola.warn('[ERR] unable to get metadata')
           }
         }
       })
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
