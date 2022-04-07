@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 
   // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    nitro: false,
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -114,6 +114,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/keyboardEvents', mode: 'client' },
     { src: '~/plugins/userBalance', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
+    { src: '~/plugins/consola', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
