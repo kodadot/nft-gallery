@@ -16,25 +16,26 @@
       </b-navbar-item>
       <div
         v-if="showMobileSearchBar"
-        class="search-navbar-container-mobile is-hidden-desktop">
-        <div class="close-button" @click="toggleSearchBarDisplay">
-          <b-icon icon="times" />
-        </div>
+        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
+        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
         <Search
           v-if="showMobileSearchBar"
-          @blur="onBlur"
           hideFilter
-          class="search-navbar-mobile is-hidden-desktop" />
+          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
       </div>
 
       <div
         v-else
-        class="is-hidden-desktop custom-mobile-icons"
+        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
         @click="closeBurgerMenu">
-        <HistoryBrowser class="mr-5" displayTypeOption="icon" />
+        <div>
+          <HistoryBrowser />
 
-        <div @click="toggleSearchBarDisplay">
-          <b-icon class="mr-4" icon="search" />
+          <b-button
+            @click="toggleSearchBarDisplay"
+            type="is-primary is-bordered-light"
+            class="navbar-link-background"
+            icon-right="search" />
         </div>
       </div>
     </template>
@@ -299,6 +300,11 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 }
 
 @media only screen and (max-width: 1024px) {
+  .dropdown.is-mobile-modal > .dropdown-menu {
+    -webkit-transform: translate3d(-50%, 10%, 0);
+    transform: translate3d(-50%, 10%, 0);
+  }
+
   .navbar {
     .navbar-item {
       margin-left: 0 !important;
@@ -410,28 +416,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
   .search-navbar-container-mobile {
     position: fixed;
-    top: 0;
     left: 0;
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    align-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    background: $background-color;
-
-    .close-button {
-      width: 50px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .search-navbar-mobile {
-      flex: 1;
-      padding-right: 10px;
-      padding-top: 12px;
-      margin: 0 !important;
-    }
+    width: 100%;
 
     input {
       background-color: rgba(41, 41, 47, 0.5);
@@ -443,13 +429,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         background: rgba(41, 41, 47);
       }
     }
-  }
-  .custom-mobile-icons {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex: 1;
-    justify-content: flex-end;
   }
 }
 </style>

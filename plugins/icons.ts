@@ -87,7 +87,6 @@ import {
   faChartLine,
   faListUl,
   faTable,
-  fas,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -212,8 +211,7 @@ library.add(
   faThumbsUp,
   faThumbsDown,
   faExternalLinkSquareAlt,
-  faYoutube,
-  fas
+  faYoutube
 )
 
 Vue.component('vue-fontawesome', FontAwesomeIcon)

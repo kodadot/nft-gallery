@@ -1,9 +1,7 @@
 <template>
   <b-dropdown v-if="hasHistory" aria-role="list" position="is-bottom-left">
     <template #trigger>
-      <b-icon v-if="displayTypeOption === 'icon'" icon="history" />
       <b-button
-        v-else
         type="is-primary is-bordered-light"
         class="navbar-link-background"
         icon-left="history" />
@@ -67,7 +65,6 @@ import { HistoryItem } from '~/store/history'
   },
 })
 export default class HistoryBrowser extends Vue {
-  @Prop({ type: String, default: 'button' }) displayTypeOption!: string
   get hasHistory() {
     return this.history && this.history.length
   }
