@@ -363,6 +363,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
           bottom: 0;
+          border-radius: 0;
           opacity: 1;
           z-index: 2;
           padding-left: 1rem;
