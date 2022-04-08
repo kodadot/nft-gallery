@@ -163,6 +163,8 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 
+const SearchPageRoutePathList = ['/collections', '/gallery']
+
 @Component({
   components: {
     Sort: () => import('./SearchSortDropdown.vue'),
@@ -399,7 +401,7 @@ export default class SearchBar extends mixins(
   }
 
   redirectToGalleryPageIfNeed() {
-    if (this.$route.name === 'index') {
+    if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: 'rmrk-gallery',
       })
