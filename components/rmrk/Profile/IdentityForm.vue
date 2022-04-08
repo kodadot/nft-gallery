@@ -2,15 +2,20 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
     <div class="box">
-      <b-tooltip
-        label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
-        position="is-bottom">
-        <p class="title is-size-3">
-          {{ $t('identity.set') }}
-        </p>
-      </b-tooltip>
+      <p class="title is-size-3">
+        {{ $t('identity.set') }}
+        <b-tooltip
+          label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
+          position="is-bottom">
+          <b-icon icon="info-circle" />
+        </b-tooltip>
+      </p>
 
-      <Auth />
+      <p class="subtitle is-size-6" v-if="accountId">
+        <Auth />
+        <span>{{ $t('general.balance') }}: </span>
+        <Money :value="balance" inline />
+      </p>
 
       <b-field label="Handle">
         <b-input
@@ -137,6 +142,10 @@ export default class IdentityForm extends mixins(
     )
 
     update(this.accountId, () => this.identity, identityStore)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
   }
 
   get disabled(): boolean {
