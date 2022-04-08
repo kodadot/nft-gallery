@@ -11,11 +11,6 @@
     ":dependencyDashboard"
   ],
   "prHourlyLimit": 5,
-  "schedule": [
-    "after 10pm every weekday",
-    "before 6am every weekday",
-    "every weekend"
-  ],
   "enabledManagers": ["regex"],
   "regexManagers": [
     {
