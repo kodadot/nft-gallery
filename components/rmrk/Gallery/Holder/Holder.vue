@@ -60,13 +60,13 @@
             :label="nameHeaderLabel"
             v-slot="props">
             <nuxt-link
-              v-if="groupKey === 'Holder'"
+              v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
               :to="{
                 name: 'rmrk-u-id',
-                params: { id: props.row.Holder },
+                params: { id: props.row[groupKey] },
                 query: { tab: 'holdings' },
               }">
-              <Identity :address="props.row.Holder" inline noOverflow />
+              <Identity :address="props.row[groupKey]" inline noOverflow />
             </nuxt-link>
             <nuxt-link
               v-else-if="groupKey === 'CollectionId'"
@@ -100,7 +100,7 @@
           <b-table-column
             :visible="columnsVisible['Sale'].display"
             field="Sale"
-            label="Sale"
+            :label="saleHeaderLabel"
             sortable
             v-slot="props">
             {{ props.row.SaleFormatted }}
@@ -198,8 +198,9 @@ type NFTItem = {
   name: string
 }
 
-type TableRow = {
-  Holder: string
+export type TableRow = {
+  Holder?: string
+  Flipper?: string
   Bought?: number
   BoughtFormatted?: string
   Sale?: number
@@ -223,10 +224,12 @@ type BaseTableRow = {
 @Component({ components })
 export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: NftHolderEvent[]
+  @Prop({ type: Array }) public tableRowsOption!: TableRow[]
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
   @Prop({ type: String, default: '' }) groupKeyOption!: string
   @Prop({ type: String, default: 'Name' }) nameHeaderLabel!: string
   @Prop({ type: String, default: 'Date' }) dateHeaderLabel!: string
+  @Prop({ type: String, default: 'Sale' }) saleHeaderLabel!: string
   @Prop({ type: String, default: '' }) collapseTitleOption!: string
 
   private readonly openOnDefault!: boolean
@@ -253,6 +256,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   private initColumnVisibleConfig() {
     this.columnsVisible['Name'].title = this.nameHeaderLabel
     this.columnsVisible['Date'].title = this.dateHeaderLabel
+    this.columnsVisible['Sale'].title = this.saleHeaderLabel
   }
 
   private bindPaginationEvents(event) {
@@ -297,7 +301,11 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   protected createTable(): void {
     const NFTList = this.generateNFTList()
-    this.customGroups = this.generatecustomGroups(NFTList)
+    this.customGroups = this.generateCustomGroups(NFTList)
+  }
+
+  protected createTableByTableRow(): void {
+    this.customGroups = this.generateCustomGroups(this.tableRowsOption)
   }
 
   private generateNFTList(): TableRow[] {
@@ -393,24 +401,46 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   private getGroupNameFromRow(item: TableRow): string {
-    if (this.groupKey === 'Holder') {
-      return item['Holder']
-    } else if (this.groupKey === 'CollectionId') {
-      return item['Item']['collection']['id']
+    let groupName
+    switch (this.groupKey) {
+      case 'Holder':
+        groupName = item['Holder']
+        break
+      case 'CollectionId':
+        groupName = item['Item']['collection']['id']
+        break
+      case 'Flipper':
+        groupName = item['Flipper']
+        break
     }
-    return item['Holder']
+    return groupName || item['Holder']
   }
 
   private getCustomRowFilter(): (item: TableRow) => boolean {
-    if (this.groupKey === 'Holder') {
-      return (item) => item.Holder !== '-'
-    } else if (this.groupKey === 'CollectionId') {
-      return (item) => item.Holder === this.$route.params.id
+    switch (this.groupKey) {
+      case 'Holder':
+        return (item) => item.Holder !== '-'
+      case 'CollectionId':
+        return (item) => item.Holder === this.$route.params.id
+      default:
+        return () => true
     }
-    return () => true
   }
 
-  private generatecustomGroups(itemRowList: TableRow[]): TableRow[] {
+  private getCustomId(item: TableRow): string {
+    let customId
+    switch (this.groupKey) {
+      case 'Flipper':
+        customId = item['Flipper']
+        break
+      case 'Holder':
+      case 'CollectionId':
+        customId = item['CollectionId'] + item['Item']['id']
+    }
+    return customId || item['Timestamp']
+  }
+
+  private generateCustomGroups(itemRowList: TableRow[]): TableRow[] {
     const customGroups: Record<string, TableRow> = {}
     itemRowList.filter(this.getCustomRowFilter()).forEach((item: TableRow) => {
       item = {
@@ -429,7 +459,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       } else {
         customGroups[groupName] = {
           ...item,
-          Id: item['CollectionId'] + item['Item']['id'],
+          Id: this.getCustomId(item),
           Items: [item],
         }
       }
@@ -464,6 +494,12 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   public watchEvent(): void {
     if (this.events) {
       this.createTable()
+    }
+  }
+  @Watch('tableRowsOption', { immediate: true })
+  public watchTableRows(): void {
+    if (this.tableRowsOption) {
+      this.createTableByTableRow()
     }
   }
 

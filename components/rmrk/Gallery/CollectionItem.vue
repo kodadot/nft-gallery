@@ -114,6 +114,13 @@
           :openOnDefault="isHolderOpen"
           hideCollapse />
       </b-tab-item>
+      <b-tab-item label="Flippers" value="flippers">
+        <Flipper
+          v-if="!isLoading && activeTab === 'flippers'"
+          :events="ownerEventsOfNftCollection"
+          openOnDefault
+          hideCollapse />
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>
@@ -164,6 +171,7 @@ const components = {
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
   Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
+  Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -473,7 +481,7 @@ export default class CollectionItem extends mixins(
     // Load chart data once when clicked on activity tab for the first time.
     if (val === 'chart') {
       this.loadStats()
-    } else if (val === 'history' || val === 'holders') {
+    } else if (val === 'history' || val === 'holders' || val === 'flippers') {
       this.fetchCollectionEvents()
     }
   }
