@@ -1,7 +1,9 @@
 <template>
   <b-dropdown v-if="hasHistory" aria-role="list" position="is-bottom-left">
     <template #trigger>
+      <b-icon v-if="displayTypeOption === 'icon'" icon="history" />
       <b-button
+        v-else
         type="is-primary is-bordered-light"
         class="navbar-link-background"
         icon-left="history" />
@@ -47,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import HistoryBrowserItem from '~/components/shared/history/HistoryBrowserItem.vue'
 import { HistoryItem } from '~/store/history'
 
@@ -65,6 +67,7 @@ import { HistoryItem } from '~/store/history'
   },
 })
 export default class HistoryBrowser extends Vue {
+  @Prop({ type: String, default: 'button' }) displayTypeOption!: string
   get hasHistory() {
     return this.history && this.history.length
   }

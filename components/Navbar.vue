@@ -4,6 +4,8 @@
     spaced
     wrapper-class="container"
     close-on-click
+    :mobile-burger="!showMobileSearchBar"
+    :active.sync="isBurgerMenuOpened"
     :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
@@ -12,18 +14,44 @@
           alt="First NFT market explorer on Kusama and Polkadot"
           height="32" />
       </b-navbar-item>
+      <div
+        v-if="showMobileSearchBar"
+        class="search-navbar-container-mobile is-hidden-desktop">
+        <div class="close-button" @click="toggleSearchBarDisplay">
+          <b-icon icon="times" />
+        </div>
+        <Search
+          v-if="showMobileSearchBar"
+          @blur="onBlur"
+          hideFilter
+          class="search-navbar-mobile is-hidden-desktop" />
+      </div>
+
+      <div
+        v-else
+        class="is-hidden-desktop custom-mobile-icons"
+        @click="closeBurgerMenu">
+        <HistoryBrowser class="mr-5" displayTypeOption="icon" />
+
+        <div @click="toggleSearchBarDisplay">
+          <b-icon class="mr-4" icon="search" />
+        </div>
+      </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{ 'nav-search-shrink': !showTopNavbar }"
+        :class="{
+          'is-hidden-touch': true,
+          'nav-search-shrink': !showTopNavbar,
+        }"
         hideFilter
         class="search-navbar"
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
       <HistoryBrowser
-        class="custom-navbar-item navbar-link-background"
+        class="custom-navbar-item navbar-link-background hidden-on-mobile"
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
@@ -119,6 +147,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   private showTopNavbar = true
   private lastScrollPosition = 0
   private artistName = ''
+  private showMobileSearchBar = false
+  private isBurgerMenuOpened = false
 
   private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -188,6 +218,16 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     this.showTopNavbar =
       currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
     this.lastScrollPosition = currentScrollPosition
+  }
+
+  toggleSearchBarDisplay() {
+    this.showMobileSearchBar = !this.showMobileSearchBar
+  }
+
+  closeBurgerMenu() {
+    if (this.isBurgerMenuOpened) {
+      this.isBurgerMenuOpened = false
+    }
   }
 
   mounted() {
@@ -278,6 +318,9 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       background: $primary;
     }
   }
+  .hidden-on-mobile {
+    display: none;
+  }
 }
 
 .navbar {
@@ -367,6 +410,49 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         border-top: 2px solid $primary;
       }
     }
+  }
+  .search-navbar-container-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background: $background-color;
+
+    .close-button {
+      width: 50px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-navbar-mobile {
+      flex: 1;
+      padding-right: 10px;
+      padding-top: 12px;
+      margin: 0 !important;
+    }
+
+    input {
+      background-color: rgba(41, 41, 47, 0.5);
+      padding: 0;
+      z-index: 1;
+      &:focus {
+        box-shadow: none !important;
+        border-top: 2px solid $primary;
+        background: rgba(41, 41, 47);
+      }
+    }
+  }
+  .custom-mobile-icons {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
   }
 }
 </style>
