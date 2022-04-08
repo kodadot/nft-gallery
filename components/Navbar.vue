@@ -51,7 +51,7 @@
     </template>
     <template #end v-if="showTopNavbar">
       <HistoryBrowser
-        class="custom-navbar-item navbar-link-background hidden-on-mobile"
+        class="custom-navbar-item navbar-link-background is-hidden-touch"
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
@@ -317,9 +317,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       width: 100vw;
       background: $primary;
     }
-  }
-  .hidden-on-mobile {
-    display: none;
   }
 }
 
