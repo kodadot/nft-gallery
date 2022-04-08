@@ -46,7 +46,7 @@
           'nav-search-shrink': !showTopNavbar,
         }"
         hideFilter
-        class="search-navbar is-flex is-flex-grow-1 is-hidden-touch"
+        class="search-navbar is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
@@ -372,6 +372,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .navbar-brand {
     align-items: center;
+  }
+
+  .navbar-start {
+    flex: 1;
   }
 
   .navbar-dropdown {
