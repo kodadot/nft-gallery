@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import HistoryBrowserItem from '~/components/shared/history/HistoryBrowserItem.vue'
 import { HistoryItem } from '~/store/history'
 

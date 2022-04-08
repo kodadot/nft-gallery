@@ -43,11 +43,10 @@
       <Search
         v-if="!mobileGallery"
         :class="{
-          'is-hidden-touch': true,
           'nav-search-shrink': !showTopNavbar,
         }"
         hideFilter
-        class="search-navbar"
+        class="search-navbar is-flex is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
@@ -249,7 +248,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-@media (min-width: 1024px) {
+@include tablet {
   .navbar-shrink {
     box-shadow: none;
     max-height: 70px;
@@ -299,35 +298,30 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 
-@media only screen and (max-width: 1024px) {
-  .dropdown.is-mobile-modal > .dropdown-menu {
-    -webkit-transform: translate3d(-50%, 10%, 0);
-    transform: translate3d(-50%, 10%, 0);
-  }
-
+@include touch {
   .navbar {
-    .navbar-item {
-      margin-left: 0 !important;
-    }
+    .navbar-item,
     .custom-navbar-item {
       margin-left: 0 !important;
     }
     .navbar-dropdown .b-tooltip {
       width: 100%;
     }
-  }
-  #NavProfile {
-    width: 100vw;
-    margin-left: 0;
-    button {
-      width: 100vw;
-      background: $primary;
+    #NavProfile {
+      margin-left: 0;
+      .dropdown-trigger .button {
+        width: 100vw;
+        background: $primary;
+      }
+    }
+    .dropdown.is-mobile-modal > .dropdown-menu {
+      -webkit-transform: translate3d(-50%, 10%, 0);
+      transform: translate3d(-50%, 10%, 0);
     }
   }
 }
 
 .navbar {
-  width: 100vw;
   background: rgba(12, 12, 12, 0.7);
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
@@ -380,9 +374,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     align-items: center;
   }
 
-  .burger {
-    margin-right: 0.5rem;
-  }
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
     box-shadow: $dropdown-content-shadow !important;
@@ -391,16 +382,11 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       margin-left: 0 !important;
     }
   }
-  .navbar-start {
-    flex: 1;
-  }
+
   .search-navbar {
-    flex-grow: 1;
-    margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
     min-width: 350px;
-    flex: 1;
     margin: 0 1rem;
     input {
       border: inherit;
