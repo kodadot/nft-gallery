@@ -31,9 +31,38 @@
       "enabled": false
     },
     {
-      "updateTypes": ["minor", "patch", "pin"],
+      "matchPackagePatterns": [
+        "^axios",
+        "^babel",
+        "babel",
+        "@babel",
+        "@babel/core",
+        "buefy",
+        "^buefy",
+        "^chartjs",
+        "cypress",
+        "DefinitelyTyped",
+        "fortawesome",
+        "^eslint",
+        "eslint",
+        "jest",
+        "^graphql",
+        "^jest",
+        "^lint",
+        "lint-staged",
+        "^model-viewer",
+        "nuxt-buefy",
+        "prettier",
+        "sass",
+        "^typescript",
+        "typescript-eslint",
+        "MatteoGabriele/vue-gtag",
+        "vuejs/vuex",
+        "^ws"
+      ],
       "groupName": "Bumped minor version of packages",
-      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺"
+      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
+      "updateTypes": ["minor", "patch", "pin"]
     },
     {
       "matchSourceUrlPrefixes": [
