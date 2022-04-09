@@ -28,8 +28,8 @@
       "matchDepTypes": ["dependencies", "devDependencies"]
     },
     {
-      "matchPackageNames": ["vue", "vuex", "css-loader", "mingo", "vue-gtag"],
-      "rangeStrategy": "bump"
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }
