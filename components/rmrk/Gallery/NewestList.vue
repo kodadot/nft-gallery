@@ -29,10 +29,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
-  processSingleMetadata,
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
+import { fallbackMetaByNftEvent } from '@/components/rmrk/utils'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -79,22 +79,13 @@ export default class NewestList extends Vue {
   }
 
   protected async handleResult({ data }: any) {
-    for (const event of data.events) {
-      // fallback meta is null
-      if (!event.nft.meta) {
-        event.nft.meta = {
-          id: event.nft.metadata,
-          image: '',
-        }
-        processSingleMetadata(event.nft.metadata)
-      }
-    }
-    this.events = data.events
+    this.events = [...data.events]
+    await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
-      data.events.map((event) => event.nft.meta.id)
+      this.events.map((event) => event.nft.meta.id)
     )
     const imageOf = getProperImageLink(images)
-    this.nfts = data.events.map((e: any) => ({
+    this.nfts = this.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       timestamp: formatDistanceToNow(new Date(e.timestamp), {
