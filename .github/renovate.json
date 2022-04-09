@@ -6,16 +6,9 @@
   "automergeComment": "lgtm",
   "extends": ["config:base", ":dependencyDashboard"],
   "prHourlyLimit": 5,
-  "bumpVersion": "minor",
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
   "packageRules": [
-    {
-      "matchDepTypes": ["dependencies", "devDependencies"],
-      "groupName": "Bumped minor version of packages",
-      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
-      "matchUpdateTypes": ["minor", "patch"]
-    },
     {
       "matchSourceUrlPrefixes": [
         "https://github.com/polkadot-js/",
@@ -27,6 +20,13 @@
       ],
       "groupName": "merge with hazmat suit extra",
       "enabled": false
+    },
+    {
+      "groupName": "Bumped minor version of packages",
+      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "rangeStrategy": "bump"
     }
   ]
 }
