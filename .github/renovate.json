@@ -4,7 +4,7 @@
   "automerge": true,
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
-  "rangeStrategy": "bump",
+  "rangeStrategy": "pin",
   "extends": [
     "github>whitesource/merge-confidence:beta",
     "config:base",
