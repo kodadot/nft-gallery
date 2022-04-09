@@ -7,6 +7,7 @@
   "extends": ["config:base", ":dependencyDashboard"],
   "prHourlyLimit": 5,
   "bumpVersion": "patch",
+  "enabledManagers": ["npm"],
   "packageRules": [
     {
       "groupName": "Bumped minor version of packages",
