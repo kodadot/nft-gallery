@@ -47,7 +47,13 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible id="NavExplore">
+      <b-navbar-item
+        tag="nuxt-link"
+        :to="{ path: '/rmrk/explore' }"
+        class="logo">
+        <span>{{ $t('Explore') }}</span>
+      </b-navbar-item>
+      <b-navbar-dropdown arrowless collapsible>
         <template #label>
           <span>{{ $t('Explore') }}</span>
         </template>
