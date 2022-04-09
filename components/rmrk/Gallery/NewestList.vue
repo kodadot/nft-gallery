@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -33,8 +33,6 @@ import {
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import nftById from '@/queries/nftById.graphql'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -44,7 +42,7 @@ const components = {
 @Component<NewestList>({
   components,
 })
-export default class NewestList extends mixins(PrefixMixin) {
+export default class NewestList extends Vue {
   private nfts: any[] = []
   private events: any[] = []
   private total = 0
@@ -93,10 +91,10 @@ export default class NewestList extends mixins(PrefixMixin) {
     }
     this.events = data.events
     const images = await getCloudflareImageLinks(
-      this.events.map((event) => event.nft.meta.id)
+      data.events.map((event) => event.nft.meta.id)
     )
     const imageOf = getProperImageLink(images)
-    this.nfts = this.events.map((e: any) => ({
+    this.nfts = data.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       timestamp: formatDistanceToNow(new Date(e.timestamp), {
@@ -104,19 +102,6 @@ export default class NewestList extends mixins(PrefixMixin) {
       }),
       image: imageOf(e.nft.meta.id, e.nft.meta.image),
     }))
-  }
-
-  private async fetchnFTEntity(id: string) {
-    const {
-      data: { nFTEntity },
-    } = await this.$apollo.query({
-      client: this.urlPrefix,
-      query: nftById,
-      variables: {
-        id,
-      },
-    })
-    return nFTEntity
   }
 }
 </script>
