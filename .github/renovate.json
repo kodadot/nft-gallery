@@ -6,7 +6,7 @@
   "automergeComment": "lgtm",
   "extends": ["config:base", ":dependencyDashboard"],
   "prHourlyLimit": 5,
-  "bumpVersion": "patch",
+  "bumpVersion": "minor",
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
   "packageRules": [
