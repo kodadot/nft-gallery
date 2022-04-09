@@ -106,6 +106,17 @@
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
+            v-if="groupKey === 'Flipper'"
+            :visible="columnsVisible['Percentage'].display"
+            field="Percentage"
+            label="Percentage"
+            sortable
+            v-slot="props">
+            <span :class="percentageTextClassName(props.row.Percentage)">
+              {{ props.row.Percentage | percentageFilter }}
+            </span>
+          </b-table-column>
+          <b-table-column
             :visible="columnsVisible['Date'].display"
             field="Timestamp"
             :label="dateHeaderLabel"
@@ -147,6 +158,12 @@
               </td>
               <td v-show="columnsVisible['Sale'].display">
                 {{ item.SaleFormatted }}
+              </td>
+              <td
+                v-if="groupKey === 'Flipper'"
+                :class="percentageTextClassName(item.Percentage)"
+                v-show="columnsVisible['Percentage'].display">
+                {{ item.Percentage | percentageFilter }}
               </td>
               <td v-show="columnsVisible['Date'].display">
                 <b-tooltip
@@ -221,7 +238,15 @@ type BaseTableRow = {
   Amount: number
 }
 
-@Component({ components })
+@Component({
+  filters: {
+    percentageFilter: (value) => {
+      if (!value) return '-'
+      return (value * 100).toFixed(2) + '%'
+    },
+  },
+  components,
+})
 export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   @Prop({ type: Array }) public events!: NftHolderEvent[]
   @Prop({ type: Array }) public tableRowsOption!: TableRow[]
@@ -240,6 +265,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     Amount: { title: 'Amount', display: true },
     Bought: { title: 'Bought', display: true },
     Sale: { title: 'Sale', display: true },
+    Percentage: { title: 'Percentage', display: true },
     Date: { title: 'Date', display: true },
   }
   public isOpen = false
@@ -297,6 +323,14 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   get groupKey() {
     return this.groupKeyOption || 'Holder'
+  }
+
+  private percentageTextClassName(percentage: number) {
+    return percentage >= 1
+      ? 'has-text-success'
+      : percentage > 0
+      ? 'has-text-danger'
+      : ''
   }
 
   protected createTable(): void {
