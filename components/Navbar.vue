@@ -337,7 +337,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       }
       &:focus {
         box-shadow: none !important;
-        border-top: 2px solid $primary;
+        border-top: 1px solid $primary;
       }
     }
   }
