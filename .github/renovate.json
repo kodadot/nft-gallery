@@ -8,6 +8,7 @@
   "prHourlyLimit": 5,
   "bumpVersion": "patch",
   "enabledManagers": ["npm"],
+  "rangeStrategy": "bump",
   "packageRules": [
     {
       "groupName": "Bumped minor version of packages",
