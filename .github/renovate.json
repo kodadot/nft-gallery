@@ -25,8 +25,7 @@
       "groupName": "Bumped minor version of packages",
       "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchDepTypes": ["dependencies", "devDependencies"],
-      "rangeStrategy": "bump"
+      "matchDepTypes": ["dependencies", "devDependencies"]
     }
   ]
 }
