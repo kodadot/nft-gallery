@@ -29,6 +29,7 @@ import { Component, mixins } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
+  processSingleMetadata,
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
@@ -83,11 +84,11 @@ export default class NewestList extends mixins(PrefixMixin) {
     for (const event of data.events) {
       // fallback meta is null
       if (!event.nft.meta) {
-        const nFTEntity = await this.fetchnFTEntity(event.nft.id)
         event.nft.meta = {
-          id: nFTEntity.metadata,
+          id: event.nft.metadata,
           image: '',
         }
+        processSingleMetadata(event.nft.metadata)
       }
     }
     this.events = data.events

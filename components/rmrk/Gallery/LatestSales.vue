@@ -28,6 +28,7 @@ import { formatDistanceToNow } from 'date-fns'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
+  processSingleMetadata,
 } from '~/utils/cachingStrategy'
 
 const components = {
@@ -74,6 +75,17 @@ export default class LatestSales extends Vue {
   protected async handleResult({ data }: any) {
     this.events = data.events
     this.total = data.events.length
+
+    for (const event of data.events) {
+      // fallback meta is null
+      if (!event.nft.meta) {
+        event.nft.meta = {
+          id: event.nft.metadata,
+          image: '',
+        }
+        await processSingleMetadata(event.nft.metadata)
+      }
+    }
     const images = await getCloudflareImageLinks(
       data.events.map(({ nft: { meta } }) => meta.id)
     )
