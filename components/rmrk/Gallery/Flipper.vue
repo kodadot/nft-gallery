@@ -1,6 +1,6 @@
 <template>
-  <Holder
-    :table-rows-option="ownerEventsOfNft"
+  <CommonHolderTable
+    :table-rows-option="flipperTableRowList"
     group-key-option="Flipper"
     openOnDefault
     date-header-label="Last Activity"
@@ -11,31 +11,31 @@
 </template>
 
 <script lang="ts">
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
 import { TableRow } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
 import { formatDistanceToNow } from 'date-fns'
 
 const components = {
-  Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
+  CommonHolderTable: () =>
+    import('@/components/rmrk/Gallery/Holder/Holder.vue'),
 }
 
 type FlipperTableRowMap = Record<string, TableRow[]>
 
 @Component({ components })
-export default class Flipper extends mixins(PrefixMixin) {
+export default class Flipper extends Vue {
   @Prop({ type: Array }) events!: Interaction[]
-  private ownerEventsOfNft: TableRow[] = []
+  private flipperTableRowList: TableRow[] = []
 
-  createNFTList() {
+  createTableRowListByEvents() {
     if (this.events.length) {
-      this.ownerEventsOfNft = this.generateNFTList()
+      this.flipperTableRowList = this.generateTableRowList()
     }
   }
 
-  private generateNFTList(): TableRow[] {
+  private generateTableRowList(): TableRow[] {
     const rowListMap: FlipperTableRowMap = {}
 
     for (const newEvent of this.events) {
@@ -145,7 +145,7 @@ export default class Flipper extends mixins(PrefixMixin) {
   @Watch('events', { immediate: true })
   public watchEvent(): void {
     if (this.events) {
-      this.createNFTList()
+      this.createTableRowListByEvents()
     }
   }
 }

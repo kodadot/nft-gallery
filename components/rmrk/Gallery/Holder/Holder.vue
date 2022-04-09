@@ -113,7 +113,7 @@
             sortable
             v-slot="props">
             <span :class="percentageTextClassName(props.row.Percentage)">
-              {{ props.row.Percentage | percentageFilter }}
+              {{ props.row.Percentage | toPercent('-') }}
             </span>
           </b-table-column>
           <b-table-column
@@ -163,7 +163,7 @@
                 v-if="groupKey === 'Flipper'"
                 :class="percentageTextClassName(item.Percentage)"
                 v-show="columnsVisible['Percentage'].display">
-                {{ item.Percentage | percentageFilter }}
+                {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
                 <b-tooltip
@@ -247,7 +247,10 @@ type BaseTableRow = {
   },
   components,
 })
-export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
+export default class CommonHolderTable extends mixins(
+  ChainMixin,
+  KeyboardEventsMixin
+) {
   @Prop({ type: Array }) public events!: NftHolderEvent[]
   @Prop({ type: Array }) public tableRowsOption!: TableRow[]
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
@@ -326,11 +329,12 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   private percentageTextClassName(percentage: number) {
-    return percentage >= 1
-      ? 'has-text-success'
-      : percentage > 0
-      ? 'has-text-danger'
-      : ''
+    if (percentage >= 100) {
+      return 'has-text-success'
+    } else if (percentage > 0) {
+      return 'has-text-danger'
+    }
+    return ''
   }
 
   protected createTable(): void {

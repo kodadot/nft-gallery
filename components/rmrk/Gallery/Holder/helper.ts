@@ -8,7 +8,7 @@ export const parsePriceForItem = (item, decimals, unit) => {
     ? formatBalance(item['Sale'], decimals, unit)
     : '-'
   item['Percentage'] =
-    item['Bought'] && item['Sale'] ? item['Sale'] / item['Bought'] : 0
+    item['Bought'] && item['Sale'] ? (item['Sale'] / item['Bought']) * 100 : 0
 }
 
 export const parseDate = (date: Date): string => {

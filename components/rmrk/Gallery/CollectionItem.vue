@@ -108,7 +108,7 @@
           @setPriceChartData="setPriceChartData" />
       </b-tab-item>
       <b-tab-item label="Holders" value="holders">
-        <Holder
+        <CommonHolderTable
           v-if="!isLoading && activeTab === 'holders'"
           :events="ownerEventsOfNftCollection"
           :openOnDefault="isHolderOpen"
@@ -153,6 +153,8 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
 
+const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
+
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -170,7 +172,8 @@ const components = {
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
-  Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
+  CommonHolderTable: () =>
+    import('@/components/rmrk/Gallery/Holder/Holder.vue'),
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
 }
 @Component<CollectionItem>({
@@ -481,7 +484,7 @@ export default class CollectionItem extends mixins(
     // Load chart data once when clicked on activity tab for the first time.
     if (val === 'chart') {
       this.loadStats()
-    } else if (val === 'history' || val === 'holders' || val === 'flippers') {
+    } else if (tabsWithCollectionEvents.includes(val)) {
       this.fetchCollectionEvents()
     }
   }
