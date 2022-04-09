@@ -10,11 +10,7 @@
         >creating bug issue with steps to reproduce and screenshot.</a
       >
     </p>
-    <b-button
-      tag="nuxt-link"
-      to="/rmrk/collections"
-      type="is-primary"
-      class="my-5">
+    <b-button tag="nuxt-link" to="/rmrk/explore" type="is-primary" class="my-5">
       Go to collections
     </b-button>
   </div>
