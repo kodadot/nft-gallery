@@ -8,6 +8,7 @@
   "prHourlyLimit": 5,
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
+  "separateMinorPatch": true,
   "packageRules": [
     {
       "matchSourceUrlPrefixes": [
