@@ -1,5 +1,5 @@
 <template>
-  <ExploreLayout />
+  <ExploreLayout type="rmrk" />
 </template>
 
 <script lang="ts">

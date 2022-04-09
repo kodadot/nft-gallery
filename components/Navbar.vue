@@ -47,7 +47,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item tag="nuxt-link" :to="{ path: '/rmrk/explore' }">
+      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
         <span>{{ $t('Explore') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
@@ -107,7 +107,7 @@ import { get } from 'idb-keyval'
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   private mobileGallery = false
-  private isGallery: boolean = this.$route.path == '/rmrk/explore?tab=GALLERY'
+  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private showTopNavbar = true
   private lastScrollPosition = 0
   private artistName = ''
