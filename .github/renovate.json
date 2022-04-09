@@ -10,7 +10,7 @@
     {
       "groupName": "Bumped minor version of packages",
       "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
-      "updateTypes": ["minor", "patch", "pin"]
+      "updateTypes": ["minor", "patch"]
     },
     {
       "matchSourceUrlPrefixes": [
