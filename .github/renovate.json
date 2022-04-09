@@ -4,13 +4,14 @@
   "automerge": true,
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
-  "rangeStrategy": "pin",
   "extends": [
     "github>whitesource/merge-confidence:beta",
     "config:base",
     ":dependencyDashboard"
   ],
   "prHourlyLimit": 5,
+  "rangeStrategy": "pin",
+  "bumpVersion": "minor",
   "force": {
     "constraints": {
       "node": "^16"
