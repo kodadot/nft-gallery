@@ -212,7 +212,7 @@ button.button.navbar-link-background {
 .card.bordered {
   border-radius: 0 !important;
   box-shadow: none;
-  border-top: 1px solid $primary;
+  border-top: $sleek-primary-border;
 
   &-content {
     padding-left: 1rem;

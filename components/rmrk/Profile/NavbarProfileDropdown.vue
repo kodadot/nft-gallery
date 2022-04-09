@@ -150,7 +150,7 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
     text-transform: none;
   }
   &__sign-out-button {
-    border-top: 1px solid $primary !important;
+    border-top: $sleek-primary-border !important;
     border-bottom: 0;
     border-right: 0;
     border-left: 0;
