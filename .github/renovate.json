@@ -11,7 +11,20 @@
     ":dependencyDashboard"
   ],
   "prHourlyLimit": 5,
+  "enabledManagers": ["regex"],
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|/)Dockerfile%"],
+      "matchStrings": ["ENV NODE_VERSION (?<currentValue>.*?)\n"],
+      "depNameTemplate": "node",
+      "datasourceTemplate": "node"
+    }
+  ],
   "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
     {
       "groupName": "Bumped minor version of packages",
       "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
@@ -28,6 +41,11 @@
       ],
       "groupName": "merge with hazmat suit extra",
       "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": true,
+      "matchManagers": ["regex"]
     }
   ]
 }
