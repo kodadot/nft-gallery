@@ -11,8 +11,10 @@
     ":dependencyDashboard"
   ],
   "prHourlyLimit": 5,
-  "constraints": {
-    "node": "^16"
+  "force": {
+    "constraints": {
+      "node": "^16"
+    }
   },
   "packageRules": [
     {
