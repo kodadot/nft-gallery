@@ -47,13 +47,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item
-        tag="nuxt-link"
-        :to="{ path: '/rmrk/explore' }"
-        class="logo">
-        <span>{{ $t('Explore') }}</span>
-      </b-navbar-item>
-      <b-navbar-dropdown arrowless collapsible>
+      <b-navbar-dropdown arrowless collapsible id="NavExplore">
         <template #label>
           <span>{{ $t('Explore') }}</span>
         </template>
@@ -64,6 +58,12 @@
           {{ $t('Gallery') }}
         </b-navbar-item>
       </b-navbar-dropdown>
+      <b-navbar-item
+        tag="nuxt-link"
+        :to="{ path: '/rmrk/explore' }"
+        class="logo">
+        <span>{{ $t('Explore') }}</span>
+      </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('Stats') }}</span>

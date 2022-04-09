@@ -16,6 +16,7 @@ import { Component, mixins, VModel, Vue, Watch } from 'nuxt-property-decorator'
 import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 const components = {
   CollectionList,
@@ -25,16 +26,21 @@ const components = {
   components,
 })
 export default class ExploreLayout extends mixins(PrefixMixin) {
-  // @VModel({ type: String, default: 'COLLECTION' }) selectedTab!: string
-
   get selectedTab(): string {
     return (this.$route.query.tab as string) || 'COLLECTION'
   }
 
   set selectedTab(val) {
     this.$route.query.page = ''
+    let queryOptions: { tab: string; search?: string | (string | null)[] } = {
+      tab: val,
+    }
+    if (this.$route.query.search) {
+      queryOptions.search = this.$route.query.search
+    }
+
     this.$router.replace({
-      query: { tab: val },
+      query: queryOptions,
     })
   }
 }
