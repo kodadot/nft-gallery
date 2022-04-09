@@ -1,12 +1,10 @@
 <template>
   <div>
-    <b-tabs type="is-toggle" v-model="selectedTab" size="is-small">
-      <b-tab-item label="COLLECTION" icon="fire" value="COLLECTION">
+    <b-tabs v-model="selectedTab" size="is-small">
+      <b-tab-item label="COLLECTION" value="COLLECTION">
         <CollectionList />
       </b-tab-item>
-      <b-tab-item label="GALLERY" icon="paper-plane" value="GALLERY"
-        ><Gallery
-      /></b-tab-item>
+      <b-tab-item label="GALLERY" value="GALLERY"><Gallery /></b-tab-item>
     </b-tabs>
   </div>
 </template>
