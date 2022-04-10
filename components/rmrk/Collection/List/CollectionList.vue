@@ -9,7 +9,7 @@
         preserveScroll
         :total="total"
         v-model="currentValue"
-        :per-page="first" />
+        :perPage="first" />
     </b-field>
 
     <div>
