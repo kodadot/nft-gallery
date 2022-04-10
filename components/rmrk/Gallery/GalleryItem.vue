@@ -391,10 +391,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     )
   }
 
-  protected handleAction(deleted: boolean) {
-    if (deleted) {
-      showNotification('INSTANCE REMOVED', notificationTypes.warn)
-    }
+  protected handleAction() {
+    this.$fetch()
   }
 
   protected handleUnlist() {
