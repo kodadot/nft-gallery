@@ -10,7 +10,8 @@
         <img
           src="~/assets/Koda_Beta.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
-          height="32" />
+          width="130"
+          height="35" />
       </b-navbar-item>
     </template>
     <template #start>
@@ -22,7 +23,7 @@
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
-      <HistoryBrowser
+      <LazyHistoryBrowser
         class="ml-2 navbar-link-background"
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
@@ -71,8 +72,8 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="ml-2" id="NavChainSelect" />
-      <LocaleChanger class="ml-2" id="NavLocaleChanger" />
+      <LazyChainSelect class="ml-2" id="NavChainSelect" />
+      <LazySwitchLocale class="ml-2" id="NavLocaleChanger" />
       <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
@@ -90,9 +91,6 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import LocaleChanger from '@/components/shared/SwitchLocale.vue'
-import ChainSelect from '@/components/shared/ChainSelect.vue'
-import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Identity from '@/components/shared/format/Identity.vue'
@@ -104,10 +102,7 @@ import { get } from 'idb-keyval'
 
 @Component({
   components: {
-    LocaleChanger,
-    HistoryBrowser,
     NavbarProfileDropdown,
-    ChainSelect,
     Search,
     Identity,
     BasicImage,

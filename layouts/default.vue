@@ -13,6 +13,6 @@
         </div>
       </section>
     </main>
-    <Footer />
+    <LazyFooter />
   </div>
 </template>

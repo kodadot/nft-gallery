@@ -4,10 +4,11 @@
       <div class="columns">
         <div class="column">
           <img
-            src="~/assets/KODADOT.png"
+            src="~/assets/KODADOT.webp"
             alt="First NFT market explorer on Kusama and Polkadot"
             class="mb-5 is-hidden-mobile"
-            height="60" />
+            width="950"
+            height="165" />
           <h3
             class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
             <span class="text__stroked my-5">
@@ -24,16 +25,19 @@
             rel="noopener noreferrer">
             <img
               src="https://badgen.net/discord/online-members/35hzy2dXXh"
-              alt="Discord" />
+              alt="Discord"
+              width="354"
+              height="40"
+              style="width: 177px" />
           </a>
         </div>
         <div class="column">
-          <CuratedList v-if="prefix === 'rmrk'" />
+          <LazyGalleryCuratedList v-if="prefix === 'rmrk'" />
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <LatestSales class="my-5" />
-        <NewestList class="my-5" />
+        <LazyGalleryLatestSales class="my-5" />
+        <LazyGalleryNewestList class="my-5" />
       </div>
     </div>
   </section>
@@ -42,14 +46,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
-const components = {
-  LatestSales: () => import('@/components/rmrk/Gallery/LatestSales.vue'),
-  NewestList: () => import('@/components/rmrk/Gallery/NewestList.vue'),
-  CuratedList: () => import('@/components/rmrk/Gallery/CuratedList.vue'),
-}
-@Component<Landing>({
-  components,
-})
+@Component<Landing>({})
 export default class Landing extends Vue {
   @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
   @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
