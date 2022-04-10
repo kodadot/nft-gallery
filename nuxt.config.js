@@ -167,14 +167,15 @@ export default defineNuxtConfig({
         path: '~/components/transfer',
         extensions: ['vue'],
       },
+      {
+        path: '~/components/unique',
+        extensions: ['vue'],
+      },
     ],
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxtjs/pwa',
-  ],
+  buildModules: ['@nuxtjs/pwa'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
