@@ -22,8 +22,8 @@ import {
 import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
 import Collections from '@/components/rmrk/Gallery/Collections.vue'
 
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import shouldUpdate from '~/utils/shouldUpdate'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import shouldUpdate from '@/utils/shouldUpdate'
 
 const components = {
   CollectionList,
