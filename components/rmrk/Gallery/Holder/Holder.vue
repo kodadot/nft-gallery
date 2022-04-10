@@ -239,12 +239,6 @@ type BaseTableRow = {
 }
 
 @Component({
-  filters: {
-    percentageFilter: (value) => {
-      if (!value) return '-'
-      return (value * 100).toFixed(2) + '%'
-    },
-  },
   components,
 })
 export default class CommonHolderTable extends mixins(

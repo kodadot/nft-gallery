@@ -1,11 +1,11 @@
 <template>
   <CommonHolderTable
-    :table-rows-option="flipperTableRowList"
-    group-key-option="Flipper"
+    :tableRowsOption="flipperTableRowList"
+    groupKeyOption="Flipper"
     openOnDefault
-    date-header-label="Last Activity"
-    name-header-label="User"
-    sale-header-label="Sold"
+    dateHeaderLabel="Last Activity"
+    nameHeaderLabel="User"
+    saleHeaderLabel="Sold"
     :collapseTitleOption="$t('Flipper')"
     hideCollapse />
 </template>
