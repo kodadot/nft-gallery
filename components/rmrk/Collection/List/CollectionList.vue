@@ -9,7 +9,7 @@
 
     <div>
       <infinite-loading
-        v-if="startPage > 1"
+        v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></infinite-loading>
       <div class="columns is-multiline" @scroll="onScroll">
@@ -41,13 +41,16 @@
           </div>
         </div>
       </div>
-      <infinite-loading @infinite="reachBottomHandler"></infinite-loading>
+      <infinite-loading
+        v-if="canLoadNextPage && !isLoading && total > 0"
+        @infinite="reachBottomHandler"></infinite-loading>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import shouldUpdate from '~/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
@@ -61,6 +64,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import {
   getCloudflareImageLinks,
@@ -68,6 +72,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
+import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -89,25 +94,23 @@ const components = {
 @Component<CollectionList>({
   components,
 })
-export default class CollectionList extends mixins(PrefixMixin) {
+export default class CollectionList extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin
+) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/placeholder.webp'
-  private currentValue = parseInt((this.$route.query?.page as string) || '1')
-  private total = 0
-  private searchQuery: SearchQuery = {
-    search: '',
-    type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
-  }
-
-  private startPage = parseInt(this.$route.query?.page as string) || 1
-  private endPage = this.startPage
   private isLoading = true
-  private scrollItemHeight = 300
-  private itemsPerRow = 3
+  private searchQuery: SearchQuery = Object.assign(
+    {
+      search: '',
+      type: '',
+      sortBy: 'BLOCK_NUMBER_DESC',
+      listed: false,
+    },
+    this.$route.query
+  )
 
   private collectionSortOption: string[] = [
     'BLOCK_NUMBER_DESC',
@@ -115,14 +118,6 @@ export default class CollectionList extends mixins(PrefixMixin) {
     'UPDATED_AT_DESC',
     'UPDATED_AT_ASC',
   ]
-
-  get offset(): number {
-    return this.endPage * this.first - this.first
-  }
-
-  get canLoadNextPage() {
-    return this.endPage < Math.ceil(this.total / this.first)
-  }
 
   @Debounce(500)
   private resetPage() {
@@ -145,37 +140,19 @@ export default class CollectionList extends mixins(PrefixMixin) {
     return params
   }
 
-  private async reachTopHandler($state) {
-    this.startPage -= 1
-    await this.fetchPageData(this.startPage, 'up')
-    $state.loaded()
-  }
-
-  private async reachBottomHandler($state) {
-    this.endPage += 1
-    await this.fetchPageData(this.endPage)
-    $state.loaded()
-  }
-
   public async created() {
     this.fetchPageData(this.startPage)
   }
 
-  private mounted() {
-    window.addEventListener('resize', this.onResize)
-    window.addEventListener('scroll', this.onScroll)
-    this.onResize()
-  }
-
-  private beforeDestroy() {
-    window.addEventListener('resize', this.onResize)
-    window.removeEventListener('scroll', this.onScroll)
-  }
-
-  public async fetchPageData(page, loadDirection = 'down') {
+  public async fetchPageData(
+    page: number,
+    loadDirection = 'down',
+    callback?: () => void
+  ) {
+    if (this.isFetchingData) return
+    this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
-      manual: true,
       client: this.urlPrefix,
       variables: {
         orderBy: this.searchQuery.sortBy,
@@ -187,7 +164,9 @@ export default class CollectionList extends mixins(PrefixMixin) {
         offset: (page - 1) * this.first,
       },
     })
-    this.handleResult(result, loadDirection)
+    await this.handleResult(result, loadDirection)
+    callback && callback()
+    this.isFetchingData = false
   }
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
@@ -204,7 +183,6 @@ export default class CollectionList extends mixins(PrefixMixin) {
 
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
-
     processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
       Vue.set(this.collections, i, {
         ...this.collections[i],
@@ -249,45 +227,16 @@ export default class CollectionList extends mixins(PrefixMixin) {
 
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
-    if (val !== oldVal) {
+    if (shouldUpdate(val, oldVal)) {
       this.resetPage()
       this.searchQuery.search = val || ''
     }
   }
 
   @Watch('searchQuery', { deep: true })
-  protected onSearchQueryChange() {
-    this.resetPage()
-  }
-
-  @Debounce(100)
-  replaceUrlPage(page: string) {
-    if (page === this.$route.query.page) return
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, page },
-      })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
-  }
-
-  get pageHeight() {
-    return this.scrollItemHeight * (this.first / this.itemsPerRow)
-  }
-
-  @Debounce(1000)
-  onScroll() {
-    const currentPage =
-      Math.floor(document.documentElement.scrollTop / this.pageHeight) +
-      this.startPage
-    this.replaceUrlPage(String(currentPage))
-  }
-  onResize() {
-    try {
-      this.scrollItemHeight =
-        document.body.querySelector('.scroll-item').clientHeight
-    } catch (err) {
-      console.warn('resize scroll item', err)
+  protected onSearchQueryChange(val, oldVal) {
+    if (!isEqual(val, oldVal)) {
+      this.resetPage()
     }
   }
 

@@ -544,9 +544,9 @@ export default class SearchBar extends mixins(
       .replace({
         path: String(this.$route.path),
         query: {
+          page: '1',
           ...this.$route.query,
           search: this.searchQuery,
-          page: '1',
           [key]: value,
           [key2]: value2,
         },
