@@ -18,7 +18,7 @@ export default class InfiniteScrollMixin extends Vue {
   }
 
   protected beforeDestroy() {
-    window.addEventListener('resize', this.onResize)
+    window.removeEventListener('resize', this.onResize)
     window.removeEventListener('scroll', this.onScroll)
   }
   get offset(): number {
@@ -33,14 +33,14 @@ export default class InfiniteScrollMixin extends Vue {
   }
 
   @Debounce(1000)
-  protected onScroll() {
+  protected onScroll(): void {
     const currentPage =
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
     this.replaceUrlPage(String(currentPage))
   }
 
-  protected replaceUrlPage(page: string) {
+  protected replaceUrlPage(page: string): void {
     if (page === this.$route.query.page) return
     this.$router
       .replace({
@@ -50,7 +50,7 @@ export default class InfiniteScrollMixin extends Vue {
       .catch(console.warn /*Navigation Duplicate err fix later */)
   }
 
-  protected onResize() {
+  protected onResize(): void {
     try {
       const scrollItem = document.body.querySelector('.scroll-item')
       if (scrollItem) {
@@ -62,28 +62,28 @@ export default class InfiniteScrollMixin extends Vue {
   }
 
   @Debounce(1000)
-  protected async reachTopHandler($state) {
+  protected reachTopHandler($state): void {
     if (this.startPage < 1) return
     const nextPage = this.startPage - 1
-    await this.fetchPageData(this.startPage - 1, 'up', () => {
+    this.fetchPageData(this.startPage - 1, 'up', () => {
       this.startPage = nextPage
       $state.loaded()
     })
   }
 
   @Debounce(1000)
-  protected async reachBottomHandler($state) {
+  protected reachBottomHandler($state): void {
     if (!this.canLoadNextPage) {
       return
     }
     const nextPage = this.endPage + 1
-    await this.fetchPageData(nextPage, 'down', () => {
+    this.fetchPageData(nextPage, 'down', () => {
       this.endPage = nextPage
       $state.loaded()
     })
   }
 
-  protected fetchPageData(page, loadDirection = 'down', cb): void {
+  protected fetchPageData(page, loadDirection, cb): void {
     console.warn('fetchPageData need to be extended', page, loadDirection, cb)
   }
 }
