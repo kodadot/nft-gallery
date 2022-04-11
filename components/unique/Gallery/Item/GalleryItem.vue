@@ -205,7 +205,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   }
 
   protected observeOwner(data: Option<InstanceDetails>) {
-    console.log(data.toHuman())
+    this.$consola.log(data.toHuman())
     const instance = data.unwrapOr(null)
     if (instance) {
       this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
@@ -222,7 +222,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     const { api } = Connector.getInstance()
     await api?.isReady
     try {
-      console.log('loading magic', this.id)
+      this.$consola.log('loading magic', this.id)
       const nftId = this.id || 0
 
       let nftQ = await api.query.uniques
@@ -230,7 +230,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
         .then((res) => res.unwrapOr(null))
 
       if (!nftQ) {
-        console.warn('nft with no metadata, trying collection')
+        this.$consola.warn('nft with no metadata, trying collection')
         nftQ = await api.query.uniques
           ?.classMetadataOf<Option<ClassMetadata>>(this.collectionId)
           .then((res) => res.unwrapOr(null))
@@ -238,7 +238,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 
       const nftData = nftQ?.toHuman()
       if (!nftData?.data) {
-        console.warn(`No Metadata with ID ${nftId}`)
+        this.$consola.warn(`No Metadata with ID ${nftId}`)
         // showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
         return
       }
@@ -266,7 +266,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       this.fetchAnimationData()
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     this.isLoading = false
   }
@@ -288,7 +288,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       return
     }
 
-    console.log('nft', nFTEntity)
+    this.$consola.log('nft', nFTEntity)
 
     this.nft = {
       ...this.nft,
@@ -298,14 +298,14 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   }
 
   onImageError(e: any) {
-    console.warn('Image error', e)
+    this.$consola.warn('Image error', e)
   }
 
   public async fetchAnimationData() {
     if (this.meta.animation_url && !this.mimeType) {
       const { headers } = await axios.head(this.meta.animation_url)
       this.mimeType = headers['content-type']
-      console.log(this.mimeType)
+      this.$consola.log(this.mimeType)
       const mediaType = resolveMedia(this.mimeType)
       this.imageVisible = ![
         MediaType.VIDEO,
@@ -317,7 +317,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   }
 
   public async fetchMetadata() {
-    // console.log(this.nft);
+    // this.$consola.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
       const m = await get(this.nft.metadata)
@@ -328,7 +328,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
             this.nft,
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
           )
-      console.log(meta)
+      this.$consola.log(meta)
 
       const imageSanitizer = getSanitizer(meta.image)
       this.meta = {
@@ -340,11 +340,11 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
         ),
       }
 
-      console.log(this.meta)
+      this.$consola.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
         this.mimeType = headers['content-type']
-        console.log(this.mimeType)
+        this.$consola.log(this.mimeType)
         const mediaType = resolveMedia(this.mimeType)
         this.imageVisible = ![
           MediaType.VIDEO,

@@ -338,7 +338,7 @@ export default class CollectionItem extends mixins(
     if (!data) {
       return
     }
-    // console.log(data.collection.nfts.nodes)
+    // this.$consola.log(data.collection.nfts.nodes)
 
     // const events: Interaction[][] =
     //   data.collection.nfts.nodes.map((nft) => nft.events) || []
@@ -409,7 +409,7 @@ export default class CollectionItem extends mixins(
     this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
-    ).catch(console.warn)
+    ).catch(this.$consola.warn)
     this.collection = {
       ...collectionEntity,
       nfts: collectionEntity.nfts.nodes,

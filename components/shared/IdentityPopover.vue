@@ -150,7 +150,7 @@ export default class IdentityPopover extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
   }
 

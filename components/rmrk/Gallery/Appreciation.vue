@@ -107,7 +107,7 @@ export default class Appreciation extends mixins(
       })
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
     }
   }
 }
