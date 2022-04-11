@@ -62,14 +62,6 @@
             :title="label">
             <b-icon size="is-large" pack="fab" icon="whatsapp" />
           </ShareNetwork>
-          <!-- <ShareNetwork
-            tag="button"
-            class="button share__button is-medium"
-            network="pinterest"
-            :url="realworldFullPath"
-            :title="label">
-            <b-icon size="is-large" pack="fab" icon="pinterest" />
-          </ShareNetwork> -->
           <ShareNetwork
             tag="button"
             class="button share__button is-medium"
@@ -78,13 +70,6 @@
             :title="label">
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
-          <!-- <b-button
-            size="is-medium"
-            v-clipboard:copy="iframeUri"
-            @click="toast('Code copied to clipboard')"
-            class="share__button">
-            <b-icon size="is-medium" pack="fas" icon="code" />
-          </b-button> -->
         </template>
         <b-button type="is-primary is-bordered-light share-button">
           <b-icon size="is-small" pack="fas" icon="share" />
