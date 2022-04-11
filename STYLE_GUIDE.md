@@ -79,7 +79,7 @@ export class MyComponent extends Vue {
 ### Using Components In Templates
 Custom components and prop bindings should be used like this
 ```vue
-<MyCustomComponent :property-name="doSomething">
+<MyCustomComponent :propertyName="doSomething">
     {{ someProperty }}
 </MyCustomComponent>
 ```
