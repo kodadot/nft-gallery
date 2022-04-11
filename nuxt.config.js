@@ -125,10 +125,8 @@ export default defineNuxtConfig({
   ],
 
   router: {
-    middleware: ['prefix'],
+    middleware: ['prefix', 'redirects'],
   },
-
-  serverMiddleware: ['~/utils/redirects.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {

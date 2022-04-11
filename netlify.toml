@@ -29,11 +29,6 @@ command = 'export BASE_URL=$URL && env && npm run generate:pnpm'
   to = "/index.html"
   status = 200
 
-[[redirects]]
-  from = "/rmrk/collections"
-  to = "/rmrk/explore"
-  status = 200
-
 [[headers]]
   for = "/*"
   [headers.values]
