@@ -11,9 +11,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
 import Collections from '@/components/rmrk/Gallery/Collections.vue'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   CollectionList,
@@ -24,9 +25,9 @@ const components = {
   components,
 })
 export default class ExploreLayout extends mixins(PrefixMixin) {
-get type() {
-  return this.urlPrefix
-}
+  get type() {
+    return this.urlPrefix
+  }
   get selectedTab(): string {
     return (this.$route.query.tab as string) || 'GALLERY'
   }
