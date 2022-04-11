@@ -11,11 +11,9 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
 import Collections from '@/components/rmrk/Gallery/Collections.vue'
-
-import prefixMixin from '@/utils/mixins/prefixMixin'
 
 const components = {
   CollectionList,
@@ -25,7 +23,7 @@ const components = {
 @Component<ExploreLayout>({
   components,
 })
-export default class ExploreLayout extends mixins(prefixMixin) {
+export default class ExploreLayout extends Vue {
   @Prop({ type: String, default: 'default' }) type!: string
 
   get selectedTab(): string {
