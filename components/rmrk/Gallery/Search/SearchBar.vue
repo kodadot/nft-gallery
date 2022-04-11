@@ -400,7 +400,7 @@ export default class SearchBar extends mixins(
   redirectToGalleryPageIfNeed() {
     if (this.$route.name === 'index') {
       this.$router.replace({
-        path: '/rmrk/explore',
+        name: 'rmrk-explore',
       })
     }
   }

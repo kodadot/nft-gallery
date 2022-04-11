@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-tabs v-model="selectedTab" size="is-small">
-      <b-tab-item label="GALLERY" value="GALLERY"><Gallery /></b-tab-item>
       <b-tab-item label="COLLECTION" value="COLLECTION">
         <CollectionList v-if="type === 'rmrk'" />
         <Collections v-if="type !== 'rmrk'" />
       </b-tab-item>
+      <b-tab-item label="GALLERY" value="GALLERY"><Gallery /></b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default class ExploreLayout extends mixins(prefixMixin) {
   @Prop({ type: String, default: 'default' }) type!: string
 
   get selectedTab(): string {
-    return (this.$route.query.tab as string) || 'GALLERY'
+    return (this.$route.query.tab as string) || 'COLLECTION'
   }
 
   set selectedTab(val) {
