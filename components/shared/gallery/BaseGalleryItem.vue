@@ -220,7 +220,6 @@ export default class BaseGalleryItem extends Vue {
 
     button {
       border: 0;
-      border-top: 2px solid $primary;
       color: #fff;
       font-weight: bold;
       text-transform: uppercase;

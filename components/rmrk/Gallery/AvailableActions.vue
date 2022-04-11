@@ -29,6 +29,7 @@
           <b-button
             :type="iconType('BUY')[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
+            style="border-width: 2px"
             outlined
             @click="handleAction('BUY')"
             expanded>
@@ -455,6 +456,9 @@ export default class AvailableActions extends mixins(
 }
 .actions-wrap {
   .buttons {
+    button {
+      border-width: 1px;
+    }
     .b-tooltip {
       width: 100%;
     }
