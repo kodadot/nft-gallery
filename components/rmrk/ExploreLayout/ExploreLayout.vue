@@ -24,7 +24,9 @@ const components = {
   components,
 })
 export default class ExploreLayout extends mixins(PrefixMixin) {
-
+get type() {
+  return this.urlPrefix
+}
   get selectedTab(): string {
     return (this.$route.query.tab as string) || 'GALLERY'
   }
