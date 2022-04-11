@@ -8,9 +8,12 @@ export const toNumber = (value: BN | number): number =>
 
 export const toString = (value: any) => (value && value.toString()) || ''
 
-export const toPercent = (value: number | undefined | BN): string => {
+export const toPercent = (
+  value: number | undefined | BN,
+  emptyStr: string = EMPTY
+): string => {
   if (!value) {
-    return EMPTY
+    return emptyStr
   }
 
   if (isNumber(value)) {
@@ -23,7 +26,7 @@ export const toPercent = (value: number | undefined | BN): string => {
     return `${bnPercent} %`
   }
 
-  return EMPTY
+  return emptyStr
 }
 
 export const truncateStr = (s: string, maxLen = 20): string => {

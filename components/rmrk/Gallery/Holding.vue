@@ -1,10 +1,10 @@
 <template>
-  <Holder
+  <CommonHolderTable
     :events="ownerEventsOfNft"
-    group-key-option="CollectionId"
+    groupKeyOption="CollectionId"
     openOnDefault
-    date-header-label="Last Activity"
-    name-header-label="Collection"
+    dateHeaderLabel="Last Activity"
+    nameHeaderLabel="Collection"
     :collapseTitleOption="$t('Holdings')"
     hideCollapse />
 </template>
@@ -19,7 +19,8 @@ import { sortedEventByDate } from '~/utils/sorting'
 import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
 const components = {
-  Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
+  CommonHolderTable: () =>
+    import('@/components/rmrk/Gallery/Holder/Holder.vue'),
 }
 
 @Component({ components })
