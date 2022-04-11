@@ -63,8 +63,11 @@
       ref="tabsContainer"
       :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
-      <b-tab-item label="Collection" value="collection">
-        <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
+      <b-tab-item label="Items" value="items">
+        <Search
+          v-bind.sync="searchQuery"
+          :disableToggle="!totalListed"
+          :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -74,7 +77,7 @@
               preserveScroll
               :total="total"
               v-model="currentValue"
-              v-if="activeTab === 'collection'"
+              v-if="activeTab === 'items'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -87,13 +90,13 @@
         <Pagination
           class="py-5"
           replace
-          v-if="activeTab === 'collection'"
+          v-if="activeTab === 'items'"
           preserveScroll
           :total="total"
           v-model="currentValue"
           :per-page="first" />
       </b-tab-item>
-      <b-tab-item label="Activity" value="activity">
+      <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
@@ -103,6 +106,13 @@
           :openOnDefault="isHistoryOpen"
           hideCollapse
           @setPriceChartData="setPriceChartData" />
+      </b-tab-item>
+      <b-tab-item label="Holders" value="holders">
+        <Holder
+          v-if="!isLoading && activeTab === 'holders'"
+          :events="ownerEventsOfNftCollection"
+          :openOnDefault="isHolderOpen"
+          hideCollapse />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -153,6 +163,7 @@ const components = {
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  Holder: () => import('@/components/rmrk/Gallery/Holder/Holder.vue'),
 }
 @Component<CollectionItem>({
   components,
@@ -172,19 +183,30 @@ export default class CollectionItem extends mixins(
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  public activeTab = 'collection'
+  public activeTab = 'items'
   private currentValue = parseInt(this.$route.query?.page as string) || 1
   private first = 16
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private statsLoaded = false
   private queryLoading = 0
   public eventsOfNftCollection: Interaction[] | [] = []
+  public ownerEventsOfNftCollection: Interaction[] | [] = []
   public selectedEvent = 'all'
   public priceChartData: [Date, number][][] = []
   private openHistory = true
+  private openHolder = true
+
+  collectionProfileSortOption: string[] = [
+    'BLOCK_NUMBER_DESC',
+    'BLOCK_NUMBER_ASC',
+    'UPDATED_AT_DESC',
+    'UPDATED_AT_ASC',
+    'PRICE_DESC',
+    'PRICE_ASC',
+    'SN_ASC',
+  ]
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -212,6 +234,10 @@ export default class CollectionItem extends mixins(
 
   get isHistoryOpen(): boolean {
     return this.openHistory
+  }
+
+  get isHolderOpen(): boolean {
+    return this.openHolder
   }
 
   get nfts(): NFT[] {
@@ -312,7 +338,7 @@ export default class CollectionItem extends mixins(
     if (!data) {
       return
     }
-    // console.log(data.collection.nfts.nodes)
+    // this.$consola.log(data.collection.nfts.nodes)
 
     // const events: Interaction[][] =
     //   data.collection.nfts.nodes.map((nft) => nft.events) || []
@@ -322,7 +348,7 @@ export default class CollectionItem extends mixins(
   }
 
   // Get collection query with NFT Events on it
-  protected async fetchHistoryEvents() {
+  protected async fetchCollectionEvents() {
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
         query: allCollectionSaleEvents,
@@ -339,6 +365,10 @@ export default class CollectionItem extends mixins(
         // TODO : default value of HISTORY for BUY
         // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        // copy array and reverse
+        this.ownerEventsOfNftCollection = [
+          ...this.eventsOfNftCollection,
+        ].reverse()
         this.checkTabLocate()
       }
     } catch (e) {
@@ -379,7 +409,7 @@ export default class CollectionItem extends mixins(
     this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
-    ).catch(console.warn)
+    ).catch(this.$consola.warn)
     this.collection = {
       ...collectionEntity,
       nfts: collectionEntity.nfts.nodes,
@@ -441,10 +471,10 @@ export default class CollectionItem extends mixins(
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity') {
+    if (val === 'chart') {
       this.loadStats()
-    } else if (val === 'history') {
-      this.fetchHistoryEvents()
+    } else if (val === 'history' || val === 'holders') {
+      this.fetchCollectionEvents()
     }
   }
 

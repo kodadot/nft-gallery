@@ -14,7 +14,6 @@ import {
   SendType,
   shuffleFunction,
 } from '@/components/accounts/utils'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { Debounce } from 'vue-debounce-decorator'
 import Connector from '@kodadot1/sub-api'
 import { Component, Emit, Vue, Watch } from 'nuxt-property-decorator'
@@ -43,52 +42,44 @@ export default class SendHandler extends Vue {
   }
 
   @Watch('parsedAddresses')
-  @Debounce(500)
-  protected onParsedAddressedChanged(
-    parsedAddresses: string[],
-    oldVal: string[]
-  ): void {
-    if (shouldUpdate(parsedAddresses.length, oldVal.length)) {
-      this.onInput({
-        parsedAddresses,
-        random: this.random,
-        distribution: this.distribution,
-      })
+  protected onParsedAddressedChanged(parsedAddresses: string[]): void {
+    if (parsedAddresses) {
+      this.onInput()
     }
   }
 
   @Watch('random')
-  @Debounce(500)
   protected onRandomChange(random: boolean, oldVal: boolean): void {
-    if (shouldUpdate(random, oldVal)) {
-      this.onInput({
-        parsedAddresses: this.parsedAddresses,
-        random,
-        distribution: this.distribution,
-      })
+    if (random !== oldVal) {
+      this.onInput()
     }
   }
 
   @Watch('distribution')
-  @Debounce(500)
   protected onDistributionChanged(distribution: number, oldVal: number): void {
-    if (shouldUpdate(distribution, oldVal)) {
-      this.onInput({
-        parsedAddresses: this.parsedAddresses,
-        random: this.random,
-        distribution,
-      })
+    if (distribution !== oldVal) {
+      this.onInput()
     }
   }
 
   @Emit('input')
-  protected onInput(self: SendType): ProcessFunction {
-    console.log(self)
-    return sendFunction(
-      self.parsedAddresses,
-      self.distribution,
-      self.random ? shuffleFunction(this.seed) : undefined
-    )
+  @Debounce(500)
+  protected onInput(): { isValidMeta: boolean; metaFunction: ProcessFunction } {
+    const self: SendType = {
+      parsedAddresses: this.parsedAddresses,
+      random: this.random,
+      distribution: this.distribution,
+    }
+    this.$consola.log('SendType change', self)
+
+    return {
+      isValidMeta: self.parsedAddresses.length > 0,
+      metaFunction: sendFunction(
+        self.parsedAddresses,
+        self.distribution,
+        self.random ? shuffleFunction(this.seed) : undefined
+      ),
+    }
   }
 }
 </script>

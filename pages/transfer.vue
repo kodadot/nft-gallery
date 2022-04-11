@@ -102,14 +102,14 @@
           {{ $t('Copy Payment link') }}
         </b-button>
         <b-button
-          v-if="accountId && price > 0"
+          v-if="accountId"
           type="is-info"
           icon-left="wallet"
           :loading="isLoading"
-          @click="toast('Your payout link copied to clipboard')"
+          @click="toast($t('general.copyRewardTooltip'))"
           v-clipboard:copy="generatePaymentLink(accountId)"
           outlined>
-          {{ $t('Copy Payout Address') }}
+          {{ $t('general.copyRewardLink') }}
         </b-button>
       </div>
       <div v-if="transactionValue && this.$route.query.donation">
@@ -309,7 +309,7 @@ export default class Transfer extends mixins(
         )
       )
     } catch (e) {
-      console.error('[ERR: TRANSFER SUBMIT]', e)
+      this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
       if (e instanceof Error) {
         showNotification(e.message, notificationTypes.danger)
       }

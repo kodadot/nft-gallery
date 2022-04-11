@@ -22,7 +22,7 @@ export default class Unknown extends Vue {
   private async mounted() {
     if (this.src) {
       const { data } = await api.get(this.src)
-      console.log('data', data)
+      this.$consola.log('data', data)
       this.data = Object.entries(data).map(([key, value]) => ({
         key,
         value: JSON.stringify(value),

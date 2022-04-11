@@ -1,0 +1,13 @@
+#import "../../fragments/nftSubsquid.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+
+query nftEntitiesByIDs($ids: [ID!]!) {
+  nftEntities(where: { id_in: $ids, price_gt: "0" }, limit: 10) {
+    ...nftSubsquid
+    ...nftDetails
+    meta {
+      ...baseMeta
+    }
+  }
+}

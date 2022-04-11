@@ -119,6 +119,12 @@
       </div>
     </template>
     <template v-slot:footer>
+      <GalleryItemCarousel
+        v-if="showRelatedCarousel"
+        type="related"
+        :collectionId="nft.collectionId" />
+      <GalleryItemCarousel type="visited" />
+
       <div class="columns">
         <div class="column">
           <History
@@ -158,7 +164,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    // MarkdownItVueLight: MarkdownItVueLight as VueConstructor<Vue>,
     History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
@@ -166,7 +171,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
     Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
     MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
-    // PackSaver: () => import('../Pack/PackSaver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
@@ -174,6 +178,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
+    GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
   },
   directives: {
     orientation: Orientation,
@@ -249,7 +254,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 
   onImageError(e: any) {
-    console.warn('Image error', e)
+    this.$consola.warn('Image error', e)
   }
 
   public setPriceChartData(data: [Date, number][][]) {
@@ -378,6 +383,12 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   get hasBuyDisabled(): boolean {
     return this.balance ? Number(this.nft.price) > Number(this.balance) : true
+  }
+
+  get showRelatedCarousel(): boolean {
+    return (
+      Boolean(this.nft.collectionId) && this.nftsFromSameCollection.length > 0
+    )
   }
 
   protected handleAction(deleted: boolean) {

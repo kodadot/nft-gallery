@@ -4,6 +4,8 @@
     spaced
     wrapper-class="container"
     close-on-click
+    :mobile-burger="!showMobileSearchBar"
+    :active.sync="isBurgerMenuOpened"
     :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
@@ -12,18 +14,46 @@
           alt="First NFT market explorer on Kusama and Polkadot"
           height="32" />
       </b-navbar-item>
+      <div
+        v-if="showMobileSearchBar"
+        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
+        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
+        <Search
+          v-if="showMobileSearchBar"
+          hideFilter
+          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
+      </div>
+
+      <div
+        v-else
+        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+        @click="closeBurgerMenu">
+        <div>
+          <HistoryBrowser />
+
+          <b-button
+            @click="toggleSearchBarDisplay"
+            type="is-primary is-bordered-light"
+            class="navbar-link-background"
+            icon-right="search" />
+        </div>
+      </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{ 'nav-search-shrink': !showTopNavbar }"
+        :class="{
+          'nav-search-shrink': !showTopNavbar,
+        }"
         hideFilter
-        class="search-navbar"
+        class="search-navbar is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
-      <HistoryBrowser class="ml-2 navbar-link-background" />
-      <b-navbar-dropdown arrowless collapsible>
+      <HistoryBrowser
+        class="custom-navbar-item navbar-link-background is-hidden-touch"
+        id="NavHistoryBrowser" />
+      <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
           <span>{{ $t('Create') }}</span>
         </template>
@@ -45,7 +75,7 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible>
+      <b-navbar-dropdown arrowless collapsible id="NavExplore">
         <template #label>
           <span>{{ $t('Explore') }}</span>
         </template>
@@ -56,7 +86,7 @@
           {{ $t('Gallery') }}
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible v-if="isRmrk">
+      <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('Stats') }}</span>
         </template>
@@ -69,9 +99,9 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="ml-2" />
-      <LocaleChanger class="ml-2" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" />
+      <ChainSelect class="custom-navbar-item" id="NavChainSelect" />
+      <LocaleChanger class="custom-navbar-item" id="NavLocaleChanger" />
+      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -117,6 +147,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   private showTopNavbar = true
   private lastScrollPosition = 0
   private artistName = ''
+  private showMobileSearchBar = false
+  private isBurgerMenuOpened = false
 
   private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
@@ -188,6 +220,16 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     this.lastScrollPosition = currentScrollPosition
   }
 
+  toggleSearchBarDisplay() {
+    this.showMobileSearchBar = !this.showMobileSearchBar
+  }
+
+  closeBurgerMenu() {
+    if (this.isBurgerMenuOpened) {
+      this.isBurgerMenuOpened = false
+    }
+  }
+
   mounted() {
     window.addEventListener('scroll', this.onScroll)
     if (this.isGallery) {
@@ -206,7 +248,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-@media (min-width: 1024px) {
+@include tablet {
   .navbar-shrink {
     box-shadow: none;
     max-height: 70px;
@@ -217,6 +259,68 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     padding-bottom: 0 !important;
   }
 }
+
+// Reserved for future adjustments
+
+// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
+//   a#NavProfile {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
+//   a#NavStats {
+//     display: none;
+//   }
+// }
+
+@media only screen and (min-width: 1024px) and (max-width: 1100px) {
+  div#NavHistoryBrowser {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  a#NavCreate {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+  div#NavChainSelect {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1340px) {
+  div#NavLocaleChanger {
+    display: none;
+  }
+}
+
+@include touch {
+  .navbar {
+    .navbar-item,
+    .custom-navbar-item {
+      margin-left: 0 !important;
+    }
+    .navbar-dropdown .b-tooltip {
+      width: 100%;
+    }
+    #NavProfile {
+      margin-left: 0;
+      .dropdown-trigger .button {
+        width: 100vw;
+        background: $primary;
+      }
+    }
+    .dropdown.is-mobile-modal > .dropdown-menu {
+      -webkit-transform: translate3d(-50%, 10%, 0);
+      transform: translate3d(-50%, 10%, 0);
+    }
+  }
+}
+
 .navbar {
   background: rgba(12, 12, 12, 0.7);
   backdrop-filter: blur(20px);
@@ -228,7 +332,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       .navbar-menu {
         margin-right: 0;
         .button {
-          height: 42px;
+          height: 40px;
         }
       }
     }
@@ -254,19 +358,26 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
+  .custom-navbar-item {
+    margin-left: 0.5em;
+  }
+
   .logo {
     border: none !important;
-    margin-left: 0;
     background: transparent;
+    @include tablet {
+      margin-left: 0;
+    }
   }
 
   .navbar-brand {
     align-items: center;
   }
 
-  .burger {
-    margin-right: 0.5rem;
+  .navbar-start {
+    flex: 1;
   }
+
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
     box-shadow: $dropdown-content-shadow !important;
@@ -275,12 +386,11 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       margin-left: 0 !important;
     }
   }
+
   .search-navbar {
-    flex-grow: 1;
-    margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    width: 400px;
+    min-width: 350px;
     margin: 0 1rem;
     input {
       border: inherit;
@@ -290,7 +400,23 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       }
       &:focus {
         box-shadow: none !important;
+        border-top: $sleek-primary-border;
+      }
+    }
+  }
+  .search-navbar-container-mobile {
+    position: fixed;
+    left: 0;
+    width: 100%;
+
+    input {
+      background-color: rgba(41, 41, 47, 0.5);
+      padding: 0;
+      z-index: 1;
+      &:focus {
+        box-shadow: none !important;
         border-top: 2px solid $primary;
+        background: rgba(41, 41, 47);
       }
     }
   }

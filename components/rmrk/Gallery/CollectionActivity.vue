@@ -1,26 +1,35 @@
 <template>
   <div>
-    <div class="level my-4 collection" v-if="stats">
+    <div class="level my-4 collection is-align-items-start" v-if="stats">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
-          <p class="heading">Listed / Total Items</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="title">
-            <Money :value="collectionFloorPrice" inline />
+          <p class="heading">
+            {{ $t('activity.listed') }} / {{ $t('activity.totalItems') }}
           </p>
-          <p class="heading">Floor price</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
+            <Money :value="collectionDailyTradedVolumeNumber" inline /> ⊆
             <Money :value="collectionTradedVolumeNumber" inline />
           </p>
-          <p class="heading">Volume traded</p>
+          <p class="heading">
+            {{ $t('activity.todayTraded') }} / {{ $t('activity.totalTraded') }}
+          </p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="title">
+            <Money :value="highestBuyPrice" inline /> ⊆
+            {{ totalPurchases }}
+          </p>
+          <p class="heading">
+            {{ $t('activity.highestTransactionPrice') }} /
+            {{ $t('activity.totalBuys') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -28,7 +37,9 @@
           <p class="title">
             {{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}
           </p>
-          <p class="heading">Unique / Owners</p>
+          <p class="heading">
+            {{ $t('activity.unique') }} / {{ $t('activity.owners') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -36,16 +47,16 @@
           <p class="title">
             {{ disributionCount }}
           </p>
-          <p class="heading">Distribution</p>
+          <p class="heading">{{ $t('activity.distribution') }}</p>
         </div>
       </div>
 
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline />
+            <Money :value="collectionFloorPrice" inline />
           </p>
-          <p class="heading">24h Volume traded</p>
+          <p class="heading">{{ $t('activity.floorPrice') }}</p>
         </div>
       </div>
     </div>
@@ -54,11 +65,16 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { Interaction } from '@/components/rmrk/service/scheme'
+import {
+  Interaction,
+  CollectionEventsStats,
+} from '@/components/rmrk/service/scheme'
 import { after, getVolume, pairListBuyEvent } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import collectionStatsById from '@/queries/collectionStatsById.graphql'
+import collectionBuyEventStatsById from '@/queries/rmrk/subsquid/collectionBuyEventStatsById.graphql'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -85,10 +101,16 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
     differentOwnerCount: 0,
     saleEvents: [],
   }
+  totalPurchases = 0
+  highestBuyPrice = 0
+
+  public created(): void {
+    this.fetchBuyEvents()
+  }
 
   async fetch() {
     if (!this.id) {
-      console.warn('CollectionActivity: id is not defined')
+      this.$consola.warn('CollectionActivity: id is not defined')
       return
     }
 
@@ -101,12 +123,12 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
         },
       })
       .catch((e) => {
-        console.warn(e)
+        this.$consola.warn(e)
         return { data: null }
       })
 
     if (!data) {
-      console.log('stats is null')
+      this.$consola.log('stats is null')
       return
     }
 
@@ -158,6 +180,27 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 
   get collectionDailyTradedVolumeNumber(): bigint {
     return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
+  }
+
+  protected async fetchBuyEvents() {
+    try {
+      const { data } = await this.$apollo.query<{
+        stats: CollectionEventsStats[]
+      }>({
+        query: collectionBuyEventStatsById,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+        },
+      })
+      if (data && data.stats && data.stats[0]) {
+        const { max, count } = data.stats[0]
+        this.totalPurchases = count
+        this.highestBuyPrice = parseInt(max)
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
   }
 
   protected differentOwner(nft: {
