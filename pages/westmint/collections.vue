@@ -16,7 +16,7 @@ import Collections from '@/components/rmrk/Gallery/Collections.vue'
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/collections',
+      url: '/westmint/collections',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
@@ -25,5 +25,5 @@ import Collections from '@/components/rmrk/Gallery/Collections.vue'
     }
   },
 })
-export default class CollectionsPage extends Vue {}
+export default class WestmintCollections extends Vue {}
 </script>

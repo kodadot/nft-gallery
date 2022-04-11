@@ -1,24 +1,22 @@
 <template>
-  <CollectionList />
+  <Collections />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
+import Collections from '@/components/rmrk/Gallery/Collections.vue'
 
-const components = {
-  CollectionList,
-}
-
-@Component<CollectionListPage>({
-  components,
+@Component<WestendCollections>({
+  components: {
+    Collections,
+  },
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/collections',
+      url: '/westend/collections',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
@@ -27,5 +25,5 @@ const components = {
     }
   },
 })
-export default class CollectionListPage extends Vue {}
+export default class WestendCollections extends Vue {}
 </script>
