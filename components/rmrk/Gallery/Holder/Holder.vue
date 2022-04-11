@@ -547,7 +547,7 @@ export default class CommonHolderTable extends mixins(
         path: String(this.$route.path),
         query: { ...this.$route.query, [key]: value },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>

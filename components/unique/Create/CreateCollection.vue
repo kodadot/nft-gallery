@@ -176,7 +176,7 @@ export default class CreateCollection extends mixins(
     const estimated = await this.tryToEstimateTx()
     const deposit = this.collectionDeposit
     const hasTokens = hasEnoughToken(this.balance, estimated, deposit)
-    console.log('hasTokens', hasTokens)
+    this.$consola.log('hasTokens', hasTokens)
     if (!hasTokens) {
       throw new Error(
         `Not enough tokens: Currently have ${formatBalance(
@@ -211,8 +211,8 @@ export default class CreateCollection extends mixins(
       ]
 
       if (this.base.file) {
-        console.log('[UPLOADING FILE]')
-        uploadDirect(this.base.file, this.accountId).catch(console.warn)
+        this.$consola.log('[UPLOADING FILE]')
+        uploadDirect(this.base.file, this.accountId).catch(this.$consola.warn)
       }
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
@@ -223,7 +223,7 @@ export default class CreateCollection extends mixins(
       })
     } catch (e: any) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
       this.isLoading = false
     }
   }

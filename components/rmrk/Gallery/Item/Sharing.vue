@@ -173,7 +173,7 @@ export default class Sharing extends Vue {
       try {
         await navigator.share(shareData)
       } catch (err) {
-        console.error(err)
+        this.$consola.error(err)
       }
     }
   }
