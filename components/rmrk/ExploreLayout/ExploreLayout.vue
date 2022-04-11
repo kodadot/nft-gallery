@@ -23,8 +23,7 @@ const components = {
 @Component<ExploreLayout>({
   components,
 })
-export default class ExploreLayout extends Vue {
-  @Prop({ type: String, default: 'default' }) type!: string
+export default class ExploreLayout extends mixins(PrefixMixin) {
 
   get selectedTab(): string {
     return (this.$route.query.tab as string) || 'GALLERY'
