@@ -17,7 +17,9 @@ export default defineNuxtConfig({
       runtimeCompiler: true,
     },
   },
-
+  generate: {
+    dir: 'dist',
+  },
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
@@ -25,7 +27,8 @@ export default defineNuxtConfig({
 
   // currently we can only use nitro in development https://github.com/nuxt/framework/issues/886
   bridge: {
-    nitro: process.env.NODE_ENV !== 'production',
+    // nitro: process.env.NODE_ENV !== 'production',
+    nitro: false,
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
