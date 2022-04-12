@@ -18,7 +18,7 @@ specifiers:
   '@kodadot1/minimark': ^0.0.1-rc.6
   '@kodadot1/sub-api': ^0.0.1-rc.3
   '@kodadot1/vuex-options': ^0.0.1-rc.2
-  '@nuxt/bridge': npm:@nuxt/bridge-edge
+  '@nuxt/bridge': npm:@nuxt/bridge-edge@3.0.0-27470397.9ebea90
   '@nuxt/test-utils': ^0.2.2
   '@nuxt/types': ^2.15.8
   '@nuxtjs/apollo': ^4.0.1-rc.5
@@ -2628,7 +2628,7 @@ packages:
       '@netlify/functions': 1.0.0
       '@nuxt/devalue': 2.0.0
       '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27470397.9ebea90_8823764f94041ba502281f3569357a91
-      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.0.0-27455683.83d2457
+      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.0.0-27479051.598a8a0
       '@rollup/plugin-alias': 3.1.9_rollup@2.70.1
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
@@ -2851,8 +2851,8 @@ packages:
       - webpack
     dev: true
 
-  /@nuxt/ui-templates-edge/0.0.0-27455683.83d2457:
-    resolution: {integrity: sha512-NkxNuxAb2y7THoVM9EIjeGU1VuTQC4M13dPpxDfCPKOpZJhrr8jMLuSF/LyGFSiEXjOW1lqiK0RNIKhjpN0m4g==}
+  /@nuxt/ui-templates-edge/0.0.0-27479051.598a8a0:
+    resolution: {integrity: sha512-oGL9LYhWqZTYEkxIc+vB9joI+dfiYjx4vlMH6RyCDg1wAuJBLn+xgC0efS1rUFtnag9qE9fx+HQ1SbKR6Hpt1Q==}
     dev: true
 
   /@nuxt/utils-edge/2.16.0-27358576.777a4b7f:
