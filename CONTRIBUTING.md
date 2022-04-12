@@ -1,11 +1,10 @@
 # Contributing to KodaDot: NFT gallery
 
-testing auto assignment in pull request this should be closed
-
-KodaDot NFT gallery has a plan to be community-owned.
+KodaDot NFT gallery has a plan to be builders-owned.
 We are welcoming community contributions from you.
 Take a sneak peek on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment, and make PR.
-If everything goes well, chances that you will be **rewarded are high**. We might give retro-active bounties where the bounty label wasn't present if we like your commit.
+If everything goes well, chances that you will be **rewarded are high**.
+We might give retro-active bounties where the bounty label wasn't present if we like your contribution.
 
 **For better coordination, please join our [Development channel (#coordination) on Discord](https://discord.gg/4CeHXamhqB)**
 
@@ -22,7 +21,7 @@ Before you being:
 
 We are working primarily on two metrics. Issues have priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**. Then we have bounties for issues in the range of **$ - $$$$$**.
 
-If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a huge difference for users to fix high-priority issues. If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience** if you are interested to be part of internal team and having continuous payroll from us.
+If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a huge difference for users to fix high-priority issues. If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
 
 ### Open a pull request
 
@@ -80,13 +79,7 @@ You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
 
 ## Hiring process
 
-After you've **completed a few PRs, which we've merged to the upstream `main` branch**, you will be eligible to join our closer team.
-We are happy to give you **one or two long-term tasks** to see how you can tackle more complicated and complex issues.
-
-The reasoning behind this is to see if we **click together as a team in the long run.**
-We are curious _about your character traits, acting, and helping others_ if they have an issue with their PR.
-
-We can guarantee you a payroll from this phase, which will be discussed based on your location, skillset, previous experience, and quality of delivered code.
+Continue to [HIRING.md]()
 
 # Learn more about contributing:
 
@@ -153,7 +146,7 @@ The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen
 
 Pull requests are a great way to get your ideas into this repository.
 
-When deciding if I merge in a pull request, I look at the following things:
+When deciding if we merge in a pull request, we look at the following things:
 
 ### Does it state intent
 
@@ -231,7 +224,7 @@ The aim of this repository is:
 
 ### Better comfort
 
-For crafting much better culture and DEVUX, we reccomend some extension to browse issue faster
+For crafting much better culture and Developer Experience, we reccomend some extension to browse issues faster
 
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
