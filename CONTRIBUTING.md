@@ -40,11 +40,11 @@ Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
 
 ## Rewards
 
-Continue to [REWARDS.md]()
+Continue to [REWARDS.md](REWARDS.md)
 
 ## Hiring process
 
-Continue to [HIRING.md]()
+Continue to [HIRING.md](HIRING.md)
 
 # Learn more about contributing:
 
@@ -174,7 +174,7 @@ When you open a pull request, you must fill out the "Ready for review" template 
 ### Code quality
 
 - We follow what we have in `.eslintrc.js`, and you can see warnings and errors by running `pnpm lint`. With `pnpm lint --fix`, you will get auto fixed code.
-- We've formed [STYLE_GUIDE.md]() to help you answer formatting questions.
+- We've formed [STYLE_GUIDE.md](STYLE_GUIDE.md) to help you answer formatting questions.
 
 ### Don't have access to push to the repository
 
