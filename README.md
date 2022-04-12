@@ -42,8 +42,8 @@ Our thanks go to [contributors-img](https://contrib.rocks).
 #### Repography
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
 [![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
+[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
 [![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
 [![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/5055a1ed1ce7a7a56f6a3871f5869bda_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
