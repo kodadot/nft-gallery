@@ -29,7 +29,20 @@ export const formatNFT = async (data): Promise<CarouselNFT[]> => {
   }))
 }
 
-export const fallbackMetaByNftEvent = async (events: any[]) => {
+interface Events {
+  nft: {
+    metadata: string
+    meta: {
+      id: string
+      image: string
+    }
+  }
+}
+
+/**
+ * Catch undefined meta
+ */
+export const fallbackMetaByNftEvent = async (events: Events[]) => {
   for (const event of events) {
     if (!event.nft.meta) {
       event.nft.meta = {
