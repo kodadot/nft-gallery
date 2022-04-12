@@ -254,7 +254,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 
   onImageError(e: any) {
-    console.warn('Image error', e)
+    this.$consola.warn('Image error', e)
   }
 
   public setPriceChartData(data: [Date, number][][]) {

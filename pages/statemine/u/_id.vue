@@ -290,10 +290,10 @@ export default class Profile extends mixins(PrefixMixin) {
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
-      // console.log(packs)
+      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     // this.isLoading = false;
   }

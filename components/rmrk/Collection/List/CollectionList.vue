@@ -1,21 +1,16 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <Search
-      v-bind.sync="searchQuery"
-      @resetPage="currentValue = 1"
-      :sortOption="collectionSortOption">
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :per-page="first" />
-      </b-field>
-    </Search>
+    <b-field>
+      <Pagination
+        hasMagicBtn
+        simple
+        replace
+        preserveScroll
+        :total="total"
+        v-model="currentValue"
+        :perPage="first" />
+    </b-field>
 
     <div>
       <div class="columns is-multiline">
@@ -208,7 +203,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
       processMetadata<NFTMetadata>(metadataList)
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)

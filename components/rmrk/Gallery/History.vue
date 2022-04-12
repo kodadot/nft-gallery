@@ -228,7 +228,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, [key]: encodeURIComponent(value) },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
   protected createTable(): void {
