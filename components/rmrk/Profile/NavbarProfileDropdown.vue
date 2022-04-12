@@ -63,7 +63,7 @@
           </p>
           <p class="control">
             <b-button
-              type="is-primary"
+              class="navbar__sign-out-button"
               icon-left="sign-out-alt"
               @click="disconnect()" />
           </p>
@@ -148,6 +148,12 @@ export default class NavbarProfileDropdown extends mixins(PrefixMixin) {
 
   &__address {
     text-transform: none;
+  }
+  &__sign-out-button {
+    border-top: $sleek-primary-border !important;
+    border-bottom: 0;
+    border-right: 0;
+    border-left: 0;
   }
 }
 </style>

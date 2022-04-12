@@ -4,7 +4,10 @@
       <Layout />
     </template>
     <div class="columns is-multiline">
-      <div :class="`column ${classLayout} column-padding`" v-for="nft in items" :key="nft.id">
+      <div
+        :class="`column ${classLayout} column-padding`"
+        v-for="nft in items"
+        :key="nft.id">
         <GalleryCard
           :id="nft.id"
           :name="nft.name"
@@ -31,8 +34,8 @@ const components = {
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string
-  @Prop({ default: 'rmrk/gallery' }) public link!: string
+  @Prop({ default: '/rmrk/explore?tab=GALLERY' }) public route!: string
+  @Prop({ default: 'rmrk/explore?tab=GALLERY' }) public link!: string
   @Prop() public items!: RmrkType[]
   @Prop(Boolean) public horizontalLayout!: boolean
   @Prop(Boolean) public listed!: boolean

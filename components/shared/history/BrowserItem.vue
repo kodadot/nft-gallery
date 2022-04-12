@@ -48,7 +48,7 @@ import { HistoryItem } from '~/store/history'
     },
   },
 })
-export default class HistoryBrowserItem extends Vue {
+export default class BrowserItem extends Vue {
   @Prop({ default: Object }) public item!: HistoryItem
 
   removeItemFromHistory(id: string) {

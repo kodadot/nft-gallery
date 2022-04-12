@@ -276,7 +276,7 @@ export default class SpotlightTable extends mixins(
           sort: (order === 'desc' ? '-' : '+') + field,
         },
       })
-      .catch((e) => console.warn(e))
+      .catch((e) => this.$consola.warn(e))
     this.fetchSpotlightData(toSort(sort))
   }
 

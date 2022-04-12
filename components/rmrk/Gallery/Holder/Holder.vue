@@ -12,7 +12,7 @@
           role="button"
           aria-controls="contentIdForHistory">
           <p class="card-header-title">
-            {{ $t('Holders') }}
+            {{ collapseTitleOption || $t('Holders') }}
           </p>
           <a class="card-header-icon">
             <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
@@ -40,9 +40,9 @@
           :data="showList"
           class="mb-4"
           hoverable
-          custom-row-key="Date"
+          custom-row-key="Id"
           :show-detail-icon="showDetailIcon"
-          detail-key="Holder"
+          :detail-key="groupKey"
           custom-detail-row
           detailed
           paginated
@@ -55,14 +55,29 @@
           :default-sort="['Amount', 'desc']">
           <b-table-column
             :visible="columnsVisible['Name'].display"
-            field="Holder"
-            label="Name"
+            :field="groupKey"
+            cell-class="short-name-column"
+            :label="nameHeaderLabel"
             v-slot="props">
-            <span v-if="props.row.Holder === '-'">{{ props.row.Holder }}</span>
             <nuxt-link
-              v-else
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.Holder } }">
-              <Identity :address="props.row.Holder" inline noOverflow />
+              v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
+              :to="{
+                name: 'rmrk-u-id',
+                params: { id: props.row[groupKey] },
+                query: { tab: 'holdings' },
+              }">
+              <Identity :address="props.row[groupKey]" inline noOverflow />
+            </nuxt-link>
+            <nuxt-link
+              v-else-if="groupKey === 'CollectionId'"
+              :to="{
+                name: 'rmrk-collection-id',
+                params: { id: props.row.CollectionId },
+              }">
+              <Identity
+                :address="props.row.Item.collection.issuer"
+                inline
+                :customNameOption="props.row.Item.collection.name" />
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -85,15 +100,26 @@
           <b-table-column
             :visible="columnsVisible['Sale'].display"
             field="Sale"
-            label="Sale"
+            :label="saleHeaderLabel"
             sortable
             v-slot="props">
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
+            v-if="groupKey === 'Flipper'"
+            :visible="columnsVisible['Percentage'].display"
+            field="Percentage"
+            label="Percentage"
+            sortable
+            v-slot="props">
+            <span :class="percentageTextClassName(props.row.Percentage)">
+              {{ props.row.Percentage | toPercent('-') }}
+            </span>
+          </b-table-column>
+          <b-table-column
             :visible="columnsVisible['Date'].display"
             field="Timestamp"
-            label="Date"
+            :label="dateHeaderLabel"
             sortable
             v-slot="props">
             <b-tooltip
@@ -111,7 +137,9 @@
           <template slot="detail" slot-scope="props">
             <tr v-for="item in props.row.Items" :key="item.Item.id">
               <td v-if="showDetailIcon"></td>
-              <td v-show="columnsVisible['Name'].display">
+              <td
+                class="short-name-column"
+                v-show="columnsVisible['Name'].display">
                 <nuxt-link
                   :to="{
                     name: 'rmrk-gallery-id',
@@ -130,6 +158,12 @@
               </td>
               <td v-show="columnsVisible['Sale'].display">
                 {{ item.SaleFormatted }}
+              </td>
+              <td
+                v-if="groupKey === 'Flipper'"
+                :class="percentageTextClassName(item.Percentage)"
+                v-show="columnsVisible['Percentage'].display">
+                {{ item.Percentage | toPercent('-') }}
               </td>
               <td v-show="columnsVisible['Date'].display">
                 <b-tooltip
@@ -166,52 +200,86 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
 }
 
+export type NftHolderEvent = {
+  nft: {
+    id: string
+    name: string
+    collection: {
+      id: string
+    }
+  }
+} & Interaction
+
 type NFTItem = {
   id: string
   name: string
 }
 
-type TableRow = {
-  Holder: string
-  Bought: number
+export type TableRow = {
+  Holder?: string
+  Flipper?: string
+  Bought?: number
   BoughtFormatted?: string
-  Sale: string
+  Sale?: number
   SaleFormatted?: string
-  Date: string
-  Time: string
-  SortKey: number
-  Block: string
+  Id?: string
+  SortKey?: number
   Amount: number
   Items?: TableRow[]
   Item: NFTItem
+} & BaseTableRow
+
+type BaseTableRow = {
+  Date: string
+  Time: string
+  Timestamp: number
+  Block: string
+  CollectionId: string
+  Amount: number
 }
 
-@Component({ components })
-export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
-  @Prop({ type: Boolean, default: true })
-  private readonly openOnDefault!: boolean
+@Component({
+  components,
+})
+export default class CommonHolderTable extends mixins(
+  ChainMixin,
+  KeyboardEventsMixin
+) {
+  @Prop({ type: Array }) public events!: NftHolderEvent[]
+  @Prop({ type: Array }) public tableRowsOption!: TableRow[]
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
+  @Prop({ type: String, default: '' }) groupKeyOption!: string
+  @Prop({ type: String, default: 'Name' }) nameHeaderLabel!: string
+  @Prop({ type: String, default: 'Date' }) dateHeaderLabel!: string
+  @Prop({ type: String, default: 'Sale' }) saleHeaderLabel!: string
+  @Prop({ type: String, default: '' }) collapseTitleOption!: string
 
+  private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
-  private holderGroups: TableRow[] = []
-
-  public isOpen = false
-
-  private showDetailIcon = true
+  private customGroups: TableRow[] = []
   private columnsVisible = {
     Name: { title: 'Name', display: true },
     Amount: { title: 'Amount', display: true },
     Bought: { title: 'Bought', display: true },
     Sale: { title: 'Sale', display: true },
+    Percentage: { title: 'Percentage', display: true },
     Date: { title: 'Date', display: true },
   }
+  public isOpen = false
+  private showDetailIcon = true
 
   public async created() {
     this.initKeyboardEventHandler({
       e: this.bindExpandEvents,
       g: this.bindPaginationEvents,
     })
+    this.initColumnVisibleConfig()
+  }
+
+  private initColumnVisibleConfig() {
+    this.columnsVisible['Name'].title = this.nameHeaderLabel
+    this.columnsVisible['Date'].title = this.dateHeaderLabel
+    this.columnsVisible['Sale'].title = this.saleHeaderLabel
   }
 
   private bindPaginationEvents(event) {
@@ -239,7 +307,7 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get total(): number {
-    return this.holderGroups.length
+    return this.customGroups.length
   }
 
   get itemsPerPage(): number {
@@ -247,16 +315,33 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   get showList(): TableRow[] {
-    return this.holderGroups
+    return this.customGroups
+  }
+
+  get groupKey() {
+    return this.groupKeyOption || 'Holder'
+  }
+
+  private percentageTextClassName(percentage: number) {
+    if (percentage >= 100) {
+      return 'has-text-success'
+    } else if (percentage > 0) {
+      return 'has-text-danger'
+    }
+    return ''
   }
 
   protected createTable(): void {
     const NFTList = this.generateNFTList()
-    this.holderGroups = this.generateHolderGroups(NFTList)
+    this.customGroups = this.generateCustomGroups(NFTList)
+  }
+
+  protected createTableByTableRow(): void {
+    this.customGroups = this.generateCustomGroups(this.tableRowsOption)
   }
 
   private generateNFTList(): TableRow[] {
-    const itemRowMap: Record<string, any> = {}
+    const itemRowMap: Record<string, TableRow> = {}
 
     for (const newEvent of this.events) {
       const date = new Date(newEvent['timestamp'])
@@ -264,14 +349,16 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       const dateStr = parseDate(date)
       const formatTime = formatDistanceToNow(date, { addSuffix: true })
       const block = String(newEvent['blockNumber'])
+      const collectionId = newEvent['nft']['collection']['id']
       const commonInfo = {
         Date: dateStr,
         Time: formatTime,
         Timestamp: timestamp,
         Block: block,
+        CollectionId: collectionId,
         Amount: 1,
       }
-      const nftId = newEvent['nft']?.id
+      const nftId = newEvent['nft'].id
       if (newEvent['interaction'] === 'MINTNFT') {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
@@ -345,37 +432,87 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     return Object.values(itemRowMap)
   }
 
-  private generateHolderGroups(itemRowList): TableRow[] {
-    const holderGroups: Record<string, TableRow> = {}
-    itemRowList
-      .filter((item) => item.Holder !== '-')
-      .forEach((item) => {
-        const holder = item['Holder']
-        if (holderGroups[holder]) {
-          holderGroups[holder].Items.push(item)
-          holderGroups[holder]['Bought'] =
-            holderGroups[holder]['Bought'] + item['Bought']
-          holderGroups[holder]['Sale'] =
-            holderGroups[holder]['Sale'] + item['Sale']
-        } else {
-          holderGroups[holder] = {
-            ...item,
-            Items: [item],
-          }
+  private getGroupNameFromRow(item: TableRow): string {
+    let groupName
+    switch (this.groupKey) {
+      case 'Holder':
+        groupName = item['Holder']
+        break
+      case 'CollectionId':
+        groupName = item['Item']['collection']['id']
+        break
+      case 'Flipper':
+        groupName = item['Flipper']
+        break
+    }
+    return groupName || item['Holder']
+  }
+
+  private getCustomRowFilter(): (item: TableRow) => boolean {
+    switch (this.groupKey) {
+      case 'Holder':
+        return (item) => item.Holder !== '-'
+      case 'CollectionId':
+        return (item) => item.Holder === this.$route.params.id
+      default:
+        return () => true
+    }
+  }
+
+  private getCustomId(item: TableRow): string {
+    let customId
+    switch (this.groupKey) {
+      case 'Flipper':
+        customId = item['Flipper']
+        break
+      case 'Holder':
+      case 'CollectionId':
+        customId = item['CollectionId'] + item['Item']['id']
+    }
+    return customId || item['Timestamp']
+  }
+
+  private generateCustomGroups(itemRowList: TableRow[]): TableRow[] {
+    const customGroups: Record<string, TableRow> = {}
+    itemRowList.filter(this.getCustomRowFilter()).forEach((item: TableRow) => {
+      item = {
+        ...item,
+        Bought: item.Bought ?? 0,
+        Sale: item.Sale ?? 0,
+      } as TableRow
+
+      const groupName = this.getGroupNameFromRow(item)
+      if (customGroups[groupName]) {
+        customGroups[groupName].Items?.push(item)
+        customGroups[groupName].Bought =
+          (customGroups[groupName]['Bought'] ?? 0) + (item['Bought'] ?? 0)
+        customGroups[groupName]['Sale'] =
+          (customGroups[groupName]['Sale'] ?? 0) + (item['Sale'] ?? 0)
+      } else {
+        customGroups[groupName] = {
+          ...item,
+          Id: this.getCustomId(item),
+          Items: [item],
         }
-      })
+      }
+    })
 
-    const holderGroupsList = Object.values(holderGroups)
+    const customGroupsList = Object.values(customGroups)
 
-    holderGroupsList.forEach((group) => {
+    customGroupsList.forEach((group) => {
       parsePriceForItem(group, this.decimals, this.unit)
-      group['Amount'] = group['Items'].length
-      group['Items'].forEach((item) => {
+      if (!group['Items']) return
+      let groupItems: TableRow[] = group['Items']
+      group['Amount'] = groupItems.length
+      groupItems.forEach((item) => {
         parsePriceForItem(item, this.decimals, this.unit)
       })
-      group['Items'] = group['Items'].sort((a, b) => b.SortKey - a.SortKey)
+      group['Items'] = groupItems.sort(
+        (a, b) => (b.SortKey ?? 0) - (a.SortKey ?? 0)
+      )
+      group['Percentage'] = group['Percentage'] / group['Amount']
     })
-    return holderGroupsList
+    return customGroupsList
   }
 
   protected getBlockUrl(block: string): string {
@@ -392,6 +529,12 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
       this.createTable()
     }
   }
+  @Watch('tableRowsOption', { immediate: true })
+  public watchTableRows(): void {
+    if (this.tableRowsOption) {
+      this.createTableByTableRow()
+    }
+  }
 
   @Watch('currentPage')
   watchPageValue(val) {
@@ -405,11 +548,11 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, [key]: value },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .collapseHidden {
   .collapse-trigger {
     display: none;
@@ -425,6 +568,9 @@ export default class Holder extends mixins(ChainMixin, KeyboardEventsMixin) {
     @media screen and (max-width: 768px) {
       flex-direction: column-reverse;
     }
+  }
+  .short-name-column {
+    max-width: 20em;
   }
 }
 </style>

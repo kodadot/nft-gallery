@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="level my-4 collection" v-if="stats">
+    <div class="level my-4 collection is-align-items-start" v-if="stats">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
-          <p class="heading">Listed / Total Items</p>
+          <p class="heading">
+            {{ $t('activity.listed') }} / {{ $t('activity.totalItems') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -13,7 +15,9 @@
             <Money :value="collectionDailyTradedVolumeNumber" inline /> ⊆
             <Money :value="collectionTradedVolumeNumber" inline />
           </p>
-          <p class="heading">24h / Total Volume traded</p>
+          <p class="heading">
+            {{ $t('activity.todayTraded') }} / {{ $t('activity.totalTraded') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -22,7 +26,10 @@
             <Money :value="highestBuyPrice" inline /> ⊆
             {{ totalPurchases }}
           </p>
-          <p class="heading">Highest Transaction Price / Total Purchases</p>
+          <p class="heading">
+            {{ $t('activity.highestTransactionPrice') }} /
+            {{ $t('activity.totalBuys') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -30,7 +37,9 @@
           <p class="title">
             {{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}
           </p>
-          <p class="heading">Unique / Owners</p>
+          <p class="heading">
+            {{ $t('activity.unique') }} / {{ $t('activity.owners') }}
+          </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -38,7 +47,7 @@
           <p class="title">
             {{ disributionCount }}
           </p>
-          <p class="heading">Distribution</p>
+          <p class="heading">{{ $t('activity.distribution') }}</p>
         </div>
       </div>
 
@@ -47,7 +56,7 @@
           <p class="title">
             <Money :value="collectionFloorPrice" inline />
           </p>
-          <p class="heading">Floor price</p>
+          <p class="heading">{{ $t('activity.floorPrice') }}</p>
         </div>
       </div>
     </div>
@@ -101,7 +110,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 
   async fetch() {
     if (!this.id) {
-      console.warn('CollectionActivity: id is not defined')
+      this.$consola.warn('CollectionActivity: id is not defined')
       return
     }
 
@@ -114,12 +123,12 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
         },
       })
       .catch((e) => {
-        console.warn(e)
+        this.$consola.warn(e)
         return { data: null }
       })
 
     if (!data) {
-      console.log('stats is null')
+      this.$consola.log('stats is null')
       return
     }
 

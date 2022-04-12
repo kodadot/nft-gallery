@@ -107,7 +107,7 @@ export default class Appreciation extends mixins(
       })
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
     }
   }
 }
@@ -143,7 +143,7 @@ export default class Appreciation extends mixins(
 .nft-appreciation__button {
   border-radius: 0;
   border: 0;
-  border-top: 2px solid $primary !important;
+  border-top: $sleek-primary-border !important;
   color: $primary;
   margin-right: 15px;
 }
