@@ -46,3 +46,8 @@ jobs:
         uses: andstor/file-existence-action@v1
         with:
           files: 'dist/index.html'
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'true'
+        # Only runs if all of the files exists
+        run: echo All files exists!
