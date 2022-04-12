@@ -1,22 +1,24 @@
 <template>
-  <Collections />
+  <ExploreLayout type="rmrk" />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import Collections from '@/components/rmrk/Gallery/Collections.vue'
+import ExploreLayout from '@/components/rmrk/ExploreLayout/ExploreLayout.vue'
 
-@Component<WestendCollections>({
-  components: {
-    Collections,
-  },
+const components = {
+  ExploreLayout,
+}
+
+@Component<ExploreRmrk>({
+  components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/westend/collections',
+      url: '/rmrk/explore',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
@@ -25,5 +27,5 @@ import Collections from '@/components/rmrk/Gallery/Collections.vue'
     }
   },
 })
-export default class WestendCollections extends Vue {}
+export default class ExploreRmrk extends Vue {}
 </script>
