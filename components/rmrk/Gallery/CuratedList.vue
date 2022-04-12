@@ -82,7 +82,7 @@ export default class CuratedList extends mixins(AuthMixin) {
         },
       })
       .catch((e) => {
-        console.error(e)
+        this.$consola.error(e)
         return { data: null }
       })
     if (result.data) {
