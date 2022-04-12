@@ -95,7 +95,7 @@ export default class CreateItem extends Vue {
   @Prop(Number) public alreadyMinted!: number
 
   protected updateMeta(value: number) {
-    console.log(typeof value, value)
+    this.$consola.log(typeof value, value)
     this.vPrice = value
   }
 

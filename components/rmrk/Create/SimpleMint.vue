@@ -763,7 +763,7 @@ export default class SimpleMint extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     if (file) {
-      uploadDirect(file, metaHash).catch(console.warn)
+      uploadDirect(file, metaHash).catch(this.$consola.warn)
     }
     return unSanitizeIpfsUrl(metaHash)
   }

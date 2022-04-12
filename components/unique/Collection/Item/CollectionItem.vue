@@ -177,7 +177,7 @@ export default class CollectionItem extends mixins(
   }
 
   protected observeOwner(data: Option<ClassDetails>) {
-    console.log(data.toHuman())
+    this.$consola.log(data.toHuman())
     const instance = data.unwrapOr(null)
     if (instance) {
       this.$set(this.collection, 'currentOwner', instance.owner.toHuman())
@@ -258,7 +258,7 @@ export default class CollectionItem extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
-      console.warn(e)
+      this.$consola.warn(e)
     }
 
     this.isLoading = false

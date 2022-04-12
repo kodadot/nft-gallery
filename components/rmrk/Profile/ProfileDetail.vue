@@ -160,6 +160,16 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
+        <b-tab-item value="holdings">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              append-to-body>
+              {{ $t('profile.holdings') }}
+            </b-tooltip>
+          </template>
+          <Holding :account-id="id" />
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
@@ -193,6 +203,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
 }
 
 @Component<Profile>({
@@ -339,10 +350,10 @@ export default class Profile extends mixins(PrefixMixin) {
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
-      // console.log(packs)
+      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     // this.isLoading = false;
   }
@@ -383,10 +394,10 @@ export default class Profile extends mixins(PrefixMixin) {
       this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0) {
+    if (this.totalCollections === 0 && this.activeTab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
-        .catch(console.warn /*Navigation Duplicate err fix later */)
+        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
   }
 

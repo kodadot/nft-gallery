@@ -25,6 +25,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
+import { fallbackMetaByNftEvent } from '@/components/rmrk/utils'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -62,7 +63,7 @@ export default class LatestSales extends Vue {
         },
       })
       .catch((e) => {
-        console.error(e)
+        this.$consola.error(e)
         return { data: null }
       })
 
@@ -72,13 +73,15 @@ export default class LatestSales extends Vue {
   }
 
   protected async handleResult({ data }: any) {
-    this.events = data.events
+    this.events = [...data.events]
     this.total = data.events.length
+
+    await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
-      data.events.map(({ nft: { meta } }) => meta.id)
+      this.events.map(({ nft: { meta } }) => meta.id)
     )
     const imageOf = getProperImageLink(images)
-    this.nfts = data.events.map((e: any) => ({
+    this.nfts = this.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       timestamp: formatDistanceToNow(new Date(e.timestamp), {

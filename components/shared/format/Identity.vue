@@ -91,6 +91,7 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public showOnchainIdentity!: boolean
   @Prop(Boolean) public hideIdentityPopover!: boolean
   @Prop(String) public lastCollectedDate!: string
+  @Prop(String) public customNameOption!: string
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
 
@@ -99,6 +100,9 @@ export default class Identity extends mixins(InlineMixin) {
   }
 
   get name(): Address {
+    if (this.customNameOption) {
+      return this.customNameOption
+    }
     const name = this.identity.display
     if (name?.length > 20) {
       return shortAddress(name)

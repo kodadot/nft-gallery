@@ -110,7 +110,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
 
   async fetch() {
     if (!this.id) {
-      console.warn('CollectionActivity: id is not defined')
+      this.$consola.warn('CollectionActivity: id is not defined')
       return
     }
 
@@ -123,12 +123,12 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
         },
       })
       .catch((e) => {
-        console.warn(e)
+        this.$consola.warn(e)
         return { data: null }
       })
 
     if (!data) {
-      console.log('stats is null')
+      this.$consola.log('stats is null')
       return
     }
 
