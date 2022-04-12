@@ -36,4 +36,6 @@ Our typical payout structure for bounties is per label on the issue. Here is the
 |                            50-100                            |                        150-300                        |                              450-600                              |                           700 - 1000                            |                                         1000+                                          |
 | Beginner, few lines, <br /> lot of comments/assistance on PR | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not break anything | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you, and you have alignment with project |
 
-You can [check recent labels](https://github.com/kodadot/nft-gallery/labels)
+### Which issue to pick?
+
+You can [check recent issues by labels p1 or p2](https://github.com/kodadot/nft-gallery/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3Ap1%2Cp2)

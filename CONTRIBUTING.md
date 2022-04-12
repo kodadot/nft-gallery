@@ -1,10 +1,12 @@
 # Contributing to KodaDot: NFT gallery
 
-KodaDot NFT gallery has a plan to be builders-owned.
-We are welcoming community contributions from you.
+KodaDot NFT gallery **has a plan to be builders-owned and become ultimate public good**
+
+We are welcoming community contributions from you by rewarding your contributions.
 Take a sneak peek on [good first issues](https://github.com/kodadot/nft-gallery/contribute), comment, and make PR.
 If everything goes well, chances that you will be **rewarded are high**.
-We might give retro-active bounties where the bounty label wasn't present if we like your contribution.
+
+We might give retro-active reward, where the bounty label wasn't present, **if we like your contribution.**
 
 **For better coordination, please join our [Development channel (#coordination) on Discord](https://discord.gg/4CeHXamhqB)**
 
@@ -104,8 +106,8 @@ Thank you for creating them.
 
 Labels can help you find a perfect issue for your skills.
 
-The [help wanted](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) label is for problems or updates that anyone in the community can start working on.
-The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
+- The [help wanted](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) label is for problems or updates that anyone in the community can start working on.
+- The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
 
 ## Pull Requests
 
@@ -136,7 +138,9 @@ Doesn't tell me anything about why you're doing that
 
 ### Reviewing
 
-We (usually the core team, sometimes KodaDot engineers or support too!) review every PR. The purpose of reviews is to create the best content for people who use KodaDot.
+We (usually the core team, sometimes KodaDot engineers or support too!) review PR where they been requested to do so.
+
+The purpose of reviews is to create the best content for people who use KodaDot and raise code-quality at each pull-request.
 
 💛 Reviews are always respectful, acknowledging that everyone did the best possible job with the knowledge they had at the time.
 
@@ -200,6 +204,12 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 ### Does it follow the contributor covenant
 
 This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
+
+## Follow us
+
+- [Twitter @KodaDot](https://twitter.com/kodadot)
+- [Medium Kodadot](https://medium.com/kodadot)
+- [Documentation](https://docs.kodadot.xyz)
 
 ### Related
 
