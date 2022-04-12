@@ -67,7 +67,7 @@ export default class NewestList extends Vue {
           },
         })
         .catch((e) => {
-          console.error(e)
+          this.$consola.error(e)
           return { data: null }
         })
 

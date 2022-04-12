@@ -288,7 +288,7 @@ export default class CreateToken extends mixins(
     )
 
     const metaHash = await pinJson(meta, imageHash)
-    uploadDirect(file, metaHash).catch(console.warn)
+    uploadDirect(file, metaHash).catch(this.$consola.warn)
     return unSanitizeIpfsUrl(metaHash)
   }
 
