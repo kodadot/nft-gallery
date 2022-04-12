@@ -14,7 +14,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          to="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
+          to="/rmrk/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY">
           {{ $t('See More') }}
         </b-button>
       </div>
