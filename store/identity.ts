@@ -3,6 +3,7 @@ import { Registration } from '@polkadot/types/interfaces/identity/types'
 import Connector from '@kodadot1/sub-api'
 import Vue from 'vue'
 import onApiConnect from '~/utils/api/general'
+import consola from 'consola'
 
 declare type Unsubscribe = () => void
 
@@ -75,7 +76,7 @@ export const actions = {
         dispatch('setIdentity', { address, identity })
       }
     } catch (e) {
-      console.error('[FETCH IDENTITY] Unable to get identity', e)
+      consola.error('[FETCH IDENTITY] Unable to get identity', e)
     }
   },
   async fetchBalance({ commit, dispatch }, address: string) {
@@ -89,7 +90,7 @@ export const actions = {
         )
         commit('addBalanceSub', balanceSub)
       } catch (e) {
-        console.error('[ERR: BALANCE]', e)
+        consola.error('[ERR: BALANCE]', e)
       }
     })
   },

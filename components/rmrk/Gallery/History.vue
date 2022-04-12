@@ -228,7 +228,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, [key]: encodeURIComponent(value) },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
   protected createTable(): void {
@@ -245,7 +245,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     for (const newEvent of this.events) {
       const event: any = {}
 
-      const nftId = newEvent['nft']?.id
+      const nftId = (newEvent['nft'] as any)?.id
       // Type
       if (newEvent['interaction'] === 'MINTNFT') {
         event['Type'] = this.$t('nft.event.MINTNFT')

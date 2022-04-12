@@ -72,7 +72,7 @@ export default class DropUpload extends Vue {
     const reader = new FileReader()
     reader.onload = () => {
       // this.handleSelection(reader.result)
-      // console.log(reader.si);
+      // this.$consola.log(reader.si);
     }
     this.$emit('input', file)
     if (this.preview) {

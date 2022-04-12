@@ -1,19 +1,25 @@
 <template>
-  <Gallery />
+  <ExploreLayout />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import ExploreLayout from '@/components/rmrk/ExploreLayout/ExploreLayout.vue'
 
-@Component<GalleryPage>({
+const components = {
+  ExploreLayout,
+}
+
+@Component<ExplorePage>({
+  components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/gallery',
-      image: `${this.$config.baseUrl}/k_card_gallery.png`,
+      url: '/rmrk/explore',
+      image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
       title,
@@ -21,5 +27,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   },
 })
-export default class GalleryPage extends Vue {}
+export default class ExplorePage extends Vue {}
 </script>

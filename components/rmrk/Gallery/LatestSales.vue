@@ -63,7 +63,7 @@ export default class LatestSales extends Vue {
         },
       })
       .catch((e) => {
-        console.error(e)
+        this.$consola.error(e)
         return { data: null }
       })
 

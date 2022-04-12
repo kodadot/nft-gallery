@@ -28,7 +28,7 @@ export default class BasicImage extends Vue {
   @Prop(Boolean) public rounded!: boolean
 
   public onImageError(_: unknown, src: string): void {
-    console.log('[BasicImage] to load:', !!this.src, src)
+    this.$consola.log('[BasicImage] to load:', !!this.src, src)
   }
 }
 </script>

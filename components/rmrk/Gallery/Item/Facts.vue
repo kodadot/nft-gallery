@@ -83,7 +83,7 @@ export default class Facts extends Vue {
   }
 
   // public created() {
-  //   console.log(this.nft)
+  //   this.$consola.log(this.nft)
   //   this.multimediaCid = extractCid(this.nft.image);
   //   this.showGwLinks = true;
   // }

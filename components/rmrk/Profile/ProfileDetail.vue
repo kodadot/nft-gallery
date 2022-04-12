@@ -74,7 +74,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.created')} ${displayName}`"
+              :label="`${$t('tooltip.created')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter" v-if="totalCreated">{{
@@ -95,7 +95,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collections')} ${displayName}`"
+              :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('Collections') }}
               <span class="tab-counter" v-if="totalCollections">{{
@@ -128,7 +128,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.sold')} ${displayName}`"
+              :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -144,7 +144,7 @@
         <b-tab-item value="collected">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collected')} ${displayName}`"
+              :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter" v-if="totalCollected">{{
@@ -158,6 +158,16 @@
             @change="totalCollected = $event"
             :account="id"
             showSearchBar />
+        </b-tab-item>
+        <b-tab-item value="holdings">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              append-to-body>
+              {{ $t('profile.holdings') }}
+            </b-tooltip>
+          </template>
+          <Holding :account-id="id" />
         </b-tab-item>
       </b-tabs>
     </section>
@@ -178,6 +188,7 @@ import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   GalleryCardList: () =>
@@ -191,6 +202,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
 }
 
 @Component<Profile>({
@@ -292,6 +304,10 @@ export default class Profile extends mixins(PrefixMixin) {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
+  get labelDisplayName(): string {
+    return this.displayName ?? this.shortendId
+  }
+
   get iframeSettings(): { width: string; height: string; customUrl: string } {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
@@ -332,15 +348,19 @@ export default class Profile extends mixins(PrefixMixin) {
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
-      // console.log(packs)
+      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     // this.isLoading = false;
   }
 
+  @Debounce(100)
   private async fetchCollectionList() {
+    if (!this.id) {
+      this.checkId()
+    }
     const result = await this.$apollo.query({
       query: collectionListByAccount,
       client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
@@ -372,10 +392,10 @@ export default class Profile extends mixins(PrefixMixin) {
       this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0) {
+    if (this.totalCollections === 0 && this.activeTab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
-        .catch(console.warn /*Navigation Duplicate err fix later */)
+        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
   }
 
@@ -395,8 +415,10 @@ export default class Profile extends mixins(PrefixMixin) {
     }
   }
   @Watch('currentCollectionPage', { immediate: true })
-  private handleCurrentPageChange() {
-    this.fetchCollectionList()
+  private handleCurrentPageChange(page: number) {
+    if (page) {
+      this.fetchCollectionList()
+    }
   }
 }
 </script>
