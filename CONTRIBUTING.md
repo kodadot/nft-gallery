@@ -22,9 +22,13 @@ Before you being:
 
 ### Which issue should you pick?
 
-We are working primarily on two metrics. Issues have priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**. Then we have bounties for issues in the range of **$ - $$$$$**.
+We are working primarily on two metrics.
+Issues have
+- priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**.
+- bounties labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
 
-If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a huge difference for users to fix high-priority issues. If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
+If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a **significant difference for users to fix high-priority issues**.
+If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
 
 ### Open a pull request
 
