@@ -382,6 +382,7 @@ export default class SearchBar extends mixins(
     //To handle clearing event
     this.keyDownNativeEnterFlag = false
     if (!value) return
+
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
@@ -400,7 +401,7 @@ export default class SearchBar extends mixins(
   redirectToGalleryPageIfNeed() {
     if (this.$route.name === 'index') {
       this.$router.replace({
-        name: 'rmrk-explore',
+        name: 'rmrk-gallery',
       })
     }
   }
