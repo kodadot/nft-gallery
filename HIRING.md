@@ -16,14 +16,18 @@ To qualify for part-time or full-time, we are looking on your
 - what's your overall skillset & experience
 - if you are fast learner
 - quality of delivered code
-- **10-20** merged pull-requests to upstream branch
+- You should have **10-20** merged pull-requests to our upstream branch
 
 ### How to apply?
 
 #### Paid interiview
-After you've completed a **noticeable amount of pull-requests, i.e. 10-20**, which were successfully merged to the upstream `main` branch, you will be eligible to join our closer team. Feel free to reach out `yangwao` on our Discord.
+With each closed issue we will pay for your time.
+Hence we value your time, most of your **completed a pull-requests, i.e. 10-20** are getting paid.
 
 #### Next stage
+Once you've crossed **10-20 merged pull requests**, which were successfully merged to the upstream `main` branch, you will be **eligible to join our closer team**.
+
+Feel free to reach out `yangwao` on our Discord.
 We are happy to give you **one or two long-term tasks** to see how you can tackle more complicated and complex issues.
 
 #### Reasoning
