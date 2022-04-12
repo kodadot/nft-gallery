@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
   },
   generate: {
-    dir: 'dist',
+    dir: 'dist-extra',
   },
   server: {
     port: 9090, // default: 3000
@@ -35,7 +35,7 @@ export default defineNuxtConfig({
   ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  // target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
