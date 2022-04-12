@@ -14,6 +14,7 @@
 
       <b-tooltip
         position="is-left"
+        class="share__tooltip"
         :triggers="['click']"
         :auto-close="['outside', 'escape']"
         multilined>
@@ -64,26 +65,11 @@
           <ShareNetwork
             tag="button"
             class="button share__button is-medium"
-            network="pinterest"
-            :url="realworldFullPath"
-            :title="label">
-            <b-icon size="is-large" pack="fab" icon="pinterest" />
-          </ShareNetwork>
-          <ShareNetwork
-            tag="button"
-            class="button share__button is-medium"
             network="email"
             :url="realworldFullPath"
             :title="label">
             <b-icon size="is-large" pack="fas" icon="envelope" />
           </ShareNetwork>
-          <b-button
-            size="is-medium"
-            v-clipboard:copy="iframeUri"
-            @click="toast('Code copied to clipboard')"
-            class="share__button">
-            <b-icon size="is-medium" pack="fas" icon="code" />
-          </b-button>
         </template>
         <b-button type="is-primary is-bordered-light share-button">
           <b-icon size="is-small" pack="fas" icon="share" />
@@ -148,16 +134,6 @@ export default class Sharing extends Vue {
     return this.iframe.customUrl || this.realworldFullPath
   }
 
-  get iframeUri() {
-    return `
-    <iframe
-      src="${this.customIframeUri}"
-      title="${this.label}"
-      style="width:${this.width};height:${this.height};border:none;"
-    ></iframe>
-    `
-  }
-
   public toast(message: string): void {
     this.$buefy.toast.open(message)
   }
@@ -197,10 +173,6 @@ export default class Sharing extends Vue {
     border: none;
     margin: 5px;
 
-    &:hover {
-      color: $light-invert;
-    }
-
     & > span {
       display: flex;
       align-items: center;
@@ -208,20 +180,10 @@ export default class Sharing extends Vue {
   }
 
   &__tooltip {
-    width: 100%;
-
     .tooltip-content {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      width: 100%;
-      min-width: 200px;
-      max-width: 300px;
-
-      &:before {
-        display: none;
-      }
+      border: 2px solid $primary-light !important;
+      box-shadow: $dropdown-content-shadow !important;
+      background: $black !important;
     }
 
     .tooltip-trigger {
