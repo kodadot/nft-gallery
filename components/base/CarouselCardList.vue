@@ -12,7 +12,10 @@
       <div class="card mx-4">
         <div class="card-image">
           <nuxt-link :to="`/rmrk/gallery/${list.id}`">
-            <BasicImage :src="list.image" :alt="list.name" />
+            <BasicImage
+              :src="list.image"
+              :alt="list.name"
+              custom-class="carousel__image-wrapper" />
           </nuxt-link>
         </div>
         <div class="card-content">
@@ -68,8 +71,9 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-// import Identicon from '@polkadot/vue-identicon'
 import AuthMixin from '@/utils/mixins/authMixin'
+
+import type { CarouselNFT } from './types'
 
 const components = {
   // Identicon,
@@ -84,7 +88,7 @@ const components = {
   components,
 })
 export default class CarouselList extends mixins(AuthMixin) {
-  @Prop({ type: Array, required: true }) nfts!: any[] // mising type
+  @Prop({ type: Array, required: true }) nfts!: CarouselNFT[]
   @Prop({ type: Number, default: 1 }) page!: number
 
   get current() {
@@ -131,12 +135,15 @@ export default class CarouselList extends mixins(AuthMixin) {
 .carousel-card-list {
   overflow-x: auto;
   mask: linear-gradient(90deg, rgb(255, 255, 255) 75%, transparent);
+  &::-webkit-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .card {
-  border-radius: 8px;
-  border: 2px solid $primary;
-
   .media-content {
     width: 100%;
   }
@@ -152,5 +159,21 @@ export default class CarouselList extends mixins(AuthMixin) {
 .force-clip {
   max-width: 85%;
   max-height: 24px;
+}
+
+.card-image {
+  overflow: hidden;
+}
+</style>
+
+<style lang="scss">
+.card {
+  &:hover .carousel__image-wrapper img {
+    transform: scale(1.1);
+    transition: transform 0.3s linear;
+  }
+  .carousel__image-wrapper img {
+    transition: all 0.3s;
+  }
 }
 </style>

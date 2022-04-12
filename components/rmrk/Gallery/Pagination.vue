@@ -18,7 +18,7 @@
     </b-pagination>
     <b-tooltip :label="$t('tooltip.random') + ' (g+r)'">
       <b-button
-        class="ml-2 magicBtn"
+        class="ml-2 magicBtn is-bordered-light share-button"
         title="Go to random page"
         v-if="hasMagicBtn"
         type="is-primary"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
 import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
@@ -45,27 +45,18 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   @Prop(Boolean) replace!: boolean
   @Prop(Boolean) preserveScroll!: boolean
   @Prop(Boolean) hasMagicBtn!: boolean
-
-  public mounted() {
-    exist(this.$route.query.page, (val) => {
-      // when component is mounted, if there is search query present always start from first page
-      this.current = this.$route.query.search ? 1 : Number(val)
-    })
-    // console.log('query', this.$route.query)
-    // if (
-    //   this.$route.query.search &&
-    //   typeof this.$route.query.search === 'string'
-    // ) {
-    //   this.updateSearch(this.$route.query.search);
-    // }
-  }
+  @Prop(Boolean) enableListenKeyboardEvent?: boolean
 
   public created() {
-    if (this.hasMagicBtn) {
+    if (this.enableKeyboardEvenHandler) {
       this.initKeyboardEventHandler({
         g: this.bindPaginationEvents,
       })
     }
+  }
+
+  get enableKeyboardEvenHandler() {
+    return this.hasMagicBtn || this.enableListenKeyboardEvent
   }
 
   private bindPaginationEvents(event) {
@@ -114,6 +105,11 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
     this.replace && this.replaceUrl(String(value))
   }
 
+  @Watch('value')
+  watchPageValue(val) {
+    this.replace && this.replaceUrl(String(val))
+  }
+
   @Debounce(100)
   replaceUrl(value: string, key = 'page') {
     this.$router
@@ -121,7 +117,7 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, [key]: value },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>

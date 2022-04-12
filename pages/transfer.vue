@@ -102,14 +102,14 @@
           {{ $t('Copy Payment link') }}
         </b-button>
         <b-button
-          v-if="accountId && price > 0"
+          v-if="accountId"
           type="is-info"
           icon-left="wallet"
           :loading="isLoading"
-          @click="toast('Your payout link copied to clipboard')"
+          @click="toast($t('general.copyRewardTooltip'))"
           v-clipboard:copy="generatePaymentLink(accountId)"
           outlined>
-          {{ $t('Copy Payout Address') }}
+          {{ $t('general.copyRewardLink') }}
         </b-button>
       </div>
       <div v-if="transactionValue && this.$route.query.donation">
@@ -172,8 +172,20 @@ export default class Transfer extends mixins(
     return 'centered-half-layout'
   }
 
+  get isApiConnected() {
+    return this.$store.getters.getApiConnected
+  }
+  get isNetworkConnected() {
+    return this.$store.getters.getNetworkConnected
+  }
   get disabled(): boolean {
-    return !this.hasAddress || !this.price || !this.accountId
+    return (
+      !this.hasAddress ||
+      !this.price ||
+      !this.accountId ||
+      !this.isApiConnected ||
+      !this.isNetworkConnected
+    )
   }
   get ss58Format(): number {
     return this.chainProperties?.ss58Format
@@ -297,7 +309,7 @@ export default class Transfer extends mixins(
         )
       )
     } catch (e) {
-      console.error('[ERR: TRANSFER SUBMIT]', e)
+      this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
       if (e instanceof Error) {
         showNotification(e.message, notificationTypes.danger)
       }

@@ -8,10 +8,13 @@ export const state = (): {
   compactGalleryItem: boolean
   compactCollection: boolean
   showPriceGallery: boolean
+  showMintTimeCollection: boolean
   galleryItemsPerPage: number
   collectionsPerPage: number
+  historyItemsPerPage: number
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
+  enableGyroEffect: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -19,17 +22,20 @@ export const state = (): {
 } => ({
   layoutClass: 'is-half-desktop is-half-tablet',
   advancedUI: false,
-  theatreView: 'theatre',
+  theatreView: 'default',
   compactGalleryItem: true,
   compactCollection: false,
   showPriceGallery: false,
+  showMintTimeCollection: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
+  historyItemsPerPage: 12,
   replaceBuyNowWithYolo: false,
   hasSupport: true,
   hasCarbonOffset: true,
   arweaveUpload: false,
   enableAllArtwork: true,
+  enableGyroEffect: false,
 })
 
 export type PreferencesState = ReturnType<typeof state>
@@ -39,14 +45,17 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getTheatreView: ({ theatreView }) => theatreView,
   getCompactCollection: ({ compactCollection }) => compactCollection,
   getShowPriceValue: ({ showPriceGallery }) => showPriceGallery,
+  getShowMintTime: ({ showMintTimeCollection }) => showMintTimeCollection,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
+  getHistoryItemsPerPage: ({ historyItemsPerPage }) => historyItemsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
     replaceBuyNowWithYolo,
   getHasSupport: ({ hasSupport }) => hasSupport,
   getHasCarbonOffset: ({ hasCarbonOffset }) => hasCarbonOffset,
   getArweaveUpload: ({ arweaveUpload }) => arweaveUpload,
   getLoadAllArtwork: ({ enableAllArtwork }) => enableAllArtwork,
+  getEnableGyroEffect: ({ enableGyroEffect }) => enableGyroEffect,
 }
 
 export const mutations: MutationTree<PreferencesState> = {
@@ -63,6 +72,7 @@ export const mutations: MutationTree<PreferencesState> = {
       state.showPriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
+      state.historyItemsPerPage = 12
     }
     state.advancedUI = data
   },
@@ -77,6 +87,9 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_SHOW_PRICE(state: PreferencesState, data) {
     state.showPriceGallery = data
+  },
+  SET_SHOW_MINT_TIME(state: PreferencesState, data) {
+    state.showMintTimeCollection = data
   },
   REPLACE_BUYNOW_WITH_YOLO(state: PreferencesState, data) {
     state.replaceBuyNowWithYolo = data
@@ -99,6 +112,9 @@ export const mutations: MutationTree<PreferencesState> = {
   SET_ALL_ARTWORK_VISIBLE(state: PreferencesState, data) {
     state.enableAllArtwork = data
   },
+  SET_ENABLE_GYRO_EFFECT(state: PreferencesState, data) {
+    state.enableGyroEffect = data
+  },
 }
 
 export const actions: ActionTree<PreferencesState, PreferencesState> = {
@@ -120,6 +136,9 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   setShowPriceValue({ commit }: { commit: Commit }, data) {
     commit('SET_SHOW_PRICE', data)
   },
+  setShowMintTime({ commit }: { commit: Commit }, data) {
+    commit('SET_SHOW_MINT_TIME', data)
+  },
   setGalleryItemsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_GALLERY_ITEMS_PER_PAGE', data)
   },
@@ -140,5 +159,8 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setAllArtworkVisible({ commit }: { commit: Commit }, data) {
     commit('SET_ALL_ARTWORK_VISIBLE', data)
+  },
+  setEnableGyroEffect({ commit }: { commit: Commit }, data) {
+    commit('SET_ENABLE_GYRO_EFFECT', data)
   },
 }

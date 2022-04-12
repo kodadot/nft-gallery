@@ -217,7 +217,7 @@ export default class PriceChart extends mixins(ChainMixin) {
   }
 
   @Watch('priceData')
-  async watchData(newPriceData: string[], oldPriceData: string[]) {
+  async watchData() {
     this.priceChart()
   }
 }

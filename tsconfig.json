@@ -18,13 +18,11 @@
       "@/*": ["./*"]
     },
     "types": [
-      "webpack",
-      "webpack-env",
       "@nuxt/types",
       "@nuxtjs/i18n",
       "@types/node",
       "vue-apollo",
-      "@types/jest"
+      "vitest/globals"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist", "**/*.spec.ts"],

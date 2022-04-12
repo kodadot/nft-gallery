@@ -35,10 +35,13 @@ export const getKSMUSD = async (): Promise<number> => {
       },
     })
 
-    return data[coinId]['usd']
+    const value: number = data[coinId]['usd']
+    localStorage.setItem('KSM', String(value))
+
+    return value
   } catch (error) {
     console.log(error)
-    return 1
+    return Number(localStorage.getItem('KSM') || 100)
   }
 }
 

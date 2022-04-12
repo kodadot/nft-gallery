@@ -2,7 +2,7 @@
   <div class="card mb-3 mt-5">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
-      <div v-if="sliderDirty" class="is-size-7">
+      <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
         {{ this.query.priceMax / 1000000000000 }}
       </div>
@@ -13,7 +13,7 @@
           v-if="!hideFilter"
           icon-left="filter"
           aria-controls="sortAndFilter"
-          type="is-primary"
+          type="is-primary is-bordered-light"
           class="is-hidden-mobile mr-2"
           @click="isVisible = !isVisible" />
         <b-autocomplete
@@ -209,6 +209,8 @@ export default class SearchBar extends mixins(
   public mounted(): void {
     this.getSearchHistory()
     exist(this.$route.query.search, this.updateSearch)
+    exist(this.$route.query.min, this.updatePriceMin)
+    exist(this.$route.query.max, this.updatePriceMax)
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
@@ -380,7 +382,6 @@ export default class SearchBar extends mixins(
     //To handle clearing event
     this.keyDownNativeEnterFlag = false
     if (!value) return
-
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
@@ -396,11 +397,42 @@ export default class SearchBar extends mixins(
     }
   }
 
+  redirectToGalleryPageIfNeed() {
+    if (this.$route.name === 'index') {
+      this.$router.replace({
+        name: 'rmrk-explore',
+      })
+    }
+  }
+
   @Emit('update:search')
   @Debounce(50)
   updateSearch(value: string): string {
     shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    this.redirectToGalleryPageIfNeed()
     return value
+  }
+
+  updatePriceMin(value: string) {
+    const min = Number(value)
+    if (!Number.isNaN(min)) {
+      if (!this.sliderDirty) {
+        this.sliderDirty = true
+      }
+      this.rangeSlider = [min, this.rangeSlider[1]]
+      this.sliderChangeMin(min * 1000000000000)
+    }
+  }
+
+  updatePriceMax(value: string) {
+    const max = Number(value)
+    if (!Number.isNaN(max)) {
+      if (!this.sliderDirty) {
+        this.sliderDirty = true
+      }
+      this.rangeSlider = [this.rangeSlider[0], max]
+      this.sliderChangeMax(max * 1000000000000)
+    }
   }
 
   // when user type some keyword, frontEnd will query related information
@@ -452,7 +484,7 @@ export default class SearchBar extends mixins(
         })
       })
       .catch((e) => {
-        console.warn(
+        this.$consola.warn(
           '[PREFETCH] Unable fo fetch nft items',
           this.offset,
           e.message
@@ -497,7 +529,7 @@ export default class SearchBar extends mixins(
         })
       })
       .catch((e) => {
-        console.warn(
+        this.$consola.warn(
           '[PREFETCH] Unable fo fetch collection items',
           this.offset,
           e.message
@@ -518,7 +550,7 @@ export default class SearchBar extends mixins(
           [key2]: value2,
         },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
   }

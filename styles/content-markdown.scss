@@ -1,0 +1,10 @@
+@import '~/node_modules/highlight.js/styles/github-dark.css';
+
+.content {
+  pre,
+  blockquote {
+    background-color: black;
+    border-left: 5px solid #dbdbdb;
+    padding: 1.25em 1.5em;
+  }
+}

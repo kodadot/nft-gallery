@@ -4,26 +4,57 @@
     spaced
     wrapper-class="container"
     close-on-click
-    :class="{ 'navbar-shrink': !showNavbar }">
+    :mobile-burger="!showMobileSearchBar"
+    :active.sync="isBurgerMenuOpened"
+    :class="{ 'navbar-shrink': !showTopNavbar }">
     <template #brand>
       <b-navbar-item tag="nuxt-link" :to="{ path: '/' }" class="logo">
         <img
           src="~/assets/Koda_Beta.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
-          height="32" />
+          width="130"
+          height="35" />
       </b-navbar-item>
+      <div
+        v-if="showMobileSearchBar"
+        class="search-navbar-container-mobile is-hidden-desktop is-flex is-align-items-center">
+        <b-button @click="toggleSearchBarDisplay" icon-left="times" />
+        <Search
+          v-if="showMobileSearchBar"
+          hideFilter
+          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
+      </div>
+
+      <div
+        v-else
+        class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+        @click="closeBurgerMenu">
+        <div>
+          <HistoryBrowser />
+
+          <b-button
+            @click="toggleSearchBarDisplay"
+            type="is-primary is-bordered-light"
+            class="navbar-link-background"
+            icon-right="search" />
+        </div>
+      </div>
     </template>
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{ 'nav-search-shrink': !showNavbar }"
+        :class="{
+          'nav-search-shrink': !showTopNavbar,
+        }"
         hideFilter
-        class="search-navbar"
+        class="search-navbar is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
-    <template #end>
-      <HistoryBrowser class="ml-2 navbar-link-background" />
-      <b-navbar-dropdown arrowless collapsible>
+    <template #end v-if="showTopNavbar">
+      <LazyHistoryBrowser
+        class="custom-navbar-item navbar-link-background is-hidden-touch"
+        id="NavHistoryBrowser" />
+      <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
           <span>{{ $t('Create') }}</span>
         </template>
@@ -45,18 +76,10 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible>
-        <template #label>
-          <span>{{ $t('Explore') }}</span>
-        </template>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
-          {{ $t('Collections') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
-          {{ $t('Gallery') }}
-        </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible v-if="isRmrk">
+      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
+        <span>{{ $t('Explore') }}</span>
+      </b-navbar-item>
+      <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('Stats') }}</span>
         </template>
@@ -69,37 +92,52 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="ml-2" />
-      <LocaleChanger class="ml-2" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" />
+      <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
+      <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
+      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
+    </template>
+    <template #end v-else>
+      <div class="image is-32x32 mr-2">
+        <BasicImage
+          v-show="inCollectionPage && currentCollection.image"
+          :src="currentCollection.image"
+          :alt="navBarTitle"
+          rounded />
+      </div>
+      <div class="title is-4">{{ navBarTitle }}</div>
     </template>
   </b-navbar>
 </template>
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import LocaleChanger from '@/components/shared/SwitchLocale.vue'
-import ChainSelect from '@/components/shared/ChainSelect.vue'
-import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import Identity from '@/components/shared/format/Identity.vue'
+import Search from '@/components/rmrk/Gallery/Search/SearchBar.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+
+import { identityStore } from '@/utils/idbStore'
+import { get } from 'idb-keyval'
 
 @Component({
   components: {
-    LocaleChanger,
-    HistoryBrowser,
     NavbarProfileDropdown,
-    ChainSelect,
-    Search: () => import('@/components/rmrk/Gallery/Search/SearchBar.vue'),
+    Search,
+    Identity,
+    BasicImage,
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   private mobileGallery = false
-  private isGallery: boolean = this.$route.path == '/rmrk/gallery'
-  private showNavbar = true
+  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
+  private showTopNavbar = true
   private lastScrollPosition = 0
+  private artistName = ''
+  private showMobileSearchBar = false
+  private isBurgerMenuOpened = false
 
-  private onResize(e) {
+  private onResize() {
     return (this.mobileGallery = window.innerWidth <= 1023)
   }
 
@@ -107,16 +145,76 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     return this.urlPrefix === 'rmrk' || this.urlPrefix === 'westend'
   }
 
+  get inCollectionPage(): boolean {
+    return this.$route.name === 'rmrk-collection-id'
+  }
+  get inGalleryDetailPage(): boolean {
+    return this.$route.name === 'rmrk-gallery-id'
+  }
+  get inUserProfilePage(): boolean {
+    return this.$route.name === 'rmrk-u-id'
+  }
+
+  get isTargetPage(): boolean {
+    return (
+      this.inCollectionPage ||
+      this.inGalleryDetailPage ||
+      this.inUserProfilePage
+    )
+  }
+  get currentCollection() {
+    return this.$store.getters['history/getCurrentlyViewedCollection'] || {}
+  }
+  get currentGalleryItemName() {
+    return this.$store.getters['history/getCurrentlyViewedItem']?.name || ''
+  }
+
+  get navBarTitle(): string {
+    let title = ''
+    if (this.inCollectionPage) {
+      title = this.currentCollection.name
+    } else if (this.inGalleryDetailPage) {
+      title = this.currentGalleryItemName
+    } else if (this.inUserProfilePage) {
+      const address = this.$route.params.id
+      title = this.artistName ? this.artistName : address
+      if (!this.artistName) {
+        this.fetchArtistIdentity(address)
+      }
+    }
+    return title
+  }
+
+  async fetchArtistIdentity(address) {
+    const identity = await get(address, identityStore)
+    if (identity && identity.display) {
+      this.artistName = identity.display
+    }
+  }
+
   onScroll() {
     const currentScrollPosition = document.documentElement.scrollTop
-    if (currentScrollPosition < 0) {
+    if (currentScrollPosition <= 0) {
+      this.showTopNavbar = true
       return
     }
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 60) {
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    const fixedTitleNavAppearDistance = 200
+    this.showTopNavbar =
+      currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
     this.lastScrollPosition = currentScrollPosition
+  }
+
+  toggleSearchBarDisplay() {
+    this.showMobileSearchBar = !this.showMobileSearchBar
+  }
+
+  closeBurgerMenu() {
+    if (this.isBurgerMenuOpened) {
+      this.isBurgerMenuOpened = false
+    }
   }
 
   mounted() {
@@ -137,7 +235,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-@media (min-width: 1024px) {
+@include tablet {
   .navbar-shrink {
     box-shadow: none;
     max-height: 70px;
@@ -148,6 +246,68 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     padding-bottom: 0 !important;
   }
 }
+
+// Reserved for future adjustments
+
+// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
+//   a#NavProfile {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
+//   a#NavStats {
+//     display: none;
+//   }
+// }
+
+@media only screen and (min-width: 1024px) and (max-width: 1100px) {
+  div#NavHistoryBrowser {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  a#NavCreate {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1250px) {
+  div#NavChainSelect {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1340px) {
+  div#NavLocaleChanger {
+    display: none;
+  }
+}
+
+@include touch {
+  .navbar {
+    .navbar-item,
+    .custom-navbar-item {
+      margin-left: 0 !important;
+    }
+    .navbar-dropdown .b-tooltip {
+      width: 100%;
+    }
+    #NavProfile {
+      margin-left: 0;
+      .dropdown-trigger .button {
+        width: 100vw;
+        background: $primary;
+      }
+    }
+    .dropdown.is-mobile-modal > .dropdown-menu {
+      -webkit-transform: translate3d(-50%, 10%, 0);
+      transform: translate3d(-50%, 10%, 0);
+    }
+  }
+}
+
 .navbar {
   background: rgba(12, 12, 12, 0.7);
   backdrop-filter: blur(20px);
@@ -159,11 +319,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       .navbar-menu {
         margin-right: 0;
         .button {
-          height: 42px;
+          height: 40px;
         }
-      }
-      .navbar-start {
-        flex-grow: 1;
       }
     }
   }
@@ -178,7 +335,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   .navbar-item {
     text-transform: uppercase;
     font-weight: 500;
-    border-top: 2px solid $primary;
+    border-top: 1px solid $primary;
     margin-left: 0.5em;
     transition: 0.3s;
     background: rgba(9, 9, 9, 0.55);
@@ -188,19 +345,26 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
+  .custom-navbar-item {
+    margin-left: 0.5em;
+  }
+
   .logo {
     border: none !important;
-    margin-left: 0;
     background: transparent;
+    @include tablet {
+      margin-left: 0;
+    }
   }
 
   .navbar-brand {
     align-items: center;
   }
 
-  .burger {
-    margin-right: 0.5rem;
+  .navbar-start {
+    flex: 1;
   }
+
   .navbar-dropdown {
     border: 2px solid $primary-light !important;
     box-shadow: $dropdown-content-shadow !important;
@@ -209,18 +373,37 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
       margin-left: 0 !important;
     }
   }
+
   .search-navbar {
-    flex-grow: 1;
-    margin: 0rem 1rem;
     background-color: transparent;
     box-shadow: none;
-    max-width: 350px;
+    min-width: 350px;
     margin: 0 1rem;
     input {
       border: inherit;
-      background-color: #29292f;
+      background-color: rgba(41, 41, 47, 0.5);
       &::placeholder {
         color: #898991 !important;
+      }
+      &:focus {
+        box-shadow: none !important;
+        border-top: $sleek-primary-border;
+      }
+    }
+  }
+  .search-navbar-container-mobile {
+    position: fixed;
+    left: 0;
+    width: 100%;
+
+    input {
+      background-color: rgba(41, 41, 47, 0.5);
+      padding: 0;
+      z-index: 1;
+      &:focus {
+        box-shadow: none !important;
+        border-top: 2px solid $primary;
+        background: rgba(41, 41, 47);
       }
     }
   }

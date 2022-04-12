@@ -8,7 +8,10 @@ function format(
   withSi?: boolean
 ) {
   try {
-    return formatBalance(balance, {
+    const fixedBalance =
+      typeof balance === 'number' ? balance.toFixed() : balance
+
+    return formatBalance(fixedBalance, {
       decimals,
       withUnit,
       forceUnit: '-',
@@ -29,6 +32,13 @@ function format(
 
 export function calculateBalance(value: number, decimals = 12): number {
   return Math.trunc(value * Math.pow(10, decimals))
+}
+
+export function checkInvalidBalanceFilter(value) {
+  if (value === Infinity) {
+    return '0'
+  }
+  return value
 }
 
 export default format

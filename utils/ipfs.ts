@@ -1,4 +1,5 @@
 import { logError } from '@/utils/mappers'
+import consola from 'consola'
 
 export const unSanitizeIpfsUrl = (url: string): string => {
   return `ipfs://ipfs/${url}`
@@ -27,12 +28,6 @@ export const fastExtract = (ipfsLink?: string): string => {
   return ipfsLink.replace('ipfs://ipfs/', '')
 }
 
-type IpfsToArweaveType = {
-  arweaveId: string
-  ipfsHash: string
-  statusCode: number
-}
-
 const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
 export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
   const hash = justHash(ipfsLink) ? ipfsLink : extractCid(ipfsLink)
@@ -45,7 +40,7 @@ export const ipfsToArweave = async (ipfsLink: string): Promise<string> => {
     return ''
   } catch (e: any) {
     logError(e, (msg) => {
-      console.error(`[IPFS2AR] Unable to Arweave ${msg}`)
+      consola.error(`[IPFS2AR] Unable to Arweave ${msg}`)
     })
     return ''
   }

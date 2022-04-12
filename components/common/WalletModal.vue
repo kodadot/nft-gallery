@@ -60,11 +60,27 @@
         </div>
 
         <div v-if="hasSelectedWalletProvider && hasWalletProviderExtension">
-          <div class="subtitle has-text-centered">Choose your account</div>
-          <AccountSelect
-            v-model="account"
-            :label="$i18n.t('Account')"
-            :tooltip-visible="false" />
+          <div class="subtitle is-size-6 has-text-centered">
+            Choose your
+            <b-image
+              :src="selectedWalletProvider.img"
+              class="is-16x16"
+              style="display: inline-block; vertical-align: middle" />
+            <b>{{ selectedWalletProvider.extensionName }}</b> account
+          </div>
+
+          <b-field :label="$i18n.t('Account')" v-if="walletAccounts.length">
+            <b-select v-model="account" placeholder="Select account" expanded>
+              <option disabled selected value="">--</option>
+              <option
+                v-for="option in walletAccounts"
+                :key="option.address"
+                :value="option.address">
+                <b v-if="option.name">{{ option.name }} :</b>
+                {{ option.address | shortAddress(10, -10) }}
+              </option>
+            </b-select>
+          </b-field>
         </div>
       </section>
     </div>
@@ -72,25 +88,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { SupportedWallets, Wallet } from '@/utils/config/wallets'
-import { InjectedWindow } from '@polkadot/extension-inject/types'
+import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { SupportedWallets, WalletAccount } from '@/utils/config/wallets'
+import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
+import { web3Accounts } from '@polkadot/extension-dapp'
+import { enableExtension, isMobileDevice } from '@/utils/extension'
+import shouldUpdate from '@/utils/shouldUpdate'
+import onApiConnect from '@/utils/api/general'
+import correctFormat from '@/utils/ss58Format'
 
 @Component({
-  components: {
-    AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
-  },
+  components: {},
 })
-export default class extends Vue {
+export default class WalletModal extends Vue {
   @Prop() public templateValue!: undefined
+  protected selectedWalletProvider!: BaseDotsamaWallet
   protected hasSelectedWalletProvider = false
   protected hasWalletProviderExtension = false
   protected guideUrl = ''
   protected extensionUrl = ''
+  protected walletAccounts: WalletAccount[] = []
 
   set account(account: string) {
     this.$emit('close')
     this.$store.dispatch('setAuth', { address: account })
+    localStorage.setItem('kodaauth', account)
+    localStorage.setItem('wallet', this.selectedWalletProvider.extensionName)
   }
 
   get account() {
@@ -101,10 +124,36 @@ export default class extends Vue {
     return SupportedWallets
   }
 
-  protected setWallet(wallet: Wallet): void {
+  get chainProperties() {
+    return this.$store.getters['chain/getChainProperties']
+  }
+
+  get ss58Format(): number {
+    return this.chainProperties?.ss58Format
+  }
+
+  @Watch('walletAccounts', { immediate: true })
+  handleAccounts(value: WalletAccount[], oldVal: WalletAccount[]): void {
+    if (shouldUpdate(value, oldVal)) {
+      this.walletAccounts = value
+    }
+  }
+
+  protected setWallet(wallet: BaseDotsamaWallet): void {
+    this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
-    const injectedWindow = window as Window & InjectedWindow
-    console.log(injectedWindow?.injectedWeb3)
+    this.walletAccounts = []
+
+    if (isMobileDevice) {
+      onApiConnect(async () => {
+        await enableExtension()
+        this.hasWalletProviderExtension = true
+        this.walletAccounts = (await web3Accounts({
+          ss58Format: correctFormat(this.ss58Format),
+        })) as any[]
+        return
+      })
+    }
 
     if (!wallet.installed) {
       this.hasWalletProviderExtension = false
@@ -116,15 +165,27 @@ export default class extends Vue {
         type: 'is-info',
         hasIcon: true,
       })
-      console.log('you need to install wallet')
     } else {
       // web3 wallet connect logic here & show accountSelect, async or not?
-      // async () => {
-      wallet.enable()
+      // wallet.enable()
+
+      // init account
+      wallet
+        .getAccounts()
+        .then((data) => {
+          this.walletAccounts = data ?? []
+        })
+        .catch((e) => {
+          this.$consola.error('init account error', e)
+        })
+
+      // subscribe change
       wallet.subscribeAccounts((accounts) => {
-        console.log(accounts)
+        // list of supported accounts for this wallet to show in AccoutSelect
+        if (accounts) {
+          this.walletAccounts = accounts
+        }
       })
-      // }
       this.hasWalletProviderExtension = true
     }
   }
@@ -132,22 +193,23 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables';
 .wallet {
-  border-radius: 10px;
   max-width: 400px;
+  border: 2px solid $primary;
 
-  .modal-card-head {
-    background-color: rgb(44, 45, 48) !important;
-    border-bottom: inherit;
+  &.modal-card {
+    background: $frosted-glass-background;
+    backdrop-filter: $frosted-glass-light-backdrop-filter;
   }
 
-  .modal-card-body {
-    background-color: rgb(44, 45, 48) !important;
+  .modal-card-body,
+  .modal-card-head {
+    background: unset;
   }
 
   .buttons button {
-    border-radius: 6px;
-    background-color: #404144;
+    border-radius: 0;
     justify-content: space-between;
   }
 }

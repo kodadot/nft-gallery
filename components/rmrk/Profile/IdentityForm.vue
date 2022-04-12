@@ -5,9 +5,13 @@
         <br />
         <Loader v-model="isLoading" :status="status" />
         <div class="box">
-          <p class="title is-size-3">
-            {{ $t('identity.set') }}
-          </p>
+          <b-tooltip
+            label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
+            position="is-bottom">
+            <p class="title is-size-3">
+              {{ $t('identity.set') }}
+            </p>
+          </b-tooltip>
           <b-field>
             <Identity
               class="subtitle has-text-weight-bold"
@@ -92,7 +96,6 @@ import { identityStore } from '@/utils/idbStore'
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-    AccountSelect: () => import('@/components/shared/AccountSelect.vue'),
     PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),

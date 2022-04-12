@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
@@ -109,7 +109,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     if (data) {
       const { nodes, totalCount } = data.nFTEntities
       await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
-        console.warn
+        this.$consola.warn
       )
       this.total = totalCount
       this.items = nodes

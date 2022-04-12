@@ -138,7 +138,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     priceMin: undefined,
     priceMax: undefined,
   }
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   protected total = 0
   private loadingState = 0
   private notMobile = false
@@ -262,7 +262,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
       logError(e, (msg) =>
-        console.warn('[PREFETCH] Unable fo fetch', offset, msg)
+        this.$consola.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
     } finally {
       if (offset <= prefetchLimit) {
@@ -306,8 +306,9 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   @Watch('$route.query.search')
-  protected onIdChange(val: string, oldVal: string) {
+  protected onSearchChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
+      this.currentValue = 1
       this.searchQuery.search = val || ''
     }
   }
@@ -322,7 +323,7 @@ export default class Gallery extends mixins(PrefixMixin) {
     // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
   }
 
-  private onResize(e) {
+  private onResize() {
     return (this.notMobile = window.innerWidth >= 1024)
   }
 
@@ -353,7 +354,7 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -389,10 +390,9 @@ export default class Gallery extends mixins(PrefixMixin) {
   .columns {
     padding-top: 10px;
     .card {
-      border-radius: 8px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
+      border-radius: 0px;
 
       &-image {
         &__emotes {
@@ -422,6 +422,10 @@ export default class Gallery extends mixins(PrefixMixin) {
         }
       }
 
+      .gallery__image-wrapper img {
+        border-radius: 0px !important;
+      }
+
       @media screen and (min-width: 1024px) {
         &-content {
           position: absolute;
@@ -437,7 +441,9 @@ export default class Gallery extends mixins(PrefixMixin) {
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
+          border-radius: 0;
         }
 
         &:hover .gallery__image-wrapper img {

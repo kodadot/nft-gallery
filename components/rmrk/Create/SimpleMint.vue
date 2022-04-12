@@ -30,6 +30,7 @@
             :label="$t('mint.nft.name.label')"
             :message="$t('mint.nft.name.message')"
             :placeholder="$t('mint.nft.name.placeholder')"
+            @blur.native.capture="generateSymbol"
             expanded
             spellcheck="true" />
 
@@ -138,7 +139,7 @@
               {{ $t('mint.submit') }}
             </b-button>
           </b-field>
-          <b-field v-if="price">
+          <b-field>
             <template>
               <b-icon icon="calculator" />
               <span class="pr-2">{{ $t('mint.estimated') }}</span>
@@ -172,15 +173,15 @@ import {
   NFTMetadata,
   NFT,
   getNftId,
+  Collection,
 } from '../service/scheme'
-import { extractCid, unSanitizeIpfsUrl } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import { formatBalance } from '@polkadot/util'
 import { generateId } from '@/components/rmrk/service/Consolidator'
 import { canSupport, feeTx } from '@/utils/support'
 import { resolveMedia } from '../utils'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { ipfsToArweave } from '@/utils/ipfs'
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -200,7 +201,10 @@ import {
 import { PinningKey, pinFileToIPFS, pinJson } from '@/utils/pinning'
 import { uploadDirect } from '@/utils/directUpload'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
-import { createMetadata } from '@kodadot1/minimark'
+import { createMetadata, findUniqueSymbol } from '@kodadot1/minimark'
+import Vue from 'vue'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import collectionList from '@/queries/collectionListByAccount.graphql'
 
 const components = {
   Auth: () => import('@/components/shared/Auth.vue'),
@@ -215,7 +219,6 @@ const components = {
   CollapseWrapper: () =>
     import('@/components/shared/collapse/CollapseWrapper.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  SendHandler: () => import('@/components/rmrk/Create/Admin/SendHandler.vue'),
   BasicSlider: () => import('@/components/shared/form/BasicSlider.vue'),
   BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
 }
@@ -227,7 +230,8 @@ export default class SimpleMint extends mixins(
   SubscribeMixin,
   RmrkVersionMixin,
   TransactionMixin,
-  ChainMixin
+  ChainMixin,
+  PrefixMixin
 ) {
   private rmrkMint: SimpleNFT = {
     ...emptyObject<SimpleNFT>(),
@@ -247,6 +251,57 @@ export default class SimpleMint extends mixins(
   protected postfix = true
   protected random = false
   protected distribution = 100
+  protected first = 100
+  protected collections: Collection[] = []
+
+  // query for nfts information by accountId
+  public async created() {
+    this.$apollo.addSmartQuery('collections', {
+      query: collectionList,
+      client: this.urlPrefix,
+      manual: true,
+      loadingKey: 'isLoading',
+      result: this.handleResult,
+      variables: () => {
+        return {
+          account: this.accountId,
+          first: this.first,
+        }
+      },
+      fetchPolicy: 'cache-and-network',
+    })
+  }
+
+  // handle query results
+  public handleResult(data: any) {
+    const collectionEntities = data?.data?.collectionEntities
+    if (collectionEntities) {
+      this.collections = collectionEntities.nodes
+    }
+  }
+
+  // set symbol name
+  private generateSymbol(): void {
+    if (!this.rmrkMint?.symbol && this.rmrkMint.name?.length) {
+      const symbol = this.generateSymbolCore(
+        this.rmrkMint.name,
+        this.collections
+      )
+      Vue.set(this.rmrkMint, 'symbol', symbol)
+    }
+  }
+
+  // core: to generate symbol
+  private generateSymbolCore(name: string, collections: Collection[]): string {
+    let symbol = name.replaceAll(' ', '_')
+    const usedSymbols = collections.map((collection) => {
+      // collection.id is like xxxx-symbolName
+      const splitArray = collection.id.split('-')
+      return splitArray.length > 1 ? splitArray[1] : ''
+    })
+    symbol = findUniqueSymbol(symbol, usedSymbols)
+    return symbol.slice(0, 10) // symbol's length have to smaller than 10
+  }
 
   protected updateMeta(value: number): void {
     this.price = value
@@ -708,7 +763,7 @@ export default class SimpleMint extends mixins(
     const metaHash = await pinJson(meta, imageHash)
 
     if (file) {
-      uploadDirect(file, metaHash).catch(console.warn)
+      uploadDirect(file, metaHash).catch(this.$consola.warn)
     }
     return unSanitizeIpfsUrl(metaHash)
   }

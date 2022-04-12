@@ -24,11 +24,12 @@
           {{ action }}
         </b-button>
       </template>
-      <template v-else>
+      <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
             :type="iconType('BUY')[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
+            style="border-width: 2px"
             outlined
             @click="handleAction('BUY')"
             expanded>
@@ -76,11 +77,12 @@ import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
+import { downloadImage } from '@/utils/download'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
-const ownerActions = ['SEND', 'CONSUME', 'LIST']
+const ownerActions = ['SEND', 'CONSUME', 'LIST', 'DOWNLOAD']
 const buyActions = ['BUY']
 
 type DescriptionTuple = [string, string] | [string]
@@ -89,9 +91,10 @@ const iconResolver: Record<string, DescriptionTuple> = {
   CONSUME: ['is-danger'],
   LIST: ['is-light'],
   BUY: ['is-success is-dark'],
+  DOWNLOAD: ['is-warning'],
 }
 
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | ''
+type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'DOWNLOAD' | ''
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -139,6 +142,7 @@ export default class AvailableActions extends mixins(
       s: 'SEND',
       c: 'CONSUME',
       l: 'LIST',
+      d: 'DOWNLOAD',
     }
 
     event.preventDefault()
@@ -152,7 +156,10 @@ export default class AvailableActions extends mixins(
 
   get showSubmit() {
     return (
-      this.selectedAction && (!this.showMeta || this.metaValid) && !this.isBuy
+      this.selectedAction &&
+      (!this.showMeta || this.metaValid) &&
+      !this.isBuy &&
+      !this.isDownload
     )
   }
 
@@ -180,6 +187,11 @@ export default class AvailableActions extends mixins(
     }`
   }
 
+  get isForSale() {
+    const price = parseInt(this.price)
+    return price > 0
+  }
+
   protected iconType(value: string) {
     return iconResolver[value]
   }
@@ -197,6 +209,11 @@ export default class AvailableActions extends mixins(
         case 'SEND':
           this.addressInput?.focusInput()
           break
+        case 'DOWNLOAD': {
+          const { image, name } = this.currentGalleryItemImage
+          image && downloadImage(image, name)
+          break
+        }
         default:
           break
       }
@@ -223,7 +240,7 @@ export default class AvailableActions extends mixins(
   }
 
   get isOwner() {
-    console.log(
+    this.$consola.log(
       '{ currentOwnerId, accountId }',
       this.currentOwnerId,
       this.accountId
@@ -269,8 +286,16 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === 'SEND'
   }
 
+  get isDownload() {
+    return this.selectedAction === 'DOWNLOAD'
+  }
+
   get realworldFullPath() {
     return `${window.location.origin}${this.$route.fullPath}`
+  }
+
+  get currentGalleryItemImage(): { image: string; name: string } {
+    return this.$store.getters['history/getCurrentlyViewedItem'] || {}
   }
 
   @Watch('originialOwner', { immediate: true })
@@ -288,7 +313,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
-    console.log(typeof value, value)
+    this.$consola.log(typeof value, value)
     this.meta = value
   }
 
@@ -329,7 +354,7 @@ export default class AvailableActions extends mixins(
         throw new ReferenceError('No action selected')
       }
       showNotification(rmrk)
-      console.log('submit', rmrk)
+      this.$consola.log('submit', rmrk)
       const isBuy = this.isBuy
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy
@@ -392,7 +417,7 @@ export default class AvailableActions extends mixins(
       )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
       this.isLoading = false
     }
   }
@@ -403,7 +428,7 @@ export default class AvailableActions extends mixins(
         try {
           await unpin(hash)
         } catch (e) {
-          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+          this.$consola.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
         }
       }
     })
@@ -431,6 +456,9 @@ export default class AvailableActions extends mixins(
 }
 .actions-wrap {
   .buttons {
+    button {
+      border-width: 1px;
+    }
     .b-tooltip {
       width: 100%;
     }

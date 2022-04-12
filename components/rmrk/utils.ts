@@ -14,6 +14,7 @@ import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { justHash } from '@/utils/ipfs'
 import { logError } from '@/utils/mappers'
+import { processSingleMetadata } from '~/utils/cachingStrategy'
 
 export const SQUARE = '::'
 export const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
@@ -204,10 +205,7 @@ export function sanitizeObjectArray<T extends RmrkWithMetaType>(
   return instances.map((i) => sanitizeImage(i, provider))
 }
 
-export function mapPriceToNumber(
-  instances: NFTWithMeta[],
-  provider?: ProviderKeyType
-): any[] {
+export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
   return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
 }
 
@@ -407,4 +405,16 @@ export const getRandomIntInRange = (min: number, max: number): number => {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+export const fallbackMetaByNftEvent = async (events: any[]) => {
+  for (const event of events) {
+    if (!event.nft.meta) {
+      event.nft.meta = {
+        id: event.nft.metadata,
+        image: '',
+      }
+      await processSingleMetadata(event.nft.metadata)
+    }
+  }
 }

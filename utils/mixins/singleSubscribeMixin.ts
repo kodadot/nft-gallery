@@ -1,4 +1,5 @@
 import { Component, Vue } from 'nuxt-property-decorator'
+import consola from 'consola'
 // declare type UnsubscribePromise = Promise<Unsubscribe>;
 declare type Unsubscribe = () => void
 
@@ -15,7 +16,7 @@ export default class SingleSubscribeMixin extends Vue {
     this.unsubscribe() // unsubscribe previous subscription
     fn(...args, callback)
       .then((sub: Unsubscribe) => (this.sub = sub))
-      .catch(console.error)
+      .catch(consola.error)
   }
 
   private unsubscribe(): void {

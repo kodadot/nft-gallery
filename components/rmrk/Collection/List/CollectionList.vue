@@ -1,18 +1,16 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <Search v-bind.sync="searchQuery">
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :per-page="first" />
-      </b-field>
-    </Search>
+    <b-field>
+      <Pagination
+        hasMagicBtn
+        simple
+        replace
+        preserveScroll
+        :total="total"
+        v-model="currentValue"
+        :perPage="first" />
+    </b-field>
 
     <div>
       <div class="columns is-multiline">
@@ -55,8 +53,8 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue } from 'nuxt-property-decorator'
-
+import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import shouldUpdate from '~/utils/shouldUpdate'
 import {
   CollectionWithMeta,
   Collection,
@@ -102,7 +100,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   private meta: Metadata[] = []
   public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/placeholder.webp'
-  private currentValue = 1
+  private currentValue = parseInt((this.$route.query?.page as string) || '1')
   private total = 0
   private searchQuery: SearchQuery = {
     search: '',
@@ -110,6 +108,13 @@ export default class CollectionList extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
+
+  private collectionSortOption: string[] = [
+    'BLOCK_NUMBER_DESC',
+    'BLOCK_NUMBER_ASC',
+    'UPDATED_AT_DESC',
+    'UPDATED_AT_ASC',
+  ]
 
   get isLoading(): boolean {
     return this.$apollo.queries.collection.loading
@@ -198,11 +203,19 @@ export default class CollectionList extends mixins(PrefixMixin) {
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
       processMetadata<NFTMetadata>(metadataList)
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
       }
+    }
+  }
+
+  @Watch('$route.query.search')
+  protected onSearchChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.currentValue = 1
+      this.searchQuery.search = val || ''
     }
   }
 
@@ -233,7 +246,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -270,10 +283,9 @@ export default class CollectionList extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
+      border-radius: 0px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
@@ -343,10 +355,12 @@ export default class CollectionList extends mixins(PrefixMixin) {
         }
 
         &:hover .card-content {
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
           bottom: 0;
+          border-radius: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
         }

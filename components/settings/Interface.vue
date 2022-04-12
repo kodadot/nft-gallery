@@ -32,9 +32,17 @@
         :disabled="!enabledAdvancedUI"
         label="preferences.priceVisible" />
       <BasicCheckbox
+        v-model="showMintTime"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.mintTimeVisible" />
+      <BasicCheckbox
         v-model="enableAllArtworks"
         :disabled="!enabledAdvancedUI"
         label="preferences.loadAllArtworks" />
+      <BasicCheckbox
+        v-model="enableGyroEffect"
+        :disabled="!enabledAdvancedUI"
+        label="preferences.enableGyroEffect" />
       <div class="layout-wrapper">
         <div class="label">
           {{ $t('Layout Options') }}
@@ -123,6 +131,14 @@ export default class Interface extends Vue {
     this.$store.dispatch('preferences/setShowPriceValue', value)
   }
 
+  get showMintTime(): boolean {
+    return this.$store.state.preferences.showMintTimeCollection
+  }
+
+  set showMintTime(value: boolean) {
+    this.$store.dispatch('preferences/setShowMintTime', value)
+  }
+
   get replaceBuyNowWithYolo(): boolean {
     return this.$store.state.preferences.replaceBuyNowWithYolo
   }
@@ -153,6 +169,14 @@ export default class Interface extends Vue {
 
   set enableAllArtworks(value: boolean) {
     this.$store.dispatch('preferences/setAllArtworkVisible', value)
+  }
+
+  get enableGyroEffect(): boolean {
+    return this.$store.state.preferences.enableGyroEffect
+  }
+
+  set enableGyroEffect(value: boolean) {
+    this.$store.dispatch('preferences/setEnableGyroEffect', value)
   }
 }
 </script>

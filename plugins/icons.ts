@@ -85,6 +85,8 @@ import {
   faSignOutAlt,
   faWallet,
   faChartLine,
+  faListUl,
+  faTable,
 } from '@fortawesome/free-solid-svg-icons'
 
 // throws error, idk why
@@ -166,6 +168,7 @@ library.add(
   faCompressAlt,
   faCompress,
   faCompressArrowsAlt,
+  faTable,
   faEyeSlash,
   faArrowUp,
   faUser,
@@ -189,6 +192,7 @@ library.add(
   faSignOutAlt,
   faWallet,
   faChartLine,
+  faListUl,
 
   // Social
   faTwitter,

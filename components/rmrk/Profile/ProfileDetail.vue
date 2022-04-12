@@ -18,6 +18,13 @@
               @change="handleIdentity" />
           </a>
         </h1>
+
+        <span v-if="!displayName">
+          Add on-chain recognition for
+          <nuxt-link :to="`/identity`">
+            {{ shortendId }}
+          </nuxt-link>
+        </span>
       </div>
     </div>
 
@@ -33,7 +40,7 @@
       <div class="column has-text-right">
         <div class="is-flex is-justify-content-right">
           <div class="control" v-for="network in networks" :key="network.alt">
-            <b-button class="network-button" type="is-primary">
+            <b-button class="share-button" type="is-primary is-bordered-light">
               <a
                 :href="`${network.url}${id}`"
                 target="_blank"
@@ -67,7 +74,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.created')} ${shortendId}`"
+              :label="`${$t('tooltip.created')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.created') }}
               <span class="tab-counter" v-if="totalCreated">{{
@@ -88,7 +95,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collections')} ${shortendId}`"
+              :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('Collections') }}
               <span class="tab-counter" v-if="totalCollections">{{
@@ -121,7 +128,7 @@
           :headerClass="{ 'is-hidden': !totalCollections }">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.sold')} ${shortendId}`"
+              :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.sold') }}
               <span class="tab-counter" v-if="totalSold">{{ totalSold }}</span>
@@ -137,7 +144,7 @@
         <b-tab-item value="collected">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.collected')} ${shortendId}`"
+              :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.collected') }}
               <span class="tab-counter" v-if="totalCollected">{{
@@ -152,6 +159,16 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
+        <b-tab-item value="holdings">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              append-to-body>
+              {{ $t('profile.holdings') }}
+            </b-tooltip>
+          </template>
+          <Holding :account-id="id" />
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
@@ -165,12 +182,13 @@ import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import collectionList from '@/queries/collectionListByAccount.graphql'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
+import { Debounce } from 'vue-debounce-decorator'
 
 const components = {
   GalleryCardList: () =>
@@ -184,6 +202,7 @@ const components = {
   Avatar: () => import('@/components/shared/Avatar.vue'),
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
 }
 
 @Component<Profile>({
@@ -216,6 +235,7 @@ export default class Profile extends mixins(PrefixMixin) {
   // protected property: {[key: string]: any} = {};
   protected email = ''
   protected twitter = ''
+  protected displayName = ''
   protected web = ''
   protected legal = ''
   protected riot = ''
@@ -284,6 +304,10 @@ export default class Profile extends mixins(PrefixMixin) {
     return `${window.location.origin}${this.$route.path}/${this.activeTab}`
   }
 
+  get labelDisplayName(): string {
+    return this.displayName ?? this.shortendId
+  }
+
   get iframeSettings(): { width: string; height: string; customUrl: string } {
     return { width: '100%', height: '100vh', customUrl: this.customUrl }
   }
@@ -305,22 +329,7 @@ export default class Profile extends mixins(PrefixMixin) {
     this.checkId()
 
     try {
-      this.$apollo.addSmartQuery('collections', {
-        query: collectionList,
-        client: this.urlPrefix,
-        manual: true,
-        // update: ({ nFTEntities }) => nFTEntities.nodes,
-        loadingKey: 'isLoading',
-        result: this.handleCollectionResult,
-        variables: () => {
-          return {
-            account: this.id,
-            first: this.first,
-            offset: this.collectionOffset,
-          }
-        },
-        fetchPolicy: 'cache-and-network',
-      })
+      this.fetchCollectionList()
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
@@ -339,12 +348,29 @@ export default class Profile extends mixins(PrefixMixin) {
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
-      // console.log(packs)
+      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
     // this.isLoading = false;
+  }
+
+  @Debounce(100)
+  private async fetchCollectionList() {
+    if (!this.id) {
+      this.checkId()
+    }
+    const result = await this.$apollo.query({
+      query: collectionListByAccount,
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      variables: {
+        account: this.id,
+        offset: this.collectionOffset,
+        first: this.first,
+      },
+    })
+    this.handleCollectionResult(result)
   }
 
   protected async handleResult({ data }: any) {
@@ -362,18 +388,19 @@ export default class Profile extends mixins(PrefixMixin) {
 
   protected async handleCollectionResult({ data }: any) {
     if (data) {
-      this.totalCollections = data.collectionEntities.totalCount
-      this.collections = data.collectionEntities.nodes
+      this.totalCollections = data.stats.totalCount
+      this.collections = data.collectionEntities
     }
     // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0) {
+    if (this.totalCollections === 0 && this.activeTab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
-        .catch(console.warn /*Navigation Duplicate err fix later */)
+        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
+    this.displayName = identityFields?.display as string
     this.email = identityFields?.email as string
     this.twitter = identityFields?.twitter as string
     this.riot = identityFields?.riot as string
@@ -385,6 +412,12 @@ export default class Profile extends mixins(PrefixMixin) {
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.fetchProfile()
+    }
+  }
+  @Watch('currentCollectionPage', { immediate: true })
+  private handleCurrentPageChange(page: number) {
+    if (page) {
+      this.fetchCollectionList()
     }
   }
 }
@@ -405,9 +438,5 @@ export default class Profile extends mixins(PrefixMixin) {
 .title {
   flex-grow: 0;
   flex-basis: auto;
-}
-
-.network-button {
-  width: 40px;
 }
 </style>

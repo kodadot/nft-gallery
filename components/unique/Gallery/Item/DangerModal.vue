@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import { showNotification } from '~/utils/notification'
@@ -82,7 +82,7 @@ export default class DangerModal extends mixins(MetaTransactionMixin) {
   @Watch('attributes', { deep: true })
   protected onAttributesChange(val: Attribute[], oldVal: Attribute[]) {
     if (val.length !== oldVal.length) {
-      console.log('attributes changed', val)
+      this.$consola.log('attributes changed', val)
     }
   }
 }

@@ -29,7 +29,6 @@ import EmotionList from './EmotionList.vue'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import { VEmojiPicker } from 'v-emoji-picker'
 import emojiUnicode from 'emoji-unicode'
-import NFTUtils from '../service/NftUtils'
 import { Emoji, IEmoji } from 'v-emoji-picker/lib/models/Emoji'
 import { Emote } from '../service/scheme'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
@@ -77,9 +76,9 @@ export default class Appreciation extends mixins(
     }
   }
 
-  private mapToEmoji(key: string) {
+  private mapToEmoji(parsed: string) {
     const emoji: Emoji = {
-      data: String.fromCodePoint(parseInt(key, 16)),
+      data: parsed,
       category: '',
       aliases: [],
     }
@@ -108,7 +107,7 @@ export default class Appreciation extends mixins(
       })
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
     }
   }
 }
@@ -144,7 +143,7 @@ export default class Appreciation extends mixins(
 .nft-appreciation__button {
   border-radius: 0;
   border: 0;
-  border-top: 2px solid $primary !important;
+  border-top: $sleek-primary-border !important;
   color: $primary;
   margin-right: 15px;
 }

@@ -179,7 +179,7 @@ export default class CreateToken extends mixins(
           })
           update(this.collections[i].metadata, () => meta)
         } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+          this.$consola.warn('[ERR] unable to get metadata')
         }
       } else {
         Vue.set(this.collections, i, {
@@ -214,7 +214,7 @@ export default class CreateToken extends mixins(
     this.isLoading = true
     this.status = 'loader.ipfs'
     const { api } = Connector.getInstance()
-    const { edition, selectedCollection } = this.base
+    const { selectedCollection } = this.base
     const {
       alreadyMinted,
       id: collectionId,

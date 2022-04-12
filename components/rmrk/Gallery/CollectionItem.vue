@@ -25,6 +25,10 @@
           </div>
           <div v-if="issuer" class="subtitle is-size-6">
             <ProfileLink :address="issuer" inline showTwitter showDiscord />
+            <p v-if="showMintTime" class="is-flex is-align-items-center py-3">
+              <b-icon icon="clock" size="is-medium" />
+              <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -56,9 +60,14 @@
     <b-tabs
       position="is-centered"
       v-model="activeTab"
+      ref="tabsContainer"
+      :style="{ minHeight: '800px' }"
       class="tabs-container-mobile">
-      <b-tab-item label="Collection" value="collection">
-        <Search v-bind.sync="searchQuery" :disableToggle="!totalListed">
+      <b-tab-item label="Items" value="items">
+        <Search
+          v-bind.sync="searchQuery"
+          :disableToggle="!totalListed"
+          :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
           <b-field>
             <Pagination
@@ -68,6 +77,7 @@
               preserveScroll
               :total="total"
               v-model="currentValue"
+              v-if="activeTab === 'items'"
               :per-page="first" />
           </b-field>
         </Search>
@@ -80,13 +90,36 @@
         <Pagination
           class="py-5"
           replace
+          v-if="activeTab === 'items'"
           preserveScroll
           :total="total"
           v-model="currentValue"
           :per-page="first" />
       </b-tab-item>
-      <b-tab-item label="Activity" value="activity">
+      <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
+      </b-tab-item>
+      <b-tab-item label="History" value="history">
+        <History
+          v-if="!isLoading && activeTab === 'history'"
+          :events="eventsOfNftCollection"
+          :openOnDefault="isHistoryOpen"
+          hideCollapse
+          @setPriceChartData="setPriceChartData" />
+      </b-tab-item>
+      <b-tab-item label="Holders" value="holders">
+        <CommonHolderTable
+          v-if="!isLoading && activeTab === 'holders'"
+          :events="ownerEventsOfNftCollection"
+          :openOnDefault="isHolderOpen"
+          hideCollapse />
+      </b-tab-item>
+      <b-tab-item label="Flippers" value="flippers">
+        <Flipper
+          v-if="!isLoading && activeTab === 'flippers'"
+          :events="ownerEventsOfNftCollection"
+          openOnDefault
+          hideCollapse />
       </b-tab-item>
     </b-tabs>
   </section>
@@ -94,24 +127,16 @@
 
 <script lang="ts">
 import { emptyObject } from '@/utils/empty'
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
 import {
   sanitizeIpfsUrl,
   fetchCollectionMetadata,
-  sortByTimeStamp,
-  onlyEvents,
   onlyPriceEvents,
-  eventTimestamp,
-  soldNFTPrice,
-  collectionFloorPriceList,
-  PriceDataType,
-  onlyBuyEvents,
 } from '../utils'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import collectionById from '@/queries/collectionById.graphql'
-import collectionNftEventListById from '@/queries/collectionNftEventListById.graphql'
 import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
 import { CollectionMetadata } from '../types'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -121,8 +146,14 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import { sortedEventByDate } from '~/utils/sorting'
+
+const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
 const components = {
   GalleryCardList: () =>
@@ -140,11 +171,20 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
+  History: () => import('@/components/rmrk/Gallery/History.vue'),
+  CommonHolderTable: () =>
+    import('@/components/rmrk/Gallery/Holder/Holder.vue'),
+  Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
 }
 @Component<CollectionItem>({
   components,
 })
-export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
+export default class CollectionItem extends mixins(
+  ChainMixin,
+  PrefixMixin,
+  CreatedAtMixin
+) {
+  @Ref('tabsContainer') readonly tabsContainer
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
@@ -154,15 +194,30 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-  public activeTab = 'collection'
-  private currentValue = 1
+  public activeTab = 'items'
+  private currentValue = parseInt(this.$route.query?.page as string) || 1
   private first = 16
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
-  private statsLoaded = false
   private queryLoading = 0
+  public eventsOfNftCollection: Interaction[] | [] = []
+  public ownerEventsOfNftCollection: Interaction[] | [] = []
+  public selectedEvent = 'all'
+  public priceChartData: [Date, number][][] = []
+  private openHistory = true
+  private openHolder = true
+
+  collectionProfileSortOption: string[] = [
+    'BLOCK_NUMBER_DESC',
+    'BLOCK_NUMBER_ASC',
+    'UPDATED_AT_DESC',
+    'UPDATED_AT_ASC',
+    'PRICE_DESC',
+    'PRICE_ASC',
+    'SN_ASC',
+  ]
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
@@ -188,6 +243,14 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     return this.collection.name || this.id
   }
 
+  get isHistoryOpen(): boolean {
+    return this.openHistory
+  }
+
+  get isHolderOpen(): boolean {
+    return this.openHolder
+  }
+
   get nfts(): NFT[] {
     return this.collection.nfts || []
   }
@@ -202,6 +265,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
   get compactCollection(): boolean {
     return this.$store.getters['preferences/getCompactCollection']
+  }
+
+  get showMintTime(): boolean {
+    return this.$store.state.preferences.showMintTimeCollection
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
@@ -263,6 +330,9 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       },
     })
   }
+  public setPriceChartData(data: [Date, number][][]) {
+    this.priceChartData = data
+  }
 
   protected async loadStats(): Promise<void> {
     const { data } = await this.$apollo.query<{
@@ -279,12 +349,42 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     if (!data) {
       return
     }
-    // console.log(data.collection.nfts.nodes)
+    // this.$consola.log(data.collection.nfts.nodes)
 
     // const events: Interaction[][] =
     //   data.collection.nfts.nodes.map((nft) => nft.events) || []
 
     this.loadPriceData(data)
+    this.checkTabLocate()
+  }
+
+  // Get collection query with NFT Events on it
+  protected async fetchCollectionEvents() {
+    try {
+      const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+        query: allCollectionSaleEvents,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          and: {
+            // interaction_eq: 'BUY',
+          },
+        },
+      })
+      if (data && data.events && data.events.length) {
+        let events: Interaction[] = data.events
+        // TODO : default value of HISTORY for BUY
+        // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
+        this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        // copy array and reverse
+        this.ownerEventsOfNftCollection = [
+          ...this.eventsOfNftCollection,
+        ].reverse()
+        this.checkTabLocate()
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
   }
 
   public loadPriceData({
@@ -317,9 +417,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
       this.$router.push({ name: 'errorcollection' })
       return
     }
+    this.firstMintDate = collectionEntity.createdAt
     await getCloudflareImageLinks(
       collectionEntity.nfts.nodes.map(mapOnlyMetadata)
-    ).catch(console.warn)
+    ).catch(this.$consola.warn)
     this.collection = {
       ...collectionEntity,
       nfts: collectionEntity.nfts.nodes,
@@ -340,7 +441,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
         name: this.name,
         image: this.image,
         description: this.description,
-        numberOfItems: this.collection?.nfts?.length || 0,
+        numberOfItems: this.total || 0,
       })
     }
   }
@@ -357,6 +458,18 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     })
   }
 
+  checkTabLocate() {
+    exist(this.$route.query.locate, (val) => {
+      if (val !== 'true') {
+        return
+      }
+      this.tabsContainer.$el.scrollIntoView()
+      this.$router.replace({
+        query: { ...this.$route.query, ['locate']: 'false' },
+      })
+    })
+  }
+
   @Watch('activeTab')
   protected onTabChange(val: string, oldVal: string): void {
     let queryTab = this.$route.query.tab
@@ -369,8 +482,10 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
     }
 
     // Load chart data once when clicked on activity tab for the first time.
-    if (val === 'activity') {
+    if (val === 'chart') {
       this.loadStats()
+    } else if (tabsWithCollectionEvents.includes(val)) {
+      this.fetchCollectionEvents()
     }
   }
 
@@ -386,6 +501,7 @@ export default class CollectionItem extends mixins(ChainMixin, PrefixMixin) {
 
 <style lang="scss">
 .collection__image img {
+  border-radius: 0px;
   color: transparent;
 }
 </style>

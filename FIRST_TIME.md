@@ -1,4 +1,4 @@
-We are using a `yarn` workspace, as installing things via npm **will result in broken dependencies.**
+We are using a `pnpm` workspace, as installing things via npm **will result in broken dependencies.**
 
 > If you want to know how KodaDot works, go to the [DOCS](https://docs.kodadot.xyz/).
 
@@ -8,7 +8,7 @@ We are using a `yarn` workspace, as installing things via npm **will result in b
 
 ```MD
 node >=16.14.0
-yarn 🧶
+pnpm
 ```
 
 Copy and paste these commands to your terminal:
@@ -16,7 +16,7 @@ Copy and paste these commands to your terminal:
 ```bash
 git clone https://github.com/kodadot/nft-gallery.git nft-gallery
 cd nft-gallery;
-yarn;
+pnpm i;
 ```
 
 It will clone your project and install all dependencies.
@@ -24,7 +24,7 @@ It will clone your project and install all dependencies.
 to start the server, run:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 **KodaDot will be available at [localhost:9090](http://localhost:9090).**
@@ -102,16 +102,16 @@ KodaDot supports Hot Module Replacement on docker; any changes made will take ef
 
 ## Dev hacks (FAQ) 🦇
 
-**0. How can I resolve conflict on yarn.lock?**
+**0. How can I resolve conflict on pnpm-lock.yaml?**
 
-> CONFLICT (content): Merge conflict in yarn.lock
+> CONFLICT (content): Merge conflict in pnpm-lock.yaml
 
-When you see conflict on `yarn.lock` and you are on your pull-request branch, merge upstream branch and run `yarn`, unless you have conflict on `package.json`, that requires manual resolve.
+When you see conflict on `pnpm-lock.yaml` and you are on your pull-request branch, merge upstream branch and run `pnpm install`, unless you have conflict on `package.json`, that requires manual resolve.
 
 ```bash
 git fetch --all
 git merge origin/main
-yarn
+pnpm install
 ```
 
 **1. How can I read some data from the GraphQL?**
@@ -137,14 +137,14 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
+  import { Component, mixins } from 'nuxt-property-decorator'
 
-  import nftByIdMinimal from "@/queries/nftByIdMinimal.graphql"
-  import PrefixMixin from "~/utils/mixins/prefixMixin"
+  import nftByIdMinimal from '@/queries/nftByIdMinimal.graphql'
+  import PrefixMixin from '~/utils/mixins/prefixMixin'
 
   @Component({})
   export default class GalleryItem extends mixins(PrefixMixin) {
-    id: string = ""
+    id: string = ''
     nft: NFT = emptyObject<NFT>()
 
     async fetch() {
@@ -155,7 +155,7 @@ Then we can use it like this:
       })
 
       this.nft = data.nFTEntity
-      console.log("nft", this.nft)
+      console.log('nft', this.nft)
     }
   }
 </script>
@@ -165,18 +165,18 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, Vue } from "nuxt-property-decorator"
-  import Connector from "@kodadot1/sub-api"
+  import { Component, Vue } from 'nuxt-property-decorator'
+  import Connector from '@kodadot1/sub-api'
 
   @Component({})
   export default class GalleryItem extends Vue {
-    id = "0"
-    collectionId = "0"
+    id = '0'
+    collectionId = '0'
 
     async fetch() {
       const { api } = Connector.getInstance()
       const nft = await api.query.uniques.asset(this.collectionId, this.id)
-      console.log("nft", nft)
+      console.log('nft', nft)
     }
   }
 </script>
@@ -186,13 +186,13 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
-  import SubscribeMixin from "@/utils/mixins/subscribeMixin"
+  import { Component, mixins } from 'nuxt-property-decorator'
+  import SubscribeMixin from '@/utils/mixins/subscribeMixin'
 
   @Component({})
   export default class GalleryItem extends mixins(SubscribeMixin) {
-    id = "0"
-    collectionId = "0"
+    id = '0'
+    collectionId = '0'
 
     async created() {
       this.subscribe(
@@ -206,19 +206,20 @@ Then we can use it like this:
 ```
 
 **4. How can I make an on-chain transaction?**
+
 ```html
 <script lang="ts">
-  import { Component, mixins } from "nuxt-property-decorator"
-  import MetaTransactionMixin from "@/utils/mixins/metaMixin"
+  import { Component, mixins } from 'nuxt-property-decorator'
+  import MetaTransactionMixin from '@/utils/mixins/metaMixin'
   // import AuthMixin from '~/utils/mixins/authMixin' // get currently logged in account
 
-  import Connector from "@kodadot1/sub-api"
+  import Connector from '@kodadot1/sub-api'
 
   @Component({})
   export default class GalleryItem extends mixins(MetaTransactionMixin) {
     async submit() {
       const cb = api.tx.system.remark
-      const args = "Hello World"
+      const args = 'Hello World'
 
       await this.howAboutToExecute(
         this.accountId, // sender can be obtained from the AuthMixin
@@ -260,19 +261,19 @@ Current Indexers we have/use:
 **Show all problems**
 
 ```bash
-yarn lint
+pnpm lint
 ```
 
 **Show only errors**
 
 ```bash
-yarn lint --quiet
+pnpm lint --quiet
 ```
 
 **Fix errors**
 
 ```bash
-yarn lint --fix
+pnpm lint --fix
 ```
 
 #### Generating changelog

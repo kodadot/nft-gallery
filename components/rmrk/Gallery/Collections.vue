@@ -60,7 +60,7 @@ import { getMany, update } from 'idb-keyval'
 import 'lazysizes'
 import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { Collection, CollectionWithMeta, Metadata } from '../service/scheme'
+import { Collection, CollectionWithMeta } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
 
 const components = {
@@ -127,7 +127,7 @@ export default class Collections extends mixins(PrefixMixin) {
       ({ metadata }: MetaFragment) =>
         metadata || '0x0000000000000000000000000000000000000000'
     )
-    console.log(metaList)
+    this.$consola.log(metaList)
 
     const storedMetadata = await getMany(metaList).catch(() => metaList)
 
@@ -144,7 +144,7 @@ export default class Collections extends mixins(PrefixMixin) {
             update(this.collections[i].metadata, () => meta)
           }
         } catch (e) {
-          console.warn('[ERR] unable to get metadata')
+          this.$consola.warn('[ERR] unable to get metadata')
         }
       } else {
         Vue.set(this.collections, i, {
@@ -190,12 +190,12 @@ export default class Collections extends mixins(PrefixMixin) {
             const meta = await fetchCollectionMetadata(collectionList[i])
             update(collectionList[i].metadata, () => meta)
           } catch (e) {
-            console.warn('[ERR] unable to get metadata')
+            this.$consola.warn('[ERR] unable to get metadata')
           }
         }
       })
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
@@ -226,7 +226,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   .card-image img {
-    border-radius: 8px;
+    border-radius: 0px;
     top: 50%;
     transition: all 0.3s;
     display: block;
@@ -263,10 +263,9 @@ export default class Collections extends mixins(PrefixMixin) {
     padding-top: 10px;
 
     .card {
-      border-radius: 8px;
+      border-radius: 0px;
       position: relative;
       overflow: hidden;
-      border: 2px solid $primary-light;
 
       &-image {
         &__emotes {
@@ -339,9 +338,10 @@ export default class Collections extends mixins(PrefixMixin) {
           bottom: 0;
           opacity: 1;
           z-index: 2;
-          background: #000;
           padding-left: 1rem;
           padding-right: 1rem;
+          background: $frosted-glass-background;
+          backdrop-filter: $frosted-glass-backdrop-filter;
         }
 
         &:hover .collection__image-wrapper img {

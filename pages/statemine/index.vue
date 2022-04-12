@@ -19,7 +19,7 @@ export default class LandingPage extends Vue {
     // If the user is not authenticated
     const prefix = store.getters.currentUrlPrefix
     if (prefix !== 'statemine') {
-      console.log('Not statemine')
+      this.$consola.log('Not statemine')
       store.dispatch('setUrlPrefix', 'statemine')
     }
   }

@@ -1,6 +1,7 @@
 <template>
   <footer class="footer">
-    <CookieBanner />
+    <LazyCookieBanner />
+    <LazyModalsKeyboardShortcutsModal />
     <div class="container footer__wrapper">
       <div class="icons">
         <ul class="footer__list icons__list">
@@ -8,7 +9,8 @@
             <a
               href="https://medium.com/kodadot"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              aria-label="Medium">
               <b-icon pack="fab" icon="medium" size="is-medium" />
             </a>
           </li>
@@ -16,7 +18,8 @@
             <a
               href="https://discord.gg/u6ymnbz4PR"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              aria-label="Discord">
               <b-icon pack="fab" icon="discord" size="is-medium" />
             </a>
           </li>
@@ -24,7 +27,8 @@
             <a
               href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              aria-label="Youtube">
               <b-icon pack="fab" icon="youtube" size="is-medium" />
             </a>
           </li>
@@ -32,7 +36,8 @@
             <a
               href="https://twitter.com/KodaDot"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              aria-label="Twitter">
               <b-icon pack="fab" icon="twitter" size="is-medium" />
             </a>
           </li>
@@ -65,9 +70,7 @@ interface Menu {
   url: string
   external?: boolean
 }
-@Component({
-  components: {},
-})
+@Component({})
 export default class Footer extends Vue {
   public menu: Menu[] = [
     {
@@ -100,6 +103,10 @@ export default class Footer extends Vue {
     {
       name: this.$t('Jobs'),
       url: '/jobs',
+    },
+    {
+      name: this.$t('Contribute'),
+      url: '/contribute',
     },
   ]
 }
