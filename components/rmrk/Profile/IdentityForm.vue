@@ -11,6 +11,8 @@
         </b-tooltip>
       </p>
 
+      {{ myId }}
+
       <p class="subtitle is-size-6" v-if="accountId">
         <Auth />
         <span>{{ $t('general.balance') }}: </span>
@@ -82,6 +84,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import Connector from '@kodadot1/sub-api'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
+import IdentityMixin from '@/utils/mixins/identityMixin'
 import { update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 
@@ -96,7 +99,8 @@ import { identityStore } from '@/utils/idbStore'
 })
 export default class IdentityForm extends mixins(
   MetaTransactionMixin,
-  AuthMixin
+  AuthMixin,
+  IdentityMixin
 ) {
   private identity: Record<string, string> = {
     display: '',
@@ -109,11 +113,18 @@ export default class IdentityForm extends mixins(
   }
   private deposit = '0'
 
-  public created(): void {
+  public async created(): Promise<void> {
     setTimeout(() => {
       const { api } = Connector.getInstance()
       this.deposit = api.consts.identity?.basicDeposit?.toString()
     }, 3000)
+
+    console.log(this.accountId)
+
+    const tde = await this.$store.getters.getIdentityFor(this.accountId)
+    const ide = await this.$store.dispatch('fetchIdentity', this.accountId)
+    console.log(tde)
+    console.log(ide)
   }
 
   public enhanceIdentityData(): Record<string, any> {
@@ -146,6 +157,11 @@ export default class IdentityForm extends mixins(
 
   get balance(): string {
     return this.$store.getters.getAuthBalance
+  }
+
+  get myId(): any {
+    const identity = this.$store.getters.getIdentityFor(this.accountId)
+    return identity.info
   }
 
   get disabled(): boolean {
