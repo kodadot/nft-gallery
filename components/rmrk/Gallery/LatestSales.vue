@@ -25,7 +25,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
-import { fallbackMetaByNftEvent } from '@/components/rmrk/utils'
+import { fallbackMetaByNftEvent } from '@/utils/cachingStrategy'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
