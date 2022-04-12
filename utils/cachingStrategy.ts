@@ -85,15 +85,3 @@ export const getProperImageLink =
   (metadata: string, image: string): string => {
     return imageLinks[fastExtract(metadata)] || getSanitizer(image)(image)
   }
-
-export const fallbackMetaByNftEvent = async (events: any[]) => {
-  for (const event of events) {
-    if (!event.nft.meta) {
-      event.nft.meta = {
-        id: event.nft.metadata,
-        image: '',
-      }
-      await processSingleMetadata(event.nft.metadata)
-    }
-  }
-}

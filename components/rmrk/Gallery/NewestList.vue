@@ -32,7 +32,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { fallbackMetaByNftEvent } from '@/utils/cachingStrategy'
+import { fallbackMetaByNftEvent } from '@/utils/carousel'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
