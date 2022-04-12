@@ -137,8 +137,8 @@
     "raw-loader": "^4.0.2",
     "sass": "^1.49.9",
     "sass-loader": "^10.2",
-    "vitest": "^0.7.11",
     "typescript": "^4.6.3",
+    "vitest": "^0.7.13",
     "vue-debounce-decorator": "^1.0.1"
   }
 }
