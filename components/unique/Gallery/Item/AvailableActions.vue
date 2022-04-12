@@ -133,7 +133,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 
   get isOwner() {
-    console.log(
+    this.$consola.log(
       '{ currentOwnerId, accountId }',
       this.currentOwnerId,
       this.accountId
@@ -161,7 +161,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 
   protected updateMeta(value: string | number) {
-    console.log(typeof value, value)
+    this.$consola.log(typeof value, value)
     this.meta = value
   }
 
@@ -200,7 +200,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
       const action = NFTUtils.apiCall(this.selectedAction)
 
       if (!action || !this.collectionId) {
-        console.log('EvalError', action, this.collectionId)
+        this.$consola.log('EvalError', action, this.collectionId)
         throw new EvalError('Action or Collection not found')
       }
 
@@ -271,7 +271,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
       )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
       this.isLoading = false
     }
   }
@@ -304,7 +304,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
         try {
           await unpin(hash)
         } catch (e) {
-          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+          this.$consola.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
         }
       }
     })

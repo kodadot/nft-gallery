@@ -208,7 +208,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
       processMetadata<NFTMetadata>(metadataList)
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)

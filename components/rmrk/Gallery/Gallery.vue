@@ -262,7 +262,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
       logError(e, (msg) =>
-        console.warn('[PREFETCH] Unable fo fetch', offset, msg)
+        this.$consola.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
     } finally {
       if (offset <= prefetchLimit) {

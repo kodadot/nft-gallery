@@ -18,7 +18,7 @@ export default class LandingPage extends Vue {
   middleware({ store, route }) {
     const prefix = store.getters.currentUrlPrefix
     if (prefix !== route.name) {
-      console.log('[EXPECT]', route.name, 'got', prefix)
+      this.$consola.log('[EXPECT]', route.name, 'got', prefix)
       store.dispatch('setUrlPrefix', route.name)
     }
   }

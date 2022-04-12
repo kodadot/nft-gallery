@@ -377,7 +377,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
           sort: (order === 'desc' ? '-' : '+') + field,
         },
       })
-      .catch((e) => console.warn(e))
+      .catch((e) => this.$consola.warn(e))
     this.fetchCollectionsSeries(Number(this.nbRows), toSort(sort))
   }
 
@@ -388,7 +388,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, rows: value },
       })
-      .catch((e) => console.warn(e))
+      .catch((e) => this.$consola.warn(e))
     this.fetchCollectionsSeries(Number(value))
   }
 
@@ -399,7 +399,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         path: String(this.$route.path),
         query: { ...this.$route.query, period: value },
       })
-      .catch((e) => console.warn(e))
+      .catch((e) => this.$consola.warn(e))
   }
 
   public displayVolumePercent(

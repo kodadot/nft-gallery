@@ -3,6 +3,7 @@ import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
 import Connector from '@kodadot1/sub-api'
 import { Attribute } from '@kodadot1/minimark'
+import consola from 'consola'
 type Range = [number, number]
 
 export function nsfwAttribute(nsfw: boolean): Attribute[] {
@@ -67,7 +68,7 @@ function toMassMint(mints: string[][]) {
   const massMintNFTs: Record<string, MassMintNFT> = {}
   for (const mint of mints) {
     if (mint.length < 4) {
-      console.error(`Invalid mint: ${mint.length}`)
+      consola.error(`Invalid mint: ${mint.length}`)
       continue
     }
 
