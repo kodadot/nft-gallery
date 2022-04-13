@@ -1,11 +1,15 @@
 <template>
   <div>
-    <b-tabs v-model="selectedTab" size="is-small">
-      <b-tab-item label="GALLERY" value="GALLERY"><Gallery /></b-tab-item>
-      <b-tab-item label="COLLECTION" value="COLLECTION">
+    <div v-if="$route.query.search" class="block">
+      Showing results for
+      <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
+    </div>
+    <b-tabs v-model="selectedTab">
+      <b-tab-item label="Collections" value="COLLECTION">
         <CollectionList v-if="type === 'rmrk'" />
         <Collections v-if="type !== 'rmrk'" />
       </b-tab-item>
+      <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -29,7 +33,7 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
     return this.urlPrefix
   }
   get selectedTab(): string {
-    return (this.$route.query.tab as string) || 'GALLERY'
+    return (this.$route.query.tab as string) || 'COLLECTION'
   }
 
   set selectedTab(val) {
@@ -47,5 +51,3 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
   }
 }
 </script>
-
-<style scoped></style>

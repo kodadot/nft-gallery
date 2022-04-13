@@ -6,25 +6,31 @@
         :value="sortBy"
         @input="updateSortBy"
         :sortOption="sortOption" />
-      <b-field expanded class="control">
-        <b-input
-          placeholder="Search..."
-          type="search"
-          v-model="searchQuery"
-          icon="search"
-          expanded
-          class="input-search">
-        </b-input>
-      </b-field>
-      <BasicSwitch
-        class="is-flex control mb-5"
-        v-model="vListed"
-        :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
-        size="is-medium"
-        labelColor="is-success"
-        :disabled="disableToggle"
-        :message="$t('tooltip.buy')" />
-      <slot />
+      <div
+        class="is-flex layout-search"
+        :class="{
+          'is-flex-grow-1 ': !hideSearch,
+        }">
+        <b-field expanded class="control" v-if="!hideSearch">
+          <b-input
+            placeholder="Search..."
+            type="search"
+            v-model="searchQuery"
+            icon="search"
+            expanded
+            class="input-search">
+          </b-input>
+        </b-field>
+        <BasicSwitch
+          class="is-flex control mb-5"
+          v-model="vListed"
+          :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
+          size="is-medium"
+          labelColor="is-success"
+          :disabled="disableToggle"
+          :message="$t('tooltip.buy')" />
+        <slot />
+      </div>
     </b-field>
   </div>
 </template>
@@ -50,6 +56,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
   @Prop(Boolean) public disableToggle!: boolean
+  @Prop(Boolean) public hideSearch!: boolean
   @Prop(Array) public sortOption?: string[]
   protected isVisible = false
 
@@ -139,7 +146,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Emit('update:search')
   @Debounce(400)
   updateSearch(value: string): string {
-    shouldUpdate(value, this.searchQuery) && this.replaceUrl(value)
+    value !== this.searchQuery && this.replaceUrl(value)
     return value
   }
 
@@ -183,6 +190,13 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
 .field-group-container {
   .is-grouped-multiline {
     flex-wrap: initial !important;
+    justify-content: space-between;
+    .layout-search {
+      @media screen and (max-width: 768px) {
+        flex-wrap: wrap !important;
+        gap: 10px;
+      }
+    }
     @media screen and (max-width: 768px) {
       flex-wrap: wrap !important;
     }
