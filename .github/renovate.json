@@ -4,37 +4,12 @@
   "automerge": true,
   "automergeType": "pr-comment",
   "automergeComment": "lgtm",
-  "rangeStrategy": "bump",
-  "extends": [
-    "github>whitesource/merge-confidence:beta",
-    "config:base",
-    ":dependencyDashboard"
-  ],
+  "extends": ["config:base", ":dependencyDashboard"],
   "prHourlyLimit": 5,
-  "schedule": [
-    "after 10pm every weekday",
-    "before 6am every weekday",
-    "every weekend"
-  ],
-  "enabledManagers": ["regex"],
-  "regexManagers": [
-    {
-      "fileMatch": ["(^|/)Dockerfile%"],
-      "matchStrings": ["ENV NODE_VERSION (?<currentValue>.*?)\n"],
-      "depNameTemplate": "node",
-      "datasourceTemplate": "node"
-    }
-  ],
+  "enabledManagers": ["npm"],
+  "rangeStrategy": "bump",
+  "separateMinorPatch": true,
   "packageRules": [
-    {
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
-      "updateTypes": ["minor", "patch", "pin"],
-      "groupName": "Bumped minor version of packages",
-      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺"
-    },
     {
       "matchSourceUrlPrefixes": [
         "https://github.com/polkadot-js/",
@@ -48,9 +23,14 @@
       "enabled": false
     },
     {
+      "groupName": "Bumped minor version of packages",
+      "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchDepTypes": ["dependencies", "devDependencies"]
+    },
+    {
       "matchUpdateTypes": ["major"],
-      "enabled": true,
-      "matchManagers": ["regex"]
+      "enabled": false
     }
   ]
 }

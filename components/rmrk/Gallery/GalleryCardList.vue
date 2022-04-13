@@ -4,7 +4,10 @@
       <Layout />
     </template>
     <div class="columns is-multiline">
-      <div :class="`column ${classLayout} column-padding`" v-for="nft in items" :key="nft.id">
+      <div
+        :class="`column ${classLayout} column-padding`"
+        v-for="nft in items"
+        :key="nft.id">
         <GalleryCard
           :id="nft.id"
           :name="nft.name"

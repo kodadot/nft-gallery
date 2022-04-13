@@ -1,5 +1,6 @@
 import { Interaction } from '@/components/rmrk/service/scheme'
 import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
+import consola from 'consola'
 
 export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   const res: Interaction[] = []
@@ -15,7 +16,7 @@ export function pairListBuyEvent(events: Interaction[]): Interaction[] {
     })
     return res
   } catch (error) {
-    console.error(error)
+    consola.error(error)
     return res
   }
 }

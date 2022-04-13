@@ -1,0 +1,19 @@
+query allNftSaleEventsByAccountId($id: String) {
+  nftEntities(where: { currentOwner_eq: $id, burned_eq: false }) {
+    id
+    name
+    collection {
+      id
+      name
+      issuer
+    }
+    events(orderBy: timestamp_DESC) {
+      meta
+      interaction
+      blockNumber
+      timestamp
+      caller
+      id
+    }
+  }
+}

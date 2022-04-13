@@ -44,9 +44,17 @@
               v-clipboard:copy="identity.address"
               @click.native="toast('Copied to clipboard')"></b-icon>
           </p>
-          <p class="is-size-7 is-flex is-align-items-center py-3">
+          <p
+            class="is-size-7 is-flex is-align-items-center py-3"
+            v-if="totalCreated">
             <b-icon icon="clock" size="is-small" />
             <span class="ml-2">Started minting {{ formattedTimeToNow }}</span>
+          </p>
+          <p
+            class="is-size-7 is-flex is-align-items-center py-3"
+            v-if="totalCollected && formattedLastBoughtToNow">
+            <b-icon icon="clock" size="is-small" />
+            <span class="ml-2">Last bought {{ formattedLastBoughtToNow }}</span>
           </p>
         </div>
       </div>
@@ -84,6 +92,7 @@ import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -150,7 +159,7 @@ export default class IdentityPopover extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
-      console.warn(e)
+      this.$consola.warn(e)
     }
   }
 
@@ -166,6 +175,7 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.totalCollected
       this.totalSold = data.totalSold
       this.firstMintDate = data.firstMintDate
+      this.lastBoughtDate = data.lastBoughtDate
     } else if (data) {
       this.totalCreated = data.nFTCreated.totalCount
       this.totalCollected = data.nFTCollected.totalCount
@@ -174,11 +184,15 @@ export default class IdentityPopover extends mixins(
       if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
+      if (data?.nFTCollected?.nodes.length > 0) {
+        this.lastBoughtDate = data.nFTCollected.nodes[0].collection.createdAt
+      }
       const cacheData = {
         totalCreated: this.totalCreated,
         totalCollected: this.totalCollected,
         totalSold: this.totalSold,
         firstMintDate: this.firstMintDate,
+        lastBoughtDate: this.lastBoughtDate,
         updatedAt: Date.now(),
       }
       await this.$store.dispatch('identityMint/setIdentity', {

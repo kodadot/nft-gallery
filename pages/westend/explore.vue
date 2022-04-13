@@ -1,16 +1,16 @@
 <template>
-  <CollectionList />
+  <ExploreLayout />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import CollectionList from '@/components/rmrk/Collection/List/CollectionList.vue'
+import ExploreLayout from '@/components/rmrk/ExploreLayout/ExploreLayout.vue'
 
 const components = {
-  CollectionList,
+  ExploreLayout,
 }
 
-@Component<CollectionListPage>({
+@Component<ExploreWestend>({
   components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -18,7 +18,7 @@ const components = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/collections',
+      url: '/westend/explore',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
@@ -27,5 +27,5 @@ const components = {
     }
   },
 })
-export default class CollectionListPage extends Vue {}
+export default class ExploreWestend extends Vue {}
 </script>

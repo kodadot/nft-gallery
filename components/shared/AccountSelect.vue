@@ -34,7 +34,7 @@ export default class AccountSelect extends mixins(WithKeyring) {
   }
 
   set account(accountValue: string) {
-    console.log('this._account', accountValue)
+    this.$consola.log('this._account', accountValue)
     if (this.asKeyring) {
       this.$emit('input', this.getPair(accountValue))
     } else {

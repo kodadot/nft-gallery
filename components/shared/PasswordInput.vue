@@ -26,7 +26,7 @@ export default class PasswordInput extends Vue {
   //       // TODO: missing isLocked from vue-keyring
   //       const acc = keyring.getAccount(this.account)
   //     } catch(err) {
-  //       console.warn('[Password] unable to get account', err)
+  //       this.$consola.warn('[Password] unable to get account', err)
   //     }
 
   //   }

@@ -416,6 +416,10 @@
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
     "UPDATED_AT_ASC": "Least Interacted",
+    "blockNumber_DESC": "New first",
+    "blockNumber_ASC": "Old first",
+    "updatedAt_DESC": "Last interacted",
+    "updatedAt_ASC": "Least Interacted",
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
@@ -486,7 +490,8 @@
     "collected": "Nfts collected by",
     "buy": "Show only nfts available for purchase",
     "random": "Go to random page",
-    "buyDisabled": "Not enough balance"
+    "buyDisabled": "Not enough balance",
+    "holdings": "Nfts owned by"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -550,6 +555,7 @@
     "created": "Created",
     "collected": "Collected",
     "sold": "Sold",
+    "holdings": "Holdings",
     "showQr": "Show QR"
   },
   "spotlight": {
@@ -576,6 +582,18 @@
     "floorprice": "Floor price",
     "owners": "Owners",
     "volume": "Volume"
+  },
+  "activity": {
+    "listed": "Listed",
+    "totalItems": "Total Items",
+    "todayTraded": "24H",
+    "totalTraded": "TOTAL VOLUME TRADED",
+    "highestTransactionPrice": "HIGHEST TRANSACTION PRICE",
+    "totalBuys": "TOTAL BUYS",
+    "unique": "UNIQUE",
+    "owners": "OWNERS",
+    "distribution": "DISTRIBUTION",
+    "floorPrice": "FLOOR PRICE"
   },
   "tutorial": {
     "create": "1. Create polkadot js account",

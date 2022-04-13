@@ -262,7 +262,7 @@ export default class Gallery extends mixins(PrefixMixin) {
       await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
       logError(e, (msg) =>
-        console.warn('[PREFETCH] Unable fo fetch', offset, msg)
+        this.$consola.warn('[PREFETCH] Unable fo fetch', offset, msg)
       )
     } finally {
       if (offset <= prefetchLimit) {
@@ -388,7 +388,6 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   .columns {
-    padding-top: 10px;
     .card {
       position: relative;
       overflow: hidden;
@@ -443,6 +442,7 @@ export default class Gallery extends mixins(PrefixMixin) {
           z-index: 2;
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
+          border-radius: 0;
         }
 
         &:hover .gallery__image-wrapper img {

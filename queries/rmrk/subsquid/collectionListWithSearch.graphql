@@ -1,0 +1,33 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+
+query collectionListWithSearch(
+  $first: Int!
+  $offset: Int
+  $search: [CollectionEntityWhereInput!]
+  $orderBy: CollectionEntityOrderByInput = blockNumber_DESC
+) {
+  collectionEntities(
+    orderBy: [$orderBy, blockNumber_DESC]
+    limit: $first
+    offset: $offset
+    where: { nfts_some: { burned_eq: false }, AND: $search }
+  ) {
+    ...collection
+    ...collectionDetails
+    nfts {
+      id
+      metadata
+      name
+      price
+      burned
+      currentOwner
+    }
+  }
+  stats: collectionEntitiesConnection(
+    where: { nfts_some: { burned_eq: false }, AND: $search }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}
