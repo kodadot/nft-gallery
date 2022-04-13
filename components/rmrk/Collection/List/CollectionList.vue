@@ -1,17 +1,22 @@
 <template>
   <div class="collections">
     <Loader :value="isLoading" />
-    <b-field>
-      <Pagination
-        hasMagicBtn
-        simple
-        replace
-        preserveScroll
-        :total="total"
-        v-model="currentValue"
-        :perPage="first" />
-    </b-field>
-
+    <Search
+      v-bind.sync="searchQuery"
+      @resetPage="currentValue = 1"
+      hideSearch
+      :sortOption="collectionSortOption">
+      <b-field>
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :perPage="first" />
+      </b-field>
+    </Search>
     <div>
       <div class="columns is-multiline">
         <div
