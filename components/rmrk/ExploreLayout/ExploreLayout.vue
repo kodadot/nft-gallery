@@ -54,8 +54,3 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
 }
 </script>
 
-<style scoped>
-.search-term {
-  font-size: 29px;
-}
-</style>
