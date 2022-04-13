@@ -2,9 +2,7 @@
   <div>
     <div v-if="$route.query.search" class="block">
       Showing results for
-      <span class="text__stroked is-size-3">{{
-        $route.query.search
-      }}</span>
+      <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab">
       <b-tab-item label="Collections" value="COLLECTION">
@@ -53,4 +51,3 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
   }
 }
 </script>
-
