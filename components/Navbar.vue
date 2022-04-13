@@ -398,7 +398,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: 100%;
 
     input {
-      background-color: rgba(41, 41, 47, 0.5);
+      background-color: rgba(41, 41, 47);
       padding: 0;
       z-index: 1;
       &:focus {
