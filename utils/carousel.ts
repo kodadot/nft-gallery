@@ -5,6 +5,7 @@ import {
 } from '~/utils/cachingStrategy'
 
 import { CarouselNFT } from '@/components/base/types'
+import { processSingleMetadata } from '~/utils/cachingStrategy'
 
 /**
  * Format the data to fit with CarouselNFT[]
@@ -26,4 +27,29 @@ export const formatNFT = async (data): Promise<CarouselNFT[]> => {
     }),
     image: imageOf(nft.meta.id, nft.meta.image),
   }))
+}
+
+interface Events {
+  nft: {
+    metadata: string
+    meta: {
+      id: string
+      image: string
+    }
+  }
+}
+
+/**
+ * Catch undefined meta
+ */
+export const fallbackMetaByNftEvent = async (events: Events[]) => {
+  for (const event of events) {
+    if (!event.nft.meta) {
+      event.nft.meta = {
+        id: event.nft.metadata,
+        image: '',
+      }
+      await processSingleMetadata(event.nft.metadata)
+    }
+  }
 }
