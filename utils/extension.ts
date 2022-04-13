@@ -1,5 +1,6 @@
 import { web3Enable } from '@polkadot/extension-dapp'
 import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
+import consola from 'consola'
 
 export const enableExtension = async () => await web3Enable('KodaDot')
 
@@ -33,7 +34,7 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
 
     return account
   } catch (error) {
-    console.error(error)
+    consola.error(error)
     return null
   }
 }

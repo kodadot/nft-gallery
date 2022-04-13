@@ -29,6 +29,7 @@
           <b-button
             :type="iconType('BUY')[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
+            style="border-width: 2px"
             outlined
             @click="handleAction('BUY')"
             expanded>
@@ -239,7 +240,7 @@ export default class AvailableActions extends mixins(
   }
 
   get isOwner() {
-    console.log(
+    this.$consola.log(
       '{ currentOwnerId, accountId }',
       this.currentOwnerId,
       this.accountId
@@ -312,7 +313,7 @@ export default class AvailableActions extends mixins(
   }
 
   protected updateMeta(value: string | number) {
-    console.log(typeof value, value)
+    this.$consola.log(typeof value, value)
     this.meta = value
   }
 
@@ -353,7 +354,7 @@ export default class AvailableActions extends mixins(
         throw new ReferenceError('No action selected')
       }
       showNotification(rmrk)
-      console.log('submit', rmrk)
+      this.$consola.log('submit', rmrk)
       const isBuy = this.isBuy
       const cb = isBuy ? api.tx.utility.batchAll : api.tx.system.remark
       const arg = isBuy
@@ -416,7 +417,7 @@ export default class AvailableActions extends mixins(
       )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
-      console.error(e)
+      this.$consola.error(e)
       this.isLoading = false
     }
   }
@@ -427,7 +428,7 @@ export default class AvailableActions extends mixins(
         try {
           await unpin(hash)
         } catch (e) {
-          console.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
+          this.$consola.warn(`[ACTIONS] Cannot Unpin ${hash} because: ${e}`)
         }
       }
     })
@@ -455,6 +456,9 @@ export default class AvailableActions extends mixins(
 }
 .actions-wrap {
   .buttons {
+    button {
+      border-width: 1px;
+    }
     .b-tooltip {
       width: 100%;
     }

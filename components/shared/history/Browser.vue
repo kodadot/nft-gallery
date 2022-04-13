@@ -48,13 +48,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import HistoryBrowserItem from '~/components/shared/history/HistoryBrowserItem.vue'
 import { HistoryItem } from '~/store/history'
 
 @Component({
-  components: {
-    HistoryBrowserItem,
-  },
   filters: {
     truncate: function truncateFct(value, limit) {
       if (value?.length > limit) {
@@ -64,7 +60,7 @@ import { HistoryItem } from '~/store/history'
     },
   },
 })
-export default class HistoryBrowser extends Vue {
+export default class Browser extends Vue {
   get hasHistory() {
     return this.history && this.history.length
   }

@@ -217,7 +217,7 @@ export default class CollectionList extends mixins(
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
       processMetadata<NFTMetadata>(metadataList)
     } catch (e: any) {
-      console.warn('[PREFETCH] Unable fo fetch', offset, e.message)
+      this.$consola.warn('[PREFETCH] Unable fo fetch', offset, e.message)
     } finally {
       if (offset <= prefetchLimit) {
         this.prefetchPage(offset + this.first, prefetchLimit)
@@ -379,6 +379,7 @@ export default class CollectionList extends mixins(
           background: $frosted-glass-background;
           backdrop-filter: $frosted-glass-backdrop-filter;
           bottom: 0;
+          border-radius: 0;
           opacity: 1;
           z-index: 2;
           padding-left: 1rem;

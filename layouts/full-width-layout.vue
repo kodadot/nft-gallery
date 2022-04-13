@@ -9,6 +9,6 @@
         errorSubtitle="Please check your network connections" />
       <Nuxt v-else />
     </main>
-    <Footer />
+    <LazyFooter />
   </div>
 </template>

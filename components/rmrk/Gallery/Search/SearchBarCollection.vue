@@ -154,7 +154,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
           [key]: value,
         },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>
