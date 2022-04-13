@@ -10,7 +10,7 @@ const components = {
   ExploreLayout,
 }
 
-@Component<ExplorePage>({
+@Component<ExploreWestmint>({
   components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -18,7 +18,7 @@ const components = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
-      url: '/rmrk/explore',
+      url: '/westmint/explore',
       image: `${this.$config.baseUrl}/k_card_collections.png`,
     }
     return {
@@ -27,5 +27,5 @@ const components = {
     }
   },
 })
-export default class ExplorePage extends Vue {}
+export default class ExploreWestmint extends Vue {}
 </script>

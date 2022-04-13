@@ -32,7 +32,7 @@
               <div class="card-content">
                 <nuxt-link :to="`/rmrk/collection/${collection.id}`">
                   <CollectionDetail
-                    :nfts="collection.nfts.nodes"
+                    :nfts="collection.nfts"
                     :name="collection.name" />
                 </nuxt-link>
                 <b-skeleton :active="isLoading"> </b-skeleton>
@@ -62,7 +62,7 @@ import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/rmrk/subsquid/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
@@ -106,17 +106,17 @@ export default class CollectionList extends mixins(
     {
       search: '',
       type: '',
-      sortBy: 'BLOCK_NUMBER_DESC',
+      sortBy: 'blockNumber_DESC',
       listed: false,
     },
     this.$route.query
   )
 
   private collectionSortOption: string[] = [
-    'BLOCK_NUMBER_DESC',
-    'BLOCK_NUMBER_ASC',
-    'UPDATED_AT_DESC',
-    'UPDATED_AT_ASC',
+    'blockNumber_DESC',
+    'blockNumber_ASC',
+    'updatedAt_DESC',
+    'updatedAt_ASC',
   ]
 
   @Debounce(500)
@@ -133,7 +133,7 @@ export default class CollectionList extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+        name_contains: this.searchQuery.search,
       })
     }
 
@@ -153,7 +153,7 @@ export default class CollectionList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
-      client: this.urlPrefix,
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
       variables: {
         orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
@@ -170,8 +170,9 @@ export default class CollectionList extends mixins(
   }
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
-    this.total = data.collectionEntities.totalCount
-    const newCollections = data.collectionEntities.nodes.map((e: any) => ({
+    console.log('jarsen handleResult', data)
+    this.total = data.stats.totalCount
+    const newCollections = data.collectionEntities.map((e: any) => ({
       ...e,
     }))
 
@@ -201,7 +202,7 @@ export default class CollectionList extends mixins(
     try {
       const collections = this.$apollo.query({
         query: collectionListWithSearch,
-        client: this.urlPrefix,
+        client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
         variables: {
           first: this.first,
           offset,
@@ -210,7 +211,7 @@ export default class CollectionList extends mixins(
 
       const {
         data: {
-          collectionEntities: { nodes: collectionList },
+          collectionEntities: { collectionList },
         },
       } = await collections
 
