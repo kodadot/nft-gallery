@@ -21,8 +21,8 @@ import isShareMode from '@/utils/isShareMode'
 
 @Component
 export default class LinkResolver extends mixins(InlineMixin) {
-  @Prop({ default: '/rmrk/explore?tab=GALLERY' }) public route!: string
-  @Prop({ default: 'rmrk/explore?tab=GALLERY' }) public link!: string
+  @Prop({ default: '/rmrk/gallery' }) public route!: string
+  @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop({ default: 'a' }) public tag!: string
   @Prop({}) public param!: string
 
