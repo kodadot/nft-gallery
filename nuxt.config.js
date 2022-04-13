@@ -262,6 +262,7 @@ export default defineNuxtConfig({
       legacysquid: toApolloEndpoint(
         'https://app.gc.subsquid.io/beta/rubick/004/graphql'
       ),
+      bsx: toApolloEndpoint('http://localhost:4350/graphql'),
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
