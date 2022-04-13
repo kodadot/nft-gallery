@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-2">
+  <div class="mb-3">
     <div class="row" v-if="!isVisible && !hideSearchInput">
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to

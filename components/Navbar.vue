@@ -363,6 +363,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .navbar-start {
     flex: 1;
+    margin-top: 24px;
   }
 
   .navbar-dropdown {

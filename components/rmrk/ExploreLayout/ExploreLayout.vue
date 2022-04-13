@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="$route.query.search" class="mb-3">
-      Showing results for {{ $route.query.search }}
+    <div v-if="$route.query.search" class="mb-3 is-flex is-align-items-center">
+      Showing results for
+      <span class="text__stroked search-term ml-3">{{
+        $route.query.search
+      }}</span>
     </div>
-    <b-tabs v-model="selectedTab" size="is-small">
+    <b-tabs v-model="selectedTab">
       <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
       <b-tab-item label="Collections" value="COLLECTION">
         <CollectionList v-if="type === 'rmrk'" />
@@ -51,4 +54,8 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.search-term {
+  font-size: 29px;
+}
+</style>
