@@ -163,7 +163,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
 
-const SearchPageRoutePathList = ['/collections', '/gallery']
+const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
@@ -403,6 +403,7 @@ export default class SearchBar extends mixins(
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
         name: 'rmrk-explore',
+        query: this.$route.query,
       })
     }
   }
