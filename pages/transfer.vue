@@ -175,16 +175,13 @@ export default class Transfer extends mixins(
   get isApiConnected() {
     return this.$store.getters.getApiConnected
   }
-  get isNetworkConnected() {
-    return this.$store.getters.getNetworkConnected
-  }
   get disabled(): boolean {
     return (
       !this.hasAddress ||
       !this.price ||
       !this.accountId ||
       !this.isApiConnected ||
-      !this.isNetworkConnected
+      this.$nuxt.isOffline
     )
   }
   get ss58Format(): number {
