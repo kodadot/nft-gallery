@@ -24,6 +24,10 @@ To qualify for part-time or full-time, we are looking on your
 With each closed issue we will pay for your time.
 Hence we value your time, most of your **completed a pull-requests, i.e. 10-20** are getting paid.
 
+### Which issue to pick?
+
+You can [check recent issues by labels p1 or p2](https://github.com/kodadot/nft-gallery/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3Ap1%2Cp2)
+
 #### Next stage
 Once you've crossed **10-20 merged pull requests**, which were successfully merged to the upstream `main` branch, you will be **eligible to join our closer team**.
 
