@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="$route.query.search" class="mb-3 is-flex is-align-items-center">
+    <div v-if="$route.query.search" class="block">
       Showing results for
-      <span class="text__stroked search-term ml-3">{{
+      <span class="text__stroked is-size-3">{{
         $route.query.search
       }}</span>
     </div>
