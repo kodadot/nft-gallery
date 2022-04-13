@@ -6,9 +6,9 @@ on:
     - cron: "50 11 * * 3"
 # one more commit and i'm going to shower
 #  we are using cron to not polute commits history
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 jobs:
   get_data:
     runs-on: ubuntu-latest
