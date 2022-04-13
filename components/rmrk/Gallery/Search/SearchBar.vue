@@ -384,7 +384,6 @@ export default class SearchBar extends mixins(
     //To handle clearing event
     this.keyDownNativeEnterFlag = false
     if (!value) return
-
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
@@ -403,7 +402,7 @@ export default class SearchBar extends mixins(
   redirectToGalleryPageIfNeed() {
     if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
-        name: 'rmrk-gallery',
+        name: 'rmrk-explore',
       })
     }
   }
@@ -487,7 +486,7 @@ export default class SearchBar extends mixins(
         })
       })
       .catch((e) => {
-        console.warn(
+        this.$consola.warn(
           '[PREFETCH] Unable fo fetch nft items',
           this.offset,
           e.message
@@ -532,7 +531,7 @@ export default class SearchBar extends mixins(
         })
       })
       .catch((e) => {
-        console.warn(
+        this.$consola.warn(
           '[PREFETCH] Unable fo fetch collection items',
           this.offset,
           e.message
@@ -553,7 +552,7 @@ export default class SearchBar extends mixins(
           [key2]: value2,
         },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     // if searchbar request or filter is set, pagination should always revert to page 1
     this.$emit('resetPage')
   }

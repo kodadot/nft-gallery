@@ -14,7 +14,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          to="/rmrk/gallery?search=&sort=UPDATED_AT_DESC">
+          to="/rmrk/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY">
           {{ $t('See More') }}
         </b-button>
       </div>
@@ -32,6 +32,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
+import { fallbackMetaByNftEvent } from '@/utils/carousel'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -67,7 +68,7 @@ export default class NewestList extends Vue {
           },
         })
         .catch((e) => {
-          console.error(e)
+          this.$consola.error(e)
           return { data: null }
         })
 
@@ -78,12 +79,13 @@ export default class NewestList extends Vue {
   }
 
   protected async handleResult({ data }: any) {
-    this.events = data.events
+    this.events = [...data.events]
+    await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
-      data.events.map(({ nft: { meta } }) => meta.id)
+      this.events.map((event) => event.nft.meta.id)
     )
     const imageOf = getProperImageLink(images)
-    this.nfts = data.events.map((e: any) => ({
+    this.nfts = this.events.map((e: any) => ({
       price: e.meta,
       ...e.nft,
       timestamp: formatDistanceToNow(new Date(e.timestamp), {

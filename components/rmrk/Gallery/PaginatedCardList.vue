@@ -109,7 +109,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     if (data) {
       const { nodes, totalCount } = data.nFTEntities
       await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
-        console.warn
+        this.$consola.warn
       )
       this.total = totalCount
       this.items = nodes

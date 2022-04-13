@@ -114,6 +114,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/keyboardEvents', mode: 'client' },
     { src: '~/plugins/userBalance', mode: 'client' },
     { src: '~/plugins/icons', mode: 'client' },
+    { src: '~/plugins/consola', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -125,7 +126,7 @@ export default defineNuxtConfig({
   ],
 
   router: {
-    middleware: ['prefix'],
+    middleware: ['prefix', 'redirects'],
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -167,14 +168,15 @@ export default defineNuxtConfig({
         path: '~/components/transfer',
         extensions: ['vue'],
       },
+      {
+        path: '~/components/unique',
+        extensions: ['vue'],
+      },
     ],
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxtjs/pwa',
-  ],
+  buildModules: ['@nuxtjs/pwa'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

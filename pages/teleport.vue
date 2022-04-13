@@ -319,7 +319,7 @@ export default class Transfer extends mixins(
         )
       )
     } catch (e) {
-      console.error('[ERR: TRANSFER SUBMIT]', e)
+      this.$consola.error('[ERR: TRANSFER SUBMIT]', e)
       if (e instanceof Error) {
         showNotification(e.message, notificationTypes.danger)
       }
