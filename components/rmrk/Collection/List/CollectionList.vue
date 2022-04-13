@@ -3,24 +3,18 @@
     <Loader :value="isLoading" />
     <Search
       v-bind.sync="searchQuery"
-      @resetPage="currentValue = 1"
-      hideSearch
+      @resetPage="resetPage"
       :sortOption="collectionSortOption">
-      <b-field>
-        <Pagination
-          hasMagicBtn
-          simple
-          replace
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :perPage="first" />
-      </b-field>
     </Search>
+
     <div>
-      <div class="columns is-multiline">
+      <infinite-loading
+        v-if="startPage > 1 && !isLoading && total > 0"
+        direction="top"
+        @infinite="reachTopHandler"></infinite-loading>
+      <div class="columns is-multiline" @scroll="onScroll">
         <div
-          class="column is-4 column-padding"
+          class="column is-4 column-padding scroll-item"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -47,19 +41,17 @@
           </div>
         </div>
       </div>
+      <infinite-loading
+        v-if="canLoadNextPage && !isLoading && total > 0"
+        @infinite="reachBottomHandler"></infinite-loading>
     </div>
-    <Pagination
-      class="pt-5 pb-5"
-      :total="total"
-      :perPage="first"
-      v-model="currentValue"
-      replace />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { Debounce } from 'vue-debounce-decorator'
 import {
   CollectionWithMeta,
   Collection,
@@ -72,6 +64,7 @@ import 'lazysizes'
 
 import collectionListWithSearch from '@/queries/rmrk/subsquid/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import {
   getCloudflareImageLinks,
@@ -79,6 +72,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
+import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -100,19 +94,23 @@ const components = {
 @Component<CollectionList>({
   components,
 })
-export default class CollectionList extends mixins(PrefixMixin) {
+export default class CollectionList extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin
+) {
   private collections: Collection[] = []
   private meta: Metadata[] = []
-  public first = this.$store.state.preferences.collectionsPerPage
   private placeholder = '/placeholder.webp'
-  private currentValue = parseInt((this.$route.query?.page as string) || '1')
-  private total = 0
-  private searchQuery: SearchQuery = {
-    search: '',
-    type: '',
-    sortBy: 'blockNumber_DESC',
-    listed: false,
-  }
+  private isLoading = true
+  private searchQuery: SearchQuery = Object.assign(
+    {
+      search: '',
+      type: '',
+      sortBy: 'blockNumber_DESC',
+      listed: false,
+    },
+    this.$route.query
+  )
 
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
@@ -121,12 +119,13 @@ export default class CollectionList extends mixins(PrefixMixin) {
     'updatedAt_ASC',
   ]
 
-  get isLoading(): boolean {
-    return this.$apollo.queries.collection.loading
-  }
-
-  get offset(): number {
-    return this.currentValue * this.first - this.first
+  @Debounce(500)
+  private resetPage() {
+    this.startPage = 1
+    this.endPage = 1
+    this.collections = []
+    this.isLoading = true
+    this.fetchPageData(1)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -146,36 +145,49 @@ export default class CollectionList extends mixins(PrefixMixin) {
   }
 
   public async created() {
-    this.$apollo.addSmartQuery('collection', {
-      query: collectionListWithSearch,
-      manual: true,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
-      loadingKey: 'isLoading',
-      result: this.handleResult,
-      variables: () => {
-        return {
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(),
-          listed: this.searchQuery.listed
-            ? [{ price: { greaterThan: '0' } }]
-            : [],
-          first: this.first,
-          offset: this.offset,
-        }
-      },
-      update: ({ collectionEntity }) => ({
-        ...collectionEntity,
-        nfts: collectionEntity.nfts,
-      }),
-    })
+    this.fetchPageData(this.startPage)
   }
 
-  protected async handleResult({ data }: any) {
+  public async fetchPageData(
+    page: number,
+    loadDirection = 'down',
+    callback?: () => void
+  ) {
+    if (this.isFetchingData) return
+    this.isFetchingData = true
+    const result = await this.$apollo.query({
+      query: collectionListWithSearch,
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      variables: {
+        orderBy: this.searchQuery.sortBy,
+        search: this.buildSearchParam(),
+        listed: this.searchQuery.listed
+          ? [{ price: { greaterThan: '0' } }]
+          : [],
+        first: this.first,
+        offset: (page - 1) * this.first,
+      },
+    })
+    await this.handleResult(result, loadDirection)
+    callback && callback()
+    this.isFetchingData = false
+  }
+
+  protected async handleResult({ data }: any, loadDirection = 'down') {
+    console.log('jarsen handleResult', data)
     this.total = data.stats.totalCount
-    this.collections = data.collectionEntities
+    const newCollections = data.collectionEntities.map((e: any) => ({
+      ...e,
+    }))
+
+    if (loadDirection === 'up') {
+      this.collections = newCollections.concat(this.collections)
+    } else {
+      this.collections = this.collections.concat(newCollections)
+    }
+
     const metadataList: string[] = this.collections.map(mapOnlyMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
-
     processMetadata<CollectionMetadata>(metadataList, (meta, i) => {
       Vue.set(this.collections, i, {
         ...this.collections[i],
@@ -186,6 +198,7 @@ export default class CollectionList extends mixins(PrefixMixin) {
       })
     })
 
+    this.isLoading = false
     this.prefetchPage(this.offset + this.first, this.offset + 3 * this.first)
   }
 
@@ -220,8 +233,15 @@ export default class CollectionList extends mixins(PrefixMixin) {
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.currentValue = 1
+      this.resetPage()
       this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange(val, oldVal) {
+    if (!isEqual(val, oldVal)) {
+      this.resetPage()
     }
   }
 
