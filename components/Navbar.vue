@@ -22,7 +22,7 @@
         <Search
           v-if="showMobileSearchBar"
           hideFilter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
+          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
       <div
