@@ -1,7 +1,6 @@
 import type { ApiPromise } from '@polkadot/api'
 import Connector from '@kodadot1/sub-api'
 import correctFormat from '@/utils/ss58Format'
-import { onNetworkStatusChange } from '@/utils/network'
 import { GetterTree, MutationTree, Store } from 'vuex'
 
 type VuexAction = {
@@ -47,12 +46,6 @@ const apiPlugin = (store: Store<any>): void => {
   })
 }
 
-const networkPlugin = (store: Store<unknown>): void => {
-  onNetworkStatusChange((status) => {
-    store.commit('setNetworkConnected', status.isConnected)
-  })
-}
-
 const myPlugin = (store: Store<null>): void => {
   const { getInstance: Api } = Connector
 
@@ -71,7 +64,6 @@ export const state = () => ({
   development: {},
   error: null,
   isApiConnected: false,
-  isNetworkConnected: true,
 })
 
 export type IndexState = ReturnType<typeof state>
@@ -89,9 +81,6 @@ export const mutations: MutationTree<IndexState> = {
   setApiConnected(state, toggleTo: boolean): void {
     state.isApiConnected = toggleTo
   },
-  setNetworkConnected(state, toggleTo: boolean): void {
-    state.isNetworkConnected = toggleTo
-  },
   setError(state: any, error: Error): void {
     state.loading = false
     state.error = error.message
@@ -105,9 +94,6 @@ export const getters: GetterTree<IndexState, IndexState> = {
   getApiConnected(state: IndexState): boolean {
     return state.isApiConnected
   },
-  getNetworkConnected(state: IndexState): boolean {
-    return state.isNetworkConnected
-  },
 }
 
-export const plugins = [apiPlugin, networkPlugin, myPlugin]
+export const plugins = [apiPlugin, myPlugin]
