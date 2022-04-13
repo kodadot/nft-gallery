@@ -74,9 +74,9 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ type: String, default: '/rmrk/explore?tab=GALLERY' })
+  @Prop({ type: String, default: '/rmrk/gallery' })
   public route!: string
-  @Prop({ type: String, default: '/rmrk/explore?tab=GALLERY' })
+  @Prop({ type: String, default: 'rmrk/gallery' })
   public link!: string
   @Prop(String) public id!: string
   @Prop(String) public name!: string
