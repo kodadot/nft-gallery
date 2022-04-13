@@ -52,9 +52,9 @@
           </p>
           <p
             class="is-size-7 is-flex is-align-items-center py-3"
-            v-if="totalCollected && lastBoughtDate">
+            v-if="totalCollected && formattedLastBoughtToNow">
             <b-icon icon="clock" size="is-small" />
-            <span class="ml-2">Last bought {{ lastBoughtDate }}</span>
+            <span class="ml-2">Last bought {{ formattedLastBoughtToNow }}</span>
           </p>
         </div>
       </div>
@@ -114,14 +114,6 @@ export default class IdentityPopover extends mixins(
 
   get shortenedAddress(): Address {
     return shortAddress(this.resolveAddress(this.identity.address))
-  }
-  get lastBoughtDate(): Address {
-    if (this.identity?.lastCollectedDate) {
-      return formatDistanceToNow(new Date(this.identity.lastCollectedDate), {
-        addSuffix: true,
-      })
-    }
-    return ''
   }
 
   private resolveAddress(account: Address): string {
@@ -183,6 +175,7 @@ export default class IdentityPopover extends mixins(
       this.totalCollected = data.totalCollected
       this.totalSold = data.totalSold
       this.firstMintDate = data.firstMintDate
+      this.lastBoughtDate = data.lastBoughtDate
     } else if (data) {
       this.totalCreated = data.nFTCreated.totalCount
       this.totalCollected = data.nFTCollected.totalCount
@@ -191,11 +184,15 @@ export default class IdentityPopover extends mixins(
       if (data?.firstMint?.nodes.length > 0) {
         this.firstMintDate = data.firstMint.nodes[0].collection.createdAt
       }
+      if (data?.nFTCollected?.nodes.length > 0) {
+        this.lastBoughtDate = data.nFTCollected.nodes[0].collection.createdAt
+      }
       const cacheData = {
         totalCreated: this.totalCreated,
         totalCollected: this.totalCollected,
         totalSold: this.totalSold,
         firstMintDate: this.firstMintDate,
+        lastBoughtDate: this.lastBoughtDate,
         updatedAt: Date.now(),
       }
       await this.$store.dispatch('identityMint/setIdentity', {

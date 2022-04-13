@@ -113,7 +113,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
       )
       this.total = totalCount
       this.items = nodes
-      this.$emit('change', this.total, this.items)
+      this.$emit('change', this.total)
     }
   }
 }

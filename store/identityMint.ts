@@ -41,6 +41,7 @@ export interface MintInfo {
   totalSold: number
   firstMintDate: Date
   updatedAt: Date
+  lastBoughtDate: Date
 }
 
 export interface IdentityMintMap {

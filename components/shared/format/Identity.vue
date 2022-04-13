@@ -45,8 +45,7 @@
         </template>
       </span>
       <template v-if="!hideIdentityPopover">
-        <IdentityPopover
-          :identity="{ ...identity, address, lastCollectedDate }">
+        <IdentityPopover :identity="{ ...identity, address }">
           <template #trigger>
             {{ name | toString }}
           </template>
@@ -90,7 +89,6 @@ export default class Identity extends mixins(InlineMixin) {
   @Prop(Boolean) public showDiscord!: boolean
   @Prop(Boolean) public showOnchainIdentity!: boolean
   @Prop(Boolean) public hideIdentityPopover!: boolean
-  @Prop(String) public lastCollectedDate!: string
   @Prop(String) public customNameOption!: string
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private isFetchingIdentity = false
