@@ -48,7 +48,7 @@ export default class InfiniteScrollMixin extends Vue {
         path: String(this.$route.path),
         query: { ...this.$route.query, page },
       })
-      .catch(console.warn /*Navigation Duplicate err fix later */)
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
   protected onResize(): void {
@@ -60,7 +60,7 @@ export default class InfiniteScrollMixin extends Vue {
         this.scrollItemHeight = scrollItem.clientHeight
       }
     } catch (err) {
-      console.warn('resize scroll item', err)
+      this.$consola.warn('resize scroll item', err)
     }
   }
 
@@ -87,6 +87,11 @@ export default class InfiniteScrollMixin extends Vue {
   }
 
   protected fetchPageData(page, loadDirection, cb): void {
-    console.warn('fetchPageData need to be extended', page, loadDirection, cb)
+    this.$consola.warn(
+      'fetchPageData need to be extended',
+      page,
+      loadDirection,
+      cb
+    )
   }
 }
