@@ -1,8 +1,11 @@
 <template>
   <div>
+    <div v-if="$route.query.search" class="mb-3">
+      Showing results for {{ $route.query.search }}
+    </div>
     <b-tabs v-model="selectedTab" size="is-small">
-      <b-tab-item label="GALLERY" value="GALLERY"><Gallery /></b-tab-item>
-      <b-tab-item label="COLLECTION" value="COLLECTION">
+      <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
+      <b-tab-item label="Collections" value="COLLECTION">
         <CollectionList v-if="type === 'rmrk'" />
         <Collections v-if="type !== 'rmrk'" />
       </b-tab-item>
