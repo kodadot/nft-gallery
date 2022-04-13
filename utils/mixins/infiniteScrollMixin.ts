@@ -7,6 +7,7 @@ export default class InfiniteScrollMixin extends Vue {
   protected endPage = this.startPage
   protected scrollItemHeight = 300
   protected itemsPerRow = 3
+  protected mobileScreenWidth = 768
   protected first = 12
   protected total = 0
   protected isFetchingData = false
@@ -52,6 +53,8 @@ export default class InfiniteScrollMixin extends Vue {
 
   protected onResize(): void {
     try {
+      this.itemsPerRow =
+        document.body.clientWidth > this.mobileScreenWidth ? 3 : 1
       const scrollItem = document.body.querySelector('.scroll-item')
       if (scrollItem) {
         this.scrollItemHeight = scrollItem.clientHeight
