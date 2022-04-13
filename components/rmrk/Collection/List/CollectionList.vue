@@ -137,6 +137,10 @@ export default class CollectionList extends mixins(
       })
     }
 
+    if (this.searchQuery.listed) {
+      params.push({ nfts_some: { price_gt: '0' } })
+    }
+
     return params
   }
 
