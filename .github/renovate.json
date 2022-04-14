@@ -8,7 +8,7 @@
   "prHourlyLimit": 5,
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
-  "separateMinorPatch": true,
+  "updatePinnedDependencies": false,
   "packageRules": [
     {
       "matchSourceUrlPrefixes": [
@@ -29,7 +29,7 @@
       "matchDepTypes": ["dependencies", "devDependencies"]
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": ["major", "pin"],
       "enabled": false
     }
   ]
