@@ -25,7 +25,8 @@
       "groupName": "Bumped minor version of packages",
       "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchDepTypes": ["dependencies", "devDependencies"]
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "excludePackageNames": ["@nuxt/bridge", "nuxt-edge"]
     },
     {
       "matchUpdateTypes": ["major", "pin"],
