@@ -5,6 +5,16 @@
       v-bind.sync="searchQuery"
       @resetPage="resetPage"
       :sortOption="collectionSortOption">
+      <b-field>
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :perPage="first" />
+      </b-field>
     </Search>
 
     <div>
@@ -119,13 +129,26 @@ export default class CollectionList extends mixins(
     'updatedAt_ASC',
   ]
 
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
+  }
+
   @Debounce(500)
   private resetPage() {
-    this.startPage = 1
-    this.endPage = 1
+    this.gotoPage(1)
+  }
+
+  private gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
     this.collections = []
     this.isLoading = true
-    this.fetchPageData(1)
+    this.fetchPageData(page)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -170,7 +193,6 @@ export default class CollectionList extends mixins(
   }
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
-    console.log('jarsen handleResult', data)
     this.total = data.stats.totalCount
     const newCollections = data.collectionEntities.map((e: any) => ({
       ...e,
@@ -210,9 +232,7 @@ export default class CollectionList extends mixins(
       })
 
       const {
-        data: {
-          collectionEntities: { collectionList },
-        },
+        data: { collectionEntities: collectionList },
       } = await collections
 
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
