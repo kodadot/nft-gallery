@@ -3,7 +3,8 @@ import { Debounce } from 'vue-debounce-decorator'
 
 @Component
 export default class InfiniteScrollMixin extends Vue {
-  protected startPage = parseInt(this.$route.query.page as string) || 1
+  protected currentPage = parseInt(this.$route.query.page as string) || 1
+  protected startPage = this.currentPage
   protected endPage = this.startPage
   protected scrollItemHeight = 300
   protected itemsPerRow = 3
@@ -39,6 +40,7 @@ export default class InfiniteScrollMixin extends Vue {
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
     this.replaceUrlPage(String(currentPage))
+    this.currentPage = currentPage
   }
 
   protected replaceUrlPage(page: string): void {
