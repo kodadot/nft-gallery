@@ -8,3 +8,11 @@ export const generateNftImage = (
     name
   )}.jpeg?price=${price}&image=${image}&mime=${mimeType}`
 }
+
+export const generateCollectionImage = (
+  name: string,
+  itemCount: string | number,
+  image: string
+) => {
+  return generateNftImage(name, `Items:${itemCount}`, image)
+}
