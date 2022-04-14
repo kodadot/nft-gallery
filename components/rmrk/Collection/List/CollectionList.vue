@@ -116,7 +116,7 @@ export default class CollectionList extends mixins(
     {
       search: '',
       type: '',
-      sortBy: 'blockNumber_DESC',
+      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
       listed: false,
     },
     this.$route.query
