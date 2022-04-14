@@ -7,6 +7,7 @@
       hideSearch
       :sortOption="collectionSortOption">
       <b-field>
+        <Layout class="mr-5" @change="onResize" />
         <Pagination
           hasMagicBtn
           simple
@@ -23,9 +24,12 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></infinite-loading>
-      <div class="columns is-multiline" @scroll="onScroll">
+      <div
+        id="infinite-scroll-container"
+        class="columns is-multiline"
+        @scroll="onScroll">
         <div
-          class="column is-4 column-padding scroll-item"
+          :class="`column is-4 column-padding scroll-item ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -83,7 +87,6 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
-import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -100,6 +103,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 @Component<CollectionList>({
@@ -136,6 +140,10 @@ export default class CollectionList extends mixins(
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get classLayout() {
+    return this.$store.getters['preferences/getLayoutClass']
   }
 
   @Debounce(500)
