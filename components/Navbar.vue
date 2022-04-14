@@ -12,7 +12,8 @@
         <img
           src="~/assets/Koda_Beta.svg"
           alt="First NFT market explorer on Kusama and Polkadot"
-          height="32" />
+          width="130"
+          height="35" />
       </b-navbar-item>
       <div
         v-if="showMobileSearchBar"
@@ -21,7 +22,7 @@
         <Search
           v-if="showMobileSearchBar"
           hideFilter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
+          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
       <div
@@ -50,7 +51,7 @@
         searchColumnClass="is-flex-grow-1" />
     </template>
     <template #end v-if="showTopNavbar">
-      <HistoryBrowser
+      <LazyHistoryBrowser
         class="custom-navbar-item navbar-link-background is-hidden-touch"
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
@@ -75,17 +76,9 @@
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-dropdown arrowless collapsible id="NavExplore">
-        <template #label>
-          <span>{{ $t('Explore') }}</span>
-        </template>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/collections`">
-          {{ $t('Collections') }}
-        </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/gallery`">
-          {{ $t('Gallery') }}
-        </b-navbar-item>
-      </b-navbar-dropdown>
+      <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
+        <span>{{ $t('Explore') }}</span>
+      </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
           <span>{{ $t('Stats') }}</span>
@@ -99,8 +92,8 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <ChainSelect class="custom-navbar-item" id="NavChainSelect" />
-      <LocaleChanger class="custom-navbar-item" id="NavLocaleChanger" />
+      <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
+      <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
       <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
@@ -118,9 +111,6 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import LocaleChanger from '@/components/shared/SwitchLocale.vue'
-import ChainSelect from '@/components/shared/ChainSelect.vue'
-import HistoryBrowser from '@/components/shared/history/HistoryBrowser.vue'
 import NavbarProfileDropdown from '@/components/rmrk/Profile/NavbarProfileDropdown.vue'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import Identity from '@/components/shared/format/Identity.vue'
@@ -132,10 +122,7 @@ import { get } from 'idb-keyval'
 
 @Component({
   components: {
-    LocaleChanger,
-    HistoryBrowser,
     NavbarProfileDropdown,
-    ChainSelect,
     Search,
     Identity,
     BasicImage,
@@ -143,7 +130,7 @@ import { get } from 'idb-keyval'
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
   private mobileGallery = false
-  private isGallery: boolean = this.$route.path == '/rmrk/gallery'
+  private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
   private showTopNavbar = true
   private lastScrollPosition = 0
   private artistName = ''
@@ -376,6 +363,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .navbar-start {
     flex: 1;
+    margin-top: 24px;
   }
 
   .navbar-dropdown {
@@ -410,7 +398,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: 100%;
 
     input {
-      background-color: rgba(41, 41, 47, 0.5);
+      background-color: rgba(41, 41, 47);
       padding: 0;
       z-index: 1;
       &:focus {

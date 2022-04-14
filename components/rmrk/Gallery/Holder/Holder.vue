@@ -510,6 +510,7 @@ export default class CommonHolderTable extends mixins(
       group['Items'] = groupItems.sort(
         (a, b) => (b.SortKey ?? 0) - (a.SortKey ?? 0)
       )
+      group['Percentage'] = group['Percentage'] / group['Amount']
     })
     return customGroupsList
   }

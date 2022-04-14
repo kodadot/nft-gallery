@@ -11,6 +11,7 @@ query lastNftListByEvent($limit: Int!, $event: Interaction!, $and: [EventWhereIn
       name
       issuer
       currentOwner
+      metadata
       meta {
         id
         image

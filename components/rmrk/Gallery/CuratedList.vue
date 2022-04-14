@@ -12,7 +12,11 @@
       indicator-position="is-bottom"
       indicator-style="is-lines">
       <b-carousel-item v-for="(collection, i) in collections" :key="i">
-        <b-image ratio="1by1" class="image" :src="collection.image"></b-image>
+        <b-image
+          ratio="1by1"
+          class="image"
+          :src="collection.image"
+          :alt="collection.name"></b-image>
         <div class="box">
           <div class="content has-text-left">
             <nuxt-link

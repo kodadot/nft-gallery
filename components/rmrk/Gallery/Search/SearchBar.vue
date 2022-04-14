@@ -1,7 +1,6 @@
 <template>
-  <div class="card mb-3 mt-5">
+  <div class="mb-3">
     <div class="row" v-if="!isVisible && !hideSearchInput">
-      <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
       <div v-if="sliderDirty && !hideFilter" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
         {{ this.query.priceMax / 1000000000000 }}
@@ -89,7 +88,6 @@
           </template>
         </b-autocomplete>
         <div v-if="!isVisible && hideSearchInput">
-          <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
           <div v-if="sliderDirty" class="is-size-7">
             Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
             {{ this.query.priceMax / 1000000000000 }}
@@ -134,7 +132,6 @@
         ticks
         @change="sliderChange">
       </b-slider>
-      <div v-if="searchQuery">Showing results for {{ searchQuery }}</div>
       <div v-if="sliderDirty" class="is-size-7">
         Prices ranging from {{ this.query.priceMin / 1000000000000 }} to
         {{ this.query.priceMax / 1000000000000 }}
@@ -162,6 +159,8 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+
+const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
 @Component({
   components: {
@@ -382,7 +381,6 @@ export default class SearchBar extends mixins(
     //To handle clearing event
     this.keyDownNativeEnterFlag = false
     if (!value) return
-
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
@@ -399,9 +397,10 @@ export default class SearchBar extends mixins(
   }
 
   redirectToGalleryPageIfNeed() {
-    if (this.$route.name === 'index') {
+    if (SearchPageRoutePathList.indexOf(this.$route.path) === -1) {
       this.$router.replace({
-        name: 'rmrk-gallery',
+        name: 'rmrk-explore',
+        query: this.$route.query,
       })
     }
   }
@@ -544,9 +543,9 @@ export default class SearchBar extends mixins(
       .replace({
         path: String(this.$route.path),
         query: {
+          page: '1',
           ...this.$route.query,
           search: this.searchQuery,
-          page: '1',
           [key]: value,
           [key2]: value2,
         },

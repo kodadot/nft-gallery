@@ -388,7 +388,6 @@ export default class Gallery extends mixins(PrefixMixin) {
   }
 
   .columns {
-    padding-top: 10px;
     .card {
       position: relative;
       overflow: hidden;
