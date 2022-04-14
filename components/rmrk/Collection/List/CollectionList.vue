@@ -65,7 +65,7 @@ import { getSanitizer } from '@/components/rmrk/utils'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
 import 'lazysizes'
 
-import collectionListWithSearch from '@/queries/rmrk/subsquid/collectionListWithSearch.graphql'
+import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import {
