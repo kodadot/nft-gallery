@@ -8,6 +8,7 @@
   "prHourlyLimit": 5,
   "enabledManagers": ["npm"],
   "rangeStrategy": "bump",
+  "updatePinnedDependencies": false,
   "packageRules": [
     {
       "matchSourceUrlPrefixes": [
@@ -25,8 +26,7 @@
       "groupName": "Bumped minor version of packages",
       "prHeader": "Bumped minor version of packages, check if builds are still passing, please 🥺",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchDepTypes": ["dependencies", "devDependencies"],
-      "excludePackageNames": ["@nuxt/bridge", "nuxt-edge"]
+      "matchDepTypes": ["dependencies", "devDependencies"]
     },
     {
       "matchUpdateTypes": ["major", "pin"],
