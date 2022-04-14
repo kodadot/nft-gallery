@@ -125,8 +125,8 @@ export default class CollectionList extends mixins(
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
-    'updatedAt_DESC',
-    'updatedAt_ASC',
+    // 'updatedAt_DESC',   // unsupported options for now
+    // 'updatedAt_ASC',
   ]
 
   set currentValue(page: number) {
