@@ -83,7 +83,6 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
-import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
