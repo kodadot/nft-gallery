@@ -4,6 +4,7 @@
     <Search
       v-bind.sync="searchQuery"
       @resetPage="resetPage"
+      hideSearch
       :sortOption="collectionSortOption">
       <b-field>
         <Pagination
@@ -160,6 +161,10 @@ export default class CollectionList extends mixins(
       })
     }
 
+    if (this.searchQuery.listed) {
+      params.push({ nfts_some: { price_gt: '0' } })
+    }
+
     return params
   }
 
@@ -211,7 +216,7 @@ export default class CollectionList extends mixins(
         ...this.collections[i],
         ...meta,
         image:
-          imageLinks[fastExtract(this.collections[i].metadata)] ||
+          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
           getSanitizer(meta.image || '')(meta.image || ''),
       })
     })
@@ -255,10 +260,8 @@ export default class CollectionList extends mixins(
   }
 
   @Watch('searchQuery', { deep: true })
-  protected onSearchQueryChange(val, oldVal) {
-    if (!isEqual(val, oldVal)) {
-      this.resetPage()
-    }
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 
   get results() {
