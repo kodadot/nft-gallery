@@ -64,7 +64,7 @@ specifiers:
   nuxt-buefy: ^0.4.21
   nuxt-edge: 2.16.0-27358576.777a4b7f
   nuxt-property-decorator: ^2.9.1
-  prettier: 2.6.1
+  prettier: ^2.6.2
   raw-loader: ^4.0.2
   sass: ^1.49.9
   sass-loader: ^10.2
@@ -161,14 +161,14 @@ devDependencies:
   all-contributors-cli: 6.20.0
   consola: 2.15.3
   eslint: 8.12.0
-  eslint-plugin-prettier: 4.0.0_eslint@8.12.0+prettier@2.6.1
+  eslint-plugin-prettier: 4.0.0_eslint@8.12.0+prettier@2.6.2
   eslint-plugin-vue: 8.5.0_eslint@8.12.0
   graphql-tag: 2.12.6_graphql@16.3.0
   husky: 7.0.4
   jsdom: 19.0.0
   lint-staged: 12.3.7
   netlify-lambda: 2.0.15
-  prettier: 2.6.1
+  prettier: 2.6.2
   raw-loader: 4.0.2
   sass: 1.49.9
   sass-loader: 10.2.1_sass@1.49.9
@@ -4614,7 +4614,7 @@ packages:
       source-map: 0.6.1
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
-      prettier: 2.6.1
+      prettier: 2.6.2
 
   /@vue/composition-api/1.4.9_vue@2.6.14:
     resolution: {integrity: sha512-l6YOeg5LEXmfPqyxAnBaCv1FMRw0OGKJ4m6nOWRm6ngt5TuHcj5ZoBRN+LXh3J0u6Ur3C4VA+RiKT+M0eItr/g==}
@@ -8688,7 +8688,7 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-plugin-prettier/4.0.0_eslint@8.12.0+prettier@2.6.1:
+  /eslint-plugin-prettier/4.0.0_eslint@8.12.0+prettier@2.6.2:
     resolution: {integrity: sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -8700,7 +8700,7 @@ packages:
         optional: true
     dependencies:
       eslint: 8.12.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -14144,8 +14144,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier/2.6.1:
-    resolution: {integrity: sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==}
+  /prettier/2.6.2:
+    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
     engines: {node: '>=10.13.0'}
     hasBin: true
 
@@ -16798,7 +16798,7 @@ packages:
       fs-extra: 9.1.0
       hash-sum: 2.0.0
       magic-string: 0.25.9
-      prettier: 2.6.1
+      prettier: 2.6.2
       querystring: 0.2.1
       rollup: 2.70.1
       slash: 3.0.0

@@ -28,7 +28,7 @@
       "matchDepTypes": ["dependencies", "devDependencies"]
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": ["major", "pin"],
       "enabled": false
     }
   ]
