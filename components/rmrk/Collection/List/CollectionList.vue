@@ -121,7 +121,7 @@ export default class CollectionList extends mixins(
     {
       search: '',
       type: '',
-      sortBy: 'blockNumber_DESC',
+      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
       listed: false,
     },
     this.$route.query
@@ -130,8 +130,8 @@ export default class CollectionList extends mixins(
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
-    'updatedAt_DESC',
-    'updatedAt_ASC',
+    // 'updatedAt_DESC',   // unsupported options for now
+    // 'updatedAt_ASC',
   ]
 
   set currentValue(page: number) {
