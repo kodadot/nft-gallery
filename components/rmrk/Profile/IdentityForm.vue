@@ -11,8 +11,6 @@
         </b-tooltip>
       </p>
 
-      {{ myId }}
-
       <p class="subtitle is-size-6" v-if="accountId">
         <Auth />
         <span>{{ $t('general.balance') }}: </span>
@@ -87,6 +85,9 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import IdentityMixin from '@/utils/mixins/identityMixin'
 import { update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
+import { hexToString, isHex } from '@polkadot/util'
+import { Data } from '@polkadot/types'
+type IdentityFields = Record<string, string>
 
 @Component({
   components: {
@@ -119,12 +120,7 @@ export default class IdentityForm extends mixins(
       this.deposit = api.consts.identity?.basicDeposit?.toString()
     }, 3000)
 
-    console.log(this.accountId)
-
-    const tde = await this.$store.getters.getIdentityFor(this.accountId)
-    const ide = await this.$store.dispatch('fetchIdentity', this.accountId)
-    console.log(tde)
-    console.log(ide)
+    this.identity = await this.fetchIdentity(this.accountId)
   }
 
   public enhanceIdentityData(): Record<string, any> {
@@ -136,6 +132,32 @@ export default class IdentityForm extends mixins(
         return [key, { none: null }]
       })
     )
+  }
+
+  private handleRaw(display: Data): string {
+    if (display?.isRaw) {
+      return display.asRaw.toHuman() as string
+    }
+
+    if (isHex((display as any)?.Raw)) {
+      return hexToString((display as any)?.Raw)
+    }
+
+    return display?.toString()
+  }
+
+  protected async fetchIdentity(address: string): Promise<IdentityFields> {
+    const { api } = Connector.getInstance()
+    const optionIdentity = await api?.query.identity?.identityOf(address)
+    const identity = optionIdentity?.unwrapOrDefault()
+    const final = Array.from(identity.info)
+      .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
+      .reduce((acc, [key, value]) => {
+        acc[key] = this.handleRaw(value as unknown as Data)
+        return acc
+      }, {} as IdentityFields)
+
+    return final
   }
 
   protected async submit(): Promise<void> {
@@ -157,11 +179,6 @@ export default class IdentityForm extends mixins(
 
   get balance(): string {
     return this.$store.getters.getAuthBalance
-  }
-
-  get myId(): any {
-    const identity = this.$store.getters.getIdentityFor(this.accountId)
-    return identity.info
   }
 
   get disabled(): boolean {
