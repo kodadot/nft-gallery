@@ -1,8 +1,8 @@
 name: Create diagram
 on:
   schedule:
-    # Runing biweekly, At 11:50 on day-of-month 1 and 15.
-    - cron: "50 11 1,15 * *"
+    # Runing biweekly, At 11:50 on day-of-month 1 and 16.
+    - cron: "50 11 1,16 * *"
 # one more commit and i'm going to shower
 #  we are using cron to not polute commits history
 # push:
