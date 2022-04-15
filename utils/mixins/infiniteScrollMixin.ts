@@ -3,10 +3,11 @@ import { Debounce } from 'vue-debounce-decorator'
 
 @Component
 export default class InfiniteScrollMixin extends Vue {
-  protected startPage = parseInt(this.$route.query.page as string) || 1
+  protected currentPage = parseInt(this.$route.query.page as string) || 1
+  protected startPage = this.currentPage
   protected endPage = this.startPage
   protected scrollItemHeight = 300
-  protected itemsPerRow = 3
+  protected itemsPerRow = 4
   protected mobileScreenWidth = 768
   protected first = 12
   protected total = 0
@@ -39,6 +40,7 @@ export default class InfiniteScrollMixin extends Vue {
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
     this.replaceUrlPage(String(currentPage))
+    this.currentPage = currentPage
   }
 
   protected replaceUrlPage(page: string): void {
@@ -51,13 +53,17 @@ export default class InfiniteScrollMixin extends Vue {
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
+  @Debounce(1000)
   protected onResize(): void {
     try {
-      this.itemsPerRow =
-        document.body.clientWidth > this.mobileScreenWidth ? 3 : 1
+      const container = document.getElementById('infinite-scroll-container')
       const scrollItem = document.body.querySelector('.scroll-item')
-      if (scrollItem) {
+      if (scrollItem && container) {
         this.scrollItemHeight = scrollItem.clientHeight
+        this.itemsPerRow = Math.max(
+          Math.floor(container.clientWidth / this.scrollItemHeight),
+          1
+        )
       }
     } catch (err) {
       this.$consola.warn('resize scroll item', err)
