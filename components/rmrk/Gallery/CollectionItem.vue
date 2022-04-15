@@ -73,6 +73,7 @@
             <Pagination
               hasMagicBtn
               simple
+              replace
               preserveScroll
               :total="total"
               v-model="currentValue"
