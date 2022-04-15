@@ -193,7 +193,7 @@ export default class CollectionItem extends mixins(
     {
       search: '',
       type: '',
-      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
+      sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
       listed: false,
     },
     this.$route.query
