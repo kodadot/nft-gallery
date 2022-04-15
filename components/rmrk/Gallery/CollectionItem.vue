@@ -73,7 +73,6 @@
             <Pagination
               hasMagicBtn
               simple
-              replace
               preserveScroll
               :total="total"
               v-model="currentValue"
@@ -82,19 +81,17 @@
           </b-field>
         </Search>
 
+        <infinite-loading
+          v-if="startPage > 1 && !isLoading && total > 0"
+          direction="top"
+          @infinite="reachTopHandler"></infinite-loading>
         <GalleryCardList
-          :items="collection.nfts"
+          :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
           horizontalLayout />
-
-        <Pagination
-          class="py-5"
-          replace
-          v-if="activeTab === 'items'"
-          preserveScroll
-          :total="total"
-          v-model="currentValue"
-          :per-page="first" />
+        <infinite-loading
+          v-if="canLoadNextPage && !isLoading && total > 0"
+          @infinite="reachBottomHandler"></infinite-loading>
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
@@ -147,11 +144,13 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
 import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import { mapDecimals } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
+import { Debounce } from 'vue-debounce-decorator'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -182,21 +181,23 @@ const components = {
 export default class CollectionItem extends mixins(
   ChainMixin,
   PrefixMixin,
-  CreatedAtMixin
+  CreatedAtMixin,
+  InfiniteScrollMixin
 ) {
   @Ref('tabsContainer') readonly tabsContainer
   private id = ''
   private collection: CollectionWithMeta = emptyObject<CollectionWithMeta>()
   public meta: CollectionMetadata = emptyObject<CollectionMetadata>()
-  private searchQuery: SearchQuery = {
-    search: '',
-    type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
-    listed: false,
-  }
+  private searchQuery: SearchQuery = Object.assign(
+    {
+      search: '',
+      type: '',
+      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
+      listed: false,
+    },
+    this.$route.query
+  )
   public activeTab = 'items'
-  private currentValue = parseInt(this.$route.query?.page as string) || 1
-  private first = 16
   protected total = 0
   protected totalListed = 0
   protected stats: NFT[] = []
@@ -208,6 +209,8 @@ export default class CollectionItem extends mixins(
   public priceChartData: [Date, number][][] = []
   private openHistory = true
   private openHolder = true
+  private isLoading = true
+  private nfts: NFT[] = []
 
   collectionProfileSortOption: string[] = [
     'BLOCK_NUMBER_DESC',
@@ -221,14 +224,6 @@ export default class CollectionItem extends mixins(
 
   get hasChartData(): boolean {
     return this.priceData.length > 0
-  }
-
-  get isLoading(): boolean {
-    return Boolean(this.queryLoading)
-  }
-
-  get offset(): number {
-    return this.currentValue * this.first - this.first
   }
 
   get image(): string | undefined {
@@ -251,10 +246,6 @@ export default class CollectionItem extends mixins(
     return this.openHolder
   }
 
-  get nfts(): NFT[] {
-    return this.collection.nfts || []
-  }
-
   get issuer(): string {
     return this.collection.issuer || ''
   }
@@ -269,6 +260,14 @@ export default class CollectionItem extends mixins(
 
   get showMintTime(): boolean {
     return this.$store.state.preferences.showMintTimeCollection
+  }
+
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
   }
 
   private buildSearchParam(checkForEmpty?): Record<string, unknown>[] {
@@ -293,22 +292,44 @@ export default class CollectionItem extends mixins(
     this.checkId()
     this.checkActiveTab()
     this.checkIfEmptyListed()
-    this.$apollo.addSmartQuery('collection', {
+    this.fetchPageData(this.startPage)
+  }
+
+  public async fetchPageData(
+    page: number,
+    loadDirection = 'down',
+    callback?: () => void
+  ) {
+    if (this.isFetchingData) return
+    this.isFetchingData = true
+    const result = await this.$apollo.query({
       query: collectionById,
       client: this.urlPrefix,
-      loadingKey: 'queryLoading',
-      manual: true,
-      variables: () => {
-        return {
-          id: this.id,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(),
-          first: this.first,
-          offset: this.offset,
-        }
+      variables: {
+        id: this.id,
+        orderBy: this.searchQuery.sortBy,
+        search: this.buildSearchParam(),
+        first: this.first,
+        offset: (page - 1) * this.first,
       },
-      result: this.handleResult,
     })
+    await this.handleResult(result, loadDirection)
+    callback && callback()
+    this.isFetchingData = false
+  }
+
+  @Debounce(500)
+  private resetPage() {
+    this.gotoPage(1)
+  }
+
+  private gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
+    this.nfts = []
+    this.isLoading = true
+    this.fetchPageData(page)
   }
 
   public async checkIfEmptyListed(): Promise<void> {
@@ -411,21 +432,32 @@ export default class CollectionItem extends mixins(
     this.priceData = [listedPriceData, soldPriceData]
   }
 
-  public async handleResult({ data }: any): Promise<void> {
+  public async handleResult(
+    { data }: any,
+    loadDirection = 'down'
+  ): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
       this.$router.push({ name: 'errorcollection' })
       return
     }
     this.firstMintDate = collectionEntity.createdAt
-    await getCloudflareImageLinks(
-      collectionEntity.nfts.nodes.map(mapOnlyMetadata)
-    ).catch(this.$consola.warn)
+    const newNfts = collectionEntity.nfts.nodes
+
+    await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
+      this.$consola.warn
+    )
     this.collection = {
       ...collectionEntity,
-      nfts: collectionEntity.nfts.nodes,
+      nfts: newNfts,
+    }
+    if (loadDirection === 'up') {
+      this.nfts = newNfts.concat(this.nfts)
+    } else {
+      this.nfts = this.nfts.concat(newNfts)
     }
     this.total = collectionEntity.nfts.totalCount
+    this.isLoading = false
 
     await this.fetchMetadata()
   }
@@ -468,6 +500,11 @@ export default class CollectionItem extends mixins(
         query: { ...this.$route.query, ['locate']: 'false' },
       })
     })
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 
   @Watch('activeTab')
