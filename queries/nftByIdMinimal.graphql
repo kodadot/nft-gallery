@@ -3,5 +3,6 @@ query nftByIdMinimal($id: String!) {
     id
     currentOwner
     price
+    events
   }
 }
