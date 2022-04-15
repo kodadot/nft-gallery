@@ -4,8 +4,10 @@
     <Search
       v-bind.sync="searchQuery"
       @resetPage="resetPage"
+      hideSearch
       :sortOption="collectionSortOption">
       <b-field>
+        <Layout class="mr-5" @change="onResize" />
         <Pagination
           hasMagicBtn
           simple
@@ -22,9 +24,12 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></infinite-loading>
-      <div class="columns is-multiline" @scroll="onScroll">
+      <div
+        id="infinite-scroll-container"
+        class="columns is-multiline"
+        @scroll="onScroll">
         <div
-          class="column is-4 column-padding scroll-item"
+          :class="`column is-4 column-padding scroll-item ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -82,7 +87,6 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
-import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -99,6 +103,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 @Component<CollectionList>({
@@ -116,7 +121,7 @@ export default class CollectionList extends mixins(
     {
       search: '',
       type: '',
-      sortBy: 'blockNumber_DESC',
+      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
       listed: false,
     },
     this.$route.query
@@ -125,8 +130,8 @@ export default class CollectionList extends mixins(
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
-    'updatedAt_DESC',
-    'updatedAt_ASC',
+    // 'updatedAt_DESC',   // unsupported options for now
+    // 'updatedAt_ASC',
   ]
 
   set currentValue(page: number) {
@@ -135,6 +140,10 @@ export default class CollectionList extends mixins(
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get classLayout() {
+    return this.$store.getters['preferences/getLayoutClass']
   }
 
   @Debounce(500)
@@ -158,6 +167,10 @@ export default class CollectionList extends mixins(
       params.push({
         name_contains: this.searchQuery.search,
       })
+    }
+
+    if (this.searchQuery.listed) {
+      params.push({ nfts_some: { price_gt: '0' } })
     }
 
     return params
@@ -211,7 +224,7 @@ export default class CollectionList extends mixins(
         ...this.collections[i],
         ...meta,
         image:
-          imageLinks[fastExtract(this.collections[i].metadata)] ||
+          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
           getSanitizer(meta.image || '')(meta.image || ''),
       })
     })
@@ -255,10 +268,8 @@ export default class CollectionList extends mixins(
   }
 
   @Watch('searchQuery', { deep: true })
-  protected onSearchQueryChange(val, oldVal) {
-    if (!isEqual(val, oldVal)) {
-      this.resetPage()
-    }
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 
   get results() {
