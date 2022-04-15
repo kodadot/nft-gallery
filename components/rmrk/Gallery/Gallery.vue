@@ -141,6 +141,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     priceMax: undefined,
   }
   private isLoading = true
+  private notMobile = true
 
   get showPriceValue(): boolean {
     return (
@@ -181,7 +182,9 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async created() {
-    this.fetchPageData(this.startPage)
+    await this.fetchPageData(this.startPage)
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
   }
 
   @Debounce(500)
@@ -354,6 +357,15 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
     this.resetPage()
+  }
+
+  @Debounce(1000)
+  protected onResize() {
+    this.notMobile = window.innerWidth >= 1024
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

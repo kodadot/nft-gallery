@@ -12,7 +12,6 @@ export default class InfiniteScrollMixin extends Vue {
   protected first = 12
   protected total = 0
   protected isFetchingData = false
-  protected notMobile = true
 
   protected mounted() {
     window.addEventListener('resize', this.onResize)
@@ -59,7 +58,6 @@ export default class InfiniteScrollMixin extends Vue {
   @Debounce(1000)
   protected onResize(): void {
     try {
-      this.notMobile = window.innerWidth >= 1024
       const container = document.getElementById('infinite-scroll-container')
       const scrollItem = document.body.querySelector('.scroll-item')
       if (scrollItem && container) {
