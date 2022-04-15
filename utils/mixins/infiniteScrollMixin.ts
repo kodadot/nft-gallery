@@ -12,6 +12,7 @@ export default class InfiniteScrollMixin extends Vue {
   protected first = 12
   protected total = 0
   protected isFetchingData = false
+  protected notMobile = true
 
   protected mounted() {
     window.addEventListener('resize', this.onResize)
@@ -39,8 +40,10 @@ export default class InfiniteScrollMixin extends Vue {
     const currentPage =
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
-    this.replaceUrlPage(String(currentPage))
-    this.currentPage = currentPage
+    if (currentPage) {
+      this.replaceUrlPage(String(currentPage))
+      this.currentPage = currentPage
+    }
   }
 
   protected replaceUrlPage(page: string): void {
@@ -55,6 +58,7 @@ export default class InfiniteScrollMixin extends Vue {
 
   protected onResize(): void {
     try {
+      this.notMobile = window.innerWidth >= 1024
       this.itemsPerRow =
         document.body.clientWidth > this.mobileScreenWidth ? 3 : 1
       const scrollItem = document.body.querySelector('.scroll-item')
