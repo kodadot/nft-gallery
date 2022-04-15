@@ -47,6 +47,7 @@ export default class Layout extends Vue {
   public layout = this.$store.getters['preferences/getLayoutClass']
 
   public onInputChange(data: string) {
+    this.$emit('change')
     this.$store.dispatch('preferences/setLayoutClass', data)
   }
 }
