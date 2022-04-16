@@ -6,7 +6,7 @@
       @resetPage="resetPage"
       hideSearch
       :sortOption="collectionSortOption">
-      <b-field>
+      <b-field class="is-flex">
         <Layout class="mr-5" @change="onResize" />
         <Pagination
           hasMagicBtn
