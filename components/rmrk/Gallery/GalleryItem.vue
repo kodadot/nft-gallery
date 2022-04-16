@@ -149,6 +149,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
+import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -233,6 +234,23 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 
   public mounted() {
+    // used to poll nft every second after component initialization in order to prevent double spending
+    this.$apollo.addSmartQuery<{ nft }>('nft', {
+      client: this.urlPrefix,
+      query: nftByIdMini,
+      manual: true,
+      variables: {
+        id: this.id,
+      },
+      result: ({ data }) => {
+        this.nft = {
+          ...this.nft,
+          ...data.nft,
+        }
+      },
+      pollInterval: 1000,
+    })
+
     if (this.message === 'congrats') {
       this.toast(this.message)
     }
