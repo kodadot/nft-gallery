@@ -266,26 +266,12 @@ export default defineNuxtConfig({
     }, // https://github.com/nuxt-community/apollo-module#options
   },
 
-  babel: {
-    presets() {
-      return [
-        [
-          '@nuxt/babel-preset-app',
-          {
-            overrides: [
-              {
-                test: './vendor/large.min.js',
-                compact: true,
-              },
-            ],
-          },
-        ],
-      ]
-    },
-  },
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    babel: {
+      // silence babel warning regarding exceeding file sizes (>500kb)
+      compact: true,
+    },
     transpile: [
       '@kodadot1/sub-api',
       '@polkadot/api',
