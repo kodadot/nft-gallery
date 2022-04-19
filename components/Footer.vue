@@ -41,6 +41,15 @@
               <b-icon pack="fab" icon="twitter" size="is-medium" />
             </a>
           </li>
+          <li class="icons__list-item">
+            <a
+              href="https://instagram.com/kodadot.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram">
+              <b-icon pack="fab" icon="instagram" size="is-medium" />
+            </a>
+          </li>
         </ul>
       </div>
       <ul class="footer__list">
