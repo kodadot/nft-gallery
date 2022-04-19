@@ -268,7 +268,12 @@
         </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
-
+      <b-table-column
+        cell-class="is-vcentered has-text-centered"
+        field="history"
+        label="History">
+        <mini-history />
+      </b-table-column>
       <template #empty>
         <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
@@ -294,6 +299,7 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  MiniHistory: () => import('@/components/shared/MiniHistory.vue'),
 }
 
 @Component({ components })
