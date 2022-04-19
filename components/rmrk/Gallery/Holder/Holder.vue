@@ -52,7 +52,7 @@
           aria-page-label="Page"
           aria-current-label="Current page"
           :current-page.sync="currentPage"
-          :default-sort="['Amount', 'desc']">
+          :default-sort="[defaultSortOption, 'desc']">
           <b-table-column
             :visible="columnsVisible['Name'].display"
             :field="groupKey"
@@ -253,6 +253,7 @@ export default class CommonHolderTable extends mixins(
   @Prop({ type: String, default: 'Date' }) dateHeaderLabel!: string
   @Prop({ type: String, default: 'Sale' }) saleHeaderLabel!: string
   @Prop({ type: String, default: '' }) collapseTitleOption!: string
+  @Prop({ type: String, default: 'Amount' }) defaultSortOption!: string
 
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
