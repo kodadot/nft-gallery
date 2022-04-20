@@ -199,7 +199,7 @@ export default class CollectionItem extends mixins(
     this.$route.query
   )
   public activeTab = 'items'
-  protected total = 0
+  private first = 16
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
@@ -296,12 +296,8 @@ export default class CollectionItem extends mixins(
     this.fetchPageData(this.startPage)
   }
 
-  public async fetchPageData(
-    page: number,
-    loadDirection = 'down',
-    callback?: () => void
-  ) {
-    if (this.isFetchingData) return
+  public async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) return false
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionById,
@@ -315,8 +311,8 @@ export default class CollectionItem extends mixins(
       },
     })
     await this.handleResult(result, loadDirection)
-    callback && callback()
     this.isFetchingData = false
+    return true
   }
 
   @Debounce(500)

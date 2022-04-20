@@ -335,12 +335,8 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.fetchPageData(page)
   }
 
-  public async fetchPageData(
-    page: number,
-    loadDirection = 'down',
-    callback?: () => void
-  ) {
-    if (this.isFetchingData) return
+  public async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) return false
     this.isFetchingData = true
     if (!this.id) {
       this.checkId()
@@ -355,8 +351,8 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
       },
     })
     await this.handleCollectionResult(result, loadDirection)
-    callback && callback()
     this.isFetchingData = false
+    return true
   }
 
   protected async fetchProfile() {
