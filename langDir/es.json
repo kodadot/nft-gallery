@@ -55,8 +55,10 @@
   "New here? We have F.A.Q.": "¿Eres nuevo? Consulta nuestras Preguntas Frecuentes",
   "Feedback? We\\'d be happy to discuss it.": "¿Tienes algún comentario? Lo discutiremos contigo encantados.",
   "Read our story, how we started.": "Lee nuestra historia, nuestros inicios.",
-  "Frequently Asked Question": "Preguntas Frecuentes",
   "faq": {
+    "title": "Preguntas Frecuentes",
+    "box_heading1": "",
+    "box_heading2": "",
     "q": {
       "1": "¿Qué moneda se utiliza para los NFTs?",
       "2": "¿Qué billetera necesito para añadir, comprar y coleccionar?",

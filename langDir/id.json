@@ -74,10 +74,12 @@
   "Layout Options": "Pengaturan Tataletak",
   "Gallery Items Per Page": "Item Galeri Per Halaman",
   "Collections Per Page": "Koleksi Per Halaman",
-  "Frequently Asked Question": "Pertanyaan yang sering di ajukan",
   "I am helping to cover costs": "Saya membantu menutupi biaya",
   "I do not want to support": "Saya tidak ingin mendukung",
   "faq": {
+    "title": "Pertanyaan yang sering di ajukan",
+    "box_heading1": "",
+    "box_heading2": "",
     "q": {
       "1": "Apa itu NFT?",
       "2": "Apa itu minting?",

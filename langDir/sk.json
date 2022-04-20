@@ -55,8 +55,10 @@
   "New here? We have F.A.Q.": "Ste tu noví? Máme Často kladené otázky",
   "Feedback? We\\'d be happy to discuss it.": "Máte spätnú väzbu? Radi to prediskutujeme.",
   "Read our story, how we started.": "Prečítajte si náš príbeh, ako sme začali.",
-  "Frequently Asked Question": "Často kladené otázky",
   "faq": {
+    "title": "Často kladené otázky",
+    "box_heading1": "",
+    "box_heading2": "",
     "q": {
       "1": "Ktorý coin sa používa pre NTFS?",
       "2": "Akú peňaženku potrebujem na vytváranie, kupovanie a zbieranie?",

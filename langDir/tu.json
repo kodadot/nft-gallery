@@ -55,8 +55,10 @@
   "New here? We have F.A.Q.": "Yeni misiniz? Sıkça sorulan soruları ziyaret ediniz.",
   "Feedback? We\\'d be happy to discuss it.": "Geri dönüs? Görüsünüzü dinlemekten mutluluk duyarız",
   "Read our story, how we started.": "Nasıl başladığımızın hikayesini okuyun",
-  "Frequently Asked Question": "Sıkça sorulan sorular",
   "faq": {
+    "title": "Sıkça sorulan sorular",
+    "box_heading1": "",
+    "box_heading2": "",
     "q": {
       "1": "NFT için kullanılan tokenler?",
       "2": "What wallet do I need to mint, buy and collect?",
