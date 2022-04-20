@@ -13,7 +13,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^5.15.4
   '@fortawesome/free-solid-svg-icons': ^5.15.4
   '@fortawesome/vue-fontawesome': ^2.0.6
-  '@google/model-viewer': 1.10.1
+  '@google/model-viewer': ^1.11.1
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.6
   '@kodadot1/sub-api': ^0.0.1-rc.3
@@ -93,7 +93,7 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 5.15.4
   '@fortawesome/free-solid-svg-icons': 5.15.4
   '@fortawesome/vue-fontawesome': 2.0.6_fe42df078f2a2053a7b804c982ace964
-  '@google/model-viewer': 1.10.1
+  '@google/model-viewer': 1.11.1
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.6
   '@kodadot1/sub-api': 0.0.1-rc.3
@@ -1800,9 +1800,13 @@ packages:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
     dev: false
 
-  /@google/model-viewer/1.10.1:
-    resolution: {integrity: sha512-mQ7FhALWLj1rc4P7NXUNVG4glfgIeKK18X5UlQ0C+InkTsaLvfdTkOz5ixTwDWaw3ba8j6DMyGcN0mzMqc/OyA==}
+  /@google/model-viewer/1.11.1:
+    resolution: {integrity: sha512-JkmxbrImN2QU22kPTzseCGIOOzxzc2oWvoCBk2vEEqrTwh6orzYWhKw9bfzMmZqxPzP9jNlRSBzD1WSUgFm9Iw==}
     engines: {node: '>=6.0.0'}
+    dependencies:
+      lit-element: 2.5.1
+      lit-html: 1.4.1
+      three: 0.139.2
     dev: false
 
   /@graphql-tools/batch-delegate/6.2.6_graphql@15.8.0:
@@ -11300,6 +11304,16 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
+  /lit-element/2.5.1:
+    resolution: {integrity: sha512-ogu7PiJTA33bEK0xGu1dmaX5vhcRjBXCFexPja0e7P7jqLhTpNKYRPmE+GmiCaRVAbiQKGkUgkh/i6+bh++dPQ==}
+    dependencies:
+      lit-html: 1.4.1
+    dev: false
+
+  /lit-html/1.4.1:
+    resolution: {integrity: sha512-B9btcSgPYb1q4oSOb/PrOT6Z/H+r6xuNzfH4lFli/AWhYwdtrgQkQWBbIc6mdnf6E2IL3gDXdkkqNktpU0OZQA==}
+    dev: false
+
   /load-json-file/5.3.0:
     resolution: {integrity: sha512-cJGP40Jc/VXUsp8/OrnyKyTZ1y6v/dphm3bioS+RrKXjK2BB6wHUd6JptZEFDGgGahMT+InnZO5i1Ei9mpC8Bw==}
     engines: {node: '>=6'}
@@ -15688,6 +15702,10 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.1
       webpack: 4.46.0
+    dev: false
+
+  /three/0.139.2:
+    resolution: {integrity: sha512-gV7q7QY8rogu7HLFZR9cWnOQAUedUhu2WXAnpr2kdXZP9YDKsG/0ychwQvWkZN5PlNw9mv5MoCTin6zNTXoONg==}
     dev: false
 
   /throttle-debounce/2.3.0:
