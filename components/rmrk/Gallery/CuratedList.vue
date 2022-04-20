@@ -64,6 +64,7 @@ const curatedCollection = [
   '160a6f4320f11acb25-LCKWV', // PixelBabe
   '7472058104f9f93924-KSMRAI', // Kusamurais (substraknights)
   '7cf9daa38281a57331-BSS', // Spaceships (ClownWorldHouse)
+  '900D19DC7D3C444E4C-KSMBOT', // KusamaBot (deepologics)
 ]
 
 @Component<CuratedList>({
