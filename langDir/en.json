@@ -74,9 +74,11 @@
   "Layout Options": "Layout Options",
   "Gallery Items Per Page": "Gallery Items Per Page",
   "Collections Per Page": "Collections Per Page",
-  "Frequently Asked Question": "Frequently Asked Question",
+  "Frequently Asked Questions": "Frequently Asked Questions",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
+  "Don't have time to read": "Don't have time to read",
+  "No problem, check out our tutorials": "No problem, check out our tutorials",
   "faq": {
     "q": {
       "1": "What are NFTs?",
