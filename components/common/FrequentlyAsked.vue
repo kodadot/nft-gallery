@@ -9,7 +9,9 @@
       class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
       {{ $t('faq.box_heading1') }} <br />
       {{ $t('faq.box_heading2') }} <br />
-      <nuxt-link :to="{ name: 'tutorials' }"> Our tutorials. </nuxt-link>
+      <nuxt-link :to="{ name: 'tutorials' }">
+        {{ $t('faq.box_heading_link') }}
+      </nuxt-link>
     </p>
 
     <div v-for="qa in faqQuestionsAnswers" v-bind:key="qa[0]" class="mb-5">
