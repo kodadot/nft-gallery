@@ -8,7 +8,7 @@
     <p
       class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
       {{ $t('faq.box_heading1') }} <br />
-      No problem, check out <br />
+      {{ $t('faq.box_heading2') }}<br />
       <nuxt-link :to="{ name: 'tutorials' }"> Our tutorials. </nuxt-link>
     </p>
 
