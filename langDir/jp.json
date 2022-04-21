@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "初めての方はFAQを見てみましょう。",
   "Feedback? We\\'d be happy to discuss it.": "フィードバックがありますか？ディスカッション大歓迎です。",
   "Read our story, how we started.": "このプロジェクトをスタートした私たちのストーリーはこちら。",
-  "Frequently Asked Question": "FAQ（良くある質問）",
   "faq": {
+    "title": "FAQ（良くある質問）",
     "q": {
       "1": "どの様なコインがNFTとして使われていますか？",
       "2": "ミント、購入、収集するにはどのようなウォレットが必要ですか？",
