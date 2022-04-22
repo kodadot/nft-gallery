@@ -269,10 +269,13 @@
         <b-skeleton :active="isLoading" />
       </b-table-column>
       <b-table-column
-        cell-class="is-vcentered has-text-centered"
-        field="history"
-        label="History">
-        <mini-history />
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered history"
+        field="buyHistory"
+        label="Buy History">
+        <mini-history
+          :xAxisList="props.row.buyHistory.xAxisList"
+          :yAxisList="props.row.buyHistory.yAxisList" />
       </b-table-column>
       <template #empty>
         <div v-if="!isLoading" class="has-text-centered">
@@ -360,11 +363,43 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
+    const defaultBuyEvents = getDateArray(last30Days, today).reduce(
+      (res, date) => {
+        res[date] = 0
+        return res
+      },
+      {}
+    )
+
+    const axisLize = (obj = {}): BuyHistory => ({
+      xAxisList: Object.keys(obj),
+      yAxisList: Object.values(obj),
+    })
+
+    const ids = collectionEntities.map((c: Collection) => c.id)
+
+    const buyEvents = (await this.fetchCollectionEvents(ids))
+      .map((e) => ({
+        ...e.nft.collection,
+        timestamp: e.timestamp.replace(/(T.*?$)/g, ''),
+      }))
+      .reduce((res, e) => {
+        const { id, timestamp: ts } = e
+        if (!res[id]) {
+          res[id] = Object.assign({}, defaultBuyEvents)
+        }
+        res[id][ts] += 1
+        return res
+      }, {})
+
     this.data = collectionEntities.map(
-      (e): RowSeries => ({
+      (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
+        buyHistory: axisLize(
+          Object.assign(defaultBuyEvents, buyEvents[e.id] || {})
+        ),
       })
     )
 
@@ -460,6 +495,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
+}
+
+.history {
+  width: 200px;
+  height: 100px;
 }
 
 .series-sticky-header th {
