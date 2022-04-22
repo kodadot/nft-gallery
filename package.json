@@ -126,7 +126,7 @@
     "@typescript-eslint/parser": "^5.20.0",
     "all-contributors-cli": "^6.20.0",
     "consola": "^2.15.3",
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.7.1",
     "graphql-tag": "^2.12.6",
