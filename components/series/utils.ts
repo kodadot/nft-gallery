@@ -82,10 +82,25 @@ const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
 
-const today = startOfToday()
+export const today = new Date()
 const yesterdayDate: Date = subDays(today, 1)
 const lastweekDate: Date = subDays(today, 7)
+export const last30Days: Date = subDays(today, 30)
 const lastmonthDate: Date = subDays(today, 30)
 const sub2dayDate: Date = subDays(today, 2)
 const last2weekDate: Date = subDays(today, 14)
 const last2monthDate: Date = subDays(today, 60)
+
+// -> ["202-11-30", ...]
+export function getDateArray(start: Date, end: Date): string[] {
+  const result = []
+  for (
+    let dt = new Date(start);
+    dt <= new Date(end);
+    dt.setDate(dt.getDate() + 1)
+  ) {
+    const date = new Date(dt).toISOString().slice(0, 10)
+    result.push(date)
+  }
+  return result
+}

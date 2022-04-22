@@ -286,14 +286,15 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { Column, RowSeries, SortType } from './types'
+import { Column, RowSeries, SortType, BuyHistory } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import { NFTMetadata } from '../rmrk/service/scheme'
+import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
+import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort } from './utils'
+import { toSort, last30Days, today, getDateArray } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -368,6 +369,28 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     )
 
     this.isLoading = false
+  }
+
+  protected async fetchCollectionEvents(ids: string[]) {
+    try {
+      // const today = new Date()
+      const { data } = await this.$apollo.query<{ events }>({
+        query: collectionsEvents,
+        client: 'subsquid',
+        variables: {
+          ids: ids,
+          and: {
+            interaction_eq: 'BUY',
+          },
+          lte: today,
+          gte: last30Days,
+        },
+      })
+      return data.events
+    } catch (e) {
+      this.$consola.error(e)
+      return []
+    }
   }
 
   public onSort(field: string, order: string) {
