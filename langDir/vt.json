@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "Người mới? Chúng tôi có F.A.Q cho bạn",
   "Feedback? We\\'d be happy to discuss it.": "Phản hồi? Chúng tôi rất vui lòng khi thảo luận về nó.",
   "Read our story, how we started.": "Đọc câu chuyện của chúng tôi và cách mà chúng tôi bắt đầu.",
-  "Frequently Asked Question": "Câu hỏi thường gặp",
   "faq": {
+    "title": "Câu hỏi thường gặp",
     "q": {
       "1": "Đồng xu nào được sử dụng cho NFTs?",
       "2": "Tôi cần ví gì để đúc mã thông báo, mua và thu thập?",

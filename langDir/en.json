@@ -74,10 +74,13 @@
   "Layout Options": "Layout Options",
   "Gallery Items Per Page": "Gallery Items Per Page",
   "Collections Per Page": "Collections Per Page",
-  "Frequently Asked Question": "Frequently Asked Question",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
   "faq": {
+    "title": "Frequently Asked Questions",
+    "box_heading1": "Don't have time to read?",
+    "box_heading2": "No problem, check out",
+    "box_heading_link": "Our tutorials",
     "q": {
       "1": "What are NFTs?",
       "2": "What is minting?",
