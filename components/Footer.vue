@@ -7,29 +7,11 @@
         <ul class="footer__list icons__list">
           <li class="icons__list-item">
             <a
-              href="https://medium.com/kodadot"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Medium">
-              <b-icon pack="fab" icon="medium" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://discord.gg/u6ymnbz4PR"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Discord">
               <b-icon pack="fab" icon="discord" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
-              href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Youtube">
-              <b-icon pack="fab" icon="youtube" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -48,6 +30,24 @@
               rel="noopener noreferrer"
               aria-label="Instagram">
               <b-icon pack="fab" icon="instagram" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Youtube">
+              <b-icon pack="fab" icon="youtube" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://medium.com/kodadot"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium">
+              <b-icon pack="fab" icon="medium" size="is-medium" />
             </a>
           </li>
         </ul>
