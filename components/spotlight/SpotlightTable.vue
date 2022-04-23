@@ -18,7 +18,7 @@
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+            <b-switch v-model="isUserHasIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
           </div>
@@ -189,9 +189,8 @@ export default class SpotlightTable extends mixins(
   KeyboardEventsMixin
 ) {
   protected data: Row[] = []
-  protected usersWithIdentity: Row[] = []
-  protected toggleUsersWithIdentity = false
   protected currentPage = 0
+  protected isUserHasIdentity = false
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
@@ -232,7 +231,9 @@ export default class SpotlightTable extends mixins(
   }
 
   private get computedData() {
-    return this.toggleUsersWithIdentity ? this.usersWithIdentity : this.data
+    return this.isUserHasIdentity
+      ? this.data.filter((x) => x.hasIndentity)
+      : this.data
   }
 
   public get ids(): string[] {
@@ -315,7 +316,7 @@ export default class SpotlightTable extends mixins(
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
       if (result && Object.keys(result).length) {
-        this.usersWithIdentity[index] = this.data[index]
+        this.data[index].hasIndentity = true
       }
     }
 
