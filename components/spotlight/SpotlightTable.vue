@@ -2,10 +2,11 @@
   <div class="spotlight">
     <Loader :value="isLoading" />
     <b-table
-      :data="toggleUsersWithIdentity ? usersWithIdentity : data"
+      :data="computedData"
       :current-page="currentPage ? currentPage : 1"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
+      @page-change="this.onPageChange"
       hoverable
       detailed
       paginated
@@ -125,6 +126,16 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
+      <!-- <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered history"
+        field="soldHistory"
+        label="SoldHistory">
+        <mini-history
+          :xAxisList="props.row.soldHistory.xAxisList"
+          :yAxisList="props.row.soldHistory.yAxisList" />
+      </b-table-column> -->
+
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
         <div v-else class="has-text-centered">{{ $t('spotlight.empty') }}</div>
@@ -144,6 +155,7 @@
 import { Component, mixins } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
+import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -152,7 +164,7 @@ import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { toSort } from '../series/utils'
+import { toSort, today, last30Days, getDateArray } from '../series/utils'
 import { SortType } from '../series/types'
 
 type Address = string | GenericAccountId | undefined
@@ -205,15 +217,30 @@ export default class SpotlightTable extends mixins(
     })
   }
 
+  private get pageSize() {
+    return Math.floor(this.total / 20)
+  }
+
+  private get total() {
+    return this.computedData.length
+  }
+
+  private get computedData() {
+    return this.toggleUsersWithIdentity ? this.usersWithIdentity : this.data
+  }
+
+  public get ids() : string[] {
+    const startIdx = this.currentPage * 10
+    const endIdx = (this.currentPage + 1) * 10
+    return this.data.slice(startIdx, endIdx).map(x => x.id)
+  }
+
   private bindPaginationEvents(event) {
-    const total = this.toggleUsersWithIdentity
-      ? this.usersWithIdentity.length
-      : this.data.length
-    const pageSize = Math.floor(total / 20)
 
     switch (event.key) {
       case 'n':
-        if (this.currentPage < pageSize) this.currentPage = this.currentPage + 1
+        if (this.currentPage < this.pageSize)
+          this.currentPage = this.currentPage + 1
         break
       case 'p':
         if (this.currentPage > 1) {
@@ -233,6 +260,7 @@ export default class SpotlightTable extends mixins(
       client: 'subsquid',
       variables: {
         // denyList, not yet
+        limit: 100,
         offset: 0,
         orderBy: sort || 'sold_DESC',
       },
@@ -242,6 +270,19 @@ export default class SpotlightTable extends mixins(
       data: { collectionEntities },
     } = collections
 
+    const axisLize = (obj = {}): BuyHistory => ({
+      xAxisList: Object.keys(obj),
+      yAxisList: Object.values(obj),
+    })
+
+    const defaultSoldEvents = getDateArray(last30Days, today).reduce(
+      (res, date) => {
+        res[date] = 0
+        return res
+      },
+      {}
+    )
+
     this.data = collectionEntities.map(
       (e): Row => ({
         ...e,
@@ -250,8 +291,31 @@ export default class SpotlightTable extends mixins(
         rank: e.sold * (e.unique / e.total || 1),
         uniqueCollectors: e.uniqueCollectors,
         volume: BigInt(e.volume),
+        // soldHistory: {},
       })
     )
+
+
+    const solds = (await this.fetchSpotlightSoldHistory())
+      .map(nft => ({
+        id: nft.issuer,
+        timestamps: nft.events.flat().map(x => x.timestamp.replace(/(T.*?)$/g, ''))
+      }))
+      .reduce((res, e) => {
+        const { id, timestamps } = e
+        if (!res[id]) {
+          res[id] = Object.assign({}, defaultSoldEvents)
+        }
+        timestamps.forEach(ts => res[id][ts] += 1)
+        return res
+      }, {})
+    this.data.forEach(row => {
+      // if (solds[row.id]) {
+      row.soldHistory = axisLize(solds[row.id])
+      // } else {
+      //   row.soldHistory = axisLize(defaultSoldEvents)
+      // }
+    })
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
@@ -261,6 +325,27 @@ export default class SpotlightTable extends mixins(
     }
 
     this.isLoading = false
+  }
+
+  public async fetchSpotlightSoldHistory() {
+    const data = await this.$apollo.query({
+      query: spotlightSoldHistory,
+      client: 'subsquid',
+      variables: {
+        limit: 10,
+        ids: this.ids,
+        lte: today,
+        gte: last30Days,
+      },
+    })
+    const {
+      data: { nftEntities },
+    } = data
+    return nftEntities
+  }
+
+  private onPageChange(page: number) {
+    this.currentPage = page
   }
 
   public onSort(field: string, order: string) {
@@ -293,16 +378,16 @@ export default class SpotlightTable extends mixins(
   }
 
   public goToRandomPage() {
-    const total = this.toggleUsersWithIdentity
-      ? this.usersWithIdentity.length
-      : this.data.length
-    const pageSize = Math.floor(total / 20)
-    let randomNumber = getRandomIntInRange(1, pageSize)
+    let randomNumber = getRandomIntInRange(1, this.pageSize)
     this.currentPage = randomNumber
   }
 }
 </script>
 <style scoped lang="scss">
+.history {
+  width: 200px;
+  height: 100px;
+}
 .spotlight .magicBtn {
   position: absolute;
   right: 0;
