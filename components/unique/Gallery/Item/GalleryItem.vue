@@ -146,13 +146,8 @@ import onApiConnect from '@/utils/api/general'
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
-    Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    History: () => import('@/components/rmrk/Gallery/History.vue'),
-    Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/rmrk/Gallery/Item/Sharing.vue'),
-    Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
-    MediaResolver: () => import('@/components/rmrk/Media/MediaResolver.vue'),
     IndexerGuard: () => import('@/components/shared/wrapper/IndexerGuard.vue'),
     VueMarkdown: () => import('vue-markdown-render'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
@@ -169,12 +164,8 @@ import onApiConnect from '@/utils/api/general'
 export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   private id = ''
   private collectionId = ''
-  // private accountId: string = '';
-  private passsword = ''
   private nft: NFT = emptyObject<NFT>()
   private imageVisible = true
-  private viewMode = 'default'
-  private isFullScreenView = false
   public isLoading = false
   public mimeType = ''
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
@@ -368,18 +359,6 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     }
   }
 
-  public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
-  }
-
-  public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView
-  }
-
-  public minimize(): void {
-    this.isFullScreenView = false
-  }
-
   public toast(message: string): void {
     this.$buefy.toast.open(message)
   }
@@ -402,11 +381,6 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
     }
   }
-
-  protected handleUnlist() {
-    // call unlist function from the AvailableActions component
-    // (this.$refs.actions as AvailableActions).unlistNft()
-  }
 }
 </script>
 
@@ -416,148 +390,5 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
 hr.comment-divider {
   border-top: 1px solid $lightpink;
   border-bottom: 1px solid $lightpink;
-}
-
-.gallery-item {
-  .nft-title {
-    margin-bottom: 24px;
-  }
-
-  .gallery-item__skeleton {
-    width: 95%;
-    margin: auto;
-  }
-
-  .image-wrapper {
-    position: relative;
-    margin: 30px auto;
-    width: 100%;
-
-    .image {
-      border: 2px solid $primary;
-    }
-
-    .fullscreen-image {
-      display: none;
-    }
-
-    .image-preview {
-      &.fullscreen {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 999998;
-        background: #000;
-
-        img.fullscreen-image {
-          display: block;
-          object-fit: contain;
-          width: 100%;
-          height: 100%;
-          overflow: auto;
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, 0);
-          overflow-y: hidden;
-        }
-
-        .image {
-          visibility: hidden;
-        }
-      }
-    }
-
-    .column {
-      transition: 0.3s all;
-    }
-
-    button {
-      border: 2px solid $primary;
-      color: #fff;
-      font-weight: bold;
-      text-transform: uppercase;
-      padding: 7px 16px;
-      font-size: 20px;
-      background: $scheme-main;
-      z-index: 2;
-
-      &:hover {
-        background: $primary;
-        cursor: pointer;
-      }
-    }
-  }
-
-  button#theatre-view {
-    position: absolute;
-    top: 13px;
-    left: 13px;
-    color: $light-text;
-    @media screen and (max-width: 768px) {
-      display: none;
-    }
-  }
-
-  button#fullscreen-view {
-    position: absolute;
-    bottom: 13px;
-    right: 13px;
-
-    &.fullscreen {
-      position: fixed;
-      z-index: 999998;
-      bottom: 0;
-      right: 0;
-    }
-  }
-
-  .price-block {
-    border: 2px solid $primary;
-    padding: 14px;
-
-    &__original {
-      font-size: 24px;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
-    &__container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &__exchange {
-      opacity: 0.6;
-      color: $dark;
-      margin: 0;
-    }
-  }
-
-  .card-actions {
-    border-radius: 0 !important;
-    box-shadow: none;
-    border: 2px solid $primary;
-
-    &-content {
-      padding-left: 1rem;
-      padding-top: 1rem;
-    }
-
-    &-footer {
-      &-item {
-        padding: 0.75rem !important;
-      }
-    }
-  }
-
-  &.no-padding-desktop {
-    @media screen and (min-width: 1023px) {
-      padding: 0;
-    }
-  }
 }
 </style>
