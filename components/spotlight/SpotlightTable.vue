@@ -3,7 +3,7 @@
     <Loader :value="isLoading" />
     <b-table
       :data="computedData"
-      :current-page="currentPage ? currentPage : 1"
+      :current-page="currentPage"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
       @page-change="this.onPageChange"
@@ -189,8 +189,9 @@ export default class SpotlightTable extends mixins(
   KeyboardEventsMixin
 ) {
   protected data: Row[] = []
-  protected currentPage = 0
   protected isUserHasIdentity = false
+  protected currentPage = 1
+  protected PER_PAGE = 20
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
@@ -223,7 +224,7 @@ export default class SpotlightTable extends mixins(
   }
 
   private get pageSize() {
-    return Math.floor(this.total / 20)
+    return Math.ceil(this.total / this.PER_PAGE)
   }
 
   private get total() {
@@ -237,9 +238,9 @@ export default class SpotlightTable extends mixins(
   }
 
   public get ids(): string[] {
-    const startIdx = this.currentPage * 10
-    const endIdx = (this.currentPage + 1) * 10
-    return this.data.slice(startIdx, endIdx).map((x) => x.id)
+    const start = (this.currentPage - 1) * this.PER_PAGE
+    const end = this.currentPage * this.PER_PAGE
+    return this.computedData.slice(start, end).map((x) => x.id)
   }
 
   private bindPaginationEvents(event) {
