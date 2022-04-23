@@ -104,3 +104,17 @@ export function getDateArray(start: Date, end: Date): string[] {
   }
   return result
 }
+
+export function axisLize(obj = {}) {
+  return {
+    xAxisList: Object.keys(obj),
+    yAxisList: Object.values(obj),
+  }
+}
+
+export function defaultEvents(start: Date, end: Date) {
+  return getDateArray(start, end).reduce((res, date) => {
+    res[date] = 0
+    return res
+  }, {})
+}

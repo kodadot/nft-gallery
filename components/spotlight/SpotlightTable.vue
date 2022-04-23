@@ -164,7 +164,13 @@ import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { toSort, today, last30Days, getDateArray } from '../series/utils'
+import {
+  toSort,
+  today,
+  last30Days,
+  axisLize,
+  defaultEvents,
+} from '../series/utils'
 import { SortType } from '../series/types'
 
 type Address = string | GenericAccountId | undefined
@@ -229,14 +235,13 @@ export default class SpotlightTable extends mixins(
     return this.toggleUsersWithIdentity ? this.usersWithIdentity : this.data
   }
 
-  public get ids() : string[] {
+  public get ids(): string[] {
     const startIdx = this.currentPage * 10
     const endIdx = (this.currentPage + 1) * 10
-    return this.data.slice(startIdx, endIdx).map(x => x.id)
+    return this.data.slice(startIdx, endIdx).map((x) => x.id)
   }
 
   private bindPaginationEvents(event) {
-
     switch (event.key) {
       case 'n':
         if (this.currentPage < this.pageSize)
@@ -270,18 +275,7 @@ export default class SpotlightTable extends mixins(
       data: { collectionEntities },
     } = collections
 
-    const axisLize = (obj = {}): BuyHistory => ({
-      xAxisList: Object.keys(obj),
-      yAxisList: Object.values(obj),
-    })
-
-    const defaultSoldEvents = getDateArray(last30Days, today).reduce(
-      (res, date) => {
-        res[date] = 0
-        return res
-      },
-      {}
-    )
+    const defaultSoldEvents = defaultEvents(last30Days, today)
 
     this.data = collectionEntities.map(
       (e): Row => ({
@@ -295,21 +289,22 @@ export default class SpotlightTable extends mixins(
       })
     )
 
-
     const solds = (await this.fetchSpotlightSoldHistory())
-      .map(nft => ({
+      .map((nft) => ({
         id: nft.issuer,
-        timestamps: nft.events.flat().map(x => x.timestamp.replace(/(T.*?)$/g, ''))
+        timestamps: nft.events
+          .flat()
+          .map((x) => x.timestamp.replace(/(T.*?)$/g, '')),
       }))
       .reduce((res, e) => {
         const { id, timestamps } = e
         if (!res[id]) {
           res[id] = Object.assign({}, defaultSoldEvents)
         }
-        timestamps.forEach(ts => res[id][ts] += 1)
+        timestamps.forEach((ts) => (res[id][ts] += 1))
         return res
       }, {})
-    this.data.forEach(row => {
+    this.data.forEach((row) => {
       // if (solds[row.id]) {
       row.soldHistory = axisLize(solds[row.id])
       // } else {
