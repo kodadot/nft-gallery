@@ -4,7 +4,19 @@
     <Search
       v-bind.sync="searchQuery"
       @resetPage="resetPage"
+      hideSearch
       :sortOption="collectionSortOption">
+      <b-field>
+        <Layout class="mr-5" @change="onResize" />
+        <Pagination
+          hasMagicBtn
+          simple
+          replace
+          preserveScroll
+          :total="total"
+          v-model="currentValue"
+          :perPage="first" />
+      </b-field>
     </Search>
 
     <div>
@@ -12,9 +24,12 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></infinite-loading>
-      <div class="columns is-multiline" @scroll="onScroll">
+      <div
+        id="infinite-scroll-container"
+        class="columns is-multiline"
+        @scroll="onScroll">
         <div
-          class="column is-4 column-padding scroll-item"
+          :class="`column is-4 column-padding scroll-item ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -72,7 +87,6 @@ import {
 } from '~/utils/cachingStrategy'
 import { CollectionMetadata } from '~/components/rmrk/types'
 import { fastExtract } from '~/utils/ipfs'
-import { isEqual } from 'lodash'
 
 interface Image extends HTMLImageElement {
   ffInitialized: boolean
@@ -89,6 +103,7 @@ const components = {
     import('@/components/rmrk/Gallery/CollectionDetail.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
 }
 
 @Component<CollectionList>({
@@ -106,7 +121,7 @@ export default class CollectionList extends mixins(
     {
       search: '',
       type: '',
-      sortBy: 'blockNumber_DESC',
+      sortBy: (this.$route.query.sort as string) ?? 'blockNumber_DESC',
       listed: false,
     },
     this.$route.query
@@ -115,17 +130,34 @@ export default class CollectionList extends mixins(
   private collectionSortOption: string[] = [
     'blockNumber_DESC',
     'blockNumber_ASC',
-    'updatedAt_DESC',
-    'updatedAt_ASC',
+    // 'updatedAt_DESC',   // unsupported options for now
+    // 'updatedAt_ASC',
   ]
+
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
+  }
+
+  get classLayout() {
+    return this.$store.getters['preferences/getLayoutClass']
+  }
 
   @Debounce(500)
   private resetPage() {
-    this.startPage = 1
-    this.endPage = 1
+    this.gotoPage(1)
+  }
+
+  private gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
     this.collections = []
     this.isLoading = true
-    this.fetchPageData(1)
+    this.fetchPageData(page)
   }
 
   private buildSearchParam(): Record<string, unknown>[] {
@@ -148,12 +180,11 @@ export default class CollectionList extends mixins(
     this.fetchPageData(this.startPage)
   }
 
-  public async fetchPageData(
+  protected async fetchPageData(
     page: number,
-    loadDirection = 'down',
-    callback?: () => void
-  ) {
-    if (this.isFetchingData) return
+    loadDirection = 'down'
+  ): Promise<boolean> {
+    if (this.isFetchingData) return false
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
@@ -169,12 +200,11 @@ export default class CollectionList extends mixins(
       },
     })
     await this.handleResult(result, loadDirection)
-    callback && callback()
     this.isFetchingData = false
+    return true
   }
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
-    console.log('jarsen handleResult', data)
     this.total = data.stats.totalCount
     const newCollections = data.collectionEntities.map((e: any) => ({
       ...e,
@@ -193,7 +223,7 @@ export default class CollectionList extends mixins(
         ...this.collections[i],
         ...meta,
         image:
-          imageLinks[fastExtract(this.collections[i].metadata)] ||
+          imageLinks[fastExtract(this.collections[i]?.metadata)] ||
           getSanitizer(meta.image || '')(meta.image || ''),
       })
     })
@@ -214,9 +244,7 @@ export default class CollectionList extends mixins(
       })
 
       const {
-        data: {
-          collectionEntities: { collectionList },
-        },
+        data: { collectionEntities: collectionList },
       } = await collections
 
       const metadataList: string[] = collectionList.map(mapOnlyMetadata)
@@ -239,10 +267,8 @@ export default class CollectionList extends mixins(
   }
 
   @Watch('searchQuery', { deep: true })
-  protected onSearchQueryChange(val, oldVal) {
-    if (!isEqual(val, oldVal)) {
-      this.resetPage()
-    }
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 
   get results() {
