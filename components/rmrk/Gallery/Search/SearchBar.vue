@@ -494,7 +494,12 @@ export default class SearchBar extends mixins(
   updateSuggestion(value: string) {
     this.searchString = value
     //To handle empty string
-    if (!value) return
+    if (!value) {
+      // reset query-based search results once searchString is empty
+      this.collectionResult = []
+      this.nftResult = []
+      return
+    }
 
     this.query.search = value
     this.searchSuggestionEachTypeMaxNum = 3
