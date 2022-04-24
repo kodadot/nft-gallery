@@ -7,20 +7,29 @@
         <ul class="footer__list icons__list">
           <li class="icons__list-item">
             <a
-              href="https://medium.com/kodadot"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Medium">
-              <b-icon pack="fab" icon="medium" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://discord.gg/u6ymnbz4PR"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Discord">
               <b-icon pack="fab" icon="discord" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://twitter.com/KodaDot"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter">
+              <b-icon pack="fab" icon="twitter" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://instagram.com/kodadot.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram">
+              <b-icon pack="fab" icon="instagram" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -34,11 +43,11 @@
           </li>
           <li class="icons__list-item">
             <a
-              href="https://twitter.com/KodaDot"
+              href="https://medium.com/kodadot"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Twitter">
-              <b-icon pack="fab" icon="twitter" size="is-medium" />
+              aria-label="Medium">
+              <b-icon pack="fab" icon="medium" size="is-medium" />
             </a>
           </li>
         </ul>

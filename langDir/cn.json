@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "欢迎您的到来！这里有您想了解的一切。",
   "Feedback? We\\'d be happy to discuss it.": "您的反馈，我们很开心对此进行讨论。",
   "Read our story, how we started.": "关于我们的故事，以及我们的开始。",
-  "Frequently Asked Question": "常见问题解答",
   "faq": {
+    "title": "常见问题解答",
     "q": {
       "1": "NFTs使用了哪些代币?",
       "2": "我需要什么钱包来铸造，购买和收藏？",
