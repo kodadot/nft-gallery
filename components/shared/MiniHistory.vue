@@ -33,68 +33,76 @@ type ValueList = Array<number>
 export default class MiniHistory extends Vue {
   @Prop() public xAxisList!: DataList
   @Prop() public yAxisList!: ValueList
+
   data() {
-    return {
-      option: {
-        xAxis: {
-          type: 'category',
+    let option = {
+      xAxis: {
+        type: 'category',
+        data: this.xAxisList,
+        show: false,
+      },
+      yAxis: {
+        type: 'value',
+        show: false,
+        data: [],
+        min: -1,
+        max: 1,
+      },
+      series: [
+        {
           data: [],
-          show: false,
-        },
-        yAxis: {
-          type: 'value',
-          show: false,
-          data: [],
-          min: 0,
-          max: 100,
-        },
-        series: [
-          {
-            data: [],
-            type: 'line',
-            smooth: 0.3,
-            showSymbol: false,
-            animation: false,
-            lineStyle: {
-              width: 2.5,
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: '#a3cf06', // color at 0%
-                  },
-                  {
-                    offset: 1,
-                    color: 'green', // color at 100%
-                  },
-                ],
-                global: false, // default is false
-              },
+          type: 'line',
+          smooth: 0.3,
+          showSymbol: false,
+          animation: false,
+          lineStyle: {
+            width: 2.5,
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#a3cf06', // color at 0%
+                },
+                {
+                  offset: 1,
+                  color: 'green', // color at 100%
+                },
+              ],
+              global: false, // default is false
             },
           },
-        ],
-      },
+        },
+      ],
     }
+
+    return {
+      option,
+    }
+  }
+  private get min() {
+    return Math.min(...this.yAxisList) - 1
+  }
+
+  private get max() {
+    return Math.max(...this.yAxisList) + 1
+  }
+
+  private get seriesData() {
+    return this.yAxisList
   }
 
   public async created() {
-    const { xAxis, yAxis } = this.$data.option
-    this.$data.option.xAxis = {
-      ...xAxis,
-      data: this.xAxisList,
-    }
-    this.$data.option.yAxis = {
-      ...yAxis,
-      data: this.yAxisList,
-      min: Math.min(...this.$props.yAxisList) - 1,
-      max: Math.max(...this.$props.yAxisList) + 1,
-    }
-    this.$data.option.series[0].data = this.yAxisList
+    const { xAxis, yAxis } = this.option
+    xAxis.data = this.xAxisList
+    yAxis.data = this.seriesData
+    yAxis.min = this.min
+    yAxis.max = this.max
+    this.$set(this.option.series[0], 'data', this.seriesData)
   }
 }
 </script>

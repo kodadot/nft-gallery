@@ -31,7 +31,11 @@
           @click="goToRandomPage">
         </b-button>
       </template>
-      <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
+      <b-table-column
+        cell-class="is-vcentered"
+        field="id"
+        :label="$t('spotlight.id')"
+        v-slot="props">
         <template v-if="!isLoading">
           <nuxt-link
             :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
@@ -43,6 +47,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="sold"
         :label="$t('spotlight.sold')"
         v-slot="props"
@@ -51,7 +56,11 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="unique"
+        :label="$t('spotlight.unique')"
+        sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" dashed>
             {{ column.label }}
@@ -64,6 +73,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
@@ -79,6 +89,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="total"
         :label="$t('spotlight.total')"
         v-slot="props"
@@ -88,6 +99,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="average"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
@@ -99,6 +111,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="collections"
         :label="$t('spotlight.count')"
         v-slot="props"
@@ -107,14 +120,23 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="volume" label="Volume" v-slot="props" sortable>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable>
         <template v-if="!isLoading"
           ><Money :value="props.row.volume" inline hideUnit
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="rank"
+        :label="$t('spotlight.score')"
+        numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" dashed>
             {{ column.label }}
@@ -126,15 +148,17 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <!-- <b-table-column
+      <b-table-column
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="soldHistory"
         label="SoldHistory">
+        <b-skeleton :active="isLoading" />
         <mini-history
+          v-if="!isLoading"
           :xAxisList="props.row.soldHistory.xAxisList"
           :yAxisList="props.row.soldHistory.yAxisList" />
-      </b-table-column> -->
+      </b-table-column>
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
@@ -267,7 +291,7 @@ export default class SpotlightTable extends mixins(
       client: 'subsquid',
       variables: {
         // denyList, not yet
-        limit: 100,
+        // limit: 100,
         offset: 0,
         orderBy: sort || 'sold_DESC',
       },
@@ -277,8 +301,6 @@ export default class SpotlightTable extends mixins(
       data: { collectionEntities },
     } = collections
 
-    const defaultSoldEvents = defaultEvents(last30Days, today)
-
     this.data = collectionEntities.map(
       (e): Row => ({
         ...e,
@@ -287,10 +309,25 @@ export default class SpotlightTable extends mixins(
         rank: e.sold * (e.unique / e.total || 1),
         uniqueCollectors: e.uniqueCollectors,
         volume: BigInt(e.volume),
-        // soldHistory: {},
+        soldHistory: axisLize(defaultEvents(last30Days, today)),
       })
     )
 
+    for (let index = 0; index < this.data.length; index++) {
+      const result = await this.identityOf(this.data[index].id)
+      if (result && Object.keys(result).length) {
+        this.data[index].hasIndentity = true
+      }
+    }
+
+    await this.updateSoldHistory()
+
+    this.isLoading = false
+  }
+
+  protected async updateSoldHistory() {
+    this.isLoading = true
+    const defaultSoldEvents = defaultEvents(last30Days, today)
     const solds = (await this.fetchSpotlightSoldHistory())
       .map((nft) => ({
         id: nft.issuer,
@@ -307,19 +344,11 @@ export default class SpotlightTable extends mixins(
         return res
       }, {})
     this.data.forEach((row) => {
-      // if (solds[row.id]) {
-      row.soldHistory = axisLize(solds[row.id])
-      // } else {
-      //   row.soldHistory = axisLize(defaultSoldEvents)
-      // }
-    })
-
-    for (let index = 0; index < this.data.length; index++) {
-      const result = await this.identityOf(this.data[index].id)
-      if (result && Object.keys(result).length) {
-        this.data[index].hasIndentity = true
+      if (solds[row.id]) {
+        this.$set(row, 'soldHistory', axisLize(solds[row.id]))
+        // row.soldHistory = axisLize(solds[row.id])
       }
-    }
+    })
 
     this.isLoading = false
   }
@@ -329,7 +358,6 @@ export default class SpotlightTable extends mixins(
       query: spotlightSoldHistory,
       client: 'subsquid',
       variables: {
-        limit: 10,
         ids: this.ids,
         lte: today,
         gte: last30Days,
@@ -343,6 +371,7 @@ export default class SpotlightTable extends mixins(
 
   private onPageChange(page: number) {
     this.currentPage = page
+    this.updateSoldHistory()
   }
 
   public onSort(field: string, order: string) {
