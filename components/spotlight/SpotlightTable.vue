@@ -176,7 +176,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
@@ -372,6 +372,11 @@ export default class SpotlightTable extends mixins(
   private onPageChange(page: number) {
     this.currentPage = page
     this.updateSoldHistory()
+  }
+
+  @Watch('isUserHasIdentity')
+  private async onUserIdentityChange() {
+    await this.updateSoldHistory()
   }
 
   public onSort(field: string, order: string) {
