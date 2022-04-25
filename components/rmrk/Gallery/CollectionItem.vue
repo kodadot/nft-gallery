@@ -82,17 +82,17 @@
           </b-field>
         </Search>
 
-        <infinite-loading
+        <InfiniteLoading
           v-if="startPage > 1 && !isLoading && total > 0"
           direction="top"
-          @infinite="reachTopHandler"></infinite-loading>
+          @infinite="reachTopHandler"></InfiniteLoading>
         <GalleryCardList
           :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
           horizontalLayout />
-        <infinite-loading
+        <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
-          @infinite="reachBottomHandler"></infinite-loading>
+          @infinite="reachBottomHandler"></InfiniteLoading>
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
@@ -175,6 +175,7 @@ const components = {
   CommonHolderTable: () =>
     import('@/components/rmrk/Gallery/Holder/Holder.vue'),
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 @Component<CollectionItem>({
   components,
@@ -199,7 +200,7 @@ export default class CollectionItem extends mixins(
     this.$route.query
   )
   public activeTab = 'items'
-  private first = 16
+  protected first = 16
   protected totalListed = 0
   protected stats: NFT[] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []

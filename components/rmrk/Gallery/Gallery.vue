@@ -17,10 +17,10 @@
     </Search>
 
     <div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
-        @infinite="reachTopHandler"></infinite-loading>
+        @infinite="reachTopHandler"></InfiniteLoading>
 
       <div class="columns is-multiline">
         <div
@@ -80,9 +80,9 @@
           </div>
         </div>
       </div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler"></infinite-loading>
+        @infinite="reachBottomHandler"></InfiniteLoading>
     </div>
   </div>
 </template>
@@ -124,6 +124,7 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component<Gallery>({

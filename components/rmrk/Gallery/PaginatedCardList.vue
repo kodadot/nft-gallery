@@ -14,19 +14,19 @@
           v-model="currentValue" />
       </b-field>
     </Search>
-    <infinite-loading
+    <InfiniteLoading
       v-if="startPage > 1 && !isLoading && total > 0"
       direction="top"
-      @infinite="reachTopHandler"></infinite-loading>
+      @infinite="reachTopHandler"></InfiniteLoading>
     <GalleryCardList
       :items="items"
       horizontalLayout
       :route="route"
       :link="link"
       :listed="searchQuery.listed" />
-    <infinite-loading
+    <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
-      @infinite="reachBottomHandler"></infinite-loading>
+      @infinite="reachBottomHandler"></InfiniteLoading>
   </div>
 </template>
 
@@ -48,6 +48,7 @@ const components = {
   Search: () =>
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component({ components })

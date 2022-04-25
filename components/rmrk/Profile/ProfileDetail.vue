@@ -107,19 +107,19 @@
               :total="total"
               v-model="currentValue" />
           </div>
-          <infinite-loading
+          <InfiniteLoading
             v-if="startPage > 1 && !isLoading && total > 0"
             direction="top"
-            @infinite="reachTopHandler"></infinite-loading>
+            @infinite="reachTopHandler"></InfiniteLoading>
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
             route="/rmrk/collection"
             link="rmrk/collection"
             horizontalLayout />
-          <infinite-loading
+          <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && total > 0"
-            @infinite="reachBottomHandler"></infinite-loading>
+            @infinite="reachBottomHandler"></InfiniteLoading>
         </b-tab-item>
         <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
           <template #header>
@@ -200,6 +200,7 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component<Profile>({
