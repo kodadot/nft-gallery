@@ -273,7 +273,9 @@
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
         :label="$t('series.buyHistory')">
+        <b-skeleton v-if="isLoading" :active="isLoading" />
         <mini-history
+          v-else
           :xAxisList="props.row.buyHistory.xAxisList"
           :yAxisList="props.row.buyHistory.yAxisList" />
       </b-table-column>
