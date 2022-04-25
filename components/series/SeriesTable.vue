@@ -272,7 +272,7 @@
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
-        label="Buy History">
+        :label="$t('series.buyHistory')">
         <mini-history
           :xAxisList="props.row.buyHistory.xAxisList"
           :yAxisList="props.row.buyHistory.yAxisList" />

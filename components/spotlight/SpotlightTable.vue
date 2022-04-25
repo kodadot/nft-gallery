@@ -152,7 +152,7 @@
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="soldHistory"
-        label="SoldHistory">
+        :label="$t('spotlight.soldHistory')">
         <b-skeleton :active="isLoading" />
         <mini-history
           v-if="!isLoading"
