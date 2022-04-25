@@ -408,9 +408,10 @@ export default class SpotlightTable extends mixins(
       : account || ''
   }
 
-  public goToRandomPage() {
+  public async goToRandomPage() {
     let randomNumber = getRandomIntInRange(1, this.pageSize)
     this.currentPage = randomNumber
+    await this.updateSoldHistory()
   }
 }
 </script>
