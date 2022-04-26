@@ -1,27 +1,44 @@
-We are using a `pnpm` workspace, as installing things via npm **will result in broken dependencies.**
+# Setting up your Local Environment
 
-> If you want to know how KodaDot works, go to the [DOCS](https://docs.kodadot.xyz/).
+We are using a `pnpm` workspace, installing things via npm **will result in broken dependencies.**
 
-# Hyper start 🚀
 
-### Prerequisites 🎒
+## Prerequisites
+You're using a version of node that's on/after version 16.13.2
 
+- Install node by visiting [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+
+You have pnpm installed.
+
+- You can install pnpm by running in your terminal
 ```MD
-node >=16.14.0
-pnpm
+npm install -g pnpm
 ```
 
-Copy and paste these commands to your terminal:
+## Installation
+1) Fork our [Repository](https://github.com/kodadot/nft-gallery)
+2) Go to the forked repo and click the green "Code" button
+3) Copy the HTTPS link (i.e https://github.com/your-username/nft-gallery.git)
+4) Go to your IDE and open the terminal
+5) Type in the terminal "git clone your-HTTPS-link".
 
+For example,
 ```bash
-git clone https://github.com/kodadot/nft-gallery.git nft-gallery
+git clone https://github.com/your-username/nft-gallery.git
+```
+6) Then paste these two commands in the terminal
+```bash
 cd nft-gallery;
 pnpm i;
 ```
+If you come across
+ERR_PNPM_UNSUPPORTED_ENGINE  Unsupported environment (bad pnpm and/or Node.js version), run
 
-It will clone your project and install all dependencies.
+```bash
+nvm use 16
+```
 
-to start the server, run:
+7) Lastly, start the server by running
 
 ```bash
 pnpm dev
@@ -29,9 +46,11 @@ pnpm dev
 
 **KodaDot will be available at [localhost:9090](http://localhost:9090).**
 
-### Starting dev server with the pinning functionality 📦
+## Starting localhost with pinning functionality
 
 If you want to use the pinning functionality, you must create a `.env` file in your project root.
+
+Copy and paste the following:
 
 ```bash
 echo 'NUXT_ENV_KEYRING=true
@@ -40,81 +59,112 @@ echo 'NUXT_ENV_KEYRING=true
       PINATA_MASTER=' > .env
 ```
 
-Functions are located in `src-functions/`
+**You can obtain Master Pinata Keys [here](https://app.pinata.cloud/keys)**
 
-**[You can obtain Master Pinata Keys here](https://app.pinata.cloud/keys)**
-
-you need to install the netlify-cli:
+Install the netlify-cli by running this in your terminal:
 
 ```bash
 npm install netlify-cli -g
 ```
 
-to start the server, run:
-
+Start the server by running:
 ```bash
 netlify dev
 ```
 
-**App will start on [localhost:9000](http://localhost:9000).**
+**Dev server will start on [localhost:9000](http://localhost:9000).**
+You can find all the functions in `src-functions/`
 
-# ⚠️ Notice for contributors before 15/01/2022 ⚠️
+## Using KodaDot on Kusama
 
-If you've had contributed before **15/01/2022 and have an older fork of** `nft-gallery`, there are currently two strategies to be up-to-date.
+If you just want to try out our KodaDot on Kusama, you must have [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) installed to have a local setup and node.
 
-- Easiest - [Delete your fork and fork it as new.](https://docs.github.com/en/repositories/creating-and-managing-repositories/deleting-a-repository)
-- Harder - [Sync your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
+### Installation
 
-### Ref
-
-- https://github.com/kodadot/nft-gallery/issues/1845
-- https://github.com/kodadot/nft-gallery/issues/1844
-
-## Docker 🐳
-
-If you just want to try out our KodaDot on Kusama and have a complete local set up with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
-
-- ### First time setup
-
-  - Build the docker image
+1) Build the docker image
 
     ```bash
-    # Make sure you are logged into docker.
-
     docker-compose up --build
     ```
 
-  - To check if the container is up:
+2) Check if the container is up:
     ```bash
     docker ps
     ```
 
-- ### From next time
-
-  Run:
-
+3) Run:
   ```bash
   docker-compose up
   ```
 
-Voila! KodaDot will be available at [localhost:9090](http://localhost:9090).
-KodaDot supports Hot Module Replacement on docker; any changes made will take effect immediately.
+KodaDot will be available at [localhost:9090](http://localhost:9090).
 
-## Dev hacks (FAQ) 🦇
+KodaDot supports Hot Module Replacement on Docker; any changes made will take effect immediately.
 
-**0. How can I resolve conflict on pnpm-lock.yaml?**
 
-> CONFLICT (content): Merge conflict in pnpm-lock.yaml
 
-When you see conflict on `pnpm-lock.yaml` and you are on your pull-request branch, merge upstream branch and run `pnpm install`, unless you have conflict on `package.json`, that requires manual resolve.
+## Running local Polkadot and Subquery nodes
+
+To run the complete local environment, we recommend running a [Polkadot/Kusama node](https://github.com/paritytech/polkadot).
+In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
+
+Current Indexers we have/use:
+
+- SubSquid
+  - RMRK: [rubick](https://github.com/kodadot/rubick)
+- SubQuery
+  - RMRK: [magick](https://github.com/vikiival/magick)
+  - Statemine (Unique NFT pallet): [unique](https://github.com/kodadot/unique)
+
+## Checking your code
+
+#### Linting code
+
+**Show all problems**
+
+```bash
+yarn lint
+```
+
+**Show only errors**
+
+```bash
+yarn lint --quiet
+```
+
+**Fix errors**
+
+```bash
+yarn lint --fix
+```
+
+#### Generating changelog
+
+To generate a changelog, use GitHub CLI
+List only merged
+
+If you need limit, use `-L`
+
+```bash
+gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
+```
+
+
+## Troubleshooting
+
+#### **How can I resolve conflict on yarn.lock?**
+
+> CONFLICT (content): Merge conflict in yarn.lock
+
+When you see conflict on `yarn.lock` and you are on your pull-request branch, merge upstream branch and run `yarn`, unless you have conflict on `package.json`, that requires manual resolve.
 
 ```bash
 git fetch --all
 git merge origin/main
-pnpm install
+yarn
 ```
 
-**1. How can I read some data from the GraphQL?**
+#### **How can I read some data from the GraphQL?**
 
 Every `.graphql` file is located in the `src/queries/`.
 
@@ -137,14 +187,14 @@ Then we can use it like this:
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
+  import { Component, mixins } from "nuxt-property-decorator"
 
-  import nftByIdMinimal from '@/queries/nftByIdMinimal.graphql'
-  import PrefixMixin from '~/utils/mixins/prefixMixin'
+  import nftByIdMinimal from "@/queries/nftByIdMinimal.graphql"
+  import PrefixMixin from "~/utils/mixins/prefixMixin"
 
   @Component({})
   export default class GalleryItem extends mixins(PrefixMixin) {
-    id: string = ''
+    id: string = ""
     nft: NFT = emptyObject<NFT>()
 
     async fetch() {
@@ -155,44 +205,44 @@ Then we can use it like this:
       })
 
       this.nft = data.nFTEntity
-      console.log('nft', this.nft)
+      console.log("nft", this.nft)
     }
   }
 </script>
 ```
 
-**2. How can I read on-chain data from the RPC node?**
+#### **How can I read on-chain data from the RPC node?**
 
 ```html
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator'
-  import Connector from '@kodadot1/sub-api'
+  import { Component, Vue } from "nuxt-property-decorator"
+  import Connector from "@kodadot1/sub-api"
 
   @Component({})
   export default class GalleryItem extends Vue {
-    id = '0'
-    collectionId = '0'
+    id = "0"
+    collectionId = "0"
 
     async fetch() {
       const { api } = Connector.getInstance()
       const nft = await api.query.uniques.asset(this.collectionId, this.id)
-      console.log('nft', nft)
+      console.log("nft", nft)
     }
   }
 </script>
 ```
 
-**3. Is it possible to subscribe to the on-chain data from the RPC node?**
+#### **Is it possible to subscribe to the on-chain data from the RPC node?**
 
 ```html
 <script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
-  import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+  import { Component, mixins } from "nuxt-property-decorator"
+  import SubscribeMixin from "@/utils/mixins/subscribeMixin"
 
   @Component({})
   export default class GalleryItem extends mixins(SubscribeMixin) {
-    id = '0'
-    collectionId = '0'
+    id = "0"
+    collectionId = "0"
 
     async created() {
       this.subscribe(
@@ -205,21 +255,20 @@ Then we can use it like this:
 </script>
 ```
 
-**4. How can I make an on-chain transaction?**
-
+#### **How can I make an on-chain transaction?**
 ```html
 <script lang="ts">
-  import { Component, mixins } from 'nuxt-property-decorator'
-  import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+  import { Component, mixins } from "nuxt-property-decorator"
+  import MetaTransactionMixin from "@/utils/mixins/metaMixin"
   // import AuthMixin from '~/utils/mixins/authMixin' // get currently logged in account
 
-  import Connector from '@kodadot1/sub-api'
+  import Connector from "@kodadot1/sub-api"
 
   @Component({})
   export default class GalleryItem extends mixins(MetaTransactionMixin) {
     async submit() {
       const cb = api.tx.system.remark
-      const args = 'Hello World'
+      const args = "Hello World"
 
       await this.howAboutToExecute(
         this.accountId, // sender can be obtained from the AuthMixin
@@ -233,7 +282,7 @@ Then we can use it like this:
 </script>
 ```
 
-**5. How can I test Kodadot without spending KSM?**
+#### **How can I test Kodadot without spending KSM?**
 
 [You can obtain some Westend (WND)](https://matrix.to/#/#westend_faucet:matrix.org)
 
@@ -241,46 +290,20 @@ You can change the network in the navbar.
 Currently supported networks are `Kusama, Westend, statemine, westmint`.
 Do you want to add more networks? [Open a PR on vuex-options](https://github.com/kodadot/packages)
 
-## Running local Polkadot and subquery nodes
 
-To run the complete local environment, we recommend running a [polkadot/Kusama node](https://github.com/paritytech/polkadot).
-In case you are using Apple M1, we have a [tutorial for that 🍏 ](https://vikiival.medium.com/run-substrate-on-apple-m1-a2699743fae8)
 
-Current Indexers we have/use:
 
-- SubSquid
-  - RMRK: [rubick](https://github.com/kodadot/rubick)
-- SubQuery
-  - RMRK: [magick](https://github.com/vikiival/magick)
-  - Statemine (Unique NFT pallet): [unique](https://github.com/kodadot/unique)
+## Notice for contributors before 15/01/2022
 
-### MISC 🏞
+If you've forked nft-gallery before **15/01/2022**, you have an older fork that doesn't include our newest additions.
 
-#### Linting code
+There's two ways you can work around this:
 
-**Show all problems**
+1) [Re-forking](https://docs.github.com/en/repositories/creating-and-managing-repositories/deleting-a-repository)
+2) [Syncing your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
 
-```bash
-pnpm lint
-```
+Learn more about these issues here:
 
-**Show only errors**
+- [Issue 1845](https://github.com/kodadot/nft-gallery/issues/1845)
+- [Issue 1844](https://github.com/kodadot/nft-gallery/issues/1844)
 
-```bash
-pnpm lint --quiet
-```
-
-**Fix errors**
-
-```bash
-pnpm lint --fix
-```
-
-#### Generating changelog
-
-To generate changelog, use GitHub CLI
-List only merged; if you need limit, use `-L`
-
-```bash
-gh pr list -s merged --json mergedAt,baseRefName,number,title,headRefName -B main -L 37 | jq -r '.[] | .number, .title' | sed '/^[0-9]/{N; s/\n/ /;}'
-```
