@@ -521,7 +521,7 @@
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from singer",
+    "sign": "Waiting for response from signer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",
