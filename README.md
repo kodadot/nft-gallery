@@ -14,7 +14,9 @@ Before submitting your pull request, read up on our [documentation](https://docs
 
 We [reward](REWARDS.md) our contributors in $KSM for their time and effort with every issue they solve. If you're finding yourself to be more involved with KodaDot, we are always [hiring](HIRING.md).
 
-Check out our repository's [activity](ACTIVITY.md)!
+### **Check out our repository's [activity](ACTIVITY.md) by our recent contributors!**
+<img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
+
 # Features Roadmap
 Here you'll find our goals for each section of KodaDot!
 - [Beta](https://github.com/orgs/kodadot/projects/1)
