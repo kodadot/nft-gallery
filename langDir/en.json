@@ -415,6 +415,7 @@
     }
   },
   "sort": {
+    "EMOTES_COUNT_DESC": "Most reacted",
     "BLOCK_NUMBER_DESC": "New first",
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
