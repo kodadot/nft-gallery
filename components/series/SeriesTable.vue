@@ -274,7 +274,7 @@
         field="buyHistory"
         :label="$t('series.buyHistory')">
         <b-skeleton v-if="isLoading" :active="isLoading" />
-        <mini-history
+        <PulseChart
           v-else
           :xAxisList="props.row.buyHistory.xAxisList"
           :yAxisList="props.row.buyHistory.yAxisList" />
@@ -299,13 +299,12 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort, last30Days, today, getDateArray } from './utils'
+import { toSort, lastmonthDate, today, getDateArray } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
-  MiniHistory: () => import('@/components/shared/MiniHistory.vue'),
 }
 
 @Component({ components })
@@ -365,7 +364,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    const defaultBuyEvents = getDateArray(last30Days, today).reduce(
+    const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
       (res, date) => {
         res[date] = 0
         return res
@@ -420,7 +419,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
             interaction_eq: 'BUY',
           },
           lte: today,
-          gte: last30Days,
+          gte: lastmonthDate,
         },
       })
       return data.events

@@ -18,7 +18,7 @@
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
-            <b-switch v-model="isUserHasIdentity" :rounded="false">
+            <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
           </div>
@@ -154,7 +154,7 @@
         field="soldHistory"
         :label="$t('spotlight.soldHistory')">
         <b-skeleton :active="isLoading" />
-        <mini-history
+        <PulseChart
           v-if="!isLoading"
           :xAxisList="props.row.soldHistory.xAxisList"
           :yAxisList="props.row.soldHistory.yAxisList" />
@@ -188,10 +188,11 @@ import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { PER_PAGE } from '~/utils/constants'
 import {
   toSort,
   today,
-  last30Days,
+  lastmonthDate,
   axisLize,
   defaultEvents,
 } from '../series/utils'
@@ -213,9 +214,8 @@ export default class SpotlightTable extends mixins(
   KeyboardEventsMixin
 ) {
   protected data: Row[] = []
-  protected isUserHasIdentity = false
+  protected onlyWithIdentity = false
   protected currentPage = 1
-  protected PER_PAGE = 20
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
@@ -248,7 +248,7 @@ export default class SpotlightTable extends mixins(
   }
 
   private get pageSize() {
-    return Math.ceil(this.total / this.PER_PAGE)
+    return Math.ceil(this.total / PER_PAGE)
   }
 
   private get total() {
@@ -256,14 +256,14 @@ export default class SpotlightTable extends mixins(
   }
 
   private get computedData() {
-    return this.isUserHasIdentity
-      ? this.data.filter((x) => x.hasIndentity)
+    return this.onlyWithIdentity
+      ? this.data.filter((x) => x.hasIdentity)
       : this.data
   }
 
   public get ids(): string[] {
-    const start = (this.currentPage - 1) * this.PER_PAGE
-    const end = this.currentPage * this.PER_PAGE
+    const start = (this.currentPage - 1) * PER_PAGE
+    const end = this.currentPage * PER_PAGE
     return this.computedData.slice(start, end).map((x) => x.id)
   }
 
@@ -309,14 +309,14 @@ export default class SpotlightTable extends mixins(
         rank: e.sold * (e.unique / e.total || 1),
         uniqueCollectors: e.uniqueCollectors,
         volume: BigInt(e.volume),
-        soldHistory: axisLize(defaultEvents(last30Days, today)),
+        soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
       })
     )
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
       if (result && Object.keys(result).length) {
-        this.data[index].hasIndentity = true
+        this.$set(this.data[index], 'hasIdentity', true)
       }
     }
 
@@ -327,7 +327,7 @@ export default class SpotlightTable extends mixins(
 
   protected async updateSoldHistory() {
     this.isLoading = true
-    const defaultSoldEvents = defaultEvents(last30Days, today)
+    const defaultSoldEvents = defaultEvents(lastmonthDate, today)
     const solds = (await this.fetchSpotlightSoldHistory())
       .map((nft) => ({
         id: nft.issuer,
@@ -346,7 +346,6 @@ export default class SpotlightTable extends mixins(
     this.data.forEach((row) => {
       if (solds[row.id]) {
         this.$set(row, 'soldHistory', axisLize(solds[row.id]))
-        // row.soldHistory = axisLize(solds[row.id])
       }
     })
 
@@ -360,7 +359,7 @@ export default class SpotlightTable extends mixins(
       variables: {
         ids: this.ids,
         lte: today,
-        gte: last30Days,
+        gte: lastmonthDate,
       },
     })
     const {
@@ -374,8 +373,8 @@ export default class SpotlightTable extends mixins(
     this.updateSoldHistory()
   }
 
-  @Watch('isUserHasIdentity')
-  private async onUserIdentityChange() {
+  @Watch('onlyWithIdentity')
+  private async onOnlyWithIdentityChange() {
     await this.updateSoldHistory()
   }
 

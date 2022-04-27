@@ -13,3 +13,5 @@ export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
   'bafkreifahjdjerrz65puqznmsu2acoktrxjbo3vvp2f2j4eb7h5tc345fi'
 
 export const MIN_CAROUSEL_NFT = 3
+
+export const PER_PAGE = 20

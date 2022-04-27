@@ -2,7 +2,7 @@ import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
-import { startOfToday, subDays } from 'date-fns'
+import { startOfToday, subDays, eachDayOfInterval, formatISO } from 'date-fns'
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
@@ -85,24 +85,16 @@ export const toSort = (sortBy: SortType): string =>
 export const today = new Date()
 const yesterdayDate: Date = subDays(today, 1)
 const lastweekDate: Date = subDays(today, 7)
-export const last30Days: Date = subDays(today, 30)
-const lastmonthDate: Date = subDays(today, 30)
+export const lastmonthDate: Date = subDays(today, 30)
 const sub2dayDate: Date = subDays(today, 2)
 const last2weekDate: Date = subDays(today, 14)
 const last2monthDate: Date = subDays(today, 60)
 
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {
-  const result = []
-  for (
-    let dt = new Date(start);
-    dt <= new Date(end);
-    dt.setDate(dt.getDate() + 1)
-  ) {
-    const date = new Date(dt).toISOString().slice(0, 10)
-    result.push(date)
-  }
-  return result
+  return eachDayOfInterval({ start, end }).map((date) =>
+    formatISO(date, { representation: 'date' })
+  )
 }
 
 export function axisLize(obj = {}) {
