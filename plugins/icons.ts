@@ -110,6 +110,7 @@ import {
   faDiscord,
   faRedditAlien,
   faYoutube,
+  faInstagram,
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
@@ -211,7 +212,8 @@ library.add(
   faThumbsUp,
   faThumbsDown,
   faExternalLinkSquareAlt,
-  faYoutube
+  faYoutube,
+  faInstagram
 )
 
 Vue.component('vue-fontawesome', FontAwesomeIcon)

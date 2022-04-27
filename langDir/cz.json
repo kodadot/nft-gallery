@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "Jste tu nový? Máme Často kladené otázky",
   "Feedback? We\\'d be happy to discuss it.": "Máte zpětnou vazbu? Rádi to prodiskutujeme.",
   "Read our story, how we started.": "Přečtěte si náš příběh, jak jsme začali.",
-  "Frequently Asked Question": "Často kladené otázky",
   "faq": {
+    "title": "Často kladené otázky",
     "q": {
       "1": "Který coin se používá pro NFTs?",
       "2": "Jakou peněženku potřebuji pro vytváření, kupování a sbírání?",
