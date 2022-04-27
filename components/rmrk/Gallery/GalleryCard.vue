@@ -99,7 +99,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
       this.image = image || getSanitizer(meta.image || '')(meta.image || '')
       this.title = meta.name
-      this.animatedUrl = sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      this.animatedUrl = sanitizeIpfsUrl(
+        meta.animation_url || meta.mediaUri || '',
+        'pinata'
+      )
     }
   }
 
