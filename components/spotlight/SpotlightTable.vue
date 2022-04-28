@@ -156,8 +156,9 @@
         <b-skeleton :active="isLoading" />
         <PulseChart
           v-if="!isLoading"
-          :xAxisList="props.row.soldHistory.xAxisList"
-          :yAxisList="props.row.soldHistory.yAxisList" />
+          :id="props.row.id"
+          :labels="props.row.soldHistory.xAxisList"
+          :values="props.row.soldHistory.yAxisList" />
       </b-table-column>
 
       <template #detail="props">

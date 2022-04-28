@@ -1,108 +1,97 @@
 <template>
-  <v-chart class="chart" :option="option" />
+  <div class="chart-container">
+    <canvas :id="chartId" />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { LineChart } from 'echarts/charts'
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  GridComponent,
-} from 'echarts/components'
-import VChart from 'vue-echarts'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import Chart from 'chart.js/auto'
 
-use([
-  GridComponent,
-  CanvasRenderer,
-  LineChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-])
+function getGradient(ctx, chartArea) {
+  let width, height, gradient
+  const chartWidth = chartArea.right - chartArea.left
+  const chartHeight = chartArea.bottom - chartArea.top
+  if (!gradient || width !== chartWidth || height !== chartHeight) {
+    // Create the gradient because this is either the first render
+    // or the size of the chart has changed
+    width = chartWidth
+    height = chartHeight
+    gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+    gradient.addColorStop(0, '#c8ff00')
+    // gradient.addColorStop(0.5, 'black')
+    gradient.addColorStop(1, '#414d19')
+  }
+  return gradient
+}
 
-type DataList = Array<string>
-type ValueList = Array<number>
+@Component({})
+export default class PulseChart extends Vue {
+  protected Chart!: Chart<'line', any, unknown>
+  @Prop({ type: String }) protected id
+  @Prop() protected labels: string[]
+  @Prop() protected values: number[]
 
-@Component({
-  components: { VChart },
-})
-export default class MiniHistory extends Vue {
-  @Prop() public xAxisList!: DataList
-  @Prop() public yAxisList!: ValueList
+  public async mounted() {
+    this.renderChart()
+  }
 
-  data() {
-    let option = {
-      xAxis: {
-        type: 'category',
-        data: this.xAxisList,
-        show: false,
-      },
-      yAxis: {
-        type: 'value',
-        show: false,
-        data: [],
-        min: -1,
-        max: 1,
-      },
-      series: [
+  get chartId() {
+    return `pulse-chart-${this.id}`
+  }
+
+  renderChart() {
+    const ctx = (
+      document?.getElementById(this.chartId) as HTMLCanvasElement
+    )?.getContext('2d')
+
+    const data = {
+      labels: this.labels,
+      datasets: [
         {
-          data: [],
-          type: 'line',
-          smooth: 0.3,
-          showSymbol: false,
-          animation: false,
-          lineStyle: {
-            width: 2.5,
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#a3cf06', // color at 0%
-                },
-                {
-                  offset: 1,
-                  color: 'green', // color at 100%
-                },
-              ],
-              global: false, // default is false
-            },
+          label: 'My First Dataset',
+          data: this.values,
+          fill: false,
+          // borderColor: 'rgb(75, 192, 192)',
+          borderColor: function (context) {
+            const chart = context.chart
+            const { ctx, chartArea } = chart
+
+            if (!chartArea) {
+              // This case happens on initial chart load
+              return
+            }
+            return getGradient(ctx, chartArea)
           },
+          tension: 0.6,
+          pointRadius: 0,
         },
       ],
     }
+    if (ctx) {
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+          animation: false,
+          scales: { x: { display: false }, y: { display: false } },
+          plugins: {
+            legend: false,
+            tooltip: { enabled: false, hover: { mode: null } },
+          },
+        },
+      })
 
-    return {
-      option,
+      this.Chart = chart
     }
-  }
-  private get min() {
-    return Math.min(...this.yAxisList) - 1
-  }
-
-  private get max() {
-    return Math.max(...this.yAxisList) + 1
-  }
-
-  private get seriesData() {
-    return this.yAxisList
-  }
-
-  public async created() {
-    const { xAxis, yAxis } = this.option
-    xAxis.data = this.xAxisList
-    yAxis.data = this.seriesData
-    yAxis.min = this.min
-    yAxis.max = this.max
-    this.$set(this.option.series[0], 'data', this.seriesData)
   }
 }
 </script>
+
+<style lang="scss">
+.chart-container {
+  position: relative;
+  height: 100px;
+  width: 200px;
+}
+</style>

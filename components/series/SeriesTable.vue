@@ -276,8 +276,9 @@
         <b-skeleton v-if="isLoading" :active="isLoading" />
         <PulseChart
           v-else
-          :xAxisList="props.row.buyHistory.xAxisList"
-          :yAxisList="props.row.buyHistory.yAxisList" />
+          :id="props.row.id"
+          :labels="props.row.buyHistory.xAxisList"
+          :values="props.row.buyHistory.yAxisList" />
       </b-table-column>
       <template #empty>
         <div v-if="!isLoading" class="has-text-centered">
