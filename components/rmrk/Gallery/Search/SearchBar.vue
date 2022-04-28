@@ -228,10 +228,10 @@ export default class SearchBar extends mixins(
         })
 
         const nfts = [...data.events].map((event) => event.nft)
-        let metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
-        getCloudflareImageLinks(metadataList).then((imageLinks) => {
+        const nFTMetadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+        getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
           const nftResult: NFTWithMeta[] = []
-          processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+          processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
@@ -261,19 +261,24 @@ export default class SearchBar extends mixins(
           data: { collectionEntities: collections },
         } = result
 
-        metadataList = collections.map(mapNFTorCollectionMetadata)
-        getCloudflareImageLinks(metadataList).then((imageLinks) => {
+        const collectionMetadataList = collections.map(
+          mapNFTorCollectionMetadata
+        )
+        getCloudflareImageLinks(collectionMetadataList).then((imageLinks) => {
           const collectionResult: CollectionWithMeta[] = []
-          processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-            collectionResult.push({
-              ...collections[i],
-              ...meta,
-              image:
-                (collections[i]?.metadata &&
-                  imageLinks[fastExtract(collections[i].metadata)]) ||
-                getSanitizer(meta.image || '')(meta.image || ''),
-            })
-          }).then(() => {
+          processMetadata<CollectionWithMeta>(
+            collectionMetadataList,
+            (meta, i) => {
+              collectionResult.push({
+                ...collections[i],
+                ...meta,
+                image:
+                  (collections[i]?.metadata &&
+                    imageLinks[fastExtract(collections[i].metadata)]) ||
+                  getSanitizer(meta.image || '')(meta.image || ''),
+              })
+            }
+          ).then(() => {
             this.defaultCollectionSuggestions = collectionResult
           })
         })
@@ -482,7 +487,10 @@ export default class SearchBar extends mixins(
       this.updateSearch(value.name)
     } else if (value.__typename === 'NFTEntity') {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
-    } else if (value.__typename === 'CollectionEntity') {
+    } else if (
+      value.__typename === 'CollectionEntity' ||
+      value.__typename === 'Series'
+    ) {
       this.$router.push({
         name: 'rmrk-collection-id',
         params: { id: value.id },
