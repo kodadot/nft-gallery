@@ -25,14 +25,101 @@ Before you being:
 We are working primarily on two metrics.
 Issues have
 - priorities by labels [p1-p5](https://github.com/kodadot/nft-gallery/labels), **p1 means urgent**, **p5 in research mode**.
-- bounties labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
+- bounty labels for issues in the range of **$ - $$$$$**. Check [Rewards](REWARDS.md)
 
 If you are going to contribute, please select issues with the highest urgency (p1, p2) first. It makes a **significant difference for users to fix high-priority issues**.
 If there is no such issue, our **best advice is to choose issues reflecting your skillset and experience**.
 
-### Open a pull request
+### Assigning Issues
 
-When you update the code, and you'd like to propose them for review, use the pull request template to open your PR (Pull Request) against our `main` branch.
+- **Each developer has a limit of 5 issues assigned to him at any time**.
+- Each bounty label has allocated time for assignment in the increment of 24 hours `$: 24h, $$: 48h, $$$: 72h, $$$$: 96h, $$$$$: 120h`
+- Whenever you find an issue that you want to fix, you can get it assigned by commenting on the issue with the variation of the term `I will take this` (check `goPhrases` below) which will trigger KodaBot to assign this issue to you
+- If there is an ongoing assignment, the bot can get into the `queue` for the issue with one of the `goPhrases`, and in case the assignee won't finish in time, you will have an `option period` of 12 hours to pick the issue up with one of the `goPhrases`
+- In case you want to drop out of the assignment, you can manually unassign yourself
+- If you'd like to get out of the `queue` or `pass` during your `option period` to pick an issue, commenting `pass` or its variation will do the trick (check `goPhrases` below)
+- Once your assignment runs out, KodaBot will unassign you and leave a chance open for other participants
+- Opening PR in time will ensure that you won't get unassigned, and that issue stays yours until the PR gets resolved
+- Getting unassigned, dropping out of the queue, or passing on the option to pick the issue forbids you from further participation in this particular issue.
+- **ignoring issue**: sometimes, you might work on an issue that doesn't need supervision / assigning from a bot or help from the team. As an example, consider a small issue, quick fix, something without a bounty label, etc. In this case, you can comment `ignore` or its variation (check `ignorePhrases` below) to the issue to prevent KodaBot from reacting to this issue. This feature is available only to collaborators on nft-gallery.
+
+<div align='center'>
+<table>
+<tr>
+<th>goPhrases</th>
+<th>passPhrases</th>
+<th>ignorePhrases</th>
+</tr>
+<tr>
+<td>
+
+```
+'I take this',
+'I take this.',
+"I'll take this",
+"I'll take this.",
+'I will take this',
+'I will take this.',
+'i will take this',
+'i take this',
+'i take this.',
+'ill take this',
+'ill take this.',
+'Ill take this',
+'iLL take this',
+'ILL TAKE THIS',
+'I WILL TAKE THIS'
+
+```
+</td>
+<td>
+
+```
+'pass',
+'pass.',
+'passing',
+'passing.',
+'i pass',
+'i pass.',
+'i passing',
+'i passing.',
+'i will pass',
+'i will pass.',
+'i will passing',
+'i will passing.',
+'ill pass',
+'ill pass.',
+'ill be passing',
+'ill be passing.',
+```
+
+</td>
+
+<td>
+
+```
+'ignore',
+'Ignore',
+'ignore.',
+'Ignore.',
+'i ignore',
+'I ignore',
+'i ignore.',
+'I ignore.',
+'ignore issue',
+'botignore',
+'bot ignore'
+```
+
+</td>
+</tr>
+</table>
+</div>
+
+
+### Opening Pull Requests
+
+Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e., **being merged under 72h since opening/last discussion**, if it's not a complex issue requiring more profound attention of more members. Otherwise, you will be raising the chance to face many merge conflicts.
 
 ### Submit your PR & Get it reviewed
 
@@ -40,9 +127,14 @@ When you update the code, and you'd like to propose them for review, use the pul
 - After that, we may have questions; check back on your PR to keep up with the conversation.
 - Did you have an issue, like a merge conflict? Check out our [git tutorial](https://lab.github.com/githubtraining/managing-merge-conflicts) on **how to resolve merge conflicts and other issues.**
 
+
 ### Your PR is merged!
 
 Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
+
+### Avoiding stalled PRs
+
+When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
 ## Rewards
 
@@ -52,51 +144,15 @@ Continue to [REWARDS.md](REWARDS.md)
 
 Continue to [HIRING.md](HIRING.md)
 
-# Learn more about contributing:
-
-## Types of contributions 📝
+# Types of contributions 📝
 
 You can contribute to the GitHub KodaDot & Metaprime content and site in several ways. This repo is a place to discuss and collaborate on [kodadot.xyz](https://kodadot.xyz)!
 
 Our small but mighty 💪 developer community is maintaining this repo. To preserve our bandwidth, off-topic conversations will be closed.
 
-## Dynamics of Contributing
-
-### Assign Issues
-
-Whenever someone comments on an issue that they want to fix, they have approximately 48 hours to open PR with a working solution. Whenever they fail to do so, you can take it as we might have a few dead issues in the repository. Until we have a bot that can assign issues, this is the way. Until the issue is explicitly stated as a competition issue, we want to avoid double work as we have many issues in our repository.
-
-### Pull Requests
-
-Whenever you open PR against our repository, our best recommendation is to finish it quickly, i.e., **being merged under 72h since opening/last discussion**, if it's not a complex issue requiring more profound attention of more members. Otherwise, you will be raising the chance to face many merge conflicts.
-
-### Avoiding stalled PRs
-
-When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
-
-### Issues 🐞
+## Issues 🐞
 
 Issues are used to track tasks that contributors can help with. If an issue has a triage label, we haven't reviewed it yet, and you shouldn't begin work on it.
-
-If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
-
-### Pull requests 🛠️
-
-A pull request is a way to suggest changes in our repository.
-
-When we merge those changes, they should be deployed to the live site within 24 hours. 🌍 To learn more about opening a pull request in this repo, see Opening a pull request below.
-
-### Code reviews 🕵️‍♀️
-
-As on daily basis is no wonder we can get 10-20 pull-requests on daily basis, code reviews are current bottleneck. To help us, you should have enough contributed and merged PRs into main branch, familiarity with code base and prefer high quality code. If you want to be member let us know in coordination channel best to be part of [Code Review Guild of KodaDot](https://github.com/orgs/kodadot/teams/code-review-guild)
-
-### Support ❓
-
-We are a small team working hard to keep up with the documentation demands of a continuously changing product. Unfortunately, we can't help with support questions in this repository. If you are experiencing a problem with GitHub unrelated to our documentation, please get in touch with GitHub Support directly. Any issues, discussions, or pull requests opened here requesting support will be given information about contacting GitHub Support, then closed and locked.
-
-If you're having trouble with your GitHub account, contact [support](https://support.github.com).
-
-## Issues
 
 Issues are precious to this project.
 
@@ -106,6 +162,8 @@ Issues are precious to this project.
 
 Thank you for creating them.
 
+If you've found something in the content or the website that should be updated, search open issues to see if someone else has reported the same thing. If it's something new, open an issue using a template. We'll use the issue to talk about the problem you want to fix.
+
 ### Labels
 
 Labels can help you find a perfect issue for your skills.
@@ -113,10 +171,14 @@ Labels can help you find a perfect issue for your skills.
 - The [help wanted](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) label is for problems or updates that anyone in the community can start working on.
 - The [good first issue](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) label is for problems or updates we think are ideal for beginners.
 
-## Pull Requests
+## Pull requests 🛠️
 
-Pull requests are a great way to get your ideas into this repository.
+A pull request is a way to suggest changes in our repository.
+When we merge those changes, they should be deployed to the live site within 24 hours.
 
+### Pull request template
+
+When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 When deciding if we merge in a pull request, we look at the following things:
 
 ### Does it state intent
@@ -140,9 +202,19 @@ Doesn't tell me anything about why you're doing that
 - For English language contributions: Has a good score on [Grammarly](https://grammarly.com) or [Hemingway App](http://www.hemingwayapp.com/)
 - Haven't used force-push. If that is the case, PR will be closed.
 
+### Code reviews 🕵️‍♀️
+
+As on daily basis is no wonder we can get 10-20 pull-requests on daily basis, code reviews are current bottleneck. To help us, you should have enough contributed and merged PRs into main branch, familiarity with code base and prefer high quality code. If you want to be member let us know in coordination channel best to be part of [Code Review Guild of KodaDot](https://github.com/orgs/kodadot/teams/code-review-guild)
+
+### Support ❓
+
+We are a small team working hard to keep up with the documentation demands of a continuously changing product. Unfortunately, we can't help with support questions in this repository. If you are experiencing a problem with GitHub unrelated to our documentation, please get in touch with GitHub Support directly. Any issues, discussions, or pull requests opened here requesting support will be given information about contacting GitHub Support, then closed and locked.
+
+If you're having trouble with your GitHub account, contact [support](https://support.github.com).
+
 ### Reviewing
 
-We (usually the core team, sometimes KodaDot engineers or support too!) review PR where they been requested to do so.
+We (usually the core team, sometimes KodaDot engineers or support too!) review PR where they have been requested to do so.
 
 The purpose of reviews is to create the best content for people who use KodaDot and raise code-quality at each pull-request.
 
@@ -172,10 +244,6 @@ Try to submit your PR as soon as possible. That's always an excellent way to avo
 
 However, if the conflict happens, we want you always use `merge` to resolve it. The reason is
 we don't want to mix the merging strategies, and we want to see only your commits in your PR.
-
-### Pull request template
-
-When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
 
 # Troubleshooting
 
