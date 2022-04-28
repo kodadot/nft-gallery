@@ -121,7 +121,11 @@ export default class CuratedList extends mixins(AuthMixin) {
       border: inherit;
     }
   }
-
+  @media screen and (max-width: 1023px) {
+    .title.is-5 {
+      font-size: medium;
+    }
+  }
   .box {
     position: absolute;
     border-radius: 4px;
