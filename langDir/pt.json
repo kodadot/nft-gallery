@@ -74,10 +74,10 @@
   "Layout Options": "Opções de Layout",
   "Gallery Items Per Page": "Itens da Galeria por Página",
   "Collections Per Page": "Coleções Por Página",
-  "Frequently Asked Question": "Perguntas Frequentemente Feitas",
   "I am helping to cover costs": "Eu estou ajudando a cobrir os custos",
   "I do not want to support": "Eu não quero apoiar",
   "faq": {
+    "title": "Perguntas Frequentemente Feitas",
     "q": {
       "1": "O que são NFTs?",
       "2": "O que é cunhagem?",
