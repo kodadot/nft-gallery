@@ -78,6 +78,8 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
 // const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)
 const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
+export const onlyDate = (datetime: Date) =>
+  formatISO(datetime, { representation: 'date' })
 
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
@@ -92,9 +94,7 @@ const last2monthDate: Date = subDays(today, 60)
 
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {
-  return eachDayOfInterval({ start, end }).map((date) =>
-    formatISO(date, { representation: 'date' })
-  )
+  return eachDayOfInterval({ start, end }).map(onlyDate)
 }
 
 export function axisLize(obj = {}) {

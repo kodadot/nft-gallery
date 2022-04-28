@@ -300,7 +300,7 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort, lastmonthDate, today, getDateArray } from './utils'
+import { toSort, lastmonthDate, today, getDateArray, onlyDate } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -383,7 +383,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     const buyEvents = (await this.fetchCollectionEvents(ids))
       .map((e) => ({
         ...e.nft.collection,
-        timestamp: e.timestamp.replace(/(T.*?$)/g, ''),
+        timestamp: onlyDate(new Date(e.timestamp)),
       }))
       .reduce((res, e) => {
         const { id, timestamp: ts } = e

@@ -196,6 +196,7 @@ import {
   lastmonthDate,
   axisLize,
   defaultEvents,
+  onlyDate,
 } from '../series/utils'
 import { SortType } from '../series/types'
 
@@ -334,7 +335,7 @@ export default class SpotlightTable extends mixins(
         id: nft.issuer,
         timestamps: nft.events
           .flat()
-          .map((x) => x.timestamp.replace(/(T.*?)$/g, '')),
+          .map((x) => onlyDate(new Date(x.timestamp))),
       }))
       .reduce((res, e) => {
         const { id, timestamps } = e

@@ -49,7 +49,6 @@ export default class PulseChart extends Vue {
       labels: this.labels,
       datasets: [
         {
-          label: 'My First Dataset',
           data: this.values,
           fill: false,
           // borderColor: 'rgb(75, 192, 192)',
