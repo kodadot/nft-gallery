@@ -193,6 +193,19 @@
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
+        field="highestSale"
+        :label="$t('series.highestSale')"
+        numeric
+        cell-class="is-vcentered"
+        sortable>
+        <template v-if="!isLoading">
+          <Money :value="props.row.highestSale" inline hideUnit />
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
         field="buys"
         :label="$t('series.buys')"
         v-slot="props"
