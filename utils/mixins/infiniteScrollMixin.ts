@@ -79,6 +79,7 @@ export default class InfiniteScrollMixin extends Vue {
     const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
     if (isSuccess) {
       this.startPage = nextPage
+      this.checkCurrentPageIsValid()
     }
     $state.loaded()
   }
@@ -92,6 +93,7 @@ export default class InfiniteScrollMixin extends Vue {
     const isSuccess = await this.fetchPageData(nextPage, 'down')
     if (isSuccess) {
       this.endPage = nextPage
+      this.checkCurrentPageIsValid()
     }
     $state.loaded()
   }
@@ -99,5 +101,16 @@ export default class InfiniteScrollMixin extends Vue {
   protected async fetchPageData(page, loadDirection): Promise<boolean> {
     this.$consola.warn('fetchPageData need to be extended', page, loadDirection)
     return true
+  }
+
+  protected gotoPage(page: number) {
+    this.$consola.warn('gotoPage need to be extended', page)
+  }
+
+  checkCurrentPageIsValid() {
+    const maxPage = Math.ceil(this.total / this.first)
+    if (maxPage > 0 && this.currentPage > maxPage) {
+      this.gotoPage(maxPage)
+    }
   }
 }
