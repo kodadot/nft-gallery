@@ -11,5 +11,9 @@ import Identity from '@/components/rmrk/Profile/IdentityForm.vue'
     Identity,
   },
 })
-export default class IdentityPage extends Vue {}
+export default class IdentityPage extends Vue {
+  layout() {
+    return 'centered-half-layout'
+  }
+}
 </script>

@@ -8,10 +8,17 @@ import { formatDistanceToNow } from 'date-fns'
 @Component
 export default class CreatedAtMixin extends Vue {
   protected firstMintDate = new Date()
+  protected lastBoughtDate = new Date()
 
   get formattedTimeToNow() {
     return this.firstMintDate
       ? formatDistanceToNow(new Date(this.firstMintDate), { addSuffix: true })
+      : ''
+  }
+
+  get formattedLastBoughtToNow() {
+    return this.lastBoughtDate
+      ? formatDistanceToNow(new Date(this.lastBoughtDate), { addSuffix: true })
       : ''
   }
 }

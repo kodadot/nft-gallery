@@ -3,9 +3,9 @@
     <template v-if="items && !horizontalLayout">
       <Layout />
     </template>
-    <div class="columns is-multiline">
+    <div id="infinite-scroll-container" class="columns is-multiline">
       <div
-        :class="`column ${classLayout} column-padding`"
+        :class="`column ${classLayout} column-padding scroll-item`"
         v-for="nft in items"
         :key="nft.id">
         <GalleryCard
@@ -34,8 +34,8 @@ const components = {
 
 @Component({ components })
 export default class GalleryCardList extends Vue {
-  @Prop({ default: '/rmrk/explore?tab=GALLERY' }) public route!: string
-  @Prop({ default: 'rmrk/explore?tab=GALLERY' }) public link!: string
+  @Prop({ default: '/rmrk/gallery' }) public route!: string
+  @Prop({ default: 'rmrk/gallery' }) public link!: string
   @Prop() public items!: RmrkType[]
   @Prop(Boolean) public horizontalLayout!: boolean
   @Prop(Boolean) public listed!: boolean

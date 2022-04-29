@@ -32,7 +32,14 @@ query nFTStatsByIssuer($account: String!) {
       name: { notLike: "%Kanaria%" }
       burned: { distinctFrom: true }
     }
+    orderBy: BLOCK_NUMBER_DESC
+    first: 1
   ) {
+      nodes {
+      collection {
+        createdAt
+      }
+    }
     totalCount
   }
 

@@ -74,9 +74,9 @@ const components = {
 
 @Component({ components })
 export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ type: String, default: '/rmrk/explore?tab=GALLERY' })
+  @Prop({ type: String, default: '/rmrk/gallery' })
   public route!: string
-  @Prop({ type: String, default: '/rmrk/explore?tab=GALLERY' })
+  @Prop({ type: String, default: 'rmrk/gallery' })
   public link!: string
   @Prop(String) public id!: string
   @Prop(String) public name!: string
@@ -99,7 +99,10 @@ export default class GalleryCard extends mixins(AuthMixin) {
 
       this.image = image || getSanitizer(meta.image || '')(meta.image || '')
       this.title = meta.name
-      this.animatedUrl = sanitizeIpfsUrl(meta.animation_url || '', 'pinata')
+      this.animatedUrl = sanitizeIpfsUrl(
+        meta.animation_url || meta.mediaUri || '',
+        'pinata'
+      )
     }
   }
 
