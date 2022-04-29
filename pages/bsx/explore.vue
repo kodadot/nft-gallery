@@ -10,7 +10,7 @@ const components = {
   ExploreLayout,
 }
 
-@Component<ExploreRmrk>({
+@Component<ExploreBsx>({
   components,
   head() {
     const title = 'Low minting fees and carbonless NFTs'
@@ -27,5 +27,5 @@ const components = {
     }
   },
 })
-export default class ExploreRmrk extends Vue {}
+export default class ExploreBsx extends Vue {}
 </script>
