@@ -6,10 +6,9 @@
     </div>
     <b-tabs v-model="selectedTab">
       <b-tab-item label="Collections" value="COLLECTION">
-        <CollectionList v-if="type === 'rmrk'" />
-        <Collections v-if="type !== 'rmrk'" />
+        <CollectionList />
       </b-tab-item>
-      <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
+      <!-- <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item> -->
     </b-tabs>
   </div>
 </template>
