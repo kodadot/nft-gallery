@@ -6,8 +6,15 @@
       type="is-outlined"
       class="emoji-box mb-2"
       @click="$emit('selected', emoji.parsed)">
-      {{ emoji.parsed }}
-      <span class="ml-1">{{ emoji.count }}</span>
+      <b-tooltip append-to-body>
+        {{ emoji.parsed }}
+        <span class="ml-1">{{ emoji.count }}</span>
+        <template v-slot:content>
+          <div v-for="issuer in emoji.issuers" :key="issuer">
+            <Identity :address="issuer" inline noOverflow />
+          </div>
+        </template>
+      </b-tooltip>
     </b-button>
 
     <b-button
@@ -38,7 +45,11 @@ interface Emoji {
   parsed: string
 }
 
-@Component
+@Component({
+  components: {
+    Identity: () => import('@/components/shared/format/Identity.vue'),
+  },
+})
 export default class EmotionList extends Vue {
   @Prop() public emotions!: GroupedEmotion
   @Provide() DISPLAYED_EMOJI = 5
