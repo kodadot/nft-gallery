@@ -55,9 +55,9 @@
   "New here? We have F.A.Q.": "새로왔는가? 질의응답 코너이다.",
   "Feedback? We\\'d be happy to discuss it.": "고객요청? 회의 해 보겠다. ",
   "Read our story, how we started.": "우리 글을 읽어줘 어떻게 시작했을까?!",
-  "Frequently Asked Question": "질의 응답(자주 묻는 질문)",
   "자주 묻는 질문": "자주 묻는 질문 답변",
   "faq": {
+    "title": "질의 응답(자주 묻는 질문)",
     "q": {
       "1": "NFT에 사용되는 동전은 무엇입니까?",
       "2": "민트, 구매, 수집하려면 어떤 지갑이 필요합니까?",

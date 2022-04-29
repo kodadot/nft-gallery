@@ -21,6 +21,7 @@
         <b-button @click="toggleSearchBarDisplay" icon-left="times" />
         <Search
           v-if="showMobileSearchBar"
+          showDefaultSuggestions
           hideFilter
           class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
@@ -47,6 +48,7 @@
           'nav-search-shrink': !showTopNavbar,
         }"
         hideFilter
+        showDefaultSuggestions
         class="search-navbar is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>

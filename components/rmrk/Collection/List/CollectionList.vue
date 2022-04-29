@@ -6,7 +6,7 @@
       @resetPage="resetPage"
       hideSearch
       :sortOption="collectionSortOption">
-      <b-field>
+      <b-field class="is-flex">
         <Layout class="mr-5" @change="onResize" />
         <Pagination
           hasMagicBtn
@@ -180,12 +180,11 @@ export default class CollectionList extends mixins(
     this.fetchPageData(this.startPage)
   }
 
-  public async fetchPageData(
+  protected async fetchPageData(
     page: number,
-    loadDirection = 'down',
-    callback?: () => void
-  ) {
-    if (this.isFetchingData) return
+    loadDirection = 'down'
+  ): Promise<boolean> {
+    if (this.isFetchingData) return false
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
@@ -201,8 +200,8 @@ export default class CollectionList extends mixins(
       },
     })
     await this.handleResult(result, loadDirection)
-    callback && callback()
     this.isFetchingData = false
+    return true
   }
 
   protected async handleResult({ data }: any, loadDirection = 'down') {

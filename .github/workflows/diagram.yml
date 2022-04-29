@@ -2,7 +2,7 @@ name: Create diagram
 on:
   schedule:
     # Runing biweekly, At 11:50 on day-of-month 1 and 16.
-    - cron: "50 11 1,16 * *"
+    - cron: "50 11 4,19 * *"
 # one more commit and i'm going to shower
 #  we are using cron to not polute commits history
 # push:
@@ -24,6 +24,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: main
+          branch: action
           title: "[skip ci] updated code diagram"
           commit-message: "[skip ci] updated code diagram"

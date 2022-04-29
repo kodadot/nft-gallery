@@ -42,6 +42,7 @@
   "Add Token": "Voeg token toe",
   "Mint": "Mint",
   "faq": {
+    "title": "Veelgestelde vragen",
     "q": {
       "1": "What coin is used for NFTs?",
       "2": "What wallet do I need to mint, buy and collect?",
@@ -174,7 +175,6 @@
   "New here? We have F.A.Q.": "Nieuw hier? Bekijk de meest gestelde vragen.",
   "Feedback? We\\'d be happy to discuss it.": "Feedback? We zouden het graag willen bespreken.",
   "Read our story, how we started.": "Lees hoe ons verhaal begonnen is.",
-  "Frequently Asked Question": "Veelgestelde vragen",
   "FAQQ1": "What coin is used for NFTs?",
   "FAQA1": "<a href=\"https://kusama.network/\">Kusama, $KSM</a>. You can get it through our <a href=\"#/rmrk/credit\">Credit</a> feature or <a href=\"https://www.binance.com/en/register?ref=T1JB89F0\">through custodial exchange</a>.",
   "FAQQ2": "What wallet do I need to mint, buy and collect?",
