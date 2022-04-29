@@ -18,7 +18,7 @@
     </b-button>
 
     <b-button
-      v-if="emotes.length > DISPLAYED_EMOJI"
+      v-if="emotes.length > 0"
       class="emoji-box mb-2"
       @click="openEmotionModal()">
       <b-icon pack="fas" icon="info-circle" />
