@@ -3,9 +3,9 @@
     <template v-if="items && !horizontalLayout">
       <Layout />
     </template>
-    <div class="columns is-multiline">
+    <div id="infinite-scroll-container" class="columns is-multiline">
       <div
-        :class="`column ${classLayout} column-padding`"
+        :class="`column ${classLayout} column-padding scroll-item`"
         v-for="nft in items"
         :key="nft.id">
         <GalleryCard
