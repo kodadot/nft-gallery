@@ -69,9 +69,7 @@
         v-model="activeTab"
         destroy-on-hide
         expanded>
-        <b-tab-item
-          value="nft"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+        <b-tab-item value="nft" :headerClass="{ 'is-hidden': !total }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
@@ -90,42 +88,40 @@
             :showSearchBar="true" />
         </b-tab-item>
         <b-tab-item
-          :label="`Collections - ${totalCollections}`"
+          :label="`Collections - ${total}`"
           value="collection"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+          :headerClass="{ 'is-hidden': !total }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('Collections') }}
-              <span class="tab-counter" v-if="totalCollections">{{
-                totalCollections
-              }}</span>
+              <span class="tab-counter" v-if="total">{{ total }}</span>
             </b-tooltip>
           </template>
           <div class="is-flex is-justify-content-flex-end">
-            <Layout class="mr-5" />
+            <Layout class="mr-5" @change="onResize" />
             <Pagination
               hasMagicBtn
               replace
-              :total="totalCollections"
-              v-model="currentCollectionPage" />
+              :total="total"
+              v-model="currentValue" />
           </div>
+          <InfiniteLoading
+            v-if="startPage > 1 && !isLoading && total > 0"
+            direction="top"
+            @infinite="reachTopHandler"></InfiniteLoading>
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
             route="/rmrk/collection"
             link="rmrk/collection"
             horizontalLayout />
-          <Pagination
-            replace
-            class="pt-5 pb-5"
-            :total="totalCollections"
-            v-model="currentCollectionPage" />
+          <InfiniteLoading
+            v-if="canLoadNextPage && !isLoading && total > 0"
+            @infinite="reachBottomHandler"></InfiniteLoading>
         </b-tab-item>
-        <b-tab-item
-          value="sold"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+        <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
@@ -187,6 +183,7 @@ import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
 
@@ -203,6 +200,7 @@ const components = {
   ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component<Profile>({
@@ -224,7 +222,7 @@ const components = {
   },
   components,
 })
-export default class Profile extends mixins(PrefixMixin) {
+export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
   public firstNFTData: any = {}
   protected id = ''
   protected shortendId = ''
@@ -232,18 +230,13 @@ export default class Profile extends mixins(PrefixMixin) {
   protected collections: CollectionWithMeta[] = []
   protected packs: Pack[] = []
   protected name = ''
-  // protected property: {[key: string]: any} = {};
   protected email = ''
   protected twitter = ''
   protected displayName = ''
   protected web = ''
   protected legal = ''
   protected riot = ''
-  private currentValue = 1
-  private first = 20
-  private total = 0
-  private currentCollectionPage = 1
-  protected totalCollections = 0
+  protected first = 20
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
@@ -316,20 +309,58 @@ export default class Profile extends mixins(PrefixMixin) {
     return this.currentValue * this.first - this.first
   }
 
-  get collectionOffset(): number {
-    return this.currentCollectionPage * this.first - this.first
-  }
-
   get defaultNFTImage(): string {
     const url = new URL(window.location.href)
     return `${url.protocol}//${url.hostname}/placeholder.webp`
+  }
+
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
+  }
+
+  @Debounce(500)
+  private resetPage() {
+    this.gotoPage(1)
+  }
+
+  private gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
+    this.collections = []
+    this.isLoading = true
+    this.fetchPageData(page)
+  }
+
+  public async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) return false
+    this.isFetchingData = true
+    if (!this.id) {
+      this.checkId()
+    }
+    const result = await this.$apollo.query({
+      query: collectionListByAccount,
+      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+      variables: {
+        account: this.id,
+        first: this.first,
+        offset: (page - 1) * this.first,
+      },
+    })
+    await this.handleCollectionResult(result, loadDirection)
+    this.isFetchingData = false
+    return true
   }
 
   protected async fetchProfile() {
     this.checkId()
 
     try {
-      this.fetchCollectionList()
+      this.fetchPageData(this.startPage)
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
@@ -356,23 +387,6 @@ export default class Profile extends mixins(PrefixMixin) {
     // this.isLoading = false;
   }
 
-  @Debounce(100)
-  private async fetchCollectionList() {
-    if (!this.id) {
-      this.checkId()
-    }
-    const result = await this.$apollo.query({
-      query: collectionListByAccount,
-      client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
-      variables: {
-        account: this.id,
-        offset: this.collectionOffset,
-        first: this.first,
-      },
-    })
-    this.handleCollectionResult(result)
-  }
-
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
       const nfts = data.nFTEntities.nodes
@@ -386,13 +400,23 @@ export default class Profile extends mixins(PrefixMixin) {
     }
   }
 
-  protected async handleCollectionResult({ data }: any) {
+  protected async handleCollectionResult(
+    { data }: any,
+    loadDirection = 'down'
+  ) {
     if (data) {
-      this.totalCollections = data.stats.totalCount
-      this.collections = data.collectionEntities
+      this.total = data.stats.totalCount
+      const newCollections = data.collectionEntities
+
+      if (loadDirection === 'up') {
+        this.collections = newCollections.concat(this.collections)
+      } else {
+        this.collections = this.collections.concat(newCollections)
+      }
+      this.isLoading = false
     }
     // in case user is only a collector, set tab to collected
-    if (this.totalCollections === 0 && this.activeTab !== 'holdings') {
+    if (this.total === 0 && this.activeTab !== 'holdings') {
       this.$router
         .replace({ query: { tab: 'collected' } })
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
@@ -415,13 +439,8 @@ export default class Profile extends mixins(PrefixMixin) {
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
+      this.resetPage()
       this.fetchProfile()
-    }
-  }
-  @Watch('currentCollectionPage', { immediate: true })
-  private handleCurrentPageChange(page: number) {
-    if (page) {
-      this.fetchCollectionList()
     }
   }
 }
