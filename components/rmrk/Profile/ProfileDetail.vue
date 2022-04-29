@@ -408,6 +408,10 @@ export default class Profile extends mixins(PrefixMixin) {
     this.legal = identityFields?.legal as string
   }
 
+  protected onCollectedChange(count, item) {
+    this.totalCollected = count
+  }
+
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {

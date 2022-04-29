@@ -21,8 +21,9 @@
         <b-button @click="toggleSearchBarDisplay" icon-left="times" />
         <Search
           v-if="showMobileSearchBar"
+          showDefaultSuggestions
           hideFilter
-          class="is-flex-grow-1 pr-1 is-hidden-desktop" />
+          class="is-flex-grow-1 pr-1 is-hidden-desktop mt-5" />
       </div>
 
       <div
@@ -47,6 +48,7 @@
           'nav-search-shrink': !showTopNavbar,
         }"
         hideFilter
+        showDefaultSuggestions
         class="search-navbar is-flex-grow-1 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
@@ -363,6 +365,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 
   .navbar-start {
     flex: 1;
+    margin-top: 24px;
   }
 
   .navbar-dropdown {
@@ -397,7 +400,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: 100%;
 
     input {
-      background-color: rgba(41, 41, 47, 0.5);
+      background-color: rgba(41, 41, 47);
       padding: 0;
       z-index: 1;
       &:focus {

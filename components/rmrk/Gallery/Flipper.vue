@@ -6,6 +6,7 @@
     dateHeaderLabel="Last Activity"
     nameHeaderLabel="User"
     saleHeaderLabel="Sold"
+    defaultSortOption="Percentage"
     :collapseTitleOption="$t('Flipper')"
     hideCollapse />
 </template>
