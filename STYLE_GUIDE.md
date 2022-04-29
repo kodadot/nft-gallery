@@ -75,7 +75,6 @@ export class MyComponent extends Vue {
 }
 ```
 
-
 ### Using Components In Templates
 Custom components and prop bindings should be used like this
 ```vue
@@ -88,7 +87,6 @@ Use shorthands for vue attributes
 - `:href` instead of `v-bind:href`
 - `@click` instead of `v-on:click`
 - ...
-
 
 ### Fetching Data
 Though we haven't yet transitioned most of our data fetching logic to Nuxt lifecycles, the following syntax should be considered best practice:
@@ -118,7 +116,6 @@ export default class ClassName extends Vue {
   [...]
 }
 ```
-
 
 ### Reusability Through Abstraction
 If your component will be used on several occasions in many different contexts, you should think about how you pass data to your components and how events are handled.
@@ -190,10 +187,26 @@ Even if the statement of a block is just one line, stick to a more elaborate syn
 if (something) return 1
 ```
 
-
 ✅ good
 ```js
 if (something) {
   return 1
 }
+```
+
+### For loops
+Try to use more functional approaches since loop is really hard to maintain.
+
+For loops in KodaDot is kind no no~
+❗ bad
+```js
+for (let x = 0; x < 10; x++) {
+  const element = list[x]
+  // your statement
+}
+```
+
+✅ good
+```js
+list.forEach(element => ...)
 ```
