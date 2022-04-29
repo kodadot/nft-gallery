@@ -33,6 +33,7 @@ export type RowSeries = {
   monthlyrangeVolume: VolumeType
   averagePrice: number
   floorPrice: number
+  highestPrice: number
   rank: number
   uniqueCollectors: number
   name: string
