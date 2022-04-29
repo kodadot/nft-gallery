@@ -4,7 +4,7 @@
     <!-- TODO: Make it work with graphql -->
     <Search
       v-bind.sync="searchQuery"
-      @resetPage="currentValue = 1"
+      @resetPage="resetPage"
       :hideSearchInput="notMobile">
       <Pagination
         hasMagicBtn
@@ -15,9 +15,13 @@
         replace
         class="remove-margin" />
     </Search>
-    <!-- <b-button @click="first += 1">Show {{ first }}</b-button> -->
 
     <div>
+      <InfiniteLoading
+        v-if="startPage > 1 && !isLoading && total > 0"
+        direction="top"
+        @infinite="reachTopHandler"></InfiniteLoading>
+
       <div class="columns is-multiline">
         <div
           class="column is-4 column-padding"
@@ -76,18 +80,16 @@
           </div>
         </div>
       </div>
+      <InfiniteLoading
+        v-if="canLoadNextPage && !isLoading && total > 0"
+        @infinite="reachBottomHandler"></InfiniteLoading>
     </div>
-    <Pagination
-      class="pt-5 pb-5"
-      :total="total"
-      :perPage="first"
-      v-model="currentValue"
-      replace />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { NftEntity as GraphNFT } from '@/components/rmrk/service/types'
 import {
   getCloudflareImageLinks,
@@ -103,7 +105,7 @@ import {
 } from 'components/unique/graphqlResponseTypes'
 import { DocumentNode } from 'graphql'
 import 'lazysizes'
-
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
@@ -122,13 +124,14 @@ const components = {
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component<Gallery>({
   components,
   name: 'Gallery',
 })
-export default class Gallery extends mixins(PrefixMixin) {
+export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
@@ -138,22 +141,8 @@ export default class Gallery extends mixins(PrefixMixin) {
     priceMin: undefined,
     priceMax: undefined,
   }
-  private currentValue = parseInt((this.$route.query?.page as string) || '1')
-  protected total = 0
-  private loadingState = 0
-  private notMobile = false
-
-  get first(): number {
-    return this.$store.getters['preferences/getGalleryItemsPerPage']
-  }
-
-  get isLoading() {
-    return Boolean(this.loadingState)
-  }
-
-  get offset() {
-    return this.currentValue * this.first - this.first
-  }
+  private isLoading = true
+  private notMobile = true
 
   get showPriceValue(): boolean {
     return (
@@ -170,41 +159,90 @@ export default class Gallery extends mixins(PrefixMixin) {
     return this.$store.getters['preferences/getLoadAllArtwork']
   }
 
+  get queryVariables() {
+    return {
+      first: this.first,
+      denyList: this.urlPrefix === 'rmrk' ? denyList : statemineDenyList,
+      orderBy: this.searchQuery.sortBy,
+      search: this.buildSearchParam(),
+      priceMin: this.searchQuery.priceMin,
+      priceMax: this.searchQuery.priceMax,
+    }
+  }
+
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
+  }
+
+  get results() {
+    return this.nfts as SearchedNftsWithMeta[]
+  }
+
   public async created() {
+    await this.fetchPageData(this.startPage)
     window.addEventListener('resize', this.onResize)
-    this.notMobile = window.innerWidth >= 1023
+    this.onResize()
+  }
+
+  @Debounce(500)
+  private resetPage() {
+    this.gotoPage(1)
+  }
+
+  private gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
+    this.nfts = []
+    this.isLoading = true
+    this.fetchPageData(page)
+  }
+
+  public async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) return false
+    this.isFetchingData = true
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
-
-    this.$apollo.addSmartQuery<GraphResponse>('nfts', {
+    const result = await this.$apollo.query({
       query: query.default,
-      manual: true,
-      // update: ({ nFTEntities }) => nFTEntities.nodes,
-      loadingKey: 'loadingState',
       client: this.urlPrefix,
-      result: this.handleResult,
-      variables: () => {
-        return {
-          first: this.first,
-          offset: this.offset,
-          denyList: isRemark ? denyList : statemineDenyList,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(),
-          priceMin: this.searchQuery.priceMin,
-          priceMax: this.searchQuery.priceMax,
-        }
+      variables: {
+        denyList: isRemark ? denyList : statemineDenyList,
+        orderBy: this.searchQuery.sortBy,
+        search: this.buildSearchParam(),
+        priceMin: this.searchQuery.priceMin,
+        priceMax: this.searchQuery.priceMax,
+        first: this.first,
+        offset: (page - 1) * this.first,
       },
     })
+    await this.handleResult(result, loadDirection)
+    this.isFetchingData = false
+    return true
   }
 
-  protected async handleResult({ data }: WithData<GraphResponse>) {
+  protected async handleResult(
+    { data }: WithData<GraphResponse>,
+    loadDirection = 'down'
+  ) {
     this.total = data.nFTEntities.totalCount
-    this.nfts = data.nFTEntities.nodes.map((e: any) => ({
+
+    const newNfts = data.nFTEntities.nodes.map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount,
     }))
+
+    if (loadDirection === 'up') {
+      this.nfts = newNfts.concat(this.nfts)
+    } else {
+      this.nfts = this.nfts.concat(newNfts)
+    }
 
     const metadataList: string[] = this.nfts.map(mapNFTorCollectionMetadata)
     const imageLinks = await getCloudflareImageLinks(metadataList)
@@ -225,7 +263,7 @@ export default class Gallery extends mixins(PrefixMixin) {
         type: meta.type || '',
       })
     })
-
+    this.isLoading = false
     await this.prefetchPage(
       this.offset + this.first,
       this.offset + 3 * this.first
@@ -308,23 +346,19 @@ export default class Gallery extends mixins(PrefixMixin) {
   @Watch('$route.query.search')
   protected onSearchChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
-      this.currentValue = 1
+      this.resetPage()
       this.searchQuery.search = val || ''
     }
   }
 
-  get results() {
-    // if (this.searchQuery) {
-    //   return basicAggQuery(expandedFilter(this.searchQuery, this.nfts))
-    // }
-
-    return this.nfts as SearchedNftsWithMeta[]
-
-    // return basicAggQuery(expandedFilter(this.searchQuery, this.nfts));
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 
-  private onResize() {
-    return (this.notMobile = window.innerWidth >= 1024)
+  @Debounce(1000)
+  protected onResize() {
+    this.notMobile = window.innerWidth >= 1024
   }
 
   destroyed() {
