@@ -34,7 +34,7 @@
           :key="collection.id">
           <div class="card collection-card">
             <nuxt-link
-              :to="`/rmrk/collection/${collection.id}`"
+              :to="`/${urlPrefix}/collection/${collection.id}`"
               tag="div"
               class="collection-card__skeleton">
               <div class="card-image">
@@ -45,7 +45,7 @@
               </div>
 
               <div class="card-content">
-                <nuxt-link :to="`/rmrk/collection/${collection.id}`">
+                <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
                   <CollectionDetail
                     :nfts="collection.nfts"
                     :name="collection.name" />
