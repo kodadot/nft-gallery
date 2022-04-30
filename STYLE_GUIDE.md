@@ -180,17 +180,39 @@ get classLayout() {
 ```
 
 ## General Conventions
-### if...else
-Even if the statement of a block is just one line, stick to a more elaborate syntax:
+
+### brace-style
+
+Even if the statement of a block is just one line, stick to a more elaborate
+syntax and consistent way to do brace-style
+
 ❗ bad
 ```js
 if (something) return 1
+
+if (something) return 1
+else return 2
+
+function foo()
+{
+  return true;
+}
 ```
 
 ✅ good
 ```js
 if (something) {
   return 1
+}
+
+if (something) {
+  return 1
+} else {
+  return 2
+}
+
+function foo() {
+  return true
 }
 ```
 
