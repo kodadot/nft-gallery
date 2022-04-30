@@ -105,7 +105,7 @@ export default class CollectionActivity extends mixins(PrefixMixin) {
   highestBuyPrice = 0
 
   public created(): void {
-    this.fetchBuyEvents()
+    // this.fetchBuyEvents()
   }
 
   async fetch() {

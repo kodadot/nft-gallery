@@ -292,7 +292,7 @@ export default class CollectionItem extends mixins(
   public created(): void {
     this.checkId()
     this.checkActiveTab()
-    this.checkIfEmptyListed()
+    // this.checkIfEmptyListed()
     this.$apollo.addSmartQuery('collection', {
       query: collectionById,
       client: this.urlPrefix,
@@ -301,7 +301,7 @@ export default class CollectionItem extends mixins(
       variables: () => {
         return {
           id: this.id,
-          orderBy: this.searchQuery.sortBy,
+          // orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
           first: this.first,
           offset: this.offset,
