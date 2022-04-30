@@ -62,6 +62,7 @@ import { MetaFragment } from '~/components/unique/graphqlResponseTypes'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { Collection, CollectionWithMeta } from '../service/scheme'
 import { fetchCollectionMetadata, sanitizeIpfsUrl } from '../utils'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 const components = {
   Pagination: () => import('./Pagination.vue'),
@@ -94,10 +95,14 @@ export default class Collections extends mixins(PrefixMixin) {
 
   public async created() {
     const isRemark = this.urlPrefix === 'rmrk'
-    const query = isRemark
-      ? await import('@/queries/collectionListWithSearch.graphql')
-      : await import('@/queries/unique/collectionListWithSearch.graphql')
-
+    // const query = isRemark
+    //   ? await import('@/queries/collectionListWithSearch.graphql')
+    //   : await import('@/queries/unique/collectionListWithSearch.graphql')
+    const query = await resolveQueryPath(
+      this.urlPrefix,
+      'collectionListWithSearch'
+    )
+    console.log(query)
     this.$apollo.addSmartQuery('collection', {
       query: query.default,
       manual: true,
@@ -118,6 +123,7 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 
   protected async handleResult({ data }: any) {
+    console.log(data)
     this.total = data.collectionEntities.totalCount
     this.collections = data.collectionEntities.nodes.map((e: any) => ({
       ...e,
@@ -362,3 +368,5 @@ export default class Collections extends mixins(PrefixMixin) {
   }
 }
 </style>
+
+function resolverQueryPath() { throw new Error('Function not implemented.') }
