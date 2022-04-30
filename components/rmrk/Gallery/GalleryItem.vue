@@ -310,7 +310,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ...meta,
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
-          meta.animation_url || meta.image,
+          meta.animation_url || meta.image || meta.mediaUri,
           'pinata'
         ),
       }
