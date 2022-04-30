@@ -194,10 +194,12 @@ if (something) {
 }
 ```
 
-### For loops
-Try to use more functional approaches since loop is really hard to maintain.
+### for loops
 
-For loops in KodaDot is kind no no~
+Try to use more functional approaches since loop is really hard to maintain.
+Beside if you really need using `for` loop, you should using `for-of` loop
+since by doing so we can avoid off-by-one errors
+
 ❗ bad
 ```js
 for (let x = 0; x < 10; x++) {
@@ -208,5 +210,11 @@ for (let x = 0; x < 10; x++) {
 
 ✅ good
 ```js
+// Best
 list.forEach(element => ...)
+
+// Good
+for (const element of array) {
+  // your statement
+}
 ```

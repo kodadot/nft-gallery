@@ -15,9 +15,10 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
-  plugins: ['vue', 'prettier', '@typescript-eslint'],
+  plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
   rules: {
     'no-trailing-spaces': 'error',
+    'unicorn/no-for-loop': 'error',
     'no-useless-catch': 1,
     'no-var': 'error',
     'linebreak-style': ['error', 'unix'],
