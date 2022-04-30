@@ -152,6 +152,8 @@ import { mapDecimals } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
+import resolveQueryPath from '~/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -289,12 +291,13 @@ export default class CollectionItem extends mixins(
     return params
   }
 
-  public created(): void {
+  public async created(): Promise<void> {
     this.checkId()
     this.checkActiveTab()
+    const query = await resolveQueryPath(this.urlPrefix, 'collectionById')
     // this.checkIfEmptyListed()
     this.$apollo.addSmartQuery('collection', {
-      query: collectionById,
+      query: query.default,
       client: this.urlPrefix,
       loadingKey: 'queryLoading',
       manual: true,
@@ -418,14 +421,15 @@ export default class CollectionItem extends mixins(
       return
     }
     this.firstMintDate = collectionEntity.createdAt
-    await getCloudflareImageLinks(
-      collectionEntity.nfts.nodes.map(mapOnlyMetadata)
-    ).catch(this.$consola.warn)
+    const nftList = unwrapSafe(collectionEntity.nfts)
+    await getCloudflareImageLinks(nftList.map(mapOnlyMetadata)).catch(
+      this.$consola.warn
+    )
     this.collection = {
       ...collectionEntity,
-      nfts: collectionEntity.nfts.nodes,
+      nfts: nftList,
     }
-    this.total = collectionEntity.nfts.totalCount
+    // this.total = collectionEntity.nfts.totalCount
 
     await this.fetchMetadata()
   }
