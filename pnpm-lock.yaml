@@ -163,6 +163,7 @@ devDependencies:
   consola: 2.15.3
   eslint: 8.14.0
   eslint-plugin-prettier: 4.0.0_eslint@8.14.0+prettier@2.6.2
+  eslint-plugin-unicorn: 42.0.0_eslint@8.14.0
   eslint-plugin-vue: 8.7.1_eslint@8.14.0
   graphql-tag: 2.12.6_graphql@16.4.0
   husky: 7.0.4
@@ -2644,7 +2645,7 @@ packages:
       '@netlify/functions': 1.0.0
       '@nuxt/devalue': 2.0.0
       '@nuxt/kit': /@nuxt/kit-edge/3.0.0-27470397.9ebea90_1871abbcc46f97c283d2a6949ef4d962
-      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.0.0-27479051.598a8a0
+      '@nuxt/ui-templates': /@nuxt/ui-templates-edge/0.1.0-27520425.2e536c1
       '@rollup/plugin-alias': 3.1.9_rollup@2.70.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
@@ -8526,7 +8527,7 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-unicorn/42.0.0_eslint@8.13.0:
+  /eslint-plugin-unicorn/42.0.0_eslint@8.14.0:
     resolution: {integrity: sha512-ixBsbhgWuxVaNlPTT8AyfJMlhyC5flCJFjyK3oKE8TRrwBnaHvUbuIkCM1lqg8ryYrFStL/T557zfKzX4GKSlg==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -8535,8 +8536,8 @@ packages:
       '@babel/helper-validator-identifier': 7.16.7
       ci-info: 3.3.0
       clean-regexp: 1.0.0
-      eslint: 8.13.0
-      eslint-utils: 3.0.0_eslint@8.13.0
+      eslint: 8.14.0
+      eslint-utils: 3.0.0_eslint@8.14.0
       esquery: 1.4.0
       indent-string: 4.0.0
       is-builtin-module: 3.1.0
