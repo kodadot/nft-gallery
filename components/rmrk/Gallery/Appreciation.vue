@@ -66,6 +66,12 @@ export default class Appreciation extends mixins(
 
   protected async onSelectEmoji(emoji: IEmoji) {
     const { version, nftId } = this
+    if (!this.accountId) {
+      return showNotification(
+        '[EMOTE] Please connect your wallet first',
+        notificationTypes.warn
+      )
+    }
     const emote = emojiUnicode(emoji.data).split(' ')[0].toUpperCase()
     if (emote) {
       showNotification(`[EMOTE] Selected ${emoji.data} or ${emote}`)

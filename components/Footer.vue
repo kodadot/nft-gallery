@@ -7,20 +7,29 @@
         <ul class="footer__list icons__list">
           <li class="icons__list-item">
             <a
-              href="https://medium.com/kodadot"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Medium">
-              <b-icon pack="fab" icon="medium" size="is-medium" />
-            </a>
-          </li>
-          <li class="icons__list-item">
-            <a
               href="https://discord.gg/u6ymnbz4PR"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Discord">
               <b-icon pack="fab" icon="discord" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://twitter.com/KodaDot"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter">
+              <b-icon pack="fab" icon="twitter" size="is-medium" />
+            </a>
+          </li>
+          <li class="icons__list-item">
+            <a
+              href="https://instagram.com/kodadot.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram">
+              <b-icon pack="fab" icon="instagram" size="is-medium" />
             </a>
           </li>
           <li class="icons__list-item">
@@ -34,11 +43,11 @@
           </li>
           <li class="icons__list-item">
             <a
-              href="https://twitter.com/KodaDot"
+              href="https://medium.com/kodadot"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Twitter">
-              <b-icon pack="fab" icon="twitter" size="is-medium" />
+              aria-label="Medium">
+              <b-icon pack="fab" icon="medium" size="is-medium" />
             </a>
           </li>
         </ul>
@@ -78,35 +87,35 @@ export default class Footer extends Vue {
       url: '/about',
     },
     {
+      name: this.$t('FAQ'),
+      url: '/rmrk/faq',
+    },
+    {
+      name: this.$t('Grants'),
+      url: 'https://form.kodadot.xyz/grant',
+      external: true,
+    },
+    {
       name: this.$t('Documentation'),
       url: 'https://docs.kodadot.xyz/',
       external: true,
     },
     {
-      name: this.$t('FAQ'),
-      url: '/rmrk/faq',
+      name: this.$t('Contribute'),
+      url: '/contribute',
     },
     {
-      name: this.$t('Grant'),
-      url: 'https://form.kodadot.xyz/grant',
-      external: true,
+      name: this.$t('Careers'),
+      url: '/jobs',
     },
     {
-      name: this.$t('Partnerships & Ambassadors'),
+      name: this.$t('Partnerships'),
       url: '/partnership',
     },
     {
       name: this.$t('Press Kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
-    },
-    {
-      name: this.$t('Jobs'),
-      url: '/jobs',
-    },
-    {
-      name: this.$t('Contribute'),
-      url: '/contribute',
     },
   ]
 }

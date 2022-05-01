@@ -111,7 +111,7 @@
               </div>
             </div>
           </div>
-          <PriceChart
+          <LazyGalleryPriceChart
             class="mt-4"
             :priceChartData="priceChartData"
             :openOnDefault="!compactGalleryItem" />
@@ -127,7 +127,7 @@
 
       <div class="columns">
         <div class="column">
-          <History
+          <LazyGalleryHistory
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
@@ -164,7 +164,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     Auth: () => import('@/components/shared/Auth.vue'),
     AvailableActions: () => import('./AvailableActions.vue'),
     Facts: () => import('@/components/rmrk/Gallery/Item/Facts.vue'),
-    History: () => import('@/components/rmrk/Gallery/History.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Navigation: () => import('@/components/rmrk/Gallery/Item/Navigation.vue'),
@@ -175,7 +174,6 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
     DescriptionWrapper: () =>
       import('@/components/shared/collapse/DescriptionWrapper.vue'),
     Detail: () => import('@/components/unique/Gallery/Item/Detail.vue'),
-    PriceChart: () => import('@/components/rmrk/Gallery/PriceChart.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
     GalleryItemCarousel: () => import('./GalleryItemCarousel.vue'),
@@ -185,12 +183,9 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
   },
 })
 export default class GalleryItem extends mixins(PrefixMixin) {
-  private id = ''
   private nft: NFT = emptyObject<NFT>()
   private nftsFromSameCollection: NFT[] = []
   private imageVisible = true
-  private viewMode = this.$store.getters['preferences/getTheatreView']
-  private isFullScreenView = false
   public isLoading = true
   public mimeType = ''
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
@@ -199,8 +194,12 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   public priceChartData: [Date, number][][] = []
   public showNavigation = false
 
-  get accountId() {
+  get accountId(): string {
     return this.$store.getters.getAuthAddress
+  }
+
+  get id(): string {
+    return `${this.$route.params.id}${this.$route.hash || ''}`
   }
 
   async fetch() {
@@ -224,18 +223,18 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       this.fetchCollectionItems()
 
       this.isLoading = false
+
+      exist(this.$route.query.message, (val) => {
+        this.message = val === 'congrats' ? val : ''
+        this.$router.replace({ query: null } as any)
+      })
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
     }
   }
 
-  public async created() {
-    this.checkId()
-    exist(this.$route.query.message, (val) => {
-      this.message = val === 'congrats' ? val : ''
-      this.$router.replace({ query: null } as any)
-    })
-
+  public mounted() {
+    // used to poll nft every second after component initialization in order to prevent double spending
     this.$apollo.addSmartQuery<{ nft }>('nft', {
       client: this.urlPrefix,
       query: nftByIdMini,
@@ -251,10 +250,10 @@ export default class GalleryItem extends mixins(PrefixMixin) {
       },
       pollInterval: 1000,
     })
-  }
 
-  onImageError(e: any) {
-    this.$consola.warn('Image error', e)
+    if (this.message === 'congrats') {
+      this.toast(this.message)
+    }
   }
 
   public setPriceChartData(data: [Date, number][][]) {
@@ -262,7 +261,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 
   public async fetchCollectionItems() {
-    const collectionId = (this.nft as any)?.collectionId
+    const collectionId = this.nft?.collectionId
     if (collectionId) {
       // cancel request and get ids from store in case we already fetched collection data before
       if (this.$store.state.history?.currentCollection?.id === collectionId) {
@@ -311,7 +310,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         ...meta,
         image: imageSanitizer(meta.image),
         animation_url: sanitizeIpfsUrl(
-          meta.animation_url || meta.image,
+          meta.animation_url || meta.image || meta.mediaUri,
           'pinata'
         ),
       }
@@ -334,42 +333,20 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     }
   }
 
-  public checkId() {
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id
-
-      if (this.$route.hash) {
-        this.id += this.$route.hash
-      }
-    }
-  }
-
-  public toggleView(): void {
-    this.viewMode = this.viewMode === 'default' ? 'theatre' : 'default'
-  }
-
-  public toggleFullScreen(): void {
-    this.isFullScreenView = !this.isFullScreenView
-  }
-
-  public minimize(): void {
-    this.isFullScreenView = false
-  }
-
   public toast(message: string): void {
     this.$buefy.toast.open(message)
   }
 
-  get hasPrice() {
+  get hasPrice(): boolean {
     return Number(this.nft.price) > 0
   }
 
-  get nftId() {
+  get nftId(): string {
     const { id } = this.nft
     return id
   }
 
-  get detailVisible() {
+  get detailVisible(): boolean {
     return !isShareMode
   }
 
@@ -420,131 +397,3 @@ export default class GalleryItem extends mixins(PrefixMixin) {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/variables';
-
-.gallery-item {
-  .image-wrapper {
-    position: relative;
-    margin: 30px auto;
-    width: 100%;
-
-    .image {
-      border: 2px solid $primary;
-    }
-
-    .fullscreen-image {
-      display: none;
-    }
-
-    .image-preview {
-      .media-container {
-        position: relative;
-        padding-top: 100%;
-        .media-item {
-          position: absolute;
-          top: 0;
-          height: 100%;
-        }
-      }
-      &.fullscreen {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 999998;
-        background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .column {
-      transition: 0.3s all;
-    }
-
-    button {
-      border: 2px solid $primary;
-      color: #fff;
-      font-weight: bold;
-      text-transform: uppercase;
-      padding: 7px 16px;
-      font-size: 20px;
-      background: $scheme-main;
-      z-index: 2;
-
-      &:hover {
-        background: $primary;
-        cursor: pointer;
-      }
-    }
-  }
-
-  button#theatre-view {
-    position: absolute;
-    top: 13px;
-    left: 13px;
-    color: $light-text;
-    @media screen and (max-width: 768px) {
-      display: none;
-    }
-  }
-
-  button#fullscreen-view {
-    position: absolute;
-    bottom: 13px;
-    right: 13px;
-
-    &.fullscreen {
-      position: fixed;
-      z-index: 999998;
-      bottom: 0;
-      right: 0;
-    }
-  }
-
-  .price-block {
-    border: 2px solid $primary;
-    padding: 14px;
-
-    &__original {
-      font-size: 24px;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
-    &__container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &__exchange {
-      opacity: 0.6;
-      color: $dark;
-      margin: 0;
-    }
-  }
-
-  &.no-padding-desktop {
-    @media screen and (min-width: 1023px) {
-      padding: 0;
-    }
-  }
-
-  .message-box {
-    background: $dark !important;
-    border: 2px solid $primary;
-    box-shadow: $dropdown-content-shadow;
-    .subtitle-text {
-      color: $lightpink;
-    }
-    section {
-      border: none !important;
-    }
-  }
-}
-</style>

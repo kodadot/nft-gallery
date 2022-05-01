@@ -39,8 +39,10 @@ export default class InfiniteScrollMixin extends Vue {
     const currentPage =
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
-    this.replaceUrlPage(String(currentPage))
-    this.currentPage = currentPage
+    if (currentPage) {
+      this.replaceUrlPage(String(currentPage))
+      this.currentPage = currentPage
+    }
   }
 
   protected replaceUrlPage(page: string): void {
@@ -73,35 +75,46 @@ export default class InfiniteScrollMixin extends Vue {
   }
 
   @Debounce(1000)
-  protected reachTopHandler($state): void {
+  protected reachTopHandler($state): Promise<void> {
     if (this.startPage < 1) {
       return
     }
     const nextPage = this.startPage - 1
-    this.fetchPageData(this.startPage - 1, 'up', () => {
+    const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
+    if (isSuccess) {
       this.startPage = nextPage
-      $state.loaded()
-    })
+      this.checkCurrentPageIsValid()
+    }
+    $state.loaded()
   }
 
   @Debounce(1000)
-  protected reachBottomHandler($state): void {
+  protected async reachBottomHandler($state): Promise<void> {
     if (!this.canLoadNextPage) {
       return
     }
     const nextPage = this.endPage + 1
-    this.fetchPageData(nextPage, 'down', () => {
+    const isSuccess = await this.fetchPageData(nextPage, 'down')
+    if (isSuccess) {
       this.endPage = nextPage
-      $state.loaded()
-    })
+      this.checkCurrentPageIsValid()
+    }
+    $state.loaded()
   }
 
-  protected fetchPageData(page, loadDirection, cb): void {
-    this.$consola.warn(
-      'fetchPageData need to be extended',
-      page,
-      loadDirection,
-      cb
-    )
+  protected async fetchPageData(page, loadDirection): Promise<boolean> {
+    this.$consola.warn('fetchPageData need to be extended', page, loadDirection)
+    return true
+  }
+
+  protected gotoPage(page: number) {
+    this.$consola.warn('gotoPage need to be extended', page)
+  }
+
+  checkCurrentPageIsValid() {
+    const maxPage = Math.ceil(this.total / this.first)
+    if (maxPage > 0 && this.currentPage > maxPage) {
+      this.gotoPage(maxPage)
+    }
   }
 }

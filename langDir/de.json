@@ -65,8 +65,8 @@
   "Layout Options": "Anzeige-Optionen",
   "Gallery Items Per Page": "Gallerie-Einträge pro Seite",
   "Collections Per Page": "Sammlungen pro Seite",
-  "Frequently Asked Question": "Frequently Asked Question",
   "faq": {
+    "title": "Frequently Asked Questions",
     "q": {
       "1": "What coin is used for NFTs?",
       "2": "What wallet do I need to mint, buy and collect?",

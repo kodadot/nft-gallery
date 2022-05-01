@@ -20,6 +20,7 @@ export default class SearchSortDropdown extends Vue {
   @Prop(Array) public sortOption?: string[]
 
   private sort: string[] = [
+    'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
     'UPDATED_AT_DESC',
