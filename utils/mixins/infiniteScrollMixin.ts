@@ -1,6 +1,8 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 
+export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
+export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
 @Component
 export default class InfiniteScrollMixin extends Vue {
   protected currentPage = parseInt(this.$route.query.page as string) || 1
@@ -8,15 +10,17 @@ export default class InfiniteScrollMixin extends Vue {
   protected endPage = this.startPage
   protected scrollItemHeight = 300
   protected itemsPerRow = 4
+  private scrollItemSizeInit = false
   protected mobileScreenWidth = 768
   protected first = 12
   protected total = 0
   protected isFetchingData = false
+  protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
+  protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
 
   protected mounted() {
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
-    this.onResize()
   }
 
   protected beforeDestroy() {
@@ -58,14 +62,17 @@ export default class InfiniteScrollMixin extends Vue {
   @Debounce(1000)
   protected onResize(): void {
     try {
-      const container = document.getElementById('infinite-scroll-container')
-      const scrollItem = document.body.querySelector('.scroll-item')
+      const container = document.getElementById(this.scrollContainerId)
+      const scrollItem = document.body.querySelector(
+        `.${this.scrollItemClassName}`
+      )
       if (scrollItem && container) {
         this.scrollItemHeight = scrollItem.clientHeight
         this.itemsPerRow = Math.max(
-          Math.floor(container.clientWidth / this.scrollItemHeight),
+          Math.ceil(container.clientWidth / scrollItem.clientWidth),
           1
         )
+        this.scrollItemSizeInit = true
       }
     } catch (err) {
       this.$consola.warn('resize scroll item', err)
@@ -79,7 +86,7 @@ export default class InfiniteScrollMixin extends Vue {
     const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
     if (isSuccess) {
       this.startPage = nextPage
-      this.checkCurrentPageIsValid()
+      this.checkAfterFetchDataSuccess()
     }
     $state.loaded()
   }
@@ -93,9 +100,14 @@ export default class InfiniteScrollMixin extends Vue {
     const isSuccess = await this.fetchPageData(nextPage, 'down')
     if (isSuccess) {
       this.endPage = nextPage
-      this.checkCurrentPageIsValid()
+      this.checkAfterFetchDataSuccess()
     }
     $state.loaded()
+  }
+
+  private checkAfterFetchDataSuccess() {
+    this.checkCurrentPageIsValid()
+    this.checkScrollItemSize()
   }
 
   protected async fetchPageData(page, loadDirection): Promise<boolean> {
@@ -112,5 +124,12 @@ export default class InfiniteScrollMixin extends Vue {
     if (maxPage > 0 && this.currentPage > maxPage) {
       this.gotoPage(maxPage)
     }
+  }
+
+  checkScrollItemSize() {
+    if (this.scrollItemSizeInit) {
+      return
+    }
+    this.onResize()
   }
 }

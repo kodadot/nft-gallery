@@ -25,11 +25,11 @@
         direction="top"
         @infinite="reachTopHandler"></InfiniteLoading>
       <div
-        id="infinite-scroll-container"
+        :id="scrollContainerId"
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          :class="`column is-4 column-padding scroll-item ${classLayout}`"
+          :class="`column is-4 column-padding ${scrollItemClassName}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -152,7 +152,7 @@ export default class CollectionList extends mixins(
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
