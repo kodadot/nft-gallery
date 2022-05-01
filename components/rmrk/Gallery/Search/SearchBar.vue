@@ -145,6 +145,7 @@ import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
 import { exist } from './exist'
 import nftListWithSearch from '@/queries/nftListWithSearch.graphql'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import collectionListWithSearch from '@/queries/collectionListWithSearch.graphql'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { SearchQuery, SearchSuggestion } from './types'
@@ -206,7 +207,8 @@ export default class SearchBar extends mixins(
   private searchSuggestionEachTypeMaxNum = 3
   private bigNum = 1e10
   private keyDownNativeEnterFlag = true
-  private defaultSuggestions: NFTWithMeta[] = []
+  private defaultNFTSuggestions: NFTWithMeta[] = []
+  private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
   public async fetch() {
     if (this.showDefaultSuggestions) {
@@ -226,10 +228,10 @@ export default class SearchBar extends mixins(
         })
 
         const nfts = [...data.events].map((event) => event.nft)
-        const metadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
-        getCloudflareImageLinks(metadataList).then((imageLinks) => {
+        const nFTMetadataList: string[] = nfts.map(mapNFTorCollectionMetadata)
+        getCloudflareImageLinks(nFTMetadataList).then((imageLinks) => {
           const nftResult: NFTWithMeta[] = []
-          processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+          processMetadata<NFTWithMeta>(nFTMetadataList, (meta, i) => {
             nftResult.push({
               ...nfts[i],
               ...meta,
@@ -242,7 +244,42 @@ export default class SearchBar extends mixins(
               ),
             })
           }).then(() => {
-            this.defaultSuggestions = nftResult
+            this.defaultNFTSuggestions = nftResult
+          })
+        })
+
+        const result = await this.$apollo.query({
+          query: seriesInsightList,
+          client: 'subsquid',
+          variables: {
+            limit: this.searchSuggestionEachTypeMaxNum,
+            orderBy: 'volume_DESC',
+          },
+        })
+
+        const {
+          data: { collectionEntities: collections },
+        } = result
+
+        const collectionMetadataList = collections.map(
+          mapNFTorCollectionMetadata
+        )
+        getCloudflareImageLinks(collectionMetadataList).then((imageLinks) => {
+          const collectionResult: CollectionWithMeta[] = []
+          processMetadata<CollectionWithMeta>(
+            collectionMetadataList,
+            (meta, i) => {
+              collectionResult.push({
+                ...collections[i],
+                ...meta,
+                image:
+                  (collections[i]?.metadata &&
+                    imageLinks[fastExtract(collections[i].metadata)]) ||
+                  getSanitizer(meta.image || '')(meta.image || ''),
+              })
+            }
+          ).then(() => {
+            this.defaultCollectionSuggestions = collectionResult
           })
         })
       } catch (e) {
@@ -334,11 +371,19 @@ export default class SearchBar extends mixins(
     // }
 
     // show default suggestions when no search has been done yet (e.g. on focus)
-    if (!this.searchString && this.defaultSuggestions.length > 0) {
-      suggestions.push({
-        type: 'Newest Listings',
-        item: this.defaultSuggestions,
-      })
+    if (!this.searchString) {
+      if (this.defaultNFTSuggestions.length > 0) {
+        suggestions.push({
+          type: 'Newest Listings',
+          item: this.defaultNFTSuggestions,
+        })
+      }
+      if (this.defaultCollectionSuggestions.length > 0) {
+        suggestions.push({
+          type: 'Popular Collections',
+          item: this.defaultCollectionSuggestions,
+        })
+      }
     }
 
     // whether show History
@@ -442,7 +487,10 @@ export default class SearchBar extends mixins(
       this.updateSearch(value.name)
     } else if (value.__typename === 'NFTEntity') {
       this.$router.push({ name: 'rmrk-detail-id', params: { id: value.id } })
-    } else if (value.__typename === 'CollectionEntity') {
+    } else if (
+      value.__typename === 'CollectionEntity' ||
+      value.__typename === 'Series'
+    ) {
       this.$router.push({
         name: 'rmrk-collection-id',
         params: { id: value.id },

@@ -157,14 +157,14 @@ export default class BaseGalleryItem extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/variables';
 
-.fixed-height {
-  height: 748px;
-}
-
 .gallery-item {
+  .fixed-height {
+    height: 748px;
+  }
+
   .image-wrapper {
     position: relative;
     margin: 30px auto;
@@ -175,6 +175,10 @@ export default class BaseGalleryItem extends Vue {
     }
 
     .image-preview {
+      img {
+        object-fit: contain;
+        height: 100%;
+      }
       .media-container {
         position: relative;
         padding-top: 100%;
