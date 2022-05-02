@@ -279,7 +279,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       }
 
       // From
-      if (!('From' in event)) event['From'] = ownerCollectorMap[nftId]
+      if (!('From' in event)) {
+        event['From'] = ownerCollectorMap[nftId]
+      }
 
       // To
       if (!('To' in event)) {
