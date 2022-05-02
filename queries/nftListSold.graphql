@@ -24,6 +24,9 @@ query nftListSold(
     nodes {
       ...nft
       ...nftDetails
+      emotes {
+        totalCount
+      }
     }
   }
 }
