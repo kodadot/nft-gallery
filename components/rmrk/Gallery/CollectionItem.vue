@@ -298,7 +298,9 @@ export default class CollectionItem extends mixins(
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionById,
