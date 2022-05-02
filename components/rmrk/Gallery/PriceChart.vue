@@ -76,7 +76,9 @@ export default class PriceChart extends mixins(
   }
 
   protected getPriceChartData() {
-    if (this.Chart) this.Chart.destroy()
+    if (this.Chart) {
+      this.Chart.destroy()
+    }
 
     if (this.priceChartData.length) {
       const ctx = (

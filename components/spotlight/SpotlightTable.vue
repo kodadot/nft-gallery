@@ -213,7 +213,9 @@ export default class SpotlightTable extends mixins(
 
     switch (event.key) {
       case 'n':
-        if (this.currentPage < pageSize) this.currentPage = this.currentPage + 1
+        if (this.currentPage < pageSize) {
+          this.currentPage = this.currentPage + 1
+        }
         break
       case 'p':
         if (this.currentPage > 1) {
