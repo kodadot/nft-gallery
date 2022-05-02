@@ -106,13 +106,14 @@ export default class CuratedList extends mixins(AuthMixin) {
 
 <style lang="scss">
 @import '@/styles/variables';
+
 .curated-list {
   .carousel,
   .carousel-item {
     max-height: 500px;
     border-radius: 4px;
-    }
   }
+
   .carousel-indicator {
     justify-content: left;
 
@@ -123,6 +124,7 @@ export default class CuratedList extends mixins(AuthMixin) {
       border: inherit;
     }
   }
+
   .box {
     position: absolute;
     border-radius: 4px;
@@ -135,4 +137,5 @@ export default class CuratedList extends mixins(AuthMixin) {
       width: 65%;
     }
   }
+}
 </style>
