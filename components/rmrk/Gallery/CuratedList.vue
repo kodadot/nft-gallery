@@ -110,6 +110,11 @@ export default class CuratedList extends mixins(AuthMixin) {
   .carousel-item {
     max-height: 500px;
     border-radius: 4px;
+    @media screen and (max-width: 1024px) {
+      .box {
+        width: 50%;
+      }
+    }
   }
   .carousel-indicator {
     justify-content: left;
@@ -121,9 +126,9 @@ export default class CuratedList extends mixins(AuthMixin) {
       border: inherit;
     }
   }
-  @media screen and (max-width: 1023px) {
+  @media screen and (max-width: 280px) {
     .title.is-5 {
-      font-size: medium;
+      font-size: small;
     }
   }
   .box {
