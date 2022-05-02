@@ -39,12 +39,16 @@ export default class InfiniteScrollMixin extends Vue {
     const currentPage =
       Math.floor(document.documentElement.scrollTop / this.pageHeight) +
       this.startPage
-    this.replaceUrlPage(String(currentPage))
-    this.currentPage = currentPage
+    if (currentPage) {
+      this.replaceUrlPage(String(currentPage))
+      this.currentPage = currentPage
+    }
   }
 
   protected replaceUrlPage(page: string): void {
-    if (page === this.$route.query.page) return
+    if (page === this.$route.query.page) {
+      return
+    }
     this.$router
       .replace({
         path: String(this.$route.path),
@@ -72,11 +76,14 @@ export default class InfiniteScrollMixin extends Vue {
 
   @Debounce(1000)
   protected async reachTopHandler($state): Promise<void> {
-    if (this.startPage < 1) return
+    if (this.startPage < 1) {
+      return
+    }
     const nextPage = this.startPage - 1
     const isSuccess = await this.fetchPageData(this.startPage - 1, 'up')
     if (isSuccess) {
       this.startPage = nextPage
+      this.checkCurrentPageIsValid()
     }
     $state.loaded()
   }
@@ -90,6 +97,7 @@ export default class InfiniteScrollMixin extends Vue {
     const isSuccess = await this.fetchPageData(nextPage, 'down')
     if (isSuccess) {
       this.endPage = nextPage
+      this.checkCurrentPageIsValid()
     }
     $state.loaded()
   }
@@ -97,5 +105,16 @@ export default class InfiniteScrollMixin extends Vue {
   protected async fetchPageData(page, loadDirection): Promise<boolean> {
     this.$consola.warn('fetchPageData need to be extended', page, loadDirection)
     return true
+  }
+
+  protected gotoPage(page: number) {
+    this.$consola.warn('gotoPage need to be extended', page)
+  }
+
+  checkCurrentPageIsValid() {
+    const maxPage = Math.ceil(this.total / this.first)
+    if (maxPage > 0 && this.currentPage > maxPage) {
+      this.gotoPage(maxPage)
+    }
   }
 }
