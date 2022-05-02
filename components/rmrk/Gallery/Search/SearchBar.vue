@@ -479,7 +479,9 @@ export default class SearchBar extends mixins(
   updateSelected(value: any) {
     //To handle clearing event
     this.keyDownNativeEnterFlag = false
-    if (!value) return
+    if (!value) {
+      return
+    }
     if (value.type == 'History') {
       this.updateSearch(value.name)
     } else if (value.type == 'Search') {
@@ -688,7 +690,9 @@ export default class SearchBar extends mixins(
 
   private get filterSearch(): NFT[] {
     // filter the history search which is not similar to searchString
-    if (!this.searched.length) return []
+    if (!this.searched.length) {
+      return []
+    }
     return this.searched.filter((option) => {
       return (
         option.name

@@ -62,8 +62,9 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   private bindPaginationEvents(event) {
     switch (event.key) {
       case 'n':
-        if (this.current < Math.ceil(this.total / this.perPage))
+        if (this.current < Math.ceil(this.total / this.perPage)) {
           this.current = this.current + 1
+        }
         break
       case 'p':
         if (this.current > 1) {
