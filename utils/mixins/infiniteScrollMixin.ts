@@ -105,7 +105,7 @@ export default class InfiniteScrollMixin extends Vue {
     $state.loaded()
   }
 
-  private checkAfterFetchDataSuccess() {
+  private checkAfterFetchDataSuccess(): void {
     this.checkCurrentPageIsValid()
     this.checkScrollItemSize()
   }
@@ -119,14 +119,14 @@ export default class InfiniteScrollMixin extends Vue {
     this.$consola.warn('gotoPage need to be extended', page)
   }
 
-  checkCurrentPageIsValid() {
+  private checkCurrentPageIsValid(): void {
     const maxPage = Math.ceil(this.total / this.first)
     if (maxPage > 0 && this.currentPage > maxPage) {
       this.gotoPage(maxPage)
     }
   }
 
-  checkScrollItemSize() {
+  private checkScrollItemSize(): void {
     if (this.scrollItemSizeInit) {
       return
     }

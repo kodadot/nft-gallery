@@ -2,10 +2,7 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search
-      v-bind.sync="searchQuery"
-      @resetPage="resetPage"
-      :hideSearchInput="notMobile">
+    <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <Pagination
         hasMagicBtn
         simple
@@ -178,10 +175,6 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   get results() {
     return this.nfts as SearchedNftsWithMeta[]
-  }
-
-  get notMobile() {
-    return window.innerWidth >= 1024
   }
 
   public async created() {
