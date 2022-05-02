@@ -75,7 +75,6 @@ export class MyComponent extends Vue {
 }
 ```
 
-
 ### Using Components In Templates
 Custom components and prop bindings should be used like this
 ```vue
@@ -88,7 +87,6 @@ Use shorthands for vue attributes
 - `:href` instead of `v-bind:href`
 - `@click` instead of `v-on:click`
 - ...
-
 
 ### Fetching Data
 Though we haven't yet transitioned most of our data fetching logic to Nuxt lifecycles, the following syntax should be considered best practice:
@@ -118,7 +116,6 @@ export default class ClassName extends Vue {
   [...]
 }
 ```
-
 
 ### Reusability Through Abstraction
 If your component will be used on several occasions in many different contexts, you should think about how you pass data to your components and how events are handled.
@@ -183,17 +180,63 @@ get classLayout() {
 ```
 
 ## General Conventions
-### if...else
-Even if the statement of a block is just one line, stick to a more elaborate syntax:
+
+### brace-style
+
+Even if the statement of a block is just one line, stick to a more elaborate
+syntax and consistent way to do brace-style
+
 ❗ bad
 ```js
 if (something) return 1
-```
 
+if (something) return 1
+else return 2
+
+function foo()
+{
+  return true;
+}
+```
 
 ✅ good
 ```js
 if (something) {
   return 1
+}
+
+if (something) {
+  return 1
+} else {
+  return 2
+}
+
+function foo() {
+  return true
+}
+```
+
+### for loops
+
+Try to use more functional approaches since loop is really hard to maintain.
+Beside if you really need using `for` loop, you should using `for-of` loop
+since by doing so we can avoid off-by-one errors
+
+❗ bad
+```js
+for (let x = 0; x < 10; x++) {
+  const element = list[x]
+  // your statement
+}
+```
+
+✅ good
+```js
+// Best
+list.forEach(element => ...)
+
+// Good
+for (const element of array) {
+  // your statement
 }
 ```
