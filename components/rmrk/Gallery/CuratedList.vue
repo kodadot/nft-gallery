@@ -105,15 +105,12 @@ export default class CuratedList extends mixins(AuthMixin) {
 </script>
 
 <style lang="scss">
+@import '@/styles/variables';
 .curated-list {
   .carousel,
   .carousel-item {
     max-height: 500px;
     border-radius: 4px;
-    @media screen and (max-width: 1024px) {
-      .box {
-        width: 50%;
-      }
     }
   }
   .carousel-indicator {
@@ -126,27 +123,16 @@ export default class CuratedList extends mixins(AuthMixin) {
       border: inherit;
     }
   }
-
-  @media screen and (max-width: 368px) {
-    .title.is-5 {
-      font-size: medium;
-    }
-  }
-
-  @media screen and (max-width: 320px) {
-    .title.is-5 {
-      font-size: small;
-    }
-  }
-
   .box {
     position: absolute;
     border-radius: 4px;
     background-color: rgba(9, 9, 9, 0.77);
-
     width: 40%;
     bottom: 2%;
     right: 2%;
+
+    @include touch {
+      width: 65%;
+    }
   }
-}
 </style>
