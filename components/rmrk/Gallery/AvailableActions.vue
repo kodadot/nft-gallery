@@ -27,11 +27,11 @@
       <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
-            :type="iconType('BUY')[0]"
+            :type="iconType(`${ShoppingActions.BUY}`)[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
             outlined
-            @click="handleAction('BUY')"
+            @click="handleAction(`${ShoppingActions.BUY}`)"
             expanded>
             {{ replaceBuyNowWithYolo ? 'YOLO' : 'BUY' }}
           </b-button>
@@ -39,13 +39,13 @@
       </template>
     </div>
     <BalanceInput
-      v-show="selectedAction === 'LIST'"
+      v-show="isList"
       ref="balanceInput"
       class="mb-4"
       empty-on-error
       @input="updateMeta" />
     <AddressInput
-      v-show="selectedAction === 'SEND'"
+      v-show="isSend"
       ref="addressInput"
       class="mb-4"
       @input="updateMeta" />
@@ -63,7 +63,6 @@
 <script lang="ts">
 import { Component, mixins, Prop, Ref, Watch } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -73,28 +72,31 @@ import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { get } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
 import { emptyObject } from '~/utils/empty'
 import { isAddress } from '@polkadot/util-crypto'
 import { downloadImage } from '@/utils/download'
+import { createInteraction, JustInteraction } from '@kodadot1/minimark'
+import {
+  ShoppingActions,
+  ownerActions,
+  buyActions,
+  KeyboardValueToActionMap,
+} from '../shoppingActions'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
 
-const ownerActions = ['SEND', 'CONSUME', 'LIST', 'DOWNLOAD']
-const buyActions = ['BUY']
-
 type DescriptionTuple = [string, string] | [string]
 const iconResolver: Record<string, DescriptionTuple> = {
-  SEND: ['is-info is-dark'],
-  CONSUME: ['is-danger'],
-  LIST: ['is-light'],
-  BUY: ['is-success is-dark'],
-  DOWNLOAD: ['is-warning'],
+  [ShoppingActions.SEND]: ['is-info is-dark'],
+  [ShoppingActions.CONSUME]: ['is-danger'],
+  [ShoppingActions.LIST]: ['is-light'],
+  [ShoppingActions.BUY]: ['is-success is-dark'],
+  [ShoppingActions.DOWNLOAD]: ['is-warning'],
 }
-
-type Action = 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'DOWNLOAD' | ''
 
 const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
@@ -106,7 +108,8 @@ const components = {
 export default class AvailableActions extends mixins(
   RmrkVersionMixin,
   PrefixMixin,
-  KeyboardEventsMixin
+  KeyboardEventsMixin,
+  MetaTransactionMixin
 ) {
   @Prop() public currentOwnerId!: string
   @Prop() public accountId!: string
@@ -115,10 +118,10 @@ export default class AvailableActions extends mixins(
   @Prop() public nftId!: string
   @Prop({ default: () => [] }) public ipfsHashes!: string[]
   @Prop({ default: false }) public buyDisabled!: boolean
-  private selectedAction: Action = ''
+  private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
-  protected isLoading = false
-  protected status = ''
+  public isLoading = false
+  public status = ''
   protected label = ''
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
@@ -133,21 +136,16 @@ export default class AvailableActions extends mixins(
   }
 
   get disabled(): boolean {
-    return this.selectedAction === 'SEND' && !isAddress(this.meta.toString())
+    return (
+      this.selectedAction === ShoppingActions.SEND &&
+      !isAddress(this.meta.toString())
+    )
   }
 
   private bindActionEvents(event) {
-    const mappings = {
-      b: 'BUY',
-      s: 'SEND',
-      c: 'CONSUME',
-      l: 'LIST',
-      d: 'DOWNLOAD',
-    }
-
     event.preventDefault()
 
-    this.handleAction(mappings[event.key])
+    this.handleAction(KeyboardValueToActionMap[event.key])
   }
 
   get actions() {
@@ -172,7 +170,7 @@ export default class AvailableActions extends mixins(
   }
 
   get showMeta() {
-    return ['SEND', 'LIST'].includes(this.selectedAction)
+    return this.isSend || this.isList
   }
 
   get replaceBuyNowWithYolo(): boolean {
@@ -196,20 +194,20 @@ export default class AvailableActions extends mixins(
     return iconResolver[value]
   }
 
-  protected handleAction(action: Action) {
+  protected handleAction(action: ShoppingActions) {
     if (shouldUpdate(action, this.selectedAction)) {
       this.selectedAction = action
       switch (action) {
-        case 'BUY':
+        case ShoppingActions.BUY:
           this.submit()
           break
-        case 'LIST':
+        case ShoppingActions.LIST:
           this.balanceInput?.focusInput()
           break
-        case 'SEND':
+        case ShoppingActions.SEND:
           this.addressInput?.focusInput()
           break
-        case 'DOWNLOAD': {
+        case ShoppingActions.DOWNLOAD: {
           const { image, name } = this.currentGalleryItemImage
           image && downloadImage(image, name)
           break
@@ -258,36 +256,34 @@ export default class AvailableActions extends mixins(
     return accountId && Number(price) > 0
   }
 
-  private handleSelect(value: Action) {
-    this.selectedAction = value
-    this.meta = ''
-  }
-
   private constructRmrk(): string {
     const { selectedAction, version, meta, nftId } = this
-    return `RMRK::${selectedAction}::${version}::${nftId}${
-      this.metaValid ? '::' + meta : ''
-    }`
+    return createInteraction(
+      selectedAction as JustInteraction,
+      version,
+      nftId,
+      String(meta)
+    )
   }
 
   get isBuy() {
-    return this.selectedAction === 'BUY'
+    return this.selectedAction === ShoppingActions.BUY
   }
 
   get isConsume() {
-    return this.selectedAction === 'CONSUME'
+    return this.selectedAction === ShoppingActions.CONSUME
   }
 
   get isList() {
-    return this.selectedAction === 'LIST'
+    return this.selectedAction === ShoppingActions.LIST
   }
 
   get isSend() {
-    return this.selectedAction === 'SEND'
+    return this.selectedAction === ShoppingActions.SEND
   }
 
   get isDownload() {
-    return this.selectedAction === 'DOWNLOAD'
+    return this.selectedAction === ShoppingActions.DOWNLOAD
   }
 
   get realworldFullPath() {
@@ -369,52 +365,26 @@ export default class AvailableActions extends mixins(
         await this.checkBuyBeforeSubmit()
       }
 
-      const tx = await exec(
+      this.howAboutToExecute(
         this.accountId,
-        '',
         cb,
         [arg],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            showNotification(blockHash.toString(), notificationTypes.info)
-            if (this.isConsume) {
-              this.unpinNFT()
-            }
-
-            showNotification(
-              `[${this.selectedAction}] ${this.nftId}`,
-              notificationTypes.success
-            )
-            this.$emit('change')
-            this.selectedAction = ''
-            this.isLoading = false
-          },
-          (err) => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.selectedAction = ''
-            this.isLoading = false
-          },
-          (res) => {
-            if (res.status.isReady) {
-              this.status = 'loader.casting'
-              return
-            }
-
-            if (res.status.isInBlock) {
-              this.status = 'loader.block'
-              return
-            }
-
-            if (res.status.isFinalized) {
-              this.status = 'loader.finalized'
-              return
-            }
-
-            this.status = ''
+        (blockNumber: string) => {
+          showNotification(blockNumber, notificationTypes.info)
+          if (this.isConsume) {
+            this.unpinNFT()
           }
-        )
+
+          showNotification(
+            `[${this.selectedAction}] ${this.nftId}`,
+            notificationTypes.success
+          )
+          this.$emit('change')
+          this.selectedAction = ''
+        },
+        () => {
+          this.selectedAction = ''
+        }
       )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
@@ -437,7 +407,7 @@ export default class AvailableActions extends mixins(
 
   unlistNft() {
     // change the selected action to list and change meta value to 0
-    this.selectedAction = 'LIST'
+    this.selectedAction = ShoppingActions.LIST
     this.meta = 0
     this.submit()
   }
