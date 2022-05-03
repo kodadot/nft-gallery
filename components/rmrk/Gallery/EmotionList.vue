@@ -72,6 +72,7 @@ export default class EmotionList extends Vue {
     this.$buefy.modal.open({
       parent: this,
       component: EmotionModal,
+      canCancel: ['escape', 'outside'],
       hasModalCard: true,
       props: {
         emotes: this.emotes,
