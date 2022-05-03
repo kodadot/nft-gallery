@@ -140,14 +140,18 @@ export default class PaginatedCardList extends mixins(
   protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
       const { nodes, totalCount } = data.nFTEntities
-      await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
+      const newNfts = nodes.map((e: any) => ({
+        ...e,
+        emoteCount: e?.emotes?.totalCount,
+      }))
+      await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
         this.$consola.warn
       )
 
       if (loadDirection === 'up') {
-        this.items = nodes.concat(this.items)
+        this.items = newNfts.concat(this.items)
       } else {
-        this.items = this.items.concat(nodes)
+        this.items = this.items.concat(newNfts)
       }
 
       this.total = totalCount

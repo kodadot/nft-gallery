@@ -2,9 +2,9 @@
 #import "./fragments/nftDetails.graphql"
 
 query nftListCollected(
-  $account: String!,
-  $first: Int!,
-  $offset: Int,
+  $account: String!
+  $first: Int!
+  $offset: Int
   $orderBy: NftEntitiesOrderBy = BLOCK_NUMBER_DESC
   $search: [NFTEntityFilter!]
 ) {
@@ -24,6 +24,9 @@ query nftListCollected(
     nodes {
       ...nft
       ...nftDetails
+      emotes {
+        totalCount
+      }
       createdAt
     }
   }
