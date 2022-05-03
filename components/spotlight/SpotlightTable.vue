@@ -272,7 +272,7 @@ export default class SpotlightTable extends mixins(
   private bindPaginationEvents(event) {
     switch (event.key) {
       case 'n':
-        if (this.currentPage < pageSize) {
+        if (this.currentPage < this.pageSize) {
           this.currentPage = this.currentPage + 1
         }
         break
