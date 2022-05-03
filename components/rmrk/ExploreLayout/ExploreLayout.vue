@@ -38,8 +38,13 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
 
   set selectedTab(val) {
     this.$route.query.page = ''
-    let queryOptions: { tab: string; search?: string | (string | null)[] } = {
+    let queryOptions: {
+      tab: string
+      page: string
+      search?: string | (string | null)[]
+    } = {
       tab: val,
+      page: '1',
     }
     if (this.$route.query.search) {
       queryOptions.search = this.$route.query.search

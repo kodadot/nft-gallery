@@ -1,109 +1,108 @@
 <template>
-  <div class="columns mb-6">
-    <div class="column is-6 is-offset-3">
-      <section>
-        <br />
-        <Loader v-model="isLoading" :status="status" />
-        <div class="box">
-          <b-tooltip
-            label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
-            position="is-bottom">
-            <p class="title is-size-3">
-              {{ $t('identity.set') }}
-            </p>
-          </b-tooltip>
-          <b-field>
-            <Identity
-              class="subtitle has-text-weight-bold"
-              ref="identity"
-              :address="accountId"
-              inline
-              emit
-              @change="handleIdentity" />
-          </b-field>
-          <b-field label="Handle">
-            <b-input
-              placeholder="My On-Chain Name"
-              v-model="identity.display"
-              required
-              :validation-message="$t('identity.handleRequired')">
-            </b-input>
-          </b-field>
-          <b-field label="Name">
-            <b-input placeholder="Full Legal Name" v-model="identity.legal">
-            </b-input>
-          </b-field>
-          <b-field label="email">
-            <b-input
-              placeholder="somebody@example.com"
-              type="email"
-              v-model="identity.email">
-            </b-input>
-          </b-field>
-          <b-field label="web">
-            <b-input placeholder="https://example.com" v-model="identity.web">
-            </b-input>
-          </b-field>
-          <b-field label="twitter">
-            <b-input placeholder="@YourTwitterName" v-model="identity.twitter">
-            </b-input>
-          </b-field>
-          <b-field label="discord">
-            <b-input
-              placeholder="Discord UserName#0000"
-              v-model="identity.discord">
-            </b-input>
-          </b-field>
-          <b-field label="riot">
-            <b-input placeholder="@yourname:matrix.org" v-model="identity.riot">
-            </b-input>
-          </b-field>
-          <b-field>
-            <p class="subtitle is-size-6">
-              {{ $t('identity.deposit') }} <Money :value="deposit" inline />
-            </p>
-          </b-field>
+  <section>
+    <Loader v-model="isLoading" :status="status" />
+    <div class="box">
+      <p class="title is-size-3">
+        {{ $t('identity.set') }}
+        <b-tooltip
+          label="0.0333 KSM will be reserved. These funds are returned when the identity is cleared."
+          position="is-bottom">
+          <b-icon icon="info-circle" />
+        </b-tooltip>
+      </p>
 
-          <b-field>
-            <b-button
-              type="is-primary"
-              icon-left="paper-plane"
-              @click="shipIt"
-              :disabled="disabled"
-              :loading="isLoading"
-              outlined>
-              {{ $t('identity.click') }}
-            </b-button>
-          </b-field>
-        </div>
-      </section>
+      <p class="subtitle is-size-6" v-if="accountId">
+        <Auth />
+        <span>{{ $t('general.balance') }}: </span>
+        <Money :value="balance" inline />
+      </p>
+
+      <b-field label="Handle">
+        <b-input
+          placeholder="My On-Chain Name"
+          v-model="identity.display"
+          required
+          :validation-message="$t('identity.handleRequired')">
+        </b-input>
+      </b-field>
+
+      <BasicInput
+        v-model="identity.legal"
+        label="Name"
+        placeholder="Full Legal Name"
+        expanded />
+
+      <BasicInput
+        type="email"
+        v-model="identity.email"
+        label="Email"
+        placeholder="somebody@example.com"
+        expanded />
+
+      <BasicInput
+        v-model="identity.web"
+        label="Web"
+        placeholder="https://example.com"
+        expanded />
+
+      <BasicInput
+        v-model="identity.twitter"
+        label="Twitter"
+        placeholder="@YourTwitterName"
+        expanded />
+
+      <BasicInput
+        v-model="identity.discord"
+        label="Discord"
+        placeholder="Discord UserName#0000"
+        expanded />
+
+      <BasicInput
+        v-model="identity.riot"
+        label="Riot"
+        placeholder="@yourname:matrix.org"
+        expanded />
+
+      <p class="subtitle is-size-6">
+        {{ $t('identity.deposit') }} <Money :value="deposit" inline />
+      </p>
+
+      <SubmitButton
+        :label="$t('identity.click')"
+        :disabled="disabled"
+        :loading="isLoading"
+        @click="submit" />
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { DispatchError } from '@polkadot/types/interfaces'
 import Connector from '@kodadot1/sub-api'
-import TransactionMixin from '@/utils/mixins/txMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
+import IdentityMixin from '@/utils/mixins/identityMixin'
 import { update } from 'idb-keyval'
 import { identityStore } from '@/utils/idbStore'
+import { hexToString, isHex } from '@polkadot/util'
+import { Data } from '@polkadot/types'
+type IdentityFields = Record<string, string>
 
 @Component({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
+    Auth: () => import('@/components/shared/Auth.vue'),
     BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-    PasswordInput: () => import('@/components/shared/PasswordInput.vue'),
     Loader: () => import('@/components/shared/Loader.vue'),
     Money: () => import('@/components/shared/format/Money.vue'),
+    SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   },
 })
-export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
-  // @Prop() public referendumId!: any;
-  private password = ''
+export default class IdentityForm extends mixins(
+  MetaTransactionMixin,
+  AuthMixin,
+  IdentityMixin
+) {
   private identity: Record<string, string> = {
     display: '',
     email: '',
@@ -115,11 +114,13 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
   }
   private deposit = '0'
 
-  public created(): void {
+  public async created(): Promise<void> {
     setTimeout(() => {
       const { api } = Connector.getInstance()
       this.deposit = api.consts.identity?.basicDeposit?.toString()
     }, 3000)
+
+    this.identity = await this.fetchIdentity(this.accountId)
   }
 
   public enhanceIdentityData(): Record<string, any> {
@@ -132,80 +133,56 @@ export default class IdentityForm extends mixins(TransactionMixin, AuthMixin) {
       })
     )
   }
-  public async shipIt(): Promise<void> {
-    const { api } = Connector.getInstance()
 
-    try {
-      const enhancedData = this.enhanceIdentityData()
-      const x = {
-        ...enhancedData,
-      }
-
-      this.isLoading = true
-      this.status = 'loader.sign'
-
-      const cb = api.tx.identity.setIdentity
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [x],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[Identity] You are known as ${this.identity.display} since block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            update(this.accountId, () => this.identity, identityStore)
-
-            this.isLoading = false
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status)
-        )
-      )
-    } catch (e) {
-      if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.danger)
-        this.isLoading = false
-      }
+  private handleRaw(display: Data): string {
+    if (display?.isRaw) {
+      return display.asRaw.toHuman() as string
     }
+
+    if (isHex((display as any)?.Raw)) {
+      return hexToString((display as any)?.Raw)
+    }
+
+    return display?.toString()
   }
 
-  protected onTxError(dispatchError: DispatchError): void {
+  protected async fetchIdentity(address: string): Promise<IdentityFields> {
     const { api } = Connector.getInstance()
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      showNotification(
-        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.danger
-      )
-    } else {
-      showNotification(
-        `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.danger
-      )
-    }
+    const optionIdentity = await api?.query.identity?.identityOf(address)
+    const identity = optionIdentity?.unwrapOrDefault()
+    const final = Array.from(identity.info)
+      .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
+      .reduce((acc, [key, value]) => {
+        acc[key] = this.handleRaw(value as unknown as Data)
+        return acc
+      }, {} as IdentityFields)
 
-    this.isLoading = false
+    return final
+  }
+
+  protected async submit(): Promise<void> {
+    const { api } = Connector.getInstance()
+    this.initTransactionLoader()
+    const cb = api.tx.identity.setIdentity
+    const args = [this.enhanceIdentityData()]
+    this.howAboutToExecute(this.accountId, cb, args, this.onSuccess)
+  }
+
+  protected onSuccess(block: string) {
+    showNotification(
+      `[Identity] You are known as ${this.identity.display} since block ${block}`,
+      notificationTypes.success
+    )
+
+    update(this.accountId, () => this.identity, identityStore)
+  }
+
+  get balance(): string {
+    return this.$store.getters.getAuthBalance
   }
 
   get disabled(): boolean {
     return Object.values(this.identity).filter((val) => val)?.length === 0
-  }
-
-  protected handleIdentity(identityFields: Record<string, string>): void {
-    this.identity = { ...identityFields }
   }
 }
 </script>
