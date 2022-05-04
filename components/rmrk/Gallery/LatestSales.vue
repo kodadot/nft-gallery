@@ -4,8 +4,8 @@
 
     <div class="columns is-vcentered">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('Latest sales') }}</h1>
-        <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p>
+        <h1 class="title is-2">{{ $t('Recent Sales') }}</h1>
+        <!-- <p class="subtitle is-size-5">Discover the most recent sales on rmrk</p> -->
       </div>
       <div class="column has-text-right">
         <Pagination

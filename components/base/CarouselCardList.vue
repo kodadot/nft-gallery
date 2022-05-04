@@ -26,7 +26,7 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <div class="subtitle is-6">
+              <div class="subtitle is-6 is-ellipsis">
                 <nuxt-link :to="`/rmrk/collection/${list.collection.id}`">
                   {{ list.collection.name }}
                 </nuxt-link>

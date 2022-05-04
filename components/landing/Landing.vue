@@ -40,46 +40,44 @@
           <LazyGalleryCuratedList v-if="prefix === 'rmrk'" />
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <div class="tile is-ancestor">
-            <div class="tile is-horizontal">
-              <div class="tile is-parent is-6">
-                <div class="tile is-child box">
-                  <p class="title">New to NFTs?</p>
-                  <p class="subtitle">
-                    Click <a href="">here</a> for a step by step guide!
-                  </p>
-                </div>
+      <div class="pt-6">
+        <div class="tile is-ancestor">
+          <div class="tile is-horizontal">
+            <div class="tile is-parent is-6">
+              <div class="tile is-child box">
+                <p class="title">New to NFTs?</p>
+                <p class="subtitle">
+                  Click <a href="">here</a> for a step by step guide!
+                </p>
               </div>
-              <div class="tile is-parent">
-                <div class="tile is-child box">
-                  <p class="title">KSM for artists</p>
-                  <p class="subtitle">
-                    Get in <a href="">touch</a> and we will hook you up with
-                    free mints.
-                  </p>
-                </div>
+            </div>
+            <div class="tile is-parent">
+              <div class="tile is-child box">
+                <p class="title">KSM for artists</p>
+                <p class="subtitle">
+                  Get in <a href="">touch</a> and we will hook you up with free
+                  mints.
+                </p>
               </div>
             </div>
           </div>
-          <div class="tile">
-            <div
-              class="box is-flex is-align-items-center is-justify-content-space-between">
-              <div class="tile is-parent is-6">
-                <p class="subtitle">
-                  Got any questions or would like to stay in touch? Drop us a
-                  line via socials.
-                </p>
-              </div>
-              <KodadotSocialLinks />
+        </div>
+        <div class="tile">
+          <div
+            class="box is-flex is-align-items-center is-justify-content-space-between">
+            <div class="tile is-parent is-6">
+              <p class="subtitle">
+                Got any questions or would like to stay in touch? Drop us a line
+                via socials.
+              </p>
             </div>
+            <KodadotSocialLinks />
           </div>
         </div>
       </div>
       <div v-if="prefix === 'rmrk'">
-        <LazyGalleryLatestSales class="my-5" />
         <LazyGalleryNewestList class="my-5" />
+        <LazyGalleryLatestSales class="my-5" />
       </div>
     </div>
   </section>
