@@ -415,6 +415,7 @@
     }
   },
   "sort": {
+    "EMOTES_COUNT_DESC": "Most reacted",
     "BLOCK_NUMBER_DESC": "New first",
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
@@ -520,7 +521,7 @@
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from singer",
+    "sign": "Waiting for response from signer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",

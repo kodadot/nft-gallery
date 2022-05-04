@@ -6,7 +6,7 @@
       @resetPage="resetPage"
       hideSearch
       :sortOption="collectionSortOption">
-      <b-field>
+      <b-field class="is-flex">
         <Layout class="mr-5" @change="onResize" />
         <Pagination
           hasMagicBtn
@@ -20,10 +20,10 @@
     </Search>
 
     <div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
-        @infinite="reachTopHandler"></infinite-loading>
+        @infinite="reachTopHandler"></InfiniteLoading>
       <div
         id="infinite-scroll-container"
         class="columns is-multiline"
@@ -56,9 +56,9 @@
           </div>
         </div>
       </div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler"></infinite-loading>
+        @infinite="reachBottomHandler"></InfiniteLoading>
     </div>
   </div>
 </template>
@@ -95,6 +95,7 @@ interface Image extends HTMLImageElement {
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
   Search: () =>
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -182,9 +183,12 @@ export default class CollectionList extends mixins(
 
   protected async fetchPageData(
     page: number,
-    loadDirection = 'down'
-  ): Promise<boolean> {
-    if (this.isFetchingData) return false
+    loadDirection = 'down',
+    callback?: () => void
+  ) {
+    if (this.isFetchingData) {
+      return
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
