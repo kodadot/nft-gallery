@@ -5,6 +5,7 @@ query allCollectionSaleEvents($id: ID!, $and: [EventWhereInput!]) {
     blockNumber
     timestamp
     caller
+    currentOwner
     id
     nft {
       id

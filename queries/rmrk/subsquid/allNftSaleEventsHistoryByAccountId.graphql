@@ -1,0 +1,21 @@
+query allNftSaleEventsHistoryByAccountId($id: String) {
+  events(
+    where: { OR: [{ currentOwner_eq: $id }, { caller_eq: $id }, { meta_eq: $id }] }) {
+    meta
+    interaction
+    blockNumber
+    timestamp
+    currentOwner
+    caller
+    id
+    nft {
+      id
+      name
+      collection {
+        id
+        name
+        issuer
+      }
+    }
+  }
+}

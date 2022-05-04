@@ -158,12 +158,22 @@
         <b-tab-item value="holdings">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.holdings') }}
             </b-tooltip>
           </template>
           <Holding :account-id="id" />
+        </b-tab-item>
+        <b-tab-item value="gains">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
+              append-to-body>
+              {{ $t('profile.gains') }}
+            </b-tooltip>
+          </template>
+          <UserGainHistory :account-id="id" />
         </b-tab-item>
       </b-tabs>
     </section>
@@ -187,6 +197,8 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
 
+const tabNameWithoutCollections = ['holdings', 'gains']
+
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
@@ -201,6 +213,8 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  UserGainHistory: () =>
+    import('@/components/rmrk/Gallery/UserGainHistory.vue'),
 }
 
 @Component<Profile>({
@@ -416,7 +430,11 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
       this.isLoading = false
     }
     // in case user is only a collector, set tab to collected
-    if (this.total === 0 && this.activeTab !== 'holdings') {
+    if (
+      this.total === 0 &&
+      this.activeTab &&
+      !tabNameWithoutCollections.includes(this.activeTab)
+    ) {
       this.$router
         .replace({ query: { tab: 'collected' } })
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
