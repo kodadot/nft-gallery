@@ -29,7 +29,7 @@
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          :class="`column is-4 column-padding ${scrollItemClassName}`"
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
