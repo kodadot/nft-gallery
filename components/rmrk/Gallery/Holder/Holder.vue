@@ -288,8 +288,9 @@ export default class CommonHolderTable extends mixins(
   private bindPaginationEvents(event) {
     switch (event.key) {
       case 'n':
-        if (this.currentPage < Math.ceil(this.total / this.itemsPerPage))
+        if (this.currentPage < Math.ceil(this.total / this.itemsPerPage)) {
           this.currentPage = this.currentPage + 1
+        }
         break
       case 'p':
         if (this.currentPage > 1) {
@@ -507,7 +508,9 @@ export default class CommonHolderTable extends mixins(
 
     customGroupsList.forEach((group) => {
       parsePriceForItem(group, this.decimals, this.unit)
-      if (!group['Items']) return
+      if (!group['Items']) {
+        return
+      }
       let groupItems: TableRow[] = group['Items']
       group['Amount'] = groupItems.length
       groupItems.forEach((item) => {

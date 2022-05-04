@@ -351,7 +351,9 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     if (!this.id) {
       this.checkId()
