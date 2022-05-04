@@ -217,6 +217,7 @@ export default class CollectionItem extends mixins(
   private nfts: NFT[] = []
 
   collectionProfileSortOption: string[] = [
+    'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
     'UPDATED_AT_DESC',
@@ -445,7 +446,10 @@ export default class CollectionItem extends mixins(
       return
     }
     this.firstMintDate = collectionEntity.createdAt
-    const newNfts = unwrapSafe(collectionEntity.nfts)
+    const newNfts = unwrapSafe(collectionEntity.nfts).map((e: any) => ({
+      ...e,
+      emoteCount: e?.emotes?.totalCount,
+    }))
 
     await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
       this.$consola.warn
