@@ -203,7 +203,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   }
   .input-search {
     input {
-      border: 1px solid $primary !important;
+      border: 1px solid #7d7d7d !important;
     }
   }
 }

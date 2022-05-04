@@ -1,6 +1,7 @@
 @import "initial-variables";
 
-$primary: #e6007e;
+// $primary: #e6007e;
+$primary: #FF47AC;
 // $primary: #ff149366;
 $primary-light: #d32e79;
 $primary-dark-transparent: rgba(90, 15, 60, 0.7);
@@ -43,14 +44,15 @@ $dark: $black;
 // $dark-invert: findColorInvert($dark);
 
 // // General colors
-$scheme-main: $black;
+$scheme-main: #181717;
+// $scheme-main: $black;
 $scheme-main-bis: $black-bis;
 $scheme-main-ter: $black-ter;
 $scheme-invert: $white;
 $scheme-invert-bis: $white-bis;
 $scheme-invert-ter: $white-ter;
 
-// $background: $white-ter;
+$background: #181717;
 
 // $border: $grey-lighter;
 // $border-hover: $grey-light;
@@ -74,7 +76,8 @@ $text: #f8f4f6;
 
 // // Link colors
 
-$link: $primary;
+$link: #fff;
+// $link: $primary;
 // $link-invert: findColorInvert($link);
 // $link-light: findLightColor($link);
 // $link-dark: findDarkColor($link);

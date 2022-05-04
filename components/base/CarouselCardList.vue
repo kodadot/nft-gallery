@@ -9,8 +9,8 @@
     :breakpoints="options.breakpoints"
     class="carousel-card-list">
     <template #item="list">
-      <div class="card mx-4">
-        <div class="card-image">
+      <div class="card mx-2">
+        <div class="card-image p-3">
           <nuxt-link :to="`/rmrk/gallery/${list.id}`">
             <BasicImage
               :src="list.image"
@@ -18,19 +18,19 @@
               custom-class="carousel__image-wrapper" />
           </nuxt-link>
         </div>
-        <div class="card-content">
+        <div class="card-content px-3">
           <div class="media">
             <div class="media-content">
-              <div class="title is-5 is-ellipsis">
+              <div class="title is-5 is-ellipsis has-text-weight-bold">
                 <nuxt-link :to="`/rmrk/gallery/${list.id}`">
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <b-field grouped>
-                <p class="control ml-auto" v-if="list.price">
-                  <Money :value="list.price" inline />
-                </p>
-              </b-field>
+              <div class="subtitle is-6">
+                <nuxt-link :to="`/rmrk/collection/${list.collection.id}`">
+                  {{ list.collection.name }}
+                </nuxt-link>
+              </div>
               <nuxt-link
                 :to="{ name: 'rmrk-u-id', params: { id: list.issuer } }">
                 <div class="is-size-7 icon-text">
@@ -57,12 +57,17 @@
                     class="force-clip is-ellipsis" />
                 </div>
               </nuxt-link>
-              <time class="is-size-7 icon-text">
-                <b-icon icon="clock" />
-                <span>{{ list.timestamp }}</span>
-              </time>
             </div>
           </div>
+        </div>
+        <div class="card-footer is-flex p-2">
+          <time class="is-size-7 icon-text">
+            <b-icon icon="clock" />
+            <span>{{ list.timestamp }}</span>
+          </time>
+          <p class="control ml-auto" v-if="list.price">
+            <Money :value="list.price" inline />
+          </p>
         </div>
       </div>
     </template>
@@ -103,22 +108,22 @@ export default class CarouselList extends mixins(AuthMixin) {
           itemsToShow: 1,
         },
         600: {
-          itemsToShow: 2,
+          itemsToShow: 1.5,
         },
         800: {
-          itemsToShow: 2.5,
+          itemsToShow: 2,
         },
         900: {
-          itemsToShow: 3,
+          itemsToShow: 2.5,
         },
         1000: {
-          itemsToShow: 3.5,
+          itemsToShow: 3,
         },
         1200: {
-          itemsToShow: 4,
+          itemsToShow: 3.5,
         },
         1400: {
-          itemsToShow: 4.5,
+          itemsToShow: 4,
         },
         1800: {
           itemsToShow: 5,
@@ -144,6 +149,8 @@ export default class CarouselList extends mixins(AuthMixin) {
 }
 
 .card {
+  // background-color: #0E0E10;
+  background-color: #000;
   .media-content {
     width: 100%;
   }
@@ -154,6 +161,10 @@ export default class CarouselList extends mixins(AuthMixin) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.has-border-top {
+  border-top: 1px solid #989898;
 }
 
 .force-clip {
@@ -174,6 +185,9 @@ export default class CarouselList extends mixins(AuthMixin) {
   }
   .carousel__image-wrapper img {
     transition: all 0.3s;
+  }
+  .card-footer {
+    border-top-color: hsla(0, 0%, 60%, 1);
   }
 }
 </style>

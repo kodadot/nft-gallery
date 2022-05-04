@@ -96,7 +96,7 @@
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
       <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
-      <NavbarProfileDropdown :isRmrk="isRmrk" id="NavProfile" />
+      <NavbarProfileDropdown class="ml-2" :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
       <div class="image is-32x32 mr-2">
@@ -311,7 +311,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 }
 
 .navbar {
-  background: rgba(12, 12, 12, 0.7);
+  // background: rgba(12, 12, 12, 0.7);
+  background-color: inherit;
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
   transition: 0.3s ease;
@@ -327,24 +328,22 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
-  .navbar-link {
-    &:hover {
-      background-color: $primary !important;
-      color: $text !important;
-    }
-  }
+  // .navbar-link {
+  //   &:hover {
+  //     background-color: $primary !important;
+  //     color: $text !important;
+  //   }
+  // }
 
   .navbar-item {
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-weight: 500;
-    border-top: 1px solid $primary;
-    margin-left: 0.5em;
-    transition: 0.3s;
-    background: rgba(9, 9, 9, 0.55);
-    &:hover {
-      background-color: $primary;
-      color: $text;
-    }
+    margin: 0.5em;
+    // transition: 0.3s;
+    // &:hover {
+    //   background-color: $primary;
+    //   color: $text;
+    // }
   }
 
   .custom-navbar-item {
@@ -368,25 +367,29 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin-top: 24px;
   }
 
-  .navbar-dropdown {
-    border: 2px solid $primary-light !important;
-    box-shadow: $dropdown-content-shadow !important;
-    .navbar-item {
-      border: none !important;
-      margin-left: 0 !important;
-    }
-  }
+  // .navbar-dropdown {
+  //   border: 2px solid $primary-light !important;
+  //   box-shadow: $dropdown-content-shadow !important;
+  //   .navbar-item {
+  //     margin-left: 0 !important;
+  //   }
+  // }
 
   .search-navbar {
     background-color: transparent;
     box-shadow: none;
     min-width: 350px;
     margin: 0 1rem;
+    .icon {
+      color: #1f1f1f !important;
+    }
     input {
       border: inherit;
-      background-color: rgba(41, 41, 47, 0.5);
+      // background-color: rgba(41, 41, 47, 0.5);
+      background-color: #e5e5e5;
       &::placeholder {
-        color: #898991 !important;
+        // color: #898991 !important;
+        color: #1f1f1f !important;
       }
       &:focus {
         box-shadow: none !important;

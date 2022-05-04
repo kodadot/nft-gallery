@@ -40,7 +40,7 @@ export default class SearchSortDropdown extends Vue {
 
 .select-dropdown {
   select {
-    border: 1px solid $primary !important;
+    border: 1px solid #7d7d7d !important;
   }
   @media screen and (max-width: 1216px) and (min-width: 768px) {
     width: 200px;

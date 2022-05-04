@@ -1,30 +1,31 @@
 html,
 body,
 div#__nuxt,
-div#__layout {
-  height: 100%;
+div#__layout,
+main {
   margin: 0;
   width: 100%;
+  height: 100%;
+  background-color: $background;
 }
 
 body {
   .button {
     text-transform: uppercase;
-    border-radius: 0;
     font-weight: 500;
     transition: all 0.3s;
     color: $scheme-invert;
 
-    &.is-primary {
-      border-color: $primary;
-      background-color: $scheme-main;
-      color: $light-text;
-      &:hover,
-      &:focus {
-        border-color: $primary;
-        background-color: $primary;
-      }
-    }
+    // &.is-primary {
+    //   border-color: $primary;
+    //   background-color: $scheme-main;
+    //   color: $light-text;
+    //   &:hover,
+    //   &:focus {
+    //     border-color: $primary;
+    //     background-color: $primary;
+    //   }
+    // }
   }
   .autocomplete .dropdown-item {
     padding-right: 1px;
@@ -33,17 +34,20 @@ body {
   .taginput .taginput-container.is-focusable,
   .textarea,
   .input {
-    color: $scheme-invert;
+    // color: $scheme-invert;
+    color: #E5E5E5;
   }
 
   .select {
     &:not(.is-multiple):not(.is-loading):hover::after {
-      border-color: $primary;
+      // border-color: $primary;
+      border-color: #7D7D7D;
     }
 
     select {
       option {
-        color: $scheme-invert;
+        // color: $scheme-invert;
+        color: #E5E5E5;
       }
     }
   }
@@ -119,7 +123,7 @@ body {
   }
 
   .modal-content {
-    border: 2px solid #d32e79;
+    border: 2px solid $primary-light;
     box-shadow: 13px 14px rgba(90, 15, 60, 0.7);
   }
 
@@ -175,13 +179,13 @@ body {
   .message.is-primary .message-body {
     color: $primary-light !important;
   }
-  .tabs-container-mobile {
-    .tab-content {
-      @media screen and (max-width: 1023px) {
-        padding: 1rem 0;
-      }
+  // .tabs-container-mobile {
+    .b-tabs .tab-content {
+      // @media screen and (max-width: 1023px) {
+      padding: 1rem 0;
+      // }
     }
-  }
+  // }
 
   .money-cursor,
   .money-cursor .button {
@@ -202,12 +206,10 @@ body {
 }
 
 button.button.is-bordered {
-  border: 0;
   border-top: 2px solid $primary !important;
 }
 
 button.button.is-bordered-light {
-  border: 0;
   border-top: 1px solid $primary !important;
 }
 
@@ -220,7 +222,7 @@ button.button.navbar-link-background {
 }
 
 .card.bordered {
-  border-radius: 0 !important;
+  border-radius: 4px;
   box-shadow: none;
   border-top: $sleek-primary-border;
 

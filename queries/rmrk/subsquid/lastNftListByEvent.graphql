@@ -1,7 +1,11 @@
-query lastNftListByEvent($limit: Int!, $event: Interaction!, $and: [EventWhereInput!]) {
+query lastNftListByEvent(
+  $limit: Int!
+  $event: Interaction!
+  $and: [EventWhereInput!]
+) {
   events(
     limit: $limit
-    where: { interaction_eq: $event, AND: $and, nft: {burned_eq: false} }
+    where: { interaction_eq: $event, AND: $and, nft: { burned_eq: false } }
     orderBy: timestamp_DESC
   ) {
     meta
@@ -15,6 +19,11 @@ query lastNftListByEvent($limit: Int!, $event: Interaction!, $and: [EventWhereIn
       meta {
         id
         image
+      }
+      collection {
+        id
+        name
+        issuer
       }
     }
   }

@@ -22,7 +22,7 @@
           :data="searchSuggestion"
           group-field="type"
           group-options="item"
-          placeholder="Search..."
+          placeholder="Search Artwork, Collection..."
           icon="search"
           open-on-focus
           clearable
