@@ -110,7 +110,8 @@
     "a": {
       "1": {
         "m": "NFTs ou tokens não fungiveis referem-se à ativos únicos, que são armazenados na blockchain e preservam a propriedade unica. @.md:faq.a.1.l1",
-        "l1": "[Você pode encontrar mais sobre Tokens Não Fungíveis na Wikipedia](@.common:links.wikipedia.nft)"      },
+        "l1": "[Você pode encontrar mais sobre Tokens Não Fungíveis na Wikipedia](@.common:links.wikipedia.nft)"
+      },
       "2": {
         "m": "Cunhagem é um processo no qual sua carteira de criptomoedas e a blockchain comunicam-se juntas para que você possa criar NFTs."
       },
@@ -474,7 +475,7 @@
   "Simple": "Simples",
   "About": "Sobre",
   "FAQ": "FAQ",
-  "Partnerships & Ambassadors": "Parcerias & Embaixadores",
+  "Ambassador Program": "Programa Embaixador",
   "Press Kit": "Mídia Kit",
   "Jobs": "Empregos",
   "theatre": "teatro",
