@@ -166,7 +166,7 @@ export default class CollectionList extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name_contains: this.searchQuery.search,
+        name_containsInsensitive: this.searchQuery.search,
       })
     }
 
@@ -181,11 +181,7 @@ export default class CollectionList extends mixins(
     this.fetchPageData(this.startPage)
   }
 
-  protected async fetchPageData(
-    page: number,
-    loadDirection = 'down',
-    callback?: () => void
-  ) {
+  protected async fetchPageData(page: number, loadDirection = 'down') {
     if (this.isFetchingData) {
       return
     }
