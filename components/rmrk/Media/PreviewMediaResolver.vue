@@ -2,7 +2,7 @@
   <MediaResolver
     :src="properSrc"
     :mimeType="properType"
-    poster="/placeholder.webp"
+    :poster="poster"
     preview />
 </template>
 
@@ -23,6 +23,8 @@ export default class PreviewMediaResolver extends Vue {
   @Prop(String) public src!: string
   @Prop(String) public metadata!: string
   @Prop(String) public mimeType!: string
+  @Prop(String) public poster?: string
+
   protected type = ''
 
   created() {
