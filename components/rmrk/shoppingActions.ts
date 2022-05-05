@@ -1,12 +1,12 @@
 import { Interaction } from '@kodadot1/minimark'
 
-enum NewActions {
+enum OffChainActions {
   DOWNLOAD = 'DOWNLOAD',
 }
-export type ShoppingActions = Interaction | NewActions
+export type ShoppingActions = Interaction | OffChainActions
 export const ShoppingActions = {
   ...Interaction,
-  ...NewActions,
+  ...OffChainActions,
 }
 
 export const KeyboardValueToActionMap = {

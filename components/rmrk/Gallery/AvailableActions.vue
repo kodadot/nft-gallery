@@ -81,9 +81,8 @@ import { downloadImage } from '@/utils/download'
 import { createInteraction, JustInteraction } from '@kodadot1/minimark'
 import {
   ShoppingActions,
-  ownerActions,
-  buyActions,
   KeyboardValueToActionMap,
+  getActions,
 } from '../shoppingActions'
 
 type Address = string | GenericAccountId | undefined
@@ -149,7 +148,7 @@ export default class AvailableActions extends mixins(
   }
 
   get actions() {
-    return this.isOwner ? ownerActions : this.isAvailableToBuy ? buyActions : []
+    return getActions(this.isOwner, this.isAvailableToBuy)
   }
 
   get showSubmit() {
@@ -237,23 +236,23 @@ export default class AvailableActions extends mixins(
     return this.selectedAction === ''
   }
 
-  get isOwner() {
+  get isOwner(): boolean {
     this.$consola.log(
       '{ currentOwnerId, accountId }',
       this.currentOwnerId,
       this.accountId
     )
 
-    return (
+    return Boolean(
       this.currentOwnerId &&
-      this.accountId &&
-      this.currentOwnerId === this.accountId
+        this.accountId &&
+        this.currentOwnerId === this.accountId
     )
   }
 
-  get isAvailableToBuy() {
+  get isAvailableToBuy(): boolean {
     const { price, accountId } = this
-    return accountId && Number(price) > 0
+    return Boolean(accountId && Number(price) > 0)
   }
 
   private constructRmrk(): string {
