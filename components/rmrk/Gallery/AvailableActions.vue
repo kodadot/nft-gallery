@@ -124,6 +124,7 @@ export default class AvailableActions extends mixins(
   protected label = ''
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
+  private ShoppingActions = ShoppingActions
 
   @Ref('balanceInput') readonly balanceInput
   @Ref('addressInput') readonly addressInput
