@@ -2,7 +2,7 @@ import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
-import { startOfToday, subDays, eachDayOfInterval, formatISO } from 'date-fns'
+import { subDays, eachDayOfInterval, formatISO } from 'date-fns'
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
