@@ -197,7 +197,9 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark

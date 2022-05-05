@@ -183,9 +183,12 @@ export default class CollectionList extends mixins(
 
   protected async fetchPageData(
     page: number,
-    loadDirection = 'down'
-  ): Promise<boolean> {
-    if (this.isFetchingData) return false
+    loadDirection = 'down',
+    callback?: () => void
+  ) {
+    if (this.isFetchingData) {
+      return
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
