@@ -89,7 +89,6 @@ export default class PulseChart extends Vue {
 
 <style lang="scss">
 .chart-container {
-  position: relative;
   height: 100px;
   width: 200px;
 }

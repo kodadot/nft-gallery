@@ -305,7 +305,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { Column, RowSeries, SortType, BuyHistory } from './types'
+import { RowSeries, SortType, BuyHistory } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
@@ -400,7 +400,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
         buyHistory: axisLize(
-          Object.assign(defaultBuyEvents, buyEvents[e.id] || {})
+          Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
         ),
       })
     )
