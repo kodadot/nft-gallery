@@ -27,11 +27,11 @@
       <template v-else-if="isForSale">
         <b-tooltip :active="buyDisabled" :label="$t('tooltip.buyDisabled')">
           <b-button
-            :type="iconType(`${ShoppingActions.BUY}`)[0]"
+            :type="iconType(ShoppingActions.BUY)[0]"
             :disabled="buyDisabled || !isAvailableToBuy"
             style="border-width: 2px"
             outlined
-            @click="handleAction(`${ShoppingActions.BUY}`)"
+            @click="handleAction(ShoppingActions.BUY)"
             expanded>
             {{ replaceBuyNowWithYolo ? 'YOLO' : 'BUY' }}
           </b-button>
