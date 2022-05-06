@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
-import { createVuePlugin } from 'vite-plugin-vue2'
 
 export default defineConfig({
   test: {
@@ -20,5 +19,4 @@ export default defineConfig({
       '~': resolve(__dirname, './'),
     },
   },
-  plugins: [createVuePlugin()],
 })
