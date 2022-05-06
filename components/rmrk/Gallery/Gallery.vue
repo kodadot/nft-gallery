@@ -91,7 +91,7 @@ import {
   getCloudflareImageLinks,
   processMetadata,
 } from '@/utils/cachingStrategy'
-import { denyList, statemineDenyList } from '@/utils/constants'
+import { getDenyList } from '@/utils/prefix'
 import { fastExtract } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import {
@@ -99,7 +99,6 @@ import {
   NFTWithCollectionMeta,
   WithData,
 } from 'components/unique/graphqlResponseTypes'
-import { DocumentNode } from 'graphql'
 import 'lazysizes'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -107,6 +106,8 @@ import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
+import resolveQueryPath from '~/utils/queryPathResolver'
+import { unwrapSafe } from '~/utils/uniquery'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -132,7 +133,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
+    sortBy: 'blockNumber_DESC',
     listed: true,
     priceMin: undefined,
     priceMax: undefined,
@@ -152,17 +153,6 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   get getLoadAllArtwork(): boolean {
     return this.$store.getters['preferences/getLoadAllArtwork']
-  }
-
-  get queryVariables() {
-    return {
-      first: this.first,
-      denyList: this.urlPrefix === 'rmrk' ? denyList : statemineDenyList,
-      orderBy: this.searchQuery.sortBy,
-      search: this.buildSearchParam(),
-      priceMin: this.searchQuery.priceMin,
-      priceMax: this.searchQuery.priceMax,
-    }
   }
 
   set currentValue(page: number) {
@@ -201,16 +191,13 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
       return false
     }
     this.isFetchingData = true
-    const isRemark = this.urlPrefix === 'rmrk'
-    const query = isRemark
-      ? await import('@/queries/nftListWithSearch.graphql')
-      : await import('@/queries/unique/nftListWithSearch.graphql')
+    const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
     const result = await this.$apollo.query({
       query: query.default,
       client: this.urlPrefix,
       variables: {
-        denyList: isRemark ? denyList : statemineDenyList,
-        orderBy: this.searchQuery.sortBy,
+        denyList: getDenyList(this.urlPrefix),
+        // orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,
@@ -218,6 +205,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
         offset: (page - 1) * this.first,
       },
     })
+    console.log(result.data)
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
     return true
@@ -227,9 +215,10 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     { data }: WithData<GraphResponse>,
     loadDirection = 'down'
   ) {
-    this.total = data.nFTEntities.totalCount
+    const { nFTEntities } = data
+    this.total = nFTEntities.totalCount
 
-    const newNfts = data.nFTEntities.nodes.map((e: any) => ({
+    const newNfts = unwrapSafe(nFTEntities).map((e: any) => ({
       ...e,
       emoteCount: e?.emotes?.totalCount,
     }))
@@ -268,18 +257,15 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   public async prefetchPage(offset: number, prefetchLimit: number) {
     try {
-      const isRemark = this.urlPrefix === 'rmrk'
-      const query = isRemark
-        ? await import('@/queries/nftListWithSearch.graphql')
-        : await import('@/queries/unique/nftListWithSearch.graphql')
+      const query = await resolveQueryPath(this.urlPrefix, 'nftListWithSearch')
       const nfts = this.$apollo.query({
-        query: query as unknown as DocumentNode,
+        query: query.default,
         client: this.urlPrefix,
         variables: {
           first: this.first,
           offset,
-          denyList: isRemark ? denyList : statemineDenyList,
-          orderBy: this.searchQuery.sortBy,
+          denyList: getDenyList(this.urlPrefix),
+          // orderBy: this.searchQuery.sortBy,
           search: this.buildSearchParam(),
           priceMin: this.searchQuery.priceMin,
           priceMax: this.searchQuery.priceMax,
@@ -288,10 +274,10 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
       const {
         data: {
-          nFTEntities: { nodes: nftList },
+          nFTEntities
         },
       } = await nfts
-
+      const nftList = unwrapSafe(nFTEntities)
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
       await processMetadata<NFTMetadata>(metadataList)
     } catch (e) {
@@ -354,7 +340,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 .card-image__burned {
