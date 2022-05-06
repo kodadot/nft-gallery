@@ -97,10 +97,10 @@ $input-placeholder-color: bulmaRgba($scheme-invert, 0.3);
 $box-shadow: none;
 
 // tabs
-$tabs-link-hover-color: $primary;
+// $tabs-link-hover-color: $primary;
 $tabs-boxed-link-focus-border-bottom-color: $primary;
 $tabs-boxed-link-focus-background-color: lightpink;
-// $tabs-boxed-link-focus-active-background-color: $primary;
+$tabs-boxed-link-focus-active-background-color: $primary;
 
 //  these somehow doesn't work for profile, idk why, maybe fix whenever you spot this
 // $tabs-items-focused-outline: lime;
@@ -113,6 +113,11 @@ $tabs-boxed-link-focus-background-color: lightpink;
 // $tabs-boxed-link-focus-border-color: lime;
 // $tabs-boxed-link-focus-active-border-bottom-color: lime;
 // $tabs-items-focused-outline: lime;
+$tabs-border-bottom-color: #7D7A7A;
+$tabs-link-active-border-bottom-color: $primary;
+$tabs-link-active-color: $primary;
+$tabs-link-hover-color: lightpink;
+$tabs-link-hover-border-bottom-color: lightpink;
 
 // layout
 $container-offset: (2 * $gap);

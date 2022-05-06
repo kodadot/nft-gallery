@@ -45,7 +45,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
-export default class extends Vue {
+export default class KodadotSocialLinks extends Vue {
   @Prop({ default: 'is-large' }) public iconType!: string
 }
 </script>

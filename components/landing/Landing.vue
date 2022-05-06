@@ -3,17 +3,6 @@
     <div class="container">
       <div class="columns">
         <div class="column">
-          <picture>
-            <source srcset="~/assets/KODADOT.webp" type="image/webp" />
-            <source srcset="~/assets/KODADOT.png" type="image/png" />
-            <img
-              src="~/assets/KODADOT.png"
-              alt="First NFT market explorer on Kusama and Polkadot"
-              class="mb-5 is-hidden-mobile"
-              width="950"
-              height="165"
-              loading="lazy" />
-          </picture>
           <h3
             class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
             <span class="text__stroked my-5">
@@ -47,7 +36,8 @@
               <div class="tile is-child box">
                 <p class="title">New to NFTs?</p>
                 <p class="subtitle">
-                  Click <a href="">here</a> for a step by step guide!
+                  Click <a href="https://docs.kodadot.xyz">here</a> for a step
+                  by step guide!
                 </p>
               </div>
             </div>
@@ -55,8 +45,8 @@
               <div class="tile is-child box">
                 <p class="title">KSM for artists</p>
                 <p class="subtitle">
-                  Get in <a href="">touch</a> and we will hook you up with free
-                  mints.
+                  Get in <a href="https://discord.gg/35hzy2dXXh">touch</a> and
+                  we will hook you up with free mints.
                 </p>
               </div>
             </div>
@@ -131,7 +121,7 @@ export default class Landing extends Vue {
     border: 1px solid #3f3f3f;
     border-radius: 12px;
     box-sizing: border-box;
-    filter: drop-shadow(-10px 4px 20px #3f3f3f);
+    // filter: drop-shadow(-10px 4px 20px #3f3f3f);
     box-shadow: -10px 4px 20px #3f3f3f;
 
     .title {

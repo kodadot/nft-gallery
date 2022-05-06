@@ -127,11 +127,8 @@ export default class CarouselList extends mixins(AuthMixin) {
         1000: {
           itemsToShow: 3,
         },
-        1200: {
-          itemsToShow: 3.5,
-        },
         1400: {
-          itemsToShow: 4,
+          itemsToShow: 3.5,
         },
         1800: {
           itemsToShow: 5,
