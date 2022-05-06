@@ -4,11 +4,11 @@
 query collectionById(
   $id: ID!
   $search: [NFTEntityWhereInput!]
-  $orderBy: CollectionEntityOrderByInput = blockNumber_DESC
+  $orderBy: NFTEntityOrderByInput = blockNumber_DESC
   $first: Int!
   $offset: Int
 ) {
-  collectionEntity(id: $id) {
+  collectionEntityById(id: $id) {
     ...collection
     ...collectionDetails
     createdAt
@@ -16,7 +16,7 @@ query collectionById(
       orderBy: [$orderBy, blockNumber_DESC]
       limit: $first
       offset: $offset
-      where: { nfts_some: { burned_eq: false }, AND: $search }
+      where: { burned_eq: false, AND: $search }
     ) {
       id
       metadata
