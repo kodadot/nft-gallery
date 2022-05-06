@@ -2,7 +2,7 @@ import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
-import { startOfToday, subDays } from 'date-fns'
+import { subDays, eachDayOfInterval, formatISO } from 'date-fns'
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
@@ -78,14 +78,35 @@ const onlyOwned = ({ issuer, currentOwner }: SimpleSeriesNFT) =>
 // const onlyListEvents = (e: { interaction: string }) => e.interaction === 'LIST'
 // const reducer = (a: number, b: number): number => Number(a) + Number(b)
 const onlyEvents = (nft: SimpleSeriesNFT) => nft.events
+export const onlyDate = (datetime: Date) =>
+  formatISO(datetime, { representation: 'date' })
 
 export const toSort = (sortBy: SortType): string =>
   `${sortBy.field}_${sortBy.value}`
 
-const today = startOfToday()
+export const today = new Date()
 const yesterdayDate: Date = subDays(today, 1)
 const lastweekDate: Date = subDays(today, 7)
-const lastmonthDate: Date = subDays(today, 30)
+export const lastmonthDate: Date = subDays(today, 30)
 const sub2dayDate: Date = subDays(today, 2)
 const last2weekDate: Date = subDays(today, 14)
 const last2monthDate: Date = subDays(today, 60)
+
+// -> ["202-11-30", ...]
+export function getDateArray(start: Date, end: Date): string[] {
+  return eachDayOfInterval({ start, end }).map(onlyDate)
+}
+
+export function axisLize(obj = {}) {
+  return {
+    xAxisList: Object.keys(obj),
+    yAxisList: Object.values(obj),
+  }
+}
+
+export function defaultEvents(start: Date, end: Date) {
+  return getDateArray(start, end).reduce((res, date) => {
+    res[date] = 0
+    return res
+  }, {})
+}
