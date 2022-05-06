@@ -8,7 +8,7 @@ query collectionById(
   $first: Int!
   $offset: Int
 ) {
-  collectionEntityById(id: $id) {
+  collectionEntity: collectionEntityById(id: $id) {
     ...collection
     ...collectionDetails
     createdAt
