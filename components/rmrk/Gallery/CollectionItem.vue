@@ -89,6 +89,8 @@
         <GalleryCardList
           :items="nfts"
           :listed="!!(searchQuery && searchQuery.listed)"
+          :link="`${urlPrefix}/gallery`"
+          :route="`/${urlPrefix}/gallery`"
           horizontalLayout />
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
