@@ -13,3 +13,7 @@ export function unwrapSafe<T = any>(value: OneOf<T>): List<T> {
     return value.nodes
   }
 }
+
+export function correctPrefix(prefix: string): string {
+  return prefix === 'rmrk' ? '' : prefix
+}
