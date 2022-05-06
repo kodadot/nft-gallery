@@ -1,3 +1,6 @@
+// TODO: if you will see this file in the future (Sep 2022)
+// please contact @vikiival to merge it into API
+
 type List<T> = T[]
 
 type Something<T> = {
