@@ -193,6 +193,19 @@
       </b-table-column>
 
       <b-table-column
+        v-slot="props"
+        field="highestSale"
+        :label="$t('series.highestSale')"
+        numeric
+        cell-class="is-vcentered"
+        sortable>
+        <template v-if="!isLoading">
+          <Money :value="props.row.highestSale" inline hideUnit />
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
         field="buys"
         :label="$t('series.buys')"
         v-slot="props"
@@ -281,7 +294,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { Column, RowSeries, SortType } from './types'
+import { RowSeries, SortType } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { NFTMetadata } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -303,19 +316,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected nbDays = '7'
   protected nbRows = '50'
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
-  protected columns: Column[] = [
-    { field: 'id', label: this.$t('spotlight.id') },
-    { field: 'rank', label: this.$t('spotlight.score'), numeric: true },
-    { field: 'unique', label: this.$t('spotlight.unique'), numeric: true },
-    { field: 'averagePrice', label: 'Floor price', numeric: true },
-    { field: 'sold', label: this.$t('spotlight.sold'), numeric: true },
-    {
-      field: 'uniqueCollectors',
-      label: this.$t('spotlight.unique'),
-      numeric: true,
-    },
-    { field: 'total', label: this.$t('spotlight.total'), numeric: true },
-  ]
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
 

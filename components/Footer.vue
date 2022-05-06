@@ -109,8 +109,9 @@ export default class Footer extends Vue {
       url: '/jobs',
     },
     {
-      name: this.$t('Partnerships'),
-      url: '/partnership',
+      name: this.$t('Ambassador Program'),
+      url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
+      external: true,
     },
     {
       name: this.$t('Press Kit'),
