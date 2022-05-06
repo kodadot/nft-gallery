@@ -3,9 +3,9 @@
     <template v-if="items && !horizontalLayout">
       <Layout />
     </template>
-    <div id="infinite-scroll-container" class="columns is-multiline">
+    <div :id="scrollContainerId" class="columns is-multiline">
       <div
-        :class="`column ${classLayout} column-padding scroll-item`"
+        :class="`column ${classLayout} column-padding ${scrollItemClassName}`"
         v-for="nft in items"
         :key="nft.id">
         <GalleryCard
@@ -26,6 +26,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { RmrkType } from '@/components/rmrk/service/scheme'
+import {
+  INFINITE_SCROLL_CONTAINER_ID,
+  INFINITE_SCROLL_ITEM_CLASS_NAME,
+} from '~/utils/mixins/infiniteScrollMixin'
 
 const components = {
   GalleryCard: () => import('./GalleryCard.vue'),
@@ -39,6 +43,8 @@ export default class GalleryCardList extends Vue {
   @Prop() public items!: RmrkType[]
   @Prop(Boolean) public horizontalLayout!: boolean
   @Prop(Boolean) public listed!: boolean
+  protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
+  protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
 
   get classLayout() {
     return this.$store.getters['preferences/getLayoutClass']

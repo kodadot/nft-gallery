@@ -43,3 +43,7 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
 
+
+### Star history 
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)

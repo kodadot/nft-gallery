@@ -110,7 +110,8 @@
     "a": {
       "1": {
         "m": "NFT atau token yang tidak dapat dipertukarkan mengacu pada aset unik, yang disimpan di blockchain dan mempertahankan kepemilikan unik. @.md:faq.a.1.l1",
-        "l1": "[Anda dapat menemukan lebih banyak tentang Token Non-Fungible di Wikipedia](@.common:links.wikipedia.nft)"      },
+        "l1": "[Anda dapat menemukan lebih banyak tentang Token Non-Fungible di Wikipedia](@.common:links.wikipedia.nft)"
+      },
       "2": {
         "m": "Pencetakan adalah proses di mana dompet cryptocurrency dan blockchain Anda berkomunikasi bersama dan membuat Anda dapat membuat NFT."
       },
@@ -474,7 +475,6 @@
   "Simple": "Sederhana",
   "About": "Tentang",
   "FAQ": "FAQ",
-  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
   "Press Kit": "Press Kit",
   "Jobs": "Jobs",
   "theatre": "teater",
