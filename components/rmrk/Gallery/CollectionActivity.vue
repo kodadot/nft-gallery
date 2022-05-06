@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection is-align-items-start" v-if="stats">
+    <div class="level my-4 collection is-align-items-center" v-if="stats">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
@@ -27,7 +27,7 @@
             {{ totalPurchases }}
           </p>
           <p class="heading">
-            {{ $t('activity.highestTransactionPrice') }} /
+            {{ $t('activity.highestSale') }} /
             {{ $t('activity.totalBuys') }}
           </p>
         </div>
