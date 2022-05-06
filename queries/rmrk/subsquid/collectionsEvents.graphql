@@ -1,0 +1,13 @@
+query collectionsEvents($ids: [ID!], $and: [EventWhereInput!], $gte: DateTime!, $lte: DateTime!) {
+  events(where: {
+    nft: {burned_eq: false, collection: { id_in: $ids }}, AND: $and
+    timestamp_gt:$gte, timestamp_lte: $lte
+    }) {
+    nft {
+      collection {
+        id
+      }
+    }
+    timestamp
+  }
+}

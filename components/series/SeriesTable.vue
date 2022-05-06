@@ -281,7 +281,18 @@
         </nuxt-link>
         <b-skeleton :active="isLoading" />
       </b-table-column>
-
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered history"
+        field="buyHistory"
+        :label="$t('series.buyHistory')">
+        <b-skeleton v-if="isLoading" :active="isLoading" />
+        <PulseChart
+          v-else
+          :id="props.row.id"
+          :labels="props.row.buyHistory.xAxisList"
+          :values="props.row.buyHistory.yAxisList" />
+      </b-table-column>
       <template #empty>
         <div v-if="!isLoading" class="has-text-centered">
           {{ $t('spotlight.empty') }}
@@ -294,14 +305,15 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { RowSeries, SortType } from './types'
+import { RowSeries, SortType, BuyHistory } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import { NFTMetadata } from '../rmrk/service/scheme'
+import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
+import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort } from './utils'
+import { toSort, lastmonthDate, today, getDateArray, onlyDate } from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -353,15 +365,69 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
+    const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
+      (res, date) => {
+        res[date] = 0
+        return res
+      },
+      {}
+    )
+
+    const axisLize = (obj = {}): BuyHistory => ({
+      xAxisList: Object.keys(obj),
+      yAxisList: Object.values(obj),
+    })
+
+    const ids = collectionEntities.map((c: Collection) => c.id)
+
+    const buyEvents = (await this.fetchCollectionEvents(ids))
+      .map((e) => ({
+        ...e.nft.collection,
+        timestamp: onlyDate(new Date(e.timestamp)),
+      }))
+      .reduce((res, e) => {
+        const { id, timestamp: ts } = e
+        if (!res[id]) {
+          res[id] = Object.assign({}, defaultBuyEvents)
+        }
+        res[id][ts] += 1
+        return res
+      }, {})
+
     this.data = collectionEntities.map(
-      (e): RowSeries => ({
+      (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
+        buyHistory: axisLize(
+          Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
+        ),
       })
     )
 
     this.isLoading = false
+  }
+
+  protected async fetchCollectionEvents(ids: string[]) {
+    try {
+      // const today = new Date()
+      const { data } = await this.$apollo.query<{ events }>({
+        query: collectionsEvents,
+        client: 'subsquid',
+        variables: {
+          ids: ids,
+          and: {
+            interaction_eq: 'BUY',
+          },
+          lte: today,
+          gte: lastmonthDate,
+        },
+      })
+      return data.events
+    } catch (e) {
+      this.$consola.error(e)
+      return []
+    }
   }
 
   public onSort(field: string, order: string) {
@@ -431,6 +497,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
+}
+
+.history {
+  width: 200px;
+  height: 100px;
 }
 
 .series-sticky-header th {
