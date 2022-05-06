@@ -341,7 +341,7 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
