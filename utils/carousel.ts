@@ -26,6 +26,7 @@ export const formatNFT = async (data): Promise<CarouselNFT[]> => {
       addSuffix: true,
     }),
     image: imageOf(nft.meta.id, nft.meta.image),
+    animationUrl: imageOf(nft.meta.id, nft.meta.animationUrl) || '',
   }))
 }
 

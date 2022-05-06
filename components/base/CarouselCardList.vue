@@ -12,7 +12,13 @@
       <div class="card mx-2">
         <div class="card-image p-3">
           <nuxt-link :to="`/rmrk/gallery/${list.id}`">
+            <PreviewMediaResolver
+              v-if="list.animationUrl"
+              :src="list.animationUrl"
+              :poster="list.image || ''"
+              :metadata="list.metadata" />
             <BasicImage
+              v-else
               :src="list.image"
               :alt="list.name"
               custom-class="carousel__image-wrapper" />
@@ -87,6 +93,8 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Appreciation: () => import('@/components/rmrk/Gallery/Appreciation.vue'),
+  PreviewMediaResolver: () =>
+    import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
 }
 
 @Component<CarouselList>({
