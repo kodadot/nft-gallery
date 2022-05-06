@@ -557,6 +557,8 @@ export default class CommonHolderTable extends mixins(
 }
 </script>
 <style lang="scss">
+@import '@/styles/variables.scss';
+
 .collapseHidden {
   .collapse-trigger {
     display: none;
@@ -573,8 +575,10 @@ export default class CommonHolderTable extends mixins(
       flex-direction: column-reverse;
     }
   }
-  .short-name-column {
-    max-width: 20em;
+  @media screen and (min-width: $tablet) {
+    .short-name-column {
+      width: 20%;
+    }
   }
 }
 </style>
