@@ -71,6 +71,7 @@ import { somePercentFromTX } from '@/utils/support'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
 import { get } from 'idb-keyval'
@@ -83,7 +84,7 @@ import {
   ShoppingActions,
   KeyboardValueToActionMap,
   getActions,
-} from '../shoppingActions'
+} from '@/utils/shoppingActions'
 
 type Address = string | GenericAccountId | undefined
 type IdentityFields = Record<string, string>
@@ -108,10 +109,10 @@ export default class AvailableActions extends mixins(
   RmrkVersionMixin,
   PrefixMixin,
   KeyboardEventsMixin,
-  MetaTransactionMixin
+  MetaTransactionMixin,
+  AuthMixin
 ) {
   @Prop() public currentOwnerId!: string
-  @Prop() public accountId!: string
   @Prop() public originialOwner!: string
   @Prop() public price!: string
   @Prop() public nftId!: string

@@ -1,10 +1,6 @@
-import {
-  getActions,
-  ownerActions,
-  buyActions,
-} from '@/components/rmrk/shoppingActions'
+import { getActions, ownerActions, buyActions } from '@/utils/shoppingActions'
 
-describe.skip('GET ACTIONS TEST', (): void => {
+describe('GET ACTIONS TEST', (): void => {
   it('owner actions', () => {
     const actions = getActions(true, false)
     expect(actions).toBe(ownerActions)
