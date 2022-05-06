@@ -33,9 +33,9 @@
         </div>
       </div>
 
-      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <!-- <div class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
-      </div>
+      </div> -->
 
       <div class="column has-text-right">
         <Sharing
@@ -153,7 +153,7 @@ import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEv
 import { sortedEventByDate } from '~/utils/sorting'
 import { Debounce } from 'vue-debounce-decorator'
 import resolveQueryPath from '~/utils/queryPathResolver'
-import { unwrapSafe } from '@/utils/uniquery'
+import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 
@@ -296,7 +296,7 @@ export default class CollectionItem extends mixins(
   public async created(): Promise<void> {
     this.checkId()
     this.checkActiveTab()
-    this.checkIfEmptyListed()
+    // this.checkIfEmptyListed()
     this.fetchPageData(this.startPage)
   }
 
@@ -311,7 +311,8 @@ export default class CollectionItem extends mixins(
       client: this.urlPrefix,
       variables: {
         id: this.id,
-        orderBy: this.searchQuery.sortBy,
+        orderBy: 'blockNumber_DESC',
+        // orderBy: this.searchQuery.sortBy,
         search: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
@@ -337,24 +338,20 @@ export default class CollectionItem extends mixins(
   }
 
   public async checkIfEmptyListed(): Promise<void> {
-    // if the collection is empty, we need to check if there are any listed NFTs
-    this.$apollo.addSmartQuery('totalListed', {
-      query: collectionById,
-      client: this.urlPrefix,
-      update: (data) => {
-        return data.collectionEntity.nfts.totalCount
-      },
-      variables: () => {
-        return {
-          id: this.id,
-          orderBy: this.searchQuery.sortBy,
-          search: this.buildSearchParam(true),
-          first: this.first,
-          offset: this.offset,
-        }
+    const query = await resolveQueryPath('subsquid', 'nftListedCountByCollection')
+    this.totalListed = await this.$apollo.query<{ nodes: { totalCount: number } }>({
+      query: query.default,
+      client: correctPrefix(this.urlPrefix),
+      variables: {
+        id: this.id,
       },
     })
+    .then(({ data }) => data.nodes.totalCount)
+    .catch((err) => {
+       this.$consola.error('Failed to fetch total listed', err.message); return 0
+    })
   }
+
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
   }
@@ -445,6 +442,7 @@ export default class CollectionItem extends mixins(
       this.$router.push({ name: 'errorcollection' })
       return
     }
+
     this.firstMintDate = collectionEntity.createdAt
     const newNfts = unwrapSafe(collectionEntity.nfts).map((e: any) => ({
       ...e,
