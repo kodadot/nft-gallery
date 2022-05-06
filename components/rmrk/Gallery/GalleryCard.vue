@@ -8,33 +8,28 @@
       :link="link"
       :param="id"
       tag="a">
-      <div v-if="image" class="card-image">
+
+      <div class="card-image">
         <span v-if="emoteCount" class="card-image__emotes">
           <b-icon icon="heart" />
-          <span class="card-image__emotes__count">{{ emoteCount }}</span>
+          <span class="card-image__emotes__count">{{
+            emoteCount
+          }}</span>
         </span>
         <BasicImage
+          v-show="image"
           :src="image"
           :alt="title"
-          custom-class="gallery__image-wrapper" />
-        <span v-if="price > 0 && showPriceValue" class="card-image__price">
-          <Money :value="price" inline />
-        </span>
-      </div>
+          customClass="gallery__image-wrapper" />
 
-      <div v-else class="card-image">
-        <span v-if="emoteCount" class="card-image__emotes">
-          <b-icon icon="heart" />
-          <span class="card-image__emotes__count">{{ emoteCount }}</span>
-        </span>
-
-        <!-- missing error image & placeholder? -->
         <PreviewMediaResolver
           v-if="!image && animatedUrl"
           :src="animatedUrl"
-          :metadata="metadata" />
-
-        <span v-if="price > 0" class="card-image__price">
+          :metadata="metadata"
+          :mimeType="type" />
+        <span
+          v-if="price > 0 && showPriceValue"
+          class="card-image__price">
           <Money :value="price" inline />
         </span>
       </div>
@@ -42,6 +37,7 @@
       <div class="card-content">
         <span
           class="has-text-centered has-text-primary"
+          id="hover-title"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">
