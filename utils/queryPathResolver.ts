@@ -15,6 +15,8 @@ function getPath(prefix: string) {
     case 'statemine':
     case 'westmint':
       return 'unique/'
+    case 'subsquid':
+      return 'subsquid/general/'
     default:
       return ''
   }
