@@ -93,6 +93,7 @@ import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
 import { formatDistanceToNow } from 'date-fns'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>
@@ -124,11 +125,13 @@ export default class IdentityPopover extends mixins(
     this.$buefy.toast.open(message)
   }
 
-  public async mounted() {
-    await this.fetchNFTStats()
+  @Watch('identity.address', { immediate: true })
+  protected async onAddressChanged(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      await this.fetchNFTStats()
+    }
   }
 
-  @Watch('identity.address')
   protected async fetchNFTStats() {
     try {
       const data = this.$store.getters['identityMint/getIdentityMintFor'](
