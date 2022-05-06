@@ -8,7 +8,7 @@ query nftListWithSearch(
   $search: [NFTEntityWhereInput!]
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
 ) {
-  nftEntities(
+  nFTEntities: nftEntities(
     orderBy: [$orderBy, blockNumber_DESC]
     limit: $first
     offset: $offset
