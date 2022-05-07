@@ -527,7 +527,6 @@ export default class Profile extends mixins(
           },
         },
       })
-      console.log('data event', data)
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         // TODO : default value of HISTORY for BUY
