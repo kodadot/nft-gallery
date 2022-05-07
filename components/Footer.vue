@@ -87,35 +87,36 @@ export default class Footer extends Vue {
       url: '/about',
     },
     {
+      name: this.$t('FAQ'),
+      url: '/rmrk/faq',
+    },
+    {
+      name: this.$t('Grants'),
+      url: 'https://form.kodadot.xyz/grant',
+      external: true,
+    },
+    {
       name: this.$t('Documentation'),
       url: 'https://docs.kodadot.xyz/',
       external: true,
     },
     {
-      name: this.$t('FAQ'),
-      url: '/rmrk/faq',
+      name: this.$t('Contribute'),
+      url: '/contribute',
     },
     {
-      name: this.$t('Grant'),
-      url: 'https://form.kodadot.xyz/grant',
+      name: this.$t('Careers'),
+      url: '/jobs',
+    },
+    {
+      name: this.$t('Ambassador Program'),
+      url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
       external: true,
-    },
-    {
-      name: this.$t('Partnerships & Ambassadors'),
-      url: '/partnership',
     },
     {
       name: this.$t('Press Kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
-    },
-    {
-      name: this.$t('Jobs'),
-      url: '/jobs',
-    },
-    {
-      name: this.$t('Contribute'),
-      url: '/contribute',
     },
   ]
 }

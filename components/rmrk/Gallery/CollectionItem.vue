@@ -215,6 +215,7 @@ export default class CollectionItem extends mixins(
   private nfts: NFT[] = []
 
   collectionProfileSortOption: string[] = [
+    'EMOTES_COUNT_DESC',
     'BLOCK_NUMBER_DESC',
     'BLOCK_NUMBER_ASC',
     'UPDATED_AT_DESC',
@@ -298,7 +299,9 @@ export default class CollectionItem extends mixins(
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionById,
@@ -321,7 +324,7 @@ export default class CollectionItem extends mixins(
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
@@ -440,7 +443,10 @@ export default class CollectionItem extends mixins(
       return
     }
     this.firstMintDate = collectionEntity.createdAt
-    const newNfts = collectionEntity.nfts.nodes
+    const newNfts = collectionEntity.nfts.nodes.map((e: any) => ({
+      ...e,
+      emoteCount: e?.emotes?.totalCount,
+    }))
 
     await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
       this.$consola.warn

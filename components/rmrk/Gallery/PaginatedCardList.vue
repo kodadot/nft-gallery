@@ -103,7 +103,7 @@ export default class PaginatedCardList extends mixins(
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
@@ -117,7 +117,9 @@ export default class PaginatedCardList extends mixins(
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
@@ -138,14 +140,18 @@ export default class PaginatedCardList extends mixins(
   protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
       const { nodes, totalCount } = data.nFTEntities
-      await getCloudflareImageLinks(nodes.map(mapOnlyMetadata)).catch(
+      const newNfts = nodes.map((e: any) => ({
+        ...e,
+        emoteCount: e?.emotes?.totalCount,
+      }))
+      await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
         this.$consola.warn
       )
 
       if (loadDirection === 'up') {
-        this.items = nodes.concat(this.items)
+        this.items = newNfts.concat(this.items)
       } else {
-        this.items = this.items.concat(nodes)
+        this.items = this.items.concat(newNfts)
       }
 
       this.total = totalCount

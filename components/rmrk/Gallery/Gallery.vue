@@ -2,10 +2,7 @@
   <div class="gallery container">
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
-    <Search
-      v-bind.sync="searchQuery"
-      @resetPage="resetPage"
-      :hideSearchInput="notMobile">
+    <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
       <Pagination
         hasMagicBtn
         simple
@@ -21,10 +18,9 @@
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
         @infinite="reachTopHandler"></InfiniteLoading>
-
-      <div class="columns is-multiline">
+      <div class="columns is-multiline" :id="scrollContainerId">
         <div
-          class="column is-4 column-padding"
+          :class="`column is-4 column-padding ${scrollItemClassName}`"
           v-for="nft in results"
           :key="nft.id">
           <div class="card nft-card">
@@ -142,7 +138,6 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     priceMax: undefined,
   }
   private isLoading = true
-  private notMobile = true
 
   get showPriceValue(): boolean {
     return (
@@ -184,7 +179,6 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   public async created() {
     await this.fetchPageData(this.startPage)
-    window.addEventListener('resize', this.onResize)
     this.onResize()
   }
 
@@ -193,7 +187,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
@@ -203,7 +197,9 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     const isRemark = this.urlPrefix === 'rmrk'
     const query = isRemark
@@ -354,15 +350,6 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   @Watch('searchQuery', { deep: true })
   protected onSearchQueryChange() {
     this.resetPage()
-  }
-
-  @Debounce(1000)
-  protected onResize() {
-    this.notMobile = window.innerWidth >= 1024
-  }
-
-  destroyed() {
-    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

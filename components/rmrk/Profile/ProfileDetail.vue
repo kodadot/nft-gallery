@@ -341,7 +341,7 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
@@ -351,7 +351,9 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
   }
 
   public async fetchPageData(page: number, loadDirection = 'down') {
-    if (this.isFetchingData) return false
+    if (this.isFetchingData) {
+      return false
+    }
     this.isFetchingData = true
     if (!this.id) {
       this.checkId()
