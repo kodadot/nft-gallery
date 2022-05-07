@@ -56,7 +56,7 @@ export default class LatestSales extends Vue {
         events: { meta; nft: { meta: { id; image } } }
       }>({
         query: lastNftListByEvent,
-        client: 'legacysquid',
+        client: 'subsquid',
         variables: {
           limit: 10,
           event: 'BUY',
