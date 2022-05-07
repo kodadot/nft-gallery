@@ -113,7 +113,7 @@ export default class Identity extends mixins(InlineMixin) {
   }
 
   get discord(): Address {
-    return this.identity.discord
+    return this.identity?.discord
   }
 
   @Watch('address', { immediate: true })
