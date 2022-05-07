@@ -34,11 +34,7 @@ export default class UserGainHistory extends mixins(PrefixMixin) {
       })
 
       if (data && data.events && data.events.length) {
-        this.ownerEventsOfNft = sortedEventByDate(
-          // filter by burned is a hacky way to avoid query timeout
-          data.events.filter((event) => !event.nft.burned),
-          'ASC'
-        )
+        this.ownerEventsOfNft = sortedEventByDate(data.events, 'ASC')
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
