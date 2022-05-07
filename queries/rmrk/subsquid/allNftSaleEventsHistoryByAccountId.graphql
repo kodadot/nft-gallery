@@ -11,6 +11,7 @@ query allNftSaleEventsHistoryByAccountId($id: String) {
     nft {
       id
       name
+      burned
       collection {
         id
         name

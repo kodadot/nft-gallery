@@ -204,6 +204,7 @@ export type NftHolderEvent = {
   nft: {
     id: string
     name: string
+    burned?: boolean
     collection: {
       id: string
     }
