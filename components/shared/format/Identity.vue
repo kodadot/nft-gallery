@@ -6,7 +6,6 @@
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
     "
-    v-clipboard:copy="address"
     :class="{ aligned: verticalAlign, overflowWrap: noOwerflow }"
     class="is-flex-wrap-wrap is-flex-grow-1">
     <template v-if="(showTwitter && twitter) || (showDiscord && discord)">
@@ -114,8 +113,7 @@ export default class Identity extends mixins(InlineMixin) {
   }
 
   get discord(): Address {
-    const discord = this.identity.discord
-    return discord
+    return this.identity.discord
   }
 
   @Watch('address', { immediate: true })
