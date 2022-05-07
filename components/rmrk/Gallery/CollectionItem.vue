@@ -438,7 +438,7 @@ export default class CollectionItem extends mixins(
     loadDirection = 'down'
   ): Promise<void> {
     const { collectionEntity } = data
-    if (!collectionEntity || collectionEntity === null) {
+    if (!collectionEntity) {
       return this.$nuxt.error({
         statusCode: 404,
         message: 'Oops! Collection Not Found',
