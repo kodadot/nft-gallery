@@ -328,7 +328,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   protected parseDate(date: Date): string {
     const utcDate: string = date.toUTCString()
-    return utcDate.substring(4)
+    // toUTCString() prints GMT for historical compatibility
+    return utcDate.substring(4).replace('GMT', 'UTC')
   }
 
   protected getBlockUrl(block: string): string {
