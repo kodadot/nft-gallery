@@ -65,7 +65,7 @@ export default class PaginatedCardList extends mixins(
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'blockNumber_DESC',
+    sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
   protected first = 20
@@ -88,6 +88,18 @@ export default class PaginatedCardList extends mixins(
     }
 
     return params
+  }
+
+  get overrideMapSortBy(): string {
+    const remapTable = {
+      BLOCK_NUMBER_DESC: 'blockNumber_DESC',
+      BLOCK_NUMBER_ASC: 'blockNumber_ASC',
+      UPDATED_AT_DESC: 'updatedAt_DESC',
+      UPDATED_AT_ASC: 'updatedAt_ASC',
+      PRICE_DESC: 'price_DESC',
+      PRICE_ASC: 'price_ASC',
+    }
+    return remapTable[this.searchQuery.sortBy ? this.searchQuery.sortBy : "BLOCK_NUMBER_DESC  "]
   }
 
   set currentValue(page: number) {
@@ -123,11 +135,10 @@ export default class PaginatedCardList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
-      // client: this.urlPrefix,
       client: "subsquid",
       variables: {
         account: this.account,
-        orderBy: this.searchQuery.sortBy,
+        orderBy: this.overrideMapSortBy,
         and: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
