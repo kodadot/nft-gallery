@@ -1,0 +1,51 @@
+
+
+query nftListCollected(
+  $account: String!
+  $first: Int!
+  $offset: Int
+  $orderBy: NFTEntityOrderByInput = blockNumber_DESC
+  $and: [NFTEntityWhereInput!]
+) {
+  nftEntities(
+    where: {
+      issuer_not_eq: $account,
+      currentOwner_eq: $account,
+      name_not_contains: "%Kanaria%"
+      burned_eq: false
+    }
+    orderBy: [$orderBy, blockNumber_DESC]
+    limit:$first
+    offset:$offset
+  ) {
+    blockNumber
+    burned
+    createdAt
+    currentOwner
+    id
+    instance
+    issuer
+    metadata
+    name
+    price
+    sn
+    transferable
+    updatedAt
+    collection {
+      id
+    }
+ 
+  }
+  nftEntitiesConnection(
+    where: {
+      issuer_not_eq: $account
+      currentOwner_eq: $account
+      name_not_contains: "%Kanaria%"
+      burned_eq: false
+      AND: $and
+    }
+    orderBy: blockNumber_DESC 
+  ) {
+    totalCount
+  }
+}

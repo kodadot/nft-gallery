@@ -65,7 +65,7 @@ export default class PaginatedCardList extends mixins(
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
+    sortBy: 'blockNumber_DESC',
     listed: false,
   }
   protected first = 20
@@ -123,11 +123,12 @@ export default class PaginatedCardList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
-      client: this.urlPrefix,
+      // client: this.urlPrefix,
+      client: "subsquid",
       variables: {
         account: this.account,
         orderBy: this.searchQuery.sortBy,
-        search: this.buildSearchParam(),
+        and: this.buildSearchParam(),
         first: this.first,
         offset: (page - 1) * this.first,
       },
@@ -139,8 +140,8 @@ export default class PaginatedCardList extends mixins(
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
-      const { nodes, totalCount } = data.nFTEntities
-      const newNfts = nodes.map((e: any) => ({
+      const { nftEntities, nftEntitiesConnection } = data
+      const newNfts = nftEntities.map((e: any) => ({
         ...e,
         emoteCount: e?.emotes?.totalCount,
       }))
@@ -154,7 +155,7 @@ export default class PaginatedCardList extends mixins(
         this.items = this.items.concat(newNfts)
       }
 
-      this.total = totalCount
+      this.total = nftEntitiesConnection.totalCount
       this.isLoading = false
       this.$emit('change', this.total)
     }
