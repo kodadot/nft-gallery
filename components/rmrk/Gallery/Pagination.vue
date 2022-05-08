@@ -62,8 +62,9 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
   private bindPaginationEvents(event) {
     switch (event.key) {
       case 'n':
-        if (this.current < Math.ceil(this.total / this.perPage))
+        if (this.current < Math.ceil(this.total / this.perPage)) {
           this.current = this.current + 1
+        }
         break
       case 'p':
         if (this.current > 1) {
@@ -112,12 +113,14 @@ export default class Pagination extends mixins(KeyboardEventsMixin) {
 
   @Debounce(100)
   replaceUrl(value: string, key = 'page') {
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, [key]: value },
-      })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+    if (this.$route.query[key] !== value) {
+      this.$router
+        .replace({
+          path: String(this.$route.path),
+          query: { ...this.$route.query, [key]: value },
+        })
+        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+    }
   }
 }
 </script>

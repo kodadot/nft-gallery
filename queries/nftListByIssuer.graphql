@@ -23,6 +23,9 @@ query nftListByIssuer(
     nodes {
       ...nft
       ...nftDetails
+      emotes {
+        totalCount
+      }
     }
   }
 }

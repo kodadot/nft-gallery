@@ -28,7 +28,7 @@ export const SubstrateWallets = [
 
 export const SupportedWallets = isMobileDevice
   ? [new MathWallet(), new NovaWallet()]
-  : [new PolkadotjsWallet(), new SubWallet(), new TalismanWallet()]
+  : [new TalismanWallet(), new PolkadotjsWallet(), new SubWallet()]
 
 export function getWalletBySource(
   source: string | unknown

@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "Sei nuovo qui? Abbiamo una F.A.Q.",
   "Feedback? We\\'d be happy to discuss it.": "Feedback? Saremo felici di discuterne.",
   "Read our story, how we started.": "Leggi la nostra storia, come tutto è cominciato.",
-  "Frequently Asked Question": "Domande frequenti",
   "faq": {
+    "title": "Domande frequenti",
     "q": {
       "1": "Quale moneta è utilizzata per gli NFT?",
       "2": "Di quale portafoglio ho bisogno per coniare, comprare e collezionare?",

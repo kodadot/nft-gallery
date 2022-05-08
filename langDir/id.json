@@ -74,10 +74,10 @@
   "Layout Options": "Pengaturan Tataletak",
   "Gallery Items Per Page": "Item Galeri Per Halaman",
   "Collections Per Page": "Koleksi Per Halaman",
-  "Frequently Asked Question": "Pertanyaan yang sering di ajukan",
   "I am helping to cover costs": "Saya membantu menutupi biaya",
   "I do not want to support": "Saya tidak ingin mendukung",
   "faq": {
+    "title": "Pertanyaan yang sering di ajukan",
     "q": {
       "1": "Apa itu NFT?",
       "2": "Apa itu minting?",
@@ -110,7 +110,8 @@
     "a": {
       "1": {
         "m": "NFT atau token yang tidak dapat dipertukarkan mengacu pada aset unik, yang disimpan di blockchain dan mempertahankan kepemilikan unik. @.md:faq.a.1.l1",
-        "l1": "[Anda dapat menemukan lebih banyak tentang Token Non-Fungible di Wikipedia](@.common:links.wikipedia.nft)"      },
+        "l1": "[Anda dapat menemukan lebih banyak tentang Token Non-Fungible di Wikipedia](@.common:links.wikipedia.nft)"
+      },
       "2": {
         "m": "Pencetakan adalah proses di mana dompet cryptocurrency dan blockchain Anda berkomunikasi bersama dan membuat Anda dapat membuat NFT."
       },
@@ -464,7 +465,7 @@
     "pinImage": "Sematkan Gambar",
     "pinMeta": "Sematkan Metadata",
     "constructTx": "Membangun transaksi",
-    "sign": "Menunggu tanggapan dari singer",
+    "sign": "Menunggu tanggapan dari signer",
     "ipfs": "Mengunggah data ke IPFS",
     "arweave": "Menyimpan data melalui PermaFrost",
     "uploading": "({0}/{1}) Mengunggah data ke IPFS",
@@ -474,7 +475,6 @@
   "Simple": "Sederhana",
   "About": "Tentang",
   "FAQ": "FAQ",
-  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
   "Press Kit": "Press Kit",
   "Jobs": "Jobs",
   "theatre": "teater",

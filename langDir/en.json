@@ -74,10 +74,13 @@
   "Layout Options": "Layout Options",
   "Gallery Items Per Page": "Gallery Items Per Page",
   "Collections Per Page": "Collections Per Page",
-  "Frequently Asked Question": "Frequently Asked Question",
   "I am helping to cover costs": "I am helping to cover costs",
   "I do not want to support": "I do not want to support",
   "faq": {
+    "title": "Frequently Asked Questions",
+    "box_heading1": "Don't have time to read?",
+    "box_heading2": "No problem, check out",
+    "box_heading_link": "Our tutorials",
     "q": {
       "1": "What are NFTs?",
       "2": "What is minting?",
@@ -412,6 +415,7 @@
     }
   },
   "sort": {
+    "EMOTES_COUNT_DESC": "Most reacted",
     "BLOCK_NUMBER_DESC": "New first",
     "BLOCK_NUMBER_ASC": "Old first",
     "UPDATED_AT_DESC": "Last interacted",
@@ -517,7 +521,7 @@
     "pinImage": "Pinning Image",
     "pinMeta": "Pinning Metadata",
     "constructTx": "Constructing transaction",
-    "sign": "Waiting for response from singer",
+    "sign": "Waiting for response from signer",
     "ipfs": "Uploading data to IPFS",
     "arweave": "Storing data via PermaFrost",
     "uploading": "({0}/{1}) Uploading data to IPFS",
@@ -527,7 +531,7 @@
   "Simple": "Simple",
   "About": "About",
   "FAQ": "FAQ",
-  "Partnerships & Ambassadors": "Partnerships & Ambassadors",
+  "Ambassador Program": "Ambassador Program",
   "Press Kit": "Press Kit",
   "Jobs": "Jobs",
   "Contribute": "Contribute",
@@ -571,7 +575,8 @@
     "collectors": "Collectors",
     "score": "Score",
     "empty": "Empty",
-    "uniqueCollectors": "∃! collectors"
+    "uniqueCollectors": "∃! collectors",
+    "soldHistory": "Last 30Days Sold"
   },
   "series": {
     "title": "Top Collection",
@@ -580,16 +585,18 @@
     "buys": "Buys",
     "collected": "Collected",
     "floorprice": "Floor price",
+    "highestSale": "Highest Sale",
     "owners": "Owners",
-    "volume": "Volume"
+    "volume": "Volume",
+    "buyHistory": "Last 30Days Buy"
   },
   "activity": {
     "listed": "Listed",
-    "totalItems": "Total Items",
+    "totalItems": "Σ Items",
     "todayTraded": "24H",
-    "totalTraded": "TOTAL VOLUME TRADED",
-    "highestTransactionPrice": "HIGHEST TRANSACTION PRICE",
-    "totalBuys": "TOTAL BUYS",
+    "totalTraded": "Σ VOLUME TRADED",
+    "highestSale": "HIGHEST SALE",
+    "totalBuys": "Σ BUYS",
     "unique": "UNIQUE",
     "owners": "OWNERS",
     "distribution": "DISTRIBUTION",

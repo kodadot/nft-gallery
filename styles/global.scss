@@ -104,6 +104,16 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
   }
 
+  .animation-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal.is-active {
+    z-index: 99999;
+  }
+
   .modal-background {
     background-color: rgba(0, 0, 0, 0.86);
   }

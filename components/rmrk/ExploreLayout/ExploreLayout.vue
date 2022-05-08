@@ -6,10 +6,14 @@
     </div>
     <b-tabs v-model="selectedTab">
       <b-tab-item label="Collections" value="COLLECTION">
-        <CollectionList v-if="type === 'rmrk'" />
-        <Collections v-if="type !== 'rmrk'" />
+        <template v-if="selectedTab === 'COLLECTION'">
+          <CollectionList v-if="type === 'rmrk'" />
+          <Collections v-if="type !== 'rmrk'" />
+        </template>
       </b-tab-item>
-      <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
+      <b-tab-item label="Gallery" value="GALLERY"
+        ><Gallery v-if="selectedTab === 'GALLERY'"
+      /></b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -38,8 +42,13 @@ export default class ExploreLayout extends mixins(PrefixMixin) {
 
   set selectedTab(val) {
     this.$route.query.page = ''
-    let queryOptions: { tab: string; search?: string | (string | null)[] } = {
+    let queryOptions: {
+      tab: string
+      page: string
+      search?: string | (string | null)[]
+    } = {
       tab: val,
+      page: '1',
     }
     if (this.$route.query.search) {
       queryOptions.search = this.$route.query.search

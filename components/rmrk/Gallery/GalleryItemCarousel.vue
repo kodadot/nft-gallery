@@ -15,7 +15,7 @@ import { MIN_CAROUSEL_NFT } from '~/utils/constants'
 
 import collectionEntityById from '@/queries/rmrk/subsquid/collectionEntityById.graphql'
 import nftEntitiesByIDs from '@/queries/rmrk/subsquid/nftEntitiesByIDs.graphql'
-
+import { sortItemListByIds } from '@/utils/sorting'
 import { CarouselNFT } from '@/components/base/types'
 
 @Component({
@@ -61,7 +61,8 @@ export default class GalleryItemCarousel extends Vue {
         },
       })
 
-      this.nfts = await formatNFT(data?.nftEntities)
+      const sortedNftList = sortItemListByIds(data?.nftEntities, ids, 10)
+      this.nfts = await formatNFT(sortedNftList)
     }
   }
 
