@@ -359,6 +359,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   public async fetchCollectionsSeries({
     limit = 10,
     sort = toSort(this.sortBy),
+    timeRange = this.timeRange,
   }) {
     this.isLoading = true
     const collections = await this.$apollo.query({
@@ -369,6 +370,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         limit,
         offset: 0,
         orderBy: sort || 'volume_DESC',
+        timeRange,
       },
     })
 
@@ -425,6 +427,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         query: { ...this.$route.query, timerange: value },
       })
       .catch((e) => this.$consola.warn(e))
+    this.fetchCollectionsSeries({ timeRange: value })
   }
 
   @Watch('nbDays')
