@@ -524,6 +524,8 @@ export default class Profile extends mixins(
           id: this.id,
           and: {
             caller_eq: this.id,
+            first: this.first,
+            offset: (this.currentPage - 1) * this.first,
           },
         },
       })

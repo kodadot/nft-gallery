@@ -1,5 +1,5 @@
-query allEventsByProfil($id: String, $and: [EventWhereInput!]) {
-  events(where: {caller_eq : $id, AND: $and }) {
+query allEventsByProfil($id: String, $first: Int, $offset: Int, $and: [EventWhereInput!]) {
+  events(where: {caller_eq : $id, limit: $first, offset: $offset, AND: $and }) {
     meta
     interaction
     blockNumber
