@@ -1,7 +1,10 @@
 <template>
   <div>
-    <Search v-bind.sync="searchQuery" v-if="showSearchBar">
-      <Layout class="mr-5" />
+    <Search
+      v-bind.sync="searchQuery"
+      v-if="showSearchBar"
+      @resetPage="resetPage">
+      <Layout class="mr-5" @change="onResize" />
       <b-field>
         <Pagination
           hasMagicBtn
@@ -11,28 +14,33 @@
           v-model="currentValue" />
       </b-field>
     </Search>
+    <InfiniteLoading
+      v-if="startPage > 1 && !isLoading && total > 0"
+      direction="top"
+      @infinite="reachTopHandler"></InfiniteLoading>
     <GalleryCardList
       :items="items"
       horizontalLayout
       :route="route"
       :link="link"
       :listed="searchQuery.listed" />
-    <Pagination
-      class="pt-5 pb-5"
-      replace
-      :total="total"
-      v-model="currentValue" />
+    <InfiniteLoading
+      v-if="canLoadNextPage && !isLoading && total > 0"
+      @infinite="reachBottomHandler"></InfiniteLoading>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import { DocumentNode } from 'graphql'
 import { NFTWithMeta } from '../service/scheme'
 import { SearchQuery } from '@/components/rmrk/Gallery/Search/types'
+import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
+import { Debounce } from 'vue-debounce-decorator'
+import shouldUpdate from '~/utils/shouldUpdate'
 
 const components = {
   GalleryCardList: () => import('./GalleryCardList.vue'),
@@ -40,10 +48,14 @@ const components = {
   Search: () =>
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
 }
 
 @Component({ components })
-export default class PaginatedCardList extends mixins(PrefixMixin) {
+export default class PaginatedCardList extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin
+) {
   @Prop({ default: '/rmrk/detail' }) public route!: string
   @Prop({ default: 'rmrk/detail' }) public link!: string
   @Prop() public query!: DocumentNode
@@ -56,11 +68,9 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
-
-  private currentValue = 1
-  private first = 20
-  private total = 0
+  protected first = 20
   protected items: NFTWithMeta[] = []
+  private isLoading = true
 
   private buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
@@ -80,8 +90,26 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     return params
   }
 
-  get offset(): number {
-    return this.currentValue * this.first - this.first
+  set currentValue(page: number) {
+    this.gotoPage(page)
+  }
+
+  get currentValue() {
+    return this.currentPage
+  }
+
+  @Debounce(500)
+  private resetPage() {
+    this.gotoPage(1)
+  }
+
+  protected gotoPage(page: number) {
+    this.currentPage = page
+    this.startPage = page
+    this.endPage = page
+    this.items = []
+    this.isLoading = true
+    this.fetchPageData(page)
   }
 
   get remapSortBy(): string {
@@ -98,7 +126,15 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
   }
 
   created() {
-    this.$apollo.addSmartQuery('items', {
+    this.fetchPageData(this.startPage)
+  }
+
+  public async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) {
+      return false
+    }
+    this.isFetchingData = true
+    const result = await this.$apollo.query({
       query: this.query,
       manual: true,
       client: 'subsquid',
@@ -114,11 +150,13 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
           offset: this.offset,
         }
       },
-      fetchPolicy: 'cache-and-network',
     })
+    await this.handleResult(result, loadDirection)
+    this.isFetchingData = false
+    return true
   }
 
-  protected async handleResult({ data }: any) {
+  protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
       const {
         nftEntities,
@@ -127,10 +165,31 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
       await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
         this.$consola.warn
       )
+
+      if (loadDirection === 'up') {
+        this.items = newNfts.concat(this.items)
+      } else {
+        this.items = this.items.concat(newNfts)
+      }
+
       this.total = totalCount
       this.items = nftEntities
+      this.isLoading = false
       this.$emit('change', this.total)
     }
+  }
+
+  @Watch('$route.query.search')
+  protected onSearchChange(val: string, oldVal: string) {
+    if (shouldUpdate(val, oldVal)) {
+      this.resetPage()
+      this.searchQuery.search = val || ''
+    }
+  }
+
+  @Watch('searchQuery', { deep: true })
+  protected onSearchQueryChange() {
+    this.resetPage()
   }
 }
 </script>

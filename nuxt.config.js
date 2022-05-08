@@ -258,7 +258,7 @@ export default defineNuxtConfig({
       ...defineApolloConfig(),
       subsquid: toApolloEndpoint(
         process.env.SUBSQUID_ENDPOINT ||
-          'https://app.gc.subsquid.io/beta/rubick/005/graphql'
+          'https://app.gc.subsquid.io/beta/rubick/006/graphql'
       ),
       legacysquid: toApolloEndpoint(
         'https://app.gc.subsquid.io/beta/rubick/004/graphql'
@@ -268,6 +268,10 @@ export default defineNuxtConfig({
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    babel: {
+      // silence babel warning regarding exceeding file sizes (>500kb)
+      compact: true,
+    },
     transpile: [
       '@kodadot1/sub-api',
       '@polkadot/api',
@@ -281,6 +285,7 @@ export default defineNuxtConfig({
       '@polkadot/ui-settings',
       '@polkadot/hw-ledger',
       '@polkadot/types-codec',
+      '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
       // add markdown loader

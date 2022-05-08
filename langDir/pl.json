@@ -55,8 +55,8 @@
   "New here? We have F.A.Q.": "Sekcja pytań dla nowych użytkowników",
   "Feedback? We\\'d be happy to discuss it.": "Podziel się swoim komentarzem lub opinią",
   "Read our story, how we started.": "Jak to się wszystko zaczęło...",
-  "Frequently Asked Question": "Najważniejsze Pytania",
   "faq": {
+    "title": "Najważniejsze Pytania",
     "q": {
       "1": "Jakiego tokenu potrzebuję do stworzenia NFT?",
       "2": "Jakiego portfela potrzebuje do stworzenia, zakupu i obsługi?",
