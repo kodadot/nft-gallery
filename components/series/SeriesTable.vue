@@ -39,6 +39,16 @@
           <option value="100">100</option>
         </b-select>
       </b-field>
+      <b-field class="has-text-right" expanded>
+        <b-select v-model="timeRange">
+          <option
+            v-for="option in timeRanges"
+            :key="option.value"
+            :value="option.value">
+            {{ option.label }}
+          </option>
+        </b-select>
+      </b-field>
     </b-field>
 
     <b-table
@@ -300,6 +310,16 @@ const components = {
 export default class SeriesTable extends mixins(PrefixMixin) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
+  protected timeRanges = [
+    { label: '24 hours', value: '24 HOUR' },
+    { label: '7 days', value: '7 DAY' },
+    { label: '14 days', value: '14 DAY' },
+    { label: '30 days', value: '30 DAY' },
+    { label: '90 days', value: '90 DAY' },
+    { label: '180 days', value: '180 DAY' },
+    { label: 'All-time', value: 'ALL DAY' },
+  ]
+  protected timeRange = '7 DAY'
   protected nbDays = '7'
   protected nbRows = '50'
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
@@ -325,6 +345,9 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     })
     exist(this.$route.query.period, (val) => {
       this.nbDays = val
+    })
+    exist(this.$route.query.timerange, (val) => {
+      this.timeRange = val
     })
     exist(this.$route.query.sort, (val) => {
       this.sortBy.field = val.slice(1)
@@ -390,6 +413,15 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       })
       .catch((e) => this.$consola.warn(e))
     this.fetchCollectionsSeries(Number(value))
+  }
+  @Watch('timeRange')
+  public onTimeRangeChange(value: string) {
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, timerange: value },
+      })
+      .catch((e) => this.$consola.warn(e))
   }
 
   @Watch('nbDays')
