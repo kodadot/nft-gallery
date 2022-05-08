@@ -141,14 +141,12 @@ export default class PaginatedCardList extends mixins(
       update: ({ nftEntities }) => nftEntities,
       loadingKey: 'isLoading',
       result: this.handleResult,
-      variables: () => {
-        return {
-          account: this.account,
-          orderBy: this.remapSortBy,
-          AND: this.buildSearchParam(),
-          limit: this.first,
-          offset: this.offset,
-        }
+      variables: {
+        account: this.account,
+        orderBy: this.remapSortBy,
+        AND: this.buildSearchParam(),
+        limit: this.first,
+        offset: this.offset,
       },
     })
     await this.handleResult(result, loadDirection)

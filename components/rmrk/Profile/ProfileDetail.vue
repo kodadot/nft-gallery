@@ -178,14 +178,15 @@ import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import nftListByIssuer from '@/queries/rmrk/subsquid/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/rmrk/subsquid/nftListCollected.graphql'
-import nftListSold from '@/queries/rmrk/subsquid/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/rmrk/subsquid/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
+
+import firstNftByIssuer from '@/queries/rmrk/subsquid/general/firstNftByIssuer.graphql'
+import nftListByIssuer from '@/queries/rmrk/subsquid/general/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/rmrk/subsquid/general/nftListCollected.graphql'
+import nftListSold from '@/queries/rmrk/subsquid/general/nftListSold.graphql'
 
 const components = {
   GalleryCardList: () =>
