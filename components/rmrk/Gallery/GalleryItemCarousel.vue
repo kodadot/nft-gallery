@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import { formatNFT, shouldShowVisitedNfts } from '~/utils/carousel'
+import { formatNFT } from '~/utils/carousel'
 import { visitedNFT } from '~/utils/localStorage'
 import { MIN_CAROUSEL_NFT } from '~/utils/constants'
 
@@ -50,7 +50,7 @@ export default class GalleryItemCarousel extends Vue {
       this.nfts = await formatNFT(data?.collectionEntityById?.nfts)
     }
 
-    if (this.type === 'visited' && shouldShowVisitedNfts()) {
+    if (this.type === 'visited' && visitedNFT().length >= MIN_CAROUSEL_NFT) {
       let ids = visitedNFT().map((nft) => nft.id)
 
       const { data } = await this.$apollo.query({
