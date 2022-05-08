@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader :value="isLoading" />
-    <b-field grouped>
+    <b-field grouped expanded position="is-right">
       <!-- <b-field
         position="is-left"
         expanded
@@ -31,7 +31,7 @@
         </b-radio-button>
       </b-field> -->
 
-      <b-field class="has-text-right" expanded>
+      <b-field class="has-text-right">
         <b-select v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
@@ -39,7 +39,7 @@
           <option value="100">100</option>
         </b-select>
       </b-field>
-      <b-field class="has-text-right" expanded>
+      <b-field class="has-text-right">
         <b-select v-model="timeRange">
           <option
             v-for="option in timeRanges"
@@ -353,13 +353,13 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       this.sortBy.field = val.slice(1)
       this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
     })
-    await this.fetchCollectionsSeries(Number(this.nbRows))
+    await this.fetchCollectionsSeries({ limit: Number(this.nbRows) })
   }
 
-  public async fetchCollectionsSeries(
+  public async fetchCollectionsSeries({
     limit = 10,
-    sort: string = toSort(this.sortBy)
-  ) {
+    sort = toSort(this.sortBy),
+  }) {
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
@@ -401,7 +401,10 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         },
       })
       .catch((e) => this.$consola.warn(e))
-    this.fetchCollectionsSeries(Number(this.nbRows), toSort(sort))
+    this.fetchCollectionsSeries({
+      limit: Number(this.nbRows),
+      sort: toSort(sort),
+    })
   }
 
   @Watch('nbRows')
@@ -412,7 +415,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         query: { ...this.$route.query, rows: value },
       })
       .catch((e) => this.$consola.warn(e))
-    this.fetchCollectionsSeries(Number(value))
+    this.fetchCollectionsSeries({ limit: Number(value) })
   }
   @Watch('timeRange')
   public onTimeRangeChange(value: string) {
