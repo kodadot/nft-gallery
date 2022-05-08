@@ -167,13 +167,13 @@ export default class PaginatedCardList extends mixins(
       )
 
       if (loadDirection === 'up') {
-        this.items = newNfts.concat(this.items)
+        this.items = nftEntities.concat(this.items)
       } else {
-        this.items = this.items.concat(newNfts)
+        this.items = this.items.concat(nftEntities)
       }
 
       this.total = totalCount
-      this.items = nftEntities
+      // this.items = nftEntities
       this.isLoading = false
       this.$emit('change', this.total)
     }
