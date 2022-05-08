@@ -183,9 +183,9 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/nftListCollected.graphql'
+import nftListCollected from '@/queries/rmrk/subsquid/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
+import firstNftByIssuer from '@/queries/rmrk/subsquid/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
@@ -333,7 +333,7 @@ export default class Profile extends mixins(PrefixMixin) {
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
-        client: this.urlPrefix,
+        client: 'subsquid',
         manual: true,
         loadingKey: 'isLoading',
         result: this.handleResult,
@@ -344,7 +344,6 @@ export default class Profile extends mixins(PrefixMixin) {
         },
         fetchPolicy: 'cache-and-network',
       })
-
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
@@ -375,7 +374,7 @@ export default class Profile extends mixins(PrefixMixin) {
 
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
-      const nfts = data.nFTEntities.nodes
+      const nfts = data.nftEntities
       if (nfts?.length) {
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
