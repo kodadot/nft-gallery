@@ -178,10 +178,12 @@ import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/nftListCollected.graphql'
-import nftListSold from '@/queries/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
+
+import nftListByIssuer from '@/queries/general/subsquid/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/general/subsquid/nftListCollected.graphql'
+import nftListSold from '@/queries/general/subsquid/nftListSold.graphql'
+import firstNftByIssuer from '@/queries/general/subsquid/firstNftByIssuer.graphql'
+
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
@@ -366,7 +368,7 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
-        client: this.urlPrefix,
+        client: 'subsquid',
         manual: true,
         loadingKey: 'isLoading',
         result: this.handleResult,
@@ -391,7 +393,8 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
-      const nfts = data.nFTEntities.nodes
+      const nfts = data.nftEntities
+
       if (nfts?.length) {
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {
