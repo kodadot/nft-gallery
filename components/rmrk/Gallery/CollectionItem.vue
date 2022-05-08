@@ -442,6 +442,7 @@ export default class CollectionItem extends mixins(
       return this.$nuxt.error({
         statusCode: 404,
         message: 'Oops! Collection Not Found',
+        path: this.$route.path,
       })
     }
     this.firstMintDate = collectionEntity.createdAt

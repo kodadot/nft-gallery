@@ -2,6 +2,7 @@
   <div id="Error" class="box container has-text-centered">
     <h1 class="title">{{ error.statusCode }} - {{ headline }}</h1>
     <p class="subtitle">{{ error.message || 'Something went wrong' }}</p>
+    <p v-if="error.path" class="subtitle">Path: {{ error.path }}</p>
     <!-- <p class="subtitle">Indexer is not working properly.</p> -->
     <img
       v-if="error.statusCode === 500"
