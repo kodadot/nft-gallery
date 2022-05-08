@@ -53,7 +53,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
   private searchQuery: SearchQuery = {
     search: '',
     type: '',
-    sortBy: 'blockNumber_DESC',
+    sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
   }
 
@@ -84,6 +84,19 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     return this.currentValue * this.first - this.first
   }
 
+  get remapSortBy(): string {
+    const remapTable = {
+      BLOCK_NUMBER_DESC: 'blockNumber_DESC',
+      BLOCK_NUMBER_ASC: 'blockNumber_ASC',
+      UPDATED_AT_DESC: 'updatedAt_DESC',
+      UPDATED_AT_ASC: 'updatedAt_ASC',
+      PRICE_DESC: 'price_DESC',
+      PRICE_ASC: 'price_ASC',
+    }
+
+    return remapTable[this.searchQuery.sortBy]
+  }
+
   created() {
     this.$apollo.addSmartQuery('items', {
       query: this.query,
@@ -95,7 +108,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
       variables: () => {
         return {
           account: this.account,
-          orderBy: this.searchQuery.sortBy,
+          orderBy: this.remapSortBy,
           AND: this.buildSearchParam(),
           limit: this.first,
           offset: this.offset,
@@ -109,7 +122,7 @@ export default class PaginatedCardList extends mixins(PrefixMixin) {
     if (data) {
       const {
         nftEntities,
-        stats: { totalCount },
+        nftEntitiesConnection: { totalCount },
       } = data
       await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
         this.$consola.warn
