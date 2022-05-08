@@ -6,6 +6,8 @@ import {
 
 import { CarouselNFT } from '@/components/base/types'
 import { processSingleMetadata } from '~/utils/cachingStrategy'
+import { visitedNFT } from '~/utils/localStorage'
+import { MIN_CAROUSEL_NFT } from '~/utils/constants'
 
 /**
  * Format the data to fit with CarouselNFT[]
@@ -53,4 +55,8 @@ export const fallbackMetaByNftEvent = async (events: Events[]) => {
       await processSingleMetadata(event.nft.metadata)
     }
   }
+}
+
+export const shouldShowVisitedNfts = (): boolean => {
+  return visitedNFT().length > MIN_CAROUSEL_NFT
 }

@@ -120,7 +120,7 @@
     </template>
     <template v-slot:footer>
       <GalleryItemCarousel
-        v-if="showRelatedCarousel"
+        v-if="showVisitedNfts"
         type="related"
         :collectionId="nft.collectionId" />
       <GalleryItemCarousel type="visited" />
@@ -158,6 +158,7 @@ import axios from 'axios'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { shouldShowVisitedNfts } from '~/utils/carousel'
 
 @Component<GalleryItem>({
   components: {
@@ -362,10 +363,8 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     return this.balance ? Number(this.nft.price) > Number(this.balance) : true
   }
 
-  get showRelatedCarousel(): boolean {
-    return (
-      Boolean(this.nft.collectionId) && this.nftsFromSameCollection.length > 0
-    )
+  get showVisitedNfts(): boolean {
+    return shouldShowVisitedNfts()
   }
 
   protected handleAction() {
