@@ -19,12 +19,9 @@
           </a>
         </h1>
 
-        <span v-if="!displayName">
-          Add on-chain recognition for
-          <nuxt-link :to="`/identity`">
-            {{ shortendId }}
-          </nuxt-link>
-        </span>
+        <nuxt-link v-if="!displayName && isMyProfile" :to="`/identity`">
+          + {{ $t('identity.set') }}
+        </nuxt-link>
       </div>
     </div>
 
@@ -186,6 +183,7 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 const components = {
   GalleryCardList: () =>
@@ -222,7 +220,7 @@ const components = {
   },
   components,
 })
-export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
+export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin, AuthMixin) {
   public firstNFTData: any = {}
   protected id = ''
   protected shortendId = ''
@@ -320,6 +318,10 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get isMyProfile(): boolean {
+    return this.id === this.accountId
   }
 
   @Debounce(500)
