@@ -1,13 +1,9 @@
+#import "../../fragments/event.graphql"
+
 query allNftSaleEventsHistoryByAccountId($id: String) {
   events(
     where: { OR: [{ currentOwner_eq: $id }, { caller_eq: $id }, { meta_eq: $id }] }) {
-    meta
-    interaction
-    blockNumber
-    timestamp
-    currentOwner
-    caller
-    id
+    ...event
     nft {
       id
       name
