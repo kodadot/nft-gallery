@@ -1,15 +1,14 @@
 query firstNftByIssuer($account: String!) {
-  nFTEntities(
-    filter: {
-      issuer: { equalTo: $account }
-      name: { notLike: "%Kanaria%" }
-      burned: { distinctFrom: true }
-    }
-    orderBy: BLOCK_NUMBER_DESC
-    first: 1
+  nFTEntities: nftEntities(
+    where: { issuer_eq: $account, burned_eq: false }
+    limit: 1
+    orderBy: blockNumber_DESC
   ) {
-    nodes {
-      metadata
+    id
+    nodes: meta {
+      metadata: id
+      image
+      description
     }
   }
 }
