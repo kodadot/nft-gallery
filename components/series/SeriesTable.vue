@@ -493,12 +493,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-/* ??? global */
-.b-radio.is-selected {
-  color: #000;
-  background-color: $primary;
-}
-
 .history {
   width: 200px;
   height: 100px;

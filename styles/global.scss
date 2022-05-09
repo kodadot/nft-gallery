@@ -288,3 +288,21 @@ button.button.navbar-link-background {
   border: none!important;
   border-top: 1px solid $primary!important;
 }
+
+/* move to global */
+.is-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.force-clip {
+  max-width: 85%;
+  max-height: 24px;
+}
+.b-radio.radio.button.is-selected {
+  background-color: #db2980;
+}
+.b-radio.is-selected {
+  color: #000;
+  background-color: $primary;
+}

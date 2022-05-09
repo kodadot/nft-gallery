@@ -10,7 +10,7 @@
     class="carousel-card-list">
     <template #item="list">
       <div class="card mx-2">
-        <div class="card-image p-3">
+        <div class="card-image p-4">
           <nuxt-link :to="`/rmrk/gallery/${list.id}`">
             <PreviewMediaResolver
               v-if="list.animationUrl"
@@ -24,7 +24,7 @@
               custom-class="carousel__image-wrapper" />
           </nuxt-link>
         </div>
-        <div class="card-content px-3">
+        <div class="card-content px-4">
           <div class="media">
             <div class="media-content">
               <div class="title is-5 is-ellipsis has-text-weight-bold">
@@ -87,7 +87,6 @@ import AuthMixin from '@/utils/mixins/authMixin'
 import type { CarouselNFT } from './types'
 
 const components = {
-  // Identicon,
   Loader: () => import('@/components/shared/Loader.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -154,42 +153,19 @@ export default class CarouselList extends mixins(AuthMixin) {
 }
 
 .card {
-  // background-color: #0E0E10;
-  background-color: #000;
+  background-color: #0e0e10;
+  // background-color: #000;
   .media-content {
     width: 100%;
   }
-}
-
-/* move to global */
-.is-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.has-border-top {
-  border-top: 1px solid #989898;
-}
-
-.force-clip {
-  max-width: 85%;
-  max-height: 24px;
-}
-
-.card-image {
-  overflow: hidden;
-}
-</style>
-
-<style lang="scss">
-.card {
-  &:hover .carousel__image-wrapper img {
-    transform: scale(1.1);
-    transition: transform 0.3s linear;
-  }
-  .carousel__image-wrapper img {
-    transition: all 0.3s;
+  .card-image {
+    overflow: hidden;
+    figure {
+      transition: transform 0.2s;
+    }
+    figure:hover {
+      transform: scale(1.1);
+    }
   }
   .card-footer {
     border-top-color: hsla(0, 0%, 60%, 1);

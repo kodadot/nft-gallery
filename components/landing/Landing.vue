@@ -1,7 +1,7 @@
 <template>
   <section class="homepage section">
     <div class="container">
-      <div class="columns">
+      <div class="columns is-vcentered">
         <div class="column">
           <h3
             class="title is-1 is-size-3-mobile is-flex is-flex-direction-column uppercase homepage__heading">
@@ -29,7 +29,7 @@
           <LazyGalleryCuratedList v-if="prefix === 'rmrk'" />
         </div>
       </div>
-      <div class="pt-6">
+      <div class="mt-6">
         <div class="tile is-ancestor">
           <div class="tile is-horizontal">
             <div class="tile is-parent is-6">
@@ -121,8 +121,7 @@ export default class Landing extends Vue {
     border: 1px solid #3f3f3f;
     border-radius: 12px;
     box-sizing: border-box;
-    // filter: drop-shadow(-10px 4px 20px #3f3f3f);
-    box-shadow: -10px 4px 20px #3f3f3f;
+    box-shadow: -8px 4px 8px #3f3f3f;
 
     .title {
       color: $primary !important;
