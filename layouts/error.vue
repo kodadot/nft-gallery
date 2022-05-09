@@ -5,8 +5,7 @@
     <p v-if="error.path" class="subtitle">Path: {{ error.path }}</p>
     <!-- <p class="subtitle">Indexer is not working properly.</p> -->
     <img
-      v-if="error.statusCode === 500"
-      src="https://http.cat/500"
+      src="`https://http.cat/${error.statusCode}`"
       alt="Internal error cat"
       class="mb-5" />
     <p class="subtitle">
