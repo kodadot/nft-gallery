@@ -212,7 +212,7 @@ const components = {
       type: 'profile',
       description:
         this.firstNFTData.description || 'Find more NFTs from this creator',
-      url: `/westmint/u/${this.id}`,
+      url: `/${this.urlPrefix}/u/${this.id}`,
       image: this.firstNFTData.image || this.defaultNFTImage,
     }
     return {
@@ -378,10 +378,6 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
         fetchPolicy: 'cache-and-network',
       })
 
-      // this.packs = await rmrkService
-      //   .getPackListForAccount(this.id)
-      //   .then(defaultSortBy);
-      // this.$consola.log(packs)
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       this.$consola.warn(e)
