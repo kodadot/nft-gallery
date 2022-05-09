@@ -110,7 +110,8 @@
           <InfiniteLoading
             v-if="startPage > 1 && !isLoading && total > 0"
             direction="top"
-            @infinite="reachTopHandler"></InfiniteLoading>
+            @infinite="reachTopHandler">
+          </InfiniteLoading>
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
@@ -119,7 +120,8 @@
             horizontalLayout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && total > 0"
-            @infinite="reachBottomHandler"></InfiniteLoading>
+            @infinite="reachBottomHandler">
+          </InfiniteLoading>
         </b-tab-item>
         <b-tab-item label="History" value="history">
           <History
@@ -302,6 +304,7 @@ export default class Profile extends mixins(
 
   public async mounted() {
     await this.fetchProfile()
+    // this.fetchCollectionEvents()
   }
 
   public checkId() {
@@ -461,7 +464,7 @@ export default class Profile extends mixins(
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
     }
 
-    if (this.activeTab == 'history') {
+    if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
   }
@@ -522,10 +525,10 @@ export default class Profile extends mixins(
         client: 'subsquid',
         variables: {
           id: this.id,
-          and: {
+          search: {
             caller_eq: this.id,
-            first: this.first,
-            offset: (this.currentPage - 1) * this.first,
+            // first: this.first,
+            // offset: (this.currentValue - 1) * this.first,
           },
         },
       })
@@ -574,9 +577,17 @@ export default class Profile extends mixins(
     if (shouldUpdate(val, oldVal)) {
       this.resetPage()
       this.fetchProfile()
-      if (this.activeTab == 'history') {
+
+      if (this.activeTab === 'history') {
         this.fetchCollectionEvents()
       }
+    }
+  }
+
+  @Watch('activeTab')
+  protected onTabChange(val: string, oldVal: string): void {
+    if (this.activeTab === 'history') {
+      this.fetchCollectionEvents()
     }
   }
 }
