@@ -28,6 +28,10 @@
       </div>
     </div>
 
+    <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <ProfilActivity :id="id" />
+    </div>
+
     <div class="columns is-mobile">
       <div class="column">
         <div class="label">
@@ -201,6 +205,7 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ProfilActivity: () => import('@/components/rmrk/Profile/ProfilActivity.vue'),
 }
 
 @Component<Profile>({
