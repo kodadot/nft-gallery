@@ -197,8 +197,7 @@
         field="averagePrice"
         :label="$t('series.averagePrice')"
         numeric
-        cell-class="is-vcentered"
-        sortable>
+        cell-class="is-vcentered">
         <template v-if="!isLoading">
           <Money :value="props.row.averagePrice" inline hideUnit />
         </template>
