@@ -575,7 +575,7 @@ export default class CommonHolderTable extends mixins(
       flex-direction: column-reverse;
     }
   }
-  @media screen and (min-width: $tablet) {
+  @include tablet {
     .short-name-column {
       width: 20%;
     }
