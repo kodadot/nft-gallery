@@ -12,6 +12,7 @@ export type SearchQuery = {
   type?: string
   sortBy?: string
   listed: boolean
+  owned?: boolean
   priceMin?: number
   priceMax?: number
 }

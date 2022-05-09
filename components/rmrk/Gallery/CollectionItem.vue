@@ -66,6 +66,7 @@
       <b-tab-item label="Items" value="items">
         <Search
           v-bind.sync="searchQuery"
+          :showOwnerSwitch.sync="accountId"
           :disableToggle="!totalListed"
           :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
@@ -141,6 +142,7 @@ import { NFT } from '@/components/rmrk/service/scheme'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
 import ChainMixin from '@/utils/mixins/chainMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
 import { mapOnlyMetadata } from '~/utils/mappers'
@@ -184,7 +186,8 @@ export default class CollectionItem extends mixins(
   ChainMixin,
   PrefixMixin,
   CreatedAtMixin,
-  InfiniteScrollMixin
+  InfiniteScrollMixin,
+  AuthMixin
 ) {
   @Ref('tabsContainer') readonly tabsContainer
   private id = ''
@@ -196,6 +199,7 @@ export default class CollectionItem extends mixins(
       type: '',
       sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
       listed: false,
+      owned: false,
     },
     this.$route.query
   )
@@ -285,6 +289,12 @@ export default class CollectionItem extends mixins(
     if (this.searchQuery.listed || checkForEmpty) {
       params.push({
         price: { greaterThan: '0' },
+      })
+    }
+
+    if (this.searchQuery.owned) {
+      params.push({
+        currentOwner: { equalTo: this.accountId },
       })
     }
 
