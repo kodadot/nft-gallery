@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, mixins } from 'nuxt-property-decorator'
 import {
   getCloudflareImageLinks,
   getProperImageLink,
@@ -33,6 +33,7 @@ import {
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { fallbackMetaByNftEvent } from '@/utils/carousel'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -42,7 +43,7 @@ const components = {
 @Component<NewestList>({
   components,
 })
-export default class NewestList extends Vue {
+export default class NewestList extends mixins(PrefixMixin) {
   private nfts: any[] = []
   private events: any[] = []
   private total = 0
@@ -58,7 +59,7 @@ export default class NewestList extends Vue {
           events: { meta; nft: { meta: { id; image } } }
         }>({
           query: lastNftListByEvent,
-          client: 'legacysquid',
+          client: this.client,
           variables: {
             limit: 10,
             event: 'LIST',
