@@ -2,7 +2,7 @@
   <ModalWrapper
     icon="qrcode"
     :title="title"
-    :type="'is-primary is-bordered-light share-button'">
+    type="is-bordered-light share-button">
     <template v-slot:default>
       <QRCode :text="qrCodePath" color="#db2980" bgColor="#000" />
     </template>
