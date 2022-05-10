@@ -28,11 +28,7 @@
       </div>
     </div>
 
-    <div class="column is-6-tablet is-7-desktop is-8-widescreen">
-      <ProfilActivity :id="id" />
-    </div>
-
-    <div class="columns is-mobile">
+    <div class="columns is-mobile is-align-items-center">
       <div class="column">
         <div class="label">
           {{ $t('profile.user') }}
@@ -40,6 +36,9 @@
         <div class="subtitle is-size-6">
           <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
         </div>
+      </div>
+      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+        <ProfilActivity :id="id" />
       </div>
       <div class="column has-text-right">
         <div class="is-flex is-justify-content-right">

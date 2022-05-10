@@ -5,21 +5,20 @@
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
           <p class="heading">
-            {{ $t('activity.listed') }} / {{ $t('activity.totalItems') }}
+            {{ $t('profil_stats.listed') }} /
+            {{ $t('profil_stats.totalItems') }}
           </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">
-            <Money :value="collectionDailyTradedVolumeNumber" inline /> ⊆
-            <Money :value="collectionTradedVolumeNumber" inline />
-          </p>
+          <p class="title">{{ holdingsNft }}</p>
           <p class="heading">
-            {{ $t('activity.todayTraded') }} / {{ $t('activity.totalTraded') }}
+            {{ $t('profil_stats.holdingsNfts') }}
           </p>
         </div>
       </div>
+
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
@@ -27,36 +26,44 @@
             {{ totalPurchases }}
           </p>
           <p class="heading">
-            {{ $t('activity.highestSale') }} /
-            {{ $t('activity.totalBuys') }}
+            {{ $t('profil_stats.highestBuy') }} /
+            {{ $t('profil_stats.totalBuys') }}
           </p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="title">
-            {{ uniqueOwnerCount }} ⊆ {{ differentOwnerCount }}
-          </p>
-          <p class="heading">
-            {{ $t('activity.unique') }} / {{ $t('activity.owners') }}
-          </p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="title">
-            {{ disributionCount }}
-          </p>
-          <p class="heading">{{ $t('activity.distribution') }}</p>
         </div>
       </div>
 
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="collectionFloorPrice" inline />
+            <Money :value="totalAmountSpend" inline />
           </p>
-          <p class="heading">{{ $t('activity.floorPrice') }}</p>
+          <p class="heading">
+            {{ $t('profil_stats.totalAmountSpend') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="title">
+            <Money :value="totalHoldingsBoughtValues" inline /> ⊆
+          </p>
+          <p class="heading">
+            {{ $t('profil_stats.totalHoldingsBoughtValues') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="title">
+            <Money :value="maxSoldPrice" inline /> ⊆
+            <Money :value="totalSell" inline /> Σ
+          </p>
+          <p class="heading">
+            {{ $t('profil_stats.maxSoldPrice') }} /
+            {{ $t('profil_stats.totalSellValues') }}
+          </p>
         </div>
       </div>
     </div>
@@ -65,27 +72,22 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import {
-  Interaction,
-  CollectionEventsStats,
-} from '@/components/rmrk/service/scheme'
-import { after, getVolume, pairListBuyEvent } from '@/utils/math'
+import { Interaction } from '@/components/rmrk/service/scheme'
+import { pairListBuyEvent } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import collectionStatsById from '@/queries/collectionStatsById.graphql'
-import collectionBuyEventStatsById from '@/queries/rmrk/subsquid/collectionBuyEventStatsById.graphql'
-import { notificationTypes, showNotification } from '@/utils/notification'
+import profilStatsById from '@/queries/rmrk/subsquid/profilStatsById.graphql'
+import { Event } from '../service/types'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
 }
 type Stats = {
   listedCount: number
-  collectionLength: number
+  totalCollected: number
   collectionFloorPrice: number
-  uniqueOwnerCount: number
-  differentOwnerCount: number
-  saleEvents: Interaction[]
+  totalGiftItems: number
+  gainsOfSoldItems: number
 }
 
 @Component({ components })
@@ -95,112 +97,122 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
 
   protected stats: Stats = {
     listedCount: 0,
-    collectionLength: 0,
+    totalCollected: 0,
     collectionFloorPrice: 0,
-    uniqueOwnerCount: 0,
-    differentOwnerCount: 0,
-    saleEvents: [],
+    totalGiftItems: 0,
+    gainsOfSoldItems: 0,
   }
   totalPurchases = 0
+  totalAmountSpend = 0
   highestBuyPrice = 0
-
-  public created(): void {
-    this.fetchBuyEvents()
-  }
+  maxSoldPrice = 0
+  totalSell: BigInt = BigInt(0)
+  totalSoldItems = 0
+  totalHoldingsBoughtValues = 0
 
   async fetch() {
     if (!this.id) {
-      this.$consola.warn('CollectionActivity: id is not defined')
+      this.$consola.warn('ProfilActivity: id is not defined')
       return
     }
 
-    const { data } = await this.$apollo
-      .query({
-        query: collectionStatsById,
-        client: this.urlPrefix,
-        variables: {
-          id: this.id,
+    const { data } = await this.$apollo.query({
+      query: profilStatsById,
+      client: 'subsquid',
+      variables: {
+        id: this.id,
+        search_sold: {
+          interaction_eq: 'SEND',
+          nft: { name_not_contains: '%Kanaria%', burned_eq: false },
         },
-      })
-      .catch((e) => {
-        this.$consola.warn(e)
-        return { data: null }
-      })
+        search_listed: { interaction_eq: 'LIST' },
+        search_collected: { currentOwner_eq: this.id },
+        search_invested: {
+          interaction_eq: 'BUY',
+          nft: { name_not_contains: '%Kanaria%', burned_eq: false },
+        },
+      },
+    })
 
     if (!data) {
       this.$consola.log('stats is null')
       return
     }
+    const collectedEvents = data.collected
+    const listedEvents = data.listed
+    const investedEvents = data.invested
+    // Collector stats
+    // Invested and Spend Statistics
+    const holdingsEvents = investedEvents.filter(
+      (x) => x.nft.currentOwner == this.id
+    )
+
+    if (investedEvents.length > 0) {
+      const maxPriceInvested = Math.max(
+        ...investedEvents.map((n: Event, i: number) => {
+          return n.meta
+        })
+      )
+      this.totalPurchases = investedEvents.length
+      // Amount spend for holding this nft in the wallet
+      this.totalHoldingsBoughtValues = holdingsEvents
+        .map((x) => BigInt(x.meta || 0))
+        .reduce((acc, cur) => acc + cur, BigInt(0))
+      this.totalAmountSpend = investedEvents
+        .map((x) => BigInt(x.meta || 0))
+        .reduce((acc, cur) => acc + cur, BigInt(0))
+      this.highestBuyPrice = maxPriceInvested
+    }
+
+    const soldEvents: Interaction[] = []
+    // Sellor stats
+    // Check all SEND events, and get the List event for keep the price with e.meta
+    data.sold.forEach((e: Event) => {
+      if (e.nft && e.nft.events && e.nft.events.length > 0) {
+        const buyEvents = pairListBuyEvent(
+          e.nft.events as unknown as Interaction[]
+        )
+        buyEvents.forEach((ev) => {
+          soldEvents.push(ev)
+        })
+      }
+    })
+
+    const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
+    const maxPriceSold = Math.max(...allValuesList)
+    // Highest Buy and Total amount sell
+    this.maxSoldPrice = maxPriceSold
+    this.totalSell = allValuesList
+      .map((x) => BigInt(x || 0))
+      .reduce((acc, cur) => acc + cur, BigInt(0))
 
     this.stats = {
-      listedCount: data.stats.listed.count,
-      collectionLength: data.stats.base.count,
-      collectionFloorPrice: data.stats.listed.aggregates.floor.value,
-      uniqueOwnerCount: data.stats.base.aggregates.distinctCount.currentOwner,
-      differentOwnerCount: data.stats.base.nfts.filter(this.differentOwner)
-        .length,
-      saleEvents: data.stats.base.nfts
-        .map((nft) => nft.events)
-        .map(pairListBuyEvent)
-        .flat(),
+      listedCount: listedEvents.length - this.holdingsNft,
+      totalCollected: collectedEvents.length,
+      collectionFloorPrice: soldEvents.length,
+      gainsOfSoldItems: soldEvents.length,
+      totalGiftItems: soldEvents.length,
     }
   }
 
-  get saleEvents(): Interaction[] {
-    return this.stats.saleEvents
-  }
-
   get collectionLength(): number {
-    return this.stats.collectionLength
+    return this.stats.totalCollected
   }
 
   get listedCount(): number {
     return this.stats.listedCount
   }
 
+  get totalGiftItems(): number {
+    return this.stats.totalGiftItems
+  }
+
   get collectionFloorPrice(): number {
     return this.stats.collectionFloorPrice
   }
 
-  get disributionCount(): string {
-    return (this.differentOwnerCount / this.uniqueOwnerCount || 1).toFixed(4)
-  }
-
-  get uniqueOwnerCount(): number {
-    return this.stats.uniqueOwnerCount
-  }
-
-  get differentOwnerCount(): number {
-    return this.stats.differentOwnerCount
-  }
-
-  get collectionTradedVolumeNumber(): bigint {
-    return getVolume(this.saleEvents)
-  }
-
-  get collectionDailyTradedVolumeNumber(): bigint {
-    return getVolume(this.saleEvents.filter(after(this.yesterdayDate)))
-  }
-
-  protected async fetchBuyEvents() {
-    try {
-      const { data } = await this.$apollo.query<{
-        stats: CollectionEventsStats[]
-      }>({
-        query: collectionBuyEventStatsById,
-        client: 'subsquid',
-        variables: {
-          id: this.id,
-        },
-      })
-      if (data && data.stats && data.stats[0]) {
-        const { max, count } = data.stats[0]
-        this.totalPurchases = count
-        this.highestBuyPrice = parseInt(max)
-      }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-    }
+  get holdingsNft(): number {
+    return this.stats.totalCollected - this.stats.listedCount
   }
 
   protected differentOwner(nft: {
