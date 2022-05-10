@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+      <div v-if="id" class="column is-6-tablet is-7-desktop is-8-widescreen">
         <CollectionActivity :id="id" />
       </div>
 
@@ -439,8 +439,11 @@ export default class CollectionItem extends mixins(
   ): Promise<void> {
     const { collectionEntity } = data
     if (!collectionEntity) {
-      this.$router.push({ name: 'errorcollection' })
-      return
+      return this.$nuxt.error({
+        statusCode: 404,
+        message: 'Oops! Collection Not Found',
+        path: this.$route.path,
+      })
     }
     this.firstMintDate = collectionEntity.createdAt
     const newNfts = collectionEntity.nfts.nodes.map((e: any) => ({
