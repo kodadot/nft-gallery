@@ -125,7 +125,14 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
           interaction_eq: 'SEND',
           nft: { name_not_contains: '%Kanaria%', burned_eq: false },
         },
-        search_listed: { interaction_eq: 'LIST' },
+        search_listed: {
+          interaction_eq: 'LIST',
+          nft: {
+            currentOwner_eq: this.id,
+            name_not_contains: '%Kanaria%',
+            burned_eq: false,
+          },
+        },
         search_collected: { currentOwner_eq: this.id },
         search_invested: {
           interaction_eq: 'BUY',
