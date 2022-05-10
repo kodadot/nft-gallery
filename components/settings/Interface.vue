@@ -75,6 +75,19 @@
           </option>
         </b-select>
       </b-field>
+      <b-field :label="$t('preferences.exploreTabOrder')" class="field-width">
+        <b-select
+          v-model="exploreTabOrder"
+          expanded
+          :disabled="!enabledAdvancedUI">
+          <option
+            v-for="option in exploreTabOptions"
+            :key="option"
+            :value="option">
+            {{ option }}
+          </option>
+        </b-select>
+      </b-field>
     </div>
   </div>
 </template>
@@ -90,6 +103,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 })
 export default class Interface extends Vue {
   public paginationOptions = [9, 12, 24, 36]
+  public exploreTabOptions = ['GALLERY', 'COLLECTION']
 
   get enabledAdvancedUI(): boolean {
     return this.$store.state.preferences.advancedUI
@@ -161,6 +175,14 @@ export default class Interface extends Vue {
 
   set collectionsPerPage(value: number) {
     this.$store.dispatch('preferences/setCollectionsPerPage', value)
+  }
+
+  get exploreTabOrder(): number {
+    return this.$store.state.preferences.exploreTabOrder
+  }
+
+  set exploreTabOrder(value: number) {
+    this.$store.dispatch('preferences/setExploreTabOrder', value)
   }
 
   get enableAllArtworks(): boolean {

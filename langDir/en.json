@@ -585,6 +585,7 @@
     "buys": "Buys",
     "collected": "Collected",
     "floorprice": "Floor price",
+    "averagePrice": "Average price",
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
@@ -723,6 +724,7 @@
     "priceVisible": "Always show price in gallery and collection view by default",
     "mintTimeVisible": "Always show mint time in collection view by default",
     "loadAllArtworks": "Load all artworks in gallery on default (videos, etc.)",
-    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs"
+    "enableGyroEffect": "Enable gyroscopic effect in gallery for 3d NFTs",
+    "exploreTabOrder": "Default tab in explore"
   }
 }
