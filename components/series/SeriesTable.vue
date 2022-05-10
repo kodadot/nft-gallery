@@ -295,7 +295,7 @@
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
         field="buyHistory"
-        :label="$t('series.buyHistory')">
+        :label="dateRangeHeader">
         <b-skeleton v-if="isLoading" :active="isLoading" />
         <PulseChart
           v-else
@@ -431,6 +431,14 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     )
 
     this.isLoading = false
+  }
+
+  private get dateRangeHeader() {
+    if (this.timeRange === 'ALL TIME') {
+      return `${this.timeRanges} Buy`
+    } else {
+      return `Last ${this.timeRange}S Buy`
+    }
   }
 
   protected async fetchCollectionEvents(ids: string[]) {
