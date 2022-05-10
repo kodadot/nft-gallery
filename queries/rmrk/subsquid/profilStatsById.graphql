@@ -15,22 +15,6 @@ query profilStatsById($id: String!, $search_listed: [EventWhereInput!],  $search
       }
     }
   }
-  # collected : events(where: { AND: $search_collected },  ) {
-  #   meta
-  #   interaction
-  #   blockNumber
-  #   timestamp
-  #   caller
-  #   id
-  #   nft {
-  #     id
-  #     name
-  #     collection {
-  #       id
-  #       name
-  #     }
-  #   }
-  # }
   collected : nftEntities(where: { AND: $search_collected },  ) {
     blockNumber
     burned

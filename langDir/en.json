@@ -612,6 +612,7 @@
     "holdingsNfts":"Holdings values",
     "maxSoldPrice":"Max sold price",
     "totalSellValues":"Σ sell values",
+    "totalSoldItems":"Σ sold items",
     "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
   },
   "tutorial": {

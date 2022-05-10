@@ -3,16 +3,16 @@
     <div class="level my-4 collection is-align-items-center" v-if="stats">
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ listedCount }} ⊆ {{ collectionLength }}</p>
+          <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
           <p class="heading">
             {{ $t('profil_stats.listed') }} /
-            {{ $t('profil_stats.totalItems') }}
+            {{ $t('profil_stats.totalSoldItems') }}
           </p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="title">{{ holdingsNft }}</p>
+          <p class="title">{{ totalHoldingsNfts }}</p>
           <p class="heading">
             {{ $t('profil_stats.holdingsNfts') }}
           </p>
@@ -22,11 +22,9 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">
-            <Money :value="highestBuyPrice" inline /> ⊆
             {{ totalPurchases }}
           </p>
           <p class="heading">
-            {{ $t('profil_stats.highestBuy') }} /
             {{ $t('profil_stats.totalBuys') }}
           </p>
         </div>
@@ -34,10 +32,12 @@
 
       <div class="level-item has-text-centered">
         <div>
+          <p class="title"><Money :value="highestBuyPrice" inline /> ⊆</p>
           <p class="title">
             <Money :value="totalAmountSpend" inline />
           </p>
           <p class="heading">
+            {{ $t('profil_stats.highestBuy') }} /
             {{ $t('profil_stats.totalAmountSpend') }}
           </p>
         </div>
@@ -58,7 +58,7 @@
         <div>
           <p class="title">
             <Money :value="maxSoldPrice" inline /> ⊆
-            <Money :value="totalSell" inline /> Σ
+            <Money :value="totalSell" inline />
           </p>
           <p class="heading">
             {{ $t('profil_stats.maxSoldPrice') }} /
@@ -85,9 +85,6 @@ const components = {
 type Stats = {
   listedCount: number
   totalCollected: number
-  collectionFloorPrice: number
-  totalGiftItems: number
-  gainsOfSoldItems: number
 }
 
 @Component({ components })
@@ -98,9 +95,6 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
   protected stats: Stats = {
     listedCount: 0,
     totalCollected: 0,
-    collectionFloorPrice: 0,
-    totalGiftItems: 0,
-    gainsOfSoldItems: 0,
   }
   totalPurchases = 0
   totalAmountSpend = 0
@@ -109,6 +103,7 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
   totalSell: BigInt = BigInt(0)
   totalSoldItems = 0
   totalHoldingsBoughtValues = 0
+  totalGiftItems = 0
 
   async fetch() {
     if (!this.id) {
@@ -133,7 +128,8 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
             burned_eq: false,
           },
         },
-        search_collected: { currentOwner_eq: this.id },
+        search_collected: { currentOwner_eq: this.id, burned_eq: false },
+
         search_invested: {
           interaction_eq: 'BUY',
           nft: { name_not_contains: '%Kanaria%', burned_eq: false },
@@ -150,10 +146,6 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
     const investedEvents = data.invested
     // Collector stats
     // Invested and Spend Statistics
-    const holdingsEvents = investedEvents.filter(
-      (x) => x.nft.currentOwner == this.id
-    )
-
     if (investedEvents.length > 0) {
       const maxPriceInvested = Math.max(
         ...investedEvents.map((n: Event, i: number) => {
@@ -161,14 +153,20 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
         })
       )
       this.totalPurchases = investedEvents.length
-      // Amount spend for holding this nft in the wallet
-      this.totalHoldingsBoughtValues = holdingsEvents
-        .map((x) => BigInt(x.meta || 0))
-        .reduce((acc, cur) => acc + cur, BigInt(0))
+
+      const holdingsEvents = investedEvents.filter(
+        (x) => x.nft.currentOwner == this.id
+      )
+
       this.totalAmountSpend = investedEvents
         .map((x) => BigInt(x.meta || 0))
         .reduce((acc, cur) => acc + cur, BigInt(0))
       this.highestBuyPrice = maxPriceInvested
+
+      // Amount spend for holding this nft in the wallet
+      this.totalHoldingsBoughtValues = holdingsEvents
+        .map((x) => BigInt(x.meta || 0))
+        .reduce((acc, cur) => acc + cur, BigInt(0))
     }
 
     const soldEvents: Interaction[] = []
@@ -185,6 +183,7 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
       }
     })
 
+    this.totalSoldItems = soldEvents.length
     const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
     const maxPriceSold = Math.max(...allValuesList)
     // Highest Buy and Total amount sell
@@ -194,15 +193,12 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
       .reduce((acc, cur) => acc + cur, BigInt(0))
 
     this.stats = {
-      listedCount: listedEvents.length - this.holdingsNft,
+      listedCount: listedEvents.length,
       totalCollected: collectedEvents.length,
-      collectionFloorPrice: soldEvents.length,
-      gainsOfSoldItems: soldEvents.length,
-      totalGiftItems: soldEvents.length,
     }
   }
 
-  get collectionLength(): number {
+  get totalCollected(): number {
     return this.stats.totalCollected
   }
 
@@ -210,16 +206,8 @@ export default class ProfilActivity extends mixins(PrefixMixin) {
     return this.stats.listedCount
   }
 
-  get totalGiftItems(): number {
-    return this.stats.totalGiftItems
-  }
-
-  get collectionFloorPrice(): number {
-    return this.stats.collectionFloorPrice
-  }
-
-  get holdingsNft(): number {
-    return this.stats.totalCollected - this.stats.listedCount
+  get totalHoldingsNfts(): number {
+    return this.stats.totalCollected
   }
 
   protected differentOwner(nft: {
