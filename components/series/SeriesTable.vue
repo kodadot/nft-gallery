@@ -194,6 +194,18 @@
 
       <b-table-column
         v-slot="props"
+        field="averagePrice"
+        :label="$t('series.averagePrice')"
+        numeric
+        cell-class="is-vcentered">
+        <template v-if="!isLoading">
+          <Money :value="props.row.averagePrice" inline hideUnit />
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
         field="highestSale"
         :label="$t('series.highestSale')"
         numeric
@@ -313,7 +325,14 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort, lastmonthDate, today, getDateArray, onlyDate } from './utils'
+import {
+  toSort,
+  lastmonthDate,
+  today,
+  getDateArray,
+  onlyDate,
+  calculateAvgPrice,
+} from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -399,6 +418,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         ...e,
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
+        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
         buyHistory: axisLize(
           Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
         ),
