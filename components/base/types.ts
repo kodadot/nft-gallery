@@ -18,6 +18,7 @@ export type CarouselNFT = {
   currentOwner: string
   id: string
   image: string
+  animationUrl: string | null
   issuer: string
   meta: {
     id: string

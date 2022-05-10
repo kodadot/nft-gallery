@@ -5,11 +5,28 @@
       <span class="text__stroked is-size-3">{{ $route.query.search }}</span>
     </div>
     <b-tabs v-model="selectedTab">
-      <b-tab-item label="Collections" value="COLLECTION">
-        <CollectionList v-if="type === 'rmrk'" />
-        <Collections v-if="type !== 'rmrk'" />
-      </b-tab-item>
-      <b-tab-item label="Gallery" value="GALLERY"><Gallery /></b-tab-item>
+      <template v-if="tabOrder === 'GALLERY'">
+        <b-tab-item label="Gallery" value="GALLERY"
+          ><Gallery v-if="selectedTab === 'GALLERY'"
+        /></b-tab-item>
+        <b-tab-item label="Collections" value="COLLECTION">
+          <template v-if="selectedTab === 'COLLECTION'">
+            <CollectionList v-if="type === 'rmrk'" />
+            <Collections v-if="type !== 'rmrk'" />
+          </template>
+        </b-tab-item>
+      </template>
+
+      <template v-else>
+        <b-tab-item label="Collections" value="COLLECTION">
+          <template v-if="selectedTab === 'COLLECTION'">
+            <CollectionList v-if="type === 'rmrk'" />
+            <Collections v-if="type !== 'rmrk'" />
+          </template>
+        </b-tab-item>
+        <b-tab-item label="Gallery" value="GALLERY"
+          ><Gallery v-if="selectedTab === 'GALLERY'" /></b-tab-item
+      ></template>
     </b-tabs>
   </div>
 </template>
@@ -29,11 +46,20 @@ const components = {
   components,
 })
 export default class ExploreLayout extends mixins(PrefixMixin) {
+  get tabOrder(): string {
+    return this.$store.state.preferences.exploreTabOrder
+  }
+
   get type() {
     return this.urlPrefix
   }
+
   get selectedTab(): string {
-    return (this.$route.query.tab as string) || 'COLLECTION'
+    let defaultTab = 'COLLECTION'
+    if (this.tabOrder) {
+      defaultTab = this.tabOrder
+    }
+    return (this.$route.query.tab as string) || defaultTab
   }
 
   set selectedTab(val) {
