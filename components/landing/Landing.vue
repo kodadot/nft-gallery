@@ -103,14 +103,6 @@ export default class Landing extends Vue {
   height: 100%;
   color: $text;
 
-  &__title {
-    display: inline-flex;
-    padding: 16px 32px;
-    margin: 0 0 60px;
-    text-transform: uppercase;
-    border: 4px solid $primary;
-  }
-
   &__heading {
     font-size: 4rem;
     color: $text;
