@@ -576,7 +576,7 @@
     "score": "Score",
     "empty": "Empty",
     "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30Days Sold"
+    "soldHistory": "Last 30 Days Sold"
   },
   "series": {
     "title": "Top Collection",
@@ -588,7 +588,7 @@
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
-    "buyHistory": "Last 30Days Buy"
+    "buyHistory": "Last 30 Days Buy"
   },
   "activity": {
     "listed": "Listed",
