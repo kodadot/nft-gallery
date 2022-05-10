@@ -185,6 +185,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
 </style>
 
 <style lang="scss">
+/* cry in scss (global) */
 @import '@/styles/variables';
 
 .field-group-container {

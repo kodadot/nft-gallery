@@ -15,45 +15,32 @@ body {
     font-weight: 500;
     transition: all 0.3s;
     color: $scheme-invert;
-
-    // &.is-primary {
-    //   border-color: $primary;
-    //   background-color: $scheme-main;
-    //   color: $light-text;
-    //   &:hover,
-    //   &:focus {
-    //     border-color: $primary;
-    //     background-color: $primary;
-    //   }
-    // }
   }
   .autocomplete .dropdown-item {
     padding-right: 1px;
   }
   .select select,
+  .select select option,
   .taginput .taginput-container.is-focusable,
   .textarea,
   .input {
-    // color: $scheme-invert;
-    color: #E5E5E5;
+    color: $input-color;
+  }
+
+  .select-dropdown {
+    select {
+      border: 1px solid $select-border-color !important;
+    }
+
+    @media screen and (max-width: 1216px) and (min-width: 768px) {
+      width: 200px;
+    }
   }
 
   .select {
     &:not(.is-multiple):not(.is-loading):hover::after {
-      // border-color: $primary;
-      border-color: #7D7D7D;
+      border-color: $select-border-color;
     }
-
-    select {
-      option {
-        // color: $scheme-invert;
-        color: #E5E5E5;
-      }
-    }
-  }
-
-  .label {
-    color: $scheme-invert;
   }
 
   .select select[disabled],
@@ -100,10 +87,6 @@ body {
     flex-direction: column;
   }
 
-  .is-flex-inline {
-    display: inline-flex;
-  }
-
   .loading-overlay .loading-background {
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -135,20 +118,6 @@ body {
     background-color: #ffebfa !important;
   }
 
-  .button.is-text {
-    &:hover {
-      background-color: $grey-darker;
-    }
-
-    &:focus {
-      background-color: $grey-darker;
-      border: none;
-    }
-  }
-
-  .icon.is-primary {
-    color: $primary !important;
-  }
   .navbar-start .nuxt-link-active {
     color: $primary;
     background-color: #121212;
@@ -179,13 +148,10 @@ body {
   .message.is-primary .message-body {
     color: $primary-light !important;
   }
-  // .tabs-container-mobile {
-    .b-tabs .tab-content {
-      // @media screen and (max-width: 1023px) {
-      padding: 1rem 0;
-      // }
-    }
-  // }
+
+  .b-tabs .tab-content {
+    padding: 1rem 0;
+  }
 
   .money-cursor,
   .money-cursor .button {
@@ -205,6 +171,17 @@ body {
   opacity: 0;
 }
 
+.button.is-text {
+  &:hover {
+    background-color: $grey-darker;
+  }
+
+  &:focus {
+    background-color: $grey-darker;
+    border: none;
+  }
+}
+
 button.button.is-bordered {
   border-top: 2px solid $primary !important;
 }
@@ -214,12 +191,12 @@ button.button.is-bordered-light {
   border-top: 1px solid $primary !important;
 }
 
-.share-button {
-  width: 40px;
-}
-
 button.button.navbar-link-background {
   background-color: $blacklight;
+}
+
+.share-button {
+  width: 40px;
 }
 
 .card.bordered {
@@ -276,7 +253,7 @@ button.button.navbar-link-background {
   }
 }
 
-@media screen and (max-width: 768px) {
+@include mobile {
   .column-padding {
     padding-left: 0!important;
     padding-right: 0!important;

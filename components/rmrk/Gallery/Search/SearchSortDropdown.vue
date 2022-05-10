@@ -36,6 +36,7 @@ export default class SearchSortDropdown extends Vue {
 </script>
 
 <style lang="scss">
+/* cry in scss (global) */
 @import '@/styles/variables';
 
 .select-dropdown {

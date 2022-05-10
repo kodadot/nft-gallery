@@ -6,7 +6,7 @@
     </h1>
 
     <p
-      class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold is-flex-inline mb-6">
+      class="faq__box heading is-size-4-mobile is-size-3-tablet text-bold mb-6">
       {{ $t('faq.box_heading1') }} <br />
       {{ $t('faq.box_heading2') }} <br />
       <nuxt-link :to="{ name: 'tutorials' }">

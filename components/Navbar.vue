@@ -94,8 +94,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
-      <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
+      <b-navbar-item>
+        <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
+        <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
+      </b-navbar-item>
       <NavbarProfileDropdown class="ml-2" :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
@@ -131,9 +133,9 @@ import { get } from 'idb-keyval'
   },
 })
 export default class NavbarMenu extends mixins(PrefixMixin) {
-  private mobileGallery = false
+  protected mobileGallery = false
+  protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
-  private showTopNavbar = true
   private lastScrollPosition = 0
   private artistName = ''
   private showMobileSearchBar = false
@@ -237,32 +239,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 <style lang="scss">
 @import '@/styles/variables';
 
-@include tablet {
-  .navbar-shrink {
-    box-shadow: none;
-    max-height: 70px;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-  }
-  .nav-search-shrink {
-    padding-bottom: 0 !important;
-  }
-}
-
 // Reserved for future adjustments
-
-// @media only screen and (min-width: 1215px) and (max-width: 1140px) {
-//   a#NavProfile {
-//     display: none;
-//   }
-// }
-
-// @media only screen and (min-width: 1215px) and (max-width: 1160px) {
-//   a#NavStats {
-//     display: none;
-//   }
-// }
-
 @media only screen and (min-width: 1024px) and (max-width: 1100px) {
   div#NavHistoryBrowser {
     display: none;
@@ -287,9 +264,21 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 
+@include tablet {
+  .navbar-shrink {
+    box-shadow: none;
+    max-height: 70px;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background-color: rgba(12, 12, 12, 0.7) !important;
+  }
+  .nav-search-shrink {
+    padding-bottom: 0 !important;
+  }
+}
+
 @include touch {
   .navbar {
-    .navbar-item,
     .custom-navbar-item {
       margin-left: 0 !important;
     }
@@ -311,7 +300,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
 }
 
 .navbar {
-  // background: rgba(12, 12, 12, 0.7);
   background-color: inherit;
   backdrop-filter: blur(20px);
   transform: translateZ(0px);
@@ -328,34 +316,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     }
   }
 
-  // .navbar-link {
-  //   &:hover {
-  //     background-color: $primary !important;
-  //     color: $text !important;
-  //   }
-  // }
-
   .navbar-item {
-    // text-transform: uppercase;
     font-weight: 500;
     margin: 0.5em;
-    // transition: 0.3s;
-    // &:hover {
-    //   background-color: $primary;
-    //   color: $text;
-    // }
   }
 
   .custom-navbar-item {
     margin-left: 0.5em;
-  }
-
-  .logo {
-    border: none !important;
-    background: transparent;
-    @include tablet {
-      margin-left: 0;
-    }
   }
 
   .navbar-brand {
@@ -367,13 +334,10 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     margin-top: 24px;
   }
 
-  // .navbar-dropdown {
-  //   border: 2px solid $primary-light !important;
-  //   box-shadow: $dropdown-content-shadow !important;
-  //   .navbar-item {
-  //     margin-left: 0 !important;
-  //   }
-  // }
+  .navbar-dropdown {
+    border: 2px solid $primary-light !important;
+    box-shadow: $dropdown-content-shadow !important;
+  }
 
   .search-navbar {
     background-color: transparent;
@@ -381,15 +345,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     min-width: 350px;
     margin: 0 1rem;
     .icon {
-      color: #1f1f1f !important;
+      color: $placeholder-color !important;
     }
     input {
       border: inherit;
-      // background-color: rgba(41, 41, 47, 0.5);
       background-color: #e5e5e5;
       &::placeholder {
-        // color: #898991 !important;
-        color: #1f1f1f !important;
+        color: $placeholder-color !important;
       }
       &:focus {
         box-shadow: none !important;
@@ -403,13 +365,13 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     width: 100%;
 
     input {
-      background-color: rgba(41, 41, 47);
+      background-color: $search-navbar-background-color;
       padding: 0;
       z-index: 1;
       &:focus {
         box-shadow: none !important;
         border-top: 2px solid $primary;
-        background: rgba(41, 41, 47);
+        background: $search-navbar-background-color;
       }
     }
   }
