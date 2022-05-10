@@ -40,9 +40,9 @@
         </b-select>
       </b-field>
       <b-field class="has-text-right">
-        <b-select v-model="timeRange">
+        <b-select v-model="dateRange">
           <option
-            v-for="option in timeRanges"
+            v-for="option in dateRanges"
             :key="option.value"
             :value="option.value">
             {{ option.label }}
@@ -335,7 +335,7 @@ const components = {
 export default class SeriesTable extends mixins(PrefixMixin) {
   protected data: RowSeries[] = []
   protected usersWithIdentity: RowSeries[] = []
-  protected timeRanges = [
+  protected dateRanges = [
     { label: '24 hours', value: '24 HOUR' },
     { label: '7 days', value: '7 DAY' },
     { label: '14 days', value: '14 DAY' },
@@ -344,7 +344,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     { label: '180 days', value: '180 DAY' },
     { label: 'All-time', value: 'ALL DAY' },
   ]
-  protected timeRange = '7 DAY'
+  protected dateRange = '7 DAY'
   protected nbDays = '7'
   protected nbRows = '50'
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
@@ -358,8 +358,8 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     exist(this.$route.query.period, (val) => {
       this.nbDays = val
     })
-    exist(this.$route.query.timerange, (val) => {
-      this.timeRange = val
+    exist(this.$route.query.dateRange, (val) => {
+      this.dateRange = val
     })
     exist(this.$route.query.sort, (val) => {
       this.sortBy.field = val.slice(1)
@@ -371,7 +371,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   public async fetchCollectionsSeries({
     limit = 10,
     sort = toSort(this.sortBy),
-    timeRange = this.timeRange,
+    dateRange = this.dateRange,
   }) {
     this.isLoading = true
     const collections = await this.$apollo.query({
@@ -382,7 +382,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         limit,
         offset: 0,
         orderBy: sort || 'volume_DESC',
-        timeRange,
+        dateRange,
       },
     })
 
@@ -434,10 +434,10 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   }
 
   private get dateRangeHeader() {
-    if (this.timeRange === 'ALL TIME') {
-      return `${this.timeRanges} Buy`
+    if (this.dateRange === 'ALL TIME') {
+      return `${this.dateRange} Buy`
     } else {
-      return `Last ${this.timeRange}S Buy`
+      return `Last ${this.dateRange}S Buy`
     }
   }
 
@@ -493,15 +493,15 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       .catch((e) => this.$consola.warn(e))
     this.fetchCollectionsSeries({ limit: Number(value) })
   }
-  @Watch('timeRange')
-  public onTimeRangeChange(value: string) {
+  @Watch('dateRange')
+  public onDateRangeChange(value: string) {
     this.$router
       .replace({
         path: String(this.$route.path),
-        query: { ...this.$route.query, timerange: value },
+        query: { ...this.$route.query, dateRange: value },
       })
       .catch((e) => this.$consola.warn(e))
-    this.fetchCollectionsSeries({ timeRange: value })
+    this.fetchCollectionsSeries({ dateRange: value })
   }
 
   @Watch('nbDays')
