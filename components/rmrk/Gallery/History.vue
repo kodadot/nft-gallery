@@ -327,8 +327,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   protected parseDate(date: Date): string {
-    const utcDate: string = date.toUTCString()
-    return utcDate.substring(4)
+    return date.toLocaleString('en-GB', {
+      timeZone: 'UTC',
+      timeZoneName: 'short',
+    })
   }
 
   protected getBlockUrl(block: string): string {
