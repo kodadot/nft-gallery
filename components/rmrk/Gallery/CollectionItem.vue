@@ -66,7 +66,7 @@
       <b-tab-item label="Items" value="items">
         <Search
           v-bind.sync="searchQuery"
-          :showOwnerSwitch.sync="accountId"
+          :showOwnerSwitch="!!accountId"
           :disableToggle="!totalListed"
           :sortOption="collectionProfileSortOption">
           <Layout class="mr-5" />
@@ -199,7 +199,7 @@ export default class CollectionItem extends mixins(
       type: '',
       sortBy: (this.$route.query.sort as string) ?? 'BLOCK_NUMBER_DESC',
       listed: false,
-      owned: false,
+      owned: null,
     },
     this.$route.query
   )
@@ -292,7 +292,7 @@ export default class CollectionItem extends mixins(
       })
     }
 
-    if (this.searchQuery.owned) {
+    if (this.searchQuery.owned && this.accountId) {
       params.push({
         currentOwner: { equalTo: this.accountId },
       })
