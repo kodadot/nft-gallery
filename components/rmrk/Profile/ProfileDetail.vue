@@ -304,7 +304,6 @@ export default class Profile extends mixins(
 
   public async mounted() {
     await this.fetchProfile()
-    // this.fetchCollectionEvents()
   }
 
   public checkId() {
@@ -527,15 +526,11 @@ export default class Profile extends mixins(
           id: this.id,
           search: {
             caller_eq: this.id,
-            // first: this.first,
-            // offset: (this.currentValue - 1) * this.first,
           },
         },
       })
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
-        // TODO : default value of HISTORY for BUY
-        // Check if lot of BUY Events, default selectedEvent of History.vue to "BUY"
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
         // copy array and reverse
         this.ownerEventsOfNftCollection = [
