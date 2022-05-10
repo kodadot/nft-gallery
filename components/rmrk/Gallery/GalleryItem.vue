@@ -150,7 +150,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
 import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
-import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
+import nftListIdsByCollection from '@/queries/nftIdListByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
 import { MediaType } from '../types'
@@ -279,11 +279,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         })
 
         const {
-          data: { nFTEntities },
+          data: { nftEntities },
         } = nfts
 
         this.nftsFromSameCollection =
-          nFTEntities?.nodes.map((n: { id: string }) => n.id) || []
+          nftEntities?.nodes.map((n: { id: string }) => n.id) || []
         this.$store.dispatch('history/setCurrentCollection', {
           id: collectionId,
           nftIds: this.nftsFromSameCollection,
