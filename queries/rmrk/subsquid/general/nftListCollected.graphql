@@ -17,7 +17,6 @@ query nftListCollected(
   ) {
     id
     burned
-    # diff
     collection {
       id
     }
@@ -28,7 +27,6 @@ query nftListCollected(
     name
     price
   }
-  # diff
   nftEntitiesConnection(
     where: {
       issuer_not_eq: $account
