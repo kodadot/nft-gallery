@@ -323,7 +323,8 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort, lastmonthDate, today, getDateArray, onlyDate } from './utils'
+import { toSort, onlyDate, defaultHistory, today } from './utils'
+import { min, differenceInCalendarDays } from 'date-fns'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -347,6 +348,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   protected dateRange = '7 DAY'
   protected nbDays = '7'
   protected nbRows = '50'
+  protected minDate = today
   protected sortBy: SortType = { field: 'volume', value: 'DESC' }
   public isLoading = false
   public meta: NFTMetadata = emptyObject<NFTMetadata>()
@@ -390,14 +392,6 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       data: { collectionEntities },
     } = collections
 
-    const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
-      (res, date) => {
-        res[date] = 0
-        return res
-      },
-      {}
-    )
-
     const axisLize = (obj = {}): BuyHistory => ({
       xAxisList: Object.keys(obj),
       yAxisList: Object.values(obj),
@@ -413,12 +407,24 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
         buyHistory: axisLize(
-          Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
+          Object.assign({}, this.defaultBuyHistory, buyEvents[e.id] || {})
         ),
       })
     )
 
     this.isLoading = false
+  }
+
+  private get defaultBuyHistory() {
+    const [number, unit] = this.dateRange.split(' ')
+
+    return defaultHistory({
+      number:
+        number === 'ALL'
+          ? Math.abs(differenceInCalendarDays(today, this.minDate))
+          : number,
+      unit,
+    })
   }
 
   private get dateRangeHeader() {
@@ -440,12 +446,18 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         },
         fetchPolicy: 'no-cache',
       })
+      if (this.dateRange === 'ALL DAY') {
+        this.minDate = min(
+          data.seriesInsightBuyHistory.map((x) => new Date(x.date))
+        )
+      }
       return data.seriesInsightBuyHistory.reduce((res, item) => {
         const { count, date, id } = item
         if (!res[id]) {
           res[id] = {}
         }
-        res[id][onlyDate(new Date(date))] = count
+        const newDate = new Date(date)
+        res[id][onlyDate(newDate)] = count
         return res
       }, {})
     } catch (e) {

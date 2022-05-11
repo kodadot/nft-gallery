@@ -2,7 +2,7 @@ import { RowSeries, SimpleSeriesNFT, SortType } from './types'
 import formatBalance from '@/utils/formatBalance'
 import * as store from '~/store'
 import { getVolume, pairListBuyEvent, after, between } from '@/utils/math'
-import { subDays, eachDayOfInterval, formatISO } from 'date-fns'
+import { subDays, eachDayOfInterval, formatISO, subHours } from 'date-fns'
 
 export const nftFn = (a: any): RowSeries => {
   // const metaImage = fetchMetadataImage(a); DO NOT!
@@ -95,6 +95,20 @@ const last2monthDate: Date = subDays(today, 60)
 // -> ["202-11-30", ...]
 export function getDateArray(start: Date, end: Date): string[] {
   return eachDayOfInterval({ start, end }).map(onlyDate)
+}
+
+export function defaultHistory({ number, unit }) {
+  let start
+  if (unit === 'DAY') {
+    start = subDays(today, number)
+  } else {
+    start = subHours(today, number)
+  }
+
+  return getDateArray(start, today).reduce((res, date) => {
+    res[date] = 0
+    return res
+  }, {})
 }
 
 export function axisLize(obj = {}) {
