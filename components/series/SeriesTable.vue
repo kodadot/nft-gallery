@@ -317,6 +317,7 @@
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { RowSeries, SortType, BuyHistory } from './types'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
+import seriesInsightBuyHistory from '@/queries/rmrk/subsquid/seriesInsightBuyHistory.graphql'
 import collectionsEvents from '@/queries/rmrk/subsquid/collectionsEvents.graphql'
 import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
@@ -405,19 +406,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 
     const ids = collectionEntities.map((c: Collection) => c.id)
 
-    const buyEvents = (await this.fetchCollectionEvents(ids))
-      .map((e) => ({
-        ...e.nft.collection,
-        timestamp: onlyDate(new Date(e.timestamp)),
-      }))
-      .reduce((res, e) => {
-        const { id, timestamp: ts } = e
-        if (!res[id]) {
-          res[id] = Object.assign({}, defaultBuyEvents)
-        }
-        res[id][ts] += 1
-        return res
-      }, {})
+    const buyEvents = await this.fetchBuyHistory(ids)
 
     this.data = collectionEntities.map(
       (e: RowSeries): RowSeries => ({
@@ -441,22 +430,25 @@ export default class SeriesTable extends mixins(PrefixMixin) {
     }
   }
 
-  protected async fetchCollectionEvents(ids: string[]) {
+  protected async fetchBuyHistory(ids) {
     try {
-      // const today = new Date()
-      const { data } = await this.$apollo.query<{ events }>({
-        query: collectionsEvents,
+      const { data } = await this.$apollo.query({
+        query: seriesInsightBuyHistory,
         client: 'subsquid',
         variables: {
-          ids: ids,
-          and: {
-            interaction_eq: 'BUY',
-          },
-          lte: today,
-          gte: lastmonthDate,
+          ids,
+          dateRange: this.dateRange,
         },
+        fetchPolicy: 'no-cache',
       })
-      return data.events
+      return data.seriesInsightBuyHistory.reduce((res, item) => {
+        const { count, date, id } = item
+        if (!res[id]) {
+          res[id] = {}
+        }
+        res[id][onlyDate(new Date(date))] = count
+        return res
+      }, {})
     } catch (e) {
       this.$consola.error(e)
       return []

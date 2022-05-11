@@ -1,0 +1,7 @@
+query seriesInsightBuyHistory($ids: [String!]!, $dateRange: String) {
+  seriesInsightBuyHistory(ids: $ids, dateRange: $dateRange) {
+    count
+    date
+    id
+  }
+}
