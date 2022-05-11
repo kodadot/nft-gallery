@@ -144,7 +144,7 @@ export default class PaginatedCardList extends mixins(
       variables: {
         account: this.account,
         orderBy: this.remapSortBy,
-        AND: this.buildSearchParam(),
+        and: this.buildSearchParam(),
         limit: this.first,
         offset: this.offset,
       },
