@@ -19,7 +19,7 @@
           </a>
         </h1>
 
-        <nuxt-link v-if="!displayName && isMyProfile" :to="`/identity`">
+        <nuxt-link v-if="!displayName && isMyProfile" to="/identity">
           + {{ $t('identity.set') }}
         </nuxt-link>
       </div>
