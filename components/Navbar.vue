@@ -44,15 +44,12 @@
     <template #start>
       <Search
         v-if="!mobileGallery"
-        :class="{
-          'nav-search-shrink': !showTopNavbar,
-        }"
         hideFilter
         showDefaultSuggestions
-        class="search-navbar is-flex-grow-1 is-hidden-touch"
+        class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
         searchColumnClass="is-flex-grow-1" />
     </template>
-    <template #end v-if="showTopNavbar">
+    <template #end v-if="showTopNavbar || isBurgerMenuOpened">
       <LazyHistoryBrowser
         class="custom-navbar-item navbar-link-background is-hidden-touch"
         id="NavHistoryBrowser" />
@@ -136,6 +133,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   protected mobileGallery = false
   protected showTopNavbar = true
   private isGallery: boolean = this.$route.path.includes('tab=GALLERY')
+  private fixedTitleNavAppearDistance = 200
   private lastScrollPosition = 0
   private artistName = ''
   private showMobileSearchBar = false
@@ -160,6 +158,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   get isTargetPage(): boolean {
+    // why?
     return (
       this.inCollectionPage ||
       this.inGalleryDetailPage ||
@@ -205,9 +204,8 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
     if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
-    const fixedTitleNavAppearDistance = 200
     this.showTopNavbar =
-      currentScrollPosition < fixedTitleNavAppearDistance || !this.isTargetPage
+      currentScrollPosition < this.fixedTitleNavAppearDistance
     this.lastScrollPosition = currentScrollPosition
   }
 
@@ -264,19 +262,6 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 }
 
-@include tablet {
-  .navbar-shrink {
-    box-shadow: none;
-    max-height: 70px;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-    background-color: rgba(12, 12, 12, 0.7) !important;
-  }
-  .nav-search-shrink {
-    padding-bottom: 0 !important;
-  }
-}
-
 @include touch {
   .navbar {
     .custom-navbar-item {
@@ -314,6 +299,14 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
         }
       }
     }
+  }
+
+  &.navbar-shrink {
+    box-shadow: none;
+    max-height: 70px;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background-color: rgba(12, 12, 12, 0.7) !important;
   }
 
   .navbar-item {
