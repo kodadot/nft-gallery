@@ -120,8 +120,6 @@ export default class AvailableActions extends mixins(
   @Prop({ default: false }) public buyDisabled!: boolean
   private selectedAction: ShoppingActions | '' = ''
   private meta: string | number = ''
-  public isLoading = false
-  public status = ''
   protected label = ''
   private identity: IdentityFields = emptyObject<IdentityFields>()
   private ownerIdentity: IdentityFields = emptyObject<IdentityFields>()
