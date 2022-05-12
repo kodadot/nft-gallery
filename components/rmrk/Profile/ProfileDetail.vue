@@ -19,12 +19,9 @@
           </a>
         </h1>
 
-        <span v-if="!displayName">
-          Add on-chain recognition for
-          <nuxt-link :to="`/identity`">
-            {{ shortendId }}
-          </nuxt-link>
-        </span>
+        <nuxt-link v-if="!displayName && isMyProfile" to="/identity">
+          + {{ $t('identity.set') }}
+        </nuxt-link>
       </div>
     </div>
 
@@ -215,6 +212,7 @@ import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graph
 import { sortedEventByDate } from '~/utils/sorting'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { exist } from '../Gallery/Search/exist'
+import AuthMixin from '~/utils/mixins/authMixin'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
@@ -259,7 +257,8 @@ const components = {
 export default class Profile extends mixins(
   PrefixMixin,
   InfiniteScrollMixin,
-  ChainMixin
+  ChainMixin,
+  AuthMixin
 ) {
   @Ref('tabsContainer') readonly tabsContainer
 
@@ -369,6 +368,10 @@ export default class Profile extends mixins(
 
   get currentValue() {
     return this.currentPage
+  }
+
+  get isMyProfile(): boolean {
+    return this.id === this.accountId
   }
 
   @Debounce(500)
