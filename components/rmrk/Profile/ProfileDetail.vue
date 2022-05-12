@@ -491,10 +491,6 @@ export default class Profile extends mixins(
     this.legal = identityFields?.legal as string
   }
 
-  protected onCollectedChange(count, item) {
-    this.totalCollected = count
-  }
-
   checkTabLocate() {
     exist(this.$route.query.locate, (val) => {
       if (val !== 'true') {
@@ -543,7 +539,7 @@ export default class Profile extends mixins(
   }
 
   @Watch('activeTab')
-  protected onTabChange(val: string, oldVal: string): void {
+  protected onTabChange(): void {
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
