@@ -278,7 +278,7 @@ class NFTUtils {
 
   public static unwrap(rmrkString: string): any {
     const rr = /{.*}/
-    const match = rmrkString.match(rr)
+    const match = rr.exec(rmrkString)
 
     if (match) {
       return JSON.parse(match[0])
