@@ -178,6 +178,7 @@
 
 <script lang="ts">
 import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
@@ -199,6 +200,7 @@ import {
   onlyDate,
 } from '../series/utils'
 import { SortType } from '../series/types'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 
 type Address = string | GenericAccountId | undefined
 
@@ -216,7 +218,7 @@ export default class SpotlightTable extends mixins(
   KeyboardEventsMixin
 ) {
   protected data: Row[] = []
-  protected onlyWithIdentity = false
+  protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
@@ -243,6 +245,10 @@ export default class SpotlightTable extends mixins(
   ]
 
   async created() {
+    exist(this.$route.query.sort, (val) => {
+      this.sortBy.field = val.slice(1)
+      this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
+    })
     await this.fetchSpotlightData()
     this.initKeyboardEventHandler({
       g: this.bindPaginationEvents,
@@ -377,7 +383,8 @@ export default class SpotlightTable extends mixins(
   }
 
   @Watch('onlyWithIdentity')
-  private async onOnlyWithIdentityChange() {
+  private async onOnlyWithIdentityChange(val: boolean) {
+    this.replaceUrl(val ? 'true' : '', 'identity')
     await this.updateSoldHistory()
   }
 
@@ -386,16 +393,18 @@ export default class SpotlightTable extends mixins(
       field: field,
       value: order === 'desc' ? 'DESC' : 'ASC',
     }
+    this.replaceUrl((order === 'desc' ? '-' : '+') + field, 'sort')
+    this.fetchSpotlightData(toSort(sort))
+  }
+
+  @Debounce(100)
+  replaceUrl(value: string, key = 'sort') {
     this.$router
       .replace({
         path: String(this.$route.path),
-        query: {
-          ...this.$route.query,
-          sort: (order === 'desc' ? '-' : '+') + field,
-        },
+        query: { ...this.$route.query, [key]: value },
       })
-      .catch((e) => this.$consola.warn(e))
-    this.fetchSpotlightData(toSort(sort))
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
 
   public async identityOf(account: Address) {

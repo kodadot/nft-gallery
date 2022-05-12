@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import { Component, Prop, mixins, Watch } from 'nuxt-property-decorator'
-import { exist } from './Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
 import { getRandomIntInRange } from '../utils'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
