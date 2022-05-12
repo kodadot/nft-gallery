@@ -14,7 +14,12 @@ export type SortType = {
   value: 'ASC' | 'DESC'
 }
 
-type VolumeType = number | bigint
+type VolumeType = number | bigint | string
+
+export type BuyHistory = {
+  xAxisList: string[]
+  yAxisList: number[]
+}
 
 export type RowSeries = {
   id: string
@@ -31,11 +36,13 @@ export type RowSeries = {
   dailyrangeVolume: VolumeType
   weeklyrangeVolume: VolumeType
   monthlyrangeVolume: VolumeType
-  averagePrice: number
+  averagePrice: string
   floorPrice: number
+  highestPrice: number
   rank: number
   uniqueCollectors: number
   name: string
+  buyHistory: BuyHistory
 }
 
 export type SimpleSeriesNFT = {

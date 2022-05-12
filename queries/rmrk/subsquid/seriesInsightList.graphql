@@ -9,6 +9,7 @@ query seriesInsightList(
   ) {
     id
     floorPrice
+    highestSale
     averagePrice
     image
     metadata

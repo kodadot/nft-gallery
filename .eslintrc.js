@@ -15,9 +15,18 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
-  plugins: ['vue', 'prettier', '@typescript-eslint'],
+  plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
   rules: {
     'no-trailing-spaces': 'error',
+    'unicorn/no-for-loop': 'error',
+    'brace-style': ['error', '1tbs', { allowSingleLine: false }],
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'IfStatement > :not(BlockStatement).consequent',
+        message: 'Use blockstatement after if, please check STYLE_GUIDE.md',
+      },
+    ],
     'no-useless-catch': 1,
     'no-var': 'error',
     'linebreak-style': ['error', 'unix'],

@@ -2,10 +2,11 @@
   <div class="spotlight">
     <Loader :value="isLoading" />
     <b-table
-      :data="toggleUsersWithIdentity ? usersWithIdentity : data"
-      :current-page="currentPage ? currentPage : 1"
+      :data="computedData"
+      :current-page="currentPage"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
+      @page-change="this.onPageChange"
       hoverable
       detailed
       paginated
@@ -17,7 +18,7 @@
       <template v-slot:top-left>
         <b-field class="mb-0">
           <div class="control is-flex">
-            <b-switch v-model="toggleUsersWithIdentity" :rounded="false">
+            <b-switch v-model="onlyWithIdentity" :rounded="false">
               {{ $t('spotlight.filter_accounts') }}
             </b-switch>
           </div>
@@ -30,7 +31,11 @@
           @click="goToRandomPage">
         </b-button>
       </template>
-      <b-table-column field="id" :label="$t('spotlight.id')" v-slot="props">
+      <b-table-column
+        cell-class="is-vcentered"
+        field="id"
+        :label="$t('spotlight.id')"
+        v-slot="props">
         <template v-if="!isLoading">
           <nuxt-link
             :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
@@ -42,6 +47,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="sold"
         :label="$t('spotlight.sold')"
         v-slot="props"
@@ -50,7 +56,11 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="unique" :label="$t('spotlight.unique')" sortable>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="unique"
+        :label="$t('spotlight.unique')"
+        sortable>
         <template v-slot:header="{ column }">
           <b-tooltip label="unique items" dashed>
             {{ column.label }}
@@ -63,6 +73,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
@@ -78,6 +89,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="total"
         :label="$t('spotlight.total')"
         v-slot="props"
@@ -87,6 +99,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="average"
         :label="$t('spotlight.averagePrice')"
         v-slot="props"
@@ -98,6 +111,7 @@
       </b-table-column>
 
       <b-table-column
+        cell-class="is-vcentered"
         field="collections"
         :label="$t('spotlight.count')"
         v-slot="props"
@@ -106,14 +120,23 @@
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="volume" label="Volume" v-slot="props" sortable>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable>
         <template v-if="!isLoading"
           ><Money :value="props.row.volume" inline hideUnit
         /></template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
-      <b-table-column field="rank" :label="$t('spotlight.score')" numeric>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="rank"
+        :label="$t('spotlight.score')"
+        numeric>
         <template v-slot:header="{ column }">
           <b-tooltip label="sold * (unique / total)" dashed>
             {{ column.label }}
@@ -123,6 +146,19 @@
           Math.ceil(props.row.rank * 100) / 100
         }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered history"
+        field="soldHistory"
+        :label="$t('spotlight.soldHistory')">
+        <b-skeleton :active="isLoading" />
+        <PulseChart
+          v-if="!isLoading"
+          :id="props.row.id"
+          :labels="props.row.soldHistory.xAxisList"
+          :values="props.row.soldHistory.yAxisList" />
       </b-table-column>
 
       <template #detail="props">
@@ -141,9 +177,10 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { Column, Row } from './types'
 import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
+import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -152,7 +189,15 @@ import { identityStore } from '@/utils/idbStore'
 import { getRandomIntInRange } from '../rmrk/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { toSort } from '../series/utils'
+import { PER_PAGE } from '~/utils/constants'
+import {
+  toSort,
+  today,
+  lastmonthDate,
+  axisLize,
+  defaultEvents,
+  onlyDate,
+} from '../series/utils'
 import { SortType } from '../series/types'
 
 type Address = string | GenericAccountId | undefined
@@ -171,9 +216,8 @@ export default class SpotlightTable extends mixins(
   KeyboardEventsMixin
 ) {
   protected data: Row[] = []
-  protected usersWithIdentity: Row[] = []
-  protected toggleUsersWithIdentity = false
-  protected currentPage = 0
+  protected onlyWithIdentity = false
+  protected currentPage = 1
   protected sortBy: SortType = { field: 'sold', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('spotlight.id') },
@@ -205,15 +249,32 @@ export default class SpotlightTable extends mixins(
     })
   }
 
-  private bindPaginationEvents(event) {
-    const total = this.toggleUsersWithIdentity
-      ? this.usersWithIdentity.length
-      : this.data.length
-    const pageSize = Math.floor(total / 20)
+  private get pageSize() {
+    return Math.ceil(this.total / PER_PAGE)
+  }
 
+  private get total() {
+    return this.computedData.length
+  }
+
+  private get computedData() {
+    return this.onlyWithIdentity
+      ? this.data.filter((x) => x.hasIdentity)
+      : this.data
+  }
+
+  public get ids(): string[] {
+    const start = (this.currentPage - 1) * PER_PAGE
+    const end = this.currentPage * PER_PAGE
+    return this.computedData.slice(start, end).map((x) => x.id)
+  }
+
+  private bindPaginationEvents(event) {
     switch (event.key) {
       case 'n':
-        if (this.currentPage < pageSize) this.currentPage = this.currentPage + 1
+        if (this.currentPage < this.pageSize) {
+          this.currentPage = this.currentPage + 1
+        }
         break
       case 'p':
         if (this.currentPage > 1) {
@@ -233,6 +294,7 @@ export default class SpotlightTable extends mixins(
       client: 'subsquid',
       variables: {
         // denyList, not yet
+        // limit: 100,
         offset: 0,
         orderBy: sort || 'sold_DESC',
       },
@@ -250,17 +312,73 @@ export default class SpotlightTable extends mixins(
         rank: e.sold * (e.unique / e.total || 1),
         uniqueCollectors: e.uniqueCollectors,
         volume: BigInt(e.volume),
+        soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
       })
     )
 
     for (let index = 0; index < this.data.length; index++) {
       const result = await this.identityOf(this.data[index].id)
       if (result && Object.keys(result).length) {
-        this.usersWithIdentity[index] = this.data[index]
+        this.$set(this.data[index], 'hasIdentity', true)
       }
     }
 
+    await this.updateSoldHistory()
+
     this.isLoading = false
+  }
+
+  protected async updateSoldHistory() {
+    this.isLoading = true
+    const defaultSoldEvents = defaultEvents(lastmonthDate, today)
+    const solds = (await this.fetchSpotlightSoldHistory())
+      .map((nft) => ({
+        id: nft.issuer,
+        timestamps: nft.events
+          .flat()
+          .map((x) => onlyDate(new Date(x.timestamp))),
+      }))
+      .reduce((res, e) => {
+        const { id, timestamps } = e
+        if (!res[id]) {
+          res[id] = Object.assign({}, defaultSoldEvents)
+        }
+        timestamps.forEach((ts) => (res[id][ts] += 1))
+        return res
+      }, {})
+    this.data.forEach((row) => {
+      if (solds[row.id]) {
+        this.$set(row, 'soldHistory', axisLize(solds[row.id]))
+      }
+    })
+
+    this.isLoading = false
+  }
+
+  public async fetchSpotlightSoldHistory() {
+    const data = await this.$apollo.query({
+      query: spotlightSoldHistory,
+      client: 'subsquid',
+      variables: {
+        ids: this.ids,
+        lte: today,
+        gte: lastmonthDate,
+      },
+    })
+    const {
+      data: { nftEntities },
+    } = data
+    return nftEntities
+  }
+
+  private onPageChange(page: number) {
+    this.currentPage = page
+    this.updateSoldHistory()
+  }
+
+  @Watch('onlyWithIdentity')
+  private async onOnlyWithIdentityChange() {
+    await this.updateSoldHistory()
   }
 
   public onSort(field: string, order: string) {
@@ -292,17 +410,18 @@ export default class SpotlightTable extends mixins(
       : account || ''
   }
 
-  public goToRandomPage() {
-    const total = this.toggleUsersWithIdentity
-      ? this.usersWithIdentity.length
-      : this.data.length
-    const pageSize = Math.floor(total / 20)
-    let randomNumber = getRandomIntInRange(1, pageSize)
+  public async goToRandomPage() {
+    let randomNumber = getRandomIntInRange(1, this.pageSize)
     this.currentPage = randomNumber
+    await this.updateSoldHistory()
   }
 }
 </script>
 <style scoped lang="scss">
+.history {
+  width: 200px;
+  height: 100px;
+}
 .spotlight .magicBtn {
   position: absolute;
   right: 0;

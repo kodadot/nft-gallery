@@ -68,6 +68,7 @@ export interface Metadata {
 
 export interface NFTMetadata extends Metadata {
   name: string
+  mediaUri?: string
   background_color?: string
   animation_url?: string
   youtube_url?: string

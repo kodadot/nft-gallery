@@ -20,16 +20,16 @@
     </Search>
 
     <div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="startPage > 1 && !isLoading && total > 0"
         direction="top"
-        @infinite="reachTopHandler"></infinite-loading>
+        @infinite="reachTopHandler"></InfiniteLoading>
       <div
-        id="infinite-scroll-container"
+        :id="scrollContainerId"
         class="columns is-multiline"
         @scroll="onScroll">
         <div
-          :class="`column is-4 column-padding scroll-item ${classLayout}`"
+          :class="`column is-4 column-padding ${scrollItemClassName} ${classLayout}`"
           v-for="collection in results"
           :key="collection.id">
           <div class="card collection-card">
@@ -56,9 +56,9 @@
           </div>
         </div>
       </div>
-      <infinite-loading
+      <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
-        @infinite="reachBottomHandler"></infinite-loading>
+        @infinite="reachBottomHandler"></InfiniteLoading>
     </div>
   </div>
 </template>
@@ -95,6 +95,7 @@ interface Image extends HTMLImageElement {
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
+  InfiniteLoading: () => import('vue-infinite-loading'),
   Search: () =>
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -151,7 +152,7 @@ export default class CollectionList extends mixins(
     this.gotoPage(1)
   }
 
-  private gotoPage(page: number) {
+  protected gotoPage(page: number) {
     this.currentPage = page
     this.startPage = page
     this.endPage = page
@@ -165,7 +166,7 @@ export default class CollectionList extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name_contains: this.searchQuery.search,
+        name_containsInsensitive: this.searchQuery.search,
       })
     }
 
@@ -180,11 +181,10 @@ export default class CollectionList extends mixins(
     this.fetchPageData(this.startPage)
   }
 
-  protected async fetchPageData(
-    page: number,
-    loadDirection = 'down'
-  ): Promise<boolean> {
-    if (this.isFetchingData) return false
+  protected async fetchPageData(page: number, loadDirection = 'down') {
+    if (this.isFetchingData) {
+      return
+    }
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: collectionListWithSearch,
