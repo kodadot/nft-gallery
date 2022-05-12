@@ -6,7 +6,7 @@
       expanded
       preview />
 
-    <b-field grouped :label="$t('Name')">
+    <b-field grouped :label="$t('name')">
       <b-input
         v-model="vName"
         placeholder="Name your NFT"
