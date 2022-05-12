@@ -1,4 +1,4 @@
-query allEventsByProfil($id: String, $search: [EventWhereInput!]) {
+query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
   events(where: {caller_eq : $id, AND: $search }) {
     meta
     interaction
