@@ -12,6 +12,8 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 ## We're constantly growing!
 [![Contributors Over Time](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
+[![Monthly Active Contributors](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)
+
 #
 
 
