@@ -1,0 +1,11 @@
+fragment rubickNft on NFTEntity {
+  id
+  metadata
+  issuer
+  currentOwner
+  blockNumber
+  collection {
+      id
+  }
+  burned
+}

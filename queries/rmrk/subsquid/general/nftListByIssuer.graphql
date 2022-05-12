@@ -1,3 +1,5 @@
+#import "../../../fragments/nftDetails.graphql"
+#import "../../../fragments/rubickNft.graphql"
 query nftListByIssuer(
   $account: String!
   $limit: Int!
@@ -16,18 +18,8 @@ query nftListByIssuer(
     limit: $limit
     offset: $offset
   ) {
-    id
-    metadata
-    issuer
-    currentOwner
-    blockNumber
-    collection {
-      id
-    }
-    burned
-    name
-    sn
-    price
+    ...rubickNft
+    ...nftDetails
   }
   nftEntitiesConnection(
     where: {
