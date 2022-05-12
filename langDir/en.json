@@ -15,13 +15,11 @@
   "legend": "Legend",
   "owner": "Owner",
   "facts": "Facts",
-  "using": "using",
   "computed id": "Computed id",
   "create collection": "Create Collection",
   "Select collection where do you want mint your token": "Select collection where do you want mint your token",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "name": "Name",
-  "Latest sales": "Latest sales",
   "simple": "Simple",
   "about": "About",
   "ambassador program": "Ambassador Program",
@@ -570,6 +568,7 @@
     "mint": "3. Minting"
   },
   "general": {
+    "using": "using",
     "balance": "Balance",
     "connect": "Connect",
     "connect_wallet": "Connect your wallet",
@@ -580,11 +579,12 @@
     "copyUrl": "Copy URL",
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
-    "copyRewardLink": "Copy Reward Me link"
+    "copyRewardLink": "Copy Reward Me link",
+    "latestSales": "Latest sales"
   },
   "helper": {
-    "learnMore": "Learn More",
     "seeMore": "See More",
+    "learnMore": "Learn More",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
