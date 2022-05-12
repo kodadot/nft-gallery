@@ -72,7 +72,7 @@ export default class PaginatedCardList extends mixins(
   protected items: NFTWithMeta[] = []
   private isLoading = true
 
-  private buildSearchParam(): Record<string, unknown>[] {
+  private get buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
 
     if (this.searchQuery.search) {
@@ -136,18 +136,15 @@ export default class PaginatedCardList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
-      manual: true,
       client: 'subsquid',
-      update: ({ nftEntities }) => nftEntities,
-      loadingKey: 'isLoading',
-      result: this.handleResult,
       variables: {
         account: this.account,
         orderBy: this.remapSortBy,
-        and: this.buildSearchParam(),
+        and: this.buildSearchParam,
         limit: this.first,
-        offset: this.offset,
+        offset: (page - 1) * this.first,
       },
+      fetchPolicy: 'no-cache',
     })
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
