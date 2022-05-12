@@ -7,6 +7,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-export default (ctx, inject) => {
+export default (ctx, inject): void => {
   inject('consola', consola)
 }

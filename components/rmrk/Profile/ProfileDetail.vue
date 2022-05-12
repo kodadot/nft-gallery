@@ -539,7 +539,7 @@ export default class Profile extends mixins(
   }
 
   @Watch('activeTab')
-  protected onTabChange(val: string, oldVal: string): void {
+  protected onTabChange(): void {
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
