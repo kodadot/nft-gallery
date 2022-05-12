@@ -38,7 +38,6 @@
 <script lang="ts">
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
