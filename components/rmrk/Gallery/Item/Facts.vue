@@ -18,7 +18,7 @@
       <div class="content">
         <p class="subtitle is-size-6"><b>ID:</b> {{ nft.id }}</p>
         <p class="subtitle is-size-6">
-          <b>{{ $t('Collection') }}:</b>{{ nft.collectionId }}
+          <b>{{ $t('collection') }}:</b>{{ nft.collectionId }}
         </p>
         <p class="subtitle is-size-6"><b>SN:</b>{{ nft.sn }}</p>
         <p class="subtitle is-size-6">

@@ -1,7 +1,7 @@
 <template>
   <div v-if="detailVisible">
     <p class="label">
-      {{ $t('Collection') }}
+      {{ $t('collection') }}
     </p>
     <p class="subtitle is-size-6">
       <nuxt-link

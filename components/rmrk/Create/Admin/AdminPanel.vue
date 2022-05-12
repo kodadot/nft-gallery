@@ -13,7 +13,7 @@
           </b-field>
 
           <template v-if="accountId">
-            <b-field :label="$t('Collection')">
+            <b-field :label="$t('collection')">
               <b-select
                 placeholder="Select a collection"
                 v-model="selectedCollection"

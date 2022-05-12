@@ -95,7 +95,7 @@
             <b-tooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
               append-to-body>
-              {{ $t('Collections') }}
+              {{ $t('collections') }}
               <span class="tab-counter" v-if="total">{{ total }}</span>
             </b-tooltip>
           </template>
