@@ -495,7 +495,8 @@
     "buy": "Show only nfts available for purchase",
     "random": "Go to random page",
     "buyDisabled": "Not enough balance",
-    "holdings": "Nfts owned by"
+    "holdings": "Nfts owned by",
+    "gains": "Gained by"
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -560,6 +561,7 @@
     "collected": "Collected",
     "sold": "Sold",
     "holdings": "Holdings",
+    "gains": "Gains",
     "showQr": "Show QR"
   },
   "spotlight": {
@@ -576,7 +578,7 @@
     "score": "Score",
     "empty": "Empty",
     "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30Days Sold"
+    "soldHistory": "Last 30 Days Sold"
   },
   "series": {
     "title": "Top Collection",
@@ -589,7 +591,7 @@
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
-    "buyHistory": "Last 30Days Buy"
+    "buyHistory": "Last 30 Days Buy"
   },
   "activity": {
     "listed": "Listed",
