@@ -110,7 +110,8 @@
           <InfiniteLoading
             v-if="startPage > 1 && !isLoading && total > 0"
             direction="top"
-            @infinite="reachTopHandler"></InfiniteLoading>
+            @infinite="reachTopHandler">
+          </InfiniteLoading>
           <GalleryCardList
             :items="collections"
             type="collectionDetail"
@@ -119,7 +120,15 @@
             horizontalLayout />
           <InfiniteLoading
             v-if="canLoadNextPage && !isLoading && total > 0"
-            @infinite="reachBottomHandler"></InfiniteLoading>
+            @infinite="reachBottomHandler">
+          </InfiniteLoading>
+        </b-tab-item>
+        <b-tab-item label="History" value="history">
+          <History
+            v-if="!isLoading && activeTab === 'history'"
+            :events="eventsOfNftCollection"
+            :openOnDefault="isHistoryOpen"
+            hideCollapse />
         </b-tab-item>
         <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
           <template #header>
@@ -158,12 +167,22 @@
         <b-tab-item value="holdings">
           <template #header>
             <b-tooltip
-              :label="`${$t('tooltip.holdings')} ${displayName}`"
+              :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.holdings') }}
             </b-tooltip>
           </template>
           <Holding :account-id="id" />
+        </b-tab-item>
+        <b-tab-item value="gains">
+          <template #header>
+            <b-tooltip
+              :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
+              append-to-body>
+              {{ $t('profile.gains') }}
+            </b-tooltip>
+          </template>
+          <UserGainHistory :account-id="id" />
         </b-tab-item>
       </b-tabs>
     </section>
@@ -171,10 +190,15 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sanitizeIpfsUrl, fetchNFTMetadata } from '@/components/rmrk/utils'
-import { CollectionWithMeta, Pack } from '@/components/rmrk/service/scheme'
+import {
+  CollectionWithMeta,
+  Pack,
+  Interaction,
+} from '@/components/rmrk/service/scheme'
+
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
@@ -186,6 +210,13 @@ import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
+import { CollectionChartData as ChartData } from '@/utils/chart'
+import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import { sortedEventByDate } from '~/utils/sorting'
+import ChainMixin from '~/utils/mixins/chainMixin'
+import { exist } from '../Gallery/Search/exist'
+
+const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
   GalleryCardList: () =>
@@ -201,6 +232,9 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  UserGainHistory: () =>
+    import('@/components/rmrk/Gallery/UserGainHistory.vue'),
+  History: () => import('@/components/rmrk/Gallery/History.vue'),
 }
 
 @Component<Profile>({
@@ -222,12 +256,22 @@ const components = {
   },
   components,
 })
-export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
+export default class Profile extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin,
+  ChainMixin
+) {
+  @Ref('tabsContainer') readonly tabsContainer
+
   public firstNFTData: any = {}
   protected id = ''
   protected shortendId = ''
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
+  public eventsOfNftCollection: Interaction[] | [] = []
+  public priceChartData: [Date, number][][] = []
+  protected priceData: [ChartData[], ChartData[]] | [] = []
+
   protected packs: Pack[] = []
   protected name = ''
   protected email = ''
@@ -266,6 +310,7 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
   readonly nftListByIssuer = nftListByIssuer
   readonly nftListCollected = nftListCollected
   readonly nftListSold = nftListSold
+  private openHistory = true
 
   public async mounted() {
     await this.fetchProfile()
@@ -287,6 +332,10 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.$router.replace({
       query: { tab: val },
     })
+  }
+
+  get isHistoryOpen(): boolean {
+    return this.openHistory
   }
 
   get sharingVisible(): boolean {
@@ -418,10 +467,18 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
       this.isLoading = false
     }
     // in case user is only a collector, set tab to collected
-    if (this.total === 0 && this.activeTab !== 'holdings') {
+    if (
+      this.total === 0 &&
+      this.activeTab &&
+      !tabNameWithoutCollections.includes(this.activeTab)
+    ) {
       this.$router
         .replace({ query: { tab: 'collected' } })
         .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+    }
+
+    if (this.activeTab === 'history') {
+      this.fetchCollectionEvents()
     }
   }
 
@@ -438,11 +495,57 @@ export default class Profile extends mixins(PrefixMixin, InfiniteScrollMixin) {
     this.totalCollected = count
   }
 
+  checkTabLocate() {
+    exist(this.$route.query.locate, (val) => {
+      if (val !== 'true') {
+        return
+      }
+      this.tabsContainer.$el.scrollIntoView()
+      this.$router.replace({
+        query: { ...this.$route.query, ['locate']: 'false' },
+      })
+    })
+  }
+
+  // Get collection query with NFT Events on it
+  protected async fetchCollectionEvents() {
+    try {
+      const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+        query: allEventsByProfile,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          search: {
+            caller_eq: this.id,
+          },
+        },
+      })
+      if (data && data.events && data.events.length) {
+        let events: Interaction[] = data.events
+        this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        this.checkTabLocate()
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   @Watch('$route.params.id')
   protected onIdChange(val: string, oldVal: string) {
     if (shouldUpdate(val, oldVal)) {
       this.resetPage()
       this.fetchProfile()
+
+      if (this.activeTab === 'history') {
+        this.fetchCollectionEvents()
+      }
+    }
+  }
+
+  @Watch('activeTab')
+  protected onTabChange(val: string, oldVal: string): void {
+    if (this.activeTab === 'history') {
+      this.fetchCollectionEvents()
     }
   }
 }

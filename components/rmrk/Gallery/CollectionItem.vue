@@ -278,7 +278,7 @@ export default class CollectionItem extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name: `%${this.searchQuery.search}%`,
+        name: { likeInsensitive: `%${this.searchQuery.search}%` },
       })
     }
 
@@ -330,6 +330,7 @@ export default class CollectionItem extends mixins(
     this.endPage = page
     this.nfts = []
     this.isLoading = true
+    this.isFetchingData = false
     this.fetchPageData(page)
   }
 
