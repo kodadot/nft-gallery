@@ -64,7 +64,7 @@
               :to="{
                 name: 'rmrk-u-id',
                 params: { id: props.row[groupKey] },
-                query: { tab: 'gains' },
+                query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
               <Identity :address="props.row[groupKey]" inline noOverflow />
             </nuxt-link>
