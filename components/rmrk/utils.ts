@@ -256,7 +256,7 @@ export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
 
 export const unwrap = (rmrkString: string): any | null => {
   const rr = /{.*}/
-  const match = rmrkString.match(rr)
+  const match = rr.exec(rmrkString)
 
   if (!match) {
     return null
@@ -307,7 +307,8 @@ export const resolveMedia = (mimeType?: string): MediaType => {
     return MediaType.OBJECT
   }
 
-  const match = mimeType.match(/^[a-z]+/)
+  const rr = /^[a-z]+/
+  const match = rr.exec(mimeType)
 
   if (!match) {
     return MediaType.UNKNOWN
