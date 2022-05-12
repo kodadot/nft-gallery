@@ -128,8 +128,7 @@
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
             :openOnDefault="isHistoryOpen"
-            hideCollapse
-            @setPriceChartData="setPriceChartData" />
+            hideCollapse />
         </b-tab-item>
         <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
           <template #header>
@@ -202,10 +201,8 @@ import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionChartData as ChartData } from '@/utils/chart'
-import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import allEventsByProfil from '@/queries/rmrk/subsquid/allEventsByProfil.graphql'
+import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
-import { mapDecimals } from '~/utils/mappers'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { exist } from '../Gallery/Search/exist'
 
@@ -258,7 +255,6 @@ export default class Profile extends mixins(
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
   public eventsOfNftCollection: Interaction[] | [] = []
-  public ownerEventsOfNftCollection: Interaction[] | [] = []
   public priceChartData: [Date, number][][] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
 
@@ -493,34 +489,11 @@ export default class Profile extends mixins(
     })
   }
 
-  public setPriceChartData(data: [Date, number][][]) {
-    this.priceChartData = data
-  }
-
-  protected async loadStats(): Promise<void> {
-    const { data } = await this.$apollo.query<{
-      buys: ChartData[]
-      listings: ChartData[]
-    }>({
-      query: collectionChartById,
-      client: 'subsquid',
-      variables: {
-        id: this.id,
-      },
-    })
-
-    if (!data) {
-      return
-    }
-    this.loadPriceData(data)
-    this.checkTabLocate()
-  }
-
   // Get collection query with NFT Events on it
   protected async fetchCollectionEvents() {
     try {
       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
-        query: allEventsByProfil,
+        query: allEventsByProfile,
         client: 'subsquid',
         variables: {
           id: this.id,
@@ -532,39 +505,11 @@ export default class Profile extends mixins(
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
-        // copy array and reverse
-        this.ownerEventsOfNftCollection = [
-          ...this.eventsOfNftCollection,
-        ].reverse()
         this.checkTabLocate()
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
     }
-  }
-
-  public loadPriceData({
-    buys,
-    listings,
-  }: {
-    buys: ChartData[]
-    listings: ChartData[]
-  }): void {
-    this.priceData = []
-
-    const mapToDecimals = mapDecimals(this.decimals, false)
-    const soldPriceData = buys.map((buy) => ({
-      ...buy,
-      value: mapToDecimals(buy.value),
-      average: mapToDecimals(buy.average || 0),
-    }))
-
-    const listedPriceData = listings.map((listing) => ({
-      ...listing,
-      value: mapToDecimals(listing.value),
-    }))
-
-    this.priceData = [listedPriceData, soldPriceData]
   }
 
   @Watch('$route.params.id')

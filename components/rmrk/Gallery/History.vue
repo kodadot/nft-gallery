@@ -305,7 +305,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['Block'] = String(newEvent['blockNumber'])
 
       // ID for b-table: Use a unique key of your data Object for each row.
-      event['ID'] = newEvent['timestamp']
+      event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {
