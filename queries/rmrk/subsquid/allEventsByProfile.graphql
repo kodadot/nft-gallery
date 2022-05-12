@@ -1,0 +1,18 @@
+query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
+  events(where: {caller_eq : $id, AND: $search }) {
+    meta
+    interaction
+    blockNumber
+    timestamp
+    caller
+    id
+    nft {
+      id
+      name
+      collection {
+        id
+        name
+      }
+    }
+  }
+}
