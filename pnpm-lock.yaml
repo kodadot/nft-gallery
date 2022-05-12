@@ -29,7 +29,7 @@ specifiers:
   '@polkadot/extension-inject': ^0.42.7
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': ^0.89.2
-  '@ramp-network/ramp-instant-sdk': ^3.1.0
+  '@ramp-network/ramp-instant-sdk': ^3.1.1
   '@types/jest': ^27.5.1
   '@types/markdown-it': ^12.2.3
   '@typescript-eslint/eslint-plugin': ^5.23.0
@@ -105,7 +105,7 @@ dependencies:
   '@polkadot/extension-inject': 0.42.9
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': 0.89.3_vue@2.6.14
-  '@ramp-network/ramp-instant-sdk': 3.1.0
+  '@ramp-network/ramp-instant-sdk': 3.1.1
   apollo-boost: 0.4.9_graphql@16.5.0
   axios: 0.27.2
   buefy: 0.9.20_vue@2.6.14
@@ -3940,8 +3940,8 @@ packages:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
     dev: false
 
-  /@ramp-network/ramp-instant-sdk/3.1.0:
-    resolution: {integrity: sha512-zgqbGSOAdaf74JTriZxhDNVbxL5vPsr7kblc1qSIXaurTSzqe2dquIce/eJcIy4+BNqRy4hML5759HdogQl9Sg==}
+  /@ramp-network/ramp-instant-sdk/3.1.1:
+    resolution: {integrity: sha512-styElknV9f9nvxH+uzmlJIRuzuBSzinzWZN6nlrh1SJ7CfDAd460PWkUuWZHEvRhRUTwpZCmltMxtLRCzykJAQ==}
     engines: {node: '>=6.0.0'}
     dependencies:
       body-scroll-lock: 3.1.5
