@@ -11,6 +11,7 @@ export const state = (): {
   showMintTimeCollection: boolean
   galleryItemsPerPage: number
   collectionsPerPage: number
+  exploreTabOrder: string
   historyItemsPerPage: number
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
@@ -29,6 +30,7 @@ export const state = (): {
   showMintTimeCollection: false,
   galleryItemsPerPage: 12,
   collectionsPerPage: 9,
+  exploreTabOrder: 'COLLECTION',
   historyItemsPerPage: 12,
   replaceBuyNowWithYolo: false,
   hasSupport: true,
@@ -48,6 +50,7 @@ export const getters: GetterTree<PreferencesState, PreferencesState> = {
   getShowMintTime: ({ showMintTimeCollection }) => showMintTimeCollection,
   getGalleryItemsPerPage: ({ galleryItemsPerPage }) => galleryItemsPerPage,
   getCollectionsPerPage: ({ collectionsPerPage }) => collectionsPerPage,
+  getExploreTabOrder: ({ exploreTabOrder }) => exploreTabOrder,
   getHistoryItemsPerPage: ({ historyItemsPerPage }) => historyItemsPerPage,
   getReplaceBuyNowWithYolo: ({ replaceBuyNowWithYolo }) =>
     replaceBuyNowWithYolo,
@@ -72,6 +75,7 @@ export const mutations: MutationTree<PreferencesState> = {
       state.showPriceGallery = false
       state.galleryItemsPerPage = 12
       state.collectionsPerPage = 9
+      state.exploreTabOrder = 'COLLECTION'
       state.historyItemsPerPage = 12
     }
     state.advancedUI = data
@@ -99,6 +103,9 @@ export const mutations: MutationTree<PreferencesState> = {
   },
   SET_COLLECTIONS_PER_PAGE(state: PreferencesState, data) {
     state.collectionsPerPage = data
+  },
+  SET_EXPLORE_TAB_ORDER(state: PreferencesState, data) {
+    state.exploreTabOrder = data
   },
   SET_HAS_SUPPORT(state: PreferencesState, data) {
     state.hasSupport = data
@@ -144,6 +151,9 @@ export const actions: ActionTree<PreferencesState, PreferencesState> = {
   },
   setCollectionsPerPage({ commit }: { commit: Commit }, data) {
     commit('SET_COLLECTIONS_PER_PAGE', data)
+  },
+  setExploreTabOrder({ commit }: { commit: Commit }, data) {
+    commit('SET_EXPLORE_TAB_ORDER', data)
   },
   setReplaceBuyNowWithYolo({ commit }: { commit: Commit }, data) {
     commit('REPLACE_BUYNOW_WITH_YOLO', data)

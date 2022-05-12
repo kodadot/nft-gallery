@@ -305,7 +305,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['Block'] = String(newEvent['blockNumber'])
 
       // ID for b-table: Use a unique key of your data Object for each row.
-      event['ID'] = newEvent['timestamp']
+      event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
       if (newEvent['interaction'] === 'LIST') {
@@ -327,8 +327,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   protected parseDate(date: Date): string {
-    const utcDate: string = date.toUTCString()
-    return utcDate.substring(4)
+    return date.toLocaleString('en-GB', {
+      timeZone: 'UTC',
+      timeZoneName: 'short',
+    })
   }
 
   protected getBlockUrl(block: string): string {
