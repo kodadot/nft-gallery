@@ -1,7 +1,7 @@
 import { KeyringAccount } from '@/utils/types/types'
 import keyring from '@polkadot/ui-keyring'
 import { getAddress } from '@/utils/extension'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { decodeAddress, encodeAddress, addressEq } from '@polkadot/util-crypto'
 import * as store from '~/store'
 import { Prefix } from '@polkadot/util-crypto/address/types'
 
@@ -54,6 +54,12 @@ export const formatAccount = (
     ? format
     : store.getters['chain/getChainProperties58Format']
   return encodeAddress(decodeAddress(address), <any>ss58Format)
+}
+
+export const isSameAccount = (account1: KeyringAccount | string, account2: KeyringAccount | string): boolean => {
+  const address1 = accountToAddress(account1)
+  const address2 = accountToAddress(account2)
+  return addressEq(address1, address2)
 }
 
 export default passwordRequired
