@@ -61,11 +61,23 @@
               <template v-if="detailVisible && !nft.burned">
                 <div class="card bordered mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
-                    <template v-if="hasPrice">
-                      <div class="label">
-                        {{ $t('price') }}
+                  <template v-if="hasPrice">
+                    <div class="label">
+                      {{ $t('price') }}
+                    </div>
+                    <div class="price-block__container">
+                      <div class="price-block__original">
+                        <Money :value="nft.price" inline />
                       </div>
-                    </template>
+                      <b-button
+                        v-if="nft.currentOwner === accountId"
+                        type="is-warning"
+                        outlined
+                        @click="handleUnlist">
+                        {{ $t('Unlist') }}
+                      </b-button>
+                    </div>
+                  </template>
                     <div class="content pt-4">
                       <p class="subtitle">
                           <AvailableActions
@@ -161,6 +173,7 @@ import resolveQueryPath from '~/utils/queryPathResolver'
     Properties: () => import('@/components/unique/Gallery/Item/Properties.vue'),
     BaseGalleryItem: () =>
       import('@/components/shared/gallery/BaseGalleryItem.vue'),
+    Money: () => import('@/components/shared/format/Money.vue'),
   },
   directives: {
     orientation: Orientation,
