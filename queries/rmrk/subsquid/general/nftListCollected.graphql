@@ -1,5 +1,6 @@
 #import "../../../fragments/nftDetails.graphql"
 #import "../../../fragments/rubickNft.graphql"
+#import "../../../fragments/collectionMeta.graphql"
 
 query nftListCollected(
   $account: String!
@@ -22,6 +23,7 @@ query nftListCollected(
   ) {
     ...rubickNft
     ...nftDetails
+    ...collectionMeta
     emotes {
       id
     }

@@ -1,5 +1,7 @@
 #import "../../../fragments/nftDetails.graphql"
 #import "../../../fragments/rubickNft.graphql"
+#import "../../../fragments/collectionMeta.graphql"
+
 query nftListByIssuer(
   $account: String!
   $limit: Int!
@@ -20,6 +22,7 @@ query nftListByIssuer(
   ) {
     ...rubickNft
     ...nftDetails
+    ...collectionMeta
   }
   nftEntitiesConnection(
     where: {
