@@ -393,7 +393,8 @@
     "PRICE_DESC": "Price: High to Low",
     "PRICE_ASC": "Price: Low to High",
     "SN_ASC": "Serial Number Ascending",
-    "listed": "Buy now"
+    "listed": "Buy now",
+    "own": "Own"
   },
   "mint": {
     "submit": "Click to create NFT(s)",
@@ -459,6 +460,7 @@
     "sold": "Nfts sold by",
     "collected": "Nfts collected by",
     "buy": "Show only nfts available for purchase",
+    "own": "Show only nfts you own",
     "random": "Go to random page",
     "buyDisabled": "Not enough balance",
     "holdings": "Nfts owned by",
