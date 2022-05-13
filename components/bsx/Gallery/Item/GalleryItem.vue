@@ -142,7 +142,7 @@ import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import onApiConnect from '@/utils/api/general'
-import { getMetadata, getPrice, getOwner, hasAllPallets } from './utils'
+import { getPrice, getOwner, hasAllPallets } from './utils'
 import AuthMixin from '~/utils/mixins/authMixin'
 import { unwrapOrNull, toHuman, unwrapOrDefault } from '@/utils/api/format'
 import resolveQueryPath from '~/utils/queryPathResolver'
@@ -262,9 +262,9 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, Aut
   }
 
   private async fetchNftData() {
-    const query = resolveQueryPath(this.urlPrefix, 'nftById')
+    const query = await resolveQueryPath(this.urlPrefix, 'nftById')
     const nft = await this.$apollo.query({
-      query: (await query).default,
+      query: query.default,
       client: this.urlPrefix,
       variables: {
         id: createTokenId(this.collectionId, this.id),
@@ -285,6 +285,14 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, Aut
       ...this.nft,
       ...nftEntity,
       metadata: nftEntity.metadata
+    }
+
+    if (nftEntity.meta) {
+      this.meta = {
+        ...this.meta,
+        ...nftEntity.meta,
+        image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
+      }
     }
   }
 

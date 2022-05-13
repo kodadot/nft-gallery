@@ -142,8 +142,6 @@ import { Component, mixins, Watch } from 'nuxt-property-decorator'
 import { NFT, NFTMetadata, Emote } from '../service/scheme'
 import { sanitizeIpfsUrl, resolveMedia, getSanitizer } from '../utils'
 import { emptyObject } from '@/utils/empty'
-
-import AvailableActions from './AvailableActions.vue'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
