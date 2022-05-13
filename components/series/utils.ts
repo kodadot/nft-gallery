@@ -50,7 +50,6 @@ export const nftFn = (a: any): RowSeries => {
     unique,
     buys,
     uniqueCollectors,
-    averagePrice,
     floorPrice,
     dailyVolume,
     weeklyVolume,
@@ -109,4 +108,8 @@ export function defaultEvents(start: Date, end: Date) {
     res[date] = 0
     return res
   }, {})
+}
+
+export function calculateAvgPrice(volume: string, buys: number): string {
+  return String(Math.round(parseInt(volume) / buys))
 }

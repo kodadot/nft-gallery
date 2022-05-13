@@ -217,7 +217,7 @@ export default class SearchBar extends mixins(
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: 'legacysquid',
+          client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
@@ -250,7 +250,7 @@ export default class SearchBar extends mixins(
 
         const result = await this.$apollo.query({
           query: seriesInsightList,
-          client: 'subsquid',
+          client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             orderBy: 'volume_DESC',
