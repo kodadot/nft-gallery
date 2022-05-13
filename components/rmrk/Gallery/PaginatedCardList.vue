@@ -136,7 +136,7 @@ export default class PaginatedCardList extends mixins(
       query: this.query,
       client: 'subsquid',
       variables: {
-        account: 'Fksmad33PFxhrQXNYPPJozgWrv82zuFLvXK7Rh8m1xQhe98',
+        account: this.account,
         orderBy: this.remapSortBy,
         and: this.buildSearchParam,
         limit: this.first,
@@ -152,9 +152,13 @@ export default class PaginatedCardList extends mixins(
   protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
       const {
-        nftEntities,
         nftEntitiesConnection: { totalCount },
       } = data
+      const helper = (nft) => ({
+        ...nft,
+        emoteCount: nft?.emotes?.length,
+      })
+      const nftEntities = data.nftEntities.map(helper)
       await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
         this.$consola.warn
       )
