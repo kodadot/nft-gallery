@@ -43,6 +43,7 @@ export type RowSeries = {
   uniqueCollectors: number
   name: string
   buyHistory: BuyHistory
+  emoteCount: number
 }
 
 export type SimpleSeriesNFT = {
