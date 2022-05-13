@@ -29,3 +29,4 @@ export function getSupportedClient(prefix: string): 'subquery' | 'subsquid' {
   }
 }
 
+export const hasMarketplace = (prefix: string): boolean => ['rmrk', 'bsx'].includes(prefix)
