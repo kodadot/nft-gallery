@@ -16,7 +16,8 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
     account: string,
     cb: (...params: any[]) => Extrinsic,
     args: any[],
-    onSuccess?: (blockNumber: string) => void
+    onSuccess?: (blockNumber: string) => void,
+    onError?: () => void
   ): Promise<void> {
     try {
       const { api } = Connector.getInstance()
@@ -41,6 +42,9 @@ export default class MetaTransactionMixin extends Mixins(TransactionMixin) {
             execResultValue(tx)
             this.onTxError(dispatchError)
             this.isLoading = false
+            if (onError) {
+              onError()
+            }
           },
           (res) => this.resolveStatus(res.status)
         )
