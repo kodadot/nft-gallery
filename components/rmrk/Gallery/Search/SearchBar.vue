@@ -217,7 +217,7 @@ export default class SearchBar extends mixins(
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+          client: this.client,
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
