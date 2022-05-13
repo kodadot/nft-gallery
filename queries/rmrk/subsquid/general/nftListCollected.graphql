@@ -22,6 +22,7 @@ query nftListCollected(
   ) {
     ...rubickNft
     ...nftDetails
+    createdAt
   }
   nftEntitiesConnection(
     where: {

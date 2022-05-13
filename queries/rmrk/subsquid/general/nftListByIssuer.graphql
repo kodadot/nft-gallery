@@ -4,7 +4,7 @@ query nftListByIssuer(
   $account: String!
   $limit: Int!
   $offset: Int
-  $search: [NFTEntityWhereInput!]
+  $and: [NFTEntityWhereInput!]
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
 ) {
   nftEntities(
@@ -12,7 +12,7 @@ query nftListByIssuer(
       issuer_eq: $account
       name_not_contains: "%Kanaria%"
       burned_eq: false
-      AND: $search
+      AND: $and
     }
     orderBy: [$orderBy, blockNumber_DESC]
     limit: $limit
@@ -26,7 +26,7 @@ query nftListByIssuer(
       issuer_eq: $account
       name_not_contains: "%Kanaria%"
       burned_eq: false
-      AND: $search
+      AND: $and
     }
     orderBy: blockNumber_DESC
   ) {
