@@ -77,14 +77,12 @@ export default class PaginatedCardList extends mixins(
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+        name_containsInsensitive: this.searchQuery.search,
       })
     }
 
     if (this.searchQuery.listed) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      params.push({ price_gt: '0' })
     }
 
     return params
@@ -138,7 +136,7 @@ export default class PaginatedCardList extends mixins(
       query: this.query,
       client: 'subsquid',
       variables: {
-        account: this.account,
+        account: 'Fksmad33PFxhrQXNYPPJozgWrv82zuFLvXK7Rh8m1xQhe98',
         orderBy: this.remapSortBy,
         and: this.buildSearchParam,
         limit: this.first,
