@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-import GalleryItem from '@/components/rmrk/Gallery/GalleryItem.vue'
+import GalleryItem from '@/components/bsx/Gallery/Item/GalleryItem.vue'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 

@@ -128,6 +128,10 @@ import {
   InstanceMetadata,
 } from '@polkadot/types/interfaces'
 
+import {
+  u128
+} from '@polkadot/types'
+
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/unique/nftById.graphql'
 import { fetchNFTMetadata } from '@/components/rmrk/utils'
@@ -141,6 +145,10 @@ import { Option } from '@polkadot/types'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import onApiConnect from '@/utils/api/general'
+import { getMetadata, getPrice, getOwner, hasAllPallets } from './utils'
+import AuthMixin from '~/utils/mixins/authMixin'
+import { unwrapOrNull, toHuman, unwrapOrDefault } from '@/utils/api/format'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 @Component<GalleryItem>({
   components: {
@@ -161,7 +169,7 @@ import onApiConnect from '@/utils/api/general'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
+export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, AuthMixin) {
   private id = ''
   private collectionId = ''
   private nft: NFT = emptyObject<NFT>()
@@ -172,41 +180,34 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
   public emotes: Emote[] = []
   public message = ''
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
-  }
-
-  get emoteVisible() {
-    return this.urlPrefix === 'rmrk'
-  }
-
   public async created() {
     this.checkId()
-    this.fetchCollection()
+    this.fetchNftData()
     onApiConnect((api) => {
-      this.loadMagic()
-      if (api.query.uniques) {
-        this.subscribe(
-          api.query.uniques.asset,
-          [this.collectionId, this.id],
-          this.observeOwner
-        )
+      // this.loadMagic()
+      if (hasAllPallets(api)) {
+        this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
+        this.subscribe(getPrice(api), this.tokenId, this.observeOwner)
+        // this.subscribe(getPrice(api), this.tokenId, this.observeOwner)
       }
     })
   }
 
+  get tokenId(): [string, string] {
+    return [this.collectionId, this.id]
+  }
+
   protected observeOwner(data: Option<InstanceDetails>) {
-    this.$consola.log(data.toHuman())
-    const instance = data.unwrapOr(null)
+    this.$consola.log('Owner', data.toHuman())
+    const instance = unwrapOrNull(data)
     if (instance) {
-      this.$set(this.nft, 'currentOwner', instance.owner.toHuman())
-      this.$set(this.nft, 'delegate', instance.approved.toHuman())
-      this.$set(this.nft, 'isFrozen', instance.isFrozen.isTrue)
-    } else {
-      // check if not burned because burned returns null
-      this.nft = emptyObject<NFT>()
-      this.$set(this.nft, 'burned', true)
+      this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
     }
+  }
+
+  protected observePrice(data: Option<u128>) {
+    this.$consola.log('price', data.toHuman())
+    this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
   }
 
   public async loadMagic() {
@@ -262,29 +263,30 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin) {
     this.isLoading = false
   }
 
-  private async fetchCollection() {
+  private async fetchNftData() {
+    const query = resolveQueryPath(this.urlPrefix, 'nftById')
     const nft = await this.$apollo.query({
-      query: nftById,
+      query: (await query).default,
       client: this.urlPrefix,
       variables: {
         id: createTokenId(this.collectionId, this.id),
       },
     })
     const {
-      data: { nFTEntity },
+      data: { nftEntity },
     } = nft
 
-    if (!nFTEntity) {
+    if (!nftEntity) {
       showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
 
-    this.$consola.log('nft', nFTEntity)
+    this.$consola.log('nft', nftEntity)
 
     this.nft = {
       ...this.nft,
-      ...nFTEntity,
-      metadata: nFTEntity.metadata || nFTEntity.collection.metadata,
+      ...nftEntity,
+      metadata: nftEntity.metadata
     }
   }
 
