@@ -139,11 +139,12 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
 import collectionList from '@/queries/unique/collectionListByAccount.graphql'
-import nftListByIssuer from '@/queries/unique/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/unique/nftListCollected.graphql'
-import nftListSold from '@/queries/unique/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/unique/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
+
+import firstNftByIssuer from '@/queries/rmrk/subsquid/general/firstNftByIssuer.graphql'
+import nftListByIssuer from '@/queries/rmrk/subsquid/general/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/rmrk/subsquid/general/nftListCollected.graphql'
+import nftListSold from '@/queries/rmrk/subsquid/general/nftListSold.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -259,7 +260,7 @@ export default class Profile extends mixins(PrefixMixin) {
       this.$apollo.addSmartQuery('collections', {
         query: collectionList,
         manual: true,
-        client: this.urlPrefix,
+        client: 'subsquid',
         // update: ({ nFTEntities }) => nFTEntities.nodes,
         loadingKey: 'isLoading',
         result: this.handleCollectionResult,
@@ -276,7 +277,7 @@ export default class Profile extends mixins(PrefixMixin) {
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
         manual: true,
-        client: this.urlPrefix,
+        client: 'subsquid',
         loadingKey: 'isLoading',
         result: this.handleResult,
         variables: () => {
