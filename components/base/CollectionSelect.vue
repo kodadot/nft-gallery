@@ -1,6 +1,6 @@
 <template>
   <b-field
-    :label="$t('Collection')"
+    :label="$t('collection')"
     :message="$t('Select collection where do you want mint your token')">
     <b-select
       placeholder="Select a collection"

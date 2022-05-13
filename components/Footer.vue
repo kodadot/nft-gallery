@@ -83,38 +83,38 @@ interface Menu {
 export default class Footer extends Vue {
   public menu: Menu[] = [
     {
-      name: this.$t('About'),
+      name: this.$t('about'),
       url: '/about',
     },
     {
-      name: this.$t('FAQ'),
+      name: this.$t('faq.page'),
       url: '/rmrk/faq',
     },
     {
-      name: this.$t('Grants'),
+      name: this.$t('grants'),
       url: 'https://form.kodadot.xyz/grant',
       external: true,
     },
     {
-      name: this.$t('Documentation'),
+      name: this.$t('documentation'),
       url: 'https://docs.kodadot.xyz/',
       external: true,
     },
     {
-      name: this.$t('Contribute'),
+      name: this.$t('contribute'),
       url: '/contribute',
     },
     {
-      name: this.$t('Careers'),
+      name: this.$t('careers'),
       url: '/jobs',
     },
     {
-      name: this.$t('Ambassador Program'),
+      name: this.$t('ambassador program'),
       url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
       external: true,
     },
     {
-      name: this.$t('Press Kit'),
+      name: this.$t('press kit'),
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
     },

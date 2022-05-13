@@ -13,7 +13,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^5.15.4
   '@fortawesome/free-solid-svg-icons': ^5.15.4
   '@fortawesome/vue-fontawesome': ^2.0.6
-  '@google/model-viewer': ^1.11.1
+  '@google/model-viewer': ^1.12.0
   '@keeex/qrcodejs-kx': ^1.0.2
   '@kodadot1/minimark': ^0.0.1-rc.6
   '@kodadot1/sub-api': ^0.0.1-rc.3
@@ -29,8 +29,8 @@ specifiers:
   '@polkadot/extension-inject': ^0.42.7
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': ^0.89.2
-  '@ramp-network/ramp-instant-sdk': ^3.1.0
-  '@types/jest': ^27.5.0
+  '@ramp-network/ramp-instant-sdk': ^3.1.1
+  '@types/jest': ^27.5.1
   '@types/markdown-it': ^12.2.3
   '@typescript-eslint/eslint-plugin': ^5.23.0
   '@typescript-eslint/parser': ^5.23.0
@@ -73,7 +73,7 @@ specifiers:
   slugify: ^1.6.5
   typescript: ^4.6.4
   v-emoji-picker: ^2.3.3
-  vitest: ^0.12.3
+  vitest: ^0.12.4
   vue: ^2.6.14
   vue-apollo: ^3.1.0
   vue-audio-visual: ^2.4.1
@@ -94,7 +94,7 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 5.15.4
   '@fortawesome/free-solid-svg-icons': 5.15.4
   '@fortawesome/vue-fontawesome': 2.0.6_fe42df078f2a2053a7b804c982ace964
-  '@google/model-viewer': 1.11.1
+  '@google/model-viewer': 1.12.0
   '@keeex/qrcodejs-kx': 1.0.2
   '@kodadot1/minimark': 0.0.1-rc.6
   '@kodadot1/sub-api': 0.0.1-rc.3
@@ -105,7 +105,7 @@ dependencies:
   '@polkadot/extension-inject': 0.42.9
   '@polkadot/ui-keyring': 0.89.4-1
   '@polkadot/vue-identicon': 0.89.3_vue@2.6.14
-  '@ramp-network/ramp-instant-sdk': 3.1.0
+  '@ramp-network/ramp-instant-sdk': 3.1.1
   apollo-boost: 0.4.9_graphql@16.5.0
   axios: 0.27.2
   buefy: 0.9.20_vue@2.6.14
@@ -150,12 +150,12 @@ devDependencies:
   '@babel/plugin-proposal-private-property-in-object': 7.16.7_@babel+core@7.17.10
   '@babel/plugin-transform-runtime': 7.17.10_@babel+core@7.17.10
   '@babel/preset-env': 7.17.10_@babel+core@7.17.10
-  '@nuxt/bridge': /@nuxt/bridge-edge/3.0.0-27470397.9ebea90_36595b8d5bd4971b4896ceb131d9655a
+  '@nuxt/bridge': /@nuxt/bridge-edge/3.0.0-27470397.9ebea90_1692cac005faac011a766e83832c0afc
   '@nuxt/test-utils': 0.2.2_@babel+core@7.17.10
   '@nuxt/types': 2.15.8_sass@1.51.0
   '@nuxtjs/pwa': 3.3.5
   '@open-wc/webpack-import-meta-loader': 0.4.7
-  '@types/jest': 27.5.0
+  '@types/jest': 27.5.1
   '@types/markdown-it': 12.2.3
   '@typescript-eslint/eslint-plugin': 5.23.0_17b6d2ce7129f0b36f2c30ae592c16e7
   '@typescript-eslint/parser': 5.23.0_eslint@8.15.0+typescript@4.6.4
@@ -175,7 +175,7 @@ devDependencies:
   sass: 1.51.0
   sass-loader: 10.2.1_sass@1.51.0
   typescript: 4.6.4
-  vitest: 0.12.3_jsdom@19.0.0+sass@1.51.0
+  vitest: 0.12.4_jsdom@19.0.0+sass@1.51.0
   vue-debounce-decorator: 1.0.1
 
 packages:
@@ -252,13 +252,9 @@ packages:
       long: 4.0.0
     dev: false
 
-  /@apollographql/apollo-tools/0.5.2_graphql@15.8.0:
+  /@apollographql/apollo-tools/0.5.2:
     resolution: {integrity: sha512-KxZiw0Us3k1d0YkJDhOpVH5rJ+mBfjXcgoRoCcslbgirjgLotKMzOcx4PZ7YTEvvEROmvG7X3Aon41GvMmyGsw==}
     engines: {node: '>=8', npm: '>=6'}
-    peerDependencies:
-      graphql: ^14.2.1 || ^15.0.0
-    dependencies:
-      graphql: 15.8.0
     dev: false
 
   /@apollographql/graphql-language-service-interface/2.0.2_graphql@15.8.0:
@@ -1724,13 +1720,11 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@cypress/xvfb/1.2.4_supports-color@8.1.1:
+  /@cypress/xvfb/1.2.4:
     resolution: {integrity: sha512-skbBzPggOVYCbnGgV+0dmBdW/s77ZkAOXIC1knS8NagwDjBrNC1LuXtQJeiN6l+m7lzmHtaoUw/ctJKdqkG57Q==}
     dependencies:
-      debug: 3.2.7_supports-color@8.1.1
+      debug: 3.2.7
       lodash.once: 4.1.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@endemolshinegroup/cosmiconfig-typescript-loader/1.0.2_fab8955365f80d94eba792eb5e0f3498:
@@ -1817,12 +1811,11 @@ packages:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
     dev: false
 
-  /@google/model-viewer/1.11.1:
-    resolution: {integrity: sha512-JkmxbrImN2QU22kPTzseCGIOOzxzc2oWvoCBk2vEEqrTwh6orzYWhKw9bfzMmZqxPzP9jNlRSBzD1WSUgFm9Iw==}
+  /@google/model-viewer/1.12.0:
+    resolution: {integrity: sha512-z6fn13vkY2ffQVEO2mtNK3zexqezsr57mO0SrSIJwvPSJnLPLLLCdSvR+2xNFUEbbbejBrgERV07kjcMReu87Q==}
     engines: {node: '>=6.0.0'}
     dependencies:
-      lit-element: 2.5.1
-      lit-html: 1.4.1
+      lit: 2.2.3
       three: 0.139.2
     dev: false
 
@@ -2328,6 +2321,10 @@ packages:
       '@polkadot/networks': 7.9.2
     dev: false
 
+  /@lit/reactive-element/1.3.2:
+    resolution: {integrity: sha512-A2e18XzPMrIh35nhIdE4uoqRzoIpEU5vZYuQN4S3Ee1zkGdYC27DP12pewbw/RLgPHzaE4kx/YqxMzebOpm0dA==}
+    dev: false
+
   /@mapbox/node-pre-gyp/1.0.8:
     resolution: {integrity: sha512-CMGKi28CF+qlbXh26hDe6NxCd7amqeAzEqnS6IHeO6LoaKyM/n+Xw3HT1COdq8cuioOdlKdqn/hCmqPUOMOywg==}
     hasBin: true
@@ -2421,7 +2418,7 @@ packages:
       - supports-color
     dev: false
 
-  /@nuxt/bridge-edge/3.0.0-27470397.9ebea90_36595b8d5bd4971b4896ceb131d9655a:
+  /@nuxt/bridge-edge/3.0.0-27470397.9ebea90_1692cac005faac011a766e83832c0afc:
     resolution: {integrity: sha512-9XgmWufPGg6EWoUlc4VZiDQzaSib0r1f3JL/11u9itpM/J7WMAWasjd974QZM3eqiQbBmyRMUSGpS4WKp+PFAQ==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0}
     hasBin: true
@@ -2470,76 +2467,24 @@ packages:
       unplugin-vue2-script-setup: 0.10.2_bf8bf2cb0c43d8a5869c326159c1d00c
       untyped: 0.4.4
       vite: 2.9.8_sass@1.51.0
-      vite-plugin-vue2: 1.9.3_1260cd5339c8d74a2fb970ce9bc3e06e
+      vite-plugin-vue2: 1.9.3_c61d36f52e674065c8fa984defcea892
       vue-template-compiler: 2.6.14
     transitivePeerDependencies:
       - '@babel/core'
       - '@vue/runtime-dom'
-      - arc-templates
-      - atpl
-      - babel-core
-      - bracket-template
       - bufferutil
-      - coffee-script
       - debug
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
       - encoding
       - esbuild
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
       - less
-      - liquid-node
-      - liquor
-      - lodash
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
       - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
       - rollup
       - sass
-      - slm
-      - squirrelly
       - stylus
       - supports-color
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
-      - underscore
       - utf-8-validate
-      - vash
-      - velocityjs
       - vue
-      - walrus
       - webpack
-      - whiskers
     dev: true
 
   /@nuxt/builder-edge/2.16.0-27358576.777a4b7f_typescript@4.6.4:
@@ -2561,67 +2506,13 @@ packages:
       serialize-javascript: 6.0.0
       upath: 2.0.1
     transitivePeerDependencies:
-      - '@vue/compiler-sfc'
-      - arc-templates
-      - atpl
-      - babel-core
-      - bluebird
-      - bracket-template
       - bufferutil
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
       - encoding
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
       - supports-color
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
       - typescript
-      - underscore
       - utf-8-validate
-      - vash
-      - velocityjs
-      - walrus
       - webpack-cli
       - webpack-command
-      - whiskers
     dev: false
 
   /@nuxt/cli-edge/2.16.0-27358576.777a4b7f:
@@ -2652,8 +2543,6 @@ packages:
       std-env: 3.0.1
       upath: 2.0.1
       wrap-ansi: 7.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@nuxt/components/2.2.1_consola@2.15.3:
@@ -2697,8 +2586,6 @@ packages:
       hable: 3.0.0
       hash-sum: 2.0.0
       lodash: 4.17.21
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@nuxt/devalue/2.0.0:
@@ -2799,8 +2686,6 @@ packages:
       get-port-please: 2.4.3
       node-res: 5.0.1
       serve-static: 1.15.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@nuxt/nitro-edge/3.0.0-27470397.9ebea90_vite@2.9.8:
@@ -2964,8 +2849,6 @@ packages:
       serve-static: 1.15.0
       server-destroy: 1.0.1
       ufo: 0.7.11
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@nuxt/telemetry/1.3.6:
@@ -3129,7 +3012,7 @@ packages:
       time-fix-plugin: 2.0.7_webpack@4.46.0
       ufo: 0.7.11
       url-loader: 4.1.1_file-loader@6.2.0+webpack@4.46.0
-      vue-loader: 15.9.8_8c0eaf4cc52893706bf275ce7d3b5865
+      vue-loader: 15.9.8_559ffc97fd41de05d12663d7fb949156
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.6.14
       watchpack: 2.3.1
@@ -3140,66 +3023,12 @@ packages:
       webpack-node-externals: 3.0.0
       webpackbar: 5.0.2_webpack@4.46.0
     transitivePeerDependencies:
-      - '@vue/compiler-sfc'
-      - arc-templates
-      - atpl
-      - babel-core
-      - bluebird
-      - bracket-template
       - bufferutil
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
       - supports-color
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
       - typescript
-      - underscore
       - utf-8-validate
-      - vash
-      - velocityjs
-      - walrus
       - webpack-cli
       - webpack-command
-      - whiskers
     dev: false
 
   /@nuxtjs/apollo/4.0.1-rc.5_8b6491f920f26e00556f326691bc0a76:
@@ -3224,7 +3053,6 @@ packages:
       - typescript
       - utf-8-validate
       - zen-observable
-      - zenObservable
     dev: false
 
   /@nuxtjs/i18n/7.2.2:
@@ -3258,8 +3086,6 @@ packages:
       lodash.template: 4.5.0
       serve-static: 1.14.2
       workbox-cdn: 5.1.4
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@nuxtjs/youch/4.2.3:
@@ -3890,8 +3716,6 @@ packages:
       '@polkadot/x-global': 8.6.1
       '@types/websocket': 1.0.5
       websocket: 1.0.34
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@protobufjs/aspromise/1.1.2:
@@ -3937,8 +3761,8 @@ packages:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
     dev: false
 
-  /@ramp-network/ramp-instant-sdk/3.1.0:
-    resolution: {integrity: sha512-zgqbGSOAdaf74JTriZxhDNVbxL5vPsr7kblc1qSIXaurTSzqe2dquIce/eJcIy4+BNqRy4hML5759HdogQl9Sg==}
+  /@ramp-network/ramp-instant-sdk/3.1.1:
+    resolution: {integrity: sha512-styElknV9f9nvxH+uzmlJIRuzuBSzinzWZN6nlrh1SJ7CfDAd460PWkUuWZHEvRhRUTwpZCmltMxtLRCzykJAQ==}
     engines: {node: '>=6.0.0'}
     dependencies:
       body-scroll-lock: 3.1.5
@@ -4065,10 +3889,8 @@ packages:
       zen-observable:
         optional: true
     dependencies:
-      any-observable: 0.3.0_rxjs@6.6.7
+      any-observable: 0.3.0
       rxjs: 6.6.7
-    transitivePeerDependencies:
-      - zenObservable
     dev: false
 
   /@scure/base/1.0.0:
@@ -4312,8 +4134,8 @@ packages:
     resolution: {integrity: sha512-EqX+YQxINb+MeXaIqYDASb6U6FCHbWjkj4a1CKDBks3d/QiB2+PqBLyO72vLDgAO1wUI4O+9gweRcQK11bTL/w==}
     dev: false
 
-  /@types/jest/27.5.0:
-    resolution: {integrity: sha512-9RBFx7r4k+msyj/arpfaa0WOOEcaAZNmN+j80KFbFCoSqCJGHTz7YMAMGQW9Xmqm5w6l5c25vbSjMwlikJi5+g==}
+  /@types/jest/27.5.1:
+    resolution: {integrity: sha512-fUy7YRpT+rHXto1YlL+J9rs0uLGyiqVt3ZOTQR+4ROc47yNl8WLdVLgUloBRhOxP1PZvguHl44T3H0wAWxahYQ==}
     dependencies:
       jest-matcher-utils: 27.5.1
       pretty-format: 27.5.1
@@ -4503,6 +4325,10 @@ packages:
   /@types/tough-cookie/4.0.1:
     resolution: {integrity: sha512-Y0K95ThC3esLEYD6ZuqNek29lNX2EM1qxV8y2FTLUB0ff5wWrk7az+mLrnNFUnaXcgKye22+sFBRXOgpPILZNg==}
     dev: true
+
+  /@types/trusted-types/2.0.2:
+    resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
+    dev: false
 
   /@types/uglify-js/3.13.1:
     resolution: {integrity: sha512-O3MmRAk6ZuAKa9CHgg0Pr0+lUOqoMLpc9AS4R8ano2auvsg7IE8syF3Xh/NPr26TWklxYcqoEEFdzLLs1fV9PQ==}
@@ -4849,10 +4675,10 @@ packages:
       '@vue/shared': 3.2.31
     dev: true
 
-  /@vue/component-compiler-utils/3.3.0_lodash@4.17.21:
+  /@vue/component-compiler-utils/3.3.0:
     resolution: {integrity: sha512-97sfH2mYNU+2PzGrmK2haqffDpVASuib9/w2/noxiFi31Z54hW+q3izKQXXQZSNhtiUpAI36uSuYepeBe4wpHQ==}
     dependencies:
-      consolidate: 0.15.1_lodash@4.17.21
+      consolidate: 0.15.1
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -4862,60 +4688,6 @@ packages:
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
       prettier: 2.6.2
-    transitivePeerDependencies:
-      - arc-templates
-      - atpl
-      - babel-core
-      - bracket-template
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - lodash
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
-      - underscore
-      - vash
-      - velocityjs
-      - walrus
-      - whiskers
 
   /@vue/composition-api/1.4.9_vue@2.6.14:
     resolution: {integrity: sha512-l6YOeg5LEXmfPqyxAnBaCv1FMRw0OGKJ4m6nOWRm6ngt5TuHcj5ZoBRN+LXh3J0u6Ur3C4VA+RiKT+M0eItr/g==}
@@ -5332,19 +5104,9 @@ packages:
     resolution: {integrity: sha1-ZlWX3oap/+Oqm/vmyuXG6kJrSXk=}
     dev: false
 
-  /any-observable/0.3.0_rxjs@6.6.7:
+  /any-observable/0.3.0:
     resolution: {integrity: sha512-/FQM1EDkTsf63Ub2C6O7GuYFDsSXUwsaZDurV0np41ocwq0jthUAYCmhBX9f+KwlaCgIuWyr/4WlUQUBfKfZog==}
     engines: {node: '>=6'}
-    peerDependencies:
-      rxjs: '*'
-      zenObservable: '*'
-    peerDependenciesMeta:
-      rxjs:
-        optional: true
-      zenObservable:
-        optional: true
-    dependencies:
-      rxjs: 6.6.7
     dev: false
 
   /anymatch/2.0.0:
@@ -5352,8 +5114,6 @@ packages:
     dependencies:
       micromatch: 3.1.10
       normalize-path: 2.1.1
-    transitivePeerDependencies:
-      - supports-color
     optional: true
 
   /anymatch/3.1.2:
@@ -5584,7 +5344,7 @@ packages:
     engines: {node: '>=8', npm: '>=6'}
     dependencies:
       '@apollo/federation': 0.27.0_graphql@15.8.0
-      '@apollographql/apollo-tools': 0.5.2_graphql@15.8.0
+      '@apollographql/apollo-tools': 0.5.2
       '@apollographql/graphql-language-service-interface': 2.0.2_graphql@15.8.0
       '@endemolshinegroup/cosmiconfig-typescript-loader': 1.0.2_fab8955365f80d94eba792eb5e0f3498
       apollo-datasource: 0.9.0
@@ -5763,7 +5523,7 @@ packages:
     peerDependencies:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
-      '@apollographql/apollo-tools': 0.5.2_graphql@15.8.0
+      '@apollographql/apollo-tools': 0.5.2
       '@apollographql/graphql-playground-html': 1.6.27
       '@apollographql/graphql-upload-8-fork': 8.1.3_graphql@15.8.0
       '@josephg/resolvable': 1.0.1
@@ -5841,7 +5601,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - encoding
-      - supports-color
       - utf-8-validate
     dev: false
 
@@ -5888,14 +5647,14 @@ packages:
   /apollo-upload-client/13.0.0_graphql@15.8.0:
     resolution: {integrity: sha512-lJ9/bk1BH1lD15WhWRha2J3+LrXrPIX5LP5EwiOUHv8PCORp4EUrcujrA3rI5hZeZygrTX8bshcuMdpqpSrvtA==}
     engines: {node: '>=10'}
-    peerDependencies:
-      graphql: 14 - 15
     dependencies:
       '@babel/runtime': 7.17.8
       apollo-link: 1.2.14_graphql@15.8.0
       apollo-link-http-common: 0.2.16_graphql@15.8.0
       extract-files: 8.1.0
       graphql: 15.8.0
+    transitivePeerDependencies:
+      - graphql
     dev: false
 
   /apollo-upload-client/14.1.2_6d6bf29753fcdab43652333288e72d92:
@@ -5944,7 +5703,7 @@ packages:
     engines: {node: '>=8', npm: '>=6'}
     hasBin: true
     dependencies:
-      '@apollographql/apollo-tools': 0.5.2_graphql@15.8.0
+      '@apollographql/apollo-tools': 0.5.2
       '@oclif/command': 1.8.0
       '@oclif/config': 1.17.0
       '@oclif/errors': 1.3.5
@@ -5986,7 +5745,6 @@ packages:
       - supports-color
       - typescript
       - zen-observable
-      - zenObservable
     dev: false
 
   /aproba/1.2.0:
@@ -6397,8 +6155,6 @@ packages:
       qs: 6.9.7
       raw-body: 2.4.3
       type-is: 1.6.18
-    transitivePeerDependencies:
-      - supports-color
 
   /body-scroll-lock/3.1.5:
     resolution: {integrity: sha512-Yi1Xaml0EvNA0OYWxXiYNqY24AfWkbA6w5vxE7GWxtKfzIbZM+Qw+aSmkgsbWzbHiy/RCSkUZBplVxTA+E4jJg==}
@@ -6445,8 +6201,6 @@ packages:
       snapdragon-node: 2.1.1
       split-string: 3.1.0
       to-regex: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   /braces/3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -6642,7 +6396,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.5
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -6670,8 +6424,6 @@ packages:
       ssri: 8.0.1
       tar: 6.1.11
       unique-filename: 1.1.1
-    transitivePeerDependencies:
-      - bluebird
     dev: false
 
   /cache-base/1.0.1:
@@ -6967,8 +6719,6 @@ packages:
       upath: 1.2.0
     optionalDependencies:
       fsevents: 1.2.13
-    transitivePeerDependencies:
-      - supports-color
     optional: true
 
   /chokidar/3.5.3:
@@ -7366,8 +7116,6 @@ packages:
       on-headers: 1.0.2
       safe-buffer: 5.1.2
       vary: 1.1.2
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /concat-map/0.0.1:
@@ -7402,8 +7150,6 @@ packages:
       finalhandler: 1.1.2
       parseurl: 1.3.3
       utils-merge: 1.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   /consola/2.15.3:
     resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
@@ -7415,341 +7161,17 @@ packages:
     resolution: {integrity: sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=}
     dev: true
 
-  /consolidate/0.15.1_lodash@4.17.21:
+  /consolidate/0.15.1:
     resolution: {integrity: sha512-DW46nrsMJgy9kqAbPt5rKaCr7uFtpo4mSUvLHIUbJEjm0vo+aY5QLwBUq3FK4tRnJr/X0Psc0C4jf/h+HtXSMw==}
     engines: {node: '>= 0.10.0'}
-    peerDependencies:
-      arc-templates: ^0.5.3
-      atpl: '>=0.7.6'
-      babel-core: ^6.26.3
-      bracket-template: ^1.1.5
-      coffee-script: ^1.12.7
-      dot: ^1.1.3
-      dust: ^0.3.0
-      dustjs-helpers: ^1.7.4
-      dustjs-linkedin: ^2.7.5
-      eco: ^1.1.0-rc-3
-      ect: ^0.5.9
-      ejs: ^3.1.5
-      haml-coffee: ^1.14.1
-      hamlet: ^0.3.3
-      hamljs: ^0.6.2
-      handlebars: ^4.7.6
-      hogan.js: ^3.0.2
-      htmling: ^0.0.8
-      jade: ^1.11.0
-      jazz: ^0.0.18
-      jqtpl: ~1.1.0
-      just: ^0.1.8
-      liquid-node: ^3.0.1
-      liquor: ^0.0.5
-      lodash: ^4.17.20
-      marko: ^3.14.4
-      mote: ^0.2.0
-      mustache: ^4.0.1
-      nunjucks: ^3.2.2
-      plates: ~0.4.11
-      pug: ^3.0.0
-      qejs: ^3.0.5
-      ractive: ^1.3.12
-      razor-tmpl: ^1.3.1
-      react: ^16.13.1
-      react-dom: ^16.13.1
-      slm: ^2.0.0
-      squirrelly: ^5.1.0
-      swig: ^1.4.2
-      swig-templates: ^2.0.3
-      teacup: ^2.0.0
-      templayed: '>=0.2.3'
-      then-jade: '*'
-      then-pug: '*'
-      tinyliquid: ^0.2.34
-      toffee: ^0.3.6
-      twig: ^1.15.2
-      twing: ^5.0.2
-      underscore: ^1.11.0
-      vash: ^0.13.0
-      velocityjs: ^2.0.1
-      walrus: ^0.10.1
-      whiskers: ^0.4.0
-    peerDependenciesMeta:
-      arc-templates:
-        optional: true
-      atpl:
-        optional: true
-      babel-core:
-        optional: true
-      bracket-template:
-        optional: true
-      coffee-script:
-        optional: true
-      dot:
-        optional: true
-      dust:
-        optional: true
-      dustjs-helpers:
-        optional: true
-      dustjs-linkedin:
-        optional: true
-      eco:
-        optional: true
-      ect:
-        optional: true
-      ejs:
-        optional: true
-      haml-coffee:
-        optional: true
-      hamlet:
-        optional: true
-      hamljs:
-        optional: true
-      handlebars:
-        optional: true
-      hogan.js:
-        optional: true
-      htmling:
-        optional: true
-      jade:
-        optional: true
-      jazz:
-        optional: true
-      jqtpl:
-        optional: true
-      just:
-        optional: true
-      liquid-node:
-        optional: true
-      liquor:
-        optional: true
-      lodash:
-        optional: true
-      marko:
-        optional: true
-      mote:
-        optional: true
-      mustache:
-        optional: true
-      nunjucks:
-        optional: true
-      plates:
-        optional: true
-      pug:
-        optional: true
-      qejs:
-        optional: true
-      ractive:
-        optional: true
-      razor-tmpl:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      slm:
-        optional: true
-      squirrelly:
-        optional: true
-      swig:
-        optional: true
-      swig-templates:
-        optional: true
-      teacup:
-        optional: true
-      templayed:
-        optional: true
-      then-jade:
-        optional: true
-      then-pug:
-        optional: true
-      tinyliquid:
-        optional: true
-      toffee:
-        optional: true
-      twig:
-        optional: true
-      twing:
-        optional: true
-      underscore:
-        optional: true
-      vash:
-        optional: true
-      velocityjs:
-        optional: true
-      walrus:
-        optional: true
-      whiskers:
-        optional: true
     dependencies:
       bluebird: 3.7.2
-      lodash: 4.17.21
 
-  /consolidate/0.16.0_lodash@4.17.21:
+  /consolidate/0.16.0:
     resolution: {integrity: sha512-Nhl1wzCslqXYTJVDyJCu3ODohy9OfBMB5uD2BiBTzd7w+QY0lBzafkR8y8755yMYHAaMD4NuzbAw03/xzfw+eQ==}
     engines: {node: '>= 0.10.0'}
-    peerDependencies:
-      arc-templates: ^0.5.3
-      atpl: '>=0.7.6'
-      babel-core: ^6.26.3
-      bracket-template: ^1.1.5
-      coffee-script: ^1.12.7
-      dot: ^1.1.3
-      dust: ^0.3.0
-      dustjs-helpers: ^1.7.4
-      dustjs-linkedin: ^2.7.5
-      eco: ^1.1.0-rc-3
-      ect: ^0.5.9
-      ejs: ^3.1.5
-      haml-coffee: ^1.14.1
-      hamlet: ^0.3.3
-      hamljs: ^0.6.2
-      handlebars: ^4.7.6
-      hogan.js: ^3.0.2
-      htmling: ^0.0.8
-      jade: ^1.11.0
-      jazz: ^0.0.18
-      jqtpl: ~1.1.0
-      just: ^0.1.8
-      liquid-node: ^3.0.1
-      liquor: ^0.0.5
-      lodash: ^4.17.20
-      marko: ^3.14.4
-      mote: ^0.2.0
-      mustache: ^4.0.1
-      nunjucks: ^3.2.2
-      plates: ~0.4.11
-      pug: ^3.0.0
-      qejs: ^3.0.5
-      ractive: ^1.3.12
-      razor-tmpl: ^1.3.1
-      react: ^16.13.1
-      react-dom: ^16.13.1
-      slm: ^2.0.0
-      squirrelly: ^5.1.0
-      swig: ^1.4.2
-      swig-templates: ^2.0.3
-      teacup: ^2.0.0
-      templayed: '>=0.2.3'
-      then-jade: '*'
-      then-pug: '*'
-      tinyliquid: ^0.2.34
-      toffee: ^0.3.6
-      twig: ^1.15.2
-      twing: ^5.0.2
-      underscore: ^1.11.0
-      vash: ^0.13.0
-      velocityjs: ^2.0.1
-      walrus: ^0.10.1
-      whiskers: ^0.4.0
-    peerDependenciesMeta:
-      arc-templates:
-        optional: true
-      atpl:
-        optional: true
-      babel-core:
-        optional: true
-      bracket-template:
-        optional: true
-      coffee-script:
-        optional: true
-      dot:
-        optional: true
-      dust:
-        optional: true
-      dustjs-helpers:
-        optional: true
-      dustjs-linkedin:
-        optional: true
-      eco:
-        optional: true
-      ect:
-        optional: true
-      ejs:
-        optional: true
-      haml-coffee:
-        optional: true
-      hamlet:
-        optional: true
-      hamljs:
-        optional: true
-      handlebars:
-        optional: true
-      hogan.js:
-        optional: true
-      htmling:
-        optional: true
-      jade:
-        optional: true
-      jazz:
-        optional: true
-      jqtpl:
-        optional: true
-      just:
-        optional: true
-      liquid-node:
-        optional: true
-      liquor:
-        optional: true
-      lodash:
-        optional: true
-      marko:
-        optional: true
-      mote:
-        optional: true
-      mustache:
-        optional: true
-      nunjucks:
-        optional: true
-      plates:
-        optional: true
-      pug:
-        optional: true
-      qejs:
-        optional: true
-      ractive:
-        optional: true
-      razor-tmpl:
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      slm:
-        optional: true
-      squirrelly:
-        optional: true
-      swig:
-        optional: true
-      swig-templates:
-        optional: true
-      teacup:
-        optional: true
-      templayed:
-        optional: true
-      then-jade:
-        optional: true
-      then-pug:
-        optional: true
-      tinyliquid:
-        optional: true
-      toffee:
-        optional: true
-      twig:
-        optional: true
-      twing:
-        optional: true
-      underscore:
-        optional: true
-      vash:
-        optional: true
-      velocityjs:
-        optional: true
-      walrus:
-        optional: true
-      whiskers:
-        optional: true
     dependencies:
       bluebird: 3.7.2
-      lodash: 4.17.21
     dev: true
 
   /constant-case/3.0.4:
@@ -8256,7 +7678,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@cypress/request': 2.88.10
-      '@cypress/xvfb': 1.2.4_supports-color@8.1.1
+      '@cypress/xvfb': 1.2.4
       '@types/node': 14.18.12
       '@types/sinonjs__fake-timers': 8.1.1
       '@types/sizzle': 2.3.3
@@ -8349,48 +7771,13 @@ packages:
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
     dependencies:
       ms: 2.0.0
 
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
     dependencies:
       ms: 2.1.3
-    dev: true
-
-  /debug/3.2.7_supports-color@5.5.0:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
-      supports-color: 5.5.0
-    dev: false
-
-  /debug/3.2.7_supports-color@8.1.1:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
-      supports-color: 8.1.1
-    dev: false
 
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -9478,8 +8865,6 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   /express-logging/1.1.1:
     resolution: {integrity: sha1-YoOWGMurW7NhDxocFIU1L+nSbCo=}
@@ -9522,8 +8907,6 @@ packages:
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
-    transitivePeerDependencies:
-      - supports-color
 
   /ext/1.6.0:
     resolution: {integrity: sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==}
@@ -9577,8 +8960,6 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   /extract-css-chunks-webpack-plugin/4.9.0_webpack@4.46.0:
     resolution: {integrity: sha512-HNuNPCXRMqJDQ1OHAUehoY+0JVCnw9Y/H22FQzYVwo8Ulgew98AGDu0grnY5c7xwiXHjQa6yJ/1dxLCI/xqTyQ==}
@@ -9775,8 +9156,6 @@ packages:
       parseurl: 1.3.3
       statuses: 1.5.0
       unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
 
   /find-cache-dir/2.1.0:
     resolution: {integrity: sha512-Tq6PixE0w/VMFfCgbONnkiQIVol/JJL7nRMi20fqzA4NRs9AfeqMGeRdPi3wIhYkxjeBaWh2rxwapn5Tu3IqOQ==}
@@ -10393,7 +9772,7 @@ packages:
     peerDependencies:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
-      '@apollographql/apollo-tools': 0.5.2_graphql@15.8.0
+      '@apollographql/apollo-tools': 0.5.2
       apollo-server-env: 3.1.0
       apollo-server-types: 0.9.0_graphql@15.8.0
       graphql: 15.8.0
@@ -11971,7 +11350,6 @@ packages:
       rxjs: 6.6.7
     transitivePeerDependencies:
       - zen-observable
-      - zenObservable
     dev: false
 
   /listr2/3.14.0_enquirer@2.3.6:
@@ -12013,14 +11391,25 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
-  /lit-element/2.5.1:
-    resolution: {integrity: sha512-ogu7PiJTA33bEK0xGu1dmaX5vhcRjBXCFexPja0e7P7jqLhTpNKYRPmE+GmiCaRVAbiQKGkUgkh/i6+bh++dPQ==}
+  /lit-element/3.2.0:
+    resolution: {integrity: sha512-HbE7yt2SnUtg5DCrWt028oaU4D5F4k/1cntAFHTkzY8ZIa8N0Wmu92PxSxucsQSOXlODFrICkQ5x/tEshKi13g==}
     dependencies:
-      lit-html: 1.4.1
+      '@lit/reactive-element': 1.3.2
+      lit-html: 2.2.3
     dev: false
 
-  /lit-html/1.4.1:
-    resolution: {integrity: sha512-B9btcSgPYb1q4oSOb/PrOT6Z/H+r6xuNzfH4lFli/AWhYwdtrgQkQWBbIc6mdnf6E2IL3gDXdkkqNktpU0OZQA==}
+  /lit-html/2.2.3:
+    resolution: {integrity: sha512-vI4j3eWwtQaR8q/O63juZVliBIFMio716X719/lSsGH4UWPy2/7Qf377jsNs4cx3gCHgIbx8yxFgXFQ/igZyXQ==}
+    dependencies:
+      '@types/trusted-types': 2.0.2
+    dev: false
+
+  /lit/2.2.3:
+    resolution: {integrity: sha512-5/v+r9dH3Pw/o0rhp/qYk3ERvOUclNF31bWb0FiW6MPgwdQIr+/KCt/p3zcd8aPl8lIGnxdGrVcZA+gWS6oFOQ==}
+    dependencies:
+      '@lit/reactive-element': 1.3.2
+      lit-element: 3.2.0
+      lit-html: 2.2.3
     dev: false
 
   /load-json-file/5.3.0:
@@ -12425,8 +11814,6 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   /micromatch/4.0.4:
     resolution: {integrity: sha512-pRmzw/XUcwXGpD9aI9q/0XOwLNygjETJ8y0ao0wdqprrzDa4YnxLcz7fQRZr8voh8V10kGhABbNcHVk5wHgWwg==}
@@ -12698,8 +12085,6 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
@@ -12717,8 +12102,6 @@ packages:
       debug: 3.2.7
       iconv-lite: 0.4.24
       sax: 1.2.4
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /negotiator/0.6.3:
@@ -12885,8 +12268,6 @@ packages:
       rimraf: 2.7.1
       semver: 5.7.1
       tar: 4.4.19
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /node-releases/2.0.4:
@@ -12909,7 +12290,7 @@ packages:
     requiresBuild: true
     dependencies:
       chokidar: 3.5.3
-      debug: 3.2.7_supports-color@5.5.0
+      debug: 3.2.7
       ignore-by-default: 1.0.1
       minimatch: 3.1.2
       pstree.remy: 1.1.8
@@ -13093,68 +12474,14 @@ packages:
       '@nuxt/vue-renderer-edge': 2.16.0-27358576.777a4b7f
       '@nuxt/webpack-edge': 2.16.0-27358576.777a4b7f_typescript@4.6.4
     transitivePeerDependencies:
-      - '@vue/compiler-sfc'
-      - arc-templates
-      - atpl
-      - babel-core
-      - bluebird
-      - bracket-template
       - bufferutil
-      - coffee-script
       - consola
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
       - encoding
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
       - supports-color
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
       - typescript
-      - underscore
       - utf-8-validate
-      - vash
-      - velocityjs
-      - walrus
       - webpack-cli
       - webpack-command
-      - whiskers
     dev: false
 
   /nuxt-property-decorator/2.9.1_vue@2.6.14+vuex@3.6.2:
@@ -14844,22 +14171,6 @@ packages:
 
   /promise-inflight/1.0.1:
     resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dev: false
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha1-mEcocL8igTL8vdhoEputEsPAKeM=}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
 
   /promise/7.3.1:
     resolution: {integrity: sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==}
@@ -15141,8 +14452,6 @@ packages:
       graceful-fs: 4.2.9
       micromatch: 3.1.10
       readable-stream: 2.3.7
-    transitivePeerDependencies:
-      - supports-color
     optional: true
 
   /readdirp/3.6.0:
@@ -15720,8 +15029,6 @@ packages:
       on-finished: 2.3.0
       range-parser: 1.2.1
       statuses: 1.5.0
-    transitivePeerDependencies:
-      - supports-color
 
   /send/0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
@@ -15740,8 +15047,6 @@ packages:
       on-finished: 2.4.1
       range-parser: 1.2.1
       statuses: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   /sentence-case/3.0.4:
     resolution: {integrity: sha512-8LS0JInaQMCRoQ7YUytAo/xUu5W2XnQxV2HI/6uM6U7CITS1RqPElr30V6uIqyMKM9lJGRVFy5/4CuzcixNYSg==}
@@ -15793,8 +15098,6 @@ packages:
       escape-html: 1.0.3
       parseurl: 1.3.3
       send: 0.17.2
-    transitivePeerDependencies:
-      - supports-color
 
   /serve-static/1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
@@ -15804,8 +15107,6 @@ packages:
       escape-html: 1.0.3
       parseurl: 1.3.3
       send: 0.18.0
-    transitivePeerDependencies:
-      - supports-color
 
   /server-destroy/1.0.1:
     resolution: {integrity: sha1-8Tv5KOQrnD55OD5hzDmYtdFObN0=}
@@ -15984,8 +15285,6 @@ packages:
       source-map: 0.5.7
       source-map-resolve: 0.5.3
       use: 3.1.1
-    transitivePeerDependencies:
-      - supports-color
 
   /sort-keys/1.1.2:
     resolution: {integrity: sha1-RBttTTRnmPG05J6JIK37oOVD+a0=}
@@ -16556,8 +15855,6 @@ packages:
       terser: 5.12.1
       webpack: 4.46.0
       webpack-sources: 1.4.3
-    transitivePeerDependencies:
-      - bluebird
     dev: false
 
   /terser/4.8.0:
@@ -17532,7 +16829,7 @@ packages:
       extsprintf: 1.3.0
     dev: false
 
-  /vite-plugin-vue2/1.9.3_1260cd5339c8d74a2fb970ce9bc3e06e:
+  /vite-plugin-vue2/1.9.3_c61d36f52e674065c8fa984defcea892:
     resolution: {integrity: sha512-0KhHSEeht0VHJtt4Z2cJ9bWBq4dP3HoXpapqAHV+f+cUa6KywYdOd+z6sSGLpuGjN8F9YinrFIo8dfVmMOpc8Q==}
     peerDependencies:
       vite: ^2.0.0-beta.23
@@ -17546,8 +16843,8 @@ packages:
       '@rollup/pluginutils': 4.2.0
       '@vue/babel-helper-vue-jsx-merge-props': 1.2.1
       '@vue/babel-preset-jsx': 1.2.4_@babel+core@7.17.10
-      '@vue/component-compiler-utils': 3.3.0_lodash@4.17.21
-      consolidate: 0.16.0_lodash@4.17.21
+      '@vue/component-compiler-utils': 3.3.0
+      consolidate: 0.16.0
       debug: 4.3.4
       fs-extra: 9.1.0
       hash-sum: 2.0.0
@@ -17561,60 +16858,7 @@ packages:
       vue-template-compiler: 2.6.14
       vue-template-es2015-compiler: 1.9.1
     transitivePeerDependencies:
-      - arc-templates
-      - atpl
-      - babel-core
-      - bracket-template
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - lodash
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
       - supports-color
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
-      - underscore
-      - vash
-      - velocityjs
-      - walrus
-      - whiskers
     dev: true
 
   /vite/2.9.8_sass@1.51.0:
@@ -17642,8 +16886,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.12.3_jsdom@19.0.0+sass@1.51.0:
-    resolution: {integrity: sha512-Dc4uJAcnUampdJ6+C8IasrmL+Px+oDhS9gxeHlL9uwUzoM0ae2WydAK9UF2THxHszfZogLGT37atQwOkj1Lqvg==}
+  /vitest/0.12.4_jsdom@19.0.0+sass@1.51.0:
+    resolution: {integrity: sha512-EDxdhlAt6vcu6y4VouAI60z78iCAVFnfBL4VlSQVQnGmOk5altOtIKvp3xfZ+cfo4iVHgqq1QNyf5qOFiL4leg==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -17791,7 +17035,6 @@ packages:
       - supports-color
       - utf-8-validate
       - zen-observable
-      - zenObservable
     dev: false
 
   /vue-client-only/2.1.0:
@@ -17852,23 +17095,20 @@ packages:
       vue: 2.6.14
     dev: false
 
-  /vue-loader/15.9.8_8c0eaf4cc52893706bf275ce7d3b5865:
+  /vue-loader/15.9.8_559ffc97fd41de05d12663d7fb949156:
     resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==}
     peerDependencies:
-      '@vue/compiler-sfc': ^3.0.8
       cache-loader: '*'
       css-loader: '*'
       vue-template-compiler: '*'
       webpack: ^3.0.0 || ^4.1.0 || ^5.0.0-0
     peerDependenciesMeta:
-      '@vue/compiler-sfc':
-        optional: true
       cache-loader:
         optional: true
       vue-template-compiler:
         optional: true
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0_lodash@4.17.21
+      '@vue/component-compiler-utils': 3.3.0
       cache-loader: 4.1.0_webpack@4.46.0
       css-loader: 4.3.0_webpack@4.46.0
       hash-sum: 1.0.2
@@ -17877,60 +17117,6 @@ packages:
       vue-style-loader: 4.1.3
       vue-template-compiler: 2.6.14
       webpack: 4.46.0
-    transitivePeerDependencies:
-      - arc-templates
-      - atpl
-      - babel-core
-      - bracket-template
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - lodash
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
-      - underscore
-      - vash
-      - velocityjs
-      - walrus
-      - whiskers
     dev: false
 
   /vue-markdown-render/1.1.3:
@@ -18074,8 +17260,6 @@ packages:
     requiresBuild: true
     dependencies:
       chokidar: 2.1.8
-    transitivePeerDependencies:
-      - supports-color
     optional: true
 
   /watchpack/1.7.5:
@@ -18086,8 +17270,6 @@ packages:
     optionalDependencies:
       chokidar: 3.5.3
       watchpack-chokidar2: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   /watchpack/2.3.1:
     resolution: {integrity: sha512-x0t0JuydIo8qCNctdDrn1OzH/qDzk2+rdCOC3YzumZ42fiMqmQ7T3xQurykYMhYfHaPHTp4ZxAx2NfUo1K6QaA==}
@@ -18224,8 +17406,6 @@ packages:
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
       watchpack: 1.7.5
       webpack-sources: 1.4.3
-    transitivePeerDependencies:
-      - supports-color
 
   /webpackbar/5.0.2_webpack@4.46.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==}
@@ -18250,8 +17430,6 @@ packages:
       typedarray-to-buffer: 3.1.5
       utf-8-validate: 5.0.9
       yaeti: 0.0.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /whatwg-encoding/2.0.0:
