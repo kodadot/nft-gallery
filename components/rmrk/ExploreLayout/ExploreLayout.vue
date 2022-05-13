@@ -30,12 +30,20 @@ const components = {
   components,
 })
 export default class ExploreLayout extends mixins(PrefixMixin) {
+  get tabOrder(): string {
+    return this.$store.state.preferences.exploreTabOrder
+  }
+
   get type() {
     return this.urlPrefix
   }
 
   get selectedTab(): string {
-    return (this.$route.query.tab as string) || 'COLLECTION'
+    let defaultTab = 'COLLECTION'
+    if (this.tabOrder) {
+      defaultTab = this.tabOrder
+    }
+    return (this.$route.query.tab as string) || defaultTab
   }
 
   set selectedTab(val) {

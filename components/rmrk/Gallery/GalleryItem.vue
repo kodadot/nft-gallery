@@ -85,7 +85,6 @@
                       <IndexerGuard show-message class="pb-4">
                         <AvailableActions
                           ref="actions"
-                          :account-id="accountId"
                           :current-owner-id="nft.currentOwner"
                           :price="nft.price"
                           :originialOwner="nft.issuer"
