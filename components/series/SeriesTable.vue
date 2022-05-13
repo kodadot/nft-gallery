@@ -197,7 +197,7 @@
         cell-class="is-vcentered"
         sortable>
         <template v-if="!isLoading">
-          <Money :value="props.row.floorPrice" inline hideUnit />
+          <Money :value="props.row.floorPrice || 0" inline hideUnit />
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -323,7 +323,7 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { toSort, onlyDate, defaultHistory, today } from './utils'
+import { onlyDate, defaultHistory, today } from './utils'
 import { min, differenceInCalendarDays } from 'date-fns'
 
 const components = {
@@ -372,9 +372,10 @@ export default class SeriesTable extends mixins(PrefixMixin) {
 
   public async fetchCollectionsSeries({
     limit = 10,
-    sort = toSort(this.sortBy),
     dateRange = this.dateRange,
   }) {
+    console.log(limit)
+
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
@@ -382,14 +383,15 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       variables: {
         // denyList, not yet
         limit,
-        offset: 0,
-        orderBy: sort || 'volume_DESC',
+        offset: '0',
+        orderBy: this.sortBy.field || 'volume',
+        orderDirection: this.sortBy.value || 'DESC',
         dateRange,
       },
     })
 
     const {
-      data: { collectionEntities },
+      data: { seriesInsightTable },
     } = collections
 
     const axisLize = (obj = {}): BuyHistory => ({
@@ -397,11 +399,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       yAxisList: Object.values(obj),
     })
 
-    const ids = collectionEntities.map((c: Collection) => c.id)
+    const ids = seriesInsightTable?.map((c: Collection) => c.id)
 
     const buyEvents = await this.fetchBuyHistory(ids)
 
-    this.data = collectionEntities.map(
+    this.data = seriesInsightTable?.map(
       (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image),
@@ -467,7 +469,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   }
 
   public onSort(field: string, order: string) {
-    let sort: SortType = {
+    this.sortBy = {
       field: field,
       value: order === 'desc' ? 'DESC' : 'ASC',
     }
@@ -482,7 +484,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
       .catch((e) => this.$consola.warn(e))
     this.fetchCollectionsSeries({
       limit: Number(this.nbRows),
-      sort: toSort(sort),
+      // sort: toSort(sort),
     })
   }
 

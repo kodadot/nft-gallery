@@ -253,7 +253,8 @@ export default class SearchBar extends mixins(
           client: 'subsquid',
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
-            orderBy: 'volume_DESC',
+            orderBy: 'volume',
+            orderDirection: 'DESC',
           },
         })
 

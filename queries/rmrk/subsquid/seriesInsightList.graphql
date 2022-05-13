@@ -1,22 +1,27 @@
 query seriesInsightList(
-  $limit: Int
-  $orderBy: SeriesOrderByInput
+  $dateRange: String
+  $limit: Float
+  $offset: String
+  $orderBy: String
+  $orderDirection: String
 ) {
-  collectionEntities: series(
+  seriesInsightTable(
+    dateRange: $dateRange
     limit: $limit
-    orderBy: [$orderBy]
-    where: { floorPrice_isNull: false }
+    offset: $offset
+    orderBy: $orderBy
+    orderDirection: $orderDirection
   ) {
-    id
-    floorPrice
-    highestSale
     averagePrice
+    buys
+    highestSale
+    floorPrice
+    id
     image
     metadata
-    sold
     name
+    sold
     total
-    buys
     unique
     uniqueCollectors
     volume
