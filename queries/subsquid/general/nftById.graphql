@@ -13,5 +13,12 @@ query nftById($id: ID!) {
       timestamp
       meta
     }
+    meta {
+      id
+      name
+      description
+      image
+      animation_url: animationUrl
+    }
   }
 }
