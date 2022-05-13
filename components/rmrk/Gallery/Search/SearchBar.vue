@@ -193,6 +193,7 @@ export default class SearchBar extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
+    owned: null,
   }
 
   private first = 30

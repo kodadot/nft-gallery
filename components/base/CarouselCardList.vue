@@ -32,7 +32,7 @@
                   {{ list.name }}
                 </nuxt-link>
               </div>
-              <div class="subtitle is-6 is-ellipsis">
+              <div class="subtitle is-6 is-ellipsis" v-if="list.collection">
                 <nuxt-link :to="`/rmrk/collection/${list.collection.id}`">
                   {{ list.collection.name }}
                 </nuxt-link>
@@ -154,7 +154,6 @@ export default class CarouselList extends mixins(AuthMixin) {
 
 .card {
   background-color: #0e0e10;
-  // background-color: #000;
   .media-content {
     width: 100%;
   }

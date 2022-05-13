@@ -47,7 +47,19 @@ export default class GalleryItemCarousel extends Vue {
         },
       })
 
-      this.nfts = await formatNFT(data?.collectionEntityById?.nfts)
+      const nftsWithCollectionId = data?.collectionEntityById?.nfts.map(
+        (nft) => {
+          return {
+            collection: {
+              id: data.collectionEntityById.id,
+              name: data.collectionEntityById.name,
+            },
+            ...nft,
+          }
+        }
+      )
+
+      this.nfts = await formatNFT(nftsWithCollectionId)
     }
 
     if (this.type === 'visited' && visitedNFT().length >= MIN_CAROUSEL_NFT) {
@@ -60,8 +72,11 @@ export default class GalleryItemCarousel extends Vue {
           ids,
         },
       })
+      const filteredNftsNullMeta = data?.nftEntities.filter(
+        (nft) => nft.meta !== null
+      )
+      const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 10)
 
-      const sortedNftList = sortItemListByIds(data?.nftEntities, ids, 10)
       this.nfts = await formatNFT(sortedNftList)
     }
   }
