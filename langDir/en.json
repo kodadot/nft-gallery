@@ -550,6 +550,8 @@
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
+    "score": "Score",
+    "emoteCount": "Emotes",
     "buyHistory": "Last 30 Days Buy"
   },
   "activity": {
