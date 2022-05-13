@@ -55,7 +55,7 @@ const components = {
 }
 
 @Component({ components })
-export default class Name extends mixins(PrefixMixin) {
+export default class GalleryItemDetail extends mixins(PrefixMixin) {
   @Prop({ default: () => emptyObject<NFTWithMeta>() }) public nft!: NFTWithMeta
   @Prop() public isLoading!: boolean
 
