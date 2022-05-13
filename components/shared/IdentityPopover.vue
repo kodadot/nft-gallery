@@ -92,7 +92,6 @@ import Identicon from '@polkadot/vue-identicon'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
-import { formatDistanceToNow } from 'date-fns'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>

@@ -64,7 +64,7 @@
               :to="{
                 name: 'rmrk-u-id',
                 params: { id: props.row[groupKey] },
-                query: { tab: 'holdings' },
+                query: { tab: groupKey === 'Holder' ? 'holdings' : 'gains' },
               }">
               <Identity :address="props.row[groupKey]" inline noOverflow />
             </nuxt-link>
@@ -106,7 +106,7 @@
             {{ props.row.SaleFormatted }}
           </b-table-column>
           <b-table-column
-            v-if="groupKey === 'Flipper'"
+            v-if="displayPercentage"
             :visible="columnsVisible['Percentage'].display"
             field="Percentage"
             label="Percentage"
@@ -160,7 +160,7 @@
                 {{ item.SaleFormatted }}
               </td>
               <td
-                v-if="groupKey === 'Flipper'"
+                v-if="displayPercentage"
                 :class="percentageTextClassName(item.Percentage)"
                 v-show="columnsVisible['Percentage'].display">
                 {{ item.Percentage | toPercent('-') }}
@@ -254,6 +254,8 @@ export default class CommonHolderTable extends mixins(
   @Prop({ type: String, default: 'Sale' }) saleHeaderLabel!: string
   @Prop({ type: String, default: '' }) collapseTitleOption!: string
   @Prop({ type: String, default: 'Amount' }) defaultSortOption!: string
+  @Prop({ type: Boolean, default: false }) displayPercentage!: boolean
+  @Prop({ type: Boolean, default: false }) isFlipper!: boolean
 
   private readonly openOnDefault!: boolean
   private currentPage = parseInt(this.$route.query?.page as string) || 1
@@ -455,6 +457,9 @@ export default class CommonHolderTable extends mixins(
       case 'Holder':
         return (item) => item.Holder !== '-'
       case 'CollectionId':
+        if (this.isFlipper) {
+          return (item) => item.Flipper === this.$route.params.id
+        }
         return (item) => item.Holder === this.$route.params.id
       default:
         return () => true

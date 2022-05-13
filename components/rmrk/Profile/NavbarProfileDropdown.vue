@@ -8,9 +8,9 @@
           class="navbar__button">
           <Identity
             :address="account"
-            :inline="true"
             class="navbar__address"
-            hideIdentityPopover />
+            hideIdentityPopover
+            inline />
         </b-button>
       </span>
 
@@ -22,11 +22,11 @@
     <template v-if="account">
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link :to="`/${urlPrefix}/u/${account}`">
-          {{ $t('Profile') }}
+          {{ $t('profile.page') }}
         </nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/settings">{{ $t('Settings') }}</nuxt-link>
+        <nuxt-link to="/settings">{{ $t('settings') }}</nuxt-link>
       </b-dropdown-item>
 
       <hr class="dropdown-divider" aria-role="menuitem" />
@@ -36,22 +36,22 @@
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <a @click="showRampSDK">
-          {{ $t('Credit') }}
+          {{ $t('credit') }}
         </a>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
         <nuxt-link :to="{ name: 'identity' }">
-          {{ $t('Identity') }}
+          {{ $t('identity.page') }}
         </nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/teleport">{{ $t('Teleport') }}</nuxt-link>
+        <nuxt-link to="/teleport">{{ $t('teleport') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/transfer">{{ $t('Transfer') }}</nuxt-link>
+        <nuxt-link to="/transfer">{{ $t('transfer') }}</nuxt-link>
       </b-dropdown-item>
       <b-dropdown-item has-link aria-role="menuitem">
-        <nuxt-link to="/transform">{{ $t('Transform') }}</nuxt-link>
+        <nuxt-link to="/transform">{{ $t('transform') }}</nuxt-link>
       </b-dropdown-item>
 
       <hr class="dropdown-divider" aria-role="menuitem" />

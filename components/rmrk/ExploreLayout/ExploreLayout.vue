@@ -6,10 +6,10 @@
     </div>
     <b-tabs v-model="selectedTab">
       <template v-if="tabOrder === 'GALLERY'">
-        <b-tab-item label="Gallery" value="GALLERY"
-          ><Gallery v-if="selectedTab === 'GALLERY'"
-        /></b-tab-item>
-        <b-tab-item label="Collections" value="COLLECTION">
+        <b-tab-item :label="$t('gallery')" value="GALLERY">
+          <Gallery v-if="selectedTab === 'GALLERY'" />
+        </b-tab-item>
+        <b-tab-item :label="$t('collections')" value="COLLECTION">
           <template v-if="selectedTab === 'COLLECTION'">
             <CollectionList v-if="type === 'rmrk'" />
             <Collections v-if="type !== 'rmrk'" />
@@ -18,15 +18,16 @@
       </template>
 
       <template v-else>
-        <b-tab-item label="Collections" value="COLLECTION">
+        <b-tab-item :label="$t('collections')" value="COLLECTION">
           <template v-if="selectedTab === 'COLLECTION'">
             <CollectionList v-if="type === 'rmrk'" />
             <Collections v-if="type !== 'rmrk'" />
           </template>
         </b-tab-item>
-        <b-tab-item label="Gallery" value="GALLERY"
-          ><Gallery v-if="selectedTab === 'GALLERY'" /></b-tab-item
-      ></template>
+        <b-tab-item :label="$t('gallery')" value="GALLERY">
+          <Gallery v-if="selectedTab === 'GALLERY'" />
+        </b-tab-item>
+      </template>
     </b-tabs>
   </div>
 </template>

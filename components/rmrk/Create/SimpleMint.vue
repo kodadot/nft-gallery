@@ -9,7 +9,9 @@
             <!-- {{ $t('mint.context') }} -->
             Create NFT Collectibles
           </p>
-          <p class="subtitle is-size-7">{{ $t('using') }} {{ version }}</p>
+          <p class="subtitle is-size-7">
+            {{ $t('general.using') }} {{ version }}
+          </p>
           <b-field>
             <div>
               {{ $t('computed id') }}: <b>{{ rmrkId }}</b>
