@@ -68,7 +68,6 @@
                     </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                        <IndexerGuard show-message class="pb-4">
                           <AvailableActions
                             ref="actions"
                             :account-id="accountId"
@@ -84,7 +83,6 @@
                               nft.metadata,
                             ]"
                             @change="handleAction" />
-                        </IndexerGuard>
                         <Auth />
                       </p>
                     </div>
@@ -133,7 +131,6 @@ import {
 } from '@polkadot/types'
 
 import isShareMode from '@/utils/isShareMode'
-import nftById from '@/queries/unique/nftById.graphql'
 import { fetchNFTMetadata } from '@/components/rmrk/utils'
 import { get, set } from 'idb-keyval'
 import { MediaType } from '@/components/rmrk/types'
@@ -187,7 +184,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, Aut
       // this.loadMagic()
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
-        this.subscribe(getPrice(api), this.tokenId, this.observeOwner)
+        this.subscribe(getPrice(api), this.tokenId, this.observePrice)
         // this.subscribe(getPrice(api), this.tokenId, this.observeOwner)
       }
     })
@@ -201,6 +198,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, Aut
     this.$consola.log('Owner', data.toHuman())
     const instance = unwrapOrNull(data)
     if (instance) {
+      this.$consola.log('Owner2', toHuman(instance.owner))
       this.$set(this.nft, 'currentOwner', toHuman(instance.owner))
     }
   }
