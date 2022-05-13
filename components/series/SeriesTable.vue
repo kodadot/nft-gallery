@@ -434,7 +434,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         buyHistory: axisLize(
           Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
         ),
-        emoteCount: e.emoteCount,
+        emoteCount: e.emoteCount || 0,
       })
     )
 
