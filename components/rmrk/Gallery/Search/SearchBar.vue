@@ -31,6 +31,7 @@
           expanded
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
+          @focus="fetchSuggestionsOnce"
           @select="updateSelected">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
@@ -161,6 +162,7 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
+import { once } from 'lodash'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
@@ -210,8 +212,11 @@ export default class SearchBar extends mixins(
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
-  public async fetch() {
-    if (this.showDefaultSuggestions) {
+  public async fetchSuggestionsOnce() {
+    if (
+      this.showDefaultSuggestions &&
+      this.defaultCollectionSuggestions.length === 0
+    ) {
       try {
         const { data } = await this.$apollo.query<{
           events: [{ meta; timestamp; nft }]
