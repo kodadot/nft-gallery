@@ -371,11 +371,9 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   }
 
   public async fetchCollectionsSeries({
-    limit = 50,
+    limit = Number(this.nbRows),
     dateRange = this.dateRange,
   }) {
-    console.log(limit)
-
     this.isLoading = true
     const collections = await this.$apollo.query({
       query: seriesInsightList,
