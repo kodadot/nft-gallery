@@ -29,6 +29,14 @@
           labelColor="is-success"
           :disabled="disableToggle"
           :message="$t('tooltip.buy')" />
+        <BasicSwitch
+          v-if="showOwnerSwitch"
+          class="is-flex control mb-5"
+          v-model="vOwned"
+          :label="'sort.own'"
+          size="is-medium"
+          labelColor="is-success"
+          :message="$t('tooltip.own')" />
         <slot />
       </div>
     </b-field>
@@ -38,7 +46,6 @@
 <script lang="ts">
 import { Component, Prop, Emit, mixins } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-import shouldUpdate from '@/utils/shouldUpdate'
 import { exist } from './exist'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 
@@ -55,8 +62,10 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
   @Prop(Boolean) public listed!: boolean
+  @Prop(Boolean) public owned!: boolean
   @Prop(Boolean) public disableToggle!: boolean
   @Prop(Boolean) public hideSearch!: boolean
+  @Prop(Boolean) public showOwnerSwitch!: boolean
   @Prop(Array) public sortOption?: string[]
   protected isVisible = false
 
@@ -65,6 +74,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
     exist(this.$route.query.type, this.updateType)
     exist(this.$route.query.sort, this.updateSortBy)
     exist(this.$route.query.listed, this.updateListed)
+    exist(this.$route.query.owned, this.updateOwned)
   }
 
   public created() {
@@ -101,6 +111,14 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
     this.updateListed(listed)
   }
 
+  get vOwned(): boolean {
+    return this.owned
+  }
+
+  set vOwned(owned: boolean) {
+    this.updateOwned(owned)
+  }
+
   get searchQuery(): string {
     return this.search
   }
@@ -127,6 +145,14 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
     const v = String(value)
     this.replaceUrl(v, 'listed')
     return v === 'true'
+  }
+
+  @Emit('update:owned')
+  @Debounce(50)
+  updateOwned(value: string | boolean): boolean {
+    const v = value ? String(value) : ''
+    this.replaceUrl(v, 'owned')
+    return Boolean(v)
   }
 
   @Emit('update:type')

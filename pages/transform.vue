@@ -1,7 +1,7 @@
 <template>
   <section>
     <p class="title is-size-3">
-      {{ $t('Transform') }}
+      {{ $t('transform') }}
     </p>
     <BasicInput
       v-model="url"

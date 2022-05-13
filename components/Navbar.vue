@@ -55,13 +55,13 @@
         id="NavHistoryBrowser" />
       <b-navbar-dropdown arrowless collapsible id="NavCreate">
         <template #label>
-          <span>{{ $t('Create') }}</span>
+          <span>{{ $t('create') }}</span>
         </template>
         <b-tooltip
           label="Start by creating your collection and add NFTs to it"
           position="is-right">
           <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/create`">
-            {{ $t('Classic') }}
+            {{ $t('classic') }}
           </b-navbar-item>
         </b-tooltip>
         <template v-if="isRmrk">
@@ -70,21 +70,21 @@
             position="is-right"
             style="display: block">
             <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/mint`">
-              {{ $t('Simple') }}
+              {{ $t('simple') }}
             </b-navbar-item>
           </b-tooltip>
         </template>
       </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" :to="`/${urlPrefix}/explore`">
-        <span>{{ $t('Explore') }}</span>
+        <span>{{ $t('explore') }}</span>
       </b-navbar-item>
       <b-navbar-dropdown arrowless collapsible v-if="isRmrk" id="NavStats">
         <template #label>
-          <span>{{ $t('Stats') }}</span>
+          <span>{{ $t('stats') }}</span>
         </template>
         <template>
           <b-navbar-item tag="nuxt-link" to="/spotlight">
-            {{ $t('Spotlight') }}
+            {{ $t('spotlight.page') }}
           </b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/series-insight">
             Series
