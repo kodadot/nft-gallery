@@ -61,7 +61,7 @@ export default class SearchBar extends mixins(KeyboardEventsMixin) {
   @Prop(String) public search!: string
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public owned!: boolean
   @Prop(Boolean) public disableToggle!: boolean
   @Prop(Boolean) public hideSearch!: boolean

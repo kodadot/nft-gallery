@@ -182,7 +182,7 @@ export default class SearchBar extends mixins(
   @Prop(String) public type!: string
   @Prop(String) public sortBy!: string
   @Prop(String) public searchColumnClass!: string
-  @Prop(Boolean) public listed!: boolean
+  @Prop({ type: Boolean, default: false }) public listed!: boolean
   @Prop(Boolean) public hideFilter!: boolean
   @Prop(Boolean) public hideSearchInput!: boolean
   @Prop(Boolean) public showDefaultSuggestions!: boolean
