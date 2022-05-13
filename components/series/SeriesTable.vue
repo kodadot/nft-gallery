@@ -371,7 +371,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
   }
 
   public async fetchCollectionsSeries({
-    limit = 10,
+    limit = 50,
     dateRange = this.dateRange,
   }) {
     console.log(limit)
