@@ -39,29 +39,12 @@ import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
-
-const ownerActions: NFTAction[] = [
-  NFTAction.SEND,
-  NFTAction.CONSUME,
-  NFTAction.DELEGATE,
-]
-// const buyActions: NFTAction[] = [NFTAction.BUY]
-const delegatorActions: NFTAction[] = [NFTAction.SEND]
-
-const needMeta: Record<string, string> = {
-  SEND: 'AddressInput',
-  LIST: 'BalanceInput',
-  DELEGATE: 'AddressInput',
-}
-
-type DescriptionTuple = [string, string] | [string]
-const iconResolver: Record<string, DescriptionTuple> = {
-  SEND: ['is-info is-dark'],
-  CONSUME: ['is-danger'],
-  DELEGATE: ['is-light'],
-  FREEZE: ['is-warning is-dark'],
-  REVOKE: ['is-warning is-dark'],
-}
+import {
+  getActionList,
+  actionComponent,
+  iconResolver
+} from '@/utils/shoppingActions'
+import { isSameAccount } from '~/utils/account'
 
 const components = {
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
@@ -86,15 +69,21 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   protected status = ''
 
   get actions() {
-    if (this.isOwner) {
-      return this.delegateId
-        ? [...ownerActions, NFTAction.REVOKE]
-        : ownerActions
-    }
-    if (this.isDelegator) {
-      return delegatorActions
-    }
-    return []
+    return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
+  }
+
+  get isOwner(): boolean {
+    this.$consola.log(
+      '{ currentOwnerId, accountId }',
+      this.currentOwnerId,
+      this.accountId
+    )
+
+    return Boolean(
+      this.currentOwnerId &&
+        this.accountId &&
+        isSameAccount(this.currentOwnerId, this.accountId)
+    )
   }
 
   get showSubmit() {
@@ -110,7 +99,7 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
   }
 
   get showMeta() {
-    return needMeta[this.selectedAction]
+    return actionComponent[this.selectedAction]
   }
 
   protected iconType(value: string) {
@@ -132,23 +121,9 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
     )
   }
 
-  get isOwner() {
-    this.$consola.log(
-      '{ currentOwnerId, accountId }',
-      this.currentOwnerId,
-      this.accountId
-    )
-
-    return (
-      this.currentOwnerId &&
-      this.accountId &&
-      this.currentOwnerId === this.accountId
-    )
-  }
-
-  get isAvailableToBuy() {
+  get isAvailableToBuy(): boolean {
     const { price, accountId } = this
-    return accountId && Number(price) > 0
+    return Boolean(accountId && Number(price) > 0)
   }
 
   private handleSelect(value: NFTAction) {
