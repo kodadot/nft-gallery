@@ -61,40 +61,40 @@
               <template v-if="detailVisible && !nft.burned">
                 <div class="card bordered mb-4" aria-id="contentIdForA11y3">
                   <div class="card-content">
-                  <template v-if="hasPrice">
-                    <div class="label">
-                      {{ $t('price') }}
-                    </div>
-                    <div class="price-block__container">
-                      <div class="price-block__original">
-                        <Money :value="nft.price" inline />
+                    <template v-if="hasPrice">
+                      <div class="label">
+                        {{ $t('price') }}
                       </div>
-                      <b-button
-                        v-if="nft.currentOwner === accountId"
-                        type="is-warning"
-                        outlined
-                        @click="handleUnlist">
-                        {{ $t('Unlist') }}
-                      </b-button>
-                    </div>
-                  </template>
+                      <div class="price-block__container">
+                        <div class="price-block__original">
+                          <Money :value="nft.price" inline />
+                        </div>
+                        <b-button
+                          v-if="nft.currentOwner === accountId"
+                          type="is-warning"
+                          outlined
+                          @click="handleUnlist">
+                          {{ $t('Unlist') }}
+                        </b-button>
+                      </div>
+                    </template>
                     <div class="content pt-4">
                       <p class="subtitle">
-                          <AvailableActions
-                            ref="actions"
-                            :account-id="accountId"
-                            :current-owner-id="nft.currentOwner"
-                            :price="nft.price"
-                            :nftId="id"
-                            :delegateId="nft.delegate"
-                            :collectionId="collectionId"
-                            :frozen="nft.isFrozen"
-                            :ipfs-hashes="[
-                              nft.image,
-                              nft.animation_url,
-                              nft.metadata,
-                            ]"
-                            @change="handleAction" />
+                        <AvailableActions
+                          ref="actions"
+                          :account-id="accountId"
+                          :current-owner-id="nft.currentOwner"
+                          :price="nft.price"
+                          :nftId="id"
+                          :delegateId="nft.delegate"
+                          :collectionId="collectionId"
+                          :frozen="nft.isFrozen"
+                          :ipfs-hashes="[
+                            nft.image,
+                            nft.animation_url,
+                            nft.metadata,
+                          ]"
+                          @change="handleAction" />
                         <Auth />
                       </p>
                     </div>
@@ -138,9 +138,7 @@ import {
   InstanceMetadata,
 } from '@polkadot/types/interfaces'
 
-import {
-  u128
-} from '@polkadot/types'
+import { u128 } from '@polkadot/types'
 
 import isShareMode from '@/utils/isShareMode'
 import { fetchNFTMetadata } from '@/components/rmrk/utils'
@@ -179,7 +177,11 @@ import resolveQueryPath from '~/utils/queryPathResolver'
     orientation: Orientation,
   },
 })
-export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, AuthMixin) {
+export default class GalleryItem extends mixins(
+  SubscribeMixin,
+  PrefixMixin,
+  AuthMixin
+) {
   private id = ''
   private collectionId = ''
   private nft: NFT = emptyObject<NFT>()
@@ -297,7 +299,7 @@ export default class GalleryItem extends mixins(SubscribeMixin, PrefixMixin, Aut
     this.nft = {
       ...this.nft,
       ...nftEntity,
-      metadata: nftEntity.metadata
+      metadata: nftEntity.metadata,
     }
 
     if (nftEntity.meta) {
