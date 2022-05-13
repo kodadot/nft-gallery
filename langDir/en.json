@@ -663,6 +663,7 @@
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
   },
   "teleport": {
+    "page": "Teleport",
     "route": "Teleporting {0} from {1} to {2}"
   },
   "preferences": {
