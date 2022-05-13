@@ -20,5 +20,6 @@ query seriesInsightList(
     unique
     uniqueCollectors
     volume
+    emoteCount
   }
 }
