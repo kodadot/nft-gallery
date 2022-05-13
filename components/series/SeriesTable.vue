@@ -257,11 +257,23 @@
       <b-table-column
         v-slot="props"
         field="rank"
-        :label="$t('spotlight.score')"
+        :label="$t('series.score')"
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+          v-slot="props"
+          field="emoteCount"
+          :label="$t('series.emoteCount')"
+          numeric
+          cell-class="is-vcentered">
+        <template v-if="!isLoading">
+          {{ Math.ceil(props.row.emoteCount) }}
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -422,6 +434,7 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         buyHistory: axisLize(
           Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
         ),
+        emoteCount: e.emoteCount || 0,
       })
     )
 
