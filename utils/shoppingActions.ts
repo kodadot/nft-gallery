@@ -71,3 +71,37 @@ export const getChainSpecificActions = (prefix: string, isOwner: boolean, hasPri
   // TODO: add chain specific actions
   return []
 }
+
+
+export const actionComponent: Record<string, string> = {
+  SEND: 'AddressInput',
+  DELEGATE: 'AddressInput',
+  LIST: 'BalanceInput',
+}
+
+type DescriptionTuple = [string, string] | [string]
+export const iconResolver: Record<string, DescriptionTuple> = {
+  DELEGATE: ['is-light'],
+  FREEZE: ['is-warning is-dark'],
+  REVOKE: ['is-warning is-dark'],
+  [ShoppingActions.SEND]: ['is-info is-dark'],
+  [ShoppingActions.CONSUME]: ['is-danger'],
+  [ShoppingActions.LIST]: ['is-light'],
+  [ShoppingActions.BUY]: ['is-success is-dark'],
+  [ShoppingActions.DOWNLOAD]: ['is-warning'],
+}
+
+
+export const getActionButtonColor = (action: ShoppingActions): string => {
+  const [color] = iconResolver[action]
+  return color
+}
+
+export const getActionButtonIcon = (action: ShoppingActions): string | undefined => {
+  const [, icon] = iconResolver[action]
+  return icon
+}
+
+export const getActionComponent = (action: ShoppingActions): string | undefined => {
+  return actionComponent[action]
+}
