@@ -481,6 +481,9 @@
       "SEND": "🎁 GIFT",
       "CONSUME": "🔥 BURN",
       "BUY": "🤝 BUY"
+    },
+    "action": {
+      "submit": "Submit {0}"
     }
   },
   "loader": {
