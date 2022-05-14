@@ -61,9 +61,9 @@ export const getMarketplaceActions = (prefix: string, isOwner: boolean, hasPrice
 
 
 export const getActionList = (prefix: string, isOwner: boolean, hasPrice: boolean): ShoppingActions[] => {
-  const baseActions = isOwner ? ownerActions : []
-  baseActions.push(...getMarketplaceActions(prefix, isOwner, hasPrice))
-  baseActions.push(...getChainSpecificActions(prefix, isOwner, hasPrice))
+  let baseActions = isOwner ? ownerActions : []
+  baseActions = [...baseActions, ...getMarketplaceActions(prefix, isOwner, hasPrice)]
+  baseActions = [...baseActions, ...getChainSpecificActions(prefix, isOwner, hasPrice)]
   return baseActions
 }
 
