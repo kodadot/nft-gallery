@@ -1,41 +1,24 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <div v-if="frozen" class="sub-title is-6 has-text-info">Frozen</div>
-    <div v-if="accountId" class="buttons">
-      <b-button
-        v-for="action in actions"
-        :key="action"
-        :type="iconType(action)[0]"
-        outlined
-        expanded
-        @click="handleAction(action)">
-        {{ action }}
-      </b-button>
-    </div>
+    <ActionList v-if="accountId" :actions="actions" @click="handleAction" />
     <component
       class="mb-4"
       v-if="showMeta"
       :is="showMeta"
       @input="updateMeta"
       emptyOnError />
-    <b-button
-      v-if="showSubmit"
-      type="is-primary"
-      icon-left="paper-plane"
-      @click="submit">
-      Submit {{ selectedAction }}
-    </b-button>
+    <SubmitButton v-if="showSubmit" @click="submit">
+      {{ $t('nft.action.submit', [selectedAction]) }}
+    </SubmitButton>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import Connector from '@kodadot1/sub-api'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
 import nftById from '@/queries/nftById.graphql'
 import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
@@ -45,28 +28,35 @@ import {
   iconResolver
 } from '@/utils/shoppingActions'
 import { isSameAccount } from '~/utils/account'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '~/utils/mixins/metaMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
+import { getApiCall } from '@/utils/gallery/abstractCalls'
 
 const components = {
+  ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
   AddressInput: () => import('@/components/shared/AddressInput.vue'),
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
+  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
 }
 
 @Component({ components })
-export default class AvailableActions extends mixins(RmrkVersionMixin) {
+export default class AvailableActions extends mixins(
+  PrefixMixin,
+  KeyboardEventsMixin,
+  MetaTransactionMixin,
+  AuthMixin
+) {
   @Prop(String) public currentOwnerId!: string
-  @Prop(String) public accountId!: string
-  @Prop({ type: [String] }) public delegateId!: string
   @Prop() public price!: string
   @Prop() public nftId!: string
   @Prop(String) public collectionId!: string
-  @Prop(Boolean) public frozen!: boolean
   @Prop({ type: Array, default: () => [] }) public ipfsHashes!: string[]
 
-  private selectedAction: NFTAction = NFTAction.NONE
+  private selectedAction: NFTAction | '' = ''
   private meta: string | number = ''
-  protected isLoading = false
-  protected status = ''
 
   get actions() {
     return getActionList('bsx', this.isOwner, this.isAvailableToBuy)
@@ -113,12 +103,6 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
       this.selectedAction = NFTAction.NONE
       this.meta = ''
     }
-  }
-
-  get isDelegator() {
-    return (
-      this.delegateId && this.accountId && this.delegateId === this.accountId
-    )
   }
 
   get isAvailableToBuy(): boolean {
@@ -168,81 +152,38 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
 
   protected async submit() {
     const { api } = Connector.getInstance()
-    this.isLoading = true
+    this.initTransactionLoader()
 
     try {
-      showNotification(`[${this.selectedAction}] ${this.nftId}`)
-      const action = NFTUtils.apiCall(this.selectedAction)
-
-      if (!action || !this.collectionId) {
-        this.$consola.log('EvalError', action, this.collectionId)
+      if (!this.selectedAction || !this.collectionId) {
+        this.$consola.log('EvalError', this.selectedAction, this.collectionId)
         throw new EvalError('Action or Collection not found')
       }
 
-      const [section, method] = action
-
-      let cb = api.tx[section][method]
+      showNotification(`[${this.selectedAction}] ${this.nftId}`)
+      let cb = getApiCall(api, this.urlPrefix, this.selectedAction)
       let arg: any[] = this.getArgs()
 
-      if (this.isConsume) {
-        const burn = cb(...arg)
-        cb = api.tx.utility.batchAll
-        arg = [
-          [burn, api.tx.uniques.clearMetadata(this.collectionId, this.nftId)],
-        ]
-      }
-
-      const tx = await exec(
+      this.howAboutToExecute(
         this.accountId,
-        '',
         cb,
-        arg,
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[NFT] ${this.selectedAction} processed in block ${blockNumber}`,
-              notificationTypes.info
-            )
-            if (this.isConsume) {
-              this.unpinNFT()
-            }
-
-            showNotification(
-              `[${this.selectedAction}] ${this.nftId}`,
-              notificationTypes.success
-            )
-            this.selectedAction = NFTAction.NONE
-            this.isLoading = false
-          },
-          (err) => {
-            execResultValue(tx)
-            showNotification(`[ERR] ${err.hash}`, notificationTypes.danger)
-            this.selectedAction = NFTAction.NONE
-            this.isLoading = false
-          },
-          (res) => {
-            if (res.status.isReady) {
-              this.status = 'loader.casting'
-              return
-            }
-
-            if (res.status.isInBlock) {
-              this.status = 'loader.block'
-              return
-            }
-
-            if (res.status.isFinalized) {
-              this.status = 'loader.finalized'
-              return
-            }
-
-            this.status = ''
+        [arg],
+        (blockNumber: string) => {
+          showNotification(blockNumber, notificationTypes.info)
+          if (this.isConsume) {
+            this.unpinNFT()
           }
-        )
+
+          showNotification(
+            `[${this.selectedAction}] ${this.nftId}`,
+            notificationTypes.success
+          )
+          this.$emit('change')
+          this.selectedAction = ''
+        },
+        () => {
+          this.selectedAction = ''
+        }
       )
     } catch (e) {
       showNotification(`[ERR] ${e}`, notificationTypes.danger)
@@ -250,26 +191,21 @@ export default class AvailableActions extends mixins(RmrkVersionMixin) {
       this.isLoading = false
     }
   }
-  getArgs() {
+
+  protected getArgs() {
     const {
       selectedAction,
       collectionId,
       nftId,
       currentOwnerId,
       meta,
-      delegateId,
     } = this
 
     return NFTUtils.getActionParams(
       selectedAction,
       collectionId,
       nftId,
-      NFTUtils.correctMeta(
-        selectedAction,
-        String(meta),
-        currentOwnerId,
-        delegateId
-      )
+      '',
     )
   }
 
