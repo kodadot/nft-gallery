@@ -18,14 +18,10 @@ export const extractCid = (ipfsLink?: string): string => {
   const match = cidRegex.exec(ipfsLink)
 
   if (!match) {
-    return ''
+    return fastExtract(ipfsLink)
   }
 
-  if (match[1]) {
-    return match[1]
-  }
-
-  return fastExtract(ipfsLink)
+  return match ? match[1] : fastExtract(ipfsLink)
 }
 
 export const fastExtract = (ipfsLink?: string): string => {
