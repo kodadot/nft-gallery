@@ -25,12 +25,12 @@ export const extractCid = (ipfsLink?: string): string => {
 
   const match = cidRegex.exec(ipfsLink)
 
-  const extractCid = fastExtract(ipfsLink)
   if (!match) {
+    const extractCid = fastExtract(ipfsLink)
     return extractCid
   }
 
-  return match ? match[1] : extractCid
+  return match[1]
 }
 
 const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
