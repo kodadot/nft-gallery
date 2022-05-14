@@ -9,6 +9,14 @@ export const justHash = (ipfsLink?: string): boolean => {
   return /^[a-zA-Z0-9]+$/.test(ipfsLink || '')
 }
 
+export const fastExtract = (ipfsLink?: string): string => {
+  if (!ipfsLink) {
+    return ''
+  }
+
+  return ipfsLink.replace('ipfs://ipfs/', '')
+}
+
 const cidRegex = /ipfs\/([a-zA-Z0-9]+)/
 export const extractCid = (ipfsLink?: string): string => {
   if (!ipfsLink) {
@@ -17,19 +25,12 @@ export const extractCid = (ipfsLink?: string): string => {
 
   const match = cidRegex.exec(ipfsLink)
 
+  const extractCid = fastExtract(ipfsLink)
   if (!match) {
-    return fastExtract(ipfsLink)
+    return extractCid
   }
 
-  return match ? match[1] : fastExtract(ipfsLink)
-}
-
-export const fastExtract = (ipfsLink?: string): string => {
-  if (!ipfsLink) {
-    return ''
-  }
-
-  return ipfsLink.replace('ipfs://ipfs/', '')
+  return match ? match[1] : extractCid
 }
 
 const IPFS2AR = 'https://ipfs2arweave.com/permapin/'
