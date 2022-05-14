@@ -215,6 +215,7 @@ export default class SearchBar extends mixins(
   public async fetchSuggestionsOnce() {
     if (
       this.showDefaultSuggestions &&
+      this.urlPrefix === 'rmrk' &&
       this.defaultCollectionSuggestions.length === 0
     ) {
       try {
@@ -222,7 +223,7 @@ export default class SearchBar extends mixins(
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+          client: 'subsquid',
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
@@ -363,6 +364,9 @@ export default class SearchBar extends mixins(
   }
 
   get searchSuggestion() {
+    if (this.urlPrefix !== 'rmrk') {
+      return []
+    }
     const suggestions: SearchSuggestion[] = []
     const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
 
