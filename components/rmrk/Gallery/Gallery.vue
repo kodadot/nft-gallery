@@ -116,6 +116,7 @@ import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
 
 import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
@@ -196,6 +197,9 @@ export default class Gallery extends mixins(
 
   public async created() {
     await this.fetchPageData(this.startPage)
+    exist(this.$route.query.hasPassionFeed, (val) => {
+      this.hasPassionFeed = val === 'true'
+    })
     this.onResize()
   }
 
@@ -391,7 +395,14 @@ export default class Gallery extends mixins(
 
   @Watch('hasPassionFeed')
   protected onHasPassionFeed() {
-    this.resetPage()
+    this.gotoPage(1)
+    this.$router.replace({
+      path: String(this.$route.path),
+      query: {
+        ...this.$route.query,
+        hasPassionFeed: String(this.hasPassionFeed),
+      },
+    })
   }
 
   @Watch('searchQuery', { deep: true })
