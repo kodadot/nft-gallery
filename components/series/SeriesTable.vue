@@ -204,6 +204,18 @@
 
       <b-table-column
         v-slot="props"
+        field="averagePrice"
+        :label="$t('series.averagePrice')"
+        numeric
+        cell-class="is-vcentered">
+        <template v-if="!isLoading">
+          <Money :value="props.row.averagePrice" inline hideUnit />
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
         field="highestSale"
         :label="$t('series.highestSale')"
         numeric
@@ -255,11 +267,23 @@
       <b-table-column
         v-slot="props"
         field="rank"
-        :label="$t('spotlight.score')"
+        :label="$t('series.score')"
         numeric
         cell-class="is-vcentered">
         <template v-if="!isLoading">
           {{ Math.ceil(props.row.rank) }}
+        </template>
+        <b-skeleton :active="isLoading" />
+      </b-table-column>
+
+      <b-table-column
+          v-slot="props"
+          field="emoteCount"
+          :label="$t('series.emoteCount')"
+          numeric
+          cell-class="is-vcentered">
+        <template v-if="!isLoading">
+          {{ Math.ceil(props.row.emoteCount) }}
         </template>
         <b-skeleton :active="isLoading" />
       </b-table-column>
@@ -323,8 +347,16 @@ import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { emptyObject } from '@/utils/empty'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { onlyDate, defaultHistory, today } from './utils'
 import { min, differenceInCalendarDays } from 'date-fns'
+import {
+  toSort,
+  defaultHistory,
+  lastmonthDate,
+  today,
+  getDateArray,
+  onlyDate,
+  calculateAvgPrice,
+} from './utils'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -406,9 +438,11 @@ export default class SeriesTable extends mixins(PrefixMixin) {
         ...e,
         image: sanitizeIpfsUrl(e.image),
         rank: e.sold * (e.unique / e.total || 1),
+        averagePrice: calculateAvgPrice(e.volume as string, e.buys),
         buyHistory: axisLize(
           Object.assign({}, this.defaultBuyHistory, buyEvents[e.id] || {})
         ),
+        emoteCount: e.emoteCount || 0,
       })
     )
 

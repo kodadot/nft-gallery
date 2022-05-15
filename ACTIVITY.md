@@ -12,6 +12,8 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 ## We're constantly growing!
 [![Contributors Over Time](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
+[![Monthly Active Contributors](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)
+
 #
 
 
@@ -47,3 +49,9 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 ### Star history 
 
 [![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
+
+### New Issues and pull requests 
+https://www.repotrends.com/kodadot/nft-gallery
+
+![image](https://user-images.githubusercontent.com/5887929/168427475-8fba329f-b022-4411-961e-9887fd5691aa.png)
+
