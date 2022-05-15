@@ -32,6 +32,9 @@
         </div>
         <div class="subtitle is-size-6">
           <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
+          <div class="ml-1 mt-2" v-if="myNftCount > 0">
+            {{ $t('profile.collectedFromCreator', [myNftCount]) }}
+          </div>
         </div>
       </div>
       <div class="column has-text-right">
@@ -200,6 +203,7 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
+import nftListByIssuerAndOwner from '@/queries/nftListByIssuerAndOwner.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
@@ -283,6 +287,7 @@ export default class Profile extends mixins(
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+  private myNftCount = 0
   protected networks = [
     {
       url: 'https://dotscanner.com/Kusama/account/',
@@ -313,6 +318,7 @@ export default class Profile extends mixins(
 
   public async mounted() {
     await this.fetchProfile()
+    this.fetchMyNftByIssuer()
   }
 
   public checkId() {
@@ -526,6 +532,21 @@ export default class Profile extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
+  @Watch('accountId')
+  public async fetchMyNftByIssuer() {
+    if (this.accountId && this.id && this.accountId !== this.id) {
+      const { data } = await this.$apollo.query({
+        query: nftListByIssuerAndOwner,
+        client: this.urlPrefix,
+        variables: {
+          account: this.id,
+          currentOwner: this.accountId,
+        },
+      })
+      this.myNftCount = data.nFTEntities?.totalCount || 0
     }
   }
 
