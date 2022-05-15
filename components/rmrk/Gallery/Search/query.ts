@@ -94,6 +94,7 @@ export const seriesAggregation = (limit = 10, sort: SortType): Aggregator => {
         floorPrice: { $sum: '$floorPrice' },
         count: { $sum: '$count' },
         rank: { $sum: '$rank' },
+        emoteCount: { $sum: '$emoteCount' },
         volume: { $sum: '$volume' },
         dailyVolume: { $sum: '$dailyVolume' },
         weeklyVolume: { $sum: '$weeklyVolume' },

@@ -527,6 +527,8 @@
     "collected": "Colecionado",
     "floorprice": "Preço mínimo",
     "owners": "Proprietários",
+    "score": "Pontuação",
+    "emoteCount": "Emotes",
     "volume": "Volume"
   },
   "tutorial": {
