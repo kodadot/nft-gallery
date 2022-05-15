@@ -3,6 +3,14 @@
     <Loader :value="isLoading" />
     <!-- TODO: Make it work with graphql -->
     <Search v-bind.sync="searchQuery" @resetPage="resetPage" hideSearchInput>
+      <template v-slot:next-filter>
+        <b-switch
+          class="gallery-switch"
+          v-model="hasPassionFeed"
+          :rounded="false">
+          Passion Feed
+        </b-switch>
+      </template>
       <Pagination
         hasMagicBtn
         simple
@@ -145,6 +153,7 @@ export default class Gallery extends mixins(
     priceMax: undefined,
   }
   private isLoading = true
+  private hasPassionFeed = true
   private passionList: string[] = []
 
   get showPriceValue(): boolean {
@@ -214,16 +223,9 @@ export default class Gallery extends mixins(
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
 
-    const {
-      data: { passionFeed },
-    } = await this.$apollo.query({
-      query: passionQuery,
-      client: 'subsquid',
-      variables: {
-        account: this.accountId,
-      },
-    })
-    this.passionList = passionFeed.map((x) => x.id)
+    if (this.hasPassionFeed) {
+      await this.fetchPassionList()
+    }
 
     const result = await this.$apollo.query({
       query: query.default,
@@ -241,6 +243,19 @@ export default class Gallery extends mixins(
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
     return true
+  }
+
+  public async fetchPassionList() {
+    const {
+      data: { passionFeed },
+    } = await this.$apollo.query({
+      query: passionQuery,
+      client: 'subsquid',
+      variables: {
+        account: this.accountId,
+      },
+    })
+    this.passionList = passionFeed.map((x) => x.id)
   }
 
   protected async handleResult(
@@ -357,7 +372,7 @@ export default class Gallery extends mixins(
       })
     }
 
-    if (this.passionList.length) {
+    if (this.hasPassionFeed) {
       params.push({
         issuer: { in: this.passionList },
       })
@@ -372,6 +387,11 @@ export default class Gallery extends mixins(
       this.resetPage()
       this.searchQuery.search = val || ''
     }
+  }
+
+  @Watch('hasPassionFeed')
+  protected onHasPassionFeed() {
+    this.resetPage()
   }
 
   @Watch('searchQuery', { deep: true })
@@ -393,6 +413,10 @@ export default class Gallery extends mixins(
 }
 
 .gallery {
+  &-switch {
+    margin-left: 10px;
+  }
+
   &__image-wrapper {
     position: relative;
     margin: auto;
