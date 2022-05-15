@@ -162,7 +162,6 @@ import {
   processMetadata,
 } from '~/utils/cachingStrategy'
 import { fastExtract } from '~/utils/ipfs'
-import { once } from 'lodash'
 
 const SearchPageRoutePathList = ['/collections', '/gallery', '/explore']
 
