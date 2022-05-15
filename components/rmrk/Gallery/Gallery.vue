@@ -103,10 +103,13 @@ import { DocumentNode } from 'graphql'
 import 'lazysizes'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 import { NFTMetadata } from '../service/scheme'
 import { getSanitizer } from '../utils'
 import { SearchQuery } from './Search/types'
 import shouldUpdate from '~/utils/shouldUpdate'
+
+import passionQuery from '@/queries/rmrk/subsquid/passionFeed.graphql'
 
 type GraphResponse = NFTEntitiesWithCount<GraphNFT>
 
@@ -127,7 +130,11 @@ const components = {
   components,
   name: 'Gallery',
 })
-export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
+export default class Gallery extends mixins(
+  PrefixMixin,
+  InfiniteScrollMixin,
+  AuthMixin
+) {
   private nfts: NFTWithCollectionMeta[] = []
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
@@ -138,6 +145,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     priceMax: undefined,
   }
   private isLoading = true
+  private passionList: string[] = []
 
   get showPriceValue(): boolean {
     return (
@@ -205,6 +213,18 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     const query = isRemark
       ? await import('@/queries/nftListWithSearch.graphql')
       : await import('@/queries/unique/nftListWithSearch.graphql')
+
+    const {
+      data: { passionFeed },
+    } = await this.$apollo.query({
+      query: passionQuery,
+      client: 'subsquid',
+      variables: {
+        account: this.accountId,
+      },
+    })
+    this.passionList = passionFeed.map((x) => x.id)
+
     const result = await this.$apollo.query({
       query: query.default,
       client: this.urlPrefix,
@@ -336,6 +356,13 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
         },
       })
     }
+
+    if (this.passionList.length) {
+      params.push({
+        issuer: { in: this.passionList },
+      })
+    }
+
     return params
   }
 
