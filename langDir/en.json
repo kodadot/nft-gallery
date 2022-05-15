@@ -520,7 +520,8 @@
     "sold": "Sold",
     "holdings": "Holdings",
     "gains": "Gains",
-    "showQr": "Show QR"
+    "showQr": "Show QR",
+    "collectedFromCreator": "I have {0} NFT(s) from this creator"
   },
   "spotlight": {
     "page": "Spotlight",
