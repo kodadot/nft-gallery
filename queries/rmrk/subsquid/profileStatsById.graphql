@@ -18,7 +18,7 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
   collected : nftEntities(where: { AND: $search_collected }  ) {
     ...nftSubsquid
     ...nftDetails
-    events{
+    events {
       id
       blockNumber
       timestamp
@@ -40,14 +40,9 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
   sold : events(where: {  caller_eq: $id , AND: $search_sold }  ) {
     ...event
     nft {
-        id
-        metadata
-        issuer
-        currentOwner
-        blockNumber
-        burned
-        updatedAt
-      events {
+        ...nftSubsquid
+        ...nftDetails
+       events {
           id
           blockNumber
           timestamp
@@ -62,13 +57,9 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
   invested : events(where: {  caller_eq: $id , AND: $search_invested }  ) {
     ...event
     nft {
-      id
-      metadata
-      issuer
-      currentOwner
-      blockNumber
-      burned
-      updatedAt
+      ...nftSubsquid
+      ...nftDetails
+
     }
   }
   
