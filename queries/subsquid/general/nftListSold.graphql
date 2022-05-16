@@ -1,5 +1,5 @@
 #import "../../fragments/nftDetails.graphql"
-#import "../../fragments/rubickNft.graphql"
+#import "../../fragments/subsquidNft.graphql"
 #import "../../fragments/collectionMeta.graphql"
 query nftListSold(
   $account: String!
@@ -18,7 +18,7 @@ query nftListSold(
     limit: $limit
     offset: $offset
   ) {
-    ...rubickNft
+    ...subsquidNft
     ...nftDetails
     ...collectionMeta
   }

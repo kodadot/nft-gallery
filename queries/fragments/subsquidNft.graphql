@@ -1,4 +1,4 @@
-fragment rubickNft on NFTEntity {
+fragment subsquidNft on NFTEntity {
   id
   metadata
   issuer

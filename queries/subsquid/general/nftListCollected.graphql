@@ -1,5 +1,5 @@
 #import "../../fragments/nftDetails.graphql"
-#import "../../fragments/rubickNft.graphql"
+#import "../../fragments/subsquidNft.graphql"
 #import "../../fragments/collectionMeta.graphql"
 
 query nftListCollected(
@@ -21,7 +21,7 @@ query nftListCollected(
     limit: $limit
     offset: $offset
   ) {
-    ...rubickNft
+    ...subsquidNft
     ...nftDetails
     ...collectionMeta
     emotes {
