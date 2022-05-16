@@ -48,15 +48,13 @@ export default class GalleryItemCarousel extends Vue {
       })
 
       const nftsWithCollectionId = data?.collectionEntityById?.nfts.map(
-        (nft) => {
-          return {
-            collection: {
-              id: data.collectionEntityById.id,
-              name: data.collectionEntityById.name,
-            },
-            ...nft,
-          }
-        }
+        (nft) => ({
+          collection: {
+            id: data.collectionEntityById.id,
+            name: data.collectionEntityById.name,
+          },
+          ...nft,
+        })
       )
 
       this.nfts = await formatNFT(nftsWithCollectionId)
