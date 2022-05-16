@@ -1,9 +1,9 @@
 <template>
   <a
     v-if="showBtn"
-    class="scroll-top-button is-flex is-align-items-center is-justify-content-center"
+    class="scroll-top-button button is-rounded"
     @click="scrollToTop">
-    <b-icon icon="chevron-up" class="is-24x24" />
+    <b-icon icon="chevron-up" />
   </a>
 </template>
 
@@ -39,8 +39,6 @@ export default class ScrollTopButton extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/variables';
-
 .scroll-top-button {
   position: fixed;
   right: 20px;
@@ -48,9 +46,5 @@ export default class ScrollTopButton extends Vue {
   width: 56px;
   height: 56px;
   z-index: 999999999;
-  &:hover {
-    color: $primary;
-    cursor: pointer;
-  }
 }
 </style>
