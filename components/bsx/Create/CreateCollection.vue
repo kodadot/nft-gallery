@@ -158,16 +158,11 @@ export default class CreateCollection extends mixins(
     return Number(newId)
   }
 
-  protected cretateArgs(randomId: number, metadata: string): Extrinsic[] {
-    const { api } = Connector.getInstance()
-    const create = api.tx.uniques.create(randomId, this.accountId)
-    // Option to freeze metadata
-    const meta = api.tx.uniques.setClassMetadata(randomId, metadata, false)
-    const attributes = this.attributes.map((a) =>
-      api.tx.uniques.setAttribute(randomId, null, a.trait_type, String(a.value))
-    )
-
-    return [create, meta, ...attributes]
+  protected cretateArgs(
+    randomId: number,
+    metadata: string
+  ): [number, any, string] {
+    return [randomId, { Marketplace: null }, metadata]
   }
 
   protected tryToEstimateTx(): Promise<string> {
@@ -201,7 +196,7 @@ export default class CreateCollection extends mixins(
     this.status = 'loader.checkBalance'
 
     try {
-      await this.checkBalanceBeforeTx()
+      // await this.checkBalanceBeforeTx()
       showNotification(
         `Creating collection ${this.base.name}`,
         notificationTypes.info
@@ -210,13 +205,10 @@ export default class CreateCollection extends mixins(
       const metadata = await this.constructMeta()
       // const metadata = 'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
       const { api } = Connector.getInstance()
-      const cb = api.tx.utility.batchAll
+      const cb = api.tx.nft.createClass
       const randomId = await this.generateNewCollectionId()
 
-      const args = [
-        this.cretateArgs(randomId, metadata),
-        ...(await canSupport(this.hasSupport)),
-      ]
+      const args = this.cretateArgs(randomId, metadata)
 
       if (this.base.file) {
         this.$consola.log('[UPLOADING FILE]')
