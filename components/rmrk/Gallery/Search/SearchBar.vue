@@ -31,6 +31,7 @@
           expanded
           @typing="updateSuggestion"
           @keydown.native.enter="nativeSearch"
+          @focus="fetchSuggestionsOnce"
           @select="updateSelected">
           <template slot-scope="props">
             <div v-if="props.option.type === 'Search'">
@@ -210,14 +211,18 @@ export default class SearchBar extends mixins(
   private defaultNFTSuggestions: NFTWithMeta[] = []
   private defaultCollectionSuggestions: CollectionWithMeta[] = []
 
-  public async fetch() {
-    if (this.showDefaultSuggestions) {
+  public async fetchSuggestionsOnce() {
+    if (
+      this.showDefaultSuggestions &&
+      this.urlPrefix === 'rmrk' &&
+      this.defaultCollectionSuggestions.length === 0
+    ) {
       try {
         const { data } = await this.$apollo.query<{
           events: [{ meta; timestamp; nft }]
         }>({
           query: lastNftListByEvent,
-          client: this.urlPrefix === 'rmrk' ? 'subsquid' : this.urlPrefix,
+          client: 'subsquid',
           variables: {
             limit: this.searchSuggestionEachTypeMaxNum,
             event: 'LIST',
@@ -358,6 +363,9 @@ export default class SearchBar extends mixins(
   }
 
   get searchSuggestion() {
+    if (this.urlPrefix !== 'rmrk') {
+      return []
+    }
     const suggestions: SearchSuggestion[] = []
     const eachTypeMaxNum = this.searchSuggestionEachTypeMaxNum
 
