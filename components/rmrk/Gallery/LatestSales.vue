@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent } from '@/utils/carousel'
@@ -31,6 +31,7 @@ import {
   getProperImageLink,
 } from '~/utils/cachingStrategy'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '@/utils/mixins/authMixin'
 
 const components = {
   CarouselCardList: () => import('@/components/base/CarouselCardList.vue'),
@@ -41,7 +42,9 @@ const components = {
 @Component<LatestSales>({
   components,
 })
-export default class LatestSales extends mixins(PrefixMixin) {
+export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
+  @Prop({ required: false, default: [''] }) passionList: string[]
+
   private nfts: any[] = []
   private events: any[] = []
   private currentValue = 1
@@ -52,16 +55,23 @@ export default class LatestSales extends mixins(PrefixMixin) {
   }
 
   async fetch() {
+    const queryVars = {
+      limit: 10,
+      event: 'BUY',
+      and: {},
+    }
+    if (this.isLogIn) {
+      queryVars.and.nft = {
+        issuer_in: this.passionList.length ? this.passionList : [''],
+      }
+    }
     const result = await this.$apollo
       .query<{
         events: { meta; nft: { meta: { id; image } } }
       }>({
         query: lastNftListByEvent,
         client: this.client,
-        variables: {
-          limit: 10,
-          event: 'BUY',
-        },
+        variables: queryVars,
       })
       .catch((e) => {
         this.$consola.error(e)
