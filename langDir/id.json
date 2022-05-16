@@ -526,7 +526,9 @@
     "collected": "Dikumpulkan",
     "floorprice": "Harga Lantai",
     "owners": "Pemilik",
-    "volume": "Volume Perdagangan"
+    "volume": "Volume Perdagangan",
+    "score": "Skor",
+    "emoteCount": "Emotes"
   },
   "tutorial": {
     "create": "1. Buat akun polkadot js",
