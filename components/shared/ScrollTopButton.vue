@@ -1,14 +1,16 @@
 <template>
-  <div v-if="showBtn" class="scroll-top-button" @click="scrollToTop">
-    <b-icon icon="arrow-alt-circle-up" />
-  </div>
+  <a
+    v-if="showBtn"
+    class="scroll-top-button is-flex is-align-items-center is-justify-content-center"
+    @click="scrollToTop">
+    <b-icon icon="chevron-up" class="is-24x24" />
+  </a>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Debounce } from 'vue-debounce-decorator'
-
-const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 2000
+import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 
 @Component({})
 export default class ScrollTopButton extends Vue {
@@ -36,21 +38,19 @@ export default class ScrollTopButton extends Vue {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
 .scroll-top-button {
   position: fixed;
   right: 20px;
   bottom: 100px;
+  width: 56px;
+  height: 56px;
   z-index: 999999999;
   &:hover {
     color: $primary;
     cursor: pointer;
-  }
-  .icon svg {
-    width: 30px;
-    height: 30px;
   }
 }
 </style>

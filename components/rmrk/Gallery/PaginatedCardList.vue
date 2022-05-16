@@ -50,8 +50,7 @@ const components = {
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  ScrollTopButton: () =>
-    import('@/components/rmrk/Gallery/ScrollTopButton.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component({ components })

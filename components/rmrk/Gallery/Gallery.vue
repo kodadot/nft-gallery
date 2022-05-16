@@ -122,8 +122,7 @@ const components = {
   PreviewMediaResolver: () =>
     import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  ScrollTopButton: () =>
-    import('@/components/rmrk/Gallery/ScrollTopButton.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Gallery>({

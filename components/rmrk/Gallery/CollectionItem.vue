@@ -179,8 +179,7 @@ const components = {
     import('@/components/rmrk/Gallery/Holder/Holder.vue'),
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  ScrollTopButton: () =>
-    import('@/components/rmrk/Gallery/ScrollTopButton.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 @Component<CollectionItem>({
   components,

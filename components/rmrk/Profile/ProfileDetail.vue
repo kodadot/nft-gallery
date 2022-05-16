@@ -234,8 +234,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
-  ScrollTopButton: () =>
-    import('@/components/rmrk/Gallery/ScrollTopButton.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Profile>({

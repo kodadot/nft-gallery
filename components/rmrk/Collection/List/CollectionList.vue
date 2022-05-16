@@ -106,8 +106,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
-  ScrollTopButton: () =>
-    import('@/components/rmrk/Gallery/ScrollTopButton.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<CollectionList>({
