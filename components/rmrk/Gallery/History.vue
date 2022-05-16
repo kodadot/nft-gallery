@@ -125,28 +125,10 @@ import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { HistoryEventType, wrapEventNameWithIcon } from '@/utils/historyEvent'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
-}
-
-const enum HistoryEventType {
-  MINTNFT = 'MINTNFT',
-  LIST = 'LIST',
-  BUY = 'BUY',
-  SEND = 'SEND',
-  CONSUME = 'CONSUME',
-  UNLIST = 'UNLIST',
-  ALL = 'ALL',
-}
-
-const EventToIconMap = {
-  [HistoryEventType.MINTNFT]: '🖼',
-  [HistoryEventType.LIST]: '📰',
-  [HistoryEventType.UNLIST]: '🗞',
-  [HistoryEventType.SEND]: '🎁',
-  [HistoryEventType.CONSUME]: '🔥',
-  [HistoryEventType.BUY]: '🤝',
 }
 
 type TableRowItem = {
@@ -218,14 +200,12 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   }
 
   getEventDisplayName(type: HistoryEventType) {
-    return EventToIconMap[type] + ' ' + this.$t(`nft.event.${type}`)
+    return wrapEventNameWithIcon(type, this.$t(`nft.event.${type}`) as string)
   }
 
   get uniqType(): { type: HistoryEventType; value: string }[] {
-    const eventTypes = [
-      ...new Map(this.copyTableData.map((v) => [v.Type, v])).keys(),
-    ]
-    const singleEventList = eventTypes.map((type) => ({
+    const eventSet = new Set(this.copyTableData.map((v) => v.Type))
+    const singleEventList = Array.from(eventSet).map((type) => ({
       type,
       value: this.getEventDisplayName(type),
     }))
@@ -284,39 +264,43 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       const event: any = {}
 
       // Type
-      if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = HistoryEventType.MINTNFT
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else if (
-        newEvent['interaction'] === 'LIST' ||
-        newEvent['interaction'] === 'UNLIST'
-      ) {
-        event['Type'] =
-          newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
-            ? HistoryEventType.LIST
-            : HistoryEventType.UNLIST
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        curPrice = newEvent['meta']
-      } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = HistoryEventType.SEND
-        event['From'] = newEvent['caller']
-        event['To'] = newEvent['meta']
-        curPrice = '0'
-      } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = HistoryEventType.CONSUME
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        curPrice = '0'
-      } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = HistoryEventType.BUY
-        event['From'] = newEvent['currentOwner']
-        event['To'] = newEvent['caller']
-        curPrice = newEvent['meta']
-      } else {
-        // unsupported event
-        continue
+      switch (newEvent['interaction']) {
+        case HistoryEventType.MINTNFT:
+          event['Type'] = HistoryEventType.MINTNFT
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          break
+        case HistoryEventType.LIST:
+        case HistoryEventType.UNLIST:
+          event['Type'] =
+            newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
+              ? HistoryEventType.LIST
+              : HistoryEventType.UNLIST
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          curPrice = newEvent['meta']
+          break
+        case HistoryEventType.SEND:
+          event['Type'] = HistoryEventType.SEND
+          event['From'] = newEvent['caller']
+          event['To'] = newEvent['meta']
+          curPrice = '0'
+          break
+        case HistoryEventType.CONSUME:
+          event['Type'] = HistoryEventType.CONSUME
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          curPrice = '0'
+          break
+        case HistoryEventType.BUY:
+          event['Type'] = HistoryEventType.BUY
+          event['From'] = newEvent['currentOwner']
+          event['To'] = newEvent['caller']
+          curPrice = newEvent['meta']
+          break
+        default:
+          // unsupported event
+          continue
       }
 
       // Item
