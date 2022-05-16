@@ -212,10 +212,10 @@ import AuthMixin from '~/utils/mixins/authMixin'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
-import firstNftByIssuer from '@/queries/rmrk/subsquid/general/firstNftByIssuer.graphql'
-import nftListByIssuer from '@/queries/rmrk/subsquid/general/nftListByIssuer.graphql'
-import nftListCollected from '@/queries/rmrk/subsquid/general/nftListCollected.graphql'
-import nftListSold from '@/queries/rmrk/subsquid/general/nftListSold.graphql'
+import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
+import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
+import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 
 const components = {
   GalleryCardList: () =>

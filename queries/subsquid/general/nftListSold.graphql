@@ -1,6 +1,6 @@
-#import "../../../fragments/nftDetails.graphql"
-#import "../../../fragments/rubickNft.graphql"
-#import "../../../fragments/collectionMeta.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/rubickNft.graphql"
+#import "../../fragments/collectionMeta.graphql"
 query nftListSold(
   $account: String!
   $limit: Int!
