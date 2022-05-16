@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-const Collection = () => import('@/components/unique/Create/Create.vue')
-const NFT = () => import('@/components/unique/Create/CreateToken.vue')
+const Collection = () => import('@/components/bsx/Create/Create.vue')
+const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
 
 const components = { Collection, NFT }
 
