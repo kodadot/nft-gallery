@@ -27,7 +27,7 @@ describe('IPFS UTILS TEST', (): void => {
     )
   })
 
-  it('could extract Cid ID', () => {
+  it('could extractCid', () => {
     const extracted = extractCid(ipfsUrlList[0])
     expect(extracted).toBe(
       'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m'
