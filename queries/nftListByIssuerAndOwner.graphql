@@ -1,0 +1,15 @@
+query nftListByIssuerAndOwner(
+  $account: String!
+  $currentOwner: String!
+) {
+  nFTEntities(
+    filter: {
+      issuer: { equalTo: $account }
+      currentOwner: { equalTo: $currentOwner }
+      name: { notLike: "%Kanaria%" }
+      burned: { distinctFrom: true }
+    }
+  ) {
+    totalCount
+  }
+}
