@@ -33,19 +33,15 @@ If there is no such issue, our **best advice is to choose issues reflecting your
 ### Assigning Issues
 
 - **Each developer has a limit of 5 issues assigned to him at any time**.
-- Each bounty label has allocated time for assignment in the increment of 24 hours `$: 24h, $$: 48h, $$$: 72h, $$$$: 96h, $$$$$: 120h`
-- Whenever you find an issue that you want to fix, you can get it assigned by commenting on the issue with the variation of the term `I will take this` (check `goPhrases` below) which will trigger KodaBot to assign this issue to you
-- If there is an ongoing assignment, the bot can get into the `queue` for the issue with one of the `goPhrases`, and in case the assignee won't finish in time, you will have an `option period` of 12 hours to pick the issue up with one of the `goPhrases`
+- Each bounty label has allocated time for assignment in the increment of 24 hours `$: 24h, $$: 48h, $$$: 72h, $$$$: 96h, $$$$$: 120h`. Frequent contributors (10+ merged PRs) get a bonus of 50% of the allocated time.
+- Whenever you find an issue that you want to fix, you can get it assigned by commenting on the issue with the emote `:wave:` -> :wave: which will trigger KodaBot to assign this issue to you
+- If there is an ongoing assignment, the bot can get into the `queue` for the issue with the emote `:wave:` -> :wave:, and in case the assignee won't finish in time, you will have an `option period` of 12 hours to pick the issue up with the emote `:wave:` -> :wave:.
 - In case you want to drop out of the assignment, you can manually unassign yourself
-- If you'd like to get out of the `queue` or `pass` during your `option period` to pick an issue, commenting `pass` or its variation will do the trick (check `goPhrases` below)
+- If you'd like to get out of the `queue` or pass during your `option period` to pick an issue, commenting `pass` will make you drop out
 - Once your assignment runs out, KodaBot will unassign you and leave a chance open for other participants
 - Opening PR in time will ensure that you won't get unassigned, and that issue stays yours until the PR gets resolved
 - Getting unassigned, dropping out of the queue, or passing on the option to pick the issue forbids you from further participation in this particular issue.
-- **ignoring issue**: sometimes, you might work on an issue that doesn't need supervision / assigning from a bot or help from the team. As an example, consider a small issue, quick fix, something without a bounty label, etc. In this case, you can comment `ignore` or its variation (check `ignorePhrases` below) to the issue to prevent KodaBot from reacting to this issue. This feature is available only to collaborators on nft-gallery.
-
-| goPhrases | passPhrases | ignorePhrases|
-|---|---|---|
-| ```  'I take this', 'I take this.', "I'll take this", "I'll take this.", 'I will take this', 'I will take this.', 'i will take this', 'i take this', 'i take this.', 'ill take this', 'ill take this.', 'Ill take this', 'iLL take this', 'ILL TAKE THIS', 'I WILL TAKE THIS' ``` | ```  'pass', 'pass.', 'passing', 'passing.', 'i pass', 'i pass.', 'i passing', 'i passing.', 'i will pass', 'i will pass.', 'i will passing', 'i will passing.', 'ill pass', 'ill pass.', 'ill be passing', 'ill be passing.', ``` | ```  'ignore', 'Ignore', 'ignore.', 'Ignore.', 'i ignore', 'I ignore', 'i ignore.', 'I ignore.', 'ignore issue', 'botignore', 'bot ignore' ``` |
+- **ignoring issue**: sometimes, you might work on an issue that doesn't need supervision / assigning from a bot or help from the team. As an example, consider a small issue, quick fix, something without a bounty label, etc. In this case, you can comment `ignore` to the issue to prevent KodaBot from reacting to this issue. This feature is available only to collaborators on nft-gallery.
 
 
 ### Opening Pull Requests
