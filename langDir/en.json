@@ -567,7 +567,7 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE"
   },
-  "profil_stats": {
+  "profileStats": {
     "listed": "Listed",
     "totalItems": "Σ Items",
     "highestSale": "HIGHEST SALE",
