@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { Component, mixins, Prop, Watch } from 'nuxt-property-decorator'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
 import { formatDistanceToNow } from 'date-fns'
 import { fallbackMetaByNftEvent } from '@/utils/carousel'
@@ -54,7 +54,12 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     return false
   }
 
-  async fetch() {
+  @Watch('passionList')
+  private onPassionList() {
+    this.fetchData()
+  }
+
+  async fetchData() {
     const queryVars = {
       limit: 10,
       event: 'BUY',
@@ -62,7 +67,7 @@ export default class LatestSales extends mixins(PrefixMixin, AuthMixin) {
     }
     if (this.isLogIn) {
       queryVars.and.nft = {
-        issuer_in: this.passionList.length ? this.passionList : [''],
+        issuer_in: this.passionList,
       }
     }
     const result = await this.$apollo
