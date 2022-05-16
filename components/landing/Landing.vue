@@ -58,11 +58,14 @@ export default class Landing extends mixins(AuthMixin) {
   @Prop({ type: String, required: true, default: 'rmrk' }) prefix!: string
   @Prop({ type: String, default: 'RMRK Protocol' }) buildOn!: string
 
-  private passionList: string[] = []
+  private passionList: string[] = ['']
 
   async created() {
     if (this.isLogIn) {
-      await this.fetchPassionList()
+      const result = await this.fetchPassionList()
+      if (result.length) {
+        this.passionList = this.passionList.concat(result)
+      }
     }
   }
 
@@ -76,7 +79,7 @@ export default class Landing extends mixins(AuthMixin) {
         account: this.accountId,
       },
     })
-    this.passionList = passionFeed.map((x) => x.id)
+    return passionFeed.map((item) => item.id)
   }
 }
 </script>
