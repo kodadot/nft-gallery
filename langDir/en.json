@@ -431,7 +431,8 @@
         "label": "Symbol (short name)",
         "placeholder": "3-5 character long name",
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
-      }
+      },
+      "create": "Create collection"
     },
     "nft": {
       "name": {
