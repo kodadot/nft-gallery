@@ -10,25 +10,16 @@
           </p>
         </div>
       </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="title">{{ totalHoldingsNfts }}</p>
-          <p class="heading">
-            {{ $t('profileStats.holdingsNfts') }}
-          </p>
-        </div>
-      </div>
 
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="title">
-            {{ totalPurchases }}
-          </p>
-          <p class="heading">
-            {{ $t('profileStats.totalBuys') }}
-          </p>
-        </div>
-      </div>
+      <StatsColumn
+        :value="totalHoldingsNfts"
+        :header="profileStats.holdingsNfts"
+        inline />
+
+      <StatsColumn
+        :value="totalPurchases"
+        :header="profileStats.totalBuys"
+        inline />
 
       <div class="level-item has-text-centered">
         <div>
@@ -81,6 +72,7 @@ import { Event } from '../service/types'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
+  StatsColumn: () => import('@/components/shared/format/StatsColumn.vue'),
 }
 type Stats = {
   listedCount: number
@@ -91,6 +83,11 @@ type Stats = {
 export default class ProfileActivity extends mixins(PrefixMixin) {
   @Prop({ type: String, required: true }) public id!: string
   public yesterdayDate: Date = subDays(Date.now(), 1)
+  protected profileStats = {
+    totalBuys: 'profileStats.totalBuys',
+    holdingsNfts: 'profileStats.holdingsNfts',
+    totalHoldingsBoughtValues: 'profileStats.totalHoldingsBoughtValues',
+  }
 
   protected stats: Stats = {
     listedCount: 0,
