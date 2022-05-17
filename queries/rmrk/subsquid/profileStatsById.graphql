@@ -1,0 +1,66 @@
+#import "../../fragments/event.graphql"
+#import "../../fragments/nftSubsquid.graphql"
+#import "../../fragments/nftDetails.graphql"
+
+query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $search_collected: [NFTEntityWhereInput!],  $search_sold: [EventWhereInput!], $search_invested:[EventWhereInput!]) {
+  listed : events(where: {  caller_eq: $id , AND: $search_listed }  ) {
+    ...event
+    nft {
+      id
+      metadata
+      issuer
+      currentOwner
+      blockNumber
+      burned
+      updatedAt
+    }
+  }
+  collected : nftEntities(where: { AND: $search_collected }  ) {
+    ...nftSubsquid
+    ...nftDetails
+    events {
+      id
+      blockNumber
+      timestamp
+      caller
+      currentOwner
+      meta
+      interaction
+      nft {
+        id
+        metadata
+        issuer
+        currentOwner
+        blockNumber
+        burned
+        updatedAt
+      }
+    }
+  }
+  sold : events(where: {  caller_eq: $id , AND: $search_sold }  ) {
+    ...event
+    nft {
+        ...nftSubsquid
+        ...nftDetails
+       events {
+          id
+          blockNumber
+          timestamp
+          caller
+          currentOwner
+          meta
+          interaction
+      }
+    }
+  }
+
+  invested : events(where: {  caller_eq: $id , AND: $search_invested }  ) {
+    ...event
+    nft {
+      ...nftSubsquid
+      ...nftDetails
+
+    }
+  }
+  
+}

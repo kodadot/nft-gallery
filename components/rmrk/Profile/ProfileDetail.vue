@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="columns is-mobile">
+    <div class="columns is-mobile is-align-items-center">
       <div class="column">
         <div class="label">
           {{ $t('profile.user') }}
@@ -36,6 +36,9 @@
             {{ $t('profile.collectedFromCreator', [myNftCount]) }}
           </div>
         </div>
+      </div>
+      <div class="column is-6-tablet is-7-desktop is-8-widescreen">
+        <ProfileActivity :id="id" />
       </div>
       <div class="column has-text-right">
         <div class="is-flex is-justify-content-right">
@@ -235,6 +238,8 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ProfileActivity: () =>
+    import('@/components/rmrk/Profile/ProfileActivity.vue'),
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
