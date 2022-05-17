@@ -91,10 +91,10 @@
           </b-navbar-item>
         </template>
       </b-navbar-dropdown>
-      <b-navbar-item>
-        <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
-        <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
-      </b-navbar-item>
+      <LazyChainSelect class="navbar-item has-dropdown" id="NavChainSelect" />
+      <LazySwitchLocale
+        class="navbar-item has-dropdown"
+        id="NavLocaleChanger" />
       <NavbarProfileDropdown class="ml-2" :isRmrk="isRmrk" id="NavProfile" />
     </template>
     <template #end v-else>
@@ -310,6 +310,7 @@ export default class NavbarMenu extends mixins(PrefixMixin) {
   }
 
   .navbar-item {
+    text-transform: capitalize;
     font-weight: 500;
     margin: 0.5em;
   }
