@@ -94,6 +94,7 @@
         <InfiniteLoading
           v-if="canLoadNextPage && !isLoading && total > 0"
           @infinite="reachBottomHandler"></InfiniteLoading>
+        <ScrollTopButton />
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
@@ -178,6 +179,7 @@ const components = {
     import('@/components/rmrk/Gallery/Holder/Holder.vue'),
   Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 @Component<CollectionItem>({
   components,
