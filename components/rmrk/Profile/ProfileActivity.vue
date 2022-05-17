@@ -117,24 +117,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       client: 'subsquid',
       variables: {
         id: this.id,
-        search_sold: {
-          interaction_eq: 'SEND',
-          nft: { name_not_contains: '%Kanaria%', burned_eq: false },
-        },
-        search_listed: {
-          interaction_eq: 'LIST',
-          nft: {
-            currentOwner_eq: this.id,
-            name_not_contains: '%Kanaria%',
-            burned_eq: false,
-          },
-        },
-        search_collected: { currentOwner_eq: this.id, burned_eq: false },
-
-        search_invested: {
-          interaction_eq: 'BUY',
-          nft: { name_not_contains: '%Kanaria%', burned_eq: false },
-        },
       },
     })
 

@@ -2,8 +2,17 @@
 #import "../../fragments/nftSubsquid.graphql"
 #import "../../fragments/nftDetails.graphql"
 
-query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $search_collected: [NFTEntityWhereInput!],  $search_sold: [EventWhereInput!], $search_invested:[EventWhereInput!]) {
-  listed : events(where: {  caller_eq: $id , AND: $search_listed }  ) {
+query profileStatsById($id: String!) {
+  listed : events(where: {  
+          caller_eq: $id , 
+          interaction_eq: LIST,  
+          nft: {
+            currentOwner_eq: $id,
+            name_not_contains: "%Kanaria%",
+            burned_eq: false,
+          },
+      }  
+    ) {
     ...event
     nft {
       id
@@ -15,7 +24,7 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
       updatedAt
     }
   }
-  collected : nftEntities(where: { AND: $search_collected }  ) {
+  collected : nftEntities(where: { currentOwner_eq:$id, burned_eq: false}  ) {
     ...nftSubsquid
     ...nftDetails
     events {
@@ -37,7 +46,15 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
       }
     }
   }
-  sold : events(where: {  caller_eq: $id , AND: $search_sold }  ) {
+  sold : events(where: { 
+        caller_eq: $id ,           
+        interaction_eq: SEND,
+        nft: { 
+          name_not_contains: "%Kanaria%", 
+          burned_eq: false
+        }
+      }  
+    ) {
     ...event
     nft {
         ...nftSubsquid
@@ -54,7 +71,13 @@ query profileStatsById($id: String!, $search_listed: [EventWhereInput!],  $searc
     }
   }
 
-  invested : events(where: {  caller_eq: $id , AND: $search_invested }  ) {
+  invested : events(where: {  caller_eq: $id ,  interaction_eq: BUY,
+          nft: { 
+            name_not_contains: "%Kanaria%", 
+            burned_eq: false 
+          }
+        }  
+    ) {
     ...event
     nft {
       ...nftSubsquid
