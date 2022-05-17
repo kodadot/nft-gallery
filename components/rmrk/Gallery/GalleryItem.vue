@@ -126,7 +126,7 @@
 
       <div class="columns">
         <div class="column">
-          <LazyGalleryHistory
+          <GalleryHistory
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"
@@ -148,7 +148,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
-import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
+import nftEntitiesByIDs from '@/queries/rmrk/subsquid/nftEntitiesByIDs.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -234,18 +234,20 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public mounted() {
     // used to poll nft every second after component initialization in order to prevent double spending
-    this.$apollo.addSmartQuery<{ nft }>('nft', {
-      client: this.urlPrefix,
-      query: nftByIdMini,
+    this.$apollo.addSmartQuery<{ nftEntities }>('nft', {
+      client: 'subsquid',
+      query: nftEntitiesByIDs,
       manual: true,
       variables: {
-        id: this.id,
+        ids: [this.id],
       },
       result: ({ data }) => {
         this.nft = {
           ...this.nft,
-          ...data.nft,
+          ...data.nftEntities[0],
         }
+        // update events
+        this.$set(this.nft, 'event', this.nft.events)
       },
       pollInterval: 1000,
     })

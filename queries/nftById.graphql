@@ -14,6 +14,5 @@ query nftById($id: String!) {
         value
       }
     }
-    events
   }
 }
