@@ -6,13 +6,15 @@ query nftListSold(
   $limit: Int!
   $offset: Int
   $orderBy: NFTEntityOrderByInput = blockNumber_DESC
+  $and: [NFTEntityWhereInput!]
 ) {
   nftEntities(
     where: {
       issuer_eq: $account
       currentOwner_not_eq: $account
       name_not_contains: "%Kanaria%"
-      burned_eq: false
+      burned_eq: false,
+      AND: $and
     }
     orderBy: [$orderBy, blockNumber_DESC]
     limit: $limit
@@ -27,7 +29,8 @@ query nftListSold(
       issuer_eq: $account
       currentOwner_not_eq: $account
       name_not_contains: "%Kanaria%"
-      burned_eq: false
+      burned_eq: false,
+      AND: $and
     }
     orderBy: blockNumber_DESC
   ) {
