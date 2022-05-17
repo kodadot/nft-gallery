@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <!-- <SeriesTable /> -->
+    <SalesTable />
   </section>
 </template>
 <script lang="ts">
