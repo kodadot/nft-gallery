@@ -134,7 +134,7 @@ export default class PaginatedCardList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
-      client: 'subsquid',
+      client: this.client,
       variables: {
         account: this.account,
         orderBy: this.remapSortBy,
