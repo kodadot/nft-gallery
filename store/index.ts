@@ -30,7 +30,7 @@ const apiPlugin = (store: Store<any>): void => {
       genesisHash: genesisHash || '',
     })
 
-    store.dispatch('identity/setCorrectAddressFormat', ss58Format)
+    store.dispatch('setCorrectAddressFormat', ss58Format)
 
     const nodeInfo = store.getters.availableNodes
       .filter((o: any) => o.value === store.state.setting.apiUrl)
