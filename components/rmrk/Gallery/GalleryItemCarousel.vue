@@ -47,17 +47,7 @@ export default class GalleryItemCarousel extends Vue {
         },
       })
 
-      const nftsWithCollectionId = data?.collectionEntityById?.nfts.map(
-        (nft) => ({
-          collection: {
-            id: data.collectionEntityById.id,
-            name: data.collectionEntityById.name,
-          },
-          ...nft,
-        })
-      )
-
-      this.nfts = await formatNFT(nftsWithCollectionId)
+      this.nfts = await formatNFT(data?.collection.nfts)
     }
 
     if (this.type === 'visited' && visitedNFT().length >= MIN_CAROUSEL_NFT) {
