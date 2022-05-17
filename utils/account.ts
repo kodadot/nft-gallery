@@ -40,6 +40,9 @@ export const toDefaultAddress = (account: KeyringAccount | string) => {
   return encodeAddress(decodeAddress(address, <any>ss58Format))
 }
 
+export const formatAddress = (address: string, ss58Format: number) =>
+  encodeAddress(address, ss58Format)
+
 export const pubKeyToAddress = (publicKey: string) => {
   const ss58Format = store.getters['chain/getChainProperties58Format']
   return encodeAddress(publicKey, <any>ss58Format)
@@ -56,7 +59,10 @@ export const formatAccount = (
   return encodeAddress(decodeAddress(address), <any>ss58Format)
 }
 
-export const isSameAccount = (account1: KeyringAccount | string, account2: KeyringAccount | string): boolean => {
+export const isSameAccount = (
+  account1: KeyringAccount | string,
+  account2: KeyringAccount | string
+): boolean => {
   const address1 = accountToAddress(account1)
   const address2 = accountToAddress(account2)
   return addressEq(address1, address2)

@@ -96,6 +96,7 @@ import { enableExtension, isMobileDevice } from '@/utils/extension'
 import shouldUpdate from '@/utils/shouldUpdate'
 import onApiConnect from '@/utils/api/general'
 import correctFormat from '@/utils/ss58Format'
+import { formatAddress } from '@/utils/account'
 
 @Component({
   components: {},
@@ -139,6 +140,13 @@ export default class WalletModal extends Vue {
     }
   }
 
+  protected formatAccount(account: WalletAccount): WalletAccount {
+    return {
+      ...account,
+      address: formatAddress(account.address, this.ss58Format),
+    }
+  }
+
   protected setWallet(wallet: BaseDotsamaWallet): void {
     this.selectedWalletProvider = wallet
     this.hasSelectedWalletProvider = true
@@ -173,7 +181,7 @@ export default class WalletModal extends Vue {
       wallet
         .getAccounts()
         .then((data) => {
-          this.walletAccounts = data ?? []
+          this.walletAccounts = (data ?? []).map(this.formatAccount)
         })
         .catch((e) => {
           this.$consola.error('init account error', e)
@@ -183,7 +191,7 @@ export default class WalletModal extends Vue {
       wallet.subscribeAccounts((accounts) => {
         // list of supported accounts for this wallet to show in AccoutSelect
         if (accounts) {
-          this.walletAccounts = accounts
+          this.walletAccounts = accounts.map(this.formatAccount)
         }
       })
       this.hasWalletProviderExtension = true

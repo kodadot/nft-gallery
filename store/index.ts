@@ -21,12 +21,16 @@ const apiPlugin = (store: Store<any>): void => {
       chainTokens,
       genesisHash,
     })
+
+    const ss58Format = correctFormat(chainSS58)
     store.dispatch('chain/setChainProperties', {
-      ss58Format: correctFormat(chainSS58),
+      ss58Format,
       tokenDecimals: chainDecimals[0] || 12,
       tokenSymbol: chainTokens[0] || 'Unit',
       genesisHash: genesisHash || '',
     })
+
+    store.dispatch('identity/setCorrectAddressFormat', ss58Format)
 
     const nodeInfo = store.getters.availableNodes
       .filter((o: any) => o.value === store.state.setting.apiUrl)
