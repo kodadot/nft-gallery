@@ -85,14 +85,11 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Watch } from 'nuxt-property-decorator'
-import { RowSeries, SortType, BuyHistory } from './types'
+import { Component, mixins } from 'nuxt-property-decorator'
+import { RowSeries } from './types'
 import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
-import { NFTMetadata, Collection } from '../rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import formatISO9075 from 'date-fns/formatISO9075'
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
@@ -109,6 +106,13 @@ export default class SalesTable extends mixins(PrefixMixin) {
 
   async fetch() {
     await this.fetchSalesFeed()
+  }
+
+  protected paseDate(ts: number): string {
+    return new Date(ts).toLocaleString('en-GB', {
+      timeZone: 'UTC',
+      timeZoneName: 'short',
+    })
   }
 
   protected getBlockUrl(block: string): string {
@@ -131,7 +135,7 @@ export default class SalesTable extends mixins(PrefixMixin) {
     salesFeed.forEach((nft, idx) => {
       nft.idx = idx + 1
       nft.image = sanitizeIpfsUrl(nft.image)
-      nft.date = formatISO9075(Number(nft.timestamp))
+      nft.date = this.paseDate(Number(nft.timestamp))
       nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
         addSuffix: true,
       })
