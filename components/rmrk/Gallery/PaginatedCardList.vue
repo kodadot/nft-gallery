@@ -27,6 +27,7 @@
     <InfiniteLoading
       v-if="canLoadNextPage && !isLoading && total > 0"
       @infinite="reachBottomHandler"></InfiniteLoading>
+    <ScrollTopButton />
   </div>
 </template>
 
@@ -49,6 +50,7 @@ const components = {
     import('@/components/rmrk/Gallery/Search/SearchBarCollection.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component({ components })
