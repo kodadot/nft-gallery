@@ -16,10 +16,22 @@
         header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48">
-          <BasicImage
-            :src="props.row.image"
-            :alt="props.row.name"
-            rounded="true" />
+          <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
+            <BasicPopup>
+              <template #trigger>
+                <BasicImage
+                  :src="props.row.image"
+                  :alt="props.row.name"
+                  :rounded="true" />
+              </template>
+              <template #content>
+                <BasicImage
+                  :src="props.row.image"
+                  :alt="props.row.name"
+                  class="popup-image" />
+              </template>
+            </BasicPopup>
+          </nuxt-link>
         </div>
       </b-table-column>
 
@@ -96,6 +108,7 @@ const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
+  BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
 }
 
 @Component({ components })
@@ -166,5 +179,9 @@ export default class SalesTable extends mixins(PrefixMixin) {
 
 .front-stack-layer {
   z-index: 1;
+}
+.popup-image {
+  width: 300px;
+  height: 300px;
 }
 </style>
