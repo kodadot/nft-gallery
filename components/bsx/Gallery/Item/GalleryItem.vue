@@ -122,40 +122,31 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import { NFT, NFTMetadata, Emote } from '@/components/rmrk/service/scheme'
-import {
-  sanitizeIpfsUrl,
-  resolveMedia,
-  getSanitizer,
-} from '@/components/rmrk/utils'
-import { emptyObject } from '@/utils/empty'
-
-import { notificationTypes, showNotification } from '@/utils/notification'
-import {
-  ClassMetadata,
-  InstanceDetails,
-  InstanceMetadata,
-} from '@polkadot/types/interfaces'
-
-import { u128 } from '@polkadot/types'
-
-import isShareMode from '@/utils/isShareMode'
-import { fetchNFTMetadata } from '@/components/rmrk/utils'
-import { get, set } from 'idb-keyval'
+import { Emote, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { MediaType } from '@/components/rmrk/types'
-import axios from 'axios'
-import Orientation from '@/utils/directives/DeviceOrientation'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import Connector from '@kodadot1/sub-api'
-import { Option } from '@polkadot/types'
+import {
+  fetchNFTMetadata,
+  getSanitizer,
+  resolveMedia,
+  sanitizeIpfsUrl,
+} from '@/components/rmrk/utils'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { toHuman, unwrapOrDefault, unwrapOrNull } from '@/utils/api/format'
 import onApiConnect from '@/utils/api/general'
-import { getPrice, getOwner, hasAllPallets } from './utils'
+import Orientation from '@/utils/directives/DeviceOrientation'
+import { emptyObject } from '@/utils/empty'
+import isShareMode from '@/utils/isShareMode'
+import SubscribeMixin from '@/utils/mixins/subscribeMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { Option, u128 } from '@polkadot/types'
+import { InstanceDetails } from '@polkadot/types/interfaces'
+import axios from 'axios'
+import { get, set } from 'idb-keyval'
+import { Component, mixins } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
-import { unwrapOrNull, toHuman, unwrapOrDefault } from '@/utils/api/format'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
+import { getOwner, getPrice, hasAllPallets } from './utils'
 
 @Component<GalleryItem>({
   components: {
@@ -221,59 +212,6 @@ export default class GalleryItem extends mixins(
   protected observePrice(data: Option<u128>) {
     this.$consola.log('price', data.toHuman())
     this.$set(this.nft, 'price', unwrapOrDefault(data).toString())
-  }
-
-  public async loadMagic() {
-    const { api } = Connector.getInstance()
-    await api?.isReady
-    try {
-      this.$consola.log('loading magic', this.id)
-      const nftId = this.id || 0
-
-      let nftQ = await api.query.uniques
-        ?.instanceMetadataOf<Option<InstanceMetadata>>(this.collectionId, nftId)
-        .then((res) => res.unwrapOr(null))
-
-      if (!nftQ) {
-        this.$consola.warn('nft with no metadata, trying collection')
-        nftQ = await api.query.uniques
-          ?.classMetadataOf<Option<ClassMetadata>>(this.collectionId)
-          .then((res) => res.unwrapOr(null))
-      }
-
-      const nftData = nftQ?.toHuman()
-      if (!nftData?.data) {
-        this.$consola.warn(`No Metadata with ID ${nftId}`)
-        // showNotification(`No Metadata with ID ${nftId}`, notificationTypes.warn)
-        return
-      }
-
-      const nft = await fetchNFTMetadata({
-        metadata: nftData.data.toString(),
-      } as NFT)
-      this.meta = {
-        ...nft,
-        image: sanitizeIpfsUrl(nft.image || ''),
-        animation_url: sanitizeIpfsUrl(
-          nft.animation_url || nft.image || '',
-          'pinata'
-        ),
-      }
-      // TODO: add attributes as traits
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { attributes, ...rest } = nft
-      this.nft = {
-        ...this.nft,
-        ...rest,
-        ...nftData,
-      }
-
-      this.fetchAnimationData()
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
-      this.$consola.warn(e)
-    }
-    this.isLoading = false
   }
 
   private async fetchNftData() {
@@ -403,6 +341,10 @@ export default class GalleryItem extends mixins(
     if (deleted) {
       showNotification('INSTANCE REMOVED', notificationTypes.warn)
     }
+  }
+
+  protected handleUnlist() {
+    console.log('unlist')
   }
 }
 </script>
