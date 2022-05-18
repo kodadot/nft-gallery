@@ -54,7 +54,6 @@ import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
 import { uploadDirect } from '@/utils/directUpload'
 import { unwrapSafe } from '~/utils/uniquery'
 import { mapToId } from '~/utils/mappers'
-import { useApollo } from '@/utils/config/useApollo'
 
 type BaseCollectionType = {
   name: string

@@ -76,6 +76,8 @@ import {
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
+import { unwrapSafe } from '~/utils/uniquery'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -137,8 +139,9 @@ export default class CreateToken extends mixins(
   }
 
   public async fetchCollections() {
+    const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
     const collections = await this.$apollo.query({
-      query: collectionForMint,
+      query: query.default,
       client: this.urlPrefix,
       variables: {
         account: this.accountId,
@@ -150,21 +153,13 @@ export default class CreateToken extends mixins(
       data: { collectionEntities },
     } = collections
 
-    this.collections = collectionEntities.nodes?.map((ce: any) => ({
+    this.collections = unwrapSafe(collectionEntities)?.map((ce: any) => ({
       ...ce,
-      alreadyMinted: ce.nfts?.totalCount,
-      lastIndexUsed:
-        Number(
-          tokenIdToRoute(
-            ce.nfts?.nodes
-              ?.map(({ id }) => id)
-              .sort()
-              ?.reverse()[0] || '0-0'
-          ).id
-        ) || 0,
+      alreadyMinted: ce.nfts?.length,
+      lastIndexUsed: Number(ce.nfts[0]?.index || 0),
     }))
 
-    this.loadCollectionMeta()
+    // this.loadCollectionMeta()
   }
 
   protected async loadCollectionMeta() {
@@ -228,7 +223,7 @@ export default class CreateToken extends mixins(
       const metadata = await this.constructMeta()
       const cb = api.tx.utility.batchAll
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
-      const create = api.tx.uniques.mint(collectionId, nextId, this.accountId)
+      const create = api.tx.uniques.mint(collectionId, nextId, metadata)
       // Option to freeze metadata
       const meta = api.tx.uniques.setMetadata(
         collectionId,
