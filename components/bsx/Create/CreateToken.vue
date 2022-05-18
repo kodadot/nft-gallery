@@ -7,6 +7,12 @@
       :hasEdition="false">
       <template v-slot:main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
+        <BalanceInput
+          label="Price"
+          expanded
+          key="price"
+          @input="updatePrice"
+          class="mb-3" />
         <CustomAttributeInput
           key="attributes"
           v-show="base.selectedCollection"
@@ -118,9 +124,14 @@ export default class CreateToken extends mixins(
   protected depositPerByte = BigInt(0)
   protected attributes: Attribute[] = []
   protected nsfw = false
+  protected price: string | number = 0
 
-  get accountId() {
-    return this.$store.getters.getAuthAddress
+  protected updatePrice(value: number) {
+    this.price = value
+  }
+
+  get hasPrice() {
+    return Number(this.price)
   }
 
   public async created() {
@@ -158,34 +169,6 @@ export default class CreateToken extends mixins(
       alreadyMinted: ce.nfts?.length,
       lastIndexUsed: Number(ce.nfts[0]?.index || 0),
     }))
-
-    // this.loadCollectionMeta()
-  }
-
-  protected async loadCollectionMeta() {
-    const storedMetadata = await getMany(
-      this.collections.map(({ metadata }: any) => metadata)
-    )
-
-    storedMetadata.forEach(async (m, i) => {
-      if (!m) {
-        try {
-          const meta = await fetchCollectionMetadata(this.collections[i])
-          Vue.set(this.collections, i, {
-            ...this.collections[i],
-            ...meta,
-          })
-          update(this.collections[i].metadata, () => meta)
-        } catch (e) {
-          this.$consola.warn('[ERR] unable to get metadata')
-        }
-      } else {
-        Vue.set(this.collections, i, {
-          ...this.collections[i],
-          ...m,
-        })
-      }
-    })
   }
 
   get disabled() {
@@ -224,25 +207,13 @@ export default class CreateToken extends mixins(
       const cb = api.tx.utility.batchAll
       const nextId = Math.max(lastIndexUsed + 1, alreadyMinted)
       const create = api.tx.uniques.mint(collectionId, nextId, metadata)
-      // Option to freeze metadata
-      const meta = api.tx.uniques.setMetadata(
-        collectionId,
-        nextId,
-        metadata,
-        false
-      )
-      const attributes = this.attributes.map((a) =>
-        api.tx.uniques.setAttribute(
-          collectionId,
-          String(nextId),
-          a.trait_type,
-          String(a.value)
-        )
-      )
+      const list = this.price
+        ? [api.tx.marketplace.setPrice(collectionId, nextId, this.price)]
+        : []
 
-      const support = await canSupport(this.hasSupport)
+      // const support = await canSupport(this.hasSupport)
       //
-      const args = [[create, meta, ...attributes, ...support]]
+      const args = [[create, ...list]]
 
       await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
         showNotification(
