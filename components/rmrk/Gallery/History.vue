@@ -116,7 +116,6 @@
 
 <script lang="ts">
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
-import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
 import { Interaction } from '../service/scheme'
@@ -125,7 +124,12 @@ import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
-import { HistoryEventType, wrapEventNameWithIcon } from '@/utils/historyEvent'
+import {
+  HistoryEventType,
+  wrapEventNameWithIcon,
+  parseDate,
+  parseAmount,
+} from '@/utils/historyEvent'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
@@ -253,7 +257,6 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected createTable(): void {
     this.data = []
     this.copyTableData = []
-    let curPrice
 
     const chartData: ChartData = {
       buy: [],
@@ -272,31 +275,28 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
           break
         case HistoryEventType.LIST:
         case HistoryEventType.UNLIST:
-          event['Type'] =
-            newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
-              ? HistoryEventType.LIST
-              : HistoryEventType.UNLIST
+          event['Type'] = parseInt(newEvent['meta'])
+            ? HistoryEventType.LIST
+            : HistoryEventType.UNLIST
           event['From'] = newEvent['caller']
           event['To'] = ''
-          curPrice = newEvent['meta']
+          event['Amount'] = this.parsePrice(newEvent['meta'])
           break
         case HistoryEventType.SEND:
           event['Type'] = HistoryEventType.SEND
           event['From'] = newEvent['caller']
           event['To'] = newEvent['meta']
-          curPrice = '0'
           break
         case HistoryEventType.CONSUME:
           event['Type'] = HistoryEventType.CONSUME
           event['From'] = newEvent['caller']
           event['To'] = ''
-          curPrice = '0'
           break
         case HistoryEventType.BUY:
           event['Type'] = HistoryEventType.BUY
           event['From'] = newEvent['currentOwner']
           event['To'] = newEvent['caller']
-          curPrice = newEvent['meta']
+          event['Amount'] = this.parsePrice(newEvent['meta'])
           break
         default:
           // unsupported event
@@ -309,13 +309,11 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       }
 
       // Amount
-      event['Amount'] = parseInt(curPrice)
-        ? formatBalance(curPrice, this.decimals, this.unit)
-        : '-'
+      event['Amount'] = event['Amount'] ?? '-'
 
       // Date
       const date = new Date(newEvent['timestamp'])
-      event['Date'] = this.parseDate(date)
+      event['Date'] = parseDate(date)
 
       // Time
       event['Time'] = formatDistanceToNow(date, { addSuffix: true })
@@ -326,9 +324,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
-      if (newEvent['interaction'] === 'LIST') {
+      if (newEvent['interaction'] === HistoryEventType.LIST) {
         chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
-      } else if (newEvent['interaction'] === 'BUY') {
+      } else if (newEvent['interaction'] === HistoryEventType.BUY) {
         chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
@@ -344,11 +342,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
 
-  protected parseDate(date: Date): string {
-    return date.toLocaleString('en-GB', {
-      timeZone: 'UTC',
-      timeZoneName: 'short',
-    })
+  private parsePrice(amount): string {
+    return parseAmount(amount, this.decimals, this.unit)
   }
 
   protected getBlockUrl(block: string): string {

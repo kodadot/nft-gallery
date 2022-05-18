@@ -126,7 +126,7 @@
 
       <div class="columns">
         <div class="column">
-          <GalleryHistory
+          <LazyGalleryHistory
             v-if="!isLoading"
             :events="nft.events"
             :open-on-default="!compactGalleryItem"

@@ -1,3 +1,5 @@
+import formatBalance from '@/utils/formatBalance'
+
 export const enum HistoryEventType {
   MINTNFT = 'MINTNFT',
   LIST = 'LIST',
@@ -8,7 +10,7 @@ export const enum HistoryEventType {
   ALL = 'ALL',
 }
 
-export const EventToIconMap = {
+export const eventToIconMap = {
   [HistoryEventType.MINTNFT]: '🖼',
   [HistoryEventType.LIST]: '📰',
   [HistoryEventType.UNLIST]: '🗞',
@@ -20,4 +22,19 @@ export const EventToIconMap = {
 export const wrapEventNameWithIcon = (
   type: HistoryEventType,
   eventName: string
-) => `${EventToIconMap[type]} ${eventName}`
+) => `${eventToIconMap[type]} ${eventName}`
+
+export const parseDate = (date: Date): string => {
+  return date.toLocaleString('en-GB', {
+    timeZone: 'UTC',
+    timeZoneName: 'short',
+  })
+}
+
+export const parseAmount = (
+  amount: string,
+  decimals: number,
+  unit: string
+): string => {
+  return parseInt(amount) ? formatBalance(amount, decimals, unit) : '-'
+}
