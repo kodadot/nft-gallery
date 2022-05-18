@@ -6,7 +6,7 @@ query collectionForMint($account: String!) {
     id
     name
     metadata
-    nfts(limit: 1, orderBy: sn_DESC) {
+    nfts(orderBy: sn_DESC) {
       index: sn
     }
   }
