@@ -15,24 +15,25 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import Connector from '@kodadot1/sub-api'
+import { NFTAction } from '@/components/unique/NftUtils'
+import nftById from '@/queries/nftById.graphql'
+import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
-import shouldUpdate from '@/utils/shouldUpdate'
-import nftById from '@/queries/nftById.graphql'
-import NFTUtils, { NFTAction } from '@/components/unique/NftUtils'
 import {
-  getActionList,
   actionComponent,
-  iconResolver
+  getActionList,
+  iconResolver,
 } from '@/utils/shoppingActions'
+import shouldUpdate from '@/utils/shouldUpdate'
+import Connector from '@kodadot1/sub-api'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
+import { createTokenId } from '~/components/unique/utils'
 import { isSameAccount } from '~/utils/account'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import AuthMixin from '~/utils/mixins/authMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import { getApiCall } from '@/utils/gallery/abstractCalls'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
@@ -167,7 +168,7 @@ export default class AvailableActions extends mixins(
       this.howAboutToExecute(
         this.accountId,
         cb,
-        [arg],
+        arg,
         (blockNumber: string) => {
           showNotification(blockNumber, notificationTypes.info)
           if (this.isConsume) {
@@ -192,20 +193,16 @@ export default class AvailableActions extends mixins(
     }
   }
 
-  protected getArgs() {
-    const {
-      selectedAction,
-      collectionId,
-      nftId,
-      currentOwnerId,
-      meta,
-    } = this
+  protected getArgs(): any[] {
+    const { selectedAction, collectionId, nftId, currentOwnerId, meta } = this
 
-    return NFTUtils.getActionParams(
+    console.log(collectionId, nftId)
+
+    return bsxParamResolver(
+      createTokenId(collectionId, nftId),
       selectedAction,
-      collectionId,
-      nftId,
-      '',
+      meta,
+      currentOwnerId
     )
   }
 
