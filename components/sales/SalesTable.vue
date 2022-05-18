@@ -17,7 +17,7 @@
         cell-class="is-vcentered">
         <div class="image is-48x48">
           <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
-            <BasicPopup>
+            <BasicPopup placement="top">
               <template #trigger>
                 <BasicImage
                   :src="props.row.image"
@@ -68,11 +68,13 @@
         cell-class="is-vcentered"
         field="timestamp"
         label="Relative Date">
-        <b-tooltip :label="props.row.date">
-          <a :href="getBlockUrl(props.row.blockNumber)" target="_blank">
-            {{ props.row.relDate }}
-          </a>
-        </b-tooltip>
+        <div>
+          <b-tooltip :label="props.row.date">
+            <a :href="getBlockUrl(props.row.blockNumber)" target="_blank">
+              {{ props.row.relDate }}
+            </a>
+          </b-tooltip>
+        </div>
       </b-table-column>
 
       <b-table-column

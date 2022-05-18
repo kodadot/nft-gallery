@@ -3,7 +3,7 @@
     class="tippy-container"
     interactive
     :animate-fill="false"
-    placement="bottom"
+    :placement="placement"
     :delay="delay">
     <template v-slot:trigger>
       <slot name="trigger" />
@@ -19,7 +19,8 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class BasicPopup extends Vue {
-  @Prop({ default: [100, 800] }) delay: [number, number]
+  @Prop({ default: () => [100, 800] }) delay: [number, number]
+  @Prop({ default: 'bottom', type: String }) placement: string
 }
 </script>
 
