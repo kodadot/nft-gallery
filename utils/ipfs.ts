@@ -9,15 +9,19 @@ export const justHash = (ipfsLink?: string): boolean => {
   return /^[a-zA-Z0-9]+$/.test(ipfsLink || '')
 }
 
-const cidRegex = /ipfs\/([a-zA-Z0-9]+)\/?$/
+const cidRegex = /ipfs\/([a-zA-Z0-9]+)/
 export const extractCid = (ipfsLink?: string): string => {
   if (!ipfsLink) {
     return ''
   }
 
-  const match = ipfsLink.match(cidRegex)
+  const match = cidRegex.exec(ipfsLink)
+  if (!match) {
+    const fastCid = fastExtract(ipfsLink)
+    return fastCid
+  }
 
-  return match ? match[1] : ''
+  return match[1]
 }
 
 export const fastExtract = (ipfsLink?: string): string => {
