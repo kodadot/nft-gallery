@@ -32,6 +32,9 @@
         </div>
         <div class="subtitle is-size-6">
           <ProfileLink :address="id" :inline="true" showTwitter showDiscord />
+          <div class="ml-1 mt-2" v-if="myNftCount > 0">
+            {{ $t('profile.collectedFromCreator', [myNftCount]) }}
+          </div>
         </div>
       </div>
       <div class="column has-text-right">
@@ -119,6 +122,7 @@
             v-if="canLoadNextPage && !isLoading && total > 0"
             @infinite="reachBottomHandler">
           </InfiniteLoading>
+          <ScrollTopButton />
         </b-tab-item>
         <b-tab-item label="History" value="history">
           <History
@@ -200,6 +204,7 @@ import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
 import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
+import nftListByIssuerAndOwner from '@/queries/nftListByIssuerAndOwner.graphql'
 import nftListCollected from '@/queries/nftListCollected.graphql'
 import nftListSold from '@/queries/nftListSold.graphql'
 import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
@@ -233,6 +238,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Profile>({
@@ -283,6 +289,7 @@ export default class Profile extends mixins(
   protected totalCreated = 0
   protected totalCollected = 0
   protected totalSold = 0
+  private myNftCount = 0
   protected networks = [
     {
       url: 'https://dotscanner.com/Kusama/account/',
@@ -313,6 +320,7 @@ export default class Profile extends mixins(
 
   public async mounted() {
     await this.fetchProfile()
+    this.fetchMyNftByIssuer()
   }
 
   public checkId() {
@@ -429,7 +437,6 @@ export default class Profile extends mixins(
         },
         fetchPolicy: 'cache-and-network',
       })
-
     } catch (e) {
       showNotification(`${e}`, notificationTypes.danger)
       this.$consola.warn(e)
@@ -522,6 +529,21 @@ export default class Profile extends mixins(
       }
     } catch (e) {
       showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
+  @Watch('accountId')
+  public async fetchMyNftByIssuer() {
+    if (this.accountId && this.id && this.accountId !== this.id) {
+      const { data } = await this.$apollo.query({
+        query: nftListByIssuerAndOwner,
+        client: this.urlPrefix,
+        variables: {
+          account: this.id,
+          currentOwner: this.accountId,
+        },
+      })
+      this.myNftCount = data.nFTEntities?.totalCount || 0
     }
   }
 

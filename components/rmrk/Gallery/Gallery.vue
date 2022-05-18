@@ -79,6 +79,7 @@
       <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
         @infinite="reachBottomHandler"></InfiniteLoading>
+      <ScrollTopButton />
     </div>
   </div>
 </template>
@@ -122,6 +123,7 @@ const components = {
   PreviewMediaResolver: () =>
     import('@/components/rmrk/Media/PreviewMediaResolver.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Gallery>({
@@ -273,9 +275,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
       })
 
       const {
-        data: {
-          nFTEntities
-        },
+        data: { nFTEntities },
       } = await nfts
       const nftList = unwrapSafe(nFTEntities)
       const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)

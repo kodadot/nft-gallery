@@ -251,10 +251,14 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         event['Type'] = this.$t('nft.event.MINTNFT')
         event['From'] = newEvent['caller']
         event['To'] = ''
-      } else if (newEvent['interaction'] === 'LIST') {
-        event['Type'] = parseInt(newEvent['meta'])
-          ? this.$t('nft.event.LIST')
-          : this.$t('nft.event.UNLIST')
+      } else if (
+        newEvent['interaction'] === 'LIST' ||
+        newEvent['interaction'] === 'UNLIST'
+      ) {
+        event['Type'] =
+          newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
+            ? this.$t('nft.event.LIST')
+            : this.$t('nft.event.UNLIST')
         event['From'] = newEvent['caller']
         event['To'] = ''
         ownerCollectorMap[nftId] = newEvent['caller']

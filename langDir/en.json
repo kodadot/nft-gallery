@@ -524,7 +524,8 @@
     "sold": "Sold",
     "holdings": "Holdings",
     "gains": "Gains",
-    "showQr": "Show QR"
+    "showQr": "Show QR",
+    "collectedFromCreator": "Collected {0} NFT(s) from this creator"
   },
   "spotlight": {
     "page": "Spotlight",
@@ -554,6 +555,8 @@
     "highestSale": "Highest Sale",
     "owners": "Owners",
     "volume": "Volume",
+    "score": "Score",
+    "emoteCount": "Emotes",
     "buyHistory": "Last 30 Days Buy"
   },
   "activity": {
@@ -667,6 +670,7 @@
     "newTransactionWhilePriceSet": "Setting the price now requires making an additional transaction."
   },
   "teleport": {
+    "page": "Teleport",
     "route": "Teleporting {0} from {1} to {2}"
   },
   "preferences": {

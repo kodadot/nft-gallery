@@ -59,6 +59,7 @@
       <InfiniteLoading
         v-if="canLoadNextPage && !isLoading && total > 0"
         @infinite="reachBottomHandler"></InfiniteLoading>
+      <ScrollTopButton />
     </div>
   </div>
 </template>
@@ -105,6 +106,7 @@ const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<CollectionList>({

@@ -16,3 +16,5 @@ export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
 export const MIN_CAROUSEL_NFT = 3
 
 export const PER_PAGE = 20
+
+export const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 350
