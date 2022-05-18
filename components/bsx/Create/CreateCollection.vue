@@ -54,6 +54,7 @@ import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
 import { uploadDirect } from '@/utils/directUpload'
 import { unwrapSafe } from '~/utils/uniquery'
 import { mapToId } from '~/utils/mappers'
+import resolveQueryPath from '~/utils/queryPathResolver'
 
 type BaseCollectionType = {
   name: string
@@ -141,8 +142,12 @@ export default class CreateCollection extends mixins(
 
   protected async generateNewCollectionId(): Promise<number> {
     const randomNumbers = getRandomValues(10).map(String)
+    const query = await resolveQueryPath(
+      this.urlPrefix,
+      'existingCollectionList'
+    )
     const cols = this.$apollo.query({
-      query: existingCollectionList,
+      query: query.default,
       client: this.urlPrefix,
       variables: {
         ids: randomNumbers.map(String),
@@ -160,7 +165,7 @@ export default class CreateCollection extends mixins(
   protected cretateArgs(
     randomId: number,
     metadata: string
-  ): [number, any, string] {
+  ): [number, { Marketplace: null }, string] {
     return [randomId, { Marketplace: null }, metadata]
   }
 
