@@ -16,13 +16,10 @@
         header-class="front-stack-layer"
         cell-class="is-vcentered">
         <div class="image is-48x48">
-          <b-image
+          <BasicImage
             :src="props.row.image"
-            placeholder="~/assets/K_dot_x2.png"
-            src-fallback="~/assets/K_dot_x2.png"
-            ratio="1by1"
-            rounded />
-          <!-- <b-skeleton :active="isLoading" circle width="48px" height="48px" /> -->
+            :alt="props.row.name"
+            rounded="true" />
         </div>
       </b-table-column>
 
@@ -98,6 +95,7 @@ const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   Loader: () => import('@/components/shared/Loader.vue'),
+  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
 }
 
 @Component({ components })
