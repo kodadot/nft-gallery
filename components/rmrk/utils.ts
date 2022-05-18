@@ -256,7 +256,7 @@ export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
 
 export const unwrap = (rmrkString: string): any | null => {
   const rr = /{.*}/
-  const match = rmrkString.match(rr)
+  const match = rr.exec(rmrkString)
 
   if (!match) {
     return null
