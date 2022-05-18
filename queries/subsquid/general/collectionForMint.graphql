@@ -1,0 +1,13 @@
+query collectionForMint($account: String!) {
+  collectionEntities(
+    where: { issuer_eq: $account, currentOwner_eq: $account }
+    orderBy: blockNumber_DESC
+  ) {
+    id
+    name
+    metadata
+    nfts(limit: 1, orderBy: sn_DESC) {
+      index: sn
+    }
+  }
+}
