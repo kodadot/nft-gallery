@@ -122,6 +122,7 @@
             v-if="canLoadNextPage && !isLoading && total > 0"
             @infinite="reachBottomHandler">
           </InfiniteLoading>
+          <ScrollTopButton />
         </b-tab-item>
         <b-tab-item label="History" value="history">
           <History
@@ -237,6 +238,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
 @Component<Profile>({
