@@ -17,13 +17,33 @@ export const bsxActionResolver: CallDictionary = {
   LIST: ['marketplace', 'setPrice'],
 }
 
+export const bsxParamResolver = (
+  id: string,
+  selectedAction: string,
+  meta: string | number,
+  currentOwner: string
+): any[] => {
+  const [collectionId, tokenId] = id.split('-')
+  const actions = {
+    SEND: [collectionId, tokenId, meta],
+    CONSUME: [collectionId, tokenId],
+    BUY: [collectionId, tokenId],
+    LIST: [collectionId, tokenId, meta],
+  }
 
-export function getApiCall(api: ApiPromise, prefix: string, selectedAction: string) {
-  const actionResolver = getActionsByPrefix(prefix)
-  const [module, method] = actionResolver[selectedAction] || new Error('Action not found')
-  return api.tx[module][method]
+  return actions[selectedAction]
 }
 
+export function getApiCall(
+  api: ApiPromise,
+  prefix: string,
+  selectedAction: string
+) {
+  const actionResolver = getActionsByPrefix(prefix)
+  const [module, method] =
+    actionResolver[selectedAction] || new Error('Action not found')
+  return api.tx[module][method]
+}
 
 function getActionsByPrefix(prefix: string): CallDictionary {
   switch (prefix) {
@@ -35,4 +55,3 @@ function getActionsByPrefix(prefix: string): CallDictionary {
       throw new Error('Prefix not found')
   }
 }
-
