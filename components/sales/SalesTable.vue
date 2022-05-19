@@ -97,7 +97,7 @@
 
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
-import { RowSeries } from './types'
+import { RowSales } from './types'
 import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
 import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -115,7 +115,7 @@ const components = {
 
 @Component({ components })
 export default class SalesTable extends mixins(PrefixMixin) {
-  protected data: RowSeries[] = []
+  protected data: RowSales[] = []
 
   async fetch() {
     await this.fetchSalesFeed()
