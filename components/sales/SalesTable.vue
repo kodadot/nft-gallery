@@ -121,7 +121,7 @@ export default class SalesTable extends mixins(PrefixMixin) {
     await this.fetchSalesFeed()
   }
 
-  protected paseDate(ts: number): string {
+  protected parseDate(ts: number): string {
     return new Date(ts).toLocaleString('en-GB', {
       timeZone: 'UTC',
       timeZoneName: 'short',
@@ -148,7 +148,7 @@ export default class SalesTable extends mixins(PrefixMixin) {
     salesFeed.forEach((nft, idx) => {
       nft.idx = idx + 1
       nft.image = sanitizeIpfsUrl(nft.image)
-      nft.date = this.paseDate(Number(nft.timestamp))
+      nft.date = this.parseDate(Number(nft.timestamp))
       nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
         addSuffix: true,
       })

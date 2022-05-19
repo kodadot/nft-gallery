@@ -22,14 +22,13 @@ import { Component, Vue } from 'nuxt-property-decorator'
 @Component<Sales>({
   components: {
     Identity: () => import('@/components/shared/format/Identity.vue'),
-    // SeriesTable: () => import('@/components/series/SeriesTable.vue'),
   },
   head() {
-    const title = 'NFT recent sold'
+    const title = 'Latest KUSAMA Sales'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Discover new artists based on ranking',
+      description: 'Featuring the most recently sold NFTs on RMRK.',
       url: './sales.vue',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }
