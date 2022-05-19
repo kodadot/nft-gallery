@@ -620,6 +620,10 @@
     "handleRequired": "Your handle is required",
     "deposit": "Deposit"
   },
+  "sales": {
+    "page": "My Dashboard",
+    "set": "Acces my Dashboard"
+  },
   "massMint": {
     "tutorial": {
       "basic": {
