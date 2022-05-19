@@ -148,7 +148,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
-import nftEntitiesByIDs from '@/queries/rmrk/subsquid/nftEntitiesByIDs.graphql'
+import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
 import { get, set } from 'idb-keyval'
@@ -236,18 +236,18 @@ export default class GalleryItem extends mixins(PrefixMixin) {
     // used to poll nft every second after component initialization in order to prevent double spending
     this.$apollo.addSmartQuery<{ nftEntities }>('nft', {
       client: 'subsquid',
-      query: nftEntitiesByIDs,
+      query: nftByIdMinimal,
       manual: true,
       variables: {
-        ids: [this.id],
+        id: this.id,
       },
       result: ({ data }) => {
+        const newNftData = data.nftEntities[0]
         this.nft = {
           ...this.nft,
-          ...data.nftEntities[0],
+          ...newNftData,
+          event: newNftData.events.slice(), // force update events
         }
-        // update events
-        this.$set(this.nft, 'event', this.nft.events)
       },
       pollInterval: 1000,
     })

@@ -1,13 +1,14 @@
 import formatBalance from '@/utils/formatBalance'
+import { Interaction } from '@kodadot1/minimark'
 
-export const enum HistoryEventType {
-  MINTNFT = 'MINTNFT',
-  LIST = 'LIST',
-  BUY = 'BUY',
-  SEND = 'SEND',
-  CONSUME = 'CONSUME',
+enum SpecialHistoryEventType {
   UNLIST = 'UNLIST',
   ALL = 'ALL',
+}
+export type HistoryEventType = Interaction | SpecialHistoryEventType
+export const HistoryEventType = {
+  ...Interaction,
+  ...SpecialHistoryEventType,
 }
 
 export const eventToIconMap = {

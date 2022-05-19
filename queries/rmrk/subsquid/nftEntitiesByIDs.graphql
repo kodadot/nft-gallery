@@ -1,7 +1,6 @@
 #import "../../fragments/nftSubsquid.graphql"
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
-#import "../../fragments/event.graphql"
 
 query nftEntitiesByIDs($ids: [ID!]!) {
   nftEntities(where: { id_in: $ids }) {
@@ -9,9 +8,6 @@ query nftEntitiesByIDs($ids: [ID!]!) {
     ...nftDetails
     meta {
       ...baseMeta
-    }
-    events {
-      ...event
     }
   }
 }
