@@ -19,8 +19,8 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component({})
 export default class BasicPopup extends Vue {
-  @Prop({ default: () => [100, 800] }) delay: [number, number]
-  @Prop({ default: 'bottom', type: String }) placement: string
+  @Prop({ default: () => [100, 800] }) delay?: [number, number]
+  @Prop({ type: String, default: 'bottom' }) placement?: string
 }
 </script>
 

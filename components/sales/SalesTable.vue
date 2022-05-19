@@ -158,10 +158,9 @@ export default class SalesTable extends mixins(PrefixMixin) {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables';
 
-/* ??? global */
 .b-radio.is-selected {
   color: #000;
   background-color: $primary;
