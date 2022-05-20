@@ -1,6 +1,6 @@
-#import "../../fragments/event.graphql"
-#import "../../fragments/nftSubsquid.graphql"
-#import "../../fragments/nftDetails.graphql"
+# import "../../fragments/event.graphql"
+# import "../../fragments/nftSubsquid.graphql"
+# import "../../fragments/nftDetails.graphql"
 
 query profileStatsById($id: String!) {
   listed : events(where: {  

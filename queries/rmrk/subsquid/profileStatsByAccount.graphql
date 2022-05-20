@@ -1,0 +1,115 @@
+
+query profileStatsByAccount($id: String!) {
+  listed: nftEntitiesConnection(where: {currentOwner_eq: $id, price_gt: "0"}, orderBy: name_ASC) {
+    totalCount
+  }
+  collected: nftEntitiesConnection(where: {currentOwner_eq: $id, issuer_not_eq: $id, events_some: {interaction_eq: BUY}}, orderBy: name_ASC) {
+    totalCount
+    edges {
+      node {
+        events(where: {interaction_eq: BUY, caller_eq: $id}) {
+          meta
+        }
+      }
+    }
+  }
+  sold: nftEntitiesConnection(where: {currentOwner_not_eq: $id, issuer_eq: $id, events_some: {interaction_eq: BUY}}, orderBy: name_ASC) {
+    totalCount
+    edges {
+      node {
+        events(where: {interaction_eq: BUY, currentOwner_eq: $id}) {
+          meta
+        }
+      }
+    }
+  }
+  obtained: nftEntitiesConnection(where: {currentOwner_eq: $id, issuer_not_eq: $id}, orderBy: name_ASC) {
+    totalCount
+  }
+}
+
+# query profileStatsById($id: String!) {
+#   listed : events(where: {  
+#           caller_eq: $id , 
+#           interaction_eq: LIST,  
+#           nft: {
+#             currentOwner_eq: $id,
+#             name_not_contains: "%Kanaria%",
+#             burned_eq: false,
+#           },
+#       }  
+#     ) {
+#     ...event
+#     nft {
+#       id
+#       metadata
+#       issuer
+#       currentOwner
+#       blockNumber
+#       burned
+#       updatedAt
+#     }
+#   }
+#   collected : nftEntities(where: { currentOwner_eq:$id, burned_eq: false}  ) {
+#     ...nftSubsquid
+#     ...nftDetails
+#     events {
+#       id
+#       blockNumber
+#       timestamp
+#       caller
+#       currentOwner
+#       meta
+#       interaction
+#       nft {
+#         id
+#         metadata
+#         issuer
+#         currentOwner
+#         blockNumber
+#         burned
+#         updatedAt
+#       }
+#     }
+#   }
+#   sold : events(where: { 
+#         caller_eq: $id ,           
+#         interaction_eq: SEND,
+#         nft: { 
+#           name_not_contains: "%Kanaria%", 
+#           burned_eq: false
+#         }
+#       }  
+#     ) {
+#     ...event
+#     nft {
+#         ...nftSubsquid
+#         ...nftDetails
+#        events {
+#           id
+#           blockNumber
+#           timestamp
+#           caller
+#           currentOwner
+#           meta
+#           interaction
+#       }
+#     }
+#   }
+
+#   invested : events(where: {  caller_eq: $id ,  interaction_eq: BUY,
+#           nft: { 
+#             name_not_contains: "%Kanaria%", 
+#             burned_eq: false 
+#           }
+#         }  
+#     ) {
+#     ...event
+#     nft {
+#       ...nftSubsquid
+#       ...nftDetails
+
+#     }
+#   }
+  
+# }

@@ -125,12 +125,12 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
     const listedEvents = data.listed
     const investedEvents = data.invested
 
-    this.getSellerEvents(data)
-    this.getInvestorStatsEvents(investedEvents)
+    // this.getSellerEvents(data)
+    // this.getInvestorStatsEvents(investedEvents)
 
     this.stats = {
-      listedCount: listedEvents.length,
-      totalCollected: collectedEvents.length,
+      listedCount: listedEvents.totalCount,
+      totalCollected: collectedEvents.totalCount,
     }
   }
 
