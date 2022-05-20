@@ -121,16 +121,15 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       this.$consola.log('stats is null')
       return
     }
-    const collectedEvents = data.collected
     const listedEvents = data.listed
     const investedEvents = data.invested
 
-    // this.getSellerEvents(data)
-    // this.getInvestorStatsEvents(investedEvents)
+    this.getSellerEvents(data)
+    this.getInvestorStatsEvents(data)
 
     this.stats = {
       listedCount: listedEvents.totalCount,
-      totalCollected: collectedEvents.totalCount,
+      totalCollected: data.obtained.totalCount,
     }
   }
 
@@ -155,40 +154,70 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
 
   // Collector stats
   // Invested and Spend Statistics
-  protected getInvestorStatsEvents(investedEvents: Event[]) {
-    if (investedEvents.length > 0) {
-      const maxPriceInvested = Math.max(
-        ...investedEvents.map((n: Event, i: number) => {
-          return parseFloat(n.meta)
-        })
-      )
-      this.highestBuyPrice = maxPriceInvested
-      this.totalPurchases = investedEvents.length
+  // protected getInvestorStatsEvents(investedEvents: Event[]) {
+  protected getInvestorStatsEvents(data: any) {
+    const investedEvents: Event[] = data.invested
+    // data.invested.edges.forEach((e: any) => {
+    //   if (e.node && e.node.events && e.node.events.length > 0) {
+    //     e.node.events.forEach((e:Event) => {
+    //       console.log("e.meta",e.meta)
+    //       if(BigInt(e.meta) && Number(e.meta).isFinite()) {
+    //          investedEvents.push(e)
 
-      const holdingsEvents = investedEvents.filter(
-        (x) => x.nft.currentOwner == this.id
-      )
+    //       }
+    //     })
+    //   }
+    // })
+    // data.invested.edges.forEach((e: any) => {
+    //   if (e.node && e.node.events && e.node.events.length > 0) {
+    //     e.node.events.forEach((e:Event) => {
+    //       console.log("e.meta",e.meta)
+    //       if(BigInt(e.meta) && Number(e.meta).isFinite()) {
+    //          investedEvents.push(e)
 
-      this.totalAmountSpend = getAverageOfObject(investedEvents, 'meta')
-      // Amount spend for holding this nft in the wallet
-      this.totalHoldingsBoughtValues = getAverageOfObject(
-        holdingsEvents,
-        'meta'
-      )
-    }
+    //       }
+    //     })
+    //   }
+    //   // })
+    //  data.invested.edges.forEach((e: any) => {
+    //     if (e.node && e.node.events && e.node.events.length > 0) {
+    //       e.node.events.forEach((e:Event) => {
+    //         console.log("e.meta",e.meta)
+    //         if(BigInt(e.meta) && Number(e.meta).isFinite()) {
+    //            investedEvents.push(e)
+
+    //         }
+    //       })
+    //     }
+    //   })
+    const maxPriceInvested = Math.max(
+      ...investedEvents.map((n: Event, i: number) => {
+        return parseInt(n.meta)
+      })
+    )
+    this.highestBuyPrice = maxPriceInvested
+    this.totalPurchases = investedEvents.length
+
+    const holdingsEvents = investedEvents.filter(
+      (x) => x.nft.currentOwner == this.id
+    )
+
+    this.totalAmountSpend = getAverageOfObject(investedEvents, 'meta')
+    // Amount spend for holding this nft in the wallet
+    this.totalHoldingsBoughtValues = getAverageOfObject(holdingsEvents, 'meta')
   }
 
   // Sellor stats
   // Check all SEND events, and get the List event for keep the price with e.meta
   protected getSellerEvents(data: any) {
-    const soldEvents: Interaction[] = []
-    data.sold.forEach((e: Event) => {
-      if (e.nft && e.nft.events && e.nft.events.length > 0) {
-        const buyEvents = pairListBuyEvent(
-          e.nft.events as unknown as Interaction[]
-        )
-        buyEvents.forEach((ev) => {
-          soldEvents.push(ev)
+    const soldEvents: Event[] = []
+    data.sold.edges.forEach((e: any) => {
+      if (e.node && e.node.events && e.node.events.length > 0) {
+        e.node.events.forEach((e: Event) => {
+          console.log('e.meta', e.meta)
+          if (BigInt(e.meta)) {
+            soldEvents.push(e)
+          }
         })
       }
     })
