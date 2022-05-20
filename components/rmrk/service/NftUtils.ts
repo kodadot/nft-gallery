@@ -1,4 +1,5 @@
 import { hexToString, isHex } from '@polkadot/util'
+import { unwrap } from '@kodadot1/minimark/'
 import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
 import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
@@ -30,7 +31,7 @@ class NFTUtils {
     try {
       return {
         event: NFTUtils.getAction(rmrkString),
-        view: NFTUtils.unwrap(rmrkString),
+        view: unwrap(rmrkString),
       }
     } catch (e) {
       console.warn(e)
@@ -274,26 +275,6 @@ class NFTUtils {
     }
 
     throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`)
-  }
-
-  public static unwrap(rmrkString: string): any {
-    const rr = /{.*}/
-    const match = rr.exec(rmrkString)
-
-    if (match) {
-      return JSON.parse(match[0])
-    }
-
-    const split = rmrkString.split(SQUARE)
-
-    if (split.length >= 4) {
-      return {
-        id: split[3],
-        metadata: split[4],
-      } as RmrkInteraction
-    }
-
-    throw new TypeError(`RMRK: Unable to unwrap object ${rmrkString}`)
   }
 }
 
