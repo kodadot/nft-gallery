@@ -85,14 +85,12 @@
         <template #label>
           <span>{{ $t('stats') }}</span>
         </template>
-        <template>
-          <b-navbar-item tag="nuxt-link" to="/spotlight">
-            {{ $t('spotlight.page') }}
-          </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/series-insight">
-            Series
-          </b-navbar-item>
-        </template>
+        <b-navbar-item tag="nuxt-link" to="/spotlight">
+          {{ $t('spotlight.page') }}
+        </b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/series-insight">
+          Series
+        </b-navbar-item>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
       <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
