@@ -20,6 +20,10 @@ query nftById($id: ID!) {
       description
       image
       animation_url: animationUrl
+      attributes {
+        key: trait
+        value
+      }
     }
   }
 }
