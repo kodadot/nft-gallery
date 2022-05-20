@@ -7,7 +7,7 @@
       animation="slide"
       aria-id="contentIdForHistory">
       <div class="box">
-        <div class="is-flex is-justify-content-space-between box-container">
+        <div>
           <Pagination
             :total="total"
             :perPage="itemsPerPage"
