@@ -58,7 +58,6 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from '@/components/rmrk/Create/mintUtils'
-import { Attribute } from '@/components/rmrk/types'
 import collectionForMint from '@/queries/unique/collectionForMint.graphql'
 import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -66,7 +65,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { canSupport } from '@/utils/support'
-import { createMetadata } from '@kodadot1/minimark'
+import { createMetadata, Attribute } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { getMany, update } from 'idb-keyval'
 
@@ -221,7 +220,7 @@ export default class CreateToken extends mixins(
           notificationTypes.success
         )
 
-        this.navigateToDetail(collectionId, String(alreadyMinted))
+        this.navigateToDetail(collectionId, String(nextId))
       })
     } catch (e) {
       if (e instanceof Error) {
@@ -258,6 +257,7 @@ export default class CreateToken extends mixins(
     }
 
     const attributes = [
+      ...(this.attributes || []),
       ...nsfwAttribute(this.nsfw),
       ...offsetAttribute(this.hasCarbonOffset),
     ]
