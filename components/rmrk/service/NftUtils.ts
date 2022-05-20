@@ -1,7 +1,6 @@
 import { hexToString, isHex } from '@polkadot/util'
 import { unwrap } from '@kodadot1/minimark/'
-import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
-import { SQUARE } from '../utils'
+import { RmrkEvent, RMRK } from '../types'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
 import slugify from 'slugify'
