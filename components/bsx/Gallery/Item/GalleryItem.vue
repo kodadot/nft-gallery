@@ -39,8 +39,8 @@
               :active="isLoading"></b-skeleton>
           </div>
 
-          <div class="block" v-if="nft.attributes && nft.attributes.length">
-            <Properties :attributes="nft.attributes" />
+          <div class="block" v-if="meta.attributes && meta.attributes.length">
+            <Properties :attributes="meta.attributes" />
           </div>
         </div>
 
@@ -98,13 +98,6 @@
                         <Auth />
                       </p>
                     </div>
-                    <DangerModal
-                      v-if="accountId === nft.currentOwner"
-                      title="Danger Zone"
-                      :accountId="accountId"
-                      :nftId="id"
-                      :collectionId="collectionId"
-                      :attributes="nft.attributes" />
                     <Sharing class="mb-4" />
                   </div>
                 </div>
@@ -187,11 +180,9 @@ export default class GalleryItem extends mixins(
     this.checkId()
     this.fetchNftData()
     onApiConnect((api) => {
-      // this.loadMagic()
       if (hasAllPallets(api)) {
         this.subscribe(getOwner(api), this.tokenId, this.observeOwner)
         this.subscribe(getPrice(api), this.tokenId, this.observePrice)
-        // this.subscribe(getPrice(api), this.tokenId, this.observeOwner)
       }
     })
   }
