@@ -21,14 +21,14 @@ export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   }
 }
 
-export function getAverage(list: Array<number | number>): bigint | number {
+export function getSum(list: Array<number | number>): bigint | number {
   return list
     .map((x) => x)
     .map((x) => BigInt(x || 0))
     .reduce((acc, cur) => acc + cur, BigInt(0))
 }
 
-export function getAverageOfObject<T>(
+export function getSumOfObjectField<T>(
   list: Array<T>,
   field: string
 ): bigint | number {

@@ -64,7 +64,7 @@
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { Interaction } from '@/components/rmrk/service/scheme'
-import { pairListBuyEvent, getAverage, getAverageOfObject } from '@/utils/math'
+import { pairListBuyEvent, getSum, getSumOfObjectField } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import profileStatsById from '@/queries/rmrk/subsquid/profileStatsById.graphql'
@@ -157,39 +157,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
   // protected getInvestorStatsEvents(investedEvents: Event[]) {
   protected getInvestorStatsEvents(data: any) {
     const investedEvents: Event[] = data.invested
-    // data.invested.edges.forEach((e: any) => {
-    //   if (e.node && e.node.events && e.node.events.length > 0) {
-    //     e.node.events.forEach((e:Event) => {
-    //       console.log("e.meta",e.meta)
-    //       if(BigInt(e.meta) && Number(e.meta).isFinite()) {
-    //          investedEvents.push(e)
-
-    //       }
-    //     })
-    //   }
-    // })
-    // data.invested.edges.forEach((e: any) => {
-    //   if (e.node && e.node.events && e.node.events.length > 0) {
-    //     e.node.events.forEach((e:Event) => {
-    //       console.log("e.meta",e.meta)
-    //       if(BigInt(e.meta) && Number(e.meta).isFinite()) {
-    //          investedEvents.push(e)
-
-    //       }
-    //     })
-    //   }
-    //   // })
-    //  data.invested.edges.forEach((e: any) => {
-    //     if (e.node && e.node.events && e.node.events.length > 0) {
-    //       e.node.events.forEach((e:Event) => {
-    //         console.log("e.meta",e.meta)
-    //         if(BigInt(e.meta) && Number(e.meta).isFinite()) {
-    //            investedEvents.push(e)
-
-    //         }
-    //       })
-    //     }
-    //   })
     const maxPriceInvested = Math.max(
       ...investedEvents.map((n: Event, i: number) => {
         return parseInt(n.meta)
@@ -202,9 +169,9 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       (x) => x.nft.currentOwner == this.id
     )
 
-    this.totalAmountSpend = getAverageOfObject(investedEvents, 'meta')
+    this.totalAmountSpend = getSumOfObjectField(investedEvents, 'meta')
     // Amount spend for holding this nft in the wallet
-    this.totalHoldingsBoughtValues = getAverageOfObject(holdingsEvents, 'meta')
+    this.totalHoldingsBoughtValues = getSumOfObjectField(holdingsEvents, 'meta')
   }
 
   // Sellor stats
@@ -227,7 +194,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
     const maxPriceSold = Math.max(...allValuesList)
     // Highest Buy and Total amount sell
     this.maxSoldPrice = maxPriceSold
-    this.totalSell = getAverage(allValuesList)
+    this.totalSell = getSum(allValuesList)
   }
 }
 </script>
