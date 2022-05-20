@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { emptyArray } from '~/utils/empty'
-import { Attribute } from '../../types'
+import { Attribute } from '@kodadot1/minimark'
 
 const components = {
   CollapseCardWrapper: () =>
