@@ -268,7 +268,6 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       // Type
       switch (newEvent['interaction']) {
         case Interaction.MINTNFT:
-          event['Type'] = Interaction.MINTNFT
           event['From'] = newEvent['caller']
           event['To'] = ''
           break
@@ -282,17 +281,14 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
           event['Amount'] = this.parsePrice(newEvent['meta'])
           break
         case Interaction.SEND:
-          event['Type'] = Interaction.SEND
           event['From'] = newEvent['caller']
           event['To'] = newEvent['meta']
           break
         case Interaction.CONSUME:
-          event['Type'] = Interaction.CONSUME
           event['From'] = newEvent['caller']
           event['To'] = ''
           break
         case Interaction.BUY:
-          event['Type'] = Interaction.BUY
           event['From'] = newEvent['currentOwner']
           event['To'] = newEvent['caller']
           event['Amount'] = this.parsePrice(newEvent['meta'])
@@ -301,6 +297,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
           // unsupported event
           continue
       }
+
+      event['Type'] = event['Type'] ?? newEvent['interaction']
 
       // Item
       if (this.isCollectionPage) {
