@@ -131,6 +131,7 @@ import {
   parseAmount,
 } from '@/utils/historyEvent'
 import { Interaction } from '@kodadot1/minimark'
+
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
