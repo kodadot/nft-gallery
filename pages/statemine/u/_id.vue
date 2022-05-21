@@ -260,7 +260,7 @@ export default class Profile extends mixins(PrefixMixin) {
       this.$apollo.addSmartQuery('collections', {
         query: collectionList,
         manual: true,
-        client: 'subsquid',
+        client: this.client,
         // update: ({ nFTEntities }) => nFTEntities.nodes,
         loadingKey: 'isLoading',
         result: this.handleCollectionResult,
@@ -277,7 +277,7 @@ export default class Profile extends mixins(PrefixMixin) {
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
         manual: true,
-        client: 'subsquid',
+        client: this.client,
         loadingKey: 'isLoading',
         result: this.handleResult,
         variables: () => {
