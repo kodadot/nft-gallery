@@ -427,7 +427,7 @@ export default class Profile extends mixins(
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
-        client: 'subsquid',
+        client: this.client,
         manual: true,
         loadingKey: 'isLoading',
         result: this.handleResult,
