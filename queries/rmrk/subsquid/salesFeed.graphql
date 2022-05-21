@@ -1,0 +1,14 @@
+query SalesFeed {
+  salesFeed {
+    id
+    buyer
+    collectionId
+    collectionName
+    image
+    issuer
+    name
+    salePrice
+    timestamp
+    blockNumber
+  }
+}
