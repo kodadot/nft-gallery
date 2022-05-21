@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { APIKeys, pinFileToIPFS } from '@/utils/pinata'
-import { extractCid, justHash } from '@/utils/ipfs'
+import { extractCid, justHash } from '@kodadot1/minimark'
 
 export const BASE_URL = 'https://beta.kodadot.xyz/.netlify/functions/'
 

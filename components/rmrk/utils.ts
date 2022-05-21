@@ -4,15 +4,17 @@ import {
   RMRK,
   RmrkMint,
   RmrkView,
-  RmrkEvent,
   CollectionMetadata,
   MediaType,
 } from './types'
 import api from '@/utils/fetch'
-import { RmrkWithMetaType, Interaction } from './service/scheme'
+import {
+  RmrkWithMetaType,
+  Interaction as EventInteraction,
+} from './service/scheme'
 import { NFTMetadata, Collection, NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
-import { justHash } from '@/utils/ipfs'
+import { justHash, Interaction } from '@kodadot1/minimark'
 import { logError } from '@/utils/mappers'
 
 export const SQUARE = '::'
@@ -215,7 +217,7 @@ export const decodeRmrkString = (rmrkString: string): RMRK => {
 }
 // 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
 export const getRmrk = (rmrkString: string): RMRK => {
-  const action: RmrkEvent | null = getAction(rmrkString)
+  const action: Interaction | null = getAction(rmrkString)
 
   if (!action) {
     console.warn('NO RMRK STRING', rmrkString)
@@ -237,13 +239,13 @@ export const getRmrk = (rmrkString: string): RMRK => {
   return rmrk
 }
 
-export const getAction = (rmrkString: string): RmrkEvent | null => {
+export const getAction = (rmrkString: string): Interaction | null => {
   if (RmrkEventRegex.MINT.test(rmrkString)) {
-    return RmrkEvent.MINT
+    return Interaction.MINT
   }
 
   if (RmrkEventRegex.MINTNFT.test(rmrkString)) {
-    return RmrkEvent.MINTNFT
+    return Interaction.MINTNFT
   }
 
   return null
@@ -328,43 +330,47 @@ export const resolveMedia = (mimeType?: string): MediaType => {
 }
 
 export const decode = (value: string): string => decodeURIComponent(value)
-export const sortByTimeStamp = (a: Interaction, b: Interaction): number =>
-  b.timestamp < a.timestamp ? 1 : -1
+export const sortByTimeStamp = (
+  a: EventInteraction,
+  b: EventInteraction
+): number => (b.timestamp < a.timestamp ? 1 : -1)
 export const sortByModification = (a: any, b: any): number => b._mod - a._mod
 export const nftSort = (a: any, b: any): number => b.blockNumber - a.blockNumber
 export const sortBy = (arr: any[], cb = nftSort) => arr.slice().sort(cb)
 export const defaultSortBy = (arr: any[]) => sortBy(arr)
 
-export const onlyEvents = (nft: NFT): Interaction[] => nft.events
+export const onlyEvents = (nft: NFT): EventInteraction[] => nft.events
 export const eventTimestamp = (e: { timestamp: string }): string => e.timestamp
 export const onlyPriceEvents = (e: { interaction: string }): boolean =>
   e.interaction !== 'MINTNFT'
 export const eventsBeforeTime =
   (time: string) =>
-  (evts: Interaction[]): Interaction[] => {
+  (evts: EventInteraction[]): EventInteraction[] => {
     const res = evts.filter(before(new Date(time)))
     return res.length && res[res.length - 1].interaction === 'LIST'
       ? [res[res.length - 1]]
       : []
   }
 export const collectionFloorPriceList =
-  (priceEvents: Interaction[][], decimals: number) =>
+  (priceEvents: EventInteraction[][], decimals: number) =>
   (time: string): PriceDataType => {
     const listEventsBeforeTime = priceEvents.map(eventsBeforeTime(time)).flat()
     const priceEvent = listEventsBeforeTime
-      .map((e: Interaction) => Number(e.meta) / 10 ** decimals)
+      .map((e: EventInteraction) => Number(e.meta) / 10 ** decimals)
       .filter((price: number) => price > 0)
 
     const floorPrice = priceEvent.length ? Math.min(...priceEvent) : 0
     return [new Date(time), floorPrice]
   }
-export const onlyBuyEvents = (nftEvents: Interaction[]): Interaction[] => {
-  const buyEvents: Interaction[] = []
-  nftEvents?.forEach((e: Interaction, index: number) => {
+export const onlyBuyEvents = (
+  nftEvents: EventInteraction[]
+): EventInteraction[] => {
+  const buyEvents: EventInteraction[] = []
+  nftEvents?.forEach((e: EventInteraction, index: number) => {
     if (
-      e.interaction === 'BUY' &&
+      e.interaction === Interaction.BUY &&
       index >= 1 &&
-      nftEvents[index - 1].interaction === 'LIST'
+      nftEvents[index - 1].interaction === Interaction.LIST
     ) {
       buyEvents.push({ ...e, meta: nftEvents[index - 1].meta })
     }
@@ -373,7 +379,7 @@ export const onlyBuyEvents = (nftEvents: Interaction[]): Interaction[] => {
 }
 export const soldNFTPrice =
   (decimals: number) =>
-  (e: Interaction): PriceDataType =>
+  (e: EventInteraction): PriceDataType =>
     [new Date(e.timestamp), Number(e.meta) / 10 ** decimals]
 
 export const isJsonGltf = (value: any): boolean => {

@@ -1,17 +1,17 @@
 import { hexToString, isHex } from '@polkadot/util'
-import { RmrkEvent, RMRK, RmrkInteraction } from '../types'
+import { RMRK, RmrkInteraction } from '../types'
 import { SQUARE } from '../utils'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
 import slugify from 'slugify'
 import { RmrkWithMetaType } from './scheme'
+import { UpdateFunction, upperTrim, Interaction } from '@kodadot1/minimark'
 
 export type MintType = {
   collection: Collection
   nfts: NFT[]
 }
 
-export type UpdateFunction = (name: string, index: number) => string
 export const basicUpdateFunction = (name: string, index: number): string =>
   `${name} #${index + 1}`
 
@@ -68,19 +68,6 @@ class NFTUtils {
     )}`
   }
 
-  public static createInteraction(
-    action: 'SEND' | 'CONSUME' | 'LIST' | 'BUY' | 'EMOTE',
-    version = '1.0.0',
-    objectId: string,
-    meta: string
-  ): string {
-    if (!objectId) {
-      throw new ReferenceError(`[${action}] Could not create, because nftId`)
-    }
-
-    return `RMRK::${action}::${version}::${objectId}${meta ? '::' + meta : ''}`
-  }
-
   public static collectionFromNFT(
     symbol: string,
     nft: NFT,
@@ -133,7 +120,7 @@ class NFTUtils {
     name: string,
     metadata: string
   ): NFT {
-    const instance = NFTUtils.upperTrim(name, true)
+    const instance = upperTrim(name, true)
     const sn = NFTUtils.nftSerialNumber(index)
     return {
       events: [],
@@ -169,11 +156,6 @@ class NFTUtils {
           metadata
         )
       )
-  }
-
-  public static upperTrim(name: string, slug?: boolean) {
-    const result = name.trim().toUpperCase()
-    return slug ? slugify(result, '_') : result
   }
 
   public static nftSerialNumber(
@@ -240,37 +222,37 @@ class NFTUtils {
     }
   }
 
-  public static getAction = (rmrkString: string): RmrkEvent => {
+  public static getAction = (rmrkString: string): Interaction => {
     if (RmrkActionRegex.MINT.test(rmrkString)) {
-      return RmrkEvent.MINT
+      return Interaction.MINT
     }
 
     if (RmrkActionRegex.MINTNFT.test(rmrkString)) {
-      return RmrkEvent.MINTNFT
+      return Interaction.MINTNFT
     }
 
     if (RmrkActionRegex.SEND.test(rmrkString)) {
-      return RmrkEvent.SEND
+      return Interaction.SEND
     }
 
     if (RmrkActionRegex.BUY.test(rmrkString)) {
-      return RmrkEvent.BUY
+      return Interaction.BUY
     }
 
     if (RmrkActionRegex.CONSUME.test(rmrkString)) {
-      return RmrkEvent.CONSUME
+      return Interaction.CONSUME
     }
 
     if (RmrkActionRegex.CHANGEISSUER.test(rmrkString)) {
-      return RmrkEvent.CHANGEISSUER
+      return Interaction.CHANGEISSUER
     }
 
     if (RmrkActionRegex.LIST.test(rmrkString)) {
-      return RmrkEvent.LIST
+      return Interaction.LIST
     }
 
     if (RmrkActionRegex.EMOTE.test(rmrkString)) {
-      return RmrkEvent.EMOTE
+      return Interaction.EMOTE
     }
 
     throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`)
