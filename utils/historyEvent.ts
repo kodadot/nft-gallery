@@ -2,28 +2,25 @@ import formatBalance from '@/utils/formatBalance'
 import { Interaction } from '@kodadot1/minimark'
 
 enum SpecialHistoryEventType {
-  UNLIST = 'UNLIST',
   ALL = 'ALL',
 }
 export type HistoryEventType = Interaction | SpecialHistoryEventType
 export const HistoryEventType = {
-  ...Interaction,
   ...SpecialHistoryEventType,
+  ...Interaction,
 }
 
 export const eventToIconMap = {
-  [HistoryEventType.MINTNFT]: '🖼',
-  [HistoryEventType.LIST]: '📰',
-  [HistoryEventType.UNLIST]: '🗞',
-  [HistoryEventType.SEND]: '🎁',
-  [HistoryEventType.CONSUME]: '🔥',
-  [HistoryEventType.BUY]: '🤝',
+  [Interaction.MINTNFT]: '🖼',
+  [Interaction.LIST]: '📰',
+  [Interaction.UNLIST]: '🗞',
+  [Interaction.SEND]: '🎁',
+  [Interaction.CONSUME]: '🔥',
+  [Interaction.BUY]: '🤝',
 }
 
-export const wrapEventNameWithIcon = (
-  type: HistoryEventType,
-  eventName: string
-) => `${eventToIconMap[type]} ${eventName}`
+export const wrapEventNameWithIcon = (type: Interaction, eventName: string) =>
+  `${eventToIconMap[type]} ${eventName}`
 
 export const parseDate = (date: Date): string => {
   return date.toLocaleString('en-GB', {

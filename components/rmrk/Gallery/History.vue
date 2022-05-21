@@ -118,7 +118,7 @@
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
+import { Interaction as EventInteraction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
@@ -130,6 +130,7 @@ import {
   parseDate,
   parseAmount,
 } from '@/utils/historyEvent'
+import { Interaction } from '@kodadot1/minimark'
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
@@ -157,7 +158,7 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Array }) public events!: EventInteraction[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
@@ -203,7 +204,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
 
-  getEventDisplayName(type: HistoryEventType) {
+  getEventDisplayName(type: Interaction) {
     return wrapEventNameWithIcon(type, this.$t(`nft.event.${type}`) as string)
   }
 
@@ -211,17 +212,15 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     const eventSet = new Set(this.copyTableData.map((v) => v.Type))
     const singleEventList = Array.from(eventSet).map((type) => ({
       type,
-      value: this.getEventDisplayName(type),
+      value: this.getEventDisplayName(type as Interaction),
     }))
     return [{ type: HistoryEventType.ALL, value: 'All' }, ...singleEventList]
   }
 
   get isToColumnVisible() {
-    return [
-      HistoryEventType.ALL,
-      HistoryEventType.BUY,
-      HistoryEventType.SEND,
-    ].includes(this.event)
+    return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
+      this.event
+    )
   }
 
   get selectedEvent(): HistoryEventType {
@@ -268,32 +267,32 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
       // Type
       switch (newEvent['interaction']) {
-        case HistoryEventType.MINTNFT:
-          event['Type'] = HistoryEventType.MINTNFT
+        case Interaction.MINTNFT:
+          event['Type'] = Interaction.MINTNFT
           event['From'] = newEvent['caller']
           event['To'] = ''
           break
-        case HistoryEventType.LIST:
-        case HistoryEventType.UNLIST:
+        case Interaction.LIST:
+        case Interaction.UNLIST:
           event['Type'] = parseInt(newEvent['meta'])
-            ? HistoryEventType.LIST
-            : HistoryEventType.UNLIST
+            ? Interaction.LIST
+            : Interaction.UNLIST
           event['From'] = newEvent['caller']
           event['To'] = ''
           event['Amount'] = this.parsePrice(newEvent['meta'])
           break
-        case HistoryEventType.SEND:
-          event['Type'] = HistoryEventType.SEND
+        case Interaction.SEND:
+          event['Type'] = Interaction.SEND
           event['From'] = newEvent['caller']
           event['To'] = newEvent['meta']
           break
-        case HistoryEventType.CONSUME:
-          event['Type'] = HistoryEventType.CONSUME
+        case Interaction.CONSUME:
+          event['Type'] = Interaction.CONSUME
           event['From'] = newEvent['caller']
           event['To'] = ''
           break
-        case HistoryEventType.BUY:
-          event['Type'] = HistoryEventType.BUY
+        case Interaction.BUY:
+          event['Type'] = Interaction.BUY
           event['From'] = newEvent['currentOwner']
           event['To'] = newEvent['caller']
           event['Amount'] = this.parsePrice(newEvent['meta'])
@@ -324,9 +323,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
-      if (newEvent['interaction'] === HistoryEventType.LIST) {
+      if (newEvent['interaction'] === Interaction.LIST) {
         chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
-      } else if (newEvent['interaction'] === HistoryEventType.BUY) {
+      } else if (newEvent['interaction'] === Interaction.BUY) {
         chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
