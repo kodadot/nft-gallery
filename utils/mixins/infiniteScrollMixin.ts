@@ -18,12 +18,12 @@ export default class InfiniteScrollMixin extends Vue {
   protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
   protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
 
-  protected mounted() {
+  protected mounted(): void {
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
   }
 
-  protected beforeDestroy() {
+  protected beforeDestroy(): void {
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('scroll', this.onScroll)
   }
@@ -119,7 +119,7 @@ export default class InfiniteScrollMixin extends Vue {
     return true
   }
 
-  protected gotoPage(page: number) {
+  protected gotoPage(page: number): void {
     this.$consola.warn('gotoPage need to be extended', page)
   }
 

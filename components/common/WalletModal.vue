@@ -42,6 +42,7 @@
             tag="a"
             :href="guideUrl"
             target="_blank"
+            rel="noopener noreferrer"
             size="is-medium"
             type="is-info"
             expanded>
