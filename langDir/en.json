@@ -540,6 +540,23 @@
     "uniqueCollectors": "∃! collectors",
     "soldHistory": "Last 30 Days Sold"
   },
+  "collector": {
+    "page": "Collector",
+    "title": "Collector Whale",
+    "subtitle": "Featuring the most active collectors whale on RMRK.",
+    "filter_accounts": "Accounts With Identity",
+    "id": "Creator",
+    "sold": "Sold",
+    "unique": "∃!",
+    "total": "Total",
+    "averagePrice": "Ø price",
+    "count": "Σ collection",
+    "collectors": "Collectors",
+    "score": "Score",
+    "empty": "Empty",
+    "uniqueCollectors": "∃! collectors",
+    "soldHistory": "Last 30 Days Sold"
+  },
   "series": {
     "title": "Top Collection",
     "subtitle": "The top NFTs on RMRK, ranked by volume, floor price and other statistics.",

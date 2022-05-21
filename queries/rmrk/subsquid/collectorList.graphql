@@ -1,0 +1,12 @@
+query collectorList($limit: Int, $offset: Int, $orderBy: SpotlightOrderByInput) {
+  collectionEntities: collectors(limit: $limit, offset: $offset, orderBy: [$orderBy]) {
+    id
+    unique
+    sold
+    total
+    averagePrice: average
+    count: collections
+    uniqueCollectors
+    volume
+  }
+}

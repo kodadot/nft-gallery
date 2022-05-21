@@ -1,0 +1,464 @@
+<template>
+  <div class="spotlight">
+    <Loader :value="isLoading" />
+    <b-table
+      :data="computedData"
+      :current-page="currentPage"
+      :default-sort="[sortBy.field, sortBy.value]"
+      default-sort-direction="desc"
+      @page-change="this.onPageChange"
+      hoverable
+      detailed
+      paginated
+      pagination-position="top"
+      backend-sorting
+      show-detail-icon
+      class="spotlight-sticky-header"
+      @sort="onSort">
+      <template v-slot:top-left>
+        <b-field class="mb-0">
+          <div class="control is-flex">
+            <b-switch v-model="onlyWithIdentity" :rounded="false">
+              {{ $t('collector.filter_accounts') }}
+            </b-switch>
+          </div>
+        </b-field>
+        <b-button
+          class="ml-2 magicBtn is-bordered-light"
+          title="Go to random page"
+          type="is-primary"
+          icon-left="dice"
+          @click="goToRandomPage">
+        </b-button>
+      </template>
+      <b-table-column
+        cell-class="is-vcentered"
+        field="id"
+        :label="$t('collector.id')"
+        v-slot="props">
+        <template v-if="!isLoading">
+          <nuxt-link
+            :to="{ name: 'rmrk-u-id', params: { id: props.row.id } }"
+            v-if="!isLoading">
+            <Identity :address="props.row.id" inline noOverflow />
+          </nuxt-link>
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="sold"
+        :label="$t('collector.sold')"
+        v-slot="props"
+        sortable>
+        <template v-if="!isLoading">{{ props.row.sold }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="unique"
+        :label="$t('collector.unique')"
+        sortable>
+        <template v-slot:header="{ column }">
+          <b-tooltip label="unique items" dashed>
+            {{ column.label }}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.unique
+        }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="uniqueCollectors"
+        :label="$t('collector.uniqueCollectors')"
+        sortable>
+        <template v-slot:header="{ column }">
+          <b-tooltip label="unique collectors" dashed>
+            {{ column.label }}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{
+          props.row.uniqueCollectors
+        }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="total"
+        :label="$t('collector.total')"
+        v-slot="props"
+        sortable>
+        <template v-if="!isLoading">{{ props.row.total }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="average"
+        :label="$t('collector.averagePrice')"
+        v-slot="props"
+        sortable>
+        <template v-if="!isLoading">
+          <Money :value="props.row.averagePrice" inline hideUnit />
+        </template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="collections"
+        :label="$t('collector.count')"
+        v-slot="props"
+        sortable>
+        <template v-if="!isLoading">{{ props.row.count }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="volume"
+        label="Volume"
+        v-slot="props"
+        sortable>
+        <template v-if="!isLoading"
+          ><Money :value="props.row.volume" inline hideUnit
+        /></template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        cell-class="is-vcentered"
+        field="rank"
+        :label="$t('collector.score')"
+        numeric>
+        <template v-slot:header="{ column }">
+          <b-tooltip label="sold * (unique / total)" dashed>
+            {{ column.label }}
+          </b-tooltip>
+        </template>
+        <template v-slot="props" v-if="!isLoading">{{
+          Math.ceil(props.row.rank * 100) / 100
+        }}</template>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered has-text-centered history"
+        field="soldHistory"
+        :label="$t('collector.soldHistory')">
+        <b-skeleton :active="isLoading" />
+        <PulseChart
+          v-if="!isLoading"
+          :id="props.row.id"
+          :labels="props.row.soldHistory.xAxisList"
+          :values="props.row.soldHistory.yAxisList" />
+      </b-table-column>
+
+      <template #detail="props">
+        <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
+        <div v-else class="has-text-centered">{{ $t('collector.empty') }}</div>
+      </template>
+
+      <template #empty>
+        <div v-if="!isLoading" class="has-text-centered">
+          {{ $t('collector.empty') }}
+        </div>
+        <b-skeleton :active="isLoading"> </b-skeleton>
+      </template>
+    </b-table>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
+import { Column, Row } from './types'
+// import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
+import collectorList from '@/queries/rmrk/subsquid/collectorList.graphql'
+
+import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
+
+import TransactionMixin from '@/utils/mixins/txMixin'
+import { GenericAccountId } from '@polkadot/types/generic/AccountId'
+import { get } from 'idb-keyval'
+import { identityStore } from '@/utils/idbStore'
+import { getRandomIntInRange } from '../rmrk/utils'
+import PrefixMixin from '~/utils/mixins/prefixMixin'
+import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+import { PER_PAGE } from '~/utils/constants'
+import {
+  toSort,
+  today,
+  lastmonthDate,
+  axisLize,
+  defaultEvents,
+  onlyDate,
+} from '../series/utils'
+import { SortType } from '../series/types'
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+
+type Address = string | GenericAccountId | undefined
+
+const components = {
+  Identity: () => import('@/components/shared/format/Identity.vue'),
+  Money: () => import('@/components/shared/format/Money.vue'),
+  SpotlightDetail: () => import('./SpotlightDetail.vue'),
+  Loader: () => import('@/components/shared/Loader.vue'),
+}
+
+@Component({ components })
+export default class CollectorTable extends mixins(
+  TransactionMixin,
+  PrefixMixin,
+  KeyboardEventsMixin
+) {
+  protected data: Row[] = []
+  protected onlyWithIdentity = this.$route.query?.identity || false
+  protected currentPage = 1
+  protected sortBy: SortType = { field: 'sold', value: 'DESC' }
+  protected columns: Column[] = [
+    { field: 'id', label: this.$t('collector.id') },
+    { field: 'sold', label: this.$t('collector.sold'), numeric: true },
+    { field: 'unique', label: this.$t('collector.unique'), numeric: true },
+    { field: 'total', label: this.$t('collector.total'), numeric: true },
+    {
+      field: 'averagePrice',
+      label: this.$t('collector.averagePrice'),
+      numeric: true,
+    },
+    {
+      field: 'collections',
+      label: this.$t('collector.count'),
+      numeric: true,
+    },
+    {
+      field: 'collectors',
+      label: this.$t('collector.collectors'),
+      numeric: true,
+    },
+    { field: 'rank', label: this.$t('collector.score'), numeric: true },
+  ]
+
+  async created() {
+    exist(this.$route.query.sort, (val) => {
+      this.sortBy.field = val.slice(1)
+      this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
+    })
+    await this.fetchSpotlightData()
+    this.initKeyboardEventHandler({
+      g: this.bindPaginationEvents,
+    })
+  }
+
+  private get pageSize() {
+    return Math.ceil(this.total / PER_PAGE)
+  }
+
+  private get total() {
+    return this.computedData.length
+  }
+
+  private get computedData() {
+    return this.onlyWithIdentity
+      ? this.data.filter((x) => x.hasIdentity)
+      : this.data
+  }
+
+  public get ids(): string[] {
+    const start = (this.currentPage - 1) * PER_PAGE
+    const end = this.currentPage * PER_PAGE
+    return this.computedData.slice(start, end).map((x) => x.id)
+  }
+
+  private bindPaginationEvents(event) {
+    switch (event.key) {
+      case 'n':
+        if (this.currentPage < this.pageSize) {
+          this.currentPage = this.currentPage + 1
+        }
+        break
+      case 'p':
+        if (this.currentPage > 1) {
+          this.currentPage = this.currentPage - 1
+        }
+        break
+      case 'r':
+        this.goToRandomPage()
+        break
+    }
+  }
+
+  public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
+    this.isLoading = true
+    const collections = await this.$apollo.query({
+      // query: spotlightList,
+      query: collectorList,
+      client: 'subsquid',
+      variables: {
+        // denyList, not yet
+        // limit: 100,
+        offset: 0,
+        orderBy: sort || 'sold_DESC',
+      },
+    })
+
+    const {
+      data: { collectionEntities },
+    } = collections
+
+    this.data = collectionEntities.map(
+      (e): Row => ({
+        ...e,
+        averagePrice: Number(e.averagePrice),
+        collectors: e.sold,
+        rank: e.sold * (e.unique / e.total || 1),
+        uniqueCollectors: e.uniqueCollectors,
+        volume: BigInt(e.volume),
+        soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
+      })
+    )
+
+    for (let index = 0; index < this.data.length; index++) {
+      const result = await this.identityOf(this.data[index].id)
+      if (result && Object.keys(result).length) {
+        this.$set(this.data[index], 'hasIdentity', true)
+      }
+    }
+
+    await this.updateSoldHistory()
+
+    this.isLoading = false
+  }
+
+  protected async updateSoldHistory() {
+    this.isLoading = true
+    const defaultSoldEvents = defaultEvents(lastmonthDate, today)
+    const solds = (await this.fetchSpotlightSoldHistory())
+      .map((nft) => ({
+        id: nft.issuer,
+        timestamps: nft.events
+          .flat()
+          .map((x) => onlyDate(new Date(x.timestamp))),
+      }))
+      .reduce((res, e) => {
+        const { id, timestamps } = e
+        if (!res[id]) {
+          res[id] = Object.assign({}, defaultSoldEvents)
+        }
+        timestamps.forEach((ts) => (res[id][ts] += 1))
+        return res
+      }, {})
+    this.data.forEach((row) => {
+      if (solds[row.id]) {
+        this.$set(row, 'soldHistory', axisLize(solds[row.id]))
+      }
+    })
+
+    this.isLoading = false
+  }
+
+  public async fetchSpotlightSoldHistory() {
+    const data = await this.$apollo.query({
+      query: spotlightSoldHistory,
+      client: 'subsquid',
+      variables: {
+        ids: this.ids,
+        lte: today,
+        gte: lastmonthDate,
+      },
+    })
+    const {
+      data: { nftEntities },
+    } = data
+    return nftEntities
+  }
+
+  private onPageChange(page: number) {
+    this.currentPage = page
+    this.updateSoldHistory()
+  }
+
+  @Watch('onlyWithIdentity')
+  private async onOnlyWithIdentityChange(val: boolean) {
+    this.replaceUrl(val ? 'true' : '', 'identity')
+    await this.updateSoldHistory()
+  }
+
+  public onSort(field: string, order: string) {
+    let sort: SortType = {
+      field: field,
+      value: order === 'desc' ? 'DESC' : 'ASC',
+    }
+    this.replaceUrl((order === 'desc' ? '-' : '+') + field, 'sort')
+    this.fetchSpotlightData(toSort(sort))
+  }
+
+  @Debounce(100)
+  replaceUrl(value: string, key = 'sort') {
+    this.$router
+      .replace({
+        path: String(this.$route.path),
+        query: { ...this.$route.query, [key]: value },
+      })
+      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+  }
+
+  public async identityOf(account: Address) {
+    const address: string = this.resolveAddress(account)
+    const identity = await get(address, identityStore)
+    return identity
+  }
+
+  private resolveAddress(account: Address): string {
+    return account instanceof GenericAccountId
+      ? account.toString()
+      : account || ''
+  }
+
+  public async goToRandomPage() {
+    let randomNumber = getRandomIntInRange(1, this.pageSize)
+    this.currentPage = randomNumber
+    await this.updateSoldHistory()
+  }
+}
+</script>
+<style scoped lang="scss">
+.history {
+  width: 200px;
+  height: 100px;
+}
+.spotlight .magicBtn {
+  position: absolute;
+  right: 0;
+}
+
+.spotlight-sticky-header th {
+  top: 120px;
+  position: sticky;
+  background-color: #0a0a0a;
+}
+</style>
+
+<style lang="scss">
+.spotlight .level-right {
+  margin-right: 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .spotlight .magicBtn {
+    top: 4rem;
+    position: relative;
+  }
+  .spotlight .level-right {
+    margin-left: 2rem;
+    margin-right: 0rem;
+  }
+}
+</style>

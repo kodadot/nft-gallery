@@ -91,6 +91,9 @@
         <b-navbar-item tag="nuxt-link" to="/series-insight">
           Series
         </b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/collector-whale">
+          Collectors
+        </b-navbar-item>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
       <LazySwitchLocale class="custom-navbar-item" id="NavLocaleChanger" />
