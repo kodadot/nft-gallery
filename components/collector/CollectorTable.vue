@@ -48,11 +48,11 @@
 
       <b-table-column
         cell-class="is-vcentered"
-        field="sold"
-        :label="$t('collector.sold')"
+        field="total"
+        :label="$t('collector.total')"
         v-slot="props"
         sortable>
-        <template v-if="!isLoading">{{ props.row.sold }}</template>
+        <template v-if="!isLoading">{{ props.row.total }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -69,32 +69,6 @@
         <template v-slot="props" v-if="!isLoading">{{
           props.row.unique
         }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <b-table-column
-        cell-class="is-vcentered"
-        field="uniqueCollectors"
-        :label="$t('collector.uniqueCollectors')"
-        sortable>
-        <template v-slot:header="{ column }">
-          <b-tooltip label="unique collectors" dashed>
-            {{ column.label }}
-          </b-tooltip>
-        </template>
-        <template v-slot="props" v-if="!isLoading">{{
-          props.row.uniqueCollectors
-        }}</template>
-        <b-skeleton :active="isLoading"> </b-skeleton>
-      </b-table-column>
-
-      <b-table-column
-        cell-class="is-vcentered"
-        field="total"
-        :label="$t('collector.total')"
-        v-slot="props"
-        sortable>
-        <template v-if="!isLoading">{{ props.row.total }}</template>
         <b-skeleton :active="isLoading"> </b-skeleton>
       </b-table-column>
 
@@ -151,14 +125,14 @@
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered has-text-centered history"
-        field="soldHistory"
-        :label="$t('collector.soldHistory')">
+        field="buyHistory"
+        :label="$t('collector.buyHistory')">
         <b-skeleton :active="isLoading" />
         <PulseChart
           v-if="!isLoading"
           :id="props.row.id"
-          :labels="props.row.soldHistory.xAxisList"
-          :values="props.row.soldHistory.yAxisList" />
+          :labels="props.row.buyHistory.xAxisList"
+          :values="props.row.buyHistory.yAxisList" />
       </b-table-column>
 
       <template #detail="props">
@@ -182,8 +156,7 @@ import { Debounce } from 'vue-debounce-decorator'
 import { Column, Row } from './types'
 // import spotlightList from '@/queries/rmrk/subsquid/spotlightList.graphql'
 import collectorList from '@/queries/rmrk/subsquid/collectorList.graphql'
-
-import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.graphql'
+import collectorBoughtHistory from '@/queries/rmrk/subsquid/collectorBoughtHistory.graphql'
 
 import TransactionMixin from '@/utils/mixins/txMixin'
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
@@ -222,12 +195,12 @@ export default class CollectorTable extends mixins(
   protected data: Row[] = []
   protected onlyWithIdentity = this.$route.query?.identity || false
   protected currentPage = 1
-  protected sortBy: SortType = { field: 'sold', value: 'DESC' }
+  protected limit = 20
+  protected sortBy: SortType = { field: 'total', value: 'DESC' }
   protected columns: Column[] = [
     { field: 'id', label: this.$t('collector.id') },
-    { field: 'sold', label: this.$t('collector.sold'), numeric: true },
-    { field: 'unique', label: this.$t('collector.unique'), numeric: true },
     { field: 'total', label: this.$t('collector.total'), numeric: true },
+    { field: 'unique', label: this.$t('collector.unique'), numeric: true },
     {
       field: 'averagePrice',
       label: this.$t('collector.averagePrice'),
@@ -303,9 +276,10 @@ export default class CollectorTable extends mixins(
       client: 'subsquid',
       variables: {
         // denyList, not yet
-        // limit: 100,
-        offset: 0,
-        orderBy: sort || 'sold_DESC',
+        limit: this.limit,
+        offset: ((this.currentPage - 1) * this.limit).toString(),
+        orderBy: this.sortBy.field,
+        orderDirection: this.sortBy.value,
       },
     })
 
@@ -317,11 +291,10 @@ export default class CollectorTable extends mixins(
       (e): Row => ({
         ...e,
         averagePrice: Number(e.averagePrice),
-        collectors: e.sold,
-        rank: e.sold * (e.unique / e.total || 1),
-        uniqueCollectors: e.uniqueCollectors,
+        collectors: e.uniqueCollectors,
+        rank: e.unique / e.total,
         volume: BigInt(e.volume),
-        soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
+        buyHistory: axisLize(defaultEvents(lastmonthDate, today)),
       })
     )
 
@@ -332,17 +305,17 @@ export default class CollectorTable extends mixins(
       }
     }
 
-    await this.updateSoldHistory()
+    await this.updateBoughtHistory()
 
     this.isLoading = false
   }
 
-  protected async updateSoldHistory() {
+  protected async updateBoughtHistory() {
     this.isLoading = true
     const defaultSoldEvents = defaultEvents(lastmonthDate, today)
-    const solds = (await this.fetchSpotlightSoldHistory())
+    const bought = (await this.fetchBuyWhaleHistory())
       .map((nft) => ({
-        id: nft.issuer,
+        id: nft.currentOwner,
         timestamps: nft.events
           .flat()
           .map((x) => onlyDate(new Date(x.timestamp))),
@@ -356,17 +329,17 @@ export default class CollectorTable extends mixins(
         return res
       }, {})
     this.data.forEach((row) => {
-      if (solds[row.id]) {
-        this.$set(row, 'soldHistory', axisLize(solds[row.id]))
+      if (bought[row.id]) {
+        this.$set(row, 'buyHistory', axisLize(bought[row.id]))
       }
     })
 
     this.isLoading = false
   }
 
-  public async fetchSpotlightSoldHistory() {
+  public async fetchBuyWhaleHistory() {
     const data = await this.$apollo.query({
-      query: spotlightSoldHistory,
+      query: collectorBoughtHistory,
       client: 'subsquid',
       variables: {
         ids: this.ids,
@@ -382,13 +355,13 @@ export default class CollectorTable extends mixins(
 
   private onPageChange(page: number) {
     this.currentPage = page
-    this.updateSoldHistory()
+    this.updateBoughtHistory()
   }
 
   @Watch('onlyWithIdentity')
   private async onOnlyWithIdentityChange(val: boolean) {
     this.replaceUrl(val ? 'true' : '', 'identity')
-    await this.updateSoldHistory()
+    await this.updateBoughtHistory()
   }
 
   public onSort(field: string, order: string) {
@@ -425,7 +398,7 @@ export default class CollectorTable extends mixins(
   public async goToRandomPage() {
     let randomNumber = getRandomIntInRange(1, this.pageSize)
     this.currentPage = randomNumber
-    await this.updateSoldHistory()
+    await this.updateBoughtHistory()
   }
 }
 </script>

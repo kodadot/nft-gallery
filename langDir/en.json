@@ -546,16 +546,14 @@
     "subtitle": "Featuring the most active collectors whale on RMRK.",
     "filter_accounts": "Accounts With Identity",
     "id": "Creator",
-    "sold": "Sold",
-    "unique": "∃!",
-    "total": "Total",
+    "total": "Bought",
+    "unique": "∃! holdings",
     "averagePrice": "Ø price",
     "count": "Σ collection",
     "collectors": "Collectors",
-    "score": "Score",
+    "score": "Score Holding",
     "empty": "Empty",
-    "uniqueCollectors": "∃! collectors",
-    "soldHistory": "Last 30 Days Sold"
+    "buyHistory": "Last 30 Days Bought"
   },
   "series": {
     "title": "Top Collection",

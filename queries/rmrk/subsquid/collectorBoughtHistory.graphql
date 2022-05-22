@@ -1,0 +1,16 @@
+query collectionsEvents($ids: [String!], $gte:DateTime, $lte: DateTime) {
+  nftEntities(
+    where: {
+      burned_eq: false
+      currentOwner_in: $ids
+      events_some: { interaction_eq: BUY, caller_in:$ids, timestamp_gte: $gte, timestamp_lte: $lte }
+    }
+  ) {
+    issuer
+    currentOwner
+    events(where: {interaction_eq: BUY, timestamp_gte: $gte, timestamp_lte: $lte} ) {
+      timestamp
+    }
+    id
+  }
+}
