@@ -527,6 +527,11 @@
     "showQr": "Show QR",
     "collectedFromCreator": "Collected {0} NFT(s) from this creator"
   },
+  "sales": {
+    "page": "Sales",
+    "title": "Latest KUSAMA Sales",
+    "subtitle": "Featuring the most recently sold NFTs on RMRK."
+  },
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",

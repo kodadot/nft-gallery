@@ -1,14 +1,13 @@
 query firstNftByIssuer($account: String!) {
-  nFTEntities: nftEntities(
-    where: { issuer_eq: $account, burned_eq: false }
-    limit: 1
+  nftEntities(
+    where: {
+      issuer_eq: $account
+      name_not_contains: "%Kanaria%"
+      burned_eq: false
+    },
     orderBy: blockNumber_DESC
+    limit: 1
   ) {
-    id
-    nodes: meta {
-      metadata: id
-      image
-      description
-    }
+    metadata
   }
 }
