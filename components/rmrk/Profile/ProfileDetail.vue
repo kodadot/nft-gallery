@@ -203,11 +203,7 @@ import {
 import isShareMode from '@/utils/isShareMode'
 import shouldUpdate from '@/utils/shouldUpdate'
 import shortAddress from '@/utils/shortAddress'
-import nftListByIssuer from '@/queries/nftListByIssuer.graphql'
 import nftListByIssuerAndOwner from '@/queries/nftListByIssuerAndOwner.graphql'
-import nftListCollected from '@/queries/nftListCollected.graphql'
-import nftListSold from '@/queries/nftListSold.graphql'
-import firstNftByIssuer from '@/queries/firstNftByIssuer.graphql'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
 import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAccount.graphql'
@@ -220,6 +216,11 @@ import { exist } from '../Gallery/Search/exist'
 import AuthMixin from '~/utils/mixins/authMixin'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
+
+import firstNftByIssuer from '@/queries/subsquid/general/firstNftByIssuer.graphql'
+import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
+import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
+import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -426,7 +427,7 @@ export default class Profile extends mixins(
 
       this.$apollo.addSmartQuery('firstNft', {
         query: firstNftByIssuer,
-        client: this.urlPrefix,
+        client: this.client,
         manual: true,
         loadingKey: 'isLoading',
         result: this.handleResult,
@@ -437,7 +438,6 @@ export default class Profile extends mixins(
         },
         fetchPolicy: 'cache-and-network',
       })
-
       // this.packs = await rmrkService
       //   .getPackListForAccount(this.id)
       //   .then(defaultSortBy);
@@ -451,7 +451,7 @@ export default class Profile extends mixins(
 
   protected async handleResult({ data }: any) {
     if (!this.firstNFTData.image && data) {
-      const nfts = data.nFTEntities.nodes
+      const nfts = data.nftEntities
       if (nfts?.length) {
         const meta = await fetchNFTMetadata(nfts[0])
         this.firstNFTData = {

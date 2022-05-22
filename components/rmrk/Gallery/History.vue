@@ -275,6 +275,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         priceCollectorMap[nftId] = '0'
       } else if (newEvent['interaction'] === 'BUY') {
         event['Type'] = this.$t('nft.event.BUY')
+        priceCollectorMap[nftId] = newEvent['meta']
       } else event['Type'] = newEvent['interaction']
 
       // Item
