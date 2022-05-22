@@ -73,7 +73,7 @@ specifiers:
   slugify: ^1.6.5
   typescript: ^4.6.4
   v-emoji-picker: ^2.3.3
-  vitest: ^0.12.8
+  vitest: ^0.12.9
   vue: ^2.6.14
   vue-apollo: ^3.1.0
   vue-audio-visual: ^2.4.1
@@ -175,7 +175,7 @@ devDependencies:
   sass: 1.52.1
   sass-loader: 10.2.1_sass@1.52.1
   typescript: 4.6.4
-  vitest: 0.12.8_jsdom@19.0.0+sass@1.52.1
+  vitest: 0.12.9_jsdom@19.0.0+sass@1.52.1
   vue-debounce-decorator: 1.0.1
 
 packages:
@@ -400,24 +400,6 @@ packages:
       '@babel/helper-validator-option': 7.16.7
       browserslist: 4.20.3
       semver: 6.3.0
-
-  /@babel/helper-create-class-features-plugin/7.17.6_@babel+core@7.18.0:
-    resolution: {integrity: sha512-SogLLSxXm2OkBbSsHZMM4tUi8fUzjs63AT/d0YQIzr6GSd8Hxsbk2KYDX0k0DweAzGMj/YWeiCsorIdtdcW8Eg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': 7.18.0
-      '@babel/helper-annotate-as-pure': 7.16.7
-      '@babel/helper-environment-visitor': 7.16.7
-      '@babel/helper-function-name': 7.17.9
-      '@babel/helper-member-expression-to-functions': 7.17.7
-      '@babel/helper-optimise-call-expression': 7.16.7
-      '@babel/helper-replace-supers': 7.16.7
-      '@babel/helper-split-export-declaration': 7.16.7
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /@babel/helper-create-class-features-plugin/7.18.0_@babel+core@7.18.0:
     resolution: {integrity: sha512-Kh8zTGR9de3J63e5nS0rQUdRs/kbtwoeQQ0sriS0lItjC96u8XXZN6lKpuyWd2coKSU13py/y+LTmThLuVX0Pg==}
@@ -1043,7 +1025,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.18.0
-      '@babel/helper-plugin-utils': 7.16.7
+      '@babel/helper-plugin-utils': 7.17.12
     dev: true
 
   /@babel/plugin-transform-arrow-functions/7.17.12_@babel+core@7.18.0:
@@ -1425,8 +1407,8 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.18.0
-      '@babel/helper-create-class-features-plugin': 7.17.6_@babel+core@7.18.0
-      '@babel/helper-plugin-utils': 7.16.7
+      '@babel/helper-create-class-features-plugin': 7.18.0_@babel+core@7.18.0
+      '@babel/helper-plugin-utils': 7.17.12
       '@babel/plugin-syntax-typescript': 7.16.7_@babel+core@7.18.0
     transitivePeerDependencies:
       - supports-color
@@ -10574,7 +10556,6 @@ packages:
   /graphql/16.5.0:
     resolution: {integrity: sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
@@ -17013,7 +16994,6 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /ua-parser-js/0.7.31:
     resolution: {integrity: sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==}
@@ -17717,8 +17697,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.12.8_jsdom@19.0.0+sass@1.52.1:
-    resolution: {integrity: sha512-/h0myRYwsUEzNwz6c1GFHVZYMZ0mGYMhkLMEZgsX+lJXFfOVHikUpZl1MRnnCzaZxDVPnRsuUje7OemDeW+h5w==}
+  /vitest/0.12.9_jsdom@19.0.0+sass@1.52.1:
+    resolution: {integrity: sha512-1NtyUANS72Qw5PwYvoztk067NX4fSiis2xQxhByOWS33eL2er/yupHyLxlBCOkF2ANe0dLFRvT1GVb+nczL5aw==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -18089,7 +18069,6 @@ packages:
 
   /vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
-    dev: false
 
   /vuex-class/0.3.2_74f9cfd67148c622b48e1672fc254539:
     resolution: {integrity: sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==}
