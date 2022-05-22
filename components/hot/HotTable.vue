@@ -13,13 +13,13 @@
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
-        label="Total Volume">
+        label="Total Volume(KSM)">
         {{ props.row.totalVolume }}
       </b-table-column>
       <b-table-column
         v-slot="props"
         cell-class="is-vcentered"
-        label="Last Sale Size">
+        label="Last Sale Size(KSM)">
         {{ props.row.latestSoldSize }}
       </b-table-column>
       <b-table-column
@@ -72,7 +72,7 @@ const components = {
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []
   private toKSM(amount) {
-    return formatBalance(amount, this.decimals, this.unit)
+    return formatBalance(amount, this.decimals, '')
   }
 
   async fetch() {
