@@ -1,6 +1,6 @@
 <template>
   <section>
-    <StatsHeader :title="$t('sales.title')" :subtitle="$t('sales.subtitle')" />
+    <StatsHeader :title="$t('hot.title')" :subtitle="$t('hot.subtitle')" />
     <HotTable />
   </section>
 </template>

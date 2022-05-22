@@ -528,6 +528,10 @@
     "title": "Latest KUSAMA Sales",
     "subtitle": "Featuring the most recently sold NFTs on RMRK."
   },
+  "hot": {
+    "title": "Recently KUSAMA Sales",
+    "subtitle": "Featuring the hot sold NFTs on RMRK"
+  },
   "spotlight": {
     "page": "Spotlight",
     "title": "User Spotlight",
