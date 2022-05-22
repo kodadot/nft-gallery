@@ -14,6 +14,7 @@ export interface SubsquidHotNft {
 }
 
 export interface RowHot {
+  collectionId: string
   name: string
   totalVolume: string
   buys: number

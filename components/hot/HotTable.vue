@@ -1,11 +1,41 @@
 <template>
   <div>
     <Loader :value="$fetchState.pending" />
-    <b-table
-      :data="data"
-      :columns="columns"
-      hoverable
-      class="series-sticky-header">
+    <b-table :data="data" hoverable class="hot-sticky-header">
+      <b-table-column v-slot="props" label="N°">
+        {{ props.row.id }}
+      </b-table-column>
+      <b-table-column v-slot="props" label="Series Name">
+        <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
+          {{ props.row.name }}
+        </nuxt-link>
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="Total Volume">
+        {{ props.row.totalVolume }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="Last Sale Size">
+        {{ props.row.latestSoldSize }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="Time Since Last">
+        {{ props.row.latestSoldTime }}
+      </b-table-column>
+
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="Median Time Between Sales">
+        {{ props.row.medianDate }}
+      </b-table-column>
+
       <template #empty>
         <div v-if="!$fetchState.pending" class="has-text-centered">
           {{ $t('spotlight.empty') }}
@@ -29,6 +59,7 @@ import ChainMixin from '@/utils/mixins/chainMixin'
 import formatBalance from '@/utils/formatBalance'
 import { getVolume } from '@/utils/math'
 import { parseDate } from '@/utils/datetime'
+import { lastweekDate } from '@/components/series/utils'
 
 const components = {
   Money: () => import('@/components/shared/format/Money.vue'),
@@ -40,15 +71,6 @@ const components = {
 @Component({ components })
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: RowHot[] = []
-  protected columns = [
-    { field: 'id', label: 'N°', numeric: true },
-    { field: 'name', label: 'Series Name' },
-    { field: 'totalVolume', label: 'Total Volume' },
-    { field: 'latestSoldSize', label: 'Last Sale Size(KSM)' },
-    { field: 'latestSoldTime', label: 'Time Since Last Sale' },
-    { field: 'medianDate', label: 'Median Time Between Sales' },
-  ]
-
   private toKSM(amount) {
     return formatBalance(amount, this.decimals, this.unit)
   }
@@ -66,6 +88,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
       const medianIdx = Math.floor(buys / 2)
       return {
         id: idx + 1,
+        collectionId: colId,
         name: collection.name,
         totalVolume,
         buys,
@@ -85,7 +108,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
       query: hotNfts,
       client: this.client,
       variables: {
-        gte: '2022-05-14T05:38:06.018000Z',
+        gte: lastweekDate,
       },
     })
     return result
@@ -95,7 +118,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
 <style lang="scss" scoped>
 @import '@/styles/variables';
 
-.series-sticky-header th {
+.hot-sticky-header th {
   top: 120px;
   position: sticky;
   background: $frosted-glass-background;

@@ -16,7 +16,7 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Vue } from 'nuxt-property-decorator'
 
 export default class HotDashboard extends Vue {}
 </script>
