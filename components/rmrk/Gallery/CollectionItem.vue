@@ -10,9 +10,7 @@
             customClass="collection__image" />
         </div>
         <h1 class="title is-2">
-          <template>
-            {{ name }}
-          </template>
+          {{ name }}
         </h1>
       </div>
     </div>
