@@ -1,0 +1,48 @@
+<template>
+  <section>
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <h1 class="title is-2">{{ $t('sales.title') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('sales.subtitle') }}</p>
+      </div>
+      <div class="column">
+        <img
+          src="~/assets/rmrk-logo-pink-faded.png"
+          alt="RMRK"
+          class="rmrk-logo is-hidden-mobile" />
+      </div>
+    </div>
+
+    <SalesTable />
+  </section>
+</template>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component<Sales>({
+  components: {
+    Identity: () => import('@/components/shared/format/Identity.vue'),
+  },
+  head() {
+    const title = 'Latest KUSAMA Sales'
+    const metaData = {
+      title,
+      type: 'profile',
+      description: 'Featuring the most recently sold NFTs on RMRK.',
+      url: './sales.vue',
+      image: `${this.$config.baseUrl}/k_card_series.png`,
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
+})
+export default class Sales extends Vue {}
+</script>
+
+<style scoped lang="scss">
+.rmrk-logo {
+  aspect-ratio: 127 / 42;
+}
+</style>
