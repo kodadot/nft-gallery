@@ -14,7 +14,7 @@
           inverted
           outlined
           icon-right="chevron-right"
-          to="/rmrk/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY">
+          :to="`/${urlPrefix}/explore?search=&sort=UPDATED_AT_DESC&tab=GALLERY`">
           {{ $t('helper.seeMore') }}
         </b-button>
       </div>
