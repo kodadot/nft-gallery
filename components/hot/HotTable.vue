@@ -19,6 +19,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import formatBalance from '@/utils/formatBalance'
+import { getVolume } from '@/utils/math'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -42,23 +43,21 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
     const data = await this.fetchHotNfts()
     const collectionMap = groupBy(data, 'nft.collection.id')
     const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
-    const result = Object.keys(collectionMap).map((colId) => {
+    const result = sortOrder.map((colId) => {
       const collection = collectionMap[colId][0].nft.collection
-      const nfts = sortBy(collectionMap[colId], 'timestamp')
-      const totalVolume = this.toKSM(
-        nfts.reduce((res, nft) => {
-          res += Number(nft.meta)
-          return res
-        }, 0)
-      )
+      const nfts = sortBy(collectionMap[colId], 'timestamp').reverse()
+      const totalVolume = this.toKSM(getVolume(nfts))
       const buys = nfts.length
       const latestSale = nfts[0]
+      const medianIdx = Math.floor(buys / 2)
       return {
         name: collection.name,
         totalVolume,
         buys,
         latestSoldSize: this.toKSM(latestSale.meta),
         latestSoldTime: formatDistanceToNow(new Date(latestSale.timestamp)),
+        medianDate: nfts[medianIdx].timestamp,
+        nfts,
       }
     })
     this.data = result
