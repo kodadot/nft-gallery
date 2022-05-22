@@ -20,6 +20,7 @@ import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import formatBalance from '@/utils/formatBalance'
 import { getVolume } from '@/utils/math'
+import { RowHot, SubsquidHotNft } from './types'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
@@ -33,7 +34,7 @@ const components = {
 
 @Component({ components })
 export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
-  protected data = []
+  protected data: [RowHot] = []
 
   private toKSM(amount) {
     return formatBalance(amount, this.decimals, this.unit)
@@ -43,7 +44,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
     const data = await this.fetchHotNfts()
     const collectionMap = groupBy(data, 'nft.collection.id')
     const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
-    const result = sortOrder.map((colId) => {
+    const result: [RowHot] = sortOrder.map((colId) => {
       const collection = collectionMap[colId][0].nft.collection
       const nfts = sortBy(collectionMap[colId], 'timestamp').reverse()
       const totalVolume = this.toKSM(getVolume(nfts))
@@ -63,7 +64,7 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
     this.data = result
   }
 
-  public async fetchHotNfts() {
+  public async fetchHotNfts(): Promise<[SubsquidHotNft]> {
     const {
       data: { result },
     } = await this.$apollo.query({
