@@ -1,0 +1,38 @@
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/subsquidNft.graphql"
+#import "../../fragments/collectionMeta.graphql"
+
+query nftListByIssuer(
+  $account: String!
+  $limit: Int!
+  $offset: Int
+  $and: [NFTEntityWhereInput!]
+  $orderBy: NFTEntityOrderByInput = blockNumber_DESC
+) {
+  nftEntities(
+    where: {
+      issuer_eq: $account
+      name_not_contains: "%Kanaria%"
+      burned_eq: false
+      AND: $and
+    }
+    orderBy: [$orderBy, blockNumber_DESC]
+    limit: $limit
+    offset: $offset
+  ) {
+    ...subsquidNft
+    ...nftDetails
+    ...collectionMeta
+  }
+  nftEntitiesConnection(
+    where: {
+      issuer_eq: $account
+      name_not_contains: "%Kanaria%"
+      burned_eq: false
+      AND: $and
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}
