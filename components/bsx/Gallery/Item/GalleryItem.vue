@@ -69,13 +69,6 @@
                         <div class="price-block__original">
                           <Money :value="nft.price" inline />
                         </div>
-                        <b-button
-                          v-if="nft.currentOwner === accountId"
-                          type="is-warning"
-                          outlined
-                          @click="handleUnlist">
-                          {{ $t('Unlist') }}
-                        </b-button>
                       </div>
                     </template>
                     <div class="content pt-4">
@@ -95,7 +88,7 @@
                             nft.metadata,
                           ]"
                           @change="handleAction" />
-                        <Auth />
+                        <Auth class="mt-4" />
                       </p>
                     </div>
                     <Sharing class="mb-4" />
