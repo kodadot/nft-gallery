@@ -58,7 +58,7 @@ export default class PaginatedCardList extends mixins(
   PrefixMixin,
   InfiniteScrollMixin
 ) {
-  @Prop({ default: 'detail' }) public route!: string
+  @Prop({ default: 'gallery' }) public route!: string
   @Prop() public query!: DocumentNode
   @Prop(String) public account!: string
   @Prop(Boolean) public showSearchBar!: boolean
