@@ -63,8 +63,7 @@
 
 <script lang="ts">
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { Interaction } from '@/components/rmrk/service/scheme'
-import { pairListBuyEvent, getSum, getSumOfObjectField } from '@/utils/math'
+import { getSum, getSumOfObjectField } from '@/utils/math'
 import { subDays } from 'date-fns'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import profileStatsById from '@/queries/rmrk/subsquid/profileStatsById.graphql'
@@ -122,7 +121,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       return
     }
     const listedEvents = data.listed
-    const investedEvents = data.invested
 
     this.getSellerEvents(data)
     this.getInvestorStatsEvents(data)

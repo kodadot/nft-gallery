@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, mixins, Prop } from 'nuxt-property-decorator'
 import { checkInvalidBalanceFilter as checkInvalidBalance } from '@/utils/formatBalance'
 import ChainMixin from '~/utils/mixins/chainMixin'
 @Component({
