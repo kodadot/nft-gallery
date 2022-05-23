@@ -92,7 +92,6 @@ import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
@@ -139,7 +138,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
   @Prop() public query!: DocumentNode
-  @Prop() public issuer: string
+  @Prop() public issuer!: string
   protected first = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
@@ -231,7 +230,6 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       const event: any = {}
       let isListedByUser =
         newEvent &&
-        newEvent &&
         newEvent.nft &&
         newEvent.nft.events &&
         newEvent.nft.events.find(
@@ -242,7 +240,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         continue
       }
 
-      const nftId = newEvent?.nft?.id
+      const nftId = newEvent && newEvent.nft && newEvent.nft?.id
 
       event['Buyer'] = newEvent['caller']
       event['Type'] = this.$t('nft.event.BUY')
