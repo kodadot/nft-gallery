@@ -131,6 +131,15 @@
             :openOnDefault="isHistoryOpen"
             hideCollapse />
         </b-tab-item>
+        <b-tab-item label="Sales" value="sales">
+          <Sales
+            v-if="!isLoading && activeTab === 'sales'"
+            :issuer="id"
+            :query="recentSalesForCreator"
+            :events="eventsOfSales"
+            :openOnDefault="isHistoryOpen"
+            hideCollapse />
+        </b-tab-item>
         <b-tab-item value="sold" :headerClass="{ 'is-hidden': !total }">
           <template #header>
             <b-tooltip
@@ -210,6 +219,7 @@ import collectionListByAccount from '@/queries/rmrk/subsquid/collectionListByAcc
 import { Debounce } from 'vue-debounce-decorator'
 import { CollectionChartData as ChartData } from '@/utils/chart'
 import allEventsByProfile from '@/queries/rmrk/subsquid/allEventsByProfile.graphql'
+import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
 import { sortedEventByDate } from '~/utils/sorting'
 import ChainMixin from '~/utils/mixins/chainMixin'
 import { exist } from '../Gallery/Search/exist'
@@ -239,6 +249,7 @@ const components = {
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
+  Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
 }
 
@@ -275,6 +286,7 @@ export default class Profile extends mixins(
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []
   public eventsOfNftCollection: Interaction[] | [] = []
+  public eventsOfSales: Interaction[] | [] = []
   public priceChartData: [Date, number][][] = []
   protected priceData: [ChartData[], ChartData[]] | [] = []
 
@@ -317,7 +329,9 @@ export default class Profile extends mixins(
   readonly nftListByIssuer = nftListByIssuer
   readonly nftListCollected = nftListCollected
   readonly nftListSold = nftListSold
+  readonly recentSalesForCreator = recentSalesForCreator
   private openHistory = true
+  private openSalesTab = true
 
   public async mounted() {
     await this.fetchProfile()
@@ -344,6 +358,10 @@ export default class Profile extends mixins(
 
   get isHistoryOpen(): boolean {
     return this.openHistory
+  }
+
+  get isSalesCreatorOpen(): boolean {
+    return this.openSalesTab
   }
 
   get sharingVisible(): boolean {
@@ -491,6 +509,9 @@ export default class Profile extends mixins(
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
     }
+    if (this.activeTab === 'sales') {
+      this.fetchSalesEventByCreator()
+    }
   }
 
   protected handleIdentity(identityFields: Record<string, string>) {
@@ -537,6 +558,29 @@ export default class Profile extends mixins(
     }
   }
 
+  // Get Sales event of an creator
+  protected async fetchSalesEventByCreator() {
+    try {
+      this.isFetchingData = true
+      const { data } = await this.$apollo.query<{ events: Interaction[] }>({
+        query: recentSalesForCreator,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          limit: this.first,
+          offset: (this.currentPage - 1) * this.first,
+        },
+      })
+      if (data && data.events && data.events.length) {
+        let events: Interaction[] = data.events
+        this.eventsOfSales = [...sortedEventByDate(events, 'DESC')]
+        this.checkTabLocate()
+      }
+    } catch (e) {
+      showNotification(`${e}`, notificationTypes.warn)
+    }
+  }
+
   @Watch('accountId')
   public async fetchMyNftByIssuer() {
     if (this.accountId && this.id && this.accountId !== this.id) {
@@ -561,6 +605,9 @@ export default class Profile extends mixins(
       if (this.activeTab === 'history') {
         this.fetchCollectionEvents()
       }
+      if (this.activeTab === 'sales') {
+        this.fetchSalesEventByCreator()
+      }
     }
   }
 
@@ -568,6 +615,9 @@ export default class Profile extends mixins(
   protected onTabChange(): void {
     if (this.activeTab === 'history') {
       this.fetchCollectionEvents()
+    }
+    if (this.activeTab === 'sales') {
+      this.fetchSalesEventByCreator()
     }
   }
 }
