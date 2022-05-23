@@ -1,13 +1,5 @@
 import { emptyObject } from '@/utils/empty'
-import { unwrap } from '@kodadot1/minimark/'
-import { hexToString, isHex } from '@polkadot/util'
-import {
-  RMRK,
-  RmrkMint,
-  RmrkView,
-  CollectionMetadata,
-  MediaType,
-} from './types'
+import { RMRK, CollectionMetadata, MediaType } from './types'
 import api from '@/utils/fetch'
 import {
   RmrkWithMetaType,
@@ -209,57 +201,6 @@ export function sanitizeObjectArray<T extends RmrkWithMetaType>(
 
 export function mapPriceToNumber(instances: NFTWithMeta[]): any[] {
   return instances.map((i) => ({ ...i, price: Number(i.price || 0) }))
-}
-
-export const decodeRmrkString = (rmrkString: string): RMRK => {
-  const value = decode(isHex(rmrkString) ? hexToString(rmrkString) : rmrkString)
-
-  return getRmrk(value)
-}
-// 'rmrk::MINTNFT::{"collection":"241B8516516F381A-OKSM","name":"Kusama Tetrahedron","transferable":1,"sn":"0000000000000002","metadata":"ipfs://ipfs/QmbT5DVZgoLP4PJRKWDRr85SowufraCgmvHehHKtkXqcEq"}';
-export const getRmrk = (rmrkString: string): RMRK => {
-  const action: Interaction | null = getAction(rmrkString)
-
-  if (!action) {
-    console.warn('NO RMRK STRING', rmrkString)
-    return emptyObject<RMRK>()
-  }
-
-  const rmrk: RMRK = emptyObject<RMRK>()
-  rmrk.event = action
-
-  const view = getView(rmrkString)
-
-  if (!view) {
-    console.warn('NO RMRK VIEW', rmrkString)
-    return emptyObject<RMRK>()
-  }
-
-  rmrk.view = view
-
-  return rmrk
-}
-
-export const getAction = (rmrkString: string): Interaction | null => {
-  if (RmrkEventRegex.MINT.test(rmrkString)) {
-    return Interaction.MINT
-  }
-
-  if (RmrkEventRegex.MINTNFT.test(rmrkString)) {
-    return Interaction.MINTNFT
-  }
-
-  return null
-}
-
-export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
-  const value: RmrkMint | RmrkView | null = unwrap(rmrkString)
-  return value
-}
-
-class RmrkEventRegex {
-  static MINTNFT = /^rmrk::MINTNFT::/
-  static MINT = /^rmrk::MINT::/
 }
 
 export const isEmpty = (rmrk: RMRK): boolean => {

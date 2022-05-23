@@ -1,11 +1,9 @@
 import { hexToString, isHex } from '@polkadot/util'
-import { unwrap } from '@kodadot1/minimark/'
-import { RMRK } from '../types'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
 import slugify from 'slugify'
 import { RmrkWithMetaType } from './scheme'
-import { UpdateFunction, upperTrim, Interaction } from '@kodadot1/minimark'
+import { UpdateFunction, upperTrim } from '@kodadot1/minimark'
 
 export type MintType = {
   collection: Collection
@@ -24,18 +22,6 @@ class NFTUtils {
     return NFTUtils.decode(
       isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
     )
-  }
-
-  public static convert(rmrkString: string): RMRK {
-    try {
-      return {
-        event: NFTUtils.getAction(rmrkString),
-        view: unwrap(rmrkString),
-      }
-    } catch (e) {
-      console.warn(e)
-      throw e
-    }
   }
 
   public static toString(
@@ -178,10 +164,6 @@ class NFTUtils {
     return 'currentOwner' in object && 'instance' in object
   }
 
-  public static decodeAndConvert(rmrkString: string) {
-    return NFTUtils.convert(NFTUtils.decodeRmrk(rmrkString))
-  }
-
   public static generateRemarks(
     mint: SimpleNFT,
     caller: string,
@@ -220,42 +202,6 @@ class NFTUtils {
       collection,
       nfts,
     }
-  }
-
-  public static getAction = (rmrkString: string): Interaction => {
-    if (RmrkActionRegex.MINT.test(rmrkString)) {
-      return Interaction.MINT
-    }
-
-    if (RmrkActionRegex.MINTNFT.test(rmrkString)) {
-      return Interaction.MINTNFT
-    }
-
-    if (RmrkActionRegex.SEND.test(rmrkString)) {
-      return Interaction.SEND
-    }
-
-    if (RmrkActionRegex.BUY.test(rmrkString)) {
-      return Interaction.BUY
-    }
-
-    if (RmrkActionRegex.CONSUME.test(rmrkString)) {
-      return Interaction.CONSUME
-    }
-
-    if (RmrkActionRegex.CHANGEISSUER.test(rmrkString)) {
-      return Interaction.CHANGEISSUER
-    }
-
-    if (RmrkActionRegex.LIST.test(rmrkString)) {
-      return Interaction.LIST
-    }
-
-    if (RmrkActionRegex.EMOTE.test(rmrkString)) {
-      return Interaction.EMOTE
-    }
-
-    throw new EvalError(`[NFTUtils] Unable to get action from ${rmrkString}`)
   }
 }
 
