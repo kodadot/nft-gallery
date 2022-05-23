@@ -98,6 +98,7 @@ import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { Event } from '../service/types'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -133,7 +134,7 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Array }) public events!: Event[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
@@ -228,18 +229,20 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     for (const newEvent of this.events) {
       const event: any = {}
-      console.log('event', newEvent)
-      let isListedByUser = newEvent.nft.events.find(
-        (e) => e.caller === this.issuer && e.interaction == 'LIST'
-      )
-
-      console.log('isListedByUser', isListedByUser)
+      let isListedByUser =
+        newEvent &&
+        newEvent &&
+        newEvent.nft &&
+        newEvent.nft.events &&
+        newEvent.nft.events.find(
+          (e) => e.caller === this.issuer && e.interaction == 'LIST'
+        )
 
       if (!isListedByUser) {
         continue
       }
 
-      const nftId = (newEvent['nft'] as any)?.id
+      const nftId = newEvent?.nft?.id
 
       event['Buyer'] = newEvent['caller']
       event['Type'] = this.$t('nft.event.BUY')
