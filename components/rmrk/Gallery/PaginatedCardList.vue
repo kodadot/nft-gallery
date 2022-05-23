@@ -21,7 +21,7 @@
     <GalleryCardList
       :items="items"
       horizontalLayout
-      :route="route"
+      :route="prefixedRoute"
       :link="link"
       :listed="searchQuery.listed" />
     <InfiniteLoading
@@ -58,8 +58,7 @@ export default class PaginatedCardList extends mixins(
   PrefixMixin,
   InfiniteScrollMixin
 ) {
-  @Prop({ default: '/rmrk/detail' }) public route!: string
-  @Prop({ default: 'rmrk/detail' }) public link!: string
+  @Prop({ default: 'detail' }) public route!: string
   @Prop() public query!: DocumentNode
   @Prop(String) public account!: string
   @Prop(Boolean) public showSearchBar!: boolean
@@ -69,6 +68,7 @@ export default class PaginatedCardList extends mixins(
     type: '',
     sortBy: 'BLOCK_NUMBER_DESC',
     listed: false,
+    owned: false,
   }
   protected first = 20
   protected items: NFTWithMeta[] = []
@@ -98,6 +98,14 @@ export default class PaginatedCardList extends mixins(
     return this.currentPage
   }
 
+  get link(): string {
+    return `${this.urlPrefix}/${this.route}`
+  }
+
+  get prefixedRoute(): string {
+    return `/${this.link}`
+  }
+
   @Debounce(500)
   private resetPage() {
     this.gotoPage(1)
@@ -122,7 +130,7 @@ export default class PaginatedCardList extends mixins(
       PRICE_ASC: 'price_ASC',
     }
 
-    return remapTable[this.searchQuery.sortBy]
+    return remapTable[this.searchQuery.sortBy || '']
   }
 
   created() {
