@@ -96,9 +96,9 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
   highestBuyPrice = 0
   maxSoldPrice = 0
   totalSoldItems = 0
-  totalHoldingsBoughtValues: BigInt | number = BigInt(0)
-  totalAmountSpend: BigInt | number = 0
-  totalSell: BigInt | number = BigInt(0)
+  totalHoldingsBoughtValues: bigint | number = BigInt(0)
+  totalAmountSpend: bigint | number = 0
+  totalSell: bigint | number = BigInt(0)
 
   totalGiftItems = 0
 
