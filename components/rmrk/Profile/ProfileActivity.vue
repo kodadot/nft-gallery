@@ -179,7 +179,6 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
     data.sold.edges.forEach((e: any) => {
       if (e.node && e.node.events && e.node.events.length > 0) {
         e.node.events.forEach((e: Event) => {
-          console.log('e.meta', e.meta)
           if (BigInt(e.meta)) {
             soldEvents.push(e)
           }
