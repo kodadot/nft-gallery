@@ -148,6 +148,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 
 import isShareMode from '@/utils/isShareMode'
 import nftById from '@/queries/nftById.graphql'
+import nftByIdMini from '@/queries/nftByIdMinimal.graphql'
 import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
 import nftListIdsByCollection from '@/queries/nftListIdsByCollection.graphql'
 import { fetchNFTMetadata } from '../utils'
@@ -157,6 +158,7 @@ import axios from 'axios'
 import { exist } from './Search/exist'
 import Orientation from '@/utils/directives/DeviceOrientation'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { Debounce } from 'vue-debounce-decorator'
 
 @Component<GalleryItem>({
   components: {
@@ -220,6 +222,7 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
       this.fetchMetadata()
       this.fetchCollectionItems()
+      this.updateEventList()
 
       this.isLoading = false
 
@@ -234,19 +237,17 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public mounted() {
     // used to poll nft every second after component initialization in order to prevent double spending
-    this.$apollo.addSmartQuery<{ nftEntities }>('nft', {
-      client: 'subsquid',
-      query: nftByIdMinimal,
+    this.$apollo.addSmartQuery<{ nft }>('nft', {
+      client: this.urlPrefix,
+      query: nftByIdMini,
       manual: true,
       variables: {
         id: this.id,
       },
       result: ({ data }) => {
-        const newNftData = data.nftEntities[0]
         this.nft = {
           ...this.nft,
-          ...newNftData,
-          event: newNftData.events.slice(), // force update events
+          ...data.nft,
         }
       },
       pollInterval: 1000,
@@ -259,6 +260,18 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   public setPriceChartData(data: [Date, number][][]) {
     this.priceChartData = data
+  }
+
+  @Debounce(500)
+  private async updateEventList() {
+    const { data } = await this.$apollo.query<{ nftEntities }>({
+      client: 'subsquid',
+      query: nftByIdMinimal,
+      variables: {
+        id: this.id,
+      },
+    })
+    this.nft.events = data.nftEntities[0]?.events ?? []
   }
 
   public async fetchCollectionItems() {
@@ -395,6 +408,13 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         mimeType: this.mimeType,
       })
     }
+  }
+
+  @Watch('nft.currentOwner')
+  @Watch('nft.price')
+  @Watch('nft.burned')
+  watchEventChange() {
+    this.updateEventList()
   }
 }
 </script>
