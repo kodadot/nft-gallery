@@ -74,19 +74,17 @@ export default class PaginatedCardList extends mixins(
   protected items: NFTWithMeta[] = []
   private isLoading = true
 
-  private buildSearchParam(): Record<string, unknown>[] {
+  private get buildSearchParam(): Record<string, unknown>[] {
     const params: any[] = []
 
     if (this.searchQuery.search) {
       params.push({
-        name: { likeInsensitive: `%${this.searchQuery.search}%` },
+        name_containsInsensitive: this.searchQuery.search,
       })
     }
 
     if (this.searchQuery.listed) {
-      params.push({
-        price: { greaterThan: '0' },
-      })
+      params.push({ price_gt: '0' })
     }
 
     return params
@@ -114,6 +112,19 @@ export default class PaginatedCardList extends mixins(
     this.fetchPageData(page)
   }
 
+  get remapSortBy(): string {
+    const remapTable = {
+      BLOCK_NUMBER_DESC: 'blockNumber_DESC',
+      BLOCK_NUMBER_ASC: 'blockNumber_ASC',
+      UPDATED_AT_DESC: 'updatedAt_DESC',
+      UPDATED_AT_ASC: 'updatedAt_ASC',
+      PRICE_DESC: 'price_DESC',
+      PRICE_ASC: 'price_ASC',
+    }
+
+    return remapTable[this.searchQuery.sortBy]
+  }
+
   created() {
     this.fetchPageData(this.startPage)
   }
@@ -125,14 +136,15 @@ export default class PaginatedCardList extends mixins(
     this.isFetchingData = true
     const result = await this.$apollo.query({
       query: this.query,
-      client: this.urlPrefix,
+      client: this.client,
       variables: {
         account: this.account,
-        orderBy: this.searchQuery.sortBy,
-        search: this.buildSearchParam(),
-        first: this.first,
+        orderBy: this.remapSortBy,
+        and: this.buildSearchParam,
+        limit: this.first,
         offset: (page - 1) * this.first,
       },
+      fetchPolicy: 'no-cache',
     })
     await this.handleResult(result, loadDirection)
     this.isFetchingData = false
@@ -141,22 +153,26 @@ export default class PaginatedCardList extends mixins(
 
   protected async handleResult({ data }: any, loadDirection = 'down') {
     if (data) {
-      const { nodes, totalCount } = data.nFTEntities
-      const newNfts = nodes.map((e: any) => ({
-        ...e,
-        emoteCount: e?.emotes?.totalCount,
-      }))
-      await getCloudflareImageLinks(newNfts.map(mapOnlyMetadata)).catch(
+      const {
+        nftEntitiesConnection: { totalCount },
+      } = data
+      const helper = (nft) => ({
+        ...nft,
+        emoteCount: nft?.emotes?.length,
+      })
+      const nftEntities = data.nftEntities.map(helper)
+      await getCloudflareImageLinks(nftEntities.map(mapOnlyMetadata)).catch(
         this.$consola.warn
       )
 
       if (loadDirection === 'up') {
-        this.items = newNfts.concat(this.items)
+        this.items = nftEntities.concat(this.items)
       } else {
-        this.items = this.items.concat(newNfts)
+        this.items = this.items.concat(nftEntities)
       }
 
       this.total = totalCount
+      // this.items = nftEntities
       this.isLoading = false
       this.$emit('change', this.total)
     }
