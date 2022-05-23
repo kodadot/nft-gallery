@@ -275,7 +275,7 @@ export default class Profile extends mixins(
   @Ref('tabsContainer') readonly tabsContainer
 
   public firstNFTData: any = {}
-  protected id = ''
+  protected id = this.$route.params.id || ''
   protected shortendId = ''
   protected isLoading = false
   protected collections: CollectionWithMeta[] = []

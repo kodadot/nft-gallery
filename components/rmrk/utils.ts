@@ -1,5 +1,5 @@
 import { emptyObject } from '@/utils/empty'
-import { unwrap } from '@kodadot1/minimark/'
+import { unwrapURI as unwrap } from '@kodadot1/minimark'
 import { hexToString, isHex } from '@polkadot/util'
 import {
   RMRK,
