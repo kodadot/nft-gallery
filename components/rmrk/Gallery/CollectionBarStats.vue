@@ -8,18 +8,11 @@
     </div>
     <div class="chart-container mt-5">
       <canvas
-        id="collectionPriceChart"
-        @mousedown="onCanvasMouseDown"
-        @mouseup="onCanvasMouseUp"
-        @mouseleave="onCanvasMouseLeave" />
-    </div>
-    <!-- <div class="chart-container mt-5">
-      <canvas
         id="collectionPriceBar"
         @mousedown="onCanvasMouseDownBar"
         @mouseup="onCanvasMouseUpBar"
         @mouseleave="onCanvasMouseLeaveBar" />
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -63,7 +56,7 @@ export default class PriceChart extends mixins(ChainMixin) {
 
   protected chartOptionsLine: any = {}
   protected Chart!: Chart<'line', any, unknown>
-  protected ChartBar!: Chart<'bar', any, unknown>
+  protected ChartBar!: Chart<'line' | 'bar', any, unknown>
 
   @Debounce(200)
   protected resetZoom(): void {
@@ -74,18 +67,6 @@ export default class PriceChart extends mixins(ChainMixin) {
     if (this.Chart) {
       this.Chart.resize()
     }
-  }
-
-  protected onCanvasMouseDown(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'grabbing'
-  }
-
-  protected onCanvasMouseUp(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
-  }
-
-  protected onCanvasMouseLeave(): void {
-    document!.getElementById('collectionPriceChart')!.style.cursor = 'auto'
   }
 
   protected onCanvasMouseDownBar(): void {
@@ -110,29 +91,26 @@ export default class PriceChart extends mixins(ChainMixin) {
 
   protected priceChart() {
     if (this.priceData.length) {
-      const ctx = (
-        document?.getElementById('collectionPriceChart') as HTMLCanvasElement
+      const ctxBar = (
+        document?.getElementById('collectionPriceBar') as HTMLCanvasElement
       )?.getContext('2d')
 
-      if (ctx) {
+      if (ctxBar) {
         const median = getCollectionMedian(this.priceData[1])
-        const chart = new Chart(ctx, {
-          type: 'line',
+        // const median = get(this.priceData[1])
+        const chart = new Chart(ctxBar, {
+          type: 'bar',
 
           data: {
             labels: this.priceData[1].map(getLabel),
             datasets: [
-              // {
-              //   label: 'Floor Price',
-              //   data: getCollectionChartData(this.priceData[0]),
-              //   borderColor: '#d32e79',
-              //   ...baseLineOptions,
-              // },
               {
-                label: 'Sold NFT Price',
-                data: getCollectionChartData(this.priceData[1]),
-                borderColor: '#00BB7F',
-                ...baseLineOptions,
+                label: 'Floor Price',
+                data: getCollectionChartData(this.priceData[0]),
+                borderColor: '#d32e79',
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                // ...baseLineOptions,
               },
               {
                 label: 'Trailing Average',
@@ -140,7 +118,7 @@ export default class PriceChart extends mixins(ChainMixin) {
                   getCollectionChartData(this.priceData[1], mapToAverage)
                 ) as any,
                 borderColor: 'yellow',
-                type: 'bar',
+                type: 'line',
                 // ...baseLineOptions,
               },
             ],
@@ -158,7 +136,16 @@ export default class PriceChart extends mixins(ChainMixin) {
                 },
               },
               annotation: {
-                annotations: {},
+                annotations: {
+                  median: {
+                    type: 'line',
+                    yMin: median,
+                    yMax: median,
+                    borderColor: '#00BB7F',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                  },
+                },
               },
               zoom: {
                 limits: {
@@ -223,7 +210,7 @@ export default class PriceChart extends mixins(ChainMixin) {
           },
         })
 
-        this.Chart = chart
+        this.ChartBar = chart
       }
     }
   }
@@ -255,7 +242,7 @@ export default class PriceChart extends mixins(ChainMixin) {
 }
 @include desktop {
   .chart-container {
-    height: 456px;
+    height: 656px;
   }
 }
 </style>

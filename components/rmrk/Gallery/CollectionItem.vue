@@ -96,6 +96,7 @@
       </b-tab-item>
       <b-tab-item label="Chart" value="chart">
         <CollectionPriceChart :priceData="priceData" />
+        <CollectionBarStats :priceData="priceData" />
       </b-tab-item>
       <b-tab-item label="History" value="history">
         <History
@@ -169,6 +170,9 @@ const components = {
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   CollectionPriceChart: () =>
     import('@/components/rmrk/Gallery/CollectionPriceChart.vue'),
+  CollectionBarStats: () =>
+    import('@/components/rmrk/Gallery/CollectionBarStats.vue'),
+
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   DescriptionWrapper: () =>
     import('@/components/shared/collapse/DescriptionWrapper.vue'),
