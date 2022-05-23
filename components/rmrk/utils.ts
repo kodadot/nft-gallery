@@ -1,4 +1,5 @@
 import { emptyObject } from '@/utils/empty'
+import { unwrap } from '@kodadot1/minimark/'
 import { hexToString, isHex } from '@polkadot/util'
 import {
   RMRK,
@@ -252,17 +253,6 @@ export const getAction = (rmrkString: string): RmrkEvent | null => {
 export const getView = (rmrkString: string): RmrkMint | RmrkView | null => {
   const value: RmrkMint | RmrkView | null = unwrap(rmrkString)
   return value
-}
-
-export const unwrap = (rmrkString: string): any | null => {
-  const rr = /{.*}/
-  const match = rmrkString.match(rr)
-
-  if (!match) {
-    return null
-  }
-
-  return JSON.parse(match[0])
 }
 
 class RmrkEventRegex {

@@ -89,6 +89,7 @@
           <b-navbar-item tag="nuxt-link" to="/series-insight">
             Series
           </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="navbar-item has-dropdown" id="NavChainSelect" />

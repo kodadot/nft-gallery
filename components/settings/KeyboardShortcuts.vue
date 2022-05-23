@@ -13,8 +13,7 @@
             {{ collapse.title }}
           </p>
           <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
+            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
           </a>
         </div>
       </template>
@@ -24,12 +23,12 @@
             <b-table-column field="shortcut" label="Shortcut" v-slot="props">
               <div>
                 <span
-                  v-for="(shortcut, index) in props.row.shortcut.split('+')"
+                  v-for="(shortcut, idx) in props.row.shortcut.split('+')"
                   :key="shortcut">
                   <kbd class="keyboard-shortcut-kbd">
                     {{ shortcut }}
                   </kbd>
-                  <span v-if="index < props.row.shortcut.split('+').length - 1">
+                  <span v-if="idx < props.row.shortcut.split('+').length - 1">
                     +
                   </span>
                 </span>
