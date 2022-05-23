@@ -1,5 +1,5 @@
 import { hexToString, isHex } from '@polkadot/util'
-import { unwrap } from '@kodadot1/minimark/'
+import { unwrapURI as unwrap } from '@kodadot1/minimark'
 import { RmrkEvent, RMRK } from '../types'
 import { generateId } from '../service/Consolidator'
 import { Collection, NFT, NFTWithMeta, SimpleNFT } from './scheme'
