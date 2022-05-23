@@ -1,11 +1,8 @@
 #import "../../fragments/event.graphql"
 
 query nftByIdMinimal($id: ID!) {
-  nftEntities(where: { id_eq: $id }) {
+  nft: nftEntityById(id: $id) {
     id
-    currentOwner
-    burned
-    price
     events {
       ...event
     }

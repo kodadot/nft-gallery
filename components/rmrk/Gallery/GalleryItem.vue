@@ -264,14 +264,14 @@ export default class GalleryItem extends mixins(PrefixMixin) {
 
   @Debounce(500)
   private async updateEventList() {
-    const { data } = await this.$apollo.query<{ nftEntities }>({
+    const { data } = await this.$apollo.query<{ nft }>({
       client: 'subsquid',
       query: nftByIdMinimal,
       variables: {
         id: this.id,
       },
     })
-    this.nft.events = data.nftEntities[0]?.events ?? []
+    this.nft.events = data.nft?.events ?? []
   }
 
   public async fetchCollectionItems() {
