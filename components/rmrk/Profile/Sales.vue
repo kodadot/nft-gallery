@@ -240,7 +240,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
         continue
       }
 
-      const nftId = newEvent && newEvent.nft && newEvent.nft?.id
+      const nftId = newEvent?.nft?.id
 
       event['Buyer'] = newEvent['caller']
       event['Type'] = this.$t('nft.event.BUY')
