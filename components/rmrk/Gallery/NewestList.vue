@@ -31,7 +31,7 @@ import {
 } from '~/utils/cachingStrategy'
 import { formatDistanceToNow } from 'date-fns'
 import lastNftListByEvent from '@/queries/rmrk/subsquid/lastNftListByEvent.graphql'
-import { fallbackMetaByNftEvent } from '@/utils/carousel'
+import { fallbackMetaByNftEvent, deduplicateListById } from '@/utils/carousel'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import AuthMixin from '@/utils/mixins/authMixin'
 
@@ -89,7 +89,10 @@ export default class NewestList extends mixins(PrefixMixin, AuthMixin) {
   }
 
   protected async handleResult({ data }: any) {
-    this.events = [...data.events]
+    const events = data.events.map((e) => ({ ...e, nftId: e.nft.meta.id }))
+
+    this.events = deduplicateListById(events, 'nftId')
+
     await fallbackMetaByNftEvent(this.events)
     const images = await getCloudflareImageLinks(
       this.events.map((event) => event.nft.meta.id)

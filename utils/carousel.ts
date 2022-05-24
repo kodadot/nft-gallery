@@ -54,3 +54,16 @@ export const fallbackMetaByNftEvent = async (events: Events[]) => {
     }
   }
 }
+
+export const deduplicateListById = (list: any[], id: string) => {
+  const idSet = new Set()
+  const result: any[] = []
+  list.forEach((item) => {
+    const itemId = item[id]
+    if (!idSet.has(itemId)) {
+      idSet.add(itemId)
+      result.push(item)
+    }
+  })
+  return result
+}
