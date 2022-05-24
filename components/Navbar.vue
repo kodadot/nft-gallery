@@ -93,6 +93,9 @@
             Series
           </b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/sales"> Sales </b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/flipping">
+            Flipping
+          </b-navbar-item>
         </template>
       </b-navbar-dropdown>
       <LazyChainSelect class="custom-navbar-item" id="NavChainSelect" />
