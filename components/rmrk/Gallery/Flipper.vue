@@ -15,10 +15,11 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
+import { Interaction as EventInteraction } from '../service/scheme'
 import { TableRow } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
 import { formatDistanceToNow } from 'date-fns'
+import { Interaction } from '@kodadot1/minimark'
 
 const components = {
   CommonHolderTable: () =>
@@ -29,7 +30,7 @@ type FlipperTableRowMap = Record<string, TableRow[]>
 
 @Component({ components })
 export default class Flipper extends Vue {
-  @Prop({ type: Array }) events!: Interaction[]
+  @Prop({ type: Array }) events!: EventInteraction[]
   @Prop({ type: String, default: 'Flipper' }) groupKeyOption!: string
   @Prop({ type: String, default: 'User' }) nameHeaderLabel!: string
   private flipperTableRowList: TableRow[] = []
@@ -61,7 +62,7 @@ export default class Flipper extends Vue {
       }
       const nftId = newEvent['nft'].id
       rowListMap[nftId] = rowListMap[nftId] ?? []
-      if (newEvent['interaction'] === 'MINTNFT') {
+      if (newEvent['interaction'] === Interaction.MINTNFT) {
         rowListMap[nftId].push({
           Item: newEvent['nft'],
           Flipper: newEvent['caller'],
@@ -69,7 +70,7 @@ export default class Flipper extends Vue {
           Sale: 0,
           ...commonInfo,
         })
-      } else if (newEvent['interaction'] === 'LIST') {
+      } else if (newEvent['interaction'] === Interaction.LIST) {
         rowListMap[nftId] = rowListMap[nftId] ?? []
         // for saving Last Activity
         rowListMap[nftId].push({
@@ -79,7 +80,7 @@ export default class Flipper extends Vue {
           Sale: 0,
           ...commonInfo,
         })
-      } else if (newEvent['interaction'] === 'SEND') {
+      } else if (newEvent['interaction'] === Interaction.SEND) {
         rowListMap[nftId] = rowListMap[nftId] ?? []
         rowListMap[nftId].push(
           {
@@ -97,7 +98,7 @@ export default class Flipper extends Vue {
             ...commonInfo,
           }
         )
-      } else if (newEvent['interaction'] === 'BUY') {
+      } else if (newEvent['interaction'] === Interaction.BUY) {
         const price = parseInt(newEvent['meta'])
 
         rowListMap[nftId] = rowListMap[nftId] ?? []

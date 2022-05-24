@@ -1,3 +1,4 @@
+import { Interaction } from '@kodadot1/minimark'
 export type Optional<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K]
@@ -12,23 +13,6 @@ export type Scalars = {
   Float: number
   BigInt: bigint
   DateTime: Date
-}
-
-export type RemarkEntity = {
-  __typename: 'RemarkEntity'
-  id: Scalars['ID']
-  value: Scalars['String']
-  caller: Scalars['String']
-  blockNumber: Scalars['String']
-  interaction: Optional<Scalars['String']>
-}
-
-export type FailedEntity = {
-  __typename: 'FailedEntity'
-  id: Scalars['ID']
-  value: Scalars['String']
-  reason: Scalars['String']
-  interaction: Optional<Scalars['String']>
 }
 
 export type CollectionEntity = {
@@ -122,15 +106,4 @@ export type Emote = {
   nft: NftEntity
   caller: Scalars['String']
   value: Scalars['String']
-}
-
-export enum Interaction {
-  Mint = 'MINT',
-  Mintnft = 'MINTNFT',
-  List = 'LIST',
-  Buy = 'BUY',
-  Send = 'SEND',
-  Consume = 'CONSUME',
-  Changeissuer = 'CHANGEISSUER',
-  Emote = 'EMOTE',
 }
