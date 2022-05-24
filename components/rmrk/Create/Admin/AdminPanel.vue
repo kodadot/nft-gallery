@@ -78,9 +78,8 @@ import collectionByAccountWithTokens from '@/queries/collectionByAccountWithToke
 import shouldUpdate from '@/utils/shouldUpdate'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import NFTUtils from '../../service/NftUtils'
 import { AdminNFT, ProcessFunction } from '@/components/accounts/utils'
-
+import { Interaction, createInteraction } from '@kodadot1/minimark'
 type EmptyPromise = Promise<void>
 
 type MintedCollection = {
@@ -120,7 +119,8 @@ export default class AdminPanel extends mixins(
 ) {
   protected commands = ''
   private password = ''
-  private action: 'SEND' | 'CONSUME' | 'LIST' = 'CONSUME'
+  private action: Interaction.SEND | Interaction.CONSUME | Interaction.LIST =
+    Interaction.CONSUME
   protected collections: MintedCollection[] = []
   private selectedCollection: MintedCollection | null = null
   private isMetaValid = false
@@ -209,7 +209,7 @@ export default class AdminPanel extends mixins(
         this.showMeta && this.metaFunction
           ? this.metaFunction(nfts, this.version)
           : nfts.map((nft) =>
-              NFTUtils.createInteraction(this.action, this.version, nft.id, '')
+              createInteraction(this.action, this.version, nft.id, '')
             )
 
       const args = final.map(this.toRemark)

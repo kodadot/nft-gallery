@@ -1,7 +1,7 @@
 import * as store from '~/store'
 import correctFormat from '~/utils/ss58Format'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import NFTUtils from '../rmrk/service/NftUtils'
+import { createInteraction, Interaction } from '@kodadot1/minimark'
 
 export type ShuffleFunction = (arr: string[]) => string[]
 export type ProcessFunction = (
@@ -51,8 +51,8 @@ export const sendFunction = (
       lessTokensThanAdresses ? nfts.length : undefined
     )
     return final.map((addr, index) =>
-      NFTUtils.createInteraction(
-        'SEND',
+      createInteraction(
+        Interaction.SEND,
         version,
         justId(nfts[index]),
         String(addr)
