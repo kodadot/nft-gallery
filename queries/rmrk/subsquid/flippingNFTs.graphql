@@ -1,0 +1,14 @@
+query MyQuery {
+  result: flippingNFTs {
+    previous
+    current
+    author
+    owners
+    nftId
+    floorPrice
+    emotes
+    date
+    total
+    prevOwners
+  }
+}
