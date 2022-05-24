@@ -2,8 +2,8 @@
   <section>
     <div class="columns">
       <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('sales.title') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('sales.subtitle') }}</p>
+        <h1 class="title is-2">{{ $t('flipping.title') }}</h1>
+        <p class="subtitle is-size-5">{{ $t('flipping.subtitle') }}</p>
       </div>
       <div class="column">
         <img
@@ -25,11 +25,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
     FlippingTable: () => import('@/components/flips/FlippingTable.vue'),
   },
   head() {
-    const title = 'Latest KUSAMA Sales'
+    const title = 'Most Flipping NFTs'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Featuring the most recently sold NFTs on RMRK.',
+      description: 'Featuring the most flipping NFTs on RMRK.',
       url: './flipping.vue',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }

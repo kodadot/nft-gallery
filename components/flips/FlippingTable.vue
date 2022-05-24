@@ -13,13 +13,13 @@
         </b-tooltip>
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Prev">
-        <Money :value="props.row.previous" />
+        <Money :value="props.row.previous" hideUnit />
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Current">
-        <Money :value="props.row.current" />
+        <Money :value="props.row.current" hideUnit />
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Floor">
-        <Money :value="props.row.floorPrice" />
+        <Money :value="props.row.floorPrice" hideUnit />
       </b-table-column>
       <b-table-column
         v-slot="props"
