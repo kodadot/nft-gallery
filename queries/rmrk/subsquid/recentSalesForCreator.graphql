@@ -1,0 +1,31 @@
+query recentSalesForCreator($id: String) {
+  events(
+    orderBy: timestamp_DESC
+    where: { nft: { issuer_eq: $id }, interaction_eq: BUY }
+  ) {
+    id
+    meta
+    caller
+    interaction
+    timestamp
+    blockNumber
+    nft {
+      id
+      name
+      currentOwner
+      price
+      collection {
+        id
+        name
+      }
+      events(where: { interaction_eq: LIST,  caller_eq: $id  }) {
+        id
+        meta
+        interaction
+        caller
+        timestamp
+        blockNumber
+      }
+    }
+  }
+}
