@@ -38,7 +38,6 @@ import {
   getLabel,
   CollectionChartData as ChartData,
   mapToAverage,
-  getCollectionMedian,
   getMovingAverage,
 } from '@/utils/chart'
 

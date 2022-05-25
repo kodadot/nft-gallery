@@ -37,9 +37,6 @@ import {
   getCollectionChartData,
   getLabel,
   CollectionChartData as ChartData,
-  mapToAverage,
-  getCollectionMedian,
-  getMovingAverage,
 } from '@/utils/chart'
 
 Chart.register(zoomPlugin)
@@ -95,7 +92,6 @@ export default class PriceChart extends mixins(ChainMixin) {
       )?.getContext('2d')
 
       if (ctxBar) {
-        const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctxBar, {
           type: 'bar',
 
