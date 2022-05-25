@@ -190,11 +190,12 @@
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../../service/scheme'
+import { Interaction as EventInteraction } from '../../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { formatDistanceToNow } from 'date-fns'
 import { parsePriceForItem, parseDate } from './helper'
 import { Debounce } from 'vue-debounce-decorator'
+import { Interaction } from '@kodadot1/minimark'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -208,7 +209,7 @@ export type NftHolderEvent = {
       id: string
     }
   }
-} & Interaction
+} & EventInteraction
 
 type NFTItem = {
   id: string
@@ -363,7 +364,7 @@ export default class CommonHolderTable extends mixins(
         Amount: 1,
       }
       const nftId = newEvent['nft'].id
-      if (newEvent['interaction'] === 'MINTNFT') {
+      if (newEvent['interaction'] === Interaction.MINTNFT) {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
@@ -374,7 +375,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'LIST') {
+      } else if (newEvent['interaction'] === Interaction.LIST) {
         const listPrice = parseInt(newEvent['meta'])
         if (itemRowMap[nftId]) {
           if (!('Sale' in itemRowMap[nftId])) {
@@ -388,7 +389,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'SEND') {
+      } else if (newEvent['interaction'] === Interaction.SEND) {
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
             itemRowMap[nftId]['Bought'] = 0
@@ -404,7 +405,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'CONSUME') {
+      } else if (newEvent['interaction'] === Interaction.CONSUME) {
         if (!itemRowMap[nftId]) {
           itemRowMap[nftId] = {
             Item: newEvent['nft'],
@@ -414,7 +415,7 @@ export default class CommonHolderTable extends mixins(
             ...commonInfo,
           }
         }
-      } else if (newEvent['interaction'] === 'BUY') {
+      } else if (newEvent['interaction'] === Interaction.BUY) {
         const bought = parseInt(newEvent['meta'])
         if (itemRowMap[nftId]) {
           if (!('Bought' in itemRowMap[nftId])) {
