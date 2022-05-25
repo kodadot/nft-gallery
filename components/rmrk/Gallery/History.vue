@@ -93,6 +93,7 @@
           </b-table-column>
           <b-table-column
             cell-class="short-identity__table"
+            :visible="isPercentageColumnVisible"
             field="Percentage"
             label="Percentage"
             v-slot="props">
@@ -231,6 +232,10 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
       this.event
     )
+  }
+
+  get isPercentageColumnVisible() {
+    return [HistoryEventType.ALL, Interaction.BUY].includes(this.event)
   }
 
   get selectedEvent(): HistoryEventType {
