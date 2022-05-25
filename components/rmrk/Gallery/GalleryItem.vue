@@ -271,7 +271,11 @@ export default class GalleryItem extends mixins(PrefixMixin) {
         id: this.id,
       },
     })
-    this.nft.events = data.nft?.events ?? []
+    this.nft.events =
+      data.nft?.events.map((e) => ({
+        ...e,
+        nft: { id: this.id },
+      })) ?? []
   }
 
   public async fetchCollectionItems() {
