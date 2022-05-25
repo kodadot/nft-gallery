@@ -13,13 +13,6 @@
         @mouseup="onCanvasMouseUp"
         @mouseleave="onCanvasMouseLeave" />
     </div>
-    <!-- <div class="chart-container mt-5">
-      <canvas
-        id="collectionPriceBar"
-        @mousedown="onCanvasMouseDownBar"
-        @mouseup="onCanvasMouseUpBar"
-        @mouseleave="onCanvasMouseLeaveBar" />
-    </div> -->
   </div>
 </template>
 
@@ -115,19 +108,12 @@ export default class PriceChart extends mixins(ChainMixin) {
       )?.getContext('2d')
 
       if (ctx) {
-        const median = getCollectionMedian(this.priceData[1])
         const chart = new Chart(ctx, {
           type: 'line',
 
           data: {
             labels: this.priceData[1].map(getLabel),
             datasets: [
-              // {
-              //   label: 'Floor Price',
-              //   data: getCollectionChartData(this.priceData[0]),
-              //   borderColor: '#d32e79',
-              //   ...baseLineOptions,
-              // },
               {
                 label: 'Sold NFT Price',
                 data: getCollectionChartData(this.priceData[1]),
@@ -140,7 +126,7 @@ export default class PriceChart extends mixins(ChainMixin) {
                   getCollectionChartData(this.priceData[1], mapToAverage)
                 ) as any,
                 borderColor: 'yellow',
-                type: 'bar',
+                type: 'line',
                 // ...baseLineOptions,
               },
             ],
@@ -148,12 +134,29 @@ export default class PriceChart extends mixins(ChainMixin) {
           options: {
             maintainAspectRatio: false,
             plugins: {
+              title: {
+                text: 'Price action',
+                position: 'top',
+                align: 'center',
+                font: {
+                  size: 30,
+                },
+                display: true,
+              },
               tooltip: {
                 callbacks: {
-                  afterLabel: ({ dataIndex, dataset }) => {
-                    return `Count: ${
-                      (dataset.data[dataIndex] as any).count || 0
-                    }`
+                  label: ({ label, dataIndex, dataset }) => {
+                    return label
+                  },
+                  afterLabel: ({ label, dataIndex, dataset }) => {
+                    let count = (dataset.data[dataIndex] as any).count || 0
+                    let avg = (dataset.data[dataIndex] as any).average
+                    if (avg) {
+                      return `Count: ${count}
+                      Average : ${avg}`
+                    }
+
+                    return `Count: ${count}`
                   },
                 },
               },

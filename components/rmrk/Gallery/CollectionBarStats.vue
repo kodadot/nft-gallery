@@ -55,17 +55,16 @@ export default class PriceChart extends mixins(ChainMixin) {
   ] // [listings, buys]
 
   protected chartOptionsLine: any = {}
-  protected Chart!: Chart<'line', any, unknown>
   protected ChartBar!: Chart<'line' | 'bar', any, unknown>
 
   @Debounce(200)
   protected resetZoom(): void {
-    this.Chart.resetZoom()
+    this.ChartBar.resetZoom()
   }
 
   protected onWindowResize() {
-    if (this.Chart) {
-      this.Chart.resize()
+    if (this.ChartBar) {
+      this.ChartBar.resize()
     }
   }
 
@@ -97,7 +96,6 @@ export default class PriceChart extends mixins(ChainMixin) {
 
       if (ctxBar) {
         const median = getCollectionMedian(this.priceData[1])
-        // const median = get(this.priceData[1])
         const chart = new Chart(ctxBar, {
           type: 'bar',
 
@@ -105,21 +103,18 @@ export default class PriceChart extends mixins(ChainMixin) {
             labels: this.priceData[1].map(getLabel),
             datasets: [
               {
-                label: 'Floor Price',
+                label: 'Listing Price',
                 data: getCollectionChartData(this.priceData[0]),
                 borderColor: '#d32e79',
                 borderWidth: 1,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                // ...baseLineOptions,
               },
               {
-                label: 'Trailing Average',
-                data: getMovingAverage(
-                  getCollectionChartData(this.priceData[1], mapToAverage)
-                ) as any,
-                borderColor: 'yellow',
+                label: 'Sold NFT Price',
+                data: getCollectionChartData(this.priceData[1]),
+                borderColor: '#00BB7F',
                 type: 'line',
-                // ...baseLineOptions,
+                ...baseLineOptions,
               },
             ],
           },
@@ -132,18 +127,6 @@ export default class PriceChart extends mixins(ChainMixin) {
                     return `Count: ${
                       (dataset.data[dataIndex] as any).count || 0
                     }`
-                  },
-                },
-              },
-              annotation: {
-                annotations: {
-                  median: {
-                    type: 'line',
-                    yMin: median,
-                    yMax: median,
-                    borderColor: '#00BB7F',
-                    borderWidth: 2,
-                    borderDash: [10, 5],
                   },
                 },
               },
@@ -242,7 +225,7 @@ export default class PriceChart extends mixins(ChainMixin) {
 }
 @include desktop {
   .chart-container {
-    height: 656px;
+    height: 456px;
   }
 }
 </style>
