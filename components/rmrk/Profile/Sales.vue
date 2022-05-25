@@ -6,28 +6,8 @@
       :class="hideCollapse ? 'collapseHidden' : 'bordered'"
       animation="slide"
       aria-id="contentIdForHistory">
-      <template #trigger="props">
-        <div
-          class="card-header"
-          role="button"
-          aria-controls="contentIdForHistory">
-          <p class="card-header-title">
-            {{ $t('History') }}
-          </p>
-          <a class="card-header-icon">
-            <b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'">
-            </b-icon>
-          </a>
-        </div>
-      </template>
       <div class="box">
-        <div class="is-flex is-justify-content-space-between box-container">
-          <b-select placeholder="Select an event" v-model="selectedEvent">
-            <option value="all">All</option>
-            <option v-for="option in uniqType" :value="option" :key="option">
-              {{ option }}
-            </option>
-          </b-select>
+        <div>
           <Pagination
             :total="total"
             :perPage="itemsPerPage"
@@ -38,48 +18,42 @@
         </div>
         <b-table :data="showList" class="mb-4" hoverable custom-row-key="ID">
           <b-table-column
-            field="Type"
-            label="Type"
+            field="Collection"
+            label="Collection"
             v-slot="props"
             cell-class="type-table">
-            {{ props.row.Type }}
+            <nuxt-link
+              :to="{
+                name: 'rmrk-collection-id',
+                params: { id: props.row.Collection.id },
+              }">
+              {{ props.row.Collection.name }}
+            </nuxt-link>
           </b-table-column>
           <b-table-column
-            v-if="isCollectionPage"
-            cell-class="short-identity__table"
-            field="Item"
-            label="Item"
-            v-slot="props">
+            field="Nft"
+            label="Nft"
+            v-slot="props"
+            cell-class="type-table">
             <nuxt-link
               :to="{
                 name: 'rmrk-gallery-id',
-                params: { id: props.row.Item.id },
+                params: { id: props.row.Nft.id },
               }">
-              {{ props.row.Item.name }}
+              {{ props.row.Nft.name }}
             </nuxt-link>
           </b-table-column>
           <b-table-column
             cell-class="short-identity__table"
-            field="From"
-            label="From"
+            field="Buyer"
+            label="Buyer"
             v-slot="props">
             <nuxt-link
               :to="{
                 name: 'rmrk-u-id',
-                params: { id: props.row.From },
+                params: { id: props.row.Buyer },
               }">
-              <Identity :address="props.row.From" inline noOverflow />
-            </nuxt-link>
-          </b-table-column>
-          <b-table-column
-            :visible="['all', '🤝 BUY', '🎁 GIFT'].includes(event)"
-            cell-class="short-identity__table"
-            field="To"
-            label="To"
-            v-slot="props">
-            <nuxt-link
-              :to="{ name: 'rmrk-u-id', params: { id: props.row.To } }">
-              <Identity :address="props.row.To" inline noOverflow />
+              <Identity :address="props.row.Buyer" inline noOverflow />
             </nuxt-link>
           </b-table-column>
           <b-table-column
@@ -113,16 +87,17 @@
 </template>
 
 <script lang="ts">
+import { DocumentNode } from 'graphql'
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
 import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import { Event } from '../service/types'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -134,10 +109,17 @@ type TableRowItem = {
   name: string
 }
 
+type ColumnCollection = {
+  id: string
+  name: string
+}
+
 type TableRow = {
   Type: string
   Item?: TableRowItem // only in collection
-  From: string
+  Collection?: ColumnCollection
+  Nft?: ColumnCollection
+  Buyer: string
   To: string
   Amount: string
   Date: string
@@ -151,11 +133,13 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Array }) public events!: Event[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
-
+  @Prop() public query!: DocumentNode
+  @Prop() public issuer!: string
+  protected first = 20
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: string = this.$tc('nft.event.BUY')
   private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
@@ -244,55 +228,27 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
     for (const newEvent of this.events) {
       const event: any = {}
+      let isListedByUser =
+        newEvent &&
+        newEvent.nft &&
+        newEvent.nft.events &&
+        newEvent.nft.events.find(
+          (e) => e.caller === this.issuer && e.interaction == 'LIST'
+        )
 
-      const nftId = (newEvent['nft'] as any)?.id
-      // Type
-      if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = this.$t('nft.event.MINTNFT')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else if (
-        newEvent['interaction'] === 'LIST' ||
-        newEvent['interaction'] === 'UNLIST'
-      ) {
-        event['Type'] =
-          newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
-            ? this.$t('nft.event.LIST')
-            : this.$t('nft.event.UNLIST')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        ownerCollectorMap[nftId] = newEvent['caller']
-        priceCollectorMap[nftId] = newEvent['meta']
-      } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = this.$t('nft.event.SEND')
-        event['From'] = newEvent['caller']
-        event['To'] = newEvent['meta']
-        priceCollectorMap[nftId] = '0'
-      } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = this.$t('nft.event.CONSUME')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        priceCollectorMap[nftId] = '0'
-      } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = this.$t('nft.event.BUY')
-        priceCollectorMap[nftId] = newEvent['meta']
-      } else event['Type'] = newEvent['interaction']
-
-      // Item
-      if (this.isCollectionPage) {
-        event['Item'] = newEvent['nft']
+      if (!isListedByUser) {
+        continue
       }
 
-      // From
-      if (!('From' in event)) {
-        event['From'] = ownerCollectorMap[nftId]
-      }
+      const nftId = newEvent?.nft?.id
 
-      // To
-      if (!('To' in event)) {
-        event['To'] = newEvent['caller']
-        ownerCollectorMap[nftId] = event['To']
-      }
+      event['Buyer'] = newEvent['caller']
+      event['Type'] = this.$t('nft.event.BUY')
+      event['Collection'] = newEvent.nft.collection
+      event['Nft'] = newEvent.nft
+
+      ownerCollectorMap[nftId] = newEvent['caller']
+      priceCollectorMap[nftId] = newEvent['meta']
 
       // Amount
       const curPrice = priceCollectorMap[nftId]
@@ -311,14 +267,8 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
       // ID for b-table: Use a unique key of your data Object for each row.
       event['ID'] = newEvent['timestamp'] + newEvent['id']
-
       // Push to chart data
-      if (newEvent['interaction'] === 'LIST') {
-        chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
-      } else if (newEvent['interaction'] === 'BUY') {
-        chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
-      }
-
+      chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       this.copyTableData.push(event)
     }
     this.copyTableData = this.copyTableData.reverse()
