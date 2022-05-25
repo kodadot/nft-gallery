@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import collectionForMint from '@/queries/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
+import { unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
