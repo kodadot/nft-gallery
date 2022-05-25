@@ -20,7 +20,7 @@ import Github from '@/assets/qrCode/github.png'
 @Component({
   name: 'QRCode',
 })
-export default class qrCode extends Vue {
+export default class QRCode extends Vue {
   // QR code made from https://www.qrcode-monkey.com/
   private qrCodeList = [
     {
