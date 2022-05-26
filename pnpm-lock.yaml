@@ -38,7 +38,7 @@ specifiers:
   apollo-boost: ^0.4.9
   axios: ^0.27.2
   buefy: ^0.9.21
-  chart.js: ^3.7.1
+  chart.js: ^3.8.0
   chartjs-adapter-date-fns: ^2.0.0
   chartjs-plugin-annotation: ^1.4.0
   chartjs-plugin-zoom: ^1.2.1
@@ -108,10 +108,10 @@ dependencies:
   apollo-boost: 0.4.9_graphql@16.5.0
   axios: 0.27.2
   buefy: 0.9.21_vue@2.6.14
-  chart.js: 3.7.1
-  chartjs-adapter-date-fns: 2.0.0_chart.js@3.7.1
-  chartjs-plugin-annotation: 1.4.0_chart.js@3.7.1
-  chartjs-plugin-zoom: 1.2.1_chart.js@3.7.1
+  chart.js: 3.8.0
+  chartjs-adapter-date-fns: 2.0.0_chart.js@3.8.0
+  chartjs-plugin-annotation: 1.4.0_chart.js@3.8.0
+  chartjs-plugin-zoom: 1.2.1_chart.js@3.8.0
   css-loader: 5.2.7
   date-fns: 2.28.0
   emoji-unicode: 2.0.1
@@ -378,7 +378,7 @@ packages:
     resolution: {integrity: sha512-s6t2w/IPQVTAET1HitoowRGXooX8mCgtuP5195wD/QJPV6wYjpujCGF7JuMODVX2ZAJOf1GT6DT9MHEZvLOFSw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.18.0
+      '@babel/types': 7.18.2
 
   /@babel/helper-builder-binary-assignment-operator-visitor/7.16.7:
     resolution: {integrity: sha512-C6FdbRaxYjwVu/geKW4ZeQ0Q31AftgRcdSnZ5/jsH6BzCJbtvXvhpfkbkThYSuutZA7nCXpPR6AD9zd1dprMkA==}
@@ -407,7 +407,7 @@ packages:
     dependencies:
       '@babel/core': 7.18.2
       '@babel/helper-annotate-as-pure': 7.16.7
-      '@babel/helper-environment-visitor': 7.16.7
+      '@babel/helper-environment-visitor': 7.18.2
       '@babel/helper-function-name': 7.17.9
       '@babel/helper-member-expression-to-functions': 7.17.7
       '@babel/helper-optimise-call-expression': 7.16.7
@@ -451,12 +451,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@babel/helper-environment-visitor/7.16.7:
-    resolution: {integrity: sha512-SLLb0AAn6PkUeAfKJCCOl9e1R53pQlGAfc4y4XuMRZfqeMYLE0dM1LMhqbGAlGQY0lfw5/ohoYWAe9V1yibRag==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/types': 7.18.2
-
   /@babel/helper-environment-visitor/7.18.2:
     resolution: {integrity: sha512-14GQKWkX9oJzPiQQ7/J36FTXcD4kSp8egKjO9nINlSKiHITRA9q/R74qu8S9xlc/b/yjsJItQUeeh3xnGN0voQ==}
     engines: {node: '>=6.9.0'}
@@ -496,7 +490,7 @@ packages:
     resolution: {integrity: sha512-kclUYSUBIjlvnzN2++K9f2qzYKFgjmnmjwL4zlmU5f8ZtzgWe8s0rUPSTGy2HmK4P8T52MQsS+HTQAgZd3dMEA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-environment-visitor': 7.16.7
+      '@babel/helper-environment-visitor': 7.18.2
       '@babel/helper-module-imports': 7.16.7
       '@babel/helper-simple-access': 7.17.7
       '@babel/helper-split-export-declaration': 7.16.7
@@ -6858,32 +6852,32 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
 
-  /chart.js/3.7.1:
-    resolution: {integrity: sha512-8knRegQLFnPQAheZV8MjxIXc5gQEfDFD897BJgv/klO/vtIyFFmgMXrNfgrXpbTr/XbTturxRgxIXx/Y+ASJBA==}
+  /chart.js/3.8.0:
+    resolution: {integrity: sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg==}
     dev: false
 
-  /chartjs-adapter-date-fns/2.0.0_chart.js@3.7.1:
+  /chartjs-adapter-date-fns/2.0.0_chart.js@3.8.0:
     resolution: {integrity: sha512-rmZINGLe+9IiiEB0kb57vH3UugAtYw33anRiw5kS2Tu87agpetDDoouquycWc9pRsKtQo5j+vLsYHyr8etAvFw==}
     peerDependencies:
       chart.js: ^3.0.0
     dependencies:
-      chart.js: 3.7.1
+      chart.js: 3.8.0
     dev: false
 
-  /chartjs-plugin-annotation/1.4.0_chart.js@3.7.1:
+  /chartjs-plugin-annotation/1.4.0_chart.js@3.8.0:
     resolution: {integrity: sha512-OC0eGoVvdxTtGGi8mV3Dr+G1YmMhtYYQWqGMb2uWcgcnyiBslaRKPofKwAYWPbh7ABnmQNsNDQLIKPH+XiaZLA==}
     peerDependencies:
       chart.js: ^3.1.0
     dependencies:
-      chart.js: 3.7.1
+      chart.js: 3.8.0
     dev: false
 
-  /chartjs-plugin-zoom/1.2.1_chart.js@3.7.1:
+  /chartjs-plugin-zoom/1.2.1_chart.js@3.8.0:
     resolution: {integrity: sha512-2zbWvw2pljrtMLMXkKw1uxYzAne5PtjJiOZftcut4Lo3Ee8qUt95RpMKDWrZ+pBZxZKQKOD/etdU4pN2jxZUmg==}
     peerDependencies:
       chart.js: ^3.2.0
     dependencies:
-      chart.js: 3.7.1
+      chart.js: 3.8.0
       hammerjs: 2.0.8
     dev: false
 
