@@ -21,6 +21,7 @@
           class="mb-3"
           visible="collapse.collection.attributes.show"
           hidden="collapse.collection.attributes.hide" />
+        <RoyaltyForm key="royalty" v-bind.sync="royalty" />
       </template>
       <template v-slot:footer>
         <b-field key="advanced">
@@ -82,6 +83,7 @@ import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
+import { Royalty } from '@/utils/royalty'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string
@@ -97,6 +99,7 @@ const components = {
   BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
   BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
   BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+  RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
   Money: () => import('@/components/shared/format/Money.vue'),
   SubmitButton: () => import('@/components/base/SubmitButton.vue'),
 }
@@ -123,6 +126,10 @@ export default class CreateToken extends mixins(
   protected attributes: Attribute[] = []
   protected nsfw = false
   protected price: string | number = 0
+  protected royalty: Royalty = {
+    amount: 0,
+    address: '',
+  }
 
   protected updatePrice(value: number) {
     this.price = value
