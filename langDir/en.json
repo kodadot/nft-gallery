@@ -476,12 +476,12 @@
     "related": "More From This Collection",
     "visited": "Visited NFTs",
     "event": {
-      "MINTNFT": "🖼 MINT",
-      "LIST": "📰 LIST",
-      "UNLIST": "🗞 UNLIST",
-      "SEND": "🎁 GIFT",
-      "CONSUME": "🔥 BURN",
-      "BUY": "🤝 BUY"
+      "MINTNFT": "MINT",
+      "LIST": "LIST",
+      "UNLIST": "UNLIST",
+      "SEND": "GIFT",
+      "CONSUME": "BURN",
+      "BUY": "BUY"
     }
   },
   "loader": {
