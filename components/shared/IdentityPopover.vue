@@ -89,11 +89,11 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { MintInfo } from '@/store/identityMint'
 import shortAddress from '@/utils/shortAddress'
 import Identicon from '@polkadot/vue-identicon'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import CreatedAtMixin from '~/utils/mixins/createdAtMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
 import { isAfter, subHours } from 'date-fns'
-import shouldUpdate from '~/utils/shouldUpdate'
-import resolveQueryPath from '~/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
+// import resolveQueryPath from '@/utils/queryPathResolver'
 
 type Address = string | undefined
 type IdentityFields = Record<string, string>

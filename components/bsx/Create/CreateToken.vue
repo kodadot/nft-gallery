@@ -165,7 +165,7 @@ export default class CreateToken extends mixins(
     this.collections = unwrapSafe(collectionEntities)?.map((ce: any) => ({
       ...ce,
       alreadyMinted: ce.nfts?.length,
-      lastIndexUsed: Number(ce.nfts[0]?.index || 0),
+      lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
     }))
   }
 
