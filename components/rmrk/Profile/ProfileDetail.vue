@@ -72,9 +72,7 @@
         v-model="activeTab"
         destroy-on-hide
         expanded>
-        <b-tab-item
-          value="nft"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+        <b-tab-item value="nft" :headerClass="{ 'is-hidden': !totalCreated }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
@@ -127,14 +125,20 @@
           </InfiniteLoading>
           <ScrollTopButton />
         </b-tab-item>
-        <b-tab-item label="History" value="history">
+        <b-tab-item
+          :label="`History - ${totalHistory}`"
+          value="history"
+          :headerClass="{ 'is-hidden': !totalHistory }">
           <History
             v-if="!isLoading && activeTab === 'history'"
             :events="eventsOfNftCollection"
             :openOnDefault="isHistoryOpen"
             hideCollapse />
         </b-tab-item>
-        <b-tab-item label="Sales" value="sales">
+        <b-tab-item
+          :label="`Sales - ${totalSales}`"
+          value="sales"
+          :headerClass="{ 'is-hidden': !totalSales }">
           <Sales
             v-if="!isLoading && activeTab === 'sales'"
             :issuer="id"
@@ -143,9 +147,7 @@
             :openOnDefault="isHistoryOpen"
             hideCollapse />
         </b-tab-item>
-        <b-tab-item
-          value="sold"
-          :headerClass="{ 'is-hidden': !totalCollections }">
+        <b-tab-item value="sold" :headerClass="{ 'is-hidden': !totalSold }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
@@ -161,7 +163,9 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item value="collected">
+        <b-tab-item
+          value="collected"
+          :headerClass="{ 'is-hidden': !totalCollected }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
@@ -177,7 +181,9 @@
             :account="id"
             showSearchBar />
         </b-tab-item>
-        <b-tab-item value="holdings">
+        <b-tab-item
+          value="holdings"
+          :headerClass="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
@@ -188,12 +194,13 @@
           </template>
           <Holding :account-id="id" />
         </b-tab-item>
-        <b-tab-item value="gains">
+        <b-tab-item value="gains" :headerClass="{ 'is-hidden': !totalGains }">
           <template #header>
             <b-tooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
               append-to-body>
               {{ $t('profile.gains') }}
+              <span class="tab-counter">{{ totalGains }}</span>
             </b-tooltip>
           </template>
           <UserGainHistory :account-id="id" />
@@ -237,6 +244,8 @@ import nftListByIssuer from '@/queries/subsquid/general/nftListByIssuer.graphql'
 import nftListCollected from '@/queries/subsquid/general/nftListCollected.graphql'
 import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 import allNftSaleEventsByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
+import { NftHolderEvent } from '~/components/rmrk/Gallery/Holder/Holder.vue'
+import allNftSaleEventsHistoryByAccountId from '~/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 
 const components = {
   GalleryCardList: () =>
@@ -312,6 +321,10 @@ export default class Profile extends mixins(
   protected totalSold = 0
   protected totalCollections = 0
   protected totalHoldings = 0
+  protected totalHistory = 0
+  protected totalSales = 0
+  protected totalGains = 0
+
   private myNftCount = 0
   protected networks = [
     {
@@ -369,8 +382,8 @@ export default class Profile extends mixins(
 
     /*
     set totalCollections
+    already done in mounted method
      */
-    // already done in mounted method
 
     /*
     set totalSold
@@ -433,6 +446,65 @@ export default class Profile extends mixins(
         const { data } = result
         if (data && data.nftEntities && data.nftEntities.length) {
           this.totalHoldings = data.nftEntities.length
+        }
+      })
+
+    /*
+    set history
+     */
+    this.$apollo
+      .query<{ events: Interaction[] }>({
+        query: allEventsByProfile,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          search: {
+            caller_eq: this.id,
+          },
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalHistory = data.events.length
+        }
+      })
+
+    /*
+    set totalSales
+     */
+    this.$apollo
+      .query<{ events: Interaction[] }>({
+        query: recentSalesForCreator,
+        client: 'subsquid',
+        variables: {
+          id: this.id,
+          limit: this.first,
+          offset: (this.currentPage - 1) * this.first,
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalSales = data.events.length
+        }
+      })
+
+    /*
+    set totalGains
+     */
+    this.$apollo
+      .query<{ events: NftHolderEvent[] }>({
+        query: allNftSaleEventsHistoryByAccountId,
+        client: 'subsquid',
+        variables: {
+          id: this.accountId,
+        },
+      })
+      .then((result) => {
+        const { data } = result
+        if (data && data.events && data.events.length) {
+          this.totalGains = data.events.length
         }
       })
   }
@@ -655,6 +727,7 @@ export default class Profile extends mixins(
       if (data && data.events && data.events.length) {
         let events: Interaction[] = data.events
         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
+        console.log(this.eventsOfNftCollection)
         this.checkTabLocate()
       }
     } catch (e) {
