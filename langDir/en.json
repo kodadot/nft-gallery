@@ -573,6 +573,19 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE"
   },
+  "profileStats": {
+    "listed": "Listed",
+    "totalItems": "Σ Items",
+    "highestSale": "HIGHEST SALE",
+    "totalBuys": "Σ BUYS",
+    "highestBuy":"Highest buy",
+    "totalAmountSpend":"Σ amount spend",
+    "holdingsNfts":"Holdings values",
+    "maxSoldPrice":"Max sold price",
+    "totalSellValues":"Σ sell values",
+    "totalSoldItems":"Σ sold items",
+    "totalHoldingsBoughtValues":"KSM spend for holdings nfts"
+  },
   "tutorial": {
     "create": "1. Create polkadot js account",
     "ksm": "2. Get KSM",
