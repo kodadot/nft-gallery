@@ -74,7 +74,7 @@
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
     "buefy": "^0.9.21",
-    "chart.js": "^3.7.1",
+    "chart.js": "^3.8.0",
     "chartjs-adapter-date-fns": "^2.0.0",
     "chartjs-plugin-annotation": "^1.4.0",
     "chartjs-plugin-zoom": "^1.2.1",

@@ -19,8 +19,10 @@ export const eventToIconMap = {
   [Interaction.BUY]: '🤝',
 }
 
-export const wrapEventNameWithIcon = (type: Interaction, eventName: string) =>
-  `${eventToIconMap[type]} ${eventName}`
+export const wrapEventNameWithIcon = (
+  type: Interaction,
+  eventName: string
+): string => `${eventToIconMap[type]} ${eventName}`
 
 export const parseDate = (date: Date): string => {
   return date.toLocaleString('en-GB', {

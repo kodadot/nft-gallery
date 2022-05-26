@@ -176,7 +176,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
   private event: HistoryEventType = HistoryEventType.BUY
-  private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
+  private isCollectionPage = this.$route.name === 'rmrk-collection-id'
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []

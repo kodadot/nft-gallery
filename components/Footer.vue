@@ -118,6 +118,10 @@ export default class Footer extends Vue {
       url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
       external: true,
     },
+    {
+      name: this.$t('qrCode'),
+      url: '/qrCode',
+    },
   ]
 }
 </script>
