@@ -470,7 +470,6 @@ export default class SearchBar extends mixins(
   @Emit('update:sortByMultiple')
   @Debounce(400)
   updateSortBy(value: string[]): string[] {
-    console.log('valueee', value)
     this.replaceUrl(value, undefined, 'sort')
     return value
   }
