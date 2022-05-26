@@ -186,7 +186,7 @@ export default class ProfileActivity extends mixins(PrefixMixin) {
       }
     })
 
-    this.totalSoldItems = soldEvents.length
+    this.totalSoldItems = data.sold.totalCount
     const allValuesList = soldEvents.map((e) => parseFloat(e.meta))
     const maxPriceSold = Math.max(...allValuesList)
     // Highest Buy and Total amount sell
