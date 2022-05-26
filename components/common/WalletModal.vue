@@ -182,7 +182,7 @@ export default class WalletModal extends Vue {
       wallet
         .getAccounts()
         .then((data) => {
-          this.walletAccounts = (data ?? []).map(this.formatAccount)
+          this.walletAccounts = data ? data.map(this.formatAccount) : []
         })
         .catch((e) => {
           this.$consola.error('init account error', e)
