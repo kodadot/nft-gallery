@@ -52,6 +52,7 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins } from 'nuxt-property-decorator'
+import { dummyIpfsCid } from '~/utils/ipfs'
 
 type BaseCollectionType = {
   name: string
@@ -169,8 +170,7 @@ export default class CreateCollection extends mixins(
   protected tryToEstimateTx(): Promise<string> {
     const { api } = Connector.getInstance()
     const cb = api.tx.utility.batchAll
-    const metadata =
-      'ipfs://ipfs/QmaCWgK91teVsQuwLDt56m2xaUfBCCJLeCsPeJyHEenoES'
+    const metadata = dummyIpfsCid()
     const randomId = 0
     const args = [this.cretateArgs(randomId, metadata)]
     return estimate(this.accountId, cb, args)
