@@ -128,11 +128,11 @@ import { Option, u128 } from '@polkadot/types'
 import { InstanceDetails } from '@polkadot/types/interfaces'
 import axios from 'axios'
 import { get, set } from 'idb-keyval'
-import { Component, mixins } from 'nuxt-property-decorator'
+import { Component, mixins, Vue } from 'nuxt-property-decorator'
 import AuthMixin from '~/utils/mixins/authMixin'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import resolveQueryPath from '~/utils/queryPathResolver'
-import { getOwner, getPrice, hasAllPallets } from './utils'
+import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
 
 @Component<GalleryItem>({
   components: {
@@ -212,7 +212,9 @@ export default class GalleryItem extends mixins(
     } = nft
 
     if (!nftEntity) {
-      showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
+      this.$consola.warn(`No NFT with ID ${this.id} fallback to RPC Node`)
+      this.fetchRPCMetadata()
+      // showNotification(`No NFT with ID ${this.id}`, notificationTypes.warn)
       return
     }
 
@@ -231,6 +233,19 @@ export default class GalleryItem extends mixins(
         image: sanitizeIpfsUrl(nftEntity.meta.image || ''),
       }
     }
+  }
+
+  protected fetchRPCMetadata() {
+    onApiConnect(async (api) => {
+      const metacall = getMetadata(api)
+      const res = await metacall(this.collectionId, this.id).then((option) =>
+        unwrapOrNull(option as Option<any>)
+      )
+      if (res) {
+        Vue.set(this.nft, 'metadata', res.metadata.toHuman())
+        this.fetchMetadata()
+      }
+    })
   }
 
   onImageError(e: any) {
