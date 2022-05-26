@@ -147,7 +147,7 @@ export default class CreateCollection extends mixins(
       query: query.default,
       client: this.urlPrefix,
       variables: {
-        ids: randomNumbers.map(String),
+        ids: randomNumbers,
       },
     })
     const {
