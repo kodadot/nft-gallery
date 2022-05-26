@@ -134,10 +134,10 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
   private searchQuery: SearchQuery = {
     search: this.$route.query?.search?.toString() || '',
     type: '',
-    sortBy: 'BLOCK_NUMBER_DESC',
     listed: true,
     priceMin: undefined,
     priceMax: undefined,
+    sortByMultiple: ['BLOCK_NUMBER_DESC'],
   }
   private isLoading = true
 
@@ -160,7 +160,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
     return {
       first: this.first,
       denyList: this.urlPrefix === 'rmrk' ? denyList : statemineDenyList,
-      orderBy: this.searchQuery.sortBy,
+      orderBy: this.searchQuery.sortByMultiple,
       search: this.buildSearchParam(),
       priceMin: this.searchQuery.priceMin,
       priceMax: this.searchQuery.priceMax,
@@ -212,7 +212,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
       client: this.urlPrefix,
       variables: {
         denyList: isRemark ? denyList : statemineDenyList,
-        orderBy: this.searchQuery.sortBy,
+        orderBy: this.searchQuery.sortByMultiple,
         search: this.buildSearchParam(),
         priceMin: this.searchQuery.priceMin,
         priceMax: this.searchQuery.priceMax,
@@ -281,7 +281,7 @@ export default class Gallery extends mixins(PrefixMixin, InfiniteScrollMixin) {
           first: this.first,
           offset,
           denyList: isRemark ? denyList : statemineDenyList,
-          orderBy: this.searchQuery.sortBy,
+          orderBy: this.searchQuery.sortByMultiple,
           search: this.buildSearchParam(),
           priceMin: this.searchQuery.priceMin,
           priceMax: this.searchQuery.priceMax,

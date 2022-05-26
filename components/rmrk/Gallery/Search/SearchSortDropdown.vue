@@ -1,6 +1,17 @@
 <template>
   <b-field>
     <b-select
+      v-if="multipleSelect"
+      multiple
+      v-model="selectedActionArray"
+      placeholder="Sort by"
+      class="select-dropdown">
+      <option v-for="action in actions" :key="action" :value="action">
+        {{ $t('sort.' + action) }}
+      </option>
+    </b-select>
+    <b-select
+      v-else
       v-model="selectedAction"
       placeholder="Sort by"
       class="select-dropdown">
@@ -16,8 +27,10 @@ import { Component, Vue, VModel, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class SearchSortDropdown extends Vue {
-  @VModel({ type: String }) selectedAction!: string
+  @VModel({ default: 'blockNumber_DESC' }) selectedAction!: string
+  @VModel({ default: ['BLOCK_NUMBER_DESC'] }) selectedActionArray!: string[]
   @Prop(Array) public sortOption?: string[]
+  @Prop(Boolean) public multipleSelect!: boolean
 
   private sort: string[] = [
     'EMOTES_COUNT_DESC',
