@@ -42,6 +42,7 @@
     </b-field>
 
     <b-table
+      sticky-header
       :data="data"
       :default-sort="[sortBy.field, sortBy.value]"
       default-sort-direction="desc"
