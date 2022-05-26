@@ -291,6 +291,10 @@ export default class GalleryItem extends mixins(
         ),
       }
 
+      if (!this.nft.name && meta.name) {
+        Vue.set(this.nft, 'name', meta.name)
+      }
+
       this.$consola.log(this.meta)
       if (this.meta.animation_url && !this.mimeType) {
         const { headers } = await axios.head(this.meta.animation_url)
