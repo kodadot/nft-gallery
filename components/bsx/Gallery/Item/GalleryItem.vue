@@ -256,10 +256,10 @@ export default class GalleryItem extends mixins(
     // this.$consola.log(this.nft);
 
     if (this.nft['metadata'] && !this.meta['image']) {
-      const m = await get(this.nft.metadata)
+      const cachedMeta = await get(this.nft.metadata)
 
-      const meta = m
-        ? m
+      const meta = cachedMeta
+        ? cachedMeta
         : await fetchNFTMetadata(
             this.nft,
             getSanitizer(this.nft.metadata, undefined, 'permafrost')
@@ -290,7 +290,7 @@ export default class GalleryItem extends mixins(
         ].some((t) => t === mediaType)
       }
 
-      if (!m) {
+      if (!cachedMeta) {
         set(this.nft.metadata, meta)
       }
     }
