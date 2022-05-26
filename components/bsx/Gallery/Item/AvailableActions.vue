@@ -125,32 +125,6 @@ export default class AvailableActions extends mixins(
     this.meta = value
   }
 
-  protected async checkBuyBeforeSubmit() {
-    const nft = await this.$apollo.query({
-      query: nftById,
-      variables: {
-        id: this.nftId,
-      },
-    })
-
-    const {
-      data: { nFTEntity },
-    } = nft
-    // DEV: nFTEntity.price == 0 is a feature to handle the buy flow
-    if (
-      nFTEntity.currentOwner !== this.currentOwnerId ||
-      nFTEntity.burned ||
-      nFTEntity.price == 0 ||
-      nFTEntity.price !== this.price
-    ) {
-      showNotification(
-        `[RMRK::${this.selectedAction}] Owner changed or NFT does not exist`,
-        notificationTypes.warn
-      )
-      throw new ReferenceError('NFT has changed')
-    }
-  }
-
   protected async submit() {
     const { api } = Connector.getInstance()
     this.initTransactionLoader()
