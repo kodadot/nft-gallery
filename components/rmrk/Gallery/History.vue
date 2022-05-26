@@ -23,9 +23,11 @@
       <div class="box">
         <div class="is-flex is-justify-content-space-between box-container">
           <b-select placeholder="Select an event" v-model="selectedEvent">
-            <option value="all">All</option>
-            <option v-for="option in uniqType" :value="option" :key="option">
-              {{ option }}
+            <option
+              v-for="option in uniqType"
+              :value="option.type"
+              :key="option.type">
+              {{ option.value }}
             </option>
           </b-select>
           <Pagination
@@ -42,7 +44,7 @@
             label="Type"
             v-slot="props"
             cell-class="type-table">
-            {{ props.row.Type }}
+            {{ getEventDisplayName(props.row.Type) }}
           </b-table-column>
           <b-table-column
             v-if="isCollectionPage"
@@ -72,7 +74,7 @@
             </nuxt-link>
           </b-table-column>
           <b-table-column
-            :visible="['all', '🤝 BUY', '🎁 GIFT'].includes(event)"
+            :visible="isToColumnVisible"
             cell-class="short-identity__table"
             field="To"
             label="To"
@@ -114,15 +116,21 @@
 
 <script lang="ts">
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
-import formatBalance from '@/utils/formatBalance'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Interaction } from '../service/scheme'
+import { Interaction as EventInteraction } from '../service/scheme'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import shortAddress from '@/utils/shortAddress'
 import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { Debounce } from 'vue-debounce-decorator'
+import {
+  HistoryEventType,
+  wrapEventNameWithIcon,
+  parseDate,
+  parseAmount,
+} from '@/utils/historyEvent'
+import { Interaction } from '@kodadot1/minimark'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -135,7 +143,7 @@ type TableRowItem = {
 }
 
 type TableRow = {
-  Type: string
+  Type: HistoryEventType
   Item?: TableRowItem // only in collection
   From: string
   To: string
@@ -151,14 +159,14 @@ type ChartData = {
 
 @Component({ components })
 export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
-  @Prop({ type: Array }) public events!: Interaction[]
+  @Prop({ type: Array }) public events!: EventInteraction[]
   @Prop({ type: Boolean, default: true })
   private readonly openOnDefault!: boolean
   @Prop({ type: Boolean, default: false }) hideCollapse!: boolean
 
   private currentPage = parseInt(this.$route.query?.page as string) || 1
-  private event: string = this.$tc('nft.event.BUY')
-  private isCollectionPage = !!(this.$route?.name === 'rmrk-collection-id')
+  private event: HistoryEventType = HistoryEventType.BUY
+  private isCollectionPage = this.$route.name === 'rmrk-collection-id'
 
   protected data: TableRow[] = []
   protected copyTableData: TableRow[] = []
@@ -173,7 +181,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
 
   public mounted() {
     exist(this.$route.query.event, (val) => {
-      this.event = val ? decodeURIComponent(val) : 'all'
+      this.event = (val as HistoryEventType) ?? HistoryEventType.ALL
     })
     this.isOpen = this.openOnDefault
   }
@@ -197,15 +205,30 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     return this.data.slice(endIndex - this.itemsPerPage, endIndex)
   }
 
-  get uniqType(): string[] {
-    return [...new Map(this.copyTableData.map((v) => [v.Type, v])).keys()]
+  getEventDisplayName(type: Interaction) {
+    return wrapEventNameWithIcon(type, this.$t(`nft.event.${type}`) as string)
   }
 
-  get selectedEvent(): string {
+  get uniqType(): { type: HistoryEventType; value: string }[] {
+    const eventSet = new Set(this.copyTableData.map((v) => v.Type))
+    const singleEventList = Array.from(eventSet).map((type) => ({
+      type,
+      value: this.getEventDisplayName(type as Interaction),
+    }))
+    return [{ type: HistoryEventType.ALL, value: 'All' }, ...singleEventList]
+  }
+
+  get isToColumnVisible() {
+    return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
+      this.event
+    )
+  }
+
+  get selectedEvent(): HistoryEventType {
     return this.event
   }
 
-  set selectedEvent(event: string) {
+  set selectedEvent(event: HistoryEventType) {
     if (event) {
       this.currentPage = 1
       this.event = event
@@ -216,7 +239,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected updateDataByEvent() {
     const event = this.event
     this.data =
-      event === 'all'
+      event === HistoryEventType.ALL
         ? this.copyTableData
         : [...new Set(this.copyTableData.filter((v) => v.Type === event))]
   }
@@ -226,7 +249,7 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     this.$router
       .replace({
         path: String(this.$route.path),
-        query: { ...this.$route.query, [key]: encodeURIComponent(value) },
+        query: { ...this.$route.query, [key]: value },
       })
       .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
   }
@@ -234,8 +257,6 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
   protected createTable(): void {
     this.data = []
     this.copyTableData = []
-    const priceCollectorMap: Record<string, string> = {}
-    const ownerCollectorMap: Record<string, string> = {}
 
     const chartData: ChartData = {
       buy: [],
@@ -245,64 +266,52 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     for (const newEvent of this.events) {
       const event: any = {}
 
-      const nftId = (newEvent['nft'] as any)?.id
       // Type
-      if (newEvent['interaction'] === 'MINTNFT') {
-        event['Type'] = this.$t('nft.event.MINTNFT')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-      } else if (
-        newEvent['interaction'] === 'LIST' ||
-        newEvent['interaction'] === 'UNLIST'
-      ) {
-        event['Type'] =
-          newEvent['interaction'] !== 'UNLIST' && parseInt(newEvent['meta'])
-            ? this.$t('nft.event.LIST')
-            : this.$t('nft.event.UNLIST')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        ownerCollectorMap[nftId] = newEvent['caller']
-        priceCollectorMap[nftId] = newEvent['meta']
-      } else if (newEvent['interaction'] === 'SEND') {
-        event['Type'] = this.$t('nft.event.SEND')
-        event['From'] = newEvent['caller']
-        event['To'] = newEvent['meta']
-        priceCollectorMap[nftId] = '0'
-      } else if (newEvent['interaction'] === 'CONSUME') {
-        event['Type'] = this.$t('nft.event.CONSUME')
-        event['From'] = newEvent['caller']
-        event['To'] = ''
-        priceCollectorMap[nftId] = '0'
-      } else if (newEvent['interaction'] === 'BUY') {
-        event['Type'] = this.$t('nft.event.BUY')
-        priceCollectorMap[nftId] = newEvent['meta']
-      } else event['Type'] = newEvent['interaction']
+      switch (newEvent['interaction']) {
+        case Interaction.MINTNFT:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          break
+        case Interaction.LIST:
+        case Interaction.UNLIST:
+          event['Type'] = parseInt(newEvent['meta'])
+            ? Interaction.LIST
+            : Interaction.UNLIST
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          event['Amount'] = this.parsePrice(newEvent['meta'])
+          break
+        case Interaction.SEND:
+          event['From'] = newEvent['caller']
+          event['To'] = newEvent['meta']
+          break
+        case Interaction.CONSUME:
+          event['From'] = newEvent['caller']
+          event['To'] = ''
+          break
+        case Interaction.BUY:
+          event['From'] = newEvent['currentOwner']
+          event['To'] = newEvent['caller']
+          event['Amount'] = this.parsePrice(newEvent['meta'])
+          break
+        default:
+          // unsupported event
+          continue
+      }
+
+      event['Type'] = event['Type'] ?? newEvent['interaction']
 
       // Item
       if (this.isCollectionPage) {
         event['Item'] = newEvent['nft']
       }
 
-      // From
-      if (!('From' in event)) {
-        event['From'] = ownerCollectorMap[nftId]
-      }
-
-      // To
-      if (!('To' in event)) {
-        event['To'] = newEvent['caller']
-        ownerCollectorMap[nftId] = event['To']
-      }
-
       // Amount
-      const curPrice = priceCollectorMap[nftId]
-      event['Amount'] = parseInt(curPrice)
-        ? formatBalance(curPrice, this.decimals, this.unit)
-        : '-'
+      event['Amount'] = event['Amount'] ?? '-'
 
       // Date
       const date = new Date(newEvent['timestamp'])
-      event['Date'] = this.parseDate(date)
+      event['Date'] = parseDate(date)
 
       // Time
       event['Time'] = formatDistanceToNow(date, { addSuffix: true })
@@ -313,9 +322,9 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
       event['ID'] = newEvent['timestamp'] + newEvent['id']
 
       // Push to chart data
-      if (newEvent['interaction'] === 'LIST') {
+      if (newEvent['interaction'] === Interaction.LIST) {
         chartData.list.push([date, parseFloat(event['Amount'].substring(0, 6))])
-      } else if (newEvent['interaction'] === 'BUY') {
+      } else if (newEvent['interaction'] === Interaction.BUY) {
         chartData.buy.push([date, parseFloat(event['Amount'].substring(0, 6))])
       }
 
@@ -325,17 +334,14 @@ export default class History extends mixins(ChainMixin, KeyboardEventsMixin) {
     this.updateDataByEvent()
 
     if (!this.data.length) {
-      this.event = 'all'
+      this.event = HistoryEventType.ALL
     }
 
     this.$emit('setPriceChartData', [chartData.buy, chartData.list])
   }
 
-  protected parseDate(date: Date): string {
-    return date.toLocaleString('en-GB', {
-      timeZone: 'UTC',
-      timeZoneName: 'short',
-    })
+  private parsePrice(amount): string {
+    return parseAmount(amount, this.decimals, this.unit)
   }
 
   protected getBlockUrl(block: string): string {
