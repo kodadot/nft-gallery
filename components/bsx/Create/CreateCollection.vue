@@ -30,31 +30,28 @@
 
 <script lang="ts">
 import { Attribute } from '@/components/rmrk/types'
-import existingCollectionList from '@/queries/unique/existingCollectionList.graphql'
-import onApiConnect from '@/utils/api/general'
-import formatBalance from '@/utils/formatBalance'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
-import AuthMixin from '@/utils/mixins/authMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
-import { canSupport } from '@/utils/support'
-import { estimate, Extrinsic } from '@/utils/transactionExecutor'
-import { createMetadata } from '@kodadot1/minimark'
-import Connector from '@kodadot1/sub-api'
-import { Component, mixins } from 'nuxt-property-decorator'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import {
   getclassDeposit,
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
 import { getRandomValues, hasEnoughToken } from '@/components/unique/utils'
+import onApiConnect from '@/utils/api/general'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirect } from '@/utils/directUpload'
-import { unwrapSafe } from '~/utils/uniquery'
-import { mapToId } from '~/utils/mappers'
-import resolveQueryPath from '~/utils/queryPathResolver'
+import formatBalance from '@/utils/formatBalance'
+import { mapToId } from '@/utils/mappers'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { estimate } from '@/utils/transactionExecutor'
+import { unwrapSafe } from '@/utils/uniquery'
+import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
+import Connector from '@kodadot1/sub-api'
+import { Component, mixins } from 'nuxt-property-decorator'
 
 type BaseCollectionType = {
   name: string
