@@ -53,6 +53,7 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins } from 'nuxt-property-decorator'
 import { dummyIpfsCid } from '~/utils/ipfs'
+import { pinImageSafe, getImageTypeSafe } from '@/utils/safePin'
 
 type BaseCollectionType = {
   name: string
@@ -116,10 +117,8 @@ export default class CreateCollection extends mixins(
       this.accountId
     )
 
-    const imageHash = !file
-      ? IPFS_KODADOT_IMAGE_PLACEHOLDER
-      : await pinFileToIPFS(file, pinningKey.token)
-    const type = !file ? 'image/png' : file.type
+    const imageHash = await pinImageSafe(file, pinningKey.token)
+    const type = getImageTypeSafe(file)
     const attributes = this.attributes.map((val) => ({
       ...val,
       display_type: null,
