@@ -21,15 +21,14 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component<Flipping>({
   components: {
-    Identity: () => import('@/components/shared/format/Identity.vue'),
     FlippingTable: () => import('@/components/flips/FlippingTable.vue'),
   },
   head() {
-    const title = 'Most Flipping NFTs'
+    const title = 'Most Traded NFTs'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Featuring the most flipping NFTs on RMRK.',
+      description: 'Featuring the most Traded NFTs on RMRK.',
       url: './flipping.vue',
       image: `${this.$config.baseUrl}/k_card_series.png`,
     }

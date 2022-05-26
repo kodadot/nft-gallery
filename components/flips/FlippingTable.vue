@@ -8,15 +8,20 @@
         </nuxt-link>
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Date">
-        <b-tooltip :label="props.row.date">
-          {{ props.row.old }}
-        </b-tooltip>
+        {{ props.row.fromNow }}
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Prev">
-        <Money :value="props.row.previous" hideUnit />
+        {{ props.row.previous }}
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Current">
-        <Money :value="props.row.current" hideUnit />
+        {{ props.row.current }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-vcentered"
+        label="%"
+        field="percent">
+        {{ props.row.percent }}
       </b-table-column>
       <b-table-column v-slot="props" cell-class="is-vcentered" label="Floor">
         <Money :value="props.row.floorPrice" hideUnit />
@@ -49,11 +54,12 @@
 <script lang="ts">
 import { Component, mixins } from 'nuxt-property-decorator'
 import flippingNFTs from '@/queries/rmrk/subsquid/flippingNFTs.graphql'
-import { sanitizeIpfsUrl } from '@/components/rmrk/utils'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { urlBuilderBlockNumber } from '@/utils/explorerGuide'
+import formatBalance from '@/utils/formatBalance'
 
 import PrefixMixin from '~/utils/mixins/prefixMixin'
+import ChainMixin from '~/utils/mixins/chainMixin'
 
 const components = {
   Identity: () => import('@/components/shared/format/Identity.vue'),
@@ -63,12 +69,17 @@ const components = {
   BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
 }
 
-type FlippingNFT = {
-  previous: string
+type FlippingNFT = ResNFT & {
+  nftId: string
+  percent: string
+  fromNow: string
+}
+
+type ResNFT = {
   current: string
+  previous: string
   author: string
   owners: number
-  nftId: string
   floorPrice: null | string
   emotes: number
   date: string
@@ -77,19 +88,34 @@ type FlippingNFT = {
 }
 
 @Component({ components })
-export default class FlippingTable extends mixins(PrefixMixin) {
+export default class FlippingTable extends mixins(PrefixMixin, ChainMixin) {
   protected data: FlippingNFT[] = []
 
   async fetch() {
-    const result = await this.fetchData()
-    result.forEach((nft, index) => {
+    const res: ResNFT[] = await this.fetchData()
+    this.data = res.map((nft, index) => {
       const { date } = nft
-      nft['idx'] = index + 1
-      nft['old'] = formatDistanceToNow(new Date(date))
-      nft['date'] = this.parseDate(date)
+      return {
+        ...nft,
+        idx: index + 1,
+        fromNow: formatDistanceToNow(new Date(date)),
+        createdDate: this.parseDate(date),
+        percent: this.calcPercent(nft),
+        previous: formatBalance(parseInt(nft.previous), this.decimals, ''),
+        current: formatBalance(parseInt(nft.current), this.decimals, ''),
+      }
     })
+  }
 
-    this.data = this.data.concat(result)
+  private calcPercent(nft: ResNFT): string {
+    const previous = Number(nft.previous)
+    const current = Number(nft.current)
+    if (!(previous && current)) {
+      return '-'
+    }
+
+    const result = Math.round((current / previous) * 100)
+    return String(result) + '%'
   }
 
   protected parseDate(ts: number | string): string {
