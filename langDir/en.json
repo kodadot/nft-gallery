@@ -417,6 +417,11 @@
       "postfix": "Add hashtag and index after the name (e.g #1)",
       "sync": "Sync editions to {0}"
     },
+    "royalty": {
+      "amount": "Royalty Amount",
+      "mine": "Pay royalty to this account",
+      "receiver": "Destination account for royalty"
+    },
     "collection": {
       "name": {
         "label": "Collection name",
