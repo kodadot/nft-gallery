@@ -52,37 +52,36 @@
 </template>
 
 <script lang="ts">
-import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator'
 import {
   nsfwAttribute,
   offsetAttribute,
   secondaryFileVisible,
 } from '@/components/rmrk/Create/mintUtils'
-import collectionForMint from '@/queries/unique/collectionForMint.graphql'
-import { unSanitizeIpfsUrl } from '@/utils/ipfs'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { pinFileToIPFS, pinJson, PinningKey } from '@/utils/pinning'
 import shouldUpdate from '@/utils/shouldUpdate'
-import { canSupport } from '@/utils/support'
-import { createMetadata, Attribute } from '@kodadot1/minimark'
+import {
+  Attribute,
+  createMetadata,
+  unSanitizeIpfsUrl,
+} from '@kodadot1/minimark'
 import Connector from '@kodadot1/sub-api'
-import { getMany, update } from 'idb-keyval'
+import { Component, mixins, Watch } from 'nuxt-property-decorator'
 
-import { BaseMintedCollection, BaseTokenType } from '~/components/base/types'
-import { fetchCollectionMetadata } from '~/components/rmrk/utils'
-import onApiConnect from '~/utils/api/general'
-import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '~/utils/constants'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
+import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
   getMetadataDeposit,
 } from '@/components/unique/apiConstants'
-import { createTokenId, tokenIdToRoute } from '@/components/unique/utils'
-import { unwrapSafe } from '~/utils/uniquery'
-import resolveQueryPath from '~/utils/queryPathResolver'
+import { createTokenId } from '@/components/unique/utils'
+import onApiConnect from '@/utils/api/general'
+import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
+import AuthMixin from '@/utils/mixins/authMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { unwrapSafe } from '@/utils/uniquery'
 
 type MintedCollection = BaseMintedCollection & {
   name?: string

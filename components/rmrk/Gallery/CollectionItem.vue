@@ -126,37 +126,35 @@
 </template>
 
 <script lang="ts">
+import { exist } from '@/components/rmrk/Gallery/Search/exist'
+import { NFT } from '@/components/rmrk/service/scheme'
+import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
+import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
+import { getCloudflareImageLinks } from '@/utils/cachingStrategy'
+import { CollectionChartData as ChartData } from '@/utils/chart'
 import { emptyObject } from '@/utils/empty'
-import { Component, mixins, Watch, Ref } from 'nuxt-property-decorator'
+import isShareMode from '@/utils/isShareMode'
+import { mapDecimals, mapOnlyMetadata } from '@/utils/mappers'
+import AuthMixin from '@/utils/mixins/authMixin'
+import ChainMixin from '@/utils/mixins/chainMixin'
+import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
+import InfiniteScrollMixin from '@/utils/mixins/infiniteScrollMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import shouldUpdate from '@/utils/shouldUpdate'
+import { sortedEventByDate } from '@/utils/sorting'
+import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
+import { Component, mixins, Ref, Watch } from 'nuxt-property-decorator'
+import { Debounce } from 'vue-debounce-decorator'
 import { CollectionWithMeta, Interaction } from '../service/scheme'
+import { CollectionMetadata } from '../types'
 import {
-  sanitizeIpfsUrl,
   fetchCollectionMetadata,
   onlyPriceEvents,
+  sanitizeIpfsUrl,
 } from '../utils'
-import isShareMode from '@/utils/isShareMode'
-import shouldUpdate from '@/utils/shouldUpdate'
-import collectionById from '@/queries/collectionById.graphql'
-import collectionChartById from '@/queries/rmrk/subsquid/collectionChartById.graphql'
-import { CollectionMetadata } from '../types'
-import { NFT } from '@/components/rmrk/service/scheme'
-import { exist } from '@/components/rmrk/Gallery/Search/exist'
 import { SearchQuery } from './Search/types'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import AuthMixin from '~/utils/mixins/authMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { getCloudflareImageLinks } from '~/utils/cachingStrategy'
-import { mapOnlyMetadata } from '~/utils/mappers'
-import CreatedAtMixin from '@/utils/mixins/createdAtMixin'
-import InfiniteScrollMixin from '~/utils/mixins/infiniteScrollMixin'
-import { CollectionChartData as ChartData } from '@/utils/chart'
-import { mapDecimals } from '@/utils/mappers'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import allCollectionSaleEvents from '@/queries/rmrk/subsquid/allCollectionSaleEvents.graphql'
-import { sortedEventByDate } from '~/utils/sorting'
-import { Debounce } from 'vue-debounce-decorator'
-import resolveQueryPath from '~/utils/queryPathResolver'
-import { correctPrefix, unwrapSafe } from '@/utils/uniquery'
 
 const tabsWithCollectionEvents = ['history', 'holders', 'flippers']
 

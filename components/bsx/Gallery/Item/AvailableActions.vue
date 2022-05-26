@@ -16,8 +16,13 @@
 
 <script lang="ts">
 import { NFTAction } from '@/components/unique/NftUtils'
-import nftById from '@/queries/nftById.graphql'
+import { createTokenId } from '@/components/unique/utils'
+import { isSameAccount } from '@/utils/account'
 import { bsxParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
+import AuthMixin from '@/utils/mixins/authMixin'
+import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
+import MetaTransactionMixin from '@/utils/mixins/metaMixin'
+import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { unpin } from '@/utils/proxy'
 import {
@@ -28,12 +33,6 @@ import {
 import shouldUpdate from '@/utils/shouldUpdate'
 import Connector from '@kodadot1/sub-api'
 import { Component, mixins, Prop } from 'nuxt-property-decorator'
-import { createTokenId } from '~/components/unique/utils'
-import { isSameAccount } from '~/utils/account'
-import AuthMixin from '~/utils/mixins/authMixin'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 
 const components = {
   ActionList: () => import('@/components/rmrk/Gallery/Item/ActionList.vue'),
